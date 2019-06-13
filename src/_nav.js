@@ -1,5 +1,4 @@
 import { AppRoutes } from "./Config";
-
 export default {
   items: [
     {

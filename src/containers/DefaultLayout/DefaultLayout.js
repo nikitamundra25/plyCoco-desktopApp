@@ -5,7 +5,6 @@ import { Container } from "reactstrap";
 // sidebar nav config
 import navigation from "../../_nav";
 import { AppRoutes } from "../../Config";
-import { ApiHelper } from "../../Helpers/ApiHelper";
 // routes config
 import routes from "../../routes";
 import Loader from "../Loader/Loader";
@@ -34,19 +33,6 @@ class DefaultLayout extends Component {
     };
   }
 
-  componentDidMount() {
-    this.checkAuthentication();
-  }
-
-  componentDidUpdate({ location }) {
-    const { pathname } = location;
-    if (pathname !== this.props.location.pathname) {
-      this.setState({
-        isAuthenticated: true,
-      });
-      this.checkAuthentication();
-    }
-  }
 
   signOut(e) {
     e.preventDefault();
@@ -54,30 +40,6 @@ class DefaultLayout extends Component {
     this.props.history.push(AppRoutes.LOGIN);
   }
 
-  checkAuthentication = async () => {
-    try {
-      const res = await new ApiHelper().FetchFromServer(
-        "/user",
-        "/view",
-        "GET",
-        true,
-        undefined
-      );
-      if (!res.isError) {
-        this.setState({
-          isAuthenticated: true,
-          isLoading: false,
-          userDetails: res.data.data,
-        });
-      } else {
-        localStorage.removeItem("token");
-        this.props.history.push(AppRoutes.LOGIN);
-      }
-    } catch (error) {
-      localStorage.removeItem("token");
-      this.props.history.push(AppRoutes.LOGIN);
-    }
-  };
 
   render() {
     return (
@@ -117,7 +79,7 @@ class DefaultLayout extends Component {
                       />
                     ) : null;
                   })}
-                  <Redirect from={AppRoutes.MAIN} to={AppRoutes.HOME} />
+                  <Redirect from={AppRoutes.MAIN} to={AppRoutes.USERS} />
                 </Switch>
               </Suspense>
             </Container>

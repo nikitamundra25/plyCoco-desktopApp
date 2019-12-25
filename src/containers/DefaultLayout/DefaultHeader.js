@@ -22,7 +22,7 @@ class DefaultHeader extends Component {
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
-        <div className="brand-logo">HOG Work</div>
+        <div className="brand-logo">Graphql Demo</div>
         <AppSidebarToggler className="d-md-down-none" display="lg" />
         <Nav className="ml-auto" navbar>
           <AppHeaderDropdown direction="down">

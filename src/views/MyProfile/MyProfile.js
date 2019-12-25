@@ -32,9 +32,7 @@ class MyProfile extends Component {
       errors: {},
     };
   }
-  componentDidMount() {
-    this.getAdminProfile();
-  }
+ 
   handleChange = e => {
     const { target } = e;
     const { name, value } = target;
@@ -43,21 +41,7 @@ class MyProfile extends Component {
     });
   };
 
-  getAdminProfile = async e => {
-    try {
-      const res = await new ApiHelper().FetchFromServer(
-        ApiRoutes.GET_SETTINGS.service,
-        ApiRoutes.GET_SETTINGS.url,
-        ApiRoutes.GET_SETTINGS.method,
-        ApiRoutes.GET_SETTINGS.authenticate
-      );
-      delete res.data.data.password;
-      this.setState(res.data.data);
-    } catch (error) {
-      logger(error);
-    }
-  };
-
+  
   handleSubmit = async event => {
     event.preventDefault();
     this.setState({

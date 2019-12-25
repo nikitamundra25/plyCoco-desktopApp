@@ -1,6 +1,6 @@
-import Validator, { ValidationTypes } from "js-object-validation";
-import React, { Component } from "react";
-import { toast } from "react-toastify";
+import Validator, { ValidationTypes } from 'js-object-validation';
+import React, { Component } from 'react';
+import { toast } from 'react-toastify';
 import {
   Col,
   Button,
@@ -12,22 +12,22 @@ import {
   Card,
   CardHeader,
   CardBody,
-} from "reactstrap";
-import { AppRoutes } from "../../Config";
-import ApiRoutes from "../../Config/ApiRoutes";
-import FullPageLoader from "../../containers/Loader/FullPageLoader";
-import { ApiHelper } from "../../Helpers/ApiHelper";
-import { logger } from "../../Helpers/Logger";
+} from 'reactstrap';
+import { AppRoutes } from '../../Config';
+import ApiRoutes from '../../Config/ApiRoutes';
+import FullPageLoader from '../../../containers/Loader/FullPageLoader';
+import { ApiHelper } from '../../Helpers/ApiHelper';
+import { logger } from '../../Helpers/Logger';
 
 class MyProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullName: "",
-      email: "",
-      oldPassword: "",
-      password: "",
-      confirmPassword: "",
+      fullName: '',
+      email: '',
+      oldPassword: '',
+      password: '',
+      confirmPassword: '',
       isLoading: false,
       errors: {},
     };
@@ -49,7 +49,7 @@ class MyProfile extends Component {
         ApiRoutes.GET_SETTINGS.service,
         ApiRoutes.GET_SETTINGS.url,
         ApiRoutes.GET_SETTINGS.method,
-        ApiRoutes.GET_SETTINGS.authenticate
+        ApiRoutes.GET_SETTINGS.authenticate,
       );
       delete res.data.data.password;
       this.setState(res.data.data);
@@ -77,12 +77,12 @@ class MyProfile extends Component {
       };
       const messages = {
         email: {
-          [ValidationTypes.REQUIRED]: "Please enter email address.",
-          [ValidationTypes.EMAIL]: "Please enter valid email address.",
+          [ValidationTypes.REQUIRED]: 'Please enter email address.',
+          [ValidationTypes.EMAIL]: 'Please enter valid email address.',
         },
         fullName: {
-          [ValidationTypes.REQUIRED]: "Please enter full name",
-          [ValidationTypes.MAXLENGTH]: "Name must be 255 character long",
+          [ValidationTypes.REQUIRED]: 'Please enter full name',
+          [ValidationTypes.MAXLENGTH]: 'Name must be 255 character long',
         },
       };
       const { email, fullName } = this.state;
@@ -104,7 +104,7 @@ class MyProfile extends Component {
         ApiRoutes.UPDATE_SETTINGS.method,
         ApiRoutes.UPDATE_SETTINGS.authenticate,
         undefined,
-        data
+        data,
       );
       this.setState({
         isLoading: false,
@@ -150,19 +150,19 @@ class MyProfile extends Component {
       };
       const messages = {
         oldPassword: {
-          [ValidationTypes.REQUIRED]: "Please enter old password.",
-          [ValidationTypes.MINLENGTH]: "Password at least 6 character long.",
-          [ValidationTypes.MAXLENGTH]: "Password must be 20 character long",
+          [ValidationTypes.REQUIRED]: 'Please enter old password.',
+          [ValidationTypes.MINLENGTH]: 'Password at least 6 character long.',
+          [ValidationTypes.MAXLENGTH]: 'Password must be 20 character long',
         },
         password: {
-          [ValidationTypes.REQUIRED]: "Please enter new password",
-          [ValidationTypes.MINLENGTH]: "Password at least 6 character long.",
-          [ValidationTypes.MAXLENGTH]: "Password must be 20 character long",
+          [ValidationTypes.REQUIRED]: 'Please enter new password',
+          [ValidationTypes.MINLENGTH]: 'Password at least 6 character long.',
+          [ValidationTypes.MAXLENGTH]: 'Password must be 20 character long',
         },
         confirmPassword: {
-          [ValidationTypes.REQUIRED]: "Please enter confirm password",
-          [ValidationTypes.MINLENGTH]: "Password at least 6 character long.",
-          [ValidationTypes.MAXLENGTH]: "Password must be 20 character long",
+          [ValidationTypes.REQUIRED]: 'Please enter confirm password',
+          [ValidationTypes.MINLENGTH]: 'Password at least 6 character long.',
+          [ValidationTypes.MAXLENGTH]: 'Password must be 20 character long',
         },
       };
       const { oldPassword, password, confirmPassword } = this.state;
@@ -181,12 +181,12 @@ class MyProfile extends Component {
         return;
       }
       const res = await new ApiHelper().FetchFromServer(
-        "/user",
-        "/changePassword",
-        "POST",
+        '/user',
+        '/changePassword',
+        'POST',
         true,
         undefined,
-        data
+        data,
       );
       this.setState({
         isLoading: false,
@@ -209,61 +209,62 @@ class MyProfile extends Component {
   render() {
     const { email, fullName, errors, isLoading } = this.state;
     return (
-      <div className="cr-page px-3 min-height650">
+      <div className='cr-page px-3 min-height650'>
         {isLoading ? <FullPageLoader /> : null}
         <Row>
-          <Col xs="6" sm="6" lg="6">
+          <Col xs='6' sm='6' lg='6'>
             <Card>
               <CardHeader>
                 <h4>
-                  <i className="fa fa-edit" />&nbsp;My Profile
+                  <i className='fa fa-edit' />
+                  &nbsp;My Profile
                 </h4>
               </CardHeader>
               <CardBody>
                 <Form>
                   <FormGroup row>
-                    <Label for="username" sm={2}>
+                    <Label for='username' sm={2}>
                       Name
                     </Label>
                     <Col sm={10}>
                       <Input
-                        type="text"
-                        name="fullName"
-                        id="username"
+                        type='text'
+                        name='fullName'
+                        id='username'
                         value={fullName}
-                        placeholder="Enter Full Name"
+                        placeholder='Enter Full Name'
                         onChange={this.handleChange}
                       />
                       {errors.fullName ? (
-                        <p className={"text-danger"}>{errors.fullName}</p>
+                        <p className={'text-danger'}>{errors.fullName}</p>
                       ) : null}
                     </Col>
                   </FormGroup>
                   <FormGroup row>
-                    <Label for="useremail" sm={2}>
+                    <Label for='useremail' sm={2}>
                       Email
                     </Label>
                     <Col sm={10}>
                       <Input
-                        type="email"
-                        name="email"
-                        id="useremail"
+                        type='email'
+                        name='email'
+                        id='useremail'
                         value={email}
-                        placeholder="Enter email address"
+                        placeholder='Enter email address'
                         onChange={this.handleChange}
                       />
                       {errors.email ? (
-                        <p className={"text-danger"}>{errors.email}</p>
+                        <p className={'text-danger'}>{errors.email}</p>
                       ) : null}
                     </Col>
                   </FormGroup>
                   <FormGroup row>
                     <Col sm={{ size: 10, offset: 2 }}>
                       <Button
-                        type="submit"
+                        type='submit'
                         onClick={this.handleSubmit}
-                        color={"primary"}
-                        className={"pull-right"}
+                        color={'primary'}
+                        className={'pull-right'}
                       >
                         Update Profile
                       </Button>
@@ -274,63 +275,63 @@ class MyProfile extends Component {
             </Card>
           </Col>
 
-          <Col xs="6" sm="6" lg="6">
+          <Col xs='6' sm='6' lg='6'>
             <Card>
               <CardHeader>
                 <h4>
-                  <i className="fa fa-lock" /> Change Password
+                  <i className='fa fa-lock' /> Change Password
                 </h4>
               </CardHeader>
               <CardBody>
                 <Form>
                   <FormGroup row>
-                    <Label for="oldpassword" sm={3}>
+                    <Label for='oldpassword' sm={3}>
                       Old Password
                     </Label>
                     <Col sm={9}>
                       <Input
-                        type="password"
-                        name="oldPassword"
-                        id="oldpassword"
-                        placeholder="Enter old password"
+                        type='password'
+                        name='oldPassword'
+                        id='oldpassword'
+                        placeholder='Enter old password'
                         onChange={this.handleChange}
                       />
                       {errors.oldPassword ? (
-                        <p className={"text-danger"}>{errors.oldPassword}</p>
+                        <p className={'text-danger'}>{errors.oldPassword}</p>
                       ) : null}
                     </Col>
                   </FormGroup>
                   <FormGroup row>
-                    <Label for="newpassword" sm={3}>
+                    <Label for='newpassword' sm={3}>
                       New Password
                     </Label>
                     <Col sm={9}>
                       <Input
-                        type="password"
-                        name="password"
-                        id="newpassword"
-                        placeholder="Enter new password"
+                        type='password'
+                        name='password'
+                        id='newpassword'
+                        placeholder='Enter new password'
                         onChange={this.handleChange}
                       />
                       {errors.password ? (
-                        <p className={"text-danger"}>{errors.password}</p>
+                        <p className={'text-danger'}>{errors.password}</p>
                       ) : null}
                     </Col>
                   </FormGroup>
                   <FormGroup row>
-                    <Label for="confirmpassword" sm={3}>
+                    <Label for='confirmpassword' sm={3}>
                       Confirm Password
                     </Label>
                     <Col sm={9}>
                       <Input
-                        type="password"
-                        name="confirmPassword"
-                        id="confirmpassword"
-                        placeholder="Enter confirm password"
+                        type='password'
+                        name='confirmPassword'
+                        id='confirmpassword'
+                        placeholder='Enter confirm password'
                         onChange={this.handleChange}
                       />
                       {errors.confirmPassword ? (
-                        <p className={"text-danger"}>
+                        <p className={'text-danger'}>
                           {errors.confirmPassword}
                         </p>
                       ) : null}
@@ -340,10 +341,10 @@ class MyProfile extends Component {
                   <FormGroup row>
                     <Col sm={{ size: 10, offset: 2 }}>
                       <Button
-                        type="button"
+                        type='button'
                         onClick={this.handleChangePasswordSubmit}
-                        color={"primary"}
-                        className={"pull-right"}
+                        color={'primary'}
+                        className={'pull-right'}
                       >
                         Change Password
                       </Button>

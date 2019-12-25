@@ -6,6 +6,7 @@ declare module '@flag-icon-css';
 declare module '@font-awesome';
 declare module '@simple-line-icons';
 declare module 'js-object-validation';
+declare module 'reactstrap';
 
 declare interface String {
   truncate(n: number, decorator: string): string;

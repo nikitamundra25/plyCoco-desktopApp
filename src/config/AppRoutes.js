@@ -5,5 +5,6 @@ export const AppRoutes = {
   MY_PROFILE: '/profile',
   SETTINGS: '/setting',
   USERS: '/users',
+  EMPLOYEE: '/employee',
   ADD_EMPLOYEE: '/employee/add',
 };

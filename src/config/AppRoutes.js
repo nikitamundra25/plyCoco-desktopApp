@@ -7,4 +7,6 @@ export const AppRoutes = {
   USERS: '/users',
   EMPLOYEE: '/employee',
   ADD_EMPLOYEE: '/employee/add',
+  ADD_DEPARTMENT:'/department',
+  ADD_REGION:'/region'
 };

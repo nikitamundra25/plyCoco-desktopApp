@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import {
   Button,
+  FormGroup,
   Card,
-  CardGroup,
-  Row,
+  CardHeader, 
+  Label,
+  CardBody,
+   CardGroup,
+Container,
+  Input,
   Col,
-  Container,
-  Form,
-  InputGroup,
-} from 'react-bootstrap';
+  Row,
+  Form
+} from "reactstrap";
 import { AppRoutes } from '../../config';
 import { ILoginProps, ILoginState } from '../../interfaces';
 
@@ -57,21 +61,52 @@ class Login extends Component<any, ILoginState> {
   render() {
     const { email, password, errors } = this.state;
     return (
-      <div className='app flex-row align-items-center'>
+      <div className="app flex-row align-items-center">
         <Container>
-          <Row className='justify-content-center'>
-            <Col md='5'>
-              <div className='logo'>
-                <img src={''} alt='' />
+          <Row className="justify-content-center">
+            <Col md="5">
+              <div className="logo">
+                <img src={""} alt="" />
               </div>
               <CardGroup>
-                <Card className='p-4 login-card'>
-                  <Card.Body>
-                    <Form onSubmit={this.handleSubmit}>
-                      <p className='form-title'>
-                        <span>Sign In</span> to your account
+                <Card className="login-card">
+                  <CardHeader>Sign In</CardHeader>
+                  <CardBody>
+                    <Form onSubmit={this.handleSubmit} className="form-section">
+                      <p className="sub-title text-center">
+                        Sign In to your account
                       </p>
-                      <Form.Group className='position-relative mb-4'>
+
+                      <FormGroup row>
+                        <Label for="exampleEmail" md={3}>
+                          Email<span className="required"> *</span>
+                        </Label>
+                        <Col md={9}>
+                          <Input
+                            type={"text"}
+                            name={"email"}
+                            placeholder={"Enter email"}
+                            onChange={this.handleChange}
+                            value={email}
+                          />
+                        </Col>
+                      </FormGroup>
+                      <FormGroup row>
+                        <Label for="examplepassword" md={3}>
+                          Password<span className="required"> *</span>
+                        </Label>
+                        <Col md={9}>
+                          <Input
+                            type={"password"}
+                            name={"password"}
+                            placeholder={"Enter password"}
+                            onChange={this.handleChange}
+                            value={password}
+                          />
+                        </Col>
+                      </FormGroup>
+
+                      {/* <Form.Group className='position-relative mb-4'>
                         <InputGroup>
                           <InputGroup.Prepend>
                             <InputGroup.Text id='inputGroupPrepend'>
@@ -110,13 +145,14 @@ class Login extends Component<any, ILoginState> {
                         <div className={'text-danger error-text'}>
                           {errors && errors.password}
                         </div>
-                      </Form.Group>
+                      </Form.Group> */}
                       <Row>
-                        <Col xs='12' className='text-center'>
+                        <Col md="3"></Col>
+                        <Col md="9">
                           <Button
-                            type={'submit'}
-                            color=''
-                            className='btn-login'
+                            type={"submit"}
+                            color="link"
+                            className="px-4 login-btn"
                           >
                             Login
                           </Button>
@@ -128,7 +164,7 @@ class Login extends Component<any, ILoginState> {
                         </Col> */}
                       </Row>
                     </Form>
-                  </Card.Body>
+                  </CardBody>
                 </Card>
               </CardGroup>
             </Col>

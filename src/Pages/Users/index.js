@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
-import PaginationHelper from '../../helpers/Pagination';
+// import PaginationHelper from '../../helpers/Pagination';
 import Adduser from './Adduser';
 import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
@@ -196,13 +196,13 @@ class Users extends Component {
                             ))}
                         </tbody>
                       </Table>
-                      {!isLoading && totalCount > limit ? (
+                      {/* {!isLoading && totalCount > limit ? (
                         <PaginationHelper
                           totalRecords={totalCount}
                           onPageChanged={this.handleSelected}
                           currentPage={selectedPage}
                         />
-                      ) : null}
+                      ) : null} */}
                     </CardBody>
                   </Card>
                 </Col>

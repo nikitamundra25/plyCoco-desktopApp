@@ -7,4 +7,5 @@ export const AppRoutes = {
   USERS: '/users',
   EMPLOYEE: '/employee',
   ADD_EMPLOYEE: '/employee/add',
+  VIEW_EMPLOYEE: '/employee/view',
 };

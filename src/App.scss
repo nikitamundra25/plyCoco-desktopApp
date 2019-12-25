@@ -10,6 +10,8 @@
 // Import Main styles for this application
 @import "./scss/style.scss";
 
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap');
 body {
   margin: 0;
   padding: 0;
@@ -18,11 +20,22 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Open Sans', sans-serif;
+  font-size:14px;
+  background: $light_bg;
 
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
   }
+  a {
+    color: $theme_color;
+    text-decoration: none;
+    background-color: transparent;
+    &:hover{
+      color: $theme_color_hover;
+    }
+}
   .brand-logo {
     display: inline-block;
     min-width: 190px;
@@ -71,21 +84,13 @@ body {
       justify-content: space-between;
       h4 {
         margin: 0px;
+        font-size:18px;
+        font-weight:600;
       }
     }
   }
-  th,
-  td {
-    font-size: 14px;
-  }
-  .table th,
-  .table td {
-    padding: 4px;
-    vertical-align: middle;
-  }
-  .table td {
-    font-size: 13px;
-  }
+ 
+ 
   .table-checkbox-wrap {
     position: relative;
     width: 100%;
@@ -236,4 +241,287 @@ body {
 }
 .view-link:hover {
   text-decoration: underline;
+}
+
+
+// new css
+.login-card{
+  .card-header{
+    font-size: 22px;
+    font-weight: 600;
+    padding: 10px 20px;
+    color:$black;
+  }
+  .card-body{
+    .sub-title{
+      font-size: 16px;
+      color:$gray_color;
+      margin-bottom: 22px;
+    }
+    .login-btn{
+      color:$white;
+      background: $theme_color;
+      border-color: $theme_color;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 600;
+      &:hover , &:focus{
+        color:$white;
+        background: $theme_color;
+        border-color: $theme_color;
+        text-decoration:none;
+      }
+    }
+  }
+}
+.sidebar {
+    background: $theme_color;
+    .nav-link {
+      .nav-icon {
+        color:$white;
+      }
+     &.active{
+      background: $theme_color_hover;
+      .nav-icon {
+        color:$white;
+      }
+    }
+     
+  }
+  .sidebar-minimizer {
+        // background-color: #046fc1;
+        &:before{
+            background-image: url(assets/img/left-arrow.svg);
+        }
+        &:hover{
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+    }
+}
+.sidebar-minimized {
+  .sidebar {
+    background: $theme_color;
+    .nav-item{
+      &:hover {
+        .nav-link {
+           background: $theme_color;
+          &.active{
+             background: $theme_color_hover;
+          }
+        }
+
+      }
+    }
+    
+    .sidebar-minimizer {
+        background-color: $hover_blue;
+        &:before{
+            background-image: url(assets/img/left-arrow.svg);
+        }
+         &:hover{
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+    }
+  }
+}
+.form-section{
+  .main-title{
+    color:$black;
+    font-size: 18px;
+    padding-bottom: 4px;
+    position: relative;
+    font-weight: 600;
+    margin-bottom: 12px;
+    &:before{
+      content:'';
+      position: absolute;
+      height:2px;
+      width:55px;
+      background: $black;
+      left:0px;
+      bottom:0px;
+    }
+  }
+  .form-group{
+    .col-form-label{
+      font-size: 14px;
+      font-weight: 600;
+      color:$black;
+      text-align: right;
+      display:block;
+    }
+    .required{
+      color:$red;
+    }
+    .form-control{
+      border-radius:0px;
+      color: $light_black;
+      font-size:14px;
+      height:30px;
+      border-color: $light_gray;
+          padding: 0px 15px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+      &:focus{
+        box-shadow:none;
+        outline: none;
+        border-color:$theme_color;
+      }
+      &.height-auto{
+        height:auto;
+      }
+    }
+    
+  }
+  .btn-sumbit{
+    padding: 10px 30px;
+    font-weight: 500;
+    font-size: 15px;
+    }
+  
+}
+
+.table{
+  .thead-bg{
+    background:$th_bg;
+  }
+  th,td{
+    padding: 4px;
+    vertical-align: middle;
+    font-size: 13px;
+  }
+  td{
+    .info-column{
+      display: flex;
+      align-items: flex-start;
+
+    }
+     .img-column {
+        width: 70px;
+        height: 70px;
+        flex: 0 0 70px;
+        margin: auto;
+        position: relative;
+      }
+    .description-column{
+        letter-spacing: 0px;
+        width: 230px;
+        margin-left: 20px;
+        flex: 1 1;
+        .info-title {
+          font-size: 13px;
+          color: $black;
+          font-weight: 600;
+          cursor: pointer;
+          line-height: 22px;
+        }
+        .description-text{
+          margin-bottom:2px;
+          font-size:13px;
+          color:$black;
+           display: flex;
+          align-items: center;
+          .text-label{
+            font-weight:600;
+          }
+        }
+      }
+      .status-btn{
+        padding:3px 10px;
+        font-size:13px;
+        border-radius: 4px;
+        display: inline-block;
+        cursor:pointer;
+        &.active{
+           background:$theme_color;
+          color:$white;
+        }
+         &.inactive{
+           background:$red;
+          color:$white;
+        }
+      }
+    .action-btn{
+       display:flex;
+        align-items:center;
+        justify-content: center;
+      text-align: center;
+      .btn-icon{
+        width:30px;
+        height:30px;
+        color: $light_black;
+        font-size: 14px;
+        border-radius:4px;
+        padding: 0px;
+        display:flex;
+        align-items:center;
+        justify-content: center;
+        text-align: center;
+        background-color: $btn_gray;
+        border-color: $btn_gray;
+        cursor:pointer;
+        &:hover{
+          color: $light_black;
+          background-color: $light_gray;
+          border-color: $light_gray;
+        }
+      }
+    }
+  }
+}
+.btn-primary{
+    background:$theme_color;
+    border-color: $theme_color;
+    &:focus, &:hover {
+      background:$theme_color_hover;
+      border-color: $theme_color_hover;
+    }
+}
+.employee-details{
+  .employee-title{
+    color:$black;
+    font-size: 18px;
+    padding-bottom: 4px;
+    position: relative;
+    font-weight: 600;
+    margin-bottom: 12px;
+    &:before{
+      content:'';
+      position: absolute;
+      height:2px;
+      width:55px;
+      background: $black;
+      left:0px;
+      bottom:0px;
+    }
+  }
+  .status-btn{
+    background:$theme_color;
+    color:$white;
+    padding:3px 10px;
+    font-size:13px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .user-item{
+    margin-bottom: 6px;
+    .text-label{
+      font-weight:600;
+      font-size:14px;
+      color:$dark_gray;
+      display: inline-block;
+    width: 200px;
+    }
+    .text-value{
+      font-weight:600;
+      font-size:14px;
+      color:$black;
+      display: inline-block;
+    }
+    .profile-img{
+      width:200px;
+      display:inline-block;
+    }
+  }
 }

@@ -10,7 +10,8 @@ class DefaultHeader extends Component<any, any> {
       <React.Fragment>
         <AppSidebarToggler className='d-lg-none' display='md' mobile />
         <div className='brand-logo'>
-          <img src={'logo'} width={120} alt='' />
+          {/* <img src={'logo'} width={120} alt='' /> */}
+          <span>Polyoco</span>
         </div>
         <AppSidebarToggler className='d-md-down-none' display='lg' />
         <Nav className='ml-auto' navbar>
@@ -23,7 +24,7 @@ class DefaultHeader extends Component<any, any> {
               >
                 <div className='user-name'>
                   <i className='icon-user mr-2'></i>
-                  gdfgf
+                  
                 </div>
               </Dropdown.Toggle>
               <Dropdown.Menu className='profile-dropdown'>

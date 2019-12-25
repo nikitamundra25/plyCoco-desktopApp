@@ -1,5 +1,4 @@
 import { RouteComponentProps } from 'react-router';
-import { IredirectPath } from './DefaultLayout';
 
 export interface ILoginModal {
   isLoading: boolean;
@@ -13,13 +12,7 @@ export interface ILoginActionData {
   password: string;
 }
 
-export interface ILoginProps extends RouteComponentProps {
-  loginReducer?: ILoginModal;
-  //timeInterval: any;
-  refreshToken: () => void;
-  onLogin: (data: ILoginActionData) => void;
-  redirectTo?: (path: IredirectPath) => void;
-}
+export interface ILoginProps extends RouteComponentProps {}
 
 export interface ILoginErrors {
   email: string;

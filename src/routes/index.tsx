@@ -1,45 +1,67 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import { AppRoutes } from './config';
-import FullPageLoader from './containers/Loader/FullPageLoader';
-import 'react-toastify/dist/ReactToastify.css';
-import './App.scss';
+// import React, { Component } from 'react';
+// import { Route, Switch } from 'react-router-dom';
+// import 'react-toastify/dist/ReactToastify.css';
+// import './App.scss';
+// import { AppRoutes } from '../config';
 
-// Layout
-const DefaultLayout = React.lazy(() => import('./containers/DefaultLayout'));
+// // Layout
+// const DefaultLayout = React.lazy(() =>
+//   import('../containers/DefaultLayout/DefaultLayout'),
+// );
 
-// Pages
-const Login = React.lazy(() => import('../views/'));
-const Page404 = React.lazy(() => import('./views/Pages/Page404/Page404'));
+// // Pages
+// const Login = React.lazy(() => import('../Pages/Login'));
+// // const Page404 = React.lazy(() => import('./views/Pages/Page404/Page404'));
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <React.Suspense fallback={<FullPageLoader />}>
-        <Switch>
-          <Route
-            exact
-            path={AppRoutes.LOGIN}
-            name='Login Page'
-            render={props => <Login {...props} />}
-          />
-          <Route
-            exact
-            path='/404'
-            name='Page 404'
-            render={props => <Page404 {...props} />}
-          />
-          <Route
+// const AppRouter = () => {
+//   return (
+//     <>fgfgf</>
+//     // <Switch>
+//     //   <Route exact path={AppRoutes.LOGIN} render={props => <Login />} />
+//     //   {/* <Route
+//     //       exact
+//     //       path={AppRoutes.PAGE_NOTFOUND}
+//     //       render={props => <NotFound />}
+//     //     /> */}
+//     //   {/* <Route path={AppRoutes.MAIN} render={props => <DefaultLayout />} /> */}
+//     // </Switch>
+//   );
+// };
+
+// export default AppRouter;
+
+import React, { Component } from 'react';
+import { Switch, Route } from 'react-router';
+import { AppRoutes } from '../config';
+
+const DefaultLayout = React.lazy(() =>
+  import('../containers/DefaultLayout/DefaultLayout'),
+);
+const Login = React.lazy(() => import('../Pages/Login'));
+
+class AppRoutesComponent extends Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    return (
+      <Switch>
+        <Route
+          exact
+          path={AppRoutes.LOGIN}
+          render={props => <Login {...props} {...this.props} />}
+        />
+        {/* <Route
             path={AppRoutes.MAIN}
-            name='Home'
-            render={props => <DefaultLayout {...props} />}
-          />
-        </Switch>
-        <ToastContainer />
-      </React.Suspense>
-    </BrowserRouter>
-  );
-};
+            render={props => <DefaultLayout {...props} {...this.props} />}
+          /> */}
+      </Switch>
+    );
+  }
+}
 
-export default App;
+/**
+ *
+ */
+export default AppRoutesComponent;

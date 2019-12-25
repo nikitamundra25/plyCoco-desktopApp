@@ -1,47 +1,49 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import React, { Suspense } from 'react';
+import { Router } from 'react-router-dom';
+import { Switch, Route } from 'react-router';
 import { AppRoutes } from './config';
-import FullPageLoader from './containers/Loader/FullPageLoader';
-import 'react-toastify/dist/ReactToastify.css';
+import { createBrowserHistory } from 'history';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { ToastContainer, Slide } from 'react-toastify';
+import { client } from './config';
 import './App.scss';
+import 'react-toastify/dist/ReactToastify.css';
+import FullPageLoader from './containers/Loader/FullPageLoader';
+// import AppRouter from './routes';
+import { Login } from './Pages';
 
-// Layout
-const DefaultLayout = React.lazy(() => import('./containers/DefaultLayout'));
+const AppRoutesComponent = React.lazy(() => import('./routes'));
+const DefaultLayout = React.lazy(() =>
+  import('./containers/DefaultLayout/DefaultLayout'),
+);
 
-// Pages
-const Login = React.lazy(() => import('./views/Pages/Login'));
-const Page404 = React.lazy(() => import('./views/Pages/Page404/Page404'));
+const history = createBrowserHistory();
 
-class App extends Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <React.Suspense fallback={<FullPageLoader />}>
+const App: React.FC = () => {
+  return (
+    <>
+      {/* <ApolloProvider client={client}> */}
+      <Router history={history}>
+        <Suspense fallback={<FullPageLoader />}>
+          {/* sss
+          <Login /> */}
           <Switch>
-            <Route
-              exact
-              path={AppRoutes.LOGIN}
-              name='Login Page'
-              render={props => <Login {...props} />}
-            />
-            <Route
-              exact
-              path='/404'
-              name='Page 404'
-              render={props => <Page404 {...props} />}
-            />
-            <Route
-              path={AppRoutes.MAIN}
-              name='Home'
-              render={props => <DefaultLayout {...props} />}
-            />
+            <Route exact path={AppRoutes.LOGIN} render={props => <Login />} />
+            <Route path={AppRoutes.MAIN} render={props => <DefaultLayout />} />
           </Switch>
-          <ToastContainer />
-        </React.Suspense>
-      </BrowserRouter>
-    );
-  }
-}
+          {/* <AppRoutesComponent /> */}
+        </Suspense>
+      </Router>
+      <ToastContainer
+        autoClose={8000}
+        hideProgressBar
+        pauseOnFocusLoss={false}
+        pauseOnHover={false}
+        transition={Slide}
+      />
+      {/* </ApolloProvider> */}
+    </>
+  );
+};
 
 export default App;

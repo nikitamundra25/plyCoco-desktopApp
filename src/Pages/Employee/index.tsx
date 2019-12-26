@@ -14,7 +14,7 @@ import {
   Form,
   Table
 } from "reactstrap";
-import { AppRoutes } from '../../config';
+import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
 class Employee extends Component<RouteComponentProps, any> {
   render() {
@@ -30,7 +30,7 @@ class Employee extends Component<RouteComponentProps, any> {
                 color={"primary"}
                 className={"pull-right"}
                 id={"add-new-pm-tooltip"}
-                onClick={()=>this.props.history.push(AppRoutes.ADD_EMPLOYEE)}
+                onClick={() => this.props.history.push(AppRoutes.ADD_EMPLOYEE)}
               >
                 <i className={"fa fa-plus"} />
                 &nbsp; Add New Empolyee
@@ -717,13 +717,22 @@ class Employee extends Component<RouteComponentProps, any> {
                     <td>
                       <div className="action-btn">
                         <span className="btn-icon mr-2">
-                          <i className="fa fa-pencil"></i>
+                          <i
+                            className="fa fa-pencil"
+                            onClick={() => this.props.history.push(AppRoutes.EDIT_EMPLOYEE)}
+                          ></i>
                         </span>
                         <span className="btn-icon mr-2">
-                          <i className="fa fa-eye"></i>
+                          <i
+                            className="fa fa-eye"
+                            onClick={() => this.props.history.push(AppRoutes.VIEW_EMPLOYEE)}
+                          ></i>
                         </span>
                         <span className="btn-icon ">
-                          <i className="fa fa-trash"></i>
+                          <i
+                            className="fa fa-trash"
+                            onClick={() => this.props.history.push("")}
+                          ></i>
                         </span>
                       </div>
                     </td>

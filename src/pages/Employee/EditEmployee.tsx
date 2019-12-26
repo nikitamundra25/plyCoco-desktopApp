@@ -80,6 +80,7 @@ class EditEmployee extends Component<any, any> {
                                   }
                                   className="width-common"
                                   onFocus={this.onFocus}
+                                  value="John"
                                 />
                                 {this.state.error ? (
                                   <div className="required-error">
@@ -101,6 +102,7 @@ class EditEmployee extends Component<any, any> {
                                   name={"lastName"}
                                   placeholder="Surname"
                                   className="width-common"
+                                  value="Doe"
                                 />
                               </Col>
                             </Row>
@@ -121,6 +123,7 @@ class EditEmployee extends Component<any, any> {
                                   type="text"
                                   name={"email"}
                                   placeholder=" Email"
+                                  value="john@gmail.com"
                                 />
                               </Col>
                               <Col className="label-width">
@@ -133,7 +136,8 @@ class EditEmployee extends Component<any, any> {
                                 <Input
                                   type="text"
                                   name={"userName"}
-                                  placeholder=" User Name"
+                                  placeholder=" UserName"
+                                  value="johnDoe_123"
                                 />
                               </Col>
                             </Row>
@@ -153,6 +157,7 @@ class EditEmployee extends Component<any, any> {
                               type="text"
                               name={"telephoneNumber"}
                               placeholder=" Telephone number"
+                              value="1212-344-434"
                             />
                           </Col>
                         </Row>
@@ -242,8 +247,9 @@ class EditEmployee extends Component<any, any> {
                                 <Input
                                   type="text"
                                   name={"bankName"}
-                                  placeholder=" Bank Name"
+                                  placeholder="Bank Name"
                                   className="width-common"
+                                  value="World Bank"
                                 />
                               </Col>
                               <Col className="label-width">
@@ -257,6 +263,7 @@ class EditEmployee extends Component<any, any> {
                                   name={"bankAddress"}
                                   placeholder=" Bank Address"
                                   className="width-common"
+                                  value="World Bank germany"
                                 />
                               </Col>
                             </Row>
@@ -280,6 +287,7 @@ class EditEmployee extends Component<any, any> {
                                   name={"accountNumber"}
                                   placeholder=" Bank account number"
                                   className="width-common"
+                                  value="5596-5856-4855"
                                 />
                               </Col>
                               <Col className="label-width">
@@ -293,6 +301,7 @@ class EditEmployee extends Component<any, any> {
                                   name={"IFSC"}
                                   placeholder=" IFSC"
                                   className="width-common"
+                                  value="WSD5596"
                                 />
                               </Col>
                             </Row>
@@ -319,15 +328,24 @@ class EditEmployee extends Component<any, any> {
                                   name={"swiftCode"}
                                   placeholder=" Swift code"
                                   className="width-common"
+                                  value="SBININBB371"
                                 />
                               </Col>
                               <Col className="label-width">
                                 <Label className="form-label col-form-label ">
-                                  Status
+                                  Status<span className="required">*</span>
                                 </Label>
                               </Col>
                               <Col>
-                                <Select placeholder="Status" options={Status} />
+                                <Select
+                                  placeholder="Select Status"
+                                  // value="Active"
+                                  defaultValue={{
+                                    label: "Active",
+                                    value: 0
+                                  }}
+                                  options={Status}
+                                />
                               </Col>
                             </Row>
                           </Col>
@@ -343,6 +361,17 @@ class EditEmployee extends Component<any, any> {
                           </Col>
                         </Row>
                       </FormGroup> */}
+
+                      <Row>
+                        <Col sm="3"></Col>
+                        <Col sm="9">
+                          <h5 className="main-title mb-4">
+                            {" "}
+                            Other Information
+                          </h5>
+                        </Col>
+                      </Row>
+
                       <FormGroup>
                         <Row>
                           <Col sm="3">
@@ -354,8 +383,9 @@ class EditEmployee extends Component<any, any> {
                             <Row>
                               <Col>
                                 <Select
-                                  // value={this.state.selectedOption}
-                                  placeholder="Department"
+                                  defaultValue={[Department[2], Department[0]]}
+                                  // value={"this.state.selectedOption"}
+                                  placeholder="Select Department"
                                   isMulti
                                   options={Department}
                                 />
@@ -367,8 +397,8 @@ class EditEmployee extends Component<any, any> {
                               </Col>
                               <Col>
                                 <Select
-                                  // value={this.state.selectedOption}
-                                  placeholder="Region"
+                                  defaultValue={[Region[1], Region[2]]}
+                                  placeholder="Select Region"
                                   isMulti
                                   options={Region}
                                 />
@@ -402,6 +432,7 @@ class EditEmployee extends Component<any, any> {
                                   name={"address1"}
                                   placeholder=" Address 1"
                                   className="height-auto width-common"
+                                  value="Prager Str 80, Röhrmoos"
                                 />
                               </Col>
                               <Col className="label-width">
@@ -415,6 +446,7 @@ class EditEmployee extends Component<any, any> {
                                   name={"address2"}
                                   placeholder=" Address 2"
                                   className="height-auto width-common"
+                                  value="Fasanenstrasse 10, Hamburg Neuland"
                                 />
                               </Col>
                             </Row>
@@ -436,6 +468,7 @@ class EditEmployee extends Component<any, any> {
                                   name={"country"}
                                   placeholder=" Country"
                                   className="width-common"
+                                  value=" ‎Berlin"
                                 />
                               </Col>
 
@@ -446,8 +479,11 @@ class EditEmployee extends Component<any, any> {
                               </Col>
                               <Col>
                                 <Select
-                                  // value={this.state.selectedOption}
-                                  placeholder="State"
+                                  defaultValue={{
+                                    label: "Hambug",
+                                    value: 0
+                                  }}
+                                  placeholder="Select State"
                                   options={State}
                                 />
                               </Col>
@@ -483,8 +519,11 @@ class EditEmployee extends Component<any, any> {
                             <Row>
                               <Col>
                                 <Select
-                                  // value={this.state.selectedOption}
-                                  placeholder="City"
+                                  defaultValue={{
+                                    label: "Bochum",
+                                    value: 0
+                                  }}
+                                  placeholder="Select City"
                                   options={City}
                                 />
                               </Col>
@@ -499,6 +538,7 @@ class EditEmployee extends Component<any, any> {
                                   name={"zip"}
                                   placeholder=" Zip Code"
                                   className="width-common"
+                                  value="80331"
                                 />
                               </Col>
                             </Row>
@@ -520,6 +560,7 @@ class EditEmployee extends Component<any, any> {
                                     type="checkbox"
                                     name="check1"
                                     id="exampleCheck1"
+                                    checked
                                   />
                                   <Label for="exampleCheck1" check>
                                     Rights 1
@@ -544,6 +585,7 @@ class EditEmployee extends Component<any, any> {
                                     type="checkbox"
                                     name="check3"
                                     id="exampleCheck3"
+                                    checked
                                   />
                                   <Label for="exampleCheck3" check>
                                     Rights 3
@@ -576,7 +618,7 @@ class EditEmployee extends Component<any, any> {
                           <Col sm="9">
                             <DatePicker
                               placeholderText="Select Date"
-                              selected={this.state.startDate}
+                              selected={new Date()}
                               onChange={this.handleChange}
                             />
                             {/* <Input

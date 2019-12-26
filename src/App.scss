@@ -502,7 +502,7 @@ button {
       height:30px;
       border-color: $light_gray;
           padding: 0px 15px;
-    line-height: 30px;
+    line-height: 19px;
     display: flex;
     align-items: center;
       &:focus{
@@ -814,7 +814,7 @@ button {
 .app-header{
     border-bottom: 1px solid $border_header;
     .brand-logo{
-      min-width:140px;
+      min-width:170px;
       // max-width: 150px;
       // background: $theme_color;
       // height: 55px;

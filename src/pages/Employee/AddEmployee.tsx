@@ -136,7 +136,7 @@ error:true
                                 <Input
                                   type="text"
                                   name={"userName"}
-                                  placeholder=" User Name"
+                                  placeholder=" UserName"
                                 />
                               </Col>
                             </Row>
@@ -326,12 +326,12 @@ error:true
                               </Col>
                               <Col className="label-width">
                                 <Label className="form-label col-form-label ">
-                                  Status
+                                  Status<span className="required">*</span>
                                 </Label>
                               </Col>
                               <Col>
                                 <Select
-                                  placeholder="Status"
+                                  placeholder="Select Status"
                                   options={Status}
                                 />
                               </Col>
@@ -349,6 +349,16 @@ error:true
                           </Col>
                         </Row>
                       </FormGroup> */}
+                      <Row>
+                        <Col sm="3"></Col>
+                        <Col sm="9">
+                          <h5 className="main-title mb-4">
+                            {" "}
+                            Other Information
+                          </h5>
+                        </Col>
+                      </Row>
+
                       <FormGroup>
                         <Row>
                           <Col sm="3">
@@ -361,7 +371,7 @@ error:true
                               <Col>
                                 <Select
                                   // value={this.state.selectedOption}
-                                  placeholder="Department"
+                                  placeholder="Select Department"
                                   isMulti
                                   options={Department}
                                 />
@@ -374,7 +384,7 @@ error:true
                               <Col>
                                 <Select
                                   // value={this.state.selectedOption}
-                                  placeholder="Region"
+                                  placeholder="Select Region"
                                   isMulti
                                   options={Region}
                                 />
@@ -453,7 +463,7 @@ error:true
                               <Col>
                                 <Select
                                   // value={this.state.selectedOption}
-                                  placeholder="State"
+                                  placeholder="Select State"
                                   options={State}
                                 />
                               </Col>
@@ -490,7 +500,7 @@ error:true
                               <Col>
                                 <Select
                                   // value={this.state.selectedOption}
-                                  placeholder="City"
+                                  placeholder="Select City"
                                   options={City}
                                 />
                               </Col>

@@ -124,10 +124,10 @@ class Region extends Component<RouteComponentProps, any> {
                     <td className="text-center">2</td>
                     <td>
                       <div className="action-btn">
-                        <UncontrolledTooltip placement="top" target={`delete`}>
-                          Delete
-                        </UncontrolledTooltip>
-                        <span className="btn-icon " id={`delete`}>
+                        <span className="btn-icon my-2 " id="delete">
+                          <UncontrolledTooltip placement="top" target="delete">
+                            Delete
+                          </UncontrolledTooltip>
                           <i className="fa fa-trash"></i>
                         </span>
                       </div>

@@ -46,15 +46,52 @@ class Employee extends Component<RouteComponentProps, any> {
             </div>
           </td>
           <td>
-            <div className="description-column ml-0">
-              <p className="description-text">
-                <span className="text-label mr-1">Department:</span>
-                <span className="align-middle">HR Marketing</span>
+            <div className="description-column  ml-0">
+              <p className="description-text ">
+                <span className="text-label mr-1">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+                <span className="align-middle">Marketing</span>
               </p>
-              <p className="description-text">
-                <span className="text-label mr-1">Region:</span>
-                <span className="align-middle">HR Marketing</span>
+              <p className="description-text ">
+                <span className="text-label mr-1">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+                <span className="align-middle">Sales</span>
               </p>
+              <p className="description-text ">
+                <span className="text-label mr-1">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+                <span className="align-middle">HR</span>
+              </p>
+            </div>
+          </td>
+          <td>
+            <div className="description-column  ml-0">
+              <p className="description-text ">
+                <span className="text-label mr-1">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+                <span className="align-middle">Central Germany</span>
+              </p>
+              <p className="description-text ">
+                <span className="text-label mr-1">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+                <span className="align-middle">Cologne</span>
+              </p>
+              <p className="description-text ">
+                <span className="text-label mr-1">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+                <span className="align-middle">Frankfurt</span>
+              </p>
+            </div>
+          </td>
+          <td className="text-center">
+            {" "}
+            {/* <div className="description-column ml-0">
               <p className="description-text">
                 <span className="text-label mr-1">Employee ID:</span>
                 <span className="align-middle">e546567cdg</span>
@@ -63,11 +100,17 @@ class Employee extends Component<RouteComponentProps, any> {
                 <span className="text-label mr-1">Employee Username:</span>
                 <span className="align-middle">US_542346</span>
               </p>
-            </div>
+            </div> */}
+            <div>3</div>
           </td>
-          <td>38, Street 8, Mascow Tower, Sydney</td>
           <td className="text-center">
-            <span className="status-btn active">Active</span>
+            <span
+              className={`status-btn ${
+                index % 2 === 0 ? "active" : "inactive"
+              }`}
+            >
+              {index % 2 === 0 ? "Active" : "Disable"}
+            </span>
           </td>
           <td>
             <div className="action-btn">
@@ -198,8 +241,9 @@ class Employee extends Component<RouteComponentProps, any> {
                   <tr>
                     <th>S No.</th>
                     <th>Employee Information</th>
-                    <th>Department Information</th>
-                    <th>Address</th>
+                    <th >Department</th>
+                    <th >Region</th>
+                    <th className="text-center">Assigned Canstitution</th>
                     <th className="text-center">Status</th>
                     <th className="text-center">Action</th>
                   </tr>

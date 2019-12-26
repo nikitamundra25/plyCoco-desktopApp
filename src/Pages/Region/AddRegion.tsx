@@ -35,7 +35,9 @@ class AddRegion extends Component {
                         </Row>
                       </FormGroup>
                       <div className={"text-right"}>
-                        <Button color="primary" type="submit">
+                        <Button color="primary"
+                          type="submit"
+                          className="btn-sumbit" >
                           Submit
           </Button>
                       </div>

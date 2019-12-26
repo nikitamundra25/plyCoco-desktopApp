@@ -24,7 +24,7 @@ class Employee extends Component<RouteComponentProps, any> {
           <Card>
             <CardHeader>
               <h4>
-                <i className="icon-users" /> Employee
+                <i className="fa fa-users" /> Employee
               </h4>
               <Button
                 color={"primary"}
@@ -86,7 +86,7 @@ class Employee extends Component<RouteComponentProps, any> {
                   </Col>
                 </Row>
               </div>
-              <Table striped bordered hover responsive>
+              <Table  bordered hover responsive>
                 <thead className="thead-bg">
                   <tr>
                     <th>S No.</th>
@@ -122,10 +122,577 @@ class Employee extends Component<RouteComponentProps, any> {
                       </div>
                     </td>
                     <td>
-                      <div className="description-column">
+                      <div className="description-column ml-0">
                         <p className="description-text">
                           <span className="text-label mr-1">Department:</span>
-                          <span className="align-middle">HR Matketing</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Region:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Employee ID:</span>
+                          <span className="align-middle">e546567cdg</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">
+                            Employee Username:
+                          </span>
+                          <span className="align-middle">US_542346</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td>38, Street 8, Mascow Tower, Sydney</td>
+                    <td className="text-center">
+                      <span className="status-btn active">Active</span>
+                    </td>
+                    <td>
+                      <div className="action-btn">
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-pencil"></i>
+                        </span>
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-eye"></i>
+                        </span>
+                        <span className="btn-icon ">
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>
+                      <div className="info-column">
+                        <div className="img-column">
+                          <img
+                            src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                            className="img-fluid"
+                          />
+                        </div>
+                        <div className="description-column">
+                          <div className="info-title">John Doe</div>
+                          <p className="description-text">
+                            <i className="fa fa-envelope mr-2"></i>
+                            <span className="align-middle">john@gmail.com</span>
+                          </p>
+                          <p className="description-text">
+                            <i className="fa fa-phone mr-2"></i>
+                            <span className="align-middle">564575678</span>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="description-column ml-0">
+                        <p className="description-text">
+                          <span className="text-label mr-1">Department:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Region:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Employee ID:</span>
+                          <span className="align-middle">e546567cdg</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">
+                            Employee Username:
+                          </span>
+                          <span className="align-middle">US_542346</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td>38, Street 8, Mascow Tower, Sydney</td>
+                    <td className="text-center">
+                      <span className="status-btn inactive">Disable</span>
+                    </td>
+                    <td>
+                      <div className="action-btn">
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-pencil"></i>
+                        </span>
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-eye"></i>
+                        </span>
+                        <span className="btn-icon ">
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>
+                      <div className="info-column">
+                        <div className="img-column">
+                          <img
+                            src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                            className="img-fluid"
+                          />
+                        </div>
+                        <div className="description-column">
+                          <div className="info-title">John Doe</div>
+                          <p className="description-text">
+                            <i className="fa fa-envelope mr-2"></i>
+                            <span className="align-middle">john@gmail.com</span>
+                          </p>
+                          <p className="description-text">
+                            <i className="fa fa-phone mr-2"></i>
+                            <span className="align-middle">564575678</span>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="description-column ml-0">
+                        <p className="description-text">
+                          <span className="text-label mr-1">Department:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Region:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Employee ID:</span>
+                          <span className="align-middle">e546567cdg</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">
+                            Employee Username:
+                          </span>
+                          <span className="align-middle">US_542346</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td>38, Street 8, Mascow Tower, Sydney</td>
+                    <td className="text-center">
+                      <span className="status-btn active">Active</span>
+                    </td>
+                    <td>
+                      <div className="action-btn">
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-pencil"></i>
+                        </span>
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-eye"></i>
+                        </span>
+                        <span className="btn-icon ">
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>
+                      <div className="info-column">
+                        <div className="img-column">
+                          <img
+                            src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                            className="img-fluid"
+                          />
+                        </div>
+                        <div className="description-column">
+                          <div className="info-title">John Doe</div>
+                          <p className="description-text">
+                            <i className="fa fa-envelope mr-2"></i>
+                            <span className="align-middle">john@gmail.com</span>
+                          </p>
+                          <p className="description-text">
+                            <i className="fa fa-phone mr-2"></i>
+                            <span className="align-middle">564575678</span>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="description-column ml-0">
+                        <p className="description-text">
+                          <span className="text-label mr-1">Department:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Region:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Employee ID:</span>
+                          <span className="align-middle">e546567cdg</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">
+                            Employee Username:
+                          </span>
+                          <span className="align-middle">US_542346</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td>38, Street 8, Mascow Tower, Sydney</td>
+                    <td className="text-center">
+                      <span className="status-btn inactive">Disable</span>
+                    </td>
+                    <td>
+                      <div className="action-btn">
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-pencil"></i>
+                        </span>
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-eye"></i>
+                        </span>
+                        <span className="btn-icon ">
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>
+                      <div className="info-column">
+                        <div className="img-column">
+                          <img
+                            src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                            className="img-fluid"
+                          />
+                        </div>
+                        <div className="description-column">
+                          <div className="info-title">John Doe</div>
+                          <p className="description-text">
+                            <i className="fa fa-envelope mr-2"></i>
+                            <span className="align-middle">john@gmail.com</span>
+                          </p>
+                          <p className="description-text">
+                            <i className="fa fa-phone mr-2"></i>
+                            <span className="align-middle">564575678</span>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="description-column ml-0">
+                        <p className="description-text">
+                          <span className="text-label mr-1">Department:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Region:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Employee ID:</span>
+                          <span className="align-middle">e546567cdg</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">
+                            Employee Username:
+                          </span>
+                          <span className="align-middle">US_542346</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td>38, Street 8, Mascow Tower, Sydney</td>
+                    <td className="text-center">
+                      <span className="status-btn active">Active</span>
+                    </td>
+                    <td>
+                      <div className="action-btn">
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-pencil"></i>
+                        </span>
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-eye"></i>
+                        </span>
+                        <span className="btn-icon ">
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>
+                      <div className="info-column">
+                        <div className="img-column">
+                          <img
+                            src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                            className="img-fluid"
+                          />
+                        </div>
+                        <div className="description-column">
+                          <div className="info-title">John Doe</div>
+                          <p className="description-text">
+                            <i className="fa fa-envelope mr-2"></i>
+                            <span className="align-middle">john@gmail.com</span>
+                          </p>
+                          <p className="description-text">
+                            <i className="fa fa-phone mr-2"></i>
+                            <span className="align-middle">564575678</span>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="description-column ml-0">
+                        <p className="description-text">
+                          <span className="text-label mr-1">Department:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Region:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Employee ID:</span>
+                          <span className="align-middle">e546567cdg</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">
+                            Employee Username:
+                          </span>
+                          <span className="align-middle">US_542346</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td>38, Street 8, Mascow Tower, Sydney</td>
+                    <td className="text-center">
+                      <span className="status-btn active">Active</span>
+                    </td>
+                    <td>
+                      <div className="action-btn">
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-pencil"></i>
+                        </span>
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-eye"></i>
+                        </span>
+                        <span className="btn-icon ">
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>
+                      <div className="info-column">
+                        <div className="img-column">
+                          <img
+                            src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                            className="img-fluid"
+                          />
+                        </div>
+                        <div className="description-column">
+                          <div className="info-title">John Doe</div>
+                          <p className="description-text">
+                            <i className="fa fa-envelope mr-2"></i>
+                            <span className="align-middle">john@gmail.com</span>
+                          </p>
+                          <p className="description-text">
+                            <i className="fa fa-phone mr-2"></i>
+                            <span className="align-middle">564575678</span>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="description-column ml-0">
+                        <p className="description-text">
+                          <span className="text-label mr-1">Department:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Region:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Employee ID:</span>
+                          <span className="align-middle">e546567cdg</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">
+                            Employee Username:
+                          </span>
+                          <span className="align-middle">US_542346</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td>38, Street 8, Mascow Tower, Sydney</td>
+                    <td className="text-center">
+                      <span className="status-btn inactive">Disable</span>
+                    </td>
+                    <td>
+                      <div className="action-btn">
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-pencil"></i>
+                        </span>
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-eye"></i>
+                        </span>
+                        <span className="btn-icon ">
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>
+                      <div className="info-column">
+                        <div className="img-column">
+                          <img
+                            src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                            className="img-fluid"
+                          />
+                        </div>
+                        <div className="description-column">
+                          <div className="info-title">John Doe</div>
+                          <p className="description-text">
+                            <i className="fa fa-envelope mr-2"></i>
+                            <span className="align-middle">john@gmail.com</span>
+                          </p>
+                          <p className="description-text">
+                            <i className="fa fa-phone mr-2"></i>
+                            <span className="align-middle">564575678</span>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="description-column ml-0">
+                        <p className="description-text">
+                          <span className="text-label mr-1">Department:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Region:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Employee ID:</span>
+                          <span className="align-middle">e546567cdg</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">
+                            Employee Username:
+                          </span>
+                          <span className="align-middle">US_542346</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td>38, Street 8, Mascow Tower, Sydney</td>
+                    <td className="text-center">
+                      <span className="status-btn active">Active</span>
+                    </td>
+                    <td>
+                      <div className="action-btn">
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-pencil"></i>
+                        </span>
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-eye"></i>
+                        </span>
+                        <span className="btn-icon ">
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>
+                      <div className="info-column">
+                        <div className="img-column">
+                          <img
+                            src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                            className="img-fluid"
+                          />
+                        </div>
+                        <div className="description-column">
+                          <div className="info-title">John Doe</div>
+                          <p className="description-text">
+                            <i className="fa fa-envelope mr-2"></i>
+                            <span className="align-middle">john@gmail.com</span>
+                          </p>
+                          <p className="description-text">
+                            <i className="fa fa-phone mr-2"></i>
+                            <span className="align-middle">564575678</span>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="description-column ml-0">
+                        <p className="description-text">
+                          <span className="text-label mr-1">Department:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Region:</span>
+                          <span className="align-middle">HR Marketing</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">Employee ID:</span>
+                          <span className="align-middle">e546567cdg</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-label mr-1">
+                            Employee Username:
+                          </span>
+                          <span className="align-middle">US_542346</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td>38, Street 8, Mascow Tower, Sydney</td>
+                    <td className="text-center">
+                      <span className="status-btn active">Active</span>
+                    </td>
+                    <td>
+                      <div className="action-btn">
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-pencil"></i>
+                        </span>
+                        <span className="btn-icon mr-2">
+                          <i className="fa fa-eye"></i>
+                        </span>
+                        <span className="btn-icon ">
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>
+                      <div className="info-column">
+                        <div className="img-column">
+                          <img
+                            src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                            className="img-fluid"
+                          />
+                        </div>
+                        <div className="description-column">
+                          <div className="info-title">John Doe</div>
+                          <p className="description-text">
+                            <i className="fa fa-envelope mr-2"></i>
+                            <span className="align-middle">john@gmail.com</span>
+                          </p>
+                          <p className="description-text">
+                            <i className="fa fa-phone mr-2"></i>
+                            <span className="align-middle">564575678</span>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="description-column ml-0">
+                        <p className="description-text">
+                          <span className="text-label mr-1">Department:</span>
+                          <span className="align-middle">HR Marketing</span>
                         </p>
                         <p className="description-text">
                           <span className="text-label mr-1">Region:</span>

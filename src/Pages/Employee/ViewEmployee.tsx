@@ -22,7 +22,7 @@ class ViewEmployee extends Component{
               <Card>
                 <CardHeader>
                   <h4>
-                    <i className="icon-people" /> Employee Details
+                    <i className="fa fa-users" /> Employee Details
                   </h4>
                 </CardHeader>
                 <CardBody>

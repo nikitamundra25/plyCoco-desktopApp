@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AppHeaderDropdown, AppSidebarToggler } from '@coreui/react';
 import { Nav, Dropdown } from 'react-bootstrap';
 import { AppRoutes } from '../../config';
-// import logo from './../../../assets/img/logo.png';
+import logo from '../../assets/img/logo.png';
 
 class DefaultHeader extends Component<any, any> {
   render() {
@@ -10,8 +10,8 @@ class DefaultHeader extends Component<any, any> {
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <div className="brand-logo">
-          {/* <img src={'logo'} width={120} alt='' /> */}
-          <span>Plyoco</span>
+          {/* <img src={logo} alt='logo' /> */}
+          <span className="logo-text">Plyoco</span>
         </div>
         <AppSidebarToggler className="d-md-down-none" display="lg" />
         <Nav className="ml-auto profile-dropdown" navbar>
@@ -23,7 +23,7 @@ class DefaultHeader extends Component<any, any> {
                 className="profile-button"
               >
                 <div className="user-name">
-                  <i className="icon-user mr-2"></i>
+                  <i className="fa fa-user mr-2"></i>
                 </div>
               </Dropdown.Toggle>
               <Dropdown.Menu className="profile-dropdown">

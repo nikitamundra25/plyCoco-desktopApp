@@ -15,6 +15,7 @@ Container,
 } from "reactstrap";
 import { AppRoutes } from '../../config';
 import { ILoginProps, ILoginState } from '../../interfaces';
+import logo from '../../assets/img/plycoco-logo.png'
 
 class Login extends Component<any, ILoginState> {
   constructor(props: any) {
@@ -67,7 +68,7 @@ class Login extends Component<any, ILoginState> {
           <Row className="justify-content-center">
             <Col md="12">
               <div className="logo">
-                <img src={""} alt="" />
+                <img src={logo} alt="" />
               </div>
               <CardGroup>
                 <Card className="login-card p-4">
@@ -180,7 +181,7 @@ class Login extends Component<any, ILoginState> {
                       </Form.Group> */}
                       <Row>
                         
-                        <Col md="8" className="mx-auto">
+                        <Col md="8" className="mx-auto mb-3">
                           <Button
                             type={"submit"}
                             color="link"

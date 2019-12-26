@@ -12,6 +12,24 @@
 
 @import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap');
+
+@font-face {
+   font-family: TechniqueBRKNormal;
+   src: url('./assets/fonts/techniqu-webfont.eot');
+    src: url('./assets/fonts/techniqu-webfont.eot?#iefix') format('embedded-opentype'),
+         url('./assets/fonts/techniqu-webfont.woff') format('woff'),
+         url('./assets/fonts/techniqu-webfont.ttf') format('truetype'),
+         url('./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal') format('svg');
+   
+    // src: url('./assets/fonts/techniqu-webfont.eot');
+    // src: 
+    //      url('./assets/fonts/techniqu-webfont.woff') format('woff');
+    //     // url('./assets/fonts/technique/techniqu-webfont.ttf') format('truetype');
+    //     //  url('./assets/fonts/technique/techniqu-webfont.svg#TechniqueBRKNormal') format('svg');
+    // font-weight: normal;
+    // font-style: normal;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -36,12 +54,26 @@ body {
       color: $theme_color_hover;
     }
 }
+button {
+  &:focus{
+    outline:none;
+  }
+}
   .brand-logo {
     display: inline-block;
-    min-width: 190px;
     text-align: center;
     font-size: 28px;
     font-weight: 700;
+    .logo-text{
+      color: $theme_color;
+      font-family: "TechniqueBRKNormal","Gotham Narrow SSm A","Gotham Narrow SSm B",Arial,Helvetica,sans-serif;
+      letter-spacing: 1px;
+      margin: 0;
+      font-size: 24px;
+          font-weight: 300;
+      // padding-top: 11px;
+      // padding-bottom: 11px;
+    }
   }
   .min-height650 {
     min-height: 650px;
@@ -78,15 +110,21 @@ body {
     border-color: #dddddd;
   }
   .card {
+        border: 1px solid $card_border;
     .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 8px 20px;
+      background-color:  $card_header_bg;
+      border-bottom: 1px solid  $card_header_border;
       h4 {
         margin: 0px;
         font-size:18px;
         font-weight:600;
+      }
+      .btn {
+        padding: 0.20rem 0.75rem;
       }
     }
   }
@@ -249,7 +287,7 @@ body {
 .auth-page{
   position: relative;
   .auth-bg{
-    background:$theme_color;
+    background:$auth_bg;
     position: fixed;
     left: 0;
     top: 0;
@@ -258,18 +296,23 @@ body {
     z-index: -1;
   }
   .logo{
-    width:200px;
-    margin-bottom:16px;
+         width: 450px;
+    margin: 0 auto 0px;
+    text-align: center;
+    background: $theme_color;
     img {
       max-width:100%;
       height:auto;
     }
   }
   .card-group {
-    width: 530px;
+    width: 450px;
     margin: 0 auto;
   }
   .login-card{
+    border-radius: 0px;
+    border: 1px solid #efefef;
+    // box-shadow:0px 14px 60px rgba(253, 107, 0, 0.16);
   .card-body{
     .auth-title{
       font-weight: 700;
@@ -395,13 +438,17 @@ body {
       bottom:0px;
     }
   }
+  .label-width{
+        max-width:175px;
+      }
   .form-group{
     .col-form-label{
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color:$black;
       text-align: right;
       display:block;
+      
     }
     .required{
       color:$red;
@@ -409,7 +456,7 @@ body {
     .form-control{
       border-radius:0px;
       color: $light_black;
-      font-size:14px;
+      font-size:13px;
       height:30px;
       border-color: $light_gray;
           padding: 0px 15px;
@@ -442,6 +489,10 @@ body {
 .table{
   .thead-bg{
     background:$th_bg;
+  }
+  th{
+     border-bottom-width: 1px !important; 
+     font-weight: 600;
   }
   th,td{
     padding: 4px;
@@ -479,8 +530,10 @@ body {
           color:$black;
            display: flex;
           align-items: center;
+           font-weight:500;
           .text-label{
-            font-weight:600;
+            font-weight:500;
+            color:$dark_gray;
           }
         }
       }
@@ -491,7 +544,7 @@ body {
         display: inline-block;
         cursor:pointer;
         &.active{
-           background:$theme_color;
+           background:$active_green;
           color:$white;
         }
          &.inactive{
@@ -520,8 +573,8 @@ body {
         cursor:pointer;
         &:hover{
           color: $light_black;
-          background-color: $light_gray;
-          border-color: $light_gray;
+          background-color: $btn_hover_gray;
+          border-color: $btn_hover_gray;
         }
       }
     }
@@ -555,7 +608,7 @@ body {
     }
   }
   .status-btn{
-    background:$theme_color;
+    background:$active_green;
     color:$white;
     padding:3px 10px;
     font-size:13px;
@@ -603,4 +656,21 @@ body {
 .breadcrumb {
       padding: 8px 16px;
       border-bottom:0px;
+      margin-bottom:15px;
+      .breadcrumb-item{
+        font-size: 13px;
+      }
+}
+.app-header{
+    border-bottom: 1px solid $border_header;
+    .brand-logo{
+      min-width:140px;
+      // max-width: 150px;
+      // background: $theme_color;
+      // height: 55px;
+      img {
+        width:100%;
+        height:auto;
+      }
+    }
 }

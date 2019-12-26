@@ -21,7 +21,7 @@ class AddEmployee extends Component {
             <Card>
               <CardHeader>
                 <h4>
-                  <i className="icon-people" /> Add Employee
+                  <i className="fa fa-users" /> Add Employee
                 </h4>
               </CardHeader>
               <CardBody>
@@ -54,8 +54,8 @@ class AddEmployee extends Component {
                                   className="width-common"
                                 />
                               </Col>
-                              <Col>
-                                <Label className="form-label col-form-label ">
+                              <Col className="label-width">
+                                <Label className="form-label col-form-label">
                                   Last Name<span className="required">*</span>
                                 </Label>
                               </Col>
@@ -99,7 +99,7 @@ class AddEmployee extends Component {
                                   placeholder=" Email"
                                 />
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   Employee UserName
                               <span className="required">*</span>
@@ -226,8 +226,8 @@ class AddEmployee extends Component {
                                   className="width-common"
                                 />
                               </Col>
-                              <Col>
-                                <Label className="form-label col-form-label ">
+                              <Col className="label-width">
+                                <Label className="form-label col-form-label">
                                   Bank Address
                                 </Label>
                               </Col>
@@ -262,7 +262,7 @@ class AddEmployee extends Component {
                                   className="width-common"
                                 />
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   IFSC
                                 </Label>
@@ -301,7 +301,7 @@ class AddEmployee extends Component {
                                   className="width-common"
                                 />
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   Status
                                 </Label>
@@ -355,7 +355,7 @@ class AddEmployee extends Component {
                                   <option>Designing</option>
                                 </Input>
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   Region<span className="required">*</span>
                                 </Label>
@@ -408,7 +408,7 @@ class AddEmployee extends Component {
                                   className="height-auto width-common"
                                 />
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   Address 2
                                 </Label>
@@ -479,7 +479,7 @@ class AddEmployee extends Component {
                                 />
                               </Col>
 
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   State
                                 </Label>
@@ -544,7 +544,7 @@ class AddEmployee extends Component {
                                   <option>Bangalore</option>
                                 </Input>
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   Zip
                                 </Label>

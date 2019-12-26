@@ -2,7 +2,7 @@ import { AppRoutes } from './config';
 export default {
   items: [
     {
-      name: "Employees",
+      name: "Employee",
       icon: "fa fa-users",
       url: AppRoutes.EMPLOYEE
     },

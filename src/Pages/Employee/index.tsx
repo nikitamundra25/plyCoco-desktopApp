@@ -14,8 +14,9 @@ import {
   Form,
   Table
 } from "reactstrap";
-
-class Employee extends Component {
+import { AppRoutes } from '../../config';
+import { RouteComponentProps } from "react-router";
+class Employee extends Component<RouteComponentProps, any> {
   render() {
     return (
       <Row>
@@ -29,6 +30,7 @@ class Employee extends Component {
                 color={"primary"}
                 className={"pull-right"}
                 id={"add-new-pm-tooltip"}
+                onClick={()=>this.props.history.push(AppRoutes.ADD_EMPLOYEE)}
               >
                 <i className={"fa fa-plus"} />
                 &nbsp; Add New Empolyee

@@ -61,7 +61,8 @@ class Login extends Component<any, ILoginState> {
   render() {
     const { email, password, errors } = this.state;
     return (
-      <div className="app flex-row align-items-center">
+      <div className="app flex-row align-items-center auth-page">
+        <div className="auth-bg"></div>
         <Container>
           <Row className="justify-content-center">
             <Col md="5">
@@ -70,7 +71,7 @@ class Login extends Component<any, ILoginState> {
               </div>
               <CardGroup>
                 <Card className="login-card">
-                  <CardHeader>Sign In</CardHeader>
+                  
                   <CardBody>
                     <Form onSubmit={this.handleSubmit} className="form-section">
                       <p className="sub-title text-center">

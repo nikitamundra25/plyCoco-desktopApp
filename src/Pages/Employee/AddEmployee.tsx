@@ -28,7 +28,15 @@ class AddEmployee extends Component {
                 <Row>
                   <Col xs={"12"} lg={"8"} className="mx-auto">
                     <Form className="form-section">
-                      <h5 className="main-title mb-4"> Personal Information</h5>
+                      <Row>
+                        <Col sm="3">
+                         
+                        </Col>
+                        <Col sm="9">
+                          <h5 className="main-title mb-4"> Personal Information</h5>
+                        </Col>
+                      </Row>
+                      
                       <FormGroup>
                         <Row>
                           <Col sm="3">
@@ -38,23 +46,25 @@ class AddEmployee extends Component {
                           </Col>
                           <Col sm="9">
                             <Row>
-                              <Col >
+                              <Col>
                                 <Input
                                   type="text"
                                   name={"firstName"}
-                                  placeholder="Please Enter First Name"
+                                  placeholder=" First Name"
+                                  className="width-common"
                                 />
                               </Col>
-                              <Col >
+                              <Col>
                                 <Label className="form-label col-form-label ">
                                   Last Name<span className="required">*</span>
                                 </Label>
                               </Col>
-                              <Col >
+                              <Col>
                                 <Input
                                   type="text"
                                   name={"lastName"}
-                                  placeholder="Please Enter Last Name"
+                                  placeholder=" Last Name"
+                                  className="width-common"
                                 />
                               </Col>
                             </Row>
@@ -81,11 +91,29 @@ class AddEmployee extends Component {
                             </Label>
                           </Col>
                           <Col sm="9">
-                            <Input
-                              type="text"
-                              name={"email"}
-                              placeholder="Please Enter Email"
-                            />
+                            <Row>
+                              <Col>
+                                <Input
+                                  type="text"
+                                  name={"email"}
+                                  placeholder=" Email"
+                                />
+                              </Col>
+                              <Col>
+                                <Label className="form-label col-form-label ">
+                                  Employee UserName
+                              <span className="required">*</span>
+                                </Label>
+                              </Col>
+                              <Col>
+                                <Input
+                                  type="text"
+                                  name={"userName"}
+                                  placeholder=" User Name"
+                                />
+                              </Col>
+                            </Row>
+                            
                           </Col>
                         </Row>
                       </FormGroup>
@@ -101,30 +129,23 @@ class AddEmployee extends Component {
                             <Input
                               type="text"
                               name={"telephoneNumber"}
-                              placeholder="Please Enter Telephone number"
+                              placeholder=" Telephone number"
                             />
                           </Col>
                         </Row>
                       </FormGroup>
-                      <FormGroup>
+                      {/* <FormGroup>
                         <Row>
                           <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Employee UserName
-                              <span className="required">*</span>
-                            </Label>
+                            
                           </Col>
                           <Col sm="9">
-                            <Input
-                              type="text"
-                              name={"userName"}
-                              placeholder="Please Enter User Name"
-                            />
+                           
                           </Col>
                         </Row>
-                      </FormGroup>
+                      </FormGroup> */}
 
-                      <FormGroup>
+                      {/* <FormGroup>
                         <Row>
                           <Col sm="3">
                             <Label className="form-label col-form-label ">
@@ -133,30 +154,32 @@ class AddEmployee extends Component {
                           </Col>
                           <Col sm="9">
                             <Row>
-                              <Col >
+                              <Col>
                                 <Input
                                   type="text"
                                   name={"password"}
-                                  placeholder="Please Enter Password"
+                                  placeholder=" Password"
+                                  className="width-common"
                                 />
                               </Col>
-                              <Col >
+                              <Col>
                                 <Label className="form-label col-form-label ">
                                   Confirm Password
                                   <span className="required">*</span>
                                 </Label>
                               </Col>
-                              <Col >
+                              <Col>
                                 <Input
                                   type="text"
                                   name={"password"}
-                                  placeholder="Please Confirm Password"
+                                  placeholder=" Confirm Password"
+                                  className="width-common"
                                 />
                               </Col>
                             </Row>
                           </Col>
                         </Row>
-                      </FormGroup>
+                      </FormGroup> */}
 
                       {/* <FormGroup>
                         <Row>
@@ -172,10 +195,19 @@ class AddEmployee extends Component {
                         </Row>
                       </FormGroup> */}
 
-                      <h5 className="main-title mb-4">
-                        {" "}
-                        Bank Account Information
-                      </h5>
+                      <Row>
+                        <Col sm="3">
+
+                        </Col>
+                        <Col sm="9">
+                          <h5 className="main-title mb-4">
+                            {" "}
+                            Bank Account Information
+                          </h5>
+                        </Col>
+                      </Row>
+
+                     
                       <FormGroup>
                         <Row>
                           {" "}
@@ -190,7 +222,8 @@ class AddEmployee extends Component {
                                 <Input
                                   type="text"
                                   name={"bankName"}
-                                  placeholder="Please Enter Bank Name"
+                                  placeholder=" Bank Name"
+                                  className="width-common"
                                 />
                               </Col>
                               <Col>
@@ -202,7 +235,8 @@ class AddEmployee extends Component {
                                 <Input
                                   type="text"
                                   name={"bankAddress"}
-                                  placeholder="Please Enter Bank Address"
+                                  placeholder=" Bank Address"
+                                  className="width-common"
                                 />
                               </Col>
                             </Row>
@@ -224,7 +258,8 @@ class AddEmployee extends Component {
                                 <Input
                                   type="text"
                                   name={"accountNumber"}
-                                  placeholder="Please Enter Bank account number"
+                                  placeholder=" Bank account number"
+                                  className="width-common"
                                 />
                               </Col>
                               <Col>
@@ -236,7 +271,8 @@ class AddEmployee extends Component {
                                 <Input
                                   type="text"
                                   name={"IFSC"}
-                                  placeholder="Please Enter IFSC"
+                                  placeholder=" IFSC"
+                                  className="width-common"
                                 />
                               </Col>
                             </Row>
@@ -261,7 +297,8 @@ class AddEmployee extends Component {
                                 <Input
                                   type="text"
                                   name={"swiftCode"}
-                                  placeholder="Please Enter Swift code"
+                                  placeholder=" Swift code"
+                                  className="width-common"
                                 />
                               </Col>
                               <Col>
@@ -273,7 +310,8 @@ class AddEmployee extends Component {
                                 <Input
                                   type="select"
                                   name="Status"
-                                  placeholder="Please Select Status"
+                                  placeholder=" Select Status"
+                                  className="width-common"
                                 >
                                   <option value={"true"}> Active</option>
                                   <option value={"false"}> Disable</option>
@@ -301,46 +339,57 @@ class AddEmployee extends Component {
                             </Label>
                           </Col>
                           <Col sm="9">
-                            <Input
-                              type="select"
-                              name="department"
-                              id="department"
-                              multiple
-                              className="height-auto"
-                            >
-                              <option>Sales</option>
-                              <option>Marketing</option>
-                              <option>HR</option>
-                              <option>Development</option>
-                              <option>Designing</option>
-                            </Input>
+                            <Row>
+                              <Col>
+                                <Input
+                                  type="select"
+                                  name="department"
+                                  id="department"
+                                  multiple
+                                  className="height-auto"
+                                >
+                                  <option>Sales</option>
+                                  <option>Marketing</option>
+                                  <option>HR</option>
+                                  <option>Development</option>
+                                  <option>Designing</option>
+                                </Input>
+                              </Col>
+                              <Col>
+                                <Label className="form-label col-form-label ">
+                                  Region<span className="required">*</span>
+                                </Label>
+                              </Col>
+                              <Col>
+                                <Input
+                                  type="select"
+                                  name="region"
+                                  id="region"
+                                  multiple
+                                  className="height-auto"
+                                >
+                                  <option>Western India</option>
+                                  <option>East India</option>
+                                  <option>South India</option>
+                                  <option>Northeast India</option>
+                                  <option>Central India</option>
+                                </Input>
+                              </Col>
+                            </Row>
+                           
                           </Col>
                         </Row>
                       </FormGroup>
-                      <FormGroup>
+                      {/* <FormGroup>
                         <Row>
                           <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Region<span className="required">*</span>
-                            </Label>
+                            
                           </Col>
                           <Col sm="9">
-                            <Input
-                              type="select"
-                              name="region"
-                              id="region"
-                              multiple
-                              className="height-auto"
-                            >
-                              <option>Western India</option>
-                              <option>East India</option>
-                              <option>South India</option>
-                              <option>Northeast India</option>
-                              <option>Central India</option>
-                            </Input>
+                            
                           </Col>
                         </Row>
-                      </FormGroup>
+                      </FormGroup> */}
                       <FormGroup>
                         <Row>
                           <Col sm="3">
@@ -350,23 +399,25 @@ class AddEmployee extends Component {
                           </Col>
                           <Col sm="9">
                             <Row>
-                              <Col >
+                              <Col>
                                 <Input
                                   type="text"
                                   name={"address1"}
-                                  placeholder="Please Enter Address 1"
+                                  placeholder=" Address 1"
+                                  className="width-common"
                                 />
                               </Col>
-                              <Col >
+                              <Col>
                                 <Label className="form-label col-form-label ">
                                   Address 2<span className="required">*</span>
                                 </Label>
                               </Col>
-                              <Col >
+                              <Col>
                                 <Input
                                   type="text"
                                   name={"address2"}
-                                  placeholder="Please Enter Address 2"
+                                  placeholder=" Address 2"
+                                  className="width-common"
                                 />
                               </Col>
                             </Row>
@@ -384,7 +435,7 @@ class AddEmployee extends Component {
                             <Input
                               type="text"
                               name={"address2"}
-                              placeholder="Please Enter Address"
+                              placeholder=" Address"
                             />
                           </Col>
                         </Row>
@@ -418,21 +469,27 @@ class AddEmployee extends Component {
                           </Col>
                           <Col sm="9">
                             <Row>
-                              <Col >
+                              <Col>
                                 <Input
                                   type="text"
                                   name={"country"}
-                                  placeholder="Please Enter Country"
+                                  placeholder=" Country"
+                                  className="width-common"
                                 />
                               </Col>
 
-                              <Col >
+                              <Col>
                                 <Label className="form-label col-form-label ">
                                   State
                                 </Label>
                               </Col>
-                              <Col >
-                                <Input type="select" name="state" id="region">
+                              <Col>
+                                <Input
+                                  type="select"
+                                  name="state"
+                                  id="region"
+                                  className="width-common"
+                                >
                                   <option>---Select State---</option>
                                   <option>Madhya Pradesh</option>
                                   <option>Uttar Pradesh</option>
@@ -456,7 +513,7 @@ class AddEmployee extends Component {
                             <Input
                               type="text"
                               name={"country"}
-                              placeholder="Please Enter Country"
+                              placeholder=" Country"
                             />
                           </Col>
                         </Row>
@@ -471,8 +528,13 @@ class AddEmployee extends Component {
                           </Col>
                           <Col sm="9">
                             <Row>
-                              <Col >
-                                <Input type="select" name="city" id="region">
+                              <Col>
+                                <Input
+                                  type="select"
+                                  name="city"
+                                  id="region"
+                                  className="width-common"
+                                >
                                   <option>---Select City---</option>
                                   <option>Indore</option>
                                   <option>Bhopal</option>
@@ -481,16 +543,17 @@ class AddEmployee extends Component {
                                   <option>Bangalore</option>
                                 </Input>
                               </Col>
-                              <Col >
+                              <Col>
                                 <Label className="form-label col-form-label ">
                                   Zip
                                 </Label>
                               </Col>
-                              <Col >
+                              <Col>
                                 <Input
                                   type="text"
                                   name={"zip"}
-                                  placeholder="Please Enter Zip Code"
+                                  placeholder=" Zip Code"
+                                  className="width-common"
                                 />
                               </Col>
                             </Row>
@@ -514,7 +577,7 @@ class AddEmployee extends Component {
                                     id="exampleCheck1"
                                   />
                                   <Label for="exampleCheck1" check>
-                                    Check me out
+                                    Rights 1
                                   </Label>
                                 </div>
                               </Col>
@@ -526,7 +589,7 @@ class AddEmployee extends Component {
                                     id="exampleCheck2"
                                   />
                                   <Label for="exampleCheck2" check>
-                                    Check me out
+                                    Rights 2
                                   </Label>
                                 </div>
                               </Col>
@@ -538,7 +601,7 @@ class AddEmployee extends Component {
                                     id="exampleCheck3"
                                   />
                                   <Label for="exampleCheck3" check>
-                                    Check me out
+                                    Rights 3
                                   </Label>
                                 </div>
                               </Col>
@@ -550,7 +613,7 @@ class AddEmployee extends Component {
                                     id="exampleCheck4"
                                   />
                                   <Label for="exampleCheck4" check>
-                                    Check me out
+                                     Rights 4
                                   </Label>
                                 </div>
                               </Col>
@@ -569,7 +632,7 @@ class AddEmployee extends Component {
                             <Input
                               type="date"
                               name={"joiningDate"}
-                              placeholder="Please Enter Joining Date"
+                              placeholder=" Joining Date"
                             />
                           </Col>
                         </Row>
@@ -585,7 +648,7 @@ class AddEmployee extends Component {
                             <Input
                               type="file"
                               name={"image"}
-                              // placeholder="Please Enter Add Profile Image"
+                              // placeholder=" Add Profile Image"
                             />
                           </Col>
                         </Row>
@@ -601,7 +664,7 @@ class AddEmployee extends Component {
                             <Input
                               type="textarea"
                               name={"country"}
-                              placeholder="Please Enter Any other information"
+                              placeholder=" Any other information"
                               className="height-auto"
                             />
                           </Col>

@@ -8,37 +8,38 @@ class DefaultHeader extends Component<any, any> {
   render() {
     return (
       <React.Fragment>
-        <AppSidebarToggler className='d-lg-none' display='md' mobile />
-        <div className='brand-logo'>
+        <AppSidebarToggler className="d-lg-none" display="md" mobile />
+        <div className="brand-logo">
           {/* <img src={'logo'} width={120} alt='' /> */}
           <span>Polyoco</span>
         </div>
-        <AppSidebarToggler className='d-md-down-none' display='lg' />
-        <Nav className='ml-auto' navbar>
-          <AppHeaderDropdown direction='down'>
+        <AppSidebarToggler className="d-md-down-none" display="lg" />
+        <Nav className="ml-auto profile-dropdown" navbar>
+          <AppHeaderDropdown direction="down">
             <Dropdown>
               <Dropdown.Toggle
-                id='dropdown-basic'
-                variant='link'
-                className='profile-button'
+                id="dropdown-basic"
+                variant="link"
+                className="profile-button"
               >
-                <div className='user-name'>
-                  <i className='icon-user mr-2'></i>
-                  
+                <div className="user-name">
+                  <i className="icon-user mr-2"></i>
                 </div>
               </Dropdown.Toggle>
-              <Dropdown.Menu className='profile-dropdown'>
-                <Dropdown.Item className='user-box'>
-                  <div className='user-text'>
-                    <h4>Super Admin</h4>
-                    <p className='mb-0'>superadmin@plycoco.com</p>
+              <Dropdown.Menu className="profile-dropdown">
+                <Dropdown.Item className="user-box">
+                  <div className="user-text">
+                    <h6>
+                      <b>Super Admin</b>
+                    </h6>
+                    <p className="mb-0">superadmin@plycoco.com</p>
                   </div>
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <i className='fa fa-user' /> Profile
+                  <i className="fa fa-user" /> Profile
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => this.props.onLogout()}>
-                  <i className='fa fa-lock' /> Logout
+                  <i className="fa fa-lock" /> Logout
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

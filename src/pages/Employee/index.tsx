@@ -12,7 +12,8 @@ import {
   Col,
   Row,
   Form,
-  Table
+  Table,
+  UncontrolledTooltip
 } from "reactstrap";
 import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
@@ -88,10 +89,16 @@ class Employee extends Component<RouteComponentProps, any> {
                   <Col lg={"2"}>
                     <div className="label-height"></div>
                     <div className="filter-btn-wrap">
-                      <span className="btn-filter mr-2">
+                      <span className="btn-filter mr-2" id="search1">
+                        <UncontrolledTooltip placement="top" target="search1">
+                          Search
+                        </UncontrolledTooltip>
                         <i className="fa fa-search"></i>
                       </span>
-                      <span className="btn-filter mr-2">
+                      <span className="btn-filter mr-2" id="reset">
+                        <UncontrolledTooltip placement="top" target="reset">
+                          Reset
+                        </UncontrolledTooltip>
                         <i className="fa fa-refresh "></i>
                       </span>
                     </div>
@@ -160,7 +167,16 @@ class Employee extends Component<RouteComponentProps, any> {
                       <span className="status-btn active">Active</span>
                     </td>
                     <td>
-                      <div className="action-btn">
+                      <div
+                        className="action-btn"
+                        id="UncontrolledTooltipExample"
+                      >
+                        <UncontrolledTooltip
+                          placement="right"
+                          target="UncontrolledTooltipExample"
+                        >
+                          Edit
+                        </UncontrolledTooltip>
                         <span className="btn-icon mr-2">
                           <i className="fa fa-pencil"></i>
                         </span>

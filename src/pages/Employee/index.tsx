@@ -19,6 +19,94 @@ import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
 class Employee extends Component<RouteComponentProps, any> {
   render() {
+    const tableData: any[] = [];
+    for (let index = 0; index < 10; index++) {
+      tableData.push(
+        <tr>
+          <td>{index + 1}</td>
+          <td>
+            <div className="info-column">
+              <div className="img-column">
+                <img
+                  src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                  className="img-fluid"
+                />
+              </div>
+              <div className="description-column">
+                <div className="info-title">John Doe</div>
+                <p className="description-text">
+                  <i className="fa fa-envelope mr-2"></i>
+                  <span className="align-middle">john@gmail.com</span>
+                </p>
+                <p className="description-text">
+                  <i className="fa fa-phone mr-2"></i>
+                  <span className="align-middle">564575678</span>
+                </p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div className="description-column ml-0">
+              <p className="description-text">
+                <span className="text-label mr-1">Department:</span>
+                <span className="align-middle">HR Marketing</span>
+              </p>
+              <p className="description-text">
+                <span className="text-label mr-1">Region:</span>
+                <span className="align-middle">HR Marketing</span>
+              </p>
+              <p className="description-text">
+                <span className="text-label mr-1">Employee ID:</span>
+                <span className="align-middle">e546567cdg</span>
+              </p>
+              <p className="description-text">
+                <span className="text-label mr-1">Employee Username:</span>
+                <span className="align-middle">US_542346</span>
+              </p>
+            </div>
+          </td>
+          <td>38, Street 8, Mascow Tower, Sydney</td>
+          <td className="text-center">
+            <span className="status-btn active">Active</span>
+          </td>
+          <td>
+            <div className="action-btn">
+              <span className="btn-icon mr-2" id={`edit${index}`}>
+                <UncontrolledTooltip placement="top" target={`edit${index}`}>
+                  Edit
+                </UncontrolledTooltip>
+                <i
+                  className="fa fa-pencil"
+                  onClick={() =>
+                    this.props.history.push(AppRoutes.EDIT_EMPLOYEE)
+                  }
+                ></i>
+              </span>
+              <span className="btn-icon mr-2" id={`view${index}`}>
+                <UncontrolledTooltip placement="top" target={`view${index}`}>
+                  View
+                </UncontrolledTooltip>
+                <i
+                  className="fa fa-eye"
+                  onClick={() =>
+                    this.props.history.push(AppRoutes.VIEW_EMPLOYEE)
+                  }
+                ></i>
+              </span>
+              <span className="btn-icon " id={`delete${index}`}>
+                <UncontrolledTooltip placement="top" target={`delete${index}`}>
+                  Delete
+                </UncontrolledTooltip>
+                <i
+                  className="fa fa-trash"
+                  onClick={() => this.props.history.push("")}
+                ></i>
+              </span>
+            </div>
+          </td>
+        </tr>
+      );
+    }
     return (
       <Row>
         <Col xs={"12"} lg={"12"}>
@@ -116,7 +204,8 @@ class Employee extends Component<RouteComponentProps, any> {
                     <th className="text-center">Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody>{tableData}</tbody>
+                {/* <tbody>
                   <tr>
                     <td>1</td>
                     <td>
@@ -766,6 +855,7 @@ class Employee extends Component<RouteComponentProps, any> {
                     </td>
                   </tr>
                 </tbody>
+               */}
               </Table>
             </CardBody>
           </Card>

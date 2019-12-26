@@ -8,6 +8,8 @@ export const AppRoutes = {
   EMPLOYEE: '/employee',
   ADD_EMPLOYEE: '/employee/add',
   VIEW_EMPLOYEE: '/employee/view',
-  ADD_DEPARTMENT:'/department',
-  ADD_REGION:'/region'
+  DEPARTMENT:'/department',
+  ADD_DEPARTMENT:'/department/add',
+  REGION:'/region',
+  ADD_REGION:'/region/add'
 };

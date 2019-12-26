@@ -7,7 +7,9 @@ const MyProfile = React.lazy(() => import('../Pages/MyProfile'));
 const Employee = React.lazy(() => import('../Pages/Employee'));
 const AddEmployee = React.lazy(() => import('../Pages/Employee/AddEmployee'));
 const ViewEmployee = React.lazy(() => import('../Pages/Employee/ViewEmployee'));
+// const Department = React.lazy(() => import('../Pages/Department'));
 const AddDepartment = React.lazy(() => import('../Pages/Department/AddDepartment'));
+const Region = React.lazy(() => import('../Pages/Region'));
 const AddRegion = React.lazy(() => import('../Pages/Region/AddRegion'));
 
 const routes = [
@@ -48,10 +50,23 @@ const routes = [
     component: ViewEmployee,
     exact: true,
   },
+  // {
+  //   path: AppRoutes.DEPARTMENT,
+  //   name: 'Department',
+  //   component: Department,
+  //   exact: true,
+  // },
+  
   {
     path: AppRoutes.ADD_DEPARTMENT,
     name: 'Add Department',
     component: AddDepartment,
+    exact: true,
+  },
+  {
+    path: AppRoutes.REGION,
+    name: 'Region',
+    component: Region,
     exact: true,
   },
   {

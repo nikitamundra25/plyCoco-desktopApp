@@ -37,7 +37,7 @@ import { AppRoutes } from '../config';
 const DefaultLayout = React.lazy(() =>
   import('../containers/DefaultLayout/DefaultLayout'),
 );
-const Login = React.lazy(() => import('../Pages/Login'));
+const Login = React.lazy(() => import('../pages/Login'));
 
 class AppRoutesComponent extends Component<any, any> {
   constructor(props: any) {

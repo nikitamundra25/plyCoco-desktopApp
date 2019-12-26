@@ -1,9 +1,10 @@
-export const AppRoutes = {
+import { IAppRoutes } from "../interfaces";
+
+export const AppRoutes:IAppRoutes = {
   MAIN: '/',
   HOME: '/dashboard',
   LOGIN: '/login',
   MY_PROFILE: '/profile',
-  SETTINGS: '/setting',
   USERS: '/users',
   EMPLOYEE: '/employee',
   ADD_EMPLOYEE: '/employee/add',

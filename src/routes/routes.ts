@@ -1,17 +1,17 @@
 import React from 'react';
 import { AppRoutes } from '../config';
 
-const Dashboard = React.lazy(() => import('../Pages/Dashboard'));
-const Login = React.lazy(() => import('../Pages/Login'));
-const MyProfile = React.lazy(() => import('../Pages/MyProfile'));
-const Employee = React.lazy(() => import('../Pages/Employee'));
-const AddEmployee = React.lazy(() => import('../Pages/Employee/AddEmployee'));
-const ViewEmployee = React.lazy(() => import('../Pages/Employee/ViewEmployee'));
-const EditEmployee = React.lazy(() => import('../Pages/Employee/EditEmployee'));
-const Department = React.lazy(() => import('../Pages/Department'));
-const AddDepartment = React.lazy(() => import('../Pages/Department/AddDepartment'));
-const Region = React.lazy(() => import('../Pages/Region'));
-const AddRegion = React.lazy(() => import('../Pages/Region/AddRegion'));
+const Dashboard = React.lazy(() => import('../pages/Dashboard'));
+const Login = React.lazy(() => import('../pages/Login'));
+const MyProfile = React.lazy(() => import('../pages/MyProfile'));
+const Employee = React.lazy(() => import('../pages/Employee'));
+const AddEmployee = React.lazy(() => import('../pages/Employee/AddEmployee'));
+const ViewEmployee = React.lazy(() => import('../pages/Employee/ViewEmployee'));
+const EditEmployee = React.lazy(() => import('../pages/Employee/EditEmployee'));
+const Department = React.lazy(() => import('../pages/Department'));
+const AddDepartment = React.lazy(() => import('../pages/Department/AddDepartment'));
+const Region = React.lazy(() => import('../pages/Region'));
+const AddRegion = React.lazy(() => import('../pages/Region/AddRegion'));
 
 const routes = [
   { path: AppRoutes.MAIN, exact: true, name: 'Home' },

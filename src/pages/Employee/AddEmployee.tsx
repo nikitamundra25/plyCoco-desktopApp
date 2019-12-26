@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "./node_modules/react";
 import {
   Button,
   FormGroup,
@@ -13,22 +13,9 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-const department = [
-  { value: "Sales", label: "Sales" },
-  { value: "Marketing", label: "Marketing" },
-  { value: "Designing", label: "Designing" },
-  { value: "Development", label: "Development" },
-  { value: "HR", label: "HR" }
-];
-const region = [
-  { value: "CentralGermany", label: "Central Germany" },
-  { value: "Cologne", label: "Cologne" },
-  { value: "Frankfurt", label: "Frankfurt" },
-  { value: "NorthernGermany", label: "Northern Germany" },
-  { value: "LowerSaxony", label: "Lower Saxony" },
-  { value: "Munich", label: "Munich" }
-];
+import "./node_modules/react-datepicker/dist/react-datepicker.css";
+import { RouteComponentProps } from "./node_modules/react-router";
+import { Status, State, Department, Region, City } from "../../config";
 
 class AddEmployee extends Component<any,any> {
   constructor(props: any) {
@@ -108,7 +95,7 @@ error:true
 
                               <Col className="label-width">
                                 <Label className="form-label col-form-label">
-                                  SurName<span className="required">*</span>
+                                  Surname<span className="required">*</span>
                                 </Label>
                               </Col>
                               <Col>
@@ -343,15 +330,10 @@ error:true
                                 </Label>
                               </Col>
                               <Col>
-                                <Input
-                                  type="select"
-                                  name="Status"
-                                  placeholder=" Select Status"
-                                  className="width-common"
-                                >
-                                  <option value={"true"}> Active</option>
-                                  <option value={"false"}> Disable</option>
-                                </Input>
+                                <Select
+                                  placeholder="Status"
+                                  options={Status}
+                                />
                               </Col>
                             </Row>
                           </Col>
@@ -379,9 +361,9 @@ error:true
                               <Col>
                                 <Select
                                   // value={this.state.selectedOption}
-                                  onChange={this.handleChange}
+                                  placeholder="Department"
                                   isMulti
-                                  options={department}
+                                  options={Department}
                                 />
                               </Col>
                               <Col className="label-width">
@@ -392,9 +374,9 @@ error:true
                               <Col>
                                 <Select
                                   // value={this.state.selectedOption}
-                                  onChange={this.handleChange}
+                                  placeholder="Region"
                                   isMulti
-                                  options={region}
+                                  options={Region}
                                 />
                               </Col>
                             </Row>
@@ -445,42 +427,6 @@ error:true
                           </Col>
                         </Row>
                       </FormGroup>
-                      {/* <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Address 2
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Input
-                              type="text"
-                              name={"address2"}
-                              placeholder=" Address"
-                            />
-                          </Col>
-                        </Row>
-                      </FormGroup> */}
-
-                      {/* <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              State
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Input type="select" name="state" id="region">
-                              <option>---Select State---</option>
-                              <option>Madhya Pradesh</option>
-                              <option>Uttar Pradesh</option>
-                              <option>Bihar</option>
-                              <option>Punjab</option>
-                              <option>Gujrat</option>
-                            </Input>
-                          </Col>
-                        </Row>
-                      </FormGroup> */}
                       <FormGroup>
                         <Row>
                           <Col sm="3">
@@ -505,19 +451,11 @@ error:true
                                 </Label>
                               </Col>
                               <Col>
-                                <Input
-                                  type="select"
-                                  name="state"
-                                  id="region"
-                                  className="width-common"
-                                >
-                                  <option>---Select State---</option>
-                                  <option>Thuringia</option>
-                                  <option>Bavaria</option>
-                                  <option> Hamburg</option>
-                                  <option>Saarland</option>
-                                  <option> Saxony</option>
-                                </Input>
+                                <Select
+                                  // value={this.state.selectedOption}
+                                  placeholder="State"
+                                  options={State}
+                                />
                               </Col>
                             </Row>
                           </Col>
@@ -550,19 +488,11 @@ error:true
                           <Col sm="9">
                             <Row>
                               <Col>
-                                <Input
-                                  type="select"
-                                  name="city"
-                                  id="region"
-                                  className="width-common"
-                                >
-                                  <option>---Select City---</option>
-                                  <option> Dortmund</option>
-                                  <option>Bochum</option>
-                                  <option> Wiesbaden</option>
-                                  <option>Kiel</option>
-                                  <option>Berlin</option>
-                                </Input>
+                                <Select
+                                  // value={this.state.selectedOption}
+                                  placeholder="City"
+                                  options={City}
+                                />
                               </Col>
                               <Col className="label-width">
                                 <Label className="form-label col-form-label ">
@@ -652,7 +582,7 @@ error:true
                           <Col sm="9">
                             <DatePicker
                               placeholderText="Select Date"
-                              selected={""}
+                              selected={this.state.startDate}
                               onChange={this.handleChange}
                             />
                             {/* <Input
@@ -671,11 +601,7 @@ error:true
                             </Label>
                           </Col>
                           <Col sm="9">
-                            <Input
-                              type="file"
-                              name={"image"}
-                              // placeholder=" Add Profile Image"
-                            />
+                            <Input type="file" name={"image"} />
                           </Col>
                         </Row>
                       </FormGroup>

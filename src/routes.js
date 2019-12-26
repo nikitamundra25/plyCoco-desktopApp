@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppRoutes } from './config';
 
-const Users = React.lazy(() => import('./Pages/Users'));
+const Users = React.lazy(() => import('./pages/Users'));
 
 const routes = [
   { path: AppRoutes.MAIN, exact: true, name: 'Home' },

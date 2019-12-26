@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from './node_modules/react';
 import { ILoginState } from '../../interfaces';
 import {
   InputGroup,
@@ -8,7 +8,7 @@ import {
   Card,
   Form,
   Row,
-} from 'react-bootstrap';
+} from './node_modules/react-bootstrap';
 
 class MyProfile extends Component<any, ILoginState> {
   constructor(props: any) {

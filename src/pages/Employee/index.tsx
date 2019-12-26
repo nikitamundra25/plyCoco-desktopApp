@@ -12,7 +12,8 @@ import {
   Col,
   Row,
   Form,
-  Table
+  Table,
+  UncontrolledTooltip
 } from "reactstrap";
 import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
@@ -160,7 +161,16 @@ class Employee extends Component<RouteComponentProps, any> {
                       <span className="status-btn active">Active</span>
                     </td>
                     <td>
-                      <div className="action-btn">
+                      <div
+                        className="action-btn"
+                        id="UncontrolledTooltipExample"
+                      >
+                        <UncontrolledTooltip
+                          placement="right"
+                          target="UncontrolledTooltipExample"
+                        >
+                          Edit
+                        </UncontrolledTooltip>
                         <span className="btn-icon mr-2">
                           <i className="fa fa-pencil"></i>
                         </span>

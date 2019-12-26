@@ -7,7 +7,8 @@ declare module '@font-awesome';
 declare module '@simple-line-icons';
 declare module 'js-object-validation';
 declare module 'reactstrap';
-
+declare module 'react-select';
+declare module 'react-datepicker';
 declare interface String {
   truncate(n: number, decorator: string): string;
 }

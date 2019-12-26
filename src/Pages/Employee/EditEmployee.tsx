@@ -11,40 +11,9 @@ import {
   Row,
   Form
 } from "reactstrap";
-import Select from "react-select";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-const department = [
-  { value: "Sales", label: "Sales" },
-  { value: "Marketing", label: "Marketing" },
-  { value: "Designing", label: "Designing" },
-  { value: "Development", label: "Development" },
-  { value: "HR", label: "HR" }
-];
-const region = [
-  { value: "CentralGermany", label: "Central Germany" },
-  { value: "Cologne", label: "Cologne" },
-  { value: "Frankfurt", label: "Frankfurt" },
-  { value: "NorthernGermany", label: "Northern Germany" },
-  { value: "LowerSaxony", label: "Lower Saxony" },
-  { value: "Munich", label: "Munich" }
-];
 
-class AddEmployee extends Component {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      // startDate: ""
-    };
-  }
-
-  handleChange = (date: any) => {
-    this.setState({
-      startDate: date
-    });
-  };
+class EditEmployee extends Component {
   render() {
-    // const { selectedOption } = this.state;
     return (
       <>
         <Row>
@@ -52,7 +21,7 @@ class AddEmployee extends Component {
             <Card>
               <CardHeader>
                 <h4>
-                  <i className="icon-people" /> Add Employee
+                  <i className="icon-people" />Edit Employee
                 </h4>
               </CardHeader>
               <CardBody>
@@ -121,7 +90,7 @@ class AddEmployee extends Component {
                               </Col>
                               <Col>
                                 <Label className="form-label col-form-label ">
-                                  UserName
+                                  Employee UserName
                                   <span className="required">*</span>
                                 </Label>
                               </Col>
@@ -357,12 +326,19 @@ class AddEmployee extends Component {
                           <Col sm="9">
                             <Row>
                               <Col>
-                                <Select
-                                  // value={this.state.selectedOption}
-                                  onChange={this.handleChange}
-                                  isMulti
-                                  options={department}
-                                />
+                                <Input
+                                  type="select"
+                                  name="department"
+                                  id="department"
+                                  multiple
+                                  className="height-auto"
+                                >
+                                  <option>Sales</option>
+                                  <option>Marketing</option>
+                                  <option>HR</option>
+                                  <option>Development</option>
+                                  <option>Designing</option>
+                                </Input>
                               </Col>
                               <Col>
                                 <Label className="form-label col-form-label ">
@@ -370,12 +346,20 @@ class AddEmployee extends Component {
                                 </Label>
                               </Col>
                               <Col>
-                                <Select
-                                  // value={this.state.selectedOption}
-                                  onChange={this.handleChange}
-                                  isMulti
-                                  options={region}
-                                />
+                                <Input
+                                  type="select"
+                                  name="region"
+                                  id="region"
+                                  multiple
+                                  className="height-auto"
+                                >
+                                  <option>Central Germany</option>
+                                  <option>Cologne</option>
+                                  <option>Frankfurt</option>
+                                  <option>Northern Germany</option>
+                                  <option>Lower Saxony</option>
+                                  <option>Munich</option>
+                                </Input>
                               </Col>
                             </Row>
                           </Col>
@@ -630,16 +614,11 @@ class AddEmployee extends Component {
                             </Label>
                           </Col>
                           <Col sm="9">
-                            <DatePicker
-                              placeholderText="Select Date"
-                              selected={""}
-                              onChange={this.handleChange}
-                            />
-                            {/* <Input
+                            <Input
                               type="date"
                               name={"joiningDate"}
                               placeholder=" Joining Date"
-                            /> */}
+                            />
                           </Col>
                         </Row>
                       </FormGroup>
@@ -669,7 +648,7 @@ class AddEmployee extends Component {
                           <Col sm="9">
                             <Input
                               type="textarea"
-                              name={"otherinformation"}
+                              name={"country"}
                               placeholder=" Any other information"
                               className="height-auto"
                             />
@@ -696,4 +675,4 @@ class AddEmployee extends Component {
     );
   }
 }
-export default AddEmployee;
+export default EditEmployee;

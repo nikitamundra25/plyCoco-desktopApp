@@ -105,15 +105,23 @@ class Region extends Component<RouteComponentProps, any> {
                     <th className="text-center">
                       Current ongoing appointments counter
                     </th>
+                    <th className="text-center">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>1</td>
-                    <td className="text-center">Northeast</td>
+                    <td>Northeast</td>
                     <td className="text-center">5</td>
                     <td className="text-center">20</td>
                     <td className="text-center">2</td>
+                    <td>
+                      <div className="action-btn">
+                        <span className="btn-icon ">
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
               </Table>

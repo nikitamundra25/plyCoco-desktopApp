@@ -728,6 +728,7 @@ class Employee extends Component<RouteComponentProps, any> {
                     </td>
                     <td>
                       <div className="action-btn">
+                        
                         <span className="btn-icon mr-2">
                           <i
                             className="fa fa-pencil"

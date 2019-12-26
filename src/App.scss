@@ -421,6 +421,9 @@ button {
     padding: 0 15px;
   }
 }
+.filter-form{
+  margin-top:-10px;
+}
 .form-section{
   .label-height{
     height:21px;
@@ -689,7 +692,12 @@ button {
     &:focus, &:hover, &:active {
       background:$theme_color_hover;
       border-color: $theme_color_hover;
-      box-shadow:none;
+      box-shadow:none !important;
+    }
+    &:not(:disabled):not(.disabled):active {
+       background:$theme_color_hover;
+      border-color: $theme_color_hover;
+      box-shadow:none !important;
     }
 }
 .employee-details{

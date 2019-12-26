@@ -22,7 +22,8 @@ class ViewEmployee extends Component{
               <Card>
                 <CardHeader>
                   <h4>
-                    <i className="fa fa-users" /> Employee Details
+                    <i className="fa fa-users" />
+                    <span className="ml-1">Employee Details</span>
                   </h4>
                 </CardHeader>
                 <CardBody>
@@ -101,13 +102,9 @@ class ViewEmployee extends Component{
                       </Col>
 
                       <Col lg={"4"} md={"4"} className="mb-4">
-                        <div className="employee-title">
-                          Profile Image
-                        </div>
+                        <div className="employee-title">Profile Image</div>
                         <div className="user-item">
-                          
                           <span className="text-value">
-                           
                             <div className="profile-img">
                               <img
                                 src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"

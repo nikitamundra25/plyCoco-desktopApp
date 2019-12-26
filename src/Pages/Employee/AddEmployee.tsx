@@ -30,11 +30,12 @@ const region = [
   { value: "Munich", label: "Munich" }
 ];
 
-class AddEmployee extends Component {
+class AddEmployee extends Component<any,any> {
   constructor(props: any) {
     super(props);
     this.state = {
       // startDate: ""
+      error:false
     };
   }
 
@@ -43,6 +44,12 @@ class AddEmployee extends Component {
       startDate: date
     });
   };
+  onFocus = () => {
+this.setState({
+error:true
+})
+}
+
   render() {
     // const { selectedOption } = this.state;
     return (
@@ -52,7 +59,8 @@ class AddEmployee extends Component {
             <Card>
               <CardHeader>
                 <h4>
-                  <i className="fa fa-users" /> Add Employee
+                  <i className="fa fa-users" />
+                  <span className="ml-1">Add Employee</span>
                 </h4>
               </CardHeader>
               <CardBody>
@@ -83,12 +91,24 @@ class AddEmployee extends Component {
                                   type="text"
                                   name={"firstName"}
                                   placeholder="First Name"
+                                  onChange={() =>
+                                    this.setState({ error: false })
+                                  }
                                   className="width-common"
+                                  onFocus={this.onFocus}
                                 />
+                                {this.state.error ? (
+                                  <div className="required-error">
+                                    Please Enter First Name
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
                               </Col>
+
                               <Col className="label-width">
                                 <Label className="form-label col-form-label">
-                                  Last Name<span className="required">*</span>
+                                  SurName<span className="required">*</span>
                                 </Label>
                               </Col>
                               <Col>

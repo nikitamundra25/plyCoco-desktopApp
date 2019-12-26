@@ -10,7 +10,8 @@ class AddRegion extends Component {
             <Card>
               <CardHeader>
                 <h4>
-                  <i className="icon-people" /> Add Region
+                  <i className="fa fa-sitemap" />
+                  <span className="ml-1">Add Region</span>
                 </h4>
               </CardHeader>
               <CardBody>
@@ -23,7 +24,6 @@ class AddRegion extends Component {
                             <Label className="form-label col-form-label ">
                               Name of Region<span className="required">*</span>
                             </Label>
-
                           </Col>
                           <Col sm="9">
                             <Input
@@ -35,11 +35,13 @@ class AddRegion extends Component {
                         </Row>
                       </FormGroup>
                       <div className={"text-right"}>
-                        <Button color="primary"
+                        <Button
+                          color="primary"
                           type="submit"
-                          className="btn-sumbit" >
+                          className="btn-sumbit"
+                        >
                           Submit
-          </Button>
+                        </Button>
                       </div>
                     </Form>
                   </Col>
@@ -48,7 +50,6 @@ class AddRegion extends Component {
             </Card>
           </Col>
         </Row>
-        
       </>
     );
   }

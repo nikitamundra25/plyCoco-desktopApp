@@ -24,7 +24,8 @@ class Department extends Component<RouteComponentProps, any> {
           <Card>
             <CardHeader>
               <h4>
-                <i className="icon-users" /> Department
+                <i className="fa fa-address-book" />
+                <span className="ml-1">Department</span>
               </h4>
               <Button
                 color={"primary"}
@@ -86,9 +87,20 @@ class Department extends Component<RouteComponentProps, any> {
                       </Input>
                     </FormGroup>
                   </Col>
+                  <Col lg={"2"}>
+                    <div className="label-height"></div>
+                    <div className="filter-btn-wrap">
+                      <span className="btn-filter mr-2">
+                        <i className="fa fa-search"></i>
+                      </span>
+                      <span className="btn-filter mr-2">
+                        <i className="fa fa-refresh "></i>
+                      </span>
+                    </div>
+                  </Col>
                 </Row>
               </div>
-              <Table striped bordered hover responsive>
+              <Table bordered hover responsive>
                 <thead className="thead-bg"></thead>
                 <tbody></tbody>
               </Table>

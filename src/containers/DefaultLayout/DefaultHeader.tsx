@@ -23,7 +23,7 @@ class DefaultHeader extends Component<any, any> {
                 className="profile-button"
               >
                 <div className="user-name">
-                  <i className="fa fa-user mr-2"></i>
+                  <i className="fa fa-user"></i>
                 </div>
               </Dropdown.Toggle>
               <Dropdown.Menu className="profile-dropdown">

@@ -21,7 +21,8 @@ class EditEmployee extends Component {
             <Card>
               <CardHeader>
                 <h4>
-                  <i className="icon-people" />Edit Employee
+                  <i className="fa fa-users" />
+                  <span className="ml-1">Edit Employee</span>
                 </h4>
               </CardHeader>
               <CardBody>

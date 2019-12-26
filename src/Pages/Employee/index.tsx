@@ -24,7 +24,8 @@ class Employee extends Component<RouteComponentProps, any> {
           <Card>
             <CardHeader>
               <h4>
-                <i className="fa fa-users" /> Employee
+                <i className="fa fa-users" />
+                <span className="ml-1">Employee</span>
               </h4>
               <Button
                 color={"primary"}
@@ -84,9 +85,20 @@ class Employee extends Component<RouteComponentProps, any> {
                       </Input>
                     </FormGroup>
                   </Col>
+                  <Col lg={"2"}>
+                    <div className="label-height"></div>
+                    <div className="filter-btn-wrap">
+                      <span className="btn-filter mr-2">
+                        <i className="fa fa-search"></i>
+                      </span>
+                      <span className="btn-filter mr-2">
+                        <i className="fa fa-refresh "></i>
+                      </span>
+                    </div>
+                  </Col>
                 </Row>
               </div>
-              <Table  bordered hover responsive>
+              <Table bordered hover responsive>
                 <thead className="thead-bg">
                   <tr>
                     <th>S No.</th>
@@ -719,13 +731,17 @@ class Employee extends Component<RouteComponentProps, any> {
                         <span className="btn-icon mr-2">
                           <i
                             className="fa fa-pencil"
-                            onClick={() => this.props.history.push(AppRoutes.EDIT_EMPLOYEE)}
+                            onClick={() =>
+                              this.props.history.push(AppRoutes.EDIT_EMPLOYEE)
+                            }
                           ></i>
                         </span>
                         <span className="btn-icon mr-2">
                           <i
                             className="fa fa-eye"
-                            onClick={() => this.props.history.push(AppRoutes.VIEW_EMPLOYEE)}
+                            onClick={() =>
+                              this.props.history.push(AppRoutes.VIEW_EMPLOYEE)
+                            }
                           ></i>
                         </span>
                         <span className="btn-icon ">

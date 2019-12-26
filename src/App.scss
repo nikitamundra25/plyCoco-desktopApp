@@ -368,6 +368,7 @@ button {
 .sidebar {
     background: $theme_color;
     .nav-link {
+        padding: 0.95rem 1rem;
       .nav-icon {
         color:$white;
       }
@@ -421,6 +422,37 @@ button {
   }
 }
 .form-section{
+  .label-height{
+    height:21px;
+    margin-bottom: 0.5rem;
+  }
+  .filter-btn-wrap{
+        display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+    .btn-filter{
+      font-size: 16px;
+      padding: 0px 0px;
+      font-weight: 700;
+      width:30px;
+      height:30px;
+      border-radius: 4px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align: center;
+      color:$light_black;
+        background-color: $btn_gray;
+        border-color: $btn_gray;
+        cursor:pointer;
+        &:hover{
+          color: $light_black;
+          background-color: $btn_hover_gray;
+          border-color: $btn_hover_gray;
+        }
+    }
+  }
   .main-title{
     color:$black;
     font-size: 18px;
@@ -453,6 +485,13 @@ button {
     .required{
       color:$red;
     }
+    .required-error{
+      position:absolute;
+      left: 15px;
+      top: 30px;
+      font-size: 12px;
+      color:$red;
+    }
     .form-control{
       border-radius:0px;
       color: $light_black;
@@ -475,6 +514,64 @@ button {
       //   width:190px;
       // }
     }
+    .react-datepicker-wrapper{
+      display:block;
+      .react-datepicker__input-container{
+        display:block;
+        input{
+            border-radius: 0px;
+            color: $light_black;
+            font-size: 13px;
+            height: 30px;
+            padding: 0px 15px;
+            line-height: 30px;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            width: 100%;
+            background: $white;
+            border: 1px solid $light_gray;
+             &:focus{
+        box-shadow:none;
+        outline: none;
+        border-color:$theme_color;
+      }
+        }
+      }
+    }
+    .css-yk16xz-control{
+      border-radius: 0px;
+      color: $light_black;
+      font-size: 13px;
+      min-height: 30px;
+      padding: 0px 8px;
+      // line-height: 30px;
+       border: 1px solid $light_gray;
+       box-shadow:none;
+       .css-1hwfws3{
+         padding:0px 8px;
+       }
+    }
+    .css-1rhbuit-multiValue{
+      line-height:normal;
+    }
+    .css-tlfecz-indicatorContainer, .css-1gtu0rj-indicatorContainer{
+      padding:4px;
+    }
+    .css-1pahdxg-control{
+      border-radius: 0px;
+      color: $light_black;
+      font-size: 13px;
+      min-height: 30px;
+      padding: 0px 8px;
+      // line-height: 30px;
+       border: 1px solid $light_gray;
+       box-shadow:none;
+       .css-1hwfws3{
+        padding:0px 8px;
+       }
+    }
     
   }
   .btn-sumbit{
@@ -487,6 +584,12 @@ button {
 }
 
 .table{
+
+&.table-bordered{
+  th, td{
+   border: 1px solid $table_border; 
+  }
+}
   .thead-bg{
     background:$th_bg;
   }
@@ -641,15 +744,53 @@ button {
   .nav-item{
     list-style: none;
   }
+  .dropdown{
+    background: $profile_bg;
+    height: 55px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+  .dropdown-menu{
+    &:after{
+      content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -8px;
+    right: 5px;
+    box-sizing: border-box;
+    border: 5px solid $black;
+    border-color: transparent transparent $white $white;
+    -webkit-transform-origin: 0 50%;
+    transform-origin: 0 50%;
+    -webkit-transform: rotate(135Deg);
+    transform: rotate(135Deg);
+   
+    background-color: $white;
+    }
+  }
   
   .profile-button{
     color: $light_black;
   }
   .user-name{
     display: inline-block;
-    font-size: 20px;
+    font-size: 18px;
     color: $light_black;
     text-align: center;
+    width: 30px;
+    height: 30px;
+    line-height:26px;
+    background: $white;
+    border-radius: 50%;
+    border: 1px solid $user_icon_border;
+    color:$user_text;
+  }
+  .user-box{
+    &:hover{
+      background-color: $transparent;
+    }
   }
 }
 

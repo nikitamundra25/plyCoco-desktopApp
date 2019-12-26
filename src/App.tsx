@@ -10,7 +10,7 @@ import './App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import FullPageLoader from './containers/Loader/FullPageLoader';
 // import AppRouter from './routes';
-import { Login } from './Pages';
+import { Login } from './pages';
 
 const AppRoutesComponent = React.lazy(() => import('./routes'));
 const DefaultLayout = React.lazy(() =>

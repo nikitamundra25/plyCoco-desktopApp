@@ -7,6 +7,6 @@ import ApolloClient from 'apollo-boost';
 //   link,
 // });
 
-export const client = new ApolloClient({
+export const client: any = new ApolloClient({
   uri: 'http://192.168.2.138:3005/graphql',
 });

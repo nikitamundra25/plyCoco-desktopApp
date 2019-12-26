@@ -11,8 +11,30 @@ import {
   Row,
   Form
 } from "reactstrap";
+import Select from "react-select";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Status, State, Department, Region, City } from "../../config";
 
-class EditEmployee extends Component {
+class EditEmployee extends Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      // startDate: ""
+      error: false
+    };
+  }
+
+  handleChange = (date: any) => {
+    this.setState({
+      startDate: date
+    });
+  };
+  onFocus = () => {
+    this.setState({
+      error: true
+    });
+  };
   render() {
     return (
       <>
@@ -53,11 +75,23 @@ class EditEmployee extends Component {
                                   type="text"
                                   name={"firstName"}
                                   placeholder="First Name"
+                                  onChange={() =>
+                                    this.setState({ error: false })
+                                  }
                                   className="width-common"
+                                  onFocus={this.onFocus}
                                 />
+                                {this.state.error ? (
+                                  <div className="required-error">
+                                    Please Enter First Name
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
                               </Col>
-                              <Col>
-                                <Label className="form-label col-form-label ">
+
+                              <Col className="label-width">
+                                <Label className="form-label col-form-label">
                                   Surname<span className="required">*</span>
                                 </Label>
                               </Col>
@@ -89,9 +123,9 @@ class EditEmployee extends Component {
                                   placeholder=" Email"
                                 />
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
-                                  Employee UserName
+                                  UserName
                                   <span className="required">*</span>
                                 </Label>
                               </Col>
@@ -212,8 +246,8 @@ class EditEmployee extends Component {
                                   className="width-common"
                                 />
                               </Col>
-                              <Col>
-                                <Label className="form-label col-form-label ">
+                              <Col className="label-width">
+                                <Label className="form-label col-form-label">
                                   Bank Address
                                 </Label>
                               </Col>
@@ -248,7 +282,7 @@ class EditEmployee extends Component {
                                   className="width-common"
                                 />
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   IFSC
                                 </Label>
@@ -287,21 +321,13 @@ class EditEmployee extends Component {
                                   className="width-common"
                                 />
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   Status
                                 </Label>
                               </Col>
                               <Col>
-                                <Input
-                                  type="select"
-                                  name="Status"
-                                  placeholder=" Select Status"
-                                  className="width-common"
-                                >
-                                  <option value={"true"}> Active</option>
-                                  <option value={"false"}> Disable</option>
-                                </Input>
+                                <Select placeholder="Status" options={Status} />
                               </Col>
                             </Row>
                           </Col>
@@ -327,40 +353,25 @@ class EditEmployee extends Component {
                           <Col sm="9">
                             <Row>
                               <Col>
-                                <Input
-                                  type="select"
-                                  name="department"
-                                  id="department"
-                                  multiple
-                                  className="height-auto"
-                                >
-                                  <option>Sales</option>
-                                  <option>Marketing</option>
-                                  <option>HR</option>
-                                  <option>Development</option>
-                                  <option>Designing</option>
-                                </Input>
+                                <Select
+                                  // value={this.state.selectedOption}
+                                  placeholder="Department"
+                                  isMulti
+                                  options={Department}
+                                />
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   Region<span className="required">*</span>
                                 </Label>
                               </Col>
                               <Col>
-                                <Input
-                                  type="select"
-                                  name="region"
-                                  id="region"
-                                  multiple
-                                  className="height-auto"
-                                >
-                                  <option>Central Germany</option>
-                                  <option>Cologne</option>
-                                  <option>Frankfurt</option>
-                                  <option>Northern Germany</option>
-                                  <option>Lower Saxony</option>
-                                  <option>Munich</option>
-                                </Input>
+                                <Select
+                                  // value={this.state.selectedOption}
+                                  placeholder="Region"
+                                  isMulti
+                                  options={Region}
+                                />
                               </Col>
                             </Row>
                           </Col>
@@ -393,7 +404,7 @@ class EditEmployee extends Component {
                                   className="height-auto width-common"
                                 />
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   Address 2
                                 </Label>
@@ -410,42 +421,6 @@ class EditEmployee extends Component {
                           </Col>
                         </Row>
                       </FormGroup>
-                      {/* <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Address 2
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Input
-                              type="text"
-                              name={"address2"}
-                              placeholder=" Address"
-                            />
-                          </Col>
-                        </Row>
-                      </FormGroup> */}
-
-                      {/* <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              State
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Input type="select" name="state" id="region">
-                              <option>---Select State---</option>
-                              <option>Madhya Pradesh</option>
-                              <option>Uttar Pradesh</option>
-                              <option>Bihar</option>
-                              <option>Punjab</option>
-                              <option>Gujrat</option>
-                            </Input>
-                          </Col>
-                        </Row>
-                      </FormGroup> */}
                       <FormGroup>
                         <Row>
                           <Col sm="3">
@@ -464,25 +439,17 @@ class EditEmployee extends Component {
                                 />
                               </Col>
 
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   State
                                 </Label>
                               </Col>
                               <Col>
-                                <Input
-                                  type="select"
-                                  name="state"
-                                  id="region"
-                                  className="width-common"
-                                >
-                                  <option>---Select State---</option>
-                                  <option>Thuringia</option>
-                                  <option>Bavaria</option>
-                                  <option> Hamburg</option>
-                                  <option>Saarland</option>
-                                  <option> Saxony</option>
-                                </Input>
+                                <Select
+                                  // value={this.state.selectedOption}
+                                  placeholder="State"
+                                  options={State}
+                                />
                               </Col>
                             </Row>
                           </Col>
@@ -515,21 +482,13 @@ class EditEmployee extends Component {
                           <Col sm="9">
                             <Row>
                               <Col>
-                                <Input
-                                  type="select"
-                                  name="city"
-                                  id="region"
-                                  className="width-common"
-                                >
-                                  <option>---Select City---</option>
-                                  <option> Dortmund</option>
-                                  <option>Bochum</option>
-                                  <option> Wiesbaden</option>
-                                  <option>Kiel</option>
-                                  <option>Berlin</option>
-                                </Input>
+                                <Select
+                                  // value={this.state.selectedOption}
+                                  placeholder="City"
+                                  options={City}
+                                />
                               </Col>
-                              <Col>
+                              <Col className="label-width">
                                 <Label className="form-label col-form-label ">
                                   Zip
                                 </Label>
@@ -615,11 +574,16 @@ class EditEmployee extends Component {
                             </Label>
                           </Col>
                           <Col sm="9">
-                            <Input
+                            <DatePicker
+                              placeholderText="Select Date"
+                              selected={this.state.startDate}
+                              onChange={this.handleChange}
+                            />
+                            {/* <Input
                               type="date"
                               name={"joiningDate"}
                               placeholder=" Joining Date"
-                            />
+                            /> */}
                           </Col>
                         </Row>
                       </FormGroup>
@@ -631,11 +595,7 @@ class EditEmployee extends Component {
                             </Label>
                           </Col>
                           <Col sm="9">
-                            <Input
-                              type="file"
-                              name={"image"}
-                              // placeholder=" Add Profile Image"
-                            />
+                            <Input type="file" name={"image"} />
                           </Col>
                         </Row>
                       </FormGroup>
@@ -649,7 +609,7 @@ class EditEmployee extends Component {
                           <Col sm="9">
                             <Input
                               type="textarea"
-                              name={"country"}
+                              name={"otherinformation"}
                               placeholder=" Any other information"
                               className="height-auto"
                             />

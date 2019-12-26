@@ -18,7 +18,7 @@ class DefaultHeader extends Component<any, any> {
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <div className="brand-logo">
           {/* <img src={logo} alt='logo' /> */}
-          <span className="logo-text">Plyoco</span>
+          <span className="logo-text">Plycoco</span>
         </div>
         <AppSidebarToggler className="d-md-down-none" display="lg" />
         <Nav className="ml-auto profile-dropdown" navbar>

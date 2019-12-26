@@ -9,7 +9,8 @@ import {
   Input,
   Col,
   Row,
-  Table
+  Table,
+  UncontrolledTooltip
 } from "reactstrap";
 import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
@@ -85,10 +86,16 @@ class Region extends Component<RouteComponentProps, any> {
                   <Col lg={"2"}>
                     <div className="label-height"></div>
                     <div className="filter-btn-wrap">
-                      <span className="btn-filter mr-2">
+                      <span className="btn-filter mr-2" id="search1">
+                        <UncontrolledTooltip placement="top" target="search1">
+                          Search
+                        </UncontrolledTooltip>
                         <i className="fa fa-search"></i>
                       </span>
-                      <span className="btn-filter mr-2">
+                      <span className="btn-filter mr-2" id="reset">
+                        <UncontrolledTooltip placement="top" target="reset">
+                          Reset
+                        </UncontrolledTooltip>
                         <i className="fa fa-refresh "></i>
                       </span>
                     </div>

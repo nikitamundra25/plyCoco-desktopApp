@@ -169,14 +169,9 @@ class Employee extends Component<RouteComponentProps, any> {
                     <td>
                       <div
                         className="action-btn"
-                        id="UncontrolledTooltipExample"
+                        
                       >
-                        <UncontrolledTooltip
-                          placement="right"
-                          target="UncontrolledTooltipExample"
-                        >
-                          Edit
-                        </UncontrolledTooltip>
+                        
                         <span className="btn-icon mr-2">
                           <i className="fa fa-pencil"></i>
                         </span>

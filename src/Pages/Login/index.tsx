@@ -3,7 +3,6 @@ import {
   Button,
   FormGroup,
   Card,
-  CardHeader, 
   Label,
   CardBody,
    CardGroup,
@@ -11,7 +10,8 @@ Container,
   Input,
   Col,
   Row,
-  Form
+  Form,
+  InputGroup, InputGroupAddon, InputGroupText
 } from "reactstrap";
 import { AppRoutes } from '../../config';
 import { ILoginProps, ILoginState } from '../../interfaces';
@@ -65,20 +65,51 @@ class Login extends Component<any, ILoginState> {
         <div className="auth-bg"></div>
         <Container>
           <Row className="justify-content-center">
-            <Col md="5">
+            <Col md="12">
               <div className="logo">
                 <img src={""} alt="" />
               </div>
               <CardGroup>
-                <Card className="login-card">
+                <Card className="login-card p-4">
                   
-                  <CardBody>
+                  <CardBody className="px-4 py-0">
                     <Form onSubmit={this.handleSubmit} className="form-section">
+                      <h1 className="auth-title text-center">Sign In</h1>
                       <p className="sub-title text-center">
-                        Sign In to your account
+                        To Your Account
                       </p>
 
-                      <FormGroup row>
+                      <FormGroup>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>  <i className='icon-user' /></InputGroupText>
+                        </InputGroupAddon>
+                          <Input
+                            type={"text"}
+                            name={"email"}
+                            placeholder={"Email"}
+                            onChange={this.handleChange}
+                            value={email}
+                          />
+                      </InputGroup>
+                      </FormGroup>
+
+                      <FormGroup>
+                        <InputGroup>
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText>  <i className='icon-lock' /></InputGroupText>
+                          </InputGroupAddon>
+                          <Input
+                            type={"password"}
+                            name={"password"}
+                            placeholder={"Enter password"}
+                            onChange={this.handleChange}
+                            value={password}
+                          />
+                        </InputGroup>
+                      </FormGroup>
+
+                      {/* <FormGroup row>
                         <Label for="exampleEmail" md={3}>
                           Email<span className="required"> *</span>
                         </Label>
@@ -105,7 +136,7 @@ class Login extends Component<any, ILoginState> {
                             value={password}
                           />
                         </Col>
-                      </FormGroup>
+                      </FormGroup> */}
 
                       {/* <Form.Group className='position-relative mb-4'>
                         <InputGroup>
@@ -148,14 +179,15 @@ class Login extends Component<any, ILoginState> {
                         </div>
                       </Form.Group> */}
                       <Row>
-                        <Col md="3"></Col>
-                        <Col md="9">
+                        
+                        <Col md="8" className="mx-auto">
                           <Button
                             type={"submit"}
                             color="link"
+                            block
                             className="px-4 login-btn"
                           >
-                            Login
+                            Sign In
                           </Button>
                         </Col>
                         {/* <Col xs="6" className="text-right">

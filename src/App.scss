@@ -246,18 +246,60 @@ body {
 
 
 // new css
-.login-card{
-  .card-header{
-    font-size: 22px;
-    font-weight: 600;
-    padding: 10px 20px;
-    color:$black;
+.auth-page{
+  position: relative;
+  .auth-bg{
+    background:$theme_color;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
   }
+  .logo{
+    width:200px;
+    margin-bottom:16px;
+    img {
+      max-width:100%;
+      height:auto;
+    }
+  }
+  .card-group {
+    width: 530px;
+    margin: 0 auto;
+  }
+  .login-card{
   .card-body{
+    .auth-title{
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: $black;
+      font-size: 28px;
+    }
     .sub-title{
-      font-size: 16px;
+      font-size: 15px;
       color:$gray_color;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
+    }
+    .form-group {
+        margin-bottom: 24px;
+        .form-control {
+          height:35px;
+        }
+    }
+    .input-group-prepend {
+        border: 1px solid $light_gray;
+        //  border-color: $light_gray;
+        background: $white;
+        margin-left: 1px;
+        border-right: 0;
+    }
+    .input-group-text {
+        background: $white;
+        border: 0px;
+        border-radius: 0;
+        color:$black;
     }
     .login-btn{
       color:$white;
@@ -266,15 +308,20 @@ body {
       font-size: 14px;
       line-height: 20px;
       font-weight: 600;
+      padding: 10px 24px;
+      text-align: center;
       &:hover , &:focus{
         color:$white;
-        background: $theme_color;
-        border-color: $theme_color;
+        background: $theme_color_hover;
+        border-color: $theme_color_hover;
         text-decoration:none;
       }
     }
   }
 }
+  
+}
+
 .sidebar {
     background: $theme_color;
     .nav-link {
@@ -483,9 +530,10 @@ body {
 .btn-primary{
     background:$theme_color;
     border-color: $theme_color;
-    &:focus, &:hover {
+    &:focus, &:hover, &:active {
       background:$theme_color_hover;
       border-color: $theme_color_hover;
+      box-shadow:none;
     }
 }
 .employee-details{
@@ -554,4 +602,5 @@ body {
 
 .breadcrumb {
       padding: 8px 16px;
+      border-bottom:0px;
 }

@@ -394,30 +394,31 @@ class AddEmployee extends Component {
                         <Row>
                           <Col sm="3">
                             <Label className="form-label col-form-label ">
-                              Address
+                              Address 1
                             </Label>
                           </Col>
                           <Col sm="9">
                             <Row>
                               <Col>
+                               
                                 <Input
-                                  type="text"
+                                  type="textarea"
                                   name={"address1"}
                                   placeholder=" Address 1"
-                                  className="width-common"
+                                  className="height-auto width-common"
                                 />
                               </Col>
                               <Col>
                                 <Label className="form-label col-form-label ">
-                                  Address 2<span className="required">*</span>
+                                  Address 2
                                 </Label>
                               </Col>
                               <Col>
                                 <Input
-                                  type="text"
+                                  type="textarea"
                                   name={"address2"}
                                   placeholder=" Address 2"
-                                  className="width-common"
+                                  className="height-auto width-common"
                                 />
                               </Col>
                             </Row>

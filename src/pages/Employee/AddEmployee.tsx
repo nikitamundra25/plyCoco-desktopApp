@@ -1,4 +1,4 @@
-import React, { Component } from "./node_modules/react";
+import React, { Component } from "react";
 import {
   Button,
   FormGroup,
@@ -13,8 +13,8 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
-import "./node_modules/react-datepicker/dist/react-datepicker.css";
-import { RouteComponentProps } from "./node_modules/react-router";
+import "react-datepicker/dist/react-datepicker.css";
+import { RouteComponentProps } from "react-router";
 import { Status, State, Department, Region, City } from "../../config";
 
 class AddEmployee extends Component<any,any> {

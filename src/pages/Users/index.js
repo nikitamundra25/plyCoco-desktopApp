@@ -1,4 +1,4 @@
-import React, { Component } from './node_modules/react';
+import React, { Component } from 'react';
 import {
   Table,
   Button,
@@ -9,12 +9,12 @@ import {
   CardHeader,
   UncontrolledTooltip,
 } from 'reactstrap';
-import { Query } from './node_modules/@apollo/react-components';
-import gql from './node_modules/graphql-tag';
+import { Query } from '@apollo/react-components';
+import gql from 'graphql-tag';
 // import PaginationHelper from '../../helpers/Pagination';
 import Adduser from './Adduser';
-import { Mutation } from './node_modules/@apollo/react-components';
-import { toast } from './node_modules/react-toastify';
+import { Mutation } from '@apollo/react-components';
+import { toast } from 'react-toastify';
 import { ConfirmBox } from '../../helpers/SweetAlert';
 
 const GET_USERS = gql`

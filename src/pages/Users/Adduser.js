@@ -1,8 +1,8 @@
-import React, { Component } from './node_modules/react';
-import gql from './node_modules/graphql-tag';
+import React, { Component } from 'react';
+import gql from 'graphql-tag';
 import { Button, Form, FormGroup, Label, Input, Modal, ModalBody, ModalHeader } from 'reactstrap';
-import { Mutation } from './node_modules/@apollo/react-components';
-import { toast } from './node_modules/react-toastify';
+import { Mutation } from '@apollo/react-components';
+import { toast } from 'react-toastify';
 
 const ADD_USER = gql`
   mutation AddUser($firstName: String!, $lastName: String, $email: String) {

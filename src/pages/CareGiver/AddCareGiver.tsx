@@ -20,23 +20,37 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
+
 import {
   Status,
   State,
   Department,
   Region,
   City,
-  Salutation
+  Salutation,
+  LegalForm,
+  Country
 } from "../../config";
 
-class AddCareGiver extends Component<any, any> {
+class AddCareGiver extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      // startDate: ""
+      activeTab: "1",
       error: false
     };
   }
+
+  onToggle = (tab: any) => {
+    const { activeTab } = this.state;
+    console.log("activeTab value", activeTab);
+    console.log("tab value is", tab);
+    if (activeTab !== tab) {
+      this.setState({
+        activeTab: tab.toString()
+      });
+    }
+  };
 
   handleChange = (date: any) => {
     this.setState({
@@ -50,6 +64,9 @@ class AddCareGiver extends Component<any, any> {
   };
 
   render() {
+    const { activeTab } = this.state;
+    console.log("active tab in render is", activeTab);
+
     return (
       <>
         <Row>
@@ -65,25 +82,372 @@ class AddCareGiver extends Component<any, any> {
                 <div className="caregiver-form-section">
                   <Nav tabs>
                     <NavItem>
-                      <NavLink>Personal Information</NavLink>
+                      <NavLink
+                        className={{ active: activeTab === "1" }}
+                        onClick={() => this.onToggle(1)}
+                      >
+                        Personal Information
+                      </NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink>Qualification Attributes</NavLink>
+                      <NavLink
+                        className={{ active: activeTab === "2" }}
+                        onClick={() => this.onToggle(2)}
+                      >
+                        Qualification Attributes
+                      </NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink>Billing Settings</NavLink>
+                      <NavLink
+                        className={{ active: activeTab === "3" }}
+                        onClick={() => this.onToggle(3)}
+                      >
+                        Billing Settings
+                      </NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink>Leasing Personal Data</NavLink>
+                      <NavLink
+                        className={{ active: activeTab === "4" }}
+                        onClick={() => this.onToggle(4)}
+                      >
+                        Leasing Personal Data
+                      </NavLink>
                     </NavItem>
                   </Nav>
-                  <TabContent>
+                  <TabContent activeTab={activeTab}>
                     <TabPane tabId="1">
-                      <Row>
-                        <Col sm="12">
-                          <h4>Tab 1 Contents</h4>
-                        </Col>
-                      </Row>
+                      <div>
+                        <Row>
+                          <Col xs={"12"} lg={"8"} className="mx-auto">
+                            <Form className="form-section">
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Salutation
+                                      <span className="required">*</span>
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Row>
+                                      <Col>
+                                        <Select
+                                          placeholder="Salutation"
+                                          options={Salutation}
+                                        />
+                                      </Col>
+                                      <Col className="label-width">
+                                        <Label className="form-label col-form-label">
+                                          First Given Name
+                                          <span className="required">*</span>
+                                        </Label>
+                                      </Col>
+                                      <Col>
+                                        <Input
+                                          type="text"
+                                          name={"firstGivenName"}
+                                          placeholder="First Given Name"
+                                          className="width-common"
+                                        />
+                                      </Col>
+
+                                      <Col className="label-width">
+                                        <Label className="form-label col-form-label">
+                                          Surname
+                                          <span className="required">*</span>
+                                        </Label>
+                                      </Col>
+                                      <Col>
+                                        <Input
+                                          type="text"
+                                          name={"lastName"}
+                                          placeholder="Surname"
+                                          className="width-common"
+                                        />
+                                      </Col>
+                                    </Row>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                              <Row>
+                                <Col sm="3"></Col>
+                                <Col sm="9">
+                                  <h5 className="main-title mb-4">Address</h5>
+                                </Col>
+                              </Row>
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Street
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Row>
+                                      <Col>
+                                        <Input
+                                          type="text"
+                                          name={"street"}
+                                          placeholder=" Street"
+                                          className="height-auto width-common"
+                                        />
+                                      </Col>
+                                      <Col className="label-width">
+                                        <Label className="form-label col-form-label ">
+                                          City
+                                        </Label>
+                                      </Col>
+                                      <Col>
+                                        <Input
+                                          type="text"
+                                          name={"city"}
+                                          placeholder=" City"
+                                          className="height-auto width-common"
+                                        />
+                                      </Col>
+                                      <Col className="label-width">
+                                        <Label className="form-label col-form-label ">
+                                          Post Code
+                                        </Label>
+                                      </Col>
+                                      <Col>
+                                        <Input
+                                          type="text"
+                                          name={"postCode"}
+                                          placeholder="Post Code"
+                                          className="height-auto width-common"
+                                        />
+                                      </Col>
+                                    </Row>
+                                    <Row>
+                                      <Col className="label-width">
+                                        <Label className="form-label col-form-label ">
+                                          Region/State
+                                        </Label>
+                                      </Col>
+                                      <Col>
+                                        <Select
+                                          placeholder="Region/State"
+                                          options={State}
+                                        />
+                                      </Col>
+                                    </Row>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Country
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Row>
+                                      <Col>
+                                        <Select
+                                          // value={this.state.selectedOption}
+                                          placeholder="Select Country"
+                                          options={Country}
+                                        />
+                                      </Col>
+                                    </Row>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+
+                              <FormGroup>
+                                <Row>
+                                  <Col>
+                                    <Row>
+                                      <Col sm="3">
+                                        <Label className="form-label col-form-label ">
+                                          Date of Birth
+                                        </Label>
+                                      </Col>
+                                      <Col sm="9">
+                                        <DatePicker
+                                          placeholderText="Select Date"
+                                          selected={this.state.startDate}
+                                          onChange={this.handleChange}
+                                        />
+                                      </Col>
+                                    </Row>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Phone
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Row>
+                                      <Col>
+                                        <Input
+                                          type="text"
+                                          name={"phone"}
+                                          placeholder=" Phone Number"
+                                          className="width-common"
+                                        />
+                                      </Col>
+                                      <Col className="label-width">
+                                        <Label className="form-label col-form-label ">
+                                          Fax
+                                        </Label>
+                                      </Col>
+                                      <Col>
+                                        <Input
+                                          type="text"
+                                          name={"fax"}
+                                          placeholder=" Fax"
+                                          className="width-common"
+                                        />
+                                      </Col>
+                                    </Row>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                              <FormGroup>
+                                <FormGroup>
+                                  <Row>
+                                    <Col sm="3">
+                                      <Label className="form-label col-form-label ">
+                                        Mobile Phone
+                                      </Label>
+                                    </Col>
+                                    <Col sm="9">
+                                      <Row>
+                                        <Col>
+                                          <Input
+                                            type="text"
+                                            name={"mobilePhone"}
+                                            placeholder="Mobile Phone"
+                                            className="width-common"
+                                          />
+                                        </Col>
+                                        <Col className="label-width">
+                                          <Label className="form-label col-form-label ">
+                                            Email address
+                                          </Label>
+                                        </Col>
+                                        <Col>
+                                          <Input
+                                            type="text"
+                                            name={"email"}
+                                            placeholder=" Email address"
+                                            className="width-common"
+                                          />
+                                        </Col>
+                                      </Row>
+                                    </Col>
+                                  </Row>
+                                </FormGroup>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Driver’s license
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Row>
+                                      <Col sm="3">
+                                        <div className="checkbox-custom">
+                                          <Input
+                                            type="checkbox"
+                                            name="yes"
+                                            id="yes"
+                                          />
+                                          <Label for="yes" check>
+                                            Yes
+                                          </Label>
+                                        </div>
+                                      </Col>
+                                      <Col sm="3">
+                                        <div className="checkbox-custom">
+                                          <Input
+                                            type="checkbox"
+                                            name="no"
+                                            id="no"
+                                          />
+                                          <Label for="no" check>
+                                            No
+                                          </Label>
+                                        </div>
+                                      </Col>
+                                    </Row>
+                                  </Col>
+                                  <Col>
+                                    <Label>Add Driver’s License Number</Label>
+                                  </Col>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Own vehicle available
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Row>
+                                      <Col sm="3">
+                                        <div className="checkbox-custom">
+                                          <Input
+                                            type="checkbox"
+                                            name="yes"
+                                            id="yes"
+                                          />
+                                          <Label for="yes" check>
+                                            Yes
+                                          </Label>
+                                        </div>
+                                      </Col>
+                                      <Col sm="3">
+                                        <div className="checkbox-custom">
+                                          <Input
+                                            type="checkbox"
+                                            name="no"
+                                            id="no"
+                                          />
+                                          <Label for="no" check>
+                                            No
+                                          </Label>
+                                        </div>
+                                      </Col>
+                                    </Row>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Legal Form
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Select
+                                      // value={this.state.selectedOption}
+                                      placeholder="Legal Form"
+                                      options={LegalForm}
+                                    />
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+
+                              <FormGroup></FormGroup>
+                              <div className={"text-right"}>
+                                <Button
+                                  color="primary"
+                                  type="submit"
+                                  className="btn-sumbit"
+                                >
+                                  Submit
+                                </Button>
+                              </div>
+                            </Form>
+                          </Col>
+                        </Row>
+                      </div>
                     </TabPane>
                     <TabPane tabId="2">
                       <Row>
@@ -92,7 +456,7 @@ class AddCareGiver extends Component<any, any> {
                         </Col>
                       </Row>
                     </TabPane>
-                    <TabPane tabId="2">
+                    <TabPane tabId="3">
                       <Row>
                         <Col sm="12">
                           <h4>Tab 3 Contents</h4>
@@ -108,380 +472,6 @@ class AddCareGiver extends Component<any, any> {
                     </TabPane>
                   </TabContent>
                 </div>
-                <Row>
-                  <Col xs={"12"} lg={"8"} className="mx-auto">
-                    <Form className="form-section">
-                      <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Salutation<span className="required">*</span>
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Row>
-                              <Col>
-                                <Select
-                                  placeholder="Salutation"
-                                  options={Salutation}
-                                />
-                              </Col>
-                              <Col className="label-width">
-                                <Label className="form-label col-form-label">
-                                  First Given Name
-                                  <span className="required">*</span>
-                                </Label>
-                              </Col>
-                              <Col>
-                                <Input
-                                  type="text"
-                                  name={"firstGivenName"}
-                                  placeholder="First Given Name"
-                                  className="width-common"
-                                />
-                              </Col>
-
-                              <Col className="label-width">
-                                <Label className="form-label col-form-label">
-                                  Surname<span className="required">*</span>
-                                </Label>
-                              </Col>
-                              <Col>
-                                <Input
-                                  type="text"
-                                  name={"lastName"}
-                                  placeholder="Surname"
-                                  className="width-common"
-                                />
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                      <Row>
-                        <Col sm="3"></Col>
-                        <Col sm="9">
-                          <h5 className="main-title mb-4">Address</h5>
-                        </Col>
-                      </Row>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Street
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Row>
-                              <Col>
-                                <Input
-                                  type="text"
-                                  name={"street"}
-                                  placeholder=" Street"
-                                  className="height-auto width-common"
-                                />
-                              </Col>
-                              <Col className="label-width">
-                                <Label className="form-label col-form-label ">
-                                  City
-                                </Label>
-                              </Col>
-                              <Col>
-                                <Input
-                                  type="text"
-                                  name={"city"}
-                                  placeholder=" City"
-                                  className="height-auto width-common"
-                                />
-                              </Col>
-                              <Col className="label-width">
-                                <Label className="form-label col-form-label ">
-                                  Post Code
-                                </Label>
-                              </Col>
-                              <Col>
-                                <Input
-                                  type="text"
-                                  name={"postCode"}
-                                  placeholder="Post Code"
-                                  className="height-auto width-common"
-                                />
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col className="label-width">
-                                <Label className="form-label col-form-label ">
-                                  Region/State
-                                </Label>
-                              </Col>
-                              <Col>
-                                <Select
-                                  placeholder="Region/State"
-                                  options={State}
-                                />
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Country
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Row>
-                              <Col>
-                                <Input
-                                  type="text"
-                                  name={"country"}
-                                  placeholder=" Country"
-                                  className="width-common"
-                                />
-                              </Col>
-
-                              <Col className="label-width">
-                                <Label className="form-label col-form-label ">
-                                  State
-                                </Label>
-                              </Col>
-                              <Col>
-                                <Select
-                                  // value={this.state.selectedOption}
-                                  placeholder="Select State"
-                                  options={State}
-                                />
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                      {/* <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Country
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Input
-                              type="text"
-                              name={"country"}
-                              placeholder=" Country"
-                            />
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                      <FormGroup> */}
-                      <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              City
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Row>
-                              <Col>
-                                <Select
-                                  // value={this.state.selectedOption}
-                                  placeholder="Select City"
-                                  options={City}
-                                />
-                              </Col>
-                              <Col className="label-width">
-                                <Label className="form-label col-form-label ">
-                                  Zip
-                                </Label>
-                              </Col>
-                              <Col>
-                                <Input
-                                  type="text"
-                                  name={"zip"}
-                                  placeholder=" Zip Code"
-                                  className="width-common"
-                                />
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Employee rights
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Row>
-                              <Col sm="3">
-                                <div className="checkbox-custom">
-                                  <Input
-                                    type="checkbox"
-                                    name="check1"
-                                    id="exampleCheck1"
-                                  />
-                                  <Label for="exampleCheck1" check>
-                                    Rights 1
-                                  </Label>
-                                </div>
-                              </Col>
-                              <Col sm="3">
-                                <div className="checkbox-custom">
-                                  <Input
-                                    type="checkbox"
-                                    name="check2"
-                                    id="exampleCheck2"
-                                  />
-                                  <Label for="exampleCheck2" check>
-                                    Rights 2
-                                  </Label>
-                                </div>
-                              </Col>
-                              <Col sm="3">
-                                <div className="checkbox-custom">
-                                  <Input
-                                    type="checkbox"
-                                    name="check3"
-                                    id="exampleCheck3"
-                                  />
-                                  <Label for="exampleCheck3" check>
-                                    Rights 3
-                                  </Label>
-                                </div>
-                              </Col>
-                              <Col sm="3">
-                                <div className="checkbox-custom">
-                                  <Input
-                                    type="checkbox"
-                                    name="check4"
-                                    id="exampleCheck4"
-                                  />
-                                  <Label for="exampleCheck4" check>
-                                    Rights 4
-                                  </Label>
-                                </div>
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Joining Date
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <DatePicker
-                              placeholderText="Select Date"
-                              selected={this.state.startDate}
-                              onChange={this.handleChange}
-                            />
-                            {/* <Input
-                              type="date"
-                              name={"joiningDate"}
-                              placeholder=" Joining Date"
-                            /> */}
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Add Profile image
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Input type="file" name={"image"} />
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Any other information
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Input
-                              type="textarea"
-                              name={"otherinformation"}
-                              placeholder=" Any other information"
-                              className="height-auto"
-                            />
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Email Address<span className="required">*</span>
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Row>
-                              <Col>
-                                <Input
-                                  type="text"
-                                  name={"email"}
-                                  placeholder=" Email"
-                                />
-                              </Col>
-                              <Col className="label-width">
-                                <Label className="form-label col-form-label ">
-                                  UserName
-                                  <span className="required">*</span>
-                                </Label>
-                              </Col>
-                              <Col>
-                                <Input
-                                  type="text"
-                                  name={"userName"}
-                                  placeholder=" UserName"
-                                />
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="3">
-                            <Label className="form-label col-form-label ">
-                              Telephone number
-                              <span className="required">*</span>
-                            </Label>
-                          </Col>
-                          <Col sm="9">
-                            <Input
-                              type="text"
-                              name={"telephoneNumber"}
-                              placeholder=" Telephone number"
-                            />
-                          </Col>
-                        </Row>
-                      </FormGroup>
-
-                      <div className={"text-right"}>
-                        <Button
-                          color="primary"
-                          type="submit"
-                          className="btn-sumbit"
-                        >
-                          Submit
-                        </Button>
-                      </div>
-                    </Form>
-                  </Col>
-                </Row>
               </CardBody>
             </Card>
           </Col>

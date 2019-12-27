@@ -36,3 +36,18 @@ export const Salutation =[
   { value: "Sir", label: "Sir" },
   { value: "Madam", label: "Madam" },
 ];
+export const Country = [
+  { value: "Denmark", label: "Denmark" },
+  { value: "Poland", label: "Poland" },
+  { value: "Czechia", label: "Czechia" },
+  { value: "France", label: "France" },
+  { value: "Luxembourg", label: "Luxembourg" },
+  { value: "Austria", label: "Austria" }
+];
+export const LegalForm =[
+  { value: "Individual", label: "Individual" },
+  { value: "UG", label: "UG" },
+  { value: "GmbH", label: "GmbH" },
+  { value: "Ltd.", label: "Ltd." },
+  { value: "GbR", label: "GbR" }
+]

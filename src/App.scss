@@ -583,6 +583,32 @@ button {
     font-size: 15px;
     min-width:160px;
     }
+    .file-img{
+      width: 100px;
+      display: inline-block;
+      margin-right: 15px;
+    }
+    .file-input-block{
+      display: inline-block;
+    }
+    .custom-file-input{
+      display:none;
+    }
+    .custom-file-label{
+      padding: 4px 20px;
+      background: $profile_bg;
+      color: $black;
+      border-radius: 4px;
+      width:115px;
+      cursor:pointer;
+      &:hover{
+        background: $user_text;
+        color: $black;
+      }
+      &:after{
+        display: none;
+      }
+    }
   
 }
 

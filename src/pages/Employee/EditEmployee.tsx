@@ -9,7 +9,8 @@ import {
   Input,
   Col,
   Row,
-  Form
+  Form,
+  CustomInput
 } from "reactstrap";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
@@ -637,7 +638,16 @@ class EditEmployee extends Component<any, any> {
                             </Label>
                           </Col>
                           <Col sm="9">
-                            <Input type="file" name={"image"} />
+                            <div>
+                              <div className="file-img">
+                                <img src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg" className="img-fluid" />
+                              </div>
+                              <div className="file-input-block">
+                                
+                                <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile" />
+                              </div>
+                            </div>
+                           
                           </Col>
                         </Row>
                       </FormGroup>

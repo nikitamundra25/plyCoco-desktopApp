@@ -658,6 +658,33 @@ body {
       display: none;
     }
   }
+  .custom-radio-block {
+    .custom-control-label {
+      font-weight: 600;
+    }
+    .custom-control-input {
+      &:checked {
+        & ~ {
+          .custom-control-label {
+            &:before {
+              color: $white;
+              border-color: $theme_color;
+              background-color: $theme_color;
+            }
+          }
+        }
+      }
+      &:focus {
+        & ~ {
+          .custom-control-label {
+            &:before {
+              box-shadow: 0 0 0 0.2rem rgba(255, 108, 0, 0.25);
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .table {

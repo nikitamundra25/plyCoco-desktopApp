@@ -1,5 +1,16 @@
 import React, { Component } from "react";
-import { Button, FormGroup, Label, Input, Col, Row, Card, CardHeader, CardBody, Form  } from "reactstrap";
+import {
+  Button,
+  FormGroup,
+  Label,
+  Input,
+  Col,
+  Row,
+  Card,
+  CardHeader,
+  CardBody,
+  Form
+} from "reactstrap";
 
 class AddRegion extends Component {
   render() {

@@ -10,6 +10,10 @@ import {
   Col,
   Row,
   Table,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
   UncontrolledTooltip
 } from "reactstrap";
 import { AppRoutes } from "../../config";
@@ -105,7 +109,30 @@ class Region extends Component<RouteComponentProps, any> {
               <Table bordered hover responsive>
                 <thead className="thead-bg">
                   <tr>
-                    <th>S.No</th>
+                    <th>
+                      <div className="table-checkbox-wrap">
+                        <div className="btn-group btn-check-action-wrap">
+                          <span className="btn">
+                            <span className="checkboxli checkbox-custom checkbox-default">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                className=""
+                              />
+                              <label className=""></label>
+                            </span>
+                          </span>
+                          <UncontrolledDropdown className="custom-dropdown">
+                            <DropdownToggle caret color="link" />
+                            <DropdownMenu>
+                              <DropdownItem>Delete</DropdownItem>
+                              <DropdownItem>Active</DropdownItem>
+                              <DropdownItem>Disable</DropdownItem>
+                            </DropdownMenu>
+                          </UncontrolledDropdown>
+                        </div>
+                      </div>
+                    </th>
                     <th>Region Name</th>
                     <th className="text-center">Number of Canstitution</th>
                     <th className="text-center">Number of Care Givers</th>
@@ -117,7 +144,23 @@ class Region extends Component<RouteComponentProps, any> {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>1</td>
+                    <td>
+                      <div className="table-checkbox-wrap">
+                        <div className="btn-group btn-check-action-wrap">
+                          <span className="btn">
+                            <span className="checkboxli checkbox-custom checkbox-default">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                className=""
+                              />
+                              <label className=""></label>
+                            </span>
+                          </span>
+                          <span className="checkbox-no">1</span>
+                        </div>
+                      </div>
+                    </td>
                     <td>Northeast</td>
                     <td className="text-center">5</td>
                     <td className="text-center">20</td>

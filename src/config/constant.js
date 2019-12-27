@@ -32,3 +32,7 @@ export const City = [
   { value: "LowerSaxony", label: "Lower Saxony" },
   { value: "Berlin", label: "Berlin" }
 ];
+export const Salutation =[
+  { value: "Sir", label: "Sir" },
+  { value: "Madam", label: "Madam" },
+];

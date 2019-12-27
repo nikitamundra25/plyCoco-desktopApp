@@ -15,6 +15,21 @@ export default {
       name: "Region",
       icon: "fa fa-sitemap",
       url: AppRoutes.REGION
+    },
+    {
+      name: "Caregiver",
+      icon: "fa fa-sitemap",
+      url: AppRoutes.CARE_GIVER
+    },
+    {
+      name: "Region",
+      icon: "fa fa-sitemap",
+      url: AppRoutes.REGION
+    },
+    {
+      name: "Region",
+      icon: "fa fa-sitemap",
+      url: AppRoutes.REGION
     }
   ]
 };

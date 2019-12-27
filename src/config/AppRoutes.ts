@@ -13,5 +13,10 @@ export const AppRoutes:IAppRoutes = {
   DEPARTMENT:'/department',
   ADD_DEPARTMENT:'/department/add',
   REGION:'/region',
-  ADD_REGION:'/region/add'
+  ADD_REGION:'/region/add',
+  CARE_GIVER:'/caregiver',
+  ADD_CARE_GIVER:'/caregiver/add',
+  EDIT_CARE_GIVER:'/caregiver/edit',
+  VIEW_CARE_GIVER:'/caregiver/view',
+
 };

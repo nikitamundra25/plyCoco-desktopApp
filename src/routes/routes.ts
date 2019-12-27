@@ -12,6 +12,10 @@ const Department = React.lazy(() => import('../pages/Department'));
 const AddDepartment = React.lazy(() => import('../pages/Department/AddDepartment'));
 const Region = React.lazy(() => import('../pages/Region'));
 const AddRegion = React.lazy(() => import('../pages/Region/AddRegion'));
+const CareGiver = React.lazy(() => import('../pages/CareGiver'));
+const AddCareGiver = React.lazy(() => import('../pages/CareGiver/AddCareGiver'));
+const EditCareGiver = React.lazy(() => import('../pages/CareGiver/EditCareGiver'));
+const ViewCareGiver = React.lazy(() => import('../pages/CareGiver/ViewCareGiver'));
 
 const routes = [
   { path: AppRoutes.MAIN, exact: true, name: 'Home' },
@@ -80,6 +84,30 @@ const routes = [
     path: AppRoutes.ADD_REGION,
     name: 'Add Region',
     component: AddRegion,
+    exact: true,
+  },
+  {
+    path: AppRoutes.CARE_GIVER,
+    name: 'Care Giver',
+    component: CareGiver,
+    exact: true,
+  },
+  {
+    path: AppRoutes.ADD_CARE_GIVER,
+    name: 'Add Care Giver',
+    component: AddCareGiver,
+    exact: true,
+  },
+  {
+    path: AppRoutes.EDIT_CARE_GIVER,
+    name: 'Edit Care Giver',
+    component: EditCareGiver,
+    exact: true,
+  },
+  {
+    path: AppRoutes.VIEW_CARE_GIVER,
+    name: 'View Care Giver',
+    component: ViewCareGiver,
     exact: true,
   },
 ];

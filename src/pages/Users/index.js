@@ -92,10 +92,6 @@ class Users extends Component {
 
   render() {
     const {
-      isLoading,
-      totalCount,
-      limit,
-      selectedPage,
       setEditable,
       show,
       isEditable,

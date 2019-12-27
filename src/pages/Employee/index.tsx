@@ -269,7 +269,7 @@ class Employee extends Component<RouteComponentProps, any> {
                               <label className=""></label>
                             </span>
                           </span>
-                          <UncontrolledDropdown>
+                          <UncontrolledDropdown className="custom-dropdown">
                             <DropdownToggle caret color="link" />
                             <DropdownMenu>
                               <DropdownItem>Delete</DropdownItem>

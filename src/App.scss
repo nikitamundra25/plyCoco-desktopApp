@@ -339,7 +339,77 @@ body {
     }
   }
 }
+.app-header {
+  border-bottom: 1px solid $border_header;
+  .brand-logo {
+    min-width: 170px;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+.profile-dropdown {
+  .nav-item {
+    list-style: none;
+  }
+  .dropdown {
+    background: $profile_bg;
+    height: 55px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+  .dropdown-menu {
+    &:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: -8px;
+      right: 5px;
+      box-sizing: border-box;
+      border: 5px solid $black;
+      border-color: transparent transparent $white $white;
+      -webkit-transform-origin: 0 50%;
+      transform-origin: 0 50%;
+      -webkit-transform: rotate(135deg);
+      transform: rotate(135deg);
 
+      background-color: $white;
+    }
+  }
+
+  .profile-button {
+    color: $light_black;
+  }
+  .user-name {
+    display: inline-block;
+    font-size: 18px;
+    color: $light_black;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    line-height: 26px;
+    background: $white;
+    border-radius: 50%;
+    border: 1px solid $user_text;
+    color: $user_text;
+  }
+  .user-box {
+    &:hover {
+      background-color: $transparent;
+    }
+  }
+}
+.breadcrumb {
+  padding: 8px 16px;
+  border-bottom: 0px;
+  margin-bottom: 15px;
+  .breadcrumb-item {
+    font-size: 13px;
+  }
+}
 .sidebar {
   background: $theme_color;
   .nav-link {
@@ -600,10 +670,14 @@ body {
   .thead-bg {
     background: $th_bg;
   }
-  th {
-    border-bottom-width: 1px !important;
-    font-weight: 600;
+  thead {
+    th {
+      border-bottom-width: 1px !important;
+      font-weight: 600;
+      vertical-align: middle;
+    }
   }
+
   th,
   td {
     padding: 4px;
@@ -735,6 +809,23 @@ body {
     box-shadow: none !important;
   }
 }
+.custom-dropdown {
+  .dropdown-menu {
+    min-width: auto;
+    border-color: $table_border;
+    .dropdown-item {
+      padding: 4px 15px;
+      color: $light_black;
+      font-size: 13px;
+      transition: all 0.3s ease;
+      border-color: $table_border;
+      &:hover {
+        background: $btn_gray;
+        color: $light_black;
+      }
+    }
+  }
+}
 .employee-details {
   .employee-title {
     color: $black;
@@ -783,80 +874,6 @@ body {
     }
   }
 }
-
-.profile-dropdown {
-  .nav-item {
-    list-style: none;
-  }
-  .dropdown {
-    background: $profile_bg;
-    height: 55px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-  }
-  .dropdown-menu {
-    &:after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 0;
-      top: -8px;
-      right: 5px;
-      box-sizing: border-box;
-      border: 5px solid $black;
-      border-color: transparent transparent $white $white;
-      -webkit-transform-origin: 0 50%;
-      transform-origin: 0 50%;
-      -webkit-transform: rotate(135deg);
-      transform: rotate(135deg);
-
-      background-color: $white;
-    }
-  }
-
-  .profile-button {
-    color: $light_black;
-  }
-  .user-name {
-    display: inline-block;
-    font-size: 18px;
-    color: $light_black;
-    text-align: center;
-    width: 30px;
-    height: 30px;
-    line-height: 26px;
-    background: $white;
-    border-radius: 50%;
-    border: 1px solid $user_text;
-    color: $user_text;
-  }
-  .user-box {
-    &:hover {
-      background-color: $transparent;
-    }
-  }
-}
-
-.breadcrumb {
-  padding: 8px 16px;
-  border-bottom: 0px;
-  margin-bottom: 15px;
-  .breadcrumb-item {
-    font-size: 13px;
-  }
-}
-.app-header {
-  border-bottom: 1px solid $border_header;
-  .brand-logo {
-    min-width: 170px;
-    img {
-      width: 100%;
-      height: auto;
-    }
-  }
-}
-
 .caregiver-form-section {
   .custom-tabs {
     border: 0px;

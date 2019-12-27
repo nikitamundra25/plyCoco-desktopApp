@@ -109,7 +109,7 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 index % 2 === 0 ? "active" : "inactive"
               }`}
             >
-              {index % 2 === 0 ? "Active" : "Disable"}
+              {index % 2 === 0 ? "Active" : "Deactive"}
             </span>
           </td>
           <td>
@@ -163,7 +163,9 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 color={"primary"}
                 className={"pull-right"}
                 id={"add-new-pm-tooltip"}
-                onClick={() => this.props.history.push(AppRoutes.ADD_CARE_GIVER)}
+                onClick={() =>
+                  this.props.history.push(AppRoutes.ADD_CARE_GIVER)
+                }
               >
                 <i className={"fa fa-plus"} />
                 &nbsp; Add New Care Giver
@@ -241,8 +243,8 @@ class CareGiver extends Component<RouteComponentProps, any> {
                   <tr>
                     <th>S No.</th>
                     <th>Employee Information</th>
-                    <th >Department</th>
-                    <th >Region</th>
+                    <th>Department</th>
+                    <th>Region</th>
                     <th className="text-center">Assigned Canstitution</th>
                     <th className="text-center">Status</th>
                     <th className="text-center">Action</th>

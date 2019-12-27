@@ -205,7 +205,7 @@ class Employee extends Component<RouteComponentProps, any> {
                       </Input>
                     </FormGroup>
                   </Col>
-                  <Col lg={"2"}>
+                  {/* <Col lg={"2"}>
                     <FormGroup>
                       <Label for="Selectregion">Department:</Label>
                       <Input type="select" name="region" id="Selectregion">
@@ -216,7 +216,7 @@ class Employee extends Component<RouteComponentProps, any> {
                         <option>Designing</option>
                       </Input>
                     </FormGroup>
-                  </Col>
+                  </Col> */}
                   <Col lg={"2"}>
                     <div className="label-height"></div>
                     <div className="filter-btn-wrap">

@@ -70,9 +70,7 @@ button {
       letter-spacing: 1px;
       margin: 0;
       font-size: 24px;
-          font-weight: 300;
-      // padding-top: 11px;
-      // padding-bottom: 11px;
+      font-weight: 300;
     }
   }
   .min-height650 {
@@ -84,31 +82,11 @@ button {
   .footer {
     background: #f1f1f1;
   }
-  .label {
-    margin-bottom: 0rem;
-    font-weight: 600;
-    font-size: 14px;
-  }
-  .breadcrum-block {
-    .breadcrumb {
-      background-color: transparent;
-      border-radius: 0px;
-      padding: 0px;
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
-  }
-  .filter-block {
-    padding: 7px 0;
-    margin-bottom: 15px;
-    border-radius: 0.25rem;
-  }
-  .badge {
-    text-transform: capitalize;
-  }
-  .form-control {
-    border-color: #dddddd;
-  }
+ 
+  
+ 
+  
+ 
   .card {
         border: 1px solid $card_border;
     .card-header {
@@ -406,7 +384,7 @@ button {
     }
     
     .sidebar-minimizer {
-        background-color: $hover_blue;
+        background-color: $theme_color_hover;
         &:before{
             background-image: url(assets/img/left-arrow.svg);
         }
@@ -748,10 +726,11 @@ button {
   .status-btn{
     background:$active_green;
     color:$white;
-    padding:3px 10px;
-    font-size:13px;
+    padding:2px 10px;
+    font-size:12px;
     border-radius: 4px;
     display: inline-block;
+    font-weight: 600;
   }
   .user-item{
     margin-bottom: 6px;
@@ -819,7 +798,7 @@ button {
     line-height:26px;
     background: $white;
     border-radius: 50%;
-    border: 1px solid $user_icon_border;
+    border: 1px solid $user_text;
     color:$user_text;
   }
   .user-box{

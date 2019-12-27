@@ -63,18 +63,30 @@ class AddCareGiver extends Component<any, any> {
               </CardHeader>
               <CardBody>
                 <div className="caregiver-form-section">
-                  <Nav tabs>
+                  <Nav tabs className="custom-tabs">
                     <NavItem>
-                      <NavLink>Personal Information</NavLink>
+                      <NavLink>
+                        <span></span>
+                        <span>Personal Information</span>
+                      </NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink>Qualification Attributes</NavLink>
+                      <NavLink>
+                        <span></span>
+                        <span>Qualification Attributes</span>
+                      </NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink>Billing Settings</NavLink>
+                      <NavLink>
+                        <span></span>
+                        <span>Billing Settings</span>
+                      </NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink>Leasing Personal Data</NavLink>
+                      <NavLink>
+                        <span></span>
+                        <span>Leasing Personal Data</span>
+                      </NavLink>
                     </NavItem>
                   </Nav>
                   <TabContent>

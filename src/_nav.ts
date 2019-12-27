@@ -1,4 +1,4 @@
-import { AppRoutes } from './config';
+import { AppRoutes } from "./config";
 export default {
   items: [
     {
@@ -18,9 +18,10 @@ export default {
     },
     {
       name: "Care Givers ",
-      icon: "fa fa-sitemap",
+      icon: "fa fa-h-square",
       url: AppRoutes.CARE_GIVER
     },
+
     {
       name: "Canstitutions",
       icon: "fa fa-sitemap",
@@ -28,27 +29,22 @@ export default {
     },
     {
       name: "Public Holiday Calendar",
-      icon: "fa fa-sitemap",
+      icon: "fa fa-calendar",
       url: AppRoutes.REGION
     },
     {
-       name: "Attributes ",
+      name: "Attributes ",
       icon: "fa fa-sitemap",
       url: AppRoutes.REGION
     },
     {
       name: "Documents Templates ",
-      icon: "fa fa-sitemap",
+      icon: "fa fa-file",
       url: AppRoutes.CARE_GIVER
     },
     {
       name: "Email Templates ",
-      icon: "fa fa-sitemap",
-      url: AppRoutes.REGION
-    },
-    {
-      name: "Public Holiday Calendar",
-      icon: "fa fa-sitemap",
+      icon: "fa fa-envelope",
       url: AppRoutes.REGION
     }
   ]

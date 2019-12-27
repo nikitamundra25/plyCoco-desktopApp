@@ -13,6 +13,11 @@ import {
   Row,
   Form,
   Table,
+  UncontrolledDropdown,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
   UncontrolledTooltip
 } from "reactstrap";
 import { AppRoutes } from "../../config";
@@ -23,7 +28,19 @@ class Employee extends Component<RouteComponentProps, any> {
     for (let index = 0; index < 10; index++) {
       tableData.push(
         <tr>
-          <td>{index + 1}</td>
+          <td>
+            <div className="table-checkbox-wrap">
+              <div className="btn-group btn-check-action-wrap">
+                <span className="btn">
+                  <span className="checkboxli checkbox-custom checkbox-default">
+                    <input type="checkbox" id="checkAll" className="" />
+                    <label className=""></label>
+                  </span>
+                </span>
+                <span className="checkbox-no">{index + 1}</span>
+              </div>
+            </div>
+          </td>
           <td>
             <div className="info-column">
               <div className="img-column">
@@ -239,10 +256,33 @@ class Employee extends Component<RouteComponentProps, any> {
               <Table bordered hover responsive>
                 <thead className="thead-bg">
                   <tr>
-                    <th>S No.</th>
+                    <th>
+                      <div className="table-checkbox-wrap">
+                        <div className="btn-group btn-check-action-wrap">
+                          <span className="btn">
+                            <span className="checkboxli checkbox-custom checkbox-default">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                className=""
+                              />
+                              <label className=""></label>
+                            </span>
+                          </span>
+                          <UncontrolledDropdown>
+                            <DropdownToggle caret color="link" />
+                            <DropdownMenu>
+                              <DropdownItem>Delete</DropdownItem>
+                              <DropdownItem>Active</DropdownItem>
+                              <DropdownItem>Disable</DropdownItem>
+                            </DropdownMenu>
+                          </UncontrolledDropdown>
+                        </div>
+                      </div>
+                    </th>
                     <th>Employee Information</th>
-                    <th >Department</th>
-                    <th >Region</th>
+                    <th>Department</th>
+                    <th>Region</th>
                     <th className="text-center">Assigned Canstitution</th>
                     <th className="text-center">Status</th>
                     <th className="text-center">Action</th>

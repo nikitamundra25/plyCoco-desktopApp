@@ -17,17 +17,37 @@ export default {
       url: AppRoutes.REGION
     },
     {
-      name: "Caregiver",
+      name: "Care Givers ",
       icon: "fa fa-sitemap",
       url: AppRoutes.CARE_GIVER
     },
     {
-      name: "Region",
+      name: "Canstitutions",
       icon: "fa fa-sitemap",
       url: AppRoutes.REGION
     },
     {
-      name: "Region",
+      name: "Public Holiday Calendar",
+      icon: "fa fa-sitemap",
+      url: AppRoutes.REGION
+    },
+    {
+       name: "Attributes ",
+      icon: "fa fa-sitemap",
+      url: AppRoutes.REGION
+    },
+    {
+      name: "Documents Templates ",
+      icon: "fa fa-sitemap",
+      url: AppRoutes.CARE_GIVER
+    },
+    {
+      name: "Email Templates ",
+      icon: "fa fa-sitemap",
+      url: AppRoutes.REGION
+    },
+    {
+      name: "Public Holiday Calendar",
       icon: "fa fa-sitemap",
       url: AppRoutes.REGION
     }

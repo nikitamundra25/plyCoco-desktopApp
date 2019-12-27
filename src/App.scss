@@ -356,7 +356,13 @@ button {
         color:$white;
       }
     }
-     
+    &:hover {
+      color:$white;
+      background: $theme_color_hover;
+      .nav-icon {
+        color:$white;
+      }
+    } 
   }
   .sidebar-minimizer {
         // background-color: #046fc1;

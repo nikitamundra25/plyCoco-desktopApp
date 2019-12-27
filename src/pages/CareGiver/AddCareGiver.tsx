@@ -9,7 +9,12 @@ import {
   Input,
   Col,
   Row,
-  Form
+  Form,
+  Nav,
+  NavItem,
+  NavLink,
+  TabPane,
+  TabContent
 } from "reactstrap";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
@@ -57,6 +62,52 @@ class AddCareGiver extends Component<any, any> {
                 </h4>
               </CardHeader>
               <CardBody>
+                <div className="caregiver-form-section">
+                  <Nav tabs>
+                    <NavItem>
+                      <NavLink>Personal Information</NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink>Qualification Attributes</NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink>Billing Settings</NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink>Leasing Personal Data</NavLink>
+                    </NavItem>
+                  </Nav>
+                  <TabContent>
+                    <TabPane tabId="1">
+                      <Row>
+                        <Col sm="12">
+                          <h4>Tab 1 Contents</h4>
+                        </Col>
+                      </Row>
+                    </TabPane>
+                    <TabPane tabId="2">
+                      <Row>
+                        <Col sm="12">
+                          <h4>Tab 2 Contents</h4>
+                        </Col>
+                      </Row>
+                    </TabPane>
+                    <TabPane tabId="2">
+                      <Row>
+                        <Col sm="12">
+                          <h4>Tab 3 Contents</h4>
+                        </Col>
+                      </Row>
+                    </TabPane>
+                    <TabPane tabId="4">
+                      <Row>
+                        <Col sm="12">
+                          <h4>Tab 4 Contents</h4>
+                        </Col>
+                      </Row>
+                    </TabPane>
+                  </TabContent>
+                </div>
                 <Row>
                   <Col xs={"12"} lg={"8"} className="mx-auto">
                     <Form className="form-section">

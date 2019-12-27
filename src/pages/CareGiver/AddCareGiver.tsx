@@ -354,25 +354,22 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                                   <Col sm="9">
                                     <Row>
                                       <Col sm="3">
-                                        <div className="checkbox-custom">
-                                          <Input
-                                            type="checkbox"
-                                            name="yes"
-                                            id="yes"
-                                          />
-                                          <Label for="yes" check>
+                                        <div>
+                                          <Label>
+                                            <Input
+                                              id="yes"
+                                              type="radio"
+                                              name="driversLicense"
+                                            />
                                             Yes
                                           </Label>
-                                        </div>
-                                      </Col>
-                                      <Col sm="3">
-                                        <div className="checkbox-custom">
-                                          <Input
-                                            type="checkbox"
-                                            name="no"
-                                            id="no"
-                                          />
-                                          <Label for="no" check>
+                                          <br></br>
+                                          <Label>
+                                            <Input
+                                              id="no"
+                                              type="radio"
+                                              name="driversLicense"
+                                            />
                                             No
                                           </Label>
                                         </div>
@@ -381,6 +378,14 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                                   </Col>
                                   <Col>
                                     <Label>Add Driver’s License Number</Label>
+                                  </Col>
+                                  <Col>
+                                    <Input
+                                      type="text"
+                                      name="driverLicenseNumber"
+                                      placeholder="Driver’s License Number"
+                                      className="width-common"
+                                    />
                                   </Col>
                                   <Col sm="3">
                                     <Label className="form-label col-form-label ">
@@ -426,15 +431,131 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                                   </Col>
                                   <Col sm="9">
                                     <Select
-                                      // value={this.state.selectedOption}
                                       placeholder="Legal Form"
                                       options={LegalForm}
                                     />
                                   </Col>
                                 </Row>
                               </FormGroup>
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Company Name (Including GMBH, UG)
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Input
+                                      type="text"
+                                      name="companyName"
+                                      placeholder="Company Name"
+                                      className="width-common"
+                                    />
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Register Court
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Input
+                                      type="text"
+                                      name="registerCourt"
+                                      placeholder="Register Court"
+                                      className="width-common"
+                                    />
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Registration number
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Input
+                                      type="text"
+                                      name="registrationNumber"
+                                      placeholder="Registration number"
+                                      className="width-common"
+                                    />
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Executive Director
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Input
+                                      type="text"
+                                      name="executiveDirector"
+                                      placeholder="Executive Director"
+                                      className="width-common"
+                                    />
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col sm="5">
+                                    <Label className="form-label col-form-label ">
+                                      Employee subject to social security
+                                      contribution
+                                    </Label>
+                                  </Col>
+                                  <Col sm="7">
+                                    <Label>
+                                      <Input
+                                        id="yes"
+                                        type="radio"
+                                        name="socialSecurityContribution"
+                                      />
+                                      Yes
+                                    </Label>
+                                    <br></br>
+                                    <Label>
+                                      <Input
+                                        id="no"
+                                        type="radio"
+                                        name="socialSecurityContribution"
+                                      />
+                                      No
+                                    </Label>
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Tax Number
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Input
+                                      type="text"
+                                      name="taxNumber"
+                                      placeholder="Tax Number"
+                                      className="width-common"
+                                    />
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label ">
+                                      Working zones
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <Select
+                                      placeholder=" Working zones"
+                                      isMulti
+                                      options={Region}
+                                    />
+                                  </Col>
+                                </Row>
+                              </FormGroup>
 
-                              <FormGroup></FormGroup>
                               <div className={"text-right"}>
                                 <Button
                                   color="primary"
@@ -450,11 +571,9 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                       </div>
                     </TabPane>
                     <TabPane tabId="2">
-                      <Row>
-                        <Col sm="12">
-                          <h4>Tab 2 Contents</h4>
-                        </Col>
-                      </Row>
+                      <div>
+                        <h4>Tab 2 Contents</h4>
+                      </div>
                     </TabPane>
                     <TabPane tabId="3">
                       <Row>

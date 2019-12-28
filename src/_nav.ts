@@ -24,7 +24,7 @@ export default {
 
     {
       name: "Canstitutions",
-      icon: "fa fa-sitemap",
+      icon: "fa fa-building",
       url: AppRoutes.REGION
     },
     {
@@ -34,7 +34,7 @@ export default {
     },
     {
       name: "Attributes ",
-      icon: "fa fa-sitemap",
+      icon: "fa fa-list-ul",
       url: AppRoutes.REGION
     },
     {

@@ -444,28 +444,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                               </FormGroup>
                             </Col>
 
-                            <Col lg={"6"}>
-                              <FormGroup>
-                                <Row>
-                                  <Col sm="3">
-                                    <Label className="form-label col-form-label">
-                                      Register Court
-                                      <span className="required">*</span>
-                                    </Label>
-                                  </Col>
-                                  <Col sm="9">
-                                    <div>
-                                      <Input
-                                        type="text"
-                                        name="registerCourt"
-                                        placeholder="Register Court"
-                                        className="width-common"
-                                      />
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </FormGroup>
-                            </Col>
+                          
 
                             <Col lg={"6"}>
                               <FormGroup>
@@ -489,7 +468,28 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                 </Row>
                               </FormGroup>
                             </Col>
-
+                            <Col lg={"6"}>
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="3">
+                                    <Label className="form-label col-form-label">
+                                      Register Court
+                                      <span className="required">*</span>
+                                    </Label>
+                                  </Col>
+                                  <Col sm="9">
+                                    <div>
+                                      <Input
+                                        type="text"
+                                        name="registerCourt"
+                                        placeholder="Register Court"
+                                        className="width-common"
+                                      />
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                            </Col>
                             <Col lg={"6"}>
                               <FormGroup>
                                 <Row>
@@ -622,7 +622,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                   type="submit"
                                   className="btn-sumbit"
                                 >
-                                  Submit
+                                  Next Step
                                 </Button>
                               </div>
                             </Col>

@@ -15,13 +15,16 @@ import {
   NavLink,
   TabPane,
   TabContent,
-  CustomInput
+  CustomInput,
+  Breadcrumb,
+  BreadcrumbItem
 } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
 import PersonalInformation from "./PersonalInformation";
 import QualificationAttribute from "./QualificationAttribute";
 import BillingSettings from "./BillingSettings";
+import LeasingPersonalData from "./LeasingPersonalData";
 
 class EditCareGiver extends Component<RouteComponentProps, any> {
   constructor(props: any) {
@@ -60,11 +63,20 @@ class EditCareGiver extends Component<RouteComponentProps, any> {
         <Row>
           <Col xs={"12"} lg={"12"}>
             <Card>
-              <CardHeader>
-                <h4>
+              <CardHeader className="detail-card">
+                {/* <h4>
                   <i className="fa fa-users" />
                   <span className="ml-1">Add Care Giver</span>
-                </h4>
+                </h4> */}
+                <Breadcrumb className="w-100">
+                  <BreadcrumbItem>
+                    <a href="#">Home</a>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem>
+                    <a href="#">Caregiver</a>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem active>Edit Caregiver</BreadcrumbItem>
+                </Breadcrumb>
               </CardHeader>
               <CardBody>
                 <div className="caregiver-form-section">
@@ -74,7 +86,10 @@ class EditCareGiver extends Component<RouteComponentProps, any> {
                         className={{ active: activeTab === "1" }}
                         onClick={() => this.onToggle(1)}
                       >
-                        Personal Information
+                        <span className="icon">
+                          <i className="fa fa-id-card"></i>
+                        </span>
+                        <span>Personal Information</span>
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -82,7 +97,10 @@ class EditCareGiver extends Component<RouteComponentProps, any> {
                         className={{ active: activeTab === "2" }}
                         onClick={() => this.onToggle(2)}
                       >
-                        Qualification Attributes
+                        <span className="icon">
+                          <i className="fa fa-graduation-cap"></i>
+                        </span>
+                        <span>Qualification Attributes</span>
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -90,7 +108,10 @@ class EditCareGiver extends Component<RouteComponentProps, any> {
                         className={{ active: activeTab === "3" }}
                         onClick={() => this.onToggle(3)}
                       >
-                        Billing Settings
+                        <span className="icon">
+                          <i className="fa fa-credit-card"></i>
+                        </span>
+                        <span>Billing Settings</span>
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -98,7 +119,10 @@ class EditCareGiver extends Component<RouteComponentProps, any> {
                         className={{ active: activeTab === "4" }}
                         onClick={() => this.onToggle(4)}
                       >
-                        Leasing Personal Data
+                        <span className="icon">
+                          <i className="fa fa-id-card"></i>
+                        </span>
+                        <span>Leasing Personal Data</span>
                       </NavLink>
                     </NavItem>
                   </Nav>
@@ -120,9 +144,9 @@ class EditCareGiver extends Component<RouteComponentProps, any> {
                     </TabPane>
                     <TabPane tabId="4">
                       <Row>
-                        <Col sm="12">
-                          <h4>Tab 4 Contents</h4>
-                        </Col>
+                        <div>
+                          <LeasingPersonalData />
+                        </div>
                       </Row>
                     </TabPane>
                   </TabContent>

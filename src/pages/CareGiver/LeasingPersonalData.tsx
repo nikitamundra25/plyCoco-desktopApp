@@ -70,8 +70,10 @@ class LeasingPersonalData extends Component {
                   </Col>
                   <Col sm="9">
                     <div>
-                      <Select options={Nationality} 
-                      placeholder="Select Nationality"/>
+                      <Select
+                        options={Nationality}
+                        placeholder="Select Nationality"
+                      />
                     </div>
                   </Col>
                 </Row>
@@ -88,8 +90,10 @@ class LeasingPersonalData extends Component {
                   </Col>
                   <Col sm="9">
                     <div>
-                      <Select options={MaritalStatus}
-                      placeholder="Marital Status" />
+                      <Select
+                        options={MaritalStatus}
+                        placeholder="Marital Status"
+                      />
                     </div>
                   </Col>
                 </Row>
@@ -149,8 +153,10 @@ class LeasingPersonalData extends Component {
                   </Col>
                   <Col sm="9">
                     <div>
-                      <Select options={HealthInsuranceType}
-                      placeholder="Health Insurance Type" />
+                      <Select
+                        options={HealthInsuranceType}
+                        placeholder="Health Insurance Type"
+                      />
                     </div>
                   </Col>
                 </Row>
@@ -240,6 +246,25 @@ class LeasingPersonalData extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label">
+                      Tax Bracket
+                      <span className="required">*</span>
+                    </Label>
+                  </Col>
+                  <Col sm="9">
+                    <div>
+                      <Input
+                        type="text"
+                        name={"taxBracket"}
+                        placeholder="Tax Bracket"
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
+              <FormGroup>
+                <Row>
+                  <Col sm="3">
+                    <Label className="form-label col-form-label">
                       Preoccupation
                       <span className="required">*</span>
                     </Label>
@@ -260,7 +285,7 @@ class LeasingPersonalData extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label ">
-                    Payroll IBAN <span className="required">*</span>
+                      Payroll IBAN <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="9">
@@ -278,15 +303,13 @@ class LeasingPersonalData extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label ">
-                    Status
+                      Status
                       <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="9">
                     <div>
-                      <Select options={Status}
-                      placeholder="Status" />
-                      
+                      <Select options={Status} placeholder="Status" />
                     </div>
                   </Col>
                 </Row>

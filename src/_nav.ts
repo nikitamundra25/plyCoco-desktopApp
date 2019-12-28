@@ -24,27 +24,27 @@ export default {
 
     {
       name: "Canstitutions",
-      icon: "fa fa-sitemap",
-      // url: AppRoutes.REGION
+      icon: "fa fa-building"
+      //url: AppRoutes.REGION
     },
     {
       name: "Public Holiday Calendar",
-      icon: "fa fa-calendar",
+      icon: "fa fa-calendar"
       // url: AppRoutes.REGION
     },
     {
       name: "Attributes ",
-      icon: "fa fa-sitemap",
-      // url: AppRoutes.REGION
+      icon: "fa fa-list-ul"
+      //url: AppRoutes.REGION
     },
     {
       name: "Documents Templates ",
-      icon: "fa fa-file",
+      icon: "fa fa-file"
       // url: AppRoutes.CARE_GIVER
     },
     {
       name: "Email Templates ",
-      icon: "fa fa-envelope",
+      icon: "fa fa-envelope"
       // url: AppRoutes.REGION
     }
   ]

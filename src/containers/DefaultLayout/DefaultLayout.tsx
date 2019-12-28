@@ -1,10 +1,10 @@
-import React, { Component, Suspense } from 'react';
-import { Route, Switch, Redirect, RouteComponentProps } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
-import { AppRoutes } from '../../config';
-import routes from '../../routes/routes';
+import React, { Component, Suspense } from "react";
+import { Route, Switch, Redirect, RouteComponentProps } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import { AppRoutes } from "../../config";
+import routes from "../../routes/routes";
 // sidebar nav config
-import navigation from '../../_nav';
+import navigation from "../../_nav";
 import {
   AppBreadcrumb,
   AppFooter,
@@ -14,12 +14,12 @@ import {
   AppSidebarForm,
   AppSidebarHeader,
   AppSidebarMinimizer,
-  AppSidebarNav,
-} from '@coreui/react';
-import Loader from '../Loader/Loader';
+  AppSidebarNav
+} from "@coreui/react";
+import Loader from "../Loader/Loader";
 
-const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
-const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
+const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
+const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 
 class DefaultLayout extends Component<any, any> {
   timeInterval: any = null;
@@ -28,7 +28,7 @@ class DefaultLayout extends Component<any, any> {
     this.state = {
       isLoading: true,
       isAuthenticated: true,
-      userDetails: {},
+      userDetails: {}
     };
   }
 
@@ -40,14 +40,14 @@ class DefaultLayout extends Component<any, any> {
 
   render() {
     return (
-      <div className='app'>
+      <div className="app">
         <AppHeader fixed>
           <Suspense fallback={<Loader />}>
             <DefaultHeader {...this.props} />
           </Suspense>
         </AppHeader>
-        <div className='app-body'>
-          <AppSidebar fixed minimized  display='lg'>
+        <div className="app-body">
+          <AppSidebar fixed minimized display="lg">
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense fallback={<Loader />}>
@@ -56,8 +56,8 @@ class DefaultLayout extends Component<any, any> {
             <AppSidebarFooter />
             <AppSidebarMinimizer />
           </AppSidebar>
-          <main className='main'>
-            <AppBreadcrumb appRoutes={routes} />
+          <main className="main">
+            {/* <AppBreadcrumb appRoutes={routes} /> */}
             <Container fluid>
               <Suspense fallback={<Loader />}>
                 <Switch>

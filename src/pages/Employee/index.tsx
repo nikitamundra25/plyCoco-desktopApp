@@ -14,7 +14,6 @@ import {
   Form,
   Table,
   UncontrolledDropdown,
-  Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,

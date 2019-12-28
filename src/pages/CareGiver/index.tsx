@@ -49,7 +49,7 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 />
               </div>
               <div className="description-column">
-                <div className="info-title">John Doe</div>
+                <div className="info-title">Sir John Doe</div>
                 <p className="description-text">
                   <i className="fa fa-envelope mr-2"></i>
                   <span className="align-middle">john@gmail.com</span>
@@ -67,41 +67,32 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 <span className="text-label mr-1">
                   <i className="fa fa-angle-right"></i>
                 </span>
-                <span className="align-middle">Marketing</span>
+                <span className="align-middle">Care</span>
               </p>
               <p className="description-text ">
                 <span className="text-label mr-1">
                   <i className="fa fa-angle-right"></i>
                 </span>
-                <span className="align-middle">Sales</span>
+                <span className="align-middle">Anesthesia Assistance</span>
               </p>
               <p className="description-text ">
                 <span className="text-label mr-1">
                   <i className="fa fa-angle-right"></i>
                 </span>
-                <span className="align-middle">HR</span>
+                <span className="align-middle">Obstetrics</span>
               </p>
             </div>
           </td>
           <td>
-            <div className="description-column  ml-0">
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">Central Germany</span>
+            <div className="description-column">
+              <div className="info-title">Sir John Doe</div>
+              <p className="description-text">
+                <span className=" mr-2">Bank Name</span>
+                <span className="align-middle">john@gmail.com</span>
               </p>
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">Cologne</span>
-              </p>
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">Frankfurt</span>
+              <p className="description-text">
+                <i className="fa fa-phone mr-2"></i>
+                <span className="align-middle">564575678</span>
               </p>
             </div>
           </td>
@@ -172,8 +163,8 @@ class CareGiver extends Component<RouteComponentProps, any> {
           <Card>
             <CardHeader>
               <h4>
-                <i className="fa fa-users" />
-                <span className="ml-1">Employee</span>
+                <i className="fa fa-h-square" />
+                <span className="ml-1">CareGiver</span>
               </h4>
               <Button
                 color={"primary"}
@@ -281,10 +272,10 @@ class CareGiver extends Component<RouteComponentProps, any> {
                         </div>
                       </div>
                     </th>
-                    <th>Employee Information</th>
-                    <th>Department</th>
-                    <th>Region</th>
-                    <th className="text-center">Assigned Canstitution</th>
+                    <th>CareGiver Information</th>
+                    <th>Qualification</th>
+                    <th>Bank Information</th>
+                    <th className="text-center">Leasing Information</th>
                     <th className="text-center">Status</th>
                     <th className="text-center">Action</th>
                   </tr>

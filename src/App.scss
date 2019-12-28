@@ -93,7 +93,7 @@ body {
       align-items: center;
       justify-content: space-between;
       padding: 8px 20px;
-      background-color: $card_header_bg;
+      background-color: $white;
       border-bottom: 1px solid $card_header_border;
       h4 {
         margin: 0px;
@@ -102,6 +102,9 @@ body {
       }
       .btn {
         padding: 0.2rem 0.75rem;
+      }
+      &.detail-card {
+        padding: 6px 15px;
       }
     }
   }
@@ -403,11 +406,17 @@ body {
   }
 }
 .breadcrumb {
-  padding: 8px 16px;
-  border-bottom: 0px;
-  margin-bottom: 15px;
+  border: 1px solid rgba(224, 220, 220, 0.32);
+  padding: 8px 15px;
+  list-style: none;
+  background-color: $breadcrumb_bg;
+  border-radius: 4px;
+  margin-bottom: 0px;
   .breadcrumb-item {
     font-size: 13px;
+    &.active {
+      font-weight: 600;
+    }
   }
 }
 .sidebar {
@@ -468,11 +477,16 @@ body {
 }
 .main {
   .container-fluid {
-    padding: 0 15px;
+    padding: 15px 15px;
   }
 }
 .filter-form {
   margin-top: -10px;
+}
+.form-card {
+  background: #f4f4f4;
+  padding: 20px 20px;
+  margin-bottom: 20px;
 }
 .form-section {
   .label-height {
@@ -592,6 +606,9 @@ body {
         }
       }
     }
+    .custom-select-width {
+      width: 120px;
+    }
     .css-yk16xz-control {
       border-radius: 0px;
       color: $light_black;
@@ -602,7 +619,7 @@ body {
       border: 1px solid $light_gray;
       box-shadow: none;
       .css-1hwfws3 {
-        padding: 0px 8px;
+        padding: 0px 0px;
       }
     }
     .css-1rhbuit-multiValue {
@@ -622,7 +639,7 @@ body {
       border: 1px solid $light_gray;
       box-shadow: none;
       .css-1hwfws3 {
-        padding: 0px 8px;
+        padding: 0px 0px;
       }
     }
   }
@@ -903,22 +920,28 @@ body {
 }
 .caregiver-form-section {
   .custom-tabs {
-    border: 0px;
+    border-bottom: 1px solid $tab_border;
+    text-transform: capitalize;
+    margin-bottom: 1px;
     .nav-item {
-      margin-right: 20px;
       .nav-link {
-        padding: 4px 18px;
-        font-size: 13px;
-        background: $tab_bg;
-        border-color: $tab_bg;
-        color: $white;
         cursor: pointer;
-        border-radius: 5px;
-        &:hover {
-          background: $tab_bg_hover;
-          border-color: $tab_bg_hover;
-          color: $white;
+        border-radius: 4px;
+        padding: 6px 18px;
+        font-size: 14px;
+        border: 1px solid $white;
+        font-weight: 600;
+        border-bottom: $transparent;
+        .icon {
+          margin-right: 10px;
+        }
+        &:hover,
+        &.active {
           text-decoration: none;
+          color: $tab_text;
+          background-color: $tab_bg_hover;
+          border: 1px solid $tab_border;
+          border-bottom-color: $transparent;
         }
       }
     }

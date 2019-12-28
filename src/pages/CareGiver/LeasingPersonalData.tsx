@@ -2,14 +2,20 @@ import React, { Component } from "react";
 import { FormGroup, Label, Col, Row, Input, Button, Form } from "reactstrap";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
-import { RouteComponentProps } from "react-router";
-import { Hours, CalculationInterval, Supplements } from "../../config";
+import {
+  Status,
+  Nationality,
+  MaritalStatus,
+  HealthInsuranceType,
+  HealthInsuranceProvider,
+  Religion,
+  Preoccupation
+} from "../../config";
 
-class BillingSettings extends Component {
+class LeasingPersonalData extends Component {
   render() {
     return (
       <div>
-        <h5>Hourly Fee Management</h5>
         <Form className="form-section">
           <Row>
             <Col lg={"6"}>
@@ -17,15 +23,15 @@ class BillingSettings extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label ">
-                      Fee per hour<span className="required">*</span>
+                      Place of Birth <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="9">
                     <div>
                       <Input
                         type="text"
-                        name={"feePerHour"}
-                        placeholder="Fee per hour"
+                        name={"PlaceOfBirth"}
+                        placeholder="Place of Birth"
                       />
                     </div>
                   </Col>
@@ -37,7 +43,7 @@ class BillingSettings extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label">
-                      Night supplements per hour
+                      Birth Name
                       <span className="required">*</span>
                     </Label>
                   </Col>
@@ -45,8 +51,8 @@ class BillingSettings extends Component {
                     <div>
                       <Input
                         type="text"
-                        name={"nightSupplementsPerHour"}
-                        placeholder="Night supplements per hour"
+                        name={"birthName"}
+                        placeholder="Birth Name"
                         className="width-common"
                       />
                     </div>
@@ -59,12 +65,13 @@ class BillingSettings extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label">
-                      Hours<span className="required">*</span>
+                      Nationality<span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="9">
                     <div>
-                      <Select options={Hours} placeholder="Hours" />
+                      <Select options={Nationality} 
+                      placeholder="Select Nationality"/>
                     </div>
                   </Col>
                 </Row>
@@ -75,17 +82,14 @@ class BillingSettings extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label ">
-                      Weekly supplements per hour
+                      Marital Status
                       <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="9">
                     <div>
-                      <Input
-                        type="text"
-                        name={"weeklySupplementsPerHour"}
-                        placeholder=" Weekly supplements per hour"
-                      />
+                      <Select options={MaritalStatus}
+                      placeholder="Marital Status" />
                     </div>
                   </Col>
                 </Row>
@@ -96,7 +100,7 @@ class BillingSettings extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label ">
-                      Holiday allowance per hour fee
+                      Children
                       <span className="required">*</span>
                     </Label>
                   </Col>
@@ -104,8 +108,8 @@ class BillingSettings extends Component {
                     <div>
                       <Input
                         type="text"
-                        name={"holidaySllowancePerHourFee "}
-                        placeholder=" Holiday allowance per hour fee "
+                        name={"children"}
+                        placeholder=" Children "
                       />
                     </div>
                   </Col>
@@ -113,14 +117,12 @@ class BillingSettings extends Component {
               </FormGroup>
             </Col>
 
-            <h5>Bank Account Information</h5>
-
             <Col lg={"6"}>
               <FormGroup>
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label ">
-                      Bank Name<span className="required">*</span>
+                      Factor Child allowance <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="9">
@@ -128,8 +130,8 @@ class BillingSettings extends Component {
                       {" "}
                       <Input
                         type="text"
-                        name={"bankName"}
-                        placeholder="Bank Name"
+                        name={"factorChildAllowance"}
+                        placeholder="Factor Child allowance "
                         className="width-common"
                       />
                     </div>
@@ -142,17 +144,13 @@ class BillingSettings extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label">
-                      Account Holder Name <span className="required">*</span>
+                      Health insurance type<span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="9">
                     <div>
-                      <Input
-                        type="text"
-                        name={"accountHolderName "}
-                        placeholder="Account Holder Name "
-                        className="width-common"
-                      />
+                      <Select options={HealthInsuranceType}
+                      placeholder="Health Insurance Type" />
                     </div>
                   </Col>
                 </Row>
@@ -163,103 +161,16 @@ class BillingSettings extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label ">
-                      IBAN<span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input type="text" name={"IBAN"} placeholder="IBAN" />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label ">
-                      BIC
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input type="text" name={"BIC"} placeholder=" BIC" />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label ">
-                      Additional text
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="textarea"
-                        name={"additionalText "}
-                        placeholder="Additional text "
-                      />
-                    </div>
-                  </Col>
-                  <Col className="label-width">
-                    <Label className="form-label col-form-label ">
-                      Mark as primary
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col>
-                    <div>
-                      <Input type="checkbox" name={"primary"}></Input>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-            <h5>Billing cycle settings</h5>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label ">
-                      Calculation interval
+                      Health insurance provider
                       <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="9">
                     <div>
                       <Select
-                        options={CalculationInterval}
-                        placeholder="Calculation Interval"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Next Invoice number
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
                         type="text"
-                        name={"nextInvoiceNumber"}
-                        placeholder="Next Invoice number "
-                        className="width-common"
+                        options={HealthInsuranceProvider}
+                        placeholder="Health insurance provider"
                       />
                     </div>
                   </Col>
@@ -271,14 +182,92 @@ class BillingSettings extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label ">
-                      Statements Maturity <span className="required">*</span>
+                      Social Security Number
+                      <span className="required">*</span>
+                    </Label>
+                  </Col>
+                  <Col sm="9">
+                    <div>
+                      <Input
+                        type="text"
+                        name={"socialSecurityNumber"}
+                        placeholder=" Social Security Number"
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
+            <Col lg={"6"}>
+              <FormGroup>
+                <Row>
+                  <Col sm="3">
+                    <Label className="form-label col-form-label ">
+                      Religion
+                    </Label>
+                  </Col>
+                  <Col sm="9">
+                    <div>
+                      <Select options={Religion} placeholder="Religion" />
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
+            <Col lg={"6"}>
+              <FormGroup>
+                <Row>
+                  <Col sm="3">
+                    <Label className="form-label col-form-label ">
+                      Control Id
+                      <span className="required">*</span>
+                    </Label>
+                  </Col>
+                  <Col sm="9">
+                    <div>
+                      <Input
+                        type="text"
+                        name={"controlId"}
+                        placeholder="Control Id"
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
+            <Col lg={"6"}>
+              <FormGroup>
+                <Row>
+                  <Col sm="3">
+                    <Label className="form-label col-form-label">
+                      Preoccupation
+                      <span className="required">*</span>
+                    </Label>
+                  </Col>
+                  <Col sm="9">
+                    <div>
+                      <Select
+                        options={Preoccupation}
+                        placeholder="Preoccupation "
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
+            <Col lg={"6"}>
+              <FormGroup>
+                <Row>
+                  <Col sm="3">
+                    <Label className="form-label col-form-label ">
+                    Payroll IBAN <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="9">
                     <Input
                       type="text"
-                      name={"statementsMaturity "}
-                      placeholder="Statements Maturity "
+                      name={"PayrollIBAN"}
+                      placeholder="Payroll IBAN"
                     />
                   </Col>
                 </Row>
@@ -289,13 +278,15 @@ class BillingSettings extends Component {
                 <Row>
                   <Col sm="3">
                     <Label className="form-label col-form-label ">
-                      Supplements
+                    Status
                       <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="9">
                     <div>
-                      <Select options={Supplements} placeholder="Supplements" />
+                      <Select options={Status}
+                      placeholder="Status" />
+                      
                     </div>
                   </Col>
                 </Row>
@@ -314,4 +305,4 @@ class BillingSettings extends Component {
     );
   }
 }
-export default BillingSettings;
+export default LeasingPersonalData;

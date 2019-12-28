@@ -22,6 +22,7 @@ import { RouteComponentProps } from "react-router";
 import PersonalInformation from "./PersonalInformation";
 import QualificationAttribute from "./QualificationAttribute";
 import BillingSettings from "./BillingSettings";
+import LeasingPersonalData from "./LeasingPersonalData";
 class AddCareGiver extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
@@ -110,9 +111,9 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                     </TabPane>
                     <TabPane tabId="4">
                       <Row>
-                        <Col sm="12">
-                          <h4>Tab 4 Contents</h4>
-                        </Col>
+                        <div>
+                          <LeasingPersonalData />
+                        </div>
                       </Row>
                     </TabPane>
                   </TabContent>

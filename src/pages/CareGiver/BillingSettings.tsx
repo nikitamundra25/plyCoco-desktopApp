@@ -44,7 +44,7 @@ class BillingSettings extends Component {
                             <Input
                               type="text"
                               name={"feePerHour"}
-                              placeholder="Fee per hour"
+                              placeholder=""
                               className="custom-input-width"
                             />
                             <div className="mx-2">EUR</div>
@@ -137,8 +137,12 @@ class BillingSettings extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Calculation interval<br/>
-                            <small>interval The actual interval can vary depending on the specification of the facility.</small>
+                            Calculation interval
+                            <br />
+                            <small>
+                              interval The actual interval can vary depending on
+                              the specification of the facility.
+                            </small>
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -155,9 +159,12 @@ class BillingSettings extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            Next Invoice number<br/>
-                            <small>only numbers possible.
-Number is automatically increased by 1 after each invoice.</small>
+                            Next Invoice number
+                            <br />
+                            <small>
+                              only numbers possible. Number is automatically
+                              increased by 1 after each invoice.
+                            </small>
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -179,8 +186,13 @@ Number is automatically increased by 1 after each invoice.</small>
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Statements Maturity<br/>
-<small>due Your invoice is due so many days after it has been created.</small>                            <span className="required">*</span>
+                            Statements Maturity
+                            <br />
+                            <small>
+                              due Your invoice is due so many days after it has
+                              been created.
+                            </small>{" "}
+                            <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">

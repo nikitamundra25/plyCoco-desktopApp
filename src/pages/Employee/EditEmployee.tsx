@@ -17,6 +17,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
 import { Status, State, Department, Region, City } from "../../config";
+import { AppBreadcrumb } from "@coreui/react";
+import routes from "../../routes/routes";
 
 class AddEmployee extends Component<any, any> {
   constructor(props: any) {
@@ -45,10 +47,7 @@ class AddEmployee extends Component<any, any> {
           <Col xs={"12"} lg={"12"}>
             <Card>
               <CardHeader>
-                <h4>
-                  <i className="fa fa-users" />
-                  <span className="ml-1">Edit Employee</span>
-                </h4>
+                <AppBreadcrumb appRoutes={routes} className="w-100" />
               </CardHeader>
               <CardBody>
                 <Row>
@@ -56,7 +55,7 @@ class AddEmployee extends Component<any, any> {
                     <Form className="form-section">
                       <Row>
                         <Col lg={"6"}>
-                          <h5 className="main-title mb-4">Personal Data</h5>
+                          <h5 className="main-title">Personal Data</h5>
                           <div className="form-card">
                             <Row>
                               <Col lg={"12"}>
@@ -143,7 +142,7 @@ class AddEmployee extends Component<any, any> {
                                   <Row>
                                     <Col sm="4">
                                       <Label className="form-label col-form-label ">
-                                        User Name
+                                        Username
                                         <span className="required">*</span>
                                       </Label>
                                     </Col>
@@ -151,9 +150,9 @@ class AddEmployee extends Component<any, any> {
                                       <div>
                                         <Input
                                           type="text"
-                                          name={"userName"}
+                                          name={"username"}
                                           value="johnDoe_123"
-                                          placeholder=" UserName"
+                                          placeholder=" Username"
                                         />
                                       </div>
                                     </Col>
@@ -187,7 +186,7 @@ class AddEmployee extends Component<any, any> {
                         </Col>
 
                         <Col lg={"6"}>
-                          <h5 className="main-title mb-4">
+                          <h5 className="main-title ">
                             {" "}
                             Bank Account Information
                           </h5>
@@ -337,10 +336,7 @@ class AddEmployee extends Component<any, any> {
                         </Col>
 
                         <Col lg={"12"}>
-                          <h5 className="main-title mb-4">
-                            {" "}
-                            Other Information
-                          </h5>
+                          <h5 className="main-title"> Other Information</h5>
                           <div className="form-card">
                             <Row>
                               {/* <Col lg={"6"}>
@@ -373,7 +369,7 @@ class AddEmployee extends Component<any, any> {
                                   <Row>
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
-                                        Address 1
+                                        Address Line 1
                                         <span className="required">*</span>
                                       </Label>
                                     </Col>
@@ -396,7 +392,7 @@ class AddEmployee extends Component<any, any> {
                                   <Row>
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
-                                        Address 2
+                                        Address Line 2
                                         <span className="required">*</span>
                                       </Label>
                                     </Col>
@@ -623,28 +619,6 @@ class AddEmployee extends Component<any, any> {
                                 </FormGroup>
                               </Col>
 
-                              <Col lg={"6"}>
-                                <FormGroup>
-                                  <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
-                                        Any other information
-                                      </Label>
-                                    </Col>
-                                    <Col sm="8">
-                                      <div>
-                                        <Input
-                                          type="textarea"
-                                          name={"otherinformation"}
-                                          placeholder=" Any other information"
-                                          className="textarea-custom "
-                                          rows="4"
-                                        />
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </FormGroup>
-                              </Col>
                               <Col lg={"6"}>
                                 <FormGroup>
                                   <Row>

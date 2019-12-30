@@ -44,7 +44,9 @@ class Region extends Component<RouteComponentProps, any> {
                 <Row>
                   <Col lg={"2"}>
                     <FormGroup>
-                      <Label for="search">Search:</Label>
+                      <Label for="search" className="col-form-label">
+                        Search:
+                      </Label>
                       <Input
                         type="text"
                         name="search"
@@ -55,7 +57,9 @@ class Region extends Component<RouteComponentProps, any> {
                   </Col>
                   <Col lg={"2"}>
                     <FormGroup>
-                      <Label for="Selectregion">Region:</Label>
+                      <Label for="Selectregion" className="col-form-label">
+                        Region:
+                      </Label>
                       <Input type="select" name="region" id="Selectregion">
                         <option>Western India</option>
                         <option>East India</option>
@@ -67,7 +71,9 @@ class Region extends Component<RouteComponentProps, any> {
                   </Col>
                   <Col lg={"2"}>
                     <FormGroup>
-                      <Label for="Selectregion">Sort By:</Label>
+                      <Label for="Selectregion" className="col-form-label">
+                        Sort By:
+                      </Label>
                       <Input type="select" name="region" id="Selectregion">
                         <option>Popularity</option>
                         <option>A-Z</option>
@@ -75,7 +81,7 @@ class Region extends Component<RouteComponentProps, any> {
                       </Input>
                     </FormGroup>
                   </Col>
-                  <Col lg={"2"}>
+                  {/* <Col lg={"2"}>
                     <FormGroup>
                       <Label for="Selectregion">Department:</Label>
                       <Input type="select" name="region" id="Selectregion">
@@ -86,7 +92,7 @@ class Region extends Component<RouteComponentProps, any> {
                         <option>Designing</option>
                       </Input>
                     </FormGroup>
-                  </Col>
+                  </Col> */}
                   <Col lg={"2"}>
                     <div className="label-height"></div>
                     <div className="filter-btn-wrap">

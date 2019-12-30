@@ -63,7 +63,7 @@ class ViewCareGiver extends Component<any, any> {
           <NavItem>
             <NavLink
               className={{ active: activeTab === "3" }}
-              onClick={() => this.props.history.push(AppRoutes.BILLING_SETTING)}
+              onClick={() => this.props.history.push(AppRoutes.BILLING)}
             >
               <span className="nav-icon">
                 {" "}

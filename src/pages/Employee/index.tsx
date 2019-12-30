@@ -21,6 +21,8 @@ import {
 } from "reactstrap";
 import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
+import { AppBreadcrumb } from "@coreui/react";
+import routes from "../../routes/routes";
 class Employee extends Component<RouteComponentProps, any> {
   render() {
     const tableData: any[] = [];
@@ -61,7 +63,7 @@ class Employee extends Component<RouteComponentProps, any> {
               </div>
             </div>
           </td>
-          <td>
+          {/* <td>
             <div className="description-column  ml-0">
               <p className="description-text ">
                 <span className="text-label mr-1">
@@ -82,7 +84,7 @@ class Employee extends Component<RouteComponentProps, any> {
                 <span className="align-middle">HR</span>
               </p>
             </div>
-          </td>
+          </td> */}
           <td>
             <div className="description-column  ml-0">
               <p className="description-text ">
@@ -171,13 +173,10 @@ class Employee extends Component<RouteComponentProps, any> {
         <Col xs={"12"} lg={"12"}>
           <Card>
             <CardHeader>
-              <h4>
-                <i className="fa fa-users" />
-                <span className="ml-1">Employee</span>
-              </h4>
+              <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
               <Button
                 color={"primary"}
-                className={"pull-right"}
+                className={"btn-add"}
                 id={"add-new-pm-tooltip"}
                 onClick={() => this.props.history.push(AppRoutes.ADD_EMPLOYEE)}
               >
@@ -190,7 +189,9 @@ class Employee extends Component<RouteComponentProps, any> {
                 <Row>
                   <Col lg={"2"}>
                     <FormGroup>
-                      <Label for="search">Search:</Label>
+                      <Label for="search" className="col-form-label">
+                        Search:
+                      </Label>
                       <Input
                         type="text"
                         name="search"
@@ -201,7 +202,9 @@ class Employee extends Component<RouteComponentProps, any> {
                   </Col>
                   <Col lg={"2"}>
                     <FormGroup>
-                      <Label for="Selectregion">Region:</Label>
+                      <Label for="Selectregion" className="col-form-label">
+                        Region:
+                      </Label>
                       <Input type="select" name="region" id="Selectregion">
                         <option>Western India</option>
                         <option>East India</option>
@@ -213,7 +216,9 @@ class Employee extends Component<RouteComponentProps, any> {
                   </Col>
                   <Col lg={"2"}>
                     <FormGroup>
-                      <Label for="Selectregion">Sort By:</Label>
+                      <Label for="Selectregion" className="col-form-label">
+                        Sort By:
+                      </Label>
                       <Input type="select" name="region" id="Selectregion">
                         <option>Popularity</option>
                         <option>A-Z</option>
@@ -280,7 +285,7 @@ class Employee extends Component<RouteComponentProps, any> {
                       </div>
                     </th>
                     <th>Employee Information</th>
-                    <th>Department</th>
+                    {/* <th>Department</th> */}
                     <th>Region</th>
                     <th className="text-center">Assigned Canstitution</th>
                     <th className="text-center">Status</th>

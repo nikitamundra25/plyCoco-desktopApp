@@ -7,7 +7,10 @@ import {
   Row,
   Input,
   Button,
-  CustomInput
+  CustomInput,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText
 } from "reactstrap";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,7 +23,7 @@ class BillingSettings extends Component {
         <Form className="form-section">
           <Row>
             <Col lg={"6"}>
-              <h5 className="main-title mb-4">Hourly Fee Management</h5>
+              <h5 className="main-title mb-4">Price Range</h5>
               <div className="form-card">
                 <Row>
                   <Col lg={"12"}>
@@ -32,12 +35,14 @@ class BillingSettings extends Component {
                           </Label>
                         </Col>
                         <Col sm="8">
-                          <div>
+                          <div className="d-flex align-items-center">
                             <Input
                               type="text"
                               name={"feePerHour"}
                               placeholder="Fee per hour"
+                              className="custom-input-width"
                             />
+                            <div className="mx-2">EUR</div>
                           </div>
                         </Col>
                       </Row>
@@ -48,17 +53,24 @@ class BillingSettings extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Night supplements per hour
+                            Night allowance per hour
                           </Label>
                         </Col>
                         <Col sm="8">
-                          <div>
+                          <div className="d-flex align-items-center">
                             <Input
                               type="text"
                               name={"nightSupplementsPerHour"}
-                              placeholder="Night supplements per hour"
-                              className="width-common"
+                              placeholder=" Night allowance per hour"
+                              className="custom-input-width"
                             />
+                            <div className="mx-2">EUR</div>
+                            <div>
+                              <Select
+                                options={CalculationInterval}
+                                className="custom-input-width"
+                              />
+                            </div>
                           </div>
                         </Col>
                       </Row>
@@ -69,16 +81,18 @@ class BillingSettings extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Weekly supplements per hour
+                            Weekend allowance per hour
                           </Label>
                         </Col>
                         <Col sm="8">
-                          <div>
+                          <div className="d-flex align-items-center">
                             <Input
                               type="text"
                               name={"weeklySupplementsPerHour"}
-                              placeholder=" Weekly supplements per hour"
+                              placeholder=" Weekend allowance per hour	"
+                              className="custom-input-width"
                             />
+                            <div className="mx-2">EUR</div>
                           </div>
                         </Col>
                       </Row>
@@ -89,16 +103,18 @@ class BillingSettings extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Holiday allowance per hour fee
+                            Holiday allowance per hour
                           </Label>
                         </Col>
                         <Col sm="8">
-                          <div>
+                          <div className="d-flex align-items-center">
                             <Input
                               type="text"
                               name={"holidaySllowancePerHourFee "}
-                              placeholder=" Holiday allowance per hour fee "
+                              placeholder=" Holiday allowance per hour "
+                              className="custom-input-width"
                             />
+                            <div className="mx-2">EUR</div>
                           </div>
                         </Col>
                       </Row>
@@ -108,7 +124,7 @@ class BillingSettings extends Component {
               </div>
             </Col>
             <Col lg={"6"}>
-              <h5 className="main-title mb-4">Billing cycle settings</h5>
+              <h5 className="main-title mb-4">Billing settings</h5>
               <div className="form-card">
                 <Row>
                   <Col lg={"12"}>
@@ -197,7 +213,7 @@ class BillingSettings extends Component {
               </div>
             </Col>
             <Col lg={"6"}>
-              <h5 className="main-title mb-4">Bank Account information</h5>
+              <h5 className="main-title mb-4"> Account information</h5>
               <div className="form-card">
                 <Col lg={"12"}>
                   <FormGroup>

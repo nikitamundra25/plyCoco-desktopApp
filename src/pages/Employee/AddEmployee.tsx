@@ -17,12 +17,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
 import { Status, State, Department, Region, City } from "../../config";
 
-class AddEmployee extends Component<any,any> {
+class AddEmployee extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
       // startDate: ""
-      error:false
+      error: false
     };
   }
 
@@ -32,10 +32,10 @@ class AddEmployee extends Component<any,any> {
     });
   };
   onFocus = () => {
-this.setState({
-error:true
-})
-}
+    this.setState({
+      error: true
+    });
+  };
 
   render() {
     // const { selectedOption } = this.state;

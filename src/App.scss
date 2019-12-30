@@ -484,9 +484,20 @@ body {
   margin-top: -10px;
 }
 .form-card {
-  background: #f4f4f4;
+  background: $card_header_bg;
   padding: 20px 20px;
   margin-bottom: 20px;
+  position: relative;
+}
+.message-text {
+  position: absolute;
+  bottom: -2px;
+  font-size: 11px;
+  color: $dark_gray;
+}
+.mandatory-text {
+  font-size: 12px;
+  color: $red;
 }
 .form-section {
   .label-height {
@@ -558,13 +569,14 @@ body {
       font-size: 12px;
       color: $red;
     }
+
     .form-control {
       border-radius: 0px;
       color: $light_black;
       font-size: 13px;
       height: 30px;
       border-color: $light_gray;
-      padding: 0px 15px;
+      padding: 0px 8px;
       line-height: 19px;
       display: flex;
       align-items: center;
@@ -576,9 +588,19 @@ body {
       &.height-auto {
         height: auto;
       }
+      &.textarea-custom {
+        height: auto;
+        max-height: 100px;
+        overflow-y: auto;
+        resize: none;
+      }
+
       // &.width-common{
       //   width:190px;
       // }
+    }
+    .custom-input-width {
+      width: 145px;
     }
     .react-datepicker-wrapper {
       display: block;
@@ -589,7 +611,7 @@ body {
           color: $light_black;
           font-size: 13px;
           height: 30px;
-          padding: 0px 15px;
+          padding: 0px 8px;
           line-height: 30px;
           display: -webkit-flex;
           display: flex;
@@ -949,5 +971,58 @@ body {
   .tab-content {
     border: 0px;
     padding: 20px 0px;
+  }
+}
+.care-detail-page {
+  margin: -15px -15px;
+  .caregiver-detail-section {
+    position: relative;
+    display: -webkit-flex;
+    display: flex;
+    overflow: hidden;
+    .caregiver-sidnav {
+      width: 240px;
+      flex: 0 0 240px;
+      background: $white;
+      border-right: 1px solid $table_border;
+      padding: 20px 0px 20px 0px;
+      .sidenav-title {
+        font-weight: 600;
+        text-align: center;
+        padding: 0px 10px;
+        font-size: 18px;
+        color: $theme_color;
+      }
+      .caregiver-ul {
+        padding: 0px;
+        list-style: none;
+        .nav-item {
+          .nav-link {
+            display: block;
+            padding: 10px 10px 10px 10px;
+            color: $light_black;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid $table_border;
+            position: relative;
+            cursor: pointer;
+            .nav-icon {
+              margin-right: 8px;
+            }
+            .nav-text {
+              vertical-align: middle;
+            }
+          }
+          &:hover {
+            background: $side_hover;
+          }
+        }
+      }
+    }
+    .caregiver-content {
+      // min-height: 100vh;
+      padding: 20px;
+      background: $white;
+    }
   }
 }

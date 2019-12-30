@@ -42,13 +42,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             First Name
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <InputGroup>
                               <InputGroupAddon addonType="prepend">
@@ -60,8 +60,8 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                               </InputGroupAddon>
                               <Input
                                 type="text"
-                                name={"firstGivenName"}
-                                placeholder="First Given Name"
+                                name={"firstName"}
+                                placeholder="First Name"
                                 className="width-common"
                               />
                             </InputGroup>
@@ -73,13 +73,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Surname
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -95,13 +95,55 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
+                          <Label className="form-label col-form-label ">
+                            Address 1<span className="required">*</span>
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div>
+                            <Input
+                              type="text"
+                              name={"address"}
+                              placeholder="Address 1"
+                              className=" width-common"
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label ">
+                            Address 2
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div>
+                            <Input
+                              type="text"
+                              name={"address"}
+                              placeholder="Address 2"
+                              className=" width-common"
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Street
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -117,13 +159,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             City
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -139,13 +181,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Post code
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -161,13 +203,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Region/State
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Select
                               placeholder="Region/State"
@@ -181,13 +223,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Country
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Select
                               // value={this.state.selectedOption}
@@ -203,13 +245,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Date of Birth
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <DatePicker
                               placeholderText="Select Date"
@@ -232,13 +274,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Phone
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -254,13 +296,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Fax
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -276,13 +318,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Mobile Phone
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -298,13 +340,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Email address
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -319,100 +361,98 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   </Col>
                 </Row>
               </div>
-              <h5 className="main-title  mb-4">vehicle Information</h5>
-              <div className="form-card">
-                <Row>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="3">
-                          <Label className="form-label col-form-label">
-                            Driver's license
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="9">
-                          <div className="custom-radio-block">
-                            <Row>
-                              <Col>
+              <div>
+                <h5 className="main-title  mb-4">Vehicle Information</h5>
+                <div className="form-card">
+                  <Row>
+                    <Col lg={"12"}>
+                      <FormGroup>
+                        <Row>
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              Driver's license
+                              <span className="required">*</span>
+                            </Label>
+                          </Col>
+                          <Col sm="8">
+                            <div className="custom-radio-block">
+                              <FormGroup check inline>
                                 <CustomInput
                                   type="radio"
                                   id="yes"
                                   name="driversLicense"
                                   label="Yes"
                                 />
-                              </Col>
-                              <Col>
+                              </FormGroup>
+                              <FormGroup check inline>
                                 <CustomInput
                                   type="radio"
                                   id="no"
                                   name="driversLicense"
                                   label="No"
                                 />
-                              </Col>
-                            </Row>
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="3">
-                          <Label className="form-label col-form-label">
-                            Driver's License Number
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="9">
-                          <div>
-                            <Input
-                              type="text"
-                              name="driverLicenseNumber"
-                              placeholder="Driver's License Number"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="3">
-                          <Label className="form-label col-form-label">
-                            Own vehicle available
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="9">
-                          <div className="custom-radio-block">
-                            <Row>
-                              <Col>
+                              </FormGroup>
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col lg={"12"}>
+                      <FormGroup>
+                        <Row>
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              Driver's License Number
+                              <span className="required">*</span>
+                            </Label>
+                          </Col>
+                          <Col sm="8">
+                            <div>
+                              <Input
+                                type="text"
+                                name="driverLicenseNumber"
+                                placeholder="Driver's License Number"
+                                className="width-common"
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col lg={"12"}>
+                      <FormGroup>
+                        <Row>
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              Own vehicle available
+                              <span className="required">*</span>
+                            </Label>
+                          </Col>
+                          <Col sm="8">
+                            <div className="custom-radio-block">
+                              <FormGroup check inline>
                                 <CustomInput
                                   type="radio"
                                   id="yes_v"
                                   name="vehicleavailable"
                                   label="Yes"
                                 />
-                              </Col>
-                              <Col>
+                              </FormGroup>
+                              <FormGroup check inline>
                                 <CustomInput
                                   type="radio"
                                   id="no_v"
                                   name="vehicleavailable"
                                   label="No"
                                 />
-                              </Col>
-                            </Row>
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                </Row>
+                              </FormGroup>
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </div>
               </div>
             </Col>
 
@@ -423,13 +463,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"6"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Legal Form
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Select
                               placeholder="Legal Form"
@@ -444,13 +484,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"6"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
-                            Company Name <small>(Including GMBH, UG)</small>
-                            <span className="required">*</span>
+                            Company Name<span className="required">*</span>{" "}
+                            <small>(Including GMBH, UG)</small>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -467,13 +507,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"6"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Registration Number
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -489,13 +529,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"6"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Register Court
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -511,13 +551,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"6"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Executive Director
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -542,24 +582,22 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         </Col>
                         <Col sm="5">
                           <div className="custom-radio-block">
-                            <Row>
-                              <Col>
-                                <CustomInput
-                                  type="radio"
-                                  id="yes_s"
-                                  name="socialSecurityContribution"
-                                  label="Yes"
-                                />
-                              </Col>
-                              <Col>
-                                <CustomInput
-                                  type="radio"
-                                  id="no_s"
-                                  name="socialSecurityContribution"
-                                  label="No"
-                                />
-                              </Col>
-                            </Row>
+                            <FormGroup check inline>
+                              <CustomInput
+                                type="radio"
+                                id="yes_s"
+                                name="socialSecurityContribution"
+                                label="Yes"
+                              />
+                            </FormGroup>
+                            <FormGroup check inline>
+                              <CustomInput
+                                type="radio"
+                                id="no_s"
+                                name="socialSecurityContribution"
+                                label="No"
+                              />
+                            </FormGroup>
                           </div>
                         </Col>
                       </Row>
@@ -569,13 +607,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"6"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Tax Number
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -592,12 +630,12 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"6"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Working zones
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Select
                               placeholder=" Working zones"
@@ -613,19 +651,20 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   <Col lg={"6"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Remarks
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="textarea"
                               name={"Remarks"}
                               placeholder="Remarks"
-                              className="height-auto "
+                              rows="4"
+                              className="textarea-custom "
                             />
                           </div>
                         </Col>
@@ -636,10 +675,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
               </div>
             </Col>
             <Col lg={"12"}>
-              <div className={"text-right"}>
-                <Button color="primary" type="submit" className="btn-sumbit">
-                  Next Step
-                </Button>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="mandatory-text">* Required Fields</div>
+                <div className={"text-right"}>
+                  <Button color="primary" type="submit" className="btn-sumbit">
+                    Next Step & Save
+                  </Button>
+                </div>
               </div>
             </Col>
           </Row>

@@ -31,7 +31,9 @@ const PersonalInformation = React.lazy(() =>
 const QualificationAttribute = React.lazy(() =>
   import("../pages/CareGiver/QualificationAttribute")
 );
-const Billing = React.lazy(() => import("../pages/CareGiver/Billing"));
+const BillingSetting = React.lazy(() =>
+  import("../pages/CareGiver/BillingSettings")
+);
 const LeasingPersonalData = React.lazy(() =>
   import("../pages/CareGiver/LeasingPersonalData")
 );
@@ -43,7 +45,10 @@ const Event = React.lazy(() => import("../pages/CareGiver/Event"));
 const Offer = React.lazy(() => import("../pages/CareGiver/Offer"));
 const Invoices = React.lazy(() => import("../pages/CareGiver/Invoices"));
 const Todos = React.lazy(() => import("../pages/CareGiver/ToDos"));
-
+const Signature = React.lazy(() => import("../pages/CareGiver/Signature"));
+const DocumentUpload = React.lazy(() =>
+  import("../pages/CareGiver/DocumentsUpload")
+);
 const routes = [
   { path: AppRoutes.MAIN, exact: true, name: "Home" },
   {
@@ -141,7 +146,7 @@ const routes = [
   {
     path: AppRoutes.BILLING,
     name: "Billing Setting",
-    component: Billing,
+    component: BillingSetting,
     layout: CareGiverLayout,
     exact: true
   },
@@ -198,6 +203,21 @@ const routes = [
     path: AppRoutes.TODO,
     name: "Todos",
     component: Todos,
+    exact: true,
+    layout: CareGiverLayout
+  },
+
+  {
+    path: AppRoutes.DOCUMENTS_UPLOAD,
+    name: "Document Upload",
+    component: DocumentUpload,
+    exact: true,
+    layout: CareGiverLayout
+  },
+  {
+    path: AppRoutes.SIGNATURE,
+    name: "Signature",
+    component: Signature,
     exact: true,
     layout: CareGiverLayout
   }

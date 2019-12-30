@@ -186,152 +186,121 @@ class AddEmployee extends Component<any, any> {
                         </Col>
 
                         <Col lg={"6"}>
-                          <h5 className="main-title ">
-                            {" "}
-                            Bank Account Information
-                          </h5>
+                          <h5 className="main-title "> Account Information</h5>
                           <div className="form-card">
-                            <Row>
-                              <Col lg={"12"}>
-                                <FormGroup>
-                                  <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
-                                        Bank Name
-                                        <span className="required">*</span>
-                                      </Label>
-                                    </Col>
-                                    <Col sm="8">
-                                      <div>
-                                        <Input
-                                          type="text"
-                                          name={"bankName"}
-                                          placeholder=" Bank Name"
-                                          value="World Bank"
-                                          className="width-common"
-                                        />
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </FormGroup>
-                              </Col>
-                              <Col lg={"12"}>
-                                <FormGroup>
-                                  <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
-                                        Bank Address
-                                        <span className="required">*</span>
-                                      </Label>
-                                    </Col>
-                                    <Col sm="8">
-                                      <div>
-                                        <Input
-                                          type="text"
-                                          name={"bankAddress"}
-                                          placeholder=" Bank Address"
-                                          value="World Bank germany"
-                                          className="width-common"
-                                        />
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </FormGroup>
-                              </Col>
-                              <Col lg={"12"}>
-                                <FormGroup>
-                                  <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label ">
-                                        Account Number
-                                        <span className="required">*</span>
-                                      </Label>
-                                    </Col>
-                                    <Col sm="8">
-                                      <div>
-                                        <Input
-                                          type="text"
-                                          name={"accountNumber"}
-                                          placeholder=" Bank account number"
-                                          value="5596-5856-4855"
-                                          className="width-common"
-                                        />
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </FormGroup>
-                              </Col>
-                              <Col lg={"12"}>
-                                <FormGroup>
-                                  <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label ">
-                                        IFSC
-                                        <span className="required">*</span>
-                                      </Label>
-                                    </Col>
-                                    <Col sm="8">
-                                      <div>
-                                        <Input
-                                          type="text"
-                                          name={"IFSC"}
-                                          placeholder=" IFSC"
-                                          value="WSD5596"
-                                          className="width-common"
-                                        />
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </FormGroup>
-                              </Col>
-                              <Col lg={"12"}>
-                                <FormGroup>
-                                  <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label ">
-                                        Swift Code
-                                        <span className="required">*</span>
-                                      </Label>
-                                    </Col>
-                                    <Col sm="8">
-                                      <div>
-                                        <Input
-                                          type="text"
-                                          name={"swiftCode"}
-                                          placeholder=" Swift code"
-                                          value="SBININBB371"
-                                          className="width-common"
-                                        />
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </FormGroup>
-                              </Col>
-                              {/* <Col lg={"12"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="4">
-                                          <Label className="form-label col-form-label">
-                                            Status
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="8">
-                                          <div>
-                                            <Select
-                                              placeholder="Select Status"
-                                              defaultValue={{
-                                                label: "Active",
-                                                value: 0
-                                              }}
-                                              options={Status}
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col> */}
-                            </Row>
+                            <Col lg={"12"}>
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="4">
+                                    <Label className="form-label col-form-label ">
+                                      Bank Name
+                                    </Label>
+                                  </Col>
+                                  <Col sm="8">
+                                    <div>
+                                      <Input
+                                        type="text"
+                                        name={"bankName"}
+                                        placeholder="Bank Name"
+                                        className="width-common"
+                                      />
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                            </Col>
+                            <Col lg={"12"}>
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="4">
+                                    <Label className="form-label col-form-label">
+                                      Account Holder Name
+                                      <br />
+                                      <small>(only if different)</small>
+                                    </Label>
+                                  </Col>
+                                  <Col sm="8">
+                                    <div>
+                                      <Input
+                                        type="text"
+                                        name={"accountHolderName "}
+                                        placeholder="Account Holder Name "
+                                        className="width-common"
+                                      />
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                            </Col>
+                            <Col lg={"12"}>
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="4">
+                                    <Label className="form-label col-form-label ">
+                                      IBAN
+                                    </Label>
+                                  </Col>
+                                  <Col sm="8">
+                                    <div>
+                                      <Input
+                                        type="text"
+                                        name={"IBAN"}
+                                        placeholder="IBAN"
+                                      />
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                            </Col>
+                            <Col lg={"12"}>
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="4">
+                                    <Label className="form-label col-form-label ">
+                                      BIC
+                                    </Label>
+                                  </Col>
+                                  <Col sm="8">
+                                    <div>
+                                      <Input
+                                        type="text"
+                                        name={"BIC"}
+                                        placeholder=" BIC"
+                                      />
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                            </Col>
+                            <Col lg={"12"}>
+                              <FormGroup>
+                                <Row>
+                                  <Col sm="4">
+                                    <Label className="form-label col-form-label ">
+                                      Additional text
+                                      <br />
+                                      <small>
+                                        This text appears below the bank details
+                                        on the invoice. In the case of ceded
+                                        invoices (factoring), the cession can be
+                                        added here.
+                                      </small>
+                                    </Label>
+                                  </Col>
+                                  <Col sm="8">
+                                    <div>
+                                      <Input
+                                        type="textarea"
+                                        name={"additionalText "}
+                                        placeholder="Additional text "
+                                        className="textarea-custom"
+                                        rows="4"
+                                      />
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                            </Col>
                           </div>
                         </Col>
 
@@ -439,7 +408,6 @@ class AddEmployee extends Component<any, any> {
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
                                         Country
-                                        <span className="required">*</span>
                                       </Label>
                                     </Col>
                                     <Col sm="8">
@@ -462,7 +430,6 @@ class AddEmployee extends Component<any, any> {
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
                                         State
-                                        <span className="required">*</span>
                                       </Label>
                                     </Col>
                                     <Col sm="8">
@@ -487,7 +454,6 @@ class AddEmployee extends Component<any, any> {
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
                                         City
-                                        <span className="required">*</span>
                                       </Label>
                                     </Col>
                                     <Col sm="8">
@@ -512,7 +478,6 @@ class AddEmployee extends Component<any, any> {
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
                                         Zip
-                                        <span className="required">*</span>
                                       </Label>
                                     </Col>
                                     <Col sm="8">
@@ -599,7 +564,6 @@ class AddEmployee extends Component<any, any> {
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
                                         Joining Date
-                                        <span className="required">*</span>
                                       </Label>
                                     </Col>
                                     <Col sm="8">
@@ -625,7 +589,6 @@ class AddEmployee extends Component<any, any> {
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
                                         Add Profile image
-                                        <span className="required">*</span>
                                       </Label>
                                     </Col>
                                     <Col sm="8">
@@ -652,15 +615,22 @@ class AddEmployee extends Component<any, any> {
                           </div>
                         </Col>
                       </Row>
-                      <div className="text-right">
-                        <Button
-                          color="primary"
-                          type="submit"
-                          className="btn-sumbit"
-                        >
-                          Submit
-                        </Button>
-                      </div>
+                      <Col lg={"12"}>
+                        <div className="d-flex align-items-center justify-content-between">
+                          <div className="mandatory-text">
+                            * Required Fields
+                          </div>
+                          <div className={"text-right"}>
+                            <Button
+                              color="primary"
+                              type="submit"
+                              className="btn-sumbit"
+                            >
+                              Submit
+                            </Button>
+                          </div>
+                        </div>
+                      </Col>
                     </Form>
                   </Col>
                 </Row>

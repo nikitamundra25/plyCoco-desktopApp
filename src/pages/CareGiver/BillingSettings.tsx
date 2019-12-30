@@ -217,11 +217,23 @@ class BillingSettings extends Component {
                           </Label>
                         </Col>
                         <Col sm="8">
-                          <div>
-                            <Select
-                              options={Supplements}
-                              placeholder="Select Supplements"
-                            />
+                          <div className="custom-radio-block">
+                            <FormGroup check inline>
+                              <CustomInput
+                                type="radio"
+                                id="Exclusive"
+                                name="supplements"
+                                label="Exclusive"
+                              />
+                            </FormGroup>
+                            <FormGroup check inline>
+                              <CustomInput
+                                type="radio"
+                                id="Cumulative"
+                                name="supplements"
+                                label="Cumulative"
+                              />
+                            </FormGroup>
                           </div>
                         </Col>
                       </Row>
@@ -355,12 +367,14 @@ class BillingSettings extends Component {
                 </Col>
               </div>
             </Col>
+           
+           
             <Col lg={"12"}>
               <div className="d-flex align-items-center justify-content-between">
                 <div className="mandatory-text">* Required Fields</div>
                 <div className={"text-right"}>
                   <Button color="primary" type="submit" className="btn-sumbit">
-                    Next Step & Save
+                    Submit
                   </Button>
                 </div>
               </div>

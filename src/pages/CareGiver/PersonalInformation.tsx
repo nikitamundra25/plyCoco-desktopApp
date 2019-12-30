@@ -702,7 +702,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                 <div className="mandatory-text">* Required Fields</div>
                 <div className={"text-right"}>
                   <Button color="primary" type="submit" className="btn-sumbit">
-                    Next Step & Save
+                   Submit
                   </Button>
                 </div>
               </div>

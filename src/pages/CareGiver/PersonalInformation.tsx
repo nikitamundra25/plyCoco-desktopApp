@@ -487,6 +487,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         <Col sm="4">
                           <Label className="form-label col-form-label">
                             Company Name<span className="required">*</span>{" "}
+                            <br />
                             <small>(Including GMBH, UG)</small>
                           </Label>
                         </Col>

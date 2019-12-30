@@ -1,36 +1,38 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Button,
   FormGroup,
   Card,
   Label,
   CardBody,
-   CardGroup,
-Container,
+  CardGroup,
+  Container,
   Input,
   Col,
   Row,
   Form,
-  InputGroup, InputGroupAddon, InputGroupText
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText
 } from "reactstrap";
-import { AppRoutes } from '../../config';
-import { ILoginProps, ILoginState } from '../../interfaces';
-import logo from '../../assets/img/plycoco-logo.png'
+import { AppRoutes } from "../../config";
+import { ILoginProps, ILoginState } from "../../interfaces";
+import logo from "../../assets/img/plycoco-logo.png";
 
 class Login extends Component<any, ILoginState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       errors: {
-        email: '',
-        password: '',
-      },
+        email: "",
+        password: ""
+      }
     };
   }
   componentDidMount = () => {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem("token")) {
       this.props.history.push(AppRoutes.HOME);
     }
   };
@@ -42,8 +44,8 @@ class Login extends Component<any, ILoginState> {
       [name]: value,
       errors: {
         ...this.state.errors,
-        [name]: '',
-      },
+        [name]: ""
+      }
     });
   };
 
@@ -53,7 +55,7 @@ class Login extends Component<any, ILoginState> {
       const { email, password } = this.state;
       const data = {
         email,
-        password,
+        password
       };
     } catch (error) {
       console.log(error);
@@ -72,38 +74,41 @@ class Login extends Component<any, ILoginState> {
               </div>
               <CardGroup>
                 <Card className="login-card p-4">
-                  
                   <CardBody className="px-4 py-0">
                     <Form onSubmit={this.handleSubmit} className="form-section">
                       <h1 className="auth-title text-center">Sign In</h1>
-                      <p className="sub-title text-center">
-                        To Your Account
-                      </p>
+                      <p className="sub-title text-center">To Your Account</p>
 
                       <FormGroup>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>  <i className='icon-user' /></InputGroupText>
-                        </InputGroupAddon>
+                        <InputGroup>
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                              {" "}
+                              <i className="icon-user" />
+                            </InputGroupText>
+                          </InputGroupAddon>
                           <Input
                             type={"text"}
                             name={"email"}
-                            placeholder={"Email"}
+                            placeholder={"Email/User Name"}
                             onChange={this.handleChange}
                             value={email}
                           />
-                      </InputGroup>
+                        </InputGroup>
                       </FormGroup>
 
                       <FormGroup>
                         <InputGroup>
                           <InputGroupAddon addonType="prepend">
-                            <InputGroupText>  <i className='icon-lock' /></InputGroupText>
+                            <InputGroupText>
+                              {" "}
+                              <i className="icon-lock" />
+                            </InputGroupText>
                           </InputGroupAddon>
                           <Input
                             type={"password"}
                             name={"password"}
-                            placeholder={"Enter password"}
+                            placeholder={"Password"}
                             onChange={this.handleChange}
                             value={password}
                           />
@@ -180,7 +185,6 @@ class Login extends Component<any, ILoginState> {
                         </div>
                       </Form.Group> */}
                       <Row>
-                        
                         <Col md="8" className="mx-auto mb-3">
                           <Button
                             type={"submit"}

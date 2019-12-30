@@ -6,11 +6,11 @@ export default {
       icon: "fa fa-users",
       url: AppRoutes.EMPLOYEE
     },
-    {
-      name: "Department",
-      icon: "fa fa-address-book",
-      url: AppRoutes.ADD_DEPARTMENT
-    },
+    // {
+    //   name: "Department",
+    //   icon: "fa fa-address-book",
+    //   url: AppRoutes.ADD_DEPARTMENT
+    // },
     {
       name: "Region",
       icon: "fa fa-sitemap",

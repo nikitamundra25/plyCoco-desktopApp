@@ -9,7 +9,7 @@ import {
   NavLink
 } from "reactstrap";
 import { RouteComponentProps } from "react-router";
-import PersonalInformation from "./PersonalInformation";
+import Billing from "./Billing";
 import ChangePassword from "./ChangePassword";
 
 class ViewEmployee extends Component<RouteComponentProps, any> {
@@ -151,7 +151,8 @@ class ViewEmployee extends Component<RouteComponentProps, any> {
               </div>
               <div className="caregiver-content flex-grow-1">
                 {/* <PersonalInformation {...this.props} /> */}
-                <ChangePassword {...this.props} />
+                {/* <ChangePassword {...this.props} /> */}
+                <Billing {...this.props} />
               </div>
             </div>
           </div>

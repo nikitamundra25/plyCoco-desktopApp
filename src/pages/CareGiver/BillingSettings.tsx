@@ -137,8 +137,12 @@ class BillingSettings extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Calculation interval<br/>
-                            <small>interval The actual interval can vary depending on the specification of the facility.</small>
+                            Calculation interval
+                            <br />
+                            <small>
+                              interval The actual interval can vary depending on
+                              the specification of the facility.
+                            </small>
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -155,9 +159,12 @@ class BillingSettings extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            Next Invoice number<br/>
-                            <small>only numbers possible.
-Number is automatically increased by 1 after each invoice.</small>
+                            Next Invoice number
+                            <br />
+                            <small>
+                              only numbers possible. Number is automatically
+                              increased by 1 after each invoice.
+                            </small>
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -179,8 +186,13 @@ Number is automatically increased by 1 after each invoice.</small>
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Statements Maturity<br/>
-<small>due Your invoice is due so many days after it has been created.</small>                            <span className="required">*</span>
+                            Statements Maturity
+                            <br />
+                            <small>
+                              due Your invoice is due so many days after it has
+                              been created.
+                            </small>{" "}
+                            <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
@@ -205,11 +217,23 @@ Number is automatically increased by 1 after each invoice.</small>
                           </Label>
                         </Col>
                         <Col sm="8">
-                          <div>
-                            <Select
-                              options={Supplements}
-                              placeholder="Select Supplements"
-                            />
+                          <div className="custom-radio-block">
+                            <FormGroup check inline>
+                              <CustomInput
+                                type="radio"
+                                id="Exclusive"
+                                name="supplements"
+                                label="Exclusive"
+                              />
+                            </FormGroup>
+                            <FormGroup check inline>
+                              <CustomInput
+                                type="radio"
+                                id="Cumulative"
+                                name="supplements"
+                                label="Cumulative"
+                              />
+                            </FormGroup>
                           </div>
                         </Col>
                       </Row>
@@ -343,12 +367,14 @@ Number is automatically increased by 1 after each invoice.</small>
                 </Col>
               </div>
             </Col>
+           
+           
             <Col lg={"12"}>
               <div className="d-flex align-items-center justify-content-between">
                 <div className="mandatory-text">* Required Fields</div>
                 <div className={"text-right"}>
                   <Button color="primary" type="submit" className="btn-sumbit">
-                    Next Step & Save
+                    Submit
                   </Button>
                 </div>
               </div>

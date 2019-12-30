@@ -4,7 +4,7 @@ class Signature extends Component {
   render() {
     return (
         <>
-        <h5>Signatute</h5>
+        <h5>Signatute</h5><br/>
       <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
         {({ getRootProps, getInputProps }) => (
           <section>

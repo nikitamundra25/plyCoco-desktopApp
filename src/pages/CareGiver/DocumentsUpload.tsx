@@ -4,7 +4,7 @@ class DocumentsUpload extends Component {
   render() {
     return (
         <>
-        <h5>Documents Upload</h5>
+        <div><h5>Documents Upload</h5></div>
       <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
         {({ getRootProps, getInputProps }) => (
           <section>

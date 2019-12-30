@@ -14,7 +14,12 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
-import { Hours, CalculationInterval, Supplements } from "../../config";
+import {
+  Hours,
+  CalculationInterval,
+  Supplements,
+  NightAllowancePerHour
+} from "../../config";
 
 class BillingSettings extends Component {
   render() {
@@ -67,7 +72,7 @@ class BillingSettings extends Component {
                             <div className="mx-2">EUR</div>
                             <div>
                               <Select
-                                options={CalculationInterval}
+                                options={NightAllowancePerHour}
                                 className="custom-input-width"
                               />
                             </div>
@@ -124,7 +129,7 @@ class BillingSettings extends Component {
               </div>
             </Col>
             <Col lg={"6"}>
-              <h5 className="main-title mb-4">Billing settings</h5>
+              <h5 className="main-title mb-4">Bill</h5>
               <div className="form-card">
                 <Row>
                   <Col lg={"12"}>
@@ -132,7 +137,8 @@ class BillingSettings extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Calculation interval
+                            Calculation interval<br/>
+                            <small>interval The actual interval can vary depending on the specification of the facility.</small>
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -149,7 +155,9 @@ class BillingSettings extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            Next Invoice number
+                            Next Invoice number<br/>
+                            <small>only numbers possible.
+Number is automatically increased by 1 after each invoice.</small>
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -171,8 +179,8 @@ class BillingSettings extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Statements Maturity{" "}
-                            <span className="required">*</span>
+                            Statements Maturity<br/>
+<small>due Your invoice is due so many days after it has been created.</small>                            <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
@@ -198,11 +206,9 @@ class BillingSettings extends Component {
                         </Col>
                         <Col sm="8">
                           <div>
-                            <Input
-                              type="text"
-                              name={"nightSupplementsPerHour"}
-                              placeholder="Night supplements per hour"
-                              className="width-common"
+                            <Select
+                              options={Supplements}
+                              placeholder="Select Supplements"
                             />
                           </div>
                         </Col>
@@ -213,7 +219,7 @@ class BillingSettings extends Component {
               </div>
             </Col>
             <Col lg={"6"}>
-              <h5 className="main-title mb-4"> Account information</h5>
+              <h5 className="main-title mb-4"> Account Information</h5>
               <div className="form-card">
                 <Col lg={"12"}>
                   <FormGroup>
@@ -241,7 +247,9 @@ class BillingSettings extends Component {
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
-                          Account Holder Name{" "}
+                          Account Holder Name
+                          <br />
+                          <small>(only if different)</small>
                           <span className="required">*</span>
                         </Label>
                       </Col>
@@ -297,6 +305,12 @@ class BillingSettings extends Component {
                       <Col sm="4">
                         <Label className="form-label col-form-label ">
                           Additional text
+                          <br />
+                          <small>
+                            This text appears below the bank details on the
+                            invoice. In the case of ceded invoices (factoring),
+                            the cession can be added here.
+                          </small>
                         </Label>
                       </Col>
                       <Col sm="8">
@@ -330,10 +344,13 @@ class BillingSettings extends Component {
               </div>
             </Col>
             <Col lg={"12"}>
-              <div className={"text-right"}>
-                <Button color="primary" type="submit" className="btn-sumbit">
-                  Next Step & Save
-                </Button>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="mandatory-text">* Required Fields</div>
+                <div className={"text-right"}>
+                  <Button color="primary" type="submit" className="btn-sumbit">
+                    Next Step & Save
+                  </Button>
+                </div>
               </div>
             </Col>
           </Row>

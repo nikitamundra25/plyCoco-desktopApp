@@ -16,6 +16,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
 import { Status, State, Department, Region, City } from "../../config";
+import { AppBreadcrumb } from "@coreui/react";
+import routes from "../../routes/routes";
 
 class AddEmployee extends Component<any, any> {
   constructor(props: any) {
@@ -46,10 +48,7 @@ class AddEmployee extends Component<any, any> {
               <Col xs={"12"} lg={"12"}>
                 <Card>
                   <CardHeader>
-                    <h4>
-                      <i className="fa fa-users" />
-                      <span className="ml-1">Add Employee</span>
-                    </h4>
+                  <AppBreadcrumb appRoutes={routes} />
                   </CardHeader>
                   <CardBody>
                     <Row>
@@ -623,15 +622,22 @@ class AddEmployee extends Component<any, any> {
                               </div>
                             </Col>
                           </Row>
-                          <div className="text-right">
-                            <Button
-                              color="primary"
-                              type="submit"
-                              className="btn-sumbit"
-                            >
-                              Submit
-                            </Button>
-                          </div>
+                          <Col lg={"12"}>
+                            <div className="d-flex align-items-center justify-content-between">
+                              <div className="mandatory-text">
+                                * Required Fields
+                              </div>
+                              <div className={"text-right"}>
+                                <Button
+                                  color="primary"
+                                  type="submit"
+                                  className="btn-sumbit"
+                                >
+                                  Submit
+                                </Button>
+                              </div>
+                            </div>
+                          </Col>
                         </Form>
                       </Col>
                     </Row>

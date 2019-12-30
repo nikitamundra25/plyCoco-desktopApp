@@ -17,6 +17,17 @@ export const AppRoutes:IAppRoutes = {
   CARE_GIVER:'/caregiver',
   ADD_CARE_GIVER:'/caregiver/add',
   EDIT_CARE_GIVER:'/caregiver/edit',
-  VIEW_CARE_GIVER:'/caregiver/view',
-
+  PERSONAL_INFORMATION:'/caregiver/personal_information',
+  QUALIFICATION_ATTRIBUTE:'/caregiver/qualification_attribute',
+  BILLING_SETTING:'/caregiver/billing_setting',
+  LEASING_PERSONALDATA:'/caregiver/leasing_personaldata',
+  SIGNATURE:'/caregiver/signature',
+  DOCUMENTS_UPLOAD:'/caregiver/document_upload',
+  CHANGE_PASSWORD:'/caregiver/change_password',
+  EMAIL:'/caregiver/email',
+  EVENT:'/caregiver/event',
+  OFFER:'/caregiver/offer',
+  INVOCES:'/caregiver/invoice',
+  TODO:'/caregiver/todo',
+  
 };

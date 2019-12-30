@@ -178,3 +178,10 @@ export const Preoccupation = [
     label: "Fully employed in other company"
   }
 ];
+
+export const NightAllowancePerHour = [
+  { value: "From22oclock", label: "From 22 o'clock" },
+  { value: "From8pm", label: "From 8 p.m." },
+  { value: "From8:45pm", label: "From 8:45 p.m." },
+  { value: "From9pm", label: "From 9 p.m." }
+];

@@ -139,7 +139,7 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 <i
                   className="fa fa-eye"
                   onClick={() =>
-                    this.props.history.push(AppRoutes.VIEW_CARE_GIVER)
+                    this.props.history.push(AppRoutes.PERSONAL_INFORMATION)
                   }
                 ></i>
               </span>

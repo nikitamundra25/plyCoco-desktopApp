@@ -1,6 +1,6 @@
 import React, { Component, Suspense } from "react";
 import { Route, Switch, Redirect, RouteComponentProps } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { AppRoutes } from "../../config";
 import routes from "../../routes/routes";
 // sidebar nav config
@@ -17,9 +17,33 @@ import {
   AppSidebarNav
 } from "@coreui/react";
 import Loader from "../Loader/Loader";
+import ViewCareGiver from "../../pages/CareGiver/CareGiverLayout";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
+
+const CareGiverLayout = ({ component: Component, ...rest }: any) => {
+
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        <Row>
+          <Col lg={"12"}>
+            <div className="care-detail-page">
+            <AppBreadcrumb appRoutes={routes} />
+            <div className="caregiver-detail-section">
+              
+              <ViewCareGiver {...props} />
+              <Component {...props} />
+            </div>
+            </div>
+          </Col>
+        </Row>
+      )}
+    />
+  );
+};
 
 class DefaultLayout extends Component<any, any> {
   timeInterval: any = null;
@@ -62,7 +86,14 @@ class DefaultLayout extends Component<any, any> {
               <Suspense fallback={<Loader />}>
                 <Switch>
                   {routes.map((route, idx) => {
-                    return route.component ? (
+                    return route.layout ? (
+                      <CareGiverLayout
+                        key={idx}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.component}
+                      />
+                    ) : route.component ? (
                       <Route
                         key={idx}
                         path={route.path}

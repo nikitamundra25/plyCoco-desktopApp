@@ -25,12 +25,12 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Place of Birth <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -45,13 +45,13 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Birth Name
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -67,12 +67,12 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Nationality<span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Select
                               options={Nationality}
@@ -86,13 +86,13 @@ class LeasingPersonalData extends Component {
                   <Col lg="12">
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Marital Status
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Select
                               options={MaritalStatus}
@@ -106,13 +106,13 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Children
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -128,13 +128,13 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Factor Child allowance{" "}
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             {" "}
                             <Input
@@ -151,15 +151,36 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Status
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Select options={Status} placeholder="Status" />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label ">
+                            Tax Bracket
+                            <span className="required">*</span>
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div>
+                            <Input
+                              type="text"
+                              name={"taxBracket"}
+                              placeholder="Tax Bracket"
+                            />
                           </div>
                         </Col>
                       </Row>
@@ -175,13 +196,13 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Health insurance type
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Select
                               options={HealthInsuranceType}
@@ -195,13 +216,13 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Health insurance provider
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Select
                               type="text"
@@ -216,13 +237,13 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Social Security Number
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -237,12 +258,12 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Religion
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Select options={Religion} placeholder="Religion" />
                           </div>
@@ -253,13 +274,13 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Control Id
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Input
                               type="text"
@@ -274,13 +295,13 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label">
                             Preoccupation
                             <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <div>
                             <Select
                               options={Preoccupation}
@@ -294,12 +315,12 @@ class LeasingPersonalData extends Component {
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm="3">
+                        <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Payroll IBAN <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="9">
+                        <Col sm="8">
                           <Input
                             type="text"
                             name={"PayrollIBAN"}
@@ -545,6 +566,25 @@ class LeasingPersonalData extends Component {
               </FormGroup>
             </Col>
             <Col lg={"6"}>
+              <FormGroup>
+                <Row>
+                  <Col sm="3">
+                    <Label className="form-label col-form-label">
+                      Tax Bracket
+                      <span className="required">*</span>
+                    </Label>
+                  </Col>
+                  <Col sm="9">
+                    <div>
+                      <Input
+                        type="text"
+                        name={"taxBracket"}
+                        placeholder="Tax Bracket"
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
               <FormGroup>
                 <Row>
                   <Col sm="3">

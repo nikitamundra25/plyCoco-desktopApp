@@ -48,6 +48,8 @@ class LeasingPersonalData extends Component {
                         <Col sm="4">
                           <Label className="form-label col-form-label">
                             Birth Name
+                            <br />
+                            <small>(only if different from family name)</small>
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -109,6 +111,8 @@ class LeasingPersonalData extends Component {
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Children
+                            <br />
+                            <small>(0 if none)</small>
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -130,7 +134,9 @@ class LeasingPersonalData extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Factor Child allowance{" "}
+                            Factor Child allowance
+                            <br />
+                            <small>(0 if none)</small>
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -240,6 +246,8 @@ class LeasingPersonalData extends Component {
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
                             Social Security Number
+                            <br />
+                            <small>(example: 65170839J003)</small>
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -317,7 +325,12 @@ class LeasingPersonalData extends Component {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Payroll IBAN <span className="required">*</span>
+                            Payroll IBAN <br />
+                            <small>
+                              (only necessary if an account other than the one
+                              in the profile is required.)
+                            </small>
+                            <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
@@ -334,10 +347,13 @@ class LeasingPersonalData extends Component {
               </div>
             </Col>
             <Col lg={"12"}>
-              <div className={"text-right"}>
-                <Button color="primary" type="submit" className="btn-sumbit">
-                  Submit
-                </Button>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="mandatory-text">* Required Fields</div>
+                <div className={"text-right"}>
+                  <Button color="primary" type="submit" className="btn-sumbit">
+                    Submit
+                  </Button>
+                </div>
               </div>
             </Col>
           </Row>

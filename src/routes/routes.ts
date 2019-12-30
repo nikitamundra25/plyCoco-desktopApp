@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppRoutes } from '../config';
+import ToDo from '../pages/CareGiver/ToDos';
 
 const Dashboard = React.lazy(() => import('../pages/Dashboard'));
 const Login = React.lazy(() => import('../pages/Login'));
@@ -15,7 +16,17 @@ const AddRegion = React.lazy(() => import('../pages/Region/AddRegion'));
 const CareGiver = React.lazy(() => import('../pages/CareGiver'));
 const AddCareGiver = React.lazy(() => import('../pages/CareGiver/AddCareGiver'));
 const EditCareGiver = React.lazy(() => import('../pages/CareGiver/EditCareGiver'));
-const ViewCareGiver = React.lazy(() => import('../pages/CareGiver/ViewCareGiver'));
+const CareGiverLayout = React.lazy(() => import('../pages/CareGiver/CareGiverLayout'));
+const PersonalInformation = React.lazy(() => import('../pages/CareGiver/PersonalInformation'))
+const QualificationAttribute = React.lazy(() => import('../pages/CareGiver/QualificationAttribute'))
+const BillingSetting = React.lazy(() => import('../pages/CareGiver/BillingSettings'))
+const LeasingPersonalData = React.lazy(() => import('../pages/CareGiver/LeasingPersonalData'))
+const ChangePassword = React.lazy(() => import('../pages/CareGiver/ChangePassword'))
+const Email = React.lazy(() => import('../pages/CareGiver/Email'))
+const Event = React.lazy(() => import('../pages/CareGiver/Event'))
+const Offer = React.lazy(() => import('../pages/CareGiver/Offer'))
+const Invoices = React.lazy(() => import('../pages/CareGiver/Invoices'))
+const Todos = React.lazy(() => import('../pages/CareGiver/ToDos'))
 
 const routes = [
   { path: AppRoutes.MAIN, exact: true, name: 'Home' },
@@ -105,10 +116,74 @@ const routes = [
     exact: true,
   },
   {
-    path: AppRoutes.VIEW_CARE_GIVER,
-    name: 'View Care Giver',
-    component: ViewCareGiver,
+    path: AppRoutes.PERSONAL_INFORMATION,
+    name: 'Personal Information',
+    component: PersonalInformation,
     exact: true,
+    layout:CareGiverLayout
+  },
+  {
+    path: AppRoutes.BILLING_SETTING,
+    name: 'Billing Setting',
+    component: BillingSetting,
+    layout:CareGiverLayout,
+    exact: true,
+  },
+  {
+    path: AppRoutes.QUALIFICATION_ATTRIBUTE,
+    name: 'Qualification Attribute',
+    component: QualificationAttribute,
+    exact: true,
+    layout:CareGiverLayout
+  },
+  {
+    path: AppRoutes.LEASING_PERSONALDATA,
+    name: 'Leasing Personal Data',
+    component: LeasingPersonalData,
+    exact: true,
+    layout:CareGiverLayout
+  },
+  {
+    path: AppRoutes.CHANGE_PASSWORD,
+    name: 'Change Password',
+    component: ChangePassword,
+    exact: true,
+    layout:CareGiverLayout
+  },
+  {
+    path: AppRoutes.EMAIL,
+    name: 'Email',
+    component: Email,
+    exact: true,
+    layout:CareGiverLayout
+  },
+  {
+    path: AppRoutes.EVENT,
+    name: 'Event',
+    component: Event,
+    exact: true,
+    layout:CareGiverLayout
+  },
+  {
+    path: AppRoutes.INVOCES,
+    name: 'Invoices',
+    component: Invoices,
+    exact: true,
+    layout:CareGiverLayout
+  },
+  {
+    path: AppRoutes.OFFER,
+    name: 'Offer',
+    component: Offer,
+    exact: true,
+    layout:CareGiverLayout
+  },
+  {
+    path: AppRoutes.TODO,
+    name: 'Todos',
+    component: Todos,
+    exact: true,
+    layout:CareGiverLayout
   },
 ];
 

@@ -18,6 +18,8 @@ import {
 } from "reactstrap";
 import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
+import { AppBreadcrumb } from "@coreui/react";
+import routes from "../../routes/routes";
 class Region extends Component<RouteComponentProps, any> {
   render() {
     return (
@@ -25,10 +27,12 @@ class Region extends Component<RouteComponentProps, any> {
         <Col xs={"12"} lg={"12"}>
           <Card>
             <CardHeader>
-              <h4>
+              {/* <h4>
                 <i className="fa fa-sitemap" />
                 <span className="ml-1">Region</span>
-              </h4>
+              </h4> */}
+            <AppBreadcrumb appRoutes={routes} className="w-100" />
+
               <Button
                 color={"primary"}
                 className={"pull-right"}

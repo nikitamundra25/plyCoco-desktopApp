@@ -5,7 +5,7 @@ import { RouteChildrenProps, RouteComponentProps } from "react-router";
 class EmailMenus extends Component<RouteComponentProps, any> {
   render() {
     return (
-      <div className="email-section">
+      <>
         <Nav tabs className="custom-tabs">
           <NavItem>
             <NavLink
@@ -52,9 +52,7 @@ class EmailMenus extends Component<RouteComponentProps, any> {
             </NavLink>
           </NavItem>
         </Nav>
-
-        <div className="email-content"></div>
-      </div>
+      </>
     );
   }
 }

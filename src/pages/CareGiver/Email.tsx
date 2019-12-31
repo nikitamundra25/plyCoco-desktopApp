@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Button, Col, Row, Form, Nav, NavItem, NavLink } from "reactstrap";
+import {
+  Button,
+  Col,
+  Row,
+  Form,
+  Nav,
+  NavItem,
+  NavLink,
+  Label
+} from "reactstrap";
 class Email extends Component {
   render() {
     return (
@@ -39,7 +48,43 @@ class Email extends Component {
           </NavItem>
         </Nav>
 
-        <div className="email-content"></div>
+        <div className="email-content">
+          <Row>
+            <Col lg={"6"}>
+              <ul className="mail-listing">
+                <li className="mail-listing-item">
+                  <div className="mail-inbox-content">
+                    <div className="mail-inbox-info">
+                      <div className="inbox-action">
+                        <div className=" checkbox-custom">
+                          <input type="checkbox" id="check" className="" />
+                          <Label for="check"></Label>
+                        </div>
+                        <div>
+                          <i className="fa fa-flag"></i>
+                        </div>
+                        <div>
+                          <i className="fa fa-circle "></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mail-inbox-detail">
+                      <div className="mail-inbox-subject">
+                        Your iBuy.com grocery shopping confirmation
+                      </div>
+                      <div className="mail-inbox-summary">
+                        Please make sure that you have one of the following
+                        cards...
+                      </div>
+                    </div>
+                    <div className="mail-inbox-date-time">12:20 PM</div>
+                  </div>
+                </li>
+              </ul>
+            </Col>
+            <Col lg={"6"}></Col>
+          </Row>
+        </div>
       </div>
     );
   }

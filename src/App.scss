@@ -219,6 +219,7 @@ body {
     text-align: left;
     line-height: 1.5;
     font-weight: 600;
+    font-size: 13px;
   }
 
   .checkbox-custom label:before {
@@ -1027,7 +1028,6 @@ body {
   }
 }
 .caregiver-form-section {
- 
   .tab-content {
     border: 0px;
     //padding: 20px 0px;
@@ -1230,6 +1230,83 @@ body {
       font-weight: 600;
       color: $dark_gray;
       margin-bottom: 4px;
+    }
+  }
+}
+.email-section {
+  .email-content {
+    padding: 20px 0px;
+    .mail-listing {
+      list-style: none;
+      padding: 0px;
+      margin: 0px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      height: 700px;
+      padding: 0px;
+      .mail-listing-item {
+        border-top: 1px solid #dae1e7;
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+
+        .mail-inbox-content {
+          padding: 12px 10px;
+          .mail-inbox-info {
+            flex: 0 0 60px;
+            min-width: 60px;
+            .inbox-action {
+              font-size: 13px;
+              .custom-checkbox {
+                margin-right: 7px;
+              }
+              .flag-icon {
+                margin-right: 7px;
+              }
+              .unread-icon {
+                color: #2196f3;
+              }
+            }
+          }
+          .mail-inbox-detail {
+            flex-grow: 1;
+            position: relative;
+            padding-right: 65px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            .mail-inbox-subject {
+              font-weight: 600;
+              color: $black;
+              font-size: 13px;
+            }
+            .mail-inbox-summary {
+              font-weight: 400;
+              color: $dark_gray;
+              font-size: 13px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+          .mail-inbox-date-time {
+            font-size: 12px;
+            color: #a2a5b9;
+            font-weight: 400;
+            margin-left: 0px;
+            text-align: right;
+            flex: 0 0 55px;
+            position: absolute;
+            right: 0px;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+        &:hover {
+          background-color: #f2f3f7;
+        }
+        &:last-child {
+          border-bottom: 1px solid #dae1e7;
+        }
+      }
     }
   }
 }

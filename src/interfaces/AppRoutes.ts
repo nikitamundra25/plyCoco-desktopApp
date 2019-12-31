@@ -24,6 +24,10 @@ export interface IAppRoutes {
   DOCUMENTS_UPLOAD: string;
   CHANGE_PASSWORD: string;
   EMAIL: string;
+  INBOX: string,
+  SENT_EMAIL: string,
+  NEW_EMAIL: string,
+  EMAIL_SETTINGS: string,
   EVENT: string;
   OFFER: string;
   INVOCES: string;

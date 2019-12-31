@@ -5,7 +5,7 @@ import {
   NavLink
 } from "reactstrap";
 import { careGiverRoutes } from "./CareGiverRoutes";
-class ViewCareGiver extends Component<any, any> {
+class CareGiverSidebar extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -57,4 +57,4 @@ class ViewCareGiver extends Component<any, any> {
   }
 }
 
-export default ViewCareGiver;
+export default CareGiverSidebar;

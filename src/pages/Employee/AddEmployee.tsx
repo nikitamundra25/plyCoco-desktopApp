@@ -19,7 +19,7 @@ import { RouteComponentProps } from "react-router";
 import { Status, State, Department, Region, City } from "../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
-
+import InputMask from "react-input-mask";
 class AddEmployee extends Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -474,82 +474,6 @@ class AddEmployee extends Component<any, any> {
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              {/* <Col lg={"12"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="3">
-                                          <Label className="form-label col-form-label">
-                                            Employee rights
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="9">
-                                          <Row>
-                                            <Col sm="3">
-                                              <div className="checkbox-custom">
-                                                <Input
-                                                  type="checkbox"
-                                                  name="check1"
-                                                  id="exampleCheck1"
-                                                />
-                                                <Label
-                                                  for="exampleCheck1"
-                                                  check
-                                                >
-                                                  Rights 1
-                                                </Label>
-                                              </div>
-                                            </Col>
-                                            <Col sm="3">
-                                              <div className="checkbox-custom">
-                                                <Input
-                                                  type="checkbox"
-                                                  name="check2"
-                                                  id="exampleCheck2"
-                                                />
-                                                <Label
-                                                  for="exampleCheck2"
-                                                  check
-                                                >
-                                                  Rights 2
-                                                </Label>
-                                              </div>
-                                            </Col>
-                                            <Col sm="3">
-                                              <div className="checkbox-custom">
-                                                <Input
-                                                  type="checkbox"
-                                                  name="check3"
-                                                  id="exampleCheck3"
-                                                />
-                                                <Label
-                                                  for="exampleCheck3"
-                                                  check
-                                                >
-                                                  Rights 3
-                                                </Label>
-                                              </div>
-                                            </Col>
-                                            <Col sm="3">
-                                              <div className="checkbox-custom">
-                                                <Input
-                                                  type="checkbox"
-                                                  name="check4"
-                                                  id="exampleCheck4"
-                                                />
-                                                <Label
-                                                  for="exampleCheck4"
-                                                  check
-                                                >
-                                                  Rights 4
-                                                </Label>
-                                              </div>
-                                            </Col>
-                                          </Row>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col> */}
                               <Col lg={"6"}>
                                 <FormGroup>
                                   <Row>
@@ -562,10 +486,17 @@ class AddEmployee extends Component<any, any> {
                                       <div>
                                         <Row>
                                           <Col>
-                                            <DatePicker
+                                            {/* <DatePicker
                                               placeholderText="Select Date"
                                               selected={this.state.startDate}
                                               onChange={this.handleChange}
+                                            /> */}
+
+                                            <InputMask
+                                              value={this.state.date}
+                                              placeholder="DD/MM/YYYY"
+                                              mask="99/99/9999"
+                                              // onChange={this.handleDateOfBirth}
                                             />
                                           </Col>
                                         </Row>

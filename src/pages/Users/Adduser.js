@@ -1,38 +1,9 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
 import { Button, Form, FormGroup, Label, Input, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 
-const ADD_USER = gql`
-  mutation AddUser($firstName: String!, $lastName: String, $email: String) {
-    addUser(firstName: $firstName, lastName: $lastName, email: $email) {
-      id
-      firstName
-      lastName
-    }
-  }
-`;
 
-const UPDATE_USER = gql`
-  mutation UpdateUser(
-    $id: ID!
-    $firstName: String!
-    $lastName: String
-    $email: String
-  ) {
-    updateUser(
-      id: $id
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-    ) {
-      id
-      firstName
-      lastName
-    }
-  }
-`;
 
 class Adduser extends Component {
   constructor(props) {
@@ -93,7 +64,8 @@ class Adduser extends Component {
       handleClose,
       setEditable,
       refetch,
-      GET_USERS
+      GET_USERS,
+      UsersQuery
     } = this.props;
 
     const {
@@ -129,7 +101,7 @@ class Adduser extends Component {
                   isSuccess: true
                 })
               }
-            } mutation={setEditable ? UPDATE_USER : ADD_USER}
+            } mutation={setEditable ? UsersQuery.UPDATE_USER : UsersQuery.ADD_USER}
               onError={(error) => {
                 if (error) {
                   toast.error("Email already exit!")

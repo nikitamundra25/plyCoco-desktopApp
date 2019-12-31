@@ -1,9 +1,25 @@
 import React, { Component } from "react";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { EditorState } from "draft-js";
 import { Button, Col, Row, Form, FormGroup, Label, Input } from "reactstrap";
 import EmailMenus from "./EmailMenus";
 import { RouteComponentProps } from "react-router";
 class Email extends Component<RouteComponentProps, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      editorState: EditorState.createEmpty()
+    };
+  }
+  onEditorStateChange = (editorState: any) => {
+    this.setState({
+      editorState
+    });
+  };
   render() {
+    const { editorState } = this.state;
+
     return (
       <div className="email-section">
         <EmailMenus {...this.props} />
@@ -44,11 +60,14 @@ class Email extends Component<RouteComponentProps, any> {
                           </Col>
                           <Col sm="9">
                             <div>
-                              <Input
-                                type="textarea"
-                                name={"text"}
-                                placeholder="text"
-                                rows="5"
+                              <Editor
+                                editorState={editorState}
+                                toolbarClassName="toolbarClassName"
+                                wrapperClassName="wrapperClassName"
+                                editorClassName="editorClassName"
+                                onEditorStateChange={this.onEditorStateChange}
+                                placeholder="Enter Email Here"
+
                               />
                             </div>
                           </Col>

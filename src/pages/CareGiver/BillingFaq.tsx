@@ -25,24 +25,31 @@ class BillingFaq extends Component<any, any> {
     return (
       <div className="faq-section">
         <h4 className="content-title">Billing FAQ</h4>
-        <div className="container">
+        <div>
           {cards.map((index: any) => {
             return (
-              <Card style={{ marginBottom: "1rem" }} key={index}>
-                <CardHeader onClick={this.toggle} data-event={index}>
+              <div className="faq-item" key={index}>
+                <div
+                  className="faq-header"
+                  onClick={this.toggle}
+                  data-event={index}
+                >
                   Why was my invoice not created automatically?
-                </CardHeader>
+                  <span className="faq-icon ">
+                    <i className="fa fa-chevron-down"></i>
+                  </span>
+                </div>
                 <Collapse isOpen={collapse === index}>
-                  <CardBody>
+                  <div className="faq-body">
                     An invoice correction is still pending. You entered
                     incorrect working hours or the invoice had to be canceled
                     for other reasons. Before you have not corrected the times
                     and created the invoice again using the link in the email,
                     the invoice creation is suspended. Otherwise, an incorrect
                     invoice would be created again.
-                  </CardBody>
+                  </div>
                 </Collapse>
-              </Card>
+              </div>
             );
           })}
         </div>

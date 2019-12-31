@@ -1,4 +1,4 @@
-import { AppConfig } from "./../Config/AppConfig";
+import { AppConfig } from "../config";
 import { ErrorHandlerHelper } from "./ErrorHandlerHelper";
 import { SuccessHandlerHelper } from "./SuccessHandlerHelper";
 import Axios from "axios";

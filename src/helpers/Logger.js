@@ -1,4 +1,4 @@
-import { EnviornmentType } from "../Config";
+import { EnviornmentType } from "../config";
 
 export const logger = data => {
   if (process.env.NODE_ENV === EnviornmentType.DEV) {

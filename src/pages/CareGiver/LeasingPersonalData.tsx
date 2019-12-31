@@ -19,7 +19,7 @@ class LeasingPersonalData extends Component {
         <Form className="form-section">
           <Row>
             <Col lg={"12"}>
-              <h5 className="main-title mb-4">Personal Information</h5>
+              <h5 className="main-title ">Personal Information</h5>
               <div className="form-card">
                 <Row>
                   <Col lg={"6"}>

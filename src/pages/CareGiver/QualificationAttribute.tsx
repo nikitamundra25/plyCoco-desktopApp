@@ -9,6 +9,7 @@ class QualificationAttribute extends Component {
     return (
       <div>
         <Form className="form-section">
+          <h5 className="main-title ">Qualification Attribute</h5>
           <Row>
             <Col lg={"6"}>
               <FormGroup>
@@ -36,7 +37,7 @@ class QualificationAttribute extends Component {
                 <div className="mandatory-text">* Required Fields</div>
                 <div className={"text-right"}>
                   <Button color="primary" type="submit" className="btn-sumbit">
-                  Submit
+                    Submit
                   </Button>
                 </div>
               </div>

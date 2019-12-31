@@ -34,6 +34,7 @@ const QualificationAttribute = React.lazy(() =>
 const BillingSetting = React.lazy(() =>
   import("../pages/CareGiver/BillingSettings")
 );
+const Billing = React.lazy(() => import("../pages/CareGiver/Billing"));
 const LeasingPersonalData = React.lazy(() =>
   import("../pages/CareGiver/LeasingPersonalData")
 );
@@ -145,8 +146,8 @@ const routes = [
   },
   {
     path: AppRoutes.BILLING,
-    name: "Billing Setting",
-    component: BillingSetting,
+    name: "Billing",
+    component: Billing,
     layout: CareGiverLayout,
     exact: true
   },

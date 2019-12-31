@@ -982,7 +982,7 @@ body {
   }
   .tab-content {
     border: 0px;
-    padding: 20px 0px;
+    //padding: 20px 0px;
   }
 }
 .care-detail-page {
@@ -1024,10 +1024,14 @@ body {
             .nav-text {
               vertical-align: middle;
             }
+            &.active {
+              background: $side_hover;
+            }
           }
-          &:hover,
-          &.active {
-            background: $side_hover;
+          &:hover {
+            .nav-link {
+              background: $side_hover;
+            }
           }
         }
       }
@@ -1048,11 +1052,11 @@ body {
     box-shadow: 0 0 8px #ddd;
     border: 1px solid transparent;
     .faq-header {
-      color: #30343a;
+      color: #636363;
       background-color: #fff;
       border-color: transparent;
-      padding: 10px 35px 10px 15px;
-      font-size: 15px;
+      padding: 8px 35px 8px 15px;
+      font-size: 14px;
       line-height: 20px;
       font-weight: 600;
       border-bottom: none;
@@ -1072,19 +1076,22 @@ body {
         font-size: 18px;
         -webkit-transition: all 0.3s ease;
         transition: all 0.3s ease;
-        color: #cecece;
+        color: #636363;
       }
       &.active {
-        color: #506ee4;
+        color: #000;
         .faq-icon {
           -webkit-transform: rotate(180deg);
           transform: rotate(180deg);
-          color: #506ee4;
+          color: #000;
         }
+      }
+      &:hover {
+        text-decoration: none;
       }
     }
     .faq-body {
-      padding: 15px 20px;
+      padding: 10px 20px;
       color: #9e9e9e;
       font-size: 14px;
       font-weight: 400;

@@ -17,11 +17,14 @@ import {
   AppSidebarNav
 } from "@coreui/react";
 import Loader from "../Loader/Loader";
-import ViewCareGiver from "../../pages/CareGiver/CareGiverLayout";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
+const CareGiverSidebar = React.lazy(() =>
+  import("../../pages/CareGiver/CareGiverLayout")
+);
 
+// Care giver Sidebar
 const CareGiverLayout = ({ component: Component, ...rest }: any) => {
   return (
     <Route
@@ -32,7 +35,7 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
             <div className="care-detail-page">
               <AppBreadcrumb appRoutes={routes} />
               <div className="caregiver-detail-section">
-                <ViewCareGiver {...props} />
+                <CareGiverSidebar {...props} />
                 <div className="caregiver-content flex-grow-1">
                   <Component {...props} />
                 </div>

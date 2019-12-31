@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 import { Button, Col, Row, Form, Nav, NavItem, NavLink } from "reactstrap";
-class Email extends Component {
+import { AppRoutes } from "../../config";
+import { RouteChildrenProps, RouteComponentProps } from "react-router";
+class EmailMenus extends Component<RouteComponentProps, any> {
   render() {
     return (
       <div className="email-section">
         <Nav tabs className="custom-tabs">
           <NavItem>
-            <NavLink className="active">
+            <NavLink
+              className="active"
+              onClick={() => this.props.history.push(AppRoutes.INBOX)}
+            >
               <span className="icon">
                 <i className="fa fa-inbox"></i>
               </span>
@@ -14,7 +19,10 @@ class Email extends Component {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className="">
+            <NavLink
+              className=""
+              onClick={() => this.props.history.push(AppRoutes.SENT_EMAIL)}
+            >
               <span className="icon">
                 <i className="fa fa-send"></i>
               </span>
@@ -22,7 +30,10 @@ class Email extends Component {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className="">
+            <NavLink
+              className=""
+              onClick={() => this.props.history.push(AppRoutes.NEW_EMAIL)}
+            >
               <span className="icon">
                 <i className="fa fa-edit"></i>
               </span>
@@ -30,7 +41,10 @@ class Email extends Component {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className="">
+            <NavLink
+              className=""
+              onClick={() => this.props.history.push(AppRoutes.EMAIL_SETTINGS)}
+            >
               <span className="icon">
                 <i className="fa fa-cogs"></i>
               </span>
@@ -44,4 +58,4 @@ class Email extends Component {
     );
   }
 }
-export default Email;
+export default EmailMenus;

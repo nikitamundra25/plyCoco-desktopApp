@@ -38,7 +38,7 @@ export const careGiverRoutes = [
     icon: "fa fa-lock"
   },
   {
-    path: AppRoutes.EMAIL,
+    path: AppRoutes.INBOX,
     name: "Email",
     icon: "fa fa-envelope"
   },

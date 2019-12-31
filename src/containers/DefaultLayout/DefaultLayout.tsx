@@ -33,7 +33,7 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
         <Row>
           <Col lg={"12"}>
             <div className="care-detail-page">
-              <AppBreadcrumb appRoutes={routes} />
+              <AppBreadcrumb appRoutes={routes} className="w-100"  />
               <div className="caregiver-detail-section">
                 <CareGiverSidebar {...props} />
                 <div className="caregiver-content flex-grow-1">

@@ -28,3 +28,7 @@ export interface ILoginState {
 export interface IProxyLoginActionData {
   id: string;
 }
+export interface ILoginFormValues {
+  email: string;
+  password: string;
+}

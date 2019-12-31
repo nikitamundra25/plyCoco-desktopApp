@@ -10,34 +10,12 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap';
 import { Query } from '@apollo/react-components';
-import gql from 'graphql-tag';
 // import PaginationHelper from '../../helpers/Pagination';
 import Adduser from './Adduser';
 import { Mutation } from '@apollo/react-components';
 import { toast } from 'react-toastify';
 import { ConfirmBox } from '../../helpers/SweetAlert';
-
-const GET_USERS = gql`
-  query userList {
-    users {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
-
-const DELETE_USER = gql`
-  mutation DeleteUser($id: ID!) {
-    deleteUser(id: $id) {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
+import { UsersQuery } from "../../queries"
 
 class Users extends Component {
   constructor(props) {
@@ -99,7 +77,7 @@ class Users extends Component {
     } = this.state;
 
     return (
-      <Query query={GET_USERS}>
+      <Query query={UsersQuery.GET_USERS}>
         {({ data, refetch }) => {
           return (
             <>
@@ -155,7 +133,7 @@ class Users extends Component {
                                     Edit
                                   </button>
                                   &nbsp;&nbsp;&nbsp;
-                                  <Mutation mutation={DELETE_USER}>
+                                  <Mutation mutation={UsersQuery.DELETE_USER}>
                                     {(deleteUser, { error, data }) => {
                                       return (
                                         <button
@@ -175,7 +153,7 @@ class Users extends Component {
                                                   id: user.id,
                                                 },
                                               });
-                                              await refetch(GET_USERS);
+                                              await refetch(UsersQuery.GET_USERS);
                                               toast.success(
                                                 'User Deleted Successfully!',
                                               );
@@ -209,7 +187,8 @@ class Users extends Component {
                 isEditable={isEditable}
                 setEditable={setEditable}
                 refetch={refetch}
-                GET_USERS={GET_USERS}
+                UsersQuery={UsersQuery}
+                GET_USERS={UsersQuery.GET_USERS}
                 handleClose={this.handleUserModal}
                 handleChange={this.handleChange}
               />

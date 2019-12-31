@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 import { Button, Col, Row, Form, Nav, NavItem, NavLink } from "reactstrap";
-class Email extends Component {
+import { RouteComponentProps } from "react-router";
+import EmailMenus from "./EmailMenus";
+class Email extends Component<RouteComponentProps, any> {
   render() {
-    return <div className="email-content">Sent Email </div>;
+    return (
+      <div className="email-content">
+        <EmailMenus {...this.props} />
+        <p>Sent Email</p>{" "}
+      </div>
+    );
   }
 }
 export default Email;

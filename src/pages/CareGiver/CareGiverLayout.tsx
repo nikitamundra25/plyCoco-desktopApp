@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import {
-  Nav,
-  NavItem,
-  NavLink
-} from "reactstrap";
+import { Nav, NavItem, NavLink } from "reactstrap";
 import { careGiverRoutes } from "./CareGiverRoutes";
 class CareGiverSidebar extends Component<any, any> {
   constructor(props: any) {

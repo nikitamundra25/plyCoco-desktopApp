@@ -28,7 +28,7 @@ class BillingSettings extends Component {
         <Form className="form-section">
           <Row>
             <Col lg={"6"}>
-              <h5 className="main-title mb-4">Price Range</h5>
+              <h5 className="main-title ">Price Range</h5>
               <div className="form-card">
                 <Row>
                   <Col lg={"12"}>
@@ -44,7 +44,7 @@ class BillingSettings extends Component {
                             <Input
                               type="text"
                               name={"feePerHour"}
-                              placeholder="Fee per hour"
+                              placeholder=""
                               className="custom-input-width"
                             />
                             <div className="mx-2">EUR</div>
@@ -129,7 +129,7 @@ class BillingSettings extends Component {
               </div>
             </Col>
             <Col lg={"6"}>
-              <h5 className="main-title mb-4">Bill</h5>
+              <h5 className="main-title ">Bill</h5>
               <div className="form-card">
                 <Row>
                   <Col lg={"12"}>
@@ -243,7 +243,7 @@ class BillingSettings extends Component {
               </div>
             </Col>
             <Col lg={"6"}>
-              <h5 className="main-title mb-4"> Account Information</h5>
+              <h5 className="main-title"> Account Information</h5>
               <div className="form-card">
                 <Col lg={"12"}>
                   <FormGroup>
@@ -367,8 +367,7 @@ class BillingSettings extends Component {
                 </Col>
               </div>
             </Col>
-           
-           
+
             <Col lg={"12"}>
               <div className="d-flex align-items-center justify-content-between">
                 <div className="mandatory-text">* Required Fields</div>

@@ -36,7 +36,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
         <Form className="form-section">
           <Row>
             <Col lg={"6"}>
-              <h5 className="main-title mb-4">Personal Data</h5>
+              <h5 className="main-title ">Personal Data</h5>
               <div className="form-card">
                 <Row>
                   <Col lg={"12"}>
@@ -97,7 +97,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Address 1<span className="required">*</span>
+                            Address Line 1<span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
@@ -105,7 +105,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"address"}
-                              placeholder="Address 1"
+                              placeholder="Address Line 1"
                               className=" width-common"
                             />
                           </div>
@@ -118,7 +118,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                            Address 2
+                            Address Line 2
                           </Label>
                         </Col>
                         <Col sm="8">
@@ -126,7 +126,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"address"}
-                              placeholder="Address 2"
+                              placeholder="Address Line 2"
                               className=" width-common"
                             />
                           </div>
@@ -268,7 +268,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
             </Col>
 
             <Col lg={"6"}>
-              <h5 className="main-title mb-4">Reachability</h5>
+              <h5 className="main-title ">Reachability</h5>
               <div className="form-card">
                 <Row>
                   <Col lg={"12"}>
@@ -359,10 +359,32 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       </Row>
                     </FormGroup>
                   </Col>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label">
+                            Username
+                            <span className="required">*</span>
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div>
+                            <Input
+                              type="text"
+                              name={"Username"}
+                              placeholder=" Username"
+                              className="width-common"
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
                 </Row>
               </div>
               <div>
-                <h5 className="main-title  mb-4">Vehicle Information</h5>
+                <h5 className="main-title  ">Vehicle Information</h5>
                 <div className="form-card">
                   <Row>
                     <Col lg={"12"}>
@@ -457,7 +479,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
             </Col>
 
             <Col lg={"12"}>
-              <h5 className="main-title mb-4">Other Information</h5>
+              <h5 className="main-title ">Other Information</h5>
               <div className="form-card">
                 <Row>
                   <Col lg={"6"}>

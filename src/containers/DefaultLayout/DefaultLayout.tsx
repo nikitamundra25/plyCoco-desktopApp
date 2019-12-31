@@ -20,24 +20,26 @@ import Loader from "../Loader/Loader";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
-const CareGiverSidebar = React.lazy(() => import("../../pages/CareGiver/CareGiverLayout"));
+const CareGiverSidebar = React.lazy(() =>
+  import("../../pages/CareGiver/CareGiverLayout")
+);
 
+// Care giver Sidebar
 const CareGiverLayout = ({ component: Component, ...rest }: any) => {
-
   return (
-    // Care giver Sidebar
     <Route
       {...rest}
       render={props => (
         <Row>
           <Col lg={"12"}>
             <div className="care-detail-page">
-            <AppBreadcrumb appRoutes={routes} />
-            <div className="caregiver-detail-section">
-              
-              <CareGiverSidebar {...props} />
-              <Component {...props} />
-            </div>
+              <AppBreadcrumb appRoutes={routes} />
+              <div className="caregiver-detail-section">
+                <CareGiverSidebar {...props} />
+                <div className="caregiver-content flex-grow-1">
+                  <Component {...props} />
+                </div>
+              </div>
             </div>
           </Col>
         </Row>
@@ -109,11 +111,11 @@ class DefaultLayout extends Component<any, any> {
             </Container>
           </main>
         </div>
-        <AppFooter>
+        {/* <AppFooter>
           <Suspense fallback={<Loader />}>
             <DefaultFooter />
           </Suspense>
-        </AppFooter>
+        </AppFooter> */}
       </div>
     );
   }

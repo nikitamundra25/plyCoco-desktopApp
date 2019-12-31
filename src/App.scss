@@ -87,7 +87,8 @@ body {
   }
 
   .card {
-    border: 1px solid $card_border;
+    border: 0px solid $card_border;
+    margin-bottom: 0px;
     .card-header {
       display: flex;
       align-items: center;
@@ -97,15 +98,22 @@ body {
       border-bottom: 1px solid $card_header_border;
       h4 {
         margin: 0px;
-        font-size: 18px;
+        font-size: 15px;
         font-weight: 600;
       }
       .btn {
         padding: 0.2rem 0.75rem;
+        font-size: 12px;
+      }
+      .btn-add {
+        white-space: nowrap;
       }
       &.detail-card {
         padding: 6px 15px;
       }
+    }
+    .card-body {
+      padding: 10px;
     }
   }
 
@@ -407,13 +415,13 @@ body {
 }
 .breadcrumb {
   border: 1px solid rgba(224, 220, 220, 0.32);
-  padding: 8px 15px;
+  padding: 4px 15px;
   list-style: none;
   background-color: $breadcrumb_bg;
   border-radius: 4px;
   margin-bottom: 0px;
   .breadcrumb-item {
-    font-size: 13px;
+    font-size: 12px;
     &.active {
       font-weight: 600;
     }
@@ -422,7 +430,7 @@ body {
 .sidebar {
   background: $theme_color;
   .nav-link {
-    padding: 0.95rem 1rem;
+    padding: 10px 10px;
     .nav-icon {
       color: $white;
     }
@@ -481,12 +489,16 @@ body {
   }
 }
 .filter-form {
-  margin-top: -10px;
+  margin-top: -5px;
+  .col-form-label {
+    text-align: left !important;
+    padding: 0px 0px 2px;
+  }
 }
 .form-card {
   background: $card_header_bg;
-  padding: 20px 20px;
-  margin-bottom: 20px;
+  padding: 12px 20px;
+  margin-bottom: 12px;
   position: relative;
 }
 .message-text {
@@ -501,8 +513,7 @@ body {
 }
 .form-section {
   .label-height {
-    height: 21px;
-    margin-bottom: 0.5rem;
+    height: 20px;
   }
   .filter-btn-wrap {
     display: flex;
@@ -533,11 +544,11 @@ body {
   }
   .main-title {
     color: $black;
-    font-size: 18px;
+    font-size: 15px;
     padding-bottom: 4px;
     position: relative;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     &:before {
       content: "";
       position: absolute;
@@ -552,8 +563,9 @@ body {
     max-width: 175px;
   }
   .form-group {
+    margin-bottom: 10px;
     .col-form-label {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       color: $black;
       text-align: right;
@@ -565,15 +577,15 @@ body {
     .required-error {
       position: absolute;
       left: 15px;
-      top: 30px;
-      font-size: 12px;
+      top: 28px;
+      font-size: 10px;
       color: $red;
     }
 
     .form-control {
       border-radius: 0px;
       color: $light_black;
-      font-size: 13px;
+      font-size: 12px;
       height: 30px;
       border-color: $light_gray;
       padding: 0px 8px;
@@ -609,7 +621,7 @@ body {
         input {
           border-radius: 0px;
           color: $light_black;
-          font-size: 13px;
+          font-size: 12px;
           height: 30px;
           padding: 0px 8px;
           line-height: 30px;
@@ -634,7 +646,7 @@ body {
     .css-yk16xz-control {
       border-radius: 0px;
       color: $light_black;
-      font-size: 13px;
+      font-size: 12px;
       min-height: 30px;
       padding: 0px 8px;
       // line-height: 30px;
@@ -654,7 +666,7 @@ body {
     .css-1pahdxg-control {
       border-radius: 0px;
       color: $light_black;
-      font-size: 13px;
+      font-size: 12px;
       min-height: 30px;
       padding: 0px 8px;
       // line-height: 30px;
@@ -666,9 +678,9 @@ body {
     }
   }
   .btn-sumbit {
-    padding: 10px 30px;
+    padding: 8px 30px;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 13px;
     min-width: 160px;
   }
   .file-img {
@@ -748,7 +760,7 @@ body {
   td {
     padding: 4px;
     vertical-align: middle;
-    font-size: 13px;
+    font-size: 12px;
     .table-checkbox-wrap {
       position: relative;
       width: 100%;
@@ -784,19 +796,19 @@ body {
       align-items: flex-start;
     }
     .img-column {
-      width: 70px;
-      height: 70px;
-      flex: 0 0 70px;
+      width: 50px;
+      height: 50px;
+      flex: 0 0 50px;
       margin: auto;
       position: relative;
     }
     .description-column {
       letter-spacing: 0px;
       width: 230px;
-      margin-left: 20px;
+      margin-left: 10px;
       flex: 1 1;
       .info-title {
-        font-size: 13px;
+        font-size: 12px;
         color: $black;
         font-weight: 600;
         cursor: pointer;
@@ -804,7 +816,7 @@ body {
       }
       .description-text {
         margin-bottom: 2px;
-        font-size: 13px;
+        font-size: 12px;
         color: $black;
         display: flex;
         align-items: center;
@@ -817,7 +829,7 @@ body {
     }
     .status-btn {
       padding: 3px 10px;
-      font-size: 13px;
+      font-size: 12px;
       border-radius: 4px;
       display: inline-block;
       cursor: pointer;
@@ -895,11 +907,11 @@ body {
 .employee-details {
   .employee-title {
     color: $black;
-    font-size: 18px;
+    font-size: 15px;
     padding-bottom: 4px;
     position: relative;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     &:before {
       content: "";
       position: absolute;
@@ -923,14 +935,14 @@ body {
     margin-bottom: 6px;
     .text-label {
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       color: $dark_gray;
       display: inline-block;
       width: 170px;
     }
     .text-value {
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       color: $black;
       display: inline-block;
     }
@@ -970,7 +982,7 @@ body {
   }
   .tab-content {
     border: 0px;
-    padding: 20px 0px;
+    //padding: 20px 0px;
   }
 }
 .care-detail-page {
@@ -1012,9 +1024,14 @@ body {
             .nav-text {
               vertical-align: middle;
             }
+            &.active {
+              background: $side_hover;
+            }
           }
           &:hover {
-            background: $side_hover;
+            .nav-link {
+              background: $side_hover;
+            }
           }
         }
       }
@@ -1028,6 +1045,23 @@ body {
 }
 
 .faq-section {
+  .faq-title {
+    color: $black;
+    font-size: 15px;
+    padding-bottom: 4px;
+    position: relative;
+    font-weight: 600;
+    margin-bottom: 15px;
+    &:before {
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 55px;
+      background: $black;
+      left: 0px;
+      bottom: 0px;
+    }
+  }
   .faq-item {
     margin-bottom: 16px;
     border-radius: 4px;
@@ -1035,13 +1069,13 @@ body {
     box-shadow: 0 0 8px #ddd;
     border: 1px solid transparent;
     .faq-header {
-      color: #30343a;
+      color: #636363;
       background-color: #fff;
       border-color: transparent;
-      padding: 15px 45px 15px 15px;
-      font-size: 15px;
+      padding: 8px 35px 8px 15px;
+      font-size: 14px;
       line-height: 20px;
-      font-weight: 500;
+      font-weight: 600;
       border-bottom: none;
       position: relative;
       cursor: pointer;
@@ -1049,6 +1083,7 @@ body {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      width: 100%;
       .faq-icon {
         position: absolute;
         right: 15px;
@@ -1058,19 +1093,22 @@ body {
         font-size: 18px;
         -webkit-transition: all 0.3s ease;
         transition: all 0.3s ease;
-        color: #cecece;
+        color: #636363;
       }
       &.active {
-        color: #506ee4;
+        color: #000;
         .faq-icon {
           -webkit-transform: rotate(180deg);
           transform: rotate(180deg);
-          color: #506ee4;
+          color: #000;
         }
+      }
+      &:hover {
+        text-decoration: none;
       }
     }
     .faq-body {
-      padding: 15px 20px;
+      padding: 10px 20px;
       color: #9e9e9e;
       font-size: 14px;
       font-weight: 400;

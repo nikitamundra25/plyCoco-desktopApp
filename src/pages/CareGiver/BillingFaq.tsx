@@ -5,15 +5,15 @@ class BillingFaq extends Component {
   render() {
     return (
       <div className="faq-section">
-        <h4>Billing FAQ</h4>
+        <h4 className="faq-title">Billing FAQ</h4>
         <div className="faq-item">
-          <Button color="link" id="toggler" className="faq-header active">
+          <Button color="link" id="toggler1" className="faq-header active">
             Why was my invoice not created automatically?
             <span className="faq-icon ">
               <i className="fa fa-chevron-down"></i>
             </span>
           </Button>
-          <UncontrolledCollapse toggler="#toggler">
+          <UncontrolledCollapse toggler="#toggler1">
             <div className="faq-body">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
               magni, voluptas debitis similique porro a molestias consequuntur
@@ -23,13 +23,13 @@ class BillingFaq extends Component {
           </UncontrolledCollapse>
         </div>
         <div className="faq-item ">
-          <Button color="link" id="toggler" className="faq-header">
+          <Button color="link" id="toggler2" className="faq-header">
             Why was my invoice not created automatically?
             <span className="faq-icon ">
               <i className="fa fa-chevron-down"></i>
             </span>
           </Button>
-          <UncontrolledCollapse toggler="#toggler">
+          <UncontrolledCollapse toggler="#toggler2">
             <div className="faq-body">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
               magni, voluptas debitis similique porro a molestias consequuntur

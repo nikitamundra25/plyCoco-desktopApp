@@ -1045,6 +1045,23 @@ body {
 }
 
 .faq-section {
+  .faq-title {
+    color: $black;
+    font-size: 15px;
+    padding-bottom: 4px;
+    position: relative;
+    font-weight: 600;
+    margin-bottom: 15px;
+    &:before {
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 55px;
+      background: $black;
+      left: 0px;
+      bottom: 0px;
+    }
+  }
   .faq-item {
     margin-bottom: 16px;
     border-radius: 4px;

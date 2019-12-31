@@ -24,7 +24,6 @@ class AddEmployee extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      // startDate: ""
       error: false
     };
   }

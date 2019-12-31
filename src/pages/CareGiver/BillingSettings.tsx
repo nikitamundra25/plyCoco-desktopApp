@@ -66,7 +66,7 @@ class BillingSettings extends Component {
                             <Input
                               type="text"
                               name={"nightSupplementsPerHour"}
-                              placeholder=" Night allowance per hour"
+                              placeholder=" "
                               className="custom-input-width"
                             />
                             <div className="mx-2">EUR</div>
@@ -94,7 +94,7 @@ class BillingSettings extends Component {
                             <Input
                               type="text"
                               name={"weeklySupplementsPerHour"}
-                              placeholder=" Weekend allowance per hour	"
+                              placeholder="	"
                               className="custom-input-width"
                             />
                             <div className="mx-2">EUR</div>
@@ -116,7 +116,7 @@ class BillingSettings extends Component {
                             <Input
                               type="text"
                               name={"holidaySllowancePerHourFee "}
-                              placeholder=" Holiday allowance per hour "
+                              placeholder="  "
                               className="custom-input-width"
                             />
                             <div className="mx-2">EUR</div>

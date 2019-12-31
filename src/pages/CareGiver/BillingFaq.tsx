@@ -5,7 +5,7 @@ class BillingFaq extends Component {
   render() {
     return (
       <div className="faq-section">
-        <h4 className="faq-title">Billing FAQ</h4>
+        <h4 className="content-title">Billing FAQ</h4>
         <div className="faq-item">
           <Button color="link" id="toggler1" className="faq-header active">
             Why was my invoice not created automatically?

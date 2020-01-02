@@ -34,7 +34,7 @@ class LeasingPersonalData extends Component {
                           <div>
                             <Input
                               type="text"
-                              name={"PlaceOfBirth"}
+                              name={"placeOfBirth"}
                               placeholder="Place of Birth"
                             />
                           </div>

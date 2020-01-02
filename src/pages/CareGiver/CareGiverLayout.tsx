@@ -26,7 +26,7 @@ class CareGiverSidebar extends Component<any, any> {
     } = this.props;
     console.log("path", this.props.location.pathname);
     // const path = pathname
-    console.log("path", pathname);
+    console.log("proppppss", this.props);
 
     return (
       <div className="caregiver-sidnav">

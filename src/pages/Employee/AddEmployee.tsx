@@ -13,13 +13,14 @@ import {
   CustomInput
 } from "reactstrap";
 import Select from "react-select";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
 import { Status, State, Department, Region, City } from "../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import InputMask from "react-input-mask";
+import { languageTranslation } from "../../helpers/LangauageTranslation";
 class AddEmployee extends Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -62,7 +63,9 @@ class AddEmployee extends Component<any, any> {
                                   <Row>
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
-                                        First Name
+                                        {languageTranslation(
+                                          "EMPLOYEE_FIRST_NAME_LABEL"
+                                        )}
                                         <span className="required">*</span>
                                       </Label>
                                     </Col>
@@ -71,7 +74,9 @@ class AddEmployee extends Component<any, any> {
                                         <Input
                                           type="text"
                                           name={"firstName"}
-                                          placeholder="First Name"
+                                          placeholder={languageTranslation(
+                                            "EMPLOYEE_FIRST_NAME_PLACEHOLDER"
+                                          )}
                                           onChange={() =>
                                             this.setState({ error: false })
                                           }

@@ -17,6 +17,16 @@ import {
 } from "reactstrap";
 import logo from "../../assets/img/plycoco-logo.png";
 import { ILoginFormValues } from "../../interfaces";
+import { languageTranslation } from "../../helpers/LangauageTranslation";
+
+const language = localStorage.getItem("language");
+console.log("language in login", language);
+if (language === null) {
+  window.location.reload();
+
+}
+console.log("languageTranslation",languageTranslation);
+
 
 const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
   const {
@@ -41,8 +51,14 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
               <Card className="login-card p-4">
                 <CardBody className="px-4 py-0">
                   <Form onSubmit={handleSubmit} className="form-section">
-                    <h1 className="auth-title text-center">Sign In</h1>
-                    <p className="sub-title text-center">To Your Account</p>
+                    <h1 className="auth-title text-center">
+                      {language === "de" ? "Anmelden" : "Sign In"}
+                    </h1>
+                    <p className="sub-title text-center">
+                      {language === "de"
+                        ? "Zu deinem Konto"
+                        : "To Your Account"}
+                    </p>
 
                     <FormGroup>
                       <InputGroup>
@@ -55,8 +71,18 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
                         <Input
                           type={"text"}
                           id="email"
-                          name={"email"}
-                          placeholder={"Email/User Name"}
+                          name={
+                            language === "de"
+                              ? languageTranslation("EMAIL_ADRESSEN")
+                              : languageTranslation("EMAIL")
+                          }
+                          placeholder={
+                            language === "de"
+                              ? languageTranslation(
+                                  "EMAIL_ADRESSEN_PLATZHALTER"
+                                )
+                              : languageTranslation("EMAIL_ADDRESS_PLACEHOLDER")
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={email}
@@ -83,8 +109,16 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
                         <Input
                           id="password"
                           type={"password"}
-                          name={"password"}
-                          placeholder={"Password"}
+                          name={
+                            language === "de"
+                              ? languageTranslation("PASSWORT")
+                              : languageTranslation("PASSWORD")
+                          }
+                          placeholder={
+                            language === "de"
+                              ? languageTranslation("PASSWORT_PLATZHALTER")
+                              : languageTranslation("PASSWORD_LABEL")
+                          }
                           value={password}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -108,7 +142,7 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
                           block
                           className="px-4 login-btn"
                         >
-                          Sign In
+                          {language === "de" ? "Anmelden" : "Sign In"}
                         </Button>
                       </Col>
                     </Row>

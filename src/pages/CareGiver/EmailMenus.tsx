@@ -40,7 +40,7 @@ class EmailMenus extends Component<RouteComponentProps, any> {
               <span>New Email</span>
             </NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink
               className=""
               onClick={() => this.props.history.push(AppRoutes.EMAIL_SETTINGS)}
@@ -50,7 +50,7 @@ class EmailMenus extends Component<RouteComponentProps, any> {
               </span>
               <span>Settings</span>
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
       </>
     );

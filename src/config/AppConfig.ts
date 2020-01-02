@@ -7,7 +7,7 @@ PROD: 'production',
 
 export const env: any = process.env.NODE_ENV || EnviornmentType.DEV;
 data = {
-API_ENDPOINT:
+GRAPHQL_ENDPOINT:
 env === EnviornmentType.DEV
 ? 'http://192.168.2.114:8001/'
 : 'http://3.210.57.154/',

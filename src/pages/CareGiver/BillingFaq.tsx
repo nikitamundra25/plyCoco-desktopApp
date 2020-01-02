@@ -26,11 +26,12 @@ class BillingFaq extends Component<any, any> {
       <div className="faq-section">
         <h4 className="content-title">Billing FAQ</h4>
         <div>
-          {cards.map((index: any) => {
+          {cards.map((item: any, index: any) => {
+            console.log("cards", index);
             return (
-              <div className="faq-item" key={index}>
+              <div className="faq-item " key={index}>
                 <div
-                  className="faq-header"
+                  className={collapse === index ? "faq-header active" : ""}
                   onClick={this.toggle}
                   data-event={index}
                 >

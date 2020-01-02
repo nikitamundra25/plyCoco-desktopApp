@@ -1,0 +1,30 @@
+import englishLanguage from "../Language/en.json";
+import germanLanguage from "../Language/de.json";
+
+const Languages: any = {
+    en: englishLanguage,
+    de: germanLanguage
+}
+export const languageTranslation = (key: string, replacement: any = {}): string => {
+    let lang = localStorage.getItem('language') || "de"
+    console.log("language in translation is", lang);
+
+    if (!Languages[lang]) {
+        lang = "en"
+    }
+    const language: any = Languages[lang]
+    const languageMessages = language[key]
+    for (const k in replacement) {
+        if (replacement.hasOwnProperty(k)) {
+            const value = replacement[k];
+            console.log('====================================');
+            console.log("value", value, k, languageMessages);
+            console.log('====================================');
+            languageMessages.replace(`:${k}`, `${value}`)
+            console.log('====================================');
+            console.log("languageMessages", languageMessages);
+            console.log('====================================');
+        }
+    }
+    return languageMessages;
+}

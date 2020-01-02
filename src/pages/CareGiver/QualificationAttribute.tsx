@@ -18,7 +18,7 @@ class QualificationAttribute extends Component {
       <div>
         <Form className="form-section">
           <h5 className="main-title mb-3">Qualification Attribute</h5>
-          <Row>
+          {/* <Row>
             <Col lg={"3"}>
               <div className="mb-2">
                 <div className=" checkbox-custom">
@@ -111,7 +111,25 @@ class QualificationAttribute extends Component {
               </div>
             </Col>
           </Row>
+           */}
+
           <Row>
+            {QualificationAttributes.map(item => {
+              return item ? (
+                <Col lg={"3"}>
+                  <div className="mb-2">
+                    <div className=" checkbox-custom">
+                      <input type="checkbox" id={item.value} className="" />
+                      <Label className="ml-2" for={item.value}>
+                        {item.label}
+                      </Label>
+                    </div>
+                  </div>
+                </Col>
+              ) : null;
+            })}
+          </Row>
+          {/* <Row>
             <Col lg={"6"}>
               <FormGroup>
                 <Row>
@@ -134,6 +152,7 @@ class QualificationAttribute extends Component {
               </FormGroup>
             </Col>
           </Row>
+         */}
         </Form>
       </div>
     );

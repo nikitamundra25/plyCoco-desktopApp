@@ -4,12 +4,20 @@ import { AppRoutes } from "../../config";
 import { RouteChildrenProps, RouteComponentProps } from "react-router";
 class EmailMenus extends Component<RouteComponentProps, any> {
   render() {
+    const {
+      location: { pathname }
+    } = this.props;
+    console.log("path", this.props.location.pathname);
+    // const path = pathname
+    console.log("path", pathname);
     return (
       <>
         <Nav tabs className="custom-tabs">
           <NavItem>
             <NavLink
-              className="active"
+              className={
+                pathname === "/caregiver/email/inbox" ? "active" : null
+              }
               onClick={() => this.props.history.push(AppRoutes.INBOX)}
             >
               <span className="icon">
@@ -20,7 +28,9 @@ class EmailMenus extends Component<RouteComponentProps, any> {
           </NavItem>
           <NavItem>
             <NavLink
-              className=""
+              className={
+                pathname === "/caregiver/email/sent_email" ? "active" : null
+              }
               onClick={() => this.props.history.push(AppRoutes.SENT_EMAIL)}
             >
               <span className="icon">
@@ -31,7 +41,9 @@ class EmailMenus extends Component<RouteComponentProps, any> {
           </NavItem>
           <NavItem>
             <NavLink
-              className=""
+              className={
+                pathname === "/caregiver/email/new_email" ? "active" : null
+              }
               onClick={() => this.props.history.push(AppRoutes.NEW_EMAIL)}
             >
               <span className="icon">
@@ -40,9 +52,11 @@ class EmailMenus extends Component<RouteComponentProps, any> {
               <span>New Email</span>
             </NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink
-              className=""
+              className={
+                pathname === "/caregiver/email/settings" ? "active" : null
+              }
               onClick={() => this.props.history.push(AppRoutes.EMAIL_SETTINGS)}
             >
               <span className="icon">
@@ -50,7 +64,7 @@ class EmailMenus extends Component<RouteComponentProps, any> {
               </span>
               <span>Settings</span>
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
       </>
     );

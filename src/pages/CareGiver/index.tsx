@@ -163,16 +163,11 @@ class CareGiver extends Component<RouteComponentProps, any> {
       <Row>
         <Col xs={"12"} lg={"12"}>
           <Card>
-          <CardHeader>
-              <h4>
-                {/* <i className="fa fa-h-square" />
-                <span className="ml-1">CareGiver</span> */}
-              </h4>
+            <CardHeader>
               <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-
               <Button
                 color={"primary"}
-                className={"pull-right"}
+                className={"btn-add"}
                 id={"add-new-pm-tooltip"}
                 onClick={() =>
                   this.props.history.push(AppRoutes.ADD_CARE_GIVER)
@@ -182,6 +177,7 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 &nbsp; Add New Care Giver
               </Button>
             </CardHeader>
+
             <CardBody>
               <div className="filter-form form-section">
                 <Row>

@@ -13,7 +13,6 @@ class Login extends Component<any, ILoginState> {
     const curLang: string | any = localStorage.getItem("language")
     const languageData: any = languageTranslation(curLang)
     this.props.storeCurrLangRequest(languageData.language)
-    console.log("RRRRRRRRRRRRRRRRRRRRRRRR", languageData);
   }
 
   handleSubmit = (

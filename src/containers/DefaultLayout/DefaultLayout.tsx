@@ -39,18 +39,22 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
               <div className="caregiver-detail-section">
                 <CareGiverSidebar {...props} />
                 <div className="caregiver-right flex-grow-1">
-                  <div className="common-dropdown d-flex align-items-center w-100 justify-content-center">
+                  <div className="common-dropdown d-flex align-items-center w-100 ">
                     <div className="user-select">
                       <Select
+                        defaultValue={{
+                          label: "John Doe",
+                          value: 0
+                        }}
                         // value={this.state.selectedOption}
-                        placeholder="Select State"
+                        placeholder="Select Caregiver"
                         options={CareGiver}
                       />
                     </div>
                     <div className="region-select">
                       <Select
                         // value={this.state.selectedOption}
-                        placeholder="Select State"
+                        placeholder="Select Region"
                         options={Region}
                       />
                     </div>

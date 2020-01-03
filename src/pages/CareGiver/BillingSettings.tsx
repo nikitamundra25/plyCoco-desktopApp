@@ -70,17 +70,12 @@ class BillingSettings extends Component {
                               className="custom-input-width"
                             />
                             <div className="mx-2">EUR</div>
-                            <div>
-                              <Select
-                                options={NightAllowancePerHour}
-                                className="custom-input-width"
-                              />
-                            </div>
                           </div>
                         </Col>
                       </Row>
                     </FormGroup>
                   </Col>
+
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
@@ -120,6 +115,27 @@ class BillingSettings extends Component {
                               className="custom-input-width"
                             />
                             <div className="mx-2">EUR</div>
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label ">
+                            Night allowance
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div className="d-flex align-items-center">
+                            <div>
+                              <Select
+                                options={NightAllowancePerHour}
+                                className="custom-input-width"
+                              />
+                            </div>
                           </div>
                         </Col>
                       </Row>
@@ -224,6 +240,7 @@ class BillingSettings extends Component {
                                 id="Exclusive"
                                 name="supplements"
                                 label="Exclusive"
+                                className="pt-2"
                               />
                             </FormGroup>
                             <FormGroup check inline>
@@ -232,6 +249,7 @@ class BillingSettings extends Component {
                                 id="Cumulative"
                                 name="supplements"
                                 label="Cumulative"
+                                className="pt-2"
                               />
                             </FormGroup>
                           </div>

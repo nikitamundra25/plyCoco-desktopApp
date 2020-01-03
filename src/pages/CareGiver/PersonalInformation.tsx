@@ -15,6 +15,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
+import InputMask from "react-input-mask";
 
 import { State, Region, Salutation, LegalForm, Country } from "../../config";
 
@@ -253,10 +254,12 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         </Col>
                         <Col sm="8">
                           <div>
-                            <DatePicker
-                              placeholderText="Select Date"
-                              selected={this.state.startDate}
-                              onChange={this.handleChange}
+                            <InputMask
+                              value={this.state.date}
+                              placeholder="DD/MM/YYYY"
+                              mask="99/99/9999"
+                              className="form-control"
+                              // onChange={this.handleDateOfBirth}
                             />
                           </div>
                         </Col>
@@ -702,7 +705,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                 <div className="mandatory-text">* Required Fields</div>
                 <div className={"text-right"}>
                   <Button color="primary" type="submit" className="btn-sumbit">
-                   Submit
+                    Submit
                   </Button>
                 </div>
               </div>

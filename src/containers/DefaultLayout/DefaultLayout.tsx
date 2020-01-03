@@ -3,6 +3,7 @@ import { Route, Switch, Redirect, RouteComponentProps } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { AppRoutes } from "../../config";
 import routes from "../../routes/routes";
+import { Region, CareGiver } from "../../config";
 // sidebar nav config
 import navigation from "../../_nav";
 import {
@@ -17,6 +18,7 @@ import {
   AppSidebarNav
 } from "@coreui/react";
 import Loader from "../Loader/Loader";
+import Select from "react-select";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
@@ -33,11 +35,29 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
         <Row>
           <Col lg={"12"}>
             <div className="care-detail-page">
-              <AppBreadcrumb appRoutes={routes} className="w-100"  />
+              <AppBreadcrumb appRoutes={routes} className="w-100" />
               <div className="caregiver-detail-section">
                 <CareGiverSidebar {...props} />
-                <div className="caregiver-content flex-grow-1">
-                  <Component {...props} />
+                <div className="caregiver-right flex-grow-1">
+                  <div className="common-dropdown d-flex align-items-center w-100 justify-content-center">
+                    <div className="user-select">
+                      <Select
+                        // value={this.state.selectedOption}
+                        placeholder="Select State"
+                        options={CareGiver}
+                      />
+                    </div>
+                    <div className="region-select">
+                      <Select
+                        // value={this.state.selectedOption}
+                        placeholder="Select State"
+                        options={Region}
+                      />
+                    </div>
+                  </div>
+                  <div className="caregiver-content ">
+                    <Component {...props} />
+                  </div>
                 </div>
               </div>
             </div>

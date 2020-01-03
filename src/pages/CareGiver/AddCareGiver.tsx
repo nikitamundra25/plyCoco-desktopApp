@@ -293,6 +293,7 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                                       value={this.state.date}
                                       placeholder="DD/MM/YYYY"
                                       mask="99/99/9999"
+                                      className="form-control"
                                       // onChange={this.handleDateOfBirth}
                                     />
                                   </div>

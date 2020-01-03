@@ -15,7 +15,7 @@ import {
   InputGroupAddon,
   InputGroupText
 } from "reactstrap";
-import logo from "../../assets/img/plycoco-logo.png";
+import logo from "../../assets/img/plycoco-white.png";
 import { ILoginFormValues } from "../../interfaces";
 import { languageTranslation } from "../../helpers/LangauageTranslation";
 
@@ -23,10 +23,8 @@ const language = localStorage.getItem("language");
 console.log("language in login", language);
 if (language === null) {
   window.location.reload();
-
 }
-console.log("languageTranslation",languageTranslation);
-
+console.log("languageTranslation", languageTranslation);
 
 const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
   const {

@@ -1588,3 +1588,66 @@ body {
     color: $gray_color;
   }
 }
+// oFFer
+.offer-section {
+  height: 100%;
+  background: #f3f3f3;
+  padding: 10px;
+  .custom-col{ 
+    margin-left:-7.5px;
+    margin-right:-7.5px;
+    [class*="col-"]{
+    padding: 7.5px;
+  }}
+  .card{
+    height: 100%;
+  }
+  .offer-wrap{
+   
+    .heading{
+      &.toggle-filter{
+        position: relative;
+      &::before{
+        display: inline-block;
+        margin-left: 0.255em;
+        vertical-align: 0.255em;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+      }}
+      font-size: 13px;
+      padding:0px 5px;
+      margin: 5px 0px 0px 0px;
+    }
+    .offer-content-wrap{
+     ul{
+       border: 1px solid #ccc;
+       padding: 0px 0px 0px 0px;
+       list-style: none;
+       margin: 5px 0px 0px 0px;
+       li{
+        padding: 3px 5px;
+         font-size: 12px;
+         &:not(:first-child){
+          border-top: 1px solid #ccc;
+         }
+         &.ative{
+          background: #d1dfed;
+         }
+         &.dective{
+background: #d3d3d3;
+         }
+         &.pending{
+background: #ffde82;
+         }
+       }
+     }
+  }}
+
+}

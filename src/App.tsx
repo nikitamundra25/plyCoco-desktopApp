@@ -3,9 +3,9 @@ import { Router } from "react-router-dom";
 import { Switch, Route } from "react-router";
 import { AppRoutes } from "./config";
 import { createBrowserHistory } from "history";
-// import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { ToastContainer, Slide } from "react-toastify";
-// import { client } from './config';
+import { client } from './config';
 import "./App.scss";
 import "react-toastify/dist/ReactToastify.css";
 import FullPageLoader from "./containers/Loader/FullPageLoader";
@@ -35,39 +35,41 @@ let language: any;
 class App extends Component<any, any> {
   componentDidMount() {
     console.log("inside cdu");
-    language = localStorage.setItem("language", "de");
+    language = localStorage.setItem("language", "en");
     console.log("language", language);
   }
   render() {
     return (
       <>
-        <Provider store={store}>
-          <Router history={history}>
-            <Suspense fallback={<FullPageLoader />}>
-              {/* sss
-          <Login /> */}
-              <Switch>
-                <Route
-                  exact
-                  path={AppRoutes.LOGIN}
-                  render={props => <Login />}
-                />
-                <Route
-                  path={AppRoutes.MAIN}
-                  render={props => <DefaultLayout />}
-                />
-              </Switch>
-              {/* <AppRoutesComponent /> */}
-            </Suspense>
-          </Router>
-          <ToastContainer
-            autoClose={8000}
-            hideProgressBar
-            pauseOnFocusLoss={false}
-            pauseOnHover={false}
-            transition={Slide}
-          />
-        </Provider>
+        <ApolloProvider client={client}>
+          <Provider store={store}>
+            <Router history={history}>
+              <Suspense fallback={<FullPageLoader />}>
+                {/* sss
+                <Login /> */}
+                <Switch>
+                  <Route
+                    exact
+                    path={AppRoutes.LOGIN}
+                    render={props => <Login />}
+                  />
+                  <Route
+                    path={AppRoutes.MAIN}
+                    render={props => <DefaultLayout />}
+                  />
+                </Switch>
+                {/* <AppRoutesComponent /> */}
+              </Suspense>
+            </Router>
+            <ToastContainer
+              autoClose={8000}
+              hideProgressBar
+              pauseOnFocusLoss={false}
+              pauseOnHover={false}
+              transition={Slide}
+            />
+          </Provider>
+        </ApolloProvider>
       </>
     );
   }

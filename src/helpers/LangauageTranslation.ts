@@ -7,8 +7,6 @@ const Languages: any = {
 }
 export const languageTranslation = (key: string, replacement: any = {}): string => {
     let lang = localStorage.getItem('language') || "de"
-    console.log("language in translation is", lang);
-
     if (!Languages[lang]) {
         lang = "en"
     }
@@ -26,5 +24,9 @@ export const languageTranslation = (key: string, replacement: any = {}): string 
             console.log('====================================');
         }
     }
-    return languageMessages;
+    const data: any = {
+        languageMessages,
+        language
+    }
+    return data;
 }

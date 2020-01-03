@@ -24,7 +24,9 @@ console.log('language in login', language);
 if (language === null) {
   window.location.reload();
 }
-const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
+const LoginFormComponent: any = (
+  props: FormikProps<ILoginFormValues> & any,
+) => {
   const {
     values: { email, password },
     touched,
@@ -34,6 +36,9 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
     handleBlur,
     handleSubmit,
   } = props;
+  // console.log(props.languageReducer.language, "props");
+  // let label = props.languageReducer.language;
+
   return (
     <div className='app flex-row align-items-center auth-page'>
       <div className='auth-bg'></div>
@@ -48,12 +53,10 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
                 <CardBody className='px-4 py-0'>
                   <Form onSubmit={handleSubmit} className='form-section'>
                     <h1 className='auth-title text-center'>
-                      {language === 'de' ? 'Anmelden' : 'Sign In'}
+                      {languageTranslation('SIGNIN')}
                     </h1>
                     <p className='sub-title text-center'>
-                      {language === 'de'
-                        ? 'Zu deinem Konto'
-                        : 'To Your Account'}
+                      {languageTranslation('TOYOURACCOUNT')}
                     </p>
 
                     <FormGroup>
@@ -67,18 +70,10 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
                         <Input
                           type={'text'}
                           id='email'
-                          name={
-                            language === 'de'
-                              ? languageTranslation('EMAIL_ADRESSEN')
-                              : languageTranslation('EMAIL')
-                          }
-                          placeholder={
-                            language === 'de'
-                              ? languageTranslation(
-                                  'EMAIL_ADRESSEN_PLATZHALTER',
-                                )
-                              : languageTranslation('EMAIL_ADDRESS_PLACEHOLDER')
-                          }
+                          name={'email'}
+                          placeholder={languageTranslation(
+                            'EMAIL_ADDRESS_PLACEHOLDER',
+                          )}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={email}
@@ -98,23 +93,14 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
                       <InputGroup>
                         <InputGroupAddon addonType='prepend'>
                           <InputGroupText>
-                            {' '}
                             <i className='icon-lock' />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
                           id='password'
                           type={'password'}
-                          name={
-                            language === 'de'
-                              ? languageTranslation('PASSWORT')
-                              : languageTranslation('PASSWORD')
-                          }
-                          placeholder={
-                            language === 'de'
-                              ? languageTranslation('PASSWORT_PLATZHALTER')
-                              : languageTranslation('PASSWORD_LABEL')
-                          }
+                          name={'password'}
+                          placeholder={languageTranslation('PASSWORD_LABEL')}
                           value={password}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -138,7 +124,7 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
                           block
                           className='px-4 login-btn'
                         >
-                          {language === 'de' ? 'Anmelden' : 'Sign In'}
+                          {languageTranslation('SIGNIN')}
                         </Button>
                       </Col>
                     </Row>

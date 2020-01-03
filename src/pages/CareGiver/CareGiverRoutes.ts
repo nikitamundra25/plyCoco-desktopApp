@@ -31,16 +31,16 @@ export const careGiverRoutes = [
     name: "Login",
     icon: "fa fa-bookmark"
   },
-  // {
-  //   path: AppRoutes.INVOCES,
-  //   name: "Invoice",
-  //   icon: "fa fa-file-text"
-  // },
   {
-    path: AppRoutes.SIGNATURE,
-    name: "Signature",
-    icon: "fa fa-edit"
+    path: AppRoutes.INVOCES,
+    name: "Invoice",
+    icon: "fa fa-file-text"
   },
+  // {
+  //   path: AppRoutes.SIGNATURE,
+  //   name: "Signature",
+  //   icon: "fa fa-edit"
+  // },
   {
     path: AppRoutes.DOCUMENTS_UPLOAD,
     name: "Documents",

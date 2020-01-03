@@ -23,11 +23,7 @@ const language = localStorage.getItem("language");
 console.log("language in login", language);
 if (language === null) {
   window.location.reload();
-
 }
-console.log("languageTranslation",languageTranslation);
-
-
 const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
   const {
     values: { email, password },

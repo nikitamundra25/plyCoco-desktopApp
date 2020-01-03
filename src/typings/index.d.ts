@@ -9,6 +9,7 @@ declare module 'js-object-validation';
 declare module 'reactstrap';
 declare module 'react-select';
 declare module 'react-datepicker';
+declare module 'react-apollo'
 declare interface String {
   truncate(n: number, decorator: string): string;
 }

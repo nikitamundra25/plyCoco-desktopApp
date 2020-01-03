@@ -1,5 +1,7 @@
 import { createAction } from "redux-actions";
 
+export * from "./Language";
+
 //
 export const redirectTo = createAction("REDIRET_TO");
 //

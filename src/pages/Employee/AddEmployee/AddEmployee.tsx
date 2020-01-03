@@ -220,12 +220,12 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={telephoneNumber}
-                                        className={
+                                        className={`form-control ${
                                           errors.telephoneNumber &&
                                           touched.telephoneNumber
                                             ? "text-input error"
                                             : "text-input"
-                                        }
+                                        }`}
                                       />
                                       {errors.telephoneNumber &&
                                         touched.telephoneNumber && (
@@ -264,7 +264,7 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={bankName}
-                                      className={`width-common${
+                                      className={`width-common ${
                                         errors.bankName && touched.bankName
                                           ? "text-input error"
                                           : "text-input"
@@ -297,7 +297,7 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={accountHolderName}
-                                      className={`width-common${
+                                      className={`width-common ${
                                         errors.accountHolderName &&
                                         touched.accountHolderName
                                           ? "text-input error"
@@ -329,14 +329,15 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       name={"IBAN"}
                                       value={IBAN}
                                       placeholder="DE91 1000 0000 0123 4567 89"
-                                      mask="SS99 9999 999 999"
+                                      // mask=\d{3}"
+                                      mask={" 99 9999 999 999"}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      className={
+                                      className={`form-control ${
                                         errors.IBAN && touched.IBAN
                                           ? "text-input error"
                                           : "text-input"
-                                      }
+                                      }`}
                                     />
                                     {errors.IBAN && touched.IBAN && (
                                       <div className="">{errors.IBAN}</div>
@@ -452,7 +453,7 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                     <div className="custom-radio-block">
                                       <Input
                                         type="textarea"
-                                        name={"address2"}                                        
+                                        name={"address2"}
                                         placeholder="Address 2"
                                         onChange={handleChange}
                                         className="height-auto width-common"
@@ -558,7 +559,7 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       <InputMask
                                         name={"zip"}
                                         onChange={handleChange}
-                                        className="width-common"
+                                        className="form-control"
                                         placeholder="Zip"
                                         value={zip}
                                         mask="99999"
@@ -586,6 +587,7 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                             mask="99/99/9999"
                                             onChange={handleChange}
                                             value={joiningDate}
+                                            className="form-control"
                                           />
                                         </Col>
                                       </Row>

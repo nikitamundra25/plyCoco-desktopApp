@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Button,
   FormGroup,
@@ -10,33 +10,33 @@ import {
   Col,
   Row,
   Form,
-  CustomInput
-} from "reactstrap";
-import Select from "react-select";
+  CustomInput,
+} from 'reactstrap';
+import Select from 'react-select';
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
-import { RouteComponentProps } from "react-router";
-import { Status, State, Department, Region, City } from "../../config";
-import { AppBreadcrumb } from "@coreui/react";
-import routes from "../../routes/routes";
-import InputMask from "react-input-mask";
-import { languageTranslation } from "../../helpers/LangauageTranslation";
+import { RouteComponentProps } from 'react-router';
+import { Status, State, Department, Region, City } from '../../config';
+import { AppBreadcrumb } from '@coreui/react';
+import routes from '../../routes/routes';
+import InputMask from 'react-input-mask';
+import { languageTranslation } from '../../helpers/langauageTranslation';
 class AddEmployee extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      error: false
+      error: false,
     };
   }
 
   handleChange = (date: any) => {
     this.setState({
-      startDate: date
+      startDate: date,
     });
   };
   onFocus = () => {
     this.setState({
-      error: true
+      error: true,
     });
   };
 
@@ -44,136 +44,136 @@ class AddEmployee extends Component<any, any> {
     return (
       <div>
         <Row>
-          <Col xs={"12"} lg={"12"}>
+          <Col xs={'12'} lg={'12'}>
             <Card>
               <CardHeader>
-                <AppBreadcrumb appRoutes={routes} className="w-100" />
+                <AppBreadcrumb appRoutes={routes} className='w-100' />
               </CardHeader>
               <CardBody>
                 <Row>
-                  <Col xs={"12"} lg={"12"}>
-                    <Form className="form-section">
+                  <Col xs={'12'} lg={'12'}>
+                    <Form className='form-section'>
                       <Row>
-                        <Col lg={"6"}>
-                          <h5 className="main-title ">Personal Data</h5>
-                          <div className="form-card">
+                        <Col lg={'6'}>
+                          <h5 className='main-title '>Personal Data</h5>
+                          <div className='form-card'>
                             <Row>
-                              <Col lg={"12"}>
+                              <Col lg={'12'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label'>
                                         {languageTranslation(
-                                          "EMPLOYEE_FIRST_NAME_LABEL"
+                                          'EMPLOYEE_FIRST_NAME_LABEL',
                                         )}
-                                        <span className="required">*</span>
+                                        <span className='required'>*</span>
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Input
-                                          type="text"
-                                          name={"firstName"}
+                                          type='text'
+                                          name={'firstName'}
                                           placeholder={languageTranslation(
-                                            "EMPLOYEE_FIRST_NAME_PLACEHOLDER"
+                                            'EMPLOYEE_FIRST_NAME_PLACEHOLDER',
                                           )}
                                           onChange={() =>
                                             this.setState({ error: false })
                                           }
-                                          className="width-common"
+                                          className='width-common'
                                           onFocus={this.onFocus}
                                         />
                                         {this.state.error ? (
-                                          <div className="required-error">
+                                          <div className='required-error'>
                                             Please Enter First Name
                                           </div>
                                         ) : (
-                                          ""
+                                          ''
                                         )}
                                       </div>
                                     </Col>
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              <Col lg={"12"}>
+                              <Col lg={'12'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label'>
                                         Surname
-                                        <span className="required">*</span>
+                                        <span className='required'>*</span>
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Input
-                                          type="text"
-                                          name={"lastName"}
-                                          placeholder="Surname"
-                                          className="width-common"
+                                          type='text'
+                                          name={'lastName'}
+                                          placeholder='Surname'
+                                          className='width-common'
                                         />
                                       </div>
                                     </Col>
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              <Col lg={"12"}>
+                              <Col lg={'12'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label ">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label '>
                                         Email Address
-                                        <span className="required">*</span>
+                                        <span className='required'>*</span>
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Input
-                                          type="text"
-                                          name={"email"}
-                                          placeholder=" Email"
+                                          type='text'
+                                          name={'email'}
+                                          placeholder=' Email'
                                         />
                                       </div>
                                     </Col>
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              <Col lg={"12"}>
+                              <Col lg={'12'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label ">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label '>
                                         Username
-                                        <span className="required">*</span>
+                                        <span className='required'>*</span>
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Input
-                                          type="text"
-                                          name={"userName"}
-                                          placeholder=" Username"
+                                          type='text'
+                                          name={'userName'}
+                                          placeholder=' Username'
                                         />
                                       </div>
                                     </Col>
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              <Col lg={"12"}>
+                              <Col lg={'12'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label ">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label '>
                                         Telephone number
-                                        <span className="required">*</span>
+                                        <span className='required'>*</span>
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Input
-                                          type="text"
-                                          name={"telephoneNumber"}
-                                          placeholder=" Telephone number"
+                                          type='text'
+                                          name={'telephoneNumber'}
+                                          placeholder=' Telephone number'
                                         />
                                       </div>
                                     </Col>
@@ -184,101 +184,101 @@ class AddEmployee extends Component<any, any> {
                           </div>
                         </Col>
 
-                        <Col lg={"6"}>
-                          <h5 className="main-title ">
-                            {" "}
+                        <Col lg={'6'}>
+                          <h5 className='main-title '>
+                            {' '}
                             Bank Account Information
                           </h5>
-                          <div className="form-card">
-                            <Col lg={"12"}>
+                          <div className='form-card'>
+                            <Col lg={'12'}>
                               <FormGroup>
                                 <Row>
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label ">
+                                  <Col sm='4'>
+                                    <Label className='form-label col-form-label '>
                                       Bank Name
                                     </Label>
                                   </Col>
-                                  <Col sm="8">
+                                  <Col sm='8'>
                                     <div>
                                       <Input
-                                        type="text"
-                                        name={"bankName"}
-                                        placeholder="Bank Name"
-                                        className="width-common"
+                                        type='text'
+                                        name={'bankName'}
+                                        placeholder='Bank Name'
+                                        className='width-common'
                                       />
                                     </div>
                                   </Col>
                                 </Row>
                               </FormGroup>
                             </Col>
-                            <Col lg={"12"}>
+                            <Col lg={'12'}>
                               <FormGroup>
                                 <Row>
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label">
+                                  <Col sm='4'>
+                                    <Label className='form-label col-form-label'>
                                       Account Holder Name
                                       <br />
                                       <small>(only if different)</small>
                                     </Label>
                                   </Col>
-                                  <Col sm="8">
+                                  <Col sm='8'>
                                     <div>
                                       <Input
-                                        type="text"
-                                        name={"accountHolderName "}
-                                        placeholder="Account Holder Name "
-                                        className="width-common"
+                                        type='text'
+                                        name={'accountHolderName '}
+                                        placeholder='Account Holder Name '
+                                        className='width-common'
                                       />
                                     </div>
                                   </Col>
                                 </Row>
                               </FormGroup>
                             </Col>
-                            <Col lg={"12"}>
+                            <Col lg={'12'}>
                               <FormGroup>
                                 <Row>
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label ">
+                                  <Col sm='4'>
+                                    <Label className='form-label col-form-label '>
                                       IBAN
                                     </Label>
                                   </Col>
-                                  <Col sm="8">
+                                  <Col sm='8'>
                                     <div>
                                       <Input
-                                        type="text"
-                                        name={"IBAN"}
-                                        placeholder="IBAN"
+                                        type='text'
+                                        name={'IBAN'}
+                                        placeholder='IBAN'
                                       />
                                     </div>
                                   </Col>
                                 </Row>
                               </FormGroup>
                             </Col>
-                            <Col lg={"12"}>
+                            <Col lg={'12'}>
                               <FormGroup>
                                 <Row>
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label ">
+                                  <Col sm='4'>
+                                    <Label className='form-label col-form-label '>
                                       BIC
                                     </Label>
                                   </Col>
-                                  <Col sm="8">
+                                  <Col sm='8'>
                                     <div>
                                       <Input
-                                        type="text"
-                                        name={"BIC"}
-                                        placeholder=" BIC"
+                                        type='text'
+                                        name={'BIC'}
+                                        placeholder=' BIC'
                                       />
                                     </div>
                                   </Col>
                                 </Row>
                               </FormGroup>
                             </Col>
-                            <Col lg={"12"}>
+                            <Col lg={'12'}>
                               <FormGroup>
                                 <Row>
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label ">
+                                  <Col sm='4'>
+                                    <Label className='form-label col-form-label '>
                                       Additional text
                                       <br />
                                       <small>
@@ -289,14 +289,14 @@ class AddEmployee extends Component<any, any> {
                                       </small>
                                     </Label>
                                   </Col>
-                                  <Col sm="8">
+                                  <Col sm='8'>
                                     <div>
                                       <Input
-                                        type="textarea"
-                                        name={"additionalText "}
-                                        placeholder="Additional text "
-                                        className="textarea-custom"
-                                        rows="4"
+                                        type='textarea'
+                                        name={'additionalText '}
+                                        placeholder='Additional text '
+                                        className='textarea-custom'
+                                        rows='4'
                                       />
                                     </div>
                                   </Col>
@@ -306,9 +306,9 @@ class AddEmployee extends Component<any, any> {
                           </div>
                         </Col>
 
-                        <Col lg={"12"}>
-                          <h5 className="main-title "> Other Information</h5>
-                          <div className="form-card">
+                        <Col lg={'12'}>
+                          <h5 className='main-title '> Other Information</h5>
+                          <div className='form-card'>
                             <Row>
                               {/* <Col lg={"6"}>
                                     <FormGroup>
@@ -333,62 +333,62 @@ class AddEmployee extends Component<any, any> {
                                     </FormGroup>
                                   </Col> */}
 
-                              <Col lg={"6"}>
+                              <Col lg={'6'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label'>
                                         Address Line 1
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Input
-                                          type="textarea"
-                                          name={"address1"}
-                                          placeholder=" Address 1"
-                                          className="height-auto width-common"
+                                          type='textarea'
+                                          name={'address1'}
+                                          placeholder=' Address 1'
+                                          className='height-auto width-common'
                                         />
                                       </div>
                                     </Col>
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              <Col lg={"6"}>
+                              <Col lg={'6'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label'>
                                         Address Line 2
                                       </Label>
                                     </Col>
 
-                                    <Col sm="8">
-                                      <div className="custom-radio-block">
+                                    <Col sm='8'>
+                                      <div className='custom-radio-block'>
                                         <Input
-                                          type="textarea"
-                                          name={"address2"}
-                                          placeholder=" Address 2"
-                                          className="height-auto width-common"
+                                          type='textarea'
+                                          name={'address2'}
+                                          placeholder=' Address 2'
+                                          className='height-auto width-common'
                                         />
                                       </div>
                                     </Col>
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              <Col lg={"6"}>
+                              <Col lg={'6'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label'>
                                         Region
-                                        <span className="required">*</span>
+                                        <span className='required'>*</span>
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Select
-                                          placeholder="Select Region"
+                                          placeholder='Select Region'
                                           isMulti
                                           options={Region}
                                         />
@@ -397,40 +397,40 @@ class AddEmployee extends Component<any, any> {
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              <Col lg={"6"}>
+                              <Col lg={'6'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label'>
                                         Country
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Input
-                                          type="text"
-                                          name={"country"}
-                                          placeholder=" Country"
-                                          className="width-common"
+                                          type='text'
+                                          name={'country'}
+                                          placeholder=' Country'
+                                          className='width-common'
                                         />
                                       </div>
                                     </Col>
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              <Col lg={"6"}>
+                              <Col lg={'6'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label'>
                                         State
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Select
                                           // value={this.state.selectedOption}
-                                          placeholder="Select State"
+                                          placeholder='Select State'
                                           options={State}
                                         />
                                       </div>
@@ -438,19 +438,19 @@ class AddEmployee extends Component<any, any> {
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              <Col lg={"6"}>
+                              <Col lg={'6'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label'>
                                         City
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Select
                                           // value={this.state.selectedOption}
-                                          placeholder="Select City"
+                                          placeholder='Select City'
                                           options={City}
                                         />
                                       </div>
@@ -458,36 +458,36 @@ class AddEmployee extends Component<any, any> {
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              <Col lg={"6"}>
+                              <Col lg={'6'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label'>
                                         Zip
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Input
-                                          type="text"
-                                          name={"zip"}
-                                          placeholder=" Zip Code"
-                                          className="width-common"
+                                          type='text'
+                                          name={'zip'}
+                                          placeholder=' Zip Code'
+                                          className='width-common'
                                         />
                                       </div>
                                     </Col>
                                   </Row>
                                 </FormGroup>
                               </Col>
-                              <Col lg={"6"}>
+                              <Col lg={'6'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label'>
                                         Joining Date
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
                                         <Row>
                                           <Col>
@@ -499,8 +499,8 @@ class AddEmployee extends Component<any, any> {
 
                                             <InputMask
                                               value={this.state.date}
-                                              placeholder="DD/MM/YYYY"
-                                              mask="99/99/9999"
+                                              placeholder='DD/MM/YYYY'
+                                              mask='99/99/9999'
                                               // onChange={this.handleDateOfBirth}
                                             />
                                           </Col>
@@ -511,17 +511,17 @@ class AddEmployee extends Component<any, any> {
                                 </FormGroup>
                               </Col>
 
-                              <Col lg={"6"}>
+                              <Col lg={'6'}>
                                 <FormGroup>
                                   <Row>
-                                    <Col sm="4">
-                                      <Label className="form-label col-form-label">
+                                    <Col sm='4'>
+                                      <Label className='form-label col-form-label'>
                                         Add Profile image
                                       </Label>
                                     </Col>
-                                    <Col sm="8">
+                                    <Col sm='8'>
                                       <div>
-                                        <Input type="file" name={"image"} />
+                                        <Input type='file' name={'image'} />
                                       </div>
                                     </Col>
                                   </Row>
@@ -531,16 +531,16 @@ class AddEmployee extends Component<any, any> {
                           </div>
                         </Col>
                       </Row>
-                      <Col lg={"12"}>
-                        <div className="d-flex align-items-center justify-content-between">
-                          <div className="mandatory-text">
+                      <Col lg={'12'}>
+                        <div className='d-flex align-items-center justify-content-between'>
+                          <div className='mandatory-text'>
                             * Required Fields
                           </div>
-                          <div className={"text-right"}>
+                          <div className={'text-right'}>
                             <Button
-                              color="primary"
-                              type="submit"
-                              className="btn-sumbit"
+                              color='primary'
+                              type='submit'
+                              className='btn-sumbit'
                             >
                               Submit
                             </Button>

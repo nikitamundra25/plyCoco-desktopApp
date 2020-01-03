@@ -87,20 +87,52 @@ class CareGiver extends Component<RouteComponentProps, any> {
           </td>
           <td>
             <div className="description-column">
-              <div className="info-title">Sir John Doe</div>
               <p className="description-text">
-                <span className=" mr-2">Bank Name</span>
-                <span className="align-middle">john@gmail.com</span>
+                <span className="text-bold mr-2">Fee per hour:</span>
+                <span className="align-middle">100 EUR</span>
               </p>
               <p className="description-text">
-                <i className="fa fa-phone mr-2"></i>
-                <span className="align-middle">564575678</span>
+                <span className="text-bold mr-2">
+                  Night allowance per hour:
+                </span>
+                <span className="align-middle">120 EUR</span>
+              </p>
+              <p className="description-text">
+                <span className="text-bold mr-2">
+                  Weekend allowance per hour:
+                </span>
+                <span className="align-middle">150 EUR</span>
+              </p>
+              <p className="description-text">
+                <span className="text-bold mr-2">
+                  Holiday allowance per hour:
+                </span>
+                <span className="align-middle">200 EUR</span>
               </p>
             </div>
           </td>
-          <td className="text-center">
-            {" "}
-            {/* <div className="description-column ml-0">
+          {/* <td>
+            <div className="description-column">
+              <p className="description-text">
+                <span className=" text-bold mr-2">Bank Name</span>
+                <span className="align-middle">Central Bank</span>
+              </p>
+              <p className="description-text">
+                <span className="text-bold mr-2">Account Holder Name</span>
+                <span className="align-middle">120 EUR</span>
+              </p>
+              <p className="description-text">
+                <span className="text-bold mr-2">IBAN</span>
+                <span className="align-middle">2146587978</span>
+              </p>
+              <p className="description-text">
+                <span className="text-bold mr-2">BIC</span>
+                <span className="align-middle">4365476573</span>
+              </p>
+            </div>
+          </td> */}
+          {/* <td className="text-center"> */}{" "}
+          {/* <div className="description-column ml-0">
               <p className="description-text">
                 <span className="text-label mr-1">Employee ID:</span>
                 <span className="align-middle">e546567cdg</span>
@@ -110,8 +142,8 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 <span className="align-middle">US_542346</span>
               </p>
             </div> */}
-            <div>3</div>
-          </td>
+          {/* <div>3</div>
+          </td> */}
           <td className="text-center">
             <span
               className={`status-btn ${
@@ -123,36 +155,39 @@ class CareGiver extends Component<RouteComponentProps, any> {
           </td>
           <td>
             <div className="action-btn">
-              <span className="btn-icon mr-2" id={`edit${index}`}>
+              {/* <span
+                className="btn-icon mr-2"
+                id={`edit${index}`}
+                onClick={() =>
+                  this.props.history.push(AppRoutes.EDIT_CARE_GIVER)
+                }
+              >
                 <UncontrolledTooltip placement="top" target={`edit${index}`}>
                   Edit
                 </UncontrolledTooltip>
-                <i
-                  className="fa fa-pencil"
-                  onClick={() =>
-                    this.props.history.push(AppRoutes.EDIT_CARE_GIVER)
-                  }
-                ></i>
-              </span>
-              <span className="btn-icon mr-2" id={`view${index}`}>
+                <i className="fa fa-pencil"></i>
+              </span> */}
+              <span
+                className="btn-icon mr-2"
+                id={`view${index}`}
+                onClick={() =>
+                  this.props.history.push(AppRoutes.PERSONAL_INFORMATION)
+                }
+              >
                 <UncontrolledTooltip placement="top" target={`view${index}`}>
                   View
                 </UncontrolledTooltip>
-                <i
-                  className="fa fa-eye"
-                  onClick={() =>
-                    this.props.history.push(AppRoutes.PERSONAL_INFORMATION)
-                  }
-                ></i>
+                <i className="fa fa-eye"></i>
               </span>
-              <span className="btn-icon " id={`delete${index}`}>
+              <span
+                className="btn-icon "
+                id={`delete${index}`}
+                onClick={() => this.props.history.push("")}
+              >
                 <UncontrolledTooltip placement="top" target={`delete${index}`}>
                   Delete
                 </UncontrolledTooltip>
-                <i
-                  className="fa fa-trash"
-                  onClick={() => this.props.history.push("")}
-                ></i>
+                <i className="fa fa-trash"></i>
               </span>
             </div>
           </td>
@@ -274,8 +309,9 @@ class CareGiver extends Component<RouteComponentProps, any> {
                     </th>
                     <th>CareGiver Information</th>
                     <th>Qualification</th>
-                    <th>Bank Information</th>
-                    <th className="text-center">Leasing Information</th>
+                    <th>Price Range</th>
+                    {/* <th>Bank Information</th> */}
+                    {/* <th className="text-center">Leasing Information</th> */}
                     <th className="text-center">Status</th>
                     <th className="text-center">Action</th>
                   </tr>

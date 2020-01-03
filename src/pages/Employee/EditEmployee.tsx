@@ -19,6 +19,7 @@ import { RouteComponentProps } from "react-router";
 import { Status, State, Department, Region, City } from "../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
+import InputMask from "react-input-mask";
 
 class AddEmployee extends Component<any, any> {
   constructor(props: any) {
@@ -80,13 +81,6 @@ class AddEmployee extends Component<any, any> {
                                           className="width-common"
                                           onFocus={this.onFocus}
                                         />
-                                        {this.state.error ? (
-                                          <div className="required-error">
-                                            Please Enter First Name
-                                          </div>
-                                        ) : (
-                                          ""
-                                        )}
                                       </div>
                                     </Col>
                                   </Row>
@@ -362,7 +356,6 @@ class AddEmployee extends Component<any, any> {
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
                                         Address Line 2
-                                        <span className="required">*</span>
                                       </Label>
                                     </Col>
 
@@ -570,10 +563,17 @@ class AddEmployee extends Component<any, any> {
                                       <div>
                                         <Row>
                                           <Col>
-                                            <DatePicker
+                                            {/* <DatePicker
                                               placeholderText="Select Date"
                                               selected={new Date()}
                                               onChange={this.handleChange}
+                                            /> */}
+                                            <InputMask
+                                              value="12/03/2007"
+                                              placeholder="DD/MM/YYYY"
+                                              mask="99/99/9999"
+                                              className="form-control"
+                                              // onChange={this.handleDateOfBirth}
                                             />
                                           </Col>
                                         </Row>

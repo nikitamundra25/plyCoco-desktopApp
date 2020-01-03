@@ -63,9 +63,7 @@ class AddEmployee extends Component<any, any> {
                                   <Row>
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
-                                        {languageTranslation(
-                                          "EMPLOYEE_FIRST_NAME_LABEL"
-                                        )}
+                                        First Name
                                         <span className="required">*</span>
                                       </Label>
                                     </Col>
@@ -74,9 +72,7 @@ class AddEmployee extends Component<any, any> {
                                         <Input
                                           type="text"
                                           name={"firstName"}
-                                          placeholder={languageTranslation(
-                                            "EMPLOYEE_FIRST_NAME_PLACEHOLDER"
-                                          )}
+                                          placeholder="First Name"
                                           onChange={() =>
                                             this.setState({ error: false })
                                           }
@@ -339,6 +335,7 @@ class AddEmployee extends Component<any, any> {
                                     <Col sm="4">
                                       <Label className="form-label col-form-label">
                                         Address Line 1
+                                        <span className="required">*</span>
                                       </Label>
                                     </Col>
                                     <Col sm="8">
@@ -501,6 +498,7 @@ class AddEmployee extends Component<any, any> {
                                               value={this.state.date}
                                               placeholder="DD/MM/YYYY"
                                               mask="99/99/9999"
+                                              className="form-control"
                                               // onChange={this.handleDateOfBirth}
                                             />
                                           </Col>

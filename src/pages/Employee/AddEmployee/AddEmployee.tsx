@@ -26,7 +26,6 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
   const {
     values: {
       email,
-      password,
       firstName,
       lastName,
       userName,
@@ -39,7 +38,8 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
       address1,
       address2,
       country,
-      zip
+      zip,
+      joiningDate
       // date
     },
     touched,
@@ -49,6 +49,7 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
     handleBlur,
     handleSubmit
   } = props;
+
   return (
     <div>
       <Row>
@@ -260,8 +261,18 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       type="text"
                                       name={"bankName"}
                                       placeholder="Bank Name"
-                                      className="width-common"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={bankName}
+                                      className={`width-common${
+                                        errors.bankName && touched.bankName
+                                          ? "text-input error"
+                                          : "text-input"
+                                      }`}
                                     />
+                                    {errors.bankName && touched.bankName && (
+                                      <div className="">{errors.bankName}</div>
+                                    )}
                                   </div>
                                 </Col>
                               </Row>
@@ -281,10 +292,24 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                   <div>
                                     <Input
                                       type="text"
-                                      name={"accountHolderName "}
+                                      name={"accountHolderName"}
                                       placeholder="Account Holder Name "
-                                      className="width-common"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={accountHolderName}
+                                      className={`width-common${
+                                        errors.accountHolderName &&
+                                        touched.accountHolderName
+                                          ? "text-input error"
+                                          : "text-input"
+                                      }`}
                                     />
+                                    {errors.accountHolderName &&
+                                      touched.accountHolderName && (
+                                        <div className="">
+                                          {errors.accountHolderName}
+                                        </div>
+                                      )}
                                   </div>
                                 </Col>
                               </Row>
@@ -300,13 +325,23 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 </Col>
                                 <Col sm="8">
                                   <div>
-                                    {/* <InputMask
+                                    <InputMask
                                       name={"IBAN"}
                                       value={IBAN}
                                       placeholder="DE91 1000 0000 0123 4567 89"
-                                      mask="DE91 1000 0000 0123 4567 89"
-                                    /> */}
-                                    <Input type="text" name={"IBAN"} />
+                                      mask="SS99 9999 999 999"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      className={
+                                        errors.IBAN && touched.IBAN
+                                          ? "text-input error"
+                                          : "text-input"
+                                      }
+                                    />
+                                    {errors.IBAN && touched.IBAN && (
+                                      <div className="">{errors.IBAN}</div>
+                                    )}
+                                    {/* <Input type="text" name={"IBAN"} /> */}
                                   </div>
                                 </Col>
                               </Row>
@@ -326,7 +361,18 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       type="text"
                                       name={"BIC"}
                                       placeholder=" BIC"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={BIC}
+                                      className={
+                                        errors.BIC && touched.BIC
+                                          ? "text-input error"
+                                          : "text-input"
+                                      }
                                     />
+                                    {errors.BIC && touched.BIC && (
+                                      <div className="">{errors.BIC}</div>
+                                    )}
                                   </div>
                                 </Col>
                               </Row>
@@ -351,10 +397,12 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                   <div>
                                     <Input
                                       type="textarea"
-                                      name={"additionalText "}
-                                      placeholder="Additional text "
+                                      name={"additionalText"}
                                       className="textarea-custom"
+                                      placeholder="Additional text "
                                       rows="4"
+                                      onChange={handleChange}
+                                      value={additionalText}
                                     />
                                   </div>
                                 </Col>
@@ -368,29 +416,6 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                         <h5 className="main-title "> Other Information</h5>
                         <div className="form-card">
                           <Row>
-                            {/* <Col lg={"6"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="4">
-                                          <Label className="form-label col-form-label">
-                                            Department
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="8">
-                                          <div>
-                                            <Select
-                                              // value={this.state.selectedOption}
-                                              placeholder="Select Department"
-                                              isMulti
-                                              options={Department}
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col> */}
-
                             <Col lg={"6"}>
                               <FormGroup>
                                 <Row>
@@ -405,7 +430,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                         type="textarea"
                                         name={"address1"}
                                         placeholder=" Address 1"
-                                        className="height-auto width-common"
+                                        className="textarea-custom"
+                                        onChange={handleChange}
+                                        value={address1}
                                       />
                                     </div>
                                   </Col>
@@ -425,8 +452,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                     <div className="custom-radio-block">
                                       <Input
                                         type="textarea"
-                                        name={"address2"}
-                                        placeholder=" Address 2"
+                                        name={"address2"}                                        
+                                        placeholder="Address 2"
+                                        onChange={handleChange}
                                         className="height-auto width-common"
                                       />
                                     </div>
@@ -469,6 +497,7 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                         type="text"
                                         name={"country"}
                                         placeholder=" Country"
+                                        onChange={handleChange}
                                         className="width-common"
                                       />
                                     </div>
@@ -526,11 +555,13 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                   </Col>
                                   <Col sm="8">
                                     <div>
-                                      <Input
-                                        type="text"
+                                      <InputMask
                                         name={"zip"}
-                                        placeholder=" Zip Code"
+                                        onChange={handleChange}
                                         className="width-common"
+                                        placeholder="Zip"
+                                        value={zip}
+                                        mask="99999"
                                       />
                                     </div>
                                   </Col>
@@ -549,16 +580,12 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                     <div>
                                       <Row>
                                         <Col>
-                                          {/* <DatePicker
-                                              placeholderText="Select Date"
-                                              selected={this.state.startDate}
-                                              onChange={this.handleChange}
-                                            /> */}
-
                                           <InputMask
-                                            value={"1"}
+                                            name={"joiningDate"}
                                             placeholder="DD/MM/YYYY"
                                             mask="99/99/9999"
+                                            onChange={handleChange}
+                                            value={joiningDate}
                                           />
                                         </Col>
                                       </Row>
@@ -595,8 +622,12 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                           <Button
                             disabled={isSubmitting}
                             color="primary"
-                            type="submit"
+                            type={"submit"}
                             className="btn-sumbit"
+                            // onClick={(e: any) => {
+                            //   e.preventDefault();
+                            //   handleSubmit();
+                            // }}
                           >
                             Submit
                           </Button>

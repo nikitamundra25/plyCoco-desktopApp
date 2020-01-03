@@ -23,10 +23,5 @@ export const languageTranslation = (key: string, replacement: any = {}): string 
             console.log("languageMessages", languageMessages);
             console.log('====================================');
         }
-    }
-    const data: any = {
-        languageMessages,
-        language
-    }
-    return data;
+    } return languageMessages;
 }

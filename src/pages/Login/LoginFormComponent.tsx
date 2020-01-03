@@ -18,13 +18,14 @@ import {
 import logo from "../../assets/img/plycoco-logo.png";
 import { ILoginFormValues } from "../../interfaces";
 import { languageTranslation } from "../../helpers/LangauageTranslation";
-
 const language = localStorage.getItem("language");
 console.log("language in login", language);
 if (language === null) {
   window.location.reload();
 }
-const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
+const LoginFormComponent: any = (
+  props: FormikProps<ILoginFormValues> & any
+) => {
   const {
     values: { email, password },
     touched,
@@ -34,6 +35,9 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
     handleBlur,
     handleSubmit
   } = props;
+  // console.log(props.languageReducer.language, "props");
+  // let label = props.languageReducer.language;
+
   return (
     <div className="app flex-row align-items-center auth-page">
       <div className="auth-bg"></div>
@@ -67,18 +71,8 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
                         <Input
                           type={"text"}
                           id="email"
-                          name={
-                            language === "de"
-                              ? languageTranslation("EMAIL_ADRESSEN")
-                              : languageTranslation("EMAIL")
-                          }
-                          placeholder={
-                            language === "de"
-                              ? languageTranslation(
-                                  "EMAIL_ADRESSEN_PLATZHALTER"
-                                )
-                              : languageTranslation("EMAIL_ADDRESS_PLACEHOLDER")
-                          }
+                          name={languageTranslation("EMAIL")}
+                          placeholder={languageTranslation("EMAIL_ADDRESS_PLACEHOLDER")}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={email}
@@ -98,23 +92,14 @@ const LoginFormComponent: any = (props: FormikProps<ILoginFormValues>) => {
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            {" "}
                             <i className="icon-lock" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
                           id="password"
                           type={"password"}
-                          name={
-                            language === "de"
-                              ? languageTranslation("PASSWORT")
-                              : languageTranslation("PASSWORD")
-                          }
-                          placeholder={
-                            language === "de"
-                              ? languageTranslation("PASSWORT_PLATZHALTER")
-                              : languageTranslation("PASSWORD_LABEL")
-                          }
+                          name={languageTranslation("PASSWORD")}
+                          placeholder={languageTranslation("PASSWORD_LABEL")}
                           value={password}
                           onChange={handleChange}
                           onBlur={handleBlur}

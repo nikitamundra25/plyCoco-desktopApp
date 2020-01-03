@@ -10,22 +10,30 @@ class EmployeeForm extends Component<any, IEmployeeState> {
     { setSubmitting }: FormikHelpers<IEmployeeFormValues>
   ) => {
     console.log("values in employeee", values);
-    //to set submit state to false after successful signup 
+    //to set submit state to false after successful signup
     setSubmitting(false);
   };
 
   render() {
     const values: IEmployeeFormValues = {
       email: "",
-      password: "",
       firstName: "",
       lastName: "",
       userName: "",
-      telephoneNumber: "",accountHolderName:"",
-      bankName:"",
-      IBAN:"",BIC:"",additionalText:"",address1:"",address2:"",country:"",zip:"",
+      telephoneNumber: "",
+      accountHolderName: "",
+      bankName: "",
+      IBAN: "",
+      BIC: "",
+      additionalText: "",
+      address1: "",
+      address2: "",
+      country: "",
+      zip: "",
+      joiningDate: ""
       // date:new Date()
     };
+    // console.log("values in index", values);
 
     return (
       <Formik

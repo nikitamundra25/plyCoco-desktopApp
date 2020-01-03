@@ -8,14 +8,7 @@ import { connect } from "react-redux";
 import { languageTranslation } from "../../helpers/LangauageTranslation";
 import { Dispatch, Action } from "redux";
 class Login extends Component<any, ILoginState> {
-
-  componentDidMount = () => {
-    const curLang: string | any = localStorage.getItem("language")
-    const languageData: any = languageTranslation(curLang)
-    this.props.storeCurrLangRequest(languageData.language)
-  }
-
-  handleSubmit = (
+   handleSubmit = (
     values: ILoginFormValues,
     { setSubmitting }: FormikHelpers<ILoginFormValues>
   ) => {
@@ -25,13 +18,13 @@ class Login extends Component<any, ILoginState> {
   };
 
   render() {
-    const values: ILoginFormValues = { email: "", password: "" }
+    const values: ILoginFormValues = { email: "", password: "" };
     return (
       <Formik
         initialValues={values}
         onSubmit={this.handleSubmit}
         children={(props: FormikProps<ILoginFormValues>) => (
-          <LoginFormComponent {...props} />
+          <LoginFormComponent {...props} {...this.props} />
         )}
         validationSchema={LoginValidationSchema}
       />
@@ -39,11 +32,4 @@ class Login extends Component<any, ILoginState> {
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  storeCurrLangRequest: (data: any): Action<any> => dispatch(storeCurrLangRequest(data)),
-});
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(Login);
-
+export default Login

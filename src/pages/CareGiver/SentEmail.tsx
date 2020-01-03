@@ -5,9 +5,11 @@ import EmailMenus from "./EmailMenus";
 class Email extends Component<RouteComponentProps, any> {
   render() {
     return (
-      <div className="email-content">
+      <div className="email-section">
         <EmailMenus {...this.props} />
-        <p>Sent Email</p>{" "}
+        <div className="email-content">
+          <p>Sent Email</p>{" "}
+        </div>
       </div>
     );
   }

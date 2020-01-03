@@ -22,7 +22,7 @@ class ChangePassword extends Component {
                         <Col sm="7">
                           <div>
                             <Input
-                              type="text"
+                              type="password"
                               name={"OldPassword"}
                               placeholder=" Old Password"
                             />
@@ -42,7 +42,7 @@ class ChangePassword extends Component {
                         </Col>
                         <Col sm="7">
                           <Input
-                            type="text"
+                            type="password"
                             name={"Newpassword"}
                             placeholder=" New Password"
                           />
@@ -62,7 +62,7 @@ class ChangePassword extends Component {
                         </Col>
                         <Col sm="7">
                           <Input
-                            type="text"
+                            type="password"
                             name={"ConfirmNewpassword"}
                             placeholder="Confirm New Password"
                           />

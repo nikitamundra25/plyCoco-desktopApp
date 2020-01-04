@@ -18,14 +18,8 @@ import {
 import logo from '../../assets/img/plycoco-logo.png';
 import { ILoginFormValues } from '../../interfaces';
 import { languageTranslation } from '../../helpers/langauageTranslation';
-
-const language = localStorage.getItem('language');
-console.log('language in login', language);
-if (language === null) {
-  window.location.reload();
-}
-const LoginFormComponent: any = (
-  props: FormikProps<ILoginFormValues> & any,
+const LoginFormComponent = (
+  props: FormikProps<ILoginFormValues> ,
 ) => {
   const {
     values: { email, password },
@@ -36,8 +30,6 @@ const LoginFormComponent: any = (
     handleBlur,
     handleSubmit,
   } = props;
-  // console.log(languageTranslation("EMAIL_ADDRESS_PLACEHOLDER"), "german lang");
-  // let label = props.languageReducer.language;
   return (
     <div className='app flex-row align-items-center auth-page'>
       <div className='auth-bg'></div>

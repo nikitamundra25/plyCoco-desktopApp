@@ -35,13 +35,25 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<object, IEmplo
     // joiningDate: Yup.string(),
     joiningDate: Yup.mixed()
         .test('valid-date', 'Please enter a valid date', val => {
-            console.log("moment(val, 'DD/MM/YYYY').isValid()", moment(val, 'DD/MM/YYYY').isValid())
-            return moment(val, 'DD/MM/YYYY').isValid()
+            console.log("validate date", moment(val, 'DD/MM/YYYY').isValid())
+            console.log("min date", moment(val, 'DD/MM/YYYY').min("1990-04-20T20:00:00+0800").isValid());
+            console.log("max date", moment(val, 'DD/MM/YYYY').max(new Date()).isValid());
+            if ((moment(val, 'DD/MM/YYYY').isValid()
+                && moment(val).min("1999-01-01").isValid()
+                && moment(val).max(new Date()).isValid()) === true) {
+                console.log("date is validddddddd---------------");
+            }
+            else {
+                console.log("not valid &&&&&&&&&&&&&&");
+            }
+            return val
         }
-        ).test('valid-length', 'Please enter a valid date', val => {
-            // console.log();
-            return val ? val.replace(/[/_]/g, '').length === 8 : false
-        }),
+        )
+        /* .test('is-of-age', 'You must be 18 years or older to sign up ', val => {
+            console.log("minnnnnnnnnn", moment().diff(moment(val, 'DD/MM/YYYY'), 'year') >= 50)
+            console.log("maxxxxxxxxxx", moment().diff(moment(val, 'DD/MM/YYYY'), 'year') <= 50)
+            return moment().diff(moment(val, 'DD/MM/YYYY'), 'year') >= 50
+        }) */,
     bankAccountNumber: Yup.string(),
     image: Yup.mixed()
     // .test('fileSize', "File Size is too large", value => value.size <= fileSize)

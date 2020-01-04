@@ -24,9 +24,7 @@ console.log('language in login', language);
 if (language === null) {
   window.location.reload();
 }
-const LoginFormComponent: any = (
-  props: FormikProps<ILoginFormValues> & any,
-) => {
+const LoginFormComponent = (props: FormikProps<ILoginFormValues>) => {
   const {
     values: { email, password },
     touched,

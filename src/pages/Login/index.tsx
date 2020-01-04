@@ -21,7 +21,7 @@ class Login extends Component<any, ILoginState> {
         initialValues={values}
         onSubmit={this.handleSubmit}
         children={(props: FormikProps<ILoginFormValues>) => (
-          <LoginFormComponent {...props} {...this.props} />
+          <LoginFormComponent {...props} />
         )}
         validationSchema={LoginValidationSchema}
       />

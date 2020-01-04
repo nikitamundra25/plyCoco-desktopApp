@@ -25,13 +25,10 @@ const DefaultLayout = React.lazy(() =>
 const history = createBrowserHistory();
 // Configure store
 const store: Store = configureStore(history);
-let language: any;
 
 class App extends Component<any, any> {
   componentDidMount() {
-    console.log('inside cdu');
-    language = localStorage.setItem('language', 'de');
-    console.log('language', language);
+    localStorage.setItem('language', 'en');
   }
   render() {
     return (

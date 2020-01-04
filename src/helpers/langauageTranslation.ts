@@ -1,5 +1,6 @@
 import englishLanguage from '../language/en.json';
 import germanLanguage from '../language/de.json';
+import { logger } from './logger';
 
 const Languages: any = {
   en: englishLanguage,
@@ -15,6 +16,8 @@ export const languageTranslation = (
   }
   const language: any = Languages[lang];
   const languageMessages = language[key];
+  logger(languageMessages);
+  logger('languageMessages');
   for (const k in replacement) {
     if (replacement.hasOwnProperty(k)) {
       const value = replacement[k];
@@ -27,9 +30,5 @@ export const languageTranslation = (
       console.log('====================================');
     }
   }
-  const data: any = {
-    languageMessages,
-    language,
-  };
-  return data;
+  return languageMessages;
 };

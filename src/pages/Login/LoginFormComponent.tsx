@@ -36,9 +36,6 @@ const LoginFormComponent: any = (
     handleBlur,
     handleSubmit,
   } = props;
-  // console.log(props.languageReducer.language, "props");
-  // let label = props.languageReducer.language;
-
   return (
     <div className='app flex-row align-items-center auth-page'>
       <div className='auth-bg'></div>

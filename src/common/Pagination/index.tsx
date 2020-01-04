@@ -1,13 +1,20 @@
-import React, { Component } from "react";
-import { PaginationItem, Pagination, PaginationLink } from "reactstrap";
+import React, { Component } from 'react';
+import { Pagination } from 'react-bootstrap';
+import { IPaginationProps, IPaginationState } from '../../interfaces';
 
-const LEFT_PAGE = "LEFT";
-const RIGHT_PAGE = "RIGHT";
-const FIRST_PAGE = "FIRST_PAGE";
-const LAST_PAGE = "LAST_PAGE";
+// class PaginationComponent extends Component<IPaginationProps, any> {
+//   render() {
+//     return <>cvxxxxxxx</>;
+//   }
+// }
+
+const LEFT_PAGE: string = 'LEFT';
+const RIGHT_PAGE: string = 'RIGHT';
+const FIRST_PAGE: string = 'FIRST_PAGE';
+const LAST_PAGE: string = 'LAST_PAGE';
 
 // HELPER TO CREATE PAGE RANGE
-const range = (from, to, step = 1) => {
+const range = (from: number, to: number, step: number = 1) => {
   let i = from;
   const range = [];
 
@@ -18,8 +25,15 @@ const range = (from, to, step = 1) => {
   return range;
 };
 
-class PaginationHelper extends Component {
-  constructor(props) {
+class PaginationComponent extends Component<
+  IPaginationProps,
+  IPaginationState
+> {
+  pageLimit: number;
+  totalRecords: number;
+  pageNeighbours: number;
+  totalPages: number;
+  constructor(props: IPaginationProps) {
     super(props);
     const {
       totalRecords = null,
@@ -28,12 +42,12 @@ class PaginationHelper extends Component {
       pageNeighbours = 1,
     } = props;
     // PAGE LIMIT AND RECORDS
-    this.pageLimit = typeof pageLimit === "number" ? pageLimit : 10;
-    this.totalRecords = typeof totalRecords === "number" ? totalRecords : 0;
+    this.pageLimit = typeof pageLimit === 'number' ? pageLimit : 10;
+    this.totalRecords = typeof totalRecords === 'number' ? totalRecords : 0;
 
     // PAGE NEIGHBOURS CAN BE 0, 1 OR 2
     this.pageNeighbours =
-      typeof pageNeighbours === "number"
+      typeof pageNeighbours === 'number'
         ? Math.max(0, Math.min(pageNeighbours, 2))
         : 0;
     this.totalPages = Math.ceil(this.totalRecords / this.pageLimit);
@@ -42,25 +56,34 @@ class PaginationHelper extends Component {
     this.state = { currentPage: currentPage ? currentPage : 1 };
   }
 
-  gotoPage = page => {
-    const { onPageChanged = f => f } = this.props;
+  componentDidUpdate = (prevProps: IPaginationProps) => {
+    if (prevProps.currentPage !== this.props.currentPage) {
+      const { currentPage } = this.props;
+      this.setState({
+        currentPage,
+      });
+    }
+  };
+
+  gotoPage = (page: number) => {
+    const { onPageChanged = (f: number) => f } = this.props;
     const currentPage = Math.max(0, Math.min(page, this.totalPages));
     this.setState({ currentPage }, () => onPageChanged(currentPage));
   };
 
-  handleClick = page => evt => {
+  handleClick = (page: number) => (evt: MouseEvent) => {
     evt.preventDefault();
     if (this.state.currentPage !== page) {
       this.gotoPage(page);
     }
   };
 
-  handleMoveLeft = evt => {
+  handleMoveLeft = (evt: MouseEvent) => {
     evt.preventDefault();
     this.gotoPage(this.state.currentPage - this.pageNeighbours);
   };
 
-  handleMoveRight = evt => {
+  handleMoveRight = (evt: MouseEvent) => {
     evt.preventDefault();
     this.gotoPage(this.state.currentPage + this.pageNeighbours);
   };
@@ -77,22 +100,25 @@ class PaginationHelper extends Component {
    * {...x} => represents page neighbours
    */
   fetchPageNumbers = () => {
-    const totalPages = this.totalPages;
-    const currentPage = this.state.currentPage;
-    const pageNeighbours = this.pageNeighbours;
+    const totalPages: number = this.totalPages;
+    const currentPage: number = this.state.currentPage;
+    const pageNeighbours: number = this.pageNeighbours;
 
     /**
      * totalNumbers: the total page numbers to show on the control
      * totalBlocks: totalNumbers + 2 to cover for the left(<) and right(>) controls
      */
-    const totalNumbers = this.pageNeighbours * 2 + 3;
-    const totalBlocks = totalNumbers + 2;
+    const totalNumbers: number = this.pageNeighbours * 2 + 3;
+    const totalBlocks: number = totalNumbers + 2;
 
     if (totalPages > totalBlocks) {
-      const startPage = Math.max(2, currentPage - pageNeighbours);
-      const endPage = Math.min(totalPages - 1, currentPage + pageNeighbours);
+      const startPage: number = Math.max(2, currentPage - pageNeighbours);
+      const endPage: number = Math.min(
+        totalPages - 1,
+        currentPage + pageNeighbours,
+      );
 
-      let pages = range(startPage, endPage);
+      let pages: Array<any> = range(startPage, endPage);
 
       /**
        * hasLeftSpill: has hidden pages to the left
@@ -133,50 +159,44 @@ class PaginationHelper extends Component {
   };
 
   render() {
-    if (!this.totalRecords || this.totalPages === 1) return null;
+    if (!this.totalRecords || this.totalPages === 1) {
+      return null;
+    }
 
     const { currentPage } = this.state;
     const pages = this.fetchPageNumbers();
 
     return (
-      <div className={"float-right"}>
+      <div className={'float-right'}>
         <Pagination>
           {pages.map((page, index) => {
             return page === LEFT_PAGE ? (
-              <PaginationItem key={index} onClick={this.handleMoveLeft}>
-                <PaginationLink previous tag="button">
-                  <span aria-hidden="true">«</span> Prev
-                </PaginationLink>
-              </PaginationItem>
+              <Pagination.Item key={index} onClick={this.handleMoveLeft}>
+                <span aria-hidden='true'>«</span> Prev
+              </Pagination.Item>
             ) : page === RIGHT_PAGE ? (
-              <PaginationItem key={index} onClick={this.handleMoveRight}>
-                <PaginationLink next tag="button">
-                  Next <span aria-hidden="true">»</span>
-                </PaginationLink>
-              </PaginationItem>
+              <Pagination.Item key={index} onClick={this.handleMoveRight}>
+                Next <span aria-hidden='true'>»</span>
+              </Pagination.Item>
             ) : page === FIRST_PAGE ? (
-              <PaginationItem key={index} onClick={this.handleClick(1)}>
-                <PaginationLink next tag="button">
-                  First <span aria-hidden="true">«</span>
-                </PaginationLink>
-              </PaginationItem>
+              <Pagination.Item key={index} onClick={this.handleClick(1)}>
+                First <span aria-hidden='true'>«</span>
+              </Pagination.Item>
             ) : page === LAST_PAGE ? (
-              <PaginationItem
+              <Pagination.Item
                 key={index}
                 onClick={this.handleClick(this.totalPages)}
               >
-                <PaginationLink next tag="button">
-                  Last <span aria-hidden="true">»</span>
-                </PaginationLink>
-              </PaginationItem>
+                Last <span aria-hidden='true'>»</span>
+              </Pagination.Item>
             ) : (
-              <PaginationItem
+              <Pagination.Item
                 key={index}
                 onClick={this.handleClick(page)}
                 active={currentPage === page}
               >
-                <PaginationLink tag="button">{page}</PaginationLink>
-              </PaginationItem>
+                {page}
+              </Pagination.Item>
             );
           })}
         </Pagination>
@@ -185,4 +205,4 @@ class PaginationHelper extends Component {
   }
 }
 
-export default PaginationHelper;
+export default PaginationComponent;

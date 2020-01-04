@@ -65,8 +65,8 @@ class BillingSettings extends Component {
                           <div className="d-flex align-items-center">
                             <Input
                               type="text"
-                              name={"nightSupplementsPerHour"}
-                              placeholder=" Night allowance per hour"
+                              name={"nightAllowancePerHour"}
+                              placeholder=" "
                               className="custom-input-width"
                             />
                             <div className="mx-2">EUR</div>
@@ -93,8 +93,8 @@ class BillingSettings extends Component {
                           <div className="d-flex align-items-center">
                             <Input
                               type="text"
-                              name={"weeklySupplementsPerHour"}
-                              placeholder=" Weekend allowance per hour	"
+                              name={"weekendAllowancePerHour"}
+                              placeholder="	"
                               className="custom-input-width"
                             />
                             <div className="mx-2">EUR</div>
@@ -115,8 +115,8 @@ class BillingSettings extends Component {
                           <div className="d-flex align-items-center">
                             <Input
                               type="text"
-                              name={"holidaySllowancePerHourFee "}
-                              placeholder=" Holiday allowance per hour "
+                              name={"holidayAllowancePerHourFee"}
+                              placeholder="  "
                               className="custom-input-width"
                             />
                             <div className="mx-2">EUR</div>
@@ -300,7 +300,7 @@ class BillingSettings extends Component {
                       </Col>
                       <Col sm="8">
                         <div>
-                          <Input type="text" name={"IBAN"} placeholder="IBAN" />
+                          <Input type="text" name={"iban"} placeholder="IBAN" />
                         </div>
                       </Col>
                     </Row>
@@ -317,7 +317,7 @@ class BillingSettings extends Component {
                       </Col>
                       <Col sm="8">
                         <div>
-                          <Input type="text" name={"BIC"} placeholder=" BIC" />
+                          <Input type="text" name={"bic"} placeholder=" BIC" />
                         </div>
                       </Col>
                     </Row>

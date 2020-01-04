@@ -27,6 +27,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { State, Region, Salutation, LegalForm, Country } from "../../config";
+import InputMask from "react-input-mask";
 
 class AddCareGiver extends Component<RouteComponentProps, any> {
   constructor(props: any) {
@@ -139,7 +140,7 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                                   <div>
                                     <Input
                                       type="text"
-                                      name={"address"}
+                                      name={"address1"}
                                       placeholder="Address Line 1"
                                       className=" width-common"
                                     />
@@ -160,7 +161,7 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                                   <div>
                                     <Input
                                       type="text"
-                                      name={"address"}
+                                      name={"address2"}
                                       placeholder="Address Line 2"
                                       className=" width-common"
                                     />
@@ -288,10 +289,11 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                                 </Col>
                                 <Col sm="8">
                                   <div>
-                                    <DatePicker
-                                      placeholderText="Select Date"
-                                      selected={this.state.startDate}
-                                      onChange={this.handleChange}
+                                    <InputMask
+                                      value={this.state.date}
+                                      placeholder="DD/MM/YYYY"
+                                      mask="99/99/9999"
+                                      // onChange={this.handleDateOfBirth}
                                     />
                                   </div>
                                 </Col>
@@ -721,7 +723,7 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                                   <div>
                                     <Input
                                       type="textarea"
-                                      name={"Remarks"}
+                                      name={"remarks"}
                                       placeholder="Remarks"
                                       rows="4"
                                       className="textarea-custom "

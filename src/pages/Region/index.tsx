@@ -18,6 +18,8 @@ import {
 } from "reactstrap";
 import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
+import { AppBreadcrumb } from "@coreui/react";
+import routes from "../../routes/routes";
 class Region extends Component<RouteComponentProps, any> {
   render() {
     return (
@@ -25,13 +27,10 @@ class Region extends Component<RouteComponentProps, any> {
         <Col xs={"12"} lg={"12"}>
           <Card>
             <CardHeader>
-              <h4>
-                <i className="fa fa-sitemap" />
-                <span className="ml-1">Region</span>
-              </h4>
+              <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
               <Button
                 color={"primary"}
-                className={"pull-right"}
+                className={"btn-add"}
                 id={"add-new-pm-tooltip"}
                 onClick={() => this.props.history.push(AppRoutes.ADD_REGION)}
               >
@@ -81,18 +80,7 @@ class Region extends Component<RouteComponentProps, any> {
                       </Input>
                     </FormGroup>
                   </Col>
-                  {/* <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="Selectregion">Department:</Label>
-                      <Input type="select" name="region" id="Selectregion">
-                        <option>Sales</option>
-                        <option>Marketing</option>
-                        <option>HR</option>
-                        <option>Development</option>
-                        <option>Designing</option>
-                      </Input>
-                    </FormGroup>
-                  </Col> */}
+                  
                   <Col lg={"2"}>
                     <div className="label-height"></div>
                     <div className="filter-btn-wrap">

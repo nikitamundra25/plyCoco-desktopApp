@@ -218,6 +218,8 @@ body {
     margin-bottom: 0;
     text-align: left;
     line-height: 1.5;
+    font-weight: 600;
+    font-size: 13px;
   }
 
   .checkbox-custom label:before {
@@ -503,7 +505,7 @@ body {
 }
 .message-text {
   position: absolute;
-  bottom: -2px;
+  bottom: -5px;
   font-size: 11px;
   color: $dark_gray;
 }
@@ -707,6 +709,52 @@ body {
     }
     &:after {
       display: none;
+    }
+  }
+  .custom-file-div {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 0;
+    .custom-input-file {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 30px;
+      margin: 0;
+      opacity: 0;
+    }
+    .custom-label-file {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1;
+      font-weight: 400;
+      background-color: $white;
+      color: $light_black;
+      font-size: 12px;
+      height: 30px;
+      border: 1px solid $light_gray;
+      padding: 0px 0px;
+      line-height: 19px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      border-radius: 0px;
+      margin-bottom: 0px;
+      .choosefile-label {
+        font-size: 14px;
+        background: $light_gray;
+        height: 30px;
+        color: $light_black;
+        padding: 0px 20px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
     }
   }
   .custom-radio-block {
@@ -952,34 +1000,34 @@ body {
     }
   }
 }
-.caregiver-form-section {
-  .custom-tabs {
-    border-bottom: 1px solid $tab_border;
-    text-transform: capitalize;
-    margin-bottom: 1px;
-    .nav-item {
-      .nav-link {
-        cursor: pointer;
-        border-radius: 4px;
-        padding: 6px 18px;
-        font-size: 14px;
-        border: 1px solid $white;
-        font-weight: 600;
-        border-bottom: $transparent;
-        .icon {
-          margin-right: 10px;
-        }
-        &:hover,
-        &.active {
-          text-decoration: none;
-          color: $tab_text;
-          background-color: $tab_bg_hover;
-          border: 1px solid $tab_border;
-          border-bottom-color: $transparent;
-        }
+.custom-tabs {
+  border-bottom: 1px solid $tab_border;
+  text-transform: capitalize;
+  margin-bottom: 1px;
+  .nav-item {
+    .nav-link {
+      cursor: pointer;
+      border-radius: 4px;
+      padding: 6px 18px;
+      font-size: 14px;
+      border: 1px solid $white;
+      font-weight: 600;
+      border-bottom: $transparent;
+      .icon {
+        margin-right: 10px;
+      }
+      &:hover,
+      &.active {
+        text-decoration: none;
+        color: $tab_text;
+        background-color: $tab_bg_hover;
+        border: 1px solid $tab_border;
+        border-bottom-color: $transparent;
       }
     }
   }
+}
+.caregiver-form-section {
   .tab-content {
     border: 0px;
     //padding: 20px 0px;
@@ -1038,30 +1086,30 @@ body {
     }
     .caregiver-content {
       // min-height: 100vh;
-      padding: 20px;
+      padding: 10px;
       background: $white;
+      .content-title {
+        color: $black;
+        font-size: 15px;
+        padding-bottom: 4px;
+        position: relative;
+        font-weight: 600;
+        margin-bottom: 15px;
+        &:before {
+          content: "";
+          position: absolute;
+          height: 2px;
+          width: 55px;
+          background: $black;
+          left: 0px;
+          bottom: 0px;
+        }
+      }
     }
   }
 }
 
 .faq-section {
-  .faq-title {
-    color: $black;
-    font-size: 15px;
-    padding-bottom: 4px;
-    position: relative;
-    font-weight: 600;
-    margin-bottom: 15px;
-    &:before {
-      content: "";
-      position: absolute;
-      height: 2px;
-      width: 55px;
-      background: $black;
-      left: 0px;
-      bottom: 0px;
-    }
-  }
   .faq-item {
     margin-bottom: 16px;
     border-radius: 4px;
@@ -1113,6 +1161,152 @@ body {
       font-size: 14px;
       font-weight: 400;
       letter-spacing: 0;
+    }
+  }
+}
+.dropzone-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: $card_header_border;
+  border-style: dashed;
+  background-color: $card_header_bg;
+  color: $gray_color;
+  transition: border 0.24s ease-in-out;
+  text-align: center;
+  width: 100%;
+  height: 100px;
+  &:focus {
+    border-color: $theme_color;
+  }
+  .file-text {
+    font-size: 12px;
+    margin-bottom: 0px;
+    text-align: center;
+  }
+}
+.document-upload-section {
+  .document-item {
+    border-bottom: 1px solid $table_border;
+    padding-bottom: 10px;
+    h5 {
+      font-size: 14px;
+      font-weight: 600;
+      color: $black;
+    }
+    .sub-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: $dark_gray;
+      margin-bottom: 4px;
+      cursor: pointer;
+    }
+    .document-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: $dark_gray;
+    }
+  }
+}
+.file-section {
+  .file-icon {
+    flex: 0 0 50px;
+    font-size: 45px;
+  }
+  .file-content {
+    flex: 1;
+    margin-left: 10px;
+    h5 {
+      font-size: 14px;
+      font-weight: 600;
+      color: $black;
+    }
+    .sub-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: $dark_gray;
+      margin-bottom: 4px;
+    }
+  }
+}
+.email-section {
+  .email-content {
+    padding: 20px 0px;
+    .mail-listing {
+      list-style: none;
+      padding: 0px;
+      margin: 0px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      height: 700px;
+      padding: 0px;
+      .mail-listing-item {
+        border-top: 1px solid #dae1e7;
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+
+        .mail-inbox-content {
+          padding: 12px 10px;
+          .mail-inbox-info {
+            flex: 0 0 60px;
+            min-width: 60px;
+            .inbox-action {
+              font-size: 13px;
+              .custom-checkbox {
+                margin-right: 7px;
+              }
+              .flag-icon {
+                margin-right: 7px;
+              }
+              .unread-icon {
+                color: #2196f3;
+              }
+            }
+          }
+          .mail-inbox-detail {
+            flex-grow: 1;
+            position: relative;
+            padding-right: 65px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            .mail-inbox-subject {
+              font-weight: 600;
+              color: $black;
+              font-size: 13px;
+            }
+            .mail-inbox-summary {
+              font-weight: 400;
+              color: $dark_gray;
+              font-size: 13px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+          .mail-inbox-date-time {
+            font-size: 12px;
+            color: #a2a5b9;
+            font-weight: 400;
+            margin-left: 0px;
+            text-align: right;
+            flex: 0 0 55px;
+            position: absolute;
+            right: 0px;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+        &:hover {
+          background-color: #f2f3f7;
+        }
+        &:last-child {
+          border-bottom: 1px solid #dae1e7;
+        }
+      }
     }
   }
 }

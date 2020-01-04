@@ -6,7 +6,7 @@ const Dashboard = React.lazy(() => import("../pages/Dashboard"));
 const Login = React.lazy(() => import("../pages/Login"));
 const MyProfile = React.lazy(() => import("../pages/MyProfile"));
 const Employee = React.lazy(() => import("../pages/Employee"));
-const AddEmployee = React.lazy(() => import("../pages/Employee/AddEmployee"));
+const EmployeeFormComponent = React.lazy(() => import("../pages/Employee/AddEmployee"));
 const ViewEmployee = React.lazy(() => import("../pages/Employee/ViewEmployee"));
 const EditEmployee = React.lazy(() => import("../pages/Employee/EditEmployee"));
 const Department = React.lazy(() => import("../pages/Department"));
@@ -41,7 +41,11 @@ const LeasingPersonalData = React.lazy(() =>
 const ChangePassword = React.lazy(() =>
   import("../pages/CareGiver/ChangePassword")
 );
-const Email = React.lazy(() => import("../pages/CareGiver/Email"));
+const Email = React.lazy(() => import("../pages/CareGiver/EmailMenus"));
+const InboxEmail = React.lazy(() => import("../pages/CareGiver/InboxEmail"));
+const SentEmail = React.lazy(() => import("../pages/CareGiver/SentEmail"));
+const NewEmail = React.lazy(() => import("../pages/CareGiver/NewEmail"));
+const EmailSettings = React.lazy(() => import("../pages/CareGiver/EmailSettings"));
 const Event = React.lazy(() => import("../pages/CareGiver/Event"));
 const Offer = React.lazy(() => import("../pages/CareGiver/Offer"));
 const Invoices = React.lazy(() => import("../pages/CareGiver/Invoices"));
@@ -79,7 +83,7 @@ const routes = [
   {
     path: AppRoutes.ADD_EMPLOYEE,
     name: "Add Employee",
-    component: AddEmployee,
+    component: EmployeeFormComponent,
     exact: true
   },
   {
@@ -176,6 +180,34 @@ const routes = [
     path: AppRoutes.EMAIL,
     name: "Email",
     component: Email,
+    exact: true,
+    layout: CareGiverLayout
+  },
+  {
+    path: AppRoutes.INBOX,
+    name: "Inbox Email",
+    component: InboxEmail,
+    exact: true,
+    layout: CareGiverLayout
+  },
+  {
+    path: AppRoutes.SENT_EMAIL,
+    name: "Sent Email",
+    component: SentEmail,
+    exact: true,
+    layout: CareGiverLayout
+  },
+  {
+    path: AppRoutes.NEW_EMAIL,
+    name: "New Email",
+    component: NewEmail,
+    exact: true,
+    layout: CareGiverLayout
+  },
+  {
+    path: AppRoutes.EMAIL_SETTINGS,
+    name: "Email Settings",
+    component: EmailSettings,
     exact: true,
     layout: CareGiverLayout
   },

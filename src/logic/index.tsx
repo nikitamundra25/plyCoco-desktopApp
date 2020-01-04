@@ -1,5 +1,5 @@
-import { createLogic } from "redux-logic";
-import { push } from "react-router-redux";
+import { createLogic, Logic } from 'redux-logic';
+import { push } from 'react-router-redux';
 export const redirectToLogic = createLogic({
   type: 'REDIRET_TO',
   async process(data, dispatch: any, done) {
@@ -9,6 +9,4 @@ export const redirectToLogic = createLogic({
   },
 });
 
-export default [
-  redirectToLogic
-];
+export const AllLogics: Logic[] = [redirectToLogic];

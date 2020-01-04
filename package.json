@@ -1,15 +1,15 @@
 {
-  "name": "howork-admin-panel",
+  "name": "plycoco-admin-panel",
   "version": "2.1.6",
-  "description": "Admin panel for Hogwork.",
-  "author": "Łukasz Holeczek",
+  "description": "Admin panel for Plycoco",
+  "author": "Chapter247",
   "homepage": "http://3.210.57.154/admin",
   "copyright": "Copyright 2019 Chapter247 Infotech",
   "license": "MIT",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/sonu247/hog-works-admin.git"
+    "url": "https://github.com/anandchapter247/plyCoco.git"
   },
   "dependencies": {
     "@apollo/react-components": "^3.1.3",
@@ -18,12 +18,6 @@
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
     "@coreui/icons": "0.3.0",
     "@coreui/react": "^2.5.4",
-    "@types/react-draft-wysiwyg": "^1.13.0",
-    "@types/react-redux": "^7.1.5",
-    "@types/react-router-redux": "^5.0.18",
-    "@types/redux-actions": "^2.6.1",
-    "@types/redux-logger": "^3.0.7",
-    "@types/yup": "^0.26.27",
     "apollo-boost": "^0.4.7",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
@@ -50,11 +44,10 @@
     "react-dropzone": "^10.2.1",
     "react-input-mask": "^2.0.4",
     "react-redux": "^7.1.3",
-    "react-router-config": "^4.4.0-beta.8",
     "react-router-dom": "~4.3.1",
     "react-router-redux": "^4.0.8",
+    "react-scripts": "^2.1.8",
     "react-select": "^3.0.8",
-    "react-test-renderer": "^16.8.5",
     "react-toastify": "^5.0.0-rc.3",
     "reactstrap": "^7.1.0",
     "redux-actions": "^2.6.5",
@@ -66,9 +59,15 @@
     "yup": "^0.28.0"
   },
   "devDependencies": {
+    "@types/react-dom": "^16.9.4",
+    "@types/react-draft-wysiwyg": "^1.13.0",
     "@types/react-input-mask": "^2.0.5",
+    "@types/react-redux": "^7.1.5",
     "@types/react-router-dom": "^5.1.3",
-    "react-scripts": "^2.1.8"
+    "@types/react-router-redux": "^5.0.18",
+    "@types/redux-actions": "^2.6.1",
+    "@types/redux-logger": "^3.0.7",
+    "@types/yup": "^0.26.27"
   },
   "scripts": {
     "start": "react-scripts start",

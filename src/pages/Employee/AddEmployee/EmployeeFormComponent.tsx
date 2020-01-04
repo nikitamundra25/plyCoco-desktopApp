@@ -18,7 +18,9 @@ import InputMask from "react-input-mask";
 import { IEmployeeFormValues } from "../../../interfaces";
 import { FormikProps, Field, Form } from "formik";
 import PictureInput from "./PictureInput";
-import { languageTranslation } from "../../../helpers/LangauageTranslation";
+import { languageTranslation } from "../../../helpers/langauageTranslation";
+import { logger } from "../../../helpers";
+import moment from "moment";
 const EmployeeFormComponent: any = (
   props: FormikProps<IEmployeeFormValues>
 ) => {
@@ -49,8 +51,10 @@ const EmployeeFormComponent: any = (
     handleBlur,
     handleSubmit
   } = props;
-  console.log("language labels", languageTranslation("PERSONAL_DATA"));
+  const dateValidation = moment(joiningDate).isValid();
 
+  const obj = moment(joiningDate);
+  console.log("date isisis", dateValidation);
   return (
     <div>
       <Row>
@@ -190,7 +194,9 @@ const EmployeeFormComponent: any = (
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label ">
-                                      Username
+                                      {languageTranslation(
+                                        "EMPLOYEE_USER_NAME_LABEL"
+                                      )}
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>
@@ -199,7 +205,9 @@ const EmployeeFormComponent: any = (
                                       <Input
                                         type="text"
                                         name={"userName"}
-                                        placeholder=" Username"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_USER_NAME_PLACEHOLDER"
+                                        )}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={userName}
@@ -224,9 +232,9 @@ const EmployeeFormComponent: any = (
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label ">
-                                    {languageTranslation(
-                                          "EMPLOYEE_EMAIL_ADDRESS_PLACEHOLDER"
-                                        )}
+                                      {languageTranslation(
+                                        "EMPLOYEE_TELEPHONE_NUMBER_LABEL"
+                                      )}
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>
@@ -235,7 +243,7 @@ const EmployeeFormComponent: any = (
                                       <InputMask
                                         name={"telephoneNumber"}
                                         placeholder={languageTranslation(
-                                          "EMPLOYEE_EMAIL_ADDRESS_PLACEHOLDER"
+                                          "EMPLOYEE_TELEPHONE_NUMBER_PLACEHOLDER"
                                         )}
                                         mask="999-999-9999"
                                         onChange={handleChange}
@@ -273,7 +281,9 @@ const EmployeeFormComponent: any = (
                               <Row>
                                 <Col sm="4">
                                   <Label className="form-label col-form-label ">
-                                    Bank Name
+                                    {languageTranslation(
+                                      "EMPLOYEE_BANK_NAME_LABEL"
+                                    )}
                                   </Label>
                                 </Col>
                                 <Col sm="8">
@@ -281,7 +291,9 @@ const EmployeeFormComponent: any = (
                                     <Input
                                       type="text"
                                       name={"bankName"}
-                                      placeholder="Bank Name"
+                                      placeholder={languageTranslation(
+                                        "EMPLOYEE_BANK_NAME_PLACEHOLDER"
+                                      )}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={bankName}
@@ -299,12 +311,14 @@ const EmployeeFormComponent: any = (
                               </Row>
                             </FormGroup>
                           </Col>
-                          <Col lg={"12"}>
+                          {/* <Col lg={"12"}>
                             <FormGroup>
                               <Row>
                                 <Col sm="4">
                                   <Label className="form-label col-form-label ">
-                                    Bank account number
+                                    {languageTranslation(
+                                      "EMPLOYEE_BANK_ACCOUNT_NUMBER_LABEL"
+                                    )}
                                   </Label>
                                 </Col>
                                 <Col sm="8">
@@ -312,7 +326,9 @@ const EmployeeFormComponent: any = (
                                     <Input
                                       type="text"
                                       name={"bankAccountNumber"}
-                                      placeholder="Bank Name"
+                                      placeholder={languageTranslation(
+                                        "EMPLOYEE_BANK_ACCOUNT_NUMBER_PLACEHOLDER"
+                                      )}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={bankAccountNumber}
@@ -329,16 +345,17 @@ const EmployeeFormComponent: any = (
                                 </Col>
                               </Row>
                             </FormGroup>
-                          </Col>
+                          </Col> */}
 
                           <Col lg={"12"}>
                             <FormGroup>
                               <Row>
                                 <Col sm="4">
                                   <Label className="form-label col-form-label">
-                                    Account Holder Name
-                                    <br />
-                                    <small>(only if different)</small>
+                                    {languageTranslation(
+                                      "BANK_ACCOUNT_HOLDER_NAME_LABEL"
+                                    )}
+                                    {/* Account Holder Name */}
                                   </Label>
                                 </Col>
                                 <Col sm="8">
@@ -346,7 +363,9 @@ const EmployeeFormComponent: any = (
                                     <Input
                                       type="text"
                                       name={"accountHolderName"}
-                                      placeholder="Account Holder Name "
+                                      placeholder={languageTranslation(
+                                        "BANK_ACCOUNT_HOLDER_NAME_PLACEHOLDER"
+                                      )}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={accountHolderName}
@@ -373,7 +392,8 @@ const EmployeeFormComponent: any = (
                               <Row>
                                 <Col sm="4">
                                   <Label className="form-label col-form-label ">
-                                    IBAN
+                                    {languageTranslation("BANK_IBAN_LABEL")}
+                                    {/* IBAN */}
                                   </Label>
                                 </Col>
                                 <Col sm="8">
@@ -381,9 +401,11 @@ const EmployeeFormComponent: any = (
                                     <InputMask
                                       name={"IBAN"}
                                       value={IBAN}
-                                      placeholder="DE91 1000 0000 0123 4567 89"
-                                      // mask=\d{3}"
-                                      mask={" 99 9999 999 999"}
+                                      placeholder={languageTranslation(
+                                        "BANK_IBAN_PLACEHOLDER"
+                                      )}
+                                      // "91 1000 0000 0123 4567 89"
+                                      mask={"DE 99 9999 999 999"}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       className={`form-control ${
@@ -406,7 +428,8 @@ const EmployeeFormComponent: any = (
                               <Row>
                                 <Col sm="4">
                                   <Label className="form-label col-form-label ">
-                                    BIC
+                                    {languageTranslation("BANK_BIC_LABEL")}
+                                    {/* BIC */}
                                   </Label>
                                 </Col>
                                 <Col sm="8">
@@ -414,7 +437,9 @@ const EmployeeFormComponent: any = (
                                     <Input
                                       type="text"
                                       name={"BIC"}
-                                      placeholder=" BIC"
+                                      placeholder={languageTranslation(
+                                        "BANK_BIC_PLACEHOLDER"
+                                      )}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={BIC}
@@ -437,7 +462,10 @@ const EmployeeFormComponent: any = (
                               <Row>
                                 <Col sm="4">
                                   <Label className="form-label col-form-label ">
-                                    Additional text
+                                    {languageTranslation(
+                                      "ADDITIONAL_TEXT_LABEL"
+                                    )}
+                                    {/* Additional text */}
                                     <br />
                                     <small>
                                       This text appears below the bank details
@@ -453,7 +481,9 @@ const EmployeeFormComponent: any = (
                                       type="textarea"
                                       name={"additionalText"}
                                       className="textarea-custom"
-                                      placeholder="Additional text "
+                                      placeholder={languageTranslation(
+                                        "ADDITIONAL_TEXT_PLACEHOLDER"
+                                      )}
                                       rows="4"
                                       onChange={handleChange}
                                       value={additionalText}
@@ -475,7 +505,9 @@ const EmployeeFormComponent: any = (
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Address Line 1
+                                      {languageTranslation(
+                                        "EMPLOYEE_ADDRESS1_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
@@ -483,7 +515,9 @@ const EmployeeFormComponent: any = (
                                       <Input
                                         type="textarea"
                                         name={"address1"}
-                                        placeholder=" Address 1"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_ADDRESS1_PLACEHOLDER"
+                                        )}
                                         className="textarea-custom"
                                         onChange={handleChange}
                                         value={address1}
@@ -498,7 +532,9 @@ const EmployeeFormComponent: any = (
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Address Line 2
+                                      {languageTranslation(
+                                        "EMPLOYEE_ADDRESS2_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
 
@@ -507,7 +543,9 @@ const EmployeeFormComponent: any = (
                                       <Input
                                         type="textarea"
                                         name={"address2"}
-                                        placeholder="Address 2"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_ADDRESS2_PLACEHOLDER"
+                                        )}
                                         onChange={handleChange}
                                         value={address2}
                                         className="height-auto width-common"
@@ -522,14 +560,19 @@ const EmployeeFormComponent: any = (
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Region
+                                      {languageTranslation(
+                                        "EMPLOYEE_REGION_LABEL"
+                                      )}
+                                      {/* Region */}
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>
                                   <Col sm="8">
                                     <div>
                                       <Select
-                                        placeholder="Select Region"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_REGION_PLACEHOLDER"
+                                        )}
                                         isMulti
                                         options={Region}
                                       />
@@ -543,7 +586,8 @@ const EmployeeFormComponent: any = (
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Country
+                                      {languageTranslation("COUNTRY_LABEL")}
+                                      {/* Country */}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
@@ -551,7 +595,9 @@ const EmployeeFormComponent: any = (
                                       <Input
                                         type="text"
                                         name={"country"}
-                                        placeholder=" Country"
+                                        placeholder={languageTranslation(
+                                          "COUNTRY_PLACEHOLDER"
+                                        )}
                                         onChange={handleChange}
                                         className="width-common"
                                       />
@@ -565,14 +611,18 @@ const EmployeeFormComponent: any = (
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      State
+                                      {languageTranslation(
+                                        "EMPLOYEE_STATE_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
                                     <div>
                                       <Select
                                         // value={this.state.selectedOption}
-                                        placeholder="Select State"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_STATE_PLACEHOLDER"
+                                        )}
                                         options={State}
                                       />
                                     </div>
@@ -585,14 +635,18 @@ const EmployeeFormComponent: any = (
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      City
+                                      {languageTranslation(
+                                        "EMPLOYEE_CITY_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
                                     <div>
                                       <Select
                                         // value={this.state.selectedOption}
-                                        placeholder="Select City"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_CITY_PLACEHOLDER"
+                                        )}
                                         options={City}
                                       />
                                     </div>
@@ -605,7 +659,9 @@ const EmployeeFormComponent: any = (
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Zip
+                                      {languageTranslation(
+                                        "EMPLOYEE_ZIP_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
@@ -614,7 +670,9 @@ const EmployeeFormComponent: any = (
                                         name={"zip"}
                                         onChange={handleChange}
                                         className="form-control"
-                                        placeholder="Zip"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_ZIP_PLACEHOLDER"
+                                        )}
                                         value={zip}
                                       />
                                     </div>
@@ -627,7 +685,9 @@ const EmployeeFormComponent: any = (
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Joining Date
+                                      {languageTranslation(
+                                        "EMPLOYEE_JOINING_DATE_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
@@ -636,12 +696,20 @@ const EmployeeFormComponent: any = (
                                         <Col>
                                           <InputMask
                                             name={"joiningDate"}
-                                            placeholder="DD/MM/YYYY"
+                                            placeholder={languageTranslation(
+                                              "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
+                                            )}
                                             mask="99/99/9999"
                                             onChange={handleChange}
                                             value={joiningDate}
                                             className="form-control"
                                           />
+                                          {errors.joiningDate &&
+                                            touched.joiningDate && (
+                                              <div className="">
+                                                {errors.joiningDate}
+                                              </div>
+                                            )}
                                         </Col>
                                       </Row>
                                     </div>
@@ -655,7 +723,10 @@ const EmployeeFormComponent: any = (
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Add Profile image
+                                      {languageTranslation(
+                                        "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
+                                      )}
+                                      {/* Add Profile image */}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
@@ -664,14 +735,9 @@ const EmployeeFormComponent: any = (
                                         name="image"
                                         component={PictureInput}
                                       />
-                                      {/* <Input
-                                        type="file"
-                                        name={"image"}
-                                        onChange={(event : any) => {
-                                          form.setFieldValue(field.name, e.target.files[0]);
-                                        }}
-                                        value={image}
-                                      /> */}
+                                      {errors.image && touched.image && (
+                                        <div className="">{errors.image}</div>
+                                      )}
                                     </div>
                                   </Col>
                                 </Row>

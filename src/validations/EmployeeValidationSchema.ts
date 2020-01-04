@@ -1,9 +1,8 @@
 import * as Yup from "yup";
 import { IEmployeeFormValues } from "../interfaces";
 import { messages } from './Messages'
-const telephoneReqExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
-const nameRegExp = /^[A-Za-z]+$/
-const fileSize = 262144000
+import { telephoneReqExp, nameRegExp, fileSize, SupportedFormats } from '../config'
+import moment from "moment";
 export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<object, IEmployeeFormValues>
 > = Yup.object().shape<IEmployeeFormValues>({
     email: Yup.string()
@@ -33,19 +32,20 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<object, IEmplo
     address2: Yup.string(),
     country: Yup.string(),
     zip: Yup.string(),
-    joiningDate: Yup.string(),
+    // joiningDate: Yup.string(),
+    joiningDate: Yup.mixed()
+        .test('valid-date', 'Please enter a valid date', val => {
+            console.log("moment(val, 'DD/MM/YYYY').isValid()", moment(val, 'DD/MM/YYYY').isValid())
+            return moment(val, 'DD/MM/YYYY').isValid()
+        }
+        ).test('valid-length', 'Please enter a valid date', val => {
+            // console.log();
+            return val ? val.replace(/[/_]/g, '').length === 8 : false
+        }),
     bankAccountNumber: Yup.string(),
     image: Yup.mixed()
-        .test("fileSize", "Your image is too big :(", value => {
-            if (value.size >= 26214) {
-                console.log("Your image is too big");
-                console.log(value.size);
-            }
-            else {
-                return value
-
-            }
-        })
+    // .test('fileSize', "File Size is too large", value => value.size <= fileSize)
+    // .test('fileType', "Unsupported File Format", value => SupportedFormats.includes(value.type))
     ,
 
 })

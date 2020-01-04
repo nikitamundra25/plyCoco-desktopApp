@@ -16,8 +16,6 @@ export const languageTranslation = (
   }
   const language: any = Languages[lang];
   const languageMessages = language[key];
-  logger(languageMessages);
-  logger('languageMessages');
   for (const k in replacement) {
     if (replacement.hasOwnProperty(k)) {
       const value = replacement[k];

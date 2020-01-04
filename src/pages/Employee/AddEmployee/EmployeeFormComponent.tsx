@@ -8,21 +8,22 @@ import {
   CardBody,
   Input,
   Col,
-  Row,
-  Form,
-  CustomInput
+  Row
 } from "reactstrap";
 import Select from "react-select";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
-import { RouteComponentProps } from "react-router";
-import { Status, State, Department, Region, City } from "../../../config";
+import { State, Region, City } from "../../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../routes/routes";
 import InputMask from "react-input-mask";
 import { IEmployeeFormValues } from "../../../interfaces";
-import { FormikProps } from "formik";
-const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
+import { FormikProps, Field, Form } from "formik";
+import PictureInput from "./PictureInput";
+import { languageTranslation } from "../../../helpers/langauageTranslation";
+import { logger } from "../../../helpers";
+import moment from "moment";
+const EmployeeFormComponent: any = (
+  props: FormikProps<IEmployeeFormValues>
+) => {
   const {
     values: {
       email,
@@ -39,8 +40,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
       address2,
       country,
       zip,
-      joiningDate
-      // date
+      joiningDate,
+      bankAccountNumber,
+      image
     },
     touched,
     errors,
@@ -49,7 +51,10 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
     handleBlur,
     handleSubmit
   } = props;
+  const dateValidation = moment(joiningDate).isValid();
 
+  const obj = moment(joiningDate);
+  console.log("date isisis", dateValidation);
   return (
     <div>
       <Row>
@@ -64,7 +69,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                   <Form onSubmit={handleSubmit} className="form-section">
                     <Row>
                       <Col lg={"6"}>
-                        <h5 className="main-title ">Personal Data</h5>
+                        <h5 className="main-title ">
+                          {languageTranslation("PERSONAL_DATA")}
+                        </h5>
                         <div className="form-card">
                           <Row>
                             <Col lg={"12"}>
@@ -72,7 +79,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      First Name
+                                      {languageTranslation(
+                                        "EMPLOYEE_FIRST_NAME_LABEL"
+                                      )}
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>
@@ -81,8 +90,11 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       <Input
                                         type="text"
                                         name={"firstName"}
-                                        placeholder={"First Name"}
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_FIRST_NAME_PLACEHOLDER"
+                                        )}
                                         onChange={handleChange}
+                                        maxLength="20"
                                         onBlur={handleBlur}
                                         value={firstName}
                                         className={
@@ -107,7 +119,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Surname
+                                      {languageTranslation(
+                                        "EMPLOYEE_SURNAME_LABEL"
+                                      )}
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>
@@ -116,8 +130,11 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       <Input
                                         type="text"
                                         name={"lastName"}
-                                        placeholder="Surname"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_SURNAME_PLACEHOLDER"
+                                        )}
                                         onChange={handleChange}
+                                        maxLength="20"
                                         onBlur={handleBlur}
                                         value={lastName}
                                         className={
@@ -141,7 +158,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label ">
-                                      Email Address
+                                      {languageTranslation(
+                                        "EMPLOYEE_EMAIL_ADDRESS_LABEL"
+                                      )}
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>
@@ -150,7 +169,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       <Input
                                         type="text"
                                         name={"email"}
-                                        placeholder=" Email"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_EMAIL_ADDRESS_PLACEHOLDER"
+                                        )}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={email}
@@ -173,7 +194,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label ">
-                                      Username
+                                      {languageTranslation(
+                                        "EMPLOYEE_USER_NAME_LABEL"
+                                      )}
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>
@@ -182,7 +205,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       <Input
                                         type="text"
                                         name={"userName"}
-                                        placeholder=" Username"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_USER_NAME_PLACEHOLDER"
+                                        )}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={userName}
@@ -207,7 +232,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label ">
-                                      Telephone number
+                                      {languageTranslation(
+                                        "EMPLOYEE_TELEPHONE_NUMBER_LABEL"
+                                      )}
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>
@@ -215,7 +242,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                     <div>
                                       <InputMask
                                         name={"telephoneNumber"}
-                                        placeholder="999-999-9999"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_TELEPHONE_NUMBER_PLACEHOLDER"
+                                        )}
                                         mask="999-999-9999"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -252,7 +281,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                               <Row>
                                 <Col sm="4">
                                   <Label className="form-label col-form-label ">
-                                    Bank Name
+                                    {languageTranslation(
+                                      "EMPLOYEE_BANK_NAME_LABEL"
+                                    )}
                                   </Label>
                                 </Col>
                                 <Col sm="8">
@@ -260,7 +291,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                     <Input
                                       type="text"
                                       name={"bankName"}
-                                      placeholder="Bank Name"
+                                      placeholder={languageTranslation(
+                                        "EMPLOYEE_BANK_NAME_PLACEHOLDER"
+                                      )}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={bankName}
@@ -278,14 +311,51 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                               </Row>
                             </FormGroup>
                           </Col>
+                          {/* <Col lg={"12"}>
+                            <FormGroup>
+                              <Row>
+                                <Col sm="4">
+                                  <Label className="form-label col-form-label ">
+                                    {languageTranslation(
+                                      "EMPLOYEE_BANK_ACCOUNT_NUMBER_LABEL"
+                                    )}
+                                  </Label>
+                                </Col>
+                                <Col sm="8">
+                                  <div>
+                                    <Input
+                                      type="text"
+                                      name={"bankAccountNumber"}
+                                      placeholder={languageTranslation(
+                                        "EMPLOYEE_BANK_ACCOUNT_NUMBER_PLACEHOLDER"
+                                      )}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={bankAccountNumber}
+                                      className={`width-common ${
+                                        errors.bankName && touched.bankName
+                                          ? "text-input error"
+                                          : "text-input"
+                                      }`}
+                                    />
+                                    {errors.bankName && touched.bankName && (
+                                      <div className="">{errors.bankName}</div>
+                                    )}
+                                  </div>
+                                </Col>
+                              </Row>
+                            </FormGroup>
+                          </Col> */}
+
                           <Col lg={"12"}>
                             <FormGroup>
                               <Row>
                                 <Col sm="4">
                                   <Label className="form-label col-form-label">
-                                    Account Holder Name
-                                    <br />
-                                    <small>(only if different)</small>
+                                    {languageTranslation(
+                                      "BANK_ACCOUNT_HOLDER_NAME_LABEL"
+                                    )}
+                                    {/* Account Holder Name */}
                                   </Label>
                                 </Col>
                                 <Col sm="8">
@@ -293,7 +363,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                     <Input
                                       type="text"
                                       name={"accountHolderName"}
-                                      placeholder="Account Holder Name "
+                                      placeholder={languageTranslation(
+                                        "BANK_ACCOUNT_HOLDER_NAME_PLACEHOLDER"
+                                      )}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={accountHolderName}
@@ -320,7 +392,8 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                               <Row>
                                 <Col sm="4">
                                   <Label className="form-label col-form-label ">
-                                    IBAN
+                                    {languageTranslation("BANK_IBAN_LABEL")}
+                                    {/* IBAN */}
                                   </Label>
                                 </Col>
                                 <Col sm="8">
@@ -328,9 +401,11 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                     <InputMask
                                       name={"IBAN"}
                                       value={IBAN}
-                                      placeholder="DE91 1000 0000 0123 4567 89"
-                                      // mask=\d{3}"
-                                      mask={" 99 9999 999 999"}
+                                      placeholder={languageTranslation(
+                                        "BANK_IBAN_PLACEHOLDER"
+                                      )}
+                                      // "91 1000 0000 0123 4567 89"
+                                      mask={"DE 99 9999 999 999"}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       className={`form-control ${
@@ -353,7 +428,8 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                               <Row>
                                 <Col sm="4">
                                   <Label className="form-label col-form-label ">
-                                    BIC
+                                    {languageTranslation("BANK_BIC_LABEL")}
+                                    {/* BIC */}
                                   </Label>
                                 </Col>
                                 <Col sm="8">
@@ -361,7 +437,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                     <Input
                                       type="text"
                                       name={"BIC"}
-                                      placeholder=" BIC"
+                                      placeholder={languageTranslation(
+                                        "BANK_BIC_PLACEHOLDER"
+                                      )}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={BIC}
@@ -384,7 +462,10 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                               <Row>
                                 <Col sm="4">
                                   <Label className="form-label col-form-label ">
-                                    Additional text
+                                    {languageTranslation(
+                                      "ADDITIONAL_TEXT_LABEL"
+                                    )}
+                                    {/* Additional text */}
                                     <br />
                                     <small>
                                       This text appears below the bank details
@@ -400,7 +481,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       type="textarea"
                                       name={"additionalText"}
                                       className="textarea-custom"
-                                      placeholder="Additional text "
+                                      placeholder={languageTranslation(
+                                        "ADDITIONAL_TEXT_PLACEHOLDER"
+                                      )}
                                       rows="4"
                                       onChange={handleChange}
                                       value={additionalText}
@@ -422,7 +505,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Address Line 1
+                                      {languageTranslation(
+                                        "EMPLOYEE_ADDRESS1_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
@@ -430,7 +515,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       <Input
                                         type="textarea"
                                         name={"address1"}
-                                        placeholder=" Address 1"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_ADDRESS1_PLACEHOLDER"
+                                        )}
                                         className="textarea-custom"
                                         onChange={handleChange}
                                         value={address1}
@@ -445,7 +532,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Address Line 2
+                                      {languageTranslation(
+                                        "EMPLOYEE_ADDRESS2_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
 
@@ -454,8 +543,11 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       <Input
                                         type="textarea"
                                         name={"address2"}
-                                        placeholder="Address 2"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_ADDRESS2_PLACEHOLDER"
+                                        )}
                                         onChange={handleChange}
+                                        value={address2}
                                         className="height-auto width-common"
                                       />
                                     </div>
@@ -468,14 +560,19 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Region
+                                      {languageTranslation(
+                                        "EMPLOYEE_REGION_LABEL"
+                                      )}
+                                      {/* Region */}
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>
                                   <Col sm="8">
                                     <div>
                                       <Select
-                                        placeholder="Select Region"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_REGION_PLACEHOLDER"
+                                        )}
                                         isMulti
                                         options={Region}
                                       />
@@ -489,7 +586,8 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Country
+                                      {languageTranslation("COUNTRY_LABEL")}
+                                      {/* Country */}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
@@ -497,7 +595,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                       <Input
                                         type="text"
                                         name={"country"}
-                                        placeholder=" Country"
+                                        placeholder={languageTranslation(
+                                          "COUNTRY_PLACEHOLDER"
+                                        )}
                                         onChange={handleChange}
                                         className="width-common"
                                       />
@@ -511,14 +611,18 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      State
+                                      {languageTranslation(
+                                        "EMPLOYEE_STATE_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
                                     <div>
                                       <Select
                                         // value={this.state.selectedOption}
-                                        placeholder="Select State"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_STATE_PLACEHOLDER"
+                                        )}
                                         options={State}
                                       />
                                     </div>
@@ -531,14 +635,18 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      City
+                                      {languageTranslation(
+                                        "EMPLOYEE_CITY_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
                                     <div>
                                       <Select
                                         // value={this.state.selectedOption}
-                                        placeholder="Select City"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_CITY_PLACEHOLDER"
+                                        )}
                                         options={City}
                                       />
                                     </div>
@@ -551,18 +659,21 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Zip
+                                      {languageTranslation(
+                                        "EMPLOYEE_ZIP_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
                                     <div>
-                                      <InputMask
+                                      <Input
                                         name={"zip"}
                                         onChange={handleChange}
                                         className="form-control"
-                                        placeholder="Zip"
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_ZIP_PLACEHOLDER"
+                                        )}
                                         value={zip}
-                                        mask="99999"
                                       />
                                     </div>
                                   </Col>
@@ -574,7 +685,9 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Joining Date
+                                      {languageTranslation(
+                                        "EMPLOYEE_JOINING_DATE_LABEL"
+                                      )}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
@@ -583,12 +696,20 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                         <Col>
                                           <InputMask
                                             name={"joiningDate"}
-                                            placeholder="DD/MM/YYYY"
+                                            placeholder={languageTranslation(
+                                              "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
+                                            )}
                                             mask="99/99/9999"
                                             onChange={handleChange}
                                             value={joiningDate}
                                             className="form-control"
                                           />
+                                          {errors.joiningDate &&
+                                            touched.joiningDate && (
+                                              <div className="">
+                                                {errors.joiningDate}
+                                              </div>
+                                            )}
                                         </Col>
                                       </Row>
                                     </div>
@@ -602,12 +723,21 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
                                 <Row>
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Add Profile image
+                                      {languageTranslation(
+                                        "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
+                                      )}
+                                      {/* Add Profile image */}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
                                     <div>
-                                      <Input type="file" name={"image"} />
+                                      <Field
+                                        name="image"
+                                        component={PictureInput}
+                                      />
+                                      {errors.image && touched.image && (
+                                        <div className="">{errors.image}</div>
+                                      )}
                                     </div>
                                   </Col>
                                 </Row>
@@ -647,4 +777,4 @@ const AddEmployee: any = (props: FormikProps<IEmployeeFormValues>) => {
   );
 };
 
-export default AddEmployee;
+export default EmployeeFormComponent;

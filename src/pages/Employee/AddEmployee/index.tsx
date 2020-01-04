@@ -33,14 +33,12 @@ class EmployeeForm extends Component<any, IEmployeeState> {
       joiningDate: '',
       // date:new Date()
     };
-    // console.log("values in index", values);
-
     return (
       <Formik
         initialValues={values}
         onSubmit={this.handleSubmit}
         children={(props: FormikProps<IEmployeeFormValues>) => (
-          <AddEmployee {...props} />
+          <EmployeeFormComponent {...props} />
         )}
         validationSchema={EmployeeValidationSchema}
       />

@@ -34,6 +34,8 @@ const LoginFormComponent = (props: FormikProps<ILoginFormValues>) => {
     handleBlur,
     handleSubmit,
   } = props;
+  // console.log(languageTranslation("EMAIL_ADDRESS_PLACEHOLDER"), "german lang");
+  // let label = props.languageReducer.language;
   return (
     <div className='app flex-row align-items-center auth-page'>
       <div className='auth-bg'></div>

@@ -1,5 +1,13 @@
 import { IReactSelectInterface } from '../interfaces';
-
+export const telephoneReqExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+export const nameRegExp = /^[A-Za-z]+$/
+export const fileSize = 500 * 1024
+export const SupportedFormats = [
+  "image/jpg",
+  "image/jpeg",
+  "image/gif",
+  "image/png"
+];
 export const Status: IReactSelectInterface[] = [
   { value: 'true', label: 'Active' },
   { value: 'false', label: 'Disable' },

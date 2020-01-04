@@ -3,6 +3,7 @@ import { IEmployeeFormValues } from "../interfaces";
 import { messages } from './Messages'
 const telephoneReqExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
 const nameRegExp = /^[A-Za-z]+$/
+const fileSize = 262144000
 export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<object, IEmployeeFormValues>
 > = Yup.object().shape<IEmployeeFormValues>({
     email: Yup.string()
@@ -32,8 +33,20 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<object, IEmplo
     address2: Yup.string(),
     country: Yup.string(),
     zip: Yup.string(),
-    joiningDate: Yup.string()
+    joiningDate: Yup.string(),
+    bankAccountNumber: Yup.string(),
+    image: Yup.mixed()
+        .test("fileSize", "Your image is too big :(", value => {
+            if (value.size >= 26214) {
+                console.log("Your image is too big");
+                console.log(value.size);
+            }
+            else {
+                return value
 
+            }
+        })
+    ,
 
 })
 

@@ -35,9 +35,8 @@ const LoginFormComponent: any = (
     handleBlur,
     handleSubmit
   } = props;
-  // console.log(props.languageReducer.language, "props");
+  // console.log(languageTranslation("EMAIL_ADDRESS_PLACEHOLDER"), "german lang");
   // let label = props.languageReducer.language;
-
   return (
     <div className="app flex-row align-items-center auth-page">
       <div className="auth-bg"></div>
@@ -72,7 +71,9 @@ const LoginFormComponent: any = (
                           type={"text"}
                           id="email"
                           name={languageTranslation("EMAIL")}
-                          placeholder={languageTranslation("EMAIL_ADDRESS_PLACEHOLDER")}
+                          placeholder={languageTranslation(
+                            "EMAIL_ADDRESS_PLACEHOLDER"
+                          )}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={email}

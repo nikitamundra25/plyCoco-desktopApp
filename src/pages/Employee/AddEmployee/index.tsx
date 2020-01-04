@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { EmployeeValidationSchema } from "../../../validations/EmployeeValidationSchema";
 import { IEmployeeFormValues, IEmployeeState } from "../../../interfaces";
-import AddEmployee from "./AddEmployee";
+import EmployeeFormComponent from "./EmployeeFormComponent";
 
 class EmployeeForm extends Component<any, IEmployeeState> {
   handleSubmit = (
@@ -30,17 +30,16 @@ class EmployeeForm extends Component<any, IEmployeeState> {
       address2: "",
       country: "",
       zip: "",
-      joiningDate: ""
-      // date:new Date()
+      joiningDate: "",
+      bankAccountNumber: "",
+      image:undefined
     };
-    // console.log("values in index", values);
-
     return (
       <Formik
         initialValues={values}
         onSubmit={this.handleSubmit}
         children={(props: FormikProps<IEmployeeFormValues>) => (
-          <AddEmployee {...props} />
+          <EmployeeFormComponent {...props} />
         )}
         validationSchema={EmployeeValidationSchema}
       />

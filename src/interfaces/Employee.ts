@@ -13,7 +13,9 @@ export interface IEmployeeFormValues {
   address2: string;
   country: string;
   zip: string;
-  joiningDate: string
+  joiningDate: string,
+  bankAccountNumber:string;
+  image?:File;
 
 }
 
@@ -33,5 +35,7 @@ export interface IEmployeeState {
   country: string;
   zip: string;
   joiningDate: string;
+  bankAccountNumber:string;
+  image?:File;
 
 }

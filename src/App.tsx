@@ -3,9 +3,9 @@ import { Router } from "react-router-dom";
 import { Switch, Route } from "react-router";
 import { AppRoutes } from "./config";
 import { createBrowserHistory } from "history";
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from "@apollo/react-hooks";
 import { ToastContainer, Slide } from "react-toastify";
-import { client } from './config';
+import { client } from "./config";
 import "./App.scss";
 import "react-toastify/dist/ReactToastify.css";
 import FullPageLoader from "./containers/Loader/FullPageLoader";
@@ -36,7 +36,6 @@ class App extends Component<any, any> {
   componentDidMount() {
     console.log("inside cdu");
     language = localStorage.setItem("language", "en");
-    console.log("language", language);
   }
   render() {
     return (

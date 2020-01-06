@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { EmployeeValidationSchema } from '../../../validations/EmployeeValidationSchema';
 import { IEmployeeFormValues, IEmployeeState } from '../../../interfaces';
-import AddEmployee from './AddEmployeeComponent';
+import EmployeeFormComponent from './EmployeeFormComponent';
 
 class EmployeeForm extends Component<any, IEmployeeState> {
   handleSubmit = (

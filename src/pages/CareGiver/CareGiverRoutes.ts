@@ -51,11 +51,11 @@ export const careGiverRoutes = [
     name: "Email",
     icon: "fa fa-envelope"
   },
-  {
-    path: AppRoutes.INBOX,
-    name: "SMS",
-    icon: "fa fa-comments"
-  },
+  // {
+  //   path: AppRoutes.INBOX,
+  //   name: "SMS",
+  //   icon: "fa fa-comments"
+  // },
   {
     path: AppRoutes.CHANGE_PASSWORD,
     name: "Password",

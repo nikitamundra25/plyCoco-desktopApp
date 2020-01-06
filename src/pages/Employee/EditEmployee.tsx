@@ -626,7 +626,7 @@ class AddEmployee extends Component<any, any> {
                               type="submit"
                               className="btn-sumbit"
                             >
-                              Submit
+                              Save
                             </Button>
                           </div>
                         </div>

@@ -187,14 +187,14 @@ export const NightAllowancePerHour = [
 ];
 
 export const CareGiver = [
-  { value: "us1", label: "John Doe" },
-  { value: "us2", label: "Stark Smith" },
-  { value: "us3", label: "Lisa Hayde" },
-  { value: "us4", label: "melita Giraldez" },
-  { value: "us5", label: "Ula Luckin" },
-  { value: "us6", label: "Tierney St. Louis" },
+  { value: "us10", label: "Freida Morby" },
   { value: "us7", label: "Gerhard Reinhard" },
   { value: "us8", label: "Hazlett Kite" },
+  { value: "us1", label: "John Doe" },
+  { value: "us3", label: "Lisa Hayde" },
+  { value: "us4", label: "melita Giraldez" },
   { value: "us9", label: "Obed Helian" },
-  { value: "us10", label: "Freida Morby" }
+  { value: "us2", label: "Stark Smith" },
+  { value: "us6", label: "Tierney St. Louis" },
+  { value: "us5", label: "Ula Luckin" }
 ];

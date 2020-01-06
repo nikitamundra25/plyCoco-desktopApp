@@ -134,7 +134,7 @@ class QualificationAttribute extends Component {
                 <div className="mandatory-text">* Required Fields</div>
                 <div className={"text-right"}>
                   <Button color="primary" type="submit" className="btn-sumbit">
-                    Submit
+                    Save
                   </Button>
                 </div>
               </div>

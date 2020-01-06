@@ -746,7 +746,7 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                             type="submit"
                             className="btn-sumbit"
                           >
-                            Submit
+                            Save
                           </Button>
                         </div>
                       </div>

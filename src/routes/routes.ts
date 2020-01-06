@@ -6,7 +6,7 @@ const Dashboard = React.lazy(() => import("../pages/Dashboard"));
 const Login = React.lazy(() => import("../pages/Login"));
 const MyProfile = React.lazy(() => import("../pages/MyProfile"));
 const Employee = React.lazy(() => import("../pages/Employee"));
-const AddEmployee = React.lazy(() => import("../pages/Employee/AddEmployee"));
+const EmployeeFormComponent = React.lazy(() => import("../pages/Employee/AddEmployee"));
 const ViewEmployee = React.lazy(() => import("../pages/Employee/ViewEmployee"));
 const EditEmployee = React.lazy(() => import("../pages/Employee/EditEmployee"));
 const Department = React.lazy(() => import("../pages/Department"));
@@ -86,7 +86,7 @@ const routes = [
   {
     path: AppRoutes.ADD_EMPLOYEE,
     name: "Add Employee",
-    component: AddEmployee,
+    component: EmployeeFormComponent,
     exact: true
   },
   {

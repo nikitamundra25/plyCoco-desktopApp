@@ -12,6 +12,16 @@
 
   "PERSONAL_DATA":"Personal Data",
  
+  "SIDEBAR_EMPLOYEE":"Employee",
+  "SIDEBAR_REGION":"Region",
+  "SIDEBAR_CAREGIVER":"Caregiver",
+  "SIDEBAR_CANSTITUTION":"Canstitution",
+  "SIDEBAR_PUBLIC_HOLIDAY_CAL":"Public Holiday Calender",
+  "SIDEBAR_ATTRIBUTES":"Attributes",
+  "SIDEBAR_DOCUMENT_TEMPLATES":"Document Templates",
+  "SIDEBAR_EMAIL_TEMPLATES":"Email Templates",
+
+
   "EMPLOYEE_FIRST_NAME_LABEL": "First Name",
   "EMPLOYEE_FIRST_NAME_PLACEHOLDER": "Please Enter First Name",
 

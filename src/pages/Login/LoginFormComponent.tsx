@@ -15,7 +15,7 @@ import {
   InputGroupAddon,
   InputGroupText
 } from "reactstrap";
-import logo from "../../assets/img/plycoco-logo.png";
+import logo from "../../assets/img/plycoco-white.png";
 import { ILoginFormValues } from "../../interfaces";
 import { languageTranslation } from "../../helpers/langauageTranslation";
 const LoginFormComponent = (props: FormikProps<ILoginFormValues>) => {

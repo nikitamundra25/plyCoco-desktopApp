@@ -658,10 +658,19 @@ body {
         width: 18px;
         background-image: url(assets/img/sidebar/turnover-caretaker.svg);
       }
+      &.icon-upload{
+        width: 18px;
+        background-image: url(assets/img/sidebar/file-upload.svg);
+      }
+      &.icon-working-list{
+        width: 18px;
+        background-image: url(assets/img/sidebar/working-list.svg);
+      }
       &.icon-inactive-caretakers {
         width: 18px;
         background-image: url(assets/img/sidebar/Inactive-caretakers.svg);
       }
+
       &.icon-user {
         width: 18px;
         background-image: url(assets/img/sidebar/user.svg);
@@ -1323,8 +1332,8 @@ body {
     display: -webkit-flex;
     display: flex;
     .caregiver-sidnav {
-      width: 190px;
-      flex: 0 0 190px;
+      width: 195px;
+      flex: 0 0 195px;
       background: $white;
       border-right: 1px solid $table_border;
       padding: 0px 0px 20px 0px;

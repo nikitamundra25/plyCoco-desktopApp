@@ -64,17 +64,17 @@ export default {
     },
     {
       name: languageTranslation("MENU_DOCUMENT_UPLOADS"),
-      icon: "icon-document",
+      icon: "icon-upload",
       url: "#",
       children: [
         {
           name: languageTranslation("MENU_DOCUMENT_WORKING_PROOF"),
-          icon: "icon-cms",
+          icon: "icon-working-list",
           url: "#"
         },
         {
           name: languageTranslation("MENU_DOCUMENT_STICK_NOTES"),
-          icon: "icon-cms",
+          icon: "icon-document",
           url: "#"
         }
       ]
@@ -147,7 +147,7 @@ export default {
         },
         {
           name: languageTranslation("MENU_REPORTS_PHONECALL"),
-          icon: "icon-cms",
+          icon: "icon-call",
           url: "#"
         },
         {

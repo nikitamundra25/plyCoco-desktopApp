@@ -138,7 +138,7 @@ class Employee extends Component<RouteComponentProps, any> {
                 onClick={() => this.props.history.push(AppRoutes.EDIT_EMPLOYEE)}
               >
                 <UncontrolledTooltip placement="top" target={`edit${index}`}>
-                  Edit
+                  Click here to edit employee
                 </UncontrolledTooltip>
                 <i className="fa fa-pencil"></i>
               </span>
@@ -148,7 +148,7 @@ class Employee extends Component<RouteComponentProps, any> {
                 onClick={() => this.props.history.push(AppRoutes.VIEW_EMPLOYEE)}
               >
                 <UncontrolledTooltip placement="top" target={`view${index}`}>
-                  View
+                  Click here to view employee
                 </UncontrolledTooltip>
                 <i className="fa fa-eye"></i>
               </span>
@@ -158,7 +158,7 @@ class Employee extends Component<RouteComponentProps, any> {
                 onClick={() => this.props.history.push("")}
               >
                 <UncontrolledTooltip placement="top" target={`delete${index}`}>
-                  Delete
+                  Click here to delete employee
                 </UncontrolledTooltip>
                 <i className="fa fa-trash"></i>
               </span>

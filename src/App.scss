@@ -122,8 +122,9 @@ body {
         "Gotham Narrow SSm B", Arial, Helvetica, sans-serif;
       letter-spacing: 1px;
       margin: 0;
-      font-size: 24px;
-      font-weight: 300;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 45px;
     }
   }
   .min-height650 {
@@ -498,12 +499,12 @@ body {
   }
   .user-name {
     display: inline-block;
-    font-size: 18px;
+    font-size: 25px;
     color: $light_black;
     text-align: center;
-    width: 30px;
-    height: 30px;
-    line-height: 26px;
+    width: 40px;
+    height: 40px;
+    line-height: 35px;
     background: $white;
     border-radius: 50%;
     border: 1px solid $user_text;
@@ -532,6 +533,13 @@ body {
 }
 .sidebar {
   background: $theme_color;
+  .nav-dropdown-items {
+    .nav-link {
+      .nav-icon {
+        margin: 0px 10px 0px 10px;
+      }
+    }
+  }
   .nav-link {
     padding: 8px 10px;
     font-size: 13px;
@@ -1001,7 +1009,7 @@ body {
     font-size: 12px;
     .table-checkbox-wrap {
       position: relative;
-      width: 100%;
+      width: 30px;
       height: 100%;
       .btn-check-action-wrap {
         align-items: center;
@@ -1011,7 +1019,7 @@ body {
           margin-left: 4px;
         }
         .btn {
-          padding: 2px;
+          padding: 0px;
         }
         .checkboxli {
           width: 30px;

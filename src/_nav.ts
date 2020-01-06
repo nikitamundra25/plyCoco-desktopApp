@@ -35,20 +35,9 @@ export default {
       url: "#"
     },
     {
-      name: languageTranslation("MENU_EMAIL_TEMPLATES"),
+      name: languageTranslation("MENU_EMAIL"),
       icon: "icon-email-temp",
       url: "#"
-    },
-    {
-      name: languageTranslation("MENU_DOCUMENT_TEMPLATES"),
-      icon: "icon-document",
-      url: "#"
-    },
-    {
-      name: languageTranslation("MENU_INVOICES"),
-      icon: "icon-invoice",
-      url: "#"
-      // url: AppRoutes.REGION
     },
     {
       name: languageTranslation("MENU_TO_DO_CARE_GIVER"),
@@ -63,22 +52,32 @@ export default {
       // url: AppRoutes.REGION
     },
     {
-      name: languageTranslation("MENU_ATTRIBUTES"),
-      icon: "icon-attribute",
+      name: languageTranslation("MENU_BULK_EMAIL"),
+      icon: "icon-email-temp",
       url: "#"
-      //url: AppRoutes.REGION
     },
     {
-      name: languageTranslation("MENU_SUPPORT"),
-      icon: "icon-call",
+      name: languageTranslation("MENU_INVOICES"),
+      icon: "icon-invoice",
       url: "#"
-      //url: AppRoutes.REGION
+      // url: AppRoutes.REGION
     },
     {
-      name: languageTranslation("MENU_CONTENT_MANAGEMENT_SYSTEM"),
-      icon: "icon-cms",
-      url: "#"
-      //url: AppRoutes.REGION
+      name: languageTranslation("MENU_DOCUMENT_UPLOADS"),
+      icon: "icon-document",
+      url: "#",
+      children: [
+        {
+          name: languageTranslation("MENU_DOCUMENT_WORKING_PROOF"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_DOCUMENT_STICK_NOTES"),
+          icon: "icon-cms",
+          url: "#"
+        }
+      ]
     },
     {
       name: languageTranslation("MENU_FURTHER"),
@@ -86,9 +85,34 @@ export default {
       url: "#",
       children: [
         {
-          name: languageTranslation("MENU_BULK_EMAIL_CANSTITUTION"),
+          name: languageTranslation("MENU_FURTHER_BULK_EMAIL_CANSTITUTION"),
           icon: "icon-cms",
-          url: AppRoutes.CARE_GIVER,
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_FURTHER_EMAIL_TEMPLATES"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_FURTHER_EMPLOYEE"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_FURTHER_PERMISSION"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_FURTHER_SCHEDULER"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_FURTHER_LEASING_PRICE_LISTS"),
+          icon: "icon-cms",
+          url: "#"
         }
       ]
       // children: [{
@@ -101,10 +125,75 @@ export default {
       //   name: "MENU_CONTENT_MANAGEMENT_SYSTEM_bdh",
       //   icon: "icon-cms",
       //   url: "#"
-      //   //url: AppRoutes.REGION 
+      //   //url: AppRoutes.REGION
       // }],
 
       //url: AppRoutes.REGION
+    },
+    {
+      name: languageTranslation("MENU_REPORTS"),
+      icon: "icon-document",
+      url: "#",
+      children: [
+        {
+          name: languageTranslation("MENU_REPORTS_TURNOVER"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_REPORTS_EMPLOYEE_ACTIVITY"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_REPORTS_PHONECALL"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_REPORTS_HOLIDAYS"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_REPORTS_ACQUISTION"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_REPORTS_TURNOVER_CARETAKER"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_REPORTS_INACTIVE_CARE_INSTITUTIONS"),
+          icon: "icon-cms",
+          url: "#"
+        },
+        {
+          name: languageTranslation("MENU_REPORTS_INACTIVE_CARE_TAKER"),
+          icon: "icon-cms",
+          url: "#"
+        }
+      ]
+    },
+    // {
+    //   name: languageTranslation("MENU_ATTRIBUTES"),
+    //   icon: "icon-attribute",
+    //   url: "#"
+    //   //url: AppRoutes.REGION
+    // },
+    {
+      name: languageTranslation("MENU_SUPPORT"),
+      icon: "icon-call",
+      url: "#"
+      //url: AppRoutes.REGION
     }
+    // {
+    //   name: languageTranslation("MENU_CONTENT_MANAGEMENT_SYSTEM"),
+    //   icon: "icon-cms",
+    //   url: "#"
+    //   //url: AppRoutes.REGION
+    // },
   ]
 };

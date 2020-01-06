@@ -80,7 +80,7 @@ class Region extends Component<RouteComponentProps, any> {
                       </Input>
                     </FormGroup>
                   </Col>
-                  
+
                   <Col lg={"2"}>
                     <div className="label-height"></div>
                     <div className="filter-btn-wrap">
@@ -163,7 +163,7 @@ class Region extends Component<RouteComponentProps, any> {
                       <div className="action-btn">
                         <span className="btn-icon my-2 " id="delete">
                           <UncontrolledTooltip placement="top" target="delete">
-                            Delete
+                            Click here to delete region
                           </UncontrolledTooltip>
                           <i className="fa fa-trash"></i>
                         </span>

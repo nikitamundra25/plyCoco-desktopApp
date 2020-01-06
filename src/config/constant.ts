@@ -195,3 +195,15 @@ export const NightAllowancePerHour: IReactSelectInterface[] = [
   { value: 'From8:45pm', label: 'From 8:45 p.m.' },
   { value: 'From9pm', label: 'From 9 p.m.' },
 ];
+export const CareGiver: IReactSelectInterface[] = [
+  { value: "us10", label: "Freida Morby" },
+  { value: "us7", label: "Gerhard Reinhard" },
+  { value: "us8", label: "Hazlett Kite" },
+  { value: "us1", label: "John Doe" },
+  { value: "us3", label: "Lisa Hayde" },
+  { value: "us4", label: "melita Giraldez" },
+  { value: "us9", label: "Obed Helian" },
+  { value: "us2", label: "Stark Smith" },
+  { value: "us6", label: "Tierney St. Louis" },
+  { value: "us5", label: "Ula Luckin" }
+];

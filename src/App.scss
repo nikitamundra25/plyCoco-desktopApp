@@ -22,13 +22,63 @@
     url("./assets/fonts/techniqu-webfont.ttf") format("truetype"),
     url("./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal") format("svg");
 
-  // src: url('./assets/fonts/techniqu-webfont.eot');
-  // src:
-  //      url('./assets/fonts/techniqu-webfont.woff') format('woff');
-  //     // url('./assets/fonts/technique/techniqu-webfont.ttf') format('truetype');
-  //     //  url('./assets/fonts/technique/techniqu-webfont.svg#TechniqueBRKNormal') format('svg');
-  // font-weight: normal;
-  // font-style: normal;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FrutigerNeueLTPro-Regular";
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
+    format("truetype");
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
+      format("woff2"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
+      format("woff");
+  //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
+}
+
+@font-face {
+  font-family: "FrutigerNeueLTPro-Medium";
+  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
+      format("truetype");
+  // url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
+}
+
+@font-face {
+  font-family: "FrutigerNeueLTPro-Bold";
+  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
+      format("truetype");
+  // url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
+}
+
+@font-face {
+  font-family: "FrutigerNeueLTPro-Light";
+  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
+      format("truetype");
+  //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
 
 body {
@@ -89,11 +139,14 @@ body {
   .card {
     border: 0px solid $card_border;
     margin-bottom: 0px;
+    &.full-height {
+      min-height: calc(100vh - 55px);
+    }
     .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 20px;
+      padding: 8px 10px;
       background-color: $white;
       border-bottom: 1px solid $card_header_border;
       h4 {
@@ -285,6 +338,7 @@ body {
   }
   .logo {
     width: 450px;
+    padding: 8px 0px;
     margin: 0 auto 0px;
     text-align: center;
     background: $theme_color;
@@ -361,6 +415,51 @@ body {
       height: auto;
     }
   }
+  .nav-item {
+    .nav-link {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 0px 10px;
+      &:hover {
+        color: $theme_color_hover;
+      }
+    }
+  }
+}
+.search-form {
+  width: 600px;
+  margin: 0px auto;
+  input {
+    border-radius: 0px;
+    color: $light_black;
+    font-size: 12px;
+
+    border-color: $light_gray;
+    padding: 0px 8px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    &:focus {
+      box-shadow: none;
+      outline: none;
+      border-color: $theme_color;
+    }
+  }
+  .input-group-append {
+    cursor: pointer;
+    .input-group-text {
+      border-radius: 0px;
+      color: $light_black;
+      font-size: 15px;
+
+      border-color: $light_gray;
+    }
+    &:hover {
+      .input-group-text {
+        background: $btn_gray;
+      }
+    }
+  }
 }
 .profile-dropdown {
   .nav-item {
@@ -420,21 +519,84 @@ body {
   padding: 4px 15px;
   list-style: none;
   background-color: $breadcrumb_bg;
-  border-radius: 4px;
+  border-radius: 0px;
   margin-bottom: 0px;
   .breadcrumb-item {
     font-size: 12px;
     &.active {
       font-weight: 600;
+      color: $black;
     }
   }
 }
 .sidebar {
   background: $theme_color;
   .nav-link {
-    padding: 10px 10px;
+    padding: 8px 10px;
+    font-size: 13px;
     .nav-icon {
       color: $white;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      height: 18px;
+      margin: 0px 25px 0px 16px;
+      &.icon-dash {
+        width: 18px;
+        background-image: url(assets/img/sidebar/home.svg);
+      }
+      &.icon-emp {
+        width: 18px;
+        background-image: url(assets/img/sidebar/user.png);
+      }
+      &.icon-reg {
+        width: 18px;
+        background-image: url(assets/img/sidebar/region.svg);
+      }
+      &.icon-care {
+        width: 18px;
+        background-image: url(assets/img/sidebar/caregiver.svg);
+      }
+      &.icon-build {
+        width: 18px;
+        background-image: url(assets/img/sidebar/institution.svg);
+      }
+      &.icon-appointment {
+        width: 18px;
+        background-image: url(assets/img/sidebar/calendar.png);
+      }
+      &.icon-email-temp {
+        width: 18px;
+        background-image: url(assets/img/sidebar/email.png);
+      }
+      &.icon-document {
+        width: 18px;
+        background-image: url(assets/img/sidebar/document.png);
+      }
+      &.icon-invoice {
+        width: 18px;
+        background-image: url(assets/img/sidebar/invoices.png);
+      }
+      &.icon-todo-care {
+        width: 18px;
+        background-image: url(assets/img/sidebar/calendar-to-do.png);
+      }
+      &.icon-todo-inst {
+        width: 18px;
+        background-image: url(assets/img/sidebar/calendar-to-do-list.png);
+      }
+      &.icon-attribute {
+        width: 18px;
+        background-image: url(assets/img/sidebar/attribute-management.png);
+      }
+      &.icon-call {
+        width: 18px;
+        background-image: url(assets/img/sidebar/support.svg);
+      }
+      &.icon-cms {
+        width: 18px;
+        background-image: url(assets/img/sidebar/cms.svg);
+      }
     }
     &.active {
       background: $theme_color_hover;
@@ -487,7 +649,7 @@ body {
 }
 .main {
   .container-fluid {
-    padding: 15px 15px;
+    padding: 0px;
   }
 }
 .filter-form {
@@ -502,6 +664,21 @@ body {
   padding: 12px 20px;
   margin-bottom: 12px;
   position: relative;
+  min-height: calc(100% - 45px);
+  &.minheight-auto {
+    min-height: auto;
+  }
+  .rdw-editor-toolbar {
+    margin-bottom: 0px;
+  }
+  .rdw-editor-main {
+    border: 1px solid #f1f1f1;
+    border-top: 0px;
+    background: $white;
+    min-height: 400px;
+    padding: 0px 10px;
+    max-height: 400px;
+  }
 }
 .message-text {
   position: absolute;
@@ -510,6 +687,7 @@ body {
   color: $dark_gray;
 }
 .mandatory-text {
+  font-weight: 600;
   font-size: 12px;
   color: $red;
 }
@@ -549,8 +727,9 @@ body {
     font-size: 15px;
     padding-bottom: 4px;
     position: relative;
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: 10px;
+    font-family: $font_Frutiger_Medium;
     &:before {
       content: "";
       position: absolute;
@@ -568,10 +747,11 @@ body {
     margin-bottom: 10px;
     .col-form-label {
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 400;
       color: $black;
       text-align: right;
       display: block;
+      font-family: $font_Frutiger_Bold;
     }
     .required {
       color: $red;
@@ -594,6 +774,7 @@ body {
       line-height: 19px;
       display: flex;
       align-items: center;
+      font-family: $font_Frutiger_Regular;
       &:focus {
         box-shadow: none;
         outline: none;
@@ -634,6 +815,7 @@ body {
           width: 100%;
           background: $white;
           border: 1px solid $light_gray;
+          font-family: $font_Frutiger_Regular;
           &:focus {
             box-shadow: none;
             outline: none;
@@ -654,6 +836,7 @@ body {
       // line-height: 30px;
       border: 1px solid $light_gray;
       box-shadow: none;
+      font-family: $font_Frutiger_Regular;
       .css-1hwfws3 {
         padding: 0px 0px;
       }
@@ -674,6 +857,7 @@ body {
       // line-height: 30px;
       border: 1px solid $light_gray;
       box-shadow: none;
+      font-family: $font_Frutiger_Regular;
       .css-1hwfws3 {
         padding: 0px 0px;
       }
@@ -759,7 +943,12 @@ body {
   }
   .custom-radio-block {
     .custom-control-label {
-      font-weight: 600;
+      font-family: $font_Frutiger_Bold;
+      font-size: 12px;
+      &:after,
+      &:before {
+        top: 1px;
+      }
     }
     .custom-control-input {
       &:checked {
@@ -821,7 +1010,7 @@ body {
           margin-left: 4px;
         }
         .btn {
-          padding: 4px;
+          padding: 2px;
         }
         .checkboxli {
           width: 30px;
@@ -872,6 +1061,10 @@ body {
         .text-label {
           font-weight: 500;
           color: $dark_gray;
+        }
+        .text-bold {
+          color: $black;
+          font-weight: 600;
         }
       }
     }
@@ -981,6 +1174,8 @@ body {
   }
   .user-item {
     margin-bottom: 6px;
+    display: flex;
+    align-items: flex-start;
     .text-label {
       font-weight: 600;
       font-size: 13px;
@@ -993,6 +1188,7 @@ body {
       font-size: 13px;
       color: $black;
       display: inline-block;
+      flex: 1;
     }
     .profile-img {
       width: 180px;
@@ -1008,8 +1204,8 @@ body {
     .nav-link {
       cursor: pointer;
       border-radius: 4px;
-      padding: 6px 18px;
-      font-size: 14px;
+      padding: 4px 15px;
+      font-size: 13px;
       border: 1px solid $white;
       font-weight: 600;
       border-bottom: $transparent;
@@ -1034,40 +1230,45 @@ body {
   }
 }
 .care-detail-page {
-  margin: -15px -15px;
+  margin: 0px;
+  .breadcrumb {
+    padding: 10px 15px;
+  }
   .caregiver-detail-section {
     position: relative;
     display: -webkit-flex;
     display: flex;
-    overflow: hidden;
     .caregiver-sidnav {
-      width: 240px;
-      flex: 0 0 240px;
+      width: 190px;
+      flex: 0 0 190px;
       background: $white;
       border-right: 1px solid $table_border;
-      padding: 20px 0px 20px 0px;
+      padding: 0px 0px 20px 0px;
       .sidenav-title {
         font-weight: 600;
         text-align: center;
-        padding: 0px 10px;
+        padding: 6px 10px;
         font-size: 18px;
-        color: $theme_color;
+        color: $black;
+        background: #d8d8d8;
       }
       .caregiver-ul {
         padding: 0px;
         list-style: none;
+        font-family: $font_Frutiger_Medium;
         .nav-item {
           .nav-link {
             display: block;
             padding: 10px 10px 10px 10px;
             color: $light_black;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: normal;
             border-bottom: 1px solid $table_border;
             position: relative;
             cursor: pointer;
             .nav-icon {
               margin-right: 8px;
+              vertical-align: middle;
             }
             .nav-text {
               vertical-align: middle;
@@ -1084,16 +1285,67 @@ body {
         }
       }
     }
+    .caregiver-right {
+      background: $white;
+      .common-dropdown {
+        position: absolute;
+        top: -35px;
+        z-index: 9;
+        left: 360px;
+        .user-select,
+        .region-select {
+          width: 300px;
+          margin: 0px 8px;
+        }
+        .css-yk16xz-control {
+          border-radius: 0px;
+          color: $light_black;
+          font-size: 12px;
+          min-height: 30px;
+          padding: 0px 8px;
+          // line-height: 30px;
+          border: 1px solid $light_gray;
+          box-shadow: none;
+          font-family: $font_Frutiger_Regular;
+          .css-1hwfws3 {
+            padding: 0px 0px;
+          }
+        }
+        .css-1rhbuit-multiValue {
+          line-height: normal;
+        }
+        .css-tlfecz-indicatorContainer,
+        .css-1gtu0rj-indicatorContainer {
+          padding: 4px;
+        }
+        .css-1pahdxg-control {
+          border-radius: 0px;
+          color: $light_black;
+          font-size: 12px;
+          min-height: 30px;
+          padding: 0px 8px;
+          // line-height: 30px;
+          border: 1px solid $light_gray;
+          box-shadow: none;
+          font-family: $font_Frutiger_Regular;
+          .css-1hwfws3 {
+            padding: 0px 0px;
+          }
+        }
+      }
+    }
     .caregiver-content {
       // min-height: 100vh;
       padding: 10px;
       background: $white;
+      min-height: calc(100vh - 85px);
       .content-title {
         color: $black;
         font-size: 15px;
         padding-bottom: 4px;
         position: relative;
-        font-weight: 600;
+        font-weight: 400;
+        font-family: $font_Frutiger_Medium;
         margin-bottom: 15px;
         &:before {
           content: "";
@@ -1193,6 +1445,7 @@ body {
   .document-item {
     border-bottom: 1px solid $table_border;
     padding-bottom: 10px;
+    margin-bottom: 10px;
     h5 {
       font-size: 14px;
       font-weight: 600;
@@ -1200,7 +1453,8 @@ body {
     }
     .sub-title {
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 400;
+      font-family: $font_Frutiger_Medium;
       color: $dark_gray;
       margin-bottom: 4px;
       cursor: pointer;
@@ -1242,7 +1496,7 @@ body {
       margin: 0px;
       overflow-x: hidden;
       overflow-y: auto;
-      height: 700px;
+      height: 500px;
       padding: 0px;
       .mail-listing-item {
         border-top: 1px solid #dae1e7;
@@ -1300,7 +1554,8 @@ body {
             transform: translateY(-50%);
           }
         }
-        &:hover {
+        &:hover,
+        &.active {
           background-color: #f2f3f7;
         }
         &:last-child {
@@ -1309,4 +1564,90 @@ body {
       }
     }
   }
+}
+
+.mail-details {
+  height: 100%;
+  border: 1px solid #ddd;
+  .mail-header {
+    background: #f1f1f1;
+    border-bottom: 1px solid #ddd;
+    padding: 6px 20px;
+    font-size: 13px;
+    color: $gray_color;
+    h5 {
+      font-size: 15px;
+      font-weight: 600;
+      color: $light_black;
+    }
+  }
+  .mail-body {
+    background: #ffffff;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: $gray_color;
+  }
+}
+// oFFer
+.offer-section {
+  height: 100%;
+  background: #f3f3f3;
+  padding: 10px;
+  .custom-col{ 
+    margin-left:-7.5px;
+    margin-right:-7.5px;
+    [class*="col-"]{
+    padding: 7.5px;
+  }}
+  .card{
+    height: 100%;
+  }
+  .offer-wrap{
+   
+    .heading{
+      &.toggle-filter{
+        position: relative;
+      &::before{
+        display: inline-block;
+        margin-left: 0.255em;
+        vertical-align: 0.255em;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+      }}
+      font-size: 13px;
+      padding:0px 5px;
+      margin: 5px 0px 0px 0px;
+    }
+    .offer-content-wrap{
+     ul{
+       border: 1px solid #ccc;
+       padding: 0px 0px 0px 0px;
+       list-style: none;
+       margin: 5px 0px 0px 0px;
+       li{
+        padding: 3px 5px;
+         font-size: 12px;
+         &:not(:first-child){
+          border-top: 1px solid #ccc;
+         }
+         &.ative{
+          background: #d1dfed;
+         }
+         &.dective{
+background: #d3d3d3;
+         }
+         &.pending{
+background: #ffde82;
+         }
+       }
+     }
+  }}
+
 }

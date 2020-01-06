@@ -45,10 +45,13 @@ const Email = React.lazy(() => import("../pages/CareGiver/EmailMenus"));
 const InboxEmail = React.lazy(() => import("../pages/CareGiver/InboxEmail"));
 const SentEmail = React.lazy(() => import("../pages/CareGiver/SentEmail"));
 const NewEmail = React.lazy(() => import("../pages/CareGiver/NewEmail"));
-const EmailSettings = React.lazy(() => import("../pages/CareGiver/EmailSettings"));
+const EmailSettings = React.lazy(() =>
+  import("../pages/CareGiver/EmailSettings")
+);
 const Event = React.lazy(() => import("../pages/CareGiver/Event"));
 const Offer = React.lazy(() => import("../pages/CareGiver/Offer"));
 const Invoices = React.lazy(() => import("../pages/CareGiver/Invoices"));
+const care_login = React.lazy(() => import("../pages/CareGiver/CareLogin"));
 const Todos = React.lazy(() => import("../pages/CareGiver/ToDos"));
 const Signature = React.lazy(() => import("../pages/CareGiver/Signature"));
 const DocumentUpload = React.lazy(() =>
@@ -149,9 +152,9 @@ const routes = [
     layout: CareGiverLayout
   },
   {
-    path: AppRoutes.BILLING,
+    path: AppRoutes.BILLING_SETTING,
     name: "Billing",
-    component: Billing,
+    component: BillingSetting,
     layout: CareGiverLayout,
     exact: true
   },
@@ -229,6 +232,13 @@ const routes = [
     path: AppRoutes.OFFER,
     name: "Offer",
     component: Offer,
+    exact: true,
+    layout: CareGiverLayout
+  },
+  {
+    path: AppRoutes.CARE_LOGIN,
+    name: "Login",
+    component: care_login,
     exact: true,
     layout: CareGiverLayout
   },

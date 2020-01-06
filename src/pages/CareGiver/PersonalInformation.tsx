@@ -272,7 +272,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
 
             <Col lg={"6"}>
               <h5 className="main-title ">Reachability</h5>
-              <div className="form-card">
+              <div className="form-card minheight-auto">
                 <Row>
                   <Col lg={"12"}>
                     <FormGroup>
@@ -400,7 +400,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             </Label>
                           </Col>
                           <Col sm="8">
-                            <div className="custom-radio-block">
+                            <div className="custom-radio-block pt-1">
                               <FormGroup check inline>
                                 <CustomInput
                                   type="radio"
@@ -454,7 +454,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             </Label>
                           </Col>
                           <Col sm="8">
-                            <div className="custom-radio-block">
+                            <div className="custom-radio-block pt-1">
                               <FormGroup check inline>
                                 <CustomInput
                                   type="radio"
@@ -607,7 +607,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           </Label>
                         </Col>
                         <Col sm="5">
-                          <div className="custom-radio-block">
+                          <div className="custom-radio-block pt-1">
                             <FormGroup check inline>
                               <CustomInput
                                 type="radio"
@@ -703,11 +703,11 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
             <Col lg={"12"}>
               <div className="d-flex align-items-center justify-content-between">
                 <div className="mandatory-text">* Required Fields</div>
-                <div className={"text-right"}>
+                {/* <div className={"text-right"}>
                   <Button color="primary" type="submit" className="btn-sumbit">
-                    Submit
+                    Save
                   </Button>
-                </div>
+                </div> */}
               </div>
             </Col>
           </Row>

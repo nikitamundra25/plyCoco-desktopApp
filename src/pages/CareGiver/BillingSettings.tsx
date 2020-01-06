@@ -27,7 +27,7 @@ class BillingSettings extends Component {
       <div>
         <Form className="form-section">
           <Row>
-            <Col lg={"6"}>
+            <Col lg={"5"}>
               <h5 className="main-title ">Price Range</h5>
               <div className="form-card">
                 <Row>
@@ -70,17 +70,12 @@ class BillingSettings extends Component {
                               className="custom-input-width"
                             />
                             <div className="mx-2">EUR</div>
-                            <div>
-                              <Select
-                                options={NightAllowancePerHour}
-                                className="custom-input-width"
-                              />
-                            </div>
                           </div>
                         </Col>
                       </Row>
                     </FormGroup>
                   </Col>
+
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
@@ -125,10 +120,31 @@ class BillingSettings extends Component {
                       </Row>
                     </FormGroup>
                   </Col>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label ">
+                            Night allowance
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div className="d-flex align-items-center">
+                            <div>
+                              <Select
+                                options={NightAllowancePerHour}
+                                className="custom-input-width"
+                              />
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
                 </Row>
               </div>
             </Col>
-            <Col lg={"6"}>
+            <Col lg={"7"}>
               <h5 className="main-title ">Bill</h5>
               <div className="form-card">
                 <Row>
@@ -224,6 +240,7 @@ class BillingSettings extends Component {
                                 id="Exclusive"
                                 name="supplements"
                                 label="Exclusive"
+                                className="pt-2"
                               />
                             </FormGroup>
                             <FormGroup check inline>
@@ -232,6 +249,7 @@ class BillingSettings extends Component {
                                 id="Cumulative"
                                 name="supplements"
                                 label="Cumulative"
+                                className="pt-2"
                               />
                             </FormGroup>
                           </div>
@@ -242,7 +260,7 @@ class BillingSettings extends Component {
                 </Row>
               </div>
             </Col>
-            <Col lg={"6"}>
+            <Col lg={"12"}>
               <h5 className="main-title"> Account Information</h5>
               <div className="form-card">
                 <Col lg={"12"}>
@@ -371,11 +389,11 @@ class BillingSettings extends Component {
             <Col lg={"12"}>
               <div className="d-flex align-items-center justify-content-between">
                 <div className="mandatory-text">* Required Fields</div>
-                <div className={"text-right"}>
+                {/* <div className={"text-right"}>
                   <Button color="primary" type="submit" className="btn-sumbit">
-                    Submit
+                    Save
                   </Button>
-                </div>
+                </div> */}
               </div>
             </Col>
           </Row>

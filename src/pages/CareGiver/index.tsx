@@ -175,7 +175,7 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 }
               >
                 <UncontrolledTooltip placement="top" target={`view${index}`}>
-                  View
+                  Click here to view caretaker
                 </UncontrolledTooltip>
                 <i className="fa fa-eye"></i>
               </span>
@@ -185,7 +185,7 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 onClick={() => this.props.history.push("")}
               >
                 <UncontrolledTooltip placement="top" target={`delete${index}`}>
-                  Delete
+                  Click here to delete caretaker
                 </UncontrolledTooltip>
                 <i className="fa fa-trash"></i>
               </span>
@@ -218,7 +218,9 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 <Row>
                   <Col lg={"2"}>
                     <FormGroup>
-                      <Label for="search">Search:</Label>
+                      <Label for="search" className="col-form-label">
+                        Search:
+                      </Label>
                       <Input
                         type="text"
                         name="search"
@@ -229,7 +231,9 @@ class CareGiver extends Component<RouteComponentProps, any> {
                   </Col>
                   <Col lg={"2"}>
                     <FormGroup>
-                      <Label for="Selectregion">Region:</Label>
+                      <Label for="Selectregion" className="col-form-label">
+                        Region:
+                      </Label>
                       <Input type="select" name="region" id="Selectregion">
                         <option>Western India</option>
                         <option>East India</option>
@@ -241,7 +245,9 @@ class CareGiver extends Component<RouteComponentProps, any> {
                   </Col>
                   <Col lg={"2"}>
                     <FormGroup>
-                      <Label for="Selectregion">Sort By:</Label>
+                      <Label for="Selectregion" className="col-form-label">
+                        Sort By:
+                      </Label>
                       <Input type="select" name="region" id="Selectregion">
                         <option>Popularity</option>
                         <option>A-Z</option>

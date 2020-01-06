@@ -1,0 +1,15 @@
+{
+  "EMAIL_ADRESSEN_ETIKETT": "Eingeben Email Adresse ",
+  "EMAIL_ADDRESS_PLACEHOLDER": "Eingeben Email Adresse ",
+  "EMAIL_ADRESSEN": "email",
+  "PASSWORD_LABEL": "Eingeben Passwort",
+  "PASSWORT": "passwort",
+  "VORNAME": "Vorname",
+  "NACHNAME": "Nachname",
+  "BENUTZERNAME": "Eingeben Benutzername",
+
+  "VALID_EMAIL": "Geben Sie eine gültige EMail Adresse ein",
+  "REQUIRED_EMAIL": "Email is Required",
+  "MIN_LENGTH_PASSWORD": "Password is too short!",
+  "REQUIRED_PASSWORD": "Password is Required"
+}

@@ -21,7 +21,7 @@ const options = [
 class Offer extends Component {
   render() {
     return <div className="offer-section">
-      <h5 className="content-title">Offsers</h5>
+      <h5 className="content-title">Offers</h5>
       <Row className="custom-col">
         <Col sm={4}>
           <Card>
@@ -58,7 +58,8 @@ class Offer extends Component {
           <Card>
             <div className="offer-wrap">
               <h5 className="heading toggle-filter">
-                No offer for <span className="font-weight-bold">(Positive)</span>
+              No offer for{" "}
+                  <span className="font-weight-bold">(Positive)</span>
               </h5>
               <div className="offer-content-wrap">
                 <ul>

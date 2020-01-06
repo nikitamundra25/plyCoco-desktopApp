@@ -307,7 +307,7 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
 
                     <Col lg={"6"}>
                       <h5 className="main-title">Reachability</h5>
-                      <div className="form-card">
+                      <div className="form-card minheight-auto">
                         <Row>
                           <Col lg={"12"}>
                             <FormGroup>
@@ -740,15 +740,15 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                     <Col lg={"12"}>
                       <div className="d-flex align-items-center justify-content-between">
                         <div className="mandatory-text">* Required Fields</div>
-                        <div className={"text-right"}>
+                        {/* <div className={"text-right"}>
                           <Button
                             color="primary"
                             type="submit"
                             className="btn-sumbit"
                           >
-                            Submit
+                            Save
                           </Button>
-                        </div>
+                        </div> */}
                       </div>
                     </Col>
                   </Row>

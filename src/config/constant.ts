@@ -1,22 +1,32 @@
-export const Status = [
+import { IReactSelectInterface } from "../interfaces";
+export const telephoneReqExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+export const nameRegExp = /^[A-Za-z]+$/;
+export const fileSize = 500 * 1024;
+export const SupportedFormats = [
+  "image/jpg",
+  "image/jpeg",
+  "image/gif",
+  "image/png"
+];
+export const Status: IReactSelectInterface[] = [
   { value: "true", label: "Active" },
   { value: "false", label: "Disable" }
 ];
-export const State = [
+export const State: IReactSelectInterface[] = [
   { value: "Thuringia", label: "Thuringia" },
   { value: "Bavaria", label: "Bavaria" },
   { value: "Hamburg", label: "Hamburg" },
   { value: "Saarland", label: "Saarland" },
   { value: "Saxony", label: "Saxony" }
 ];
-export const Department = [
+export const Department: IReactSelectInterface[] = [
   { value: "Sales", label: "Sales" },
   { value: "Marketing", label: "Marketing" },
   { value: "Designing", label: "Designing" },
   { value: "Development", label: "Development" },
   { value: "HR", label: "HR" }
 ];
-export const Region = [
+export const Region: IReactSelectInterface[] = [
   { value: "CentralGermany", label: "Central Germany" },
   { value: "Cologne", label: "Cologne" },
   { value: "Frankfurt", label: "Frankfurt" },
@@ -24,7 +34,7 @@ export const Region = [
   { value: "LowerSaxony", label: "Lower Saxony" },
   { value: "Munich", label: "Munich" }
 ];
-export const City = [
+export const City: IReactSelectInterface[] = [
   { value: "Dortmund", label: "Dortmund" },
   { value: "Wiesbaden", label: "Wiesbaden" },
   { value: "Bochum", label: "Bochum" },
@@ -32,11 +42,11 @@ export const City = [
   { value: "LowerSaxony", label: "Lower Saxony" },
   { value: "Berlin", label: "Berlin" }
 ];
-export const Salutation = [
+export const Salutation: IReactSelectInterface[] = [
   { value: "Sir", label: "Sir" },
   { value: "Madam", label: "Madam" }
 ];
-export const Country = [
+export const Country: IReactSelectInterface[] = [
   { value: "Denmark", label: "Denmark" },
   { value: "Poland", label: "Poland" },
   { value: "Czechia", label: "Czechia" },
@@ -44,7 +54,7 @@ export const Country = [
   { value: "Luxembourg", label: "Luxembourg" },
   { value: "Austria", label: "Austria" }
 ];
-export const LegalForm = [
+export const LegalForm: IReactSelectInterface[] = [
   { value: "Individual", label: "Individual" },
   { value: "UG", label: "UG" },
   { value: "GmbH", label: "GmbH" },
@@ -52,7 +62,7 @@ export const LegalForm = [
   { value: "GbR", label: "GbR" }
 ];
 
-export const QualificationAttributes = [
+export const QualificationAttributes: IReactSelectInterface[] = [
   { value: "careGiver", label: "Care giver" },
   { value: "anesthesiaAssistance", label: "Anesthesia Assistance" },
   { value: "doctorAttentionCommission", label: "Doctor Attention commission" },
@@ -93,7 +103,7 @@ export const QualificationAttributes = [
   { value: "Wohnbereichsleitung", label: "Wohnbereichsleitung" },
   { value: "WoundManagement", label: "Wound Management" }
 ];
-export const Hours = [
+export const Hours: IReactSelectInterface[] = [
   { value: "12", label: "12" },
   { value: "1", label: "1" },
   { value: "2", label: "2" },
@@ -108,16 +118,16 @@ export const Hours = [
 //   { value: "NRWBank", label: "NRW Bank" }
 // ]
 
-export const CalculationInterval = [
+export const CalculationInterval: IReactSelectInterface[] = [
   { value: "MonthlyTo1", label: "Monthly to 1" },
   { value: "Bi-monthlyToThe1&16", label: "Bi-monthly to the 1 & 16" },
   { value: "WeeklyOnMondays", label: "Weekly on Mondays" }
 ];
-export const Supplements = [
+export const Supplements: IReactSelectInterface[] = [
   { value: "Exclusive", label: "Exclusive" },
   { value: "Cumulative", label: "Cumulative" }
 ];
-export const Nationality = [
+export const Nationality: IReactSelectInterface[] = [
   { value: "Germans", label: "Germans" },
   { value: "Hungarians", label: "Hungarians" },
   { value: "Russians", label: "Russians" },
@@ -125,20 +135,20 @@ export const Nationality = [
   { value: "Albanien", label: "Albanien" },
   { value: "Dänemark", label: "Dänemark" }
 ];
-export const MaritalStatus = [
+export const MaritalStatus: IReactSelectInterface[] = [
   { value: "Divorced", label: "Divorced" },
   { value: "Single", label: "Single" },
   { value: "Married", label: "Married" },
   { value: "PermanentlySeparated", label: "Married, Permanently separated" },
   { value: "Widowed", label: "Widowed" }
 ];
-export const HealthInsuranceType = [
+export const HealthInsuranceType: IReactSelectInterface[] = [
   { value: "VoluntarilyInsuredByLaw", label: "Voluntarily insured by law" },
   { value: "LegallyInsured", label: "Legally insured" },
   { value: "PrivatelyInsured", label: "Privately insured" }
 ];
 
-export const HealthInsuranceProvider = [
+export const HealthInsuranceProvider: IReactSelectInterface[] = [
   { value: "VigoHealthInsuranceVVaG", label: "Vigo Health Insurance VVaG" },
   {
     value: "UninoHealthInsuranceCompany",
@@ -146,7 +156,7 @@ export const HealthInsuranceProvider = [
   }
 ];
 
-export const Religion = [
+export const Religion: IReactSelectInterface[] = [
   { value: " EvangelicalChurch(EKD)", label: "Evangelical Church (EKD)" },
   {
     value: "FreelyReligiousCommunities",
@@ -165,7 +175,7 @@ export const Religion = [
   }
 ];
 
-export const Preoccupation = [
+export const Preoccupation: IReactSelectInterface[] = [
   { value: "OtherSidelineActivities", label: "Other sideline activities" },
   { value: "Officials", label: "Officials" },
   { value: "BlockwiseSolona", label: "Blockwise solona" },
@@ -179,22 +189,22 @@ export const Preoccupation = [
   }
 ];
 
-export const NightAllowancePerHour = [
+export const NightAllowancePerHour: IReactSelectInterface[] = [
   { value: "From22oclock", label: "From 22 o'clock" },
   { value: "From8pm", label: "From 8 p.m." },
   { value: "From8:45pm", label: "From 8:45 p.m." },
   { value: "From9pm", label: "From 9 p.m." }
 ];
 
-export const CareGiver = [
-  { value: "us1", label: "John Doe" },
-  { value: "us2", label: "Stark Smith" },
-  { value: "us3", label: "Lisa Hayde" },
-  { value: "us4", label: "melita Giraldez" },
-  { value: "us5", label: "Ula Luckin" },
-  { value: "us6", label: "Tierney St. Louis" },
+export const CareGiver: IReactSelectInterface[] = [
+  { value: "us10", label: "Freida Morby" },
   { value: "us7", label: "Gerhard Reinhard" },
   { value: "us8", label: "Hazlett Kite" },
+  { value: "us1", label: "John Doe" },
+  { value: "us3", label: "Lisa Hayde" },
+  { value: "us4", label: "melita Giraldez" },
   { value: "us9", label: "Obed Helian" },
-  { value: "us10", label: "Freida Morby" }
+  { value: "us2", label: "Stark Smith" },
+  { value: "us6", label: "Tierney St. Louis" },
+  { value: "us5", label: "Ula Luckin" }
 ];

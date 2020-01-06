@@ -1,6 +1,6 @@
 import React, { Component, Suspense } from "react";
 import { Route, Switch, Redirect, RouteComponentProps } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { AppRoutes } from "../../config";
 import routes from "../../routes/routes";
 import { Region, CareGiver } from "../../config";
@@ -39,20 +39,33 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
               <div className="caregiver-detail-section">
                 <CareGiverSidebar {...props} />
                 <div className="caregiver-right flex-grow-1">
-                  <div className="common-dropdown d-flex align-items-center w-100 justify-content-center">
+                  <div className="common-dropdown d-flex align-items-center w-100 ">
                     <div className="user-select">
                       <Select
+                        defaultValue={{
+                          label: "John Doe",
+                          value: 0
+                        }}
                         // value={this.state.selectedOption}
-                        placeholder="Select State"
+                        placeholder="Select Caregiver"
                         options={CareGiver}
                       />
                     </div>
                     <div className="region-select">
                       <Select
                         // value={this.state.selectedOption}
-                        placeholder="Select State"
+                        placeholder="Select Region"
                         options={Region}
                       />
+                    </div>
+                    <div className="btn-header-section">
+                      <Button
+                        color="primary"
+                        type={"submit"}
+                        className="btn-common-save"
+                      >
+                        Save
+                      </Button>
                     </div>
                   </div>
                   <div className="caregiver-content ">

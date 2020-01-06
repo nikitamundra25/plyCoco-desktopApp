@@ -1567,18 +1567,45 @@ body {
   }
 }
 // oFFer
+.caregiver-content {
+  height: 100%;
+}
+.custom-col{ 
+  margin-left:-7.5px;
+  margin-right:-7.5px;
+  [class*="col-"]{
+  padding: 0 7.5px;
+}
+}
+.custom-select-wrap{
+  
+}
 .offer-section {
   height: 100%;
   background: #f3f3f3;
   padding: 10px;
   .custom-col{ 
-    margin-left:-7.5px;
-    margin-right:-7.5px;
+    height: calc(100% - 60px);
     [class*="col-"]{
-    padding: 7.5px;
-  }}
+  
+    }
+  }
   .card{
     height: 100%;
+    position: relative;
+    .custom-select-wrap{
+      position: absolute;
+      bottom: 0px;
+      width: 100%;
+      select{
+        height: 40px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #808080;
+    padding: 0px 10px;
+    border:1px solid #ccc;
+      }
+    }
   }
   .offer-wrap{
    
@@ -1586,6 +1613,7 @@ body {
       &.toggle-filter{
         position: relative;
       &::before{
+        cursor: pointer;
         display: inline-block;
         margin-left: 0.255em;
         vertical-align: 0.255em;

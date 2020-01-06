@@ -67,7 +67,32 @@ class Email extends Component<RouteComponentProps, any> {
                                 editorClassName="editorClassName"
                                 onEditorStateChange={this.onEditorStateChange}
                                 placeholder="Enter Email Here"
-
+                                toolbar={{
+                                  options: [
+                                    "inline",
+                                    "blockType",
+                                    "fontSize",
+                                    "list",
+                                    "textAlign",
+                                    "link"
+                                  ],
+                                  inline: {
+                                    options: ["bold","italic","underline"]
+                                  },
+                                  fontSize: {
+                                    className: 'bordered-option-classname',
+                                  },
+                                  fontFamily: {
+                                    className: 'bordered-option-classname',
+                                  },
+                                  list: {
+                                    inDropdown: false,
+                                    options: ["unordered"]
+                                  },
+                                  link: {
+                                    options: ["link"]
+                                  }
+                                }}
                               />
                             </div>
                           </Col>

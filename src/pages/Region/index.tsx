@@ -20,6 +20,32 @@ import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
+const userData = [
+  {
+    region: "Central Germany",
+    canstitution: "1",
+    careGiver: "5",
+    appointment: "12"
+  },
+  {
+    region: "Frankfurt",
+    canstitution: "3",
+    careGiver: "2",
+    appointment: "10"
+  },
+  {
+    region: "Munich",
+    canstitution: "1",
+    careGiver: "8",
+    appointment: "15"
+  },
+  {
+    region: "North Germany",
+    canstitution: "4",
+    careGiver: "1",
+    appointment: "10"
+  }
+];
 class Region extends Component<RouteComponentProps, any> {
   render() {
     return (
@@ -100,6 +126,7 @@ class Region extends Component<RouteComponentProps, any> {
                   </Col>
                 </Row>
               </div>
+
               <Table bordered hover responsive>
                 <thead className="thead-bg">
                   <tr>
@@ -137,39 +164,46 @@ class Region extends Component<RouteComponentProps, any> {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <div className="table-checkbox-wrap">
-                        <div className="btn-group btn-check-action-wrap">
-                          <span className="btn">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""></label>
+                  {userData.map((user, index): any => {
+                    return (
+                      <tr>
+                        <td>
+                          <div className="table-checkbox-wrap">
+                            <div className="btn-group btn-check-action-wrap">
+                              <span className="btn">
+                                <span className="checkboxli checkbox-custom checkbox-default">
+                                  <input
+                                    type="checkbox"
+                                    id="checkAll"
+                                    className=""
+                                  />
+                                  <label className=""></label>
+                                </span>
+                              </span>
+                              <span className="checkbox-no">{index + 1}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>{user.region}</td>
+                        <td className="text-center">{user.canstitution}</td>
+                        <td className="text-center">{user.careGiver}</td>
+                        <td className="text-center">{user.appointment}</td>
+                        <td>
+                          <div className="action-btn">
+                            <span className="btn-icon my-2 " id="delete">
+                              <UncontrolledTooltip
+                                placement="top"
+                                target="delete"
+                              >
+                                Click here to delete region
+                              </UncontrolledTooltip>
+                              <i className="fa fa-trash"></i>
                             </span>
-                          </span>
-                          <span className="checkbox-no">1</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>Northeast</td>
-                    <td className="text-center">5</td>
-                    <td className="text-center">20</td>
-                    <td className="text-center">2</td>
-                    <td>
-                      <div className="action-btn">
-                        <span className="btn-icon my-2 " id="delete">
-                          <UncontrolledTooltip placement="top" target="delete">
-                            Click here to delete region
-                          </UncontrolledTooltip>
-                          <i className="fa fa-trash"></i>
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </Table>
             </CardBody>

@@ -151,8 +151,8 @@ export const HealthInsuranceType: IReactSelectInterface[] = [
 export const HealthInsuranceProvider: IReactSelectInterface[] = [
   { value: "VigoHealthInsuranceVVaG", label: "Vigo Health Insurance VVaG" },
   {
-    value: "UninoHealthInsuranceCompany",
-    label: "Unino Health insurance company"
+    value: "UnionHealthInsuranceCompany",
+    label: "Union Health insurance company"
   }
 ];
 

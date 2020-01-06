@@ -6,7 +6,9 @@ const Dashboard = React.lazy(() => import("../pages/Dashboard"));
 const Login = React.lazy(() => import("../pages/Login"));
 const MyProfile = React.lazy(() => import("../pages/MyProfile"));
 const Employee = React.lazy(() => import("../pages/Employee"));
-const EmployeeFormComponent = React.lazy(() => import("../pages/Employee/AddEmployee"));
+const EmployeeFormComponent = React.lazy(() =>
+  import("../pages/Employee/AddEmployee")
+);
 const ViewEmployee = React.lazy(() => import("../pages/Employee/ViewEmployee"));
 const EditEmployee = React.lazy(() => import("../pages/Employee/EditEmployee"));
 const Department = React.lazy(() => import("../pages/Department"));
@@ -58,7 +60,7 @@ const DocumentUpload = React.lazy(() =>
   import("../pages/CareGiver/DocumentsUpload")
 );
 const routes = [
-  { path: AppRoutes.MAIN, exact: true, name: "Home" },
+  { path: AppRoutes.MAIN, exact: true, name: "Dashbaord" },
   {
     path: AppRoutes.HOME,
     name: "Dashboard",

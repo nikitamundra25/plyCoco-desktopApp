@@ -11,6 +11,8 @@ import {
   CardBody,
   Form
 } from "reactstrap";
+import { AppBreadcrumb } from "@coreui/react";
+import routes from "../../routes/routes";
 
 class AddRegion extends Component {
   render() {
@@ -20,10 +22,10 @@ class AddRegion extends Component {
           <Col xs={"12"} lg={"12"}>
             <Card>
               <CardHeader>
-                <h4>
-                  <i className="fa fa-sitemap" />
-                  <span className="ml-1">Add Region</span>
-                </h4>
+                <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+                <Button color={"primary"} className={"btn-add"}>
+                  Save
+                </Button>
               </CardHeader>
               <CardBody>
                 <Row>
@@ -48,7 +50,7 @@ class AddRegion extends Component {
                       <Col lg={"12"}>
                         <div className="d-flex align-items-center justify-content-between">
                           <div className="mandatory-text">* Required Field</div>
-                          <div className={"text-right"}>
+                          {/* <div className={"text-right"}>
                             <Button
                               color="primary"
                               type="submit"
@@ -56,7 +58,7 @@ class AddRegion extends Component {
                             >
                               Save
                             </Button>
-                          </div>
+                          </div> */}
                         </div>
                       </Col>
                     </Form>

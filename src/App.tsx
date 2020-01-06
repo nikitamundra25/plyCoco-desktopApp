@@ -47,7 +47,7 @@ class App extends Component<any, any> {
                   />
                   <Route
                     path={AppRoutes.MAIN}
-                    render={props => <DefaultLayout />}
+                    render={props => <DefaultLayout {...props}/>}
                   />
                 </Switch>
                 {/* <AppRoutesComponent /> */}

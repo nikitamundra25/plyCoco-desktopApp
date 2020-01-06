@@ -17,7 +17,7 @@ class QualificationAttribute extends Component {
     return (
       <Col>
         <Form className="form-section">
-          <h5 className="main-title mb-3">Qualification Attribute</h5>
+          <h5 className="main-title mb-3">Qualification Attributes</h5>
           {/* <Row>
             <Col lg={"3"}>
               <div className="mb-2">

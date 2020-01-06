@@ -60,7 +60,7 @@ const DocumentUpload = React.lazy(() =>
   import("../pages/CareGiver/DocumentsUpload")
 );
 const routes = [
-  { path: AppRoutes.MAIN, exact: true, name: "Dashbaord" },
+  { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
     path: AppRoutes.HOME,
     name: "Dashboard",

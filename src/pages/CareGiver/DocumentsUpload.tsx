@@ -10,7 +10,7 @@ class DocumentsUpload extends Component {
             <thead className="thead-bg">
               <tr>
                 <th>Date</th>
-                <th>FileName</th>
+                <th>File Name</th>
                 <th>Type</th>
                 <th>Remarks</th>
                 <th>Action</th>

@@ -53,7 +53,7 @@ export default {
     },
     {
       name: languageTranslation("MENU_BULK_EMAIL"),
-      icon: "icon-email-temp",
+      icon: "icon-bulk-email",
       url: "#"
     },
     {
@@ -86,32 +86,32 @@ export default {
       children: [
         {
           name: languageTranslation("MENU_FURTHER_BULK_EMAIL_CANSTITUTION"),
-          icon: "icon-cms",
+          icon: "icon-bulk-email",
           url: "#"
         },
         {
           name: languageTranslation("MENU_FURTHER_EMAIL_TEMPLATES"),
-          icon: "icon-cms",
+          icon: "icon-email-templates",
           url: "#"
         },
         {
           name: languageTranslation("MENU_FURTHER_EMPLOYEE"),
-          icon: "icon-cms",
+          icon: "icon-employees",
           url: "#"
         },
         {
           name: languageTranslation("MENU_FURTHER_PERMISSION"),
-          icon: "icon-cms",
+          icon: "icon-permission",
           url: "#"
         },
         {
           name: languageTranslation("MENU_FURTHER_SCHEDULER"),
-          icon: "icon-cms",
+          icon: "icon-scheduler",
           url: "#"
         },
         {
           name: languageTranslation("MENU_FURTHER_LEASING_PRICE_LISTS"),
-          icon: "icon-cms",
+          icon: "icon-price-list",
           url: "#"
         }
       ]
@@ -137,12 +137,12 @@ export default {
       children: [
         {
           name: languageTranslation("MENU_REPORTS_TURNOVER"),
-          icon: "icon-cms",
+          icon: "icon-turnover",
           url: "#"
         },
         {
           name: languageTranslation("MENU_REPORTS_EMPLOYEE_ACTIVITY"),
-          icon: "icon-cms",
+          icon: "icon-activity",
           url: "#"
         },
         {
@@ -152,43 +152,43 @@ export default {
         },
         {
           name: languageTranslation("MENU_REPORTS_HOLIDAYS"),
-          icon: "icon-cms",
+          icon: "icon-holidays",
           url: "#"
         },
         {
           name: languageTranslation("MENU_REPORTS_ACQUISTION"),
-          icon: "icon-cms",
+          icon: "icon-acquisition",
           url: "#"
         },
         {
           name: languageTranslation("MENU_REPORTS_TURNOVER_CARETAKER"),
-          icon: "icon-cms",
+          icon: "icon-turnover-caretakers",
           url: "#"
         },
         {
           name: languageTranslation("MENU_REPORTS_INACTIVE_CARE_INSTITUTIONS"),
-          icon: "icon-cms",
+          icon: "icon-care-Institution",
           url: "#"
         },
         {
           name: languageTranslation("MENU_REPORTS_INACTIVE_CARE_TAKER"),
-          icon: "icon-cms",
+          icon: "icon-inactive-caretakers",
           url: "#"
         }
       ]
-    },
+    }
     // {
     //   name: languageTranslation("MENU_ATTRIBUTES"),
     //   icon: "icon-attribute",
     //   url: "#"
     //   //url: AppRoutes.REGION
     // },
-    {
-      name: languageTranslation("MENU_SUPPORT"),
-      icon: "icon-call",
-      url: "#"
-      //url: AppRoutes.REGION
-    }
+    // {
+    //   name: languageTranslation("MENU_SUPPORT"),
+    //   icon: "icon-call",
+    //   url: "#"
+    //   //url: AppRoutes.REGION
+    // }
     // {
     //   name: languageTranslation("MENU_CONTENT_MANAGEMENT_SYSTEM"),
     //   icon: "icon-cms",

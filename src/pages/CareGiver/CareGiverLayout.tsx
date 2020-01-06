@@ -31,9 +31,9 @@ class CareGiverSidebar extends Component<any, any> {
     return (
       <div className="caregiver-sidnav">
         <h4 className="sidenav-title">John Doe</h4>
-        {careGiverRoutes.map(route => {
-          return route.path ? (
-            <Nav vertical className="caregiver-ul">
+        <Nav vertical className="caregiver-ul">
+          {careGiverRoutes.map(route => {
+            return route.path ? (
               <NavItem>
                 <NavLink
                   className={pathname === route.path ? "active" : null}
@@ -45,9 +45,9 @@ class CareGiverSidebar extends Component<any, any> {
                   <span className="nav-text">{route.name}</span>
                 </NavLink>
               </NavItem>
-            </Nav>
-          ) : null;
-        })}
+            ) : null;
+          })}
+        </Nav>
       </div>
     );
   }

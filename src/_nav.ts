@@ -3,45 +3,82 @@ import { languageTranslation } from "./helpers";
 export default {
   items: [
     {
-      name: languageTranslation("SIDEBAR_EMPLOYEE"),
-      icon: "fa fa-users",
+      name: "Dashboard",
+      icon: "icon-dash",
+      url: AppRoutes.HOME
+    },
+    {
+      name: "Employee",
+      icon: "icon-emp",
       url: AppRoutes.EMPLOYEE
     },
     {
-      name: languageTranslation("SIDEBAR_REGION"),
-      icon: "fa fa-sitemap",
+      name: "Region",
+      icon: "icon-reg",
       url: AppRoutes.REGION
     },
     {
-      name: languageTranslation("SIDEBAR_CAREGIVER"),
-      icon: "fa fa-h-square",
+      name: "Care Givers ",
+      icon: "icon-care",
       url: AppRoutes.CARE_GIVER
     },
 
     {
-      name: languageTranslation("SIDEBAR_CANSTITUTION"),
-      icon: "fa fa-building"
-      //url: AppRoutes.REGION
+      name: "Institutions",
+      icon: "icon-build",
+      url: "#"
+    },
+
+    {
+      name: "Appointments",
+      icon: "icon-appointment",
+      url: "#"
     },
     {
-      name: languageTranslation("SIDEBAR_PUBLIC_HOLIDAY_CAL"),
-      icon: "fa fa-calendar"
+      name: "Email Templates ",
+      icon: "icon-email-temp",
+      url: "#"
+    },
+    {
+      name: "Documents Templates ",
+      icon: "icon-document",
+      url: "#"
+    },
+    {
+      name: "Invoices ",
+      icon: "icon-invoice",
+      url: "#"
       // url: AppRoutes.REGION
     },
     {
-      name: languageTranslation("SIDEBAR_ATTRIBUTES"),
-      icon: "fa fa-list-ul"
+      name: "To Do Care Giver",
+      icon: "icon-todo-care",
+      url: "#"
+      // url: AppRoutes.REGION
+    },
+    {
+      name: "To Do Institution ",
+      icon: "icon-todo-inst",
+      url: "#"
+      // url: AppRoutes.REGION
+    },
+    {
+      name: "Attributes Management",
+      icon: "icon-attribute",
+      url: "#"
       //url: AppRoutes.REGION
     },
     {
-      name: languageTranslation("SIDEBAR_DOCUMENT_TEMPLATES"),
-      icon: "fa fa-file"
-      // url: AppRoutes.CARE_GIVER
+      name: "Support",
+      icon: "icon-call",
+      url: "#"
+      //url: AppRoutes.REGION
     },
     {
-      name: languageTranslation("SIDEBAR_EMAIL_TEMPLATES"),
-      icon: "fa fa-envelope"
-      // url: AppRoutes.REGION
+      name: "Content  Management System",
+      icon: "icon-cms",
+      url: "#"
+      //url: AppRoutes.REGION
     }
   ]
 };

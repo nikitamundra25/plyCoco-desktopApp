@@ -293,6 +293,7 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                                       value={this.state.date}
                                       placeholder="DD/MM/YYYY"
                                       mask="99/99/9999"
+                                      className="form-control"
                                       // onChange={this.handleDateOfBirth}
                                     />
                                   </div>
@@ -306,7 +307,7 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
 
                     <Col lg={"6"}>
                       <h5 className="main-title">Reachability</h5>
-                      <div className="form-card">
+                      <div className="form-card minheight-auto">
                         <Row>
                           <Col lg={"12"}>
                             <FormGroup>

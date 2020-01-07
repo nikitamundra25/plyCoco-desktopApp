@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, ChangeEvent } from 'react';
 import {
   Button,
   FormGroup,
@@ -24,6 +24,7 @@ import moment from 'moment';
 const EmployeeFormComponent: any = (
   props: FormikProps<IEmployeeFormValues>,
 ) => {
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   const {
     values: {
       email,
@@ -50,10 +51,30 @@ const EmployeeFormComponent: any = (
     handleChange,
     handleBlur,
     handleSubmit,
+    setFieldValue,
   } = props;
   logger(errors);
   logger('errors**********');
   logger(touched);
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const {
+      target: { files },
+    } = e;
+    let reader = new FileReader();
+    let file: any = '';
+    if (files) {
+      file = files[0];
+    }
+    if (file) {
+      reader.onloadend = () => {
+        setUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+      setFieldValue('image', file);
+    }
+  };
+
   return (
     <div>
       <Row>
@@ -745,10 +766,25 @@ const EmployeeFormComponent: any = (
                                   </Col>
                                   <Col sm='8'>
                                     <div>
-                                      <Field
-                                        name='image'
-                                        component={PictureInput}
+                                      <Input
+                                        type='file'
+                                        name={'image'}
+                                        accept='image/*'
+                                        placeholder={languageTranslation(
+                                          'EMPLOYEE_ADD_PROFILE_IMAGE_LABEL',
+                                        )}
+                                        onChange={handleImageChange}
                                       />
+                                      {imagePreviewUrl &&
+                                      typeof imagePreviewUrl === 'string' ? (
+                                        <img
+                                          src={imagePreviewUrl}
+                                          width={30}
+                                          height={30}
+                                        />
+                                      ) : (
+                                        ''
+                                      )}
                                       {errors.image && touched.image && (
                                         <div className='required-error'>
                                           {errors.image}

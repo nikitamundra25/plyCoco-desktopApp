@@ -31,7 +31,7 @@ class EmployeeForm extends Component<any, IEmployeeState> {
       country: '',
       zip: '',
       joiningDate: '',
-      // date:new Date()
+      bankAccountNumber: '',
     };
     return (
       <Formik

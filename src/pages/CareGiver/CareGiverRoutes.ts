@@ -8,32 +8,32 @@ export const careGiverRoutes = [
   },
   {
     path: AppRoutes.QUALIFICATION_ATTRIBUTE,
-    name: "Qualification Attribute",
+    name: "Qualification Attributes",
     icon: "fa fa-graduation-cap"
   },
   {
     path: AppRoutes.BILLING_SETTING,
-    name: "Billing Setting",
+    name: "Billing Settings",
     icon: "fa fa-credit-card"
   },
   {
     path: AppRoutes.LEASING_PERSONALDATA,
-    name: "Leasing Data",
+    name: "Leasing Personal Data",
     icon: "fa fa-id-card"
   },
   {
     path: AppRoutes.OFFER,
-    name: "Offer",
+    name: "Offers",
     icon: "fa fa-gift"
   },
   {
     path: AppRoutes.CARE_LOGIN,
-    name: "Login",
+    name: "Login History",
     icon: "fa fa-bookmark"
   },
   {
     path: AppRoutes.INVOCES,
-    name: "Invoice",
+    name: "Invoices",
     icon: "fa fa-file-text"
   },
   // {
@@ -48,28 +48,28 @@ export const careGiverRoutes = [
   },
   {
     path: AppRoutes.INBOX,
-    name: "Email",
+    name: "Emails",
     icon: "fa fa-envelope"
   },
-  {
-    path: AppRoutes.INBOX,
-    name: "SMS",
-    icon: "fa fa-comments"
-  },
+  // {
+  //   path: AppRoutes.INBOX,
+  //   name: "SMS",
+  //   icon: "fa fa-comments"
+  // },
   {
     path: AppRoutes.CHANGE_PASSWORD,
-    name: "Password",
+    name: "Change Password",
     icon: "fa fa-lock"
   },
 
   {
     path: AppRoutes.EVENT,
-    name: "Event",
+    name: "Events",
     icon: "fa fa-calendar"
   },
   {
     path: AppRoutes.TODO,
-    name: "Todos",
+    name: "To-Dos",
     icon: "fa fa-list-alt"
   }
 ];

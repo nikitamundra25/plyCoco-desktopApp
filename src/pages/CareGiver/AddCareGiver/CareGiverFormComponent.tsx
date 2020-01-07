@@ -26,26 +26,16 @@ import { RouteComponentProps } from "react-router";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { State, Region, Salutation, LegalForm, Country } from "../../config";
+import { State, Region, Salutation, LegalForm, Country } from "../../../config";
 import InputMask from "react-input-mask";
+import { FormikProps } from "formik";
+import { CareGiverValues } from "../../../interfaces";
 
-class AddCareGiver extends Component<RouteComponentProps, any> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      activeTab: "1",
-      error: false
-    };
-  }
-  handleChange = (date: any) => {
-    this.setState({
-      startDate: date
-    });
-  };
 
-  render() {
-    const { activeTab } = this.state;
-    console.log("active tab in render is", activeTab);
+const  CareGiverFormComponent:any =(
+      props: FormikProps<CareGiverValues>
+  ) => {
+    const { values } = props;
 
     return (
       <>
@@ -290,7 +280,7 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                                 <Col sm="8">
                                   <div>
                                     <InputMask
-                                      value={this.state.date}
+                                    //   value={this.state.date}
                                       placeholder="DD/MM/YYYY"
                                       mask="99/99/9999"
                                       className="form-control"
@@ -740,15 +730,16 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
                     <Col lg={"12"}>
                       <div className="d-flex align-items-center justify-content-between">
                         <div className="mandatory-text">* Required Fields</div>
-                        <div className={"text-right"}>
+                        {/* <div className={"text-right"}>
                           <Button
                             color="primary"
                             type="submit"
                             className="btn-sumbit"
+                            onClick={props.handleSubmit}
                           >
-                            Submit
+                            Save
                           </Button>
-                        </div>
+                        </div> */}
                       </div>
                     </Col>
                   </Row>
@@ -760,5 +751,5 @@ class AddCareGiver extends Component<RouteComponentProps, any> {
       </>
     );
   }
-}
-export default AddCareGiver;
+
+export default CareGiverFormComponent;

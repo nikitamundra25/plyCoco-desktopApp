@@ -61,7 +61,10 @@ const EmployeeFormComponent: any = (
         <Col xs={"12"} lg={"12"}>
           <Card>
             <CardHeader>
-              <AppBreadcrumb appRoutes={routes} className="w-100" />
+              <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+              <Button color={"primary"} className={"btn-add"}>
+                Save
+              </Button>
             </CardHeader>
             <CardBody>
               <Row>
@@ -750,7 +753,7 @@ const EmployeeFormComponent: any = (
                     <Col lg={"12"}>
                       <div className="d-flex align-items-center justify-content-between">
                         <div className="mandatory-text">* Required Fields</div>
-                        <div className={"text-right"}>
+                        {/* <div className={"text-right"}>
                           <Button
                             disabled={isSubmitting}
                             color="primary"
@@ -761,9 +764,9 @@ const EmployeeFormComponent: any = (
                             //   handleSubmit();
                             // }}
                           >
-                            Submit
+                            Save
                           </Button>
-                        </div>
+                        </div> */}
                       </div>
                     </Col>
                   </Form>

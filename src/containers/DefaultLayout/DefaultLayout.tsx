@@ -1,6 +1,6 @@
 import React, { Component, Suspense } from "react";
 import { Route, Switch, Redirect, RouteComponentProps } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { AppRoutes } from "../../config";
 import routes from "../../routes/routes";
 import { Region, CareGiver } from "../../config";
@@ -57,6 +57,15 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                         placeholder="Select Region"
                         options={Region}
                       />
+                    </div>
+                    <div className="btn-header-section">
+                      <Button
+                        color="primary"
+                        type={"submit"}
+                        className="btn-common-save"
+                      >
+                        Save
+                      </Button>
                     </div>
                   </div>
                   <div className="caregiver-content ">

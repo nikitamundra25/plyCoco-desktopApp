@@ -122,8 +122,9 @@ body {
         'Gotham Narrow SSm B', Arial, Helvetica, sans-serif;
       letter-spacing: 1px;
       margin: 0;
-      font-size: 24px;
-      font-weight: 300;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 45px;
     }
   }
   .min-height650 {
@@ -155,7 +156,8 @@ body {
         font-weight: 600;
       }
       .btn {
-        padding: 0.2rem 0.75rem;
+        //padding: 0.2rem 0.75rem;
+        padding: 4px 30px;
         font-size: 12px;
       }
       .btn-add {
@@ -497,12 +499,12 @@ body {
   }
   .user-name {
     display: inline-block;
-    font-size: 18px;
+    font-size: 25px;
     color: $light_black;
     text-align: center;
-    width: 30px;
-    height: 30px;
-    line-height: 26px;
+    width: 40px;
+    height: 40px;
+    line-height: 35px;
     background: $white;
     border-radius: 50%;
     border: 1px solid $user_text;
@@ -531,6 +533,13 @@ body {
 }
 .sidebar {
   background: $theme_color;
+  .nav-dropdown-items {
+    .nav-link {
+      .nav-icon {
+        margin: 0px 10px 0px 10px;
+      }
+    }
+  }
   .nav-link {
     padding: 8px 10px;
     font-size: 13px;
@@ -597,6 +606,75 @@ body {
         width: 18px;
         background-image: url(assets/img/sidebar/cms.svg);
       }
+      &.icon-bulk-email {
+        width: 18px;
+        background-image: url(assets/img/sidebar/bulk-email.svg);
+      }
+      &.icon-email-templates {
+        width: 18px;
+        background-image: url(assets/img/sidebar/email-templates.svg);
+      }
+      &.icon-employees {
+        width: 18px;
+        background-image: url(assets/img/sidebar/employees.svg);
+      }
+      &.icon-permission {
+        width: 18px;
+        background-image: url(assets/img/sidebar/permission.svg);
+      }
+      &.icon-price-list {
+        width: 18px;
+        background-image: url(assets/img/sidebar/price-list.svg);
+      }
+      &.icon-scheduler {
+        width: 18px;
+        background-image: url(assets/img/sidebar/scheduler.svg);
+      }
+      &.icon-acquisition {
+        width: 18px;
+        background-image: url(assets/img/sidebar/acquisition.svg);
+      }
+      &.icon-care-Institution {
+        width: 18px;
+        background-image: url(assets/img/sidebar/care-Institution.svg);
+      }
+      &.icon-caretakers {
+        width: 18px;
+        background-image: url(assets/img/sidebar/caretakers.svg);
+      }
+      &.icon-turnover {
+        width: 18px;
+        background-image: url(assets/img/sidebar/turnover.svg);
+      }
+      &.icon-activity {
+        width: 18px;
+        background-image: url(assets/img/sidebar/Employee-activities.svg);
+      }
+      &.icon-holidays {
+        width: 18px;
+        background-image: url(assets/img/sidebar/Holidays.svg);
+      }
+      &.icon-turnover-caretakers {
+        width: 18px;
+        background-image: url(assets/img/sidebar/turnover-caretaker.svg);
+      }
+      &.icon-upload {
+        width: 18px;
+        background-image: url(assets/img/sidebar/file-upload.svg);
+      }
+      &.icon-working-list {
+        width: 18px;
+        background-image: url(assets/img/sidebar/working-list.svg);
+      }
+      &.icon-inactive-caretakers {
+        width: 18px;
+        background-image: url(assets/img/sidebar/Inactive-caretakers.svg);
+      }
+
+      &.icon-user {
+        width: 18px;
+        background-image: url(assets/img/sidebar/user.svg);
+      }
     }
     &.active {
       background: $theme_color_hover;
@@ -625,13 +703,28 @@ body {
 .sidebar-minimized {
   .sidebar {
     background: $theme_color;
+
     .nav-item {
       &:hover {
+        width: 270px;
         .nav-link {
           background: $theme_color;
           &.active {
             background: $theme_color_hover;
           }
+        }
+      }
+      &.nav-dropdown {
+        &:hover {
+          background: $theme_color;
+        }
+      }
+    }
+    .nav-dropdown-items {
+      .nav-item {
+        width: 220px;
+        .nav-link {
+          width: 220px;
         }
       }
     }
@@ -746,7 +839,7 @@ body {
   .form-group {
     margin-bottom: 15px;
     .col-form-label {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 400;
       color: $black;
       text-align: right;
@@ -767,7 +860,7 @@ body {
     .form-control {
       border-radius: 0px;
       color: $light_black;
-      font-size: 12px;
+      font-size: 13px;
       height: 30px;
       border-color: $light_gray;
       padding: 0px 8px;
@@ -804,7 +897,7 @@ body {
         input {
           border-radius: 0px;
           color: $light_black;
-          font-size: 12px;
+          font-size: 13px;
           height: 30px;
           padding: 0px 8px;
           line-height: 30px;
@@ -830,7 +923,7 @@ body {
     .css-yk16xz-control {
       border-radius: 0px;
       color: $light_black;
-      font-size: 12px;
+      font-size: 13px;
       min-height: 30px;
       padding: 0px 8px;
       // line-height: 30px;
@@ -851,7 +944,7 @@ body {
     .css-1pahdxg-control {
       border-radius: 0px;
       color: $light_black;
-      font-size: 12px;
+      font-size: 13px;
       min-height: 30px;
       padding: 0px 8px;
       // line-height: 30px;
@@ -918,7 +1011,7 @@ body {
       font-weight: 400;
       background-color: $white;
       color: $light_black;
-      font-size: 12px;
+      font-size: 13px;
       height: 30px;
       border: 1px solid $light_gray;
       padding: 0px 0px;
@@ -944,7 +1037,7 @@ body {
   .custom-radio-block {
     .custom-control-label {
       font-family: $font_Frutiger_Bold;
-      font-size: 12px;
+      font-size: 13px;
       &:after,
       &:before {
         top: 1px;
@@ -988,7 +1081,7 @@ body {
   thead {
     th {
       border-bottom-width: 1px !important;
-      font-weight: 600;
+      font-weight: 700;
       vertical-align: middle;
     }
   }
@@ -997,10 +1090,10 @@ body {
   td {
     padding: 4px;
     vertical-align: middle;
-    font-size: 12px;
+    font-size: 14px;
     .table-checkbox-wrap {
       position: relative;
-      width: 100%;
+      width: 30px;
       height: 100%;
       .btn-check-action-wrap {
         align-items: center;
@@ -1010,7 +1103,7 @@ body {
           margin-left: 4px;
         }
         .btn {
-          padding: 2px;
+          padding: 0px;
         }
         .checkboxli {
           width: 30px;
@@ -1045,7 +1138,7 @@ body {
       margin-left: 10px;
       flex: 1 1;
       .info-title {
-        font-size: 12px;
+        font-size: 14px;
         color: $black;
         font-weight: 600;
         cursor: pointer;
@@ -1053,7 +1146,7 @@ body {
       }
       .description-text {
         margin-bottom: 2px;
-        font-size: 12px;
+        font-size: 14px;
         color: $black;
         display: flex;
         align-items: center;
@@ -1070,7 +1163,7 @@ body {
     }
     .status-btn {
       padding: 3px 10px;
-      font-size: 12px;
+      font-size: 14px;
       border-radius: 4px;
       display: inline-block;
       cursor: pointer;
@@ -1135,7 +1228,7 @@ body {
     .dropdown-item {
       padding: 4px 15px;
       color: $light_black;
-      font-size: 13px;
+      font-size: 14px;
       transition: all 0.3s ease;
       border-color: $table_border;
       &:hover {
@@ -1239,8 +1332,8 @@ body {
     display: -webkit-flex;
     display: flex;
     .caregiver-sidnav {
-      width: 190px;
-      flex: 0 0 190px;
+      width: 195px;
+      flex: 0 0 195px;
       background: $white;
       border-right: 1px solid $table_border;
       padding: 0px 0px 20px 0px;
@@ -1291,12 +1384,23 @@ body {
         position: absolute;
         top: -35px;
         z-index: 9;
-        left: 360px;
+        padding-left: 335px;
+        left: 0px;
         .user-select,
         .region-select {
           width: 300px;
           margin: 0px 8px;
         }
+        .btn-header-section {
+          position: absolute;
+          right: 10px;
+          .btn-common-save {
+            padding: 5px 30px;
+            font-weight: 600;
+            font-size: 13px;
+          }
+        }
+
         .css-yk16xz-control {
           border-radius: 0px;
           color: $light_black;
@@ -1589,25 +1693,50 @@ body {
   }
 }
 // oFFer
+.caregiver-content {
+  height: 100%;
+}
+.custom-col {
+  margin-left: -7.5px;
+  margin-right: -7.5px;
+  [class*='col-'] {
+    padding: 0 7.5px;
+  }
+}
+.custom-select-wrap {
+}
 .offer-section {
   height: 100%;
   background: #f3f3f3;
   padding: 10px;
   .custom-col {
-    margin-left: -7.5px;
-    margin-right: -7.5px;
+    height: calc(100% - 60px);
     [class*='col-'] {
-      padding: 7.5px;
     }
   }
   .card {
     height: 100%;
+    position: relative;
+    .custom-select-wrap {
+      position: absolute;
+      bottom: 0px;
+      width: 100%;
+      select {
+        height: 40px;
+        font-size: 12px;
+        font-weight: bold;
+        color: #808080;
+        padding: 0px 10px;
+        border: 1px solid #ccc;
+      }
+    }
   }
   .offer-wrap {
     .heading {
       &.toggle-filter {
         position: relative;
         &::before {
+          cursor: pointer;
           display: inline-block;
           margin-left: 0.255em;
           vertical-align: 0.255em;

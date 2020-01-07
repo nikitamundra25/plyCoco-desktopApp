@@ -33,4 +33,6 @@ export interface IAppRoutes {
   INVOCES: string;
   TODO: string;
   CARE_LOGIN: string;
+  ADD_CONSTITUTION: string;
+  CONSTITUTION: string;
 }

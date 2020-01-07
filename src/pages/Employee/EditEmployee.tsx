@@ -48,7 +48,11 @@ class AddEmployee extends Component<any, any> {
           <Col xs={"12"} lg={"12"}>
             <Card>
               <CardHeader>
-                <AppBreadcrumb appRoutes={routes} className="w-100" />
+                {/* <AppBreadcrumb appRoutes={routes} className="w-100" /> */}
+                <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+                <Button color={"primary"} className={"btn-add"}>
+                  Save
+                </Button>
               </CardHeader>
               <CardBody>
                 <Row>
@@ -620,15 +624,15 @@ class AddEmployee extends Component<any, any> {
                           <div className="mandatory-text">
                             * Required Fields
                           </div>
-                          <div className={"text-right"}>
+                          {/* <div className={"text-right"}>
                             <Button
                               color="primary"
                               type="submit"
                               className="btn-sumbit"
                             >
-                              Submit
+                              Save
                             </Button>
-                          </div>
+                          </div> */}
                         </div>
                       </Col>
                     </Form>

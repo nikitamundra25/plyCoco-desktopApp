@@ -60,7 +60,7 @@ const userData = [
     assignedCanstitution: "3"
   }
 ];
-class Employee extends Component<RouteComponentProps, any> {
+class Constitution extends Component<RouteComponentProps, any> {
   render() {
     const tableData: any[] = [];
     userData.map((user, index): any => {
@@ -126,13 +126,13 @@ class Employee extends Component<RouteComponentProps, any> {
             <div className="description-column  ml-0">
               {user.region
                 ? user.region.map(region => (
-                    <p className="description-text ">
-                      <span className="text-label mr-1">
-                        <i className="fa fa-angle-right"></i>
-                      </span>
-                      <span className="align-middle">{region}</span>
-                    </p>
-                  ))
+                  <p className="description-text ">
+                    <span className="text-label mr-1">
+                      <i className="fa fa-angle-right"></i>
+                    </span>
+                    <span className="align-middle">{region}</span>
+                  </p>
+                ))
                 : null}
             </div>
           </td>
@@ -153,7 +153,7 @@ class Employee extends Component<RouteComponentProps, any> {
             <span
               className={`status-btn ${
                 index % 2 === 0 ? "active" : "inactive"
-              }`}
+                }`}
             >
               {index % 2 === 0 ? "Active" : "Disable"}
             </span>
@@ -205,10 +205,10 @@ class Employee extends Component<RouteComponentProps, any> {
                 color={"primary"}
                 className={"btn-add"}
                 id={"add-new-pm-tooltip"}
-                onClick={() => this.props.history.push(AppRoutes.ADD_EMPLOYEE)}
+                onClick={() => this.props.history.push(AppRoutes.ADD_CONSTITUTION)}
               >
                 <i className={"fa fa-plus"} />
-                &nbsp; Add New Empolyee
+                &nbsp; Add New Constitution
               </Button>
             </CardHeader>
             <CardBody>
@@ -311,7 +311,7 @@ class Employee extends Component<RouteComponentProps, any> {
                         </div>
                       </div>
                     </th>
-                    <th>Employee Information</th>
+                    <th>Constitution Information</th>
                     {/* <th>Department</th> */}
                     <th>Region</th>
                     <th className="text-center">Assigned Canstitution</th>
@@ -329,4 +329,4 @@ class Employee extends Component<RouteComponentProps, any> {
   }
 }
 
-export default Employee;
+export default Constitution;

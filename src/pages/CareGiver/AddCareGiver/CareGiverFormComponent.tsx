@@ -36,7 +36,6 @@ const  CareGiverFormComponent:any =(
       props: FormikProps<CareGiverValues>
   ) => {
     const { values } = props;
-
     return (
       <>
         <Row>
@@ -79,6 +78,7 @@ const  CareGiverFormComponent:any =(
                                       <InputGroupAddon addonType="prepend">
                                         <Select
                                           placeholder="Salutation"
+                                          name={'salutation'}
                                           options={Salutation}
                                           className="custom-select-width"
                                         />
@@ -238,6 +238,7 @@ const  CareGiverFormComponent:any =(
                                 <Col sm="8">
                                   <div>
                                     <Select
+                                      name={'state'}
                                       placeholder="Region/State"
                                       options={State}
                                     />
@@ -260,6 +261,7 @@ const  CareGiverFormComponent:any =(
                                     <Select
                                       // value={this.state.selectedOption}
                                       placeholder="Select Country"
+                                      name={"country"}
                                       options={Country}
                                     />
                                   </div>
@@ -280,6 +282,7 @@ const  CareGiverFormComponent:any =(
                                 <Col sm="8">
                                   <div>
                                     <InputMask
+                                      name={'dob'}
                                     //   value={this.state.date}
                                       placeholder="DD/MM/YYYY"
                                       mask="99/99/9999"
@@ -399,7 +402,7 @@ const  CareGiverFormComponent:any =(
                                   <div>
                                     <Input
                                       type="text"
-                                      name={"Username"}
+                                      name={"username"}
                                       placeholder=" Username"
                                       className="width-common"
                                     />
@@ -521,6 +524,7 @@ const  CareGiverFormComponent:any =(
                                 <Col sm="8">
                                   <div>
                                     <Select
+                                      name={"legalForm"}
                                       placeholder="Legal Form"
                                       options={LegalForm}
                                     />
@@ -690,6 +694,7 @@ const  CareGiverFormComponent:any =(
                                 <Col sm="8">
                                   <div>
                                     <Select
+                                      name={'workZones'}
                                       placeholder=" Working zones"
                                       isMulti
                                       options={Region}

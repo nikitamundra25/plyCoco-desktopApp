@@ -19,7 +19,7 @@ const Region = React.lazy(() => import("../pages/Region"));
 const AddRegion = React.lazy(() => import("../pages/Region/AddRegion"));
 const CareGiver = React.lazy(() => import("../pages/CareGiver"));
 const AddCareGiver = React.lazy(() =>
-  import("../pages/CareGiver/AddCareGiver")
+  import("../pages/CareGiver/AddCareGiver/index")
 );
 const EditCareGiver = React.lazy(() =>
   import("../pages/CareGiver/EditCareGiver")
@@ -59,6 +59,8 @@ const Signature = React.lazy(() => import("../pages/CareGiver/Signature"));
 const DocumentUpload = React.lazy(() =>
   import("../pages/CareGiver/DocumentsUpload")
 );
+const AddConstitution = React.lazy(() => import("../pages/Institution/AddConstitution"))
+const Constitution = React.lazy(() => import("../pages/Institution"))
 const routes = [
   { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
@@ -265,6 +267,18 @@ const routes = [
     component: Signature,
     exact: true,
     layout: CareGiverLayout
+  },
+  {
+    path: AppRoutes.ADD_CONSTITUTION,
+    name: "Add Constitution",
+    component: AddConstitution,
+    exact: true,
+  },
+  {
+    path: AppRoutes.CONSTITUTION,
+    name: "Constitution",
+    component: Constitution,
+    exact: true,
   }
 ];
 

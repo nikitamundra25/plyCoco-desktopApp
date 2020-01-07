@@ -26,7 +26,7 @@ export default {
     {
       name: languageTranslation("MENU_INSTITUTION"),
       icon: "icon-build",
-      url: "#"
+      url: AppRoutes.CONSTITUTION
     },
 
     {

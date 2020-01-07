@@ -33,7 +33,7 @@
     "graphql": "^14.5.8",
     "js-object-validation": "^1.0.17",
     "moment": "^2.24.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.5",
     "react-app-polyfill": "^0.2.2",

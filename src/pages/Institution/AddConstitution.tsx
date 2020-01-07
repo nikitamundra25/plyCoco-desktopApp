@@ -20,7 +20,7 @@ import { Status, State, Department, Region, City, Country } from "../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import InputMask from "react-input-mask";
-import { languageTranslation } from "../../helpers/LangauageTranslation";
+
 class AddConstitution extends Component<any, any> {
   constructor(props: any) {
     super(props);

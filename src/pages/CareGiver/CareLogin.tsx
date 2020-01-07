@@ -6,7 +6,7 @@ class ToDo extends Component {
       <>
         <div className="carelogin-section">
           <div>
-            <h5 className="content-title">Login List</h5>
+            <h5 className="content-title">Login History</h5>
             <Table bordered hover responsive>
               <thead className="thead-bg">
                 <tr>

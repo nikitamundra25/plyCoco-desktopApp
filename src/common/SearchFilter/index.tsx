@@ -18,7 +18,9 @@ class Search extends Component {
         <Row>
           <Col lg={"2"}>
             <FormGroup>
-              <Label for="search">{languageTranslation("SEARCH_LABEL")} :</Label>
+              <Label for="search" className="col-form-label">
+                {languageTranslation("SEARCH_LABEL")} :
+              </Label>
               <Input
                 type="text"
                 name="search"
@@ -29,7 +31,9 @@ class Search extends Component {
           </Col>
           <Col lg={"2"}>
             <FormGroup>
-              <Label>{languageTranslation("EMPLOYEE_REGION_LABEL")} :</Label>
+              <Label className="col-form-label">
+                {languageTranslation("EMPLOYEE_REGION_LABEL")} :
+              </Label>
               <div>
                 <Select
                   placeholder={languageTranslation(
@@ -43,7 +47,7 @@ class Search extends Component {
 
           <Col lg={"2"}>
             <FormGroup>
-              <Label for="Selectregion">
+              <Label for="Selectregion" className="col-form-label">
                 {languageTranslation("SORTBY_LABEL")} :
               </Label>
               <Input type="select" name="region" id="Selectregion">
@@ -59,13 +63,13 @@ class Search extends Component {
             <div className="filter-btn-wrap">
               <span className="btn-filter mr-2" id="search1">
                 <UncontrolledTooltip placement="top" target="search1">
-                {languageTranslation("SEARCH_LABEL")}
+                  {languageTranslation("SEARCH_LABEL")}
                 </UncontrolledTooltip>
                 <i className="fa fa-search"></i>
               </span>
               <span className="btn-filter mr-2" id="reset">
                 <UncontrolledTooltip placement="top" target="reset">
-                {languageTranslation("RESET_LABEL")}
+                  {languageTranslation("RESET_LABEL")}
                 </UncontrolledTooltip>
                 <i className="fa fa-refresh "></i>
               </span>

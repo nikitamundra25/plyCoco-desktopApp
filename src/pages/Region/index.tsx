@@ -136,7 +136,7 @@ class Region extends Component<RouteComponentProps, any> {
                         <td className="text-center">{user.appointment}</td>
                         <td>
                           <div className="action-btn">
-                            <span className="btn-icon my-2 " id="delete">
+                            <span className="btn-icon " id="delete">
                               <UncontrolledTooltip
                                 placement="top"
                                 target="delete"

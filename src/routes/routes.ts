@@ -68,7 +68,7 @@ const routes = [
     path: AppRoutes.ADD_CARE_GIVER,
     name: "Add Care Giver",
     component: AddCareGiver,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.ADD_CONSTITUTION,
@@ -80,7 +80,7 @@ const routes = [
     path: AppRoutes.ADD_DEPARTMENT,
     name: "Add Department",
     component: AddDepartment,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.ADD_EMPLOYEE,
@@ -92,20 +92,20 @@ const routes = [
     path: AppRoutes.ADD_REGION,
     name: "Add Region",
     component: AddRegion,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.BILLING_SETTING,
     name: "Billing",
     component: BillingSetting,
     layout: CareGiverLayout,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.CARE_GIVER,
     name: "Care Giver",
     component: CareGiver,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.CARE_LOGIN,
@@ -138,7 +138,7 @@ const routes = [
     path: AppRoutes.DEPARTMENT,
     name: "Department",
     component: Department,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.DOCUMENTS_UPLOAD,
@@ -151,13 +151,13 @@ const routes = [
     path: AppRoutes.EDIT_CARE_GIVER,
     name: "Edit Care Giver",
     component: EditCareGiver,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.EDIT_EMPLOYEE,
     name: "Edit Employee",
     component: EditEmployee,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.EMAIL_SETTINGS,
@@ -238,7 +238,7 @@ const routes = [
     path: AppRoutes.MY_PROFILE,
     name: "Profile",
     component: MyProfile,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.QUALIFICATION_ATTRIBUTE,
@@ -251,7 +251,7 @@ const routes = [
     path: AppRoutes.REGION,
     name: "Region",
     component: Region,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.SENT_EMAIL,
@@ -278,7 +278,7 @@ const routes = [
     path: AppRoutes.VIEW_EMPLOYEE,
     name: "View Employee",
     component: ViewEmployee,
-    exact: true
+    exact: true,
   },
 ];
 

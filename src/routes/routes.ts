@@ -19,7 +19,7 @@ const Region = React.lazy(() => import("../pages/Region"));
 const AddRegion = React.lazy(() => import("../pages/Region/AddRegion"));
 const CareGiver = React.lazy(() => import("../pages/CareGiver"));
 const AddCareGiver = React.lazy(() =>
-  import("../pages/CareGiver/AddCareGiver")
+  import("../pages/CareGiver/AddCareGiver/index")
 );
 const EditCareGiver = React.lazy(() =>
   import("../pages/CareGiver/EditCareGiver")

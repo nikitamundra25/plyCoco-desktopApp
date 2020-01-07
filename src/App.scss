@@ -1221,6 +1221,24 @@ body {
     box-shadow: none !important;
   }
 }
+.password-btn2{
+  height: 30px;
+  padding: 0px 0px;
+  min-width: 225px;
+}
+.password-btn1{
+  height: 30px;
+  padding: 0px 0px;
+  min-width: 225px;
+  color:$theme_color;
+  background: $white;
+  border-color: $table_border;
+  &:hover{
+    color:$white;
+    background: $theme_color;
+    border-color: $theme_color;
+  }
+}
 .custom-dropdown {
   .dropdown-menu {
     min-width: auto;

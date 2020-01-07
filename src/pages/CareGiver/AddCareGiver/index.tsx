@@ -8,29 +8,51 @@ class CareGiverForm extends Component<any, CareGiverState>{
     handleSubmit = (values: CareGiverValues,
         { setSubmitting }: FormikHelpers<CareGiverValues>) => {
         // todo call 
-            debugger
+        debugger
         setSubmitting(false);
     }
 
-    render(){
-        const initialValues: CareGiverValues ={
+    render() {
+        const initialValues: CareGiverValues = {
+            salutation: '',
             firstName: '',
             lastName: '',
+            address1: '',
+            address2: '',
+            street: '',
+            city: '',
+            state: '',
+            country: '',
+            postCode: '',
             email: '',
+            dob: '',
             phone: '',
+            fax: '',
+            mobilePhone: '',
+            username: '',
             bankName: '',
             qualification: [],
-            leasing:'',
-            status:''
-        }
-        return(
+            leasing: '',
+            driverLicenseNumber: '',
+            driversLicense: false,
+            vehicleavailable: false,
+            legalForm: '',
+            companyName: '',
+            registrationNumber: '',
+            registerCourt: '',
+            executiveDirector: '',
+            socialSecurityContribution: false,
+            taxNumber: '',
+            remarks: '',
+            workZones: [],
+            status: ''
+        };
+        return (
             <Formik
                 initialValues={initialValues}
-                onSubmit={(values: any, action: any)=>{
-                    this.handleSubmit(values, action);
-                }}
-                children={(props: FormikProps<CareGiverValues>)=>{
-                   return <CareGiverFormComponent {...props}/>
+                onSubmit={this.handleSubmit}
+                render={(props: FormikProps<CareGiverValues>) => {
+                    return <CareGiverFormComponent {...props} />
                 }}
             />
         )

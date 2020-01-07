@@ -11,6 +11,7 @@ import {
 import { RouteComponentProps } from "react-router";
 import Select from "react-select";
 import EmailMenus from "./EmailMenus";
+import { languageTranslation } from "../../helpers/langauageTranslation";
 class Email extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
@@ -46,12 +47,12 @@ class Email extends Component<RouteComponentProps, any> {
                 <div className="email-row-wrap align-items-center email-attributes-wrap">
                   <div className="email-attributes-content d-flex align-items-center">
                     <i className="fa fa-refresh mr-1"></i>
-                    <span>Refresh</span>
+                    <span> {languageTranslation("REFRESH")}</span>
                   </div>
                   <span className="email-attributes-seprator">|</span>
                   <div className="email-attributes-content" >
                     <i className="fa fa-hourglass-end mr-1"></i>
-                    <span>Expired</span>
+                    <span> {languageTranslation("EXPIRED")}</span>
                   </div>
                 </div>
                 <div className="email-row-wrap email-heading-wrap ">
@@ -65,7 +66,7 @@ class Email extends Component<RouteComponentProps, any> {
                     />
                   </div>
                   <div className="email-subject-block toggle-filter`   hover-short-select-section">
-                    <span>To</span>
+                    <span>{languageTranslation("TO")}</span>
                     <Select
 
                       placeholder="Select Region"
@@ -75,14 +76,14 @@ class Email extends Component<RouteComponentProps, any> {
                     />
                   </div>
                   <div className="email-text-wrap" >
-                    <span>Subject</span>
+                    <span>{languageTranslation("SUBJECT")}</span>
                   </div>
                 </div>
                 <ul className="m-0 p-0 list-group">
                   <li className={`email-wrap `}  >
                     <div
                       className={`email-date-block ${this.state.Opened ? "opened" : "closed"}`}
-                      onClick={this.toggle}> Date: january 2020</div>
+                      onClick={this.toggle}> {languageTranslation("DATE")}: january 2020</div>
                     <Collapse isOpen={this.state.isOpen}
                       onEntered={this.onEntered}
                       onExiting={this.onEntered}

@@ -323,5 +323,9 @@
   "REFRESH" : "Refresh",
 "REPLY" : "Reply",
 "SUBJECT" : "Subject",
-"DATE" : "Date"
+"SEND" : "Send",
+"NEW_EMAIL" : "New email",
+"DATE" : "Date",
+"TO" : "To",
+"EXPIRED" : "Expired"
 }

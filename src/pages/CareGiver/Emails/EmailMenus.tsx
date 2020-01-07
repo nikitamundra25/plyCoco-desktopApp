@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Col, Row, Form, Nav, NavItem, NavLink } from "reactstrap";
-import { AppRoutes } from "../../config";
+import { AppRoutes } from "../../../config";
 import { RouteChildrenProps, RouteComponentProps } from "react-router";
 class EmailMenus extends Component<RouteComponentProps, any> {
   render() {

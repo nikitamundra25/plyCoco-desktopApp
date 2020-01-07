@@ -36,5 +36,6 @@ export const AppRoutes: IAppRoutes = {
   TODO: "/caregiver/todo",
   CARE_LOGIN: "/caregiver/loginlist",
   ADD_CONSTITUTION: "/constitution/add",
-  CONSTITUTION: "/constitution"
+  CONSTITUTION: "/constitution",
+  CONSTI_PERSONAL_DATA: "/constitution/personal_information",
 };

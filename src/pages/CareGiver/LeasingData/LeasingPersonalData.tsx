@@ -10,7 +10,7 @@ import {
   HealthInsuranceProvider,
   Religion,
   Preoccupation
-} from "../../config";
+} from "../../../config";
 
 class LeasingPersonalData extends Component {
   render() {

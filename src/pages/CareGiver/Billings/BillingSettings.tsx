@@ -19,7 +19,7 @@ import {
   CalculationInterval,
   Supplements,
   NightAllowancePerHour
-} from "../../config";
+} from "../../../config";
 
 class BillingSettings extends Component {
   render() {

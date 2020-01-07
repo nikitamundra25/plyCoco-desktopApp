@@ -64,7 +64,6 @@ const AddConstitution = React.lazy(() => import("../pages/Constitution/AddConsti
 const Constitution = React.lazy(() => import("../pages/Constitution"))
 
 const routes = [
-  { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
     path: AppRoutes.ADD_CARE_GIVER,
     name: "Add Care Giver",
@@ -128,6 +127,7 @@ const routes = [
     component: Constitution,
     exact: true,
   },
+  { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
     path: AppRoutes.HOME,
     name: "Dashboard",

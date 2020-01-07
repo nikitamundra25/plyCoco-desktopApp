@@ -16,9 +16,9 @@ import Select from "react-select";
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
-import { Status, State, Department, Region, City, Country } from "../../config";
+import { Status, State, Department, Region, City, Country } from "../../../config";
 import { AppBreadcrumb } from "@coreui/react";
-import routes from "../../routes/routes";
+import routes from "../../../routes/routes";
 import InputMask from "react-input-mask";
 
 class AddConstitution extends Component<any, any> {

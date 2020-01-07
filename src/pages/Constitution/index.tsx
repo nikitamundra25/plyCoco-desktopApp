@@ -176,7 +176,7 @@ class Constitution extends Component<RouteComponentProps, any> {
                 onClick={() => this.props.history.push(AppRoutes.VIEW_EMPLOYEE)}
               >
                 <UncontrolledTooltip placement="top" target={`view${index}`}>
-                  Click here to view employee
+                  Click here to view Constitution
                 </UncontrolledTooltip>
                 <i className="fa fa-eye"></i>
               </span>

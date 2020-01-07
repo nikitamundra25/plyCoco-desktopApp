@@ -35,4 +35,5 @@ export interface IAppRoutes {
   CARE_LOGIN: string;
   ADD_CONSTITUTION: string;
   CONSTITUTION: string;
+  CONSTI_PERSONAL_DATA: string;
 }

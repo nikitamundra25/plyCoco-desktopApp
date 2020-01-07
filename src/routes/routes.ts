@@ -1,6 +1,6 @@
 import React from "react";
 import { AppRoutes } from "../config";
-import ToDo from "../pages/CareGiver/ToDos";
+import ToDo from "../pages/CareGiver/ToDos/ToDos";
 
 const Dashboard = React.lazy(() => import("../pages/Dashboard"));
 const Login = React.lazy(() => import("../pages/Login"));
@@ -25,42 +25,44 @@ const EditCareGiver = React.lazy(() =>
   import("../pages/CareGiver/EditCareGiver")
 );
 const CareGiverLayout = React.lazy(() =>
-  import("../pages/CareGiver/CareGiverLayout")
+  import("../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
 );
+const ConstitutionLayout = React.lazy(()=> import("../pages/Constitution/Sidebar/SidebarLayout/ConstitutionLayout"))
 const PersonalInformation = React.lazy(() =>
-  import("../pages/CareGiver/PersonalInformation")
+  import("../pages/CareGiver/PersonalInfo/PersonalInformation")
 );
 const QualificationAttribute = React.lazy(() =>
-  import("../pages/CareGiver/QualificationAttribute")
+  import("../pages/CareGiver/QualificationAttributes/QualificationAttribute")
 );
 const BillingSetting = React.lazy(() =>
-  import("../pages/CareGiver/BillingSettings")
+  import("../pages/CareGiver/Billings/BillingSettings")
 );
-const Billing = React.lazy(() => import("../pages/CareGiver/Billing"));
+const Billing = React.lazy(() => import("../pages/CareGiver/Billings"));
 const LeasingPersonalData = React.lazy(() =>
-  import("../pages/CareGiver/LeasingPersonalData")
+  import("../pages/CareGiver/LeasingData/LeasingPersonalData")
 );
 const ChangePassword = React.lazy(() =>
-  import("../pages/CareGiver/ChangePassword")
+  import("../pages/CareGiver/ChangePassword/ChangePassword")
 );
-const Email = React.lazy(() => import("../pages/CareGiver/EmailMenus"));
-const InboxEmail = React.lazy(() => import("../pages/CareGiver/InboxEmail"));
-const SentEmail = React.lazy(() => import("../pages/CareGiver/SentEmail"));
-const NewEmail = React.lazy(() => import("../pages/CareGiver/NewEmail"));
+const Email = React.lazy(() => import("../pages/CareGiver/Emails/EmailMenus"));
+const InboxEmail = React.lazy(() => import("../pages/CareGiver/Emails/InboxEmail"));
+const SentEmail = React.lazy(() => import("../pages/CareGiver/Emails/SentEmail"));
+const NewEmail = React.lazy(() => import("../pages/CareGiver/Emails/NewEmail"));
 const EmailSettings = React.lazy(() =>
-  import("../pages/CareGiver/EmailSettings")
+  import("../pages/CareGiver/Emails/EmailSettings")
 );
-const Event = React.lazy(() => import("../pages/CareGiver/Event"));
-const Offer = React.lazy(() => import("../pages/CareGiver/Offer"));
-const Invoices = React.lazy(() => import("../pages/CareGiver/Invoices"));
-const care_login = React.lazy(() => import("../pages/CareGiver/CareLogin"));
-const Todos = React.lazy(() => import("../pages/CareGiver/ToDos"));
-const Signature = React.lazy(() => import("../pages/CareGiver/Signature"));
+const Event = React.lazy(() => import("../pages/CareGiver/Events/Event"));
+const Offer = React.lazy(() => import("../pages/CareGiver/Offers/Offer"));
+const Invoices = React.lazy(() => import("../pages/CareGiver/Invoices/Invoices"));
+const care_login = React.lazy(() => import("../pages/CareGiver/Logins/CareLogin"));
+const Todos = React.lazy(() => import("../pages/CareGiver/ToDos/ToDos"));
+const Signature = React.lazy(() => import("../pages/CareGiver/Signature/Signature"));
 const DocumentUpload = React.lazy(() =>
-  import("../pages/CareGiver/DocumentsUpload")
+  import("../pages/CareGiver/Documents/DocumentsUpload")
 );
-const AddConstitution = React.lazy(() => import("../pages/Institution/AddConstitution"))
-const Constitution = React.lazy(() => import("../pages/Institution"))
+const AddConstitution = React.lazy(() => import("../pages/Constitution/AddConstitution/AddConstitution"))
+const Constitution = React.lazy(() => import("../pages/Constitution"))
+
 const routes = [
   { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
@@ -279,7 +281,8 @@ const routes = [
     name: "Constitution",
     component: Constitution,
     exact: true,
-  }
+  },
+
 ];
 
 export default routes;

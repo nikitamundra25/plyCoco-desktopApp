@@ -283,6 +283,7 @@ const  CareGiverFormComponent:any =(
                                     //   value={this.state.date}
                                       placeholder="DD/MM/YYYY"
                                       mask="99/99/9999"
+                                      className="form-control"
                                       // onChange={this.handleDateOfBirth}
                                     />
                                   </div>
@@ -296,7 +297,7 @@ const  CareGiverFormComponent:any =(
 
                     <Col lg={"6"}>
                       <h5 className="main-title">Reachability</h5>
-                      <div className="form-card">
+                      <div className="form-card minheight-auto">
                         <Row>
                           <Col lg={"12"}>
                             <FormGroup>
@@ -729,16 +730,16 @@ const  CareGiverFormComponent:any =(
                     <Col lg={"12"}>
                       <div className="d-flex align-items-center justify-content-between">
                         <div className="mandatory-text">* Required Fields</div>
-                        <div className={"text-right"}>
+                        {/* <div className={"text-right"}>
                           <Button
                             color="primary"
                             type="submit"
                             className="btn-sumbit"
                             onClick={props.handleSubmit}
                           >
-                            Submit
+                            Save
                           </Button>
-                        </div>
+                        </div> */}
                       </div>
                     </Col>
                   </Row>

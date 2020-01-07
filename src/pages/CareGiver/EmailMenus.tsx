@@ -52,7 +52,7 @@ class EmailMenus extends Component<RouteComponentProps, any> {
               <span>New Email</span>
             </NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink
               className={
                 pathname === "/caregiver/email/settings" ? "active" : null
@@ -64,7 +64,7 @@ class EmailMenus extends Component<RouteComponentProps, any> {
               </span>
               <span>Settings</span>
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
       </>
     );

@@ -15,9 +15,9 @@ import { QualificationAttributes } from "../../config";
 class QualificationAttribute extends Component {
   render() {
     return (
-      <div>
+      <Col>
         <Form className="form-section">
-          <h5 className="main-title mb-3">Qualification Attribute</h5>
+          <h5 className="main-title mb-3">Qualification Attributes</h5>
           {/* <Row>
             <Col lg={"3"}>
               <div className="mb-2">
@@ -112,24 +112,36 @@ class QualificationAttribute extends Component {
             </Col>
           </Row>
            */}
-
-          <Row>
-            {QualificationAttributes.map(item => {
-              return item ? (
-                <Col lg={"3"}>
-                  <div className="mb-2">
-                    <div className=" checkbox-custom">
-                      <input type="checkbox" id={item.value} className="" />
-                      <Label className="ml-2" for={item.value}>
-                        {item.label}
-                      </Label>
+          <div className="form-card">
+            <Row>
+              {QualificationAttributes.map(item => {
+                return item ? (
+                  <Col lg={"3"}>
+                    <div className="mb-2">
+                      <div className=" checkbox-custom">
+                        <input type="checkbox" id={item.value} className="" />
+                        <Label className="ml-2" for={item.value}>
+                          {item.label}
+                        </Label>
+                      </div>
                     </div>
-                  </div>
-                </Col>
-              ) : null;
-            })}
-          </Row>
-          {/* <Row>
+                  </Col>
+                ) : null;
+              })}
+
+              {/* <Col lg={"12"}>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="mandatory-text">* Required Fields</div>
+                 <div className={"text-right"}>
+                  <Button color="primary" type="submit" className="btn-sumbit">
+                    Save
+                  </Button>
+                </div> 
+              </div>
+            </Col> */}
+            </Row>
+
+            {/* <Row>
             <Col lg={"6"}>
               <FormGroup>
                 <Row>
@@ -153,8 +165,9 @@ class QualificationAttribute extends Component {
             </Col>
           </Row>
          */}
+          </div>
         </Form>
-      </div>
+      </Col>
     );
   }
 }

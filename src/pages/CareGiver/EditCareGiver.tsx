@@ -62,7 +62,7 @@ class EditCareGiver extends Component<RouteComponentProps, any> {
       <>
         <Row>
           <Col xs={"12"} lg={"12"}>
-            <Card>
+            <Card className="full-height">
               <CardHeader className="detail-card">
                 {/* <h4>
                   <i className="fa fa-users" />

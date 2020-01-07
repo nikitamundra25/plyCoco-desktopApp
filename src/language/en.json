@@ -319,5 +319,9 @@
   "POSITIVE": "Positive",
   "NEGATIVE": "negative",
   "WORKED_AT": "Worked at",
-  "NO_OFFER_FOR": "No offer for"
+  "NO_OFFER_FOR": "No offer for",
+  "REFRESH" : "Refresh",
+"REPLY" : "Reply",
+"SUBJECT" : "Subject",
+"DATE" : "Date"
 }

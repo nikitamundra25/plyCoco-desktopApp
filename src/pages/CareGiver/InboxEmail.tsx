@@ -9,6 +9,7 @@ import {
   Button
 } from "reactstrap";
 import EmailMenus from "./EmailMenus";
+import { languageTranslation } from "../../helpers/langauageTranslation";
 import { RouteComponentProps } from "react-router";
 import Select from "react-select";
 class Email extends Component<RouteComponentProps, any> {
@@ -49,17 +50,19 @@ class Email extends Component<RouteComponentProps, any> {
 
                     <div className="email-attributes-content d-flex align-items-center">
                       <i className="fa fa-refresh mr-1"></i>
-                      <span>  Refresh</span>
+                      <span>
+                      {languageTranslation("REFRESH")}
+                      </span>
                     </div>
                     <span className="email-attributes-seprator">|</span>
                     <div className="email-attributes-content" >
                       <i className="fa fa-hourglass-end mr-1"></i>
-                      <span>Reply</span>
+                      <span>{languageTranslation("REPLY")}</span>
                     </div>
                   </div>
                   <div className="email-row-wrap email-heading-wrap ">
                     <div className="email-date-time-block toggle-filter hover-short-select-section">
-                      Date
+                      {languageTranslation("DATE")}
                     <Select
 
                         placeholder="Select Region"
@@ -69,14 +72,14 @@ class Email extends Component<RouteComponentProps, any> {
                       />
                     </div>
                     <div className="email-text-wrap" >
-                      Subject
+                          {languageTranslation("SUBJECT")}
                   </div>
                   </div>
                   <ul className="m-0 p-0 list-group">
                     <li className={`email-wrap `}  >
                       <div
                         className={`email-date-block ${this.state.Opened ? "opened" : "closed"}`}
-                        onClick={this.toggle}> Date: january 2020</div>
+                        onClick={this.toggle}>   {languageTranslation("DATE")}: january 2020</div>
                       <Collapse isOpen={this.state.isOpen}
                         onEntered={this.onEntered}
                         onExiting={this.onEntered}
@@ -95,7 +98,7 @@ class Email extends Component<RouteComponentProps, any> {
                     <li className={`email-wrap `}  >
                       <div
                         className={`email-date-block ${this.state.Opened ? "opened" : "closed"}`}
-                        onClick={this.toggle}> Date: january 2020</div>
+                        onClick={this.toggle}>   {languageTranslation("DATE")}: january 2020</div>
                       <Collapse isOpen={this.state.isOpen}
                         onEntered={this.onEntered}
                         onExiting={this.onEntered}
@@ -114,7 +117,7 @@ class Email extends Component<RouteComponentProps, any> {
                     <li className={`email-wrap `}  >
                       <div
                         className={`email-date-block ${this.state.Opened ? "opened" : "closed"}`}
-                        onClick={this.toggle}> Date: january 2020</div>
+                        onClick={this.toggle}>   {languageTranslation("DATE")}: january 2020</div>
                       <Collapse isOpen={this.state.isOpen}
                         onEntered={this.onEntered}
                         onExiting={this.onEntered}

@@ -1821,11 +1821,11 @@ body {
   font-size: 12px;
   display: flex;
   .email-date-time-block{
-
     flex: 0 0 135px;
     padding: 2px;
     border-right:1px solid #ddd;
     border-top:1px solid #ddd;
+ 
   }
   .email-subject-block{
     flex: 0 0 135px;
@@ -1907,6 +1907,7 @@ body {
   transform: translateY(-50%) rotate(180deg);
 }
 }
+
 .hover-short-select{
   display: none;
   position: absolute!important;
@@ -1945,6 +1946,11 @@ body {
   .react-select__option{
     white-space: nowrap;
   }
+}
+.toggle-filter{
+  .hover-short-select{
+  right: 18px;   
+  }  
 }
 .hover-short-select-section{
   position: relative;

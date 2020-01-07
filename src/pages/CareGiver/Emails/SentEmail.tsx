@@ -11,7 +11,7 @@ import {
 import { RouteComponentProps } from "react-router";
 import Select from "react-select";
 import EmailMenus from "./EmailMenus";
-import { languageTranslation } from "../../helpers/langauageTranslation";
+import { languageTranslation } from "../../../helpers/langauageTranslation";
 class Email extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);

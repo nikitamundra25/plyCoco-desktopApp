@@ -18,7 +18,7 @@ const options = [
   {label: "two", value: 2}
   
 ];
-import { languageTranslation } from "../../helpers/langauageTranslation";
+import { languageTranslation } from "../../../helpers/langauageTranslation";
 class Offer extends Component {
 
   render() {

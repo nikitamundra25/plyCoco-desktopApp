@@ -6,7 +6,7 @@ import { Button, Col, Row, Form, FormGroup, Label, Input } from "reactstrap";
 import EmailMenus from "./EmailMenus";
 import { RouteComponentProps } from "react-router";
 import Select from "react-select";
-import { languageTranslation } from "../../helpers/langauageTranslation";
+import { languageTranslation } from "../../../helpers/langauageTranslation";
 
 class Email extends Component<RouteComponentProps, any> {
   constructor(props: any) {

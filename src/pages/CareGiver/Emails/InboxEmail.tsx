@@ -9,7 +9,7 @@ import {
   Button
 } from "reactstrap";
 import EmailMenus from "./EmailMenus";
-import { languageTranslation } from "../../helpers/langauageTranslation";
+import { languageTranslation } from "../../../helpers/langauageTranslation";
 import { RouteComponentProps } from "react-router";
 import Select from "react-select";
 class Email extends Component<RouteComponentProps, any> {

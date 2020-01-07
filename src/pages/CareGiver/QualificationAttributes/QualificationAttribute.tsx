@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
-import { QualificationAttributes } from "../../config";
+import { QualificationAttributes } from "../../../config";
 
 class QualificationAttribute extends Component {
   render() {

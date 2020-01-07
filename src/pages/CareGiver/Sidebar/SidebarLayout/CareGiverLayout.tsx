@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Nav, NavItem, NavLink } from "reactstrap";
-import { careGiverRoutes } from "./CareGiverRoutes";
+import { careGiverRoutes } from "../SidebarRoutes/CareGiverRoutes";
 class CareGiverSidebar extends Component<any, any> {
   constructor(props: any) {
     super(props);

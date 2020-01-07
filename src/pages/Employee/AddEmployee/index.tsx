@@ -31,6 +31,7 @@ class EmployeeForm extends Component<any, IEmployeeState> {
       country: '',
       zip: '',
       joiningDate: '',
+      bankAccountNumber:''
       // date:new Date()
     };
     return (

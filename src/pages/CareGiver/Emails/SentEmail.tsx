@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  Col,
-  Row,
-  Label,
-  Collapse,
-  Card,
-  CardBody,
-  Button
-} from "reactstrap";
+import { Col, Row, Label, Collapse, Card, CardBody, Button } from "reactstrap";
 import { RouteComponentProps } from "react-router";
 import Select from "react-select";
 import EmailMenus from "./EmailMenus";
@@ -17,14 +9,13 @@ class Email extends Component<RouteComponentProps, any> {
     super(props);
     this.state = {
       isOpen: false,
-      Opened: false,
-
+      Opened: false
     };
   }
   options = [
-    { value: 'Denis', label: 'Aaron, Hank' },
-    { value: 'Denis', label: 'Bergman, Ingmar' },
-    { value: 'Beck, Glenn', label: 'Berle, Milton' },
+    { value: "Denis", label: "Aaron, Hank" },
+    { value: "Denis", label: "Bergman, Ingmar" },
+    { value: "Beck, Glenn", label: "Berle, Milton" }
   ];
   toggle = () => {
     this.setState({
@@ -50,7 +41,7 @@ class Email extends Component<RouteComponentProps, any> {
                     <span> {languageTranslation("REFRESH")}</span>
                   </div>
                   <span className="email-attributes-seprator">|</span>
-                  <div className="email-attributes-content" >
+                  <div className="email-attributes-content">
                     <i className="fa fa-hourglass-end mr-1"></i>
                     <span> {languageTranslation("EXPIRED")}</span>
                   </div>
@@ -68,44 +59,44 @@ class Email extends Component<RouteComponentProps, any> {
                   <div className="email-subject-block toggle-filter`   hover-short-select-section">
                     <span>{languageTranslation("TO")}</span>
                     <Select
-
                       placeholder="Select Region"
                       options={this.options}
                       classNamePrefix="react-select"
                       className="hover-short-select"
                     />
                   </div>
-                  <div className="email-text-wrap" >
+                  <div className="email-text-wrap">
                     <span>{languageTranslation("SUBJECT")}</span>
                   </div>
                 </div>
                 <ul className="m-0 p-0 list-group">
-                  <li className={`email-wrap `}  >
+                  <li className={`email-wrap `}>
                     <div
-                      className={`email-date-block ${this.state.Opened ? "opened" : "closed"}`}
-                      onClick={this.toggle}> {languageTranslation("DATE")}: january 2020</div>
-                    <Collapse isOpen={this.state.isOpen}
+                      className={`email-date-block ${
+                        this.state.Opened ? "opened" : "closed"
+                      }`}
+                      onClick={this.toggle}
+                    >
+                      {" "}
+                      {languageTranslation("DATE")}: january 2020
+                    </div>
+                    <Collapse
+                      isOpen={this.state.isOpen}
                       onEntered={this.onEntered}
                       onExiting={this.onEntered}
                     >
                       <div className="email-row-wrap">
                         <div className="email-date-time-block">
                           22.01.2020 20.33.33
-                      </div>
+                        </div>
                         <div className="email-subject-block">
                           Blalock, Jolene
                         </div>
-                        <div className="email-text-wrap" >
-                          Blalock, Jolene
-                        </div>
+                        <div className="email-text-wrap">Blalock, Jolene</div>
                       </div>
                     </Collapse>
-
                   </li>
-
-
                 </ul>
-
               </div>
 
               {/* <ul className="mail-listing">

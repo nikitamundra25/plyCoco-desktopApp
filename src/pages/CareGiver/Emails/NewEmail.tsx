@@ -16,16 +16,16 @@ class Email extends Component<RouteComponentProps, any> {
     };
   }
   options = [
-    { value: 'Denis', label: 'Aaron, Hank' },
-    { value: 'Denis', label: 'Bergman, Ingmar' },
-    { value: 'Beck, Glenn', label: 'Berle, Milton' },
+    { value: "Denis", label: "Aaron, Hank" },
+    { value: "Denis", label: "Bergman, Ingmar" },
+    { value: "Beck, Glenn", label: "Berle, Milton" }
   ];
   onEditorStateChange = (editorState: any) => {
     this.setState({
       editorState
     });
   };
-  
+
   render() {
     const { editorState } = this.state;
 
@@ -43,14 +43,19 @@ class Email extends Component<RouteComponentProps, any> {
                       <span> {languageTranslation("NEW_EMAIL")}</span>
                     </div>
                     <span className="email-attributes-seprator">|</span>
-                    <div className="email-attributes-content" >
-                      <i className="fa fa-paper-plane mr-1" aria-hidden="true"></i>
-                      <span>{languageTranslation( "SEND")}</span>
+                    <div className="email-attributes-content">
+                      <i
+                        className="fa fa-paper-plane mr-1"
+                        aria-hidden="true"
+                      ></i>
+                      <span>{languageTranslation("SEND")}</span>
                     </div>
                     <span className="email-attributes-seprator">|</span>
-                    <div className="email-attributes-content input-wrap " >
+                    <div className="email-attributes-content input-wrap ">
                       <FormGroup className="d-flex align-items-center m-0 w-100">
-                        <Label className="d-flex align-items-center m-0 mr-1">{languageTranslation("SUBJECT")}: </Label>
+                        <Label className="d-flex align-items-center m-0 mr-1">
+                          {languageTranslation("SUBJECT")}:{" "}
+                        </Label>
                         <Input
                           type="text"
                           placeholder=" Street"
@@ -58,7 +63,7 @@ class Email extends Component<RouteComponentProps, any> {
                         />
                       </FormGroup>
                     </div>
-                    <div className="email-attributes-content new-email-select-wrap" >
+                    <div className="email-attributes-content new-email-select-wrap">
                       <Select
                         placeholder="Select Region"
                         options={this.options}
@@ -148,7 +153,7 @@ class Email extends Component<RouteComponentProps, any> {
                             type="submit"
                             className="btn-sumbit"
                           >
-                            {languageTranslation( "SEND")}
+                            {languageTranslation("SEND")}
                           </Button>
                         </div>
                       </div>

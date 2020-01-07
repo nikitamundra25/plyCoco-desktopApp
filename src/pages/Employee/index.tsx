@@ -24,6 +24,8 @@ import { RouteComponentProps } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import Search from "../../common/SearchFilter";
+import { languageTranslation } from "../../helpers";
+import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
 const userData = [
   {
     name: "Sir John Doe",
@@ -161,36 +163,31 @@ class Employee extends Component<RouteComponentProps, any> {
           </td>
           <td>
             <div className="action-btn">
-              <span
-                className="btn-icon mr-2"
+              <ButtonTooltip
                 id={`edit${index}`}
-                onClick={() => this.props.history.push(AppRoutes.EDIT_EMPLOYEE)}
+                message={languageTranslation("EMP_EDIT")}
+                onclick={() => this.props.history.push(AppRoutes.EDIT_EMPLOYEE)}
               >
-                <UncontrolledTooltip placement="top" target={`edit${index}`}>
-                  Click here to edit employee
-                </UncontrolledTooltip>
+                {" "}
                 <i className="fa fa-pencil"></i>
-              </span>
-              <span
-                className="btn-icon mr-2"
+              </ButtonTooltip>
+              <ButtonTooltip
                 id={`view${index}`}
-                onClick={() => this.props.history.push(AppRoutes.VIEW_EMPLOYEE)}
+                message={languageTranslation("EMP_VIEW")}
+                onclick={() => this.props.history.push(AppRoutes.VIEW_EMPLOYEE)}
               >
-                <UncontrolledTooltip placement="top" target={`view${index}`}>
-                  Click here to view employee
-                </UncontrolledTooltip>
+                {" "}
                 <i className="fa fa-eye"></i>
-              </span>
-              <span
-                className="btn-icon "
+              </ButtonTooltip>
+
+              <ButtonTooltip
                 id={`delete${index}`}
-                onClick={() => this.props.history.push("")}
+                message={languageTranslation("EMP_DELETE")}
+                onclick={() => this.props.history.push("")}
               >
-                <UncontrolledTooltip placement="top" target={`delete${index}`}>
-                  Click here to delete employee
-                </UncontrolledTooltip>
+                {" "}
                 <i className="fa fa-trash"></i>
-              </span>
+              </ButtonTooltip>
             </div>
           </td>
         </tr>
@@ -213,7 +210,9 @@ class Employee extends Component<RouteComponentProps, any> {
               </Button>
             </CardHeader>
             <CardBody>
-             <div><Search/></div>
+              <div>
+                <Search />
+              </div>
               <Table bordered hover responsive>
                 <thead className="thead-bg">
                   <tr>

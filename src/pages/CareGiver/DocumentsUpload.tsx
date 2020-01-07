@@ -44,6 +44,8 @@ class DocumentsUpload extends Component {
                 </UncontrolledCollapse>
               </Col>
             </Row>
+          </div>
+          <div className="document-item ">
             <Row>
               <Col md={"3"} lg={"2"}>
                 <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
@@ -74,6 +76,8 @@ class DocumentsUpload extends Component {
                 </UncontrolledCollapse>
               </Col>
             </Row>
+          </div>
+          <div className="document-item ">
             <Row>
               <Col md={"3"} lg={"2"}>
                 <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
@@ -104,7 +108,8 @@ class DocumentsUpload extends Component {
                 </UncontrolledCollapse>
               </Col>
             </Row>
-
+          </div>
+          <div className="document-item ">
             <Row>
               <Col md={"3"} lg={"2"}>
                 <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
@@ -144,6 +149,8 @@ class DocumentsUpload extends Component {
                 </UncontrolledCollapse>
               </Col>
             </Row>
+          </div>
+          <div className="document-item ">
             <Row>
               <Col md={"3"} lg={"2"}>
                 <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>

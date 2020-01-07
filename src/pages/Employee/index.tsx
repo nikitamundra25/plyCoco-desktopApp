@@ -132,36 +132,35 @@ class Employee extends Component<RouteComponentProps, any> {
           </td>
           <td>
             <div className="action-btn">
-              <span className="btn-icon mr-2" id={`edit${index}`}>
+              <span
+                className="btn-icon mr-2"
+                id={`edit${index}`}
+                onClick={() => this.props.history.push(AppRoutes.EDIT_EMPLOYEE)}
+              >
                 <UncontrolledTooltip placement="top" target={`edit${index}`}>
                   Edit
                 </UncontrolledTooltip>
-                <i
-                  className="fa fa-pencil"
-                  onClick={() =>
-                    this.props.history.push(AppRoutes.EDIT_EMPLOYEE)
-                  }
-                ></i>
+                <i className="fa fa-pencil"></i>
               </span>
-              <span className="btn-icon mr-2" id={`view${index}`}>
+              <span
+                className="btn-icon mr-2"
+                id={`view${index}`}
+                onClick={() => this.props.history.push(AppRoutes.VIEW_EMPLOYEE)}
+              >
                 <UncontrolledTooltip placement="top" target={`view${index}`}>
                   View
                 </UncontrolledTooltip>
-                <i
-                  className="fa fa-eye"
-                  onClick={() =>
-                    this.props.history.push(AppRoutes.VIEW_EMPLOYEE)
-                  }
-                ></i>
+                <i className="fa fa-eye"></i>
               </span>
-              <span className="btn-icon " id={`delete${index}`}>
+              <span
+                className="btn-icon "
+                id={`delete${index}`}
+                onClick={() => this.props.history.push("")}
+              >
                 <UncontrolledTooltip placement="top" target={`delete${index}`}>
                   Delete
                 </UncontrolledTooltip>
-                <i
-                  className="fa fa-trash"
-                  onClick={() => this.props.history.push("")}
-                ></i>
+                <i className="fa fa-trash"></i>
               </span>
             </div>
           </td>

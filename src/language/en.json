@@ -9,8 +9,24 @@
   "EMAIL":"email",
   "PASSWORD_LABEL":"Enter Password",
   "PASSWORD":"password",
+  
+  "FIRSTNAME_SPECIALCHARACTER":"First name doesnot contain any number or special characeter",
+  "FIRSTNAME_MAXLENGTH":"First name must be less than 20 characters",
+  "FIRSTNAME_REQUIRED":"First Name is required",
+
+  "LASTNAME_SPECIALCHARACTER":"Last name doesnot contain any number or special characeter",
+  "LASTNAME_MAXLENGTH":"Last name must be less than 20 characters",
+  "LASTNAME_REQUIRED":"Last Name is required",
 
   "PERSONAL_DATA":"Personal Data",
+  "SEARCH_LABEL":"Search",
+  "REGION_LABEL":"Region",
+  "SEARCH_PLACEHOLDER":"Search..",
+  "SORTBY_LABEL":"Sort By",
+  "SORTBY_OPTION1":"Popularity",
+  "SORTBY_OPTION2":"A-Z",
+  "SORTBY_OPTION3":"Z-A",
+  "RESET_LABEL":"Reset",
 
   "MENU_DASHBOARD":"Dashboard",
   "MENU_EMPLOYEE":"Employee",

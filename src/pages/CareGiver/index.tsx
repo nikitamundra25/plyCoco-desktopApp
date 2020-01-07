@@ -25,6 +25,7 @@ import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import { userData } from "./CareGiverData";
 import { string } from "prop-types";
+import Search from "../../common/SearchFilter";
 class CareGiver extends Component<RouteComponentProps, any> {
   render() {
     const tableData: any[] = [];
@@ -126,7 +127,7 @@ class CareGiver extends Component<RouteComponentProps, any> {
           </td> */}
 
           <td>
-            <div >
+            <div>
               <p className="description-text">
                 <span className="align-middle">{user.applyingAs}</span>
               </p>
@@ -192,7 +193,10 @@ class CareGiver extends Component<RouteComponentProps, any> {
             </CardHeader>
 
             <CardBody>
-              <div className="filter-form form-section">
+              <div>
+                <Search />
+              </div>
+              {/* <div className="filter-form form-section">
                 <Row>
                   <Col lg={"2"}>
                     <FormGroup>
@@ -248,6 +252,7 @@ class CareGiver extends Component<RouteComponentProps, any> {
                   </Col>
                 </Row>
               </div>
+               */}
               <Table bordered hover responsive>
                 <thead className="thead-bg">
                   <tr>

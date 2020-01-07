@@ -566,7 +566,7 @@ const EmployeeFormComponent: any = (
                                       {languageTranslation(
                                         "EMPLOYEE_REGION_LABEL"
                                       )}
-                                      {/* Region */}
+                                      
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>

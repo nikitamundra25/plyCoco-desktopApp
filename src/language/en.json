@@ -334,5 +334,19 @@
 
   "CAREGIVER_PAYROLL IBAN_LABEL": "Payroll IBAN",
   "CAREGIVER_PAYROLL IBAN_PLACEHOLDER": "Payroll IBAN",
-  "CAREGIVER_PAYROLL IBAN": "payrollIBAN"
+  "CAREGIVER_PAYROLL IBAN": "payrollIBAN",
+  "OFFERS": "Offers",
+  "OFFER_FOR": "Offer for",
+  "POSITIVE": "Positive",
+  "NEGATIVE": "negative",
+  "WORKED_AT": "Worked at",
+  "NO_OFFER_FOR": "No offer for",
+  "REFRESH" : "Refresh",
+"REPLY" : "Reply",
+"SUBJECT" : "Subject",
+"SEND" : "Send",
+"NEW_EMAIL" : "New email",
+"DATE" : "Date",
+"TO" : "To",
+"EXPIRED" : "Expired"
 }

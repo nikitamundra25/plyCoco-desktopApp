@@ -10,7 +10,7 @@ import {
   Form,
   CustomInput
 } from "reactstrap";
-import signature from "../../assets/img/sign.png";
+import signature from "../../../assets/img/sign.png";
 class Signature extends Component {
   render() {
     return (

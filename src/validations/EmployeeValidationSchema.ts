@@ -1,31 +1,29 @@
 import * as Yup from "yup";
 import { IEmployeeFormValues } from "../interfaces";
-import { messages } from './Messages'
 import { telephoneReqExp, nameRegExp, fileSize, SupportedFormats } from '../config'
 import moment from "moment";
 import { languageTranslation } from "../helpers";
 export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<object, IEmployeeFormValues>
 > = Yup.object().shape<IEmployeeFormValues>({
-    email: Yup.string()
+    email: Yup.string().trim()
         .email(languageTranslation("VALID_EMAIL"))
         .required(languageTranslation("REQUIRED_EMAIL")),
-    firstName: Yup.string()
-        .matches(nameRegExp,languageTranslation("FIRSTNAME_SPECIALCHARACTER"))
+    firstName: Yup.string().trim()
+        .matches(nameRegExp, languageTranslation("FIRSTNAME_SPECIALCHARACTER"))
         .max(20, languageTranslation("FIRSTNAME_MAXLENGTH"))
         .required(languageTranslation("FIRSTNAME_REQUIRED")),
-    lastName: Yup.string()
-    .matches(nameRegExp,languageTranslation("LASTNAME_SPECIALCHARACTER"))
-    .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
-    .required(languageTranslation("LASTNAME_REQUIRED")),
+    lastName: Yup.string().trim()
+        .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
+        .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
+        .required(languageTranslation("LASTNAME_REQUIRED")),
     telephoneNumber: Yup.string()
-        .matches(telephoneReqExp, 'Telephone number is not valid')
-        .required("Telephone number is required"),
-    userName: Yup.string()
-        .required("Username is required"),
-    accountHolderName: Yup.string()
-        .matches(nameRegExp, "Must be a character"),
-    bankName: Yup.string()
-        .matches(nameRegExp, "Must be a character"),
+        .matches(telephoneReqExp, languageTranslation("TELEPHONE_REQUIRED")),
+    userName: Yup.string().trim()
+        .required(languageTranslation("USERNAME_REQUIRED")),
+    accountHolderName: Yup.string().trim(),
+    // .matches(nameRegExp, "Must be a character"),
+    bankName: Yup.string().trim(),
+    // .matches(nameRegExp, "Must be a character"),
     IBAN: Yup.string(),
     BIC: Yup.string(),
     additionalText: Yup.string(),
@@ -33,7 +31,6 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<object, IEmplo
     address2: Yup.string(),
     country: Yup.string(),
     zip: Yup.string(),
-    // joiningDate: Yup.string(),
     joiningDate: Yup.mixed()
         .test('valid-date', 'Please enter a valid date', val => {
             console.log("validate date", moment(val).isValid())

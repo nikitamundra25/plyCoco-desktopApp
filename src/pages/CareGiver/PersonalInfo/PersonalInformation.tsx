@@ -17,7 +17,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
 import InputMask from "react-input-mask";
 
-import { State, Region, Salutation, LegalForm, Country } from "../../config";
+import { State, Region, Salutation, LegalForm, Country } from "../../../config";
 
 class PersonalInformation extends Component<RouteComponentProps, any> {
   constructor(props: any) {

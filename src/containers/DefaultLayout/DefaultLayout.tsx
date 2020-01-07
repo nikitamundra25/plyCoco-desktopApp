@@ -23,7 +23,7 @@ import Select from "react-select";
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 const CareGiverSidebar = React.lazy(() =>
-  import("../../pages/CareGiver/CareGiverLayout")
+  import("../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
 );
 
 // Care giver Sidebar

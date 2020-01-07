@@ -33,12 +33,12 @@ class Email extends Component<RouteComponentProps, any> {
                     <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm="3">
+                          {/* <Col sm="3">
                             <Label className="form-label col-form-label text-left">
                               Subject
                             </Label>
-                          </Col>
-                          <Col sm="9">
+                          </Col> */}
+                          <Col sm="12">
                             <div>
                               <Input
                                 type="text"
@@ -53,12 +53,12 @@ class Email extends Component<RouteComponentProps, any> {
                     <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm="3">
+                          {/* <Col sm="3">
                             <Label className="form-label col-form-label text-left">
                               Text
                             </Label>
-                          </Col>
-                          <Col sm="9">
+                          </Col> */}
+                          <Col sm="12">
                             <div>
                               <Editor
                                 editorState={editorState}
@@ -77,13 +77,13 @@ class Email extends Component<RouteComponentProps, any> {
                                     "link"
                                   ],
                                   inline: {
-                                    options: ["bold","italic","underline"]
+                                    options: ["bold", "italic", "underline"]
                                   },
                                   fontSize: {
-                                    className: 'bordered-option-classname',
+                                    className: "bordered-option-classname"
                                   },
                                   fontFamily: {
-                                    className: 'bordered-option-classname',
+                                    className: "bordered-option-classname"
                                   },
                                   list: {
                                     inDropdown: false,
@@ -99,20 +99,20 @@ class Email extends Component<RouteComponentProps, any> {
                         </Row>
                       </FormGroup>
                     </Col>
+                    <Col lg={"12"}>
+                      <div className="d-flex align-items-center justify-content-end">
+                        <div>
+                          <Button
+                            color="primary"
+                            type="submit"
+                            className="btn-sumbit"
+                          >
+                            Send
+                          </Button>
+                        </div>
+                      </div>
+                    </Col>
                   </Row>
-                </div>
-              </Col>
-              <Col lg={"12"}>
-                <div className="d-flex align-items-center justify-content-between">
-                  <div>
-                    <Button
-                      color="primary"
-                      type="submit"
-                      className="btn-sumbit"
-                    >
-                      Send
-                    </Button>
-                  </div>
                 </div>
               </Col>
             </Row>

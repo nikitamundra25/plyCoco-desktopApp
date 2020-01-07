@@ -1,5 +1,5 @@
-import React from 'react';
-import { FormikProps } from 'formik';
+import React from "react";
+import { FormikProps } from "formik";
 import {
   Button,
   FormGroup,
@@ -13,14 +13,12 @@ import {
   Form,
   InputGroup,
   InputGroupAddon,
-  InputGroupText,
-} from 'reactstrap';
-import logo from '../../assets/img/plycoco-logo.png';
-import { ILoginFormValues } from '../../interfaces';
-import { languageTranslation } from '../../helpers/langauageTranslation';
-const LoginFormComponent = (
-  props: FormikProps<ILoginFormValues> ,
-) => {
+  InputGroupText
+} from "reactstrap";
+import logo from "../../assets/img/plycoco-white.png";
+import { ILoginFormValues } from "../../interfaces";
+import { languageTranslation } from "../../helpers/langauageTranslation";
+const LoginFormComponent = (props: FormikProps<ILoginFormValues>) => {
   const {
     values: { email, password },
     touched,
@@ -28,94 +26,94 @@ const LoginFormComponent = (
     isSubmitting,
     handleChange,
     handleBlur,
-    handleSubmit,
+    handleSubmit
   } = props;
   return (
-    <div className='app flex-row align-items-center auth-page'>
-      <div className='auth-bg'></div>
+    <div className="app flex-row align-items-center auth-page">
+      <div className="auth-bg"></div>
       <Container>
-        <Row className='justify-content-center'>
-          <Col md='12'>
-            <div className='logo'>
-              <img src={logo} alt='' />
+        <Row className="justify-content-center">
+          <Col md="12">
+            <div className="logo">
+              <img src={logo} alt="" />
             </div>
             <CardGroup>
-              <Card className='login-card p-4'>
-                <CardBody className='px-4 py-0'>
-                  <Form onSubmit={handleSubmit} className='form-section'>
-                    <h1 className='auth-title text-center'>
-                      {languageTranslation('SIGNIN')}
+              <Card className="login-card p-4">
+                <CardBody className="px-4 py-0">
+                  <Form onSubmit={handleSubmit} className="form-section">
+                    <h1 className="auth-title text-center">
+                      {languageTranslation("SIGNIN")}
                     </h1>
-                    <p className='sub-title text-center'>
-                      {languageTranslation('TOYOURACCOUNT')}
+                    <p className="sub-title text-center">
+                      {languageTranslation("TOYOURACCOUNT")}
                     </p>
 
                     <FormGroup>
                       <InputGroup>
-                        <InputGroupAddon addonType='prepend'>
+                        <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            {' '}
-                            <i className='icon-user' />
+                            {" "}
+                            <i className="icon-user" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          type={'text'}
-                          id='email'
-                          name={'email'}
+                          type={"text"}
+                          id="email"
+                          name={"email"}
                           placeholder={languageTranslation(
-                            'EMAIL_ADDRESS_PLACEHOLDER',
+                            "EMAIL_ADDRESS_PLACEHOLDER"
                           )}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={email}
                           className={
                             errors.email && touched.email
-                              ? 'text-input error'
-                              : 'text-input'
+                              ? "text-input error"
+                              : "text-input"
                           }
                         />
                       </InputGroup>
                       {errors.email && touched.email && (
-                        <div className=''>{errors.email}</div>
+                        <div className="">{errors.email}</div>
                       )}
                     </FormGroup>
 
                     <FormGroup>
                       <InputGroup>
-                        <InputGroupAddon addonType='prepend'>
+                        <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className='icon-lock' />
+                            <i className="icon-lock" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          id='password'
-                          type={'password'}
-                          name={'password'}
-                          placeholder={languageTranslation('PASSWORD_LABEL')}
+                          id="password"
+                          type={"password"}
+                          name={"password"}
+                          placeholder={languageTranslation("PASSWORD_LABEL")}
                           value={password}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           className={
                             errors.password && touched.password
-                              ? 'text-input error'
-                              : 'text-input'
+                              ? "text-input error"
+                              : "text-input"
                           }
                         />
                       </InputGroup>
                       {errors.password && touched.password && (
-                        <div className=''>{errors.password}</div>
+                        <div className="">{errors.password}</div>
                       )}
                     </FormGroup>
                     <Row>
-                      <Col md='8' className='mx-auto mb-3'>
+                      <Col md="8" className="mx-auto mb-3">
                         <Button
                           disabled={isSubmitting}
-                          type={'submit'}
-                          color='link'
+                          type={"submit"}
+                          color="link"
                           block
-                          className='px-4 login-btn'
+                          className="px-4 login-btn"
                         >
-                          {languageTranslation('SIGNIN')}
+                          {languageTranslation("SIGNIN")}
                         </Button>
                       </Col>
                     </Row>

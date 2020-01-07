@@ -141,7 +141,7 @@ class Region extends Component<RouteComponentProps, any> {
                                 placement="top"
                                 target="delete"
                               >
-                                Delete
+                                Click here to delete region
                               </UncontrolledTooltip>
                               <i className="fa fa-trash"></i>
                             </span>

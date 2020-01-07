@@ -23,14 +23,47 @@ import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
-import { userData } from "./CareGiverData";
-import { string } from "prop-types";
-import Search from "../../common/SearchFilter";
-class CareGiver extends Component<RouteComponentProps, any> {
+const userData = [
+  {
+    name: "Sir John Doe",
+    email: "john@gmail.com",
+    phone: "+49 564575678",
+    region: ["North Germany", "Cologne", " Frankfurt"],
+    assignedCanstitution: "3"
+  },
+  {
+    name: "Sir Martin Lee",
+    email: "martinlee@gmail.com",
+    phone: "+49 564575678",
+    region: ["Cologne", "Munich", " Frankfurt"],
+    assignedCanstitution: "3"
+  },
+  {
+    name: "Sir Tim Cooper",
+    email: "coopert@gmail.com",
+    phone: "+49 564575678",
+    region: ["Central Germany", " Frankfurt"],
+    assignedCanstitution: "3"
+  },
+  {
+    name: "Sir Ritchie Hudson",
+    email: "hudson@gmail.com",
+    phone: "+49 564575678",
+    region: ["Central Germany", "Munich"],
+    assignedCanstitution: "3"
+  },
+  {
+    name: "Sir Mark Potter",
+    email: "mark@gmail.com",
+    phone: "+49 564575678",
+    region: ["Central Germany", "North Germany"],
+    assignedCanstitution: "3"
+  }
+];
+class Constitution extends Component<RouteComponentProps, any> {
   render() {
     const tableData: any[] = [];
     userData.map((user, index): any => {
-      console.log("userData", userData);
       return tableData.push(
         <tr>
           <td>
@@ -46,7 +79,6 @@ class CareGiver extends Component<RouteComponentProps, any> {
               </div>
             </div>
           </td>
-
           <td>
             <div className="info-column">
               <div className="img-column">
@@ -68,77 +100,60 @@ class CareGiver extends Component<RouteComponentProps, any> {
               </div>
             </div>
           </td>
-          <td>
+          {/* <td>
             <div className="description-column  ml-0">
-              {user.qualification
-                ? user.qualification.map(qualification => (
-                    <>
-                      <p className="description-text ">
-                        <span className="text-label mr-1">
-                          <i className="fa fa-angle-right"></i>
-                        </span>
-                        <span className="align-middle">{qualification}</span>
-                      </p>
-                    </>
-                  ))
-                : null}
+              <p className="description-text ">
+                <span className="text-label mr-1">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+                <span className="align-middle">Marketing</span>
+              </p>
+              <p className="description-text ">
+                <span className="text-label mr-1">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+                <span className="align-middle">Sales</span>
+              </p>
+              <p className="description-text ">
+                <span className="text-label mr-1">
+                  <i className="fa fa-angle-right"></i>
+                </span>
+                <span className="align-middle">HR</span>
+              </p>
             </div>
-          </td>
+          </td> */}
           <td>
             <div className="description-column  ml-0">
               {user.region
                 ? user.region.map(region => (
-                    <p className="description-text ">
-                      <span className="text-label mr-1">
-                        <i className="fa fa-angle-right"></i>
-                      </span>
-                      <span className="align-middle">{region}</span>
-                    </p>
-                  ))
+                  <p className="description-text ">
+                    <span className="text-label mr-1">
+                      <i className="fa fa-angle-right"></i>
+                    </span>
+                    <span className="align-middle">{region}</span>
+                  </p>
+                ))
                 : null}
             </div>
           </td>
-
-          {/* <td>
-            <div className="description-column">
+          <td className="text-center">
+            {/* <div className="description-column ml-0">
               <p className="description-text">
-                <span className="text-bold mr-2">Fee Per Hour</span>
-                <span className="align-middle">100 EUR</span>
+                <span className="text-label mr-1">Employee ID:</span>
+                <span className="align-middle">e546567cdg</span>
               </p>
               <p className="description-text">
-                <span className="text-bold mr-2">
-                  Night allowance per hour:
-                </span>
-                <span className="align-middle">120 EUR</span>
+                <span className="text-label mr-1">Employee Username:</span>
+                <span className="align-middle">US_542346</span>
               </p>
-              <p className="description-text">
-                <span className="text-bold mr-2">
-                  Weekend allowance per hour:
-                </span>
-                <span className="align-middle">150 EUR</span>
-              </p>
-              <p className="description-text">
-                <span className="text-bold mr-2">
-                  Holiday allowance per hour:
-                </span>
-                <span className="align-middle">200 EUR</span>
-              </p>
-            </div>
-          </td> */}
-
-          <td>
-            <div>
-              <p className="description-text">
-                <span className="align-middle">{user.applyingAs}</span>
-              </p>
-            </div>
+            </div> */}
+            <div>{user.assignedCanstitution}</div>
           </td>
-
           <td className="text-center">
             <span
               className={`status-btn ${
                 index % 2 === 0 ? "active" : "inactive"
-              }`}
+                }`}
             >
               {index % 2 === 0 ? "Active" : "Disable"}
             </span>
@@ -147,13 +162,21 @@ class CareGiver extends Component<RouteComponentProps, any> {
             <div className="action-btn">
               <span
                 className="btn-icon mr-2"
+                id={`edit${index}`}
+                onClick={() => this.props.history.push(AppRoutes.EDIT_EMPLOYEE)}
+              >
+                <UncontrolledTooltip placement="top" target={`edit${index}`}>
+                  Click here to edit employee
+                </UncontrolledTooltip>
+                <i className="fa fa-pencil"></i>
+              </span>
+              <span
+                className="btn-icon mr-2"
                 id={`view${index}`}
-                onClick={() =>
-                  this.props.history.push(AppRoutes.PERSONAL_INFORMATION)
-                }
+                onClick={() => this.props.history.push(AppRoutes.VIEW_EMPLOYEE)}
               >
                 <UncontrolledTooltip placement="top" target={`view${index}`}>
-                  Click here to view caretaker
+                  Click here to view employee
                 </UncontrolledTooltip>
                 <i className="fa fa-eye"></i>
               </span>
@@ -163,7 +186,7 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 onClick={() => this.props.history.push("")}
               >
                 <UncontrolledTooltip placement="top" target={`delete${index}`}>
-                  Click here to delete caretaker
+                  Click here to delete employee
                 </UncontrolledTooltip>
                 <i className="fa fa-trash"></i>
               </span>
@@ -172,7 +195,6 @@ class CareGiver extends Component<RouteComponentProps, any> {
         </tr>
       );
     });
-
     return (
       <Row>
         <Col xs={"12"} lg={"12"}>
@@ -183,20 +205,14 @@ class CareGiver extends Component<RouteComponentProps, any> {
                 color={"primary"}
                 className={"btn-add"}
                 id={"add-new-pm-tooltip"}
-                onClick={() =>
-                  this.props.history.push(AppRoutes.ADD_CARE_GIVER)
-                }
+                onClick={() => this.props.history.push(AppRoutes.ADD_CONSTITUTION)}
               >
                 <i className={"fa fa-plus"} />
-                &nbsp; Add New Care Giver
+                &nbsp; Add New Constitution
               </Button>
             </CardHeader>
-
             <CardBody>
-              <div>
-                <Search />
-              </div>
-              {/* <div className="filter-form form-section">
+              <div className="filter-form form-section">
                 <Row>
                   <Col lg={"2"}>
                     <FormGroup>
@@ -225,7 +241,6 @@ class CareGiver extends Component<RouteComponentProps, any> {
                       </Input>
                     </FormGroup>
                   </Col>
-
                   <Col lg={"2"}>
                     <FormGroup>
                       <Label for="Selectregion" className="col-form-label">
@@ -238,7 +253,18 @@ class CareGiver extends Component<RouteComponentProps, any> {
                       </Input>
                     </FormGroup>
                   </Col>
-
+                  {/* <Col lg={"2"}>
+                    <FormGroup>
+                      <Label for="Selectregion">Department:</Label>
+                      <Input type="select" name="region" id="Selectregion">
+                        <option>Sales</option>
+                        <option>Marketing</option>
+                        <option>HR</option>
+                        <option>Development</option>
+                        <option>Designing</option>
+                      </Input>
+                    </FormGroup>
+                  </Col> */}
                   <Col lg={"2"}>
                     <div className="label-height"></div>
                     <div className="filter-btn-wrap">
@@ -258,7 +284,6 @@ class CareGiver extends Component<RouteComponentProps, any> {
                   </Col>
                 </Row>
               </div>
-               */}
               <Table bordered hover responsive>
                 <thead className="thead-bg">
                   <tr>
@@ -280,17 +305,16 @@ class CareGiver extends Component<RouteComponentProps, any> {
                             <DropdownMenu>
                               <DropdownItem>Delete</DropdownItem>
                               <DropdownItem>Active</DropdownItem>
-                              <DropdownItem>Deactive</DropdownItem>
+                              <DropdownItem>Disable</DropdownItem>
                             </DropdownMenu>
                           </UncontrolledDropdown>
                         </div>
                       </div>
                     </th>
-                    <th>CareGiver Information</th>
-                    <th>Qualification</th>
+                    <th>Constitution Information</th>
+                    {/* <th>Department</th> */}
                     <th>Region</th>
-                    {/* <th>Price Range</th> */}
-                    <th>Applying as</th>
+                    <th className="text-center">Assigned Canstitution</th>
                     <th className="text-center">Status</th>
                     <th className="text-center">Action</th>
                   </tr>
@@ -305,4 +329,4 @@ class CareGiver extends Component<RouteComponentProps, any> {
   }
 }
 
-export default CareGiver;
+export default Constitution;

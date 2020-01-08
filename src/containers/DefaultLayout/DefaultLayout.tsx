@@ -28,6 +28,12 @@ import {
 } from "@coreui/react";
 import Loader from "../Loader/Loader";
 import Select from "react-select";
+import add from "../../assets/img/add.svg";
+import save from "../../assets/img/save.svg";
+import reminder from "../../assets/img/reminder.svg";
+import password from "../../assets/img/password.svg";
+import appointment from "../../assets/img/appointment.svg";
+import more from "../../assets/img/more.svg";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
@@ -66,19 +72,19 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                   </div>
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
-                      <i className="fa fa-plus"></i>
+                      <img src={add} alt="" />
                     </span>
                     <span className="header-nav-text">New Caregiver</span>
                   </div>
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
-                      <i className="fa fa-save"></i>
+                      <img src={save} alt="" />
                     </span>
                     <span className="header-nav-text">Save</span>
                   </div>
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
-                      <i className="fa fa-clock-o"></i>
+                      <img src={reminder} alt="" />
                     </span>
                     <span className="header-nav-text">
                       Create Todo/Reminder
@@ -86,13 +92,13 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                   </div>
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
-                      <i className="fa fa-key"></i>
+                      <img src={password} alt="" />
                     </span>
                     <span className="header-nav-text">New Password</span>
                   </div>
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
-                      <i className="fa fa-calendar"></i>
+                      <img src={appointment} alt="" />
                     </span>
                     <span className="header-nav-text">
                       Display appointments
@@ -161,7 +167,7 @@ class DefaultLayout extends Component<any, any> {
   render() {
     return (
       <div className="app">
-        <AppHeader fixed>
+        <AppHeader>
           <Suspense fallback={<Loader />}>
             <DefaultHeader {...this.props} />
           </Suspense>

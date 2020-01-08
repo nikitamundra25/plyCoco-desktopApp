@@ -52,12 +52,14 @@ const EmployeeFormComponent: any = (
     handleBlur,
     handleSubmit,
     setFieldValue,
+    setFieldTouched,
   } = props;
   logger(errors);
   logger('errors**********');
   logger(touched);
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    setFieldTouched('image', true);
     const {
       target: { files },
     } = e;
@@ -342,42 +344,6 @@ const EmployeeFormComponent: any = (
                               </Row>
                             </FormGroup>
                           </Col>
-                          {/* <Col lg={"12"}>
-                            <FormGroup>
-                              <Row>
-                                <Col sm="4">
-                                  <Label className="form-label col-form-label ">
-                                    {languageTranslation(
-                                      "EMPLOYEE_BANK_ACCOUNT_NUMBER_LABEL"
-                                    )}
-                                  </Label>
-                                </Col>
-                                <Col sm="8">
-                                  <div>
-                                    <Input
-                                      type="text"
-                                      name={"bankAccountNumber"}
-                                      placeholder={languageTranslation(
-                                        "EMPLOYEE_BANK_ACCOUNT_NUMBER_PLACEHOLDER"
-                                      )}
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={bankAccountNumber}
-                                      className={`width-common ${
-                                        errors.bankName && touched.bankName
-                                          ? "text-input error"
-                                          : "text-input"
-                                      }`}
-                                    />
-                                    {errors.bankName && touched.bankName && (
-                                      <div className="">{errors.bankName}</div>
-                                    )}
-                                  </div>
-                                </Col>
-                              </Row>
-                            </FormGroup>
-                          </Col> */}
-
                           <Col lg={'12'}>
                             <FormGroup>
                               <Row>
@@ -736,6 +702,7 @@ const EmployeeFormComponent: any = (
                                             )}
                                             mask='99/99/9999'
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
                                             value={joiningDate}
                                             className='form-control'
                                           />

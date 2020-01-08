@@ -6,3 +6,4 @@ export * from './Constant';
 export * from './AppRoutes';
 export * from './Employee';
 export * from './CareGiver';
+export * from  './Tooltip'

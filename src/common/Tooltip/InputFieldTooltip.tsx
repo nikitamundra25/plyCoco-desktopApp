@@ -1,6 +1,6 @@
 import React from "react";
 import { UncontrolledTooltip } from "reactstrap";
-import { ITooltipProps } from "../../interfaces/Tooltip";
+import { ITooltipProps } from "../../interfaces";
 
 const InputFieldTooltip = (props: ITooltipProps) => {  
   return (

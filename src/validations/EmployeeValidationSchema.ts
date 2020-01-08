@@ -2,7 +2,9 @@ import * as Yup from "yup";
 import { IEmployeeFormValues } from "../interfaces";
 import { telephoneReqExp, nameRegExp, fileSize, SupportedFormats } from '../config'
 import moment from "moment";
-import { languageTranslation, isValidDate, logger } from "../helpers";
+let validationMessage = 'Date is not valid'
+// const change = "hiiiiiii"
+import { languageTranslation, logger, dateValidator } from "../helpers";
 export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<object, IEmployeeFormValues>
 > = Yup.object().shape<IEmployeeFormValues>({
     email: Yup.string().trim()
@@ -33,48 +35,51 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<object, IEmplo
     zip: Yup.string(),
     joiningDate: Yup.mixed().test({
         name: 'validate-date',
-        message: '${path} must be less than ${max} characters',
-        test: val => {
-          const res = isValidDate(val);
-          logger(res);
-          logger('res');
-          return !val || res;
+        test: function (val) {
+            const { path, createError } = this;
+            const { isValid, message }: { isValid: boolean, message: string } = dateValidator(val);
+            logger(isValid);
+            logger('isValid');
+            return !val || isValid
+                || createError({ path, message });
         },
-      }),
-      bankAccountNumber: Yup.string(),
-      image: Yup.mixed().test({
-        name: 'file-size',
-        message: '${path} must be less than ${max} characters',
-        test: val => {
-          return !val || val.size <= fileSize;
-        },
-      }),
-    
-    // joiningDate: Yup.mixed()
-    //     .test('valid-date', 'Please enter a valid date', val => {
-    //         console.log("validate date", moment(val).isValid())
-    //         console.log("min date", moment(val).min("1990-04-20T20:00:00+0800").isValid());
-    //         console.log("max date", moment(val).max(new Date()).isValid());
-            // if ((moment(val, 'DD/MM/YYYY').isValid()
-            //     && moment(val).min("1999-01-01").isValid()
-            //     && moment(val).max(new Date()).isValid()) === true) {
-            //     console.log("date is validddddddd---------------");
-            // }
-            // else {
-            //     console.log("not valid &&&&&&&&&&&&&&");
-            // }
-            // return val
-        // }
-        // )
-        /* .test('is-of-age', 'You must be 18 years or older to sign up ', val => {
-            console.log("minnnnnnnnnn", moment().diff(moment(val, 'DD/MM/YYYY'), 'year') >= 50)
-            console.log("maxxxxxxxxxx", moment().diff(moment(val, 'DD/MM/YYYY'), 'year') <= 50)
-            return moment().diff(moment(val, 'DD/MM/YYYY'), 'year') >= 50
-        }) */
-    // bankAccountNumber: Yup.string(),
+    }),
+    bankAccountNumber: Yup.string(),
+    image: Yup
+        .mixed()
+        .test(
+            "fileSize",
+            "File too large",
+            value => value && value.size <= fileSize
+        )
+        .test(
+            "fileFormat",
+            "Unsupported Format",
+            value => value && SupportedFormats.includes(value.type)
+        )
+    // image: Yup.mixed()
+    // .test({
+    //     name: 'validate-file',
+    //     // message: '${path} must be less than ${max} characters',
+    //     test: function (val) {
+    //         const { path, createError } = this;
+    //         return !val || val.size <= fileSize;
+    //     },
+    // }
+    // ),
+    // .test(
+    //     "fileSize",
+    //     "File too large",
+    //     value => value && value.size <= fileSize
+    // )
+    // .test(
+    //     "fileFormat",
+    //     "Unsupported Format",
+    //     value => value && SupportedFormats.includes(value.type)
+    // )
     // .test('fileSize', "File Size is too large", value => value.size <= fileSize)
     // .test('fileType', "Unsupported File Format", value => SupportedFormats.includes(value.type))
-    
+
 
 })
 

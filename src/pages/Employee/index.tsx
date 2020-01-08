@@ -103,28 +103,6 @@ class Employee extends Component<RouteComponentProps, any> {
               </div>
             </div>
           </td>
-          {/* <td>
-            <div className="description-column  ml-0">
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">Marketing</span>
-              </p>
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">Sales</span>
-              </p>
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">HR</span>
-              </p>
-            </div>
-          </td> */}
           <td>
             <div className="description-column  ml-0">
               {user.region
@@ -140,16 +118,6 @@ class Employee extends Component<RouteComponentProps, any> {
             </div>
           </td>
           <td className="text-center">
-            {/* <div className="description-column ml-0">
-              <p className="description-text">
-                <span className="text-label mr-1">Employee ID:</span>
-                <span className="align-middle">e546567cdg</span>
-              </p>
-              <p className="description-text">
-                <span className="text-label mr-1">Employee Username:</span>
-                <span className="align-middle">US_542346</span>
-              </p>
-            </div> */}
             <div>{user.assignedCanstitution}</div>
           </td>
           <td className="text-center">
@@ -158,7 +126,9 @@ class Employee extends Component<RouteComponentProps, any> {
                 index % 2 === 0 ? "active" : "inactive"
               }`}
             >
-              {index % 2 === 0 ? "Active" : "Disable"}
+              {index % 2 === 0
+                ? languageTranslation("ACTIVE")
+                : languageTranslation("DISABLE")}
             </span>
           </td>
           <td>
@@ -240,12 +210,13 @@ class Employee extends Component<RouteComponentProps, any> {
                         </div>
                       </div>
                     </th>
-                    <th>Employee Information</th>
-                    {/* <th>Department</th> */}
-                    <th>Region</th>
-                    <th className="text-center">Assigned Canstitution</th>
-                    <th className="text-center">Status</th>
-                    <th className="text-center">Action</th>
+                    <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
+                    <th>{languageTranslation("TABLE_HEAD_REGION")}</th>
+                    <th>
+                      {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
+                    </th>
+                    <th>{languageTranslation("TABLE_HEAD_STATUS")}</th>
+                    <th>{languageTranslation("TABLE_HEAD_ACTION")}</th>
                   </tr>
                 </thead>
                 <tbody>{tableData}</tbody>

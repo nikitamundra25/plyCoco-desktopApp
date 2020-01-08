@@ -1,4 +1,11 @@
 {
+  "ACTIVE":"Active",
+  "DISABLE":"Disable",
+  "TABLE_HEAD_EMP_INFO":"Employee Information",
+  "TABLE_HEAD_REGION":"Region",
+  "TABLE_HEAD_ASSIGNED_CANSTITUTION":"Assigned Canstitution",
+  "TABLE_HEAD_STATUS":"Status",
+  "TABLE_HEAD_ACTION":"Action",
   "EMP_VIEW":"Click here to view employee",
   "EMP_EDIT":"Click here to edit employee",
   "EMP_DELETE":"Click here to delete employee",

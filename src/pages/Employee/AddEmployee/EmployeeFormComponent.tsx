@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, ChangeEvent } from 'react';
 import {
   Button,
   FormGroup,
@@ -24,6 +24,7 @@ import moment from "moment";
 const EmployeeFormComponent: any = (
   props: FormikProps<IEmployeeFormValues>
 ) => {
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   const {
     values: {
       email,
@@ -49,12 +50,34 @@ const EmployeeFormComponent: any = (
     isSubmitting,
     handleChange,
     handleBlur,
-    handleSubmit
+    handleSubmit,
+    setFieldValue,
+    setFieldTouched,
   } = props;
   logger("errors**********");
   logger(errors);
   logger("touched*******");
   logger(touched);
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setFieldTouched('image', true);
+    const {
+      target: { files },
+    } = e;
+    let reader = new FileReader();
+    let file: any = '';
+    if (files) {
+      file = files[0];
+    }
+    if (file) {
+      reader.onloadend = () => {
+        setUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+      setFieldValue('image', file);
+    }
+  };
+
   return (
     <div>
       <Row>
@@ -322,43 +345,7 @@ const EmployeeFormComponent: any = (
                               </Row>
                             </FormGroup>
                           </Col>
-                          {/* <Col lg={"12"}>
-                            <FormGroup>
-                              <Row>
-                                <Col sm="4">
-                                  <Label className="form-label col-form-label ">
-                                    {languageTranslation(
-                                      "EMPLOYEE_BANK_ACCOUNT_NUMBER_LABEL"
-                                    )}
-                                  </Label>
-                                </Col>
-                                <Col sm="8">
-                                  <div>
-                                    <Input
-                                      type="text"
-                                      name={"bankAccountNumber"}
-                                      placeholder={languageTranslation(
-                                        "EMPLOYEE_BANK_ACCOUNT_NUMBER_PLACEHOLDER"
-                                      )}
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={bankAccountNumber}
-                                      className={`width-common ${
-                                        errors.bankName && touched.bankName
-                                          ? "text-input error"
-                                          : "text-input"
-                                      }`}
-                                    />
-                                    {errors.bankName && touched.bankName && (
-                                      <div className="">{errors.bankName}</div>
-                                    )}
-                                  </div>
-                                </Col>
-                              </Row>
-                            </FormGroup>
-                          </Col> */}
-
-                          <Col lg={"12"}>
+                          <Col lg={'12'}>
                             <FormGroup>
                               <Row>
                                 <Col sm="4">
@@ -753,10 +740,25 @@ const EmployeeFormComponent: any = (
                                   </Col>
                                   <Col sm="8">
                                     <div>
-                                      <Field
-                                        name="image"
-                                        component={PictureInput}
+                                      <Input
+                                        type='file'
+                                        name={'image'}
+                                        accept='image/*'
+                                        placeholder={languageTranslation(
+                                          'EMPLOYEE_ADD_PROFILE_IMAGE_LABEL',
+                                        )}
+                                        onChange={handleImageChange}
                                       />
+                                      {imagePreviewUrl &&
+                                      typeof imagePreviewUrl === 'string' ? (
+                                        <img
+                                          src={imagePreviewUrl}
+                                          width={30}
+                                          height={30}
+                                        />
+                                      ) : (
+                                        ''
+                                      )}
                                       {errors.image && touched.image && (
                                         <div className="required-error">
                                           {errors.image}

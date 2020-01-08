@@ -2062,3 +2062,31 @@ body {
     }
   }
 }
+.activity-block {
+  position: relative;
+  border-left: 2px solid #e0eaec;
+  margin-left: 1rem;
+  padding-left: 2rem;
+  padding-bottom: 2rem;
+  font-size: 13px;
+  color: #666171;
+  .activity-date {
+    font-size: 12px;
+}
+.activity-set {
+  background: #d99119;
+  color: #fff;
+  text-align: center;
+}
+.activity-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  position: absolute;
+  left: -13px;
+  top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+}

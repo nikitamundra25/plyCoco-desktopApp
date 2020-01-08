@@ -970,24 +970,34 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
               
             </Col>
 <Col lg={4}>
+
+
 <div className="mail-details">
                
                <div className="mail-body">
-              
-
-                 <p>
-                 <p className="mb-0">15.09.2017</p>
-                 <p>rief schon einige Tage vor der Registrierung an (haben sie wiederholt darum gebeten, sich zu registrieren), ist KS und möchte nebenbei etwas dazuverdienen, am beste in Kliniken, hat 2 Kinder und zur Zeit kein PC da die Kinder den kaputt gemacht haben, kommt am 18.09. um 11 uhr zum Infogespräch, Mail Büroanschrift +Stegemann geschickt, Jenny</p>
-                 <p className="mb-0">18.09.2017</p>
-                 <p>Sie kam zum Infogespräch mit ihrem kleinen Sohn (ca 3 Jahre). Lief aber alle ruhig ab. Sie hatte sehr viele Fragen, generell Freiberuflichkeit. Sie ist exam. AP. Der kleine bekommt erst im Oktober seinen Kita Platz ud somit will sie gern ab November bei uns loslegen. Im Januar will sie gucken, ob sie sich bei einem KH teilzeit anstellen lassen möchte.
-Sie ist sehr freundlich und aufgeweckt, neues Passwort geschickt.
-WV Doks, auf Oktober gesetzt, weil sie ja erst im Novemner starten will. Norma</p>
-                 <p className="mb-0">21.09.2017</p>
-                 <p>sie rief an (gestern bereits nochmal mit Norma telefoniertund wieder alles gefragt, hatte beim Gespräch anscheind nicht zugehört), nun stellte sie wieder Fragen und erklärte mir sie könne sich ja nicht alles merken, daher scrheibt sie jetzt mit,
-dann wollte sie nochmal einen Termin nur um über die NV zu sprechen, habe ihr angeboten mi rihre Fragen zu stellen oder die per mAil zus enden, daraufhin war sie der Ansicht ich klänge genervt und sie möchte nur noch mit Norma sprechen, habe ihr gesgat, dass sie ihre Fragen gern ja stellen kann aber dazu war sie dann nicht mehr bereit, Jenny</p>
-                 <p className="mb-0">09.10.2017</p>
-                 <p>Sie will zwar noch Freiberuflich werden aber ihr Kind muss sich jetzt erstmal im Kindergarten eingewöhnen und dies dauert 1 bis 2 Monate. Sie weiss welche Doks wir benötigen und wird sie und dann schicken, aber erst sobald sich ihr kleiner eingewöhnt hat und sie ein bisschen zur Ruhe gekommen ist., Carolin</p>
-                 </p>
+               <div className="activity-logs ">
+   <h5 className="mb-2 p-2 text-left">Activity</h5>
+   <div className="activity-block p-3">
+      <div className="pr-3 text-left"><span className="text-capitalize">Rishabh Bula changed Order status updated to Invoice</span></div>
+      <div className="text-left activity-date"><span>Jan 7th 2020, 12:26 PM</span></div>
+      <span className="activity-icon activity-set"></span>
+   </div>
+   <div className="activity-block p-3">
+      <div className="pr-3 text-left"><span className="text-capitalize">Rishabh Bula  updated the workflow status from In Progress to Invoices</span></div>
+      <div className="text-left activity-date"><span>Jan 7th 2020, 12:26 PM</span></div>
+      <span className="activity-icon activity-set"></span>
+   </div>
+   <div className="activity-block p-3">
+      <div className="pr-3 text-left"><span className="text-capitalize">Rishabh Bula changed Order status changed to authorised</span></div>
+      <div className="text-left activity-date"><span>Jan 7th 2020, 12:26 PM</span></div>
+      <span className="activity-icon activity-set"><i className="fa fa-check"></i></span>
+   </div>
+   <div className="activity-block p-3">
+      <div className="pr-3 text-left"><span className="text-capitalize">Rishabh Bula  Created new order</span></div>
+      <div className="text-left activity-date"><span>Dec 28th 2019, 2:54 PM</span></div>
+      <span className="activity-icon activity-set"></span>
+   </div>
+</div>
                
                </div>
              </div>

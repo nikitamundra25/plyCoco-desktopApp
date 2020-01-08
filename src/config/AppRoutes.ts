@@ -26,12 +26,16 @@ export const AppRoutes: IAppRoutes = {
   DOCUMENTS_UPLOAD: "/caregiver/document_upload",
   CHANGE_PASSWORD: "/caregiver/change_password",
   EMAIL: "/caregiver/email",
-  INBOX: "/caregiver/email/inbox", 
+  INBOX: "/caregiver/email/inbox",
   SENT_EMAIL: "/caregiver/email/sent_email",
   NEW_EMAIL: "/caregiver/email/new_email",
   EMAIL_SETTINGS: "/caregiver/email/settings",
   EVENT: "/caregiver/event",
   OFFER: "/caregiver/offer",
   INVOCES: "/caregiver/invoice",
-  TODO: "/caregiver/todo"
+  TODO: "/caregiver/todo",
+  CARE_LOGIN: "/caregiver/loginlist",
+  ADD_CONSTITUTION: "/constitution/add",
+  CONSTITUTION: "/constitution",
+  CONSTI_PERSONAL_DATA: "/constitution/personal_information",
 };

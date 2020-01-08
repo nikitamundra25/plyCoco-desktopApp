@@ -21,7 +21,7 @@ class ViewEmployee extends Component {
     return (
       <Row>
         <Col xs={"12"} lg={"12"}>
-          <Card>
+          <Card className="full-height">
             <CardHeader>
               <AppBreadcrumb appRoutes={routes} className="w-100" />
             </CardHeader>
@@ -67,25 +67,24 @@ class ViewEmployee extends Component {
                       </span>
                     </div>
                     <div className="user-item">
-                      <span className="text-label">Bank Address</span>
-                      <span className="text-value">
-                        :&nbsp;&nbsp;John@gmail.com
-                      </span>
+                      <span className="text-label">Account Holder Name</span>
+                      <span className="text-value">:&nbsp;&nbsp;John Doe</span>
                     </div>
                     <div className="user-item">
-                      <span className="text-label">Account No.</span>
+                      <span className="text-label">IBAN</span>
                       <span className="text-value">:&nbsp;&nbsp;657689980</span>
                     </div>
                     <div className="user-item">
-                      <span className="text-label">IFSC</span>
+                      <span className="text-label">BIC</span>
                       <span className="text-value">
                         :&nbsp;&nbsp;43546768945
                       </span>
                     </div>
                     <div className="user-item">
-                      <span className="text-label">Swift Code</span>
+                      <span className="text-label">Additional text</span>
                       <span className="text-value">
-                        :&nbsp;&nbsp;43546768945
+                        :&nbsp;&nbsp;Lorem ipsum dolor, sit amet consectetur
+                        adipisicing elit.
                       </span>
                     </div>
                   </Col>
@@ -108,34 +107,34 @@ class ViewEmployee extends Component {
                     <div className="employee-title">Other Information</div>
                   </Col>
                   <Col lg={"6"} md={"6"} className="mb-3">
-                    <div className="user-item">
+                    {/* <div className="user-item">
                       <span className="text-label">Department </span>
                       <span className="text-value">
                         :&nbsp;&nbsp;HR Marketing
                       </span>
-                    </div>
+                    </div> */}
                     <div className="user-item">
                       <span className="text-label">Region</span>
                       <span className="text-value">
                         :&nbsp;&nbsp;North Asia
                       </span>
                     </div>
-                    <div className="user-item">
+                    {/* <div className="user-item">
                       <span className="text-label">Employee ID</span>
                       <span className="text-value">:&nbsp;&nbsp;657689980</span>
-                    </div>
+                    </div> */}
                     <div className="user-item">
                       <span className="text-label">Joining Date</span>
                       <span className="text-value">
                         :&nbsp;&nbsp;12/03/2010
                       </span>
                     </div>
-                    <div className="user-item">
+                    {/* <div className="user-item">
                       <span className="text-label">Any Other Information</span>
                       <span className="text-value">
                         :&nbsp;&nbsp;43546768945
                       </span>
-                    </div>
+                    </div> */}
                     <div className="user-item">
                       <span className="text-label">Address</span>
                       <span className="text-value">

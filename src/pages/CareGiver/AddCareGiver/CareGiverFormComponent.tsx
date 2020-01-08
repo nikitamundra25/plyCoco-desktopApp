@@ -296,29 +296,30 @@ const CareGiverFormComponent: any = (
                                   <InputMask
                                     name={'dob'}
                                     //   value={this.state.date}
-                                    placeholder="DD/MM/YYYY"
-                                    mask="99/99/9999"
-                                  // onChange={this.handleDateOfBirth}
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </div>
-                  </Col>
+                                      placeholder="DD/MM/YYYY"
+                                      mask="99/99/9999"
+                                      className="form-control"
+                                      // onChange={this.handleDateOfBirth}
+                                    />
+                                  </div>
+                                </Col>
+                              </Row>
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </div>
+                    </Col>
 
-                  <Col lg={"6"}>
-                    <h5 className="main-title">Reachability</h5>
-                    <div className="form-card">
-                      <Row>
-                        <Col lg={"12"}>
-                          <FormGroup>
-                            <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  Phone
+                    <Col lg={"6"}>
+                      <h5 className="main-title">Reachability</h5>
+                      <div className="form-card minheight-auto">
+                        <Row>
+                          <Col lg={"12"}>
+                            <FormGroup>
+                              <Row>
+                                <Col sm="4">
+                                  <Label className="form-label col-form-label">
+                                    Phone
                                     <span className="required">*</span>
                                 </Label>
                               </Col>

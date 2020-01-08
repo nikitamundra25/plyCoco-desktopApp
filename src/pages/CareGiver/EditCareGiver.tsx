@@ -21,10 +21,10 @@ import {
 } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
-import PersonalInformation from "./PersonalInformation";
-import QualificationAttribute from "./QualificationAttribute";
-import BillingSettings from "./BillingSettings";
-import LeasingPersonalData from "./LeasingPersonalData";
+import PersonalInformation from "./PersonalInfo/PersonalInformation";
+import QualificationAttribute from "./QualificationAttributes/QualificationAttribute";
+import BillingSettings from "./Billings/BillingSettings";
+import LeasingPersonalData from "./LeasingData/LeasingPersonalData";
 
 class EditCareGiver extends Component<RouteComponentProps, any> {
   constructor(props: any) {
@@ -62,7 +62,7 @@ class EditCareGiver extends Component<RouteComponentProps, any> {
       <>
         <Row>
           <Col xs={"12"} lg={"12"}>
-            <Card>
+            <Card className="full-height">
               <CardHeader className="detail-card">
                 {/* <h4>
                   <i className="fa fa-users" />

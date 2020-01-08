@@ -29,10 +29,15 @@ class DefaultFooter extends Component {
             </Nav>
           </div>
           <div className="region-select">
-            <div>
-              <div className=""></div>
-              <div></div>
-            </div>
+            <Select
+              defaultValue={{
+                label: "Central Germany",
+                value: 0
+              }}
+              // value={this.state.selectedOption}
+              placeholder="Select Region"
+              options={Region}
+            />
           </div>
         </div>
       </React.Fragment>

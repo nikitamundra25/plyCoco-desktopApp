@@ -34,7 +34,7 @@ class Email extends Component<RouteComponentProps, any> {
           <EmailMenus {...this.props} />
           <div className="email-content">
             <Row className="custom-col">
-              <Col lg={"6"}>
+              <Col lg={"5"}>
                 <div className="email-inbox-section">
                   <div className="email-row-wrap align-items-center email-attributes-wrap">
                     <div className="email-attributes-content d-flex align-items-center">
@@ -77,7 +77,7 @@ class Email extends Component<RouteComponentProps, any> {
                         onEntered={this.onEntered}
                         onExiting={this.onEntered}
                       >
-                        <div className="email-row-wrap">
+                        <div className="email-row-wrap inner-content-wrap">
                           <div className="email-date-time-block">
                             22.01.2020 20.33.33
                           </div>
@@ -100,7 +100,7 @@ class Email extends Component<RouteComponentProps, any> {
                         onEntered={this.onEntered}
                         onExiting={this.onEntered}
                       >
-                        <div className="email-row-wrap">
+                        <div className="email-row-wrap inner-content-wrap">
                           <div className="email-date-time-block">
                             22.01.2020 20.33.33
                           </div>
@@ -123,7 +123,7 @@ class Email extends Component<RouteComponentProps, any> {
                         onEntered={this.onEntered}
                         onExiting={this.onEntered}
                       >
-                        <div className="email-row-wrap">
+                        <div className="email-row-wrap inner-content-wrap">
                           <div className="email-date-time-block">
                             22.01.2020 20.33.33
                           </div>
@@ -378,13 +378,14 @@ class Email extends Component<RouteComponentProps, any> {
                   </li>
                 </ul> */}
               </Col>
-              <Col lg={"6"}>
+              <Col lg={"7"}>
                 <div className="mail-details">
-                  <div className="mail-header">
-                    <h5> Your iBuy.com grocery shopping confirmation</h5>
-                    <div>12:20 PM</div>
-                  </div>
+               
                   <div className="mail-body">
+                  <h5 className="mb-3"> Your iBuy.com grocery shopping confirmation</h5>
+                    <div ><span className="gray-color">Posted:</span> <span >12:20 PM</span></div>
+                    <div className="mb-3"><span className="gray-color">On:</span>  <span >Justina Achatoh</span></div>
+                    <p className="mb-1"> -------------------------------------------------</p>
                     <p> Hello Denis,</p>
 
                     <p>we have the following offer for you: Searched for</p>
@@ -403,6 +404,10 @@ class Email extends Component<RouteComponentProps, any> {
                       District court Berlin-Charlottenburg, registration number:
                       HRB 150746, managing
                     </p>
+                    <div className="mt-3  mb-1">
+                    Thanks and Regards
+                    </div>
+                    <div className="h6">John die</div>
                   </div>
                 </div>
               </Col>

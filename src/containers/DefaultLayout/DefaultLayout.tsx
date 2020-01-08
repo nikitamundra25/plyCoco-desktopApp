@@ -1,6 +1,15 @@
 import React, { Component, Suspense } from "react";
 import { Route, Switch, Redirect, RouteComponentProps } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  UncontrolledButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "reactstrap";
 import { AppRoutes } from "../../config";
 import routes from "../../routes/routes";
 import { Region, CareGiver } from "../../config";
@@ -35,39 +44,90 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
         <Row>
           <Col lg={"12"}>
             <div className="care-detail-page">
-              <AppBreadcrumb appRoutes={routes} className="w-100" />
+              {/* <AppBreadcrumb appRoutes={routes} className="w-100" /> */}
               <div className="caregiver-detail-section">
+                <div className="d-flex align-items-center username-header">
+                  <span className="align-middle">
+                    <i className="fa fa-user mr-2"></i>
+                  </span>
+                  <span className="align-middle">John Doe</span>
+                </div>
+                <div className="caregiver-topheader d-flex align-items-center ">
+                  <div className="user-select">
+                    <Select
+                      defaultValue={{
+                        label: "John Doe",
+                        value: 0
+                      }}
+                      // value={this.state.selectedOption}
+                      placeholder="Select Caregiver"
+                      options={CareGiver}
+                    />
+                  </div>
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <i className="fa fa-plus"></i>
+                    </span>
+                    <span className="header-nav-text">New Caregiver</span>
+                  </div>
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <i className="fa fa-save"></i>
+                    </span>
+                    <span className="header-nav-text">Save</span>
+                  </div>
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <i className="fa fa-clock-o"></i>
+                    </span>
+                    <span className="header-nav-text">
+                      Create Todo/Reminder
+                    </span>
+                  </div>
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <i className="fa fa-key"></i>
+                    </span>
+                    <span className="header-nav-text">New Password</span>
+                  </div>
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <i className="fa fa-calendar"></i>
+                    </span>
+                    <span className="header-nav-text">
+                      Display appointments
+                    </span>
+                  </div>
+                  {/* <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <i className="fa fa-search"></i>
+                    </span>
+                    <span className="header-nav-text">Search</span>
+                  </div>
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <i className="fa fa-list-alt"></i>
+                    </span>
+                    <span className="header-nav-text">Tree View</span>
+                  </div> */}
+                  <div className="header-nav-item">
+                    <span className="header-nav-text">
+                      <UncontrolledButtonDropdown>
+                        <DropdownToggle caret>More</DropdownToggle>
+                        <DropdownMenu>
+                          <DropdownItem>Delete specialist</DropdownItem>
+                          <DropdownItem>
+                            Delete future appointments
+                          </DropdownItem>
+                          <DropdownItem>Send pay slips</DropdownItem>
+                        </DropdownMenu>
+                      </UncontrolledButtonDropdown>
+                    </span>
+                  </div>
+                </div>
+
                 <CareGiverSidebar {...props} />
                 <div className="caregiver-right flex-grow-1">
-                  <div className="common-dropdown d-flex align-items-center w-100 ">
-                    <div className="user-select">
-                      <Select
-                        defaultValue={{
-                          label: "John Doe",
-                          value: 0
-                        }}
-                        // value={this.state.selectedOption}
-                        placeholder="Select Caregiver"
-                        options={CareGiver}
-                      />
-                    </div>
-                    <div className="region-select">
-                      <Select
-                        // value={this.state.selectedOption}
-                        placeholder="Select Region"
-                        options={Region}
-                      />
-                    </div>
-                    <div className="btn-header-section">
-                      <Button
-                        color="primary"
-                        type={"submit"}
-                        className="btn-common-save"
-                      >
-                        Save
-                      </Button>
-                    </div>
-                  </div>
                   <div className="caregiver-content ">
                     <Component {...props} />
                   </div>
@@ -144,11 +204,11 @@ class DefaultLayout extends Component<any, any> {
             </Container>
           </main>
         </div>
-        {/* <AppFooter>
+        <AppFooter>
           <Suspense fallback={<Loader />}>
             <DefaultFooter />
           </Suspense>
-        </AppFooter> */}
+        </AppFooter>
       </div>
     );
   }

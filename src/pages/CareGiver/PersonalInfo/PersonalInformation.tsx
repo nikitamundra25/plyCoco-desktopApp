@@ -167,8 +167,8 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         <Col sm="8">
                           <div>
                           <Select
-                                  placeholder="Germany"
-                                  options={State}
+                                  placeholder="salutation"
+                                  options={Salutation}
                                 />
                           </div> 
                           <Button  className="alfabate-btn btn">S</Button>

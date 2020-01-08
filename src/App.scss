@@ -773,7 +773,7 @@ body {
 .filter-form {
   margin-top: -5px;
   .col-form-label {
-    text-align: left !important;
+    text-align: left;
     padding: 0px 0px 2px;
   }
 }
@@ -864,11 +864,12 @@ body {
   .form-group {
     margin-bottom: 10px;
     .col-form-label {
-      font-size: $font_12;
+      font-size: $font_11;
       font-weight: 400;
       color: $black;
-      text-align: right;
+      text-align: left;
       display: block;
+      padding: 0px;
       font-family: $font_Frutiger_Bold;
     }
     .required {
@@ -1737,7 +1738,8 @@ body {
     background: #ffffff;
     padding: 10px 20px;
     font-size: $font_13;
-    color: $gray_color;
+    color: $black;
+    height: 100%;
   }
 }
 // oFFer
@@ -1752,6 +1754,14 @@ body {
   }
 }
 .offer-section {
+  &.fix-height-section{
+    height: 380px;
+    padding-left: 0px;
+    padding-right: 0px;
+    .custom-col{
+      height: calc(100% - 30px);
+    }
+  }
   height: 100%;
   background: #f3f3f3;
   padding: 10px;
@@ -1802,6 +1812,9 @@ body {
           }
           &.pending {
             background: #ffde82;
+          }
+          &:hover{
+            background: #ededed;
           }
         }
       }
@@ -1863,6 +1876,9 @@ body {
 
 }
 .email-row-wrap{
+  &.inner-content-wrap{
+    background: $white;
+  }
   cursor: pointer;
   font-size: 12px;
   display: flex;
@@ -2015,5 +2031,34 @@ body {
     display: flex;
     align-items: center;
     border-radius: 0px;
+  }
+}
+.gray-color{
+  color:$gray_color;
+}
+.alfabate-btn{
+  padding: 0px;
+  border-radius: 0px;
+  position: absolute;
+  top: 0px;
+  height: 25px;
+  width: 25px;
+  right: -22px;
+}
+.forms-main-section{
+  .inner-no-padding-col{
+    margin:0px;
+    [class*="col-"]{
+      padding: 0px;
+      label{
+        padding-left: 7px;
+      }
+    }
+  }
+  .form-group{
+
+    .form-control{
+      padding: 0px 4px;
+    }
   }
 }

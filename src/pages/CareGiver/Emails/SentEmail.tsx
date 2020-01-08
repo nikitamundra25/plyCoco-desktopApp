@@ -33,7 +33,7 @@ class Email extends Component<RouteComponentProps, any> {
         <EmailMenus {...this.props} />
         <div className="email-content">
           <Row className="custom-col">
-            <Col lg={"6"}>
+            <Col lg={"5"}>
               <div className="email-inbox-section">
                 <div className="email-row-wrap align-items-center email-attributes-wrap">
                   <div className="email-attributes-content d-flex align-items-center">
@@ -85,7 +85,7 @@ class Email extends Component<RouteComponentProps, any> {
                       onEntered={this.onEntered}
                       onExiting={this.onEntered}
                     >
-                      <div className="email-row-wrap">
+                      <div className="email-row-wrap inner-content-wrap">
                         <div className="email-date-time-block">
                           22.01.2020 20.33.33
                         </div>
@@ -344,33 +344,39 @@ class Email extends Component<RouteComponentProps, any> {
               </ul>
             */}
             </Col>
-            <Col lg={"6"}>
-              <div className="mail-details">
-                <div className="mail-header">
-                  <h5> Your iBuy.com grocery shopping confirmation</h5>
-                  <div>12:20 PM</div>
+            <Col lg={"7"}>
+                <div className="mail-details">
+               
+                  <div className="mail-body">
+                  <h5 className="mb-3"> Your iBuy.com grocery shopping confirmation</h5>
+                    <div ><span className="gray-color">Posted:</span> <span >12:20 PM</span></div>
+                    <div className="mb-3"><span className="gray-color">On:</span>  <span >Justina Achatoh</span></div>
+                    <p className="mb-1"> -------------------------------------------------</p>
+                    <p> Hello Denis,</p>
+
+                    <p>we have the following offer for you: Searched for</p>
+
+                    <p>qualification: Elderly care</p>
+
+                    <p>
+                      01.01. ND 8.0h: old people's home near Bielefeld (code:
+                      Q9T3M) Services by arrangement. Accommodation is provided.
+                      Double services possible. Please let us know your
+                      availability by email ! Fee: freely negotiable Best
+                      regards Marc Erdtmann Tel: +49.30.644 99 444 Fax:
+                      +49.30.644 99 445 E-Mail: Kontakt@plycoco.de
+                      www.plycoco.de Plycoco GmbH Am Borsigturm 6 13507 Berlin
+                      Entry in the commercial register: Register court :
+                      District court Berlin-Charlottenburg, registration number:
+                      HRB 150746, managing
+                    </p>
+                    <div className="mt-3  mb-1">
+                    Thanks and Regards
+                    </div>
+                    <div className="h6">John die</div>
+                  </div>
                 </div>
-                <div className="mail-body">
-                  <p> Hello Denis,</p>
-
-                  <p>we have the following offer for you: Searched for</p>
-
-                  <p>qualification: Elderly care</p>
-
-                  <p>
-                    01.01. ND 8.0h: old people's home near Bielefeld (code:
-                    Q9T3M) Services by arrangement. Accommodation is provided.
-                    Double services possible. Please let us know your
-                    availability by email ! Fee: freely negotiable Best regards
-                    Marc Erdtmann Tel: +49.30.644 99 444 Fax: +49.30.644 99 445
-                    E-Mail: Kontakt@plycoco.de www.plycoco.de Plycoco GmbH Am
-                    Borsigturm 6 13507 Berlin Entry in the commercial register:
-                    Register court : District court Berlin-Charlottenburg,
-                    registration number: HRB 150746, managing
-                  </p>
-                </div>
-              </div>
-            </Col>
+              </Col>
           </Row>
         </div>
       </div>

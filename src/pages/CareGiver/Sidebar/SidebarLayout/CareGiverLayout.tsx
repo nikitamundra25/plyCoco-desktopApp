@@ -30,8 +30,7 @@ class CareGiverSidebar extends Component<any, any> {
 
     return (
       <div className="caregiver-sidnav">
-        <h4 className="sidenav-title">John Doe</h4>
-        <Nav vertical className="caregiver-ul">
+        <Nav className="caregiver-ul" tabs>
           {careGiverRoutes.map(route => {
             return route.path ? (
               <NavItem>
@@ -39,9 +38,9 @@ class CareGiverSidebar extends Component<any, any> {
                   className={pathname === route.path ? "active" : null}
                   onClick={() => this.props.history.push(route.path)}
                 >
-                  <span className="nav-icon">
+                  {/* <span className="nav-icon">
                     <i className={route.icon}></i>
-                  </span>
+                  </span> */}
                   <span className="nav-text">{route.name}</span>
                 </NavLink>
               </NavItem>

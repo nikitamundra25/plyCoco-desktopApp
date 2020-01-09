@@ -5,6 +5,9 @@ import { EditorState } from "draft-js";
 import { Button, Col, Row, Form, FormGroup, Label, Input } from "reactstrap";
 import EmailMenus from "./EmailMenus";
 import { RouteComponentProps } from "react-router";
+import Select from "react-select";
+import { languageTranslation } from "../../../helpers/langauageTranslation";
+
 class Email extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
@@ -12,11 +15,17 @@ class Email extends Component<RouteComponentProps, any> {
       editorState: EditorState.createEmpty()
     };
   }
+  options = [
+    { value: "Denis", label: "Aaron, Hank" },
+    { value: "Denis", label: "Bergman, Ingmar" },
+    { value: "Beck, Glenn", label: "Berle, Milton" }
+  ];
   onEditorStateChange = (editorState: any) => {
     this.setState({
       editorState
     });
   };
+
   render() {
     const { editorState } = this.state;
 
@@ -27,7 +36,44 @@ class Email extends Component<RouteComponentProps, any> {
           <Form className="form-section">
             <Row>
               <Col lg={"12"}>
-                <h5 className="main-title mb-4">New Email</h5>
+                <div className="email-inbox-section">
+                  <div className="email-row-wrap align-items-center email-attributes-wrap">
+                    <div className="email-attributes-content d-flex align-items-center">
+                      <i className="fa fa-envelope mr-1" aria-hidden="true"></i>
+                      <span> {languageTranslation("NEW_EMAIL")}</span>
+                    </div>
+                    <span className="email-attributes-seprator">|</span>
+                    <div className="email-attributes-content">
+                      <i
+                        className="fa fa-paper-plane mr-1"
+                        aria-hidden="true"
+                      ></i>
+                      <span>{languageTranslation("SEND")}</span>
+                    </div>
+                    <span className="email-attributes-seprator">|</span>
+                    <div className="email-attributes-content input-wrap ">
+                      <FormGroup className="d-flex align-items-center m-0 w-100">
+                        <Label className="d-flex align-items-center m-0 mr-1">
+                          {languageTranslation("SUBJECT")}:{" "}
+                        </Label>
+                        <Input
+                          type="text"
+                          placeholder=" Street"
+                          className=" width-common"
+                        />
+                      </FormGroup>
+                    </div>
+                    <div className="email-attributes-content new-email-select-wrap">
+                      <Select
+                        placeholder="Select Region"
+                        options={this.options}
+                        classNamePrefix="react-select"
+                        className="new-email-select"
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <div className="form-card">
                   <Row>
                     <Col lg={"12"}>
@@ -107,7 +153,7 @@ class Email extends Component<RouteComponentProps, any> {
                             type="submit"
                             className="btn-sumbit"
                           >
-                            Send
+                            {languageTranslation("SEND")}
                           </Button>
                         </div>
                       </div>

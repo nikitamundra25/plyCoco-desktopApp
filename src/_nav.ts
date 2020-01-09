@@ -155,6 +155,12 @@ export default {
           icon: "icon-holidays",
           url: "#"
         },
+
+        {
+          name: languageTranslation("MENU_REPORTS_MISSING_WORKING_PROOFS"),
+          icon: "icon-working-list",
+          url: "#"
+        },
         {
           name: languageTranslation("MENU_REPORTS_ACQUISTION"),
           icon: "icon-acquisition",

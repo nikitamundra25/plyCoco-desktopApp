@@ -131,6 +131,7 @@ const routes = [
     component: Constitution,
     exact: true,
   },
+  { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
     path: AppRoutes.CONSTI_PERSONAL_DATA,
     name: "Constitution Personal Data",
@@ -189,9 +190,9 @@ const routes = [
     layoutName:"CareGiver"
   },
   {
-    path: AppRoutes.EMAIL,
-    name: "Email",
-    component: Email,
+    path: AppRoutes.EVENT,
+    name: "Event",
+    component: Event,
     exact: true,
     layout: CareGiverLayout,
     layoutName:"CareGiver"

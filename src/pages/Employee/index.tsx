@@ -23,6 +23,7 @@ import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
+import Search from "../../common/SearchFilter";
 const userData = [
   {
     name: "Sir John Doe",
@@ -196,8 +197,8 @@ class Employee extends Component<RouteComponentProps, any> {
       );
     });
     return (
-      <Row>
-        <Col xs={"12"} lg={"12"}>
+      <Row className="m-0">
+        <Col xs={"12"} lg={"12"} className="p-0">
           <Card>
             <CardHeader>
               <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
@@ -212,77 +213,8 @@ class Employee extends Component<RouteComponentProps, any> {
               </Button>
             </CardHeader>
             <CardBody>
-              <div className="filter-form form-section">
-                <Row>
-                  <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="search" className="col-form-label">
-                        Search:
-                      </Label>
-                      <Input
-                        type="text"
-                        name="search"
-                        id="search"
-                        placeholder="Search.."
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="Selectregion" className="col-form-label">
-                        Region:
-                      </Label>
-                      <Input type="select" name="region" id="Selectregion">
-                        <option>Western India</option>
-                        <option>East India</option>
-                        <option>South India</option>
-                        <option>Northeast India</option>
-                        <option>Central India</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="Selectregion" className="col-form-label">
-                        Sort By:
-                      </Label>
-                      <Input type="select" name="region" id="Selectregion">
-                        <option>Popularity</option>
-                        <option>A-Z</option>
-                        <option>Z-A</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  {/* <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="Selectregion">Department:</Label>
-                      <Input type="select" name="region" id="Selectregion">
-                        <option>Sales</option>
-                        <option>Marketing</option>
-                        <option>HR</option>
-                        <option>Development</option>
-                        <option>Designing</option>
-                      </Input>
-                    </FormGroup>
-                  </Col> */}
-                  <Col lg={"2"}>
-                    <div className="label-height"></div>
-                    <div className="filter-btn-wrap">
-                      <span className="btn-filter mr-2" id="search1">
-                        <UncontrolledTooltip placement="top" target="search1">
-                          Search
-                        </UncontrolledTooltip>
-                        <i className="fa fa-search"></i>
-                      </span>
-                      <span className="btn-filter mr-2" id="reset">
-                        <UncontrolledTooltip placement="top" target="reset">
-                          Reset
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh "></i>
-                      </span>
-                    </div>
-                  </Col>
-                </Row>
+              <div>
+                <Search />
               </div>
               <Table bordered hover responsive>
                 <thead className="thead-bg">

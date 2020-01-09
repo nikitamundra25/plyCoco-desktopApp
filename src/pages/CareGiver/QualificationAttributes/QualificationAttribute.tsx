@@ -17,7 +17,7 @@ class QualificationAttribute extends Component {
     return (
       <Col>
         <Form className="form-section">
-          <h5 className="main-title mb-3">Qualification Attributes</h5>
+          <h5 className="main-title mb-3">Grouped Below</h5>
           {/* <Row>
             <Col lg={"3"}>
               <div className="mb-2">
@@ -112,7 +112,7 @@ class QualificationAttribute extends Component {
             </Col>
           </Row>
            */}
-          <div className="form-card">
+          {/* <div className="form-card">
             <Row>
               {QualificationAttributes.map(item => {
                 return item ? (
@@ -127,9 +127,9 @@ class QualificationAttribute extends Component {
                     </div>
                   </Col>
                 ) : null;
-              })}
+              })} */}
 
-              {/* <Col lg={"12"}>
+          {/* <Col lg={"12"}>
               <div className="d-flex align-items-center justify-content-between">
                 <div className="mandatory-text">* Required Fields</div>
                  <div className={"text-right"}>
@@ -139,9 +139,9 @@ class QualificationAttribute extends Component {
                 </div> 
               </div>
             </Col> */}
-            </Row>
+          {/* </Row> */}
 
-            {/* <Row>
+          {/* <Row>
             <Col lg={"6"}>
               <FormGroup>
                 <Row>
@@ -165,7 +165,7 @@ class QualificationAttribute extends Component {
             </Col>
           </Row>
          */}
-          </div>
+          {/* </div>*/}
         </Form>
       </Col>
     );

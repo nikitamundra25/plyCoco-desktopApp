@@ -1,6 +1,15 @@
 import React, { Component, Suspense } from "react";
 import { Route, Switch, Redirect, RouteComponentProps } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  UncontrolledButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "reactstrap";
 import { AppRoutes } from "../../config";
 import routes from "../../routes/routes";
 import { Region, CareGiver } from "../../config";
@@ -19,6 +28,14 @@ import {
 } from "@coreui/react";
 import Loader from "../Loader/Loader";
 import Select from "react-select";
+import add from "../../assets/img/add.svg";
+import save from "../../assets/img/save.svg";
+import reminder from "../../assets/img/reminder.svg";
+import password from "../../assets/img/password.svg";
+import appointment from "../../assets/img/appointment.svg";
+import delete_specilalist from "../../assets/img/delete-user.svg";
+import delete_appointment from "../../assets/img/delete-appointment.svg";
+import send_bills from "../../assets/img/send-bills.svg";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
@@ -33,14 +50,19 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
     <Route
       {...rest}
       render={props => (
-        <Row>
-          <Col lg={"12"}>
+        <Row className="m-0">
+          <Col lg={"12"} className="p-0">
             <div className="care-detail-page">
-              <AppBreadcrumb appRoutes={routes} className="w-100" />
+              {/* <AppBreadcrumb appRoutes={routes} className="w-100" /> */}
               <div className="caregiver-detail-section">
-                <CareGiverSidebar {...props} />
-                <div className="caregiver-right flex-grow-1">
-                  <div className="common-dropdown d-flex align-items-center w-100 ">
+                <div className="sticky-care-header">
+                  {/* <div className="d-flex align-items-center username-header">
+                    <span className="align-middle">
+                      <i className="fa fa-user mr-2"></i>
+                    </span>
+                    <span className="align-middle">John Doe (Caregiver)</span>
+                  </div> */}
+                  <div className="caregiver-topheader d-flex align-items-center ">
                     <div className="user-select">
                       <Select
                         defaultValue={{
@@ -52,23 +74,77 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                         options={CareGiver}
                       />
                     </div>
-                    <div className="region-select">
-                      <Select
-                        // value={this.state.selectedOption}
-                        placeholder="Select Region"
-                        options={Region}
-                      />
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={add} alt="" />
+                      </span>
+                      <span className="header-nav-text">New Caregiver</span>
                     </div>
-                    <div className="btn-header-section">
-                      <Button
-                        color="primary"
-                        type={"submit"}
-                        className="btn-common-save"
-                      >
-                        Save
-                      </Button>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={save} alt="" />
+                      </span>
+                      <span className="header-nav-text">Save</span>
                     </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={reminder} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Create Todo/Reminder
+                      </span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={password} alt="" />
+                      </span>
+                      <span className="header-nav-text">New Password</span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={appointment} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Display appointments
+                      </span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={delete_specilalist} alt="" />
+                      </span>
+                      <span className="header-nav-text">Delete specialist</span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={delete_appointment} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Delete future appointments
+                      </span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={send_bills} alt="" />
+                      </span>
+                      <span className="header-nav-text">Send pay slips</span>
+                    </div>
+                    {/* <div className="header-nav-item">
+                      <span className="header-nav-text">
+                        <UncontrolledButtonDropdown>
+                          <DropdownToggle caret>More</DropdownToggle>
+                          <DropdownMenu>
+                            <DropdownItem></DropdownItem>
+                            <DropdownItem></DropdownItem>
+                            <DropdownItem>Send pay slips</DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledButtonDropdown>
+                      </span>
+                    </div> */}
                   </div>
+
+                  <CareGiverSidebar {...props} />
+                </div>
+                <div className="caregiver-right flex-grow-1">
                   <div className="caregiver-content ">
                     <Component {...props} />
                   </div>
@@ -155,7 +231,7 @@ class DefaultLayout extends Component<any, any> {
   render() {
     return (
       <div className="app">
-        <AppHeader fixed>
+        <AppHeader>
           <Suspense fallback={<Loader />}>
             <DefaultHeader {...this.props} />
           </Suspense>
@@ -205,11 +281,11 @@ class DefaultLayout extends Component<any, any> {
             </Container>
           </main>
         </div>
-        {/* <AppFooter>
+        <AppFooter>
           <Suspense fallback={<Loader />}>
             <DefaultFooter />
           </Suspense>
-        </AppFooter> */}
+        </AppFooter>
       </div>
     );
   }

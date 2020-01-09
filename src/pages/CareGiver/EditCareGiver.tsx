@@ -60,8 +60,8 @@ class EditCareGiver extends Component<RouteComponentProps, any> {
     console.log("active tab in render is", activeTab);
     return (
       <>
-        <Row>
-          <Col xs={"12"} lg={"12"}>
+        <Row className="m-0">
+          <Col xs={"12"} lg={"12"} className="p-0">
             <Card className="full-height">
               <CardHeader className="detail-card">
                 {/* <h4>

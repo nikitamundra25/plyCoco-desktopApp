@@ -18,8 +18,8 @@ class AddRegion extends Component {
   render() {
     return (
       <>
-        <Row>
-          <Col xs={"12"} lg={"12"}>
+        <Row className="m-0">
+          <Col xs={"12"} lg={"12"} className="p-0">
             <Card>
               <CardHeader>
                 <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />

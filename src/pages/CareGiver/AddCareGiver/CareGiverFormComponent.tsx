@@ -39,8 +39,8 @@ const  CareGiverFormComponent:any =(
 
     return (
       <>
-        <Row>
-          <Col xs={"12"} lg={"12"}>
+         <Row className="m-0">
+        <Col xs={"12"} lg={"12"} className="p-0">
             <Card>
               <CardHeader className="detail-card">
                 {/* <h4>

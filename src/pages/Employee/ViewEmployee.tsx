@@ -19,8 +19,8 @@ import routes from "../../routes/routes";
 class ViewEmployee extends Component {
   render() {
     return (
-      <Row>
-        <Col xs={"12"} lg={"12"}>
+      <Row className="m-0">
+        <Col xs={"12"} lg={"12"} className="p-0">
           <Card className="full-height">
             <CardHeader>
               <AppBreadcrumb appRoutes={routes} className="w-100" />

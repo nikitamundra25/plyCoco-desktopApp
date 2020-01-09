@@ -65,7 +65,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
           <Row className="custom-col">
             <Col lg={"4"}>
               <div className="form-card">
-                <Row className="w-100">
+                <Row >
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
@@ -739,7 +739,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
 
             <Col lg={"4"}>
               <div className="form-card minheight-auto">
-                <Row className="w-100">
+                <Row>
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
@@ -903,16 +903,16 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   </Col>
                 </Row>
               </div>
-              <div className="offer-section fix-height-section">
+              <div className="form-inner-list-section fix-height-section">
                 <h5 className="content-title">Qualifications</h5>
                 <Row className="custom-col">
                   <Col sm={12}>
                     <Card>
-                      <div className="offer-wrap">
+                      <div className="form-inner-list-wrap">
                         <h5 className="heading toggle-filter  ">
                           Qualification
                         </h5>
-                        <div className="offer-content-wrap">
+                        <div className="form-inner-list-content-wrap">
                           <ul>
                             <li className="ative">Dialysis </li>
                             <li>Home Management</li>
@@ -936,14 +936,14 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                 </Row>
               </div>
 
-              <div className="offer-section mt-3 fix-height-section">
+              <div className="form-inner-list-section mt-3 fix-height-section">
                 <h5 className="content-title">Attributes</h5>
                 <Row className="custom-col">
                   <Col sm={12}>
                     <Card>
-                      <div className="offer-wrap">
+                      <div className="form-inner-list-wrap">
                         <h5 className="heading toggle-filter  ">Attribut</h5>
-                        <div className="offer-content-wrap">
+                        <div className="form-inner-list-content-wrap">
                           <ul>
                             <li className="ative">Aaron, Hank </li>
                             <li>Abbey, Edward</li>

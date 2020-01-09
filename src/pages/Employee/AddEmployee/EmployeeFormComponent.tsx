@@ -91,7 +91,7 @@ const EmployeeFormComponent: any = (
                 className={"btn-add"}
                 onClick={handleSubmit}
               >
-                Save
+                {languageTranslation("SAVE_BUTTON")}
               </Button>
             </CardHeader>
             <CardBody>
@@ -306,7 +306,7 @@ const EmployeeFormComponent: any = (
 
                       <Col lg={"6"}>
                         <h5 className="main-title ">
-                          Bank Account Information
+                          {languageTranslation("BANK_ACCOUNT_INFORMATION")}
                         </h5>
                         <div className="form-card">
                           <Col lg={"12"}>
@@ -474,7 +474,6 @@ const EmployeeFormComponent: any = (
                                       message={languageTranslation(
                                         "ADDITIONAL_TEXT"
                                       )}
-                                      
                                     />
                                   </Label>
                                 </Col>
@@ -500,7 +499,9 @@ const EmployeeFormComponent: any = (
                       </Col>
 
                       <Col lg={"12"}>
-                        <h5 className="main-title "> Other Information</h5>
+                        <h5 className="main-title ">
+                          {languageTranslation("OTHER_INFORMATION")}
+                        </h5>
                         <div className="form-card">
                           <Row>
                             <Col lg={"6"}>
@@ -776,7 +777,9 @@ const EmployeeFormComponent: any = (
                     </Row>
                     <Col lg={"12"}>
                       <div className="d-flex align-items-center justify-content-between">
-                        <div className="mandatory-text">* Required Fields</div>
+                        <div className="mandatory-text">
+                          {languageTranslation("REQUIRED_FIELDS")}
+                        </div>
                         {/* <div className={"text-right"}>
                           <Button
                             disabled={isSubmitting}

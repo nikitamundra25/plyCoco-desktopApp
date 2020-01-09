@@ -768,7 +768,7 @@ body {
 }
 .form-section {
   .label-height {
-    height: 20px;
+    height: 18px;
   }
   .filter-btn-wrap {
     display: flex;
@@ -779,8 +779,8 @@ body {
       font-size: $font_14;
       padding: 0px 0px;
       font-weight: 700;
-      width: 30px;
-      height: 30px;
+      width: 25px;
+      height: 25px;
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -1506,7 +1506,7 @@ body {
     }
     .caregiver-content {
       // min-height: 100vh;
-      padding: 10px;
+      padding: 15px;
       background: $card_header_bg;
       min-height: calc(100vh - 85px);
       .content-title {
@@ -1839,24 +1839,129 @@ body {
   }
 }
 // email-section
-.email-inbox-section{
-  ul{
+.email-inbox-section {
+  ul {
     list-style: none;
     border-top: 1px solid #ddd;
     border: 1px solid #ddd;
   }
-  li{
-    
-  .email-date-block{
+  li {
+    .email-date-block {
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+      background: #f1f1f1;
+      position: relative;
+      border-top: 1px solid #ddd;
+      padding: 2px 2px 2px 20px;
+      &::before {
+        cursor: pointer;
+        display: inline-block;
+        margin-left: 0.255em;
+        vertical-align: 0.255em;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+        position: absolute;
+        left: 5px;
+        top: 50%;
+        -webkit-transform: translateY(-50%) rotate(-90deg);
+        transform: translateY(-50%) rotate(-90deg);
+        -webkit-transition: all 0.5s;
+        transition: all 0.5s;
+      }
+      &.opened {
+        &::before {
+          -webkit-transform: translateY(-50%) rotate(0deg);
+          transform: translateY(-50%) rotate(0deg);
+        }
+      }
+    }
+    &:first-child {
+      .email-date-block {
+        border-top: none;
+      }
+    }
+    &:last-child {
+      .email-date-block {
+        border-bottom: none;
+      }
+    }
+  }
+  .email-row-wrap {
     cursor: pointer;
     font-size: 12px;
-    font-weight: bold;
+    display: flex;
+    .email-date-time-block {
+      flex: 0 0 135px;
+      padding: 2px;
+      border-right: 1px solid #ddd;
+      border-top: 1px solid #ddd;
+    }
+    .email-subject-block {
+      flex: 0 0 135px;
+      max-width: 135px;
+      padding: 2px;
+      border-right: 1px solid #ddd;
+      border-top: 1px solid #ddd;
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    .email-text-wrap {
+      flex: 1 1 50%;
+      max-width: 100%;
+      padding: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border-top: 1px solid #ddd;
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    &.email-attributes-wrap {
+      font-size: 13px;
+      padding: 5px 0px;
+      font-weight: bold;
+      .email-attributes-seprator {
+        padding: 0px 8px;
+        font-size: 20 px;
+      }
+
+      .email-attributes-content {
+        display: flex;
+        white-space: nowrap;
+        align-items: center;
+        justify-content: center;
+        &.input-wrap {
+          flex: 1 1 100%;
+          input {
+            height: 36px;
+          }
+        }
+      }
+      .email-text-wrap {
+        border: none;
+      }
+    }
+  }
+  .email-heading-wrap {
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
     background: #f1f1f1;
-    position: relative;
-    border-top: 1px solid #ddd;
-    padding: 2px 2px 2px 20px;
-    &::before{
-      cursor: pointer;
+  }
+}
+.toggle-filter {
+  position: relative;
+  &::before {
+    cursor: pointer;
     display: inline-block;
     margin-left: 0.255em;
     vertical-align: 0.255em;
@@ -1866,127 +1971,19 @@ body {
     border-bottom: 0;
     border-left: 0.3em solid transparent;
     position: absolute;
-    left: 5px;
+    right: 5px;
     top: 50%;
-    -webkit-transform: translateY(-50%) rotate(-90deg);
-    transform: translateY(-50%) rotate(-90deg);
-    -webkit-transition: all 0.5s;
+    transform: translateY(-50%) rotate(0deg);
     transition: all 0.5s;
-    }
-    &.opened{
-      &::before{
-        -webkit-transform: translateY(-50%) rotate(0deg);
-        transform: translateY(-50%) rotate(0deg);
-      }
-    }
   }
-  &:first-child{
-    .email-date-block{
-      border-top: none;
-    }
+  &.offer-filtered::before {
+    transform: translateY(-50%) rotate(180deg);
   }
-  &:last-child{
-    .email-date-block{
-      border-bottom: none;
-    }
-  }
-
-}
-.email-row-wrap{
-  cursor: pointer;
-  font-size: 12px;
-  display: flex;
-  .email-date-time-block{
-    flex: 0 0 135px;
-    padding: 2px;
-    border-right:1px solid #ddd;
-    border-top:1px solid #ddd;
- 
-  }
-  .email-subject-block{
-    flex: 0 0 135px;
-    max-width: 135px;
-    padding: 2px;
-    border-right:1px solid #ddd;
-    border-top:1px solid #ddd;
-    span{
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-  .email-text-wrap{
-    flex: 1 1 50%;
-    max-width: 100%;
-    padding: 2px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    border-top:1px solid #ddd;
-    span{
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-  &.email-attributes-wrap{
-    font-size: 13px;
-    padding: 5px 0px;
-    font-weight: bold;
-    .email-attributes-seprator{
-    padding: 0px 8px;
-    font-size: 20 px;
-  }
-  
-  .email-attributes-content{
-    display: flex;
-    white-space: nowrap;
-    align-items: center;
-    justify-content: center;
-    &.input-wrap{
-      flex: 1 1 100%;
-      input{
-        height: 36px;
-      }
-    }
-  }
-  .email-text-wrap{
-    border: none;
-  }
-}
-}
-.email-heading-wrap{
-  border-right:1px solid #ddd;
-  border-left:1px solid #ddd;
-  background: #f1f1f1;
-}
-}
-.toggle-filter {
-  position: relative;
-&::before{
-  cursor: pointer;
-  display: inline-block;
-  margin-left: 0.255em;
-  vertical-align: 0.255em;
-  content: "";
-  border-top: 0.3em solid;
-  border-right: 0.3em solid transparent;
-  border-bottom: 0;
-  border-left: 0.3em solid transparent;
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%) rotate(0deg);
-  transition: all 0.5s;
-}
-&.offer-filtered::before{
-  transform: translateY(-50%) rotate(180deg);
-}
 }
 
-.hover-short-select{
+.hover-short-select {
   display: none;
-  position: absolute!important;
+  position: absolute !important;
   top: 50%;
   right: 5px;
   transform: translateY(-50%);
@@ -1995,52 +1992,51 @@ body {
   background: #f1f1f1;
   height: 100%;
   z-index: 9;
-  .react-select__control{
+  .react-select__control {
     background: transparent;
-    border: none; 
+    border: none;
     min-height: unset;
     height: 100%;
     z-index: 1;
-    .css-b8ldur-Input{
+    .css-b8ldur-Input {
       display: none;
     }
-    .react-select__indicators{
+    .react-select__indicators {
       height: 100%;
     }
-  
-    
   }
-  .react-select__value-container{
+  .react-select__value-container {
     display: none;
   }
-  .react-select__indicator-separator{
+  .react-select__indicator-separator {
     display: none;
   }
-  .react-select__menu{
+  .react-select__menu {
     width: unset;
   }
-  .react-select__option{
+  .react-select__option {
     white-space: nowrap;
   }
 }
-.toggle-filter{
-  .hover-short-select{
-  right: 18px;   
-  }  
+.toggle-filter {
+  .hover-short-select {
+    right: 18px;
+  }
 }
-.hover-short-select-section{
+.hover-short-select-section {
   position: relative;
-  &:hover .hover-short-select{
-  display: block;}
+  &:hover .hover-short-select {
+    display: block;
+  }
 }
 
-.new-email-select-wrap{
+.new-email-select-wrap {
   width: 300px;
   margin-left: 15px;
-  .new-email-select{
+  .new-email-select {
     width: 100%;
   }
-  .react-select__control{
+  .react-select__control {
     min-height: unset;
     display: flex;
     align-items: center;
@@ -2159,7 +2155,6 @@ body {
     }
   }
 }
-
 
 .user-select,
 .region-select {

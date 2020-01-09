@@ -36,4 +36,6 @@ export interface IAppRoutes {
   ADD_CONSTITUTION: string;
   CONSTITUTION: string;
   CONSTI_PERSONAL_DATA: string;
+  CONSTI_COMISSION_AGREEMENT: string;
+  CONSTI_INVOICE_CYCLE: string;
 }

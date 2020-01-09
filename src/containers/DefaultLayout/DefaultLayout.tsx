@@ -42,6 +42,9 @@ const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 const CareGiverSidebar = React.lazy(() =>
   import("../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
 );
+const ConstitutionSidebar = React.lazy(() =>
+  import("../../pages/Constitution/Sidebar/SidebarLayout/ConstitutionLayout")
+);
 
 // Care giver Sidebar
 const CareGiverLayout = ({ component: Component, ...rest }: any) => {
@@ -134,7 +137,6 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                       </span>
                     </div> */}
               </div>
-
               <CareGiverSidebar {...props} />
             </div>
             <div className="caregiver-right flex-grow-1">
@@ -144,6 +146,117 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
             </div>
           </div>
         </div>
+      )}
+    />
+  );
+};
+const ConstitutionLayout = ({ component: Component, ...rest }: any) => {
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        <Row className="m-0">
+          <Col lg={"12"} className="p-0">
+            <div className="care-detail-page">
+              {/* <AppBreadcrumb appRoutes={routes} className="w-100" /> */}
+              <div className="caregiver-detail-section">
+                <div className="sticky-care-header">
+                  {/* <div className="d-flex align-items-center username-header">
+                    <span className="align-middle">
+                      <i className="fa fa-user mr-2"></i>
+                    </span>
+                    <span className="align-middle">John Doe (Caregiver)</span>
+                  </div> */}
+                  <div className="caregiver-topheader d-flex align-items-center ">
+                    <div className="user-select">
+                      <Select
+                        defaultValue={{
+                          label: "John Doe",
+                          value: 0
+                        }}
+                        // value={this.state.selectedOption}
+                        placeholder="Select Caregiver"
+                        options={CareGiver}
+                      />
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={add} alt="" />
+                      </span>
+                      <span className="header-nav-text">New Caregiver</span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={save} alt="" />
+                      </span>
+                      <span className="header-nav-text">Save</span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={reminder} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Create Todo/Reminder
+                      </span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={password} alt="" />
+                      </span>
+                      <span className="header-nav-text">New Password</span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={appointment} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Display appointments
+                      </span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={delete_specilalist} alt="" />
+                      </span>
+                      <span className="header-nav-text">Delete specialist</span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={delete_appointment} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Delete future appointments
+                      </span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={send_bills} alt="" />
+                      </span>
+                      <span className="header-nav-text">Send pay slips</span>
+                    </div>
+                    {/* <div className="header-nav-item">
+                      <span className="header-nav-text">
+                        <UncontrolledButtonDropdown>
+                          <DropdownToggle caret>More</DropdownToggle>
+                          <DropdownMenu>
+                            <DropdownItem></DropdownItem>
+                            <DropdownItem></DropdownItem>
+                            <DropdownItem>Send pay slips</DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledButtonDropdown>
+                      </span>
+                    </div> */}
+                  </div>
+                  <ConstitutionSidebar {...props} />
+                </div>
+                <div className="caregiver-right flex-grow-1">
+                  <div className="caregiver-content ">
+                    <Component {...props} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
       )}
     />
   );
@@ -191,12 +304,21 @@ class DefaultLayout extends Component<any, any> {
                 <Switch>
                   {routes.map((route, idx) => {
                     return route.layout ? (
-                      <CareGiverLayout
-                        key={idx}
-                        path={route.path}
-                        exact={route.exact}
-                        component={route.component}
-                      />
+                      route.layoutName === "CareGiver" ? (
+                        <CareGiverLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        />
+                      ) : (
+                        <ConstitutionLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        />
+                      )
                     ) : route.component ? (
                       <Route
                         key={idx}

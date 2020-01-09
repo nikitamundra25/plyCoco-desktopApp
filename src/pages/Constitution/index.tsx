@@ -126,13 +126,13 @@ class Constitution extends Component<RouteComponentProps, any> {
             <div className="description-column  ml-0">
               {user.region
                 ? user.region.map(region => (
-                  <p className="description-text ">
-                    <span className="text-label mr-1">
-                      <i className="fa fa-angle-right"></i>
-                    </span>
-                    <span className="align-middle">{region}</span>
-                  </p>
-                ))
+                    <p className="description-text ">
+                      <span className="text-label mr-1">
+                        <i className="fa fa-angle-right"></i>
+                      </span>
+                      <span className="align-middle">{region}</span>
+                    </p>
+                  ))
                 : null}
             </div>
           </td>
@@ -153,7 +153,7 @@ class Constitution extends Component<RouteComponentProps, any> {
             <span
               className={`status-btn ${
                 index % 2 === 0 ? "active" : "inactive"
-                }`}
+              }`}
             >
               {index % 2 === 0 ? "Active" : "Disable"}
             </span>
@@ -163,7 +163,9 @@ class Constitution extends Component<RouteComponentProps, any> {
               <span
                 className="btn-icon mr-2"
                 id={`edit${index}`}
-                onClick={() => this.props.history.push(AppRoutes.CONSTI_PERSONAL_DATA)}
+                onClick={() =>
+                  this.props.history.push(AppRoutes.CONSTI_PERSONAL_DATA)
+                }
               >
                 <UncontrolledTooltip placement="top" target={`edit${index}`}>
                   Click here to edit employee
@@ -173,7 +175,9 @@ class Constitution extends Component<RouteComponentProps, any> {
               <span
                 className="btn-icon mr-2"
                 id={`view${index}`}
-                onClick={() => this.props.history.push(AppRoutes.CONSTI_PERSONAL_DATA)}
+                onClick={() =>
+                  this.props.history.push(AppRoutes.CONSTI_PERSONAL_DATA)
+                }
               >
                 <UncontrolledTooltip placement="top" target={`view${index}`}>
                   Click here to view Constitution
@@ -196,64 +200,62 @@ class Constitution extends Component<RouteComponentProps, any> {
       );
     });
     return (
-      <Row>
-        <Col xs={"12"} lg={"12"}>
-          <Card>
-            <CardHeader>
-              <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-              <Button
-                color={"primary"}
-                className={"btn-add"}
-                id={"add-new-pm-tooltip"}
-                onClick={() => this.props.history.push(AppRoutes.ADD_CONSTITUTION)}
-              >
-                <i className={"fa fa-plus"} />
-                &nbsp; Add New Constitution
-              </Button>
-            </CardHeader>
-            <CardBody>
-              <div className="filter-form form-section">
-                <Row>
-                  <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="search" className="col-form-label">
-                        Search:
-                      </Label>
-                      <Input
-                        type="text"
-                        name="search"
-                        id="search"
-                        placeholder="Search.."
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="Selectregion" className="col-form-label">
-                        Region:
-                      </Label>
-                      <Input type="select" name="region" id="Selectregion">
-                        <option>Western India</option>
-                        <option>East India</option>
-                        <option>South India</option>
-                        <option>Northeast India</option>
-                        <option>Central India</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="Selectregion" className="col-form-label">
-                        Sort By:
-                      </Label>
-                      <Input type="select" name="region" id="Selectregion">
-                        <option>Popularity</option>
-                        <option>A-Z</option>
-                        <option>Z-A</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  {/* <Col lg={"2"}>
+      <Card>
+        <CardHeader>
+          <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+          <Button
+            color={"primary"}
+            className={"btn-add"}
+            id={"add-new-pm-tooltip"}
+            onClick={() => this.props.history.push(AppRoutes.ADD_CONSTITUTION)}
+          >
+            <i className={"fa fa-plus"} />
+            &nbsp; Add New Constitution
+          </Button>
+        </CardHeader>
+        <CardBody>
+          <div className="filter-form form-section">
+            <Row>
+              <Col lg={"2"}>
+                <FormGroup>
+                  <Label for="search" className="col-form-label">
+                    Search:
+                  </Label>
+                  <Input
+                    type="text"
+                    name="search"
+                    id="search"
+                    placeholder="Search.."
+                  />
+                </FormGroup>
+              </Col>
+              <Col lg={"2"}>
+                <FormGroup>
+                  <Label for="Selectregion" className="col-form-label">
+                    Region:
+                  </Label>
+                  <Input type="select" name="region" id="Selectregion">
+                    <option>Western India</option>
+                    <option>East India</option>
+                    <option>South India</option>
+                    <option>Northeast India</option>
+                    <option>Central India</option>
+                  </Input>
+                </FormGroup>
+              </Col>
+              <Col lg={"2"}>
+                <FormGroup>
+                  <Label for="Selectregion" className="col-form-label">
+                    Sort By:
+                  </Label>
+                  <Input type="select" name="region" id="Selectregion">
+                    <option>Popularity</option>
+                    <option>A-Z</option>
+                    <option>Z-A</option>
+                  </Input>
+                </FormGroup>
+              </Col>
+              {/* <Col lg={"2"}>
                     <FormGroup>
                       <Label for="Selectregion">Department:</Label>
                       <Input type="select" name="region" id="Selectregion">
@@ -265,66 +267,60 @@ class Constitution extends Component<RouteComponentProps, any> {
                       </Input>
                     </FormGroup>
                   </Col> */}
-                  <Col lg={"2"}>
-                    <div className="label-height"></div>
-                    <div className="filter-btn-wrap">
-                      <span className="btn-filter mr-2" id="search1">
-                        <UncontrolledTooltip placement="top" target="search1">
-                          Search
-                        </UncontrolledTooltip>
-                        <i className="fa fa-search"></i>
+              <Col lg={"2"}>
+                <div className="label-height"></div>
+                <div className="filter-btn-wrap">
+                  <span className="btn-filter mr-2" id="search1">
+                    <UncontrolledTooltip placement="top" target="search1">
+                      Search
+                    </UncontrolledTooltip>
+                    <i className="fa fa-search"></i>
+                  </span>
+                  <span className="btn-filter mr-2" id="reset">
+                    <UncontrolledTooltip placement="top" target="reset">
+                      Reset
+                    </UncontrolledTooltip>
+                    <i className="fa fa-refresh "></i>
+                  </span>
+                </div>
+              </Col>
+            </Row>
+          </div>
+          <Table bordered hover responsive>
+            <thead className="thead-bg">
+              <tr>
+                <th>
+                  <div className="table-checkbox-wrap">
+                    <div className="btn-group btn-check-action-wrap">
+                      <span className="btn">
+                        <span className="checkboxli checkbox-custom checkbox-default">
+                          <input type="checkbox" id="checkAll" className="" />
+                          <label className=""></label>
+                        </span>
                       </span>
-                      <span className="btn-filter mr-2" id="reset">
-                        <UncontrolledTooltip placement="top" target="reset">
-                          Reset
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh "></i>
-                      </span>
+                      <UncontrolledDropdown className="custom-dropdown">
+                        <DropdownToggle caret color="link" />
+                        <DropdownMenu>
+                          <DropdownItem>Delete</DropdownItem>
+                          <DropdownItem>Active</DropdownItem>
+                          <DropdownItem>Disable</DropdownItem>
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
                     </div>
-                  </Col>
-                </Row>
-              </div>
-              <Table bordered hover responsive>
-                <thead className="thead-bg">
-                  <tr>
-                    <th>
-                      <div className="table-checkbox-wrap">
-                        <div className="btn-group btn-check-action-wrap">
-                          <span className="btn">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""></label>
-                            </span>
-                          </span>
-                          <UncontrolledDropdown className="custom-dropdown">
-                            <DropdownToggle caret color="link" />
-                            <DropdownMenu>
-                              <DropdownItem>Delete</DropdownItem>
-                              <DropdownItem>Active</DropdownItem>
-                              <DropdownItem>Disable</DropdownItem>
-                            </DropdownMenu>
-                          </UncontrolledDropdown>
-                        </div>
-                      </div>
-                    </th>
-                    <th>Constitution Information</th>
-                    {/* <th>Department</th> */}
-                    <th>Region</th>
-                    <th className="text-center">Assigned Canstitution</th>
-                    <th className="text-center">Status</th>
-                    <th className="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody>{tableData}</tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+                  </div>
+                </th>
+                <th>Constitution Information</th>
+                {/* <th>Department</th> */}
+                <th>Region</th>
+                <th className="text-center">Assigned Canstitution</th>
+                <th className="text-center">Status</th>
+                <th className="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>{tableData}</tbody>
+          </Table>
+        </CardBody>
+      </Card>
     );
   }
 }

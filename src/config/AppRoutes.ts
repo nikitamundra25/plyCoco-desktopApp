@@ -19,7 +19,9 @@ export const AppRoutes: IAppRoutes = {
   ADD_CARE_GIVER: languageTranslation("ROUTES_ADD_CARE_GIVER"),
   EDIT_CARE_GIVER: languageTranslation("ROUTES_EDIT_CARE_GIVER"),
   PERSONAL_INFORMATION: languageTranslation("ROUTES_PERSONAL_INFORMATION"),
-  QUALIFICATION_ATTRIBUTE: languageTranslation("ROUTES_QUALIFICATION_ATTRIBUTE"),
+  QUALIFICATION_ATTRIBUTE: languageTranslation(
+    "ROUTES_QUALIFICATION_ATTRIBUTE"
+  ),
   BILLING_SETTING: languageTranslation("ROUTES_BILLING_SETTING"),
   BILLING: languageTranslation("ROUTES_BILLING"),
   LEASING_PERSONALDATA: languageTranslation("ROUTES_LEASING_PERSONALDATA"),
@@ -39,4 +41,13 @@ export const AppRoutes: IAppRoutes = {
   ADD_CONSTITUTION: languageTranslation("ROUTES_ADD_CONSTITUTION"),
   CONSTITUTION: languageTranslation("ROUTES_CONSTITUTION"),
   CONSTI_PERSONAL_DATA: languageTranslation("ROUTES_CONSTI_PERSONAL_DATA"),
+  // CONSTI_PERSONAL_DATA: "/constitution/personal_information",
+  CONSTI_COMISSION_AGREEMENT: "/constitution/commission_Agreement",
+  CONSTI_OFFER: "/constitution/offers",
+  CONSTI_LOGIN: "/constitution/login",
+  CONSTI_INVOICE_CYCLE: "/constitution/invoice_cycle",
+  CONSTI_DOCUMENT: "/constitution/document",
+  CONSTI_DEPARTMENT: "/constitution/department",
+  CONSTI_EMAIL: "/constitution/email",
+  CONSTI_REMINDER: "/constitution/todo"
 };

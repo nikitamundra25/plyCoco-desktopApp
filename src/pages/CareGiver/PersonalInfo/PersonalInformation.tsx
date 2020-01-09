@@ -62,10 +62,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
               </Label>
             </div>
           </div> */}
-          <Row className="custom-col">
+          <Row>
             <Col lg={"4"}>
               <div className="form-card">
-                <Row className="w-100">
+                <Row>
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
@@ -739,7 +739,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
 
             <Col lg={"4"}>
               <div className="form-card minheight-auto">
-                <Row className="w-100">
+                <Row>
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
@@ -903,16 +903,16 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   </Col>
                 </Row>
               </div>
-              <div className="offer-section fix-height-section">
+              <div className="form-inner-list-section fix-height-section">
                 <h5 className="content-title">Qualifications</h5>
                 <Row className="custom-col">
                   <Col sm={12}>
                     <Card>
-                      <div className="offer-wrap">
+                      <div className="form-inner-list-wrap">
                         <h5 className="heading toggle-filter  ">
                           Qualification
                         </h5>
-                        <div className="offer-content-wrap">
+                        <div className="form-inner-list-content-wrap">
                           <ul>
                             <li className="ative">Dialysis </li>
                             <li>Home Management</li>
@@ -936,14 +936,14 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                 </Row>
               </div>
 
-              <div className="offer-section mt-3 fix-height-section">
+              <div className="form-inner-list-section mt-3 fix-height-section">
                 <h5 className="content-title">Attributes</h5>
                 <Row className="custom-col">
                   <Col sm={12}>
                     <Card>
-                      <div className="offer-wrap">
+                      <div className="form-inner-list-wrap">
                         <h5 className="heading toggle-filter  ">Attribut</h5>
-                        <div className="offer-content-wrap">
+                        <div className="form-inner-list-content-wrap">
                           <ul>
                             <li className="ative">Aaron, Hank </li>
                             <li>Abbey, Edward</li>
@@ -970,16 +970,17 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
             </Col>
             <Col lg={4}>
               <div className="remark-details">
+                <div className="remark-header d-flex align-items-center justify-content-between">
+                  <h5 className="my-2 text-left activity-title">Remarks</h5>
+                  <div
+                    onClick={this.handleOnClick}
+                    className="edit-remark my-2"
+                  >
+                    <i className="icon-note" />
+                  </div>
+                </div>
                 <div className="remark-body">
                   <div className="activity-logs ">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <h5 className="mb-0 p-2 text-left activity-title">
-                        Remarks
-                      </h5>
-                      <div onClick={this.handleOnClick} className="edit-remark">
-                        <i className="icon-note" />
-                      </div>
-                    </div>
                     {this.state.addRemark ? (
                       <div className="activity-block py-2 px-3">
                         <div className="pr-3 text-left">

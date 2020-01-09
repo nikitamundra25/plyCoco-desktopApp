@@ -164,67 +164,59 @@ class Employee extends Component<RouteComponentProps, any> {
       );
     });
     return (
-      <Row className="m-0">
-        <Col xs={"12"} lg={"12"} className="p-0">
-          <Card>
-            <CardHeader>
-              <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-              <Button
-                color={"primary"}
-                className={"btn-add"}
-                id={"add-new-pm-tooltip"}
-                onClick={() => this.props.history.push(AppRoutes.ADD_EMPLOYEE)}
-              >
-                <i className={"fa fa-plus"} />
-                &nbsp; Add New Empolyee
-              </Button>
-            </CardHeader>
-            <CardBody>
-              <div>
-                <Search />
-              </div>
-              <Table bordered hover responsive>
-                <thead className="thead-bg">
-                  <tr>
-                    <th>
-                      <div className="table-checkbox-wrap">
-                        <div className="btn-group btn-check-action-wrap">
-                          <span className="btn">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""></label>
-                            </span>
-                          </span>
-                          <UncontrolledDropdown className="custom-dropdown">
-                            <DropdownToggle caret color="link" />
-                            <DropdownMenu>
-                              <DropdownItem>Delete</DropdownItem>
-                              <DropdownItem>Active</DropdownItem>
-                              <DropdownItem>Disable</DropdownItem>
-                            </DropdownMenu>
-                          </UncontrolledDropdown>
-                        </div>
-                      </div>
-                    </th>
-                    <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
-                    <th>{languageTranslation("TABLE_HEAD_REGION")}</th>
-                    <th>
-                      {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
-                    </th>
-                    <th>{languageTranslation("TABLE_HEAD_STATUS")}</th>
-                    <th>{languageTranslation("TABLE_HEAD_ACTION")}</th>
-                  </tr>
-                </thead>
-                <tbody>{tableData}</tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+      <Card>
+        <CardHeader>
+          <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+          <Button
+            color={"primary"}
+            className={"btn-add"}
+            id={"add-new-pm-tooltip"}
+            onClick={() => this.props.history.push(AppRoutes.ADD_EMPLOYEE)}
+          >
+            <i className={"fa fa-plus"} />
+            &nbsp; Add New Empolyee
+          </Button>
+        </CardHeader>
+        <CardBody>
+          <div>
+            <Search />
+          </div>
+          <Table bordered hover responsive>
+            <thead className="thead-bg">
+              <tr>
+                <th>
+                  <div className="table-checkbox-wrap">
+                    <div className="btn-group btn-check-action-wrap">
+                      <span className="btn">
+                        <span className="checkboxli checkbox-custom checkbox-default">
+                          <input type="checkbox" id="checkAll" className="" />
+                          <label className=""></label>
+                        </span>
+                      </span>
+                      <UncontrolledDropdown className="custom-dropdown">
+                        <DropdownToggle caret color="link" />
+                        <DropdownMenu>
+                          <DropdownItem>Delete</DropdownItem>
+                          <DropdownItem>Active</DropdownItem>
+                          <DropdownItem>Disable</DropdownItem>
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
+                    </div>
+                  </div>
+                </th>
+                <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
+                <th>{languageTranslation("TABLE_HEAD_REGION")}</th>
+                <th>
+                  {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
+                </th>
+                <th>{languageTranslation("TABLE_HEAD_STATUS")}</th>
+                <th>{languageTranslation("TABLE_HEAD_ACTION")}</th>
+              </tr>
+            </thead>
+            <tbody>{tableData}</tbody>
+          </Table>
+        </CardBody>
+      </Card>
     );
   }
 }

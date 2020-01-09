@@ -81,8 +81,7 @@ const EmployeeFormComponent: any = (
 
   return (
     <div>
-      <Row className="m-0">
-        <Col xs={"12"} lg={"12"} className="p-0">
+      
           <Card>
             <CardHeader>
               <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
@@ -801,8 +800,7 @@ const EmployeeFormComponent: any = (
               </Row>
             </CardBody>
           </Card>
-        </Col>
-      </Row>
+        
     </div>
   );
 };

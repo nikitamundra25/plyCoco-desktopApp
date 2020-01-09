@@ -51,32 +51,63 @@ const userData = [
 class Region extends Component<RouteComponentProps, any> {
   render() {
     return (
-      <Row className="m-0">
-        <Col xs={"12"} lg={"12"} className="p-0">
-          <Card>
-            <CardHeader>
-              <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-              <Button
-                color={"primary"}
-                className={"btn-add"}
-                id={"add-new-pm-tooltip"}
-                onClick={() => {
-                  toast.success("Add region");
-                  this.props.history.push(AppRoutes.ADD_REGION);
-                }}
-              >
-                <i className={"fa fa-plus"} />
-                &nbsp; Add New Region
-              </Button>
-            </CardHeader>
-            <CardBody>
-              <div>
-                <Search />
-              </div>
-              <Table bordered hover responsive>
-                <thead className="thead-bg">
+      <Card>
+        <CardHeader>
+          <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+          <Button
+            color={"primary"}
+            className={"btn-add"}
+            id={"add-new-pm-tooltip"}
+            onClick={() => {
+              toast.success("Add region");
+              this.props.history.push(AppRoutes.ADD_REGION);
+            }}
+          >
+            <i className={"fa fa-plus"} />
+            &nbsp; Add New Region
+          </Button>
+        </CardHeader>
+        <CardBody>
+          <div>
+            <Search />
+          </div>
+          <Table bordered hover responsive>
+            <thead className="thead-bg">
+              <tr>
+                <th>
+                  <div className="table-checkbox-wrap">
+                    <div className="btn-group btn-check-action-wrap">
+                      <span className="btn">
+                        <span className="checkboxli checkbox-custom checkbox-default">
+                          <input type="checkbox" id="checkAll" className="" />
+                          <label className=""></label>
+                        </span>
+                      </span>
+                      <UncontrolledDropdown className="custom-dropdown">
+                        <DropdownToggle caret color="link" />
+                        <DropdownMenu>
+                          <DropdownItem>Delete</DropdownItem>
+                          <DropdownItem>Active</DropdownItem>
+                          <DropdownItem>Disable</DropdownItem>
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
+                    </div>
+                  </div>
+                </th>
+                <th>Region Name</th>
+                <th className="text-center">Number of Canstitution</th>
+                <th className="text-center">Number of Care Givers</th>
+                <th className="text-center">
+                  Current ongoing appointments counter
+                </th>
+                <th className="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userData.map((user, index): any => {
+                return (
                   <tr>
-                    <th>
+                    <td>
                       <div className="table-checkbox-wrap">
                         <div className="btn-group btn-check-action-wrap">
                           <span className="btn">
@@ -89,73 +120,31 @@ class Region extends Component<RouteComponentProps, any> {
                               <label className=""></label>
                             </span>
                           </span>
-                          <UncontrolledDropdown className="custom-dropdown">
-                            <DropdownToggle caret color="link" />
-                            <DropdownMenu>
-                              <DropdownItem>Delete</DropdownItem>
-                              <DropdownItem>Active</DropdownItem>
-                              <DropdownItem>Disable</DropdownItem>
-                            </DropdownMenu>
-                          </UncontrolledDropdown>
+                          <span className="checkbox-no">{index + 1}</span>
                         </div>
                       </div>
-                    </th>
-                    <th>Region Name</th>
-                    <th className="text-center">Number of Canstitution</th>
-                    <th className="text-center">Number of Care Givers</th>
-                    <th className="text-center">
-                      Current ongoing appointments counter
-                    </th>
-                    <th className="text-center">Action</th>
+                    </td>
+                    <td>{user.region}</td>
+                    <td className="text-center">{user.canstitution}</td>
+                    <td className="text-center">{user.careGiver}</td>
+                    <td className="text-center">{user.appointment}</td>
+                    <td>
+                      <div className="action-btn">
+                        <span className="btn-icon " id="delete">
+                          <UncontrolledTooltip placement="top" target="delete">
+                            Click here to delete region
+                          </UncontrolledTooltip>
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {userData.map((user, index): any => {
-                    return (
-                      <tr>
-                        <td>
-                          <div className="table-checkbox-wrap">
-                            <div className="btn-group btn-check-action-wrap">
-                              <span className="btn">
-                                <span className="checkboxli checkbox-custom checkbox-default">
-                                  <input
-                                    type="checkbox"
-                                    id="checkAll"
-                                    className=""
-                                  />
-                                  <label className=""></label>
-                                </span>
-                              </span>
-                              <span className="checkbox-no">{index + 1}</span>
-                            </div>
-                          </div>
-                        </td>
-                        <td>{user.region}</td>
-                        <td className="text-center">{user.canstitution}</td>
-                        <td className="text-center">{user.careGiver}</td>
-                        <td className="text-center">{user.appointment}</td>
-                        <td>
-                          <div className="action-btn">
-                            <span className="btn-icon " id="delete">
-                              <UncontrolledTooltip
-                                placement="top"
-                                target="delete"
-                              >
-                                Click here to delete region
-                              </UncontrolledTooltip>
-                              <i className="fa fa-trash"></i>
-                            </span>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+                );
+              })}
+            </tbody>
+          </Table>
+        </CardBody>
+      </Card>
     );
   }
 }

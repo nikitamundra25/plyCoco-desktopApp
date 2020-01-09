@@ -114,7 +114,6 @@ body {
   .brand-logo {
     display: inline-block;
     text-align: center;
-    font-size: 25px;
     font-weight: 700;
     .logo-text {
       color: $theme_color;
@@ -122,7 +121,7 @@ body {
         "Gotham Narrow SSm B", Arial, Helvetica, sans-serif;
       letter-spacing: 1px;
       margin: 0;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
       line-height: normal;
     }
@@ -358,8 +357,8 @@ body {
   .login-card {
     border-radius: 0px;
     border: 1px solid #efefef;
-    // box-shadow:0px 14px 60px rgba(253, 107, 0, 0.16);
     .card-body {
+      background: $white;
       .auth-title {
         font-weight: 700;
         margin-bottom: 6px;
@@ -397,7 +396,7 @@ body {
         font-size: 14px;
         line-height: 20px;
         font-weight: 600;
-        padding: 10px 24px;
+        padding: 8px 24px;
         text-align: center;
         &:hover,
         &:focus {
@@ -421,52 +420,8 @@ body {
       height: auto;
     }
   }
-  .nav-item {
-    .nav-link {
-      font-size: 13px;
-      font-weight: 600;
-      padding: 0px 10px;
-      &:hover {
-        color: $theme_color_hover;
-      }
-    }
-  }
 }
-.search-form {
-  width: 600px;
-  margin: 0px auto;
-  input {
-    border-radius: 0px;
-    color: $light_black;
-    font-size: $font_12;
 
-    border-color: $light_gray;
-    padding: 0px 8px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-    &:focus {
-      box-shadow: none;
-      outline: none;
-      border-color: $theme_color;
-    }
-  }
-  .input-group-append {
-    cursor: pointer;
-    .input-group-text {
-      border-radius: 0px;
-      color: $light_black;
-      font-size: 15px;
-
-      border-color: $light_gray;
-    }
-    &:hover {
-      .input-group-text {
-        background: $btn_gray;
-      }
-    }
-  }
-}
 .profile-dropdown {
   .nav-item {
     list-style: none;
@@ -477,41 +432,43 @@ body {
     align-items: center;
     justify-content: center;
     display: flex;
-    top: -1px;
     position: relative;
-  }
-  .dropdown-menu {
-    right: 0px !important;
-    &:after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 0;
-      top: -8px;
-      right: 5px;
-      box-sizing: border-box;
-      border: 5px solid $black;
-      border-color: transparent transparent $white $white;
-      -webkit-transform-origin: 0 50%;
-      transform-origin: 0 50%;
-      -webkit-transform: rotate(135deg);
-      transform: rotate(135deg);
+    .profile-button {
+      color: $light_black;
+      padding: 0px 10px;
+    }
+    .dropdown-menu {
+      right: 6px !important;
+      left: auto !important;
+      top: 6px !important;
+      &:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        top: -8px;
+        right: 5px;
+        box-sizing: border-box;
+        border: 5px solid $black;
+        border-color: transparent transparent $white $white;
+        -webkit-transform-origin: 0 50%;
+        transform-origin: 0 50%;
+        -webkit-transform: rotate(135deg);
+        transform: rotate(135deg);
 
-      background-color: $white;
+        background-color: $white;
+      }
     }
   }
 
-  .profile-button {
-    color: $light_black;
-  }
   .user-name {
     display: inline-block;
-    font-size: $font_18;
+    font-size: $font_15;
     color: $light_black;
     text-align: center;
-    width: 30px;
-    height: 30px;
-    line-height: 26px;
+    width: 25px;
+    height: 25px;
+    line-height: 20px;
     background: $white;
     border-radius: 50%;
     border: 1px solid $user_text;
@@ -524,7 +481,7 @@ body {
   }
 }
 .breadcrumb {
-  border: 1px solid rgba(224, 220, 220, 0.32);
+  border: 1px solid $breadcrumb_border;
   padding: 4px 15px;
   list-style: none;
   background-color: $breadcrumb_bg;
@@ -540,13 +497,7 @@ body {
 }
 .sidebar {
   background: $theme_color;
-  .nav-dropdown-items {
-    .nav-link {
-      .nav-icon {
-        margin: 0px 10px 0px 10px;
-      }
-    }
-  }
+
   .nav-item {
     .nav-link {
       padding: 8px 10px;
@@ -713,7 +664,6 @@ body {
 .sidebar-minimized {
   .sidebar {
     background: $theme_color;
-
     .nav-item {
       .nav-link {
         padding-left: 0 !important;
@@ -733,22 +683,22 @@ body {
           background: $theme_color;
         }
       }
-    }
-    .nav-dropdown-items {
-      .nav-item {
-        width: 240px;
-        .nav-link {
+      .nav-dropdown-items {
+        .nav-item {
           width: 240px;
-          background: $theme_color;
-          .nav-icon {
-            margin: 0px 14px 0px 14px;
-          }
-        }
-        &:hover {
           .nav-link {
-            background: $theme_color_hover;
-            &.active {
+            width: 240px;
+            background: $theme_color;
+            .nav-icon {
+              margin: 0px 14px 0px 14px;
+            }
+          }
+          &:hover {
+            .nav-link {
               background: $theme_color_hover;
+              &.active {
+                background: $theme_color_hover;
+              }
             }
           }
         }
@@ -1809,51 +1759,7 @@ body {
     height: 100%;
   }
 }
-.remark-details {
-  height: 100%;
-  border: 1px solid #ddd;
-  .remark-body {
-    background: #ffffff;
-    padding: 4px 10px;
-    font-size: $font_13;
-    color: $black;
-    height: 100%;
-    .edit-remark {
-      cursor: pointer;
-      background: #dddddd;
-      padding: 3px 6px;
-      color: #1b1a1a;
-      border-radius: 2px;
-      &:hover {
-        background: #bababa;
-      }
-    }
-    .remark-section {
-      position: relative;
-      textarea {
-        height: 70px;
-        border-radius: 0px;
-        resize: none;
-        overflow-y: auto;
-      }
-      .add-remark-btn {
-        padding: 4px 8px;
-        background: #d99119;
-        cursor: pointer;
-        width: 100px;
-        color: #fff;
-        border-radius: 4px;
-        position: absolute;
-        bottom: -31px;
-        right: 0px;
-        text-align: center;
-        &:hover {
-          background: $theme_color_hover;
-        }
-      }
-    }
-  }
-}
+
 // oFFer
 .caregiver-content {
   height: 100%;
@@ -2168,41 +2074,86 @@ body {
     }
   }
 }
-.activity-title {
-  font-size: 15px;
-  font-weight: 700;
-}
-.activity-block {
-  position: relative;
-  border-left: 2px solid #e0eaec;
-  margin-left: 1rem;
-  padding-left: 2rem;
-  padding-bottom: 2rem;
-  font-size: 12px;
-  color: #666171;
-  .activity-date {
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    font-weight: 600;
-    color: #333;
-    margin-top: 6px;
-  }
-  .activity-set {
-    background: #d99119;
-    color: #fff;
-    text-align: center;
-  }
-  .activity-icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    position: absolute;
-    left: -13px;
-    top: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.remark-details {
+  height: 100%;
+  border: 1px solid #ddd;
+  .remark-body {
+    background: #ffffff;
+    padding: 4px 10px;
+    font-size: $font_13;
+    color: $black;
+    height: 100%;
+    .edit-remark {
+      cursor: pointer;
+      background: #dddddd;
+      padding: 3px 6px;
+      color: #1b1a1a;
+      border-radius: 2px;
+      &:hover {
+        background: #bababa;
+      }
+    }
+    .remark-section {
+      position: relative;
+      textarea {
+        height: 70px;
+        border-radius: 0px;
+        resize: none;
+        overflow-y: auto;
+      }
+      .add-remark-btn {
+        padding: 4px 8px;
+        background: #d99119;
+        cursor: pointer;
+        width: 100px;
+        color: #fff;
+        border-radius: 4px;
+        position: absolute;
+        bottom: -31px;
+        right: 0px;
+        text-align: center;
+        &:hover {
+          background: $theme_color_hover;
+        }
+      }
+    }
+    .activity-title {
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .activity-block {
+      position: relative;
+      border-left: 2px solid #e0eaec;
+      margin-left: 1rem;
+      padding-left: 2rem;
+      padding-bottom: 2rem;
+      font-size: 12px;
+      color: #666171;
+      .activity-date {
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        font-weight: 600;
+        color: #333;
+        margin-top: 6px;
+      }
+      .activity-set {
+        background: #d99119;
+        color: #fff;
+        text-align: center;
+      }
+      .activity-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        position: absolute;
+        left: -13px;
+        top: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 }
 

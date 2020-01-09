@@ -865,10 +865,6 @@ body {
         overflow-y: auto;
         resize: none;
       }
-
-      // &.width-common{
-      //   width:190px;
-      // }
     }
     .custom-input-width {
       width: 125px;
@@ -1063,10 +1059,11 @@ body {
       border: 1px solid $table_border;
     }
   }
-  .thead-bg {
-    background: $th_bg;
-  }
+
   thead {
+    &.thead-bg {
+      background: $th_bg;
+    }
     th {
       border-bottom-width: 1px !important;
       font-weight: 700;
@@ -1171,8 +1168,8 @@ body {
       justify-content: center;
       text-align: center;
       .btn-icon {
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
         color: $light_black;
         font-size: $font_12;
         border-radius: 4px;
@@ -1322,21 +1319,16 @@ body {
     }
   }
 }
-.caregiver-form-section {
-  .tab-content {
-    border: 0px;
-    //padding: 20px 0px;
-  }
-}
-.care-detail-page {
+
+.common-detail-page {
   margin: 0px;
   position: relative;
-  .caregiver-detail-section {
+  .common-detail-section {
     position: relative;
     display: -webkit-flex;
     display: flex;
     flex-direction: column;
-    .sticky-care-header {
+    .sticky-common-header {
       position: -webkit-sticky;
       position: sticky;
       margin-bottom: 0px;
@@ -1350,26 +1342,25 @@ body {
       font-weight: 700;
       padding: 4px 8px;
     }
-    .caregiver-topheader {
+    .common-topheader {
       background: $white;
       padding-top: 4px;
       .header-nav-item {
         padding: 4px 6px;
-        font-size: 12px;
-        color: #000;
-        /* font-weight: 600; */
+        font-size: $font_12;
+        color: $black;
         cursor: pointer;
         line-height: normal;
         -webkit-transition: all 0.3s ease;
         transition: all 0.3s ease;
-        border: 1px solid #ddd;
+        border: 1px solid $common_tab_border;
         margin: 0 2px;
         display: flex;
         justify-content: center;
         align-items: center;
         font-family: FrutigerNeueLTPro-Medium;
         border-radius: 2px;
-        background: #f9f9f9;
+        background: $common_tab_bg;
         .header-nav-icon {
           padding-right: 8px;
           vertical-align: middle;
@@ -1383,7 +1374,7 @@ body {
         }
         &:hover {
           color: $light_black;
-          background: #cccccc;
+          background: $common_tab_hoverbg;
         }
         .dropdown-toggle {
           padding: 0px;
@@ -1393,7 +1384,7 @@ body {
           cursor: pointer;
           border: 0px;
           font-family: FrutigerNeueLTPro-Medium;
-          background: #f9f9f9;
+          background: $common_tab_bg;
           &:after {
             border: 0px;
             background-image: url(assets/img/more.svg);
@@ -1408,7 +1399,7 @@ body {
           &:hover,
           &:focus {
             color: $light_black;
-            background: transparent;
+            background: $transparent;
             box-shadow: none;
           }
         }
@@ -1429,30 +1420,22 @@ body {
         }
       }
     }
-    .caregiver-sidnav {
+    .common-sidnav {
       background: $white;
       padding: 12px 0px 0px 0px;
-      .sidenav-title {
-        font-weight: 600;
-        text-align: center;
-        padding: 6px 10px;
-        font-size: $font_14;
-        color: $black;
-        background: #d8d8d8;
-      }
-      .caregiver-ul {
+
+      .common-ul {
         padding: 0px;
-        border-color: #cecece;
         list-style: none;
         font-family: FrutigerNeueLTPro-Medium;
         .nav-item {
           .nav-link {
             padding: 0px 12px;
             height: 27px;
-            color: #333;
-            font-size: 12px;
-            border-right: 1px solid #c8ccce;
-            border-bottom: 1px solid #c8ccce;
+            color: $light_black;
+            font-size: $font_12;
+            border-right: 1px solid $common_inner_tab_border;
+            border-bottom: 1px solid $common_inner_tab_border;
             border-radius: 0px;
             position: relative;
             cursor: pointer;
@@ -1460,10 +1443,22 @@ body {
             align-items: center;
             text-align: center;
             line-height: normal;
-            background: #ffffff;
-            background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
-            background: -webkit-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
-            background: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+            background: $white;
+            background: -moz-linear-gradient(
+              top,
+              $white 0%,
+              $common_inner_tab_bg 100%
+            );
+            background: -webkit-linear-gradient(
+              top,
+              $white 0%,
+              $common_inner_tab_bg 100%
+            );
+            background: linear-gradient(
+              to bottom,
+              $white 0%,
+              $common_inner_tab_bg 100%
+            );
             .nav-icon {
               margin-right: 8px;
               vertical-align: middle;
@@ -1474,37 +1469,53 @@ body {
             &.active {
               height: 32px;
               margin-top: -5px;
-              background: #e5e5e5;
-              background: -moz-linear-gradient(top, #e5e5e5 0%, #ffffff 100%);
+              background: $common_inner_tab_bg;
+              background: -moz-linear-gradient(
+                top,
+                $common_inner_tab_bg 0%,
+                $white 100%
+              );
               background: -webkit-linear-gradient(
                 top,
-                #e5e5e5 0%,
-                #ffffff 100%
+                $common_inner_tab_bg 0%,
+                $white 100%
               );
-              background: linear-gradient(to bottom, #e5e5e5 0%, #ffffff 100%);
+              background: linear-gradient(
+                to bottom,
+                $common_inner_tab_bg 0%,
+                $white 100%
+              );
             }
           }
           &:hover {
             .nav-link {
               height: 32px;
               margin-top: -5px;
-              background: #e5e5e5;
-              background: -moz-linear-gradient(top, #e5e5e5 0%, #ffffff 100%);
+              background: $common_inner_tab_bg;
+              background: -moz-linear-gradient(
+                top,
+                $common_inner_tab_bg 0%,
+                $white 100%
+              );
               background: -webkit-linear-gradient(
                 top,
-                #e5e5e5 0%,
-                #ffffff 100%
+                $common_inner_tab_bg 0%,
+                $white 100%
               );
-              background: linear-gradient(to bottom, #e5e5e5 0%, #ffffff 100%);
+              background: linear-gradient(
+                to bottom,
+                $common_inner_tab_bg 0%,
+                $white 100%
+              );
             }
           }
         }
       }
     }
-    .caregiver-right {
-      background: $white;
-    }
-    .caregiver-content {
+    // .caregiver-right {
+    //   background: $white;
+    // }
+    .common-content {
       // min-height: 100vh;
       padding: 15px;
       background: $card_header_bg;
@@ -1535,13 +1546,12 @@ body {
   .faq-item {
     margin-bottom: 16px;
     border-radius: 4px;
-    background: #fff;
-    box-shadow: 0 0 8px #ddd;
-    border: 1px solid transparent;
+    background: $white;
+    border: 1px solid $transparent;
     .faq-header {
-      color: #636363;
-      background-color: #fff;
-      border-color: transparent;
+      color: $faq_icon_color;
+      background-color: $white;
+      border-color: $transparent;
       padding: 8px 35px 8px 15px;
       font-size: $font_13;
       line-height: 20px;
@@ -1563,14 +1573,14 @@ body {
         font-size: $font_18;
         -webkit-transition: all 0.3s ease;
         transition: all 0.3s ease;
-        color: #636363;
+        color: $faq_icon_color;
       }
       &.active {
-        color: #000;
+        color: $black;
         .faq-icon {
           -webkit-transform: rotate(180deg);
           transform: rotate(180deg);
-          color: #000;
+          color: $black;
         }
       }
       &:hover {
@@ -1579,7 +1589,7 @@ body {
     }
     .faq-body {
       padding: 10px 20px;
-      color: #9e9e9e;
+      color: $faq_bg;
       font-size: $font_13;
       font-weight: 400;
       letter-spacing: 0;
@@ -1738,10 +1748,10 @@ body {
 
 .mail-details {
   height: 100%;
-  border: 1px solid #ddd;
+  border: 1px solid $table_border;
   .mail-header {
-    background: #f1f1f1;
-    border-bottom: 1px solid #ddd;
+    background: $card_header_bg;
+    border-bottom: 1px solid $table_border;
     padding: 6px 20px;
     font-size: $font_13;
     color: $gray_color;
@@ -1752,7 +1762,7 @@ body {
     }
   }
   .mail-body {
-    background: #ffffff;
+    background: $white;
     padding: 4px 10px;
     font-size: $font_13;
     color: $black;
@@ -2072,26 +2082,33 @@ body {
   }
 }
 .remark-details {
-  height: calc(100% - 12px);
-  border: 1px solid #ddd;
+  border: 1px solid $table_border;
+  .remark-header {
+    padding: 0px 8px;
+    background: $white;
+    .activity-title {
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .edit-remark {
+      cursor: pointer;
+      background: $profile_bg;
+      padding: 3px 6px;
+      color: $light_black;
+      border-radius: 2px;
+      &:hover {
+        background: $profile_bg_hover;
+      }
+    }
+  }
   .remark-body {
-    background: #ffffff;
+    background: $white;
     padding: 4px 10px;
     font-size: $font_13;
     color: $black;
-    min-height: 100%;
-    height: 100vh;
-    overflow: auto;
-    .edit-remark {
-      cursor: pointer;
-      background: #dddddd;
-      padding: 3px 6px;
-      color: #1b1a1a;
-      border-radius: 2px;
-      &:hover {
-        background: #bababa;
-      }
-    }
+    height: 1071px;
+    overflow-x: hidden;
+    overflow-y: auto;
     .remark-section {
       position: relative;
       textarea {
@@ -2102,10 +2119,10 @@ body {
       }
       .add-remark-btn {
         padding: 4px 8px;
-        background: #d99119;
+        background: $theme_color;
         cursor: pointer;
         width: 100px;
-        color: #fff;
+        color: $white;
         border-radius: 4px;
         position: absolute;
         bottom: -31px;
@@ -2116,34 +2133,31 @@ body {
         }
       }
     }
-    .activity-title {
-      font-size: 15px;
-      font-weight: 700;
-    }
+
     .activity-block {
       position: relative;
-      border-left: 2px solid #e0eaec;
+      border-left: 2px solid $light_gray;
       margin-left: 1rem;
       padding-left: 2rem;
       padding-bottom: 2rem;
-      font-size: 12px;
-      color: #666171;
+      font-size: $font_12;
+      color: $light_black;
       .activity-date {
-        font-size: 12px;
+        font-size: $font_12;
         display: flex;
         flex-direction: column;
         font-weight: 600;
-        color: #333;
+        color: $light_black;
         margin-top: 6px;
       }
       .activity-set {
-        background: #d99119;
-        color: #fff;
+        background: $theme_color;
+        color: $white;
         text-align: center;
       }
       .activity-icon {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
         position: absolute;
         left: -13px;
@@ -2208,10 +2222,10 @@ body {
   flex: 0 0 40px;
   .footer-nav {
     .nav .nav-item {
-      border-right: 1px solid #c0c0c0;
+      border-right: 1px solid $footer_nav_text;
       .nav-link {
         padding: 0px 8px;
-        color: $dark_gray;
+        color: $footer_nav_text;
         &:hover {
           color: $light_black;
         }

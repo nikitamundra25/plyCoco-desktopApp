@@ -2308,3 +2308,14 @@ body {
     }
   }
 }
+
+
+// form-flex-block
+.form-flex-block{
+  margin:0 -7.5px;
+  display: flex;
+  .form-flex-tile{
+    padding:0 7.5px;
+    flex: 1 1 20%;
+  } 
+}

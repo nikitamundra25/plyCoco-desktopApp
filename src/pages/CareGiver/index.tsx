@@ -25,11 +25,13 @@ import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import { userData } from "./CareGiverData";
 import { string } from "prop-types";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_CAREGIVERS } from "../../queries/CareGiver";
+
 class CareGiver extends Component<RouteComponentProps, any> {
   render() {
     const tableData: any[] = [];
     userData.map((user, index): any => {
-      console.log("userData", userData);
       return tableData.push(
         <tr>
           <td>
@@ -300,4 +302,45 @@ class CareGiver extends Component<RouteComponentProps, any> {
   }
 }
 
-export default CareGiver;
+
+interface CareGiverInterface{
+    id:number;
+    salutation:string;
+    firstName:string;
+    surname:string;
+    address:string;
+    dob:string;
+    phone:string;
+    fax:string;
+    mobile:string;
+    email:string;
+    password:string;
+    driverLicenseAvailable:string;
+    driverLicense:string;
+    ownVehicleAvailable:string;
+    legalType:string;
+    legalInfo:string;
+    securityContribution:string;
+    taxInput:string;
+    workingZones:string;
+    remarks:string;
+    qualifications:string;
+    createdAt:string
+}
+
+interface CareGiverData{
+  getCareGivers:CareGiverInterface[];
+}
+
+const CareGiverList = (props:any)=>{
+  const {loading, data}=useQuery<CareGiverData>(
+    GET_CAREGIVERS
+  );
+  debugger
+  // if(loading){
+  //   return 'Loading...'
+  // }
+  return (<CareGiver data={data} {...props} />)
+}
+
+export default CareGiverList;

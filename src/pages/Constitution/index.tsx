@@ -163,7 +163,7 @@ class Constitution extends Component<RouteComponentProps, any> {
               <span
                 className="btn-icon mr-2"
                 id={`edit${index}`}
-                onClick={() => this.props.history.push(AppRoutes.EDIT_EMPLOYEE)}
+                onClick={() => this.props.history.push(AppRoutes.CONSTI_PERSONAL_DATA)}
               >
                 <UncontrolledTooltip placement="top" target={`edit${index}`}>
                   Click here to edit employee
@@ -173,7 +173,7 @@ class Constitution extends Component<RouteComponentProps, any> {
               <span
                 className="btn-icon mr-2"
                 id={`view${index}`}
-                onClick={() => this.props.history.push(AppRoutes.VIEW_EMPLOYEE)}
+                onClick={() => this.props.history.push(AppRoutes.CONSTI_PERSONAL_DATA)}
               >
                 <UncontrolledTooltip placement="top" target={`view${index}`}>
                   Click here to view Constitution

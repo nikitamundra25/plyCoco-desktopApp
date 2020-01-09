@@ -25,6 +25,7 @@ const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 const CareGiverSidebar = React.lazy(() =>
   import("../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
 );
+const ConstitutionSidebar = React.lazy(() => import("../../pages/Constitution/Sidebar/SidebarLayout/ConstitutionLayout"))
 
 // Care giver Sidebar
 const CareGiverLayout = ({ component: Component, ...rest }: any) => {
@@ -38,6 +39,59 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
               <AppBreadcrumb appRoutes={routes} className="w-100" />
               <div className="caregiver-detail-section">
                 <CareGiverSidebar {...props} />
+                <div className="caregiver-right flex-grow-1">
+                  <div className="common-dropdown d-flex align-items-center w-100 ">
+                    <div className="user-select">
+                      <Select
+                        defaultValue={{
+                          label: "John Doe",
+                          value: 0
+                        }}
+                        // value={this.state.selectedOption}
+                        placeholder="Select Caregiver"
+                        options={CareGiver}
+                      />
+                    </div>
+                    <div className="region-select">
+                      <Select
+                        // value={this.state.selectedOption}
+                        placeholder="Select Region"
+                        options={Region}
+                      />
+                    </div>
+                    <div className="btn-header-section">
+                      <Button
+                        color="primary"
+                        type={"submit"}
+                        className="btn-common-save"
+                      >
+                        Save
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="caregiver-content ">
+                    <Component {...props} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+      )}
+    />
+  );
+};
+const ConstitutionLayout = ({ component: Component, ...rest }: any) => {
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        <Row>
+          <Col lg={"12"}>
+            <div className="care-detail-page">
+              <AppBreadcrumb appRoutes={routes} className="w-100" />
+              <div className="caregiver-detail-section">
+                <ConstitutionSidebar {...props} />
                 <div className="caregiver-right flex-grow-1">
                   <div className="common-dropdown d-flex align-items-center w-100 ">
                     <div className="user-select">
@@ -123,12 +177,19 @@ class DefaultLayout extends Component<any, any> {
                 <Switch>
                   {routes.map((route, idx) => {
                     return route.layout ? (
-                      <CareGiverLayout
-                        key={idx}
-                        path={route.path}
-                        exact={route.exact}
-                        component={route.component}
-                      />
+                      route.layoutName === "CareGiver" ?
+                        <CareGiverLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        /> :
+                        <ConstitutionLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        />
                     ) : route.component ? (
                       <Route
                         key={idx}

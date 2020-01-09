@@ -197,8 +197,8 @@ class Employee extends Component<RouteComponentProps, any> {
       );
     });
     return (
-      <Row>
-        <Col xs={"12"} lg={"12"}>
+      <Row className="m-0">
+        <Col xs={"12"} lg={"12"} className="p-0">
           <Card>
             <CardHeader>
               <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
@@ -213,7 +213,9 @@ class Employee extends Component<RouteComponentProps, any> {
               </Button>
             </CardHeader>
             <CardBody>
-             <div><Search/></div>
+              <div>
+                <Search />
+              </div>
               <Table bordered hover responsive>
                 <thead className="thead-bg">
                   <tr>

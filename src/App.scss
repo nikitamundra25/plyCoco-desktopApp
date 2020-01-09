@@ -124,7 +124,7 @@ body {
       margin: 0;
       font-size: 22px;
       font-weight: 700;
-      line-height: 45px;
+      line-height: normal;
     }
   }
   .min-height650 {
@@ -169,7 +169,7 @@ body {
       }
     }
     .card-body {
-      padding: 10px;
+      padding: 15px;
       background: $card_header_bg;
     }
   }
@@ -477,8 +477,11 @@ body {
     align-items: center;
     justify-content: center;
     display: flex;
+    top: -1px;
+    position: relative;
   }
   .dropdown-menu {
+    right: 0px !important;
     &:after {
       content: "";
       position: absolute;
@@ -764,6 +767,7 @@ body {
   }
 }
 .app-body {
+  overflow: inherit;
   .main {
     background: $card_header_bg;
     .container-fluid {
@@ -867,7 +871,7 @@ body {
   .form-group {
     margin-bottom: 10px;
     .col-form-label {
-      font-size: $font_11;
+      font-size: $font_12;
       font-weight: 400;
       color: $black;
       text-align: left;
@@ -1376,12 +1380,20 @@ body {
 }
 .care-detail-page {
   margin: 0px;
-
+  position: relative;
   .caregiver-detail-section {
     position: relative;
     display: -webkit-flex;
     display: flex;
     flex-direction: column;
+    .sticky-care-header {
+      position: -webkit-sticky;
+      position: sticky;
+      margin-bottom: 0px;
+      z-index: 10;
+      top: 0px;
+      background: $white;
+    }
     .username-header {
       color: $black;
       font-size: $font_14;
@@ -1392,7 +1404,7 @@ body {
       background: $white;
       padding-top: 4px;
       .header-nav-item {
-        padding: 4px 8px;
+        padding: 4px 6px;
         font-size: 12px;
         color: #000;
         /* font-weight: 600; */
@@ -1421,6 +1433,7 @@ body {
         }
         &:hover {
           color: $light_black;
+          background: #cccccc;
         }
         .dropdown-toggle {
           padding: 0px;
@@ -1431,9 +1444,16 @@ body {
           border: 0px;
           font-family: FrutigerNeueLTPro-Medium;
           background: #f9f9f9;
-          &:after{
-            border:0px;
-            background-image:url(assets/img/more.svg) ;
+          &:after {
+            border: 0px;
+            background-image: url(assets/img/more.svg);
+            background-size: 8px;
+            background-repeat: no-repeat;
+            width: 8px;
+            height: 8px;
+            top: 3px;
+            right: -2px;
+            position: relative;
           }
           &:hover,
           &:focus {
@@ -1783,10 +1803,55 @@ body {
   }
   .mail-body {
     background: #ffffff;
-    padding: 10px 20px;
+    padding: 4px 10px;
     font-size: $font_13;
     color: $black;
     height: 100%;
+  }
+}
+.remark-details {
+  height: 100%;
+  border: 1px solid #ddd;
+  .remark-body {
+    background: #ffffff;
+    padding: 4px 10px;
+    font-size: $font_13;
+    color: $black;
+    height: 100%;
+    .edit-remark {
+      cursor: pointer;
+      background: #dddddd;
+      padding: 3px 6px;
+      color: #1b1a1a;
+      border-radius: 2px;
+      &:hover {
+        background: #bababa;
+      }
+    }
+    .remark-section {
+      position: relative;
+      textarea {
+        height: 70px;
+        border-radius: 0px;
+        resize: none;
+        overflow-y: auto;
+      }
+      .add-remark-btn {
+        padding: 4px 8px;
+        background: #d99119;
+        cursor: pointer;
+        width: 100px;
+        color: #fff;
+        border-radius: 4px;
+        position: absolute;
+        bottom: -31px;
+        right: 0px;
+        text-align: center;
+        &:hover {
+          background: $theme_color_hover;
+        }
+      }
+    }
   }
 }
 // oFFer
@@ -1811,7 +1876,7 @@ body {
   }
   height: 100%;
   background: #f3f3f3;
-  padding: 10px;
+  padding: 0px;
   .custom-col {
     height: calc(100% - 60px);
   }
@@ -2103,10 +2168,47 @@ body {
     }
   }
 }
+.activity-title {
+  font-size: 15px;
+  font-weight: 700;
+}
+.activity-block {
+  position: relative;
+  border-left: 2px solid #e0eaec;
+  margin-left: 1rem;
+  padding-left: 2rem;
+  padding-bottom: 2rem;
+  font-size: 12px;
+  color: #666171;
+  .activity-date {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    color: #333;
+    margin-top: 6px;
+  }
+  .activity-set {
+    background: #d99119;
+    color: #fff;
+    text-align: center;
+  }
+  .activity-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    position: absolute;
+    left: -13px;
+    top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 
 .user-select,
 .region-select {
-  width: 220px;
+  width: 180px;
   margin: 0px 8px;
   .css-yk16xz-control {
     border-radius: 0px;

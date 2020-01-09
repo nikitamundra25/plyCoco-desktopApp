@@ -18,13 +18,21 @@ import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
 import InputMask from "react-input-mask";
 
-import { State, Region, Salutation, LegalForm, Country } from "../../../config";
+import {
+  State,
+  Region,
+  Salutation,
+  LegalForm,
+  Country,
+  NightAllowancePerHour
+} from "../../../config";
 
 class PersonalInformation extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      startDate: ""
+      startDate: "",
+      addRemark: false
     };
   }
   handleChange = (date: any) => {
@@ -32,11 +40,28 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
       startDate: date
     });
   };
+  handleOnClick = () => {
+    this.setState({
+      addRemark: true
+    });
+  };
   render() {
     return (
       <div>
         <Form className="form-section forms-main-section">
-          <h5 className="main-title ">Personal Data</h5>
+          {/* <div>
+            <div className="custom-control custom-switch mb-2">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id="switch1"
+              />
+
+              <Label className="custom-control-label" for="switch1">
+                To Edit
+              </Label>
+            </div>
+          </div> */}
           <Row className="custom-col">
             <Col lg={"4"}>
               <div className="form-card">
@@ -139,7 +164,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                       <Input
                                         type="text"
                                         name={"lastName"}
-                                        placeholder="titel"
+                                        placeholder="Title"
                                         className="width-common"
                                       />
                                     </div>
@@ -163,7 +188,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         </Col>
                         <Col sm="8">
                           <div>
-                            <Select placeholder="Germany" options={State} />
+                            <Select
+                              placeholder="Salutation"
+                              options={Salutation}
+                            />
                           </div>
                           {/* <Button  className="alfabate-btn btn">S</Button> */}
                         </Col>
@@ -821,11 +849,9 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Row className="custom-col inner-no-padding-col">
                             <Col sm="8">
                               <div>
-                                <Input
-                                  type="text"
-                                  name={"lastName"}
-                                  placeholder="Night Allowance"
-                                  className="width-common"
+                                <Select
+                                  options={NightAllowancePerHour}
+                                  className="custom-input-width"
                                 />
                               </div>
                             </Col>
@@ -910,7 +936,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                 </Row>
               </div>
 
-              <div className="offer-section fix-height-section">
+              <div className="offer-section mt-3 fix-height-section">
                 <h5 className="content-title">Attributes</h5>
                 <Row className="custom-col">
                   <Col sm={12}>
@@ -943,55 +969,138 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
               </div>
             </Col>
             <Col lg={4}>
-              <div className="mail-details">
-                <div className="mail-body">
-                  <p>
-                    <p className="mb-0">15.09.2017</p>
-                    <p>
-                      rief schon einige Tage vor der Registrierung an (haben sie
-                      wiederholt darum gebeten, sich zu registrieren), ist KS
-                      und möchte nebenbei etwas dazuverdienen, am beste in
-                      Kliniken, hat 2 Kinder und zur Zeit kein PC da die Kinder
-                      den kaputt gemacht haben, kommt am 18.09. um 11 uhr zum
-                      Infogespräch, Mail Büroanschrift +Stegemann geschickt,
-                      Jenny
-                    </p>
-                    <p className="mb-0">18.09.2017</p>
-                    <p>
-                      Sie kam zum Infogespräch mit ihrem kleinen Sohn (ca 3
-                      Jahre). Lief aber alle ruhig ab. Sie hatte sehr viele
-                      Fragen, generell Freiberuflichkeit. Sie ist exam. AP. Der
-                      kleine bekommt erst im Oktober seinen Kita Platz ud somit
-                      will sie gern ab November bei uns loslegen. Im Januar will
-                      sie gucken, ob sie sich bei einem KH teilzeit anstellen
-                      lassen möchte. Sie ist sehr freundlich und aufgeweckt,
-                      neues Passwort geschickt. WV Doks, auf Oktober gesetzt,
-                      weil sie ja erst im Novemner starten will. Norma
-                    </p>
-                    <p className="mb-0">21.09.2017</p>
-                    <p>
-                      sie rief an (gestern bereits nochmal mit Norma
-                      telefoniertund wieder alles gefragt, hatte beim Gespräch
-                      anscheind nicht zugehört), nun stellte sie wieder Fragen
-                      und erklärte mir sie könne sich ja nicht alles merken,
-                      daher scrheibt sie jetzt mit, dann wollte sie nochmal
-                      einen Termin nur um über die NV zu sprechen, habe ihr
-                      angeboten mi rihre Fragen zu stellen oder die per mAil zus
-                      enden, daraufhin war sie der Ansicht ich klänge genervt
-                      und sie möchte nur noch mit Norma sprechen, habe ihr
-                      gesgat, dass sie ihre Fragen gern ja stellen kann aber
-                      dazu war sie dann nicht mehr bereit, Jenny
-                    </p>
-                    <p className="mb-0">09.10.2017</p>
-                    <p>
-                      Sie will zwar noch Freiberuflich werden aber ihr Kind muss
-                      sich jetzt erstmal im Kindergarten eingewöhnen und dies
-                      dauert 1 bis 2 Monate. Sie weiss welche Doks wir benötigen
-                      und wird sie und dann schicken, aber erst sobald sich ihr
-                      kleiner eingewöhnt hat und sie ein bisschen zur Ruhe
-                      gekommen ist., Carolin
-                    </p>
-                  </p>
+              <div className="remark-details">
+                <div className="remark-body">
+                  <div className="activity-logs ">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <h5 className="mb-0 p-2 text-left activity-title">
+                        Remarks
+                      </h5>
+                      <div onClick={this.handleOnClick} className="edit-remark">
+                        <i className="icon-note" />
+                      </div>
+                    </div>
+                    {this.state.addRemark ? (
+                      <div className="activity-block py-2 px-3">
+                        <div className="pr-3 text-left">
+                          <div className="remark-section">
+                            <Input
+                              type="textarea"
+                              name={"Remarks"}
+                              placeholder="Remarks"
+                              className="height-textarea "
+                            />
+                            <div className="add-remark-btn">Add Remarks</div>
+                          </div>
+                        </div>
+                        <div className="text-left activity-date">
+                          <span>
+                            <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                            2:54 PM
+                          </span>
+                          <span>
+                            <i className="fa fa-user mr-2"></i>Mark Smith
+                          </span>
+                        </div>
+                        <span className="activity-icon activity-set"></span>
+                      </div>
+                    ) : null}
+                    <div className="activity-block py-2 px-3">
+                      <div className="pr-3 text-left">
+                        <span className="text-capitalize">
+                          Called a few days before the registration (they
+                          repeatedly asked to register), is KS and wants to make
+                          some extra money, preferably in clinics, has 2
+                          children and currently no PC because the children
+                          broke it, is coming on 09/18 at 11 a.m. for the info
+                          call, email office address + Stegemann sent, Jenny
+                        </span>
+                      </div>
+                      <div className="text-left activity-date">
+                        <span>
+                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                          2:54 PM
+                        </span>
+                        <span>
+                          <i className="fa fa-user mr-2"></i>Mark Smith
+                        </span>
+                      </div>
+                      <span className="activity-icon activity-set"></span>
+                    </div>
+                    <div className="activity-block  py-2 px-3">
+                      <div className="pr-3 text-left">
+                        <span className="text-capitalize">
+                          She came to the info talk with her little son (about 3
+                          years). But everyone ran quietly. She had a lot of
+                          questions, generally freelance. She is exam. AP. The
+                          little one gets his daycare place in October and so
+                          she wants to get started with us in November. In
+                          January she wants to see if she wants to work
+                          part-time at a hospital. She is very friendly and
+                          bright, new password sent. WV Doks, set to October
+                          because it only wants to start in November. Norma
+                        </span>
+                      </div>
+                      <div className="text-left activity-date">
+                        <span>
+                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                          2:54 PM
+                        </span>
+                        <span>
+                          <i className="fa fa-user mr-2"></i>Mark Smith
+                        </span>
+                      </div>
+                      <span className="activity-icon activity-set"></span>
+                    </div>
+                    <div className="activity-block  py-2 px-3">
+                      <div className="pr-3 text-left">
+                        <span className="text-capitalize">
+                          she called (yesterday on the phone again with Norma
+                          and asked everything again, apparently hadn't listened
+                          to the conversation), now she asked questions again
+                          and explained to me that she couldn't remember
+                          everything, so she is now writing, Then she wanted to
+                          make another appointment just to talk about the NV,
+                          offered to ask her questions or end it by email, and
+                          then she thought I sounded annoyed and she just wanted
+                          to speak to Norma, that she would like to ask her
+                          questions, but then she was no longer willing to do
+                          so, Jenny
+                        </span>
+                      </div>
+                      <div className="text-left activity-date">
+                        <span>
+                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                          2:54 PM
+                        </span>
+                        <span>
+                          <i className="fa fa-user mr-2"></i>Mark Smith
+                        </span>
+                      </div>
+                      <span className="activity-icon activity-set"></span>
+                    </div>
+                    <div className="activity-block  py-2 px-3">
+                      <div className="pr-3 text-left">
+                        <span className="text-capitalize">
+                          Although she still wants to become a freelancer, her
+                          child has to get used to kindergarten and this takes 1
+                          to 2 months. She knows which docs we need and will
+                          send them and then, but only as soon as her little one
+                          has settled in and she has come to a rest., Carolin
+                        </span>
+                      </div>
+                      <div className="text-left activity-date">
+                        <span>
+                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                          2:54 PM
+                        </span>
+                        <span>
+                          <i className="fa fa-user mr-2"></i>Mark Smith
+                        </span>
+                      </div>
+                      <span className="activity-icon activity-set"></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </Col>

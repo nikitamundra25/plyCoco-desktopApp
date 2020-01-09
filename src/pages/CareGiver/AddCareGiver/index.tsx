@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { CareGiverState, CareGiverValues } from '../../../interfaces';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import CareGiverFormComponent from './CareGiverFormComponent';
+import { CareGiverValidationSchema } from '../../../validations/CareGiverValidationSchema';
 
 class CareGiverForm extends Component<any, CareGiverState>{
 
@@ -51,6 +52,7 @@ class CareGiverForm extends Component<any, CareGiverState>{
             <Formik
                 initialValues={initialValues}
                 onSubmit={this.handleSubmit}
+                validationSchema={CareGiverValidationSchema}
                 render={(props: FormikProps<CareGiverValues>) => {
                     return <CareGiverFormComponent {...props} />
                 }}

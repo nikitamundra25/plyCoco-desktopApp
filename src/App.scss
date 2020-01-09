@@ -1106,6 +1106,12 @@ body {
     }
   }
   td {
+    .date-title {
+      font-weight: 600;
+      font-size: $font_13;
+      cursor: pointer;
+      color: $black;
+    }
     .info-column {
       display: flex;
       align-items: flex-start;
@@ -1519,7 +1525,7 @@ body {
       // min-height: 100vh;
       padding: 15px;
       background: $card_header_bg;
-      min-height: calc(100vh - 85px);
+      min-height: calc(100vh - 145px);
       .content-title {
         color: $black;
         font-size: $font_14;

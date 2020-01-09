@@ -38,6 +38,13 @@ export const AppRoutes: IAppRoutes = {
   ADD_CONSTITUTION: "/constitution/add",
   CONSTITUTION: "/constitution",
   CONSTI_PERSONAL_DATA: "/constitution/personal_information",
-  CONSTI_COMISSION_AGREEMENT:"/constitution/commission_Agreement",
+  CONSTI_COMISSION_AGREEMENT: "/constitution/commission_Agreement",
+
+  CONSTI_OFFER: "/constitution/offers",
+  CONSTI_LOGIN: "/constitution/login",
   CONSTI_INVOICE_CYCLE: "/constitution/invoice_cycle",
+  CONSTI_DOCUMENT: "/constitution/document",
+  CONSTI_DEPARTMENT: "/constitution/department",
+  CONSTI_EMAIL: "/constitution/email",
+  CONSTI_REMINDER: "/constitution/todo"
 };

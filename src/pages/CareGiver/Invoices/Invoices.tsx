@@ -26,9 +26,15 @@ class Invoices extends Component {
               <tbody>
                 <tr>
                   <td colSpan={11}>
-                    <span className="date-title">Date: 2013</span>
+                    <div className="date-title">
+                      <span className="align-middle mr-2">
+                        <i className="icon-arrow-down" />
+                      </span>
+                      <span className="align-middle ">Date: 2013</span>
+                    </div>
                   </td>
                 </tr>
+
                 <tr>
                   <td>230001</td>
                   <td></td>

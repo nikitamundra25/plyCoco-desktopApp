@@ -31,11 +31,7 @@ export const careGiverRoutes = [
     name: "Emails"
     //icon: "fa fa-envelope"
   },
-  {
-    path: AppRoutes.INBOX,
-    name: "SMS"
-    //icon: "fa fa-comments"
-  },
+
   {
     path: AppRoutes.TODO,
     name: "Reminders/Todos"

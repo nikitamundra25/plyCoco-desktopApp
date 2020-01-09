@@ -28,6 +28,14 @@ import {
 } from "@coreui/react";
 import Loader from "../Loader/Loader";
 import Select from "react-select";
+import add from "../../assets/img/add.svg";
+import save from "../../assets/img/save.svg";
+import reminder from "../../assets/img/reminder.svg";
+import password from "../../assets/img/password.svg";
+import appointment from "../../assets/img/appointment.svg";
+import delete_specilalist from "../../assets/img/delete-user.svg";
+import delete_appointment from "../../assets/img/delete-appointment.svg";
+import send_bills from "../../assets/img/send-bills.svg";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
@@ -41,92 +49,100 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
     <Route
       {...rest}
       render={props => (
-        <Row>
-          <Col lg={"12"}>
+        <Row className="m-0">
+          <Col lg={"12"} className="p-0">
             <div className="care-detail-page">
               {/* <AppBreadcrumb appRoutes={routes} className="w-100" /> */}
               <div className="caregiver-detail-section">
-                <div className="d-flex align-items-center username-header">
-                  <span className="align-middle">
-                    <i className="fa fa-user mr-2"></i>
-                  </span>
-                  <span className="align-middle">John Doe</span>
-                </div>
-                <div className="caregiver-topheader d-flex align-items-center ">
-                  <div className="user-select">
-                    <Select
-                      defaultValue={{
-                        label: "John Doe",
-                        value: 0
-                      }}
-                      // value={this.state.selectedOption}
-                      placeholder="Select Caregiver"
-                      options={CareGiver}
-                    />
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <i className="fa fa-plus"></i>
+                <div className="sticky-care-header">
+                  {/* <div className="d-flex align-items-center username-header">
+                    <span className="align-middle">
+                      <i className="fa fa-user mr-2"></i>
                     </span>
-                    <span className="header-nav-text">New Caregiver</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <i className="fa fa-save"></i>
-                    </span>
-                    <span className="header-nav-text">Save</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <i className="fa fa-clock-o"></i>
-                    </span>
-                    <span className="header-nav-text">
-                      Create Todo/Reminder
-                    </span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <i className="fa fa-key"></i>
-                    </span>
-                    <span className="header-nav-text">New Password</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <i className="fa fa-calendar"></i>
-                    </span>
-                    <span className="header-nav-text">
-                      Display appointments
-                    </span>
-                  </div>
-                  {/* <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <i className="fa fa-search"></i>
-                    </span>
-                    <span className="header-nav-text">Search</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <i className="fa fa-list-alt"></i>
-                    </span>
-                    <span className="header-nav-text">Tree View</span>
+                    <span className="align-middle">John Doe (Caregiver)</span>
                   </div> */}
-                  <div className="header-nav-item">
-                    <span className="header-nav-text">
-                      <UncontrolledButtonDropdown>
-                        <DropdownToggle caret>More</DropdownToggle>
-                        <DropdownMenu>
-                          <DropdownItem>Delete specialist</DropdownItem>
-                          <DropdownItem>
-                            Delete future appointments
-                          </DropdownItem>
-                          <DropdownItem>Send pay slips</DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledButtonDropdown>
-                    </span>
+                  <div className="caregiver-topheader d-flex align-items-center ">
+                    <div className="user-select">
+                      <Select
+                        defaultValue={{
+                          label: "John Doe",
+                          value: 0
+                        }}
+                        // value={this.state.selectedOption}
+                        placeholder="Select Caregiver"
+                        options={CareGiver}
+                      />
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={add} alt="" />
+                      </span>
+                      <span className="header-nav-text">New Caregiver</span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={save} alt="" />
+                      </span>
+                      <span className="header-nav-text">Save</span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={reminder} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Create Todo/Reminder
+                      </span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={password} alt="" />
+                      </span>
+                      <span className="header-nav-text">New Password</span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={appointment} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Display appointments
+                      </span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={delete_specilalist} alt="" />
+                      </span>
+                      <span className="header-nav-text">Delete specialist</span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={delete_appointment} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Delete future appointments
+                      </span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={send_bills} alt="" />
+                      </span>
+                      <span className="header-nav-text">Send pay slips</span>
+                    </div>
+                    {/* <div className="header-nav-item">
+                      <span className="header-nav-text">
+                        <UncontrolledButtonDropdown>
+                          <DropdownToggle caret>More</DropdownToggle>
+                          <DropdownMenu>
+                            <DropdownItem></DropdownItem>
+                            <DropdownItem></DropdownItem>
+                            <DropdownItem>Send pay slips</DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledButtonDropdown>
+                      </span>
+                    </div> */}
                   </div>
-                </div>
 
-                <CareGiverSidebar {...props} />
+                  <CareGiverSidebar {...props} />
+                </div>
                 <div className="caregiver-right flex-grow-1">
                   <div className="caregiver-content ">
                     <Component {...props} />
@@ -161,7 +177,7 @@ class DefaultLayout extends Component<any, any> {
   render() {
     return (
       <div className="app">
-        <AppHeader fixed>
+        <AppHeader>
           <Suspense fallback={<Loader />}>
             <DefaultHeader {...this.props} />
           </Suspense>

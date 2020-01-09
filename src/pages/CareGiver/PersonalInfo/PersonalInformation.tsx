@@ -9,7 +9,8 @@ import {
   Form,
   CustomInput,
   InputGroup,
-  InputGroupAddon,Card
+  InputGroupAddon,
+  Card
 } from "reactstrap";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
@@ -17,13 +18,21 @@ import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
 import InputMask from "react-input-mask";
 
-import { State, Region, Salutation, LegalForm, Country } from "../../../config";
+import {
+  State,
+  Region,
+  Salutation,
+  LegalForm,
+  Country,
+  NightAllowancePerHour
+} from "../../../config";
 
 class PersonalInformation extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      startDate: ""
+      startDate: "",
+      addRemark: false
     };
   }
   handleChange = (date: any) => {
@@ -31,14 +40,30 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
       startDate: date
     });
   };
+  handleOnClick = () => {
+    this.setState({
+      addRemark: true
+    });
+  };
   render() {
     return (
       <div>
         <Form className="form-section forms-main-section">
-        <h5 className="main-title ">Personal Data</h5>
+          {/* <div>
+            <div className="custom-control custom-switch mb-2">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id="switch1"
+              />
+
+              <Label className="custom-control-label" for="switch1">
+                To Edit
+              </Label>
+            </div>
+          </div> */}
           <Row className="custom-col">
             <Col lg={"4"}>
-           
               <div className="form-card">
                 <Row className="w-100">
                   <Col lg={"12"}>
@@ -46,7 +71,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            User id
+                            User Id
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -68,7 +93,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                   <Col sm="6">
                                     <Label className="form-label col-form-label inner-label">
                                       Reg Since
-                            <span className="required">*</span>
+                                      <span className="required">*</span>
                                     </Label>
                                   </Col>
                                   <Col sm="6">
@@ -114,7 +139,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row className="">
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            gender
+                            Gender
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -122,10 +147,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Row className="custom-col inner-no-padding-col">
                             <Col sm="5">
                               <div>
-                                <Select
-                                  placeholder="Gender"
-                                  options={State}
-                                />
+                                <Select placeholder="Gender" options={State} />
                               </div>
                             </Col>
                             <Col sm="7">
@@ -133,8 +155,8 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                 <Row className="custom-col inner-no-padding-col d-flex align-items-center">
                                   <Col sm="6">
                                     <Label className="form-label col-form-label inner-label">
-                                      titel
-                            <span className="required">*</span>
+                                      Title
+                                      <span className="required">*</span>
                                     </Label>
                                   </Col>
                                   <Col sm="6">
@@ -142,7 +164,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                       <Input
                                         type="text"
                                         name={"lastName"}
-                                        placeholder="titel"
+                                        placeholder="Title"
                                         className="width-common"
                                       />
                                     </div>
@@ -160,18 +182,18 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            salutation
+                            Salutation
                             <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
                           <div>
-                          <Select
-                                  placeholder="salutation"
-                                  options={Salutation}
-                                />
-                          </div> 
-                          <Button  className="alfabate-btn btn">S</Button>
+                            <Select
+                              placeholder="Salutation"
+                              options={Salutation}
+                            />
+                          </div>
+                          {/* <Button  className="alfabate-btn btn">S</Button> */}
                         </Col>
                       </Row>
                     </FormGroup>
@@ -194,7 +216,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                               className="width-common"
                             />
                           </div>
-                          <Button  className="alfabate-btn btn">N</Button>
+                          {/* <Button  className="alfabate-btn btn">N</Button> */}
                         </Col>
                       </Row>
                     </FormGroup>
@@ -226,7 +248,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row className="">
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                           Birthday date
+                            Birthday Date
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -245,8 +267,8 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                 <Row className="custom-col inner-no-padding-col d-flex align-items-center">
                                   <Col sm="6">
                                     <Label className="form-label col-form-label inner-label">
-                                     Alter
-                            <span className="required">*</span>
+                                      Age
+                                      <span className="required">*</span>
                                     </Label>
                                   </Col>
                                   <Col sm="6">
@@ -267,13 +289,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       </Row>
                     </FormGroup>
                   </Col>
-                 
+
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                          Street<span className="required">*</span>
+                            Street<span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
@@ -281,7 +303,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"address"}
-                              placeholder="Address Line 1"
+                              placeholder="Street"
                               className=" width-common"
                             />
                           </div>
@@ -294,7 +316,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                           City
+                            City
                           </Label>
                         </Col>
                         <Col sm="8">
@@ -302,11 +324,11 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"address"}
-                              placeholder="Address Line 2"
+                              placeholder="City"
                               className=" width-common"
                             />
                           </div>
-                          <Button  className="alfabate-btn btn">N</Button>
+                          {/* <Button  className="alfabate-btn btn">N</Button> */}
                         </Col>
                       </Row>
                     </FormGroup>
@@ -316,7 +338,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                         ZIP
+                            ZIP
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -325,7 +347,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"street"}
-                              placeholder=" Street"
+                              placeholder="ZIP"
                               className=" width-common"
                             />
                           </div>
@@ -338,16 +360,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                         Contry
+                            Country
                             <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
                           <div>
-                          <Select
-                                  placeholder="Germany"
-                                  options={State}
-                                />
+                            <Select placeholder="Germany" options={Country} />
                           </div>
                         </Col>
                       </Row>
@@ -358,16 +377,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label ">
-                           State
+                            State
                             <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
                           <div>
-                          <Select
-                                  placeholder="Bavaria"
-                                  options={State}
-                                />
+                            <Select placeholder="Bavaria" options={State} />
                           </div>
                         </Col>
                       </Row>
@@ -392,7 +408,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                               className="width-common"
                             />
                           </div>
-                          <Button  className="alfabate-btn btn">M</Button>
+                          {/* <Button  className="alfabate-btn btn">M</Button> */}
                         </Col>
                       </Row>
                     </FormGroup>
@@ -437,7 +453,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                               className="width-common"
                             />
                           </div>
-                          <Button  className="alfabate-btn btn">T</Button>
+                          {/* <Button  className="alfabate-btn btn">T</Button> */}
                         </Col>
                       </Row>
                     </FormGroup>
@@ -456,7 +472,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"email"}
-                              placeholder=" Email address"
+                              placeholder=" Email"
                               className="width-common"
                             />
                           </div>
@@ -469,7 +485,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            Tax number
+                            Tax Number
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -478,7 +494,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"email"}
-                              placeholder="Tax number"
+                              placeholder="Tax Number"
                               className="width-common"
                             />
                           </div>
@@ -500,7 +516,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"email"}
-                              placeholder="  Bank"
+                              placeholder="Bank"
                               className="width-common"
                             />
                           </div>
@@ -513,7 +529,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                           IBAN
+                            IBAN
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -544,7 +560,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"email"}
-                              placeholder="  Username"
+                              placeholder="Username"
                               className="width-common"
                             />
                           </div>
@@ -557,16 +573,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                           Belongs to
+                            Belongs to
                             <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
                           <div>
-                          <Select
-                              placeholder="Belongs to"
-                              options={State}
-                            />
+                            <Select placeholder="Belongs to" options={State} />
                           </div>
                         </Col>
                       </Row>
@@ -577,16 +590,13 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                           legal form
+                            Legal Form
                             <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
                           <div>
-                          <Select
-                              placeholder="legal form"
-                              options={State}
-                            />
+                            <Select placeholder="Legal Form" options={State} />
                           </div>
                         </Col>
                       </Row>
@@ -597,7 +607,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                         Company Name
+                            Company Name
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -619,7 +629,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                           Register Court
+                            Register Court
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -641,7 +651,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                        Register Name
+                            Register Name
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -663,7 +673,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                        Manag Director
+                            Manage Director
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -672,29 +682,9 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"email"}
-                              placeholder="Manag Director"
+                              placeholder="Manage Director"
                               className="width-common"
                             />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                 <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                       Employed
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                          <div className=" checkbox-custom mb-0">
-                          <input type="checkbox" id="check" className="" />
-                          <Label for="check"></Label>
-                        </div>
                           </div>
                         </Col>
                       </Row>
@@ -705,38 +695,57 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                          Comments (Internally)
+                            Employed
                             <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
                           <div>
-                          <Input
-                            type="textarea"
-                            name={"additionalText "}
-                            placeholder="Comments (Internally)"
-                            className="textarea-custom"
-                            rows="4"
-                          />
+                            <div className=" checkbox-custom mb-0">
+                              <input type="checkbox" id="check" className="" />
+                              <Label for="check"></Label>
+                            </div>
                           </div>
                         </Col>
                       </Row>
                     </FormGroup>
                   </Col>
-               </Row>
-              </div>
-            </Col>
-
-            <Col lg={"4"}>
-             
-              <div className="form-card minheight-auto">
-                <Row className="w-100">
-                <Col lg={"12"}>
+                  <Col lg={"12"}>
                     <FormGroup>
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                         Fee
+                            Comments (Internally)
+                            <span className="required">*</span>
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div>
+                            <Input
+                              type="textarea"
+                              name={"additionalText "}
+                              placeholder="Comments (Internally)"
+                              className="textarea-custom"
+                              rows="4"
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+
+            <Col lg={"4"}>
+              <div className="form-card minheight-auto">
+                <Row className="w-100">
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label">
+                            Fee
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -757,8 +766,8 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                 <Row className="custom-col inner-no-padding-col">
                                   <Col sm="6">
                                     <Label className="form-label col-form-label inner-label">
-                                    Night
-                            <span className="required">*</span>
+                                      Night
+                                      <span className="required">*</span>
                                     </Label>
                                   </Col>
                                   <Col sm="6">
@@ -784,7 +793,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                          Weekend allowance
+                            Weekend Allowance
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -795,7 +804,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                 <Input
                                   type="text"
                                   name={"lastName"}
-                                  placeholder="Weekend allawance"
+                                  placeholder="Weekend Allowance"
                                   className="width-common"
                                 />
                               </div>
@@ -805,8 +814,8 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                 <Row className="custom-col inner-no-padding-col">
                                   <Col sm="6">
                                     <Label className="form-label col-form-label inner-label">
-                                     Holiday
-                            {/* <span className="required">*</span> */}
+                                      Holiday
+                                      {/* <span className="required">*</span> */}
                                     </Label>
                                   </Col>
                                   <Col sm="6">
@@ -814,7 +823,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                       <Input
                                         type="text"
                                         name={"lastName"}
-                                        placeholder="Hollyday"
+                                        placeholder="Holiday"
                                         className="width-common"
                                       />
                                     </div>
@@ -832,7 +841,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                         Night allowance 
+                            Night Allowance
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -840,26 +849,24 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Row className="custom-col inner-no-padding-col">
                             <Col sm="8">
                               <div>
-                                <Input
-                                  type="text"
-                                  name={"lastName"}
-                                  placeholder="Night allawance"
-                                  className="width-common"
+                                <Select
+                                  options={NightAllowancePerHour}
+                                  className="custom-input-width"
                                 />
                               </div>
                             </Col>
-                            </Row>
+                          </Row>
                         </Col>
                       </Row>
                     </FormGroup>
                   </Col>
-                  
+
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                           Invoice interval
+                            Invoice interval
                           </Label>
                         </Col>
                         <Col sm="8">
@@ -879,7 +886,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                         Lessing Price List
+                            Leasing Price List
                           </Label>
                         </Col>
                         <Col sm="8">
@@ -894,116 +901,210 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       </Row>
                     </FormGroup>
                   </Col>
-               </Row>
+                </Row>
               </div>
               <div className="offer-section fix-height-section">
-        <h5 className="content-title">Qualifications</h5>
-        <Row className="custom-col">
-          <Col sm={12}>
-            <Card>
-              <div className="offer-wrap">
-                <h5 className="heading toggle-filter  ">
-                Qualification
-                
-                </h5>
-                <div className="offer-content-wrap">
-                  <ul>
-                    <li className="ative">Aaron, Hank </li>
-                    <li >Abbey, Edward</li>
-                    <li>Abel, Reuben</li>
-                    <li > Abelson, Hal</li>
-                    <li >Abourezk, James </li>
-               
+                <h5 className="content-title">Qualifications</h5>
+                <Row className="custom-col">
+                  <Col sm={12}>
+                    <Card>
+                      <div className="offer-wrap">
+                        <h5 className="heading toggle-filter  ">
+                          Qualification
+                        </h5>
+                        <div className="offer-content-wrap">
+                          <ul>
+                            <li className="ative">Dialysis </li>
+                            <li>Home Management</li>
+                            <li>Nurse/carer</li>
+                            <li> Neonatology</li>
+                            <li>Paramedic </li>
+                          </ul>
+                        </div>
+                      </div>
 
-                  </ul>
-                </div>
-              </div>
-
-              <div className="custom-select-wrap">
-                <select className="w-100">
-                  <option>Bernhard, Sandra</option>
-                  <option>Berlin, Irving</option>
-                  <option>Berne, Eric</option>
-                  <option>Berry, Halle</option>
-                </select>
-              </div>
-            </Card>
-          </Col>
-          </Row>
-          </div>
-              
-              <div className="offer-section fix-height-section">
-        <h5 className="content-title">Attributes</h5>
-        <Row className="custom-col">
-          <Col sm={12}>
-            <Card>
-              <div className="offer-wrap">
-                <h5 className="heading toggle-filter  ">
-                Attribut
-                
-                </h5>
-                <div className="offer-content-wrap">
-                  <ul>
-                    <li className="ative">Aaron, Hank </li>
-                    <li >Abbey, Edward</li>
-                    <li>Abel, Reuben</li>
-                    <li> Abelson, Hal</li>
-                    <li>Abourezk, James </li>
-                    <li>Abrams, Creighton </li>
-                 
-                  </ul>
-                </div>
+                      <div className="custom-select-wrap">
+                        <select className="w-100">
+                          <option>Bernhard, Sandra</option>
+                          <option>Berlin, Irving</option>
+                          <option>Berne, Eric</option>
+                          <option>Berry, Halle</option>
+                        </select>
+                      </div>
+                    </Card>
+                  </Col>
+                </Row>
               </div>
 
-              <div className="custom-select-wrap">
-                <select className="w-100">
-                  <option>Bernhard, Sandra</option>
-                  <option>Berlin, Irving</option>
-                  <option>Berne, Eric</option>
-                  <option>Berry, Halle</option>
-                </select>
+              <div className="offer-section mt-3 fix-height-section">
+                <h5 className="content-title">Attributes</h5>
+                <Row className="custom-col">
+                  <Col sm={12}>
+                    <Card>
+                      <div className="offer-wrap">
+                        <h5 className="heading toggle-filter  ">Attribut</h5>
+                        <div className="offer-content-wrap">
+                          <ul>
+                            <li className="ative">Aaron, Hank </li>
+                            <li>Abbey, Edward</li>
+                            <li>Abel, Reuben</li>
+                            <li> Abelson, Hal</li>
+                            <li>Abourezk, James </li>
+                            <li>Abrams, Creighton </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div className="custom-select-wrap">
+                        <select className="w-100">
+                          <option>Bernhard, Sandra</option>
+                          <option>Berlin, Irving</option>
+                          <option>Berne, Eric</option>
+                          <option>Berry, Halle</option>
+                        </select>
+                      </div>
+                    </Card>
+                  </Col>
+                </Row>
               </div>
-            </Card>
-          </Col>
-          </Row>
-          </div>
-              
             </Col>
-<Col lg={4}>
-
-
-<div className="mail-details">
-               
-               <div className="mail-body">
-               <div className="activity-logs ">
-   <h5 className="mb-2 p-2 text-left">Activity</h5>
-   <div className="activity-block p-3">
-      <div className="pr-3 text-left"><span className="text-capitalize">Rishabh Bula changed Order status updated to Invoice</span></div>
-      <div className="text-left activity-date"><span>Jan 7th 2020, 12:26 PM</span></div>
-      <span className="activity-icon activity-set"></span>
-   </div>
-   <div className="activity-block p-3">
-      <div className="pr-3 text-left"><span className="text-capitalize">Rishabh Bula  updated the workflow status from In Progress to Invoices</span></div>
-      <div className="text-left activity-date"><span>Jan 7th 2020, 12:26 PM</span></div>
-      <span className="activity-icon activity-set"></span>
-   </div>
-   <div className="activity-block p-3">
-      <div className="pr-3 text-left"><span className="text-capitalize">Rishabh Bula changed Order status changed to authorised</span></div>
-      <div className="text-left activity-date"><span>Jan 7th 2020, 12:26 PM</span></div>
-      <span className="activity-icon activity-set"><i className="fa fa-check"></i></span>
-   </div>
-   <div className="activity-block p-3">
-      <div className="pr-3 text-left"><span className="text-capitalize">Rishabh Bula  Created new order</span></div>
-      <div className="text-left activity-date"><span>Dec 28th 2019, 2:54 PM</span></div>
-      <span className="activity-icon activity-set"></span>
-   </div>
-</div>
-               
-               </div>
-             </div>
-          
-</Col>
-           </Row>
+            <Col lg={4}>
+              <div className="remark-details">
+                <div className="remark-body">
+                  <div className="activity-logs ">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <h5 className="mb-0 p-2 text-left activity-title">
+                        Remarks
+                      </h5>
+                      <div onClick={this.handleOnClick} className="edit-remark">
+                        <i className="icon-note" />
+                      </div>
+                    </div>
+                    {this.state.addRemark ? (
+                      <div className="activity-block py-2 px-3">
+                        <div className="pr-3 text-left">
+                          <div className="remark-section">
+                            <Input
+                              type="textarea"
+                              name={"Remarks"}
+                              placeholder="Remarks"
+                              className="height-textarea "
+                            />
+                            <div className="add-remark-btn">Add Remarks</div>
+                          </div>
+                        </div>
+                        <div className="text-left activity-date">
+                          <span>
+                            <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                            2:54 PM
+                          </span>
+                          <span>
+                            <i className="fa fa-user mr-2"></i>Mark Smith
+                          </span>
+                        </div>
+                        <span className="activity-icon activity-set"></span>
+                      </div>
+                    ) : null}
+                    <div className="activity-block py-2 px-3">
+                      <div className="pr-3 text-left">
+                        <span className="text-capitalize">
+                          Called a few days before the registration (they
+                          repeatedly asked to register), is KS and wants to make
+                          some extra money, preferably in clinics, has 2
+                          children and currently no PC because the children
+                          broke it, is coming on 09/18 at 11 a.m. for the info
+                          call, email office address + Stegemann sent, Jenny
+                        </span>
+                      </div>
+                      <div className="text-left activity-date">
+                        <span>
+                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                          2:54 PM
+                        </span>
+                        <span>
+                          <i className="fa fa-user mr-2"></i>Mark Smith
+                        </span>
+                      </div>
+                      <span className="activity-icon activity-set"></span>
+                    </div>
+                    <div className="activity-block  py-2 px-3">
+                      <div className="pr-3 text-left">
+                        <span className="text-capitalize">
+                          She came to the info talk with her little son (about 3
+                          years). But everyone ran quietly. She had a lot of
+                          questions, generally freelance. She is exam. AP. The
+                          little one gets his daycare place in October and so
+                          she wants to get started with us in November. In
+                          January she wants to see if she wants to work
+                          part-time at a hospital. She is very friendly and
+                          bright, new password sent. WV Doks, set to October
+                          because it only wants to start in November. Norma
+                        </span>
+                      </div>
+                      <div className="text-left activity-date">
+                        <span>
+                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                          2:54 PM
+                        </span>
+                        <span>
+                          <i className="fa fa-user mr-2"></i>Mark Smith
+                        </span>
+                      </div>
+                      <span className="activity-icon activity-set"></span>
+                    </div>
+                    <div className="activity-block  py-2 px-3">
+                      <div className="pr-3 text-left">
+                        <span className="text-capitalize">
+                          she called (yesterday on the phone again with Norma
+                          and asked everything again, apparently hadn't listened
+                          to the conversation), now she asked questions again
+                          and explained to me that she couldn't remember
+                          everything, so she is now writing, Then she wanted to
+                          make another appointment just to talk about the NV,
+                          offered to ask her questions or end it by email, and
+                          then she thought I sounded annoyed and she just wanted
+                          to speak to Norma, that she would like to ask her
+                          questions, but then she was no longer willing to do
+                          so, Jenny
+                        </span>
+                      </div>
+                      <div className="text-left activity-date">
+                        <span>
+                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                          2:54 PM
+                        </span>
+                        <span>
+                          <i className="fa fa-user mr-2"></i>Mark Smith
+                        </span>
+                      </div>
+                      <span className="activity-icon activity-set"></span>
+                    </div>
+                    <div className="activity-block  py-2 px-3">
+                      <div className="pr-3 text-left">
+                        <span className="text-capitalize">
+                          Although she still wants to become a freelancer, her
+                          child has to get used to kindergarten and this takes 1
+                          to 2 months. She knows which docs we need and will
+                          send them and then, but only as soon as her little one
+                          has settled in and she has come to a rest., Carolin
+                        </span>
+                      </div>
+                      <div className="text-left activity-date">
+                        <span>
+                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                          2:54 PM
+                        </span>
+                        <span>
+                          <i className="fa fa-user mr-2"></i>Mark Smith
+                        </span>
+                      </div>
+                      <span className="activity-icon activity-set"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
 
           {/* <Row>
             <Col lg={"6"}>

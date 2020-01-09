@@ -62,10 +62,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
               </Label>
             </div>
           </div> */}
-          <Row className="custom-col">
+          <Row>
             <Col lg={"4"}>
               <div className="form-card">
-                <Row >
+                <Row>
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
@@ -970,16 +970,17 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
             </Col>
             <Col lg={4}>
               <div className="remark-details">
+                <div className="remark-header d-flex align-items-center justify-content-between">
+                  <h5 className="my-2 text-left activity-title">Remarks</h5>
+                  <div
+                    onClick={this.handleOnClick}
+                    className="edit-remark my-2"
+                  >
+                    <i className="icon-note" />
+                  </div>
+                </div>
                 <div className="remark-body">
                   <div className="activity-logs ">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <h5 className="mb-0 p-2 text-left activity-title">
-                        Remarks
-                      </h5>
-                      <div onClick={this.handleOnClick} className="edit-remark">
-                        <i className="icon-note" />
-                      </div>
-                    </div>
                     {this.state.addRemark ? (
                       <div className="activity-block py-2 px-3">
                         <div className="pr-3 text-left">

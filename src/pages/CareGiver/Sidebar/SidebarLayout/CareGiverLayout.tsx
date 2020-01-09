@@ -29,8 +29,8 @@ class CareGiverSidebar extends Component<any, any> {
     console.log("proppppss", this.props);
 
     return (
-      <div className="caregiver-sidnav">
-        <Nav className="caregiver-ul" tabs>
+      <div className="common-sidnav">
+        <Nav className="common-ul" tabs>
           {careGiverRoutes.map(route => {
             return route.path ? (
               <NavItem>

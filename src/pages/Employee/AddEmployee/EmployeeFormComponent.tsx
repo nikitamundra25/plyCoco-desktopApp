@@ -474,6 +474,7 @@ const EmployeeFormComponent: any = (
                                       message={languageTranslation(
                                         "ADDITIONAL_TEXT"
                                       )}
+                                      
                                     />
                                   </Label>
                                 </Col>

@@ -1,4 +1,4 @@
-import React, { Component, useState, ChangeEvent } from 'react';
+import React, { Component, useState, ChangeEvent } from "react";
 import {
   Button,
   FormGroup,
@@ -21,10 +21,11 @@ import PictureInput from "./PictureInput";
 import { languageTranslation } from "../../../helpers/langauageTranslation";
 import { logger } from "../../../helpers";
 import moment from "moment";
+import InputFieldTooltip from "../../../common/Tooltip/InputFieldTooltip";
 const EmployeeFormComponent: any = (
   props: FormikProps<IEmployeeFormValues>
 ) => {
-  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   const {
     values: {
       email,
@@ -52,7 +53,7 @@ const EmployeeFormComponent: any = (
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched,
+    setFieldTouched
   } = props;
   logger("errors**********");
   logger(errors);
@@ -60,12 +61,12 @@ const EmployeeFormComponent: any = (
   logger(touched);
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setFieldTouched('image', true);
+    setFieldTouched("image", true);
     const {
-      target: { files },
+      target: { files }
     } = e;
     let reader = new FileReader();
-    let file: any = '';
+    let file: any = "";
     if (files) {
       file = files[0];
     }
@@ -74,7 +75,7 @@ const EmployeeFormComponent: any = (
         setUrl(reader.result);
       };
       reader.readAsDataURL(file);
-      setFieldValue('image', file);
+      setFieldValue("image", file);
     }
   };
 
@@ -345,7 +346,7 @@ const EmployeeFormComponent: any = (
                               </Row>
                             </FormGroup>
                           </Col>
-                          <Col lg={'12'}>
+                          <Col lg={"12"}>
                             <FormGroup>
                               <Row>
                                 <Col sm="4">
@@ -467,14 +468,13 @@ const EmployeeFormComponent: any = (
                                     {languageTranslation(
                                       "ADDITIONAL_TEXT_LABEL"
                                     )}
-                                    {/* Additional text */}
-                                    <br />
-                                    <small>
-                                      This text appears below the bank details
-                                      on the invoice. In the case of ceded
-                                      invoices (factoring), the cession can be
-                                      added here.
-                                    </small>
+                                    &nbsp;
+                                    <InputFieldTooltip
+                                      id="ADDITIONAL_TEXT"
+                                      message={languageTranslation(
+                                        "ADDITIONAL_TEXT"
+                                      )}
+                                    />
                                   </Label>
                                 </Col>
                                 <Col sm="8">
@@ -741,23 +741,23 @@ const EmployeeFormComponent: any = (
                                   <Col sm="8">
                                     <div>
                                       <Input
-                                        type='file'
-                                        name={'image'}
-                                        accept='image/*'
+                                        type="file"
+                                        name={"image"}
+                                        accept="image/*"
                                         placeholder={languageTranslation(
-                                          'EMPLOYEE_ADD_PROFILE_IMAGE_LABEL',
+                                          "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
                                         )}
                                         onChange={handleImageChange}
                                       />
                                       {imagePreviewUrl &&
-                                      typeof imagePreviewUrl === 'string' ? (
+                                      typeof imagePreviewUrl === "string" ? (
                                         <img
                                           src={imagePreviewUrl}
                                           width={30}
                                           height={30}
                                         />
                                       ) : (
-                                        ''
+                                        ""
                                       )}
                                       {errors.image && touched.image && (
                                         <div className="required-error">

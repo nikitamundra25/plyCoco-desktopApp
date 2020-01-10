@@ -6,12 +6,9 @@ import {
   CardHeader,
   Label,
   CardBody,
-  CardGroup,
-  Container,
   Input,
   Col,
   Row,
-  Form,
   Table,
   UncontrolledDropdown,
   DropdownToggle,
@@ -60,7 +57,7 @@ const userData = [
     assignedCanstitution: "3"
   }
 ];
-class Constitution extends Component<RouteComponentProps, any> {
+class CareInstitution extends Component<RouteComponentProps, any> {
   render() {
     const tableData: any[] = [];
     userData.map((user, index): any => {
@@ -100,28 +97,6 @@ class Constitution extends Component<RouteComponentProps, any> {
               </div>
             </div>
           </td>
-          {/* <td>
-            <div className="description-column  ml-0">
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">Marketing</span>
-              </p>
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">Sales</span>
-              </p>
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">HR</span>
-              </p>
-            </div>
-          </td> */}
           <td>
             <div className="description-column  ml-0">
               {user.region
@@ -137,16 +112,6 @@ class Constitution extends Component<RouteComponentProps, any> {
             </div>
           </td>
           <td className="text-center">
-            {/* <div className="description-column ml-0">
-              <p className="description-text">
-                <span className="text-label mr-1">Employee ID:</span>
-                <span className="align-middle">e546567cdg</span>
-              </p>
-              <p className="description-text">
-                <span className="text-label mr-1">Employee Username:</span>
-                <span className="align-middle">US_542346</span>
-              </p>
-            </div> */}
             <div>{user.assignedCanstitution}</div>
           </td>
           <td className="text-center">
@@ -164,7 +129,7 @@ class Constitution extends Component<RouteComponentProps, any> {
                 className="btn-icon mr-2"
                 id={`edit${index}`}
                 onClick={() =>
-                  this.props.history.push(AppRoutes.CONSTI_PERSONAL_DATA)
+                  this.props.history.push(AppRoutes.CARE_INSTITUTION_PERSONAL_DATA)
                 }
               >
                 <UncontrolledTooltip placement="top" target={`edit${index}`}>
@@ -176,7 +141,7 @@ class Constitution extends Component<RouteComponentProps, any> {
                 className="btn-icon mr-2"
                 id={`view${index}`}
                 onClick={() =>
-                  this.props.history.push(AppRoutes.CONSTI_PERSONAL_DATA)
+                  this.props.history.push(AppRoutes.CARE_INSTITUTION_PERSONAL_DATA)
                 }
               >
                 <UncontrolledTooltip placement="top" target={`view${index}`}>
@@ -207,7 +172,9 @@ class Constitution extends Component<RouteComponentProps, any> {
             color={"primary"}
             className={"btn-add"}
             id={"add-new-pm-tooltip"}
-            onClick={() => this.props.history.push(AppRoutes.ADD_CONSTITUTION)}
+            onClick={() =>
+              this.props.history.push(AppRoutes.ADD_CARE_INSTITUTION)
+            }
           >
             <i className={"fa fa-plus"} />
             &nbsp; Add New Constitution
@@ -255,18 +222,6 @@ class Constitution extends Component<RouteComponentProps, any> {
                   </Input>
                 </FormGroup>
               </Col>
-              {/* <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="Selectregion">Department:</Label>
-                      <Input type="select" name="region" id="Selectregion">
-                        <option>Sales</option>
-                        <option>Marketing</option>
-                        <option>HR</option>
-                        <option>Development</option>
-                        <option>Designing</option>
-                      </Input>
-                    </FormGroup>
-                  </Col> */}
               <Col lg={"2"}>
                 <div className="label-height"></div>
                 <div className="filter-btn-wrap">
@@ -310,7 +265,6 @@ class Constitution extends Component<RouteComponentProps, any> {
                   </div>
                 </th>
                 <th>Constitution Information</th>
-                {/* <th>Department</th> */}
                 <th>Region</th>
                 <th className="text-center">Assigned Canstitution</th>
                 <th className="text-center">Status</th>
@@ -325,4 +279,4 @@ class Constitution extends Component<RouteComponentProps, any> {
   }
 }
 
-export default Constitution;
+export default CareInstitution;

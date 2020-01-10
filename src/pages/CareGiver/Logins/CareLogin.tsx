@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table } from "reactstrap";
-import { languageTranslation } from "../../../helpers/langauageTranslation";
+import { languageTranslation } from "../../../helpers";
 class ToDo extends Component {
   render() {
     return (

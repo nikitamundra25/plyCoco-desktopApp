@@ -1,22 +1,14 @@
 import React, { Component, Suspense } from "react";
-import { Route, Switch, Redirect, RouteComponentProps } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import {
   Container,
-  Row,
-  Col,
-  Button,
-  UncontrolledButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
 } from "reactstrap";
 import { AppRoutes } from "../../config";
 import routes from "../../routes/routes";
-import { Region, CareGiver } from "../../config";
+import { CareGiver } from "../../config";
 // sidebar nav config
 import navigation from "../../_nav";
 import {
-  AppBreadcrumb,
   AppFooter,
   AppHeader,
   AppSidebar,
@@ -36,17 +28,16 @@ import appointment from "../../assets/img/appointment.svg";
 import delete_specilalist from "../../assets/img/delete-user.svg";
 import delete_appointment from "../../assets/img/delete-appointment.svg";
 import send_bills from "../../assets/img/send-bills.svg";
-import copy_institution from "../../assets/img/copy-new.svg";
 import clear from "../../assets/img/clear.svg";
-import copy_facility from "../../assets/img/copy.svg";
+import { languageTranslation } from "../../helpers";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 const CareGiverSidebar = React.lazy(() =>
   import("../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
 );
-const ConstitutionSidebar = React.lazy(() =>
-  import("../../pages/Constitution/Sidebar/SidebarLayout/ConstitutionLayout")
+const CareInstitutionSidebar = React.lazy(() =>
+  import("../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout")
 );
 
 // Care giver Sidebar
@@ -56,15 +47,8 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
       {...rest}
       render={props => (
         <div className="common-detail-page">
-          {/* <AppBreadcrumb appRoutes={routes} className="w-100" /> */}
           <div className="common-detail-section">
             <div className="sticky-common-header">
-              {/* <div className="d-flex align-items-center username-header">
-                    <span className="align-middle">
-                      <i className="fa fa-user mr-2"></i>
-                    </span>
-                    <span className="align-middle">John Doe (Caregiver)</span>
-                  </div> */}
               <div className="common-topheader d-flex align-items-center ">
                 <div className="user-select">
                   <Select
@@ -72,7 +56,6 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                       label: "John Doe",
                       value: 0
                     }}
-                    // value={this.state.selectedOption}
                     placeholder="Select Caregiver"
                     options={CareGiver}
                   />
@@ -81,64 +64,66 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                   <span className="header-nav-icon">
                     <img src={add} alt="" />
                   </span>
-                  <span className="header-nav-text">New Caregiver</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_NEW_CAREGIVER")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={save} alt="" />
                   </span>
-                  <span className="header-nav-text">Save</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("SAVE_BUTTON")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={reminder} alt="" />
                   </span>
-                  <span className="header-nav-text">Create Todo/Reminder</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_CREATE_TODO")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={password} alt="" />
                   </span>
-                  <span className="header-nav-text">New Password</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_NEW_PASSWORD")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={appointment} alt="" />
                   </span>
-                  <span className="header-nav-text">Display appointments</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_DISPLAY_APPOINTMENTS_")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={delete_specilalist} alt="" />
                   </span>
-                  <span className="header-nav-text">Delete specialist</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_DELETE_SPECIALIST")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={delete_appointment} alt="" />
                   </span>
                   <span className="header-nav-text">
-                    Delete future appointments
+                    {languageTranslation("CG_MENU_DELETE_FUTURE_APPOINTMENTS_")}
                   </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={send_bills} alt="" />
                   </span>
-                  <span className="header-nav-text">Send pay slips</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_SEND_PAY_SLIP")}
+                  </span>
                 </div>
-                {/* <div className="header-nav-item">
-                      <span className="header-nav-text">
-                        <UncontrolledButtonDropdown>
-                          <DropdownToggle caret>More</DropdownToggle>
-                          <DropdownMenu>
-                            <DropdownItem></DropdownItem>
-                            <DropdownItem></DropdownItem>
-                            <DropdownItem>Send pay slips</DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledButtonDropdown>
-                      </span>
-                    </div> */}
               </div>
               <CareGiverSidebar {...props} />
             </div>
@@ -152,21 +137,14 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
     />
   );
 };
-const ConstitutionLayout = ({ component: Component, ...rest }: any) => {
+const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
   return (
     <Route
       {...rest}
       render={props => (
         <div className="common-detail-page">
-          {/* <AppBreadcrumb appRoutes={routes} className="w-100" /> */}
           <div className="common-detail-section">
             <div className="sticky-common-header">
-              {/* <div className="d-flex align-items-center username-header">
-                    <span className="align-middle">
-                      <i className="fa fa-user mr-2"></i>
-                    </span>
-                    <span className="align-middle">John Doe (Caregiver)</span>
-                  </div> */}
               <div className="common-topheader d-flex align-items-center ">
                 <div className="user-select">
                   <Select
@@ -174,7 +152,6 @@ const ConstitutionLayout = ({ component: Component, ...rest }: any) => {
                       label: "John Doe",
                       value: 0
                     }}
-                    // value={this.state.selectedOption}
                     placeholder="Select Caregiver"
                     options={CareGiver}
                   />
@@ -217,7 +194,7 @@ const ConstitutionLayout = ({ component: Component, ...rest }: any) => {
                   <span className="header-nav-text">Clear</span>
                 </div>
               </div>
-              <ConstitutionSidebar {...props} />
+              <CareInstitutionSidebar {...props} />
             </div>
             <div className="common-content flex-grow-1">
               <Component {...props} />
@@ -240,12 +217,6 @@ class DefaultLayout extends Component<any, any> {
     };
   }
 
-  // componentDidMount() {
-  //   if (!localStorage.getItem('token')) {
-  //     this.props.history.push(AppRoutes.LOGIN);
-  //   }
-  // }
-
   render() {
     return (
       <div className="app">
@@ -265,7 +236,6 @@ class DefaultLayout extends Component<any, any> {
             <AppSidebarMinimizer />
           </AppSidebar>
           <main className="main">
-            {/* <AppBreadcrumb appRoutes={routes} /> */}
             <Container fluid>
               <Suspense fallback={<Loader />}>
                 <Switch>
@@ -279,13 +249,13 @@ class DefaultLayout extends Component<any, any> {
                           component={route.component}
                         />
                       ) : (
-                        <ConstitutionLayout
-                          key={idx}
-                          path={route.path}
-                          exact={route.exact}
-                          component={route.component}
-                        />
-                      )
+                          <CareInstitutionLayout
+                            key={idx}
+                            path={route.path}
+                            exact={route.exact}
+                            component={route.component}
+                          />
+                        )
                     ) : route.component ? (
                       <Route
                         key={idx}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Card, CardBody, Table } from "reactstrap";
+import { Table } from "reactstrap";
 import { RouteComponentProps } from "react-router";
-import { languageTranslation } from "../../../helpers/langauageTranslation";
+import { languageTranslation } from "../../../helpers";
 
 class Login extends Component<RouteComponentProps, any> {
   constructor(props: any) {

@@ -17,7 +17,7 @@ const options = [
   { label: "one", value: 1 },
   { label: "two", value: 2 }
 ];
-import { languageTranslation } from "../../../helpers/langauageTranslation";
+import { languageTranslation } from "../../../helpers";
 
 import { State, Region } from "../../../config";
 class Offer extends Component {

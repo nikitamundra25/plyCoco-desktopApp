@@ -26,6 +26,8 @@ import routes from "../../routes/routes";
 import { userData } from "./CareGiverData";
 import { string } from "prop-types";
 import Search from "../../common/SearchFilter";
+import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
+import { languageTranslation } from "../../helpers";
 class CareGiver extends Component<RouteComponentProps, any> {
   render() {
     const tableData: any[] = [];
@@ -145,28 +147,23 @@ class CareGiver extends Component<RouteComponentProps, any> {
           </td>
           <td>
             <div className="action-btn">
-              <span
-                className="btn-icon mr-2"
+              <ButtonTooltip
                 id={`view${index}`}
-                onClick={() =>
+                message={languageTranslation("CAREGIVER_VIEW")}
+                onclick={() =>
                   this.props.history.push(AppRoutes.PERSONAL_INFORMATION)
                 }
               >
-                <UncontrolledTooltip placement="top" target={`view${index}`}>
-                  Click here to view caretaker
-                </UncontrolledTooltip>
+                {" "}
                 <i className="fa fa-eye"></i>
-              </span>
-              <span
-                className="btn-icon "
+              </ButtonTooltip>
+              <ButtonTooltip
                 id={`delete${index}`}
-                onClick={() => this.props.history.push("")}
+                message={languageTranslation("CAREGIVER_DELETE")}
+                onclick={() => this.props.history.push("")}
               >
-                <UncontrolledTooltip placement="top" target={`delete${index}`}>
-                  Click here to delete caretaker
-                </UncontrolledTooltip>
                 <i className="fa fa-trash"></i>
-              </span>
+              </ButtonTooltip>
             </div>
           </td>
         </tr>
@@ -196,69 +193,6 @@ class CareGiver extends Component<RouteComponentProps, any> {
               <div>
                 <Search />
               </div>
-              {/* <div className="filter-form form-section">
-                <Row>
-                  <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="search" className="col-form-label">
-                        Search:
-                      </Label>
-                      <Input
-                        type="text"
-                        name="search"
-                        id="search"
-                        placeholder="Search.."
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="Selectregion" className="col-form-label">
-                        Region:
-                      </Label>
-                      <Input type="select" name="region" id="Selectregion">
-                        <option>Western India</option>
-                        <option>East India</option>
-                        <option>South India</option>
-                        <option>Northeast India</option>
-                        <option>Central India</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-
-                  <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="Selectregion" className="col-form-label">
-                        Sort By:
-                      </Label>
-                      <Input type="select" name="region" id="Selectregion">
-                        <option>Popularity</option>
-                        <option>A-Z</option>
-                        <option>Z-A</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-
-                  <Col lg={"2"}>
-                    <div className="label-height"></div>
-                    <div className="filter-btn-wrap">
-                      <span className="btn-filter mr-2" id="search1">
-                        <UncontrolledTooltip placement="top" target="search1">
-                          Search
-                        </UncontrolledTooltip>
-                        <i className="fa fa-search"></i>
-                      </span>
-                      <span className="btn-filter mr-2" id="reset">
-                        <UncontrolledTooltip placement="top" target="reset">
-                          Reset
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh "></i>
-                      </span>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-               */}
               <Table bordered hover responsive>
                 <thead className="thead-bg">
                   <tr>

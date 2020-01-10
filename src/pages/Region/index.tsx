@@ -1,20 +1,14 @@
 import React, { Component } from "react";
 import {
   Button,
-  FormGroup,
   Card,
   CardHeader,
-  Label,
   CardBody,
-  Input,
-  Col,
-  Row,
   Table,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  UncontrolledTooltip
 } from "reactstrap";
 import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
@@ -22,6 +16,8 @@ import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import Search from "../../common/SearchFilter";
 import { toast } from "react-toastify";
+import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
+import { languageTranslation } from "../../helpers";
 const userData = [
   {
     region: "Central Germany",
@@ -130,12 +126,12 @@ class Region extends Component<RouteComponentProps, any> {
                     <td className="text-center">{user.appointment}</td>
                     <td>
                       <div className="action-btn">
-                        <span className="btn-icon " id="delete">
-                          <UncontrolledTooltip placement="top" target="delete">
-                            Click here to delete region
-                          </UncontrolledTooltip>
+                        <ButtonTooltip
+                          id={`careGiverDelete${index}`}
+                          message={languageTranslation("REGION_DELETE")}
+                        >
                           <i className="fa fa-trash"></i>
-                        </span>
+                        </ButtonTooltip>
                       </div>
                     </td>
                   </tr>

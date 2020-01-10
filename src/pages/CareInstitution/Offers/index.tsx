@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Col, Row, Card, CardBody } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import { RouteComponentProps } from "react-router";
 
-class Reminders extends Component<RouteComponentProps, any> {
+class Offers extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -23,10 +23,10 @@ class Reminders extends Component<RouteComponentProps, any> {
     return (
       <div>
         <Card>
-          <CardBody>Reminders</CardBody>
+          <CardBody>Offers</CardBody>
         </Card>
       </div>
     );
   }
 }
-export default Reminders;
+export default Offers;

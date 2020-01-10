@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, ChangeEvent } from "react";
 import {
   Button,
   FormGroup,
@@ -17,13 +17,14 @@ import routes from "../../../routes/routes";
 import InputMask from "react-input-mask";
 import { IEmployeeFormValues } from "../../../interfaces";
 import { FormikProps, Field, Form } from "formik";
-import PictureInput from "./PictureInput";
-import { languageTranslation } from "../../../helpers/langauageTranslation";
+import { languageTranslation } from "../../../helpers";
 import { logger } from "../../../helpers";
-import moment from "moment";
+import InputFieldTooltip from "../../../common/Tooltip/InputFieldTooltip";
+
 const EmployeeFormComponent: any = (
   props: FormikProps<IEmployeeFormValues>
 ) => {
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   const {
     values: {
       email,
@@ -49,19 +50,45 @@ const EmployeeFormComponent: any = (
     isSubmitting,
     handleChange,
     handleBlur,
-    handleSubmit
+    handleSubmit,
+    setFieldValue,
+    setFieldTouched
   } = props;
-  const dateValidation = moment(joiningDate).isValid();
+  logger("errors**********");
+  logger(errors);
+  logger("touched*******");
+  logger(touched);
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setFieldTouched("image", true);
+    const {
+      target: { files }
+    } = e;
+    let reader = new FileReader();
+    let file: any = "";
+    if (files) {
+      file = files[0];
+    }
+    if (file) {
+      reader.onloadend = () => {
+        setUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+      setFieldValue("image", file);
+    }
+  };
 
-  const obj = moment(joiningDate);
-  console.log("date isisis", dateValidation);
   return (
     <div>
       <Card>
         <CardHeader>
           <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-          <Button color={"primary"} className={"btn-add"}>
-            Save
+          <Button
+            color={"primary"}
+            className={"btn-add"}
+            onClick={handleSubmit}
+          >
+            {languageTranslation("SAVE_BUTTON")}
           </Button>
         </CardHeader>
         <CardBody>
@@ -105,7 +132,9 @@ const EmployeeFormComponent: any = (
                                     }
                                   />
                                   {errors.firstName && touched.firstName && (
-                                    <div className="">{errors.firstName}</div>
+                                    <div className="required-error">
+                                      {errors.firstName}
+                                    </div>
                                   )}
                                 </div>
                               </Col>
@@ -142,7 +171,9 @@ const EmployeeFormComponent: any = (
                                     }
                                   />
                                   {errors.lastName && touched.lastName && (
-                                    <div className="">{errors.lastName}</div>
+                                    <div className="required-error">
+                                      {errors.lastName}
+                                    </div>
                                   )}
                                 </div>
                               </Col>
@@ -178,7 +209,9 @@ const EmployeeFormComponent: any = (
                                     }
                                   />
                                   {errors.email && touched.email && (
-                                    <div className="">{errors.email}</div>
+                                    <div className="required-error">
+                                      {errors.email}
+                                    </div>
                                   )}
                                 </div>
                               </Col>
@@ -214,7 +247,9 @@ const EmployeeFormComponent: any = (
                                     }
                                   />
                                   {errors.userName && touched.userName && (
-                                    <div className="">{errors.userName}</div>
+                                    <div className="required-error">
+                                      {errors.userName}
+                                    </div>
                                   )}
                                 </div>
                               </Col>
@@ -252,7 +287,7 @@ const EmployeeFormComponent: any = (
                                   />
                                   {errors.telephoneNumber &&
                                     touched.telephoneNumber && (
-                                      <div className="">
+                                      <div className="required-error">
                                         {errors.telephoneNumber}
                                       </div>
                                     )}
@@ -266,7 +301,9 @@ const EmployeeFormComponent: any = (
                   </Col>
 
                   <Col lg={"6"}>
-                    <h5 className="main-title ">Bank Account Information</h5>
+                    <h5 className="main-title ">
+                      {languageTranslation("BANK_ACCOUNT_INFORMATION")}
+                    </h5>
                     <div className="form-card">
                       <Col lg={"12"}>
                         <FormGroup>
@@ -296,49 +333,15 @@ const EmployeeFormComponent: any = (
                                   }`}
                                 />
                                 {errors.bankName && touched.bankName && (
-                                  <div className="">{errors.bankName}</div>
+                                  <div className="required-error">
+                                    {errors.bankName}
+                                  </div>
                                 )}
                               </div>
                             </Col>
                           </Row>
                         </FormGroup>
                       </Col>
-                      {/* <Col lg={"12"}>
-                            <FormGroup>
-                              <Row>
-                                <Col sm="4">
-                                  <Label className="form-label col-form-label ">
-                                    {languageTranslation(
-                                      "EMPLOYEE_BANK_ACCOUNT_NUMBER_LABEL"
-                                    )}
-                                  </Label>
-                                </Col>
-                                <Col sm="8">
-                                  <div>
-                                    <Input
-                                      type="text"
-                                      name={"bankAccountNumber"}
-                                      placeholder={languageTranslation(
-                                        "EMPLOYEE_BANK_ACCOUNT_NUMBER_PLACEHOLDER"
-                                      )}
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={bankAccountNumber}
-                                      className={`width-common ${
-                                        errors.bankName && touched.bankName
-                                          ? "text-input error"
-                                          : "text-input"
-                                      }`}
-                                    />
-                                    {errors.bankName && touched.bankName && (
-                                      <div className="">{errors.bankName}</div>
-                                    )}
-                                  </div>
-                                </Col>
-                              </Row>
-                            </FormGroup>
-                          </Col> */}
-
                       <Col lg={"12"}>
                         <FormGroup>
                           <Row>
@@ -370,7 +373,7 @@ const EmployeeFormComponent: any = (
                                 />
                                 {errors.accountHolderName &&
                                   touched.accountHolderName && (
-                                    <div className="">
+                                    <div className="required-error">
                                       {errors.accountHolderName}
                                     </div>
                                   )}
@@ -407,7 +410,9 @@ const EmployeeFormComponent: any = (
                                   }`}
                                 />
                                 {errors.IBAN && touched.IBAN && (
-                                  <div className="">{errors.IBAN}</div>
+                                  <div className="required-error">
+                                    {errors.IBAN}
+                                  </div>
                                 )}
                                 {/* <Input type="text" name={"IBAN"} /> */}
                               </div>
@@ -442,7 +447,9 @@ const EmployeeFormComponent: any = (
                                   }
                                 />
                                 {errors.BIC && touched.BIC && (
-                                  <div className="">{errors.BIC}</div>
+                                  <div className="required-error">
+                                    {errors.BIC}
+                                  </div>
                                 )}
                               </div>
                             </Col>
@@ -455,13 +462,13 @@ const EmployeeFormComponent: any = (
                             <Col sm="4">
                               <Label className="form-label col-form-label ">
                                 {languageTranslation("ADDITIONAL_TEXT_LABEL")}
-                                {/* Additional text */}
-                                <br />
-                                <small>
-                                  This text appears below the bank details on
-                                  the invoice. In the case of ceded invoices
-                                  (factoring), the cession can be added here.
-                                </small>
+                                &nbsp;
+                                <InputFieldTooltip
+                                  id="ADDITIONAL_TEXT"
+                                  message={languageTranslation(
+                                    "ADDITIONAL_TEXT"
+                                  )}
+                                />
                               </Label>
                             </Col>
                             <Col sm="8">
@@ -486,7 +493,9 @@ const EmployeeFormComponent: any = (
                   </Col>
 
                   <Col lg={"12"}>
-                    <h5 className="main-title "> Other Information</h5>
+                    <h5 className="main-title ">
+                      {languageTranslation("OTHER_INFORMATION")}
+                    </h5>
                     <div className="form-card">
                       <Row>
                         <Col lg={"6"}>
@@ -574,7 +583,6 @@ const EmployeeFormComponent: any = (
                               <Col sm="4">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation("COUNTRY_LABEL")}
-                                  {/* Country */}
                                 </Label>
                               </Col>
                               <Col sm="8">
@@ -604,7 +612,6 @@ const EmployeeFormComponent: any = (
                               <Col sm="8">
                                 <div>
                                   <Select
-                                    // value={this.state.selectedOption}
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_STATE_PLACEHOLDER"
                                     )}
@@ -626,7 +633,6 @@ const EmployeeFormComponent: any = (
                               <Col sm="8">
                                 <div>
                                   <Select
-                                    // value={this.state.selectedOption}
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_CITY_PLACEHOLDER"
                                     )}
@@ -682,12 +688,18 @@ const EmployeeFormComponent: any = (
                                         )}
                                         mask="99/99/9999"
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         value={joiningDate}
-                                        className="form-control"
+                                        className={`form-control ${
+                                          errors.joiningDate &&
+                                          touched.joiningDate
+                                            ? "text-input error"
+                                            : "text-input"
+                                        }`}
                                       />
                                       {errors.joiningDate &&
                                         touched.joiningDate && (
-                                          <div className="">
+                                          <div className="required-error">
                                             {errors.joiningDate}
                                           </div>
                                         )}
@@ -707,39 +719,40 @@ const EmployeeFormComponent: any = (
                                   {languageTranslation(
                                     "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
                                   )}
-                                  {/* Add Profile image */}
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div className="custom-file-div">
-                                  <input
+                                <div>
+                                  <Input
                                     type="file"
-                                    id="FileBrowser"
-                                    name="customFile"
-                                    className="custom-input-file"
+                                    name={"image"}
+                                    accept="image/*"
+                                    placeholder={languageTranslation(
+                                      "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
+                                    )}
+                                    onChange={handleImageChange}
                                   />
-                                  <Label
-                                    className="custom-label-file"
-                                    for="FileBrowser"
-                                  >
-                                    <span className="file-text">
-                                      Filename.png
-                                    </span>
-                                    <span className="choosefile-label">
-                                      <i className="fa fa-folder-open-o mr-2"></i>{" "}
-                                      <span>Choose a file</span>
-                                    </span>
-                                  </Label>
-                                </div>
-                                {/* <div>
-                                  <Field
-                                    name="image"
-                                    component={PictureInput}
-                                  />
-                                  {errors.image && touched.image && (
-                                    <div className="">{errors.image}</div>
+                                  {!errors.image ? (
+                                    imagePreviewUrl &&
+                                    typeof imagePreviewUrl === "string" ? (
+                                      <img
+                                        src={imagePreviewUrl}
+                                        width={30}
+                                        height={30}
+                                      />
+                                    ) : (
+                                      ""
+                                    )
+                                  ) : (
+                                    ""
                                   )}
-                                </div> */}
+
+                                  {errors.image && touched.image && (
+                                    <div className="required-error">
+                                      {errors.image}
+                                    </div>
+                                  )}
+                                </div>
                               </Col>
                             </Row>
                           </FormGroup>
@@ -750,21 +763,9 @@ const EmployeeFormComponent: any = (
                 </Row>
                 <Col lg={"12"}>
                   <div className="d-flex align-items-center justify-content-between">
-                    <div className="mandatory-text">* Required Fields</div>
-                    {/* <div className={"text-right"}>
-                          <Button
-                            disabled={isSubmitting}
-                            color="primary"
-                            type={"submit"}
-                            className="btn-sumbit"
-                            // onClick={(e: any) => {
-                            //   e.preventDefault();
-                            //   handleSubmit();
-                            // }}
-                          >
-                            Save
-                          </Button>
-                        </div> */}
+                    <div className="mandatory-text">
+                      {languageTranslation("REQUIRED_FIELDS")}
+                    </div>
                   </div>
                 </Col>
               </Form>

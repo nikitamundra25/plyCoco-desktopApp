@@ -48,15 +48,6 @@ class AddRegion extends Component {
                   <Col lg={"12"}>
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="mandatory-text">* Required Field</div>
-                      {/* <div className={"text-right"}>
-                            <Button
-                              color="primary"
-                              type="submit"
-                              className="btn-sumbit"
-                            >
-                              Save
-                            </Button>
-                          </div> */}
                     </div>
                   </Col>
                 </Form>

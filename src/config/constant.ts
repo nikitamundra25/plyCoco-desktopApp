@@ -1,7 +1,9 @@
 import { IReactSelectInterface } from "../interfaces";
+import { languageTranslation } from "../helpers";
 export const telephoneReqExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 export const nameRegExp = /^[A-Za-z]+$/;
-export const fileSize = 500 * 1024;
+export const fileSize = 125 * 1024;
+
 export const SupportedFormats = [
   "image/jpg",
   "image/jpeg",
@@ -9,8 +11,8 @@ export const SupportedFormats = [
   "image/png"
 ];
 export const Status: IReactSelectInterface[] = [
-  { value: "true", label: "Active" },
-  { value: "false", label: "Disable" }
+  { value: "true", label: languageTranslation("ACTIVE") },
+  { value: "false", label: languageTranslation("DISABLE") }
 ];
 export const State: IReactSelectInterface[] = [
   { value: "Thuringia", label: "Thuringia" },

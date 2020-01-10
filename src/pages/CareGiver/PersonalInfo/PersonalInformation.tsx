@@ -17,9 +17,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
 import InputMask from "react-input-mask";
-
-import { languageTranslation } from "../../../helpers/langauageTranslation";
-
 import {
   State,
   Region,
@@ -28,6 +25,7 @@ import {
   Country,
   NightAllowancePerHour
 } from "../../../config";
+import { languageTranslation } from "../../../helpers";
 
 class PersonalInformation extends Component<RouteComponentProps, any> {
   constructor(props: any) {
@@ -73,7 +71,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            User Id
+                            {languageTranslation("USER_ID")}
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -84,7 +82,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                 <Input
                                   type="text"
                                   name={"lastName"}
-                                  placeholder="User id"
+                                  placeholder={languageTranslation("USER_ID")}
                                   className="width-common"
                                 />
                               </div>
@@ -94,7 +92,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                 <Row className="custom-col inner-no-padding-col">
                                   <Col sm="6">
                                     <Label className="form-label col-form-label inner-label">
-                                      Reg Since
+                                      {languageTranslation("REG_SINCE")}
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>
@@ -121,7 +119,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            Region/State
+                            {languageTranslation("CAREGIVER_STATE_LABEL")}
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -141,7 +139,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row className="">
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            Gender
+                            {languageTranslation("GENDER")}
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -149,7 +147,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Row className="custom-col inner-no-padding-col">
                             <Col sm="5">
                               <div>
-                                <Select placeholder="Gender" options={State} />
+                                <Select
+                                  placeholder={languageTranslation("GENDER")}
+                                  options={State}
+                                />
                               </div>
                             </Col>
                             <Col sm="7">
@@ -157,7 +158,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                 <Row className="custom-col inner-no-padding-col d-flex align-items-center">
                                   <Col sm="6">
                                     <Label className="form-label col-form-label inner-label">
-                                      Title
+                                      {languageTranslation("TITLE")}
                                       <span className="required">*</span>
                                     </Label>
                                   </Col>
@@ -166,7 +167,9 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                       <Input
                                         type="text"
                                         name={"lastName"}
-                                        placeholder="Title"
+                                        placeholder={languageTranslation(
+                                          "TITLE"
+                                        )}
                                         className="width-common"
                                       />
                                     </div>
@@ -184,14 +187,14 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            Salutation
+                            {languageTranslation("SALUTATION")}
                             <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
                           <div>
                             <Select
-                              placeholder="Salutation"
+                              placeholder={languageTranslation("SALUTATION")}
                               options={Salutation}
                             />
                           </div>
@@ -205,7 +208,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            First Name
+                            {languageTranslation("FIRST_NAME")}
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -214,7 +217,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"firstName"}
-                              placeholder="First Name"
+                              placeholder={languageTranslation("FIRST_NAME")}
                               className="width-common"
                             />
                           </div>
@@ -228,7 +231,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            Surname
+                            {languageTranslation("SURNAME")}
                             <span className="required">*</span>
                           </Label>
                         </Col>
@@ -237,7 +240,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             <Input
                               type="text"
                               name={"lastName"}
-                              placeholder="Surname"
+                              placeholder={languageTranslation("SURNAME")}
                               className="width-common"
                             />
                           </div>

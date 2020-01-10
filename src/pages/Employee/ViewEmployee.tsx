@@ -1,17 +1,10 @@
 import React, { Component } from "react";
 import {
-  Button,
-  FormGroup,
   Card,
   CardHeader,
-  Label,
   CardBody,
-  CardGroup,
-  Container,
-  Input,
   Col,
   Row,
-  Form
 } from "reactstrap";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
@@ -101,30 +94,14 @@ class ViewEmployee extends Component {
                 <div className="employee-title">Other Information</div>
               </Col>
               <Col lg={"6"} md={"6"} className="mb-3">
-                {/* <div className="user-item">
-                      <span className="text-label">Department </span>
-                      <span className="text-value">
-                        :&nbsp;&nbsp;HR Marketing
-                      </span>
-                    </div> */}
                 <div className="user-item">
                   <span className="text-label">Region</span>
                   <span className="text-value">:&nbsp;&nbsp;North Asia</span>
                 </div>
-                {/* <div className="user-item">
-                      <span className="text-label">Employee ID</span>
-                      <span className="text-value">:&nbsp;&nbsp;657689980</span>
-                    </div> */}
                 <div className="user-item">
                   <span className="text-label">Joining Date</span>
                   <span className="text-value">:&nbsp;&nbsp;12/03/2010</span>
                 </div>
-                {/* <div className="user-item">
-                      <span className="text-label">Any Other Information</span>
-                      <span className="text-value">
-                        :&nbsp;&nbsp;43546768945
-                      </span>
-                    </div> */}
                 <div className="user-item">
                   <span className="text-label">Address</span>
                   <span className="text-value">

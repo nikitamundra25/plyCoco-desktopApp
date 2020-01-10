@@ -60,7 +60,7 @@ const userData = [
     assignedCanstitution: "3"
   }
 ];
-class Constitution extends Component<RouteComponentProps, any> {
+class CareInstitution extends Component<RouteComponentProps, any> {
   render() {
     const tableData: any[] = [];
     userData.map((user, index): any => {
@@ -325,4 +325,4 @@ class Constitution extends Component<RouteComponentProps, any> {
   }
 }
 
-export default Constitution;
+export default CareInstitution;

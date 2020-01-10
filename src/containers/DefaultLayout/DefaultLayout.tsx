@@ -46,7 +46,7 @@ const CareGiverSidebar = React.lazy(() =>
   import("../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
 );
 const ConstitutionSidebar = React.lazy(() =>
-  import("../../pages/Constitution/Sidebar/SidebarLayout/ConstitutionLayout")
+  import("../../pages/CareInstitution/Sidebar/SidebarLayout/ConstitutionLayout")
 );
 
 // Care giver Sidebar

@@ -21,7 +21,7 @@ import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../routes/routes";
 import InputMask from "react-input-mask";
 
-class AddConstitution extends Component<any, any> {
+class AddCareInstitution extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -458,4 +458,4 @@ class AddConstitution extends Component<any, any> {
     );
   }
 }
-export default AddConstitution;
+export default AddCareInstitution;

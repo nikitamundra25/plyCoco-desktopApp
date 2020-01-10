@@ -28,7 +28,7 @@ const CareGiverLayout = React.lazy(() =>
   import("../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
 );
 const ConstitutionLayout = React.lazy(() =>
-  import("../pages/Constitution/Sidebar/SidebarLayout/ConstitutionLayout")
+  import("../pages/CareInstitution/Sidebar/SidebarLayout/ConstitutionLayout")
 );
 const PersonalInformation = React.lazy(() =>
   import("../pages/CareGiver/PersonalInfo/PersonalInformation")
@@ -73,36 +73,36 @@ const DocumentUpload = React.lazy(() =>
   import("../pages/CareGiver/Documents/DocumentsUpload")
 );
 const AddConstitution = React.lazy(() =>
-  import("../pages/Constitution/AddConstitution/AddConstitution")
+  import("../pages/CareInstitution/AddCareInstitution/AddCareInstitution")
 );
-const Constitution = React.lazy(() => import("../pages/Constitution"));
+const Constitution = React.lazy(() => import("../pages/CareInstitution"));
 const ConstitutionPersonalInfo = React.lazy(() =>
-  import("../pages/Constitution/PersonalInfo")
+  import("../pages/CareInstitution/PersonalInfo")
 );
 const ConstitutionCommissionAgreement = React.lazy(() =>
-  import("../pages/Constitution/CommisionAgreement")
+  import("../pages/CareInstitution/CommisionAgreement")
 );
 
 const ConstitutionOffer = React.lazy(() =>
-  import("../pages/Constitution/Offers")
+  import("../pages/CareInstitution/Offers")
 );
 const ConstitutionLogin = React.lazy(() =>
-  import("../pages/Constitution/Login")
+  import("../pages/CareInstitution/Login")
 );
 const ConstitutionInvoices = React.lazy(() =>
-  import("../pages/Constitution/invoiceMenu")
+  import("../pages/CareInstitution/invoiceMenu")
 );
 const ConstitutionDocuments = React.lazy(() =>
-  import("../pages/Constitution/Documents")
+  import("../pages/CareInstitution/Documents")
 );
 const ConstitutionDepartment = React.lazy(() =>
-  import("../pages/Constitution/Departments")
+  import("../pages/CareInstitution/Departments")
 );
 const ConstitutionEmail = React.lazy(() =>
-  import("../pages/Constitution/Emails")
+  import("../pages/CareInstitution/Emails")
 );
 const ConstitutionReminder = React.lazy(() =>
-  import("../pages/Constitution/Reminders")
+  import("../pages/CareInstitution/Reminders")
 );
 const routes = [
   {

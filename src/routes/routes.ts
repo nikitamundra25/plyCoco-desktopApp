@@ -27,7 +27,9 @@ const EditCareGiver = React.lazy(() =>
 const CareGiverLayout = React.lazy(() =>
   import("../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
 );
-const ConstitutionLayout = React.lazy(() => import("../pages/Constitution/Sidebar/SidebarLayout/ConstitutionLayout"))
+const ConstitutionLayout = React.lazy(() =>
+  import("../pages/Constitution/Sidebar/SidebarLayout/ConstitutionLayout")
+);
 const PersonalInformation = React.lazy(() =>
   import("../pages/CareGiver/PersonalInfo/PersonalInformation")
 );
@@ -45,57 +47,93 @@ const ChangePassword = React.lazy(() =>
   import("../pages/CareGiver/ChangePassword/ChangePassword")
 );
 const Email = React.lazy(() => import("../pages/CareGiver/Emails/EmailMenus"));
-const InboxEmail = React.lazy(() => import("../pages/CareGiver/Emails/InboxEmail"));
-const SentEmail = React.lazy(() => import("../pages/CareGiver/Emails/SentEmail"));
+const InboxEmail = React.lazy(() =>
+  import("../pages/CareGiver/Emails/InboxEmail")
+);
+const SentEmail = React.lazy(() =>
+  import("../pages/CareGiver/Emails/SentEmail")
+);
 const NewEmail = React.lazy(() => import("../pages/CareGiver/Emails/NewEmail"));
 const EmailSettings = React.lazy(() =>
   import("../pages/CareGiver/Emails/EmailSettings")
 );
 const Event = React.lazy(() => import("../pages/CareGiver/Events/Event"));
 const Offer = React.lazy(() => import("../pages/CareGiver/Offers/Offer"));
-const Invoices = React.lazy(() => import("../pages/CareGiver/Invoices/Invoices"));
-const care_login = React.lazy(() => import("../pages/CareGiver/Logins/CareLogin"));
+const Invoices = React.lazy(() =>
+  import("../pages/CareGiver/Invoices/Invoices")
+);
+const care_login = React.lazy(() =>
+  import("../pages/CareGiver/Logins/CareLogin")
+);
 const Todos = React.lazy(() => import("../pages/CareGiver/ToDos/ToDos"));
-const Signature = React.lazy(() => import("../pages/CareGiver/Signature/Signature"));
+const Signature = React.lazy(() =>
+  import("../pages/CareGiver/Signature/Signature")
+);
 const DocumentUpload = React.lazy(() =>
   import("../pages/CareGiver/Documents/DocumentsUpload")
 );
-const AddConstitution = React.lazy(() => import("../pages/Constitution/AddConstitution/AddConstitution"))
-const Constitution = React.lazy(() => import("../pages/Constitution"))
-const ConstitutionPersonalInfo = React.lazy(() => import("../pages/Constitution/PersonalInfo"))
-const ConstitutionCommissionAgreement = React.lazy(() => import("../pages/Constitution/CommisionAgreement"))
-const ConstitutionInvoiceMenu = React.lazy(() => import("../pages/Constitution/invoiceMenu"))
+const AddConstitution = React.lazy(() =>
+  import("../pages/Constitution/AddConstitution/AddConstitution")
+);
+const Constitution = React.lazy(() => import("../pages/Constitution"));
+const ConstitutionPersonalInfo = React.lazy(() =>
+  import("../pages/Constitution/PersonalInfo")
+);
+const ConstitutionCommissionAgreement = React.lazy(() =>
+  import("../pages/Constitution/CommisionAgreement")
+);
 
+const ConstitutionOffer = React.lazy(() =>
+  import("../pages/Constitution/Offers")
+);
+const ConstitutionLogin = React.lazy(() =>
+  import("../pages/Constitution/Login")
+);
+const ConstitutionInvoices = React.lazy(() =>
+  import("../pages/Constitution/invoiceMenu")
+);
+const ConstitutionDocuments = React.lazy(() =>
+  import("../pages/Constitution/Documents")
+);
+const ConstitutionDepartment = React.lazy(() =>
+  import("../pages/Constitution/Departments")
+);
+const ConstitutionEmail = React.lazy(() =>
+  import("../pages/Constitution/Emails")
+);
+const ConstitutionReminder = React.lazy(() =>
+  import("../pages/Constitution/Reminders")
+);
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
     name: "Add Care Giver",
     component: AddCareGiver,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.ADD_CONSTITUTION,
     name: "Add Constitution",
     component: AddConstitution,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.ADD_DEPARTMENT,
     name: "Add Department",
     component: AddDepartment,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.ADD_EMPLOYEE,
     name: "Add Employee",
     component: EmployeeFormComponent,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.ADD_REGION,
     name: "Add Region",
     component: AddRegion,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.BILLING_SETTING,
@@ -109,7 +147,7 @@ const routes = [
     path: AppRoutes.CARE_GIVER,
     name: "Care Giver",
     component: CareGiver,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.CARE_LOGIN,
@@ -131,7 +169,7 @@ const routes = [
     path: AppRoutes.CONSTITUTION,
     name: "Constitution",
     component: Constitution,
-    exact: true,
+    exact: true
   },
   { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
@@ -151,25 +189,72 @@ const routes = [
     layoutName: "Constitution"
   },
   {
-    path: AppRoutes.CONSTI_INVOICE_CYCLE,
-    name: "Constitution Invocice Menu",
-    component: ConstitutionInvoiceMenu,
+    path: AppRoutes.CONSTI_OFFER,
+    name: "Constitution Offer",
+    component: ConstitutionOffer,
     exact: true,
     layout: ConstitutionLayout,
     layoutName: "Constitution"
   },
-  { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
+  {
+    path: AppRoutes.CONSTI_LOGIN,
+    name: "Constitution Login",
+    component: ConstitutionLogin,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
+  },
+  {
+    path: AppRoutes.CONSTI_INVOICE_CYCLE,
+    name: "Constitution Invoices",
+    component: ConstitutionInvoices,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
+  },
+  {
+    path: AppRoutes.CONSTI_DOCUMENT,
+    name: "Constitution Documents",
+    component: ConstitutionDocuments,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
+  },
+  {
+    path: AppRoutes.CONSTI_DEPARTMENT,
+    name: "Constitution Department",
+    component: ConstitutionDepartment,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
+  },
+  {
+    path: AppRoutes.CONSTI_EMAIL,
+    name: "Constitution Emails",
+    component: ConstitutionEmail,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
+  },
+  {
+    path: AppRoutes.CONSTI_REMINDER,
+    name: "Constitution Reminders",
+    component: ConstitutionReminder,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
+  },
   {
     path: AppRoutes.HOME,
     name: "Dashboard",
     component: Dashboard,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.DEPARTMENT,
     name: "Department",
     component: Department,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.DOCUMENTS_UPLOAD,
@@ -183,13 +268,13 @@ const routes = [
     path: AppRoutes.EDIT_CARE_GIVER,
     name: "Edit Care Giver",
     component: EditCareGiver,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.EDIT_EMPLOYEE,
     name: "Edit Employee",
     component: EditEmployee,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.EMAIL_SETTINGS,
@@ -211,7 +296,7 @@ const routes = [
     path: AppRoutes.EMPLOYEE,
     name: "Employee",
     component: Employee,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.EVENT,
@@ -249,7 +334,7 @@ const routes = [
     path: AppRoutes.LOGIN,
     name: "Login",
     component: Login,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.NEW_EMAIL,
@@ -279,7 +364,7 @@ const routes = [
     path: AppRoutes.MY_PROFILE,
     name: "Profile",
     component: MyProfile,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.QUALIFICATION_ATTRIBUTE,
@@ -293,7 +378,7 @@ const routes = [
     path: AppRoutes.REGION,
     name: "Region",
     component: Region,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.SENT_EMAIL,
@@ -323,8 +408,8 @@ const routes = [
     path: AppRoutes.VIEW_EMPLOYEE,
     name: "View Employee",
     component: ViewEmployee,
-    exact: true,
-  },
+    exact: true
+  }
 ];
 
 export default routes;

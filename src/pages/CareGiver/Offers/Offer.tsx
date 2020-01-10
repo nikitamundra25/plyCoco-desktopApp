@@ -23,7 +23,7 @@ class Offer extends Component {
     return (
       <div className="offer-section">
         <h5 className="content-title">{languageTranslation("OFFERS")}</h5>
-        <Row className="custom-col">
+        <Row>
           <Col sm={4}>
             <Card>
               <div className="offer-wrap">

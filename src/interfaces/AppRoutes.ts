@@ -38,4 +38,10 @@ export interface IAppRoutes {
   CONSTI_PERSONAL_DATA: string;
   CONSTI_COMISSION_AGREEMENT: string;
   CONSTI_INVOICE_CYCLE: string;
+  CONSTI_OFFER: string;
+  CONSTI_LOGIN: string;
+  CONSTI_DOCUMENT: string;
+  CONSTI_DEPARTMENT: string;
+  CONSTI_EMAIL: string;
+  CONSTI_REMINDER: string;
 }

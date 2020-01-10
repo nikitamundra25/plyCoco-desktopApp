@@ -3,34 +3,36 @@ import { AppRoutes } from "../../../../config";
 export const careGiverRoutes = [
   {
     path: AppRoutes.CONSTI_PERSONAL_DATA,
-    name: "Personal Information",
-    icon: "fa fa-id-card"
+    name: "Overview"
   },
   {
-    path: AppRoutes.CONSTI_COMISSION_AGREEMENT,
-    name: "Commission Agreement",
-    icon: "fa fa-credit-card"
+    path: AppRoutes.CONSTI_OFFER,
+    name: "Offers"
+  },
+  {
+    path: AppRoutes.CONSTI_LOGIN,
+    name: "Login"
   },
   {
     path: AppRoutes.CONSTI_INVOICE_CYCLE,
-    name: "Invoice Cycle",
-    icon: "fa fa-id-card"
+    name: "Invoices"
   },
   {
-    path: AppRoutes.QUALIFICATION_ATTRIBUTE,
-    name: "Qualification Attributes",
-    icon: "fa fa-graduation-cap"
+    path: AppRoutes.CONSTI_DOCUMENT,
+    name: "Documents"
   },
   {
-    path: AppRoutes.OFFER,
-    name: "Offers",
-    icon: "fa fa-gift"
+    path: AppRoutes.CONSTI_DEPARTMENT,
+    name: "Departments"
   },
   {
-    path: AppRoutes.INVOCES,
-    name: "Invoices",
-    icon: "fa fa-file-text"
+    path: AppRoutes.CONSTI_EMAIL,
+    name: "Emails"
   },
+  {
+    path: AppRoutes.CONSTI_REMINDER,
+    name: "Reminders/Todos"
+  }
 ];
 
 // export default routes;

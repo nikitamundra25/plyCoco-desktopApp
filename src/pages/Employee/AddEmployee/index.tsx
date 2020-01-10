@@ -26,8 +26,8 @@ export const EmployeeForm = () => {
     //to set submit state to false after successful signup
     setSubmitting(false);
   };
-  const { data, loading, error, refetch } = useQuery(GET_USERS);
-  console.log(data, 'dataaaaa');
+  // const { data, loading, error, refetch } = useQuery(GET_USERS);
+  // console.log(data, 'dataaaaa');
   const values: IEmployeeFormValues = {
     email: '',
     firstName: '',

@@ -36,6 +36,9 @@ import appointment from "../../assets/img/appointment.svg";
 import delete_specilalist from "../../assets/img/delete-user.svg";
 import delete_appointment from "../../assets/img/delete-appointment.svg";
 import send_bills from "../../assets/img/send-bills.svg";
+import copy_institution from "../../assets/img/copy-new.svg";
+import clear from "../../assets/img/clear.svg";
+import copy_facility from "../../assets/img/copy.svg";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
@@ -180,8 +183,9 @@ const ConstitutionLayout = ({ component: Component, ...rest }: any) => {
                   <span className="header-nav-icon">
                     <img src={add} alt="" />
                   </span>
-                  <span className="header-nav-text">New Caregiver</span>
+                  <span className="header-nav-text">New Care Institution</span>
                 </div>
+
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={save} alt="" />
@@ -204,40 +208,14 @@ const ConstitutionLayout = ({ component: Component, ...rest }: any) => {
                   <span className="header-nav-icon">
                     <img src={appointment} alt="" />
                   </span>
-                  <span className="header-nav-text">Display appointments</span>
+                  <span className="header-nav-text">Display Appointments</span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
-                    <img src={delete_specilalist} alt="" />
+                    <img src={clear} alt="" />
                   </span>
-                  <span className="header-nav-text">Delete specialist</span>
+                  <span className="header-nav-text">Clear</span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={delete_appointment} alt="" />
-                  </span>
-                  <span className="header-nav-text">
-                    Delete future appointments
-                  </span>
-                </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={send_bills} alt="" />
-                  </span>
-                  <span className="header-nav-text">Send pay slips</span>
-                </div>
-                {/* <div className="header-nav-item">
-                      <span className="header-nav-text">
-                        <UncontrolledButtonDropdown>
-                          <DropdownToggle caret>More</DropdownToggle>
-                          <DropdownMenu>
-                            <DropdownItem></DropdownItem>
-                            <DropdownItem></DropdownItem>
-                            <DropdownItem>Send pay slips</DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledButtonDropdown>
-                      </span>
-                    </div> */}
               </div>
               <ConstitutionSidebar {...props} />
             </div>

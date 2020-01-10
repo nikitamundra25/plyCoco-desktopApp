@@ -735,7 +735,7 @@ body {
 }
 .form-card {
   background: $white;
-  padding: 12px 20px;
+  padding: 8px 12px;
   margin-bottom: 12px;
   position: relative;
   min-height: calc(100% - 45px);
@@ -743,17 +743,17 @@ body {
   &.minheight-auto {
     min-height: auto;
   }
-  .rdw-editor-toolbar {
-    margin-bottom: 0px;
-  }
-  .rdw-editor-main {
-    border: 1px solid #f1f1f1;
-    border-top: 0px;
-    background: $white;
-    min-height: 400px;
-    padding: 0px 10px;
-    max-height: 400px;
-  }
+}
+.rdw-editor-toolbar {
+  margin-bottom: 0px;
+}
+.rdw-editor-main {
+  border: 1px solid #f1f1f1;
+  border-top: 0px;
+  background: $white;
+  min-height: 400px;
+  padding: 0px 10px;
+  max-height: 400px;
 }
 .message-text {
   position: absolute;
@@ -862,6 +862,11 @@ body {
       &.textarea-custom {
         height: auto;
         max-height: 100px;
+        overflow-y: auto;
+        resize: none;
+      }
+      &.textarea-care-institution {
+        height: 165px;
         overflow-y: auto;
         resize: none;
       }
@@ -1050,7 +1055,42 @@ body {
     }
   }
 }
-
+.common-list-card {
+  .common-list-wrap {
+    background: $white;
+    margin-bottom: 12px;
+    position: relative;
+    padding-bottom: 30px;
+    border: 1px solid $table_border;
+    .common-list-header {
+      padding: 2px 10px;
+      border-bottom: 1px solid $table_border;
+      color: $black;
+      font-weight: 600;
+      .common-list-title {
+        font-size: $font_13;
+      }
+      .toggle-icon {
+        font-size: $font_15;
+      }
+    }
+    .common-list-body {
+      .common-list {
+        li {
+          padding: 3px 5px;
+          font-size: 12px;
+          border-bottom: 1px solid $table_border;
+        }
+      }
+    }
+    .common-list-footer {
+      position: absolute;
+      left: 0px;
+      bottom: 0px;
+      width: 100%;
+    }
+  }
+}
 .table {
   background: $white;
   &.table-bordered {
@@ -1228,6 +1268,16 @@ body {
     color: $white;
     background: $theme_color;
     border-color: $theme_color;
+  }
+}
+.edit-remark {
+  cursor: pointer;
+  background: $profile_bg;
+  padding: 3px 6px;
+  color: $light_black;
+  border-radius: 2px;
+  &:hover {
+    background: $profile_bg_hover;
   }
 }
 .custom-dropdown {
@@ -1796,6 +1846,7 @@ body {
       height: calc(100% - 30px);
     }
   }
+
   height: 100%;
   background: #f3f3f3;
   padding: 0px;
@@ -2089,6 +2140,8 @@ body {
 }
 .remark-details {
   border: 1px solid $table_border;
+  height: 100%;
+  background: $white;
   .remark-header {
     padding: 0px 8px;
     background: $white;
@@ -2108,13 +2161,15 @@ body {
     }
   }
   .remark-body {
-    background: $white;
     padding: 4px 10px;
     font-size: $font_13;
     color: $black;
-    height: 1071px;
+    height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    &.height-care-institution {
+      max-height: 867px;
+    }
     .remark-section {
       position: relative;
       textarea {
@@ -2249,6 +2304,9 @@ body {
     .custom-col {
       height: calc(100% - 30px);
     }
+    &.height-care-institution {
+      height: 289px;
+    }
   }
   height: 100%;
   background: #f3f3f3;
@@ -2306,5 +2364,15 @@ body {
         }
       }
     }
+  }
+}
+
+// form-flex-block
+.form-flex-block {
+  margin: 0 -7.5px;
+  display: flex;
+  .form-flex-tile {
+    padding: 0 7.5px;
+    flex: 1 1 20%;
   }
 }

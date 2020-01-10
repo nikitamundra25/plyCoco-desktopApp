@@ -7,7 +7,9 @@ import { CareGiverValidationSchema } from '../../../validations/CareGiverValidat
 class CareGiverForm extends Component<any, CareGiverState>{
 
     handleSubmit = (values: CareGiverValues,
-        { setSubmitting }: FormikHelpers<CareGiverValues>) => {
+        { setSubmitting }: FormikHelpers<CareGiverValues>,
+        saveFunc:any
+        ): Promise<any>|void =>  {
         // todo call 
         debugger
         setSubmitting(false);
@@ -51,7 +53,8 @@ class CareGiverForm extends Component<any, CareGiverState>{
         return (
             <Formik
                 initialValues={initialValues}
-                onSubmit={this.handleSubmit}
+                onSubmit={(values: CareGiverValues,
+                    actions: FormikHelpers<CareGiverValues>,saveFunc?:any):Promise<any>|void=> this.handleSubmit(values, actions, saveFunc)}
                 validationSchema={CareGiverValidationSchema}
                 render={(props: FormikProps<CareGiverValues>) => {
                     return <CareGiverFormComponent {...props} />

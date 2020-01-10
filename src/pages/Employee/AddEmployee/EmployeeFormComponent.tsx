@@ -20,6 +20,7 @@ import {
   ICountries,
   IReactSelectInterface,
   ICountry,
+  IStates,
 } from '../../../interfaces';
 import { FormikProps, Field, Form } from 'formik';
 import { logger, languageTranslation } from '../../../helpers';
@@ -27,22 +28,11 @@ import InputFieldTooltip from '../../../common/Tooltip/InputFieldTooltip';
 import { useQuery } from '@apollo/react-hooks';
 import { CountryQueries } from '../../../queries';
 
-const [GET_COUNTRIES] = CountryQueries;
+const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const EmployeeFormComponent: any = (
   props: FormikProps<IEmployeeFormValues>,
 ) => {
-  const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
-  logger(data);
-  logger('data');
-  const countriesOpt: IReactSelectInterface[] | undefined = [];
-  if (data && data.countries) {
-    data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
-    );
-  }
-
-  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   const {
     values: {
       email,
@@ -72,6 +62,20 @@ const EmployeeFormComponent: any = (
     setFieldValue,
     setFieldTouched,
   } = props;
+  const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
+  const { data: states } = useQuery<IStates>(GET_STATES_BY_COUNTRY, {
+    variables: { countryid: country ? country : '' },
+  });
+  logger(data);
+  logger('data');
+  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  if (data && data.countries) {
+    data.countries.forEach(({ id, name }: ICountry) =>
+      countriesOpt.push({ label: name, value: id }),
+    );
+  }
+
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   logger('errors**********');
   logger(errors);
   logger('touched*******');
@@ -98,10 +102,18 @@ const EmployeeFormComponent: any = (
   };
 
   // Custom function to handle react select fields
-  const handleSelect = (value: ValueType<IReactSelectInterface>) => {
-    setFieldValue('image', 'file');
-  };
+  const handleSelect = (
+    value: ValueType<IReactSelectInterface>,
+    name: string,
+  ) => {
+    console.log('dsdsjd');
 
+    logger(value, 'value');
+    setFieldValue(name, value);
+    if (name === 'country') {
+    }
+  };
+  logger(country);
   return (
     <div>
       <Card>
@@ -615,10 +627,12 @@ const EmployeeFormComponent: any = (
                                     placeholder={languageTranslation(
                                       'COUNTRY_PLACEHOLDER',
                                     )}
-                                    options={countriesOpt}
+                                    // options={countriesOpt}
+                                    options={Region}
+                                    value={country ? country : undefined}
                                     onChange={(
                                       value: ValueType<IReactSelectInterface>,
-                                    ) => handleSelect(value)}
+                                    ) => handleSelect(value, 'country')}
                                   />
                                 </div>
                               </Col>

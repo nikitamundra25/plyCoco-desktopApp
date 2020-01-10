@@ -6,3 +6,8 @@ export interface ICountry {
 export interface ICountries {
   countries: ICountry[];
 }
+
+export interface IStates {
+  id: string;
+  name: string;
+}

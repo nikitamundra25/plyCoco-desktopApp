@@ -40,7 +40,6 @@ export const EmployeeForm = () => {
     additionalText: '',
     address1: '',
     address2: '',
-    country: '',
     zip: '',
     joiningDate: '',
     bankAccountNumber: '',

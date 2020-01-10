@@ -39,7 +39,7 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   additionalText: Yup.string(),
   address1: Yup.string(),
   address2: Yup.string(),
-  country: Yup.string(),
+  // country: Yup.string(),
   zip: Yup.string(),
   joiningDate: Yup.mixed().test({
     name: 'validate-date',

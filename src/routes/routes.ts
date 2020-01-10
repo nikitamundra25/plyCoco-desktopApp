@@ -28,7 +28,7 @@ const CareGiverLayout = React.lazy(() =>
   import("../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
 );
 const ConstitutionLayout = React.lazy(() =>
-  import("../pages/Constitution/Sidebar/SidebarLayout/ConstitutionLayout")
+  import("../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout")
 );
 const PersonalInformation = React.lazy(() =>
   import("../pages/CareGiver/PersonalInfo/PersonalInformation")
@@ -72,37 +72,37 @@ const Signature = React.lazy(() =>
 const DocumentUpload = React.lazy(() =>
   import("../pages/CareGiver/Documents/DocumentsUpload")
 );
-const AddConstitution = React.lazy(() =>
-  import("../pages/Constitution/AddConstitution/AddConstitution")
+const AddCareInstitution = React.lazy(() =>
+  import("../pages/CareInstitution/AddCareInstitution/AddCareInstitution")
 );
 const Constitution = React.lazy(() => import("../pages/Constitution"));
 const ConstitutionPersonalInfo = React.lazy(() =>
-  import("../pages/Constitution/PersonalInfo")
+  import("../pages/CareInstitution/PersonalInfo")
 );
 const ConstitutionCommissionAgreement = React.lazy(() =>
-  import("../pages/Constitution/CommisionAgreement")
+  import("../pages/CareInstitution/CommisionAgreement")
 );
 
 const ConstitutionOffer = React.lazy(() =>
-  import("../pages/Constitution/Offers")
+  import("../pages/CareInstitution/Offers")
 );
 const ConstitutionLogin = React.lazy(() =>
-  import("../pages/Constitution/Login")
+  import("../pages/CareInstitution/Login")
 );
 const ConstitutionInvoices = React.lazy(() =>
-  import("../pages/Constitution/invoiceMenu")
+  import("../pages/CareInstitution/invoiceMenu")
 );
 const ConstitutionDocuments = React.lazy(() =>
-  import("../pages/Constitution/Documents")
+  import("../pages/CareInstitution/Documents")
 );
 const ConstitutionDepartment = React.lazy(() =>
-  import("../pages/Constitution/Departments")
+  import("../pages/CareInstitution/Departments")
 );
 const ConstitutionEmail = React.lazy(() =>
-  import("../pages/Constitution/Emails")
+  import("../pages/CareInstitution/Emails")
 );
 const ConstitutionReminder = React.lazy(() =>
-  import("../pages/Constitution/Reminders")
+  import("../pages/CareInstitution/Reminders")
 );
 const routes = [
   {
@@ -112,9 +112,9 @@ const routes = [
     exact: true
   },
   {
-    path: AppRoutes.ADD_CONSTITUTION,
+    path: AppRoutes.ADD_CARE_INSTITUTION,
     name: "Add Constitution",
-    component: AddConstitution,
+    component: AddCareInstitution,
     exact: true
   },
   {
@@ -166,14 +166,14 @@ const routes = [
     layoutName: "CareGiver"
   },
   {
-    path: AppRoutes.CONSTITUTION,
+    path: AppRoutes.CARE_INSTITUTION,
     name: "Constitution",
     component: Constitution,
     exact: true
   },
   { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
-    path: AppRoutes.CONSTI_PERSONAL_DATA,
+    path: AppRoutes.CARE_INSTITUTION_PERSONAL_DATA,
     name: "Constitution Personal Data",
     component: ConstitutionPersonalInfo,
     exact: true,
@@ -181,7 +181,7 @@ const routes = [
     layoutName: "Constitution"
   },
   {
-    path: AppRoutes.CONSTI_OFFER,
+    path: AppRoutes.CARE_INSTITUTION_OFFER,
     name: "Constitution Offer",
     component: ConstitutionOffer,
     exact: true,
@@ -189,7 +189,7 @@ const routes = [
     layoutName: "Constitution"
   },
   {
-    path: AppRoutes.CONSTI_LOGIN,
+    path: AppRoutes.CARE_INSTITUTION_LOGIN,
     name: "Constitution Login",
     component: ConstitutionLogin,
     exact: true,
@@ -197,7 +197,7 @@ const routes = [
     layoutName: "Constitution"
   },
   {
-    path: AppRoutes.CONSTI_INVOICE_CYCLE,
+    path: AppRoutes.CARE_INSTITUTION_INVOICE_CYCLE,
     name: "Constitution Invoices",
     component: ConstitutionInvoices,
     exact: true,
@@ -205,7 +205,7 @@ const routes = [
     layoutName: "Constitution"
   },
   {
-    path: AppRoutes.CONSTI_DOCUMENT,
+    path: AppRoutes.CARE_INSTITUTION_DOCUMENT,
     name: "Constitution Documents",
     component: ConstitutionDocuments,
     exact: true,
@@ -213,7 +213,7 @@ const routes = [
     layoutName: "Constitution"
   },
   {
-    path: AppRoutes.CONSTI_DEPARTMENT,
+    path: AppRoutes.CARE_INSTITUTION_DEPARTMENT,
     name: "Constitution Department",
     component: ConstitutionDepartment,
     exact: true,
@@ -221,7 +221,7 @@ const routes = [
     layoutName: "Constitution"
   },
   {
-    path: AppRoutes.CONSTI_EMAIL,
+    path: AppRoutes.CARE_INSTITUTION_EMAIL,
     name: "Constitution Emails",
     component: ConstitutionEmail,
     exact: true,
@@ -229,7 +229,7 @@ const routes = [
     layoutName: "Constitution"
   },
   {
-    path: AppRoutes.CONSTI_REMINDER,
+    path: AppRoutes.CARE_INSTITUTION_REMINDER,
     name: "Constitution Reminders",
     component: ConstitutionReminder,
     exact: true,
@@ -237,7 +237,7 @@ const routes = [
     layoutName: "Constitution"
   },
   {
-    path: AppRoutes.CONSTI_COMISSION_AGREEMENT,
+    path: AppRoutes.CARE_INSTITUTION_COMISSION_AGREEMENT,
     name: "Constitution Comission Agreement",
     component: ConstitutionCommissionAgreement,
     exact: true,

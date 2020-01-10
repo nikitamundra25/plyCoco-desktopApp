@@ -1,50 +1,51 @@
 import { AppRoutes } from "../../../../config";
+import { languageTranslation } from "../../../../helpers";
 
 export const careGiverRoutes = [
   {
     path: AppRoutes.PERSONAL_INFORMATION,
-    name: "Overview"
+    name: languageTranslation("CG_SUB_MENU_OVERVIEW")
     //icon: "fa fa-id-card"
   },
   {
     path: AppRoutes.OFFER,
-    name: "Offers"
+    name: languageTranslation("OFFERS")
     //icon: "fa fa-gift"
   },
   {
     path: AppRoutes.CARE_LOGIN,
-    name: "Login"
+    name: languageTranslation("CG_SUB_MENU_LOGIN")
     //icon: "fa fa-bookmark"
   },
   {
     path: AppRoutes.INVOCES,
-    name: "Invoices"
+    name: languageTranslation("MENU_INVOICES")
     //icon: "fa fa-file-text"
   },
   {
     path: AppRoutes.DOCUMENTS_UPLOAD,
-    name: "Documents"
+    name: languageTranslation("CG_SUB_MENU_DOCUMENTS")
     //icon: "fa fa-upload"
   },
   {
     path: AppRoutes.INBOX,
-    name: "Emails"
+    name: languageTranslation("MENU_EMAIL")
     //icon: "fa fa-envelope"
   },
 
   {
     path: AppRoutes.TODO,
-    name: "Reminders/Todos"
+    name: languageTranslation("CG_SUB_MENU_REMINDER")
     //icon: "fa fa-list-alt"
   },
   {
     path: AppRoutes.LEASING_PERSONALDATA,
-    name: "Leasing"
+    name: languageTranslation("CG_SUB_MENU_LEASING")
     //icon: "fa fa-id-card"
   },
   {
     path: AppRoutes.QUALIFICATION_ATTRIBUTE,
-    name: "Grouped below"
+    name: languageTranslation("CG_SUB_MENU_GROUPED")
     //icon: "fa fa-graduation-cap"
   }
   // {

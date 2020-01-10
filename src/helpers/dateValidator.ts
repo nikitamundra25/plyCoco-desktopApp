@@ -1,5 +1,3 @@
-//  leap year
-// Validates that the input string is a valid date formatted as "mm/dd/yyyy"
 export const dateValidator = (dateString: string) => {
   console.log("date string is", dateString);
   const date = dateString ? dateString.replace(/\D+/g, "") : "";
@@ -17,12 +15,18 @@ export const dateValidator = (dateString: string) => {
   var month: number = parseInt(parts[0], 10);
   var year: number = parseInt(parts[2], 10);
 
-  const format = new Date().getFullYear();
-  console.log("format is", format);
-  const difference = format - 100;
-  console.log("difference is", difference);
+  const getCurrentYear = new Date().getFullYear();
+  console.log("getCurrentYear is", getCurrentYear);
+  const getDifference = getCurrentYear - 100;
+  console.log("getDifference is", getDifference);
+  if (month > 12 || month === 0) {
+    return {
+      isValid: false,
+      message: "Please enter a valid month"
+    };
+  }
 
-  if (year < difference || year > format)
+  if (year < getDifference || year > getCurrentYear)
     return {
       isValid: false,
       message: "Please enter a valid year"
@@ -34,9 +38,6 @@ export const dateValidator = (dateString: string) => {
       message: "Date must be between a range of 1950 to 2010"
     };
   }
-  // && day > 31 && (month === 0 || month > 12
-  // || month === 0 || month > 12
-  // Check the ranges of month and year
   if (year < 1950 || year > 2010)
     return {
       isValid: false,

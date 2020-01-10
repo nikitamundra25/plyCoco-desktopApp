@@ -62,8 +62,10 @@ const DocumentUpload = React.lazy(() =>
 );
 const AddConstitution = React.lazy(() => import("../pages/Constitution/AddConstitution/AddConstitution"))
 const Constitution = React.lazy(() => import("../pages/Constitution"))
-const ConstitutionPersonalInfo = React.lazy(()=> import("../pages/Constitution/PersonalInfo"))
-const ConstitutionCommissionAgreement = React.lazy(()=> import("../pages/Constitution/CommisionAgreement"))
+const ConstitutionPersonalInfo = React.lazy(() => import("../pages/Constitution/PersonalInfo"))
+const ConstitutionCommissionAgreement = React.lazy(() => import("../pages/Constitution/CommisionAgreement"))
+const ConstitutionInvoiceMenu = React.lazy(() => import("../pages/Constitution/invoiceMenu"))
+
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -100,7 +102,7 @@ const routes = [
     name: "Billing",
     component: BillingSetting,
     layout: CareGiverLayout,
-    layoutName:"CareGiver",
+    layoutName: "CareGiver",
     exact: true,
   },
   {
@@ -115,7 +117,7 @@ const routes = [
     component: care_login,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.CHANGE_PASSWORD,
@@ -123,7 +125,7 @@ const routes = [
     component: ChangePassword,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.CONSTITUTION,
@@ -133,20 +135,28 @@ const routes = [
   },
   { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
-    path: AppRoutes.CONSTI_PERSONAL_DATA,
-    name: "Constitution Personal Data",
-    component: ConstitutionPersonalInfo,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName:"Constitution"
-  },
-  {
     path: AppRoutes.CONSTI_COMISSION_AGREEMENT,
     name: "Constitution Comission Agreement",
     component: ConstitutionCommissionAgreement,
     exact: true,
     layout: ConstitutionLayout,
-    layoutName:"Constitution"
+    layoutName: "Constitution"
+  },
+  {
+    path: AppRoutes.CONSTI_PERSONAL_DATA,
+    name: "Constitution Personal Data",
+    component: ConstitutionPersonalInfo,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
+  },
+  {
+    path: AppRoutes.CONSTI_INVOICE_CYCLE,
+    name: "Constitution Invocice Menu",
+    component: ConstitutionInvoiceMenu,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
   },
   { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
@@ -167,7 +177,7 @@ const routes = [
     component: DocumentUpload,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.EDIT_CARE_GIVER,
@@ -187,7 +197,7 @@ const routes = [
     component: EmailSettings,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.EVENT,
@@ -195,7 +205,7 @@ const routes = [
     component: Event,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.EMPLOYEE,
@@ -209,7 +219,7 @@ const routes = [
     component: Event,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.INBOX,
@@ -217,7 +227,7 @@ const routes = [
     component: InboxEmail,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.INVOCES,
@@ -225,7 +235,7 @@ const routes = [
     component: Invoices,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.LEASING_PERSONALDATA,
@@ -233,7 +243,7 @@ const routes = [
     component: LeasingPersonalData,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.LOGIN,
@@ -247,7 +257,7 @@ const routes = [
     component: NewEmail,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.OFFER,
@@ -255,7 +265,7 @@ const routes = [
     component: Offer,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.PERSONAL_INFORMATION,
@@ -263,7 +273,7 @@ const routes = [
     component: PersonalInformation,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.MY_PROFILE,
@@ -277,7 +287,7 @@ const routes = [
     component: QualificationAttribute,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.REGION,
@@ -291,7 +301,7 @@ const routes = [
     component: SentEmail,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.SIGNATURE,
@@ -299,7 +309,7 @@ const routes = [
     component: Signature,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.TODO,
@@ -307,7 +317,7 @@ const routes = [
     component: Todos,
     exact: true,
     layout: CareGiverLayout,
-    layoutName:"CareGiver"
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.VIEW_EMPLOYEE,

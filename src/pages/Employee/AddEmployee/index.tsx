@@ -22,7 +22,6 @@ export const EmployeeForm = () => {
     values: IEmployeeFormValues,
     { setSubmitting }: FormikHelpers<IEmployeeFormValues>,
   ) => {
-    console.log('values in employeee', values);
     //to set submit state to false after successful signup
     setSubmitting(false);
   };

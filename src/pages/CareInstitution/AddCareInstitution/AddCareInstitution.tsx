@@ -10,18 +10,16 @@ import {
   Col,
   Row,
   Form,
-  CustomInput
 } from "reactstrap";
 import Select from "react-select";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
-import { RouteComponentProps } from "react-router";
-import { Status, State, Department, Region, City, Country } from "../../../config";
+import {
+  State,
+  Country
+} from "../../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../routes/routes";
-import InputMask from "react-input-mask";
 
-class AddConstitution extends Component<any, any> {
+class AddCareInstitution extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -62,7 +60,7 @@ class AddConstitution extends Component<any, any> {
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
                                       Salutation
-                                        <span className="required">*</span>
+                                      <span className="required">*</span>
                                     </Label>
                                   </Col>
                                   <Col sm="8">
@@ -71,22 +69,12 @@ class AddConstitution extends Component<any, any> {
                                         type="select"
                                         name={"salutation"}
                                         placeholder="Sir"
-                                        // onChange={() =>
-                                        //   this.setState({ error: false })
-                                        // }
                                         className="width-common"
                                         onFocus={this.onFocus}
                                       >
                                         <option value={"Sir"}>Sir</option>
                                         <option value={"Woman"}>Woman</option>
                                       </Input>
-                                      {/* {this.state.error ? (
-                                          <div className="required-error">
-                                            Please Enter Salutation.
-                                          </div>
-                                        ) : (
-                                            ""
-                                          )} */}
                                     </div>
                                   </Col>
                                 </Row>
@@ -98,7 +86,7 @@ class AddConstitution extends Component<any, any> {
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
                                       First Name
-                                        <span className="required">*</span>
+                                      <span className="required">*</span>
                                     </Label>
                                   </Col>
                                   <Col sm="8">
@@ -116,7 +104,7 @@ class AddConstitution extends Component<any, any> {
                                       {this.state.error ? (
                                         <div className="required-error">
                                           Please Enter First Name
-                                          </div>
+                                        </div>
                                       ) : (
                                           ""
                                         )}
@@ -131,7 +119,7 @@ class AddConstitution extends Component<any, any> {
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
                                       Surname
-                                        <span className="required">*</span>
+                                      <span className="required">*</span>
                                     </Label>
                                   </Col>
                                   <Col sm="8">
@@ -162,7 +150,7 @@ class AddConstitution extends Component<any, any> {
                                       <Col sm="4">
                                         <Label className="form-label col-form-label">
                                           Phone
-                                    <span className="required">*</span>
+                                          <span className="required">*</span>
                                         </Label>
                                       </Col>
                                       <Col sm="8">
@@ -184,7 +172,7 @@ class AddConstitution extends Component<any, any> {
                                       <Col sm="4">
                                         <Label className="form-label col-form-label">
                                           Fax
-                                        <span className="required">*</span>
+                                          <span className="required">*</span>
                                         </Label>
                                       </Col>
                                       <Col sm="8">
@@ -228,7 +216,7 @@ class AddConstitution extends Component<any, any> {
                                       <Col sm="4">
                                         <Label className="form-label col-form-label">
                                           Email address
-                                    <span className="required">*</span>
+                                          <span className="required">*</span>
                                         </Label>
                                       </Col>
                                       <Col sm="8">
@@ -250,7 +238,7 @@ class AddConstitution extends Component<any, any> {
                                       <Col sm="4">
                                         <Label className="form-label col-form-label">
                                           Username
-                                        <span className="required">*</span>
+                                          <span className="required">*</span>
                                         </Label>
                                       </Col>
                                       <Col sm="8">
@@ -271,7 +259,9 @@ class AddConstitution extends Component<any, any> {
                           </Col>
                           <Col lg={"6"}>
                             <div>
-                              <h5 className="main-title">Data of Canstitution</h5>
+                              <h5 className="main-title">
+                                Data of Canstitution
+                              </h5>
                               <div className="form-card">
                                 <Row>
                                   <Col lg={"12"}>
@@ -368,7 +358,7 @@ class AddConstitution extends Component<any, any> {
                                         <Col sm="4">
                                           <Label className="form-label col-form-label ">
                                             Post code
-                                    <span className="required">*</span>
+                                            <span className="required">*</span>
                                           </Label>
                                         </Col>
                                         <Col sm="8">
@@ -390,7 +380,7 @@ class AddConstitution extends Component<any, any> {
                                         <Col sm="4">
                                           <Label className="form-label col-form-label">
                                             Region/State
-                                    <span className="required">*</span>
+                                            <span className="required">*</span>
                                           </Label>
                                         </Col>
                                         <Col sm="8">
@@ -410,13 +400,12 @@ class AddConstitution extends Component<any, any> {
                                         <Col sm="4">
                                           <Label className="form-label col-form-label">
                                             Country
-                                      <span className="required">*</span>
+                                            <span className="required">*</span>
                                           </Label>
                                         </Col>
                                         <Col sm="8">
                                           <div>
                                             <Select
-                                              // value={this.state.selectedOption}
                                               placeholder="Select Country"
                                               options={Country}
                                             />
@@ -454,8 +443,8 @@ class AddConstitution extends Component<any, any> {
             </Card>
           </Col>
         </Row>
-      </div >
+      </div>
     );
   }
 }
-export default AddConstitution;
+export default AddCareInstitution;

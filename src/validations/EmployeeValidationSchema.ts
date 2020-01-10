@@ -1,40 +1,39 @@
 import * as Yup from 'yup';
-import { IEmployeeFormValues } from '../interfaces';
-import { messages } from './Messages';
+import { IEmployeeFormValues, IDateResponse } from '../interfaces';
 import {
   telephoneReqExp,
   nameRegExp,
   fileSize,
   SupportedFormats,
 } from '../config';
-import { isValidDate, logger } from '../helpers';
+import { languageTranslation, logger, dateValidator } from '../helpers';
 export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
   IEmployeeFormValues
 >> = Yup.object().shape<IEmployeeFormValues>({
   email: Yup.string()
-    .email(messages.VALID_EMAIL)
-    .required(messages.REQUIRED_EMAIL),
+    .trim()
+    .email(languageTranslation('VALID_EMAIL'))
+    .required(languageTranslation('REQUIRED_EMAIL')),
   firstName: Yup.string()
-    .matches(
-      nameRegExp,
-      'First name doesnot contain any number or special characeter',
-    )
-    .max(20, 'First name must be less than 20 characters')
-    .required('First Name is required'),
+    .trim()
+    .matches(nameRegExp, languageTranslation('FIRSTNAME_SPECIALCHARACTER'))
+    .max(20, languageTranslation('FIRSTNAME_MAXLENGTH'))
+    .required(languageTranslation('FIRSTNAME_REQUIRED')),
   lastName: Yup.string()
-    .matches(
-      nameRegExp,
-      'Surname doesnot contain any number or special characeter',
-    )
-    .max(20, 'Last name must be less than 20 characters')
-    .required('Last name is required'),
-  telephoneNumber: Yup.string()
-    .matches(telephoneReqExp, 'Telephone number is not valid')
-    .required('Telephone number is required'),
-  userName: Yup.string().required('Username is required'),
-  accountHolderName: Yup.string().matches(nameRegExp, 'Must be a character'),
-  bankName: Yup.string().matches(nameRegExp, 'Must be a character'),
+    .trim()
+    .matches(nameRegExp, languageTranslation('LASTNAME_SPECIALCHARACTER'))
+    .max(20, languageTranslation('LASTNAME_MAXLENGTH'))
+    .required(languageTranslation('LASTNAME_REQUIRED')),
+  telephoneNumber: Yup.string().matches(
+    telephoneReqExp,
+    languageTranslation('TELEPHONE_REQUIRED'),
+  ),
+  userName: Yup.string()
+    .trim()
+    .required(languageTranslation('USERNAME_REQUIRED')),
+  accountHolderName: Yup.string().trim(),
+  bankName: Yup.string().trim(),
   IBAN: Yup.string(),
   BIC: Yup.string(),
   additionalText: Yup.string(),
@@ -44,20 +43,22 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   zip: Yup.string(),
   joiningDate: Yup.mixed().test({
     name: 'validate-date',
-    message: '${path} must be less than ${max} characters',
-    test: val => {
-      const res = isValidDate(val);
-      logger(res);
-      logger('res');
-      return !val || res;
+    test: function(val) {
+      const { path, createError } = this;
+      const { isValid, message }: IDateResponse = dateValidator(val);
+      return !val || isValid || createError({ path, message });
     },
   }),
   bankAccountNumber: Yup.string(),
-  image: Yup.mixed().test({
-    name: 'file-size',
-    message: '${path} must be less than ${max} characters',
-    test: val => {
-      return !val || val.size <= fileSize;
-    },
-  }),
+  image: Yup.mixed()
+    .test(
+      'fileSize',
+      'File too large',
+      value => value && value.size <= fileSize,
+    )
+    .test(
+      'fileFormat',
+      'Unsupported Format',
+      value => value && SupportedFormats.includes(value.type),
+    ),
 });

@@ -24,14 +24,9 @@ class CareGiverSidebar extends Component<any, any> {
     const {
       location: { pathname }
     } = this.props;
-    console.log("path", this.props.location.pathname);
-    // const path = pathname
-    console.log("proppppss", this.props);
-
     return (
-      <div className="caregiver-sidnav">
-        <h4 className="sidenav-title">John Doe</h4>
-        <Nav vertical className="caregiver-ul">
+      <div className="common-sidnav">
+        <Nav className="common-ul" tabs>
           {careGiverRoutes.map(route => {
             return route.path ? (
               <NavItem>
@@ -39,9 +34,6 @@ class CareGiverSidebar extends Component<any, any> {
                   className={pathname === route.path ? "active" : null}
                   onClick={() => this.props.history.push(route.path)}
                 >
-                  <span className="nav-icon">
-                    <i className={route.icon}></i>
-                  </span>
                   <span className="nav-text">{route.name}</span>
                 </NavLink>
               </NavItem>

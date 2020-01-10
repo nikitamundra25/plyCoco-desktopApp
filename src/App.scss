@@ -743,7 +743,6 @@ body {
   &.minheight-auto {
     min-height: auto;
   }
-  
 }
 .rdw-editor-toolbar {
   margin-bottom: 0px;
@@ -1056,9 +1055,40 @@ body {
     }
   }
 }
-.commom-list-wrap{
-  .common-list{
-    
+.common-list-card {
+  .common-list-wrap {
+    background: $white;
+    margin-bottom: 12px;
+    position: relative;
+    padding-bottom: 30px;
+    border: 1px solid $table_border;
+    .common-list-header {
+      padding: 2px 10px;
+      border-bottom: 1px solid $table_border;
+      color: $black;
+      font-weight: 600;
+      .common-list-title {
+        font-size: $font_13;
+      }
+      .toggle-icon {
+        font-size: $font_15;
+      }
+    }
+    .common-list-body {
+      .common-list {
+        li {
+          padding: 3px 5px;
+          font-size: 12px;
+          border-bottom: 1px solid $table_border;
+        }
+      }
+    }
+    .common-list-footer {
+      position: absolute;
+      left: 0px;
+      bottom: 0px;
+      width: 100%;
+    }
   }
 }
 .table {
@@ -2131,7 +2161,6 @@ body {
     }
   }
   .remark-body {
-
     padding: 4px 10px;
     font-size: $font_13;
     color: $black;

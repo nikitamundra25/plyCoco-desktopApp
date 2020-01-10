@@ -783,82 +783,78 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   </Col>
                 </Row>
               </div>
-              <div className="form-inner-list-section fix-height-section height-care-institution">
+              <div className="common-list-card">
                 <h5 className="content-title">
                   {languageTranslation("QUALIFICATIONS")}
                 </h5>
-                <Row className="custom-col">
-                  <Col sm={12}>
-                    <Card>
-                      <div className="form-inner-list-wrap">
-                        <h5 className="filter-head ">
-                          {languageTranslation("QUALIFICATION")}
-                        </h5>
-                        <div className="form-inner-list-content-wrap">
-                          <ul>
-                            <li className="ative">Dialysis </li>
-                            <li>Home Management</li>
-                            <li>Nurse/carer</li>
-                            <li> Neonatology</li>
-                            <li>Paramedic </li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="custom-select-wrap">
-                        <select className="w-100">
-                          <option>Bernhard, Sandra</option>
-                          <option>Berlin, Irving</option>
-                          <option>Berne, Eric</option>
-                          <option>Berry, Halle</option>
-                        </select>
-                      </div>
-                    </Card>
-                  </Col>
-                </Row>
+                <div className="common-list-wrap">
+                  <div className="common-list-header d-flex align-items-cente justify-content-between">
+                    <div className="common-list-title align-middle">
+                      {" "}
+                      {languageTranslation("QUALIFICATION")}
+                    </div>
+                    <div className=" align-middle toggle-icon">
+                      <i className="fa fa-angle-down"></i>
+                    </div>
+                  </div>
+                  <div className="common-list-body">
+                    <ul className="common-list list-unstyled">
+                      <li>Dialysis </li>
+                      <li>Home Management</li>
+                      <li>Nurse/carer</li>
+                    </ul>
+                  </div>
+                  <div className="common-list-footer form-section ">
+                    <FormGroup className="mb-0">
+                      <Select
+                        placeholder={languageTranslation("REGION", "STATE")}
+                        options={State}
+                      />
+                    </FormGroup>
+                  </div>
+                </div>
               </div>
-
-              <div className="form-inner-list-section mt-3 fix-height-section height-care-institution">
+              <div className="common-list-card">
                 <h5 className="content-title">
                   {languageTranslation("ATTRIBUTES")}
                 </h5>
-                <Row className="custom-col">
-                  <Col sm={12}>
-                    <Card>
-                      <div className="form-inner-list-wrap">
-                        <h5 className="heading toggle-filter  ">
-                          {languageTranslation("ATTRIBUTE")}
-                        </h5>
-                        <div className="form-inner-list-content-wrap">
-                          <ul>
-                            <li className="ative">Aaron, Hank </li>
-                            <li>Abbey, Edward</li>
-                            <li>Abel, Reuben</li>
-                            <li> Abelson, Hal</li>
-                            <li>Abourezk, James </li>
-                            <li>Abrams, Creighton </li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="custom-select-wrap">
-                        <select className="w-100">
-                          <option>Bernhard, Sandra</option>
-                          <option>Berlin, Irving</option>
-                          <option>Berne, Eric</option>
-                          <option>Berry, Halle</option>
-                        </select>
-                      </div>
-                    </Card>
-                  </Col>
-                </Row>
+                <div className="common-list-wrap">
+                  <div className="common-list-header d-flex align-items-cente justify-content-between">
+                    <div className="common-list-title align-middle">
+                      {" "}
+                      {languageTranslation("ATTRIBUTES")}
+                    </div>
+                    <div className=" align-middle toggle-icon">
+                      <i className="fa fa-angle-down"></i>
+                    </div>
+                  </div>
+                  <div className="common-list-body">
+                    <ul className="common-list list-unstyled">
+                      <li>Dialysis </li>
+                      <li>Home Management</li>
+                      <li>Nurse/carer</li>
+                    </ul>
+                  </div>
+                  <div className="common-list-footer form-section ">
+                    <FormGroup className="mb-0">
+                      <Select
+                        placeholder={languageTranslation("REGION", "STATE")}
+                        options={State}
+                      />
+                    </FormGroup>
+                  </div>
+                </div>
               </div>
+
+              
             </div>
           </Col>
           <Col lg={4}>
             <div className="remark-details">
               <div className="remark-header d-flex align-items-center justify-content-between">
-                <h5 className="my-2 text-left activity-title">{languageTranslation("REMARKS")}</h5>
+                <h5 className="my-2 text-left activity-title">
+                  {languageTranslation("REMARKS")}
+                </h5>
                 <div onClick={this.handleOnClick} className="edit-remark my-2">
                   <i className="icon-note" />
                 </div>

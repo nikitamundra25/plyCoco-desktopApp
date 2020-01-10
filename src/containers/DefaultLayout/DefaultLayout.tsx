@@ -185,12 +185,7 @@ const ConstitutionLayout = ({ component: Component, ...rest }: any) => {
                   </span>
                   <span className="header-nav-text">New Care Institution</span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={copy_institution} alt="" />
-                  </span>
-                  <span className="header-nav-text">Copy Care Institution</span>
-                </div>
+
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={save} alt="" />
@@ -221,25 +216,6 @@ const ConstitutionLayout = ({ component: Component, ...rest }: any) => {
                   </span>
                   <span className="header-nav-text">Clear</span>
                 </div>
-
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={copy_facility} alt="" />
-                  </span>
-                  <span className="header-nav-text">Copy New Facility</span>
-                </div>
-                {/* <div className="header-nav-item">
-                      <span className="header-nav-text">
-                        <UncontrolledButtonDropdown>
-                          <DropdownToggle caret>More</DropdownToggle>
-                          <DropdownMenu>
-                            <DropdownItem></DropdownItem>
-                            <DropdownItem></DropdownItem>
-                            <DropdownItem>Send pay slips</DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledButtonDropdown>
-                      </span>
-                    </div> */}
               </div>
               <ConstitutionSidebar {...props} />
             </div>

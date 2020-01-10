@@ -31,12 +31,18 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      startDate: ""
+      startDate: "",
+      addRemark: false
     };
   }
   handleChange = (date: any) => {
     this.setState({
       startDate: date
+    });
+  };
+  handleOnClick = () => {
+    this.setState({
+      addRemark: true
     });
   };
   onFocus = () => {
@@ -47,11 +53,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
   render() {
     return (
       <Form className="form-section forms-main-section">
-
         <Row className=" ">
           <Col lg={"4"}>
             <div className="form-card">
-              <Row >
+              <Row>
                 <Col lg={"12"}>
                   <FormGroup>
                     <Row>
@@ -133,7 +138,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         <Row className="custom-col inner-no-padding-col">
                           <Col sm="5">
                             <div>
-                              <Select placeholder={languageTranslation("GENDER")} options={State} />
+                              <Select
+                                placeholder={languageTranslation("GENDER")}
+                                options={State}
+                              />
                             </div>
                           </Col>
                           <Col sm="7">
@@ -202,7 +210,6 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             className="width-common"
                           />
                         </div>
-                        
                       </Col>
                     </Row>
                   </FormGroup>
@@ -301,7 +308,8 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label ">
-                          {languageTranslation("STREET")}<span className="required">*</span>
+                          {languageTranslation("STREET")}
+                          <span className="required">*</span>
                         </Label>
                       </Col>
                       <Col sm="8">
@@ -334,7 +342,6 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             className=" width-common"
                           />
                         </div>
-                        
                       </Col>
                     </Row>
                   </FormGroup>
@@ -372,7 +379,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       </Col>
                       <Col sm="8">
                         <div>
-                          <Select placeholder={languageTranslation("COUNTRY")} options={Country} />
+                          <Select
+                            placeholder={languageTranslation("COUNTRY")}
+                            options={Country}
+                          />
                         </div>
                       </Col>
                     </Row>
@@ -389,7 +399,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       </Col>
                       <Col sm="8">
                         <div>
-                          <Select placeholder={languageTranslation("STATE")} options={State} />
+                          <Select
+                            placeholder={languageTranslation("STATE")}
+                            options={State}
+                          />
                         </div>
                       </Col>
                     </Row>
@@ -400,7 +413,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label ">
-                          {languageTranslation("PHONE")}
+                          {languageTranslation("PHONE_NUMBER")}
                           <span className="required">*</span>
                         </Label>
                       </Col>
@@ -409,7 +422,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Input
                             type="text"
                             name={"phone"}
-                            placeholder={languageTranslation("FAX")}
+                            placeholder={languageTranslation("PHONE_NUMBER")}
                             className="width-common"
                           />
                         </div>
@@ -520,7 +533,12 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       </Col>
                       <Col sm="8">
                         <div>
-                          <Select placeholder={languageTranslation("DEFAULT_QAULIFICATION")} options={State} />
+                          <Select
+                            placeholder={languageTranslation(
+                              "DEFAULT_QAULIFICATION"
+                            )}
+                            options={State}
+                          />
                         </div>
                       </Col>
                     </Row>
@@ -549,7 +567,6 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   </FormGroup>
                 </Col>
 
-
                 <Col lg={"12"}>
                   <FormGroup>
                     <Row>
@@ -561,7 +578,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       </Col>
                       <Col sm="8">
                         <div>
-                          <Select placeholder={languageTranslation("LIKED_TO")} options={State} />
+                          <Select
+                            placeholder={languageTranslation("LIKED_TO")}
+                            options={State}
+                          />
                         </div>
                       </Col>
                     </Row>
@@ -572,8 +592,9 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
-                          {languageTranslation("REMARKS")} ({languageTranslation("FOR_CANSTITUTION_VIEWBLE")})
-                        <span className="required">*</span>
+                          {languageTranslation("REMARKS")} (
+                          {languageTranslation("FOR_CANSTITUTION_VIEWBLE")})
+                          <span className="required">*</span>
                         </Label>
                       </Col>
                       <Col sm="8">
@@ -595,241 +616,255 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
           </Col>
 
           <Col lg={"4"}>
-            <div className="form-card minheight-auto">
-              <Row>
-                <Col lg={"12"}>
-                  <FormGroup>
-                    <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("HEALTH_CARE_FEE")}
-                          <span className="required">*</span>
-                        </Label>
-                      </Col>
-                      <Col sm="8">
-                        <Row className="custom-col inner-no-padding-col">
-                          <Col sm="4">
-                            <div>
-                              <Input
-                                type="text"
-                                name={"lastName"}
-                                placeholder={languageTranslation("HEALTH_CARE_FEE")}
-                                className="width-common"
-                              />
-                            </div>
-                          </Col>
-                          <Col sm="8">
-                            <FormGroup>
-                              <Row className="custom-col inner-no-padding-col">
-                                <Col sm="6">
-                                  <Label className="form-label col-form-label inner-label">
-                                    {languageTranslation("DOCTOR_FEE")}
-                                    <span className="required">*</span>
-                                  </Label>
-                                </Col>
-                                <Col sm="6">
-                                  <div>
-                                    <Input
-                                      type="text"
-                                      name={"lastName"}
-                                      placeholder={languageTranslation("DOCTOR_FEE")}
-                                      className="width-common"
-                                    />
-                                  </div>
-                                </Col>
-                              </Row>
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-                <Col lg={"12"}>
-                  <FormGroup>
-                    <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("PERSONAL_DATA")}
-                        </Label>
-                      </Col>
-                      <Col sm="8">
-                        <div>
-                          <Select
-                            placeholder={languageTranslation("PERSONAL_DATA")}
-                            isMulti
-                            options={Region}
-                          />
+            <div className="common-column">
+              <div className="form-card minheight-auto">
+                <Row>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label">
+                            {languageTranslation("HEALTH_CARE_FEE")}
+                            <span className="required">*</span>
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <Row className="custom-col inner-no-padding-col">
+                            <Col sm="4">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"lastName"}
+                                  placeholder={languageTranslation(
+                                    "HEALTH_CARE_FEE"
+                                  )}
+                                  className="width-common"
+                                />
+                              </div>
+                            </Col>
+                            <Col sm="8">
+                              <FormGroup>
+                                <Row className="custom-col inner-no-padding-col">
+                                  <Col sm="6">
+                                    <Label className="form-label col-form-label inner-label">
+                                      {languageTranslation("DOCTOR_FEE")}
+                                      <span className="required">*</span>
+                                    </Label>
+                                  </Col>
+                                  <Col sm="6">
+                                    <div>
+                                      <Input
+                                        type="text"
+                                        name={"lastName"}
+                                        placeholder={languageTranslation(
+                                          "DOCTOR_FEE"
+                                        )}
+                                        className="width-common"
+                                      />
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </FormGroup>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label">
+                            {languageTranslation("PERSONAL_DATA")}
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div>
+                            <Select
+                              placeholder={languageTranslation("PERSONAL_DATA")}
+                              isMulti
+                              options={Region}
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </div>
+              <div className="form-card minheight-auto">
+                <Row>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label">
+                            {languageTranslation("LEASING_PRICE_LIST")}
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div>
+                            <Select
+                              placeholder={languageTranslation(
+                                "LEASING_PRICE_LIST"
+                              )}
+                              isMulti
+                              options={Region}
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label">
+                            {languageTranslation("INVOICE_TYPE")}
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div>
+                            <Select
+                              placeholder={languageTranslation("INVOICE_TYPE")}
+                              isMulti
+                              options={Region}
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label">
+                            {languageTranslation("Interval")}
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div>
+                            <Select
+                              placeholder={languageTranslation("Interval")}
+                              isMulti
+                              options={Region}
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label">
+                            {languageTranslation("ADRESS_INVOICE")}
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div>
+                            <Input
+                              type="textarea"
+                              name={"additionalText "}
+                              placeholder={languageTranslation(
+                                "ADRESS_INVOICE"
+                              )}
+                              className="textarea-custom"
+                              rows="4"
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </div>
+              <div className="form-inner-list-section fix-height-section height-care-institution">
+                <h5 className="content-title">
+                  {languageTranslation("QUALIFICATIONS")}
+                </h5>
+                <Row className="custom-col">
+                  <Col sm={12}>
+                    <Card>
+                      <div className="form-inner-list-wrap">
+                        <h5 className="filter-head ">
+                          {languageTranslation("QUALIFICATION")}
+                        </h5>
+                        <div className="form-inner-list-content-wrap">
+                          <ul>
+                            <li className="ative">Dialysis </li>
+                            <li>Home Management</li>
+                            <li>Nurse/carer</li>
+                            <li> Neonatology</li>
+                            <li>Paramedic </li>
+                          </ul>
                         </div>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </div>
-            <div className="form-card minheight-auto">
-              <Row>
-                <Col lg={"12"}>
-                  <FormGroup>
-                    <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("LEASING_PRICE_LIST")}
-                        </Label>
-                      </Col>
-                      <Col sm="8">
-                        <div>
-                          <Select
-                            placeholder={languageTranslation("LEASING_PRICE_LIST")}
-                            isMulti
-                            options={Region}
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-                <Col lg={"12"}>
-                  <FormGroup>
-                    <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("INVOICE_TYPE")}
-                        </Label>
-                      </Col>
-                      <Col sm="8">
-                        <div>
-                          <Select
-                            placeholder={languageTranslation("INVOICE_TYPE")}
-                            isMulti
-                            options={Region}
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-                <Col lg={"12"}>
-                  <FormGroup>
-                    <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("Interval")}
-                        </Label>
-                      </Col>
-                      <Col sm="8">
-                        <div>
-                          <Select
-                            placeholder={languageTranslation("Interval")}
-                            isMulti
-                            options={Region}
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-                <Col lg={"12"}>
-                  <FormGroup>
-                    <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("ADRESS_INVOICE")}
-                        </Label>
-                      </Col>
-                      <Col sm="8">
-                        <div>
-                          <Input
-                            type="textarea"
-                            name={"additionalText "}
-                            placeholder={languageTranslation("ADRESS_INVOICE")}
-                            className="textarea-custom"
-                            rows="4"
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </div>
-            <div className="form-inner-list-section fix-height-section">
-              <h5 className="content-title">{languageTranslation("QUALIFICATIONS")}</h5>
-              <Row className="custom-col">
-                <Col sm={12}>
-                  <Card>
-                    <div className="form-inner-list-wrap">
-                      <h5 className="heading toggle-filter  ">
-                        {languageTranslation("QUALIFICATION")}
-                      </h5>
-                      <div className="form-inner-list-content-wrap">
-                        <ul>
-                          <li className="ative">Dialysis </li>
-                          <li>Home Management</li>
-                          <li>Nurse/carer</li>
-                          <li> Neonatology</li>
-                          <li>Paramedic </li>
-                        </ul>
                       </div>
-                    </div>
 
-                    <div className="custom-select-wrap">
-                      <select className="w-100">
-                        <option>Bernhard, Sandra</option>
-                        <option>Berlin, Irving</option>
-                        <option>Berne, Eric</option>
-                        <option>Berry, Halle</option>
-                      </select>
-                    </div>
-                  </Card>
-                </Col>
-              </Row>
-            </div>
-
-            <div className="form-inner-list-section mt-3 fix-height-section">
-              <h5 className="content-title">{languageTranslation("ATTRIBUTES")}</h5>
-              <Row className="custom-col">
-                <Col sm={12}>
-                  <Card>
-                    <div className="form-inner-list-wrap">
-                      <h5 className="heading toggle-filter  ">{languageTranslation("ATTRIBUTE")}</h5>
-                      <div className="form-inner-list-content-wrap">
-                        <ul>
-                          <li className="ative">Aaron, Hank </li>
-                          <li>Abbey, Edward</li>
-                          <li>Abel, Reuben</li>
-                          <li> Abelson, Hal</li>
-                          <li>Abourezk, James </li>
-                          <li>Abrams, Creighton </li>
-                        </ul>
+                      <div className="custom-select-wrap">
+                        <select className="w-100">
+                          <option>Bernhard, Sandra</option>
+                          <option>Berlin, Irving</option>
+                          <option>Berne, Eric</option>
+                          <option>Berry, Halle</option>
+                        </select>
                       </div>
-                    </div>
+                    </Card>
+                  </Col>
+                </Row>
+              </div>
 
-                    <div className="custom-select-wrap">
-                      <select className="w-100">
-                        <option>Bernhard, Sandra</option>
-                        <option>Berlin, Irving</option>
-                        <option>Berne, Eric</option>
-                        <option>Berry, Halle</option>
-                      </select>
-                    </div>
-                  </Card>
-                </Col>
-              </Row>
+              <div className="form-inner-list-section mt-3 fix-height-section height-care-institution">
+                <h5 className="content-title">
+                  {languageTranslation("ATTRIBUTES")}
+                </h5>
+                <Row className="custom-col">
+                  <Col sm={12}>
+                    <Card>
+                      <div className="form-inner-list-wrap">
+                        <h5 className="heading toggle-filter  ">
+                          {languageTranslation("ATTRIBUTE")}
+                        </h5>
+                        <div className="form-inner-list-content-wrap">
+                          <ul>
+                            <li className="ative">Aaron, Hank </li>
+                            <li>Abbey, Edward</li>
+                            <li>Abel, Reuben</li>
+                            <li> Abelson, Hal</li>
+                            <li>Abourezk, James </li>
+                            <li>Abrams, Creighton </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div className="custom-select-wrap">
+                        <select className="w-100">
+                          <option>Bernhard, Sandra</option>
+                          <option>Berlin, Irving</option>
+                          <option>Berne, Eric</option>
+                          <option>Berry, Halle</option>
+                        </select>
+                      </div>
+                    </Card>
+                  </Col>
+                </Row>
+              </div>
             </div>
           </Col>
           <Col lg={4}>
             <div className="remark-details">
-              <div className="remark-body">
+              <div className="remark-header d-flex align-items-center justify-content-between">
+                <h5 className="my-2 text-left activity-title">{languageTranslation("REMARKS")}</h5>
+                <div onClick={this.handleOnClick} className="edit-remark my-2">
+                  <i className="icon-note" />
+                </div>
+              </div>
+              <div className="remark-body height-care-institution">
                 <div className="activity-logs ">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <h5 className="mb-0 p-2 text-left activity-title">
-                      Remarks
-                  </h5>
-                    {/* <div onClick={this.handleOnClick} className="edit-remark">
-                    <i className="icon-note" />
-                  </div> */}
-                  </div>
                   {this.state.addRemark ? (
                     <div className="activity-block py-2 px-3">
                       <div className="pr-3 text-left">
@@ -840,17 +875,19 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                             placeholder="Remarks"
                             className="height-textarea "
                           />
-                          <div className="add-remark-btn">Add Remarks</div>
+                          <div className="add-remark-btn">
+                            {languageTranslation("ADD_REMARKS")}
+                          </div>
                         </div>
                       </div>
                       <div className="text-left activity-date">
                         <span>
                           <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
                           2:54 PM
-                      </span>
+                        </span>
                         <span>
                           <i className="fa fa-user mr-2"></i>Mark Smith
-                      </span>
+                        </span>
                       </div>
                       <span className="activity-icon activity-set"></span>
                     </div>
@@ -860,20 +897,20 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <span className="text-capitalize">
                         Called a few days before the registration (they
                         repeatedly asked to register), is KS and wants to make
-                        some extra money, preferably in clinics, has 2
-                        children and currently no PC because the children
-                        broke it, is coming on 09/18 at 11 a.m. for the info
-                        call, email office address + Stegemann sent, Jenny
-                    </span>
+                        some extra money, preferably in clinics, has 2 children
+                        and currently no PC because the children broke it, is
+                        coming on 09/18 at 11 a.m. for the info call, email
+                        office address + Stegemann sent, Jenny
+                      </span>
                     </div>
                     <div className="text-left activity-date">
                       <span>
                         <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
                         2:54 PM
-                    </span>
+                      </span>
                       <span>
                         <i className="fa fa-user mr-2"></i>Mark Smith
-                    </span>
+                      </span>
                     </div>
                     <span className="activity-icon activity-set"></span>
                   </div>
@@ -883,49 +920,48 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         She came to the info talk with her little son (about 3
                         years). But everyone ran quietly. She had a lot of
                         questions, generally freelance. She is exam. AP. The
-                        little one gets his daycare place in October and so
-                        she wants to get started with us in November. In
-                        January she wants to see if she wants to work
-                        part-time at a hospital. She is very friendly and
-                        bright, new password sent. WV Doks, set to October
-                        because it only wants to start in November. Norma
-                    </span>
+                        little one gets his daycare place in October and so she
+                        wants to get started with us in November. In January she
+                        wants to see if she wants to work part-time at a
+                        hospital. She is very friendly and bright, new password
+                        sent. WV Doks, set to October because it only wants to
+                        start in November. Norma
+                      </span>
                     </div>
                     <div className="text-left activity-date">
                       <span>
                         <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
                         2:54 PM
-                    </span>
+                      </span>
                       <span>
                         <i className="fa fa-user mr-2"></i>Mark Smith
-                    </span>
+                      </span>
                     </div>
                     <span className="activity-icon activity-set"></span>
                   </div>
                   <div className="activity-block  py-2 px-3">
                     <div className="pr-3 text-left">
                       <span className="text-capitalize">
-                        she called (yesterday on the phone again with Norma
-                        and asked everything again, apparently hadn't listened
-                        to the conversation), now she asked questions again
-                        and explained to me that she couldn't remember
-                        everything, so she is now writing, Then she wanted to
-                        make another appointment just to talk about the NV,
-                        offered to ask her questions or end it by email, and
-                        then she thought I sounded annoyed and she just wanted
-                        to speak to Norma, that she would like to ask her
-                        questions, but then she was no longer willing to do
-                        so, Jenny
-                    </span>
+                        she called (yesterday on the phone again with Norma and
+                        asked everything again, apparently hadn't listened to
+                        the conversation), now she asked questions again and
+                        explained to me that she couldn't remember everything,
+                        so she is now writing, Then she wanted to make another
+                        appointment just to talk about the NV, offered to ask
+                        her questions or end it by email, and then she thought I
+                        sounded annoyed and she just wanted to speak to Norma,
+                        that she would like to ask her questions, but then she
+                        was no longer willing to do so, Jenny
+                      </span>
                     </div>
                     <div className="text-left activity-date">
                       <span>
                         <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
                         2:54 PM
-                    </span>
+                      </span>
                       <span>
                         <i className="fa fa-user mr-2"></i>Mark Smith
-                    </span>
+                      </span>
                     </div>
                     <span className="activity-icon activity-set"></span>
                   </div>
@@ -934,19 +970,19 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <span className="text-capitalize">
                         Although she still wants to become a freelancer, her
                         child has to get used to kindergarten and this takes 1
-                        to 2 months. She knows which docs we need and will
-                        send them and then, but only as soon as her little one
-                        has settled in and she has come to a rest., Carolin
-                    </span>
+                        to 2 months. She knows which docs we need and will send
+                        them and then, but only as soon as her little one has
+                        settled in and she has come to a rest., Carolin
+                      </span>
                     </div>
                     <div className="text-left activity-date">
                       <span>
                         <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
                         2:54 PM
-                    </span>
+                      </span>
                       <span>
                         <i className="fa fa-user mr-2"></i>Mark Smith
-                    </span>
+                      </span>
                     </div>
                     <span className="activity-icon activity-set"></span>
                   </div>
@@ -954,19 +990,18 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
               </div>
             </div>
           </Col>
-
         </Row>
-        <div className="form-flex-section mt-3">
-          <h5 className="main-title">Personal Data</h5>
+        <div className="form-flex-section mt-3 form-card">
+          <h5 className="main-title">New Care Institution</h5>
           <div className="form-flex-block">
             <div className="form-flex-tile">
-              <Row >
+              <Row>
                 <Col lg={"12"}>
                   <FormGroup>
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
-                          ID
+                          {languageTranslation("ID")}
                           <span className="required">*</span>
                         </Label>
                       </Col>
@@ -975,11 +1010,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Input
                             type="text"
                             name={"firstName"}
-                            placeholder={"ID"}
+                            placeholder={languageTranslation("ID")}
                             className="width-common"
                           />
                         </div>
-                        
                       </Col>
                     </Row>
                   </FormGroup>
@@ -997,11 +1031,9 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         <Row className="custom-col inner-no-padding-col">
                           <Col sm="4">
                             <div>
-                              <Input
-                                type="text"
-                                name={"lastName"}
-                                placeholder={languageTranslation("USER_ID")}
-                                className="width-common"
+                              <Select
+                                placeholder={languageTranslation("GENDER")}
+                                options={State}
                               />
                             </div>
                           </Col>
@@ -1010,7 +1042,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                               <Row className="custom-col inner-no-padding-col">
                                 <Col sm="6">
                                   <Label className="form-label col-form-label inner-label">
-                                    Titel
+                                    {languageTranslation("TITLE")}
                                     <span className="required">*</span>
                                   </Label>
                                 </Col>
@@ -1019,7 +1051,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                                     <Input
                                       type="text"
                                       name={"lastName"}
-                                      placeholder="Reg Since"
+                                      placeholder={languageTranslation("TITLE")}
                                       className="width-common"
                                     />
                                   </div>
@@ -1037,7 +1069,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
-                         Saluation
+                          {languageTranslation("SALUTATION")}
                           <span className="required">*</span>
                         </Label>
                       </Col>
@@ -1046,11 +1078,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Input
                             type="text"
                             name={"firstName"}
-                            placeholder={"Saluation"}
+                            placeholder={languageTranslation("SALUTATION")}
                             className="width-common"
                           />
                         </div>
-                        
                       </Col>
                     </Row>
                   </FormGroup>
@@ -1060,7 +1091,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
-                          First name
+                          {languageTranslation("FIRST_NAME")}
                           <span className="required">*</span>
                         </Label>
                       </Col>
@@ -1069,11 +1100,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Input
                             type="text"
                             name={"firstName"}
-                            placeholder={"ID"}
+                            placeholder={languageTranslation("FIRST_NAME")}
                             className="width-common"
                           />
                         </div>
-                        
                       </Col>
                     </Row>
                   </FormGroup>
@@ -1083,7 +1113,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
-                          Surname
+                          {languageTranslation("SURNAME")}
                           <span className="required">*</span>
                         </Label>
                       </Col>
@@ -1092,309 +1122,297 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Input
                             type="text"
                             name={"firstName"}
-                            placeholder={"ID"}
+                            placeholder={languageTranslation("SURNAME")}
                             className="width-common"
                           />
                         </div>
-                        
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-
               </Row>
             </div>
-            <div className="form-flex-tile">
-            <Row>
-              <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                        Contact type
-                          <span className="required">*</span>
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                      <div>
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Contact type"}
-                          className="width-common"
-                        />
-                      </div>
-                      
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                      Street 
-                          <span className="required">*</span>
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                      <div>
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Street"}
-                          className="width-common"
-                        />
-                      </div>
-                      
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                        City
-                          <span className="required">*</span>
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                      <div>
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"City"}
-                          className="width-common"
-                        />
-                      </div>
-                      
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                        ZIP
-                          <span className="required">*</span>
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                      <div>
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"ZIP"}
-                          className="width-common"
-                        />
-                      </div>
-                      
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                        Country
-                          <span className="required">*</span>
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                      <div>
-                      <Select
-                    // value={this.state.selectedOption}
-                    placeholder="Select Country"
-                    options={Country}
-                  />
-                      </div>
-                      
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              </Row>
-            </div>
-            <div className="form-flex-tile">
-            <Row>
-              <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                      Phone
-                          <span className="required">*</span>
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                      <div>
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Phone"}
-                          className="width-common"
-                        />
-                      </div>
-                      
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                      Phone 2
-                          <span className="required">*</span>
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                      <div>
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Phone 2"}
-                          className="width-common"
-                        />
-                      </div>
-                      
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                     Fax
-                          <span className="required">*</span>
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                      <div>
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Fax"}
-                          className="width-common"
-                        />
-                      </div>
-                      
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                       Mobile
-                          <span className="required">*</span>
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                      <div>
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Mobile"}
-                          className="width-common"
-                        />
-                      </div>
-                      
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                      Email
-                          <span className="required">*</span>
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                      <div>
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Email"}
-                          className="width-common"
-                        />
-                      </div>
-                      
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              </Row>
-            </div>
-          
             <div className="form-flex-tile">
               <Row>
-            <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                   
-                    <Col sm="12">
-                      <div>
-                      <Input
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("CONTACT_TYPE")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Input
+                            type="text"
+                            name={"firstName"}
+                            placeholder={languageTranslation("CONTACT_TYPE")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("STREET")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Input
+                            type="text"
+                            name={"firstName"}
+                            placeholder={languageTranslation("STREET")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("CITY")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Input
+                            type="text"
+                            name={"firstName"}
+                            placeholder={languageTranslation("CITY")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("ZIP")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Input
+                            type="text"
+                            name={"firstName"}
+                            placeholder={languageTranslation("ZIP")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("COUNTRY")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Select
+                            // value={this.state.selectedOption}
+                            placeholder="Select Country"
+                            options={Country}
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+              </Row>
+            </div>
+            <div className="form-flex-tile">
+              <Row>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("PHONE")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Input
+                            type="text"
+                            name={"firstName"}
+                            placeholder={languageTranslation("PHONE")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("PHONE2")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Input
+                            type="text"
+                            name={"firstName"}
+                            placeholder={languageTranslation("PHONE2")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("FAX")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Input
+                            type="text"
+                            name={"firstName"}
+                            placeholder={languageTranslation("FAX")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("MOBILE")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Input
+                            type="text"
+                            name={"firstName"}
+                            placeholder={languageTranslation("MOBILE")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("EMAIL")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Input
+                            type="text"
+                            name={"firstName"}
+                            placeholder={languageTranslation("EMAIL")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+              </Row>
+            </div>
+
+            <div className="form-flex-tile">
+              <div className="d-flex align-items-center justify-content-between">
+                <div>{languageTranslation("ADD_REMARKS")} </div>
+                <div className="edit-remark mb-1">
+                  <i className="icon-note" />
+                </div>
+              </div>
+
+              <Row>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="12">
+                        <div>
+                          <Input
                             type="textarea"
                             name={"additionalText "}
                             placeholder={languageTranslation("REMARKS")}
-                            className="textarea-custom"
+                            className="textarea-care-institution"
                             rows="4"
                           />
-                      </div>
-                      
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
               </Row>
             </div>
             <div className="form-flex-tile">
-            <div className="form-inner-list-section">
-            <Card>
-                    <div className="form-inner-list-wrap">
-                      <h5 className="heading toggle-filter  ">
-                        {languageTranslation("QUALIFICATION")}
-                      </h5>
-                      <div className="form-inner-list-content-wrap">
-                        <ul>
-                          <li className="ative">Dialysis </li>
-                          <li>Home Management</li>
-                          <li>Nurse/carer</li>
-                          <li> Neonatology</li>
-                          <li>Paramedic </li>
-                        </ul>
-                      </div>
+              <div className="form-inner-list-section border-1">
+                <Card>
+                  <div className="form-inner-list-wrap">
+                    <h5 className="heading toggle-filter  ">
+                      {languageTranslation("ATTRIBUTES")}
+                    </h5>
+                    <div className="form-inner-list-content-wrap">
+                      <ul>
+                        <li className="ative">Dialysis </li>
+                        <li>Home Management</li>
+                      </ul>
                     </div>
+                  </div>
 
-                    <div className="custom-select-wrap">
-                      <select className="w-100">
-                        <option>Bernhard, Sandra</option>
-                        <option>Berlin, Irving</option>
-                        <option>Berne, Eric</option>
-                        <option>Berry, Halle</option>
-                      </select>
-                    </div>
-                  </Card>
-                          
-            </div>
-
+                  <div className="custom-select-wrap">
+                    <select className="w-100">
+                      <option>Bernhard, Sandra</option>
+                      <option>Berlin, Irving</option>
+                      <option>Berne, Eric</option>
+                      <option>Berry, Halle</option>
+                    </select>
+                  </div>
+                </Card>
+              </div>
             </div>
           </div>
         </div>

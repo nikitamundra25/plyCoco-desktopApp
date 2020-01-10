@@ -34,6 +34,7 @@ class DefaultFooter extends Component {
                 label: "Central Germany",
                 value: 0
               }}
+              className={"menu-outer-top"}
               // value={this.state.selectedOption}
               placeholder="Select Region"
               options={Region}

@@ -2,28 +2,38 @@ import gql from "graphql-tag";
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
-    id
-    salutation
-    firstName
-    surname
-    address
-    dob
-    phone
-    fax
-    mobile
-    email
-    password
-    driverLicenseAvailable
-    driverLicense
-    ownVehicleAvailable
-    legalType
-    legalInfo
-    securityContribution
-    taxInput
-    workingZones
-    remarks
-    qualifications
-    createdAt
+  salutation
+  firstName
+  lastName
+  address1
+  address2
+  street
+  city
+  state
+  country
+  postCode
+  email
+  dob
+  phone
+  fax
+  mobilePhone
+  username
+  bankName
+  qualification
+  leasing
+  driverLicenseNumber
+  driversLicense
+  vehicleavailable
+  legalForm
+  companyName
+  registrationNumber
+  registerCourt
+  executiveDirector
+  socialSecurityContribution
+  taxNumber
+  remarks
+  workZones
+  status
 }`
 
 export const GET_CAREGIVERS = gql`

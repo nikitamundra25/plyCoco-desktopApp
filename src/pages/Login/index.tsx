@@ -9,7 +9,6 @@ class Login extends Component<any, ILoginState> {
     values: ILoginFormValues,
     { setSubmitting }: FormikHelpers<ILoginFormValues>,
   ) => {
-    console.log('values', values);
     //to set submit state to false after successful login
     setSubmitting(false);
   };

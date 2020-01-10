@@ -26,7 +26,7 @@ export default {
     {
       name: languageTranslation("MENU_INSTITUTION"),
       icon: "icon-build",
-      url: AppRoutes.CONSTITUTION
+      url: AppRoutes.CARE_INSTITUTION
     },
 
     {
@@ -153,6 +153,12 @@ export default {
         {
           name: languageTranslation("MENU_REPORTS_HOLIDAYS"),
           icon: "icon-holidays",
+          url: "#"
+        },
+
+        {
+          name: languageTranslation("MENU_REPORTS_MISSING_WORKING_PROOFS"),
+          icon: "icon-working-list",
           url: "#"
         },
         {

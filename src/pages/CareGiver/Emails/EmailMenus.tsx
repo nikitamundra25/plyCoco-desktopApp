@@ -1,15 +1,12 @@
 import React, { Component } from "react";
-import { Button, Col, Row, Form, Nav, NavItem, NavLink } from "reactstrap";
+import { Nav, NavItem, NavLink } from "reactstrap";
 import { AppRoutes } from "../../../config";
-import { RouteChildrenProps, RouteComponentProps } from "react-router";
-class EmailMenus extends Component<RouteComponentProps, any> {
+import { IEmailMenus } from "../../../interfaces/CareGiver";
+class EmailMenus extends Component<IEmailMenus, any> {
   render() {
     const {
       location: { pathname }
     } = this.props;
-    console.log("path", this.props.location.pathname);
-    // const path = pathname
-    console.log("path", pathname);
     return (
       <>
         <Nav tabs className="custom-tabs">
@@ -52,19 +49,6 @@ class EmailMenus extends Component<RouteComponentProps, any> {
               <span>New Email</span>
             </NavLink>
           </NavItem>
-          {/* <NavItem>
-            <NavLink
-              className={
-                pathname === "/caregiver/email/settings" ? "active" : null
-              }
-              onClick={() => this.props.history.push(AppRoutes.EMAIL_SETTINGS)}
-            >
-              <span className="icon">
-                <i className="fa fa-cogs"></i>
-              </span>
-              <span>Settings</span>
-            </NavLink>
-          </NavItem> */}
         </Nav>
       </>
     );

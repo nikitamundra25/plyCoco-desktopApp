@@ -10,23 +10,14 @@ import {
   Col,
   Row,
   Form,
-  CustomInput
 } from "reactstrap";
 import Select from "react-select";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
-import { RouteComponentProps } from "react-router";
 import {
-  Status,
   State,
-  Department,
-  Region,
-  City,
   Country
 } from "../../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../routes/routes";
-import InputMask from "react-input-mask";
 
 class AddCareInstitution extends Component<any, any> {
   constructor(props: any) {
@@ -78,22 +69,12 @@ class AddCareInstitution extends Component<any, any> {
                                         type="select"
                                         name={"salutation"}
                                         placeholder="Sir"
-                                        // onChange={() =>
-                                        //   this.setState({ error: false })
-                                        // }
                                         className="width-common"
                                         onFocus={this.onFocus}
                                       >
                                         <option value={"Sir"}>Sir</option>
                                         <option value={"Woman"}>Woman</option>
                                       </Input>
-                                      {/* {this.state.error ? (
-                                          <div className="required-error">
-                                            Please Enter Salutation.
-                                          </div>
-                                        ) : (
-                                            ""
-                                          )} */}
                                     </div>
                                   </Col>
                                 </Row>
@@ -125,8 +106,8 @@ class AddCareInstitution extends Component<any, any> {
                                           Please Enter First Name
                                         </div>
                                       ) : (
-                                        ""
-                                      )}
+                                          ""
+                                        )}
                                     </div>
                                   </Col>
                                 </Row>
@@ -425,7 +406,6 @@ class AddCareInstitution extends Component<any, any> {
                                         <Col sm="8">
                                           <div>
                                             <Select
-                                              // value={this.state.selectedOption}
                                               placeholder="Select Country"
                                               options={Country}
                                             />

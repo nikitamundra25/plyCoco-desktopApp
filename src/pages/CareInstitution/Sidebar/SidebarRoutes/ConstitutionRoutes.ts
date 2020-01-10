@@ -34,5 +34,3 @@ export const careGiverRoutes = [
     name: "Reminders/Todos"
   }
 ];
-
-// export default routes;

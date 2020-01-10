@@ -79,11 +79,6 @@ class Email extends Component<RouteComponentProps, any> {
                     <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          {/* <Col sm="3">
-                            <Label className="form-label col-form-label text-left">
-                              Subject
-                            </Label>
-                          </Col> */}
                           <Col sm="12">
                             <div>
                               <Input
@@ -99,11 +94,6 @@ class Email extends Component<RouteComponentProps, any> {
                     <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          {/* <Col sm="3">
-                            <Label className="form-label col-form-label text-left">
-                              Text
-                            </Label>
-                          </Col> */}
                           <Col sm="12">
                             <div>
                               <Editor

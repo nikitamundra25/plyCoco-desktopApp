@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardBody, Table } from "reactstrap";
+import { Table } from "reactstrap";
 import { RouteComponentProps } from "react-router";
 
 class Login extends Component<RouteComponentProps, any> {

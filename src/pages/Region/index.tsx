@@ -1,20 +1,14 @@
 import React, { Component } from "react";
 import {
   Button,
-  FormGroup,
   Card,
   CardHeader,
-  Label,
   CardBody,
-  Input,
-  Col,
-  Row,
   Table,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  UncontrolledTooltip
 } from "reactstrap";
 import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
@@ -105,43 +99,6 @@ class Region extends Component<RouteComponentProps, any> {
                 <th className="text-center">Action</th>
               </tr>
             </thead>
-            {/* <tbody>
-              {userData.map((user, index): any => {
-                return (
-                  <tr>
-                    <td>
-                      <div className="table-checkbox-wrap">
-                        <div className="btn-group btn-check-action-wrap">
-                          <span className="btn">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""></label>
-                            </span>
-                          </span>
-                          <span className="checkbox-no">{index + 1}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>{user.region}</td>
-                    <td className="text-center">{user.canstitution}</td>
-                    <td className="text-center">{user.careGiver}</td>
-                    <td className="text-center">{user.appointment}</td>
-                    <td>
-                      <div className="action-btn">
-                        <span className="btn-icon " id="delete">
-                          <UncontrolledTooltip placement="top" target="delete">
-                            Click here to delete region
-                          </UncontrolledTooltip>
-                          <i className="fa fa-trash"></i>
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                </thead> */}
             <tbody>
               {userData.map((user, index): any => {
                 return (

@@ -1,23 +1,10 @@
 import React, { Component } from "react";
 import {
-  Button,
-  FormGroup,
-  Card,
-  CardHeader,
-  Label,
-  CardBody,
-  Input,
-  Col,
-  Row,
-  Form,
   Nav,
   NavItem,
   NavLink,
   TabPane,
   TabContent,
-  CustomInput,
-  Breadcrumb,
-  BreadcrumbItem
 } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";

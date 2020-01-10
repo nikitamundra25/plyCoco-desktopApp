@@ -584,7 +584,6 @@ const EmployeeFormComponent: any = (
                               <Col sm="4">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation("COUNTRY_LABEL")}
-                                  {/* Country */}
                                 </Label>
                               </Col>
                               <Col sm="8">
@@ -614,7 +613,6 @@ const EmployeeFormComponent: any = (
                               <Col sm="8">
                                 <div>
                                   <Select
-                                    // value={this.state.selectedOption}
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_STATE_PLACEHOLDER"
                                     )}
@@ -636,7 +634,6 @@ const EmployeeFormComponent: any = (
                               <Col sm="8">
                                 <div>
                                   <Select
-                                    // value={this.state.selectedOption}
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_CITY_PLACEHOLDER"
                                     )}
@@ -700,7 +697,6 @@ const EmployeeFormComponent: any = (
                                             ? "text-input error"
                                             : "text-input"
                                         }`}
-                                        //className='form-control'
                                       />
                                       {errors.joiningDate &&
                                         touched.joiningDate && (
@@ -724,7 +720,6 @@ const EmployeeFormComponent: any = (
                                   {languageTranslation(
                                     "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
                                   )}
-                                  {/* Add Profile image */}
                                 </Label>
                               </Col>
                               <Col sm="8">
@@ -772,20 +767,6 @@ const EmployeeFormComponent: any = (
                     <div className="mandatory-text">
                       {languageTranslation("REQUIRED_FIELDS")}
                     </div>
-                    {/* <div className={"text-right"}>
-                          <Button
-                            disabled={isSubmitting}
-                            color="primary"
-                            type={"submit"}
-                            className="btn-sumbit"
-                            // onClick={(e: any) => {
-                            //   e.preventDefault();
-                            //   handleSubmit();
-                            // }}
-                          >
-                            Save
-                          </Button>
-                        </div> */}
                   </div>
                 </Col>
               </Form>

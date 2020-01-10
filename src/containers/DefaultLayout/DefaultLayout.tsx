@@ -1,22 +1,14 @@
 import React, { Component, Suspense } from "react";
-import { Route, Switch, Redirect, RouteComponentProps } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import {
   Container,
-  Row,
-  Col,
-  Button,
-  UncontrolledButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
 } from "reactstrap";
 import { AppRoutes } from "../../config";
 import routes from "../../routes/routes";
-import { Region, CareGiver } from "../../config";
+import { CareGiver } from "../../config";
 // sidebar nav config
 import navigation from "../../_nav";
 import {
-  AppBreadcrumb,
   AppFooter,
   AppHeader,
   AppSidebar,
@@ -36,9 +28,7 @@ import appointment from "../../assets/img/appointment.svg";
 import delete_specilalist from "../../assets/img/delete-user.svg";
 import delete_appointment from "../../assets/img/delete-appointment.svg";
 import send_bills from "../../assets/img/send-bills.svg";
-import copy_institution from "../../assets/img/copy-new.svg";
 import clear from "../../assets/img/clear.svg";
-import copy_facility from "../../assets/img/copy.svg";
 import { languageTranslation } from "../../helpers";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
@@ -57,15 +47,8 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
       {...rest}
       render={props => (
         <div className="common-detail-page">
-          {/* <AppBreadcrumb appRoutes={routes} className="w-100" /> */}
           <div className="common-detail-section">
             <div className="sticky-common-header">
-              {/* <div className="d-flex align-items-center username-header">
-                    <span className="align-middle">
-                      <i className="fa fa-user mr-2"></i>
-                    </span>
-                    <span className="align-middle">John Doe (Caregiver)</span>
-                  </div> */}
               <div className="common-topheader d-flex align-items-center ">
                 <div className="user-select">
                   <Select
@@ -73,7 +56,6 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                       label: "John Doe",
                       value: 0
                     }}
-                    // value={this.state.selectedOption}
                     placeholder="Select Caregiver"
                     options={CareGiver}
                   />
@@ -142,18 +124,6 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                     {languageTranslation("CG_MENU_SEND_PAY_SLIP")}
                   </span>
                 </div>
-                {/* <div className="header-nav-item">
-                      <span className="header-nav-text">
-                        <UncontrolledButtonDropdown>
-                          <DropdownToggle caret>More</DropdownToggle>
-                          <DropdownMenu>
-                            <DropdownItem></DropdownItem>
-                            <DropdownItem></DropdownItem>
-                            <DropdownItem>Send pay slips</DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledButtonDropdown>
-                      </span>
-                    </div> */}
               </div>
               <CareGiverSidebar {...props} />
             </div>
@@ -173,15 +143,8 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
       {...rest}
       render={props => (
         <div className="common-detail-page">
-          {/* <AppBreadcrumb appRoutes={routes} className="w-100" /> */}
           <div className="common-detail-section">
             <div className="sticky-common-header">
-              {/* <div className="d-flex align-items-center username-header">
-                    <span className="align-middle">
-                      <i className="fa fa-user mr-2"></i>
-                    </span>
-                    <span className="align-middle">John Doe (Caregiver)</span>
-                  </div> */}
               <div className="common-topheader d-flex align-items-center ">
                 <div className="user-select">
                   <Select
@@ -189,7 +152,6 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
                       label: "John Doe",
                       value: 0
                     }}
-                    // value={this.state.selectedOption}
                     placeholder="Select Caregiver"
                     options={CareGiver}
                   />
@@ -255,12 +217,6 @@ class DefaultLayout extends Component<any, any> {
     };
   }
 
-  // componentDidMount() {
-  //   if (!localStorage.getItem('token')) {
-  //     this.props.history.push(AppRoutes.LOGIN);
-  //   }
-  // }
-
   render() {
     return (
       <div className="app">
@@ -280,7 +236,6 @@ class DefaultLayout extends Component<any, any> {
             <AppSidebarMinimizer />
           </AppSidebar>
           <main className="main">
-            {/* <AppBreadcrumb appRoutes={routes} /> */}
             <Container fluid>
               <Suspense fallback={<Loader />}>
                 <Switch>
@@ -294,13 +249,13 @@ class DefaultLayout extends Component<any, any> {
                           component={route.component}
                         />
                       ) : (
-                        <CareInstitutionLayout
-                          key={idx}
-                          path={route.path}
-                          exact={route.exact}
-                          component={route.component}
-                        />
-                      )
+                          <CareInstitutionLayout
+                            key={idx}
+                            path={route.path}
+                            exact={route.exact}
+                            component={route.component}
+                          />
+                        )
                     ) : route.component ? (
                       <Route
                         key={idx}

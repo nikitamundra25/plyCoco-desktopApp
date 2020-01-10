@@ -9,7 +9,6 @@ class EmployeeForm extends Component<any, IEmployeeState> {
     values: IEmployeeFormValues,
     { setSubmitting }: FormikHelpers<IEmployeeFormValues>,
   ) => {
-    console.log('values in employeee', values);
     //to set submit state to false after successful signup
     setSubmitting(false);
   };
@@ -32,7 +31,6 @@ class EmployeeForm extends Component<any, IEmployeeState> {
       zip: '',
       joiningDate: '',
       bankAccountNumber:''
-      // date:new Date()
     };
     return (
       <Formik

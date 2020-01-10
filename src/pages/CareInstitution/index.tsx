@@ -6,12 +6,9 @@ import {
   CardHeader,
   Label,
   CardBody,
-  CardGroup,
-  Container,
   Input,
   Col,
   Row,
-  Form,
   Table,
   UncontrolledDropdown,
   DropdownToggle,
@@ -100,28 +97,6 @@ class CareInstitution extends Component<RouteComponentProps, any> {
               </div>
             </div>
           </td>
-          {/* <td>
-            <div className="description-column  ml-0">
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">Marketing</span>
-              </p>
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">Sales</span>
-              </p>
-              <p className="description-text ">
-                <span className="text-label mr-1">
-                  <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="align-middle">HR</span>
-              </p>
-            </div>
-          </td> */}
           <td>
             <div className="description-column  ml-0">
               {user.region
@@ -137,16 +112,6 @@ class CareInstitution extends Component<RouteComponentProps, any> {
             </div>
           </td>
           <td className="text-center">
-            {/* <div className="description-column ml-0">
-              <p className="description-text">
-                <span className="text-label mr-1">Employee ID:</span>
-                <span className="align-middle">e546567cdg</span>
-              </p>
-              <p className="description-text">
-                <span className="text-label mr-1">Employee Username:</span>
-                <span className="align-middle">US_542346</span>
-              </p>
-            </div> */}
             <div>{user.assignedCanstitution}</div>
           </td>
           <td className="text-center">
@@ -257,18 +222,6 @@ class CareInstitution extends Component<RouteComponentProps, any> {
                   </Input>
                 </FormGroup>
               </Col>
-              {/* <Col lg={"2"}>
-                    <FormGroup>
-                      <Label for="Selectregion">Department:</Label>
-                      <Input type="select" name="region" id="Selectregion">
-                        <option>Sales</option>
-                        <option>Marketing</option>
-                        <option>HR</option>
-                        <option>Development</option>
-                        <option>Designing</option>
-                      </Input>
-                    </FormGroup>
-                  </Col> */}
               <Col lg={"2"}>
                 <div className="label-height"></div>
                 <div className="filter-btn-wrap">
@@ -312,7 +265,6 @@ class CareInstitution extends Component<RouteComponentProps, any> {
                   </div>
                 </th>
                 <th>Constitution Information</th>
-                {/* <th>Department</th> */}
                 <th>Region</th>
                 <th className="text-center">Assigned Canstitution</th>
                 <th className="text-center">Status</th>

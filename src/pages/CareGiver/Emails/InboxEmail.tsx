@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Col, Row, Label, Collapse, Card, CardBody, Button } from "reactstrap";
+import { Col, Row, Collapse } from "reactstrap";
 import EmailMenus from "./EmailMenus";
 import { languageTranslation } from "../../../helpers/langauageTranslation";
 import { RouteComponentProps } from "react-router";
 import Select from "react-select";
+
 class Email extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
@@ -31,7 +32,10 @@ class Email extends Component<RouteComponentProps, any> {
     return (
       <>
         <div className="email-section">
-          <EmailMenus {...this.props} />
+          <EmailMenus
+            location={this.props.location}
+            history={this.props.history}
+          />
           <div className="email-content">
             <Row className="custom-col">
               <Col lg={"5"}>
@@ -66,7 +70,7 @@ class Email extends Component<RouteComponentProps, any> {
                       <div
                         className={`email-date-block ${
                           this.state.Opened ? "opened" : "closed"
-                        }`}
+                          }`}
                         onClick={this.toggle}
                       >
                         {" "}
@@ -74,8 +78,6 @@ class Email extends Component<RouteComponentProps, any> {
                       </div>
                       <Collapse
                         isOpen={this.state.isOpen}
-                        onEntered={this.onEntered}
-                        onExiting={this.onEntered}
                       >
                         <div className="email-row-wrap inner-content-wrap">
                           <div className="email-date-time-block">
@@ -89,7 +91,7 @@ class Email extends Component<RouteComponentProps, any> {
                       <div
                         className={`email-date-block ${
                           this.state.Opened ? "opened" : "closed"
-                        }`}
+                          }`}
                         onClick={this.toggle}
                       >
                         {" "}
@@ -97,8 +99,6 @@ class Email extends Component<RouteComponentProps, any> {
                       </div>
                       <Collapse
                         isOpen={this.state.isOpen}
-                        onEntered={this.onEntered}
-                        onExiting={this.onEntered}
                       >
                         <div className="email-row-wrap inner-content-wrap">
                           <div className="email-date-time-block">
@@ -112,7 +112,7 @@ class Email extends Component<RouteComponentProps, any> {
                       <div
                         className={`email-date-block ${
                           this.state.Opened ? "opened" : "closed"
-                        }`}
+                          }`}
                         onClick={this.toggle}
                       >
                         {" "}
@@ -120,8 +120,6 @@ class Email extends Component<RouteComponentProps, any> {
                       </div>
                       <Collapse
                         isOpen={this.state.isOpen}
-                        onEntered={this.onEntered}
-                        onExiting={this.onEntered}
                       >
                         <div className="email-row-wrap inner-content-wrap">
                           <div className="email-date-time-block">
@@ -133,256 +131,12 @@ class Email extends Component<RouteComponentProps, any> {
                     </li>
                   </ul>
                 </div>
-
-                {/* <ul className="mail-listing">
-                  <li className="mail-listing-item">
-                    <div className="mail-inbox-content d-flex align-items-center justify-content-start">
-                      <div className="mail-inbox-info">
-                        <div className="inbox-action d-flex align-items-center">
-                          <div className=" checkbox-custom mb-0">
-                            <input type="checkbox" id="check" className="" />
-                            <Label for="check"></Label>
-                          </div>
-                          <div className="flag-icon">
-                            <i className="fa fa-flag"></i>
-                          </div>
-                          <div className="unread-icon">
-                            <i className="fa fa-circle "></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mail-inbox-detail">
-                        <div className="mail-inbox-subject">
-                          Your iBuy.com grocery shopping confirmation
-                      </div>
-                        <div className="mail-inbox-summary">
-                          Please make sure that you have one of the following
-                          cards...
-                      </div>
-                        <div className="mail-inbox-date-time">12:20 PM</div>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="mail-listing-item">
-                    <div className="mail-inbox-content d-flex align-items-center justify-content-start">
-                      <div className="mail-inbox-info">
-                        <div className="inbox-action d-flex align-items-center">
-                          <div className=" checkbox-custom mb-0">
-                            <input type="checkbox" id="check" className="" />
-                            <Label for="check"></Label>
-                          </div>
-                          <div className="flag-icon">
-                            <i className="fa fa-flag"></i>
-                          </div>
-                          <div className="unread-icon">
-                            <i className="fa fa-circle "></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mail-inbox-detail">
-                        <div className="mail-inbox-subject">
-                          Your iBuy.com grocery shopping confirmation
-                      </div>
-                        <div className="mail-inbox-summary">
-                          Please make sure that you have one of the following
-                          cards...
-                      </div>
-                        <div className="mail-inbox-date-time">12:20 PM</div>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="mail-listing-item active">
-                    <div className="mail-inbox-content d-flex align-items-center justify-content-start">
-                      <div className="mail-inbox-info">
-                        <div className="inbox-action d-flex align-items-center">
-                          <div className=" checkbox-custom mb-0">
-                            <input type="checkbox" id="check" className="" />
-                            <Label for="check"></Label>
-                          </div>
-                          <div className="flag-icon">
-                            <i className="fa fa-flag"></i>
-                          </div>
-                          <div className="unread-icon">
-                            <i className="fa fa-circle "></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mail-inbox-detail">
-                        <div className="mail-inbox-subject">
-                          Your iBuy.com grocery shopping confirmation
-                      </div>
-                        <div className="mail-inbox-summary">
-                          Please make sure that you have one of the following
-                          cards...
-                      </div>
-                        <div className="mail-inbox-date-time">12:20 PM</div>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="mail-listing-item">
-                    <div className="mail-inbox-content d-flex align-items-center justify-content-start">
-                      <div className="mail-inbox-info">
-                        <div className="inbox-action d-flex align-items-center">
-                          <div className=" checkbox-custom mb-0">
-                            <input type="checkbox" id="check" className="" />
-                            <Label for="check"></Label>
-                          </div>
-                          <div className="flag-icon">
-                            <i className="fa fa-flag"></i>
-                          </div>
-                          <div className="unread-icon">
-                            <i className="fa fa-circle "></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mail-inbox-detail">
-                        <div className="mail-inbox-subject">
-                          Your iBuy.com grocery shopping confirmation
-                      </div>
-                        <div className="mail-inbox-summary">
-                          Please make sure that you have one of the following
-                          cards...
-                      </div>
-                        <div className="mail-inbox-date-time">12:20 PM</div>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="mail-listing-item">
-                    <div className="mail-inbox-content d-flex align-items-center justify-content-start">
-                      <div className="mail-inbox-info">
-                        <div className="inbox-action d-flex align-items-center">
-                          <div className=" checkbox-custom mb-0">
-                            <input type="checkbox" id="check" className="" />
-                            <Label for="check"></Label>
-                          </div>
-                          <div className="flag-icon">
-                            <i className="fa fa-flag"></i>
-                          </div>
-                          <div className="unread-icon">
-                            <i className="fa fa-circle "></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mail-inbox-detail">
-                        <div className="mail-inbox-subject">
-                          Your iBuy.com grocery shopping confirmation
-                      </div>
-                        <div className="mail-inbox-summary">
-                          Please make sure that you have one of the following
-                          cards...
-                      </div>
-                        <div className="mail-inbox-date-time">12:20 PM</div>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="mail-listing-item">
-                    <div className="mail-inbox-content d-flex align-items-center justify-content-start">
-                      <div className="mail-inbox-info">
-                        <div className="inbox-action d-flex align-items-center">
-                          <div className=" checkbox-custom mb-0">
-                            <input type="checkbox" id="check" className="" />
-                            <Label for="check"></Label>
-                          </div>
-                          <div className="flag-icon">
-                            <i className="fa fa-flag"></i>
-                          </div>
-                          <div className="unread-icon">
-                            <i className="fa fa-circle "></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mail-inbox-detail">
-                        <div className="mail-inbox-subject">
-                          Your iBuy.com grocery shopping confirmation
-                      </div>
-                        <div className="mail-inbox-summary">
-                          Please make sure that you have one of the following
-                          cards...
-                      </div>
-                        <div className="mail-inbox-date-time">12:20 PM</div>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="mail-listing-item">
-                    <div className="mail-inbox-content d-flex align-items-center justify-content-start">
-                      <div className="mail-inbox-info">
-                        <div className="inbox-action d-flex align-items-center">
-                          <div className=" checkbox-custom mb-0">
-                            <input type="checkbox" id="check" className="" />
-                            <Label for="check"></Label>
-                          </div>
-                          <div className="flag-icon">
-                            <i className="fa fa-flag"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mail-inbox-detail">
-                        <div className="mail-inbox-subject">
-                          Your iBuy.com grocery shopping confirmation
-                      </div>
-                        <div className="mail-inbox-summary">
-                          Please make sure that you have one of the following
-                          cards...
-                      </div>
-                        <div className="mail-inbox-date-time">12:20 PM</div>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="mail-listing-item">
-                    <div className="mail-inbox-content d-flex align-items-center justify-content-start">
-                      <div className="mail-inbox-info">
-                        <div className="inbox-action d-flex align-items-center">
-                          <div className=" checkbox-custom mb-0">
-                            <input type="checkbox" id="check" className="" />
-                            <Label for="check"></Label>
-                          </div>
-
-                          <div className="unread-icon">
-                            <i className="fa fa-circle "></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mail-inbox-detail">
-                        <div className="mail-inbox-subject">
-                          Your iBuy.com grocery shopping confirmation
-                      </div>
-                        <div className="mail-inbox-summary">
-                          Please make sure that you have one of the following
-                          cards...
-                      </div>
-                        <div className="mail-inbox-date-time">12:20 PM</div>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="mail-listing-item">
-                    <div className="mail-inbox-content d-flex align-items-center justify-content-start">
-                      <div className="mail-inbox-info">
-                        <div className="inbox-action d-flex align-items-center">
-                          <div className=" checkbox-custom mb-0">
-                            <input type="checkbox" id="check" className="" />
-                            <Label for="check"></Label>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mail-inbox-detail">
-                        <div className="mail-inbox-subject">
-                          Your iBuy.com grocery shopping confirmation
-                      </div>
-                        <div className="mail-inbox-summary">
-                          Please make sure that you have one of the following
-                          cards...
-                      </div>
-                        <div className="mail-inbox-date-time">12:20 PM</div>
-                      </div>
-                    </div>
-                  </li>
-                </ul> */}
               </Col>
               <Col lg={"7"}>
                 <div className="mail-details">
-               
+
                   <div className="mail-body">
-                  <h5 className="mb-3"> Your iBuy.com grocery shopping confirmation</h5>
+                    <h5 className="mb-3"> Your iBuy.com grocery shopping confirmation</h5>
                     <div ><span className="gray-color">Posted:</span> <span >12:20 PM</span></div>
                     <div className="mb-3"><span className="gray-color">On:</span>  <span >Justina Achatoh</span></div>
                     <p className="mb-1"> -------------------------------------------------</p>
@@ -405,7 +159,7 @@ class Email extends Component<RouteComponentProps, any> {
                       HRB 150746, managing
                     </p>
                     <div className="mt-3  mb-1">
-                    Thanks and Regards
+                      Thanks and Regards
                     </div>
                     <div className="h6">John die</div>
                   </div>

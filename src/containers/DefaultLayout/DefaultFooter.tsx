@@ -3,14 +3,8 @@ import {
   Nav,
   NavItem,
   NavLink,
-  UncontrolledButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
 } from "reactstrap";
 import Select from "react-select";
-import { AppRoutes } from "../../config";
-import routes from "../../routes/routes";
 import { Region } from "../../config";
 
 class DefaultFooter extends Component {
@@ -35,7 +29,6 @@ class DefaultFooter extends Component {
                 value: 0
               }}
               className={"menu-outer-top"}
-              // value={this.state.selectedOption}
               placeholder="Select Region"
               options={Region}
             />

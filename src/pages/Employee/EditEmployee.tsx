@@ -13,10 +13,8 @@ import {
   CustomInput
 } from "reactstrap";
 import Select from "react-select";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { RouteComponentProps } from "react-router";
-import { Status, State, Department, Region, City } from "../../config";
+import { State, Region, City } from "../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import InputMask from "react-input-mask";
@@ -25,7 +23,6 @@ class AddEmployee extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      // startDate: ""
       error: false
     };
   }
@@ -46,7 +43,6 @@ class AddEmployee extends Component<any, any> {
       <div>
         <Card>
           <CardHeader>
-            {/* <AppBreadcrumb appRoutes={routes} className="w-100" /> */}
             <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
             <Button color={"primary"} className={"btn-add"}>
               Save
@@ -303,31 +299,6 @@ class AddEmployee extends Component<any, any> {
                       <h5 className="main-title"> Other Information</h5>
                       <div className="form-card">
                         <Row>
-                          {/* <Col lg={"6"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="4">
-                                          <Label className="form-label col-form-label">
-                                            Department
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="8">
-                                          <div>
-                                            <Select
-                                  defaultValue={[Department[2], Department[0]]}
-
-                                              // value={this.state.selectedOption}
-                                              placeholder="Select Department"
-                                              isMulti
-                                              options={Department}
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col> */}
-
                           <Col lg={"6"}>
                             <FormGroup>
                               <Row>
@@ -433,7 +404,6 @@ class AddEmployee extends Component<any, any> {
                                         label: "Hambug",
                                         value: 0
                                       }}
-                                      // value={this.state.selectedOption}
                                       placeholder="Select State"
                                       options={State}
                                     />
@@ -457,7 +427,6 @@ class AddEmployee extends Component<any, any> {
                                         label: "Bochum",
                                         value: 0
                                       }}
-                                      // value={this.state.selectedOption}
                                       placeholder="Select City"
                                       options={City}
                                     />
@@ -488,70 +457,6 @@ class AddEmployee extends Component<any, any> {
                               </Row>
                             </FormGroup>
                           </Col>
-                          {/* <Col lg={"12"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="4">
-                                          <Label className="form-label col-form-label">
-                                            Employee rights
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="8">
-                                          <Col sm="3">
-                                            <div className="checkbox-custom">
-                                              <Input
-                                                type="checkbox"
-                                                name="check1"
-                                                id="exampleCheck1"
-                                                checked
-                                              />
-                                              <Label for="exampleCheck1" check>
-                                                Rights 1
-                                              </Label>
-                                            </div>
-                                          </Col>
-                                          <Col sm="3">
-                                            <div className="checkbox-custom">
-                                              <Input
-                                                type="checkbox"
-                                                name="check2"
-                                                id="exampleCheck2"
-                                              />
-                                              <Label for="exampleCheck2" check>
-                                                Rights 2
-                                              </Label>
-                                            </div>
-                                          </Col>
-                                          <Col sm="3">
-                                            <div className="checkbox-custom">
-                                              <Input
-                                                type="checkbox"
-                                                name="check3"
-                                                id="exampleCheck3"
-                                                checked
-                                              />
-                                              <Label for="exampleCheck3" check>
-                                                Rights 3
-                                              </Label>
-                                            </div>
-                                          </Col>
-                                          <Col sm="3">
-                                            <div className="checkbox-custom">
-                                              <Input
-                                                type="checkbox"
-                                                name="check4"
-                                                id="exampleCheck4"
-                                              />
-                                              <Label for="exampleCheck4" check>
-                                                Rights 4
-                                              </Label>
-                                            </div>
-                                          </Col>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col> */}
                           <Col lg={"6"}>
                             <FormGroup>
                               <Row>
@@ -564,17 +469,12 @@ class AddEmployee extends Component<any, any> {
                                   <div>
                                     <Row>
                                       <Col>
-                                        {/* <DatePicker
-                                              placeholderText="Select Date"
-                                              selected={new Date()}
-                                              onChange={this.handleChange}
-                                            /> */}
+                                       
                                         <InputMask
                                           value="12/03/2007"
                                           placeholder="DD/MM/YYYY"
                                           mask="99/99/9999"
                                           className="form-control"
-                                          // onChange={this.handleDateOfBirth}
                                         />
                                       </Col>
                                     </Row>
@@ -619,15 +519,6 @@ class AddEmployee extends Component<any, any> {
                   <Col lg={"12"}>
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="mandatory-text">* Required Fields</div>
-                      {/* <div className={"text-right"}>
-                            <Button
-                              color="primary"
-                              type="submit"
-                              className="btn-sumbit"
-                            >
-                              Save
-                            </Button>
-                          </div> */}
                     </div>
                   </Col>
                 </Form>

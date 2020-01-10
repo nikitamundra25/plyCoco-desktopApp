@@ -62,10 +62,6 @@ class EditCareGiver extends Component<RouteComponentProps, any> {
       <>
         <Card className="full-height">
           <CardHeader className="detail-card">
-            {/* <h4>
-                  <i className="fa fa-users" />
-                  <span className="ml-1">Add Care Giver</span>
-                </h4> */}
             <Breadcrumb className="w-100">
               <BreadcrumbItem>
                 <a href="#">Home</a>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, Row, Card, CardBody } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import { RouteComponentProps } from "react-router";
 
 class Emails extends Component<RouteComponentProps, any> {

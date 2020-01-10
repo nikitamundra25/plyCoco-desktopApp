@@ -25,7 +25,7 @@ import {
   Country,
   NightAllowancePerHour
 } from "../../../config";
-import { languageTranslation } from "../../../helpers/langauageTranslation";
+import { languageTranslation } from "../../../helpers";
 
 class PersonalInformation extends Component<RouteComponentProps, any> {
   constructor(props: any) {

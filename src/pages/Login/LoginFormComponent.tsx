@@ -17,7 +17,7 @@ import {
 } from 'reactstrap';
 import logo from '../../assets/img/plycoco-logo.png';
 import { ILoginFormValues } from '../../interfaces';
-import { languageTranslation } from '../../helpers/langauageTranslation';
+import { languageTranslation } from '../../helpers';
 const LoginFormComponent = (props: FormikProps<ILoginFormValues>) => {
   const {
     values: { email, password },

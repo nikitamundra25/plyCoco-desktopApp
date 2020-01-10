@@ -164,7 +164,7 @@ class CareInstitution extends Component<RouteComponentProps, any> {
                 className="btn-icon mr-2"
                 id={`edit${index}`}
                 onClick={() =>
-                  this.props.history.push(AppRoutes.CONSTI_PERSONAL_DATA)
+                  this.props.history.push(AppRoutes.CARE_INSTITUTION_PERSONAL_DATA)
                 }
               >
                 <UncontrolledTooltip placement="top" target={`edit${index}`}>
@@ -176,7 +176,7 @@ class CareInstitution extends Component<RouteComponentProps, any> {
                 className="btn-icon mr-2"
                 id={`view${index}`}
                 onClick={() =>
-                  this.props.history.push(AppRoutes.CONSTI_PERSONAL_DATA)
+                  this.props.history.push(AppRoutes.CARE_INSTITUTION_PERSONAL_DATA)
                 }
               >
                 <UncontrolledTooltip placement="top" target={`view${index}`}>
@@ -207,7 +207,9 @@ class CareInstitution extends Component<RouteComponentProps, any> {
             color={"primary"}
             className={"btn-add"}
             id={"add-new-pm-tooltip"}
-            onClick={() => this.props.history.push(AppRoutes.ADD_CONSTITUTION)}
+            onClick={() =>
+              this.props.history.push(AppRoutes.ADD_CARE_INSTITUTION)
+            }
           >
             <i className={"fa fa-plus"} />
             &nbsp; Add New Constitution

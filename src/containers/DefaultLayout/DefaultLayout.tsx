@@ -39,14 +39,15 @@ import send_bills from "../../assets/img/send-bills.svg";
 import copy_institution from "../../assets/img/copy-new.svg";
 import clear from "../../assets/img/clear.svg";
 import copy_facility from "../../assets/img/copy.svg";
+import { languageTranslation } from "../../helpers";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 const CareGiverSidebar = React.lazy(() =>
   import("../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
 );
-const ConstitutionSidebar = React.lazy(() =>
-  import("../../pages/CareInstitution/Sidebar/SidebarLayout/ConstitutionLayout")
+const CareInstitutionSidebar = React.lazy(() =>
+  import("../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout")
 );
 
 // Care giver Sidebar
@@ -81,51 +82,65 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                   <span className="header-nav-icon">
                     <img src={add} alt="" />
                   </span>
-                  <span className="header-nav-text">New Caregiver</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_NEW_CAREGIVER")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={save} alt="" />
                   </span>
-                  <span className="header-nav-text">Save</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("SAVE_BUTTON")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={reminder} alt="" />
                   </span>
-                  <span className="header-nav-text">Create Todo/Reminder</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_CREATE_TODO")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={password} alt="" />
                   </span>
-                  <span className="header-nav-text">New Password</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_NEW_PASSWORD")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={appointment} alt="" />
                   </span>
-                  <span className="header-nav-text">Display appointments</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_DISPLAY_APPOINTMENTS_")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={delete_specilalist} alt="" />
                   </span>
-                  <span className="header-nav-text">Delete specialist</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_DELETE_SPECIALIST")}
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={delete_appointment} alt="" />
                   </span>
                   <span className="header-nav-text">
-                    Delete future appointments
+                    {languageTranslation("CG_MENU_DELETE_FUTURE_APPOINTMENTS_")}
                   </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={send_bills} alt="" />
                   </span>
-                  <span className="header-nav-text">Send pay slips</span>
+                  <span className="header-nav-text">
+                    {languageTranslation("CG_MENU_SEND_PAY_SLIP")}
+                  </span>
                 </div>
                 {/* <div className="header-nav-item">
                       <span className="header-nav-text">
@@ -152,7 +167,7 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
     />
   );
 };
-const ConstitutionLayout = ({ component: Component, ...rest }: any) => {
+const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
   return (
     <Route
       {...rest}
@@ -217,7 +232,7 @@ const ConstitutionLayout = ({ component: Component, ...rest }: any) => {
                   <span className="header-nav-text">Clear</span>
                 </div>
               </div>
-              <ConstitutionSidebar {...props} />
+              <CareInstitutionSidebar {...props} />
             </div>
             <div className="common-content flex-grow-1">
               <Component {...props} />
@@ -279,7 +294,7 @@ class DefaultLayout extends Component<any, any> {
                           component={route.component}
                         />
                       ) : (
-                        <ConstitutionLayout
+                        <CareInstitutionLayout
                           key={idx}
                           path={route.path}
                           exact={route.exact}

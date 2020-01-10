@@ -38,16 +38,28 @@ export const AppRoutes: IAppRoutes = {
   INVOCES: languageTranslation("ROUTES_INVOCES"),
   TODO: languageTranslation("ROUTES_TODO"),
   CARE_LOGIN: languageTranslation("ROUTES_CARE_LOGIN"),
-  ADD_CONSTITUTION: languageTranslation("ROUTES_ADD_CONSTITUTION"),
-  CONSTITUTION: languageTranslation("ROUTES_CONSTITUTION"),
-  CONSTI_PERSONAL_DATA: languageTranslation("ROUTES_CONSTI_PERSONAL_DATA"),
-  // CONSTI_PERSONAL_DATA: "/constitution/personal_information",
-  CONSTI_COMISSION_AGREEMENT: "/constitution/commission_Agreement",
-  CONSTI_OFFER: "/constitution/offers",
-  CONSTI_LOGIN: "/constitution/login",
-  CONSTI_INVOICE_CYCLE: "/constitution/invoice_cycle",
-  CONSTI_DOCUMENT: "/constitution/document",
-  CONSTI_DEPARTMENT: "/constitution/department",
-  CONSTI_EMAIL: "/constitution/email",
-  CONSTI_REMINDER: "/constitution/todo"
+  ADD_CARE_INSTITUTION: languageTranslation("ROUTES_ADD_CARE_INSTITUTION"),
+  CARE_INSTITUTION: languageTranslation("ROUTES_CARE_INSTITUTION"),
+  CARE_INSTITUTION_PERSONAL_DATA: languageTranslation(
+    "ROUTES_CARE_INSTITUTION_PERSONAL_DATA"
+  ),
+
+  CARE_INSTITUTION_COMISSION_AGREEMENT: languageTranslation(
+    "ROUTE_CARE_INSTITUTION_COMISSION_AGREEMENT"
+  ),
+  CARE_INSTITUTION_OFFER: languageTranslation("ROUTE_CARE_INSTITUTION_OFFER"),
+  CARE_INSTITUTION_LOGIN: languageTranslation("ROUTE_CARE_INSTITUTION_LOGIN"),
+  CARE_INSTITUTION_INVOICE_CYCLE: languageTranslation(
+    "ROUTE_CARE_INSTITUTION_INVOICE_CYCLE"
+  ),
+  CARE_INSTITUTION_DOCUMENT: languageTranslation(
+    "ROUTE_CARE_INSTITUTION_DOCUMENT"
+  ),
+  CARE_INSTITUTION_DEPARTMENT: languageTranslation(
+    "ROUTE_CARE_INSTITUTION_DEPARTMENT"
+  ),
+  CARE_INSTITUTION_EMAIL: languageTranslation("ROUTE_CARE_INSTITUTION_EMAIL"),
+  CARE_INSTITUTION_REMINDER: languageTranslation(
+    "ROUTE_CARE_INSTITUTION_REMINDER"
+  )
 };

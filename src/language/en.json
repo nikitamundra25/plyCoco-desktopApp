@@ -389,5 +389,17 @@
   "ATTRIBUTES": "Attributes",
   "ATTRIBUTE": "Attribute",
   "ADD_REMARKS": "Add Remarks",
-  "CONTACT_TYPE": "Contact Type"
+  "CONTACT_TYPE": "Contact Type",
+  "LOGIN_HISTORY": "Login History",
+  "S_NO": "S.No",
+  "IP_ADDRESS": "IP Address",
+  "BROWSER": "Browser",
+  "INVOICES": "Invoices",
+  "INVOICES_NUMBER": "Invoice Number",
+  "INVOICES_DATE": "Invoice Date",
+  "CAREGIVER_NAME": "CareGiver Name",
+  "AMOUNT": "Amount",
+  "DUE_DATE": "Due Date",
+  "STATUS": "Status",
+  "SUPPORTED_DOCUMENTS": "Supported documents"
 }

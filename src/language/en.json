@@ -85,7 +85,7 @@
   "EMPLOYEE_EMAIL_ADDRESS_LABEL": "Email Address",
   "EMPLOYEE_EMAIL_ADDRESS_PLACEHOLDER": "Please Enter Email",
   "EMPLOYEE_TELEPHONE_NUMBER_LABEL": "Telephone number",
-  "EMPLOYEE_TELEPHONE_NUMBER_PLACEHOLDER": "999-999-9999",
+  "EMPLOYEE_TELEPHONE_NUMBER_PLACEHOLDER": "Please Enter Telephone number",
   "EMPLOYEE_USER_NAME_LABEL": "User Name",
   "EMPLOYEE_USER_NAME_PLACEHOLDER": "Please Enter User Name",
   "EMPLOYEE_PASSWORD_LABEL": "Password",
@@ -340,5 +340,15 @@
   "ROUTE_CARE_INSTITUTION_DEPARTMENT": "/care-institution/department",
   "ROUTE_CARE_INSTITUTION_EMAIL": "/care-institution/email",
   "ROUTE_CARE_INSTITUTION_REMINDER": "/care-institution/todo",
-  "NAME_MINLENGTH": "Please enter atleast 3 characters"
+  "NAME_MINLENGTH": "Please enter atleast 3 characters",
+  "TEL_MINLENGTH": "Telephone number must be between 9 to 14 numbers",
+  "TEL_MAXLENGTH": "Telephone number must be less than of 14 numbers",
+  "TEL_NUMERROR": "That doesn't look like a phone number",
+  "ZIP_NUMERROR": "Zip must be a number",
+  "MIN_TEXT": "This field must contain atleast 5 characters",
+  "IBAN_INVALID": "IBAN number is not valid",
+  "UNSUPPORTED_FORMAT": "Unsupported File Format",
+  "FILE_SIZE": "File size too large",
+  "COUNTRY_PLACEHOLDER": "Select Country",
+  "CHOOSE_IMAGE":"Choose Image"
 }

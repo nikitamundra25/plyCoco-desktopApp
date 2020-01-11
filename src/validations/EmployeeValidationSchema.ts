@@ -1,12 +1,16 @@
 import * as Yup from "yup";
 import { IEmployeeFormValues, IDateResponse } from "../interfaces";
 import {
-  telephoneReqExp,
   nameRegExp,
   fileSize,
-  SupportedFormats
+  SupportedFormats,
+  telephoneReqExp,
+  IBANlength,
+  telMin,
+  telMax
 } from "../config";
 import { languageTranslation, logger, dateValidator } from "../helpers";
+
 export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
   IEmployeeFormValues
@@ -27,10 +31,6 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
     .min(3, languageTranslation("NAME_MINLENGTH"))
     .required(languageTranslation("LASTNAME_REQUIRED")),
-  telephoneNumber: Yup.string()
-    // .matches(telephoneReqExp, languageTranslation("TELEPHONE_REQUIRED"))
-    .min(9, "9")
-    .max(14, "14"),
   userName: Yup.string()
     .trim()
     .required(languageTranslation("USERNAME_REQUIRED")),
@@ -40,12 +40,10 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   bankName: Yup.string()
     .trim()
     .min(3, languageTranslation("NAME_MINLENGTH")),
-  IBAN: Yup.string(),
   BIC: Yup.string(),
   additionalText: Yup.string(),
   address1: Yup.string(),
   address2: Yup.string(),
-  // country: Yup.string(),
   zip: Yup.string(),
   joiningDate: Yup.mixed().test({
     name: "validate-date",
@@ -58,13 +56,31 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   bankAccountNumber: Yup.string(),
   image: Yup.mixed()
     .test(
-      "fileSize",
-      "File too large",
-      value => value && value.size <= fileSize
+      "fileFormat",
+      languageTranslation("UNSUPPORTED_FORMAT"),
+      value => !value || (value && SupportedFormats.includes(value.type))
     )
     .test(
-      "fileFormat",
-      "Unsupported Format",
-      value => value && SupportedFormats.includes(value.type)
+      "fileSize",
+      languageTranslation("FILE_SIZE"),
+      value => !value || (value && value.size <= fileSize)
+    ),
+  IBAN: Yup.mixed().test(
+    "len",
+    languageTranslation("IBAN_INVALID"),
+    value =>
+      !value || (value && value.replace(/\D+/g, "").length === IBANlength)
+  ),
+  telephoneNumber: Yup.mixed()
+    .test(
+      "check-num",
+      languageTranslation("TEL_NUMERROR"),
+      value => !value || (value && !isNaN(value))
+    )
+    .test(
+      "num-length",
+      languageTranslation("TEL_MINLENGTH"),
+      value =>
+        !value || (value && value.length >= telMin && value.length <= telMax)
     )
 });

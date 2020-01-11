@@ -50,7 +50,6 @@ const EmployeeFormComponent: any = (
       country,
       zip,
       joiningDate,
-      bankAccountNumber,
       image
     },
     touched,
@@ -66,8 +65,8 @@ const EmployeeFormComponent: any = (
   const { data: states } = useQuery<IStates>(GET_STATES_BY_COUNTRY, {
     variables: { countryid: country ? country : "" }
   });
-  logger(data);
-  logger("data");
+  // logger(data);
+  // logger("data");
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
@@ -78,6 +77,7 @@ const EmployeeFormComponent: any = (
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   logger("errors**********");
   logger(errors);
+  logger(props.values);
   logger("touched*******");
   logger(touched);
   // Custom function to handle image upload
@@ -434,7 +434,7 @@ const EmployeeFormComponent: any = (
                                     "BANK_IBAN_PLACEHOLDER"
                                   )}
                                   // "91 1000 0000 0123 4567 89"
-                                  mask={" 99 9999 999 999"}
+                                  mask={" 9999 9999 9999 9999 9999 99"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   className={`form-control ${
@@ -593,7 +593,6 @@ const EmployeeFormComponent: any = (
                               <Col sm="4">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation("REGION")}
-                                  <span className="required">*</span>
                                 </Label>
                               </Col>
                               <Col sm="8">
@@ -691,12 +690,23 @@ const EmployeeFormComponent: any = (
                                   <Input
                                     name={"zip"}
                                     onChange={handleChange}
-                                    className="form-control"
+                                    // className="form-control"
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_ZIP_PLACEHOLDER"
                                     )}
                                     value={zip}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.zip && touched.zip
+                                        ? "text-input error"
+                                        : "text-input"
+                                    }
                                   />
+                                  {errors.zip && touched.zip && (
+                                    <div className="required-error">
+                                      {errors.zip}
+                                    </div>
+                                  )}
                                 </div>
                               </Col>
                             </Row>
@@ -757,23 +767,14 @@ const EmployeeFormComponent: any = (
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
-                                  <Input
-                                    type="file"
-                                    name={"image"}
-                                    accept="image/*"
-                                    placeholder={languageTranslation(
-                                      "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
-                                    )}
-                                    onChange={handleImageChange}
-                                  />
+                                <div className="fileinput-preview d-flex align-items-center justify-content-center">
                                   {!errors.image ? (
                                     imagePreviewUrl &&
                                     typeof imagePreviewUrl === "string" ? (
                                       <img
                                         src={imagePreviewUrl}
-                                        width={30}
-                                        height={30}
+                                        width={100}
+                                        height={100}
                                       />
                                     ) : (
                                       ""
@@ -781,13 +782,32 @@ const EmployeeFormComponent: any = (
                                   ) : (
                                     ""
                                   )}
-
-                                  {errors.image && touched.image && (
-                                    <div className="required-error">
-                                      {errors.image}
-                                    </div>
-                                  )}
+                                  <div className="file-upload">
+                                    <label
+                                      htmlFor="gallery-photo-add"
+                                      className="file-upload-label"
+                                    >
+                                      {!image || errors.image
+                                        ? languageTranslation("CHOOSE_IMAGE")
+                                        : ""}
+                                    </label>
+                                    <input
+                                      className="file-upload-input"
+                                      type="file"
+                                      accept="image/*"
+                                      id="gallery-photo-add"
+                                      placeholder={languageTranslation(
+                                        "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
+                                      )}
+                                      onChange={handleImageChange}
+                                    />
+                                  </div>
                                 </div>
+                                {errors.image && touched.image && (
+                                  <div className="file-error-text">
+                                    {errors.image}
+                                  </div>
+                                )}
                               </Col>
                             </Row>
                           </FormGroup>

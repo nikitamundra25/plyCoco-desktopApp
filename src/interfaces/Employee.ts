@@ -1,12 +1,12 @@
-import { ValueType } from 'react-select';
-import { IReactSelectInterface } from './Constant';
+import { ValueType } from "react-select";
+import { IReactSelectInterface } from "./Constant";
 
 export interface IEmployeeFormValues {
   email: string;
   firstName: string;
   lastName: string;
   userName: string;
-  telephoneNumber: string;
+  telephoneNumber?: number;
   accountHolderName: string;
   bankName: string;
   IBAN: string;

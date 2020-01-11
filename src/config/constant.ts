@@ -2,9 +2,11 @@ import { IReactSelectInterface } from "../interfaces";
 import { languageTranslation } from "../helpers";
 export const telephoneReqExp = /^\(([0-9]{10-13})\)$/;
 // /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+export const IBANlength = 22;
+export const telMin = 9;
+export const telMax = 14;
 export const nameRegExp = /^[A-Za-z]+$/;
 export const fileSize = 125 * 1024;
-
 export const SupportedFormats = [
   "image/jpg",
   "image/jpeg",

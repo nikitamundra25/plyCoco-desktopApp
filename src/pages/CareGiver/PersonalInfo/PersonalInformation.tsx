@@ -119,14 +119,14 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            {languageTranslation("CAREGIVER_STATE_LABEL")}
+                            {languageTranslation("REGION")}
                             <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
                           <div>
                             <Select
-                              placeholder="Region/State"
+                              placeholder={languageTranslation("REGION")}
                               options={State}
                             />
                           </div>

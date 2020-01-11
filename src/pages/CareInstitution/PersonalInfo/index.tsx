@@ -218,6 +218,28 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
+                          {languageTranslation("SHORT_NAME")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Input
+                            type="text"
+                            name={"lastName"}
+                            placeholder={languageTranslation("SHORT_NAME")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
                           {languageTranslation("COMPANY_NAME")}
                           <span className="required">*</span>
                         </Label>

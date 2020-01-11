@@ -10,7 +10,7 @@ import {
   Col,
   Row,
 } from 'reactstrap';
-import Select, { ValueType } from 'react-select';
+import Select from 'react-select';
 import { State, Region, City } from '../../../config';
 import { AppBreadcrumb } from '@coreui/react';
 import routes from '../../../routes/routes';
@@ -21,6 +21,7 @@ import {
   IReactSelectInterface,
   ICountry,
   IStates,
+  IState,
 } from '../../../interfaces';
 import { FormikProps, Field, Form } from 'formik';
 import { logger, languageTranslation } from '../../../helpers';
@@ -48,6 +49,7 @@ const EmployeeFormComponent: any = (
       address1,
       address2,
       country,
+      state,
       zip,
       joiningDate,
       bankAccountNumber,
@@ -63,18 +65,23 @@ const EmployeeFormComponent: any = (
     setFieldTouched,
   } = props;
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
-  const [getStatesByCountry, { data: states }] = useLazyQuery<IStates>(
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
   );
   logger(data);
   logger('data');
   const countriesOpt: IReactSelectInterface[] | undefined = [];
+  const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
       countriesOpt.push({ label: name, value: id }),
     );
   }
-
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({ label: name, value: id }),
+    );
+  }
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   logger('errors**********');
   logger(errors);
@@ -111,7 +118,9 @@ const EmployeeFormComponent: any = (
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : '82' },
       });
-      logger(states);
+      console.log('after calling states');
+
+      logger(statesData, 'sdsdsdsd');
     }
   };
   logger(country);
@@ -637,7 +646,6 @@ const EmployeeFormComponent: any = (
                                       'COUNTRY_PLACEHOLDER',
                                     )}
                                     options={countriesOpt}
-                                    // options={Region}
                                     value={country ? country : undefined}
                                     onChange={(value: any) =>
                                       handleSelect(value, 'country')
@@ -662,7 +670,14 @@ const EmployeeFormComponent: any = (
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_STATE_PLACEHOLDER',
                                     )}
-                                    options={State}
+                                    options={statesOpt}
+                                    value={state ? state : undefined}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, 'state')
+                                    }
+                                    noOptionsMessage={() => {
+                                      return 'First select an country';
+                                    }}
                                   />
                                 </div>
                               </Col>

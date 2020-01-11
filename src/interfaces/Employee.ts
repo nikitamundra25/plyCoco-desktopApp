@@ -15,6 +15,7 @@ export interface IEmployeeFormValues {
   address1: string;
   address2: string;
   country?: ValueType<IReactSelectInterface>;
+  state?: ValueType<IReactSelectInterface>;
   zip: string;
   joiningDate: string;
   bankAccountNumber: string;

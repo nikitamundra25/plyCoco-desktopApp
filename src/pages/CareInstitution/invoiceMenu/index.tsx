@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Table } from "reactstrap";
 import { RouteComponentProps } from "react-router";
 import { languageTranslation } from "../../../helpers";
+import "./index.scss";
 
 class InvoiceMenu extends Component<RouteComponentProps, any> {
   constructor(props: any) {

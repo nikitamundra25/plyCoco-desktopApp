@@ -722,7 +722,28 @@ const EmployeeFormComponent: any = (
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="fileinput-preview d-flex align-items-center justify-content-center">
+                                  <img
+                                    src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                                    alt=""
+                                    className="img-preview"
+                                  />
+                                  <div className="file-upload">
+                                    <label
+                                      htmlFor="gallery-photo-add"
+                                      className="file-upload-label"
+                                    >
+                                      Choose Image
+                                    </label>
+                                    <input
+                                      className="file-upload-input"
+                                      type="file"
+                                      accept="image/*"
+                                      id="gallery-photo-add"
+                                    />
+                                  </div>
+                                </div>
+                                {/* <div>
                                   <Input
                                     type="file"
                                     name={"image"}
@@ -752,7 +773,7 @@ const EmployeeFormComponent: any = (
                                       {errors.image}
                                     </div>
                                   )}
-                                </div>
+                                </div> */}
                               </Col>
                             </Row>
                           </FormGroup>

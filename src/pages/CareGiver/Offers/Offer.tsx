@@ -20,12 +20,13 @@ const options = [
 import { languageTranslation } from "../../../helpers";
 
 import { State, Region } from "../../../config";
+import "../caregiver.scss";
 class Offer extends Component {
   render() {
     return (
       <div className="common-offer-section">
         <h5 className="content-title">{languageTranslation("OFFERS")}</h5>
-        <Row>
+        <Row className="common-offer-row">
           <Col md={4}>
             <div className="common-list-wrap">
               <div className="common-list-header d-flex align-items-cente justify-content-between">

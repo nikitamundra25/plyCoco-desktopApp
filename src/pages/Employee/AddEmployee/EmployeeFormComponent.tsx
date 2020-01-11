@@ -10,21 +10,29 @@ import {
   Col,
   Row
 } from "reactstrap";
-import Select from "react-select";
+import Select, { ValueType } from "react-select";
 import { State, Region, City } from "../../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../routes/routes";
 import InputMask from "react-input-mask";
-import { IEmployeeFormValues } from "../../../interfaces";
+import {
+  IEmployeeFormValues,
+  ICountries,
+  IReactSelectInterface,
+  ICountry,
+  IStates
+} from "../../../interfaces";
 import { FormikProps, Field, Form } from "formik";
-import { languageTranslation } from "../../../helpers";
-import { logger } from "../../../helpers";
+import { logger, languageTranslation } from "../../../helpers";
 import InputFieldTooltip from "../../../common/Tooltip/InputFieldTooltip";
+import { useQuery } from "@apollo/react-hooks";
+import { CountryQueries } from "../../../queries";
+
+const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const EmployeeFormComponent: any = (
   props: FormikProps<IEmployeeFormValues>
 ) => {
-  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   const {
     values: {
       email,
@@ -54,10 +62,25 @@ const EmployeeFormComponent: any = (
     setFieldValue,
     setFieldTouched
   } = props;
+  const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
+  const { data: states } = useQuery<IStates>(GET_STATES_BY_COUNTRY, {
+    variables: { countryid: country ? country : "" }
+  });
+  logger(data);
+  logger("data");
+  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  if (data && data.countries) {
+    data.countries.forEach(({ id, name }: ICountry) =>
+      countriesOpt.push({ label: name, value: id })
+    );
+  }
+
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   logger("errors**********");
   logger(errors);
   logger("touched*******");
   logger(touched);
+  // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setFieldTouched("image", true);
@@ -78,6 +101,19 @@ const EmployeeFormComponent: any = (
     }
   };
 
+  // Custom function to handle react select fields
+  const handleSelect = (
+    value: ValueType<IReactSelectInterface>,
+    name: string
+  ) => {
+    console.log("dsdsjd");
+
+    logger(value, "value");
+    setFieldValue(name, value);
+    if (name === "country") {
+    }
+  };
+  logger(country);
   return (
     <div>
       <Card>
@@ -107,9 +143,7 @@ const EmployeeFormComponent: any = (
                             <Row>
                               <Col sm="4">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation(
-                                    "FIRST_NAME"
-                                  )}
+                                  {languageTranslation("FIRST_NAME")}
                                   <span className="required">*</span>
                                 </Label>
                               </Col>
@@ -586,12 +620,16 @@ const EmployeeFormComponent: any = (
                               </Col>
                               <Col sm="8">
                                 <div>
-                                  <Input
-                                    type="text"
-                                    name={"country"}
-                                    placeholder={languageTranslation("COUNTRY")}
-                                    onChange={handleChange}
-                                    className="width-common"
+                                  <Select
+                                    placeholder={languageTranslation(
+                                      "COUNTRY_PLACEHOLDER"
+                                    )}
+                                    // options={countriesOpt}
+                                    options={Region}
+                                    value={country ? country : undefined}
+                                    onChange={(
+                                      value: ValueType<IReactSelectInterface>
+                                    ) => handleSelect(value, "country")}
                                   />
                                 </div>
                               </Col>

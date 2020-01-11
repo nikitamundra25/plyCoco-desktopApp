@@ -52,7 +52,8 @@ const EmployeeFormComponent: any = (
       state,
       zip,
       joiningDate,
-      image
+      image,
+      city
     },
     touched,
     errors,
@@ -672,7 +673,7 @@ const EmployeeFormComponent: any = (
                                       handleSelect(value, "state")
                                     }
                                     noOptionsMessage={() => {
-                                      return "First select an country";
+                                      return "Select a country first";
                                     }}
                                   />
                                 </div>
@@ -690,11 +691,20 @@ const EmployeeFormComponent: any = (
                               </Col>
                               <Col sm="8">
                                 <div>
-                                  <Select
+                                  <Input
+                                    name={"city"}
+                                    onChange={handleChange}
+                                    // className="form-control"
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_CITY_PLACEHOLDER"
                                     )}
-                                    options={City}
+                                    value={city}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.city && touched.city
+                                        ? "text-input error"
+                                        : "text-input"
+                                    }
                                   />
                                 </div>
                               </Col>

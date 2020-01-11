@@ -46,7 +46,8 @@ export const EmployeeForm = () => {
     address2: "",
     zip: "",
     joiningDate: "",
-    bankAccountNumber: ""
+    bankAccountNumber: "",
+    city: ""
   };
   return (
     <Formik

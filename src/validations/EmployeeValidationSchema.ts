@@ -69,7 +69,8 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     "len",
     languageTranslation("IBAN_INVALID"),
     value =>
-      !value || (value && value.replace(/\D+/g, "").length === IBANlength)
+      !value.replace(/\D+/g, "") ||
+      (value && value.replace(/\D+/g, "").length === IBANlength)
   ),
   telephoneNumber: Yup.mixed()
     .test(
@@ -82,5 +83,6 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
       languageTranslation("TEL_MINLENGTH"),
       value =>
         !value || (value && value.length >= telMin && value.length <= telMax)
-    )
+    ),
+  city: Yup.string()
 });

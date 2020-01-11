@@ -10,20 +10,38 @@ import {
   Col,
   Row,
 } from 'reactstrap';
-import Select from 'react-select';
+import Select, { ValueType } from 'react-select';
 import { State, Region, City } from '../../../config';
 import { AppBreadcrumb } from '@coreui/react';
 import routes from '../../../routes/routes';
 import InputMask from 'react-input-mask';
-import { IEmployeeFormValues } from '../../../interfaces';
+import {
+  IEmployeeFormValues,
+  ICountries,
+  IReactSelectInterface,
+  ICountry,
+} from '../../../interfaces';
 import { FormikProps, Field, Form } from 'formik';
-import { languageTranslation } from '../../../helpers';
-import { logger } from '../../../helpers';
+import { logger, languageTranslation } from '../../../helpers';
 import InputFieldTooltip from '../../../common/Tooltip/InputFieldTooltip';
+import { useQuery } from '@apollo/react-hooks';
+import { CountryQueries } from '../../../queries';
+
+const [GET_COUNTRIES] = CountryQueries;
 
 const EmployeeFormComponent: any = (
   props: FormikProps<IEmployeeFormValues>,
 ) => {
+  const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
+  logger(data);
+  logger('data');
+  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  if (data && data.countries) {
+    data.countries.forEach(({ id, name }: ICountry) =>
+      countriesOpt.push({ label: name, value: id }),
+    );
+  }
+
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   const {
     values: {
@@ -58,6 +76,7 @@ const EmployeeFormComponent: any = (
   logger(errors);
   logger('touched*******');
   logger(touched);
+  // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setFieldTouched('image', true);
@@ -77,6 +96,11 @@ const EmployeeFormComponent: any = (
       setFieldValue('image', file);
     }
   };
+
+  // Custom function to handle react select fields
+  // const handleSelect = (value: ValueType<IReactSelectInterface>) => {
+  //   setFieldValue('image', 'file');
+  // };
 
   return (
     <div>
@@ -580,21 +604,21 @@ const EmployeeFormComponent: any = (
                         <Col lg={'6'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("COUNTRY_LABEL")}
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('COUNTRY_LABEL')}
                                 </Label>
                               </Col>
                               <Col sm='8'>
                                 <div>
-                                  <Input
-                                    type='text'
-                                    name={'country'}
+                                  <Select
                                     placeholder={languageTranslation(
                                       'COUNTRY_PLACEHOLDER',
                                     )}
-                                    onChange={handleChange}
-                                    className='width-common'
+                                    options={countriesOpt}
+                                    // onChange={(
+                                    //   value: ValueType<IReactSelectInterface>,
+                                    // ) => handleSelect(value)}
                                   />
                                 </div>
                               </Col>

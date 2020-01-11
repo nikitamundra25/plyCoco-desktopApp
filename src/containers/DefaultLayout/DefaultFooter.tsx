@@ -26,7 +26,7 @@ class DefaultFooter extends Component {
             <Select
               defaultValue={{
                 label: "Central Germany",
-                value: 0
+                value: "0"
               }}
               className={"menu-outer-top"}
               placeholder="Select Region"

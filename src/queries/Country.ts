@@ -10,8 +10,8 @@ const GET_COUNTRIES = gql`
 `;
 
 const GET_STATES_BY_COUNTRY = gql`
-  query state($countryid: string!) {
-    state(countryid: $countryid) {
+  query states($countryid: ID!) {
+    states(countryid: $countryid) {
       id
       name
     }

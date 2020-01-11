@@ -10,7 +10,7 @@ import {
   Col,
   Row
 } from "reactstrap";
-import Select, { ValueType } from "react-select";
+import Select from "react-select";
 import { State, Region, City } from "../../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../routes/routes";
@@ -20,12 +20,13 @@ import {
   ICountries,
   IReactSelectInterface,
   ICountry,
-  IStates
+  IStates,
+  IState
 } from "../../../interfaces";
 import { FormikProps, Field, Form } from "formik";
 import { logger, languageTranslation } from "../../../helpers";
 import InputFieldTooltip from "../../../common/Tooltip/InputFieldTooltip";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { CountryQueries } from "../../../queries";
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -48,6 +49,7 @@ const EmployeeFormComponent: any = (
       address1,
       address2,
       country,
+      state,
       zip,
       joiningDate,
       image
@@ -62,18 +64,23 @@ const EmployeeFormComponent: any = (
     setFieldTouched
   } = props;
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
-  const { data: states } = useQuery<IStates>(GET_STATES_BY_COUNTRY, {
-    variables: { countryid: country ? country : "" }
-  });
-  // logger(data);
-  // logger("data");
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY
+  );
+  logger(data);
+  logger("data");
   const countriesOpt: IReactSelectInterface[] | undefined = [];
+  const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
       countriesOpt.push({ label: name, value: id })
     );
   }
-
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({ label: name, value: id })
+    );
+  }
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   logger("errors**********");
   logger(errors);
@@ -102,15 +109,18 @@ const EmployeeFormComponent: any = (
   };
 
   // Custom function to handle react select fields
-  const handleSelect = (
-    value: ValueType<IReactSelectInterface>,
-    name: string
-  ) => {
+  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     console.log("dsdsjd");
 
-    logger(value, "value");
-    setFieldValue(name, value);
+    logger(selectOption, "value");
+    setFieldValue(name, selectOption);
     if (name === "country") {
+      getStatesByCountry({
+        variables: { countryid: selectOption ? selectOption.value : "82" }
+      });
+      console.log("after calling states");
+
+      logger(statesData, "sdsdsdsd");
     }
   };
   logger(country);
@@ -234,7 +244,15 @@ const EmployeeFormComponent: any = (
                                       "EMPLOYEE_EMAIL_ADDRESS_PLACEHOLDER"
                                     )}
                                     onChange={handleChange}
-                                    onBlur={handleBlur}
+                                    onBlur={(e: any) => {
+                                      //get string before a @ to set username
+                                      const username = email
+                                        ? email.substring(0, email.indexOf("@"))
+                                        : "";
+
+                                      setFieldValue("userName", username);
+                                      handleBlur(e);
+                                    }}
                                     value={email}
                                     className={
                                       errors.email && touched.email
@@ -623,12 +641,11 @@ const EmployeeFormComponent: any = (
                                     placeholder={languageTranslation(
                                       "COUNTRY_PLACEHOLDER"
                                     )}
-                                    // options={countriesOpt}
-                                    options={Region}
+                                    options={countriesOpt}
                                     value={country ? country : undefined}
-                                    onChange={(
-                                      value: ValueType<IReactSelectInterface>
-                                    ) => handleSelect(value, "country")}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, "country")
+                                    }
                                   />
                                 </div>
                               </Col>
@@ -649,7 +666,14 @@ const EmployeeFormComponent: any = (
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_STATE_PLACEHOLDER"
                                     )}
-                                    options={State}
+                                    options={statesOpt}
+                                    value={state ? state : undefined}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, "state")
+                                    }
+                                    noOptionsMessage={() => {
+                                      return "First select an country";
+                                    }}
                                   />
                                 </div>
                               </Col>

@@ -16,28 +16,35 @@
   }
   .sno-col {
     width: 45px;
-  }
-  .invoice-number-col {
-    width: 110px;
-  }
-  .invoice-date-col {
-    width: 110px;
-  }
-  .caregiver-name-col {
-    width: 150px;
-  }
-  .amount-col {
-    width: 110px;
-  }
-  .due-date-col {
-    width: 110px;
-  }
-  .status-col {
-    width: 80px;
-  }
-  .supported-documents-col {
-    width: 200px;
-  }
-  .remarks-col {
-  }
+  } 
+  .institution-col {
+    width:100px;
+}
+.cancellation-col {
+    width:110px;
+}
+.cancell-col {
+    width:100px
+}
+.facility-col {
+    width:80px;
+}
+.date-col {
+    width:100px;
+}
+.amount-col {
+    width:100px;
+}
+.vat-col {
+    width:100px;
+}
+.due-date-col {
+    width: 100px;
+}
+.factoring-col {
+    width: 100px;
+}
+.sent-col {
+    width: 100px;
+}
 }

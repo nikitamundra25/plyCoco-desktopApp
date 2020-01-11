@@ -26,7 +26,7 @@ import {
   NightAllowancePerHour
 } from "../../../config";
 import { languageTranslation } from "../../../helpers";
-
+import "../caregiver.scss";
 class PersonalInformation extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
@@ -64,7 +64,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
           </div> */}
           <Row>
             <Col lg={"4"}>
-              <div className="form-card">
+              <div className="form-card h-100">
                 <Row>
                   <Col lg={"12"}>
                     <FormGroup>
@@ -261,9 +261,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Row className="custom-col inner-no-padding-col">
                             <Col sm="7">
                               <div>
-                                <Select
-                                  placeholder="06/09/2020"
-                                  options={State}
+                                <InputMask
+                                  placeholder="DD/MM/YYYY"
+                                  mask="99/99/9999"
+                                  className="form-control"
                                 />
                               </div>
                             </Col>
@@ -743,6 +744,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
             </Col>
 
             <Col lg={"4"}>
+            <div className="common-col">
               <div className="form-card minheight-auto">
                 <Row>
                   <Col lg={"12"}>
@@ -908,7 +910,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   </Col>
                 </Row>
               </div>
-
+              <div className="quality-attribute-section d-flex flex-column">
               <div className="common-list-card">
                 <h5 className="content-title">
                   {languageTranslation("QUALIFICATIONS")}
@@ -971,6 +973,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   </div>
                 </div>
               </div>
+              </div></div>
             </Col>
             <Col lg={4}>
               <div className="remark-details">

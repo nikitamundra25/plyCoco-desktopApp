@@ -7,6 +7,10 @@ class DocumentsUpload extends Component {
     return (
       <>
         <div className="document-upload-section mb-3">
+          <h5 className="content-title">
+            {languageTranslation("CG_SUB_MENU_DOCUMENTS")}
+          </h5>
+
           <Table bordered hover responsive>
             <thead className="thead-bg">
               <tr>

@@ -19,21 +19,27 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .trim()
     .matches(nameRegExp, languageTranslation("FIRSTNAME_SPECIALCHARACTER"))
     .max(20, languageTranslation("FIRSTNAME_MAXLENGTH"))
+    .min(3, languageTranslation("NAME_MINLENGTH"))
     .required(languageTranslation("FIRSTNAME_REQUIRED")),
   lastName: Yup.string()
     .trim()
     .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
+    .min(3, languageTranslation("NAME_MINLENGTH"))
     .required(languageTranslation("LASTNAME_REQUIRED")),
-  telephoneNumber: Yup.string().matches(
-    telephoneReqExp,
-    languageTranslation("TELEPHONE_REQUIRED")
-  ),
+  telephoneNumber: Yup.string()
+    // .matches(telephoneReqExp, languageTranslation("TELEPHONE_REQUIRED"))
+    .min(9, "9")
+    .max(14, "14"),
   userName: Yup.string()
     .trim()
     .required(languageTranslation("USERNAME_REQUIRED")),
-  accountHolderName: Yup.string().trim(),
-  bankName: Yup.string().trim(),
+  accountHolderName: Yup.string()
+    .trim()
+    .min(3, languageTranslation("NAME_MINLENGTH")),
+  bankName: Yup.string()
+    .trim()
+    .min(3, languageTranslation("NAME_MINLENGTH")),
   IBAN: Yup.string(),
   BIC: Yup.string(),
   additionalText: Yup.string(),

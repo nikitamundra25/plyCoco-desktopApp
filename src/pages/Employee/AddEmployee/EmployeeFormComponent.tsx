@@ -303,12 +303,12 @@ const EmployeeFormComponent: any = (
                               </Col>
                               <Col sm="8">
                                 <div>
-                                  <InputMask
+                                  <Input
                                     name={"telephoneNumber"}
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_TELEPHONE_NUMBER_PLACEHOLDER"
                                     )}
-                                    mask="999-999-9999"
+                                    // mask="999-999-9999"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={telephoneNumber}
@@ -434,7 +434,7 @@ const EmployeeFormComponent: any = (
                                     "BANK_IBAN_PLACEHOLDER"
                                   )}
                                   // "91 1000 0000 0123 4567 89"
-                                  mask={"DE 99 9999 999 999"}
+                                  mask={" 99 9999 999 999"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   className={`form-control ${

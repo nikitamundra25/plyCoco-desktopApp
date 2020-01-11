@@ -297,6 +297,7 @@
   "SALUTATION": "Salutation",
   "FIRST_NAME": "First Name",
   "SURNAME": "Surname",
+  "SHORT_NAME": "Short name",
   "COMPANY_NAME": "Company name",
   "ANONYMOUS_NAME": "Anonymous name",
   "ANONYMOUS_NAME2": "Anonymous name2",
@@ -339,6 +340,11 @@
   "AMOUNT": "Amount",
   "DUE_DATE": "Due Date",
   "STATUS": "Status",
+
+  "FILE_NAME": "File Name",
+  "TYPE": "Type",
+  "FILE_SIZE": "File Size",
+
   "SUPPORTED_DOCUMENTS": "Supported documents",
   "CG_MENU_NEW_CAREGIVER": "New Caregiver",
   "CG_MENU_CREATE_TODO": "Create Todo/Reminder",

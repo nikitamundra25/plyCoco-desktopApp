@@ -9,15 +9,14 @@ import {
   Input,
   Col,
   Row,
-  Form,
+  Form
 } from "reactstrap";
 import Select from "react-select";
-import {
-  State,
-  Country
-} from "../../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../routes/routes";
+
+import { languageTranslation } from "../../../helpers";
+import { State, Region, Salutation, Country } from "../../../config";
 
 class AddCareInstitution extends Component<any, any> {
   constructor(props: any) {
@@ -40,409 +39,389 @@ class AddCareInstitution extends Component<any, any> {
   render() {
     return (
       <div>
-        <Row>
-          <Col xs={"12"} lg={"12"}>
-            <Card>
-              <CardHeader>
-                <AppBreadcrumb appRoutes={routes} className="w-100" />
-              </CardHeader>
-              <CardBody>
-                <Row className={"m-0"}>
-                  <Col xs={"12"} lg={"12"}>
-                    <Form className="form-section">
-                      <Col lg={"6"}>
-                        <h5 className="main-title ">Personal Data</h5>
-                        <div className="form-card">
+        <Card>
+          <CardHeader>
+            <AppBreadcrumb appRoutes={routes} className="w-100" />
+          </CardHeader>
+          <CardBody>
+            <Form className="form-section">
+              <Row>
+                <Col lg={"6"} className="mb-3">
+                  <div className="form-card h-100">
+                    <Row>
+                      <Col lg={"12"}>
+                        <FormGroup>
                           <Row>
-                            <Col lg={"12"}>
-                              <FormGroup>
-                                <Row>
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label">
-                                      Salutation
-                                      <span className="required">*</span>
-                                    </Label>
-                                  </Col>
-                                  <Col sm="8">
-                                    <div>
-                                      <Input
-                                        type="select"
-                                        name={"salutation"}
-                                        placeholder="Sir"
-                                        className="width-common"
-                                        onFocus={this.onFocus}
-                                      >
-                                        <option value={"Sir"}>Sir</option>
-                                        <option value={"Woman"}>Woman</option>
-                                      </Input>
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </FormGroup>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("SALUTATION")}
+                                <span className="required">*</span>
+                              </Label>
                             </Col>
-                            <Col lg={"12"}>
-                              <FormGroup>
-                                <Row>
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label">
-                                      First Name
-                                      <span className="required">*</span>
-                                    </Label>
-                                  </Col>
-                                  <Col sm="8">
-                                    <div>
-                                      <Input
-                                        type="text"
-                                        name={"firstName"}
-                                        placeholder="First Name"
-                                        onChange={() =>
-                                          this.setState({ error: false })
-                                        }
-                                        className="width-common"
-                                        onFocus={this.onFocus}
-                                      />
-                                      {this.state.error ? (
-                                        <div className="required-error">
-                                          Please Enter First Name
-                                        </div>
-                                      ) : (
-                                          ""
-                                        )}
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </FormGroup>
-                            </Col>
-                            <Col lg={"12"}>
-                              <FormGroup>
-                                <Row>
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label">
-                                      Surname
-                                      <span className="required">*</span>
-                                    </Label>
-                                  </Col>
-                                  <Col sm="8">
-                                    <div>
-                                      <Input
-                                        type="text"
-                                        name={"lastName"}
-                                        placeholder="Surname"
-                                        className="width-common"
-                                      />
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </FormGroup>
+                            <Col sm="8">
+                              <div>
+                                <Select
+                                  placeholder={languageTranslation(
+                                    "SALUTATION"
+                                  )}
+                                  options={Salutation}
+                                />
+                              </div>
                             </Col>
                           </Row>
-                        </div>
-                      </Col>
-                      <Col md={"12"}>
-                        <Row>
-                          <Col lg={"6"}>
-                            <h5 className="main-title">Reachability</h5>
-                            <div className="form-card minheight-auto">
-                              <Row>
-                                <Col lg={"12"}>
-                                  <FormGroup>
-                                    <Row>
-                                      <Col sm="4">
-                                        <Label className="form-label col-form-label">
-                                          Phone
-                                          <span className="required">*</span>
-                                        </Label>
-                                      </Col>
-                                      <Col sm="8">
-                                        <div>
-                                          <Input
-                                            type="text"
-                                            name={"phone"}
-                                            placeholder=" Phone Number"
-                                            className="width-common"
-                                          />
-                                        </div>
-                                      </Col>
-                                    </Row>
-                                  </FormGroup>
-                                </Col>
-                                <Col lg={"12"}>
-                                  <FormGroup>
-                                    <Row>
-                                      <Col sm="4">
-                                        <Label className="form-label col-form-label">
-                                          Fax
-                                          <span className="required">*</span>
-                                        </Label>
-                                      </Col>
-                                      <Col sm="8">
-                                        <div>
-                                          <Input
-                                            type="text"
-                                            name={"fax"}
-                                            placeholder=" Fax"
-                                            className="width-common"
-                                          />
-                                        </div>
-                                      </Col>
-                                    </Row>
-                                  </FormGroup>
-                                </Col>
-                                <Col lg={"12"}>
-                                  <FormGroup>
-                                    <Row>
-                                      <Col sm="4">
-                                        <Label className="form-label col-form-label">
-                                          Mobile Phone
-                                          <span className="required">*</span>
-                                        </Label>
-                                      </Col>
-                                      <Col sm="8">
-                                        <div>
-                                          <Input
-                                            type="text"
-                                            name={"mobilePhone"}
-                                            placeholder="Mobile Phone"
-                                            className="width-common"
-                                          />
-                                        </div>
-                                      </Col>
-                                    </Row>
-                                  </FormGroup>
-                                </Col>
-                                <Col lg={"12"}>
-                                  <FormGroup>
-                                    <Row>
-                                      <Col sm="4">
-                                        <Label className="form-label col-form-label">
-                                          Email address
-                                          <span className="required">*</span>
-                                        </Label>
-                                      </Col>
-                                      <Col sm="8">
-                                        <div>
-                                          <Input
-                                            type="text"
-                                            name={"email"}
-                                            placeholder=" Email address"
-                                            className="width-common"
-                                          />
-                                        </div>
-                                      </Col>
-                                    </Row>
-                                  </FormGroup>
-                                </Col>
-                                <Col lg={"12"}>
-                                  <FormGroup>
-                                    <Row>
-                                      <Col sm="4">
-                                        <Label className="form-label col-form-label">
-                                          Username
-                                          <span className="required">*</span>
-                                        </Label>
-                                      </Col>
-                                      <Col sm="8">
-                                        <div>
-                                          <Input
-                                            type="text"
-                                            name={"Username"}
-                                            placeholder=" Username"
-                                            className="width-common"
-                                          />
-                                        </div>
-                                      </Col>
-                                    </Row>
-                                  </FormGroup>
-                                </Col>
-                              </Row>
-                            </div>
-                          </Col>
-                          <Col lg={"6"}>
-                            <div>
-                              <h5 className="main-title">
-                                Data of Canstitution
-                              </h5>
-                              <div className="form-card">
-                                <Row>
-                                  <Col lg={"12"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="4">
-                                          <Label className="form-label col-form-label">
-                                            Short Name of Canstitution
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="8">
-                                          <div>
-                                            <Input
-                                              type="text"
-                                              name={"shortName"}
-                                              placeholder=" Short Name"
-                                              className="width-common"
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col>
-                                  <Col lg={"12"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="4">
-                                          <Label className="form-label col-form-label">
-                                            Full Business name of Canstitution
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="8">
-                                          <div>
-                                            <Input
-                                              type="text"
-                                              name="fullBusinessname"
-                                              placeholder="Full Business name of Canstitution"
-                                              className="width-common"
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col>
-                                  <Col lg={"12"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="4">
-                                          <Label className="form-label col-form-label ">
-                                            Street
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="8">
-                                          <div>
-                                            <Input
-                                              type="text"
-                                              name={"street"}
-                                              placeholder=" Street"
-                                              className=" width-common"
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col>
-                                  <Col lg={"12"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="4">
-                                          <Label className="form-label col-form-label ">
-                                            City
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="8">
-                                          <div>
-                                            <Input
-                                              type="text"
-                                              name={"city"}
-                                              placeholder=" City"
-                                              className=" width-common"
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col>
-                                  <Col lg={"12"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="4">
-                                          <Label className="form-label col-form-label ">
-                                            Post code
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="8">
-                                          <div>
-                                            <Input
-                                              type="text"
-                                              name={"postCode"}
-                                              placeholder="Post Code"
-                                              className=" width-common"
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col>
-                                  <Col lg={"12"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="4">
-                                          <Label className="form-label col-form-label">
-                                            Region/State
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="8">
-                                          <div>
-                                            <Select
-                                              placeholder="Region/State"
-                                              options={State}
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col>
-                                  <Col lg={"12"}>
-                                    <FormGroup>
-                                      <Row>
-                                        <Col sm="4">
-                                          <Label className="form-label col-form-label">
-                                            Country
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="8">
-                                          <div>
-                                            <Select
-                                              placeholder="Select Country"
-                                              options={Country}
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </FormGroup>
-                                  </Col>
-                                </Row>
-                              </div>
-                            </div>
-                          </Col>
-                        </Row>
+                        </FormGroup>
                       </Col>
                       <Col lg={"12"}>
-                        <div className="d-flex align-items-center justify-content-between">
-                          <div className="mandatory-text">
-                            * Required Fields
-                          </div>
-                          <div className={"text-right"}>
-                            <Button
-                              color="primary"
-                              type="submit"
-                              className="btn-sumbit"
-                            >
-                              Submit
-                            </Button>
-                          </div>
-                        </div>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("FIRST_NAME")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"firstName"}
+                                  placeholder={languageTranslation(
+                                    "FIRST_NAME"
+                                  )}
+                                  onChange={() =>
+                                    this.setState({ error: false })
+                                  }
+                                  className="width-common"
+                                  onFocus={this.onFocus}
+                                />
+                                {this.state.error ? (
+                                  <div className="required-error">
+                                    Please Enter First Name
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
                       </Col>
-                    </Form>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("SURNAME")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"lastName"}
+                                  placeholder={languageTranslation("SURNAME")}
+                                  className="width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("PHONE")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"phone"}
+                                  placeholder={languageTranslation("PHONE")}
+                                  className="width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("FAX")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"fax"}
+                                  placeholder={languageTranslation("FAX")}
+                                  className="width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("MOBILE")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"mobilePhone"}
+                                  placeholder={languageTranslation("MOBILE")}
+                                  className="width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("EMAIL")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"email"}
+                                  placeholder={languageTranslation("EMAIL")}
+                                  className="width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("USERNAME")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"Username"}
+                                  placeholder={languageTranslation("USERNAME")}
+                                  className="width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+                </Col>
+                <Col lg={"6"} className="mb-3">
+                  <div className="form-card h-100">
+                    <Row>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("SHORT_NAME")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"shortName"}
+                                  placeholder={languageTranslation(
+                                    "SHORT_NAME"
+                                  )}
+                                  className="width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("COMPANY_NAME")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name="fullBusinessname"
+                                  placeholder={languageTranslation(
+                                    "COMPANY_NAME"
+                                  )}
+                                  className="width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label ">
+                                {languageTranslation("STREET")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"street"}
+                                  placeholder={languageTranslation("STREET")}
+                                  className=" width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label ">
+                                {languageTranslation("CITY")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"city"}
+                                  placeholder={languageTranslation("CITY")}
+                                  className=" width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label ">
+                                {languageTranslation("ZIP")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"postCode"}
+                                  placeholder={languageTranslation("ZIP")}
+                                  className=" width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("STATE")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Select
+                                  placeholder={languageTranslation("STATE")}
+                                  options={State}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("COUNTRY")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div>
+                                <Select
+                                  placeholder={languageTranslation("COUNTRY")}
+                                  options={Country}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+                </Col>
+                <Col lg={"12"}>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="mandatory-text">
+                      {" "}
+                      {languageTranslation("REQUIRED_FIELDS")}
+                    </div>
+                    <div className={"text-right"}>
+                      <Button
+                        color="primary"
+                        type="submit"
+                        className="btn-sumbit"
+                      >
+                        {languageTranslation("SAVE_BUTTON")}
+                      </Button>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </Form>
+          </CardBody>
+        </Card>
       </div>
     );
   }

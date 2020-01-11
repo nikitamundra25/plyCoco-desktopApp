@@ -10,6 +10,10 @@ export const EmployeeForm = () => {
     { setSubmitting }: FormikHelpers<IEmployeeFormValues>,
   ) => {
     //to set submit state to false after successful signup
+    if (values.bankName) {
+      console.log('inside bank name');
+    }
+    console.log('values areeeeee', values);
     setSubmitting(false);
   };
   const values: IEmployeeFormValues = {
@@ -17,7 +21,7 @@ export const EmployeeForm = () => {
     firstName: '',
     lastName: '',
     userName: '',
-    telephoneNumber: '',
+    telephoneNumber: undefined,
     accountHolderName: '',
     bankName: '',
     IBAN: '',

@@ -346,6 +346,29 @@
   "FILE_SIZE": "File Size",
 
   "SUPPORTED_DOCUMENTS": "Supported documents",
+  "INSTITUTION_ID":"Institution ID",
+  "CANCELLATION_FOR":"Cancellation For",
+  "CANCELLED_BY":"Cancelled By",
+  "FACILITY":"Facility",
+  "VAT":"Vat",
+  "FACTORING":"Factoring",
+  "SENT_BF":"Sent BF",
+  "TODO": "Todo",
+ "DONE":"Done",
+ "EXTREME":"Extreme",
+ "PRIO":"Prio",
+  "REMINDERS":"Reminders",
+
+
+
+
+
+
+
+
+
+
+
   "CG_MENU_NEW_CAREGIVER": "New Caregiver",
   "CG_MENU_CREATE_TODO": "Create Todo/Reminder",
   "CG_MENU_NEW_PASSWORD": "New Password",

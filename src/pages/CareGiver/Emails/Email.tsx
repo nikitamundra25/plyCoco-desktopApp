@@ -38,14 +38,6 @@ class Email extends Component {
               <span>New Email</span>
             </NavLink>
           </NavItem>
-          {/* <NavItem>
-            <NavLink className="">
-              <span className="icon">
-                <i className="fa fa-cogs"></i>
-              </span>
-              <span>Settings</span>
-            </NavLink>
-          </NavItem> */}
         </Nav>
 
         <div className="email-content">

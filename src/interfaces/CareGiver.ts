@@ -1,3 +1,6 @@
+import { Location } from "history";
+import * as H from 'history';
+
 export interface CareGiverState {
     salutation: string,
     firstName: string,
@@ -18,18 +21,6 @@ export interface CareGiverState {
     bankName: string,
     qualification: any,
     leasing: string,
-    driverLicenseNumber: string,
-    driversLicense: boolean,
-    vehicleavailable: boolean,
-    legalForm: string,
-    companyName: string,
-    registrationNumber: string,
-    registerCourt: string,
-    executiveDirector: string,
-    socialSecurityContribution: boolean,
-    taxNumber: string,
-    remarks: string,
-    workZones: any,
     status: string
 }
 
@@ -53,17 +44,10 @@ export interface CareGiverValues {
     bankName: string,
     qualification: any,
     leasing: string,
-    driverLicenseNumber: string,
-    driversLicense: boolean,
-    vehicleavailable: boolean,
-    legalForm: string,
-    companyName: string,
-    registrationNumber: string,
-    registerCourt: string,
-    executiveDirector: string,
-    socialSecurityContribution: boolean,
-    taxNumber: string,
-    remarks: string,
-    workZones: any,
-    status: string,
+    status: string
+}
+
+export interface IEmailMenus<Params extends { [K in keyof Params]?: string } = {}> {
+    history: H.History;
+    location: H.Location;
 }

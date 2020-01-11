@@ -1,21 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { EmployeeValidationSchema } from '../../../validations/EmployeeValidationSchema';
-import { IEmployeeFormValues, IEmployeeState } from '../../../interfaces';
+import { IEmployeeFormValues } from '../../../interfaces';
 import EmployeeFormComponent from './EmployeeFormComponent';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-
-const GET_USERS = gql`
-  query userList {
-    users {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
 
 export const EmployeeForm = () => {
   const handleSubmit = (
@@ -25,8 +12,6 @@ export const EmployeeForm = () => {
     //to set submit state to false after successful signup
     setSubmitting(false);
   };
-  // const { data, loading, error, refetch } = useQuery(GET_USERS);
-  // console.log(data, 'dataaaaa');
   const values: IEmployeeFormValues = {
     email: '',
     firstName: '',

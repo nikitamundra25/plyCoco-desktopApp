@@ -29,18 +29,12 @@ export const FormikTextField: any = (
     let labelProps = { shrink, ...InputLabelProps }
     let newLabel = label
     return (
+        <>
         <Input
             {...rest}
             {...field}
             label={newLabel}
-            helperText={getHelperText(
-                showError,
-                fieldError,
-                rest.helperText,
-                alwaysShowHelperText
-            )}
             value={value || value === 0 ? value : ""}
-            error={showError}
             onChange={handleChange(props)}
             onClick={rest.onClick || null}
             onBlur={handleBlur(value, props)}
@@ -49,5 +43,7 @@ export const FormikTextField: any = (
             InputLabelProps={labelProps}
             fullwidth={true}
         />
+        {showError && fieldError}
+        </>
     )
 }

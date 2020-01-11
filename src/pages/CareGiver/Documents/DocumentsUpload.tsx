@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import { Col, Row, UncontrolledCollapse, Table } from "reactstrap";
+import { languageTranslation } from "../../../helpers";
 class DocumentsUpload extends Component {
   render() {
     return (
@@ -9,16 +10,18 @@ class DocumentsUpload extends Component {
           <Table bordered hover responsive>
             <thead className="thead-bg">
               <tr>
-                <th>Date</th>
-                <th>File Name</th>
-                <th>Type</th>
-                <th>Remarks</th>
-                <th>Action</th>
-                <th>File Size</th>
+                <th>{languageTranslation("S_NO")}</th>
+                <th>{languageTranslation("DATE")}</th>
+                <th>{languageTranslation("FILE_NAME")}</th>
+                <th>{languageTranslation("TYPE")}</th>
+                <th>{languageTranslation("REMARKS")}</th>
+                <th>{languageTranslation("STATUS")}</th>
+                <th>{languageTranslation("FILE_SIZE")}</th>
               </tr>
             </thead>
             <tbody>
               <tr>
+                <td>1</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
                 <td>Diploama/Exam</td>
@@ -32,6 +35,7 @@ class DocumentsUpload extends Component {
                 <td>162KB</td>
               </tr>
               <tr>
+                <td>2</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
                 <td>Diploama/Exam</td>
@@ -45,6 +49,7 @@ class DocumentsUpload extends Component {
                 <td>162KB</td>
               </tr>
               <tr>
+                <td>3</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
                 <td>Diploama/Exam</td>
@@ -58,6 +63,7 @@ class DocumentsUpload extends Component {
                 <td>162KB</td>
               </tr>
               <tr>
+                <td>4</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
                 <td>Diploama/Exam</td>
@@ -71,6 +77,7 @@ class DocumentsUpload extends Component {
                 <td>162KB</td>
               </tr>
               <tr>
+                <td>5</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
                 <td>Diploama/Exam</td>
@@ -84,6 +91,7 @@ class DocumentsUpload extends Component {
                 <td>162KB</td>
               </tr>
               <tr>
+                <td>6</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
                 <td>Diploama/Exam</td>
@@ -97,6 +105,7 @@ class DocumentsUpload extends Component {
                 <td>162KB</td>
               </tr>
               <tr>
+                <td>7</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
                 <td>Diploama/Exam</td>

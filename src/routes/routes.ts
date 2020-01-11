@@ -73,7 +73,7 @@ const DocumentUpload = React.lazy(() =>
   import("../pages/CareGiver/Documents/DocumentsUpload")
 );
 const AddCareInstitution = React.lazy(() =>
-  import("../pages/CareInstitution/AddCareInstitution/AddCareInstitution")
+  import("../pages/CareInstitution/AddCareInstitution")
 );
 const Constitution = React.lazy(() => import("../pages/CareInstitution"));
 const ConstitutionPersonalInfo = React.lazy(() =>

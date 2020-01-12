@@ -5,74 +5,80 @@ import CareGiverFormComponent from './CareGiverFormComponent';
 import { CareGiverValidationSchema } from '../../../validations/CareGiverValidationSchema';
 import { useMutation } from '@apollo/react-hooks';
 import { ADD_CAREGIVER } from '../../../queries/CareGiver';
+import { Mutation } from '@apollo/react-components';
 
 class CareGiverForm extends Component<any, CareGiverState>{
 
     handleSubmit = (values: CareGiverValues,
         { setSubmitting }: FormikHelpers<CareGiverValues>,
-        saveFunc: any
-    ): Promise<any> | void => {
+        addCareGiver: any
+    )=> {
         // todo call 
-        const [addCareGiver, { error, data }] = useMutation<
-            { addCareGiver: CareGiverState },
-            { careGiverInput: CareGiverValues }
-        >(ADD_CAREGIVER, {
-            variables: { careGiverInput: { ...values } }
-        });
-        addCareGiver()
+        debugger
+        const paylaod = {
+            variables: {
+                careGiverInput: { ...values }
+            }
+        }
+        addCareGiver(paylaod)
         setSubmitting(false);
     }
 
     render() {
         const initialValues: CareGiverValues = {
             salutation: '',
-            firstName: '',
-            lastName: '',
-            address1: '',
-            address2: '',
-            street: '',
-            city: '',
-            state: '',
+            firstName: 'tester',
+            lastName: 'tester',
+            address1: 'tester',
+            address2: 'tester',
+            street: 'tester',
+            city: 'tester',
+            state: 'tester',
             country: '',
-            postCode: '',
-            email: '',
-            dob: '',
-            phone: '',
-            fax: '',
-            mobilePhone: '',
-            username: '',
-            bankName: '',
-            qualification: [],
-            leasing: '',
-            driverLicenseNumber: '',
+            postCode: '9875563',
+            email: 'tester@tester.tester',
+            dob: '12/12/1992',
+            phone: '789952',
+            fax: '789654',
+            mobilePhone: '9874563215',
+            username: 'tester',
+            bankName: 'tester',
+            qualification: ["tester"],
+            leasing: 'tester',
+            driverLicenseNumber: '6978',
             driversLicense: false,
             vehicleavailable: false,
             legalForm: '',
-            companyName: '',
-            registrationNumber: '',
-            registerCourt: '',
-            executiveDirector: '',
+            companyName: 'tester',
+            registrationNumber: 'tester',
+            registerCourt: 'tester',
+            executiveDirector: 'tester',
             socialSecurityContribution: false,
-            taxNumber: '',
-            remarks: '',
-            workZones: [],
-            status: ''
+            taxNumber: '35tester',
+            remarks: 'tester',
+            workZones: '',
+            status: 'active'
         };
 
 
         return (
-            <Formik
-                initialValues={initialValues}
-                onSubmit={(
-                    values: CareGiverValues,
-                    actions: FormikHelpers<CareGiverValues>,
-                    saveFunc?: any)
-                    : Promise<any> | void => this.handleSubmit(values, actions, saveFunc)}
-                validationSchema={CareGiverValidationSchema}
-                render={(props: FormikProps<CareGiverValues>) => {
-                    return <CareGiverFormComponent {...props} />
-                }}
-            />
+            <Mutation
+                mutation={ADD_CAREGIVER}
+            >
+                {(addCareGiver: any) =>
+                    <Formik
+                        initialValues={initialValues}
+                        onSubmit={(
+                            values: CareGiverValues,
+                            actions: FormikHelpers<CareGiverValues>)
+                            : Promise<any> | void => this.handleSubmit(values, actions, addCareGiver)}
+                        validationSchema={CareGiverValidationSchema}
+                        render={(props: FormikProps<CareGiverValues>) => {
+                            return <CareGiverFormComponent {...props} />
+                        }}
+                    />
+                }
+            </Mutation>
         )
     }
 

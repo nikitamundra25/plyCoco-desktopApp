@@ -10,6 +10,7 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Button,
   TabPane,
   TabContent,
   CustomInput,
@@ -41,7 +42,7 @@ const CareGiverFormComponent: any = (
   props: FormikProps<CareGiverValues>
 ) => {
   const { values } = props;
-
+  console.log("errorrrrrssssssssss==========>", props.errors)
   return (
     <>
 
@@ -77,15 +78,18 @@ const CareGiverFormComponent: any = (
                             <div>
                               <InputGroup>
                                 <InputGroupAddon addonType="prepend">
-                                  <Select
+                                  <Field
+                                    name={'salutation'}
                                     placeholder="Salutation"
                                     options={Salutation}
                                     className="custom-select-width"
+                                    component={FormikSelectField}
                                   />
                                 </InputGroupAddon>
-                                <Input
-                                  type="text"
+                                <Field
+                                  component={FormikTextField}
                                   name={"firstName"}
+                                  key={"firstName"}
                                   placeholder="First Name"
                                   className="width-common"
                                 />
@@ -106,8 +110,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name={"lastName"}
                                 placeholder="Surname"
                                 className="width-common"
@@ -128,8 +132,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name={"address1"}
                                 placeholder="Address Line 1"
                                 className=" width-common"
@@ -149,8 +153,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name={"address2"}
                                 placeholder="Address Line 2"
                                 className=" width-common"
@@ -171,8 +175,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name={"street"}
                                 placeholder=" Street"
                                 className=" width-common"
@@ -193,8 +197,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name={"city"}
                                 placeholder=" City"
                                 className=" width-common"
@@ -215,8 +219,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name={"postCode"}
                                 placeholder="Post Code"
                                 className=" width-common"
@@ -237,9 +241,11 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Select
+                              <Field
                                 placeholder="Region/State"
                                 options={State}
+                                name={"state"}
+                                component={FormikSelectField}
                               />
                             </div>
                           </Col>
@@ -257,7 +263,9 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Select
+                              <Field
+                                name={"country"}
+                                component={FormikSelectField}
                                 placeholder="Select Country"
                                 options={Country}
                               />
@@ -278,7 +286,9 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <InputMask
+                              <Field
+                                // component={FormikTextField}
+                                type="date"
                                 placeholder="DD/MM/YYYY"
                                 mask="99/99/9999"
                                 className="form-control"
@@ -307,8 +317,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name={"phone"}
                                 placeholder=" Phone Number"
                                 className="width-common"
@@ -329,8 +339,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name={"fax"}
                                 placeholder=" Fax"
                                 className="width-common"
@@ -351,8 +361,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name={"mobilePhone"}
                                 placeholder="Mobile Phone"
                                 className="width-common"
@@ -373,8 +383,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name={"email"}
                                 placeholder=" Email address"
                                 className="width-common"
@@ -395,8 +405,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name={"Username"}
                                 placeholder=" Username"
                                 className="width-common"
@@ -455,8 +465,8 @@ const CareGiverFormComponent: any = (
                             </Col>
                             <Col sm="8">
                               <div>
-                                <Input
-                                  type="text"
+                                <Field
+                                  component={FormikTextField}
                                   name="driverLicenseNumber"
                                   placeholder="Driver's License Number"
                                   className="width-common"
@@ -518,9 +528,11 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Select
+                              <Field
+                                name={"legalForm"}
                                 placeholder="Legal Form"
                                 options={LegalForm}
+                                component={FormikSelectField}
                               />
                             </div>
                           </Col>
@@ -541,8 +553,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name="companyName"
                                 placeholder="Company Name"
                                 className="width-common"
@@ -564,8 +576,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name="registrationNumber"
                                 placeholder="Registration number"
                                 className="width-common"
@@ -586,8 +598,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name="registerCourt"
                                 placeholder="Register Court"
                                 className="width-common"
@@ -608,8 +620,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name="executiveDirector"
                                 placeholder="Executive Director"
                                 className="width-common"
@@ -665,8 +677,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
-                                type="text"
+                              <Field
+                                component={FormikTextField}
                                 name="taxNumber"
                                 placeholder="Tax Number"
                                 className="width-common"
@@ -687,9 +699,12 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Select
+                              <Field
                                 placeholder=" Working zones"
                                 isMulti
+                                key={"sds"}
+                                name={"workZones"}
+                                component={FormikSelectField}
                                 options={Region}
                               />
                             </div>
@@ -709,7 +724,8 @@ const CareGiverFormComponent: any = (
                           </Col>
                           <Col sm="8">
                             <div>
-                              <Input
+                              <Field
+                                component={FormikSelectField}
                                 type="textarea"
                                 name={"remarks"}
                                 placeholder="Remarks"
@@ -728,6 +744,14 @@ const CareGiverFormComponent: any = (
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="mandatory-text">* Required Fields</div>
                 </div>
+                <Button
+                  color="primary"
+                  type="submit"
+                  className="btn-sumbit"
+                  onClick={props.handleSubmit}
+                >
+                  Save
+                </Button>
               </Col>
             </Row>
           </Form>

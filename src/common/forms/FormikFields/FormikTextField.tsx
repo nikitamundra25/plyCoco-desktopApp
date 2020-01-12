@@ -17,7 +17,6 @@ export const FormikTextField: any = (
         label,
         isRequired,
         onChange,
-        InputLabelProps,
         alwaysShowHelperText = true,
         ...rest
     } = props
@@ -26,7 +25,6 @@ export const FormikTextField: any = (
     const fieldError = getIn(errors, name)
     const showError = getIn(touched, name) && !!fieldError
     const shrink = field.value !== null && toLower(field.value).length > 0
-    let labelProps = { shrink, ...InputLabelProps }
     let newLabel = label
     return (
         <>
@@ -40,7 +38,6 @@ export const FormikTextField: any = (
             onBlur={handleBlur(value, props)}
             disabled={isSubmitting || disabled}
             variant={variant}
-            InputLabelProps={labelProps}
             fullwidth={true}
         />
         {showError && fieldError}

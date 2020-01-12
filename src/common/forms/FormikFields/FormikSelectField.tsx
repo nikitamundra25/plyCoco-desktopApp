@@ -18,6 +18,7 @@ export const FormikSelectField: any = (
     props: any) => {
     const {
         field,
+        key,
         form,
         variant = "standard",
         disabled = false,
@@ -25,7 +26,7 @@ export const FormikSelectField: any = (
         className,
         options,
         endAdornment,
-        fullWidth,
+        fullWidth = false,
         isRequired,
         // virtualized = false,
         ...rest
@@ -44,7 +45,7 @@ export const FormikSelectField: any = (
 
     return (
         <div style={{ minWidth: 80, marginTop: "6px" }}>
-          <Label shrink htmlFor={name} error={showError}>
+          <Label htmlFor={name} error={showError}>
             {newLabel}
           </Label>
           <Select
@@ -53,7 +54,7 @@ export const FormikSelectField: any = (
             isMulti={rest.isMulti}
             error={showError}
             className={className}
-            id="react-select-single"
+            id={key ? key :"react-select-single"}
             options={options ? options : []}
             value={rest.value || value}
             placeholder={props.placeholder}

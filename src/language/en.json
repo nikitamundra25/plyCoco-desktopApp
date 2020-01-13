@@ -350,5 +350,8 @@
   "UNSUPPORTED_FORMAT": "Unsupported File Format",
   "FILE_SIZE": "File size too large",
   "COUNTRY_PLACEHOLDER": "Select Country",
-  "CHOOSE_IMAGE": "Choose Image"
+  "CHOOSE_IMAGE": "Choose Image",
+
+  "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added sucessfully",
+  "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully"
 }

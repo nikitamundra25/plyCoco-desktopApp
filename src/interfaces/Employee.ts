@@ -1,5 +1,4 @@
-import { ValueType } from "react-select";
-import { IReactSelectInterface } from "./Constant";
+import { IReactSelectInterface } from './Constant';
 
 export interface IEmployeeFormValues {
   email: string;
@@ -18,7 +17,6 @@ export interface IEmployeeFormValues {
   state?: IReactSelectInterface;
   zip: string;
   joiningDate: string;
-  bankAccountNumber: string;
   image?: File;
   city: string;
 }

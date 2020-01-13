@@ -38,8 +38,8 @@ const GET_EMPLOYEE_BY_ID = gql`
 `;
 
 const UPDATE_EMPLOYEE = gql`
-  mutation UpdateEmployee($employeeInput: EmployeeInput!) {
-    updateEmployee(employeeInput: $employeeInput) {
+  mutation UpdateEmployee($id: Int!, $employeeInput: EmployeeInput) {
+    updateEmployee(id: $id, employeeInput: $employeeInput) {
       userId
     }
   }
@@ -81,5 +81,4 @@ export const EmployeeQueries = [
   GET_EMPLOYEE_BY_ID,
   GET_EMPLOYEES,
   UPDATE_EMPLOYEE,
-  GET_EMPLOYEES,
 ];

@@ -20,7 +20,7 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap';
 import { AppRoutes } from '../../config';
-import { RouteComponentProps } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { AppBreadcrumb } from '@coreui/react';
 import routes from '../../routes/routes';
 import Search from '../../common/SearchFilter';
@@ -67,6 +67,7 @@ const userData = [
 ];
 
 const Employee: FunctionComponent = () => {
+  let history = useHistory();
   // const [, , GET_EMPLOYEES] = EmployeeQueries;
   // // To fetch the list of employees
   // const { data, loading, error, refetch } = useQuery<any>(GET_EMPLOYEES);
@@ -174,7 +175,7 @@ const Employee: FunctionComponent = () => {
           color={'primary'}
           className={'btn-add'}
           id={'add-new-pm-tooltip'}
-          // onClick={() => this.props.history.push(AppRoutes.ADD_EMPLOYEE)}
+          onClick={() => history.push(AppRoutes.ADD_EMPLOYEE)}
         >
           <i className={'fa fa-plus'} />
           &nbsp; Add New Empolyee

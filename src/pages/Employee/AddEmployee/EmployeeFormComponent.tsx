@@ -733,7 +733,12 @@ const EmployeeFormComponent: any = (
                                       htmlFor="gallery-photo-add"
                                       className="file-upload-label"
                                     >
-                                      Choose Image
+                                      <div className="icon-upload">
+                                        <i className="cui-cloud-upload"></i>
+                                      </div>
+                                      <div className="icon-text">
+                                        Click here to select your profile image
+                                      </div>
                                     </label>
                                     <input
                                       className="file-upload-input"
@@ -782,13 +787,12 @@ const EmployeeFormComponent: any = (
                     </div>
                   </Col>
                 </Row>
-                <Col lg={"12"}>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="mandatory-text">
-                      {languageTranslation("REQUIRED_FIELDS")}
-                    </div>
+
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="mandatory-text">
+                    {languageTranslation("REQUIRED_FIELDS")}
                   </div>
-                </Col>
+                </div>
               </Form>
             </Col>
           </Row>

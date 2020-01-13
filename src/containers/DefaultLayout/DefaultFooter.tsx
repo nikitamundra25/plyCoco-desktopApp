@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import {
-  Nav,
-  NavItem,
-  NavLink,
-} from "reactstrap";
+import { Nav, NavItem, NavLink } from "reactstrap";
 import Select from "react-select";
 import { Region } from "../../config";
 
@@ -11,8 +7,8 @@ class DefaultFooter extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="d-flex align-items-center justify-content-between w-100">
-          <div className="footer-nav">
+        <div className="d-flex align-items-center justify-content-end w-100">
+          {/* <div className="footer-nav">
             <Nav>
               <NavItem>
                 <NavLink href="#">Attribute: Login Possible</NavLink>
@@ -21,7 +17,7 @@ class DefaultFooter extends Component {
                 <NavLink href="#">Unlocked</NavLink>
               </NavItem>
             </Nav>
-          </div>
+          </div> */}
           <div className="region-select">
             <Select
               defaultValue={{

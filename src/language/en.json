@@ -276,7 +276,7 @@
   "OFFERS": "Offers",
   "OFFER_FOR": "Offer for",
   "POSITIVE": "Positive",
-  "NEGATIVE": "negative",
+  "NEGATIVE": "Negative",
   "WORKED_AT": "Worked at",
   "NO_OFFER_FOR": "No offer for",
   "REFRESH": "Refresh",
@@ -311,12 +311,12 @@
   "FAX": "Fax",
   "MOBILE": "Mobile",
   "USERNAME": "Username",
-  "DEFAULT_QAULIFICATION": "default qaulification",
+  "DEFAULT_QAULIFICATION": "Default Qualification",
   "IBAN": "IBAN",
   "WEBSITE": "Website",
   "LIKED_TO": "liked to",
   "REMARKS": "Remarks",
-  "FOR_CANSTITUTION_VIEWBLE": "for canstitution viewble",
+  "FOR_CANSTITUTION_VIEWBLE": "For care institution viewble",
   "HEALTH_CARE_FEE": "Health care fee",
   "DOCTOR_FEE": "Doctor fee",
   "LEASING_PRICE_LIST": "Leasing Price List",
@@ -346,28 +346,18 @@
   "FILE_SIZE": "File Size",
 
   "SUPPORTED_DOCUMENTS": "Supported documents",
-  "INSTITUTION_ID":"Institution ID",
-  "CANCELLATION_FOR":"Cancellation For",
-  "CANCELLED_BY":"Cancelled By",
-  "FACILITY":"Facility",
-  "VAT":"Vat",
-  "FACTORING":"Factoring",
-  "SENT_BF":"Sent BF",
+  "INSTITUTION_ID": "Institution ID",
+  "CANCELLATION_FOR": "Cancellation For",
+  "CANCELLED_BY": "Cancelled By",
+  "FACILITY": "Facility",
+  "VAT": "Vat",
+  "FACTORING": "Factoring",
+  "SENT_BF": "Sent BF",
   "TODO": "Todo",
- "DONE":"Done",
- "EXTREME":"Extreme",
- "PRIO":"Prio",
-  "REMINDERS":"Reminders",
-
-
-
-
-
-
-
-
-
-
+  "DONE": "Done",
+  "EXTREME": "Extreme",
+  "PRIO": "Prio",
+  "REMINDERS": "Reminders",
 
   "CG_MENU_NEW_CAREGIVER": "New Caregiver",
   "CG_MENU_CREATE_TODO": "Create Todo/Reminder",

@@ -129,11 +129,13 @@ class CareInstitution extends Component<RouteComponentProps, any> {
                 className="btn-icon mr-2"
                 id={`edit${index}`}
                 onClick={() =>
-                  this.props.history.push(AppRoutes.CARE_INSTITUTION_PERSONAL_DATA)
+                  this.props.history.push(
+                    AppRoutes.CARE_INSTITUTION_PERSONAL_DATA
+                  )
                 }
               >
                 <UncontrolledTooltip placement="top" target={`edit${index}`}>
-                  Click here to edit employee
+                  Click here to edit care institution
                 </UncontrolledTooltip>
                 <i className="fa fa-pencil"></i>
               </span>
@@ -141,11 +143,13 @@ class CareInstitution extends Component<RouteComponentProps, any> {
                 className="btn-icon mr-2"
                 id={`view${index}`}
                 onClick={() =>
-                  this.props.history.push(AppRoutes.CARE_INSTITUTION_PERSONAL_DATA)
+                  this.props.history.push(
+                    AppRoutes.CARE_INSTITUTION_PERSONAL_DATA
+                  )
                 }
               >
                 <UncontrolledTooltip placement="top" target={`view${index}`}>
-                  Click here to view Constitution
+                  Click here to view care institution
                 </UncontrolledTooltip>
                 <i className="fa fa-eye"></i>
               </span>
@@ -155,7 +159,7 @@ class CareInstitution extends Component<RouteComponentProps, any> {
                 onClick={() => this.props.history.push("")}
               >
                 <UncontrolledTooltip placement="top" target={`delete${index}`}>
-                  Click here to delete employee
+                  Click here to delete care institution
                 </UncontrolledTooltip>
                 <i className="fa fa-trash"></i>
               </span>
@@ -177,7 +181,7 @@ class CareInstitution extends Component<RouteComponentProps, any> {
             }
           >
             <i className={"fa fa-plus"} />
-            &nbsp; Add New Constitution
+            &nbsp; Add New Care Institution
           </Button>
         </CardHeader>
         <CardBody>
@@ -264,7 +268,7 @@ class CareInstitution extends Component<RouteComponentProps, any> {
                     </div>
                   </div>
                 </th>
-                <th>Constitution Information</th>
+                <th>Care Institution Information</th>
                 <th>Region</th>
                 <th className="text-center">Assigned Canstitution</th>
                 <th className="text-center">Status</th>

@@ -972,7 +972,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
           </Col >
           <Col lg={12}>
          <div className="form-flex-section mt-3 form-card minheight-auto">
-    <h5 className="main-title">New Care Institution</h5>
+    <h5 className="main-title">Add New Contact</h5>
     <div className="form-flex-block">
       <div className="form-flex-tile">
         <Row>

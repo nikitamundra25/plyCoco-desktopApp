@@ -174,7 +174,7 @@ class Employee extends Component<RouteComponentProps, any> {
             onClick={() => this.props.history.push(AppRoutes.ADD_EMPLOYEE)}
           >
             <i className={"fa fa-plus"} />
-            &nbsp; Add New Empolyee
+            &nbsp; Add New Employee
           </Button>
         </CardHeader>
         <CardBody>

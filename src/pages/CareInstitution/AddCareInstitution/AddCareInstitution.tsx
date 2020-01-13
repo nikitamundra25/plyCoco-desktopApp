@@ -41,7 +41,10 @@ class AddCareInstitution extends Component<any, any> {
       <div>
         <Card>
           <CardHeader>
-            <AppBreadcrumb appRoutes={routes} className="w-100" />
+            <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+            <Button color={"primary"} className={"btn-add"}>
+              {languageTranslation("SAVE_BUTTON")}
+            </Button>
           </CardHeader>
           <CardBody>
             <Form className="form-section">
@@ -407,7 +410,7 @@ class AddCareInstitution extends Component<any, any> {
                       {" "}
                       {languageTranslation("REQUIRED_FIELDS")}
                     </div>
-                    <div className={"text-right"}>
+                    {/* <div className={"text-right"}>
                       <Button
                         color="primary"
                         type="submit"
@@ -415,7 +418,7 @@ class AddCareInstitution extends Component<any, any> {
                       >
                         {languageTranslation("SAVE_BUTTON")}
                       </Button>
-                    </div>
+                    </div> */}
                   </div>
                 </Col>
               </Row>

@@ -8,7 +8,7 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
+  DropdownItem
 } from "reactstrap";
 import { AppRoutes } from "../../config";
 import { RouteComponentProps } from "react-router";
@@ -91,7 +91,7 @@ class Region extends Component<RouteComponentProps, any> {
                   </div>
                 </th>
                 <th>Region Name</th>
-                <th className="text-center">Number of Canstitution</th>
+                <th className="text-center">Number of Care Institution</th>
                 <th className="text-center">Number of Care Givers</th>
                 <th className="text-center">
                   Current ongoing appointments counter

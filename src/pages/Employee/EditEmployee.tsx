@@ -469,7 +469,6 @@ class AddEmployee extends Component<any, any> {
                                   <div>
                                     <Row>
                                       <Col>
-                                       
                                         <InputMask
                                           value="12/03/2007"
                                           placeholder="DD/MM/YYYY"
@@ -516,11 +515,10 @@ class AddEmployee extends Component<any, any> {
                       </div>
                     </Col>
                   </Row>
-                  <Col lg={"12"}>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="mandatory-text">* Required Fields</div>
-                    </div>
-                  </Col>
+
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="mandatory-text">* Required Fields</div>
+                  </div>
                 </Form>
               </Col>
             </Row>

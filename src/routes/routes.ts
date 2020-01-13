@@ -98,8 +98,15 @@ const ConstitutionDocuments = React.lazy(() =>
 const ConstitutionDepartment = React.lazy(() =>
   import("../pages/CareInstitution/Departments")
 );
-const ConstitutionEmail = React.lazy(() =>
-  import("../pages/CareInstitution/Emails")
+
+const ConstitutionInboxEmail = React.lazy(() =>
+  import("../pages/CareInstitution/Emails/InboxEmail")
+);
+const ConstitutionSentEmail = React.lazy(() =>
+  import("../pages/CareInstitution/Emails/SentEmail")
+);
+const ConstitutionNewEmail = React.lazy(() =>
+  import("../pages/CareInstitution/Emails/NewEmail")
 );
 const ConstitutionReminder = React.lazy(() =>
   import("../pages/CareInstitution/Reminders")
@@ -113,7 +120,7 @@ const routes = [
   },
   {
     path: AppRoutes.ADD_CARE_INSTITUTION,
-    name: "Add Constitution",
+    name: "Add Care Institution",
     component: AddCareInstitution,
     exact: true
   },
@@ -141,7 +148,7 @@ const routes = [
     component: BillingSetting,
     layout: CareGiverLayout,
     layoutName: "CareGiver",
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.CARE_GIVER,
@@ -167,14 +174,14 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION,
-    name: "Constitution",
+    name: "Care Institution",
     component: Constitution,
     exact: true
   },
   { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
     path: AppRoutes.CARE_INSTITUTION_COMISSION_AGREEMENT,
-    name: "Constitution Comission Agreement",
+    name: "Care Institution Comission Agreement",
     component: ConstitutionCommissionAgreement,
     exact: true,
     layout: ConstitutionLayout,
@@ -182,7 +189,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_PERSONAL_DATA,
-    name: "Constitution Personal Data",
+    name: "Care Institution Personal Data",
     component: ConstitutionPersonalInfo,
     exact: true,
     layout: ConstitutionLayout,
@@ -190,7 +197,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_OFFER,
-    name: "Constitution Offer",
+    name: "Care Institution Offer",
     component: ConstitutionOffer,
     exact: true,
     layout: ConstitutionLayout,
@@ -198,7 +205,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_LOGIN,
-    name: "Constitution Login",
+    name: "Care Institution Login",
     component: ConstitutionLogin,
     exact: true,
     layout: ConstitutionLayout,
@@ -206,7 +213,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_INVOICE_CYCLE,
-    name: "Constitution Invoices",
+    name: "Care Institution Invoices",
     component: ConstitutionInvoices,
     exact: true,
     layout: ConstitutionLayout,
@@ -214,7 +221,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_DOCUMENT,
-    name: "Constitution Documents",
+    name: "Care Institution Documents",
     component: ConstitutionDocuments,
     exact: true,
     layout: ConstitutionLayout,
@@ -222,23 +229,39 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_DEPARTMENT,
-    name: "Constitution Department",
+    name: "Care Institution Department",
     component: ConstitutionDepartment,
     exact: true,
     layout: ConstitutionLayout,
     layoutName: "Constitution"
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_EMAIL,
-    name: "Constitution Emails",
-    component: ConstitutionEmail,
+    path: AppRoutes.CARE_INSTITUTION_INBOX_EMAIL,
+    name: "Care Institution Inbox Emails",
+    component: ConstitutionInboxEmail,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_SENT_EMAIL,
+    name: "Care Institution Sent Emails",
+    component: ConstitutionSentEmail,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_NEW_EMAIL,
+    name: "Care Institution New Emails",
+    component: ConstitutionNewEmail,
     exact: true,
     layout: ConstitutionLayout,
     layoutName: "Constitution"
   },
   {
     path: AppRoutes.CARE_INSTITUTION_REMINDER,
-    name: "Constitution Reminders",
+    name: "Care Institution Reminders",
     component: ConstitutionReminder,
     exact: true,
     layout: ConstitutionLayout,

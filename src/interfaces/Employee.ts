@@ -31,8 +31,8 @@ export interface IEmployeeInput {
   email: string;
   phoneNumber: string;
   joiningDate: string | null;
-  countryId?: number;
-  stateId?: number;
+  countryId?: number | null;
+  stateId?: number | null;
   city: string;
   zipCode: string;
   address1: string;

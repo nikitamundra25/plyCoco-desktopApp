@@ -72,6 +72,8 @@ export const EmployeeForm = () => {
         email,
         phoneNumber: telephoneNumber ? telephoneNumber.toString() : '',
         joiningDate: joiningDate ? joiningDate : null,
+        countryId: country && country.value ? parseInt(country.value) : null,
+        stateId: state && state.value ? parseInt(state.value) : null,
         city,
         zipCode: zip,
         address1,
@@ -82,12 +84,6 @@ export const EmployeeForm = () => {
         IBAN,
         BIC,
       };
-      if (country && country.value) {
-        employeeInput.countryId = parseInt(country.value);
-      }
-      if (state && state.value) {
-        employeeInput.stateId = parseInt(state.value);
-      }
       await addEmployee({
         variables: {
           employeeInput,

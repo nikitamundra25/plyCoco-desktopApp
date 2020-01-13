@@ -55,7 +55,7 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                   <Select
                     defaultValue={{
                       label: "John Doe",
-                      value: 0
+                      value: "0"
                     }}
                     placeholder="Select Caregiver"
                     options={CareGiver}
@@ -69,12 +69,12 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                     {languageTranslation("CG_MENU_NEW_CAREGIVER")}
                   </span>
                 </div>
-                {/* <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={save} alt="" />
+                {/* <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={save} alt='' />
                   </span>
-                  <span className="header-nav-text">
-                    {languageTranslation("SAVE_BUTTON")}
+                  <span className='header-nav-text'>
+                    {languageTranslation('SAVE_BUTTON')}
                   </span>
                 </div> */}
                 <div className="header-nav-item">
@@ -151,7 +151,7 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
                   <Select
                     defaultValue={{
                       label: "John Doe",
-                      value: 0
+                      value: "0"
                     }}
                     placeholder="Select Caregiver"
                     options={CareGiver}
@@ -266,7 +266,7 @@ class DefaultLayout extends Component<any, any> {
             <Container fluid>
               <Suspense fallback={<Loader />}>
                 <Switch>
-                  {routes.map((route, idx) => {
+                  {routes.map((route: any, idx) => {
                     return route.layout ? (
                       route.layoutName === "CareGiver" ? (
                         <CareGiverLayout

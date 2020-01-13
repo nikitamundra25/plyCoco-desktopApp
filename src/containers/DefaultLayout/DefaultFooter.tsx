@@ -11,10 +11,10 @@ class DefaultFooter extends Component {
           {/* <div className="footer-nav">
             <Nav>
               <NavItem>
-                <NavLink href="#">Attribute: Login Possible</NavLink>
+                <NavLink href='#'>Attribute: Login Possible</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="#">Unlocked</NavLink>
+                <NavLink href='#'>Unlocked</NavLink>
               </NavItem>
             </Nav>
           </div> */}
@@ -22,7 +22,7 @@ class DefaultFooter extends Component {
             <Select
               defaultValue={{
                 label: "Central Germany",
-                value: 0
+                value: "0"
               }}
               className={"menu-outer-top"}
               placeholder="Select Region"

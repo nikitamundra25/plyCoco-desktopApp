@@ -402,7 +402,7 @@ class AddEmployee extends Component<any, any> {
                                     <Select
                                       defaultValue={{
                                         label: "Hambug",
-                                        value: 0
+                                        value: "0"
                                       }}
                                       placeholder="Select State"
                                       options={State}
@@ -425,7 +425,7 @@ class AddEmployee extends Component<any, any> {
                                     <Select
                                       defaultValue={{
                                         label: "Bochum",
-                                        value: 0
+                                        value: "0"
                                       }}
                                       placeholder="Select City"
                                       options={City}

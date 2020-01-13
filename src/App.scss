@@ -834,7 +834,7 @@ body {
     max-width: 175px;
   }
   .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
     .col-form-label {
       font-size: $font_12;
       font-weight: 400;
@@ -850,7 +850,7 @@ body {
     .required-error {
       position: absolute;
       left: 15px;
-      top: 28px;
+      top: 25px;
       font-size: $font_10;
       color: $red;
     }
@@ -1027,7 +1027,6 @@ body {
     font-weight: 500;
     left: 15px;
   }
-
   .file-img {
     width: 100px;
     display: inline-block;
@@ -2488,4 +2487,22 @@ body {
     padding: 0 7.5px;
     flex: 1 1 20%;
   }
+}
+
+//tooltip icon
+.tooltip-icon {
+  width: 18px;
+  height: 18px;
+  color: $light_black;
+  font-size: $font_11;
+  border-radius: 50%;
+  padding: 0px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: $btn_gray;
+  border-color: $btn_gray;
+  cursor: pointer;
+  margin-left: 5px;
 }

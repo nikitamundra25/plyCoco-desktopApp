@@ -30,9 +30,9 @@
   "FIRSTNAME_SPECIALCHARACTER": "First name must contain alphabets only",
   "FIRSTNAME_MAXLENGTH": "First name must be less than 20 characters",
   "FIRSTNAME_REQUIRED": "First Name is required",
-  "LASTNAME_SPECIALCHARACTER": "Last name doesnot contain any number or special characeter",
-  "LASTNAME_MAXLENGTH": "Last name must be less than 20 characters",
-  "LASTNAME_REQUIRED": "Last Name is required",
+  "LASTNAME_SPECIALCHARACTER": "Surname must contain alphabets only",
+  "LASTNAME_MAXLENGTH": "Surname must be less than 20 characters",
+  "LASTNAME_REQUIRED": "Surname is required",
   "TELEPHONE_REQUIRED": "Telephone number is not valid",
   "USERNAME_REQUIRED": "Username is required",
   "PERSONAL_DATA": "Personal Data",
@@ -81,7 +81,7 @@
   "MENU_REPORTS_INACTIVE_CARE_TAKER": " Inactive caretakers ",
   "EMPLOYEE_FIRST_NAME_PLACEHOLDER": "Please Enter First Name",
   "EMPLOYEE_SURNAME_LABEL": "Surname",
-  "EMPLOYEE_SURNAME_PLACEHOLDER": "Please Enter Last Name",
+  "EMPLOYEE_SURNAME_PLACEHOLDER": "Please Enter Surname",
   "EMPLOYEE_EMAIL_ADDRESS_LABEL": "Email Address",
   "EMPLOYEE_EMAIL_ADDRESS_PLACEHOLDER": "Please Enter Email",
   "EMPLOYEE_TELEPHONE_NUMBER_LABEL": "Telephone number",
@@ -350,5 +350,5 @@
   "UNSUPPORTED_FORMAT": "Unsupported File Format",
   "FILE_SIZE": "File size too large",
   "COUNTRY_PLACEHOLDER": "Select Country",
-  "CHOOSE_IMAGE":"Choose Image"
+  "CHOOSE_IMAGE": "Choose Image"
 }

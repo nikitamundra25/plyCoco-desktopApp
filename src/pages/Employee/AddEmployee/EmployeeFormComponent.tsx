@@ -29,6 +29,7 @@ import {
 import { logger, languageTranslation } from '../../../helpers';
 import InputFieldTooltip from '../../../common/Tooltip/InputFieldTooltip';
 import { CountryQueries } from '../../../queries';
+import { toast } from 'react-toastify';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
@@ -65,8 +66,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     setFieldValue,
     setFieldTouched,
   } = props;
-  console.log(email, 'emaillllllllll');
-
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   // To fetch the list of countries
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
@@ -86,7 +85,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       statesOpt.push({ label: name, value: id }),
     );
   }
-
   // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -128,6 +126,11 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
             className={'btn-add'}
             onClick={handleSubmit}
           >
+            {isSubmitting === true ? (
+              <i className='fa fa-spinner fa-spin loader' />
+            ) : (
+              ''
+            )}
             {languageTranslation('SAVE_BUTTON')}
           </Button>
         </CardHeader>

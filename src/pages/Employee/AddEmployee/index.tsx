@@ -11,6 +11,8 @@ import {
 import EmployeeFormComponent from './EmployeeFormComponent';
 import { EmployeeQueries } from '../../../queries';
 import { logger } from '../../../helpers';
+import { toast } from 'react-toastify';
+import { AppRoutes } from '../../../config';
 
 const [ADD_EMPLOYEE, GET_EMPLOYEE_BY_ID, UPDATE_EMPLOYEE] = EmployeeQueries;
 
@@ -105,12 +107,15 @@ export const EmployeeForm = () => {
           employeeInput,
         },
       });
+      toast.success('Employee added sucessfully');
+      // this.props.history.push(AppRoutes.EMPLOYEE);
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
         .replace('Validation error: ', '')
         .replace('GraphQL error: ', '');
-      setFieldError('email', message);
+      // setFieldError('email', message);
+      toast.error(message);
     }
     setSubmitting(false);
   };

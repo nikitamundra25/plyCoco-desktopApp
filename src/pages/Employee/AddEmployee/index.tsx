@@ -15,11 +15,11 @@ import { logger } from '../../../helpers';
 const [ADD_EMPLOYEE] = EmployeeQueries;
 
 export const EmployeeForm = () => {
-  let { userName } = useParams();
-  logger(userName, 'userName');
+  let { id, userName } = useParams();
+  logger(userName, id, 'userName');
   const [addEmployee, { error, data }] = useMutation<
     { addEmployee: IAddEmployeeRes },
-    { employee: IEmployeeInput }
+    { employeeInput: any }
   >(ADD_EMPLOYEE);
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -30,10 +30,24 @@ export const EmployeeForm = () => {
     { setSubmitting }: FormikHelpers<IEmployeeFormValues>,
   ) => {
     //to set submit state to false after successful signup
-    if (values.bankName) {
-      console.log('inside bank name');
-    }
-    console.log('values areeeeee', values);
+    console.log('in  handle submitttttttttttt');
+
+    // addEmployee({
+    //   variables: {
+    //     employeeInput: {
+    //       firstName: 'Gunjali',
+    //       lastName: 'v',
+    //       userName: 'd',
+    //       address1: 'address1',
+    //       address2: 'address2',
+    //       email: 'maxima@mailinator.com',
+    //       password: '123456',
+    //       phoneNumber: '758469123',
+    //       city: 'Indore',
+    //       zipCode: '452010',
+    //     },
+    //   },
+    // });
     setSubmitting(false);
   };
   const values: IEmployeeFormValues = {

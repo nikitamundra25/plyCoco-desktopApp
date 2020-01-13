@@ -24,16 +24,12 @@ export interface IEmployeeFormValues {
 }
 
 export interface IEmployeeInput {
-  userId: string;
   firstName: string;
   lastName: string;
   userName: string;
   email: string;
-  password: string;
-  salt: string;
   phoneNumber: string;
   joiningDate: Date;
-  employeeCustomId: string;
   countryId: string;
   stateId: string;
   city: string;

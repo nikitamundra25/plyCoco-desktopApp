@@ -8,3 +8,4 @@ export * from './Employee';
 export * from './CareGiver';
 export * from './Tooltip';
 export * from './DateFunction';
+export * from './Leasing';

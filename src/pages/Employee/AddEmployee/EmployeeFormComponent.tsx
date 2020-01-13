@@ -16,7 +16,7 @@ import Select from 'react-select';
 // import InputMask from 'react-input-mask';
 import MaskedInput from 'react-text-mask';
 import { FormikProps, Form } from 'formik';
-import { Region, City } from '../../../config';
+import { Region } from '../../../config';
 import routes from '../../../routes/routes';
 import {
   IEmployeeFormValues,
@@ -51,6 +51,7 @@ const EmployeeFormComponent: any = (
       address2,
       country,
       state,
+      city,
       zip,
       joiningDate,
       image,
@@ -690,7 +691,7 @@ const EmployeeFormComponent: any = (
                                       handleSelect(value, 'state')
                                     }
                                     noOptionsMessage={() => {
-                                      return 'First select an country';
+                                      return 'Select a country first';
                                     }}
                                   />
                                 </div>
@@ -708,11 +709,20 @@ const EmployeeFormComponent: any = (
                               </Col>
                               <Col sm='8'>
                                 <div>
-                                  <Select
+                                  <Input
+                                    name={'city'}
+                                    onChange={handleChange}
+                                    // className="form-control"
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_CITY_PLACEHOLDER',
                                     )}
-                                    options={City}
+                                    value={city}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.city && touched.city
+                                        ? 'text-input error'
+                                        : 'text-input'
+                                    }
                                   />
                                 </div>
                               </Col>

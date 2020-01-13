@@ -20,6 +20,7 @@ export interface IEmployeeFormValues {
   joiningDate: string;
   bankAccountNumber: string;
   image?: File;
+  city: string;
 }
 
 export interface IEmployeeInput {

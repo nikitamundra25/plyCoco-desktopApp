@@ -354,11 +354,12 @@
   "FACTORING":"Factoring",
   "SENT_BF":"Sent BF",
   "TODO": "Todo",
- "DONE":"Done",
- "EXTREME":"Extreme",
- "PRIO":"Prio",
+  "DONE":"Done",
+  "EXTREME":"Extreme",
+  "PRIO":"Prio",
   "REMINDERS":"Reminders",
-
+  "CONTACT":"Contact",
+  "EXTERNAL":"External",
 
 
 

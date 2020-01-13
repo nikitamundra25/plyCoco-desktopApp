@@ -14,8 +14,8 @@ export interface IEmployeeFormValues {
   additionalText: string;
   address1: string;
   address2: string;
-  country?: ValueType<IReactSelectInterface>;
-  state?: ValueType<IReactSelectInterface>;
+  country?: IReactSelectInterface;
+  state?: IReactSelectInterface;
   zip: string;
   joiningDate: string;
   bankAccountNumber: string;
@@ -24,16 +24,12 @@ export interface IEmployeeFormValues {
 }
 
 export interface IEmployeeInput {
-  userId: string;
   firstName: string;
   lastName: string;
   userName: string;
   email: string;
-  password: string;
-  salt: string;
   phoneNumber: string;
-  joiningDate: Date;
-  employeeCustomId: string;
+  joiningDate: string;
   countryId: string;
   stateId: string;
   city: string;
@@ -41,9 +37,7 @@ export interface IEmployeeInput {
   address1: string;
   address2: string;
   regionId: string;
-  userRole: string;
   bankName: string;
-  bankAccountNumber: string;
   accountHolder: string;
   additionalText: string;
   IBAN: string;

@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { useMutation } from '@apollo/react-hooks';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { EmployeeValidationSchema } from '../../../validations/EmployeeValidationSchema';
-import { IEmployeeFormValues } from '../../../interfaces';
+import {
+  IEmployeeFormValues,
+  IEmployeeInput,
+  IAddEmployeeRes,
+} from '../../../interfaces';
 import EmployeeFormComponent from './EmployeeFormComponent';
+import { EmployeeQueries } from '../../../queries';
+import { logger } from '../../../helpers';
+
+const [ADD_EMPLOYEE] = EmployeeQueries;
 
 export const EmployeeForm = () => {
+  let { userName } = useParams();
+  logger(userName, 'userName');
+  const [addEmployee, { error, data }] = useMutation<
+    { addEmployee: IAddEmployeeRes },
+    { employee: IEmployeeInput }
+  >(ADD_EMPLOYEE);
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    console.log('calling did mount');
+  }, []); // Pass empty array to only run once on mount.
   const handleSubmit = (
     values: IEmployeeFormValues,
     { setSubmitting }: FormikHelpers<IEmployeeFormValues>,

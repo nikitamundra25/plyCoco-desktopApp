@@ -1,6 +1,6 @@
-import React, { Component, Suspense } from "react";
+import React, { Component, Suspense, useState } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { Container } from "reactstrap";
+import { Container, Button } from "reactstrap";
 import { AppRoutes } from "../../config";
 import routes from "../../routes/routes";
 import { CareGiver } from "../../config";
@@ -30,6 +30,8 @@ import clear from "../../assets/img/clear.svg";
 import new_contact from "../../assets/img/new-contact.svg";
 import { languageTranslation } from "../../helpers";
 
+import { SelectionState } from "draft-js";
+import CreateTodo from "../../pages/CareInstitution/CreateTodo";
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 const CareGiverSidebar = React.lazy(() =>
@@ -43,6 +45,13 @@ const CareInstitutionSidebar = React.lazy(() =>
 
 // Care giver Sidebar
 const CareGiverLayout = ({ component: Component, ...rest }: any) => {
+  const [state, setState] = useState({
+    show: false
+  });
+  const handleClose = () => {
+    setState({ show: false });
+  };
+
   return (
     <Route
       {...rest}
@@ -73,15 +82,20 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                   <span className='header-nav-icon'>
                     <img src={save} alt='' />
                   </span>
-                  <span className='header-nav-text'>
-                    {languageTranslation('SAVE_BUTTON')}
+                  <span className="header-nav-text">
+                    {languageTranslation("SAVE_BUTTON")}
                   </span>
                 </div> */}
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={reminder} alt="" />
                   </span>
-                  <span className="header-nav-text">
+                  <span
+                    className="header-nav-text"
+                    onClick={() => {
+                      setState({ show: true });
+                    }}
+                  >
                     {languageTranslation("CG_MENU_CREATE_TODO")}
                   </span>
                 </div>
@@ -133,12 +147,21 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
               <Component {...props} />
             </div>
           </div>
+          <CreateTodo show={state.show} handleClose={handleClose} />
         </div>
       )}
     />
   );
 };
+
 const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
+  const [state, setState] = useState({
+    show: false
+  });
+  const handleClose = () => {
+    setState({ show: false });
+  };
+
   return (
     <Route
       {...rest}
@@ -208,6 +231,7 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
               <Component {...props} />
             </div>
           </div>
+          <CreateTodo show={state.show} handleClose={handleClose} />
         </div>
       )}
     />

@@ -66,6 +66,7 @@ const EmployeeFormComponent: any = (
     setFieldValue,
     setFieldTouched
   } = props;
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY
@@ -82,7 +83,6 @@ const EmployeeFormComponent: any = (
       statesOpt.push({ label: name, value: id })
     );
   }
-  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();

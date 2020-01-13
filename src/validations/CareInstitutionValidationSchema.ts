@@ -1,10 +1,9 @@
 import * as Yup from 'yup';
 import { ICareInstitutionValidationSchema, IDateResponse } from '../interfaces';
 import {
-  telephoneReqExp,
   nameRegExp,
-  fileSize,
-  SupportedFormats,
+  mobMin,
+  mobMax
 } from '../config';
 import { languageTranslation, logger, dateValidator } from '../helpers';
 
@@ -29,5 +28,18 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation('LASTNAME_REQUIRED')),
   userName: Yup.string()
     .trim()
-    .required(languageTranslation('USERNAME_REQUIRED'))
+    .required(languageTranslation('USERNAME_REQUIRED')),
+  mobileNumber: Yup.mixed()
+    .test(
+      'check-num',
+      languageTranslation('MOB_NUMERROR'),
+      value => !value || (value && !isNaN(value)),
+    )
+    .test(
+      'num-length',
+      languageTranslation('MOB_MAXLENGTH'),
+      value =>
+        !value || (value && value.length >= mobMin && value.length <= mobMax),
+    ),
+  city: Yup.string()
 });

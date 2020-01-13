@@ -7,6 +7,7 @@ class EmailMenus extends Component<IEmailMenus, any> {
     const {
       location: { pathname }
     } = this.props;
+
     return (
       <>
         <Nav tabs className="custom-tabs">

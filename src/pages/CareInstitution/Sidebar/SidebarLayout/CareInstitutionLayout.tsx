@@ -25,6 +25,9 @@ class CareGiverSidebar extends Component<any, any> {
     const {
       location: { pathname }
     } = this.props;
+    // var str = "/care-institution/email/inbox";
+    // var n = str.includes("/email");
+    // console.log(n, "n");
     return (
       <div className="common-sidnav">
         <Nav className="common-ul" tabs>

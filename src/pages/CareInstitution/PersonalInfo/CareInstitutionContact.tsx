@@ -1,5 +1,15 @@
 import React from "react";
-import { FormGroup, Label, Input, Col, Row } from "reactstrap";
+import {
+  FormGroup,
+  Label,
+  Input,
+  Col,
+  Row,
+  Nav,
+  NavItem,
+  NavLink,
+  Button
+} from "reactstrap";
 import { languageTranslation } from "../../../helpers";
 import Select from "react-select";
 import { State, Country } from "../../../config";
@@ -11,8 +21,22 @@ const CareInstitutionConstForm: any = (
 ) => {
   return (
     <Col lg={12} className={"form-section"}>
+      <div className="d-flex align-items-center justify-content-between my-3">
+        <Nav tabs className="contact-tabs">
+          <NavItem>
+            <NavLink className="active">New Contact</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink>New Contact 2</NavLink>
+          </NavItem>
+        </Nav>
+        <Button color={"primary"} className={"btn-save"}>
+          {languageTranslation("SAVE_BUTTON")}
+        </Button>
+      </div>
       <div className="form-flex-section mt-3 form-card minheight-auto">
-        <h5 className="main-title">Add New contact </h5>
+        {/* <h5 className="main-title">Add New contact </h5> */}
+
         <div className="form-flex-block">
           <div className="form-flex-tile">
             <Row>

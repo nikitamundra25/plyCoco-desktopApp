@@ -836,8 +836,9 @@ const EmployeeFormComponent: any = (
                                     typeof imagePreviewUrl === "string" ? (
                                       <img
                                         src={imagePreviewUrl}
-                                        width={100}
-                                        height={100}
+                                        // width={100}
+                                        // height={100}
+                                        className="img-preview "
                                       />
                                     ) : (
                                       ""
@@ -856,9 +857,11 @@ const EmployeeFormComponent: any = (
                                       {/* <div className="icon-text">
                                         Click here to select your profile image
                                       </div> */}
-                                      {!image || errors.image
-                                        ? languageTranslation("CHOOSE_IMAGE")
-                                        : ""}
+                                      <div className="icon-text">
+                                        {!image || errors.image
+                                          ? languageTranslation("CHOOSE_IMAGE")
+                                          : ""}
+                                      </div>
                                     </label>
                                     <input
                                       className="file-upload-input"

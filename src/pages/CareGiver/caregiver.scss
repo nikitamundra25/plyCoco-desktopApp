@@ -2,7 +2,7 @@
 .common-col {
   height: 100%;
   .quality-attribute-section {
-    height: calc(100% - 277px);
+    height: calc(100% - 269px);
     .common-list-card {
       height: 100%;
       margin-bottom: 12px;
@@ -10,7 +10,7 @@
         height: calc(100% - 35px);
         margin-bottom: 0px;
         .common-list-body {
-          height: 100%;
+          height: calc(100% - 22px);
         }
       }
     }
@@ -22,7 +22,7 @@
     .common-list-wrap {
       height: 100%;
       .common-list-body {
-        height: 100%;
+        height: calc(100% - 22px);
       }
     }
   }
@@ -92,28 +92,27 @@
       padding: 4px;
     }
   }
-  .todo-select{
-    .form-control{
-    border:transparent;
-}
+  .todo-select {
+    .form-control {
+      border: transparent;
+    }
   }
- .date-col {
-    width:75px;
-}
-.remarks-col {
+  .date-col {
+    width: 75px;
+  }
+  .remarks-col {
     width: 563px;
-}
+  }
   .done-col {
     width: 60px;
-}
-.extreme-col {
+  }
+  .extreme-col {
     width: 60px;
-}
-.prio-col {
+  }
+  .prio-col {
     width: 92px;
-}
-.todo-select.form-group {
+  }
+  .todo-select.form-group {
     margin-bottom: 0;
+  }
 }
-}
-

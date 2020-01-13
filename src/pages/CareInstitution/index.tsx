@@ -125,7 +125,7 @@ class CareInstitution extends Component<RouteComponentProps, any> {
           </td>
           <td>
             <div className="action-btn">
-              <span
+              {/* <span
                 className="btn-icon mr-2"
                 id={`edit${index}`}
                 onClick={() =>
@@ -138,7 +138,7 @@ class CareInstitution extends Component<RouteComponentProps, any> {
                   Click here to edit care institution
                 </UncontrolledTooltip>
                 <i className="fa fa-pencil"></i>
-              </span>
+              </span> */}
               <span
                 className="btn-icon mr-2"
                 id={`view${index}`}

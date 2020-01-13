@@ -341,21 +341,12 @@
   "FACTORING": "Factoring",
   "SENT_BF": "Sent BF",
   "TODO": "Todo",
-  "DONE":"Done",
-  "EXTREME":"Extreme",
-  "PRIO":"Prio",
-  "REMINDERS":"Reminders",
-  "CONTACT":"Contact",
-  "EXTERNAL":"External",
-
-
-
-
-
-
-
-
-
+  "DONE": "Done",
+  "EXTREME": "Extreme",
+  "PRIO": "Prio",
+  "REMINDERS": "Reminders",
+  "CONTACT": "Contact",
+  "EXTERNAL": "External",
 
   "CG_MENU_NEW_CAREGIVER": "New Caregiver",
   "CG_MENU_CREATE_TODO": "Create Todo/Reminder",
@@ -389,5 +380,5 @@
   "UNSUPPORTED_FORMAT": "Unsupported File Format",
   "FILE_SIZE_TO_LARGE": "File size too large",
   "COUNTRY_PLACEHOLDER": "Select Country",
-  "CHOOSE_IMAGE": "Choose Image"
+  "CHOOSE_IMAGE": " Click here to select your profile image"
 }

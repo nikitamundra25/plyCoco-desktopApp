@@ -88,14 +88,13 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                   <span className="header-nav-icon">
                     <img src={reminder} alt="" />
                   </span>
-                  <span className="header-nav-text">
-                    <Button
-                      onClick={() => {
-                        setState({ show: true });
-                      }}
-                    >
-                      {languageTranslation("CG_MENU_CREATE_TODO")}
-                    </Button>
+                  <span
+                    className="header-nav-text"
+                    onClick={() => {
+                      setState({ show: true });
+                    }}
+                  >
+                    {languageTranslation("CG_MENU_CREATE_TODO")}
                   </span>
                 </div>
                 <div className="header-nav-item">
@@ -196,14 +195,13 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
                   <span className="header-nav-icon">
                     <img src={reminder} alt="" />
                   </span>
-                  <span className="header-nav-text">
-                    <Button
-                      onClick={() => {
-                        setState({ show: true });
-                      }}
-                    >
-                      Create Todo/Reminder
-                    </Button>
+                  <span
+                    className="header-nav-text"
+                    onClick={() => {
+                      setState({ show: true });
+                    }}
+                  >
+                    Create Todo/Reminder
                   </span>
                 </div>
                 <div className="header-nav-item">

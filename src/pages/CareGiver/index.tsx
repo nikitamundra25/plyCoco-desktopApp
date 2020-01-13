@@ -104,33 +104,6 @@ class CareGiver extends Component<RouteComponentProps, any> {
             </div>
           </td>
 
-          {/* <td>
-            <div className="description-column">
-              <p className="description-text">
-                <span className="text-bold mr-2">Fee Per Hour</span>
-                <span className="align-middle">100 EUR</span>
-              </p>
-              <p className="description-text">
-                <span className="text-bold mr-2">
-                  Night allowance per hour:
-                </span>
-                <span className="align-middle">120 EUR</span>
-              </p>
-              <p className="description-text">
-                <span className="text-bold mr-2">
-                  Weekend allowance per hour:
-                </span>
-                <span className="align-middle">150 EUR</span>
-              </p>
-              <p className="description-text">
-                <span className="text-bold mr-2">
-                  Holiday allowance per hour:
-                </span>
-                <span className="align-middle">200 EUR</span>
-              </p>
-            </div>
-          </td> */}
-
           <td>
             <div>
               <p className="description-text">

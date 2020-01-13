@@ -33,6 +33,7 @@ export interface CareGiverState {
     remarks: string,
     executiveDirector: string,
     socialSecurityContribution: boolean,
+    employed?:boolean,
     workZones: string//[]
 }
 
@@ -89,4 +90,54 @@ export interface IBillingSettingsValues {
     bic: string,
     additionalText: string
 
+}
+
+
+export interface IPersonalObject {
+    userId:string,
+    state:string,
+    registartionSince:string,
+    gender:string,
+    title:string,
+    salutation:string,
+    firstName:string,
+    lastName:string,
+    dob:string,
+    age:string,
+    street:string,
+    city:string,
+    postCode:string,
+    country:string,
+    phone:string,
+    fax:string,
+    mobilePhone:string,
+    email:string,
+    taxNumber:string,
+    bankName:string,
+    iban:string,
+    username:string,
+    password?: string,
+    belongTo?:string,
+    legalForm:string,
+    companyName: string,
+    registerCourt:string,
+    registrationNumber:string,
+    executiveDirector:string,
+    employed:boolean,
+    additionalText:string
+}
+
+interface IBillingSettingsObject{
+    fee:string,
+    night:string,
+    weekendAllowancePerHour:string,
+    holidayAllowancePerHourFee:string,
+    nightAllowancePerHour:string,
+    leasingPrice:string,
+    invoiceInterval:string
+}
+
+export interface IPersonalInfoValues{
+    personalInformation: IPersonalObject,
+    billingSettings?: IBillingSettingsObject
 }

@@ -20,12 +20,14 @@ import {
   UncontrolledTooltip
 } from "reactstrap";
 import { AppRoutes } from "../../config";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, useParams } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import Search from "../../common/SearchFilter";
 import { languageTranslation } from "../../helpers";
 import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
+import { EmployeeQueries } from "../../queries";
+import { useQuery } from "@apollo/react-hooks";
 const userData = [
   {
     name: "Sir John Doe",
@@ -63,6 +65,9 @@ const userData = [
     assignedCanstitution: "3"
   }
 ];
+// const [GET_EMPLOYEES] = EmployeeQueries;
+// // To get emplyee details from db
+// const { data, loading, error, refetch } = useQuery<any>(GET_EMPLOYEES);
 class Employee extends Component<RouteComponentProps, any> {
   render() {
     const tableData: any[] = [];

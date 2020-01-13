@@ -12,6 +12,7 @@ import EmployeeFormComponent from "./EmployeeFormComponent";
 import { EmployeeQueries } from "../../../queries";
 import { logger } from "../../../helpers";
 import { toast } from "react-toastify";
+import { AppRoutes } from "../../../config";
 
 const [ADD_EMPLOYEE, GET_EMPLOYEE_BY_ID, UPDATE_EMPLOYEE] = EmployeeQueries;
 
@@ -90,7 +91,8 @@ export const EmployeeForm = () => {
           employeeInput
         }
       });
-      toast.success(data);
+      toast.success("Employee added sucessfully");
+      // this.props.history.push(AppRoutes.EMPLOYEE);
     } catch (error) {
       const message = error.message
         .replace("SequelizeValidationError: ", "")

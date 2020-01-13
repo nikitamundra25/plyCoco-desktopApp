@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Nav, NavItem, NavLink } from "reactstrap";
+import { Nav, NavItem, NavLink, Button } from "reactstrap";
 import { careGiverRoutes } from "../SidebarRoutes/ConstitutionRoutes";
+import { languageTranslation } from "../../../../helpers";
 class CareGiverSidebar extends Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -24,6 +25,9 @@ class CareGiverSidebar extends Component<any, any> {
     const {
       location: { pathname }
     } = this.props;
+    // var str = "/care-institution/email/inbox";
+    // var n = str.includes("/email");
+    // console.log(n, "n");
     return (
       <div className="common-sidnav">
         <Nav className="common-ul" tabs>
@@ -40,6 +44,9 @@ class CareGiverSidebar extends Component<any, any> {
             ) : null;
           })}
         </Nav>
+        <Button color={"primary"} className={"btn-add"}>
+          {languageTranslation("SAVE_BUTTON")}
+        </Button>
       </div>
     );
   }

@@ -32,7 +32,7 @@ class Search extends Component {
           <Col lg={"2"}>
             <FormGroup>
               <Label className="col-form-label">
-                {languageTranslation("EMPLOYEE_REGION_LABEL")} :
+                {languageTranslation("REGION")} :
               </Label>
               <div>
                 <Select

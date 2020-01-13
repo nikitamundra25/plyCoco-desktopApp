@@ -6,9 +6,7 @@ const Dashboard = React.lazy(() => import("../pages/Dashboard"));
 const Login = React.lazy(() => import("../pages/Login"));
 const MyProfile = React.lazy(() => import("../pages/MyProfile"));
 const Employee = React.lazy(() => import("../pages/Employee"));
-const EmployeeFormComponent = React.lazy(() =>
-  import("../pages/Employee/AddEmployee")
-);
+const AddEmployee = React.lazy(() => import("../pages/Employee/AddEmployee"));
 const ViewEmployee = React.lazy(() => import("../pages/Employee/ViewEmployee"));
 const EditEmployee = React.lazy(() => import("../pages/Employee/EditEmployee"));
 const Department = React.lazy(() => import("../pages/Department"));
@@ -73,7 +71,7 @@ const DocumentUpload = React.lazy(() =>
   import("../pages/CareGiver/Documents/DocumentsUpload")
 );
 const AddCareInstitution = React.lazy(() =>
-  import("../pages/CareInstitution/AddCareInstitution/AddCareInstitution")
+  import("../pages/CareInstitution/AddCareInstitution")
 );
 const Constitution = React.lazy(() => import("../pages/CareInstitution"));
 const ConstitutionPersonalInfo = React.lazy(() =>
@@ -98,8 +96,15 @@ const ConstitutionDocuments = React.lazy(() =>
 const ConstitutionDepartment = React.lazy(() =>
   import("../pages/CareInstitution/Departments")
 );
-const ConstitutionEmail = React.lazy(() =>
-  import("../pages/CareInstitution/Emails")
+
+const ConstitutionInboxEmail = React.lazy(() =>
+  import("../pages/CareInstitution/Emails/InboxEmail")
+);
+const ConstitutionSentEmail = React.lazy(() =>
+  import("../pages/CareInstitution/Emails/SentEmail")
+);
+const ConstitutionNewEmail = React.lazy(() =>
+  import("../pages/CareInstitution/Emails/NewEmail")
 );
 const ConstitutionReminder = React.lazy(() =>
   import("../pages/CareInstitution/Reminders")
@@ -113,7 +118,7 @@ const routes = [
   },
   {
     path: AppRoutes.ADD_CARE_INSTITUTION,
-    name: "Add Constitution",
+    name: "Add Care Institution",
     component: AddCareInstitution,
     exact: true
   },
@@ -126,7 +131,7 @@ const routes = [
   {
     path: AppRoutes.ADD_EMPLOYEE,
     name: "Add Employee",
-    component: EmployeeFormComponent,
+    component: AddEmployee,
     exact: true
   },
   {
@@ -141,7 +146,7 @@ const routes = [
     component: BillingSetting,
     layout: CareGiverLayout,
     layoutName: "CareGiver",
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.CARE_GIVER,
@@ -167,14 +172,14 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION,
-    name: "Constitution",
+    name: "Care Institution",
     component: Constitution,
     exact: true
   },
   { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
     path: AppRoutes.CARE_INSTITUTION_COMISSION_AGREEMENT,
-    name: "Constitution Comission Agreement",
+    name: "Care Institution Comission Agreement",
     component: ConstitutionCommissionAgreement,
     exact: true,
     layout: ConstitutionLayout,
@@ -182,7 +187,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_PERSONAL_DATA,
-    name: "Constitution Personal Data",
+    name: "Care Institution Personal Data",
     component: ConstitutionPersonalInfo,
     exact: true,
     layout: ConstitutionLayout,
@@ -190,7 +195,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_OFFER,
-    name: "Constitution Offer",
+    name: "Care Institution Offer",
     component: ConstitutionOffer,
     exact: true,
     layout: ConstitutionLayout,
@@ -198,7 +203,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_LOGIN,
-    name: "Constitution Login",
+    name: "Care Institution Login",
     component: ConstitutionLogin,
     exact: true,
     layout: ConstitutionLayout,
@@ -206,7 +211,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_INVOICE_CYCLE,
-    name: "Constitution Invoices",
+    name: "Care Institution Invoices",
     component: ConstitutionInvoices,
     exact: true,
     layout: ConstitutionLayout,
@@ -214,7 +219,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_DOCUMENT,
-    name: "Constitution Documents",
+    name: "Care Institution Documents",
     component: ConstitutionDocuments,
     exact: true,
     layout: ConstitutionLayout,
@@ -222,23 +227,39 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_DEPARTMENT,
-    name: "Constitution Department",
+    name: "Care Institution Department",
     component: ConstitutionDepartment,
     exact: true,
     layout: ConstitutionLayout,
     layoutName: "Constitution"
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_EMAIL,
-    name: "Constitution Emails",
-    component: ConstitutionEmail,
+    path: AppRoutes.CARE_INSTITUTION_INBOX_EMAIL,
+    name: "Care Institution Inbox Emails",
+    component: ConstitutionInboxEmail,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_SENT_EMAIL,
+    name: "Care Institution Sent Emails",
+    component: ConstitutionSentEmail,
+    exact: true,
+    layout: ConstitutionLayout,
+    layoutName: "Constitution"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_NEW_EMAIL,
+    name: "Care Institution New Emails",
+    component: ConstitutionNewEmail,
     exact: true,
     layout: ConstitutionLayout,
     layoutName: "Constitution"
   },
   {
     path: AppRoutes.CARE_INSTITUTION_REMINDER,
-    name: "Constitution Reminders",
+    name: "Care Institution Reminders",
     component: ConstitutionReminder,
     exact: true,
     layout: ConstitutionLayout,
@@ -273,7 +294,7 @@ const routes = [
   {
     path: AppRoutes.EDIT_EMPLOYEE,
     name: "Edit Employee",
-    component: EditEmployee,
+    component: AddEmployee, //EditEmployee,
     exact: true
   },
   {

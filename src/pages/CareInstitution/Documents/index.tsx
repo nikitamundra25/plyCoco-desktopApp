@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { Card, Table } from "reactstrap";
+import { Card, Table, Row, Col, FormGroup } from "reactstrap";
 import { RouteComponentProps } from "react-router";
 import { languageTranslation } from "../../../helpers";
+import Select from "react-select";
+import { State, Region } from "../../../config";
 
 class Documents extends Component<RouteComponentProps, any> {
   constructor(props: any) {
@@ -136,6 +138,37 @@ class Documents extends Component<RouteComponentProps, any> {
             </tr>
           </tbody>
         </Table>
+        <div>
+          <Row className="common-offer-row">
+            <Col md={4}>
+              <div className="common-list-wrap">
+                <div className="common-list-header d-flex align-items-cente justify-content-between">
+                  <div className="common-list-title align-middle">
+                    {languageTranslation("TYPE")}{" "}
+                  </div>
+                  <div className=" align-middle toggle-icon">
+                    <i className="fa fa-angle-down"></i>
+                  </div>
+                </div>
+                <div className="common-list-body">
+                  <ul className="common-list list-unstyled">
+                    <li>File Type 1 </li>
+                    <li>File Type 2</li>
+                    <li>File Type 3</li>
+                  </ul>
+                </div>
+                <div className="common-list-footer form-section ">
+                  <FormGroup className="mb-0">
+                    <Select
+                      placeholder={languageTranslation("TYPE")}
+                      options={State}
+                    />
+                  </FormGroup>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }

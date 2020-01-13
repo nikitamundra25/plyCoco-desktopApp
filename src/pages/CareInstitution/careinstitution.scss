@@ -1,4 +1,32 @@
-@import "../../../scss/variables";
+@import "../../scss/variables";
+.common-col {
+  height: 100%;
+  .quality-attribute-section {
+    height: calc(100% - 388px);
+    .common-list-card {
+      height: 100%;
+      margin-bottom: 12px;
+      .common-list-wrap {
+        height: calc(100% - 35px);
+        margin-bottom: 0px;
+        .common-list-body {
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+.common-offer-section {
+  .common-offer-row {
+    min-height: calc(100vh - 220px);
+    .common-list-wrap {
+      height: 100%;
+      .common-list-body {
+        height: 100%;
+      }
+    }
+  }
+}
 .invoice-table {
   th {
     border: 1px solid $table_border;

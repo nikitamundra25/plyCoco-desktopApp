@@ -1,4 +1,6 @@
 import React, { Component, useState, ChangeEvent } from "react";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { AppBreadcrumb } from "@coreui/react";
 import {
   Button,
   FormGroup,
@@ -11,20 +13,28 @@ import {
   Row
 } from "reactstrap";
 import Select from "react-select";
-import { State, Region, City } from "../../../config";
-import { AppBreadcrumb } from "@coreui/react";
+// import InputMask from 'react-input-mask';
+import MaskedInput from "react-text-mask";
+import { FormikProps, Form } from "formik";
+import { Region } from "../../../config";
 import routes from "../../../routes/routes";
-import InputMask from "react-input-mask";
-import { IEmployeeFormValues } from "../../../interfaces";
-import { FormikProps, Field, Form } from "formik";
-import { languageTranslation } from "../../../helpers";
-import { logger } from "../../../helpers";
+import {
+  IEmployeeFormValues,
+  ICountries,
+  IReactSelectInterface,
+  ICountry,
+  IStates,
+  IState
+} from "../../../interfaces";
+import { logger, languageTranslation } from "../../../helpers";
 import InputFieldTooltip from "../../../common/Tooltip/InputFieldTooltip";
+import { CountryQueries } from "../../../queries";
+
+const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const EmployeeFormComponent: any = (
   props: FormikProps<IEmployeeFormValues>
 ) => {
-  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   const {
     values: {
       email,
@@ -40,9 +50,10 @@ const EmployeeFormComponent: any = (
       address1,
       address2,
       country,
+      state,
+      city,
       zip,
       joiningDate,
-      bankAccountNumber,
       image
     },
     touched,
@@ -54,10 +65,31 @@ const EmployeeFormComponent: any = (
     setFieldValue,
     setFieldTouched
   } = props;
+  const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY
+  );
+  logger(data);
+  logger("data");
+  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  const statesOpt: IReactSelectInterface[] | undefined = [];
+  if (data && data.countries) {
+    data.countries.forEach(({ id, name }: ICountry) =>
+      countriesOpt.push({ label: name, value: id })
+    );
+  }
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({ label: name, value: id })
+    );
+  }
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   logger("errors**********");
   logger(errors);
+  logger(props.values);
   logger("touched*******");
   logger(touched);
+  // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setFieldTouched("image", true);
@@ -78,6 +110,18 @@ const EmployeeFormComponent: any = (
     }
   };
 
+  // Custom function to handle react select fields
+  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
+    logger(selectOption, "value");
+    setFieldValue(name, selectOption);
+    if (name === "country") {
+      getStatesByCountry({
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
+      });
+      logger(statesData, "sdsdsdsd");
+    }
+  };
+  logger(country);
   return (
     <div>
       <Card>
@@ -107,9 +151,7 @@ const EmployeeFormComponent: any = (
                             <Row>
                               <Col sm="4">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation(
-                                    "EMPLOYEE_FIRST_NAME_LABEL"
-                                  )}
+                                  {languageTranslation("FIRST_NAME")}
                                   <span className="required">*</span>
                                 </Label>
                               </Col>
@@ -121,8 +163,8 @@ const EmployeeFormComponent: any = (
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_FIRST_NAME_PLACEHOLDER"
                                     )}
-                                    onChange={handleChange}
                                     maxLength="20"
+                                    onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={firstName}
                                     className={
@@ -200,7 +242,15 @@ const EmployeeFormComponent: any = (
                                       "EMPLOYEE_EMAIL_ADDRESS_PLACEHOLDER"
                                     )}
                                     onChange={handleChange}
-                                    onBlur={handleBlur}
+                                    onBlur={(e: any) => {
+                                      //get string before a @ to set username
+                                      const username = email
+                                        ? email.substring(0, email.indexOf("@"))
+                                        : "";
+
+                                      setFieldValue("userName", username);
+                                      handleBlur(e);
+                                    }}
                                     value={email}
                                     className={
                                       errors.email && touched.email
@@ -269,12 +319,12 @@ const EmployeeFormComponent: any = (
                               </Col>
                               <Col sm="8">
                                 <div>
-                                  <InputMask
+                                  <Input
                                     name={"telephoneNumber"}
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_TELEPHONE_NUMBER_PLACEHOLDER"
                                     )}
-                                    mask="999-999-9999"
+                                    // mask="999-999-9999"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={telephoneNumber}
@@ -393,14 +443,35 @@ const EmployeeFormComponent: any = (
                             </Col>
                             <Col sm="8">
                               <div>
-                                <InputMask
+                                <MaskedInput
                                   name={"IBAN"}
                                   value={IBAN}
                                   placeholder={languageTranslation(
                                     "BANK_IBAN_PLACEHOLDER"
                                   )}
                                   // "91 1000 0000 0123 4567 89"
-                                  mask={"DE 99 9999 999 999"}
+                                  mask={[
+                                    /[A-Za-z]/,
+                                    /[A-Za-z]/,
+                                    /\d/,
+                                    /\d/,
+                                    " ",
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    " ",
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    " ",
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    /\d/
+                                  ]}
+                                  // mask={' 9999 9999 9999 9999 9999 99'}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   className={`form-control ${
@@ -558,9 +629,7 @@ const EmployeeFormComponent: any = (
                             <Row>
                               <Col sm="4">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation("EMPLOYEE_REGION_LABEL")}
-
-                                  <span className="required">*</span>
+                                  {languageTranslation("REGION")}
                                 </Label>
                               </Col>
                               <Col sm="8">
@@ -582,19 +651,20 @@ const EmployeeFormComponent: any = (
                             <Row>
                               <Col sm="4">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation("COUNTRY_LABEL")}
+                                  {languageTranslation("COUNTRY")}
                                 </Label>
                               </Col>
                               <Col sm="8">
                                 <div>
-                                  <Input
-                                    type="text"
-                                    name={"country"}
+                                  <Select
                                     placeholder={languageTranslation(
                                       "COUNTRY_PLACEHOLDER"
                                     )}
-                                    onChange={handleChange}
-                                    className="width-common"
+                                    options={countriesOpt}
+                                    value={country ? country : undefined}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, "country")
+                                    }
                                   />
                                 </div>
                               </Col>
@@ -615,7 +685,14 @@ const EmployeeFormComponent: any = (
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_STATE_PLACEHOLDER"
                                     )}
-                                    options={State}
+                                    options={statesOpt}
+                                    value={state ? state : undefined}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, "state")
+                                    }
+                                    noOptionsMessage={() => {
+                                      return "Select a country first";
+                                    }}
                                   />
                                 </div>
                               </Col>
@@ -632,11 +709,20 @@ const EmployeeFormComponent: any = (
                               </Col>
                               <Col sm="8">
                                 <div>
-                                  <Select
+                                  <Input
+                                    name={"city"}
+                                    onChange={handleChange}
+                                    // className="form-control"
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_CITY_PLACEHOLDER"
                                     )}
-                                    options={City}
+                                    value={city}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.city && touched.city
+                                        ? "text-input error"
+                                        : "text-input"
+                                    }
                                   />
                                 </div>
                               </Col>
@@ -656,12 +742,23 @@ const EmployeeFormComponent: any = (
                                   <Input
                                     name={"zip"}
                                     onChange={handleChange}
-                                    className="form-control"
+                                    // className="form-control"
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_ZIP_PLACEHOLDER"
                                     )}
                                     value={zip}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.zip && touched.zip
+                                        ? "text-input error"
+                                        : "text-input"
+                                    }
                                   />
+                                  {errors.zip && touched.zip && (
+                                    <div className="required-error">
+                                      {errors.zip}
+                                    </div>
+                                  )}
                                 </div>
                               </Col>
                             </Row>
@@ -681,12 +778,23 @@ const EmployeeFormComponent: any = (
                                 <div>
                                   <Row>
                                     <Col>
-                                      <InputMask
+                                      <MaskedInput
                                         name={"joiningDate"}
                                         placeholder={languageTranslation(
                                           "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
                                         )}
-                                        mask="99/99/9999"
+                                        mask={[
+                                          /[0-9]/,
+                                          /\d/,
+                                          "/",
+                                          /\d/,
+                                          /\d/,
+                                          "/",
+                                          /\d/,
+                                          /\d/,
+                                          /\d/,
+                                          /\d/
+                                        ]}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={joiningDate}
@@ -722,23 +830,14 @@ const EmployeeFormComponent: any = (
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
-                                  <Input
-                                    type="file"
-                                    name={"image"}
-                                    accept="image/*"
-                                    placeholder={languageTranslation(
-                                      "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
-                                    )}
-                                    onChange={handleImageChange}
-                                  />
+                                <div className="fileinput-preview d-flex align-items-center justify-content-center">
                                   {!errors.image ? (
                                     imagePreviewUrl &&
                                     typeof imagePreviewUrl === "string" ? (
                                       <img
                                         src={imagePreviewUrl}
-                                        width={30}
-                                        height={30}
+                                        width={100}
+                                        height={100}
                                       />
                                     ) : (
                                       ""
@@ -746,13 +845,38 @@ const EmployeeFormComponent: any = (
                                   ) : (
                                     ""
                                   )}
-
-                                  {errors.image && touched.image && (
-                                    <div className="required-error">
-                                      {errors.image}
-                                    </div>
-                                  )}
+                                  <div className="file-upload">
+                                    <label
+                                      htmlFor="gallery-photo-add"
+                                      className="file-upload-label"
+                                    >
+                                      <div className="icon-upload">
+                                        <i className="cui-cloud-upload"></i>
+                                      </div>
+                                      {/* <div className="icon-text">
+                                        Click here to select your profile image
+                                      </div> */}
+                                      {!image || errors.image
+                                        ? languageTranslation("CHOOSE_IMAGE")
+                                        : ""}
+                                    </label>
+                                    <input
+                                      className="file-upload-input"
+                                      type="file"
+                                      accept="image/*"
+                                      id="gallery-photo-add"
+                                      placeholder={languageTranslation(
+                                        "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
+                                      )}
+                                      onChange={handleImageChange}
+                                    />
+                                  </div>
                                 </div>
+                                {errors.image && touched.image && (
+                                  <div className="file-error-text">
+                                    {errors.image}
+                                  </div>
+                                )}
                               </Col>
                             </Row>
                           </FormGroup>
@@ -761,13 +885,12 @@ const EmployeeFormComponent: any = (
                     </div>
                   </Col>
                 </Row>
-                <Col lg={"12"}>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="mandatory-text">
-                      {languageTranslation("REQUIRED_FIELDS")}
-                    </div>
+
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="mandatory-text">
+                    {languageTranslation("REQUIRED_FIELDS")}
                   </div>
-                </Col>
+                </div>
               </Form>
             </Col>
           </Row>

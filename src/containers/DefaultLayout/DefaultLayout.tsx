@@ -1,8 +1,6 @@
 import React, { Component, Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import {
-  Container,
-} from "reactstrap";
+import { Container } from "reactstrap";
 import { AppRoutes } from "../../config";
 import routes from "../../routes/routes";
 import { CareGiver } from "../../config";
@@ -29,6 +27,7 @@ import delete_specilalist from "../../assets/img/delete-user.svg";
 import delete_appointment from "../../assets/img/delete-appointment.svg";
 import send_bills from "../../assets/img/send-bills.svg";
 import clear from "../../assets/img/clear.svg";
+import new_contact from "../../assets/img/new-contact.svg";
 import { languageTranslation } from "../../helpers";
 
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
@@ -37,7 +36,9 @@ const CareGiverSidebar = React.lazy(() =>
   import("../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
 );
 const CareInstitutionSidebar = React.lazy(() =>
-  import("../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout")
+  import(
+    "../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout"
+  )
 );
 
 // Care giver Sidebar
@@ -54,7 +55,7 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                   <Select
                     defaultValue={{
                       label: "John Doe",
-                      value: 0
+                      value: "0"
                     }}
                     placeholder="Select Caregiver"
                     options={CareGiver}
@@ -68,14 +69,14 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                     {languageTranslation("CG_MENU_NEW_CAREGIVER")}
                   </span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={save} alt="" />
+                {/* <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={save} alt='' />
                   </span>
-                  <span className="header-nav-text">
-                    {languageTranslation("SAVE_BUTTON")}
+                  <span className='header-nav-text'>
+                    {languageTranslation('SAVE_BUTTON')}
                   </span>
-                </div>
+                </div> */}
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={reminder} alt="" />
@@ -150,7 +151,7 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
                   <Select
                     defaultValue={{
                       label: "John Doe",
-                      value: 0
+                      value: "0"
                     }}
                     placeholder="Select Caregiver"
                     options={CareGiver}
@@ -165,10 +166,17 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
 
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
+                    <img src={new_contact} alt="" />
+                  </span>
+                  <span className="header-nav-text">New Contact</span>
+                </div>
+
+                {/* <div className="header-nav-item">
+                  <span className="header-nav-icon">
                     <img src={save} alt="" />
                   </span>
                   <span className="header-nav-text">Save</span>
-                </div>
+                </div> */}
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={reminder} alt="" />
@@ -216,6 +224,25 @@ class DefaultLayout extends Component<any, any> {
       userDetails: {}
     };
   }
+  componentDidMount = () => {
+    window.addEventListener("scroll", this.handleScroll);
+  };
+
+  handleScroll = () => {
+    const scrollPositionY = window.scrollY;
+    // console.log(scrollPositionY, "scrollPositionY");
+    const header: HTMLElement | null = document.getElementById("sidebar");
+    if (header) {
+      if (scrollPositionY >= 35) {
+        header.classList.add("sidebar-sticky");
+      } else {
+        header.classList.remove("sidebar-sticky");
+      }
+    }
+  };
+  componentWillUnmount = () => {
+    window.removeEventListener("scroll", this.handleScroll);
+  };
 
   render() {
     return (
@@ -226,7 +253,7 @@ class DefaultLayout extends Component<any, any> {
           </Suspense>
         </AppHeader>
         <div className="app-body">
-          <AppSidebar fixed minimized display="lg">
+          <AppSidebar fixed minimized display="lg" id="sidebar">
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense fallback={<Loader />}>
@@ -239,7 +266,7 @@ class DefaultLayout extends Component<any, any> {
             <Container fluid>
               <Suspense fallback={<Loader />}>
                 <Switch>
-                  {routes.map((route, idx) => {
+                  {routes.map((route: any, idx) => {
                     return route.layout ? (
                       route.layoutName === "CareGiver" ? (
                         <CareGiverLayout
@@ -249,13 +276,13 @@ class DefaultLayout extends Component<any, any> {
                           component={route.component}
                         />
                       ) : (
-                          <CareInstitutionLayout
-                            key={idx}
-                            path={route.path}
-                            exact={route.exact}
-                            component={route.component}
-                          />
-                        )
+                        <CareInstitutionLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        />
+                      )
                     ) : route.component ? (
                       <Route
                         key={idx}

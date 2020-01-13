@@ -26,7 +26,7 @@ export const careGiverRoutes = [
     name: "Departments"
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_EMAIL,
+    path: AppRoutes.CARE_INSTITUTION_INBOX_EMAIL,
     name: "Emails"
   },
   {

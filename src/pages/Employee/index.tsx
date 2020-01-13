@@ -174,7 +174,7 @@ class Employee extends Component<RouteComponentProps, any> {
             onClick={() => this.props.history.push(AppRoutes.ADD_EMPLOYEE)}
           >
             <i className={"fa fa-plus"} />
-            &nbsp; Add New Empolyee
+            &nbsp; Add New Employee
           </Button>
         </CardHeader>
         <CardBody>
@@ -205,11 +205,11 @@ class Employee extends Component<RouteComponentProps, any> {
                   </div>
                 </th>
                 <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
-                <th>{languageTranslation("TABLE_HEAD_REGION")}</th>
+                <th>{languageTranslation("REGION")}</th>
                 <th>
                   {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
                 </th>
-                <th>{languageTranslation("TABLE_HEAD_STATUS")}</th>
+                <th>{languageTranslation("STATUS")}</th>
                 <th>{languageTranslation("TABLE_HEAD_ACTION")}</th>
               </tr>
             </thead>

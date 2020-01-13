@@ -1,91 +1,91 @@
 // Styles
 // CoreUI Icons Set
-@import '~@coreui/icons/css/coreui-icons.css';
+@import "~@coreui/icons/css/coreui-icons.css";
 // Import Flag Icons Set
-@import '~flag-icon-css/css/flag-icon.min.css';
+@import "~flag-icon-css/css/flag-icon.min.css";
 // Import Font Awesome Icons Set
-@import '~font-awesome/css/font-awesome.min.css';
+@import "~font-awesome/css/font-awesome.min.css";
 // Import Simple Line Icons Set
-@import '~simple-line-icons/css/simple-line-icons.css';
+@import "~simple-line-icons/css/simple-line-icons.css";
 // Import Main styles for this application
-@import './scss/style.scss';
+@import "./scss/style.scss";
 
-@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap");
 
 @font-face {
   font-family: TechniqueBRKNormal;
-  src: url('./assets/fonts/techniqu-webfont.eot');
-  src: url('./assets/fonts/techniqu-webfont.eot?#iefix')
-      format('embedded-opentype'),
-    url('./assets/fonts/techniqu-webfont.woff') format('woff'),
-    url('./assets/fonts/techniqu-webfont.ttf') format('truetype'),
-    url('./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal') format('svg');
+  src: url("./assets/fonts/techniqu-webfont.eot");
+  src: url("./assets/fonts/techniqu-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    url("./assets/fonts/techniqu-webfont.woff") format("woff"),
+    url("./assets/fonts/techniqu-webfont.ttf") format("truetype"),
+    url("./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal") format("svg");
 
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Regular';
-  src: url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf')
-    format('truetype');
-  src: url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2')
-      format('woff2'),
-    url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff')
-      format('woff');
+  font-family: "FrutigerNeueLTPro-Regular";
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
+    format("truetype");
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
+      format("woff2"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
+      format("woff");
   //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Medium';
-  src: url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot');
-  src: url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2')
-      format('woff2'),
-    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff')
-      format('woff'),
-    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Medium";
+  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
+      format("truetype");
   // url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Bold';
-  src: url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot');
-  src: url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2')
-      format('woff2'),
-    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff')
-      format('woff'),
-    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Bold";
+  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
+      format("truetype");
   // url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Light';
-  src: url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot');
-  src: url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2')
-      format('woff2'),
-    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff')
-      format('woff'),
-    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Light";
+  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
+      format("truetype");
   //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -94,7 +94,7 @@ body {
   background: $white;
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
   }
   a {
@@ -117,8 +117,8 @@ body {
     font-weight: 700;
     .logo-text {
       color: $theme_color;
-      font-family: 'TechniqueBRKNormal', 'Gotham Narrow SSm A',
-        'Gotham Narrow SSm B', Arial, Helvetica, sans-serif;
+      font-family: "TechniqueBRKNormal", "Gotham Narrow SSm A",
+        "Gotham Narrow SSm B", Arial, Helvetica, sans-serif;
       letter-spacing: 1px;
       margin: 0;
       font-size: 20px;
@@ -227,7 +227,7 @@ body {
     margin-bottom: 0;
   }
 
-  .checkbox-custom input[type='checkbox'] {
+  .checkbox-custom input[type="checkbox"] {
     opacity: 0;
     position: absolute;
     top: 50%;
@@ -237,12 +237,12 @@ body {
     cursor: pointer;
   }
 
-  .checkbox-custom input[type='checkbox']:checked + label:after {
+  .checkbox-custom input[type="checkbox"]:checked + label:after {
     position: absolute;
     display: inline-block;
-    font-family: 'FontAwesome';
+    font-family: "FontAwesome";
     font-weight: 400;
-    content: '\F00C';
+    content: "\F00C";
     top: 50%;
     left: 4px;
     margin-top: -5px;
@@ -253,19 +253,19 @@ body {
     color: #333;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled {
+  .checkbox-custom input[type="checkbox"]:disabled {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled:checked + label:after {
+  .checkbox-custom input[type="checkbox"]:disabled:checked + label:after {
     color: #999;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled + label {
+  .checkbox-custom input[type="checkbox"]:disabled + label {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled + label:before {
+  .checkbox-custom input[type="checkbox"]:disabled + label:before {
     background-color: #eee;
   }
 
@@ -279,7 +279,7 @@ body {
   }
 
   .checkbox-custom label:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 0;
@@ -374,6 +374,11 @@ body {
         margin-bottom: 24px;
         .form-control {
           height: 35px;
+        }
+        .required-error {
+          left: 0px;
+          bottom: -16px;
+          top: unset;
         }
       }
       .input-group-prepend {
@@ -497,18 +502,22 @@ body {
 }
 .sidebar {
   background: $theme_color;
-
+  // height: 100vh !important;
+  &.sidebar-sticky {
+    top: 0px;
+    height: 100vh !important;
+  }
   .nav-item {
     .nav-link {
       padding: 8px 10px;
-      font-size: $font_14;
+      font-size: $font_13;
       .nav-icon {
         color: $white;
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
         height: 18px;
-        margin: 0px 16px 0px 16px;
+        margin: 0px 10px 0px 0px;
         &.icon-dash {
           width: 18px;
           background-image: url(assets/img/sidebar/home.svg);
@@ -667,7 +676,11 @@ body {
     .nav-item {
       .nav-link {
         padding-left: 0 !important;
+        .nav-icon {
+          margin: 0px 16px 0px 16px;
+        }
       }
+
       &:hover {
         width: 290px;
         .nav-link {
@@ -738,10 +751,12 @@ body {
   padding: 8px 12px;
   margin-bottom: 12px;
   position: relative;
-  min-height: calc(100% - 45px);
+  height: calc(100% - 47px);
   border: 1px solid $table_border;
+  // height: 100%;
   &.minheight-auto {
     min-height: auto;
+    height: auto;
   }
 }
 .rdw-editor-toolbar {
@@ -751,9 +766,9 @@ body {
   border: 1px solid #f1f1f1;
   border-top: 0px;
   background: $white;
-  min-height: 400px;
+  min-height: 200px;
   padding: 0px 10px;
-  max-height: 400px;
+  max-height: 200px;
 }
 .message-text {
   position: absolute;
@@ -806,7 +821,7 @@ body {
     margin-bottom: 10px;
     font-family: $font_Frutiger_Medium;
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       height: 2px;
       width: 55px;
@@ -819,7 +834,7 @@ body {
     max-width: 175px;
   }
   .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
     .col-form-label {
       font-size: $font_12;
       font-weight: 400;
@@ -835,7 +850,7 @@ body {
     .required-error {
       position: absolute;
       left: 15px;
-      top: 28px;
+      top: 25px;
       font-size: $font_10;
       color: $red;
     }
@@ -866,7 +881,7 @@ body {
         resize: none;
       }
       &.textarea-care-institution {
-        height: 165px;
+        height: 181px;
         overflow-y: auto;
         resize: none;
       }
@@ -949,6 +964,68 @@ body {
     font-weight: 600;
     font-size: $font_13;
     min-width: 140px;
+  }
+
+  .fileinput-preview {
+    border: 2px dotted $light_gray;
+    padding: 0px 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 130px;
+    position: relative;
+    text-align: center;
+    .img-preview {
+      max-width: 100%;
+      position: absolute;
+      display: flex;
+      max-height: 100%;
+      z-index: 9;
+    }
+    .file-upload {
+      position: absolute;
+      display: block;
+      height: 100%;
+      width: 100%;
+      left: 0px;
+      .file-upload-label {
+        color: $btn_hover_gray;
+        position: absolute;
+        display: flex;
+        flex-flow:column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        left: 0px;
+
+        &:hover {
+          cursor: pointer;
+          color: $gray_color;
+        }
+        .icon-upload{
+          font-size:35px;
+        }
+      }
+      .file-upload-input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 0;
+        height: 100%;
+        opacity: 0;
+      }
+    }
+  }
+  .file-error-text {
+    color: $red;
+    position: absolute;
+    bottom: 23px;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 500;
+    left: 15px;
   }
   .file-img {
     width: 100px;
@@ -1081,7 +1158,7 @@ body {
     background: $white;
     border-bottom: 1px solid $table_border;
     border-top: 1px solid $table_border;
-    height: 200px;
+    height: 153px;
     overflow-y: auto;
     .common-list {
       li {
@@ -1158,7 +1235,7 @@ body {
   td {
     .date-title {
       font-weight: 700;
-      font-size: $font_13;
+      font-size: $font_12;
       cursor: pointer;
       color: $black;
       padding: 4px;
@@ -1293,6 +1370,14 @@ body {
     background: $profile_bg_hover;
   }
 }
+.view-more-link {
+  color: #040300;
+  font-weight: 700;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
 .custom-dropdown {
   .dropdown-menu {
     min-width: auto;
@@ -1311,6 +1396,8 @@ body {
   }
 }
 .employee-details {
+  background: $white;
+  padding: 10px 10px;
   .employee-title {
     color: $black;
     font-size: $font_14;
@@ -1319,7 +1406,7 @@ body {
     font-weight: 600;
     margin-bottom: 10px;
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       height: 2px;
       width: 55px;
@@ -1368,10 +1455,10 @@ body {
   .nav-item {
     .nav-link {
       cursor: pointer;
-      border-radius: 4px;
+      border-radius: 0px;
       padding: 4px 15px;
       font-size: $font_13;
-      border: 1px solid $white;
+      border: 1px solid $transparent;
       font-weight: 600;
       border-bottom: $transparent;
       .icon {
@@ -1415,7 +1502,7 @@ body {
       background: $white;
       padding-top: 4px;
       .header-nav-item {
-        padding: 4px 6px;
+        padding: 4px 5px;
         font-size: $font_12;
         color: $black;
         cursor: pointer;
@@ -1492,7 +1579,7 @@ body {
     .common-sidnav {
       background: $white;
       padding: 12px 0px 0px 0px;
-
+      position: relative;
       .common-ul {
         padding: 0px;
         list-style: none;
@@ -1580,6 +1667,14 @@ body {
           }
         }
       }
+      .btn-add {
+        position: absolute;
+        top: 5px;
+        right: 8px;
+        padding: 4px 30px;
+        font-weight: 600;
+        font-size: $font_13;
+      }
     }
     // .caregiver-right {
     //   background: $white;
@@ -1598,7 +1693,7 @@ body {
         font-family: $font_Frutiger_Medium;
         margin-bottom: 15px;
         &:before {
-          content: '';
+          content: "";
           position: absolute;
           height: 2px;
           width: 55px;
@@ -1738,7 +1833,7 @@ body {
 }
 .email-section {
   .email-content {
-    padding: 20px 0px;
+    padding: 15px 0px;
     .mail-listing {
       list-style: none;
       padding: 0px;
@@ -1922,18 +2017,19 @@ body {
 .email-inbox-section {
   ul {
     list-style: none;
-    border-top: 1px solid #ddd;
-    border: 1px solid #ddd;
+    border-top: 1px solid $table_border;
+    border: 1px solid $table_border;
+    background: $white;
   }
   li {
     .email-date-block {
       cursor: pointer;
       font-size: 12px;
       font-weight: bold;
-      background: #f1f1f1;
+      background: $white;
       position: relative;
-      border-top: 1px solid #ddd;
-      padding: 2px 2px 2px 20px;
+      border-top: 1px solid $table_border;
+      padding: 4px 4px 4px 20px;
       &::before {
         cursor: pointer;
         display: inline-block;
@@ -1976,16 +2072,16 @@ body {
     display: flex;
     .email-date-time-block {
       flex: 0 0 135px;
-      padding: 2px;
-      border-right: 1px solid #ddd;
-      border-top: 1px solid #ddd;
+      padding: 4px;
+      border-right: 1px solid $table_border;
+      border-top: 1px solid $table_border;
     }
     .email-subject-block {
       flex: 0 0 135px;
       max-width: 135px;
-      padding: 2px;
-      border-right: 1px solid #ddd;
-      border-top: 1px solid #ddd;
+      padding: 4px;
+      border-right: 1px solid $table_border;
+      border-top: 1px solid $table_border;
       span {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -1995,11 +2091,11 @@ body {
     .email-text-wrap {
       flex: 1 1 50%;
       max-width: 100%;
-      padding: 2px;
+      padding: 4px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      border-top: 1px solid #ddd;
+      border-top: 1px solid $table_border;
       span {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -2023,7 +2119,7 @@ body {
         &.input-wrap {
           flex: 1 1 100%;
           input {
-            height: 36px;
+            height: 30px;
           }
         }
       }
@@ -2033,9 +2129,10 @@ body {
     }
   }
   .email-heading-wrap {
-    border-right: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-    background: #f1f1f1;
+    border-right: 1px solid $table_border;
+    border-left: 1px solid $table_border;
+    background: $th_bg;
+    font-weight: 700;
   }
 }
 .toggle-filter {
@@ -2113,6 +2210,7 @@ body {
 .new-email-select-wrap {
   width: 300px;
   margin-left: 15px;
+  font-weight: normal;
   .new-email-select {
     width: 100%;
   }
@@ -2153,7 +2251,7 @@ body {
 }
 .remark-details {
   border: 1px solid $table_border;
-  height: calc(100% - 12px);
+  height: 100%;
   background: $white;
   .remark-header {
     padding: 0px 8px;
@@ -2180,9 +2278,10 @@ body {
     height: calc(100% - 41px);
     overflow-x: hidden;
     overflow-y: auto;
-    &.height-care-institution {
-      max-height: 901px;
+    &.remark-body-max-height {
+      max-height: 1078px;
     }
+
     .remark-section {
       position: relative;
       textarea {
@@ -2317,9 +2416,9 @@ body {
     .custom-col {
       height: calc(100% - 30px);
     }
-    &.height-care-institution {
-      height: 289px;
-    }
+    // &.height-care-institution {
+    //   height: 289px;
+    // }
   }
   height: 100%;
   background: #f3f3f3;
@@ -2388,4 +2487,22 @@ body {
     padding: 0 7.5px;
     flex: 1 1 20%;
   }
+}
+
+//tooltip icon
+.tooltip-icon {
+  width: 18px;
+  height: 18px;
+  color: $light_black;
+  font-size: $font_11;
+  border-radius: 50%;
+  padding: 0px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: $btn_gray;
+  border-color: $btn_gray;
+  cursor: pointer;
+  margin-left: 5px;
 }

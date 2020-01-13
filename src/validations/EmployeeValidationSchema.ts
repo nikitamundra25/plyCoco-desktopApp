@@ -1,12 +1,16 @@
 import * as Yup from 'yup';
 import { IEmployeeFormValues, IDateResponse } from '../interfaces';
 import {
-  telephoneReqExp,
   nameRegExp,
   fileSize,
   SupportedFormats,
+  telephoneReqExp,
+  IBANlength,
+  telMin,
+  telMax,
 } from '../config';
 import { languageTranslation, logger, dateValidator } from '../helpers';
+
 export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
   IEmployeeFormValues
@@ -19,27 +23,27 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .trim()
     .matches(nameRegExp, languageTranslation('FIRSTNAME_SPECIALCHARACTER'))
     .max(20, languageTranslation('FIRSTNAME_MAXLENGTH'))
+    .min(3, languageTranslation('NAME_MINLENGTH'))
     .required(languageTranslation('FIRSTNAME_REQUIRED')),
   lastName: Yup.string()
     .trim()
     .matches(nameRegExp, languageTranslation('LASTNAME_SPECIALCHARACTER'))
     .max(20, languageTranslation('LASTNAME_MAXLENGTH'))
+    .min(3, languageTranslation('NAME_MINLENGTH'))
     .required(languageTranslation('LASTNAME_REQUIRED')),
-  telephoneNumber: Yup.string().matches(
-    telephoneReqExp,
-    languageTranslation('TELEPHONE_REQUIRED'),
-  ),
   userName: Yup.string()
     .trim()
     .required(languageTranslation('USERNAME_REQUIRED')),
-  accountHolderName: Yup.string().trim(),
-  bankName: Yup.string().trim(),
-  IBAN: Yup.string(),
+  accountHolderName: Yup.string()
+    .trim()
+    .min(3, languageTranslation('NAME_MINLENGTH')),
+  bankName: Yup.string()
+    .trim()
+    .min(3, languageTranslation('NAME_MINLENGTH')),
   BIC: Yup.string(),
   additionalText: Yup.string(),
   address1: Yup.string(),
   address2: Yup.string(),
-  country: Yup.string(),
   zip: Yup.string(),
   joiningDate: Yup.mixed().test({
     name: 'validate-date',
@@ -52,13 +56,33 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   bankAccountNumber: Yup.string(),
   image: Yup.mixed()
     .test(
-      'fileSize',
-      'File too large',
-      value => value && value.size <= fileSize,
+      'fileFormat',
+      languageTranslation('UNSUPPORTED_FORMAT'),
+      value => !value || (value && SupportedFormats.includes(value.type)),
     )
     .test(
-      'fileFormat',
-      'Unsupported Format',
-      value => value && SupportedFormats.includes(value.type),
+      'fileSize',
+      languageTranslation('FILE_SIZE_TO_LARGE'),
+      value => !value || (value && value.size <= fileSize),
     ),
+  IBAN: Yup.mixed().test(
+    'len',
+    languageTranslation('IBAN_INVALID'),
+    value =>
+      !value.replace(/\D+/g, '') ||
+      (value && value.replace(/\D+/g, '').length === IBANlength),
+  ),
+  telephoneNumber: Yup.mixed()
+    .test(
+      'check-num',
+      languageTranslation('TEL_NUMERROR'),
+      value => !value || (value && !isNaN(value)),
+    )
+    .test(
+      'num-length',
+      languageTranslation('TEL_MINLENGTH'),
+      value =>
+        !value || (value && value.length >= telMin && value.length <= telMax),
+    ),
+  city: Yup.string(),
 });

@@ -2,15 +2,14 @@ import React from "react";
 import { UncontrolledTooltip } from "reactstrap";
 import { ITooltipProps } from "../../interfaces";
 
-const InputFieldTooltip = (props: ITooltipProps) => {  
+const InputFieldTooltip = (props: ITooltipProps) => {
   return (
-    <span id={props.id}>
+    <span id={props.id} className="tooltip-icon">
       <UncontrolledTooltip
         placement={props.position ? props.position : "top"}
         target={props.id}
       >
         {props.message}
-
       </UncontrolledTooltip>
       <i className="fa fa-info"></i>
     </span>

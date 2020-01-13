@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { CareInstituionValidationSchema } from '../../../validations';
-import { ICareInstitutionFormValues, IEmployeeState } from '../../../interfaces';
+import { ICareInstitutionFormValues } from '../../../interfaces';
 import AddCareInstitution from './AddCareInstitution';
 import { CareInstitution } from "../../../queries";
 import { useMutation } from '@apollo/react-hooks';

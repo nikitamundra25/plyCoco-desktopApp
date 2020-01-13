@@ -1,38 +1,47 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { useMutation } from '@apollo/react-hooks';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { EmployeeValidationSchema } from '../../../validations/EmployeeValidationSchema';
-import { IEmployeeFormValues, IEmployeeState } from '../../../interfaces';
+import {
+  IEmployeeFormValues,
+  IEmployeeInput,
+  IAddEmployeeRes,
+} from '../../../interfaces';
 import EmployeeFormComponent from './EmployeeFormComponent';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { EmployeeQueries } from '../../../queries';
+import { logger } from '../../../helpers';
 
-const GET_USERS = gql`
-  query userList {
-    users {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
+const [ADD_EMPLOYEE] = EmployeeQueries;
 
 export const EmployeeForm = () => {
+  let { userName } = useParams();
+  logger(userName, 'userName');
+  const [addEmployee, { error, data }] = useMutation<
+    { addEmployee: IAddEmployeeRes },
+    { employee: IEmployeeInput }
+  >(ADD_EMPLOYEE);
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    console.log('calling did mount');
+  }, []); // Pass empty array to only run once on mount.
   const handleSubmit = (
     values: IEmployeeFormValues,
     { setSubmitting }: FormikHelpers<IEmployeeFormValues>,
   ) => {
     //to set submit state to false after successful signup
+    if (values.bankName) {
+      console.log('inside bank name');
+    }
+    console.log('values areeeeee', values);
     setSubmitting(false);
   };
-  // const { data, loading, error, refetch } = useQuery(GET_USERS);
-  // console.log(data, 'dataaaaa');
   const values: IEmployeeFormValues = {
     email: '',
     firstName: '',
     lastName: '',
     userName: '',
-    telephoneNumber: '',
+    telephoneNumber: undefined,
     accountHolderName: '',
     bankName: '',
     IBAN: '',
@@ -40,7 +49,7 @@ export const EmployeeForm = () => {
     additionalText: '',
     address1: '',
     address2: '',
-    country: '',
+    city: '',
     zip: '',
     joiningDate: '',
     bankAccountNumber: '',

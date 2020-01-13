@@ -9,13 +9,13 @@ const GET_COUNTRIES = gql`
   }
 `;
 
-const GET_STATE_BY_COUNTRIES = gql`
-  query state($countryid: string!) {
-    state(countryid: $countryid) {
+const GET_STATES_BY_COUNTRY = gql`
+  query states($countryid: ID!) {
+    states(countryid: $countryid) {
       id
       name
     }
   }
 `;
 
-export const CountryQueries = [GET_COUNTRIES, GET_STATE_BY_COUNTRIES];
+export const CountryQueries = [GET_COUNTRIES, GET_STATES_BY_COUNTRY];

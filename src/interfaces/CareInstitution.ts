@@ -25,3 +25,18 @@ export interface ICareInstitutionValidationSchema {
     lastName: string;
     userName: string;
 }
+
+export interface ICareInstitutionContact {
+    email: string;
+    firstName: string;
+    lastName: string;
+    userName: string;
+    phoneNumber: string;
+    mobileNumber: string;
+    faxNumber: string;
+    constactType: string;
+    comments: string;
+    groupAttributes: string;
+    createdAt: Date;
+    updatedAt: Date;
+}

@@ -9,7 +9,7 @@ import {
 import { languageTranslation, logger, dateValidator } from '../helpers';
 
 
-export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
+export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
   ICareInstitutionValidationSchema
 >> = Yup.object().shape<ICareInstitutionValidationSchema>({

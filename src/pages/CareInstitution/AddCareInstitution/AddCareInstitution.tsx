@@ -13,7 +13,7 @@ import {
 import Select from "react-select";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../routes/routes";
-import { FormikProps, Field, Form } from 'formik';
+import { FormikProps, Field, Form, Formik, FormikHelpers } from 'formik';
 import { languageTranslation } from "../../../helpers";
 import { State, Region, Salutation, Country } from "../../../config";
 import {
@@ -22,9 +22,36 @@ import {
   IReactSelectInterface,
   ICountry,
 } from '../../../interfaces';
+import { ICareInstitutionContact } from "../../../interfaces";
+import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
+
 const AddCareInstitution: any = (
   props: FormikProps<ICareInstitutionFormValues>
 ) => {
+
+  const handleSubmitConstact = (
+    values: ICareInstitutionContact,
+    { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
+  ) => {
+    //to set submit state to false after successful signup
+    setSubmitting(false);
+  };
+
+  const constactValues: ICareInstitutionContact = {
+    email: '',
+    firstName: '',
+    lastName: '',
+    userName: '',
+    phoneNumber: '',
+    mobileNumber: '',
+    faxNumber: '',
+    constactType: '',
+    comments: '',
+    groupAttributes: '',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  };
+
   const {
     values: {
       email,
@@ -41,8 +68,6 @@ const AddCareInstitution: any = (
       zip,
       state,
       country,
-      createdAt,
-      updatedAt
     },
     touched,
     errors,
@@ -53,7 +78,8 @@ const AddCareInstitution: any = (
     setFieldValue,
     setFieldTouched
   } = props;
-
+  console.log("Error",errors);
+  
   return (
     <div>
       <Card>
@@ -329,7 +355,7 @@ const AddCareInstitution: any = (
                             <div>
                               <Input
                                 type="text"
-                                name="fullBusinessname"
+                                name="companyName"
                                 placeholder={languageTranslation(
                                   "COMPANY_NAME"
                                 )}
@@ -466,6 +492,7 @@ const AddCareInstitution: any = (
                     <Button
                       color="primary"
                       type="submit"
+                      onSubmit={handleSubmit}
                       className="btn-sumbit"
                     >
                       {languageTranslation("SAVE_BUTTON")}
@@ -477,6 +504,14 @@ const AddCareInstitution: any = (
           </Form>
         </CardBody>
       </Card>
+      <Formik
+        initialValues={constactValues}
+        onSubmit={handleSubmitConstact}
+        children={(props: FormikProps<ICareInstitutionContact>) => (
+          <CareInstitutionContact {...props} />
+        )}
+        validationSchema={""}
+      />
     </div>
   );
 }

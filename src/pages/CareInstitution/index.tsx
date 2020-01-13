@@ -177,7 +177,7 @@ class CareInstitution extends Component<RouteComponentProps, any> {
             }
           >
             <i className={"fa fa-plus"} />
-            &nbsp; Add New Constitution
+            &nbsp; Add New Care Institution
           </Button>
         </CardHeader>
         <CardBody>

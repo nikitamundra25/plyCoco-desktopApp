@@ -23,13 +23,53 @@ const DELETE_CARE_INSTITUTION = gql`
 `;
 
 const ADD_CARE_INSTITUTION = gql`
-  mutation AddUser($firstName: String!, $lastName: String, $email: String) {
-    addUser(firstName: $firstName, lastName: $lastName, email: $email) {
-      id
-      firstName
-      lastName
+  mutation AddCareInstitution(
+    $firstName: String!, 
+    $lastName: String!, 
+    $email: String!, 
+    $userName: String!,
+    $phoneNumber: String,
+    $mobileNumber: number,
+    $fax: String,
+    $shortName: String,
+    $companyName: String,
+    $street: String,
+    $city: String,
+    $zip: String,
+    $state: String,
+    $country: String,
+    ){
+      addCareInstitution(
+        firstName: $firstName, 
+        lastName: $lastName, 
+        email: $email, 
+        userName: $userName,
+        phoneNumber: $phoneNumber,
+        mobileNumber: $mobileNumber,
+        fax: $fax,
+        shortName: $shortName,
+        companyName: $companyName,
+        street: $street,
+        city: $city,
+        zip: $zip,
+        state: $state,
+        country: $country,) {
+          firstName 
+          lastName 
+          email 
+          userName
+          phoneNumber
+          mobileNumber
+          fax
+          shortName
+          companyName
+          street
+          city
+          zip
+          state
+          country
+      }
     }
-  }
 `;
 
 const UPDATE_CARE_INSTITUTION = gql`
@@ -52,9 +92,9 @@ const UPDATE_CARE_INSTITUTION = gql`
   }
 `;
 
-export const CareInstitutionQuery = [
-    GET_CARE_INSTITUTION,
-    DELETE_CARE_INSTITUTION,
-    UPDATE_CARE_INSTITUTION,
-    ADD_CARE_INSTITUTION
+export const CareInstitution = [
+  GET_CARE_INSTITUTION,
+  DELETE_CARE_INSTITUTION,
+  UPDATE_CARE_INSTITUTION,
+  ADD_CARE_INSTITUTION
 ]

@@ -10,6 +10,8 @@ import {
   telMax
 } from "../config";
 import { languageTranslation, logger, dateValidator } from "../helpers";
+import { on } from "cluster";
+import Employee from "../pages/Employee";
 
 export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -69,6 +71,7 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     "len",
     languageTranslation("IBAN_INVALID"),
     value =>
+      !value ||
       !value.replace(/\D+/g, "") ||
       (value && value.replace(/\D+/g, "").length === IBANlength)
   ),

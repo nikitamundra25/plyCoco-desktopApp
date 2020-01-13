@@ -117,7 +117,7 @@ const EmployeeFormComponent: any = (
     setFieldValue(name, selectOption);
     if (name === "country") {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : "82" }
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
       console.log("after calling states");
 

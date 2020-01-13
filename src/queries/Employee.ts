@@ -81,5 +81,4 @@ export const EmployeeQueries = [
   GET_EMPLOYEE_BY_ID,
   GET_EMPLOYEES,
   UPDATE_EMPLOYEE,
-  GET_EMPLOYEES,
 ];

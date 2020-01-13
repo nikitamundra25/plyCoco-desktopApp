@@ -10,7 +10,7 @@ export const AppRoutes: IAppRoutes = {
   EMPLOYEE: "/employee",
   ADD_EMPLOYEE: "/employee/add",
   VIEW_EMPLOYEE: "/employee/view",
-  EDIT_EMPLOYEE: "/employee/edit/:userName",
+  EDIT_EMPLOYEE: "/employee/edit/:id/:userName",
   DEPARTMENT: "/department",
   ADD_DEPARTMENT: "/department/add",
   REGION: "/region",

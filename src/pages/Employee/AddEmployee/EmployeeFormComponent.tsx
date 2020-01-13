@@ -16,7 +16,7 @@ import Select from "react-select";
 // import InputMask from 'react-input-mask';
 import MaskedInput from "react-text-mask";
 import { FormikProps, Form } from "formik";
-import { Region, City } from "../../../config";
+import { Region } from "../../../config";
 import routes from "../../../routes/routes";
 import {
   IEmployeeFormValues,
@@ -51,10 +51,10 @@ const EmployeeFormComponent: any = (
       address2,
       country,
       state,
+      city,
       zip,
       joiningDate,
-      image,
-      city
+      image
     },
     touched,
     errors,

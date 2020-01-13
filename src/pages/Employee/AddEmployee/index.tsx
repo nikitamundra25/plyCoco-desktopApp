@@ -1,17 +1,33 @@
-import React from "react";
-import { Formik, FormikProps, FormikHelpers } from "formik";
-import { EmployeeValidationSchema } from "../../../validations/EmployeeValidationSchema";
-import { IEmployeeFormValues } from "../../../interfaces";
-import EmployeeFormComponent from "./EmployeeFormComponent";
-import { useMutation } from "@apollo/react-hooks";
-import { EmployeeQueries } from "../../../queries";
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { useMutation } from '@apollo/react-hooks';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { EmployeeValidationSchema } from '../../../validations/EmployeeValidationSchema';
+import {
+  IEmployeeFormValues,
+  IEmployeeInput,
+  IAddEmployeeRes,
+} from '../../../interfaces';
+import EmployeeFormComponent from './EmployeeFormComponent';
+import { EmployeeQueries } from '../../../queries';
+import { logger } from '../../../helpers';
+
 const [ADD_EMPLOYEE] = EmployeeQueries;
-import { logger } from "../../../helpers";
 
 export const EmployeeForm = () => {
   // const [addUser, { data }] = useMutation<IAddEmployee>(ADD_EMPLOYEE);
   // logger(data);
   // logger("employeeee data");
+  let { userName } = useParams();
+  logger(userName, 'userName');
+  const [addEmployee, { error, data }] = useMutation<
+    { addEmployee: IAddEmployeeRes },
+    { employee: IEmployeeInput }
+  >(ADD_EMPLOYEE);
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    console.log('calling did mount');
+  }, []); // Pass empty array to only run once on mount.
   const handleSubmit = (
     values: IEmployeeFormValues,
     { setSubmitting }: FormikHelpers<IEmployeeFormValues>
@@ -29,17 +45,17 @@ export const EmployeeForm = () => {
     lastName: "",
     userName: "",
     telephoneNumber: undefined,
-    accountHolderName: "",
-    bankName: "",
-    IBAN: "",
-    BIC: "",
-    additionalText: "",
-    address1: "",
-    address2: "",
-    zip: "",
-    joiningDate: "",
-    bankAccountNumber: "",
-    city: ""
+    accountHolderName: '',
+    bankName: '',
+    IBAN: '',
+    BIC: '',
+    additionalText: '',
+    address1: '',
+    address2: '',
+    city: '',
+    zip: '',
+    joiningDate: '',
+    bankAccountNumber: '',
   };
   return (
     <Formik

@@ -1,4 +1,4 @@
-import React, { Component, useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, FunctionComponent } from 'react';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import { AppBreadcrumb } from '@coreui/react';
 import {
@@ -29,12 +29,13 @@ import {
 import { logger, languageTranslation } from '../../../helpers';
 import InputFieldTooltip from '../../../common/Tooltip/InputFieldTooltip';
 import { CountryQueries } from '../../../queries';
+import { toast } from 'react-toastify';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
-const EmployeeFormComponent: any = (
-  props: FormikProps<IEmployeeFormValues>
-) => {
+const EmployeeFormComponent: FunctionComponent<FormikProps<
+  IEmployeeFormValues
+>> = (props: FormikProps<IEmployeeFormValues>) => {
   const {
     values: {
       email,
@@ -65,12 +66,13 @@ const EmployeeFormComponent: any = (
     setFieldValue,
     setFieldTouched
   } = props;
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
+  // To fetch the list of countries
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
+  // To fetch the states of selected contry
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
   );
-  logger(data);
-  logger('data');
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
@@ -83,12 +85,6 @@ const EmployeeFormComponent: any = (
       statesOpt.push({ label: name, value: id }),
     );
   }
-  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
-  logger('errors**********');
-  logger(errors);
-  logger(props.values);
-  logger('touched*******');
-  logger(touched);
   // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -118,10 +114,8 @@ const EmployeeFormComponent: any = (
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
     }
   };
-  logger(country);
   return (
     <div>
       <Card>
@@ -132,7 +126,12 @@ const EmployeeFormComponent: any = (
             className={"btn-add"}
             onClick={handleSubmit}
           >
-            {languageTranslation("SAVE_BUTTON")}
+            {isSubmitting === true ? (
+              <i className='fa fa-spinner fa-spin loader' />
+            ) : (
+              ''
+            )}
+            {languageTranslation('SAVE_BUTTON')}
           </Button>
         </CardHeader>
         <CardBody>

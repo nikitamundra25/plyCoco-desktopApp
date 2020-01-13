@@ -9,7 +9,7 @@ data = {
   GRAPHQL_ENDPOINT:
     env === EnviornmentType.DEV
       ? 'http://192.168.2.104:8001/graphql'
-      : 'http://3.210.57.154/',
+      : 'http://192.168.2.104:8001/graphql',
 
   API_VERSION: 'api/v2',
 };

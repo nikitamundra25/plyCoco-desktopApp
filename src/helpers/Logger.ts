@@ -18,7 +18,9 @@ export const logger = (...arg: any[]): void => {
   if (process.env.NODE_ENV === EnviornmentType.DEV) {
     for (let index = 0; index < arg.length; index++) {
       const value = arg[index];
+      console.log('====================================');
       console.log(value, `called by ${caller}`);
+      console.log('====================================');
     }
   }
 };

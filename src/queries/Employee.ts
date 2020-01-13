@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const ADD_EMPLOYEE = gql`
   mutation AddEmployee($employeeInput: EmployeeInput!) {
@@ -37,14 +37,6 @@ const GET_EMPLOYEE_BY_ID = gql`
   }
 `;
 
-const GET_EMPLOYEES = gql`
-  query GetEmployee($employeeInput: EmployeeInput!) {
-    getEmployees(employeeInput: $employeeInput) {
-      userId
-    }
-  }
-`;
-
 const UPDATE_EMPLOYEE = gql`
   mutation UpdateEmployee($employeeInput: EmployeeInput!) {
     updateEmployee(employeeInput: $employeeInput) {
@@ -52,6 +44,7 @@ const UPDATE_EMPLOYEE = gql`
     }
   }
 `;
+
 const GET_EMPLOYEES = gql`
   query {
     getEmployees {
@@ -88,5 +81,5 @@ export const EmployeeQueries = [
   GET_EMPLOYEE_BY_ID,
   GET_EMPLOYEES,
   UPDATE_EMPLOYEE,
-  GET_EMPLOYEES
+  GET_EMPLOYEES,
 ];

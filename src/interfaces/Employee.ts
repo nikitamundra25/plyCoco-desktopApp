@@ -24,19 +24,20 @@ export interface IEmployeeFormValues {
 }
 
 export interface IEmployeeInput {
+  id?: string;
   firstName: string;
   lastName: string;
   userName: string;
   email: string;
   phoneNumber: string;
-  joiningDate: string;
-  countryId: string;
-  stateId: string;
+  joiningDate: string | null;
+  countryId?: number;
+  stateId?: number;
   city: string;
   zipCode: string;
   address1: string;
   address2: string;
-  regionId: string;
+  regionId?: string;
   bankName: string;
   accountHolder: string;
   additionalText: string;

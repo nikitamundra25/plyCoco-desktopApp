@@ -3,8 +3,15 @@ import { Formik, FormikProps, FormikHelpers } from "formik";
 import { EmployeeValidationSchema } from "../../../validations/EmployeeValidationSchema";
 import { IEmployeeFormValues } from "../../../interfaces";
 import EmployeeFormComponent from "./EmployeeFormComponent";
+import { useMutation } from "@apollo/react-hooks";
+import { EmployeeQueries } from "../../../queries";
+const [ADD_EMPLOYEE] = EmployeeQueries;
+import { logger } from "../../../helpers";
 
 export const EmployeeForm = () => {
+  // const [addUser, { data }] = useMutation<IAddEmployee>(ADD_EMPLOYEE);
+  // logger(data);
+  // logger("employeeee data");
   const handleSubmit = (
     values: IEmployeeFormValues,
     { setSubmitting }: FormikHelpers<IEmployeeFormValues>

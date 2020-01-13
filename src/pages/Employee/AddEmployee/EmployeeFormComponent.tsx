@@ -1,4 +1,6 @@
 import React, { Component, useState, ChangeEvent } from "react";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { AppBreadcrumb } from "@coreui/react";
 import {
   Button,
   FormGroup,
@@ -11,10 +13,11 @@ import {
   Row
 } from "reactstrap";
 import Select from "react-select";
-import { State, Region, City } from "../../../config";
-import { AppBreadcrumb } from "@coreui/react";
+// import InputMask from 'react-input-mask';
+import MaskedInput from "react-text-mask";
+import { FormikProps, Form } from "formik";
+import { Region, City } from "../../../config";
 import routes from "../../../routes/routes";
-import InputMask from "react-input-mask";
 import {
   IEmployeeFormValues,
   ICountries,
@@ -23,10 +26,8 @@ import {
   IStates,
   IState
 } from "../../../interfaces";
-import { FormikProps, Field, Form } from "formik";
 import { logger, languageTranslation } from "../../../helpers";
 import InputFieldTooltip from "../../../common/Tooltip/InputFieldTooltip";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { CountryQueries } from "../../../queries";
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -111,16 +112,12 @@ const EmployeeFormComponent: any = (
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    console.log("dsdsjd");
-
     logger(selectOption, "value");
     setFieldValue(name, selectOption);
     if (name === "country") {
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
-      console.log("after calling states");
-
       logger(statesData, "sdsdsdsd");
     }
   };
@@ -446,14 +443,35 @@ const EmployeeFormComponent: any = (
                             </Col>
                             <Col sm="8">
                               <div>
-                                <InputMask
+                                <MaskedInput
                                   name={"IBAN"}
                                   value={IBAN}
                                   placeholder={languageTranslation(
                                     "BANK_IBAN_PLACEHOLDER"
                                   )}
                                   // "91 1000 0000 0123 4567 89"
-                                  mask={" 9999 9999 9999 9999 9999 99"}
+                                  mask={[
+                                    /[A-Za-z]/,
+                                    /[A-Za-z]/,
+                                    /\d/,
+                                    /\d/,
+                                    " ",
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    " ",
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    " ",
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    /\d/
+                                  ]}
+                                  // mask={' 9999 9999 9999 9999 9999 99'}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   className={`form-control ${
@@ -760,12 +778,23 @@ const EmployeeFormComponent: any = (
                                 <div>
                                   <Row>
                                     <Col>
-                                      <InputMask
+                                      <MaskedInput
                                         name={"joiningDate"}
                                         placeholder={languageTranslation(
                                           "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
                                         )}
-                                        mask="99/99/9999"
+                                        mask={[
+                                          /[0-9]/,
+                                          /\d/,
+                                          "/",
+                                          /\d/,
+                                          /\d/,
+                                          "/",
+                                          /\d/,
+                                          /\d/,
+                                          /\d/,
+                                          /\d/
+                                        ]}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={joiningDate}

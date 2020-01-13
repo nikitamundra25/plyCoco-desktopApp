@@ -11,12 +11,13 @@ import {
 import EmployeeFormComponent from "./EmployeeFormComponent";
 import { EmployeeQueries } from "../../../queries";
 import { logger } from "../../../helpers";
+import { toast } from "react-toastify";
 
 const [ADD_EMPLOYEE] = EmployeeQueries;
 
 export const EmployeeForm = () => {
   let { id, userName } = useParams();
-  logger(userName, id, 'userName');
+  logger(userName, id, "userName");
   const [addEmployee, { error, data }] = useMutation<
     { addEmployee: IAddEmployeeRes },
     { employeeInput: IEmployeeInput }
@@ -29,7 +30,7 @@ export const EmployeeForm = () => {
   // function to add/edit employee information
   const handleSubmit = async (
     values: IEmployeeFormValues,
-    { setSubmitting, setFieldError }: FormikHelpers<IEmployeeFormValues>,
+    { setSubmitting, setFieldError }: FormikHelpers<IEmployeeFormValues>
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -50,7 +51,7 @@ export const EmployeeForm = () => {
       city,
       zip,
       joiningDate,
-      image,
+      image
     } = values;
     try {
       await addEmployee({
@@ -60,37 +61,39 @@ export const EmployeeForm = () => {
             lastName,
             userName,
             email,
-            phoneNumber: telephoneNumber ? telephoneNumber.toString() : '',
-            joiningDate,
-            countryId: country ? country.value : '',
-            stateId: state ? state.value : '',
+            phoneNumber: telephoneNumber ? telephoneNumber.toString() : "",
+            joiningDate: joiningDate ? joiningDate : null,
+            countryId: country ? country.value : "",
+            stateId: state ? state.value : "",
             city,
             zipCode: zip,
             address1,
             address2,
-            regionId: '',
+            regionId: "",
             bankName,
             accountHolder: accountHolderName,
             additionalText,
             IBAN,
-            BIC,
-          },
-        },
+            BIC
+          }
+        }
       });
+      toast.success(data);
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      setFieldError('email', message);
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
+      // setFieldError('email', message);
+      toast.error(message);
     }
     setSubmitting(false);
   };
   const values: IEmployeeFormValues = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    userName: '',
+    email: "",
+    firstName: "",
+    lastName: "",
+    userName: "",
     telephoneNumber: undefined,
     accountHolderName: "",
     bankName: "",

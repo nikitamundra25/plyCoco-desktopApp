@@ -1,5 +1,5 @@
-import { ValueType } from 'react-select';
-import { IReactSelectInterface } from './Constant';
+import { ValueType } from "react-select";
+import { IReactSelectInterface } from "./Constant";
 
 export interface IEmployeeFormValues {
   email: string;
@@ -29,7 +29,7 @@ export interface IEmployeeInput {
   userName: string;
   email: string;
   phoneNumber: string;
-  joiningDate: string;
+  joiningDate: string | null;
   countryId: string;
   stateId: string;
   city: string;

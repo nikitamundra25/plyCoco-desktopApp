@@ -30,7 +30,7 @@
   "FIRSTNAME_SPECIALCHARACTER": "First name must contain alphabets only",
   "FIRSTNAME_MAXLENGTH": "First name must be less than 20 characters",
   "FIRSTNAME_REQUIRED": "First Name is required",
-  "LASTNAME_SPECIALCHARACTER": "Surname doesnot contain any number or special characeter",
+  "LASTNAME_SPECIALCHARACTER": "Surname must contain alphabets only",
   "LASTNAME_MAXLENGTH": "Surname must be less than 20 characters",
   "LASTNAME_REQUIRED": "Surname is required",
   "TELEPHONE_REQUIRED": "Telephone number is not valid",

@@ -9,8 +9,37 @@ const ADD_EMPLOYEE = gql`
 `;
 
 const GET_EMPLOYEE_BY_ID = gql`
-  query GetEmployeeById($employeeInput: EmployeeInput!) {
-    getEmployeeById(employeeInput: $employeeInput) {
+  query getEmployee($id: ID) {
+    viewEmployee(id: $id) {
+      firstName
+      lastName
+      email
+      userName
+      phoneNumber
+      employee {
+        address1
+        address2
+        countryId
+        stateId
+        city
+        zipCode
+        joiningDate
+        regionId
+      }
+      bankDetails {
+        bankName
+        accountHolder
+        additionalText
+        IBAN
+        BIC
+      }
+    }
+  }
+`;
+
+const GET_EMPLOYEES = gql`
+  query GetEmployee($employeeInput: EmployeeInput!) {
+    getEmployees(employeeInput: $employeeInput) {
       userId
     }
   }
@@ -27,5 +56,6 @@ const UPDATE_EMPLOYEE = gql`
 export const EmployeeQueries = [
   ADD_EMPLOYEE,
   GET_EMPLOYEE_BY_ID,
+  GET_EMPLOYEES,
   UPDATE_EMPLOYEE,
 ];

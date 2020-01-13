@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { EmployeeValidationSchema } from '../../../validations/EmployeeValidationSchema';
 import {
@@ -16,27 +16,43 @@ const [ADD_EMPLOYEE, GET_EMPLOYEE_BY_ID, UPDATE_EMPLOYEE] = EmployeeQueries;
 
 export const EmployeeForm = () => {
   let { id, userName } = useParams();
+  const [employeeData, setEmployeeData] = useState<any>({});
   logger(userName, id, 'userName');
+
   // To add emplyee details into db
   const [addEmployee, { error, data }] = useMutation<
     { addEmployee: IAddEmployeeRes },
     { employeeInput: IEmployeeInput }
   >(ADD_EMPLOYEE);
-  // To Edit employee details by id
+
+  // To update employee details into db
   const [updateEmployee] = useMutation<
     { updateEmployee: IAddEmployeeRes },
     { employeeInput: IEmployeeInput }
   >(ADD_EMPLOYEE);
 
-  // Fetch details by employee id
-  const [getEmployeeById, { data: employeeDetails }] = useLazyQuery<any>(
-    GET_EMPLOYEE_BY_ID,
-  );
+  // To get the employee details by id
+  const [
+    getEmployeeDetails,
+    { data: employeeDetails, error: detailsError, refetch },
+  ] = useLazyQuery<any>(GET_EMPLOYEE_BY_ID);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
-    console.log('calling did mount');
-  }, []); // Pass empty array to only run once on mount.
+    // Fetch details by employee id
+    if (id) {
+      getEmployeeDetails({
+        variables: { id: 24 },
+      });
+    }
+    if (employeeDetails && employeeDetails.viewEmployee) {
+      setEmployeeData({
+        ...employeeDetails.viewEmployee,
+        ...employeeDetails.viewEmployee.employee,
+        ...employeeDetails.viewEmployee.bankDetails,
+      });
+    }
+  }, [employeeDetails]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
 
   // function to add/edit employee information
   const handleSubmit = async (
@@ -98,11 +114,21 @@ export const EmployeeForm = () => {
     }
     setSubmitting(false);
   };
+  console.log(
+    employeeDetails,
+    'employeeDetails*********',
+    employeeData,
+    employeeData && employeeData.firstName ? employeeData.firstName : '',
+  );
+
   const values: IEmployeeFormValues = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    userName: '',
+    email: employeeData && employeeData.email ? employeeData.email : '',
+    firstName:
+      employeeData && employeeData.firstName ? employeeData.firstName : '',
+    lastName:
+      employeeData && employeeData.lastName ? employeeData.lastName : '',
+    userName:
+      employeeData && employeeData.userName ? employeeData.userName : '',
     telephoneNumber: undefined,
     accountHolderName: '',
     bankName: '',
@@ -119,6 +145,7 @@ export const EmployeeForm = () => {
   return (
     <Formik
       initialValues={values}
+      enableReinitialize={true}
       onSubmit={handleSubmit}
       children={(props: FormikProps<IEmployeeFormValues>) => (
         <EmployeeFormComponent {...props} />

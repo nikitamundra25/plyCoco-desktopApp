@@ -1,4 +1,4 @@
-import React, { Component, useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, FunctionComponent } from 'react';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import { AppBreadcrumb } from '@coreui/react';
 import {
@@ -32,9 +32,9 @@ import { CountryQueries } from '../../../queries';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
-const EmployeeFormComponent: any = (
-  props: FormikProps<IEmployeeFormValues>,
-) => {
+const EmployeeFormComponent: FunctionComponent<FormikProps<
+  IEmployeeFormValues
+>> = (props: FormikProps<IEmployeeFormValues>) => {
   const {
     values: {
       email,
@@ -65,8 +65,12 @@ const EmployeeFormComponent: any = (
     setFieldValue,
     setFieldTouched,
   } = props;
+  console.log(email, 'emaillllllllll');
+
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
+  // To fetch the list of countries
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
+  // To fetch the states of selected contry
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
   );

@@ -69,8 +69,6 @@ const EmployeeFormComponent: any = (
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
   );
-  logger(data);
-  logger('data');
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
@@ -84,11 +82,6 @@ const EmployeeFormComponent: any = (
     );
   }
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
-  logger('errors**********');
-  logger(errors);
-  logger(props.values);
-  logger('touched*******');
-  logger(touched);
   // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -118,10 +111,8 @@ const EmployeeFormComponent: any = (
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
     }
   };
-  logger(country);
   return (
     <div>
       <Card>

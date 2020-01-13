@@ -94,11 +94,11 @@ export interface IBillingSettingsValues {
 
 
 export interface IPersonalObject {
-    userId:string,
+    userId?:string,
     state:string,
-    registartionSince:string,
-    gender:string,
-    title:string,
+    registartionSince?:string,
+    gender?:string,
+    title?:string,
     salutation:string,
     firstName:string,
     lastName:string,
@@ -137,7 +137,7 @@ interface IBillingSettingsObject{
     invoiceInterval:string
 }
 
-export interface IPersonalInfoValues{
+export interface ICareGiverValues{
     personalInformation: IPersonalObject,
     billingSettings?: IBillingSettingsObject
 }

@@ -142,7 +142,7 @@ const PersonalInfoFormComponent: any = (
                                                 <Col sm="6">
                                                     <div>
                                                         <Field
-                                                            component
+                                                            component={FormikTextField}
                                                             name={"personalInformation.title"}
                                                             placeholder={languageTranslation(
                                                                 "TITLE"

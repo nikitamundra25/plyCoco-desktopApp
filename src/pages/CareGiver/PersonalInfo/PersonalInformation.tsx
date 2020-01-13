@@ -6,7 +6,6 @@ import {
   Input,
   Col,
   Row,
-  Form,
   CustomInput,
   InputGroup,
   InputGroupAddon,
@@ -32,61 +31,106 @@ import BillingSettingsFormComponent from "./BillingSettingsFormComponent";
 import QualificationFormComponent from "./QualificationFormComponent";
 import AttributeFormComponent from "./AttributesFromComponent";
 import RemarkFormComponent from "./RemarkFormComponent";
+import { Formik, FormikHelpers, Form } from "formik";
+import { Mutation } from "@apollo/react-components";
+import { UPDATE_CAREGIVER } from "../../../queries/CareGiver";
+import { ICareGiverValues } from "../../../interfaces";
 
-class PersonalInformation extends Component<RouteComponentProps, any> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      startDate: "",
-      addRemark: false
-    };
-  }
-  handleChange = (date: any) => {
-    this.setState({
-      startDate: date
-    });
+class PersonalInformation extends Component<
+  RouteComponentProps,
+  ICareGiverValues
+> {
+  handleSubmit = (
+    values: ICareGiverValues,
+    { setSubmitting }: FormikHelpers<ICareGiverValues>,
+    updateCareGiver: any
+  ) => {
+    // todo call
+    // updateCareGiver()
+    setSubmitting(false);
   };
-  handleOnClick = () => {
-    this.setState({
-      addRemark: true
-    });
-  };
+
   render() {
+    const initialStates: ICareGiverValues = {
+      personalInformation: {
+        userId: "",
+        state: "",
+        registartionSince: "",
+        gender: "",
+        title: "",
+        salutation: "",
+        firstName: "",
+        lastName: "",
+        dob: "",
+        age: "",
+        street: "",
+        city: "",
+        postCode: "",
+        country: "",
+        phone: "",
+        fax: "",
+        mobilePhone: "",
+        email: "",
+        taxNumber: "",
+        bankName: "",
+        iban: "",
+        username: "",
+        password: "",
+        belongTo: "",
+        legalForm: "",
+        companyName: "",
+        registerCourt: "",
+        registrationNumber: "",
+        executiveDirector: "",
+        employed: false,
+        additionalText: ""
+      },
+      billingSettings: {
+        fee: "",
+        night: "",
+        weekendAllowancePerHour: "",
+        holidayAllowancePerHourFee: "",
+        nightAllowancePerHour: "",
+        leasingPrice: "",
+        invoiceInterval: ""
+      }
+    };
     return (
-    
-      <div>
-        <Form className="form-section forms-main-section">
-          {/* <div>
-            <div className="custom-control custom-switch mb-2">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="switch1"
-              />
+      <Mutation mutation={UPDATE_CAREGIVER}>
+        {(updateCareGiver: any) => (
+          <Formik
+            initialValues={initialStates}
+            onSubmit={(
+              values: ICareGiverValues,
+              actions: FormikHelpers<ICareGiverValues>
+            ): Promise<any> | void =>
+              this.handleSubmit(values, actions, updateCareGiver)
+            }
+            render={props => {
+              return (
+                <Form className="form-section forms-main-section">
+                  <Row>
+                    <Col lg={"4"}>
+                      <PersonalInfoFormComponent {...props} />
+                    </Col>
 
-              <Label className="custom-control-label" for="switch1">
-                To Edit
-              </Label>
-            </div>
-          </div> */}
-          <Row>
-            <Col lg={"4"}>
-              <PersonalInfoFormComponent />
-            </Col>
+                    <Col lg={"4"}>
+                      <BillingSettingsFormComponent {...props} />
+                      <QualificationFormComponent {...props} />
 
-            <Col lg={"4"}>
-              <BillingSettingsFormComponent />
-              <QualificationFormComponent />
-
-              <AttributeFormComponent />
-            </Col>
-            <Col lg={4}>
-              <RemarkFormComponent />
-            </Col>
-          </Row>
-
-        </Form>
-      </div>
+                      <AttributeFormComponent {...props} />
+                    </Col>
+                    <Col lg={4}>
+                      <RemarkFormComponent {...props} />
+                    </Col>
+                  </Row>
+                  <Button onSubmit={props.handleSubmit}>Save</Button>
+                </Form>
+              );
+            }}
+          />
+        )}
+      </Mutation>
     );
   }
 }

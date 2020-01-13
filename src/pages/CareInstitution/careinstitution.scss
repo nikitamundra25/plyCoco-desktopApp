@@ -66,6 +66,50 @@
   .supported-documents-col {
     width: 200px;
   }
-  .remarks-col {
+  
+}
+
+.reminders-todo-table {
+  th {
+    border: 1px solid $table_border;
   }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-reminders-todo-table {
+    margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+  .sno-col {
+    width: 45px;
+  } 
+  .institution-col {
+    width:100px;
+}
+.date-col {
+    width: 121px;
+}
+
+.contact-col {
+    width: 270px;
+}
+
+.done-col {
+    width:60PX
+}
+
+.remarks-col {
+    width:270px;
+}
+
+.external-col {
+    width:60px;
+}
+.prio-col {
+    width:92px;
+}
 }

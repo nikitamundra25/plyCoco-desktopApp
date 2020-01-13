@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Table, FormGroup, exampleSelect, Label, Input,FormFeedback,FormText } from "reactstrap";
 import { languageTranslation } from "../../../helpers";
-import "./index.scss";
+import "../careinstitution.scss";
 
 class Reminders extends Component<any, any> {
   constructor(props: any) {

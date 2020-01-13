@@ -76,3 +76,44 @@
     width: 100px;
   }
 }
+
+.todolist-table {
+  th {
+    border: 1px solid $table_border;
+  }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-tododlist-table {
+    margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+  .todo-select{
+    .form-control{
+    border:transparent;
+}
+  }
+ .date-col {
+    width:75px;
+}
+.remarks-col {
+    width: 563px;
+}
+  .done-col {
+    width: 60px;
+}
+.extreme-col {
+    width: 60px;
+}
+.prio-col {
+    width: 92px;
+}
+.todo-select.form-group {
+    margin-bottom: 0;
+}
+}
+

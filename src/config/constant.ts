@@ -2,14 +2,16 @@ import { IReactSelectInterface } from "../interfaces";
 import { languageTranslation } from "../helpers";
 import { maskArray } from "react-text-mask";
 
+export const PAGE_LIMIT: number = 10;
+
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
 // /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 export const IBANReplaceRegex: RegExp = /[^A-Z0-9]/gi;
 export const IBANlength: number = 22;
 export const telMin: number = 9;
 export const telMax: number = 14;
-export const nameRegExp: RegExp = /^[A-Za-z][A-Za-z ]+$/;
 export const fileSize: number = 125 * 1024;
+export const nameRegExp: RegExp = /^[A-Za-z][A-Za-z ]+$/;
 export const SupportedFormats: string[] = [
   "image/jpg",
   "image/jpeg",
@@ -258,4 +260,23 @@ export const CareGiver: IReactSelectInterface[] = [
   { value: "us2", label: "Stark Smith" },
   { value: "us6", label: "Tierney St. Louis" },
   { value: "us5", label: "Ula Luckin" }
+];
+
+export const SortOptions: IReactSelectInterface[] = [
+  {
+    label: languageTranslation("SORTBY_OPTION3"),
+    value: "3"
+  },
+  {
+    label: languageTranslation("SORTBY_OPTION4"),
+    value: "4"
+  },
+  {
+    label: languageTranslation("SORTBY_OPTION1"),
+    value: "1"
+  },
+  {
+    label: languageTranslation("SORTBY_OPTION2"),
+    value: "2"
+  }
 ];

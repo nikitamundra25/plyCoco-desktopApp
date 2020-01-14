@@ -41,8 +41,20 @@ export interface IEmployeeInput {
   additionalText: string;
   IBAN: string;
   BIC: string;
+  profileImage?: File;
 }
 
 export interface IAddEmployeeRes {
   userId: string;
+}
+
+export interface IEmployee {
+  id: string;
+  firstName: string;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  region: string;
+  assignedCanstitution: string;
+  isActive: boolean;
 }

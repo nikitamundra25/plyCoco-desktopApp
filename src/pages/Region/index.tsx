@@ -21,29 +21,29 @@ import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
 import { languageTranslation } from "../../helpers";
 const userData = [
   {
-    region: "Central Germany",
-    canstitution: "1",
-    careGiver: "5",
-    appointment: "12"
+    region: 'Central Germany',
+    canstitution: '1',
+    careGiver: '5',
+    appointment: '12',
   },
   {
-    region: "Frankfurt",
-    canstitution: "3",
-    careGiver: "2",
-    appointment: "10"
+    region: 'Frankfurt',
+    canstitution: '3',
+    careGiver: '2',
+    appointment: '10',
   },
   {
-    region: "Munich",
-    canstitution: "1",
-    careGiver: "8",
-    appointment: "15"
+    region: 'Munich',
+    canstitution: '1',
+    careGiver: '8',
+    appointment: '15',
   },
   {
-    region: "North Germany",
-    canstitution: "4",
-    careGiver: "1",
-    appointment: "10"
-  }
+    region: 'North Germany',
+    canstitution: '4',
+    careGiver: '1',
+    appointment: '10',
+  },
 ];
 export const Region: FunctionComponent = () => {
   // class Region extends Component<RouteComponentProps, any> {
@@ -67,7 +67,7 @@ export const Region: FunctionComponent = () => {
       </CardHeader>
       <CardBody>
         <div>
-          <Search />
+          {/* <Search /> */}
         </div>
         <Table bordered hover responsive>
           <thead className="thead-bg">

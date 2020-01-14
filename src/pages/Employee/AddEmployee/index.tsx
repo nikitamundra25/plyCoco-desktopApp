@@ -103,8 +103,8 @@ export const EmployeeForm: FunctionComponent = () => {
         joiningDate: joiningDate
           ? moment(joiningDate).format('YYYY/MM/DD')
           : null,
-        country: country && country.value ? country.value : null,
-        state: state && state.value ? state.value : null,
+        country: country && country.label ? country.label : null,
+        state: state && state.label ? state.label : null,
         city,
         zipCode: zip,
         address1,
@@ -114,7 +114,9 @@ export const EmployeeForm: FunctionComponent = () => {
         additionalText,
         IBAN,
         BIC,
+        profileImage: image,
       };
+      // Edit employee details
       if (id) {
         await updateEmployee({
           variables: {

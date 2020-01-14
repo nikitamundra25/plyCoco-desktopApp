@@ -167,8 +167,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_FIRST_NAME_PLACEHOLDER',
                                     )}
-                                    onChange={handleChange}
                                     maxLength='20'
+                                    onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={firstName}
                                     className={
@@ -820,6 +820,12 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       htmlFor='gallery-photo-add'
                                       className='file-upload-label'
                                     >
+                                      <div className='icon-upload'>
+                                        <i className='cui-cloud-upload'></i>
+                                      </div>
+                                      {/* <div className="icon-text">
+                                        Click here to select your profile image
+                                      </div> */}
                                       {!image || errors.image
                                         ? languageTranslation('CHOOSE_IMAGE')
                                         : ''}
@@ -849,13 +855,12 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                     </div>
                   </Col>
                 </Row>
-                <Col lg={'12'}>
-                  <div className='d-flex align-items-center justify-content-between'>
-                    <div className='mandatory-text'>
-                      {languageTranslation('REQUIRED_FIELDS')}
-                    </div>
+
+                <div className='d-flex align-items-center justify-content-between'>
+                  <div className='mandatory-text'>
+                    {languageTranslation('REQUIRED_FIELDS')}
                   </div>
-                </Col>
+                </div>
               </Form>
             </Col>
           </Row>

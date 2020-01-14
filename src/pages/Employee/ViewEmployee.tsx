@@ -1,18 +1,12 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Col,
-  Row,
-} from "reactstrap";
+import { Card, CardHeader, CardBody, Col, Row } from "reactstrap";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 
 class ViewEmployee extends Component {
   render() {
     return (
-      <Card className="full-height">
+      <Card>
         <CardHeader>
           <AppBreadcrumb appRoutes={routes} className="w-100" />
         </CardHeader>

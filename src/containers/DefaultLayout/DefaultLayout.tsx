@@ -32,6 +32,8 @@ import { languageTranslation } from "../../helpers";
 
 import { SelectionState } from "draft-js";
 import CreateTodo from "../../pages/CareInstitution/CreateTodo";
+import CareInstitutionTodo from "../../pages/CareInstitutionTodo";
+import CareGiverTodo from "../../pages/CareGiverTodo";
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 const CareGiverSidebar = React.lazy(() =>
@@ -243,6 +245,46 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
   );
 };
 
+//Care Giver Todo Layout
+const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        <div className="common-detail-page">
+          <div className="common-detail-section">
+            <div className="sticky-common-header">
+              <CareInstitutionSidebar {...props} />
+            </div>
+            <div className="common-content flex-grow-1">
+              <Component {...props} />
+            </div>
+          </div>
+        </div>
+      )}
+    />
+  );
+};
+const CareInstitutionTodoLayout = ({ component: Component, ...rest }: any) => {
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        <div className="common-detail-page">
+          <div className="common-detail-section">
+            <div className="sticky-common-header">
+              <CareInstitutionSidebar {...props} />
+            </div>
+            <div className="common-content flex-grow-1">
+              <Component {...props} />
+            </div>
+          </div>
+        </div>
+      )}
+    />
+  );
+};
+
 class DefaultLayout extends Component<any, any> {
   timeInterval: any = null;
   constructor(props: any) {
@@ -304,14 +346,28 @@ class DefaultLayout extends Component<any, any> {
                           exact={route.exact}
                           component={route.component}
                         />
-                      ) : (
+                      ) : route.layoutName === "Constitution" ? (
                         <CareInstitutionLayout
                           key={idx}
                           path={route.path}
                           exact={route.exact}
                           component={route.component}
                         />
-                      )
+                      ) : route.layoutName === "CareInstitutionTodoLayout" ? (
+                        <CareInstitutionTodoLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        />
+                      ) : route.layoutName === "CareGiverTodoLayout" ? (
+                        <CareGiverTodoLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        />
+                      ) : null
                     ) : route.component ? (
                       <Route
                         key={idx}

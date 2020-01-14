@@ -1,18 +1,64 @@
 import { IReactSelectInterface } from "../interfaces";
 import { languageTranslation } from "../helpers";
-export const telephoneReqExp = /^\(([0-9]{10-13})\)$/;
+import { maskArray } from "react-text-mask";
+
+export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
 // /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+export const IBANReplaceRegex: RegExp = /[^A-Z0-9]/gi;
 export const IBANlength: number = 22;
 export const telMin: number = 9;
 export const telMax: number = 14;
-export const nameRegExp = /^[A-Za-z][A-Za-z ]+$/;
+export const nameRegExp: RegExp = /^[A-Za-z][A-Za-z ]+$/;
 export const fileSize: number = 125 * 1024;
-export const SupportedFormats = [
+export const SupportedFormats: string[] = [
   "image/jpg",
   "image/jpeg",
   "image/gif",
   "image/png"
 ];
+export const IBANRegex: maskArray = [
+  /[A-Za-z]/,
+  /[A-Za-z]/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/
+];
+
+export const DateMask: maskArray = [
+  /[0-9]/,
+  /\d/,
+  "/",
+  /\d/,
+  /\d/,
+  "/",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/
+];
+
 export const Status: IReactSelectInterface[] = [
   { value: "true", label: languageTranslation("ACTIVE") },
   { value: "false", label: languageTranslation("DISABLE") }

@@ -71,7 +71,7 @@ const DocumentUpload = React.lazy(() =>
   import("../pages/CareGiver/Documents/DocumentsUpload")
 );
 const AddCareInstitution = React.lazy(() =>
-  import("../pages/CareInstitution/AddCareInstitution")
+  import("../pages/CareInstitution/AddCareInstitution/AddCareInstitution")
 );
 const Constitution = React.lazy(() => import("../pages/CareInstitution"));
 const ConstitutionPersonalInfo = React.lazy(() =>
@@ -108,6 +108,17 @@ const ConstitutionNewEmail = React.lazy(() =>
 );
 const ConstitutionReminder = React.lazy(() =>
   import("../pages/CareInstitution/Reminders")
+);
+const CareGiverTodo = React.lazy(() => import("../pages/CareGiverTodo"));
+const CareInstitutionTodo = React.lazy(() =>
+  import("../pages/CareInstitutionTodo")
+);
+const CareGiverTodoLayout = React.lazy(() =>
+  import("../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout")
+);
+
+const CareInstitutionTodoLayout = React.lazy(() =>
+  import("../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout")
 );
 const routes = [
   {
@@ -430,6 +441,22 @@ const routes = [
     name: "View Employee",
     component: ViewEmployee,
     exact: true
+  },
+  {
+    path: AppRoutes.CAREGIVER_TODO,
+    name: "Care Giver Todo",
+    component: CareGiverTodo,
+    exact: true,
+    layout: CareGiverTodoLayout,
+    layoutName: "CareGiverTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_TODO,
+    name: "Care Institution Todo",
+    component: CareInstitutionTodo,
+    exact: true,
+    layout: CareInstitutionTodoLayout,
+    layoutName: "CareInstitutionTodoLayout"
   }
 ];
 

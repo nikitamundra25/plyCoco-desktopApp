@@ -46,4 +46,6 @@ export interface IAppRoutes {
   CARE_INSTITUTION_SENT_EMAIL: string;
   CARE_INSTITUTION_NEW_EMAIL: string;
   CARE_INSTITUTION_REMINDER: string;
+  CAREGIVER_TODO: string;
+  CARE_INSTITUTION_TODO: string;
 }

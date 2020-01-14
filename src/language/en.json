@@ -1,4 +1,5 @@
 {
+  "REQUIRED_REGION": "Region name is required",
   "ACTIVE": "Active",
   "DISABLE": "Disable",
   "TABLE_HEAD_EMP_INFO": "Employee Information",
@@ -49,7 +50,7 @@
   "MENU_INSTITUTION": "Care Institutions",
   "MENU_APPOINTMENTS": "Appointments",
   "MENU_EMAIL": "Emails",
-  "MENU_TO_DO_CARE_GIVER": "To-Dos Caretakers",
+  "MENU_TO_DO_CARE_GIVER": "To-Dos Caregiver",
   "MENU_TO_DO_INSTITUTION": "To-Dos Care Institutions",
   "MENU_BULK_EMAIL": "Bulk Email Caretakers",
   "MENU_INVOICES": "Invoices",
@@ -115,13 +116,13 @@
   "EMPLOYEE_ZIP_PLACEHOLDER": "Please Enter Zip Code",
   "EMPLOYEE_EMPLOYEE_RIGHTS_LABEL": "Employee rights",
   "EMPLOYEE_JOINING_DATE_LABEL": "Joining Date",
-  "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "DD/MM/YYYY",
+  "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "MM/DD/YYYY",
   "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL": "Add Profile image",
   "EMPLOYEE_OTHER_INFORMATION_LABEL": "Any other information",
   "EMPLOYEE_OTHER_INFORMATION": "otherinformation",
   "EMPLOYEE_OTHER_INFORMATION_PLACEHOLDER": "Please Enter  Any other information",
   "REGION_NAME_OF_REGION_LABEL": "Name of Region",
-  "REGION_NAME_OF_REGION_PLACEHOLDER": "Name of Region",
+  "REGION_NAME_OF_REGION_PLACEHOLDER": "Please Enter the name of region",
   "BANK_ADDRESS": "mobilePhone",
   "CAREGIVER_MOBILE_PHONE_PLACEHOLDER": " Mobile Phone",
   "CAREGIVER_EMAIL_ADDRESS_LABEL": "Email Address",
@@ -391,5 +392,7 @@
   "NORMAL": "Normal",
   "COMMENT": "Comment",
   "ADD_REMINDER": "Add Reminder",
-  "CANCEL": "Cancel"
+  "CANCEL": "Cancel",
+  "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added sucessfully",
+  "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully"
 }

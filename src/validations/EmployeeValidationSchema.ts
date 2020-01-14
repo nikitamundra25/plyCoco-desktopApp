@@ -7,7 +7,8 @@ import {
   telephoneReqExp,
   IBANlength,
   telMin,
-  telMax
+  telMax,
+  IBANReplaceRegex
 } from "../config";
 import { languageTranslation, logger, dateValidator } from "../helpers";
 export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -52,7 +53,6 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
       return !val || isValid || createError({ path, message });
     }
   }),
-  bankAccountNumber: Yup.string(),
   image: Yup.mixed()
     .test(
       "fileFormat",
@@ -69,8 +69,8 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     languageTranslation("IBAN_INVALID"),
     value =>
       !value ||
-      !value.replace(/\D+/g, "") ||
-      (value && value.replace(/\D+/g, "").length === IBANlength)
+      !value.replace(IBANReplaceRegex, "") ||
+      (value && value.replace(IBANReplaceRegex, "").length === IBANlength)
   ),
   telephoneNumber: Yup.mixed()
     .test(

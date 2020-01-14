@@ -26,6 +26,10 @@ export const State: IReactSelectInterface[] = [
   { value: "Saarland", label: "Saarland" },
   { value: "Saxony", label: "Saxony" }
 ];
+export const Gender: IReactSelectInterface[] = [
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" },
+]
 export const Department: IReactSelectInterface[] = [
   { value: "Sales", label: "Sales" },
   { value: "Marketing", label: "Marketing" },

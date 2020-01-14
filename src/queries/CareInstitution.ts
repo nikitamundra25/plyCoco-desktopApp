@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 const GET_CARE_INSTITUTION_LIST = gql`
   query getCareInstitutions {
-    getCareInstitutions {
+    getCareInstitutions(searchBy:null,limit:null,page:1) {
       id
       firstName
       lastName

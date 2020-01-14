@@ -13,6 +13,9 @@ export interface ICareInstitutionFormValues {
     companyName: string;
     street: string;
     city: string;
+    gender?: IReactSelectInterface;
+    website?: string;
+    title?: string;
     country?: IReactSelectInterface;
     state?: IReactSelectInterface;
     createdAt?: Date;
@@ -20,18 +23,25 @@ export interface ICareInstitutionFormValues {
     id?: number
     salt?: String,
     userRole?: String,
-    qualificationId?: number,
+    qualificationId?: IReactSelectInterface,
+    attributeId?: IReactSelectInterface
     isActive?: Boolean,
     isDeleted?: Boolean,
     zipCode?: string,
     countryId?: string,
     stateId?: string,
     regionId?: number,
-    remarks?: String,
-    linkedTo?: String,
-    careGiverCommission?: String,
-    doctorCommission?: String,
-    leasingPriceListId?: String,
+    remarks?: string,
+    linkedTo?: string,
+    anonymousName?: string,
+    anonymousName2?: string,
+    careGiverCommission?: string,
+    doctorCommission?: string,
+    leasingPriceListId?: IReactSelectInterface,
+    invoiceType?: IReactSelectInterface,
+    interval?: IReactSelectInterface,
+    emailInvoice?: string,
+    addressInvoice?: string,
     isArchive?: Boolean,
 }
 

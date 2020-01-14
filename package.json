@@ -36,6 +36,7 @@
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
+    "query-string": "^6.9.0",
     "react": "^16.8.5",
     "react-app-polyfill": "^0.2.2",
     "react-bootstrap": "^1.0.0-beta.16",

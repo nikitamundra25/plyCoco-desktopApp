@@ -152,90 +152,6 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
   );
 };
 
-const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
-  const [state, setState] = useState({
-    show: false
-  });
-  const handleClose = () => {
-    setState({ show: false });
-  };
-
-  return (
-    <Route
-      {...rest}
-      render={props => (
-        <div className="common-detail-page">
-          <div className="common-detail-section">
-            <div className="sticky-common-header">
-              <div className="common-topheader d-flex align-items-center ">
-                <div className="user-select">
-                  <Select
-                    defaultValue={{
-                      label: "John Doe",
-                      value: "0"
-                    }}
-                    placeholder="Select Caregiver"
-                    options={CareGiver}
-                  />
-                </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={add} alt="" />
-                  </span>
-                  <span className="header-nav-text">New Care Institution</span>
-                </div>
-
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={save} alt="" />
-                  </span>
-                  <span className="header-nav-text">Save</span>
-                </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={reminder} alt="" />
-                  </span>
-                  <span
-                    className="header-nav-text"
-                    onClick={() => {
-                      setState({ show: true });
-                    }}
-                  >
-                    Create Todo/Reminder
-                  </span>
-                </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={password} alt="" />
-                  </span>
-                  <span className="header-nav-text">New Password</span>
-                </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={appointment} alt="" />
-                  </span>
-                  <span className="header-nav-text">Display Appointments</span>
-                </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={clear} alt="" />
-                  </span>
-                  <span className="header-nav-text">Clear</span>
-                </div>
-              </div>
-              <CareInstitutionSidebar {...props} />
-            </div>
-            <div className="common-content flex-grow-1">
-              <Component {...props} />
-            </div>
-          </div>
-          <CreateTodo show={state.show} handleClose={handleClose} />
-        </div>
-      )}
-    />
-  );
-};
-
 class DefaultLayout extends Component<any, any> {
   timeInterval: any = null;
   constructor(props: any) {
@@ -278,14 +194,7 @@ class DefaultLayout extends Component<any, any> {
                           exact={route.exact}
                           component={route.component}
                         />
-                      ) : (
-                        <CareInstitutionLayout
-                          key={idx}
-                          path={route.path}
-                          exact={route.exact}
-                          component={route.component}
-                        />
-                      )
+                      ) : null
                     ) : route.component ? (
                       <Route
                         key={idx}

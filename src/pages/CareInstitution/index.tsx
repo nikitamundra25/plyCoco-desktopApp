@@ -39,104 +39,107 @@ const CareInstitution = (props: RouteComponentProps) => {
     userData = data.getCareInstitutions
   }
   const tableData: any[] = [];
-  userData && userData.length ? userData.map((user: ICareInstitutionFormValues, index: number) => {
-
-    return tableData.push(
-      <tr>
-        <td>
-          <div className="table-checkbox-wrap">
-            <div className="btn-group btn-check-action-wrap">
-              <span className="btn">
-                <span className="checkboxli checkbox-custom checkbox-default">
-                  <input type="checkbox" id="checkAll" className="" />
-                  <label className=""></label>
-                </span>
+  <>
+    {
+      userData && userData.length ? userData.map((user: ICareInstitutionFormValues, index: number) => {
+        return tableData.push(
+          <tr>
+            <td>
+              <div className="table-checkbox-wrap">
+                <div className="btn-group btn-check-action-wrap">
+                  <span className="btn">
+                    <span className="checkboxli checkbox-custom checkbox-default">
+                      <input type="checkbox" id="checkAll" className="" />
+                      <label className=""></label>
+                    </span>
+                  </span>
+                  <span className="checkbox-no">{index + 1}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div className="info-column">
+                <div className="description-column">
+                  <div className="info-title">{user.firstName}{" "}{user.lastName}</div>
+                  <p className="description-text">
+                    <i className="fa fa-envelope mr-2"></i>
+                    <span className="align-middle">{user.email}</span>
+                  </p>
+                  <p className="description-text">
+                    <i className="fa fa-phone mr-2"></i>
+                    <span className="align-middle">{user.phoneNumber ? user.phoneNumber : "N/A"}</span>
+                  </p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div className="description-column">
+                <div className="info-title">{user.companyName ? user.companyName : "N/A"}</div>
+                <p className="description-text">
+                  <span className="align-middle">{user.shortName ? user.shortName : "N/A"}</span>
+                </p>
+                <p className="description-text">
+                  <span className="align-middle">{user.userName ? user.userName : "N/A"}</span>
+                </p>
+              </div>
+            </td>
+            <td className="text-center">
+              <span
+                className={`status-btn ${
+                  index % 2 === 0 ? "active" : "inactive"
+                  }`}
+              >
+                {userData.isActive === null ? "Active" : "Disable"}
               </span>
-              <span className="checkbox-no">{index + 1}</span>
-            </div>
-          </div>
-        </td>
-        <td>
-          <div className="info-column">
-            <div className="description-column">
-              <div className="info-title">{user.firstName}{" "}{user.lastName}</div>
-              <p className="description-text">
-                <i className="fa fa-envelope mr-2"></i>
-                <span className="align-middle">{user.email}</span>
-              </p>
-              <p className="description-text">
-                <i className="fa fa-phone mr-2"></i>
-                <span className="align-middle">{user.phoneNumber ? user.phoneNumber : "N/A"}</span>
-              </p>
-            </div>
-          </div>
-        </td>
-        <td>
-          <div className="description-column">
-            <div className="info-title">{user.companyName ? user.companyName : "N/A"}</div>
-            <p className="description-text">
-              <span className="align-middle">{user.shortName ? user.shortName : "N/A"}</span>
-            </p>
-            <p className="description-text">
-              <span className="align-middle">{user.userName ? user.userName : "N/A"}</span>
-            </p>
-          </div>
-        </td>
-        <td className="text-center">
-          <span
-            className={`status-btn ${
-              index % 2 === 0 ? "active" : "inactive"
-              }`}
-          >
-            {userData.isActive === null ? "Active" : "Disable"}
-          </span>
-        </td>
-        <td>
-          <div className="action-btn">
-            <span
-              className="btn-icon mr-2"
-              id={`edit${index}`}
-              onClick={() =>
-                props.history.push(AppRoutes.CARE_INSTITUTION_PERSONAL_DATA)
-              }
-            >
-              <UncontrolledTooltip placement="top" target={`edit${index}`}>
-                Click here to edit employee
+            </td>
+            <td>
+              <div className="action-btn">
+                <span
+                  className="btn-icon mr-2"
+                  id={`edit${index}`}
+                  onClick={() =>
+                    props.history.push(AppRoutes.CARE_INSTITUION_VIEW)
+                  }
+                >
+                  <UncontrolledTooltip placement="top" target={`edit${index}`}>
+                    Click here to edit employee
                 </UncontrolledTooltip>
-              <i className="fa fa-pencil"></i>
-            </span>
-            <span
-              className="btn-icon mr-2"
-              id={`view${index}`}
-            >
-              <UncontrolledTooltip placement="top" target={`view${index}`}>
-                Click here to view Constitution
+                  <i className="fa fa-pencil"></i>
+                </span>
+                <span
+                  className="btn-icon mr-2"
+                  id={`view${index}`}
+                >
+                  <UncontrolledTooltip placement="top" target={`view${index}`}>
+                    Click here to view Constitution
                 </UncontrolledTooltip>
-              <i className="fa fa-eye"></i>
-            </span>
-            <span
-              className="btn-icon "
-              id={`delete${index}`}
-              onClick={() => props.history.push("")}
-            >
-              <UncontrolledTooltip placement="top" target={`delete${index}`}>
-                Click here to delete employee
+                  <i className="fa fa-eye"></i>
+                </span>
+                <span
+                  className="btn-icon "
+                  id={`delete${index}`}
+                  onClick={() => props.history.push("")}
+                >
+                  <UncontrolledTooltip placement="top" target={`delete${index}`}>
+                    Click here to delete employee
                 </UncontrolledTooltip>
-              <i className="fa fa-trash"></i>
-            </span>
-          </div>
-        </td>
-      </tr>
-    );
-  }) :
-    <tr>
-      <td>
-        <div>
-          <h2>No data found</h2>
-        </div>
-      </td>
-    </tr>
-    ;
+                  <i className="fa fa-trash"></i>
+                </span>
+              </div>
+            </td>
+          </tr>
+        );
+      }) :
+        tableData.push(
+
+          <tr className={"text-center"}>
+            <td colSpan={5} className={"pt-5 pb-5"}>
+              <h2>No data found</h2>
+            </td>
+          </tr>
+        )
+    }
+  </>
   return (
     <Card>
       <CardHeader>

@@ -79,6 +79,7 @@ const Constitution = React.lazy(() => import('../pages/CareInstitution'));
 const ConstitutionPersonalInfo = React.lazy(() =>
   import('../pages/CareInstitution/PersonalInfo'),
 );
+const ViewCareInstitution = React.lazy(() => import('../pages/CareInstitution/ViewCareInstituion'));
 const ConstitutionCommissionAgreement = React.lazy(() =>
   import('../pages/CareInstitution/CommisionAgreement'),
 );
@@ -171,78 +172,18 @@ const routes = [
     component: Constitution,
     exact: true,
   },
-  { path: AppRoutes.MAIN, exact: true, name: 'Dashboard' },
   {
-    path: AppRoutes.CARE_INSTITUTION_COMISSION_AGREEMENT,
-    name: 'Constitution Comission Agreement',
-    component: ConstitutionCommissionAgreement,
+    path: AppRoutes.MAIN,
     exact: true,
-    layout: ConstitutionLayout,
-    layoutName: 'Constitution',
+    name: 'Dashboard'
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_PERSONAL_DATA,
-    name: 'Constitution Personal Data',
-    component: ConstitutionPersonalInfo,
+    path: AppRoutes.CARE_INSTITUION_VIEW,
+    name: 'Care Institution View',
+    component: ViewCareInstitution,
     exact: true,
-    layout: ConstitutionLayout,
-    layoutName: 'Constitution',
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_OFFER,
-    name: 'Constitution Offer',
-    component: ConstitutionOffer,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: 'Constitution',
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_LOGIN,
-    name: 'Constitution Login',
-    component: ConstitutionLogin,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: 'Constitution',
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_INVOICE_CYCLE,
-    name: 'Constitution Invoices',
-    component: ConstitutionInvoices,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: 'Constitution',
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_DOCUMENT,
-    name: 'Constitution Documents',
-    component: ConstitutionDocuments,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: 'Constitution',
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_DEPARTMENT,
-    name: 'Constitution Department',
-    component: ConstitutionDepartment,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: 'Constitution',
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_EMAIL,
-    name: 'Constitution Emails',
-    component: ConstitutionEmail,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: 'Constitution',
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_REMINDER,
-    name: 'Constitution Reminders',
-    component: ConstitutionReminder,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: 'Constitution',
+    // layout: ConstitutionLayout,
+    // layoutName: 'Constitution',
   },
   {
     path: AppRoutes.HOME,

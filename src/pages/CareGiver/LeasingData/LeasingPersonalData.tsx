@@ -1,354 +1,86 @@
-import React, { Component } from "react";
-import { FormGroup, Label, Col, Row, Input, Button, Form } from "reactstrap";
-import Select from "react-select";
-import "react-datepicker/dist/react-datepicker.css";
+import React, { Component, useState } from "react";
+import { ILeasingValues } from "../../../interfaces";
+import { FormikHelpers, Formik, FormikProps } from "formik";
+import { Mutation, Query } from "@apollo/react-components";
+import LeasingPersonalDataFormComponent from "./LeasingPersonalDataFormComponent";
 import {
-  Status,
-  Nationality,
-  MaritalStatus,
-  HealthInsuranceType,
-  HealthInsuranceProvider,
-  Religion,
-  Preoccupation
-} from "../../../config";
+  GET_LEASING_DATA,
+  ADD_LEASING_DATA
+} from "../../../queries/LeasingQueries";
 
-class LeasingPersonalData extends Component {
+class LeasingPersonalData extends Component<any, ILeasingValues> {
+  handleSubmit = (
+    values: ILeasingValues,
+    { setSubmitting }: FormikHelpers<ILeasingValues>,
+    saveLeasingData: any
+  ) => {
+    // todo call
+    debugger;
+    const paylaod = {
+      variables: {
+        careGiverInput: { ...values }
+      }
+    };
+    saveLeasingData(paylaod);
+    setSubmitting(false);
+  };
+
   render() {
+    const initialValues: ILeasingValues = {
+      placeOfBirth: "",
+      birthName: "",
+      nationality: "",
+      maritalStatus: "",
+      children: "",
+      factorChildAllowance: "",
+      healthInsuranceType: "",
+      healthInsuranceProvider: "",
+      socialSecurityNumber: "",
+      religion: "",
+      controlId: "",
+      taxBracket: "",
+      preoccupation: "",
+      payrollIBAN: "",
+      status: ""
+    };
+
     return (
-      <div>
-        <Form className="form-section">
-          <Row>
-            <Col lg={"12"}>
-              <h5 className="main-title ">Leasing Personal Data</h5>
-              <div className="form-card">
-                <Row>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Place of Birth <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"placeOfBirth"}
-                              placeholder="Place of Birth"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Birth Name
-                            <br />
-                            <small>(only if different from family name)</small>
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"birthName"}
-                              placeholder="Birth Name"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Nationality<span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select
-                              options={Nationality}
-                              placeholder="Select Nationality"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg="6">
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Marital Status
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select
-                              options={MaritalStatus}
-                              placeholder="Marital Status"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Children
-                            <br />
-                            <small>(0 if none)</small>
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"children"}
-                              placeholder=" Children "
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Factor Child allowance
-                            <br />
-                            <small>(0 if none)</small>
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            {" "}
-                            <Input
-                              type="text"
-                              name={"factorChildAllowance"}
-                              placeholder="Factor Child allowance "
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Status
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select options={Status} placeholder="Status" />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Tax Bracket
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"taxBracket"}
-                              placeholder="Tax Bracket"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Health insurance type
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select
-                              options={HealthInsuranceType}
-                              placeholder="Health Insurance Type"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Health insurance provider
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select
-                              type="text"
-                              options={HealthInsuranceProvider}
-                              placeholder="Health insurance provider"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Social Security Number
-                            <br />
-                            <small>(example: 65170839J003)</small>
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"socialSecurityNumber"}
-                              placeholder=" Social Security Number"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Religion
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select options={Religion} placeholder="Religion" />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Control Id
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"controlId"}
-                              placeholder="Control Id"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Preoccupation
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select
-                              options={Preoccupation}
-                              placeholder="Preoccupation "
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"6"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Payroll IBAN <br />
-                            <small>
-                              (only necessary if an account other than the one
-                              in the profile is required.)
-                            </small>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <Input
-                            type="text"
-                            name={"PayrollIBAN"}
-                            placeholder="Payroll IBAN"
-                          />
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </div>
-            </Col>
-
-            <Col lg={"12"}>
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="mandatory-text">* Required Fields</div>
-              </div>
-            </Col>
-          </Row>
-        </Form>
-      </div>
+      <Mutation mutation={ADD_LEASING_DATA}>
+        {(saveLeasingData: any) => {
+          return (
+            <Formik
+              initialValues={initialValues}
+              onSubmit={(
+                values: ILeasingValues,
+                actions: FormikHelpers<ILeasingValues>
+              ): Promise<any> | void =>
+                this.handleSubmit(values, actions, saveLeasingData)
+              }
+              // validationSchema={CareGiverValidationSchema}
+              render={(props: FormikProps<ILeasingValues>) => {
+                return <LeasingPersonalDataFormComponent {...props} />;
+              }}
+            />
+          );
+        }}
+      </Mutation>
     );
   }
 }
+
+/* const fetchLeasingData = (props:any) =>{
+  return (
+    <Query 
+      query={GET_LEASING_DATA}    
+    >
+    {({loading, error, data}:any)=>{
+      if(loading) return "Loading..."
+      if(error) return `Error! ${error.message}`;
+      return <LeasingPersonalData data={data} />
+    }}
+
+    </Query>
+  )
+} */
+
 export default LeasingPersonalData;

@@ -1,4 +1,5 @@
 {
+  "REQUIRED_REGION": "Region name is required",
   "ACTIVE": "Active",
   "DISABLE": "Disable",
   "TABLE_HEAD_EMP_INFO": "Employee Information",
@@ -351,7 +352,6 @@
   "FILE_SIZE": "File size too large",
   "COUNTRY_PLACEHOLDER": "Select Country",
   "CHOOSE_IMAGE": "Choose Image",
-
   "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added sucessfully",
   "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully"
 }

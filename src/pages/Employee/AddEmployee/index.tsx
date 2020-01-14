@@ -2,6 +2,8 @@ import React, { useEffect, useState, FunctionComponent } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 import { EmployeeValidationSchema } from '../../../validations/EmployeeValidationSchema';
 import {
   IEmployeeFormValues,
@@ -11,7 +13,6 @@ import {
 import EmployeeFormComponent from './EmployeeFormComponent';
 import { EmployeeQueries } from '../../../queries';
 import { logger, languageTranslation } from '../../../helpers';
-import { toast } from 'react-toastify';
 import { AppRoutes } from '../../../config';
 
 const [ADD_EMPLOYEE, GET_EMPLOYEE_BY_ID, , UPDATE_EMPLOYEE] = EmployeeQueries;
@@ -99,7 +100,9 @@ export const EmployeeForm: FunctionComponent = () => {
         userName,
         email,
         phoneNumber: telephoneNumber ? telephoneNumber.toString() : '',
-        joiningDate: joiningDate ? joiningDate : null,
+        joiningDate: joiningDate
+          ? moment(joiningDate).format('YYYY/MM/DD')
+          : null,
         countryId: country && country.value ? parseInt(country.value) : null,
         stateId: state && state.value ? parseInt(state.value) : null,
         city,

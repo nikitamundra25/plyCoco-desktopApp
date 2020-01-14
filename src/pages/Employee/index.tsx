@@ -28,6 +28,7 @@ import { languageTranslation } from '../../helpers';
 import ButtonTooltip from '../../common/Tooltip/ButtonTooltip';
 import { useQuery } from '@apollo/react-hooks';
 import { EmployeeQueries } from '../../queries';
+import PaginationComponent from '../../common/Pagination';
 const userData = [
   {
     name: 'Sir John Doe',
@@ -242,7 +243,6 @@ const Employee: FunctionComponent = () => {
                         <td>{employee.lastName}</td>
                         <td>{employee.email}</td>
                         <td>{employee.userName}</td>
-
                         <td>{employee.phoneNumber}</td>
                       </tr>
                     ))}
@@ -251,6 +251,7 @@ const Employee: FunctionComponent = () => {
             )}
           </tbody>
         </Table>
+        <PaginationComponent totalRecords={20} currentPage={1} />
       </CardBody>
     </Card>
   );

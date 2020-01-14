@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { ILoginState } from '../../interfaces';
 import {
-  InputGroup,
   Button,
-  Col,
   FormGroup,
   Card,
-  Form,
+  Col,
   Row,
-} from 'react-bootstrap';
+  Form,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+} from 'reactstrap';
+import { ILoginState } from '../../interfaces';
 
 class MyProfile extends Component<any, ILoginState> {
   constructor(props: any) {
@@ -52,13 +54,13 @@ class MyProfile extends Component<any, ILoginState> {
                   &nbsp;My Profile
                 </h4>
                 <Form>
-                  <Form.Group className='position-relative mb-4'>
+                  <FormGroup className='position-relative mb-4'>
                     <InputGroup>
-                      <InputGroup.Prepend>
-                        <InputGroup.Text id='inputGroupPrepend'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
                           <i className='icon-user' />
-                        </InputGroup.Text>
-                      </InputGroup.Prepend>
+                        </InputGroupText>
+                      </InputGroupAddon>
                       <input
                         type={'text'}
                         name={'email'}
@@ -67,14 +69,14 @@ class MyProfile extends Component<any, ILoginState> {
                         onChange={this.handleChange}
                       />
                     </InputGroup>
-                  </Form.Group>
-                  <Form.Group className='position-relative mb-4'>
+                  </FormGroup>
+                  <FormGroup className='position-relative mb-4'>
                     <InputGroup>
-                      <InputGroup.Prepend>
-                        <InputGroup.Text id='inputGroupPrepend'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
                           <i className='icon-lock' />
-                        </InputGroup.Text>
-                      </InputGroup.Prepend>
+                        </InputGroupText>
+                      </InputGroupAddon>
                       <input
                         type={'password'}
                         name={'password'}
@@ -83,7 +85,7 @@ class MyProfile extends Component<any, ILoginState> {
                         onChange={this.handleChange}
                       />
                     </InputGroup>
-                  </Form.Group>
+                  </FormGroup>
                   <Col sm={2}>
                     <Button
                       type='submit'

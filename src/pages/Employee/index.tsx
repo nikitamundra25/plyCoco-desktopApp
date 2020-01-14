@@ -20,7 +20,7 @@ import {
   UncontrolledTooltip
 } from "reactstrap";
 import { AppRoutes } from "../../config";
-import { RouteComponentProps } from "react-router";
+import { useHistory } from "react-router-dom";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import Search from "../../common/SearchFilter";
@@ -28,10 +28,10 @@ import { languageTranslation } from "../../helpers";
 import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
 import { useQuery } from "@apollo/react-hooks";
 import { EmployeeQueries } from "../../queries";
-
 const [, , GET_EMPLOYEES] = EmployeeQueries;
 
 const Employee: FunctionComponent = () => {
+  let history = useHistory();
   // // To get emplyee details from db
   const { data, loading, error, refetch } = useQuery<any>(GET_EMPLOYEES);
   return (
@@ -42,7 +42,7 @@ const Employee: FunctionComponent = () => {
           color={"primary"}
           className={"btn-add"}
           id={"add-new-pm-tooltip"}
-          // onClick={() => this.props.history.push(AppRoutes.ADD_EMPLOYEE)}
+          onClick={() => history.push(AppRoutes.ADD_EMPLOYEE)}
         >
           <i className={"fa fa-plus"} />
           &nbsp; Add New Empolyee

@@ -115,7 +115,7 @@
   "EMPLOYEE_ZIP_PLACEHOLDER": "Please Enter Zip Code",
   "EMPLOYEE_EMPLOYEE_RIGHTS_LABEL": "Employee rights",
   "EMPLOYEE_JOINING_DATE_LABEL": "Joining Date",
-  "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "DD/MM/YYYY",
+  "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "MM/DD/YYYY",
   "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL": "Add Profile image",
   "EMPLOYEE_OTHER_INFORMATION_LABEL": "Any other information",
   "EMPLOYEE_OTHER_INFORMATION": "otherinformation",
@@ -350,5 +350,8 @@
   "UNSUPPORTED_FORMAT": "Unsupported File Format",
   "FILE_SIZE": "File size too large",
   "COUNTRY_PLACEHOLDER": "Select Country",
-  "CHOOSE_IMAGE": "Choose Image"
+  "CHOOSE_IMAGE": "Choose Image",
+
+  "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added sucessfully",
+  "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully"
 }

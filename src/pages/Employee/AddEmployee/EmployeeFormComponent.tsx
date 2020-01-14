@@ -13,10 +13,9 @@ import {
   Row,
 } from 'reactstrap';
 import Select from 'react-select';
-// import InputMask from 'react-input-mask';
 import MaskedInput from 'react-text-mask';
 import { FormikProps, Form } from 'formik';
-import { Region } from '../../../config';
+import { Region, IBANRegex, DateMask } from '../../../config';
 import routes from '../../../routes/routes';
 import {
   IEmployeeFormValues,
@@ -69,7 +68,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   // To fetch the list of countries
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
-  // To fetch the states of selected contry
+  // To fetch the states of selected contry & don't want to query on initial load
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
   );
@@ -77,12 +76,18 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({
+        label: name,
+        value: id,
+      }),
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({
+        label: name,
+        value: id,
+      }),
     );
   }
   // Custom function to handle image upload
@@ -112,7 +117,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     setFieldValue(name, selectOption);
     if (name === 'country') {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: {
+          countryid: selectOption ? selectOption.value : '82',
+        }, // default code is for germany
       });
     }
   };
@@ -448,29 +455,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   placeholder={languageTranslation(
                                     'BANK_IBAN_PLACEHOLDER',
                                   )}
-                                  // "91 1000 0000 0123 4567 89"
-                                  mask={[
-                                    /[A-Za-z]/,
-                                    /[A-Za-z]/,
-                                    /\d/,
-                                    /\d/,
-                                    ' ',
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    ' ',
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    ' ',
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                  ]}
-                                  // mask={' 9999 9999 9999 9999 9999 99'}
+                                  mask={IBANRegex}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   className={`form-control ${
@@ -484,7 +469,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     {errors.IBAN}
                                   </div>
                                 )}
-                                {/* <Input type="text" name={"IBAN"} /> */}
                               </div>
                             </Col>
                           </Row>
@@ -782,18 +766,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         placeholder={languageTranslation(
                                           'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
                                         )}
-                                        mask={[
-                                          /[0-9]/,
-                                          /\d/,
-                                          '/',
-                                          /\d/,
-                                          /\d/,
-                                          '/',
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                          /\d/,
-                                        ]}
+                                        mask={DateMask}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={joiningDate}

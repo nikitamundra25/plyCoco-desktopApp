@@ -65,108 +65,111 @@ const userData = [
     assignedCanstitution: '3',
   },
 ];
+const [, , GET_EMPLOYEES] = EmployeeQueries;
 
 const Employee: FunctionComponent = () => {
   let history = useHistory();
+  // // To get emplyee details from db
+  const { data, loading, error, refetch } = useQuery<any>(GET_EMPLOYEES);
   // const [, , GET_EMPLOYEES] = EmployeeQueries;
   // // To fetch the list of employees
   // const { data, loading, error, refetch } = useQuery<any>(GET_EMPLOYEES);
   const tableData: any[] = [];
-  userData.map((user, index): any => {
-    return tableData.push(
-      <tr>
-        <td>
-          <div className='table-checkbox-wrap'>
-            <div className='btn-group btn-check-action-wrap'>
-              <span className='btn'>
-                <span className='checkboxli checkbox-custom checkbox-default'>
-                  <input type='checkbox' id='checkAll' className='' />
-                  <label className=''></label>
-                </span>
-              </span>
-              <span className='checkbox-no'>{index + 1}</span>
-            </div>
-          </div>
-        </td>
-        <td>
-          <div className='info-column'>
-            <div className='img-column'>
-              <img
-                src='https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg'
-                className='img-fluid'
-              />
-            </div>
-            <div className='description-column'>
-              <div className='info-title'>{user.name}</div>
-              <p className='description-text'>
-                <i className='fa fa-envelope mr-2'></i>
-                <span className='align-middle'>{user.email}</span>
-              </p>
-              <p className='description-text'>
-                <i className='fa fa-phone mr-2'></i>
-                <span className='align-middle'>{user.phone}</span>
-              </p>
-            </div>
-          </div>
-        </td>
-        <td>
-          <div className='description-column  ml-0'>
-            {user.region
-              ? user.region.map(region => (
-                  <p className='description-text '>
-                    <span className='text-label mr-1'>
-                      <i className='fa fa-angle-right'></i>
-                    </span>
-                    <span className='align-middle'>{region}</span>
-                  </p>
-                ))
-              : null}
-          </div>
-        </td>
-        <td className='text-center'>
-          <div>{user.assignedCanstitution}</div>
-        </td>
-        <td className='text-center'>
-          <span
-            className={`status-btn ${index % 2 === 0 ? 'active' : 'inactive'}`}
-          >
-            {index % 2 === 0
-              ? languageTranslation('ACTIVE')
-              : languageTranslation('DISABLE')}
-          </span>
-        </td>
-        <td>
-          <div className='action-btn'>
-            <ButtonTooltip
-              id={`edit${index}`}
-              message={languageTranslation('EMP_EDIT')}
-              // onclick={() => this.props.history.push(AppRoutes.EDIT_EMPLOYEE)}
-            >
-              {' '}
-              <i className='fa fa-pencil'></i>
-            </ButtonTooltip>
-            <ButtonTooltip
-              id={`view${index}`}
-              message={languageTranslation('EMP_VIEW')}
-              // onclick={() => this.props.history.push(AppRoutes.VIEW_EMPLOYEE)}
-            >
-              {' '}
-              <i className='fa fa-eye'></i>
-            </ButtonTooltip>
+  // userData.map((user, index): any => {
+  //   return tableData.push(
+  //     <tr>
+  //       <td>
+  //         <div className="table-checkbox-wrap">
+  //           <div className="btn-group btn-check-action-wrap">
+  //             <span className="btn">
+  //               <span className="checkboxli checkbox-custom checkbox-default">
+  //                 <input type="checkbox" id="checkAll" className="" />
+  //                 <label className=""></label>
+  //               </span>
+  //             </span>
+  //             <span className="checkbox-no">{index + 1}</span>
+  //           </div>
+  //         </div>
+  //       </td>
+  //       <td>
+  //         <div className="info-column">
+  //           <div className="img-column">
+  //             <img
+  //               src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+  //               className="img-fluid"
+  //             />
+  //           </div>
+  //           <div className="description-column">
+  //             <div className="info-title">{user.name}</div>
+  //             <p className="description-text">
+  //               <i className="fa fa-envelope mr-2"></i>
+  //               <span className="align-middle">{user.email}</span>
+  //             </p>
+  //             <p className="description-text">
+  //               <i className="fa fa-phone mr-2"></i>
+  //               <span className="align-middle">{user.phone}</span>
+  //             </p>
+  //           </div>
+  //         </div>
+  //       </td>
+  //       <td>
+  //         <div className="description-column  ml-0">
+  //           {user.region
+  //             ? user.region.map(region => (
+  //                 <p className="description-text ">
+  //                   <span className="text-label mr-1">
+  //                     <i className="fa fa-angle-right"></i>
+  //                   </span>
+  //                   <span className="align-middle">{region}</span>
+  //                 </p>
+  //               ))
+  //             : null}
+  //         </div>
+  //       </td>
+  //       <td className="text-center">
+  //         <div>{user.assignedCanstitution}</div>
+  //       </td>
+  //       <td className="text-center">
+  //         <span
+  //           className={`status-btn ${index % 2 === 0 ? "active" : "inactive"}`}
+  //         >
+  //           {index % 2 === 0
+  //             ? languageTranslation("ACTIVE")
+  //             : languageTranslation("DISABLE")}
+  //         </span>
+  //       </td>
+  //       <td>
+  //         <div className="action-btn">
+  //           <ButtonTooltip
+  //             id={`edit${index}`}
+  //             message={languageTranslation("EMP_EDIT")}
+  //             // onclick={() => this.props.history.push(AppRoutes.EDIT_EMPLOYEE)}
+  //           >
+  //             {" "}
+  //             <i className="fa fa-pencil"></i>
+  //           </ButtonTooltip>
+  //           <ButtonTooltip
+  //             id={`view${index}`}
+  //             message={languageTranslation("EMP_VIEW")}
+  //             // onclick={() => this.props.history.push(AppRoutes.VIEW_EMPLOYEE)}
+  //           >
+  //             {" "}
+  //             <i className="fa fa-eye"></i>
+  //           </ButtonTooltip>
 
-            <ButtonTooltip
-              id={`delete${index}`}
-              message={languageTranslation('EMP_DELETE')}
-              // onclick={() => this.props.history.push('')}
-            >
-              {' '}
-              <i className='fa fa-trash'></i>
-            </ButtonTooltip>
-          </div>
-        </td>
-      </tr>,
-    );
-  });
+  //           <ButtonTooltip
+  //             id={`delete${index}`}
+  //             message={languageTranslation("EMP_DELETE")}
+  //             // onclick={() => this.props.history.push('')}
+  //           >
+  //             {" "}
+  //             <i className="fa fa-trash"></i>
+  //           </ButtonTooltip>
+  //         </div>
+  //       </td>
+  //     </tr>
+  //   );
+  // });
   return (
     <Card>
       <CardHeader>
@@ -215,7 +218,38 @@ const Employee: FunctionComponent = () => {
               <th>{languageTranslation('TABLE_HEAD_ACTION')}</th>
             </tr>
           </thead>
-          <tbody>{tableData}</tbody>
+          <tbody>
+            {loading ? (
+              <p>Loading ...</p>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>Stock</th>
+                    <th>id</th>
+                    <th>Stock</th>
+                    <th>id</th>
+                    <th>Stock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data &&
+                    data.getEmployees.map((employee: any) => (
+                      <tr>
+                        <td>{employee.id}</td>
+                        <td>{employee.firstName}</td>
+                        <td>{employee.lastName}</td>
+                        <td>{employee.email}</td>
+                        <td>{employee.userName}</td>
+
+                        <td>{employee.phoneNumber}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            )}
+          </tbody>
         </Table>
       </CardBody>
     </Card>

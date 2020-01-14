@@ -26,7 +26,7 @@ class EmailMenus extends Component<IEmailMenus, any> {
           <NavItem>
             <NavLink
               className={
-                pathname === "/caregiver/email/sent_email" ? "active" : null
+                pathname === "/caregiver/email/sent-email" ? "active" : null
               }
               onClick={() => this.props.history.push(AppRoutes.SENT_EMAIL)}
             >
@@ -39,7 +39,7 @@ class EmailMenus extends Component<IEmailMenus, any> {
           <NavItem>
             <NavLink
               className={
-                pathname === "/caregiver/email/new_email" ? "active" : null
+                pathname === "/caregiver/email/new-email" ? "active" : null
               }
               onClick={() => this.props.history.push(AppRoutes.NEW_EMAIL)}
             >

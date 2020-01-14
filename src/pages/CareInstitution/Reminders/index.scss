@@ -1,0 +1,24 @@
+@import "../../../scss/variables";
+.reminders-todo-table {
+  th {
+    border: 1px solid $table_border;
+  }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-reminders-todo-table {
+    margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+  .sno-col {
+    width: 45px;
+  } 
+  .institution-col {
+    width:100px;
+}
+
+}

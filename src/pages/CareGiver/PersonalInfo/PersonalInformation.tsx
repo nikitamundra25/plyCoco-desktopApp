@@ -11,20 +11,8 @@ import {
   InputGroupAddon,
   Card
 } from "reactstrap";
-import Select from "react-select";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
-import InputMask from "react-input-mask";
-
-import {
-  State,
-  Region,
-  Salutation,
-  LegalForm,
-  Country,
-  NightAllowancePerHour
-} from "../../../config";
 import { languageTranslation } from "../../../helpers";
 import PersonalInfoFormComponent from "./PersonalInfoFormComponent";
 import BillingSettingsFormComponent from "./BillingSettingsFormComponent";
@@ -106,7 +94,7 @@ class PersonalInformation extends Component<
             ): Promise<any> | void =>
               this.handleSubmit(values, actions, updateCareGiver)
             }
-            render={props => {
+            render={(props:any) => {
               return (
                 <Form className="form-section forms-main-section">
                   <Row>

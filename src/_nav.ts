@@ -13,7 +13,7 @@ export default {
       url: AppRoutes.EMPLOYEE
     },
     {
-      name: languageTranslation("MENU_REGION"),
+      name: languageTranslation("REGION"),
       icon: "icon-reg",
       url: AppRoutes.REGION
     },

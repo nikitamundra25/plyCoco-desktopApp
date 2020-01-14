@@ -24,7 +24,7 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
   props: FormikProps<IRegionFormValue>
 ) => {
   const {
-    values: { nameofRegion },
+    values: { regionName },
     touched,
     errors,
     isSubmitting,
@@ -68,23 +68,23 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
                     <Col sm="9">
                       <Input
                         type="text"
-                        name={"nameofRegion"}
+                        name={"regionName"}
                         placeholder={languageTranslation(
                           "REGION_NAME_OF_REGION_PLACEHOLDER"
                         )}
                         onChange={handleChange}
                         maxLength='30'
                         onBlur={handleBlur}
-                        value={nameofRegion}
+                        value={regionName}
                         className={
-                          errors.nameofRegion && touched.nameofRegion
+                          errors.regionName && touched.regionName
                             ? "text-input error"
                             : "text-input"
                         }
                       />
-                      {errors.nameofRegion && touched.nameofRegion && (
+                      {errors.regionName && touched.regionName && (
                         <div className="required-error">
-                          {errors.nameofRegion}
+                          {errors.regionName}
                         </div>
                       )}
                     </Col>

@@ -134,7 +134,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
             disabled={isSubmitting}
             className={'btn-add'}
             onClick={handleSubmit}
-            disabled={isSubmitting}
           >
             {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
             {languageTranslation('SAVE_BUTTON')}

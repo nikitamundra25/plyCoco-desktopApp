@@ -6,7 +6,7 @@ export const RegionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
   IRegionFormValue
 >> = Yup.object().shape<IRegionFormValue>({
-  nameofRegion: Yup.string()
+  regionName: Yup.string()
     .trim()
     .required(languageTranslation("REQUIRED_REGION"))
     .max(30, languageTranslation("REGION_MAXLENGTH"))

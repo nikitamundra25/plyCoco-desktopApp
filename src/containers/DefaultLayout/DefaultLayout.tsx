@@ -200,7 +200,12 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
                   </span>
                   <span className="header-nav-text">Save</span>
                 </div> */}
-                <div className="header-nav-item">
+                <div
+                  className="header-nav-item"
+                  onClick={() => {
+                    setState({ show: true });
+                  }}
+                >
                   <span className="header-nav-icon">
                     <img src={reminder} alt="" />
                   </span>

@@ -213,3 +213,9 @@ export const CareGiver: IReactSelectInterface[] = [
   { value: "us6", label: "Tierney St. Louis" },
   { value: "us5", label: "Ula Luckin" }
 ];
+
+export const Priority: IReactSelectInterface[] = [
+  { value: "Low", label: languageTranslation("LOW") },
+  { value: "Normal", label: languageTranslation("NORMAL") },
+  { value: "High", label: languageTranslation("HIGH") }
+];

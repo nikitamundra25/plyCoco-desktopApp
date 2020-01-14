@@ -380,5 +380,16 @@
   "UNSUPPORTED_FORMAT": "Unsupported File Format",
   "FILE_SIZE_TO_LARGE": "File size too large",
   "COUNTRY_PLACEHOLDER": "Select Country",
-  "CHOOSE_IMAGE": " Click here to select your profile image"
+  "CHOOSE_IMAGE": " Click here to select your profile image",
+  "TIME_OF_DAY": "Time of Day",
+  "JURIDICTION": "Juridiction",
+  "EXTERNALLY": "Externally",
+  "INTERNALLY": "Internally",
+  "PRIORITY": "Priority",
+  "LOW": "Low",
+  "HIGH": "High",
+  "NORMAL": "Normal",
+  "COMMENT": "Comment",
+  "ADD_REMINDER": "Add Reminder",
+  "CANCEL": "Cancel"
 }

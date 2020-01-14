@@ -55,7 +55,7 @@ class Region extends Component<RouteComponentProps, any> {
             className={"btn-add"}
             id={"add-new-pm-tooltip"}
             onClick={() => {
-              toast.success("Add region");
+              toast.error("Region Added Successfully");
               this.props.history.push(AppRoutes.ADD_REGION);
             }}
           >

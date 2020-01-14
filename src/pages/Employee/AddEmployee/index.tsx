@@ -103,8 +103,8 @@ export const EmployeeForm: FunctionComponent = () => {
         joiningDate: joiningDate
           ? moment(joiningDate).format('YYYY/MM/DD')
           : null,
-        countryId: country && country.value ? parseInt(country.value) : null,
-        stateId: state && state.value ? parseInt(state.value) : null,
+        country: country && country.value ? country.value : null,
+        state: state && state.value ? state.value : null,
         city,
         zipCode: zip,
         address1,

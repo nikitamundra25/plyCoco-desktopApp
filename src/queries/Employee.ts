@@ -19,8 +19,8 @@ const GET_EMPLOYEE_BY_ID = gql`
       employee {
         address1
         address2
-        countryId
-        stateId
+        country
+        state
         city
         zipCode
         joiningDate
@@ -54,12 +54,12 @@ const GET_EMPLOYEES = gql`
       email
       userName
       phoneNumber
-
+      isActive
       employee {
         joiningDate
         employeeCustomId
-        countryId
-        stateId
+        country
+        state
         city
         zipCode
         address1

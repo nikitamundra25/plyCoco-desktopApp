@@ -43,6 +43,7 @@
   "SORTBY_OPTION2": "Sort by Oldest",
   "SORTBY_OPTION3": "Sort by A-Z",
   "SORTBY_OPTION4": "Sort by Z-A",
+  "STATUS_LABEL": "Select Status",
   "RESET_LABEL": "Reset",
   "MENU_DASHBOARD": "Dashboard",
   "MENU_EMPLOYEE": "Employee",
@@ -385,5 +386,8 @@
   "CHOOSE_IMAGE": "Choose Image",
 
   "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added sucessfully",
-  "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully"
+  "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully",
+
+  "CONFIRM_LABEL": "Are you sure?",
+  "CONFIRM_EMPLOYEE_DELETE_MSG": "You want to delete this employee?"
 }

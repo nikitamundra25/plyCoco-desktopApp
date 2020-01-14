@@ -12,19 +12,24 @@ import {
 } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { AppBreadcrumb } from '@coreui/react';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import * as qs from 'query-string';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { AppRoutes, PAGE_LIMIT } from '../../config';
+import { AppRoutes, PAGE_LIMIT, client } from '../../config';
 import routes from '../../routes/routes';
 import Search from '../../common/SearchFilter';
 import { languageTranslation, logger } from '../../helpers';
 import ButtonTooltip from '../../common/Tooltip/ButtonTooltip';
 import { EmployeeQueries } from '../../queries';
 import PaginationComponent from '../../common/Pagination';
-import { ISearchValues } from '../../interfaces';
+import {
+  ISearchValues,
+  IEmployee,
+  IReactSelectInterface,
+} from '../../interfaces';
+import { ConfirmBox } from '../../common/ConfirmBox';
 
-const [, , GET_EMPLOYEES] = EmployeeQueries;
+const [, , GET_EMPLOYEES, , , DELETE_EMPLOYEE] = EmployeeQueries;
 
 const sortFilter: any = {
   3: 'name',
@@ -38,16 +43,22 @@ const Employee: FunctionComponent = () => {
   const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  // To get emplyee list from db
+  // To get employee list from db
   const [fetchEmployeeList, { data, loading }] = useLazyQuery<any>(
     GET_EMPLOYEES,
   );
+  // Mutation to delete employee
+  const [deleteEmployee, { error }] = useMutation<
+    { deleteEmployee: any },
+    { id: string }
+  >(DELETE_EMPLOYEE);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     const query = qs.parse(search);
     let searchBy: string = '';
-    let sortBy: any = { label: '', value: '' };
+    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
+    let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
     // To handle display and query param text
     let sortByValue: any = Object.keys(sortFilter).find(
       (key: any) => sortFilter[key] === query.sortBy,
@@ -76,10 +87,16 @@ const Employee: FunctionComponent = () => {
                 (key: any) => sortFilter[key] === query.sortBy,
               ) || '',
           }
-        : '';
+        : undefined;
+      isActive = query.status
+        ? query.status === 'active'
+          ? { label: languageTranslation('ACTIVE'), value: 'true' }
+          : { label: languageTranslation('DISABLE'), value: 'false' }
+        : undefined;
       setSearchValues({
         searchValue: searchBy,
         sortBy,
+        isActive,
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -110,9 +127,9 @@ const Employee: FunctionComponent = () => {
     if (searchValue) {
       params.search = searchValue;
     }
-    // if (isActive && isActive.value !== '') {
-    //   params.status = isActive.value === 'true' ? 'active' : 'deactive';
-    // }
+    if (isActive && isActive.value !== '') {
+      params.status = isActive.value === 'true' ? 'active' : 'disable';
+    }
     if (sortBy && sortBy.value !== '') {
       params.sortBy = sortBy.value !== '' ? sortFilter[sortBy.value] : '';
     }
@@ -130,6 +147,24 @@ const Employee: FunctionComponent = () => {
     history.push(path);
   };
 
+  const onDelete = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG'),
+    });
+    if (!value) {
+      return;
+    } else {
+      console.log(id, 'iddddddddddd');
+      await deleteEmployee({
+        variables: {
+          id,
+        },
+      });
+      // let { getEmployees } = client.readQuery({ query: GET_EMPLOYEES });
+      // console.log(getEmployees, 'ressssssssssssssssssssss');
+    }
+  };
   const {
     searchValue = '',
     sortBy = undefined,
@@ -154,7 +189,7 @@ const Employee: FunctionComponent = () => {
           onClick={() => history.push(AppRoutes.ADD_EMPLOYEE)}
         >
           <i className={'fa fa-plus'} />
-          &nbsp; Add New Empolyee
+          &nbsp; Add New Employee
         </Button>
       </CardHeader>
       <CardBody>
@@ -185,7 +220,9 @@ const Employee: FunctionComponent = () => {
                       <DropdownToggle caret color='link' />
                       <DropdownMenu>
                         <DropdownItem>Delete</DropdownItem>
-                        <DropdownItem>Active</DropdownItem>
+                        <DropdownItem>
+                          {languageTranslation('ACTIVE')}
+                        </DropdownItem>
                         <DropdownItem>Disable</DropdownItem>
                       </DropdownMenu>
                     </UncontrolledDropdown>
@@ -201,16 +238,32 @@ const Employee: FunctionComponent = () => {
           </thead>
           <tbody>
             {loading ? (
-              <p>Loading ...</p>
+              <tr>
+                <td>
+                  <div>Loading ...</div>
+                </td>
+              </tr>
             ) : (
               data &&
               data.getEmployees &&
               data.getEmployees.employeeData &&
               data.getEmployees.employeeData.map(
-                (employee: any, index: number) => {
+                (
+                  {
+                    id,
+                    firstName,
+                    userName,
+                    email,
+                    phoneNumber,
+                    region,
+                    assignedCanstitution,
+                    isActive,
+                  }: IEmployee,
+                  index: number,
+                ) => {
                   const replaceObj: any = {
-                    ':id': employee.id,
-                    ':userName': employee.userName,
+                    ':id': id,
+                    ':userName': userName,
                   };
                   return (
                     <tr key={index}>
@@ -241,54 +294,41 @@ const Employee: FunctionComponent = () => {
                           </div>
                           <div className='description-column'>
                             <div className='info-title'>
-                              {employee.firstName ? employee.firstName : ''}
+                              {firstName ? firstName : ''}
                             </div>
-                            <p className='description-text'>
+                            <div className='description-text'>
                               <i className='fa fa-envelope mr-2'></i>
                               <span className='align-middle'>
-                                {employee.email ? employee.email : ''}
+                                {email ? email : ''}
                               </span>
-                            </p>
-                            {employee.phoneNumber ? (
-                              <p className='description-text'>
+                            </div>
+                            {phoneNumber ? (
+                              <div className='description-text'>
                                 <i className='fa fa-phone mr-2'></i>
                                 <span className='align-middle'>
-                                  {employee.phoneNumber}
+                                  {phoneNumber}
                                 </span>
-                              </p>
+                              </div>
                             ) : null}
                           </div>
                         </div>
                       </td>
                       <td>
                         <div className='description-column  ml-0'>
-                          {employee.region
-                            ? employee.region
-                              ? employee.region.map((region: any) => (
-                                  <p className='description-text '>
-                                    <span className='text-label mr-1'>
-                                      <i className='fa fa-angle-right'></i>
-                                    </span>
-                                    <span className='align-middle'>
-                                      {region}
-                                    </span>
-                                  </p>
-                                ))
-                              : null
-                            : null}
+                          {region ? region : null}
                         </div>
                       </td>
                       <td className='text-center'>
-                        <div>{employee.assignedCanstitution}</div>
+                        <div>{assignedCanstitution}</div>
                       </td>
                       <td className='text-center'>
-                        {employee.isActive}
+                        {isActive}
                         <span
                           className={`status-btn ${
-                            employee.isActive ? 'active' : 'inactive'
+                            isActive ? 'active' : 'inactive'
                           }`}
                         >
-                          {employee.isActive
+                          {isActive
                             ? languageTranslation('ACTIVE')
                             : languageTranslation('DISABLE')}
                         </span>
@@ -326,7 +366,7 @@ const Employee: FunctionComponent = () => {
                           <ButtonTooltip
                             id={`delete${index}`}
                             message={languageTranslation('EMP_DELETE')}
-                            onclick={() => history.push('')}
+                            onclick={() => onDelete(id)}
                           >
                             {' '}
                             <i className='fa fa-trash'></i>

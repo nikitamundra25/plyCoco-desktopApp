@@ -8,7 +8,8 @@ import {
   Row,
   UncontrolledTooltip,
 } from 'reactstrap';
-import { Region, SortOptions } from '../../config';
+import { useHistory, useLocation } from 'react-router-dom';
+import { Region, SortOptions, StatusOptions } from '../../config';
 import { languageTranslation, logger } from '../../helpers';
 import { FormikProps, Form } from 'formik';
 import { ISearchValues, IReactSelectInterface } from '../../interfaces';
@@ -16,8 +17,10 @@ import { ISearchValues, IReactSelectInterface } from '../../interfaces';
 const Search: FunctionComponent<FormikProps<ISearchValues>> = (
   props: FormikProps<ISearchValues>,
 ) => {
+  let history = useHistory();
+  let { pathname } = useLocation();
   const {
-    values: { searchValue, sortBy },
+    values: { searchValue, sortBy, isActive },
     handleSubmit,
     handleChange,
     setFieldValue,
@@ -75,22 +78,42 @@ const Search: FunctionComponent<FormikProps<ISearchValues>> = (
               />
             </FormGroup>
           </Col>
+          <Col lg={'2'}>
+            <FormGroup>
+              <Label for='Selectregion' className='col-form-label'>
+                {languageTranslation('STATUS_LABEL')} :
+              </Label>
+              <Select
+                placeholder={languageTranslation('STATUS_LABEL')}
+                options={StatusOptions}
+                value={isActive}
+                onChange={(value: any) => handleSelect(value, 'isActive')}
+              />
+            </FormGroup>
+          </Col>
 
           <Col lg={'2'}>
             <div className='label-height'></div>
-            <div
-              className='filter-btn-wrap'
-              onClick={() => {
-                handleSubmit();
-              }}
-            >
-              <span className='btn-filter mr-2' id='search1'>
+            <div className='filter-btn-wrap'>
+              <span
+                className='btn-filter mr-2'
+                id='search1'
+                onClick={() => {
+                  handleSubmit();
+                }}
+              >
                 <UncontrolledTooltip placement='top' target='search1'>
                   {languageTranslation('SEARCH_LABEL')}
                 </UncontrolledTooltip>
                 <i className='fa fa-search'></i>
               </span>
-              <span className='btn-filter mr-2' id='reset'>
+              <span
+                className='btn-filter mr-2'
+                id='reset'
+                onClick={() => {
+                  history.push(pathname);
+                }}
+              >
                 <UncontrolledTooltip placement='top' target='reset'>
                   {languageTranslation('RESET_LABEL')}
                 </UncontrolledTooltip>

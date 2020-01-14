@@ -285,3 +285,14 @@ export const SortOptions: IReactSelectInterface[] = [
     value: '2',
   },
 ];
+
+export const StatusOptions: IReactSelectInterface[] = [
+  {
+    label: languageTranslation('ACTIVE'),
+    value: 'true',
+  },
+  {
+    label: languageTranslation('DISABLE'),
+    value: 'false',
+  },
+];

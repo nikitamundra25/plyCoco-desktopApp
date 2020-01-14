@@ -1,5 +1,5 @@
-import React, { Component, useState, Suspense } from "react";
-import { RouteComponentProps } from "react-router";
+import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
+import { RouteComponentProps, useLocation } from "react-router";
 import Select from "react-select";
 import { CareGiver, AppRoutes } from "../../config";
 import add from "../../assets/img/add.svg";
@@ -18,6 +18,8 @@ import Departments from "./Departments";
 import Emails from "./Emails";
 import Reminders from "./Reminders";
 import qs from "query-string";
+import { ICareInstitutionFormValues, IHandleSubmitInterface } from "../../interfaces";
+import { Formik, FormikProps, FormikHelpers } from 'formik';
 
 const CareInstitutionSidebar = React.lazy(() =>
   import(
@@ -27,152 +29,160 @@ const CareInstitutionSidebar = React.lazy(() =>
 
 const CareInstitutionTabs = careInstitutionRoutes
 
-class ViewCareInstitution extends Component<RouteComponentProps, any> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      activeTab: 0,
-      startDate: ""
-    };
-  }
+const ViewCareInstitution: FunctionComponent<FormikProps<
+  ICareInstitutionFormValues
+> & RouteComponentProps & IHandleSubmitInterface> = (props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps) => {
 
-  componentDidUpdate = ({ location }: RouteComponentProps) => {
-    if (this.props.location.search !== location.search) {
-      const query: any = qs.parse(this.props.location.search);
-      this.setState({
-        activeTab: query.tab
-          ? CareInstitutionTabs.findIndex(d => d.name === decodeURIComponent(query.tab))
-          : 0
-      });
-    }
-  }
-  onTabChange = (activeTab: number) => {
-    this.props.history.push(
+  const handleSubmit = (
+    values: ICareInstitutionFormValues,
+    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
+  ) => {
+    //to set submit state to false after successful signup
+    setSubmitting(false);
+    console.log("Value", values);
+
+  };
+
+  const [activeTab, setactiveTab] = useState(0)
+  const { search, pathname } = useLocation();
+  useEffect(() => {
+    const query: any = qs.parse(search);
+    setactiveTab(
+      query.tab
+        ? CareInstitutionTabs.findIndex(d => d.name === decodeURIComponent(query.tab))
+        : 0
+    )
+  }, [search]);
+
+  const onTabChange = (activeTab: number) => {
+    props.history.push(
       `${AppRoutes.CARE_INSTITUION_VIEW}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
     );
   };
-
-  render() {
-    const {
-      activeTab
-    } = this.state
-    return (
-      <div>
-        <div className="common-detail-page">
-          <div className="common-detail-section">
-            <Suspense fallback={"Loading.."}>
-              <div className="sticky-common-header">
-                <div className="common-topheader d-flex align-items-center ">
-                  <div className="user-select">
-                    <Select
-                      defaultValue={{
-                        label: "John Doe",
-                        value: "0"
-                      }}
-                      placeholder="Select Caregiver"
-                      options={CareGiver}
-                    />
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={add} alt="" />
-                    </span>
-                    <span className="header-nav-text">New Care Institution</span>
-                  </div>
-
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={save} alt="" />
-                    </span>
-                    <span className="header-nav-text">Save</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={reminder} alt="" />
-                    </span>
-                    <span
-                      className="header-nav-text"
-                    // onClick={() => {
-                    //   this.setState({ show: true });
-                    // }}
-                    >
-                      Create Todo/Reminder
-                    </span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={password} alt="" />
-                    </span>
-                    <span className="header-nav-text">New Password</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={appointment} alt="" />
-                    </span>
-                    <span className="header-nav-text">Display Appointments</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={clear} alt="" />
-                    </span>
-                    <span className="header-nav-text">Clear</span>
-                  </div>
+  return (
+    <div>
+      <div className="common-detail-page">
+        <div className="common-detail-section">
+          <Suspense fallback={"Loading.."}>
+            <div className="sticky-common-header">
+              <div className="common-topheader d-flex align-items-center ">
+                <div className="user-select">
+                  <Select
+                    defaultValue={{
+                      label: "John Doe",
+                      value: "0"
+                    }}
+                    placeholder="Select Caregiver"
+                    options={CareGiver}
+                  />
                 </div>
-                <CareInstitutionSidebar
-                  tabs={CareInstitutionTabs}
-                  activeTab={activeTab}
-                  onTabChange={this.onTabChange}
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={add} alt="" />
+                  </span>
+                  <span className="header-nav-text">New Care Institution</span>
+                </div>
+
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={save} alt="" />
+                  </span>
+                  <span
+                    // onClick={() => handleSubmit()}
+                    className="header-nav-text">
+                    Save
+                  </span>
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={reminder} alt="" />
+                  </span>
+                  <span
+                    className="header-nav-text"
+                  // onClick={() => {
+                  //   this.setState({ show: true });
+                  // }}
+                  >
+                    Create Todo/Reminder
+                    </span>
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={password} alt="" />
+                  </span>
+                  <span className="header-nav-text">New Password</span>
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={appointment} alt="" />
+                  </span>
+                  <span className="header-nav-text">Display Appointments</span>
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={clear} alt="" />
+                  </span>
+                  <span className="header-nav-text">Clear</span>
+                </div>
+              </div>
+              <CareInstitutionSidebar
+                tabs={CareInstitutionTabs}
+                activeTab={activeTab}
+                onTabChange={onTabChange}
+              />
+            </div>
+          </Suspense>
+          <Suspense fallback={""}>
+            <div className="common-content flex-grow-1">
+              {activeTab === 0 ? (
+                <PersonalInformation
+                  handleSubmit={()=>{
+                    console.log("sdadadasdada");
+                    
+                  }}
+                  {...props}
                 />
-              </div>
-            </Suspense>
-            <Suspense fallback={""}>
-              <div className="common-content flex-grow-1">
-                {activeTab === 0 ? (
-                  <PersonalInformation
-                    {...this.props}
-                  />
-                ) : null}
-                {activeTab === 1 ? (
-                  <Offers
-                    {...this.props}
-                  />
-                ) : null}
-                {activeTab === 2 ? (
-                  <Login
-                    {...this.props}
-                  />
-                ) : null}
-                {activeTab === 3 ? (
-                  <InvoiceMenu
-                    {...this.props}
-                  />
-                ) : null}
-                {activeTab === 4 ? (
-                  <Documents
-                    {...this.props}
-                  />
-                ) : null}
-                {activeTab === 5 ? (
-                  <Departments
-                    {...this.props}
-                  />
-                ) : null}
-                {activeTab === 6 ? (
-                  <Emails
-                    {...this.props}
-                  />
-                ) : null}
-                {activeTab === 7 ? (
-                  <Reminders
-                    {...this.props}
-                  />
-                ) : null}
-              </div>
-            </Suspense>
-          </div>
+              ) : null}
+              {activeTab === 1 ? (
+                <Offers
+                  {...props}
+                />
+              ) : null}
+              {activeTab === 2 ? (
+                <Login
+                  {...props}
+                />
+              ) : null}
+              {activeTab === 3 ? (
+                <InvoiceMenu
+                  {...props}
+                />
+              ) : null}
+              {activeTab === 4 ? (
+                <Documents
+                  {...props}
+                />
+              ) : null}
+              {activeTab === 5 ? (
+                <Departments
+                  {...props}
+                />
+              ) : null}
+              {activeTab === 6 ? (
+                <Emails
+                  {...props}
+                />
+              ) : null}
+              {activeTab === 7 ? (
+                <Reminders
+                  {...props}
+                />
+              ) : null}
+            </div>
+          </Suspense>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 export default ViewCareInstitution;

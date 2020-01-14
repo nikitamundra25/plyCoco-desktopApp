@@ -5,7 +5,7 @@ import CareInstitutionContact from "./CareInstitutionContact";
 import "../careinstitution.scss";
 import PersonalInfoForm from "./PersonalInfoForm";
 import { ICareInstitutionContact, ICareInstitutionFormValues } from "../../../interfaces";
-const PersonalInformation: any = () => {
+const PersonalInformation: any = (props: any) => {
 
   const handleContactSubmit = (
     values: ICareInstitutionContact,
@@ -30,13 +30,14 @@ const PersonalInformation: any = () => {
     updatedAt: new Date()
   };
 
-  const handleSubmit = (
-    values: ICareInstitutionFormValues,
-    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
-  ) => {
-    //to set submit state to false after successful signup
-    setSubmitting(false);
-  };
+  // const handleSubmit = (
+  //   values: ICareInstitutionFormValues,
+  //   { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
+  // ) => {
+  //   //to set submit state to false after successful signup
+  //   setSubmitting(false);
+  //   props.submitedValues()
+  // };
 
   const values: ICareInstitutionFormValues = {
     email: '',
@@ -54,7 +55,7 @@ const PersonalInformation: any = () => {
     <Form className="form-section forms-main-section">
       <Formik
         initialValues={values}
-        onSubmit={handleSubmit}
+        onSubmit={props.handleSubmit}
         children={(props: FormikProps<ICareInstitutionFormValues>) => (
           <PersonalInfoForm {...props} />
         )}

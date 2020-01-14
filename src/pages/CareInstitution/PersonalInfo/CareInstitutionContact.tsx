@@ -3,7 +3,7 @@ import { FormGroup, Label, Input, Col, Row } from "reactstrap";
 import { languageTranslation } from "../../../helpers";
 import Select from "react-select";
 import { State, Country } from "../../../config";
-import { FormikProps, Field, Form } from 'formik';
+import { FormikProps, Field, Form } from "formik";
 import { ICareInstitutionContact } from "../../../interfaces";
 
 const CareInstitutionConstForm: any = (
@@ -12,7 +12,7 @@ const CareInstitutionConstForm: any = (
   return (
     <Col lg={12} className={"form-section"}>
       <div className="form-flex-section mt-3 form-card minheight-auto">
-        <h5 className="main-title">New Care Institution</h5>
+        <h5 className="main-title">Add New contact </h5>
         <div className="form-flex-block">
           <div className="form-flex-tile">
             <Row>
@@ -170,7 +170,6 @@ const CareInstitutionConstForm: any = (
                           placeholder={languageTranslation("CONTACT_TYPE")}
                           options={State}
                         />
-
                       </div>
                     </Col>
                   </Row>
@@ -439,6 +438,6 @@ const CareInstitutionConstForm: any = (
         </div>
       </div>
     </Col>
-  )
-}
+  );
+};
 export default CareInstitutionConstForm;

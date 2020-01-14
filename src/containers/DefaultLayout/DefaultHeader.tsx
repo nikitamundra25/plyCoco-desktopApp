@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   UncontrolledDropdown,
   DropdownToggle,
-  DropdownItem,
+  DropdownItem
 } from "reactstrap";
 
 class DefaultHeader extends Component<any, any> {

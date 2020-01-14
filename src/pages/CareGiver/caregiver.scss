@@ -2,7 +2,7 @@
 .common-col {
   height: 100%;
   .quality-attribute-section {
-    height: calc(100% - 256px);
+    height: calc(100% - 277px);
     .common-list-card {
       height: 100%;
       margin-bottom: 12px;
@@ -25,5 +25,54 @@
         height: 100%;
       }
     }
+  }
+}
+.invoice-table {
+  th {
+    border: 1px solid $table_border;
+  }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-invoice-table {
+    margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+  .sno-col {
+    width: 45px;
+  }
+  .institution-col {
+    width: 100px;
+  }
+  .cancellation-col {
+    width: 110px;
+  }
+  .cancell-col {
+    width: 100px;
+  }
+  .facility-col {
+    width: 80px;
+  }
+  .date-col {
+    width: 100px;
+  }
+  .amount-col {
+    width: 100px;
+  }
+  .vat-col {
+    width: 100px;
+  }
+  .due-date-col {
+    width: 100px;
+  }
+  .factoring-col {
+    width: 100px;
+  }
+  .sent-col {
+    width: 100px;
   }
 }

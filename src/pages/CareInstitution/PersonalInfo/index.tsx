@@ -9,7 +9,7 @@ const PersonalInformation: any = () => {
 
   const handleContactSubmit = (
     values: ICareInstitutionContact,
-    { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionContact>
   ) => {
     //to set submit state to false after successful signup
     setSubmitting(false);
@@ -71,5 +71,5 @@ const PersonalInformation: any = () => {
       />
     </Form>
   );
-}
+};
 export default PersonalInformation;

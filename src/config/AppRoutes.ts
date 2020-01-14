@@ -1,5 +1,5 @@
-import { languageTranslation } from '../helpers';
-import { IAppRoutes } from '../interfaces';
+import { languageTranslation } from "../helpers";
+import { IAppRoutes } from "../interfaces";
 
 export const AppRoutes: IAppRoutes = {
   MAIN: '/',

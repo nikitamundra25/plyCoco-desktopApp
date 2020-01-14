@@ -8,7 +8,7 @@ import {
   CardBody,
   Input,
   Col,
-  Row,
+  Row
 } from "reactstrap";
 import Select from "react-select";
 import { AppBreadcrumb } from "@coreui/react";
@@ -144,9 +144,7 @@ const AddCareInstitution: any = (
                               <Input
                                 type="text"
                                 name={"firstName"}
-                                placeholder={languageTranslation(
-                                  "FIRST_NAME"
-                                )}
+                                placeholder={languageTranslation("FIRST_NAME")}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={firstName}
@@ -375,9 +373,7 @@ const AddCareInstitution: any = (
                                 name={"shortName"}
                                 onChange={handleChange}
                                 value={shortName}
-                                placeholder={languageTranslation(
-                                  "SHORT_NAME"
-                                )}
+                                placeholder={languageTranslation("SHORT_NAME")}
                                 className="width-common"
                               />
                             </div>
@@ -563,5 +559,5 @@ const AddCareInstitution: any = (
       /> */}
     </div>
   );
-}
+};
 export default AddCareInstitution;

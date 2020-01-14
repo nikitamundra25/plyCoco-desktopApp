@@ -28,7 +28,7 @@ class DocumentsUpload extends Component {
                 <td>1</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
-                <td>Diploama/Exam</td>
+                <td>Diploma/Exam</td>
                 <td></td>
                 <td>
                   <span className="checkboxli checkbox-custom checkbox-default">
@@ -42,7 +42,7 @@ class DocumentsUpload extends Component {
                 <td>2</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
-                <td>Diploama/Exam</td>
+                <td>Diploma/Exam</td>
                 <td></td>
                 <td>
                   <span className="checkboxli checkbox-custom checkbox-default">
@@ -56,7 +56,7 @@ class DocumentsUpload extends Component {
                 <td>3</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
-                <td>Diploama/Exam</td>
+                <td>Diploma/Exam</td>
                 <td></td>
                 <td>
                   <span className="checkboxli checkbox-custom checkbox-default">
@@ -70,7 +70,7 @@ class DocumentsUpload extends Component {
                 <td>4</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
-                <td>Diploama/Exam</td>
+                <td>Diploma/Exam</td>
                 <td></td>
                 <td>
                   <span className="checkboxli checkbox-custom checkbox-default">
@@ -84,7 +84,7 @@ class DocumentsUpload extends Component {
                 <td>5</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
-                <td>Diploama/Exam</td>
+                <td>Diploma/Exam</td>
                 <td></td>
                 <td>
                   <span className="checkboxli checkbox-custom checkbox-default">
@@ -98,7 +98,7 @@ class DocumentsUpload extends Component {
                 <td>6</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
-                <td>Diploama/Exam</td>
+                <td>Diploma/Exam</td>
                 <td></td>
                 <td>
                   <span className="checkboxli checkbox-custom checkbox-default">
@@ -112,7 +112,7 @@ class DocumentsUpload extends Component {
                 <td>7</td>
                 <td>20.08.2019 12:08:20</td>
                 <td>License.pdf</td>
-                <td>Diploama/Exam</td>
+                <td>Diploma/Exam</td>
                 <td></td>
                 <td>
                   <span className="checkboxli checkbox-custom checkbox-default">

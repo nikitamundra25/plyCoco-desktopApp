@@ -502,18 +502,22 @@ body {
 }
 .sidebar {
   background: $theme_color;
-
+  // height: 100vh !important;
+  &.sidebar-sticky {
+    top: 0px;
+    height: 100vh !important;
+  }
   .nav-item {
     .nav-link {
       padding: 8px 10px;
-      font-size: $font_14;
+      font-size: $font_13;
       .nav-icon {
         color: $white;
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
         height: 18px;
-        margin: 0px 16px 0px 16px;
+        margin: 0px 10px 0px 0px;
         &.icon-dash {
           width: 18px;
           background-image: url(assets/img/sidebar/home.svg);
@@ -672,7 +676,11 @@ body {
     .nav-item {
       .nav-link {
         padding-left: 0 !important;
+        .nav-icon {
+          margin: 0px 16px 0px 16px;
+        }
       }
+
       &:hover {
         width: 290px;
         .nav-link {
@@ -758,9 +766,9 @@ body {
   border: 1px solid #f1f1f1;
   border-top: 0px;
   background: $white;
-  min-height: 400px;
+  min-height: 200px;
   padding: 0px 10px;
-  max-height: 400px;
+  max-height: 200px;
 }
 .message-text {
   position: absolute;
@@ -983,6 +991,7 @@ body {
         color: $btn_hover_gray;
         position: absolute;
         display: flex;
+        flex-flow:column;
         align-items: center;
         justify-content: center;
         height: 100%;
@@ -992,6 +1001,9 @@ body {
         &:hover {
           cursor: pointer;
           color: $gray_color;
+        }
+        .icon-upload{
+          font-size:35px;
         }
       }
       .file-upload-input {
@@ -1223,7 +1235,7 @@ body {
   td {
     .date-title {
       font-weight: 700;
-      font-size: $font_13;
+      font-size: $font_12;
       cursor: pointer;
       color: $black;
       padding: 4px;
@@ -1384,6 +1396,8 @@ body {
   }
 }
 .employee-details {
+  background: $white;
+  padding: 10px 10px;
   .employee-title {
     color: $black;
     font-size: $font_14;
@@ -1441,10 +1455,10 @@ body {
   .nav-item {
     .nav-link {
       cursor: pointer;
-      border-radius: 4px;
+      border-radius: 0px;
       padding: 4px 15px;
       font-size: $font_13;
-      border: 1px solid $white;
+      border: 1px solid $transparent;
       font-weight: 600;
       border-bottom: $transparent;
       .icon {
@@ -1488,7 +1502,7 @@ body {
       background: $white;
       padding-top: 4px;
       .header-nav-item {
-        padding: 4px 6px;
+        padding: 4px 5px;
         font-size: $font_12;
         color: $black;
         cursor: pointer;
@@ -1565,7 +1579,7 @@ body {
     .common-sidnav {
       background: $white;
       padding: 12px 0px 0px 0px;
-
+      position: relative;
       .common-ul {
         padding: 0px;
         list-style: none;
@@ -1652,6 +1666,14 @@ body {
             }
           }
         }
+      }
+      .btn-add {
+        position: absolute;
+        top: 5px;
+        right: 8px;
+        padding: 4px 30px;
+        font-weight: 600;
+        font-size: $font_13;
       }
     }
     // .caregiver-right {
@@ -1811,7 +1833,7 @@ body {
 }
 .email-section {
   .email-content {
-    padding: 20px 0px;
+    padding: 15px 0px;
     .mail-listing {
       list-style: none;
       padding: 0px;
@@ -1995,18 +2017,19 @@ body {
 .email-inbox-section {
   ul {
     list-style: none;
-    border-top: 1px solid #ddd;
-    border: 1px solid #ddd;
+    border-top: 1px solid $table_border;
+    border: 1px solid $table_border;
+    background: $white;
   }
   li {
     .email-date-block {
       cursor: pointer;
       font-size: 12px;
       font-weight: bold;
-      background: #f1f1f1;
+      background: $white;
       position: relative;
-      border-top: 1px solid #ddd;
-      padding: 2px 2px 2px 20px;
+      border-top: 1px solid $table_border;
+      padding: 4px 4px 4px 20px;
       &::before {
         cursor: pointer;
         display: inline-block;
@@ -2049,16 +2072,16 @@ body {
     display: flex;
     .email-date-time-block {
       flex: 0 0 135px;
-      padding: 2px;
-      border-right: 1px solid #ddd;
-      border-top: 1px solid #ddd;
+      padding: 4px;
+      border-right: 1px solid $table_border;
+      border-top: 1px solid $table_border;
     }
     .email-subject-block {
       flex: 0 0 135px;
       max-width: 135px;
-      padding: 2px;
-      border-right: 1px solid #ddd;
-      border-top: 1px solid #ddd;
+      padding: 4px;
+      border-right: 1px solid $table_border;
+      border-top: 1px solid $table_border;
       span {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -2068,11 +2091,11 @@ body {
     .email-text-wrap {
       flex: 1 1 50%;
       max-width: 100%;
-      padding: 2px;
+      padding: 4px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      border-top: 1px solid #ddd;
+      border-top: 1px solid $table_border;
       span {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -2096,7 +2119,7 @@ body {
         &.input-wrap {
           flex: 1 1 100%;
           input {
-            height: 36px;
+            height: 30px;
           }
         }
       }
@@ -2106,9 +2129,10 @@ body {
     }
   }
   .email-heading-wrap {
-    border-right: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-    background: #f1f1f1;
+    border-right: 1px solid $table_border;
+    border-left: 1px solid $table_border;
+    background: $th_bg;
+    font-weight: 700;
   }
 }
 .toggle-filter {
@@ -2186,6 +2210,7 @@ body {
 .new-email-select-wrap {
   width: 300px;
   margin-left: 15px;
+  font-weight: normal;
   .new-email-select {
     width: 100%;
   }

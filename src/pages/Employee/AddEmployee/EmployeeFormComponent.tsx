@@ -10,14 +10,14 @@ import {
   CardBody,
   Input,
   Col,
-  Row,
-} from 'reactstrap';
-import Select from 'react-select';
+  Row
+} from "reactstrap";
+import Select from "react-select";
 // import InputMask from 'react-input-mask';
-import MaskedInput from 'react-text-mask';
-import { FormikProps, Form } from 'formik';
-import { Region } from '../../../config';
-import routes from '../../../routes/routes';
+import MaskedInput from "react-text-mask";
+import { FormikProps, Form } from "formik";
+import { Region } from "../../../config";
+import routes from "../../../routes/routes";
 import {
   IEmployeeFormValues,
   ICountries,
@@ -55,7 +55,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       city,
       zip,
       joiningDate,
-      image,
+      image
     },
     touched,
     errors,
@@ -71,18 +71,18 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
   // Custom function to handle image upload
@@ -108,11 +108,11 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
+    logger(selectOption, "value");
     setFieldValue(name, selectOption);
-    if (name === 'country') {
+    if (name === "country") {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
     }
   };
@@ -148,10 +148,10 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm='4'>
-                                <Label className='form-label col-form-label'>
-                                  {languageTranslation('FIRST_NAME')}
-                                  <span className='required'>*</span>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("FIRST_NAME")}
+                                  <span className="required">*</span>
                                 </Label>
                               </Col>
                               <Col sm="8">
@@ -244,10 +244,10 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     onBlur={(e: any) => {
                                       //get string before a @ to set username
                                       const username = email
-                                        ? email.substring(0, email.indexOf('@'))
-                                        : '';
+                                        ? email.substring(0, email.indexOf("@"))
+                                        : "";
 
-                                      setFieldValue('userName', username);
+                                      setFieldValue("userName", username);
                                       handleBlur(e);
                                     }}
                                     value={email}
@@ -319,7 +319,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col sm="8">
                                 <div>
                                   <Input
-                                    name={'telephoneNumber'}
+                                    name={"telephoneNumber"}
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_TELEPHONE_NUMBER_PLACEHOLDER"
                                     )}
@@ -443,7 +443,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             <Col sm="8">
                               <div>
                                 <MaskedInput
-                                  name={'IBAN'}
+                                  name={"IBAN"}
                                   value={IBAN}
                                   placeholder={languageTranslation(
                                     "BANK_IBAN_PLACEHOLDER"
@@ -454,21 +454,21 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     /[A-Za-z]/,
                                     /\d/,
                                     /\d/,
-                                    ' ',
+                                    " ",
                                     /\d/,
                                     /\d/,
                                     /\d/,
                                     /\d/,
-                                    ' ',
+                                    " ",
                                     /\d/,
                                     /\d/,
                                     /\d/,
                                     /\d/,
-                                    ' ',
+                                    " ",
                                     /\d/,
                                     /\d/,
                                     /\d/,
-                                    /\d/,
+                                    /\d/
                                   ]}
                                   // mask={' 9999 9999 9999 9999 9999 99'}
                                   onChange={handleChange}
@@ -626,9 +626,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                         <Col lg={"6"}>
                           <FormGroup>
                             <Row>
-                              <Col sm='4'>
-                                <Label className='form-label col-form-label'>
-                                  {languageTranslation('REGION')}
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("REGION")}
                                 </Label>
                               </Col>
                               <Col sm="8">
@@ -648,9 +648,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                         <Col lg={"6"}>
                           <FormGroup>
                             <Row>
-                              <Col sm='4'>
-                                <Label className='form-label col-form-label'>
-                                  {languageTranslation('COUNTRY')}
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("COUNTRY")}
                                 </Label>
                               </Col>
                               <Col sm="8">
@@ -662,7 +662,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     options={countriesOpt}
                                     value={country ? country : undefined}
                                     onChange={(value: any) =>
-                                      handleSelect(value, 'country')
+                                      handleSelect(value, "country")
                                     }
                                   />
                                 </div>
@@ -687,10 +687,10 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     options={statesOpt}
                                     value={state ? state : undefined}
                                     onChange={(value: any) =>
-                                      handleSelect(value, 'state')
+                                      handleSelect(value, "state")
                                     }
                                     noOptionsMessage={() => {
-                                      return 'Select a country first';
+                                      return "Select a country first";
                                     }}
                                   />
                                 </div>
@@ -709,7 +709,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col sm="8">
                                 <div>
                                   <Input
-                                    name={'city'}
+                                    name={"city"}
                                     onChange={handleChange}
                                     // className="form-control"
                                     placeholder={languageTranslation(
@@ -719,8 +719,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     onBlur={handleBlur}
                                     className={
                                       errors.city && touched.city
-                                        ? 'text-input error'
-                                        : 'text-input'
+                                        ? "text-input error"
+                                        : "text-input"
                                     }
                                   />
                                 </div>
@@ -749,12 +749,12 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     onBlur={handleBlur}
                                     className={
                                       errors.zip && touched.zip
-                                        ? 'text-input error'
-                                        : 'text-input'
+                                        ? "text-input error"
+                                        : "text-input"
                                     }
                                   />
                                   {errors.zip && touched.zip && (
-                                    <div className='required-error'>
+                                    <div className="required-error">
                                       {errors.zip}
                                     </div>
                                   )}
@@ -778,21 +778,21 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   <Row>
                                     <Col>
                                       <MaskedInput
-                                        name={'joiningDate'}
+                                        name={"joiningDate"}
                                         placeholder={languageTranslation(
                                           "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
                                         )}
                                         mask={[
                                           /[0-9]/,
                                           /\d/,
-                                          '/',
+                                          "/",
                                           /\d/,
                                           /\d/,
-                                          '/',
+                                          "/",
                                           /\d/,
                                           /\d/,
                                           /\d/,
-                                          /\d/,
+                                          /\d/
                                         ]}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -828,8 +828,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm='8'>
-                                <div className='fileinput-preview d-flex align-items-center justify-content-center'>
+                              <Col sm="8">
+                                <div className="fileinput-preview d-flex align-items-center justify-content-center">
                                   {!errors.image ? (
                                     imagePreviewUrl &&
                                     typeof imagePreviewUrl === "string" ? (
@@ -844,29 +844,35 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   ) : (
                                     ""
                                   )}
-                                  <div className='file-upload'>
+                                  <div className="file-upload">
                                     <label
-                                      htmlFor='gallery-photo-add'
-                                      className='file-upload-label'
+                                      htmlFor="gallery-photo-add"
+                                      className="file-upload-label"
                                     >
+                                      <div className="icon-upload">
+                                        <i className="cui-cloud-upload"></i>
+                                      </div>
+                                      {/* <div className="icon-text">
+                                        Click here to select your profile image
+                                      </div> */}
                                       {!image || errors.image
-                                        ? languageTranslation('CHOOSE_IMAGE')
-                                        : ''}
+                                        ? languageTranslation("CHOOSE_IMAGE")
+                                        : ""}
                                     </label>
                                     <input
-                                      className='file-upload-input'
-                                      type='file'
-                                      accept='image/*'
-                                      id='gallery-photo-add'
+                                      className="file-upload-input"
+                                      type="file"
+                                      accept="image/*"
+                                      id="gallery-photo-add"
                                       placeholder={languageTranslation(
-                                        'EMPLOYEE_ADD_PROFILE_IMAGE_LABEL',
+                                        "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
                                       )}
                                       onChange={handleImageChange}
                                     />
                                   </div>
                                 </div>
                                 {errors.image && touched.image && (
-                                  <div className='file-error-text'>
+                                  <div className="file-error-text">
                                     {errors.image}
                                   </div>
                                 )}
@@ -878,13 +884,12 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                     </div>
                   </Col>
                 </Row>
-                <Col lg={"12"}>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="mandatory-text">
-                      {languageTranslation("REQUIRED_FIELDS")}
-                    </div>
+
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="mandatory-text">
+                    {languageTranslation("REQUIRED_FIELDS")}
                   </div>
-                </Col>
+                </div>
               </Form>
             </Col>
           </Row>

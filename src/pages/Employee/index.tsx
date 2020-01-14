@@ -22,12 +22,14 @@ import {
 import { AppRoutes } from "../../config";
 import { useHistory } from "react-router-dom";
 import { AppBreadcrumb } from "@coreui/react";
+import { useQuery } from "@apollo/react-hooks";
 import routes from "../../routes/routes";
 import Search from "../../common/SearchFilter";
 import { languageTranslation } from "../../helpers";
 import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
-import { useQuery } from "@apollo/react-hooks";
 import { EmployeeQueries } from "../../queries";
+import PaginationComponent from "../../common/Pagination";
+
 const [, , GET_EMPLOYEES] = EmployeeQueries;
 
 const Employee: FunctionComponent = () => {
@@ -194,6 +196,7 @@ const Employee: FunctionComponent = () => {
             )}
           </tbody>
         </Table>
+        <PaginationComponent totalRecords={20} currentPage={1} />
       </CardBody>
     </Card>
   );

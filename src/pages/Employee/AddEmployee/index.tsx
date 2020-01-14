@@ -2,6 +2,8 @@ import React, { useEffect, useState, FunctionComponent } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 import { EmployeeValidationSchema } from '../../../validations/EmployeeValidationSchema';
 import {
   IEmployeeFormValues,
@@ -11,7 +13,6 @@ import {
 import EmployeeFormComponent from './EmployeeFormComponent';
 import { EmployeeQueries } from '../../../queries';
 import { logger, languageTranslation } from '../../../helpers';
-import { toast } from 'react-toastify';
 import { AppRoutes } from '../../../config';
 
 const [ADD_EMPLOYEE, GET_EMPLOYEE_BY_ID, , UPDATE_EMPLOYEE] = EmployeeQueries;
@@ -41,7 +42,7 @@ export const EmployeeForm: FunctionComponent = () => {
   // To get the employee details by id
   const [
     getEmployeeDetails,
-    { data: employeeDetails, error: detailsError, refetch }
+    { data: employeeDetails, error: detailsError, refetch },
   ] = useLazyQuery<any>(GET_EMPLOYEE_BY_ID);
 
   // Similar to componentDidMount and componentDidUpdate:
@@ -69,7 +70,7 @@ export const EmployeeForm: FunctionComponent = () => {
   // function to add/edit employee information
   const handleSubmit = async (
     values: IEmployeeFormValues,
-    { setSubmitting, setFieldError }: FormikHelpers<IEmployeeFormValues>
+    { setSubmitting, setFieldError }: FormikHelpers<IEmployeeFormValues>,
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -90,7 +91,7 @@ export const EmployeeForm: FunctionComponent = () => {
       city,
       zip,
       joiningDate,
-      image
+      image,
     } = values;
     try {
       let employeeInput: IEmployeeInput = {
@@ -98,8 +99,10 @@ export const EmployeeForm: FunctionComponent = () => {
         lastName,
         userName,
         email,
-        phoneNumber: telephoneNumber ? telephoneNumber.toString() : "",
-        joiningDate: joiningDate ? joiningDate : null,
+        phoneNumber: telephoneNumber ? telephoneNumber.toString() : '',
+        joiningDate: joiningDate
+          ? moment(joiningDate).format('YYYY/MM/DD')
+          : null,
         country: country && country.value ? country.value : null,
         state: state && state.value ? state.value : null,
         city,
@@ -110,7 +113,7 @@ export const EmployeeForm: FunctionComponent = () => {
         accountHolder: accountHolderName,
         additionalText,
         IBAN,
-        BIC
+        BIC,
       };
       if (id) {
         await updateEmployee({
@@ -131,9 +134,9 @@ export const EmployeeForm: FunctionComponent = () => {
       history.push(AppRoutes.EMPLOYEE);
     } catch (error) {
       const message = error.message
-        .replace("SequelizeValidationError: ", "")
-        .replace("Validation error: ", "")
-        .replace("GraphQL error: ", "");
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
       // setFieldError('email', message);
       toast.error(message);
     }

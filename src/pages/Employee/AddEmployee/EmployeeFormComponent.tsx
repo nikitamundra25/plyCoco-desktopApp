@@ -130,6 +130,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
           <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
           <Button
             color={'primary'}
+            disabled={isSubmitting}
             className={'btn-add'}
             onClick={handleSubmit}
           >

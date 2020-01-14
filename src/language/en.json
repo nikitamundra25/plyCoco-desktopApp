@@ -353,5 +353,7 @@
   "COUNTRY_PLACEHOLDER": "Select Country",
   "CHOOSE_IMAGE": "Choose Image",
   "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added sucessfully",
-  "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully"
+  "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully",
+  "REGION_MAXLENGTH": "Region must be less than 30 characters",
+  "ADD_NEW_EMPLOYEE_BUTTON":"Add New Empolyee"
 }

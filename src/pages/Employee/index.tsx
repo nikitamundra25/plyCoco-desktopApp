@@ -47,7 +47,7 @@ const Employee: FunctionComponent = () => {
           onClick={() => history.push(AppRoutes.ADD_EMPLOYEE)}
         >
           <i className={"fa fa-plus"} />
-          &nbsp; Add New Empolyee
+          &nbsp;{languageTranslation("ADD_NEW_EMPLOYEE_BUTTON")}
         </Button>
       </CardHeader>
       <CardBody>

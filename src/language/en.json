@@ -389,5 +389,14 @@
   "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully",
 
   "CONFIRM_LABEL": "Are you sure?",
-  "CONFIRM_EMPLOYEE_DELETE_MSG": "You want to delete this employee?"
+  "CONFIRM_EMPLOYEE_DELETE_MSG": "You want to delete this employee?",
+  "TABEL_HEAD_CG_INFO":"CareGiver Information",
+  "TABEL_HEAD_CG_QUALIFICATION":"Qualification",
+  "TABEL_HEAD_CG_REGION":"Region",
+  "TABEL_HEAD_CG_APPLYING_AS":"Applying as",
+  "TABEL_HEAD_CG_STATUS":"Status",
+  "TABEL_HEAD_CG_ACTION":"Action"
+
+
+  
 }

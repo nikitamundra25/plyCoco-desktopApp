@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, FunctionComponent, useState, useEffect } from 'react';
 import {
   Button,
   FormGroup,
@@ -19,8 +19,9 @@ import {
   DropdownItem,
   UncontrolledTooltip,
 } from 'reactstrap';
-import { AppRoutes } from '../../config';
-import { RouteComponentProps } from 'react-router';
+import * as qs from 'query-string';
+import { AppRoutes, PAGE_LIMIT } from '../../config';
+import { RouteComponentProps, useHistory, useLocation } from 'react-router';
 import { AppBreadcrumb } from '@coreui/react';
 import routes from '../../routes/routes';
 import { userData } from './CareGiverData';
@@ -29,228 +30,383 @@ import Search from '../../common/SearchFilter';
 import ButtonTooltip from '../../common/Tooltip/ButtonTooltip';
 import { languageTranslation } from '../../helpers';
 import { UsersQuery } from '../../queries';
-import { GET_CAREGIVERS } from '../../queries/CareGiver';
-class CareGiver extends Component<RouteComponentProps, any> {
-  render() {
-    const tableData: any[] = [];
-    userData.map((user, index): any => {
-      console.log('userData', userData);
-      return tableData.push(
-        <tr>
-          <td>
-            <div className='table-checkbox-wrap'>
-              <div className='btn-group btn-check-action-wrap'>
-                <span className='btn'>
-                  <span className='checkboxli checkbox-custom checkbox-default'>
-                    <input type='checkbox' id='checkAll' className='' />
-                    <label className=''></label>
-                  </span>
-                </span>
-                <span className='checkbox-no'>{index + 1}</span>
-              </div>
-            </div>
-          </td>
+import { GET_CAREGIVERS, DELETE_CAREGIVER } from '../../queries/CareGiver';
+import { ISearchValues, IReactSelectInterface } from '../../interfaces';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { FormikHelpers, Formik, FormikProps } from 'formik';
+import { ConfirmBox } from '../../common/ConfirmBox';
 
-          <td>
-            <div className='info-column'>
-              <div className='img-column'>
-                <img
-                  src='https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg'
-                  className='img-fluid'
-                />
-              </div>
-              <div className='description-column'>
-                <div className='info-title'>{user.name}</div>
-                <p className='description-text'>
-                  <i className='fa fa-envelope mr-2'></i>
-                  <span className='align-middle'>{user.email}</span>
-                </p>
-                <p className='description-text'>
-                  <i className='fa fa-phone mr-2'></i>
-                  <span className='align-middle'>{user.phone}</span>
-                </p>
-              </div>
-            </div>
-          </td>
-          <td>
-            <div className='description-column  ml-0'>
-              {user.qualification
-                ? user.qualification.map(qualification => (
-                    <>
-                      <p className='description-text '>
-                        <span className='text-label mr-1'>
-                          <i className='fa fa-angle-right'></i>
-                        </span>
-                        <span className='align-middle'>{qualification}</span>
-                      </p>
-                    </>
-                  ))
-                : null}
-            </div>
-          </td>
-          <td>
-            <div className='description-column  ml-0'>
-              {user.region
-                ? user.region.map(region => (
-                    <p className='description-text '>
-                      <span className='text-label mr-1'>
-                        <i className='fa fa-angle-right'></i>
-                      </span>
-                      <span className='align-middle'>{region}</span>
-                    </p>
-                  ))
-                : null}
-            </div>
-          </td>
+const sortFilter: any = {
+  3: 'name',
+  4: 'name-desc',
+  2: 'oldest',
+  1: 'newest',
+};
 
-          <td>
-            <div>
-              <p className='description-text'>
-                <span className='align-middle'>{user.applyingAs}</span>
-              </p>
-            </div>
-          </td>
+const CareGiver: FunctionComponent = () => {
+  let history = useHistory();
+  const { search, pathname } = useLocation();
+  const [searchValues, setSearchValues] = useState<ISearchValues | null>();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  // To get care giver list from db
+  const [fetchCareGiverList, { data, loading }] = useLazyQuery<any>(
+    GET_CAREGIVERS,
+  );
 
-          <td className='text-center'>
-            <span
-              className={`status-btn ${
-                index % 2 === 0 ? 'active' : 'inactive'
-              }`}
-            >
-              {index % 2 === 0 ? 'Active' : 'Disable'}
-            </span>
-          </td>
-          <td>
-            <div className='action-btn'>
-              <ButtonTooltip
-                id={`view${index}`}
-                message={languageTranslation('CAREGIVER_VIEW')}
-                onclick={() =>
-                  this.props.history.push(AppRoutes.PERSONAL_INFORMATION)
-                }
-              >
-                {' '}
-                <i className='fa fa-eye'></i>
-              </ButtonTooltip>
-              <ButtonTooltip
-                id={`delete${index}`}
-                message={languageTranslation('CAREGIVER_DELETE')}
-                onclick={() => this.props.history.push('')}
-              >
-                <i className='fa fa-trash'></i>
-              </ButtonTooltip>
-            </div>
-          </td>
-        </tr>,
-      );
+  // Mutation to delete care giver
+  const [deleteCaregiver, { error }] = useMutation<
+    { deleteCaregiver: any },
+    { id: string }
+  >(DELETE_CAREGIVER);
+
+  useEffect(() => {
+    const query = qs.parse(search);
+    let searchBy: string = '';
+    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
+    let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
+    // To handle display and query param text
+    let sortByValue: any = Object.keys(sortFilter).find(
+      (key: any) => sortFilter[key] === query.sortBy,
+    );
+    console.log(sortByValue);
+    console.log(typeof sortByValue);
+    if (sortByValue === '3') {
+      sortBy.label = 'Sort by A-Z';
+    }
+    if (sortByValue === '4') {
+      sortBy.label = 'Sort by Z-A';
+    }
+    if (sortByValue === '2') {
+      sortBy.label = 'Sort by Oldest';
+    }
+    if (sortByValue === '1') {
+      sortBy.label = 'Sort by Newest';
+    }
+    if (query) {
+      searchBy = query.search ? (query.search as string) : '';
+      sortBy = sortByValue
+        ? {
+          ...sortBy,
+          value:
+            Object.keys(sortFilter).find(
+              (key: any) => sortFilter[key] === query.sortBy,
+            ) || '',
+        }
+        : undefined;
+      isActive = query.status
+        ? query.status === 'active'
+          ? { label: languageTranslation('ACTIVE'), value: 'true' }
+          : { label: languageTranslation('DISABLE'), value: 'false' }
+        : undefined;
+      setSearchValues({
+        searchValue: searchBy,
+        sortBy,
+        isActive,
+      });
+      setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+    }
+    // call query
+    fetchCareGiverList({
+      variables: {
+        searchBy,
+        sortBy: sortByValue ? parseInt(sortByValue) : 0,
+        limit: PAGE_LIMIT,
+        page: query.page ? parseInt(query.page as string) : 1,
+        isActive: query.status
+          ? query.status === 'active'
+            ? { label: 'Active', value: 'true' }
+            : { label: 'Deactive', value: 'false' }
+          : '',
+      },
     });
+  }, [search]); // It will run when the search value gets changed
 
-    return (
-      <Row className='m-0'>
-        <Col xs={'12'} lg={'12'} className='p-0'>
-          <Card>
-            <CardHeader>
-              <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
-              <Button
-                color={'primary'}
-                className={'btn-add'}
-                id={'add-new-pm-tooltip'}
-                onClick={() =>
-                  this.props.history.push(AppRoutes.ADD_CARE_GIVER)
-                }
-              >
-                <i className={'fa fa-plus'} />
-                &nbsp; Add New Care Giver
-              </Button>
-            </CardHeader>
+  const handleSubmit = async (
+    { searchValue, isActive, sortBy }: ISearchValues,
+    { setSubmitting }: FormikHelpers<ISearchValues>,
+  ) => {
+    let params: {
+      [key: string]: any;
+    } = {};
+    params.page = 1;
+    if (searchValue) {
+      params.search = searchValue;
+    }
+    if (isActive && isActive.value !== '') {
+      params.status = isActive.value === 'true' ? 'active' : 'disable';
+    }
+    if (sortBy && sortBy.value !== '') {
+      params.sortBy = sortBy.value !== '' ? sortFilter[sortBy.value] : '';
+    }
+    const path = [pathname, qs.stringify(params)].join('?');
+    history.push(path);
+    console.log('path', path);
+  };
 
-            <CardBody>
-              <div>{/* <Search /> */}</div>
-              <Table bordered hover responsive>
-                <thead className='thead-bg'>
-                  <tr>
-                    <th>
+  const onPageChanged = (currentPage: number) => {
+    console.log('onPageChanged', currentPage);
+    const query = qs.parse(search);
+    const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
+      '?',
+    );
+    history.push(path);
+  };
+
+  const onDelete = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG'),
+    });
+    if (!value) {
+      return;
+    } else {
+      console.log(id, 'iddddddddddd');
+      await deleteCaregiver({
+        variables: {
+          id,
+        },
+      });
+    }
+  };
+
+  const {
+    searchValue = '',
+    sortBy = undefined,
+    isActive = undefined,
+  } = searchValues ? searchValues : {};
+
+  const values: ISearchValues = {
+    searchValue,
+    isActive,
+    sortBy,
+  };
+  let count = (currentPage - 1) * PAGE_LIMIT + 1;
+
+  return (
+    <Row className='m-0'>
+      <Col xs={'12'} lg={'12'} className='p-0'>
+        <Card>
+          <CardHeader>
+            <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+            <Button
+              color={'primary'}
+              className={'btn-add'}
+              id={'add-new-pm-tooltip'}
+              onClick={() => history.push(AppRoutes.ADD_CARE_GIVER)}
+            >
+              <i className={'fa fa-plus'} />
+              &nbsp; Add New Care Giver
+        </Button>
+          </CardHeader>
+          <CardBody>
+            <div>
+              <Formik
+                initialValues={values}
+                enableReinitialize={true}
+                onSubmit={handleSubmit}
+                children={(props: FormikProps<ISearchValues>) => (
+                  <Search {...props} />
+                )}
+              />
+            </div>
+          </CardBody>
+          <Table bordered hover responsive>
+            <thead className='thead-bg'>
+
+              <thead className='thead-bg'>
+                <tr>
+                  <th>
+                    <div className='table-checkbox-wrap'>
+                      <div className='btn-group btn-check-action-wrap'>
+                        <span className='btn'>
+                          <span className='checkboxli checkbox-custom checkbox-default'>
+                            <input type='checkbox' id='checkAll' className='' />
+                            <label className=''></label>
+                          </span>
+                        </span>
+                        <UncontrolledDropdown className='custom-dropdown'>
+                          <DropdownToggle caret color='link' />
+                          <DropdownMenu>
+                            <DropdownItem>Delete</DropdownItem>
+                            <DropdownItem>
+                              {languageTranslation('ACTIVE')}
+                            </DropdownItem>
+                            <DropdownItem>Disable</DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledDropdown>
+                      </div>
+                    </div>
+                  </th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_INFO')}</th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_QUALIFICATION')}</th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_REGION')}</th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_APPLYING_AS')}</th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_STATUS')}</th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_ACTION')}</th>
+                </tr>
+              </thead>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td>
+                    <div>Loading ...</div>
+                  </td>
+                </tr>
+              )
+            :(
+              // data && 
+              // data.getCareGivers &&
+              //  data.getCareGivers.map(({
+              //    id,
+                 
+              //  }))
+              userData.map((user, index): any => {
+                console.log('userData', userData);
+                return (<tr>
+                    <td>
                       <div className='table-checkbox-wrap'>
                         <div className='btn-group btn-check-action-wrap'>
                           <span className='btn'>
                             <span className='checkboxli checkbox-custom checkbox-default'>
-                              <input
-                                type='checkbox'
-                                id='checkAll'
-                                className=''
-                              />
+                              <input type='checkbox' id='checkAll' className='' />
                               <label className=''></label>
                             </span>
                           </span>
-                          <UncontrolledDropdown className='custom-dropdown'>
-                            <DropdownToggle caret color='link' />
-                            <DropdownMenu>
-                              <DropdownItem>Delete</DropdownItem>
-                              <DropdownItem>Active</DropdownItem>
-                              <DropdownItem>Deactive</DropdownItem>
-                            </DropdownMenu>
-                          </UncontrolledDropdown>
+                          <span className='checkbox-no'>{index + 1}</span>
                         </div>
                       </div>
-                    </th>
-                    <th>CareGiver Information</th>
-                    <th>Qualification</th>
-                    <th>Region</th>
-                    {/* <th>Price Range</th> */}
-                    <th>Applying as</th>
-                    <th className='text-center'>Status</th>
-                    <th className='text-center'>Action</th>
+                    </td>
+          
+                    <td>
+                      <div className='info-column'>
+                        <div className='img-column'>
+                          <img
+                            src='https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg'
+                            className='img-fluid'
+                          />
+                        </div>
+                        <div className='description-column'>
+                          <div className='info-title'>{user.name}</div>
+                          <p className='description-text'>
+                            <i className='fa fa-envelope mr-2'></i>
+                            <span className='align-middle'>{user.email}</span>
+                          </p>
+                          <p className='description-text'>
+                            <i className='fa fa-phone mr-2'></i>
+                            <span className='align-middle'>{user.phone}</span>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className='description-column  ml-0'>
+                        {user.qualification
+                          ? user.qualification.map(qualification => (
+                              <>
+                                <p className='description-text '>
+                                  <span className='text-label mr-1'>
+                                    <i className='fa fa-angle-right'></i>
+                                  </span>
+                                  <span className='align-middle'>{qualification}</span>
+                                </p>
+                              </>
+                            ))
+                          : null}
+                      </div>
+                    </td>
+                    <td>
+                      <div className='description-column  ml-0'>
+                        {user.region
+                          ? user.region.map(region => (
+                              <p className='description-text '>
+                                <span className='text-label mr-1'>
+                                  <i className='fa fa-angle-right'></i>
+                                </span>
+                                <span className='align-middle'>{region}</span>
+                              </p>
+                            ))
+                          : null}
+                      </div>
+                    </td>
+          
+                    {/* <td>
+                      <div className="description-column">
+                        <p className="description-text">
+                          <span className="text-bold mr-2">Fee Per Hour</span>
+                          <span className="align-middle">100 EUR</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-bold mr-2">
+                            Night allowance per hour:
+                          </span>
+                          <span className="align-middle">120 EUR</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-bold mr-2">
+                            Weekend allowance per hour:
+                          </span>
+                          <span className="align-middle">150 EUR</span>
+                        </p>
+                        <p className="description-text">
+                          <span className="text-bold mr-2">
+                            Holiday allowance per hour:
+                          </span>
+                          <span className="align-middle">200 EUR</span>
+                        </p>
+                      </div>
+                    </td> */}
+          
+                    <td>
+                      <div>
+                        <p className='description-text'>
+                          <span className='align-middle'>{user.applyingAs}</span>
+                        </p>
+                      </div>
+                    </td>
+          
+                    <td className='text-center'>
+                      <span
+                        className={`status-btn ${
+                          index % 2 === 0 ? 'active' : 'inactive'
+                        }`}
+                      >
+                        {index % 2 === 0 ? 'Active' : 'Disable'}
+                      </span>
+                    </td>
+                    <td>
+                      <div className='action-btn'>
+                        <ButtonTooltip
+                          id={`view${index}`}
+                          message={languageTranslation('CAREGIVER_VIEW')}
+                          onclick={() =>
+                            history.push(AppRoutes.PERSONAL_INFORMATION)
+                          }
+                        >
+                          {' '}
+                          <i className='fa fa-eye'></i>
+                        </ButtonTooltip>
+                        <ButtonTooltip
+                          id={`delete${index}`}
+                          message={languageTranslation('CAREGIVER_DELETE')}
+                          onclick={() => history.push('')}
+                        >
+                          <i className='fa fa-trash'></i>
+                        </ButtonTooltip>
+                      </div>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>{tableData}</tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    );
-  }
+                )
+              })
+            )
+            }
+            </tbody>
+          </Table>
+        </Card>
+      </Col>
+    </Row>
+  )
+
 }
 
-
-interface CareGiverInterface{
-    id:number;
-    salutation:string;
-    firstName:string;
-    surname:string;
-    address:string;
-    dob:string;
-    phone:string;
-    fax:string;
-    mobile:string;
-    email:string;
-    password:string;
-    driverLicenseAvailable:string;
-    driverLicense:string;
-    ownVehicleAvailable:string;
-    legalType:string;
-    legalInfo:string;
-    securityContribution:string;
-    taxInput:string;
-    workingZones:string;
-    remarks:string;
-    qualifications:string;
-    createdAt:string
-}
-
-interface CareGiverData{
-  getCareGivers:CareGiverInterface[];
-}
-
-const CareGiverList = (props:any)=>{
-  const {loading, data}=UsersQuery<CareGiverData>(
-    GET_CAREGIVERS
-  );
-  debugger
-  // if(loading){
-  //   return 'Loading...'
-  // }
-  return (<CareGiver data={data} {...props} />)
-}
-
-export default CareGiverList;
+export default CareGiver;

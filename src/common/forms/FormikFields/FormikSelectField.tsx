@@ -1,18 +1,8 @@
 import React from 'react';
 import { getIn } from 'formik';
 import {Label} from 'reactstrap';
-import Select, { components } from "react-select"
+import Select from "react-select"
 
-
-const DropdownIndicator = (props:any) => {
-    return (
-      components.DropdownIndicator && (
-        <components.DropdownIndicator {...props}>
-          >
-        </components.DropdownIndicator>
-      )
-    )
-  }
 
 export const FormikSelectField: any = (
     props: any) => {
@@ -61,7 +51,6 @@ export const FormikSelectField: any = (
             onBlur={rest.onBlur || form.handleBlur}
             variant={variant}
             arrowRenderer={null}
-            components={DropdownIndicator}
             isDisabled={isSubmitting || disabled}
             endAdornment={endAdornment || null}
             ignoreAccents={false}

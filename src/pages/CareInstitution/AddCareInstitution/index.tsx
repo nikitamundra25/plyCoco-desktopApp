@@ -6,6 +6,7 @@ import AddCareInstitution from './AddCareInstitution';
 import { CareInstitutionQueries } from "../../../queries";
 import { useMutation } from '@apollo/react-hooks';
 import { logger } from "../../../helpers";
+import PaginationComponent from '../../../common/Pagination';
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -76,6 +77,7 @@ export const CareInstitutionForm = () => {
       )}
       validationSchema={CareInstituionValidationSchema}
     />
+    
   );
 };
 

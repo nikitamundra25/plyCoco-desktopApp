@@ -19,6 +19,7 @@ const GET_REGIONS = gql`
     ) {
       totalCount
       regionData {
+        id
         regionName
       }
     }

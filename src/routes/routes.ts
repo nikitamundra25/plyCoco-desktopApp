@@ -119,6 +119,10 @@ const CareGiverTodoLayout = React.lazy(() =>
 const CareInstitutionTodoLayout = React.lazy(() =>
   import("../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout")
 );
+const CareGiverTodo = React.lazy(() => import("../pages/CareGiverTodo"));
+const CareInstitutionTodo = React.lazy(() =>
+  import("../pages/CareInstitutionTodo")
+);
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -364,6 +368,22 @@ const routes = [
     name: "View Employee",
     component: ViewEmployee,
     exact: true
+  },
+  {
+    path: AppRoutes.CAREGIVER_TODO,
+    name: "Care Giver Todo",
+    component: CareGiverTodo,
+    exact: true,
+    layout: CareGiverTodoLayout,
+    layoutName: "CareGiverTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_TODO,
+    name: "Care Institution Todo",
+    component: CareInstitutionTodo,
+    exact: true,
+    layout: CareInstitutionTodoLayout,
+    layoutName: "CareInstitutionTodoLayout"
   }
 ];
 

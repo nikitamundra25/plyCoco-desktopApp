@@ -6,18 +6,12 @@ import {
   CardHeader,
   CardBody,
   Table,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
 } from "reactstrap";
 import { AppRoutes, PAGE_LIMIT } from "../../config";
-import { RouteComponentProps, useHistory, useLocation } from "react-router";
+import {useHistory, useLocation } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import Search from "../../common/SearchFilter";
-import { toast } from "react-toastify";
-import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
 import { languageTranslation, logger } from "../../helpers";
 import { RegionQueries } from "../../queries/Region";
 import { ISearchValues } from "../../interfaces";
@@ -166,7 +160,7 @@ export const Region: FunctionComponent = () => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} />
+              <Search {...props} status={false} />
             )}
           />
           {/* <Search /> */}
@@ -198,7 +192,7 @@ export const Region: FunctionComponent = () => {
               data.getRegions.regionData.map((region: any, index: number) => {
                 return (
                   <tr key={index}>
-                    <td>{index + 1}</td>
+                    <td>{count++}</td>
                     <td className="text-center">{region.regionName}</td>
                     <td className="text-center">-</td>
                     <td className="text-center">-</td>

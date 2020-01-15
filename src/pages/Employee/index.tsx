@@ -8,26 +8,26 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
-import { useHistory, useLocation } from 'react-router-dom';
-import { AppBreadcrumb } from '@coreui/react';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
-import * as qs from 'query-string';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { AppRoutes, PAGE_LIMIT, client } from '../../config';
-import routes from '../../routes/routes';
-import Search from '../../common/SearchFilter';
-import { languageTranslation, logger } from '../../helpers';
-import ButtonTooltip from '../../common/Tooltip/ButtonTooltip';
-import { EmployeeQueries } from '../../queries';
-import PaginationComponent from '../../common/Pagination';
+  DropdownItem
+} from "reactstrap";
+import { useHistory, useLocation } from "react-router-dom";
+import { AppBreadcrumb } from "@coreui/react";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import * as qs from "query-string";
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import { AppRoutes, PAGE_LIMIT, client } from "../../config";
+import routes from "../../routes/routes";
+import Search from "../../common/SearchFilter";
+import { languageTranslation, logger } from "../../helpers";
+import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
+import { EmployeeQueries } from "../../queries";
+import PaginationComponent from "../../common/Pagination";
 import {
   ISearchValues,
   IEmployee,
-  IReactSelectInterface,
-} from '../../interfaces';
-import { ConfirmBox } from '../../common/ConfirmBox';
+  IReactSelectInterface
+} from "../../interfaces";
+import { ConfirmBox } from "../../common/ConfirmBox";
 
 const [, , GET_EMPLOYEES, , , DELETE_EMPLOYEE] = EmployeeQueries;
 
@@ -47,6 +47,8 @@ const Employee: FunctionComponent = () => {
   const [fetchEmployeeList, { data, loading }] = useLazyQuery<any>(
     GET_EMPLOYEES
   );
+  console.log("data", data);
+
   // Mutation to delete employee
   const [deleteEmployee, { error }] = useMutation<
     { deleteEmployee: any },
@@ -56,9 +58,9 @@ const Employee: FunctionComponent = () => {
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     const query = qs.parse(search);
-    let searchBy: string = '';
-    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
-    let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
+    let searchBy: string = "";
+    let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
+    let isActive: IReactSelectInterface | undefined = { label: "", value: "" };
     // To handle display and query param text
     let sortByValue: any = Object.keys(sortFilter).find(
       (key: any) => sortFilter[key] === query.sortBy
@@ -89,14 +91,14 @@ const Employee: FunctionComponent = () => {
           }
         : undefined;
       isActive = query.status
-        ? query.status === 'active'
-          ? { label: languageTranslation('ACTIVE'), value: 'true' }
-          : { label: languageTranslation('DISABLE'), value: 'false' }
+        ? query.status === "active"
+          ? { label: languageTranslation("ACTIVE"), value: "true" }
+          : { label: languageTranslation("DISABLE"), value: "false" }
         : undefined;
       setSearchValues({
         searchValue: searchBy,
         sortBy,
-        isActive,
+        isActive
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -127,11 +129,11 @@ const Employee: FunctionComponent = () => {
     if (searchValue) {
       params.search = searchValue;
     }
-    if (isActive && isActive.value !== '') {
-      params.status = isActive.value === 'true' ? 'active' : 'disable';
+    if (isActive && isActive.value !== "") {
+      params.status = isActive.value === "true" ? "active" : "disable";
     }
-    if (sortBy && sortBy.value !== '') {
-      params.sortBy = sortBy.value !== '' ? sortFilter[sortBy.value] : '';
+    if (sortBy && sortBy.value !== "") {
+      params.sortBy = sortBy.value !== "" ? sortFilter[sortBy.value] : "";
     }
     const path = [pathname, qs.stringify(params)].join("?");
     history.push(path);
@@ -149,17 +151,17 @@ const Employee: FunctionComponent = () => {
 
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG'),
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_EMPLOYEE_DELETE_MSG")
     });
     if (!value) {
       return;
     } else {
-      console.log(id, 'iddddddddddd');
+      console.log(id, "iddddddddddd");
       await deleteEmployee({
         variables: {
-          id,
-        },
+          id
+        }
       });
       // let { getEmployees } = client.readQuery({ query: GET_EMPLOYEES });
       // console.log(getEmployees, 'ressssssssssssssssssssss');
@@ -261,13 +263,13 @@ const Employee: FunctionComponent = () => {
                     phoneNumber,
                     region,
                     assignedCanstitution,
-                    isActive,
+                    isActive
                   }: IEmployee,
-                  index: number,
+                  index: number
                 ) => {
                   const replaceObj: any = {
-                    ':id': id,
-                    ':userName': userName,
+                    ":id": id,
+                    ":userName": userName
                   };
                   return (
                     <tr key={index}>
@@ -296,20 +298,20 @@ const Employee: FunctionComponent = () => {
                               className="img-fluid"
                             />
                           </div>
-                          <div className='description-column'>
-                            <div className='info-title'>
-                              {firstName ? firstName : ''}
+                          <div className="description-column">
+                            <div className="info-title">
+                              {firstName ? firstName : ""}
                             </div>
-                            <div className='description-text'>
-                              <i className='fa fa-envelope mr-2'></i>
-                              <span className='align-middle'>
-                                {email ? email : ''}
+                            <div className="description-text">
+                              <i className="fa fa-envelope mr-2"></i>
+                              <span className="align-middle">
+                                {email ? email : ""}
                               </span>
                             </div>
                             {phoneNumber ? (
-                              <div className='description-text'>
-                                <i className='fa fa-phone mr-2'></i>
-                                <span className='align-middle'>
+                              <div className="description-text">
+                                <i className="fa fa-phone mr-2"></i>
+                                <span className="align-middle">
                                   {phoneNumber}
                                 </span>
                               </div>
@@ -318,23 +320,23 @@ const Employee: FunctionComponent = () => {
                         </div>
                       </td>
                       <td>
-                        <div className='description-column  ml-0'>
+                        <div className="description-column  ml-0">
                           {region ? region : null}
                         </div>
                       </td>
-                      <td className='text-center'>
+                      <td className="text-center">
                         <div>{assignedCanstitution}</div>
                       </td>
-                      <td className='text-center'>
+                      <td className="text-center">
                         {isActive}
                         <span
                           className={`status-btn ${
-                            isActive ? 'active' : 'inactive'
+                            isActive ? "active" : "inactive"
                           }`}
                         >
                           {isActive
-                            ? languageTranslation('ACTIVE')
-                            : languageTranslation('DISABLE')}
+                            ? languageTranslation("ACTIVE")
+                            : languageTranslation("DISABLE")}
                         </span>
                       </td>
                       <td>
@@ -360,7 +362,14 @@ const Employee: FunctionComponent = () => {
                             id={`view${index}`}
                             message={languageTranslation("EMP_VIEW")}
                             onclick={() =>
-                              history.push(AppRoutes.VIEW_EMPLOYEE)
+                              history.push(
+                                AppRoutes.VIEW_EMPLOYEE.replace(
+                                  /:id|:userName/gi,
+                                  function(matched) {
+                                    return replaceObj[matched];
+                                  }
+                                )
+                              )
                             }
                           >
                             {" "}
@@ -369,7 +378,7 @@ const Employee: FunctionComponent = () => {
 
                           <ButtonTooltip
                             id={`delete${index}`}
-                            message={languageTranslation('EMP_DELETE')}
+                            message={languageTranslation("EMP_DELETE")}
                             onclick={() => onDelete(id)}
                           >
                             {" "}

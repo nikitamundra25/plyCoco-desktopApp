@@ -2,18 +2,40 @@ import gql from 'graphql-tag';
 
 const GET_CARE_INSTITUTION_LIST = gql`
   query getCareInstitutions {
-    getCareInstitutions(searchBy:null,limit:null,page:1) {
+    getCareInstitutions(searchBy:"",sortBy:1,limit:10,isActive:"") {
       id
       firstName
       lastName
       email
-      companyName
-      shortName
       userName
+      phoneNumber
       isActive
+      canstitution{
+        city
+        zipCode
+        companyName
+        shortName
+      }
     }
   }
 `;
+
+const GET_CARE_INSTITUION_BY_ID = gql`
+query 
+  getCareInstitution($careInstitutionId: Int!){
+    getCareInstitution(careInstitutionId: $careInstitutionId){
+      firstName
+      lastName
+      email
+      createdAt
+      canstitution{
+        city
+        zipCode
+        companyName
+        shortName
+      }
+    }
+  }`
 
 const DELETE_CARE_INSTITUTION = gql`
   mutation DeleteUser($id: ID!) {
@@ -34,17 +56,13 @@ const ADD_CARE_INSTITUTION = gql`
   }`;
 
 const UPDATE_CARE_INSTITUTION = gql`
-  mutation UpdateUser(
-    $id: ID!
-    $firstName: String!
-    $lastName: String
-    $email: String
+  mutation updateCareInstitution(
+    $id: Int!
+    $careInstitutionInput: CareInstitutionInput!
   ) {
-    updateUser(
+    updateCareInstitution(
       id: $id
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
+      careInstitutionInput:$careInstitutionInput
     ) {
       id
       firstName
@@ -57,5 +75,6 @@ export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION,
-  ADD_CARE_INSTITUTION
+  ADD_CARE_INSTITUTION,
+  GET_CARE_INSTITUION_BY_ID
 ]

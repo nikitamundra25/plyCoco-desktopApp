@@ -1,27 +1,27 @@
 
 export const careInstitutionRoutes = [
   {
-    name: "Overview"
+    name: "overview"
   },
   {
-    name: "Offers"
+    name: "offers"
   },
   {
-    name: "Login"
+    name: "login"
   },
   {
-    name: "Invoices"
+    name: "invoices"
   },
   {
-    name: "Documents"
+    name: "documents"
   },
   {
-    name: "Departments"
+    name: "departments"
   },
   {
-    name: "Emails"
+    name: "emails"
   },
   {
-    name: "Reminders/Todos"
+    name: "reminders"
   }
 ];

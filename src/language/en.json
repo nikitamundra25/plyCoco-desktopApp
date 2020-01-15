@@ -389,5 +389,7 @@
   "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully",
 
   "CONFIRM_LABEL": "Are you sure?",
-  "CONFIRM_EMPLOYEE_DELETE_MSG": "You want to delete this employee?"
+  "CONFIRM_EMPLOYEE_DELETE_MSG": "You want to delete this employee?",
+
+  "CARE_INSTITUTION_ADD_SUCCESS_MSG":"Care Instituion added sucessfully"
 }

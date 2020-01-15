@@ -68,3 +68,19 @@ export interface ICareInstitutionContact {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface ICareInstitutionListDataInterface {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    userName: string;
+    phoneNumber: string;
+    isActive: boolean;
+    canstitution: ICareInstitutionObjectInterface
+}
+
+export interface ICareInstitutionObjectInterface {
+    companyName: string;
+    shortName: string;
+}

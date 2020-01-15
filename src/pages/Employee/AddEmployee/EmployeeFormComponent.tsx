@@ -28,7 +28,7 @@ import {
 import { logger, languageTranslation } from '../../../helpers';
 import InputFieldTooltip from '../../../common/Tooltip/InputFieldTooltip';
 import { CountryQueries } from '../../../queries';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 

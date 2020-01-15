@@ -16,6 +16,7 @@ const GET_EMPLOYEE_BY_ID = gql`
       email
       userName
       phoneNumber
+      profileImage
       employee {
         address1
         address2

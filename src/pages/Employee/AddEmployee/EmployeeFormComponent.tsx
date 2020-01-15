@@ -1,4 +1,9 @@
-import React, { useState, ChangeEvent, FunctionComponent } from 'react';
+import React, {
+  useState,
+  ChangeEvent,
+  FunctionComponent,
+  useEffect,
+} from 'react';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import { AppBreadcrumb } from '@coreui/react';
 import {
@@ -15,26 +20,30 @@ import {
 import Select from 'react-select';
 import MaskedInput from 'react-text-mask';
 import { FormikProps, Form } from 'formik';
-import { Region, IBANRegex, DateMask } from '../../../config';
+import { Region, IBANRegex, DateMask, AppConfig } from '../../../config';
 import routes from '../../../routes/routes';
 import {
   IEmployeeFormValues,
-  ICountries,
   IReactSelectInterface,
-  ICountry,
-  IStates,
-  IState,
 } from '../../../interfaces';
 import { logger, languageTranslation } from '../../../helpers';
 import InputFieldTooltip from '../../../common/Tooltip/InputFieldTooltip';
-import { CountryQueries } from '../../../queries';
-import { toast } from 'react-toastify';
-
-const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const EmployeeFormComponent: FunctionComponent<FormikProps<
   IEmployeeFormValues
->> = (props: FormikProps<IEmployeeFormValues>) => {
+> & {
+  imageUrl: string;
+  countriesOpt: IReactSelectInterface[];
+  statesOpt: IReactSelectInterface[];
+  getStatesByCountry: any;
+}> = (
+  props: FormikProps<IEmployeeFormValues> & {
+    imageUrl: string;
+    countriesOpt: IReactSelectInterface[];
+    statesOpt: IReactSelectInterface[];
+    getStatesByCountry: any;
+  },
+) => {
   const {
     values: {
       email,
@@ -64,33 +73,20 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     handleSubmit,
     setFieldValue,
     setFieldTouched,
+    imageUrl,
+    countriesOpt,
+    statesOpt,
+    getStatesByCountry,
   } = props;
 
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
-  // To fetch the list of countries
-  const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
-  // To fetch the states of selected contry & don't want to query on initial load
-  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
-  );
-  const countriesOpt: IReactSelectInterface[] | undefined = [];
-  const statesOpt: IReactSelectInterface[] | undefined = [];
-  if (data && data.countries) {
-    data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({
-        label: name,
-        value: id,
-      }),
-    );
-  }
-  if (statesData && statesData.states) {
-    statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({
-        label: name,
-        value: id,
-      }),
-    );
-  }
+
+  useEffect(() => {
+    console.log(imageUrl, 'countryName', country);
+    if (imageUrl) {
+      setUrl(`${AppConfig.FILES_ENDPOINT}${imageUrl}`);
+    }
+  }, [imageUrl, country]);
   // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -124,6 +120,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       });
     }
   };
+  logger(country, 'countryyyyyy');
   return (
     <div>
       <Card>
@@ -801,28 +798,24 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               </Col>
                               <Col sm='8'>
                                 <div className='fileinput-preview d-flex align-items-center justify-content-center'>
-                                  {!errors.image ? (
-                                    imagePreviewUrl &&
-                                    typeof imagePreviewUrl === 'string' ? (
-                                      <img
-                                        src={imagePreviewUrl}
-                                        width={100}
-                                        height={100}
-                                      />
-                                    ) : (
-                                      ''
-                                    )
-                                  ) : (
-                                    ''
-                                  )}
                                   <div className='file-upload'>
                                     <label
                                       htmlFor='gallery-photo-add'
                                       className='file-upload-label'
                                     >
-                                      <div className='icon-upload'>
-                                        <i className='cui-cloud-upload'></i>
-                                      </div>
+                                      {!errors.image &&
+                                      imagePreviewUrl &&
+                                      typeof imagePreviewUrl === 'string' ? (
+                                        <img
+                                          src={imagePreviewUrl}
+                                          width={100}
+                                          height={100}
+                                        />
+                                      ) : (
+                                        <div className='icon-upload'>
+                                          <i className='cui-cloud-upload'></i>
+                                        </div>
+                                      )}
                                       {/* <div className="icon-text">
                                         Click here to select your profile image
                                       </div> */}

@@ -5,7 +5,10 @@ import { ICareInstitutionFormValues } from '../../../interfaces';
 import AddCareInstitution from './AddCareInstitution';
 import { CareInstitutionQueries } from "../../../queries";
 import { useMutation } from '@apollo/react-hooks';
-import { logger } from "../../../helpers";
+import { logger, languageTranslation } from "../../../helpers";
+import { toast } from 'react-toastify';
+import { useHistory } from 'react-router';
+import { AppRoutes } from '../../../config';
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -19,7 +22,8 @@ export const CareInstitutionForm = () => {
 
   const [addCareInstitution, { error, data }] = useMutation<{ addCareInstitution: ICareInstitutionFormValues }>(ADD_CARE_INSTITUTION);
 
-
+  let history = useHistory();
+  
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
@@ -38,7 +42,7 @@ export const CareInstitutionForm = () => {
         phoneNumber: values.phoneNumber,
         shortName: values.shortName,
         street: values.street,
-        userName: values.street,
+        userName: values.userName,
         zipCode: values.zipCode,
         countryId: values && values.country ? values.country.value : "",
         stateId: values && values.state ? values.state.value : "",
@@ -49,7 +53,15 @@ export const CareInstitutionForm = () => {
           careInstitutionInput: dataSubmit
         }
       })
+      toast.success(languageTranslation('CARE_INSTITUTION_ADD_SUCCESS_MSG'));
+      history.push(AppRoutes.CARE_INSTITUTION);
     } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      // setFieldError('email', message);
+      toast.error(message);
       logger(error)
     }
   };

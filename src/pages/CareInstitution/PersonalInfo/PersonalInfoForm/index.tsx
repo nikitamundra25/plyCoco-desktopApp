@@ -5,7 +5,7 @@ import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { State, Region, Salutation, Country, Gender } from "../../../../config";
 import { languageTranslation, logger } from "../../../../helpers";
 import { ICareInstitutionFormValues, IReactSelectInterface, ICountries, IStates, ICountry, IState } from "../../../../interfaces";
-import { CountryQueries } from "../../../../queries";
+import { CountryQueries, CareInstitutionQueries } from "../../../../queries";
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import CommissionFormData from "./CommissionFormData";
 import InvoiceFormData from "./InvoiceFormData";
@@ -13,7 +13,11 @@ import QuallificationAttribute from "./QuallificationAttribute";
 import RemarkFormData from "./RemarkFormData";
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-
+const [GET_CARE_INSTITUTION_LIST,
+  DELETE_CARE_INSTITUTION,
+  UPDATE_CARE_INSTITUTION,
+  ADD_CARE_INSTITUTION,
+  GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries
 
 const PersonalInformationForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -75,6 +79,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   } = props;
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date()
   const RegYear: Date | undefined = CreatedAt.getFullYear();
+  console.log("firstName", firstName);
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -545,7 +550,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={phoneNumber}
-                        placeholder={languageTranslation("FAX")}
+                        placeholder={languageTranslation("PHONE")}
                         className="width-common"
                       />
                     </div>

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
-import { RouteComponentProps, useLocation } from "react-router";
+import { RouteComponentProps, useLocation, useParams } from "react-router";
 import Select from "react-select";
 import { CareGiver, AppRoutes } from "../../config";
 import add from "../../assets/img/add.svg";
@@ -20,6 +20,14 @@ import Reminders from "./Reminders";
 import qs from "query-string";
 import { ICareInstitutionFormValues, IHandleSubmitInterface } from "../../interfaces";
 import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { CareInstitutionQueries } from "../../queries";
+import { useLazyQuery } from "@apollo/react-hooks";
+
+const [GET_CARE_INSTITUTION_LIST,
+  DELETE_CARE_INSTITUTION,
+  UPDATE_CARE_INSTITUTION,
+  ADD_CARE_INSTITUTION,
+  GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries
 
 const CareInstitutionSidebar = React.lazy(() =>
   import(
@@ -33,21 +41,21 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 > & RouteComponentProps & IHandleSubmitInterface> = (props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps) => {
 
-  const handleSubmit = (
-    values: ICareInstitutionFormValues,
-    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
-  ) => {
-    //to set submit state to false after successful signup
-    setSubmitting(false);
-    console.log("Value", values);
+  let { id } = useParams();
+  const Id: any | undefined = id
 
-  };
-
+  const [getCareInstituitionList, { data: careInstituition }] = useLazyQuery(
+    GET_CARE_INSTITUTION_LIST,
+  );
+  let CareInstitutionList: Object[] = []
+  if (careInstituition && careInstituition.getCareInstitutions) {
+    const { getCareInstitutions } = careInstituition;
+    
+  }
   const [activeTab, setactiveTab] = useState(0)
   const { search, pathname } = useLocation();
   useEffect(() => {
     const query: any = qs.parse(search);
-    console.log("RRRRRRRRRRRRRRRR", pathname);
     setactiveTab(
       query.tab
         ? CareInstitutionTabs.findIndex(d => d.name === decodeURIComponent(query.tab))
@@ -57,9 +65,11 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 
   const onTabChange = (activeTab: number) => {
     props.history.push(
-      `${AppRoutes.CARE_INSTITUION_VIEW}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
+      `${AppRoutes.CARE_INSTITUION_VIEW.replace(":id", Id)}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
     );
   };
+
+
   return (
     <div>
       <div className="common-detail-page">

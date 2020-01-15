@@ -45,7 +45,6 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("GENDER")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
@@ -64,7 +63,6 @@ const CareInstitutionConstForm: any = (
                               <Col sm="6">
                                 <Label className="form-label col-form-label inner-label">
                                   {languageTranslation("TITLE")}
-                                  <span className="required">*</span>
                                 </Label>
                               </Col>
                               <Col sm="6">
@@ -91,7 +89,6 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("SALUTATION")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">

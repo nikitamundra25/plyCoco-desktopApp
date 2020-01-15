@@ -17,6 +17,7 @@ const GET_CARE_INSTITUTION_LIST = gql`
     ) {
       totalCount
       careInstitutionData {
+        id
         firstName
         lastName
         email

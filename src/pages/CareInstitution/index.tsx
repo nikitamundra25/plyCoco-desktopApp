@@ -240,21 +240,6 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className="action-btn">
                     <span
                       className="btn-icon mr-2"
-                      id={`edit${index}`}
-                      onClick={() =>
-                        props.history.push(AppRoutes.CARE_INSTITUION_VIEW)
-                      }
-                    >
-                      <UncontrolledTooltip
-                        placement="top"
-                        target={`edit${index}`}
-                      >
-                        Click here to edit employee
-                      </UncontrolledTooltip>
-                      <i className="fa fa-pencil"></i>
-                    </span>
-                    <span
-                      className="btn-icon mr-2"
                       id={`view${index}`}
                       onClick={() => handleViewCareInstitution(user.id)}
                     >
@@ -414,7 +399,7 @@ checkbox-default"
                   </div>
                 </div>
               </th>
-              <th>Constitution Information</th>
+              <th>Care Institution Information</th>
               <th>Company Details</th>
               <th className="text-center">Status</th>
               <th className="text-center">Action</th>

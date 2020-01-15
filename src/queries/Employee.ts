@@ -19,8 +19,8 @@ const GET_EMPLOYEE_BY_ID = gql`
       employee {
         address1
         address2
-        countryId
-        stateId
+        country
+        state
         city
         zipCode
         joiningDate
@@ -38,48 +38,82 @@ const GET_EMPLOYEE_BY_ID = gql`
 `;
 
 const UPDATE_EMPLOYEE = gql`
-  mutation UpdateEmployee($employeeInput: EmployeeInput!) {
-    updateEmployee(employeeInput: $employeeInput) {
+  mutation UpdateEmployee($id: Int!, $employeeInput: EmployeeInput) {
+    updateEmployee(id: $id, employeeInput: $employeeInput) {
       userId
     }
   }
 `;
 
 const GET_EMPLOYEES = gql`
-  query {
-    getEmployees {
-      id
-      firstName
-      lastName
-      email
-      userName
-      phoneNumber
-
-      employee {
-        joiningDate
-        employeeCustomId
-        countryId
-        stateId
-        city
-        zipCode
-        address1
-        address2
-        regionId
-      }
-      bankDetails {
-        bankName
-        accountHolder
-        additionalText
-        IBAN
-        BIC
+  query getEmployees(
+    $searchBy: String
+    $sortBy: Int
+    $limit: Int
+    $page: Int
+    $isActive: String
+  ) {
+    getEmployees(
+      searchBy: $searchBy
+      sortBy: $sortBy
+      limit: $limit
+      page: $page
+      isActive: $isActive
+    ) {
+      totalCount
+      employeeData {
+        id
+        firstName
+        lastName
+        email
+        userName
+        phoneNumber
+        isActive
+        profileImage
+        employee {
+          joiningDate
+          employeeCustomId
+          country
+          state
+          city
+          zipCode
+          address1
+          address2
+          regionId
+        }
+        bankDetails {
+          bankName
+          accountHolder
+          additionalText
+          IBAN
+          BIC
+        }
       }
     }
   }
 `;
+
+const UPDATE_EMPLOYEE_STATUS = gql`
+  mutation UpdateEmployeeStatus($id: ID!, $isActive: Boolean) {
+    updateEmployeeStatus(id: $id, isActive: $isActive) {
+      userId
+    }
+  }
+`;
+
+const DELETE_EMPLOYEE = gql`
+  mutation DeleteEmployee($id: ID!) {
+    deleteEmployee(id: $id) {
+      userId
+    }
+  }
+`;
+
 export const EmployeeQueries = [
   ADD_EMPLOYEE,
   GET_EMPLOYEE_BY_ID,
   GET_EMPLOYEES,
   UPDATE_EMPLOYEE,
-  GET_EMPLOYEES,
+  UPDATE_EMPLOYEE_STATUS,
+  DELETE_EMPLOYEE,
 ];

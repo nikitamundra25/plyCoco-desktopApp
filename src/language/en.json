@@ -39,9 +39,11 @@
   "SEARCH_LABEL": "Search",
   "SEARCH_PLACEHOLDER": "Search..",
   "SORTBY_LABEL": "Sort By",
-  "SORTBY_OPTION1": "Popularity",
-  "SORTBY_OPTION2": "A-Z",
-  "SORTBY_OPTION3": "Z-A",
+  "SORTBY_OPTION1": "Sort by Newest",
+  "SORTBY_OPTION2": "Sort by Oldest",
+  "SORTBY_OPTION3": "Sort by A-Z",
+  "SORTBY_OPTION4": "Sort by Z-A",
+  "STATUS_LABEL": "Select Status",
   "RESET_LABEL": "Reset",
   "MENU_DASHBOARD": "Dashboard",
   "MENU_EMPLOYEE": "Employee",
@@ -102,7 +104,8 @@
   "EMPLOYEE_BANK_SWIFT_CODE_PLACEHOLDER": "Please Enter Swift code",
   "EMPLOYEE_DEPARTMENT_LABEL": "Department",
   "EMPLOYEE_DEPARTMENT": "department",
-  "EMPLOYEE_REGION_PLACEHOLDER": "Select Region",
+  "REGION_PLACEHOLDER": "Select Region",
+  "SORTBY_PLACEHOLDER": "Sort By",
   "EMPLOYEE_ADDRESS1_LABEL": "Address 1",
   "EMPLOYEE_ADDRESS1_PLACEHOLDER": "Please Enter Address",
   "EMPLOYEE_ADDRESS2_LABEL": "Address 2",
@@ -115,7 +118,7 @@
   "EMPLOYEE_ZIP_PLACEHOLDER": "Please Enter Zip Code",
   "EMPLOYEE_EMPLOYEE_RIGHTS_LABEL": "Employee rights",
   "EMPLOYEE_JOINING_DATE_LABEL": "Joining Date",
-  "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "DD/MM/YYYY",
+  "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "MM/DD/YYYY",
   "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL": "Add Profile image",
   "EMPLOYEE_OTHER_INFORMATION_LABEL": "Any other information",
   "EMPLOYEE_OTHER_INFORMATION": "otherinformation",
@@ -380,5 +383,11 @@
   "UNSUPPORTED_FORMAT": "Unsupported File Format",
   "FILE_SIZE_TO_LARGE": "File size too large",
   "COUNTRY_PLACEHOLDER": "Select Country",
-  "CHOOSE_IMAGE": "Choose Image"
+  "CHOOSE_IMAGE": "Choose Image",
+
+  "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added sucessfully",
+  "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully",
+
+  "CONFIRM_LABEL": "Are you sure?",
+  "CONFIRM_EMPLOYEE_DELETE_MSG": "You want to delete this employee?"
 }

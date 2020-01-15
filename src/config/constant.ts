@@ -10,6 +10,8 @@ export const IBANReplaceRegex: RegExp = /[^A-Z0-9]/gi;
 export const IBANlength: number = 22;
 export const telMin: number = 9;
 export const telMax: number = 14;
+export const mobMin: number = 10;
+export const mobMax: number = 12;
 export const fileSize: number = 125 * 1024;
 export const nameRegExp: RegExp = /^[A-Za-z][A-Za-z ]+$/;
 export const SupportedFormats: string[] = [
@@ -71,6 +73,10 @@ export const State: IReactSelectInterface[] = [
   { value: "Hamburg", label: "Hamburg" },
   { value: "Saarland", label: "Saarland" },
   { value: "Saxony", label: "Saxony" }
+];
+export const Gender: IReactSelectInterface[] = [
+  { value: 'male', label: 'Male' },
+  { value: 'female', label: 'Female' },
 ];
 export const Department: IReactSelectInterface[] = [
   { value: "Sales", label: "Sales" },
@@ -279,4 +285,15 @@ export const SortOptions: IReactSelectInterface[] = [
     label: languageTranslation("SORTBY_OPTION2"),
     value: "2"
   }
+];
+
+export const StatusOptions: IReactSelectInterface[] = [
+  {
+    label: languageTranslation('ACTIVE'),
+    value: 'true',
+  },
+  {
+    label: languageTranslation('DISABLE'),
+    value: 'false',
+  },
 ];

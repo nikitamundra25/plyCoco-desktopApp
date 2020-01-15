@@ -11,3 +11,4 @@ export * from "./Tooltip";
 export * from "./DateFunction";
 export * from "./Search";
 export * from "./Region";
+export * from './CareInstitution';

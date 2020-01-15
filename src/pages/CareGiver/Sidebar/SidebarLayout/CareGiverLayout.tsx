@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Nav, NavItem, NavLink } from "reactstrap";
+import { Nav, NavItem, NavLink, Button } from "reactstrap";
 import { careGiverRoutes } from "../SidebarRoutes/CareGiverRoutes";
+import { languageTranslation } from "../../../../helpers";
 class CareGiverSidebar extends Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -38,6 +39,9 @@ class CareGiverSidebar extends Component<any, any> {
             ) : null;
           })}
         </Nav>
+        <Button color={"primary"} className={"btn-add"}>
+          {languageTranslation("SAVE_BUTTON")}
+        </Button>
       </div>
     );
   }

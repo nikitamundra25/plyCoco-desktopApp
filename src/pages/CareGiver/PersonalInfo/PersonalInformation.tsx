@@ -17,7 +17,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
 import InputMask from "react-input-mask";
-
 import {
   State,
   Region,
@@ -27,7 +26,7 @@ import {
   NightAllowancePerHour
 } from "../../../config";
 import { languageTranslation } from "../../../helpers";
-
+import "../caregiver.scss";
 class PersonalInformation extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
@@ -65,7 +64,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
           </div> */}
           <Row>
             <Col lg={"4"}>
-              <div className="form-card">
+              <div className="form-card h-100">
                 <Row>
                   <Col lg={"12"}>
                     <FormGroup>
@@ -120,14 +119,14 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            {languageTranslation("CAREGIVER_STATE_LABEL")}
+                            {languageTranslation("REGION")}
                             <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
                           <div>
                             <Select
-                              placeholder="Region/State"
+                              placeholder={languageTranslation("REGION")}
                               options={State}
                             />
                           </div>
@@ -262,9 +261,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Row className="custom-col inner-no-padding-col">
                             <Col sm="7">
                               <div>
-                                <Select
-                                  placeholder="06/09/2020"
-                                  options={State}
+                                <InputMask
+                                  placeholder="DD/MM/YYYY"
+                                  mask="99/99/9999"
+                                  className="form-control"
                                 />
                               </div>
                             </Col>
@@ -744,6 +744,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
             </Col>
 
             <Col lg={"4"}>
+            <div className="common-col">
               <div className="form-card minheight-auto">
                 <Row>
                   <Col lg={"12"}>
@@ -909,80 +910,84 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                   </Col>
                 </Row>
               </div>
-              <div className="form-inner-list-section fix-height-section">
-                <h5 className="content-title">Qualifications</h5>
-                <Row className="custom-col">
-                  <Col sm={12}>
-                    <Card>
-                      <div className="form-inner-list-wrap">
-                        <h5 className="heading toggle-filter  ">
-                          Qualification
-                        </h5>
-                        <div className="form-inner-list-content-wrap">
-                          <ul>
-                            <li className="ative">Dialysis </li>
-                            <li>Home Management</li>
-                            <li>Nurse/carer</li>
-                            <li> Neonatology</li>
-                            <li>Paramedic </li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="custom-select-wrap">
-                        <select className="w-100">
-                          <option>Bernhard, Sandra</option>
-                          <option>Berlin, Irving</option>
-                          <option>Berne, Eric</option>
-                          <option>Berry, Halle</option>
-                        </select>
-                      </div>
-                    </Card>
-                  </Col>
-                </Row>
+              <div className="quality-attribute-section d-flex flex-column">
+              <div className="common-list-card">
+                <h5 className="content-title">
+                  {languageTranslation("QUALIFICATIONS")}
+                </h5>
+                <div className="common-list-wrap">
+                  <div className="common-list-header d-flex align-items-cente justify-content-between">
+                    <div className="common-list-title align-middle">
+                      {" "}
+                      {languageTranslation("QUALIFICATION")}
+                    </div>
+                    <div className=" align-middle toggle-icon">
+                      <i className="fa fa-angle-down"></i>
+                    </div>
+                  </div>
+                  <div className="common-list-body">
+                    <ul className="common-list list-unstyled">
+                      <li>Dialysis </li>
+                      <li>Home Management</li>
+                      <li>Nurse/carer</li>
+                    </ul>
+                  </div>
+                  <div className="common-list-footer form-section ">
+                    <FormGroup className="mb-0">
+                      <Select
+                        placeholder={languageTranslation("REGION", "STATE")}
+                        options={State}
+                      />
+                    </FormGroup>
+                  </div>
+                </div>
               </div>
-
-              <div className="form-inner-list-section mt-3 fix-height-section">
-                <h5 className="content-title">Attributes</h5>
-                <Row className="custom-col">
-                  <Col sm={12}>
-                    <Card>
-                      <div className="form-inner-list-wrap">
-                        <h5 className="heading toggle-filter  ">Attribut</h5>
-                        <div className="form-inner-list-content-wrap">
-                          <ul>
-                            <li className="ative">Aaron, Hank </li>
-                            <li>Abbey, Edward</li>
-                            <li>Abel, Reuben</li>
-                            <li> Abelson, Hal</li>
-                            <li>Abourezk, James </li>
-                            <li>Abrams, Creighton </li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="custom-select-wrap">
-                        <select className="w-100">
-                          <option>Bernhard, Sandra</option>
-                          <option>Berlin, Irving</option>
-                          <option>Berne, Eric</option>
-                          <option>Berry, Halle</option>
-                        </select>
-                      </div>
-                    </Card>
-                  </Col>
-                </Row>
+              <div className="common-list-card">
+                <h5 className="content-title">
+                  {languageTranslation("ATTRIBUTES")}
+                </h5>
+                <div className="common-list-wrap">
+                  <div className="common-list-header d-flex align-items-cente justify-content-between">
+                    <div className="common-list-title align-middle">
+                      {" "}
+                      {languageTranslation("ATTRIBUTES")}
+                    </div>
+                    <div className=" align-middle toggle-icon">
+                      <i className="fa fa-angle-down"></i>
+                    </div>
+                  </div>
+                  <div className="common-list-body">
+                    <ul className="common-list list-unstyled">
+                      <li>Dialysis </li>
+                      <li>Home Management</li>
+                      <li>Nurse/carer</li>
+                    </ul>
+                  </div>
+                  <div className="common-list-footer form-section ">
+                    <FormGroup className="mb-0">
+                      <Select
+                        placeholder={languageTranslation("REGION", "STATE")}
+                        options={State}
+                      />
+                    </FormGroup>
+                  </div>
+                </div>
               </div>
+              </div></div>
             </Col>
             <Col lg={4}>
               <div className="remark-details">
                 <div className="remark-header d-flex align-items-center justify-content-between">
-                  <h5 className="my-2 text-left activity-title">Remarks</h5>
+                  <h5 className="my-2 text-left activity-title">
+                    {" "}
+                    {languageTranslation("REMARKS")}
+                  </h5>
                   <div
                     onClick={this.handleOnClick}
                     className="edit-remark my-2"
                   >
-                    <i className="icon-note" />
+                    <i className="icon-note mr-2" />{" "}
+                    {languageTranslation("ADD_REMARKS")}
                   </div>
                 </div>
                 <div className="remark-body">
@@ -997,7 +1002,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                               placeholder="Remarks"
                               className="height-textarea "
                             />
-                            <div className="add-remark-btn">Add Remarks</div>
+                            <div className="add-remark-btn">
+                              {" "}
+                              {languageTranslation("ADD_REMARKS")}
+                            </div>
                           </div>
                         </div>
                         <div className="text-left activity-date">

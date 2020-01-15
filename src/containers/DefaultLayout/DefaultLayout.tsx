@@ -1,6 +1,6 @@
 import React, { Component, Suspense, useState } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { Container, Button } from "reactstrap";
+import { Container } from "reactstrap";
 import { AppRoutes } from "../../config";
 import routes from "../../routes/routes";
 import { CareGiver } from "../../config";
@@ -27,8 +27,8 @@ import delete_specilalist from "../../assets/img/delete-user.svg";
 import delete_appointment from "../../assets/img/delete-appointment.svg";
 import send_bills from "../../assets/img/send-bills.svg";
 import clear from "../../assets/img/clear.svg";
+import new_contact from "../../assets/img/new-contact.svg";
 import { languageTranslation } from "../../helpers";
-import { SelectionState } from "draft-js";
 import CreateTodo from "../../pages/CareInstitution/CreateTodo";
 import CareInstitutionTodo from "../../pages/CareInstitutionTodo";
 import CareGiverTodo from "../../pages/CareGiverTodo";
@@ -78,24 +78,19 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                     {languageTranslation("CG_MENU_NEW_CAREGIVER")}
                   </span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={save} alt="" />
+                {/* <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={save} alt='' />
                   </span>
                   <span className="header-nav-text">
                     {languageTranslation("SAVE_BUTTON")}
                   </span>
-                </div>
+                </div> */}
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={reminder} alt="" />
                   </span>
-                  <span
-                    className="header-nav-text"
-                    onClick={() => {
-                      setState({ show: true });
-                    }}
-                  >
+                  <span className="header-nav-text">
                     {languageTranslation("CG_MENU_CREATE_TODO")}
                   </span>
                 </div>
@@ -288,6 +283,25 @@ class DefaultLayout extends Component<any, any> {
       userDetails: {}
     };
   }
+  componentDidMount = () => {
+    window.addEventListener("scroll", this.handleScroll);
+  };
+
+  handleScroll = () => {
+    const scrollPositionY = window.scrollY;
+    // console.log(scrollPositionY, "scrollPositionY");
+    const header: HTMLElement | null = document.getElementById("sidebar");
+    if (header) {
+      if (scrollPositionY >= 35) {
+        header.classList.add("sidebar-sticky");
+      } else {
+        header.classList.remove("sidebar-sticky");
+      }
+    }
+  };
+  componentWillUnmount = () => {
+    window.removeEventListener("scroll", this.handleScroll);
+  };
 
   render() {
     return (
@@ -298,7 +312,7 @@ class DefaultLayout extends Component<any, any> {
           </Suspense>
         </AppHeader>
         <div className="app-body">
-          <AppSidebar fixed minimized display="lg">
+          <AppSidebar fixed minimized display="lg" id="sidebar">
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense fallback={<Loader />}>

@@ -979,7 +979,7 @@ body {
       position: absolute;
       display: flex;
       max-height: 100%;
-      z-index: 9;
+      // z-index: 9;
     }
     .file-upload {
       position: absolute;
@@ -991,7 +991,7 @@ body {
         color: $btn_hover_gray;
         position: absolute;
         display: flex;
-        flex-flow:column;
+        flex-flow: column;
         align-items: center;
         justify-content: center;
         height: 100%;
@@ -1002,8 +1002,8 @@ body {
           cursor: pointer;
           color: $gray_color;
         }
-        .icon-upload{
-          font-size:35px;
+        .icon-upload {
+          font-size: 35px;
         }
       }
       .file-upload-input {

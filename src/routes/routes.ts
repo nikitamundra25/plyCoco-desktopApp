@@ -200,9 +200,9 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUION_VIEW,
-    name: 'Care Institution View',
+    name: "Care Institution View",
     component: ViewCareInstitution,
-    exact: true,
+    exact: true
     // layout: ConstitutionLayout,
     // layoutName: 'Constitution',
   },

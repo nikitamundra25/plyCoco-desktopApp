@@ -20,14 +20,24 @@ import {
 import Select from 'react-select';
 import MaskedInput from 'react-text-mask';
 import { FormikProps, Form } from 'formik';
-import { Region, IBANRegex, DateMask, AppConfig } from '../../../config';
+import {
+  Region,
+  IBANRegex,
+  DateMask,
+  AppConfig,
+  PAGE_LIMIT,
+} from '../../../config';
 import routes from '../../../routes/routes';
 import {
   IEmployeeFormValues,
   IReactSelectInterface,
+  IRegion,
 } from '../../../interfaces';
 import { logger, languageTranslation } from '../../../helpers';
 import InputFieldTooltip from '../../../common/Tooltip/InputFieldTooltip';
+import { RegionQueries } from '../../../queries/Region';
+
+const [, GET_REGIONS] = RegionQueries;
 
 const EmployeeFormComponent: FunctionComponent<FormikProps<
   IEmployeeFormValues
@@ -80,7 +90,18 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
   } = props;
 
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
-
+  const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
+    GET_REGIONS,
+  );
+  const regionOptions: IReactSelectInterface[] | undefined = [];
+  if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
+    RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
+      regionOptions.push({
+        label: regionName,
+        value: id,
+      }),
+    );
+  }
   useEffect(() => {
     console.log(imageUrl, 'countryName', country);
     if (imageUrl) {
@@ -107,6 +128,14 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       setFieldValue('image', file);
     }
   };
+  useEffect(() => {
+    // call query
+    fetchRegionList({
+      variables: {
+        limit: PAGE_LIMIT,
+      },
+    });
+  }, []);
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -617,7 +646,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       'EMPLOYEE_REGION_PLACEHOLDER',
                                     )}
                                     isMulti
-                                    options={Region}
+                                    options={regionOptions}
+                                    // options={regionOptions}
                                   />
                                 </div>
                               </Col>
@@ -808,8 +838,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       typeof imagePreviewUrl === 'string' ? (
                                         <img
                                           src={imagePreviewUrl}
-                                          width={100}
-                                          height={100}
+                                          className={'img-preview'}
                                         />
                                       ) : (
                                         <div className='icon-upload'>

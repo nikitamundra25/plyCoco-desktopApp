@@ -6,48 +6,137 @@ import {
   CardHeader,
   CardBody,
   Table,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
 } from "reactstrap";
-import { AppRoutes } from "../../config";
-import { RouteComponentProps } from "react-router";
+import { AppRoutes, PAGE_LIMIT } from "../../config";
+import {useHistory, useLocation } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import Search from "../../common/SearchFilter";
-import { toast } from "react-toastify";
-import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
-import { languageTranslation } from "../../helpers";
-const userData = [
-  {
-    region: 'Central Germany',
-    canstitution: '1',
-    careGiver: '5',
-    appointment: '12',
-  },
-  {
-    region: 'Frankfurt',
-    canstitution: '3',
-    careGiver: '2',
-    appointment: '10',
-  },
-  {
-    region: 'Munich',
-    canstitution: '1',
-    careGiver: '8',
-    appointment: '15',
-  },
-  {
-    region: 'North Germany',
-    canstitution: '4',
-    careGiver: '1',
-    appointment: '10',
-  },
-];
+import { languageTranslation, logger } from "../../helpers";
+import { RegionQueries } from "../../queries/Region";
+import { ISearchValues } from "../../interfaces";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import * as qs from "query-string";
+import { FormikHelpers, FormikProps, Formik } from "formik";
+import PaginationComponent from "../../common/Pagination";
+
+const [, GET_REGIONS] = RegionQueries;
+
+const sortFilter: any = {
+  3: "name",
+  4: "name-desc",
+  2: "oldest",
+  1: "newest"
+};
 export const Region: FunctionComponent = () => {
-  // class Region extends Component<RouteComponentProps, any> {
-  //   render() {
+  let history = useHistory();
+  const { search, pathname } = useLocation();
+  const [searchValues, setSearchValues] = useState<ISearchValues | null>();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  // To get emplyee list from db
+  const [fetchRegionList, { data, loading }] = useLazyQuery<any>(GET_REGIONS);
+  console.log("data", data);
+
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    const query = qs.parse(search);
+    let searchBy: string = "";
+    let sortBy: any = { label: "", value: "" };
+    // To handle display and query param text
+    let sortByValue: any = Object.keys(sortFilter).find(
+      (key: any) => sortFilter[key] === query.sortBy
+    );
+    logger(sortByValue);
+    logger(typeof sortByValue);
+    if (sortByValue === "3") {
+      sortBy.label = "Sort by A-Z";
+    }
+    if (sortByValue === "4") {
+      sortBy.label = "Sort by Z-A";
+    }
+    if (sortByValue === "2") {
+      sortBy.label = "Sort by Oldest";
+    }
+    if (sortByValue === "1") {
+      sortBy.label = "Sort by Newest";
+    }
+    if (query) {
+      searchBy = query.search ? (query.search as string) : "";
+      sortBy = sortByValue
+        ? {
+            ...sortBy,
+            value:
+              Object.keys(sortFilter).find(
+                (key: any) => sortFilter[key] === query.sortBy
+              ) || ""
+          }
+        : "";
+      setSearchValues({
+        searchValue: searchBy,
+        sortBy
+      });
+      setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+    }
+    // call query
+    fetchRegionList({
+      variables: {
+        searchBy,
+        sortBy: sortByValue ? parseInt(sortByValue) : 0,
+        limit: PAGE_LIMIT,
+        page: query.page ? parseInt(query.page as string) : 1,
+        isActive: query.status
+          ? query.status === "active"
+            ? { label: "Active", value: "true" }
+            : { label: "Deactive", value: "false" }
+          : ""
+      }
+    });
+  }, [search]); // It will run when the search value gets changed
+
+  const handleSubmit = async (
+    { searchValue, isActive, sortBy }: ISearchValues,
+    { setSubmitting }: FormikHelpers<ISearchValues>
+  ) => {
+    let params: {
+      [key: string]: any;
+    } = {};
+    params.page = 1;
+    if (searchValue) {
+      params.search = searchValue;
+    }
+    // if (isActive && isActive.value !== '') {
+    //   params.status = isActive.value === 'true' ? 'active' : 'deactive';
+    // }
+    if (sortBy && sortBy.value !== "") {
+      params.sortBy = sortBy.value !== "" ? sortFilter[sortBy.value] : "";
+    }
+    const path = [pathname, qs.stringify(params)].join("?");
+    history.push(path);
+    logger("path", path);
+  };
+
+  const onPageChanged = (currentPage: number) => {
+    logger("onPageChanged", currentPage);
+    const query = qs.parse(search);
+    const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
+      "?"
+    );
+    history.push(path);
+  };
+
+  const {
+    searchValue = "",
+    sortBy = undefined,
+    isActive = undefined
+  } = searchValues ? searchValues : {};
+
+  const values: ISearchValues = {
+    searchValue,
+    isActive,
+    sortBy
+  };
+  let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
     <Card>
       <CardHeader>
@@ -57,72 +146,58 @@ export const Region: FunctionComponent = () => {
           className={"btn-add"}
           id={"add-new-pm-tooltip"}
           onClick={() => {
-            toast.success("Add region");
-            // this.props.history.push(AppRoutes.ADD_REGION);
+            history.push(AppRoutes.ADD_REGION);
           }}
         >
           <i className={"fa fa-plus"} />
-          &nbsp; Add New Region
+          &nbsp; {languageTranslation("ADD_NEW_REGION_BUTTON")}
         </Button>
       </CardHeader>
       <CardBody>
         <div>
+          <Formik
+            initialValues={values}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}
+            children={(props: FormikProps<ISearchValues>) => (
+              <Search {...props} status={false} />
+            )}
+          />
           {/* <Search /> */}
         </div>
         <Table bordered hover responsive>
           <thead className="thead-bg">
             <tr>
-              <th>
-                <div className="table-checkbox-wrap">
-                  <div className="btn-group btn-check-action-wrap">
-                    <span className="btn">
-                      <span className="checkboxli checkbox-custom checkbox-default">
-                        <input type="checkbox" id="checkAll" className="" />
-                        <label className=""></label>
-                      </span>
-                    </span>
-                    <UncontrolledDropdown className="custom-dropdown">
-                      <DropdownToggle caret color="link" />
-                      <DropdownMenu>
-                        <DropdownItem>Delete</DropdownItem>
-                        <DropdownItem>Active</DropdownItem>
-                        <DropdownItem>Disable</DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
-                  </div>
-                </div>
-              </th>
-              <th>Region Name</th>
-              <th className="text-center">Number of Canstitution</th>
-              <th className="text-center">Number of Care Givers</th>
+              <th>S no.</th>
+              <th>{languageTranslation("REGION_NAME")}</th>
               <th className="text-center">
-                Current ongoing appointments counter
+                {languageTranslation("NUMBER_OF_CANSTITUTION")}
               </th>
-              <th className="text-center">Action</th>
+              <th className="text-center">
+                {languageTranslation("NUMBER_OF_CARE_GIVERS")}
+              </th>
+              <th className="text-center">
+                {languageTranslation("CURRENT_ONGOING_APPOINTMENTS_COUNTER")}
+              </th>
+              {/* <th className="text-center">Action</th> */}
             </tr>
           </thead>
           <tbody>
-            {userData.map((user, index): any => {
-              return (
-                <tr>
-                  <td>
-                    <div className="table-checkbox-wrap">
-                      <div className="btn-group btn-check-action-wrap">
-                        <span className="btn">
-                          <span className="checkboxli checkbox-custom checkbox-default">
-                            <input type="checkbox" id="checkAll" className="" />
-                            <label className=""></label>
-                          </span>
-                        </span>
-                        <span className="checkbox-no">{index + 1}</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td>{user.region}</td>
-                  <td className="text-center">{user.canstitution}</td>
-                  <td className="text-center">{user.careGiver}</td>
-                  <td className="text-center">{user.appointment}</td>
-                  <td>
+            {loading ? (
+              <p>Loading ...</p>
+            ) : (
+              data &&
+              data.getRegions &&
+              data.getRegions.regionData &&
+              data.getRegions.regionData.map((region: any, index: number) => {
+                return (
+                  <tr key={index}>
+                    <td>{count++}</td>
+                    <td className="text-center">{region.regionName}</td>
+                    <td className="text-center">-</td>
+                    <td className="text-center">-</td>
+                    <td className="text-center">-</td>
+                    {/* <td>
                     <div className="action-btn">
                       <ButtonTooltip
                         id={`careGiverDelete${index}`}
@@ -131,12 +206,20 @@ export const Region: FunctionComponent = () => {
                         <i className="fa fa-trash"></i>
                       </ButtonTooltip>
                     </div>
-                  </td>
-                </tr>
-              );
-            })}
+                  </td> */}
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </Table>
+        {data && data.getRegions && data.getRegions.totalCount && (
+          <PaginationComponent
+            totalRecords={data.getRegions.totalCount}
+            currentPage={currentPage}
+            onPageChanged={onPageChanged}
+          />
+        )}
       </CardBody>
     </Card>
   );

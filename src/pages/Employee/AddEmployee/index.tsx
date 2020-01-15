@@ -27,6 +27,13 @@ export const EmployeeForm: FunctionComponent = () => {
   // get id from params
   let { id } = useParams();
   let history = useHistory();
+
+  // To get the employee details by id
+  const [
+    getEmployeeDetails,
+    { data: employeeDetails, error: detailsError, refetch },
+  ] = useLazyQuery<any>(GET_EMPLOYEE_BY_ID);
+
   // To fetch the list of countries
   const { data: countriesData, loading } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
@@ -38,7 +45,7 @@ export const EmployeeForm: FunctionComponent = () => {
     setEmployeeData,
   ] = useState<IEmployeeFormValues | null>();
   const countriesOpt: IReactSelectInterface[] | undefined = [];
-  const statesOpt: IReactSelectInterface[] | undefined = [];
+  // const statesOpt: IReactSelectInterface[] | undefined = [];
   if (countriesData && countriesData.countries) {
     countriesData.countries.forEach(({ id, name }: ICountry) =>
       countriesOpt.push({
@@ -47,15 +54,8 @@ export const EmployeeForm: FunctionComponent = () => {
       }),
     );
   }
-  if (statesData && statesData.states) {
-    statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({
-        label: name,
-        value: id,
-      }),
-    );
-  }
   const [imageUrl, setImageUrl] = useState('');
+  const [statesOpt, setStatesOpt] = useState<IReactSelectInterface[] | []>([]);
   logger(id, 'id');
 
   // To add emplyee details into db
@@ -69,12 +69,6 @@ export const EmployeeForm: FunctionComponent = () => {
     { updateEmployee: IAddEmployeeRes },
     { id: number; employeeInput: IEmployeeInput }
   >(UPDATE_EMPLOYEE);
-
-  // To get the employee details by id
-  const [
-    getEmployeeDetails,
-    { data: employeeDetails, error: detailsError, refetch },
-  ] = useLazyQuery<any>(GET_EMPLOYEE_BY_ID);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -99,6 +93,7 @@ export const EmployeeForm: FunctionComponent = () => {
           }, // default code is for germany
         });
       }
+      logger(statesOpt, 'statesOpt');
       setEmployeeData({
         ...viewEmployee,
         ...viewEmployee.employee,
@@ -109,8 +104,30 @@ export const EmployeeForm: FunctionComponent = () => {
           : '',
         telephoneNumber: viewEmployee.phoneNumber || '',
       });
+      if (statesData && statesData.states) {
+        console.log('instatesData if');
+        let stateList: IReactSelectInterface[] = [];
+        statesData.states.forEach(({ id, name }: IState) =>
+          stateList.push({
+            label: name,
+            value: id,
+          }),
+        );
+        setStatesOpt(stateList);
+
+        if (employeeData) {
+          const { viewEmployee } = employeeDetails;
+          setEmployeeData({
+            ...employeeData,
+            state: statesOpt.filter(
+              ({ label }: IReactSelectInterface) =>
+                label === viewEmployee.employee.state,
+            )[0],
+          });
+        }
+      }
     }
-  }, [employeeDetails]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
+  }, [employeeDetails, statesData]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
 
   // function to add/edit employee information
   const handleSubmit = async (
@@ -200,6 +217,7 @@ export const EmployeeForm: FunctionComponent = () => {
     city = '',
     zip = '',
     country = undefined,
+    state = undefined,
     accountHolderName = '',
     bankName = '',
     IBAN = '',
@@ -225,6 +243,7 @@ export const EmployeeForm: FunctionComponent = () => {
     zip,
     joiningDate: '',
     country,
+    state,
   };
   return (
     <Formik

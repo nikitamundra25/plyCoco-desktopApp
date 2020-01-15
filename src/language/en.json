@@ -1,4 +1,5 @@
 {
+  "REQUIRED_REGION": "Region name is required",
   "ACTIVE": "Active",
   "DISABLE": "Disable",
   "TABLE_HEAD_EMP_INFO": "Employee Information",
@@ -51,7 +52,7 @@
   "MENU_INSTITUTION": "Care Institutions",
   "MENU_APPOINTMENTS": "Appointments",
   "MENU_EMAIL": "Emails",
-  "MENU_TO_DO_CARE_GIVER": "To-Dos Caretakers",
+  "MENU_TO_DO_CARE_GIVER": "To-Dos Caregiver",
   "MENU_TO_DO_INSTITUTION": "To-Dos Care Institutions",
   "MENU_BULK_EMAIL": "Bulk Email Caretakers",
   "MENU_INVOICES": "Invoices",
@@ -124,7 +125,7 @@
   "EMPLOYEE_OTHER_INFORMATION": "otherinformation",
   "EMPLOYEE_OTHER_INFORMATION_PLACEHOLDER": "Please Enter  Any other information",
   "REGION_NAME_OF_REGION_LABEL": "Name of Region",
-  "REGION_NAME_OF_REGION_PLACEHOLDER": "Name of Region",
+  "REGION_NAME_OF_REGION_PLACEHOLDER": "Please Enter the name of region",
   "BANK_ADDRESS": "mobilePhone",
   "CAREGIVER_MOBILE_PHONE_PLACEHOLDER": " Mobile Phone",
   "CAREGIVER_EMAIL_ADDRESS_LABEL": "Email Address",
@@ -384,7 +385,6 @@
   "FILE_SIZE_TO_LARGE": "File size too large",
   "COUNTRY_PLACEHOLDER": "Select Country",
   "CHOOSE_IMAGE": "Choose Image",
-
   "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added sucessfully",
   "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully",
   "EMPLOYEE_STATUS_UPDATE_MSG": "Employee status updated sucessfully",
@@ -392,5 +392,8 @@
   "CONFIRM_LABEL": "Are you sure?",
   "CONFIRM_EMPLOYEE_DELETE_MSG": "You want to delete this employee?",
   "CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG": "This employee will be activated.",
-  "CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG": "This employee will be disabeld."
+  "CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG": "This employee will be disabeld.",
+
+  "REGION_MAXLENGTH": "Region must be less than 30 characters",
+  "ADD_NEW_EMPLOYEE_BUTTON": "Add New Empolyee"
 }

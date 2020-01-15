@@ -37,8 +37,6 @@ const CareInstitution = (props: RouteComponentProps) => {
   let userData: [Object] | any
 
   const handleViewCareInstitution = (id: any) => {
-    console.log("DDDDDDDD",id);
-    
     props.history.push(AppRoutes.CARE_INSTITUION_VIEW.replace(":id",id))
   }
 

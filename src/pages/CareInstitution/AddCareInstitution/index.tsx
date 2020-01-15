@@ -31,7 +31,7 @@ export const CareInstitutionForm = () => {
     //to set submit state to false after successful signup
     try {
       const dataSubmit: any = {
-        salutation: values && values.salutaion ? values.salutaion.label : "",
+        salutation: values && values.salutation ? values.salutation.label : "",
         city: values.city,
         companyName: values.companyName,
         email: values.email,

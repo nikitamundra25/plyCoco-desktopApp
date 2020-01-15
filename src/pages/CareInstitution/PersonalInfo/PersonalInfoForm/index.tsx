@@ -13,11 +13,11 @@ import QuallificationAttribute from "./QuallificationAttribute";
 import RemarkFormData from "./RemarkFormData";
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-const [GET_CARE_INSTITUTION_LIST,
-  DELETE_CARE_INSTITUTION,
-  UPDATE_CARE_INSTITUTION,
-  ADD_CARE_INSTITUTION,
-  GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries
+// const [GET_CARE_INSTITUTION_LIST,
+//   DELETE_CARE_INSTITUTION,
+//   UPDATE_CARE_INSTITUTION,
+//   ADD_CARE_INSTITUTION,
+//   GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries
 
 const PersonalInformationForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -49,7 +49,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       userName,
       phoneNumber,
       mobileNumber,
-      salutaion,
+      salutation,
       country,
       street,
       state,
@@ -79,8 +79,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   } = props;
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date()
   const RegYear: Date | undefined = CreatedAt.getFullYear();
-  console.log("firstName", firstName);
-
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     logger(selectOption, 'value');
@@ -228,16 +226,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                   <Col sm="4">
                     <Label className="form-label col-form-label">
                       {languageTranslation("SALUTATION")}
-                      <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="8">
                     <div>
                       <Select
                         placeholder={languageTranslation("SALUTATION")}
-                        value={salutaion ? salutaion : undefined}
+                        value={salutation ? salutation : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'salutaion')
+                          handleSelect(value, 'salutation')
                         }
                         options={Salutation}
                       />

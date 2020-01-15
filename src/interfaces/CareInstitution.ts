@@ -1,7 +1,7 @@
 import { IReactSelectInterface } from "./Constant"
 
 export interface ICareInstitutionFormValues {
-    salutaion?: IReactSelectInterface,
+    salutation?: IReactSelectInterface,
     email: string;
     firstName: string;
     lastName: string;
@@ -31,7 +31,7 @@ export interface ICareInstitutionFormValues {
     countryId?: string,
     stateId?: string,
     regionId?: number,
-    remarks?: string,
+    remarks?: [ICareInstitutionRemarks] | undefined,
     linkedTo?: string,
     anonymousName?: string,
     anonymousName2?: string,
@@ -83,4 +83,9 @@ export interface ICareInstitutionListDataInterface {
 export interface ICareInstitutionObjectInterface {
     companyName: string;
     shortName: string;
+}
+export interface ICareInstitutionRemarks {
+    data: string,
+    createdAt: Date,
+    createdBy: string
 }

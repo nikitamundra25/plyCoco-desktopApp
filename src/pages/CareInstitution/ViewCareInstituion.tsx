@@ -141,10 +141,6 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
             <div className="common-content flex-grow-1">
               {activeTab === 0 ? (
                 <PersonalInformation
-                  handleSubmit={() => {
-                    console.log("sdadadasdada");
-
-                  }}
                   {...props}
                 />
               ) : null}

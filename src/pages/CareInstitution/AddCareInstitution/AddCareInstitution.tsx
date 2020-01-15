@@ -80,7 +80,7 @@ const AddCareInstitution: any = (
       zipCode,
       state,
       country,
-      salutaion
+      salutation
     },
     touched,
     errors,
@@ -127,9 +127,9 @@ const AddCareInstitution: any = (
                                 placeholder={languageTranslation(
                                   "SALUTATION"
                                 )}
-                                value={salutaion ? salutaion : undefined}
+                                value={salutation ? salutation : undefined}
                                 onChange={(value: any) =>
-                                  handleSelect(value, 'salutaion')
+                                  handleSelect(value, 'salutation')
                                 }
                                 options={Salutation}
                               />

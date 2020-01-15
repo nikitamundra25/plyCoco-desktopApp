@@ -8,19 +8,24 @@ import { ICareInstitutionContact, ICareInstitutionFormValues } from "../../../in
 import { CareInstituionValidationSchema } from "../../../validations";
 import { useParams } from "react-router";
 import { CareInstitutionQueries } from "../../../queries";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { toast } from "react-toastify";
+import { logger } from "../../../helpers";
 
 const [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION,
-  GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries
+  GET_CARE_INSTITUION_BY_ID,
+] = CareInstitutionQueries
 
 const PersonalInformation: any = (props: any) => {
 
   let { id } = useParams();
   const Id: any | undefined = id
+
+  const [updateCareInstitution, { error, data }] = useMutation<{ updateCareInstitution: ICareInstitutionFormValues }>(UPDATE_CARE_INSTITUTION);
 
   // To get the care instituion details by id
   const [
@@ -60,13 +65,50 @@ const PersonalInformation: any = (props: any) => {
     updatedAt: new Date()
   };
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: ICareInstitutionFormValues,
-    // { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
   ) => {
     //to set submit state to false after successful signup
-    // setSubmitting(false);
-    console.log("Data", values);
+    try {
+      const careInstitutionInput: any = {
+        genderId: values && values.gender ? values.gender.value : "",
+        salutation: values && values.salutation ? values.salutation.value : "",
+        firstName: values.firstName,
+        lastName: values.lastName,
+        shortName: values.shortName,
+        companyName: values.companyName,
+        address: values.anonymousName,
+        address2: values.anonymousName2,
+        street: values.street,
+        zipCode: values.zipCode,
+        countryId: values && values.country ? values.country.value : "",
+        statId: values && values.state ? values.state.value : "",
+        website: values.website,
+        careGiverCommission: values.careGiverCommission,
+        doctorCommission: values.doctorCommission,
+        invoiceType: values && values.invoiceType ? values.invoiceType.value : "",
+        interval: values && values.interval ? values.interval.value : "",
+        emailInvoice: values.emailInvoice,
+        addressInvoice: values.addressInvoice
+      }
+      setSubmitting(false);
+      console.log("DFSFDSFSFSF", values);
+      await updateCareInstitution({
+        variables: {
+          id: parseInt(Id),
+          careInstitutionInput: careInstitutionInput
+        }
+      })
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      // setFieldError('email', message);
+      toast.error(message);
+      logger(error)
+    }
 
   };
   let values: ICareInstitutionFormValues
@@ -84,7 +126,7 @@ const PersonalInformation: any = (props: any) => {
       street: '',
       city: '',
     };
-    
+
   } else {
     values = {
       email: '',

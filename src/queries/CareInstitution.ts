@@ -1,22 +1,22 @@
 import gql from 'graphql-tag';
 
 const GET_CARE_INSTITUTION_LIST = gql`
-  query getCareInstitutions {
-    getCareInstitutions(searchBy:"",sortBy:1,limit:10,isActive:"") {
-      id
-      firstName
-      lastName
-      email
-      userName
-      phoneNumber
-      isActive
-      canstitution{
-        city
-        zipCode
-        companyName
-        shortName
-      }
-    }
+query {
+  getCareInstitutions(searchBy:"",sortBy:1,limit:10,isActive:"true"){
+  totalCount
+   careInstitutionData {
+  firstName
+  lastName
+  email
+  userName
+  isActive
+   canstitution{
+    city
+    zipCode
+   title
+  }
+  }
+  }
   }
 `;
 

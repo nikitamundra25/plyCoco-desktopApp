@@ -35,6 +35,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import Search from "../../common/SearchFilter";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { languageTranslation } from "../../helpers";
+import { ConfirmBox } from "../../common/ConfirmBox";
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -56,13 +57,20 @@ const CareInstitution = (props: RouteComponentProps) => {
     { data, loading, error, refetch }
   ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST);
   console.log("This is required Data", data);
+
+  // Mutation to update care institution
+  //   const [updateStatus, { error }] = useMutation<
+  //   { updateStatus: any },
+  //   { id: string }
+  // >(UPDATE_CARE_INSTITUTION);
+
   let userData: [Object] | any;
   let history = useHistory();
   const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // Similar to componentDidMount and componentDidUpdate:
+  // Similar to componentDidMount and componentDidUpdate: updateStatus
   useEffect(() => {
     const query = qs.parse(search);
     let searchBy: string = "";
@@ -160,6 +168,26 @@ const CareInstitution = (props: RouteComponentProps) => {
     history.push(path);
   };
 
+  const handleStatus = async (status: Boolean) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation("CONFIRM_LABEL"),
+      // text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG'),
+      text: status ? "You want to disable" : "You want to active"
+    });
+    if (!value) {
+      return;
+    } else {
+      console.log(status, "status");
+      // await updateStatus({
+      //   variables: {
+      //     isActive: status,
+      //   },
+      // });
+      // let { data } = client.readQuery({ query: GET_CARE_INSTITUTION_LIST });
+      // console.log(data, 'ressssssssssssssssssssss');
+    }
+  };
+
   if (data) {
     userData = data.getCareInstitutions.careInstitutionData;
   }
@@ -174,9 +202,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className="table-checkbox-wrap">
                     <div className="btn-group btn-check-action-wrap">
                       <span className="btn">
-                        <span
-                          className="checkboxli checkbox-custom checkbox-default"
-                        >
+                        <span className="checkboxli checkbox-custom checkbox-default">
                           <input type="checkbox" id="checkAll" className="" />
                           <label className=""></label>
                         </span>
@@ -230,10 +256,11 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <td className="text-center">
                   <span
                     className={`status-btn ${
-                      index % 2 === 0 ? "active" : "inactive"
+                      user.isActive === true ? "active" : "inactive"
                     }`}
+                    onClick={() => handleStatus(user.isActive)}
                   >
-                    {userData.isActive === null ? "Active" : "Disable"}
+                    {user.isActive === true ? "Active" : "Disable"}
                   </span>
                 </td>
                 <td>

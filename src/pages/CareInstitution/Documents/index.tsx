@@ -162,6 +162,7 @@ class Documents extends Component<RouteComponentProps, any> {
                     <Select
                       placeholder={languageTranslation("TYPE")}
                       options={State}
+                      menuPlacement={"top"}
                     />
                   </FormGroup>
                 </div>

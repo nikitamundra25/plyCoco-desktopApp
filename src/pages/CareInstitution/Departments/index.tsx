@@ -13,12 +13,11 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem
-,} from "reactstrap";
+} from "reactstrap";
 import { State, Region, Salutation, Country } from "../../../config";
 import Select from "react-select";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { languageTranslation } from "../../../helpers";
-
 
 class Departments extends Component<RouteComponentProps, any> {
   constructor(props: any) {
@@ -37,7 +36,6 @@ class Departments extends Component<RouteComponentProps, any> {
       error: true
     });
   };
-
 
   render() {
     return (
@@ -565,6 +563,7 @@ class Departments extends Component<RouteComponentProps, any> {
                           <Select
                             placeholder={languageTranslation("REGION", "STATE")}
                             options={State}
+                            menuPlacement={"top"}
                           />
                         </FormGroup>
                       </div>
@@ -596,6 +595,7 @@ class Departments extends Component<RouteComponentProps, any> {
                           <Select
                             placeholder={languageTranslation("REGION", "STATE")}
                             options={State}
+                            menuPlacement={"top"}
                           />
                         </FormGroup>
                       </div>

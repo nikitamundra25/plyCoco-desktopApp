@@ -937,6 +937,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Select
                             placeholder={languageTranslation("REGION", "STATE")}
                             options={State}
+                            menuPlacement={"top"}
                           />
                         </FormGroup>
                       </div>
@@ -968,6 +969,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Select
                             placeholder={languageTranslation("REGION", "STATE")}
                             options={State}
+                            menuPlacement={"top"}
                           />
                         </FormGroup>
                       </div>

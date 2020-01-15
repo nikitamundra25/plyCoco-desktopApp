@@ -807,6 +807,7 @@ const PersonalInformation: any = () => {
                       <Select
                         placeholder={languageTranslation("REGION", "STATE")}
                         options={State}
+                        menuPlacement={"top"}
                       />
                     </FormGroup>
                   </div>
@@ -838,6 +839,7 @@ const PersonalInformation: any = () => {
                       <Select
                         placeholder={languageTranslation("REGION", "STATE")}
                         options={State}
+                        menuPlacement={"top"}
                       />
                     </FormGroup>
                   </div>

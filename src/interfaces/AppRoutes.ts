@@ -35,6 +35,7 @@ export interface IAppRoutes {
   CARE_LOGIN: string;
   ADD_CARE_INSTITUTION: string;
   CARE_INSTITUTION: string;
+  CARE_INSTITUION_VIEW: string;
   CARE_INSTITUTION_PERSONAL_DATA: string;
   CARE_INSTITUTION_COMISSION_AGREEMENT: string;
   CARE_INSTITUTION_INVOICE_CYCLE: string;
@@ -46,5 +47,4 @@ export interface IAppRoutes {
   CARE_INSTITUTION_REMINDER: string;
   CAREGIVER_TODO: string;
   CARE_INSTITUTION_TODO: string;
-  CARE_INSTITUION_VIEW: string;
 }

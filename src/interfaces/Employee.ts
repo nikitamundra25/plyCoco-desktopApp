@@ -54,7 +54,8 @@ export interface IEmployee {
   userName: string;
   email: string;
   phoneNumber: string;
-  region: string;
+  region: { regionName: string };
   assignedCanstitution: string;
   isActive: boolean;
+  profileThumbnailImage: string;
 }

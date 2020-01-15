@@ -15,6 +15,7 @@ import { AppBreadcrumb } from "@coreui/react";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import * as qs from "query-string";
 import { Formik, FormikProps, FormikHelpers } from "formik";
+import { AppConfig } from "../../config";
 import { AppRoutes, PAGE_LIMIT, client } from "../../config";
 import routes from "../../routes/routes";
 import Search from "../../common/SearchFilter";
@@ -28,8 +29,16 @@ import {
   IReactSelectInterface
 } from "../../interfaces";
 import { ConfirmBox } from "../../common/ConfirmBox";
+import { toast } from "react-toastify";
 
-const [, , GET_EMPLOYEES, , , DELETE_EMPLOYEE] = EmployeeQueries;
+const [
+  ,
+  ,
+  GET_EMPLOYEES,
+  ,
+  UPDATE_EMPLOYEE_STATUS,
+  DELETE_EMPLOYEE
+] = EmployeeQueries;
 
 const sortFilter: any = {
   3: "name",
@@ -43,6 +52,7 @@ const Employee: FunctionComponent = () => {
   const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
+
   // To get employee list from db
   const [fetchEmployeeList, { data, loading }] = useLazyQuery<any>(
     GET_EMPLOYEES
@@ -54,6 +64,12 @@ const Employee: FunctionComponent = () => {
     { deleteEmployee: any },
     { id: string }
   >(DELETE_EMPLOYEE);
+
+  // Mutation to update employee status
+  const [updateEmployeeStatus] = useMutation<
+    { activeStatusEmployee: any },
+    { id: string; isActive: boolean }
+  >(UPDATE_EMPLOYEE_STATUS);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -111,12 +127,18 @@ const Employee: FunctionComponent = () => {
         page: query.page ? parseInt(query.page as string) : 1,
         isActive: query.status
           ? query.status === "active"
-            ? { label: "Active", value: "true" }
-            : { label: "Deactive", value: "false" }
+            ? "true"
+            : "false"
           : ""
       }
     });
   }, [search]); // It will run when the search value gets changed
+
+  const {
+    searchValue = "",
+    sortBy = undefined,
+    isActive = undefined
+  } = searchValues ? searchValues : {};
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
@@ -148,7 +170,13 @@ const Employee: FunctionComponent = () => {
     );
     history.push(path);
   };
-
+  const queryVariables = {
+    page: currentPage,
+    isActive: isActive ? isActive.value : "",
+    sortBy: sortBy ? sortBy.value : 0,
+    searchBy: searchValue ? searchValue : "",
+    limit: PAGE_LIMIT
+  };
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation("CONFIRM_LABEL"),
@@ -157,21 +185,74 @@ const Employee: FunctionComponent = () => {
     if (!value) {
       return;
     } else {
-      console.log(id, "iddddddddddd");
-      await deleteEmployee({
-        variables: {
-          id
-        }
-      });
-      // let { getEmployees } = client.readQuery({ query: GET_EMPLOYEES });
-      // console.log(getEmployees, 'ressssssssssssssssssssss');
+      try {
+        await deleteEmployee({
+          variables: {
+            id
+          }
+        });
+
+        const data = await client.readQuery({
+          query: GET_EMPLOYEES,
+          variables: queryVariables
+        });
+        const newEmployees = data.getEmployees.employeeData.filter(
+          (employee: any) => employee.id !== id
+        );
+
+        const updatedData = {
+          ...data,
+          getEmployees: {
+            ...data.getEmployees,
+            employeeData: newEmployees,
+            totalCount: newEmployees.length
+          }
+        };
+        client.writeQuery({
+          query: GET_EMPLOYEES,
+          variables: queryVariables,
+          data: updatedData
+        });
+      } catch (error) {
+        const message = error.message
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
+        toast.error(message);
+        logger(error.message, "error");
+      }
     }
   };
-  const {
-    searchValue = "",
-    sortBy = undefined,
-    isActive = undefined
-  } = searchValues ? searchValues : {};
+
+  const onStatusUpdate = async (id: string, status: boolean) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation(
+        status
+          ? "CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG"
+          : "CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG"
+      )
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        await updateEmployeeStatus({
+          variables: {
+            id,
+            isActive: status
+          }
+        });
+        toast.success(languageTranslation("EMPLOYEE_STATUS_UPDATE_MSG"));
+      } catch (error) {
+        const message = error.message
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
+        toast.error(message);
+      }
+    }
+  };
 
   const values: ISearchValues = {
     searchValue,
@@ -179,6 +260,7 @@ const Employee: FunctionComponent = () => {
     sortBy
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  logger(data, "dataaaaaaaa");
 
   return (
     <Card>
@@ -263,7 +345,8 @@ const Employee: FunctionComponent = () => {
                     phoneNumber,
                     region,
                     assignedCanstitution,
-                    isActive
+                    isActive,
+                    profileThumbnailImage
                   }: IEmployee,
                   index: number
                 ) => {
@@ -294,7 +377,7 @@ const Employee: FunctionComponent = () => {
                         <div className="info-column">
                           <div className="img-column">
                             <img
-                              src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                              src={`${AppConfig.FILES_ENDPOINT}${profileThumbnailImage}`}
                               className="img-fluid"
                             />
                           </div>
@@ -321,11 +404,11 @@ const Employee: FunctionComponent = () => {
                       </td>
                       <td>
                         <div className="description-column  ml-0">
-                          {region ? region : null}
+                          {region ? region.regionName : "-"}
                         </div>
                       </td>
                       <td className="text-center">
-                        <div>{assignedCanstitution}</div>
+                        <div>{0}</div>
                       </td>
                       <td className="text-center">
                         {isActive}
@@ -333,6 +416,7 @@ const Employee: FunctionComponent = () => {
                           className={`status-btn ${
                             isActive ? "active" : "inactive"
                           }`}
+                          onClick={() => onStatusUpdate(id, !isActive)}
                         >
                           {isActive
                             ? languageTranslation("ACTIVE")
@@ -344,45 +428,44 @@ const Employee: FunctionComponent = () => {
                           <ButtonTooltip
                             id={`edit${index}`}
                             message={languageTranslation("EMP_EDIT")}
-                            onclick={() =>
-                              history.push(
-                                AppRoutes.EDIT_EMPLOYEE.replace(
-                                  /:id|:userName/gi,
-                                  function(matched) {
-                                    return replaceObj[matched];
-                                  }
-                                )
-                              )
-                            }
                           >
                             {" "}
-                            <i className="fa fa-pencil"></i>
+                            <i
+                              className="fa fa-pencil"
+                              onClick={() =>
+                                history.push(
+                                  AppRoutes.EDIT_EMPLOYEE.replace(
+                                    /:id|:userName/gi,
+                                    function(matched) {
+                                      return replaceObj[matched];
+                                    }
+                                  )
+                                )
+                              }
+                            ></i>
                           </ButtonTooltip>
                           <ButtonTooltip
                             id={`view${index}`}
                             message={languageTranslation("EMP_VIEW")}
-                            onclick={() =>
-                              history.push(
-                                AppRoutes.VIEW_EMPLOYEE.replace(
-                                  /:id|:userName/gi,
-                                  function(matched) {
-                                    return replaceObj[matched];
-                                  }
-                                )
-                              )
-                            }
                           >
                             {" "}
-                            <i className="fa fa-eye"></i>
+                            <i
+                              className="fa fa-eye"
+                              onClick={() =>
+                                history.push(AppRoutes.VIEW_EMPLOYEE)
+                              }
+                            ></i>
                           </ButtonTooltip>
 
                           <ButtonTooltip
                             id={`delete${index}`}
                             message={languageTranslation("EMP_DELETE")}
-                            onclick={() => onDelete(id)}
                           >
                             {" "}
-                            <i className="fa fa-trash"></i>
+                            <i
+                              className="fa fa-trash"
+                              onClick={() => onDelete(id)}
+                            ></i>
                           </ButtonTooltip>
                         </div>
                       </td>

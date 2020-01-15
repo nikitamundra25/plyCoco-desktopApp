@@ -27,6 +27,7 @@ class DefaultFooter extends Component {
               className={"menu-outer-top"}
               placeholder="Select Region"
               options={Region}
+              menuPlacement={"top"}
             />
           </div>
         </div>

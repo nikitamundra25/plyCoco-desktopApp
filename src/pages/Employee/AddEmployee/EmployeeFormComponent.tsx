@@ -848,9 +848,11 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       {/* <div className="icon-text">
                                         Click here to select your profile image
                                       </div> */}
-                                      {!image || errors.image
-                                        ? languageTranslation('CHOOSE_IMAGE')
-                                        : ''}
+                                      <div className='icon-text'>
+                                        {!image || errors.image
+                                          ? languageTranslation('CHOOSE_IMAGE')
+                                          : ''}
+                                      </div>
                                     </label>
                                     <input
                                       className='file-upload-input'

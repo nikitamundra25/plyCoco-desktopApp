@@ -12,19 +12,33 @@ import {
 } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { AppBreadcrumb } from '@coreui/react';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import * as qs from 'query-string';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { AppRoutes, PAGE_LIMIT } from '../../config';
+import { AppRoutes, PAGE_LIMIT, client } from '../../config';
 import routes from '../../routes/routes';
 import Search from '../../common/SearchFilter';
 import { languageTranslation, logger } from '../../helpers';
 import ButtonTooltip from '../../common/Tooltip/ButtonTooltip';
 import { EmployeeQueries } from '../../queries';
 import PaginationComponent from '../../common/Pagination';
-import { ISearchValues } from '../../interfaces';
+import {
+  ISearchValues,
+  IEmployee,
+  IReactSelectInterface,
+} from '../../interfaces';
+import { ConfirmBox } from '../../common/ConfirmBox';
+import gql from 'graphql-tag';
+import { toast } from 'react-toastify';
 
-const [, , GET_EMPLOYEES] = EmployeeQueries;
+const [
+  ,
+  ,
+  GET_EMPLOYEES,
+  ,
+  UPDATE_EMPLOYEE_STATUS,
+  DELETE_EMPLOYEE,
+] = EmployeeQueries;
 
 const sortFilter: any = {
   3: 'name',
@@ -38,16 +52,29 @@ const Employee: FunctionComponent = () => {
   const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  // To get emplyee list from db
+
+  // To get employee list from db
   const [fetchEmployeeList, { data, loading }] = useLazyQuery<any>(
     GET_EMPLOYEES,
   );
+  // Mutation to delete employee
+  const [deleteEmployee, { error }] = useMutation<
+    { deleteEmployee: any },
+    { id: string }
+  >(DELETE_EMPLOYEE);
+
+  // Mutation to update employee status
+  const [updateEmployeeStatus] = useMutation<
+    { activeStatusEmployee: any },
+    { id: string; isActive: boolean }
+  >(UPDATE_EMPLOYEE_STATUS);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     const query = qs.parse(search);
     let searchBy: string = '';
-    let sortBy: any = { label: '', value: '' };
+    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
+    let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
     // To handle display and query param text
     let sortByValue: any = Object.keys(sortFilter).find(
       (key: any) => sortFilter[key] === query.sortBy,
@@ -76,10 +103,16 @@ const Employee: FunctionComponent = () => {
                 (key: any) => sortFilter[key] === query.sortBy,
               ) || '',
           }
-        : '';
+        : undefined;
+      isActive = query.status
+        ? query.status === 'active'
+          ? { label: languageTranslation('ACTIVE'), value: 'true' }
+          : { label: languageTranslation('DISABLE'), value: 'false' }
+        : undefined;
       setSearchValues({
         searchValue: searchBy,
         sortBy,
+        isActive,
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -90,14 +123,16 @@ const Employee: FunctionComponent = () => {
         sortBy: sortByValue ? parseInt(sortByValue) : 0,
         limit: PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
-        isActive: query.status
-          ? query.status === 'active'
-            ? { label: 'Active', value: 'true' }
-            : { label: 'Deactive', value: 'false' }
-          : '',
+        isActive: query.status === 'active' ? 'true' : 'false',
       },
     });
   }, [search]); // It will run when the search value gets changed
+
+  const {
+    searchValue = '',
+    sortBy = undefined,
+    isActive = undefined,
+  } = searchValues ? searchValues : {};
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
@@ -110,9 +145,9 @@ const Employee: FunctionComponent = () => {
     if (searchValue) {
       params.search = searchValue;
     }
-    // if (isActive && isActive.value !== '') {
-    //   params.status = isActive.value === 'true' ? 'active' : 'deactive';
-    // }
+    if (isActive && isActive.value !== '') {
+      params.status = isActive.value === 'true' ? 'active' : 'disable';
+    }
     if (sortBy && sortBy.value !== '') {
       params.sortBy = sortBy.value !== '' ? sortFilter[sortBy.value] : '';
     }
@@ -129,12 +164,89 @@ const Employee: FunctionComponent = () => {
     );
     history.push(path);
   };
+  const queryVariables = {
+    page: currentPage,
+    isActive: isActive ? isActive.value : '',
+    sortBy: sortBy ? sortBy.value : 0,
+    searchBy: searchValue ? searchValue : '',
+    limit: PAGE_LIMIT,
+  };
+  const onDelete = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG'),
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        await deleteEmployee({
+          variables: {
+            id,
+          },
+        });
 
-  const {
-    searchValue = '',
-    sortBy = undefined,
-    isActive = undefined,
-  } = searchValues ? searchValues : {};
+        const data = await client.readQuery({
+          query: GET_EMPLOYEES,
+          variables: queryVariables,
+        });
+        const newEmployees = data.getEmployees.employeeData.filter(
+          (employee: any) => employee.id !== id,
+        );
+
+        const updatedData = {
+          ...data,
+          getEmployees: {
+            ...data.getEmployees,
+            employeeData: newEmployees,
+            totalCount: newEmployees.length,
+          },
+        };
+        client.writeQuery({
+          query: GET_EMPLOYEES,
+          variables: queryVariables,
+          data: updatedData,
+        });
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        toast.error(message);
+        logger(error.message, 'error');
+      }
+    }
+  };
+
+  const onStatusUpdate = async (id: string, status: boolean) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation(
+        status
+          ? 'CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG'
+          : 'CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG',
+      ),
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        await updateEmployeeStatus({
+          variables: {
+            id,
+            isActive: status,
+          },
+        });
+        toast.success(languageTranslation('EMPLOYEE_STATUS_UPDATE_MSG'));
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        toast.error(message);
+      }
+    }
+  };
 
   const values: ISearchValues = {
     searchValue,
@@ -142,19 +254,20 @@ const Employee: FunctionComponent = () => {
     sortBy,
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  logger(data, 'dataaaaaaaa');
 
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
         <Button
-          color={"primary"}
-          className={"btn-add"}
-          id={"add-new-pm-tooltip"}
+          color={'primary'}
+          className={'btn-add'}
+          id={'add-new-pm-tooltip'}
           onClick={() => history.push(AppRoutes.ADD_EMPLOYEE)}
         >
-          <i className={"fa fa-plus"} />
-          &nbsp;{languageTranslation("ADD_NEW_EMPLOYEE_BUTTON")}
+          <i className={'fa fa-plus'} />
+          &nbsp;{languageTranslation('ADD_NEW_EMPLOYEE_BUTTON')}
         </Button>
       </CardHeader>
       <CardBody>
@@ -170,47 +283,65 @@ const Employee: FunctionComponent = () => {
           {/* <Search /> */}
         </div>
         <Table bordered hover responsive>
-          <thead className="thead-bg">
+          <thead className='thead-bg'>
             <tr>
               <th>
-                <div className="table-checkbox-wrap">
-                  <div className="btn-group btn-check-action-wrap">
-                    <span className="btn">
-                      <span className="checkboxli checkbox-custom checkbox-default">
-                        <input type="checkbox" id="checkAll" className="" />
-                        <label className=""></label>
+                <div className='table-checkbox-wrap'>
+                  <div className='btn-group btn-check-action-wrap'>
+                    <span className='btn'>
+                      <span className='checkboxli checkbox-custom checkbox-default'>
+                        <input type='checkbox' id='checkAll' className='' />
+                        <label className=''></label>
                       </span>
                     </span>
-                    <UncontrolledDropdown className="custom-dropdown">
-                      <DropdownToggle caret color="link" />
+                    <UncontrolledDropdown className='custom-dropdown'>
+                      <DropdownToggle caret color='link' />
                       <DropdownMenu>
                         <DropdownItem>Delete</DropdownItem>
-                        <DropdownItem>Active</DropdownItem>
+                        <DropdownItem>
+                          {languageTranslation('ACTIVE')}
+                        </DropdownItem>
                         <DropdownItem>Disable</DropdownItem>
                       </DropdownMenu>
                     </UncontrolledDropdown>
                   </div>
                 </div>
               </th>
-              <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
-              <th>{languageTranslation("REGION")}</th>
-              <th>{languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}</th>
-              <th>{languageTranslation("STATUS")}</th>
-              <th>{languageTranslation("TABLE_HEAD_ACTION")}</th>
+              <th>{languageTranslation('TABLE_HEAD_EMP_INFO')}</th>
+              <th>{languageTranslation('REGION')}</th>
+              <th>{languageTranslation('TABLE_HEAD_ASSIGNED_CANSTITUTION')}</th>
+              <th>{languageTranslation('STATUS')}</th>
+              <th>{languageTranslation('TABLE_HEAD_ACTION')}</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <p>Loading ...</p>
+              <tr>
+                <td>
+                  <div>Loading ...</div>
+                </td>
+              </tr>
             ) : (
               data &&
               data.getEmployees &&
               data.getEmployees.employeeData &&
               data.getEmployees.employeeData.map(
-                (employee: any, index: number) => {
+                (
+                  {
+                    id,
+                    firstName,
+                    userName,
+                    email,
+                    phoneNumber,
+                    region,
+                    assignedCanstitution,
+                    isActive,
+                  }: IEmployee,
+                  index: number,
+                ) => {
                   const replaceObj: any = {
-                    ':id': employee.id,
-                    ':userName': employee.userName,
+                    ':id': id,
+                    ':userName': userName,
                   };
                   return (
                     <tr key={index}>
@@ -241,54 +372,42 @@ const Employee: FunctionComponent = () => {
                           </div>
                           <div className='description-column'>
                             <div className='info-title'>
-                              {employee.firstName ? employee.firstName : ''}
+                              {firstName ? firstName : ''}
                             </div>
-                            <p className='description-text'>
+                            <div className='description-text'>
                               <i className='fa fa-envelope mr-2'></i>
                               <span className='align-middle'>
-                                {employee.email ? employee.email : ''}
+                                {email ? email : ''}
                               </span>
-                            </p>
-                            {employee.phoneNumber ? (
-                              <p className='description-text'>
+                            </div>
+                            {phoneNumber ? (
+                              <div className='description-text'>
                                 <i className='fa fa-phone mr-2'></i>
                                 <span className='align-middle'>
-                                  {employee.phoneNumber}
+                                  {phoneNumber}
                                 </span>
-                              </p>
+                              </div>
                             ) : null}
                           </div>
                         </div>
                       </td>
                       <td>
                         <div className='description-column  ml-0'>
-                          {employee.region
-                            ? employee.region
-                              ? employee.region.map((region: any) => (
-                                  <p className='description-text '>
-                                    <span className='text-label mr-1'>
-                                      <i className='fa fa-angle-right'></i>
-                                    </span>
-                                    <span className='align-middle'>
-                                      {region}
-                                    </span>
-                                  </p>
-                                ))
-                              : null
-                            : null}
+                          {region ? region : null}
                         </div>
                       </td>
                       <td className='text-center'>
-                        <div>{employee.assignedCanstitution}</div>
+                        <div>{assignedCanstitution}</div>
                       </td>
                       <td className='text-center'>
-                        {employee.isActive}
+                        {isActive}
                         <span
                           className={`status-btn ${
-                            employee.isActive ? 'active' : 'inactive'
+                            isActive ? 'active' : 'inactive'
                           }`}
+                          onClick={() => onStatusUpdate(id, !isActive)}
                         >
-                          {employee.isActive
+                          {isActive
                             ? languageTranslation('ACTIVE')
                             : languageTranslation('DISABLE')}
                         </span>
@@ -298,38 +417,44 @@ const Employee: FunctionComponent = () => {
                           <ButtonTooltip
                             id={`edit${index}`}
                             message={languageTranslation('EMP_EDIT')}
-                            onclick={() =>
-                              history.push(
-                                AppRoutes.EDIT_EMPLOYEE.replace(
-                                  /:id|:userName/gi,
-                                  function(matched) {
-                                    return replaceObj[matched];
-                                  },
-                                ),
-                              )
-                            }
                           >
                             {' '}
-                            <i className='fa fa-pencil'></i>
+                            <i
+                              className='fa fa-pencil'
+                              onClick={() =>
+                                history.push(
+                                  AppRoutes.EDIT_EMPLOYEE.replace(
+                                    /:id|:userName/gi,
+                                    function(matched) {
+                                      return replaceObj[matched];
+                                    },
+                                  ),
+                                )
+                              }
+                            ></i>
                           </ButtonTooltip>
                           <ButtonTooltip
                             id={`view${index}`}
                             message={languageTranslation('EMP_VIEW')}
-                            onclick={() =>
-                              history.push(AppRoutes.VIEW_EMPLOYEE)
-                            }
                           >
                             {' '}
-                            <i className='fa fa-eye'></i>
+                            <i
+                              className='fa fa-eye'
+                              onClick={() =>
+                                history.push(AppRoutes.VIEW_EMPLOYEE)
+                              }
+                            ></i>
                           </ButtonTooltip>
 
                           <ButtonTooltip
                             id={`delete${index}`}
                             message={languageTranslation('EMP_DELETE')}
-                            onclick={() => history.push('')}
                           >
                             {' '}
-                            <i className='fa fa-trash'></i>
+                            <i
+                              className='fa fa-trash'
+                              onClick={() => onDelete(id)}
+                            ></i>
                           </ButtonTooltip>
                         </div>
                       </td>

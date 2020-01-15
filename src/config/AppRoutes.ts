@@ -37,5 +37,7 @@ export const AppRoutes: IAppRoutes = {
   CARE_LOGIN: "/caregiver/loginlist",
   ADD_CARE_INSTITUTION: "/care-institution/add",
   CARE_INSTITUTION: "/care-institution",
-  CARE_INSTITUION_VIEW: "/care-institution/view"
+  CARE_INSTITUION_VIEW: "/care-institution/view",
+  CAREGIVER_TODO: "/caregiver-todo",
+  CARE_INSTITUTION_TODO: "/care-institution-todo"
 };

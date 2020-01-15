@@ -1,7 +1,7 @@
-export interface ITooltipProps{
-    id:string,
-    message:string,
-    position?:string
-    children?:any,
-    onclick?:any
+export interface ITooltipProps {
+  id: string;
+  message: string;
+  position?: string;
+  children?: any;
+  onclick?: any;
 }

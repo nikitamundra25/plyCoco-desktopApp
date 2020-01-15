@@ -9,6 +9,6 @@ export * from "./CareGiver";
 export * from "./Country";
 export * from "./Tooltip";
 export * from "./DateFunction";
-export * from "./CareInstitution";
 export * from "./Search";
+export * from "./CareInstitution";
 export * from "./Region";

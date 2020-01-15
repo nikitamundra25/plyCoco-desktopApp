@@ -46,7 +46,7 @@ const UPDATE_EMPLOYEE = gql`
 `;
 
 const GET_EMPLOYEES = gql`
-  query getEmployees(
+  query GetEmployees(
     $searchBy: String
     $sortBy: Int
     $limit: Int
@@ -94,9 +94,10 @@ const GET_EMPLOYEES = gql`
 `;
 
 const UPDATE_EMPLOYEE_STATUS = gql`
-  mutation UpdateEmployeeStatus($id: ID!, $isActive: Boolean) {
-    updateEmployeeStatus(id: $id, isActive: $isActive) {
-      userId
+  mutation ActiveStatusEmployee($id: ID!, $isActive: Boolean) {
+    activeStatusEmployee(id: $id, isActive: $isActive) {
+      id
+      isActive
     }
   }
 `;
@@ -104,7 +105,7 @@ const UPDATE_EMPLOYEE_STATUS = gql`
 const DELETE_EMPLOYEE = gql`
   mutation DeleteEmployee($id: ID!) {
     deleteEmployee(id: $id) {
-      userId
+      firstName
     }
   }
 `;

@@ -71,7 +71,7 @@ const DocumentUpload = React.lazy(() =>
   import("../pages/CareGiver/Documents/DocumentsUpload")
 );
 const AddCareInstitution = React.lazy(() =>
-  import("../pages/CareInstitution/AddCareInstitution/AddCareInstitution")
+  import("../pages/CareInstitution/AddCareInstitution")
 );
 const Constitution = React.lazy(() => import("../pages/CareInstitution"));
 const ConstitutionPersonalInfo = React.lazy(() =>
@@ -123,6 +123,7 @@ const CareGiverTodoLayout = React.lazy(() =>
 const CareInstitutionTodoLayout = React.lazy(() =>
   import("../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout")
 );
+
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -368,23 +369,23 @@ const routes = [
     name: "View Employee",
     component: ViewEmployee,
     exact: true
+  },
+  {
+    path: AppRoutes.CAREGIVER_TODO,
+    name: "Care Giver Todo",
+    component: CareGiverTodo,
+    exact: true,
+    layout: CareGiverTodoLayout,
+    layoutName: "CareGiverTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_TODO,
+    name: "Care Institution Todo",
+    component: CareInstitutionTodo,
+    exact: true,
+    layout: CareInstitutionTodoLayout,
+    layoutName: "CareInstitutionTodoLayout"
   }
-  // {
-  //   path: AppRoutes.CAREGIVER_TODO,
-  //   name: "Care Giver Todo",
-  //   component: CareGiverTodo,
-  //   exact: true,
-  //   layout: CareGiverTodoLayout,
-  //   layoutName: "CareGiverTodoLayout"
-  // },
-  // {
-  //   path: AppRoutes.CARE_INSTITUTION_TODO,
-  //   name: "Care Institution Todo",
-  //   component: CareInstitutionTodo,
-  //   exact: true,
-  //   layout: CareInstitutionTodoLayout,
-  //   layoutName: "CareInstitutionTodoLayout"
-  // }
 ];
 
 export default routes;

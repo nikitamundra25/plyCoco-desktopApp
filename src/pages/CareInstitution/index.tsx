@@ -21,7 +21,7 @@ import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import { CareInstitutionQueries } from "../../queries";
 import { useQuery } from '@apollo/react-hooks';
-import { ICareInstitutionFormValues } from "../../interfaces";
+import { ICareInstitutionFormValues, ICareInstitutionListDataInterface } from "../../interfaces";
 import { RouteComponentProps } from "react-router";
 
 const [
@@ -35,13 +35,20 @@ const CareInstitution = (props: RouteComponentProps) => {
   const { data, loading, error, refetch } = useQuery<any>(GET_CARE_INSTITUTION_LIST);
   console.log("This is reqired Data", data);
   let userData: [Object] | any
+
+  const handleViewCareInstitution = (id: any) => {
+    console.log("DDDDDDDD",id);
+    
+    props.history.push(AppRoutes.CARE_INSTITUION_VIEW.replace(":id",id))
+  }
+
   if (data) {
     userData = data.getCareInstitutions
   }
   const tableData: any[] = [];
   <>
     {
-      userData && userData.length ? userData.map((user: ICareInstitutionFormValues, index: number) => {
+      userData && userData.length ? userData.map((user: ICareInstitutionListDataInterface, index: number) => {
         return tableData.push(
           <tr>
             <td>
@@ -74,9 +81,9 @@ const CareInstitution = (props: RouteComponentProps) => {
             </td>
             <td>
               <div className="description-column">
-                <div className="info-title">{user.companyName ? user.companyName : "N/A"}</div>
+                <div className="info-title">{user.canstitution.companyName ? user.canstitution.companyName : "N/A"}</div>
                 <p className="description-text">
-                  <span className="align-middle">{user.shortName ? user.shortName : "N/A"}</span>
+                  <span className="align-middle">{user.canstitution.shortName ? user.canstitution.shortName : "N/A"}</span>
                 </p>
                 <p className="description-text">
                   <span className="align-middle">{user.userName ? user.userName : "N/A"}</span>
@@ -103,16 +110,19 @@ const CareInstitution = (props: RouteComponentProps) => {
                 >
                   <UncontrolledTooltip placement="top" target={`edit${index}`}>
                     Click here to edit employee
-                </UncontrolledTooltip>
+                  </UncontrolledTooltip>
                   <i className="fa fa-pencil"></i>
                 </span>
                 <span
                   className="btn-icon mr-2"
                   id={`view${index}`}
+                  onClick={() =>
+                    handleViewCareInstitution(user.id)
+                  }
                 >
                   <UncontrolledTooltip placement="top" target={`view${index}`}>
                     Click here to view Constitution
-                </UncontrolledTooltip>
+                  </UncontrolledTooltip>
                   <i className="fa fa-eye"></i>
                 </span>
                 <span
@@ -122,7 +132,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                 >
                   <UncontrolledTooltip placement="top" target={`delete${index}`}>
                     Click here to delete employee
-                </UncontrolledTooltip>
+                  </UncontrolledTooltip>
                   <i className="fa fa-trash"></i>
                 </span>
               </div>
@@ -131,7 +141,6 @@ const CareInstitution = (props: RouteComponentProps) => {
         );
       }) :
         tableData.push(
-
           <tr className={"text-center"}>
             <td colSpan={5} className={"pt-5 pb-5"}>
               <h2>No data found</h2>

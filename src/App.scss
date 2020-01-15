@@ -1684,6 +1684,7 @@ body {
       padding: 15px;
       background: $card_header_bg;
       min-height: calc(100vh - 145px);
+      position:relative;
       .content-title {
         color: $black;
         font-size: $font_14;

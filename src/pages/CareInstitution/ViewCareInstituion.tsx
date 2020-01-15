@@ -47,6 +47,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   const { search, pathname } = useLocation();
   useEffect(() => {
     const query: any = qs.parse(search);
+    console.log("RRRRRRRRRRRRRRRR", pathname);
     setactiveTab(
       query.tab
         ? CareInstitutionTabs.findIndex(d => d.name === decodeURIComponent(query.tab))
@@ -81,17 +82,6 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     <img src={add} alt="" />
                   </span>
                   <span className="header-nav-text">New Care Institution</span>
-                </div>
-
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={save} alt="" />
-                  </span>
-                  <span
-                    // onClick={() => handleSubmit()}
-                    className="header-nav-text">
-                    Save
-                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
@@ -136,9 +126,9 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
             <div className="common-content flex-grow-1">
               {activeTab === 0 ? (
                 <PersonalInformation
-                  handleSubmit={()=>{
+                  handleSubmit={() => {
                     console.log("sdadadasdada");
-                    
+
                   }}
                   {...props}
                 />

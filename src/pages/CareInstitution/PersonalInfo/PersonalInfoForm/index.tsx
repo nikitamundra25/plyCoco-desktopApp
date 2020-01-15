@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { FormGroup, Label, Input, Col, Row, Form } from "reactstrap";
+import { FormGroup, Label, Input, Col, Row, Button } from "reactstrap";
 import Select from "react-select";
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { State, Region, Salutation, Country, Gender } from "../../../../config";
@@ -90,6 +90,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
 
   return (
     <Row className=" ">
+      <Button className={"save-button btn-add btn btn-primary text-white"} onClick={handleSubmit}>Save</Button>
       <Col lg={"4"}>
         <div className="form-card h-100">
           <Row>
@@ -258,8 +259,17 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={firstName}
                         placeholder={languageTranslation("FIRST_NAME")}
-                        className="width-common"
+                        className={
+                          errors.firstName && touched.firstName
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.firstName && touched.firstName && (
+                        <div className="required-error">
+                          {errors.firstName}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -283,8 +293,17 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={lastName}
                         placeholder={languageTranslation("SURNAME")}
-                        className="width-common"
+                        className={
+                          errors.lastName && touched.lastName
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.lastName && touched.lastName && (
+                        <div className="required-error">
+                          {errors.lastName}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -576,8 +595,17 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={mobileNumber}
                         placeholder={languageTranslation("MOBILE")}
-                        className="width-common"
+                        className={
+                          errors.mobileNumber && touched.mobileNumber
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.mobileNumber && touched.mobileNumber && (
+                        <div className="required-error">
+                          {errors.mobileNumber}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -601,8 +629,17 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={email}
                         placeholder={languageTranslation("EMAIL")}
-                        className="width-common"
+                        className={
+                          errors.email && touched.email
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.email && touched.email && (
+                        <div className="required-error">
+                          {errors.email}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -626,8 +663,17 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={userName}
                         placeholder={languageTranslation("USERNAME")}
-                        className="width-common"
+                        className={
+                          errors.userName && touched.userName
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.userName && touched.userName && (
+                        <div className="required-error">
+                          {errors.userName}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>

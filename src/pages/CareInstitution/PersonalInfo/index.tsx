@@ -1,10 +1,11 @@
 import React from "react";
-import { Form } from "reactstrap";
+import { Form, Button } from "reactstrap";
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import CareInstitutionContact from "./CareInstitutionContact";
 import "../careinstitution.scss";
 import PersonalInfoForm from "./PersonalInfoForm";
 import { ICareInstitutionContact, ICareInstitutionFormValues } from "../../../interfaces";
+import { CareInstituionValidationSchema } from "../../../validations";
 const PersonalInformation: any = (props: any) => {
 
   const handleContactSubmit = (
@@ -30,14 +31,15 @@ const PersonalInformation: any = (props: any) => {
     updatedAt: new Date()
   };
 
-  // const handleSubmit = (
-  //   values: ICareInstitutionFormValues,
-  //   { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
-  // ) => {
-  //   //to set submit state to false after successful signup
-  //   setSubmitting(false);
-  //   props.submitedValues()
-  // };
+  const handleSubmit = (
+    values: ICareInstitutionFormValues,
+    // { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
+  ) => {
+    //to set submit state to false after successful signup
+    // setSubmitting(false);
+    console.log("Data", values);
+
+  };
 
   const values: ICareInstitutionFormValues = {
     email: '',
@@ -55,11 +57,11 @@ const PersonalInformation: any = (props: any) => {
     <Form className="form-section forms-main-section">
       <Formik
         initialValues={values}
-        onSubmit={props.handleSubmit}
+        onSubmit={handleSubmit}
         children={(props: FormikProps<ICareInstitutionFormValues>) => (
           <PersonalInfoForm {...props} />
         )}
-        validationSchema={""}
+        validationSchema={CareInstituionValidationSchema}
       />
 
       <Formik

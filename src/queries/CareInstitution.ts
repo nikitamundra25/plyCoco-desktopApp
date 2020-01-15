@@ -2,15 +2,20 @@ import gql from 'graphql-tag';
 
 const GET_CARE_INSTITUTION_LIST = gql`
   query getCareInstitutions {
-    getCareInstitutions(searchBy:null,limit:null,page:1) {
+    getCareInstitutions(searchBy:null,sortBy:3,limit:2,isActive:"true") {
       id
       firstName
       lastName
       email
-      companyName
-      shortName
       userName
+      phoneNumber
       isActive
+      canstitution{
+        city
+        zipCode
+        companyName
+        shortName
+      }
     }
   }
 `;

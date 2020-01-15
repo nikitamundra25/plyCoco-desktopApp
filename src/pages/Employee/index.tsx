@@ -15,6 +15,7 @@ import { AppBreadcrumb } from '@coreui/react';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import * as qs from 'query-string';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { AppConfig } from '../../config';
 import { AppRoutes, PAGE_LIMIT, client } from '../../config';
 import routes from '../../routes/routes';
 import Search from '../../common/SearchFilter';
@@ -28,7 +29,6 @@ import {
   IReactSelectInterface,
 } from '../../interfaces';
 import { ConfirmBox } from '../../common/ConfirmBox';
-import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
 
 const [
@@ -123,7 +123,11 @@ const Employee: FunctionComponent = () => {
         sortBy: sortByValue ? parseInt(sortByValue) : 0,
         limit: PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
-        isActive: query.status === 'active' ? 'true' : 'false',
+        isActive: query.status
+          ? query.status === 'active'
+            ? 'true'
+            : 'false'
+          : '',
       },
     });
   }, [search]); // It will run when the search value gets changed
@@ -336,6 +340,7 @@ const Employee: FunctionComponent = () => {
                     region,
                     assignedCanstitution,
                     isActive,
+                    profileThumbnailImage,
                   }: IEmployee,
                   index: number,
                 ) => {
@@ -366,7 +371,7 @@ const Employee: FunctionComponent = () => {
                         <div className='info-column'>
                           <div className='img-column'>
                             <img
-                              src='https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg'
+                              src={`${AppConfig.FILES_ENDPOINT}${profileThumbnailImage}`}
                               className='img-fluid'
                             />
                           </div>
@@ -393,7 +398,7 @@ const Employee: FunctionComponent = () => {
                       </td>
                       <td>
                         <div className='description-column  ml-0'>
-                          {region ? region : null}
+                          {region ? region.regionName : null}
                         </div>
                       </td>
                       <td className='text-center'>

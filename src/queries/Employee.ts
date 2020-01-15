@@ -70,6 +70,7 @@ const GET_EMPLOYEES = gql`
         phoneNumber
         isActive
         profileImage
+        profileThumbnailImage
         employee {
           joiningDate
           employeeCustomId
@@ -80,6 +81,9 @@ const GET_EMPLOYEES = gql`
           address1
           address2
           regionId
+        }
+        region {
+          regionName
         }
         bankDetails {
           bankName

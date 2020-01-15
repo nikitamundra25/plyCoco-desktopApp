@@ -1,100 +1,100 @@
 // Styles
 // CoreUI Icons Set
-@import '~@coreui/icons/css/coreui-icons.css';
+@import "~@coreui/icons/css/coreui-icons.css";
 // Import Flag Icons Set
-@import '~flag-icon-css/css/flag-icon.min.css';
+@import "~flag-icon-css/css/flag-icon.min.css";
 // Import Font Awesome Icons Set
-@import '~font-awesome/css/font-awesome.min.css';
+@import "~font-awesome/css/font-awesome.min.css";
 // Import Simple Line Icons Set
-@import '~simple-line-icons/css/simple-line-icons.css';
+@import "~simple-line-icons/css/simple-line-icons.css";
 // Import Main styles for this application
-@import './scss/style.scss';
+@import "./scss/style.scss";
 
-@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap");
 
 @font-face {
   font-family: TechniqueBRKNormal;
-  src: url('./assets/fonts/techniqu-webfont.eot');
-  src: url('./assets/fonts/techniqu-webfont.eot?#iefix')
-      format('embedded-opentype'),
-    url('./assets/fonts/techniqu-webfont.woff') format('woff'),
-    url('./assets/fonts/techniqu-webfont.ttf') format('truetype'),
-    url('./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal') format('svg');
+  src: url("./assets/fonts/techniqu-webfont.eot");
+  src: url("./assets/fonts/techniqu-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    url("./assets/fonts/techniqu-webfont.woff") format("woff"),
+    url("./assets/fonts/techniqu-webfont.ttf") format("truetype"),
+    url("./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal") format("svg");
 
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Regular';
-  src: url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf')
-    format('truetype');
-  src: url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2')
-      format('woff2'),
-    url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff')
-      format('woff');
+  font-family: "FrutigerNeueLTPro-Regular";
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
+    format("truetype");
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
+      format("woff2"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
+      format("woff");
   //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Medium';
-  src: url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot');
-  src: url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2')
-      format('woff2'),
-    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff')
-      format('woff'),
-    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Medium";
+  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
+      format("truetype");
   // url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Bold';
-  src: url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot');
-  src: url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2')
-      format('woff2'),
-    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff')
-      format('woff'),
-    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Bold";
+  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
+      format("truetype");
   // url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Light';
-  src: url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot');
-  src: url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2')
-      format('woff2'),
-    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff')
-      format('woff'),
-    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Light";
+  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
+      format("truetype");
   //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: $font_13;
   background: $white;
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
   }
   a {
@@ -117,8 +117,8 @@ body {
     font-weight: 700;
     .logo-text {
       color: $theme_color;
-      font-family: 'TechniqueBRKNormal', 'Gotham Narrow SSm A',
-        'Gotham Narrow SSm B', Arial, Helvetica, sans-serif;
+      font-family: "TechniqueBRKNormal", "Gotham Narrow SSm A",
+        "Gotham Narrow SSm B", Arial, Helvetica, sans-serif;
       letter-spacing: 1px;
       margin: 0;
       font-size: 20px;
@@ -227,7 +227,7 @@ body {
     margin-bottom: 0;
   }
 
-  .checkbox-custom input[type='checkbox'] {
+  .checkbox-custom input[type="checkbox"] {
     opacity: 0;
     position: absolute;
     top: 50%;
@@ -237,12 +237,12 @@ body {
     cursor: pointer;
   }
 
-  .checkbox-custom input[type='checkbox']:checked + label:after {
+  .checkbox-custom input[type="checkbox"]:checked + label:after {
     position: absolute;
     display: inline-block;
-    font-family: 'FontAwesome';
+    font-family: "FontAwesome";
     font-weight: 400;
-    content: '\F00C';
+    content: "\F00C";
     top: 50%;
     left: 4px;
     margin-top: -5px;
@@ -253,19 +253,19 @@ body {
     color: #333;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled {
+  .checkbox-custom input[type="checkbox"]:disabled {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled:checked + label:after {
+  .checkbox-custom input[type="checkbox"]:disabled:checked + label:after {
     color: #999;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled + label {
+  .checkbox-custom input[type="checkbox"]:disabled + label {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled + label:before {
+  .checkbox-custom input[type="checkbox"]:disabled + label:before {
     background-color: #eee;
   }
 
@@ -279,7 +279,7 @@ body {
   }
 
   .checkbox-custom label:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 0;
@@ -447,7 +447,7 @@ body {
       left: auto !important;
       top: 6px !important;
       &:after {
-        content: '';
+        content: "";
         position: absolute;
         width: 0;
         height: 0;
@@ -697,6 +697,9 @@ body {
         }
       }
       .nav-dropdown-items {
+        max-height: 200px !important;
+        overflow-y: auto;
+        overflow-x: hidden;
         .nav-item {
           width: 240px;
           .nav-link {
@@ -821,7 +824,7 @@ body {
     margin-bottom: 10px;
     font-family: $font_Frutiger_Medium;
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       height: 2px;
       width: 55px;
@@ -1253,9 +1256,9 @@ body {
       align-items: flex-start;
     }
     .img-column {
-      width: 50px;
-      height: 50px;
-      flex: 0 0 50px;
+      width: 65px;
+      height: 65px;
+      flex: 0 0 66px;
       margin: auto;
       position: relative;
     }
@@ -1412,7 +1415,7 @@ body {
     font-weight: 600;
     margin-bottom: 10px;
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       height: 2px;
       width: 55px;
@@ -1699,7 +1702,7 @@ body {
         font-family: $font_Frutiger_Medium;
         margin-bottom: 15px;
         &:before {
-          content: '';
+          content: "";
           position: absolute;
           height: 2px;
           width: 55px;
@@ -1947,7 +1950,7 @@ body {
 .custom-col {
   margin-left: -7.5px;
   margin-right: -7.5px;
-  [class*='col-'] {
+  [class*="col-"] {
     padding: 0 7.5px;
   }
 }
@@ -2040,7 +2043,7 @@ body {
         display: inline-block;
         margin-left: 0.255em;
         vertical-align: 0.255em;
-        content: '';
+        content: "";
         border-top: 0.3em solid;
         border-right: 0.3em solid transparent;
         border-bottom: 0;
@@ -2147,7 +2150,7 @@ body {
     display: inline-block;
     margin-left: 0.255em;
     vertical-align: 0.255em;
-    content: '';
+    content: "";
     border-top: 0.3em solid;
     border-right: 0.3em solid transparent;
     border-bottom: 0;
@@ -2241,7 +2244,7 @@ body {
 .forms-main-section {
   .inner-no-padding-col {
     margin: 0px;
-    [class*='col-'] {
+    [class*="col-"] {
       padding: 0px;
       label {
         padding-left: 7px;
@@ -2661,5 +2664,73 @@ body {
         }
       }
     }
+  }
+}
+
+.no-data-section {
+  padding: 10px 0px;
+  .no-data-icon {
+    font-size: 35px;
+  }
+  h4 {
+    font-size: 18px;
+  }
+  p {
+    font-size: 15px;
+    color: #989898;
+  }
+}
+.no-search-section {
+  padding: 10px 0px;
+  .no-data-icon {
+    font-size: 35px;
+  }
+  h4 {
+    font-size: 18px;
+  }
+  .search-text {
+    max-width: 310px;
+    margin: auto;
+    padding-left: 30px;
+  }
+  p {
+    font-size: 15px;
+    color: #989898;
+    margin-bottom: 0px;
+  }
+}
+
+.swal2-popup {
+  padding: 20px 28px;
+  .swal2-warning {
+    display: none !important;
+  }
+  .swal2-title {
+    color: #000;
+    font-size: 25px;
+  }
+  .swal2-content {
+    color: #757575;
+    font-size: 15px;
+  }
+  .swal2-styled.swal2-confirm {
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+      0 7px 10px -5px rgba(206, 210, 214, 0.18);
+    background: #d4d4d4 !important;
+    color: #000;
+    padding: 8px 30px;
+    &:hover,
+    &:focus {
+      outline: none;
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+        0 7px 10px -5px rgba(206, 210, 214, 0.18);
+      background: #cbccce !important;
+      color: #000;
+    }
+  }
+  .swal2-styled.swal2-cancel {
+    padding: 8px 30px;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+      0 7px 10px -5px rgba(221, 51, 51, 0.4);
   }
 }

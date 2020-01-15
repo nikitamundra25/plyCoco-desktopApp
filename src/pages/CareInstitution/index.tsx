@@ -150,8 +150,36 @@ const CareInstitution = (props: RouteComponentProps) => {
         })
       : tableData.push(
           <tr className={"text-center"}>
-            <td colSpan={5} className={"pt-5 pb-5"}>
-              <h2>No data found</h2>
+            <td colSpan={5}>
+              <div className="no-data-section">
+                <div className="no-data-icon">
+                  <i className="icon-ban" />
+                </div>
+                <h4 className="mb-1">
+                  Currently there are No care institution Added.{" "}
+                </h4>
+                <p>Please click above button to add new. </p>
+              </div>
+
+              <div className="no-search-section">
+                <div className="no-data-icon">
+                  <i className="icon-magnifier" />
+                </div>
+                <h4 className="mb-1">No details found related your search </h4>
+                <div className="text-left search-text">
+                  <p>
+                    <span className="pr-2">&#8226;</span>Try to simplify your
+                    search
+                  </p>
+                  <p>
+                    <span className="pr-2">&#8226;</span>Use different keywords
+                  </p>
+                  <p>
+                    <span className="pr-2">&#8226;</span>Make sure words are
+                    spelled correctly
+                  </p>
+                </div>
+              </div>
             </td>
           </tr>
         )}

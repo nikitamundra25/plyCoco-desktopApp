@@ -392,7 +392,7 @@
   "CONFIRM_LABEL": "Are you sure?",
   "CONFIRM_EMPLOYEE_DELETE_MSG": "You want to delete this employee?",
   "CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG": "This employee will be activated.",
-  "CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG": "This employee will be disabeld.",
+  "CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG": "This employee will be disabled.",
 
   "REGION_MAXLENGTH": "Region must be less than 30 characters",
   "ADD_NEW_EMPLOYEE_BUTTON": "Add New Empolyee"

@@ -30,11 +30,17 @@ import clear from "../../assets/img/clear.svg";
 import new_contact from "../../assets/img/new-contact.svg";
 import { languageTranslation } from "../../helpers";
 import CreateTodo from "../../pages/CareInstitution/CreateTodo";
-
+import CareInstitutionTodo from "../../pages/CareInstitutionTodo";
+import CareGiverTodo from "../../pages/CareGiverTodo";
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 const CareGiverSidebar = React.lazy(() =>
   import("../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
+);
+const CareInstitutionTodoLayoutComponent = React.lazy(() =>
+  import(
+    "../../pages/CareInstitutionTodo/Sidebar/SidebarLayout/CareInstitutionTodoLayout"
+  )
 );
 const CareInstitutionSidebar = React.lazy(() =>
   import(
@@ -89,7 +95,12 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                   <span className="header-nav-icon">
                     <img src={reminder} alt="" />
                   </span>
-                  <span className="header-nav-text">
+                  <span
+                    className="header-nav-text"
+                    onClick={() => {
+                      setState({ show: true });
+                    }}
+                  >
                     {languageTranslation("CG_MENU_CREATE_TODO")}
                   </span>
                 </div>
@@ -142,6 +153,130 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
             </div>
           </div>
           <CreateTodo show={state.show} handleClose={handleClose} />
+        </div>
+      )}
+    />
+  );
+};
+
+const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
+  const [state, setState] = useState({
+    show: false
+  });
+  const handleClose = () => {
+    setState({ show: false });
+  };
+
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        <div className="common-detail-page">
+          <div className="common-detail-section">
+            <div className="sticky-common-header">
+              <div className="common-topheader d-flex align-items-center ">
+                <div className="user-select">
+                  <Select
+                    defaultValue={{
+                      label: "John Doe",
+                      value: "0"
+                    }}
+                    placeholder="Select Caregiver"
+                    options={CareGiver}
+                  />
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={add} alt="" />
+                  </span>
+                  <span className="header-nav-text">New Care Institution</span>
+                </div>
+
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={save} alt="" />
+                  </span>
+                  <span className="header-nav-text">Save</span>
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={reminder} alt="" />
+                  </span>
+                  <span
+                    className="header-nav-text"
+                    onClick={() => {
+                      setState({ show: true });
+                    }}
+                  >
+                    Create Todo/Reminder
+                  </span>
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={password} alt="" />
+                  </span>
+                  <span className="header-nav-text">New Password</span>
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={appointment} alt="" />
+                  </span>
+                  <span className="header-nav-text">Display Appointments</span>
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={clear} alt="" />
+                  </span>
+                  <span className="header-nav-text">Clear</span>
+                </div>
+              </div>
+              <CareInstitutionSidebar {...props} />
+            </div>
+            <div className="common-content flex-grow-1">
+              <Component {...props} />
+            </div>
+          </div>
+          <CreateTodo show={state.show} handleClose={handleClose} />
+        </div>
+      )}
+    />
+  );
+};
+
+//Care Giver Todo Layout
+const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        <div className="common-detail-page">
+          <div className="common-detail-section">
+            <div className="sticky-common-header">
+              <CareInstitutionTodoLayoutComponent {...props} />
+            </div>
+            <div className="common-content flex-grow-1">
+              <Component {...props} />
+            </div>
+          </div>
+        </div>
+      )}
+    />
+  );
+};
+const CareInstitutionTodoLayout = ({ component: Component, ...rest }: any) => {
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        <div className="common-detail-page">
+          <div className="common-detail-section">
+            <div className="sticky-common-header">
+              <CareInstitutionTodoLayoutComponent {...props} />
+            </div>
+            <div className="common-content flex-grow-1">
+              <Component {...props} />
+            </div>
+          </div>
         </div>
       )}
     />
@@ -204,6 +339,27 @@ class DefaultLayout extends Component<any, any> {
                     return route.layout ? (
                       route.layoutName === "CareGiver" ? (
                         <CareGiverLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        />
+                      ) : route.layoutName === "Constitution" ? (
+                        <CareInstitutionLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        />
+                      ) : route.layoutName === "CareInstitutionTodoLayout" ? (
+                        <CareInstitutionTodoLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        />
+                      ) : route.layoutName === "CareGiverTodoLayout" ? (
+                        <CareGiverTodoLayout
                           key={idx}
                           path={route.path}
                           exact={route.exact}

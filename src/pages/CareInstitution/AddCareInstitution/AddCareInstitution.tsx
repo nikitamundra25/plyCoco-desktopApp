@@ -13,7 +13,7 @@ import {
 import Select from "react-select";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../routes/routes";
-import { FormikProps, Field, Form, Formik, FormikHelpers } from 'formik';
+import { FormikProps, Field, Form, Formik, FormikHelpers } from "formik";
 import { languageTranslation, logger } from "../../../helpers";
 import { State, Region, Salutation, Country } from "../../../config";
 import {
@@ -22,45 +22,43 @@ import {
   IReactSelectInterface,
   ICountry,
   IStates,
-  IState,
-} from '../../../interfaces';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+  IState
+} from "../../../interfaces";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 // import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
-import { CountryQueries } from '../../../queries';
+import { CountryQueries } from "../../../queries";
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-
 
 const AddCareInstitution: any = (
   props: FormikProps<ICareInstitutionFormValues>
 ) => {
-
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
+    logger(selectOption, "value");
     setFieldValue(name, selectOption);
-    if (name === 'country') {
+    if (name === "country") {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
+      logger(statesData, "sdsdsdsd");
     }
   };
 
@@ -304,10 +302,10 @@ const AddCareInstitution: any = (
                                 onBlur={(e: any) => {
                                   //get string before a @ to set username
                                   const username = email
-                                    ? email.substring(0, email.indexOf('@'))
-                                    : '';
+                                    ? email.substring(0, email.indexOf("@"))
+                                    : "";
 
-                                  setFieldValue('userName', username);
+                                  setFieldValue("userName", username);
                                   handleBlur(e);
                                 }}
                                 value={email}
@@ -498,10 +496,10 @@ const AddCareInstitution: any = (
                                 options={statesOpt}
                                 value={state ? state : undefined}
                                 onChange={(value: any) =>
-                                  handleSelect(value, 'state')
+                                  handleSelect(value, "state")
                                 }
                                 noOptionsMessage={() => {
-                                  return 'Select a country first';
+                                  return "Select a country first";
                                 }}
                               />
                             </div>
@@ -524,7 +522,7 @@ const AddCareInstitution: any = (
                                 options={countriesOpt}
                                 value={country ? country : undefined}
                                 onChange={(value: any) =>
-                                  handleSelect(value, 'country')
+                                  handleSelect(value, "country")
                                 }
                               />
                             </div>

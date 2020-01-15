@@ -77,7 +77,9 @@ const Constitution = React.lazy(() => import("../pages/CareInstitution"));
 const ConstitutionPersonalInfo = React.lazy(() =>
   import("../pages/CareInstitution/PersonalInfo")
 );
-const ViewCareInstitution = React.lazy(() => import('../pages/CareInstitution/ViewCareInstituion'));
+const ViewCareInstitution = React.lazy(() =>
+  import("../pages/CareInstitution/ViewCareInstituion")
+);
 const ConstitutionCommissionAgreement = React.lazy(() =>
   import("../pages/CareInstitution/CommisionAgreement")
 );
@@ -110,6 +112,18 @@ const ConstitutionNewEmail = React.lazy(() =>
 const ConstitutionReminder = React.lazy(() =>
   import("../pages/CareInstitution/Reminders")
 );
+const CareGiverTodo = React.lazy(() => import("../pages/CareGiverTodo"));
+const CareInstitutionTodo = React.lazy(() =>
+  import("../pages/CareInstitutionTodo")
+);
+const CareGiverTodoLayout = React.lazy(() =>
+  import("../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout")
+);
+
+const CareInstitutionTodoLayout = React.lazy(() =>
+  import("../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout")
+);
+
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -180,13 +194,13 @@ const routes = [
   {
     path: AppRoutes.MAIN,
     exact: true,
-    name: 'Dashboard'
+    name: "Dashboard"
   },
   {
     path: AppRoutes.CARE_INSTITUION_VIEW,
-    name: 'Care Institution View',
+    name: "Care Institution View",
     component: ViewCareInstitution,
-    exact: true,
+    exact: true
     // layout: ConstitutionLayout,
     // layoutName: 'Constitution',
   },
@@ -355,6 +369,22 @@ const routes = [
     name: "View Employee",
     component: ViewEmployee,
     exact: true
+  },
+  {
+    path: AppRoutes.CAREGIVER_TODO,
+    name: "Care Giver Todo",
+    component: CareGiverTodo,
+    exact: true,
+    layout: CareGiverTodoLayout,
+    layoutName: "CareGiverTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_TODO,
+    name: "Care Institution Todo",
+    component: CareInstitutionTodo,
+    exact: true,
+    layout: CareInstitutionTodoLayout,
+    layoutName: "CareInstitutionTodoLayout"
   }
 ];
 

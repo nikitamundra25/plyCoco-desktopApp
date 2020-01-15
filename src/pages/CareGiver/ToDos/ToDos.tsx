@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Table, FormGroup, exampleSelect, Label, Input } from "reactstrap";
 import { languageTranslation } from "../../../helpers";
-import "./index.scss";
+import "../caregiver.scss";
 
 
 class ToDo extends Component {

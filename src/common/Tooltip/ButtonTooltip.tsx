@@ -1,12 +1,12 @@
-import React from "react";
-import { UncontrolledTooltip } from "reactstrap";
-import { ITooltipProps } from "../../interfaces";
+import React from 'react';
+import { UncontrolledTooltip } from 'reactstrap';
+import { ITooltipProps } from '../../interfaces';
 
 const ButtonTooltip = (props: ITooltipProps) => {
   return (
-    <span id={props.id} className="btn-icon mr-2" onClick={props.onclick}>
+    <span id={props.id} className='btn-icon mr-2'>
       <UncontrolledTooltip
-        placement={props.position ? props.position : "top"}
+        placement={props.position ? props.position : 'top'}
         target={props.id}
       >
         {props.message}

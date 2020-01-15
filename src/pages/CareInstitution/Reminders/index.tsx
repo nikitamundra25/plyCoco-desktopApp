@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Table, FormGroup, exampleSelect, Label, Input } from "reactstrap";
+import { Table, FormGroup, exampleSelect, Label, Input,FormFeedback,FormText } from "reactstrap";
 import { languageTranslation } from "../../../helpers";
-import "./index.scss";
+import "../careinstitution.scss";
 
 class Reminders extends Component<any, any> {
   constructor(props: any) {
@@ -29,17 +29,22 @@ class Reminders extends Component<any, any> {
               {languageTranslation("REMINDERS")}
             </h5>
 
-            <Table responsive className="todolist-table">
+            <Table responsive className="reminders-todo-table">
               <thead className="thead-bg">
                 <tr>
                   <th className="date-col">{languageTranslation("DATE")} </th>
+                  <th className="contact-col">
+                    {" "}
+                    {languageTranslation("CONTACT")}{" "}
+                  </th>
                   <th className="remarks-col">
+                    {" "}
                     {languageTranslation("REMARKS")}
                   </th>
-                  <th className="done-col"> {languageTranslation("DONE")}</th>
-                  <th className="extreme-col">
+                  <th className="done-col"> {languageTranslation("DONE")} </th>
+                  <th className="external-col">
                     {" "}
-                    {languageTranslation("EXTREME")}
+                    {languageTranslation("EXTERNAL")}
                   </th>
                   <th className="prio-col"> {languageTranslation("PRIO")}</th>
 
@@ -51,7 +56,7 @@ class Reminders extends Component<any, any> {
               </thead>
               <tbody>
                 <tr>
-                  <td colSpan={5}>
+                  <td colSpan={6}>
                     <div className="date-title">
                       <span className="align-middle mr-2">
                         <i className="icon-arrow-down" />
@@ -63,14 +68,14 @@ class Reminders extends Component<any, any> {
                         bordered
                         hover
                         responsive
-                        className="inner-tododlist-table"
+                        className="inner-reminders-todo-table"
                       >
                         <tbody>
                           <tr>
                             <td className="date-col">30.12.2020</td>
+                            <td className="contact-col">Mantel (PDL)</td>
                             <td className="remarks-col">
-                              Lorem Ipsum is simply dummy text of the printing
-                              and typesetting industry.
+                              Akquise AH, 10:30 Jule
                             </td>
                             <td className="done-col">
                               <span className="checkboxli checkbox-custom checkbox-default">
@@ -82,7 +87,7 @@ class Reminders extends Component<any, any> {
                                 <label className=""> </label>
                               </span>
                             </td>
-                            <td className="extreme-col">
+                            <td className="external-col">
                               <span className="checkboxli checkbox-custom checkbox-default">
                                 <input
                                   type="checkbox"
@@ -94,13 +99,59 @@ class Reminders extends Component<any, any> {
                             </td>
                             <td className="prio-col">
                               <div className="form-section">
-                                <FormGroup className="todo-select">
+                                <FormGroup className="mb-0 border-0">
                                   <Input
                                     type="select"
                                     name="select"
                                     id="exampleSelect"
+                                    className=" border-0"
                                   >
-                                    <option>Name</option>
+                                   
+                                    <option>low</option>
+                                    <option>Normal</option>
+                                    <option>high</option>
+                                  </Input>
+                                </FormGroup>
+                              </div>
+                            </td>
+                            {/*  <td className="remarks-col">Remarks</td> */}
+                          </tr>
+                          <tr>
+                            <td className="date-col">30.12.2020</td>
+                            <td className="contact-col">Mantel (PDL)</td>
+                            <td className="remarks-col">
+                              Akquise AH, 10:30 Jule
+                            </td>
+                            <td className="done-col">
+                              <span className="checkboxli checkbox-custom checkbox-default">
+                                <input
+                                  type="checkbox"
+                                  id="checkAll"
+                                  className=""
+                                />
+                                <label className=""> </label>
+                              </span>
+                            </td>
+                            <td className="external-col">
+                              <span className="checkboxli checkbox-custom checkbox-default">
+                                <input
+                                  type="checkbox"
+                                  id="checkAll"
+                                  className=""
+                                />
+                                <label className=""> </label>
+                              </span>
+                            </td>
+                            <td className="prio-col">
+                              <div className="form-section">
+                                <FormGroup className="mb-0">
+                                  <Input
+                                    type="select"
+                                    name="select"
+                                    id="exampleSelect"
+                                    className=" border-0"
+                                  >
+                                   
                                     <option>low</option>
                                     <option>Normal</option>
                                     <option>high</option>
@@ -115,28 +166,27 @@ class Reminders extends Component<any, any> {
                     </div>
                   </td>
                 </tr>
-
                 <tr>
-                  <td colSpan={5}>
+                  <td colSpan={6}>
                     <div className="date-title">
                       <span className="align-middle mr-2">
                         <i className="icon-arrow-down" />
                       </span>
-                      <span className="align-middle ">Date: 2018</span>
+                      <span className="align-middle ">Date: 2019</span>
                     </div>
                     <div>
                       <Table
                         bordered
                         hover
                         responsive
-                        className="inner-tododlist-table"
+                        className="inner-reminders-todo-table"
                       >
                         <tbody>
                           <tr>
                             <td className="date-col">30.12.2020</td>
+                            <td className="contact-col">Mantel (PDL)</td>
                             <td className="remarks-col">
-                              Lorem Ipsum is simply dummy text of the printing
-                              and typesetting industry.
+                              Akquise AH, 10:30 Jule
                             </td>
                             <td className="done-col">
                               <span className="checkboxli checkbox-custom checkbox-default">
@@ -148,7 +198,7 @@ class Reminders extends Component<any, any> {
                                 <label className=""> </label>
                               </span>
                             </td>
-                            <td className="extreme-col">
+                            <td className="external-col">
                               <span className="checkboxli checkbox-custom checkbox-default">
                                 <input
                                   type="checkbox"
@@ -160,79 +210,14 @@ class Reminders extends Component<any, any> {
                             </td>
                             <td className="prio-col">
                               <div className="form-section">
-                                <FormGroup className="todo-select">
+                                <FormGroup className="mb-0">
                                   <Input
                                     type="select"
                                     name="select"
                                     id="exampleSelect"
+                                    className=" border-0"
                                   >
-                                    <option>Name</option>
-                                    <option>low</option>
-                                    <option>Normal</option>
-                                    <option>high</option>
-                                  </Input>
-                                </FormGroup>
-                              </div>
-                            </td>
-                            {/*  <td className="remarks-col">Remarks</td> */}
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td colSpan={5}>
-                    <div className="date-title">
-                      <span className="align-middle mr-2">
-                        <i className="icon-arrow-down" />
-                      </span>
-                      <span className="align-middle ">Date: 2017</span>
-                    </div>
-                    <div>
-                      <Table
-                        bordered
-                        hover
-                        responsive
-                        className="inner-tododlist-table"
-                      >
-                        <tbody>
-                          <tr>
-                            <td className="date-col">30.12.2020</td>
-                            <td className="remarks-col">
-                              Lorem Ipsum is simply dummy text of the printing
-                              and typesetting industry.
-                            </td>
-                            <td className="done-col">
-                              <span className="checkboxli checkbox-custom checkbox-default">
-                                <input
-                                  type="checkbox"
-                                  id="checkAll"
-                                  className=""
-                                />
-                                <label className=""> </label>
-                              </span>
-                            </td>
-                            <td className="extreme-col">
-                              <span className="checkboxli checkbox-custom checkbox-default">
-                                <input
-                                  type="checkbox"
-                                  id="checkAll"
-                                  className=""
-                                />
-                                <label className=""> </label>
-                              </span>
-                            </td>
-                            <td className="prio-col">
-                              <div className="form-section">
-                                <FormGroup className="todo-select">
-                                  <Input
-                                    type="select"
-                                    name="select"
-                                    id="exampleSelect"
-                                  >
-                                    <option>Name</option>
+                                   
                                     <option>low</option>
                                     <option>Normal</option>
                                     <option>high</option>

@@ -51,16 +51,16 @@ const PersonalInformation: any = (props: any) => {
   };
 
   const contactFormValues: ICareInstitutionContact = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    userName: '',
-    phoneNumber: '',
-    mobileNumber: '',
-    faxNumber: '',
-    constactType: '',
-    comments: '',
-    groupAttributes: '',
+    email: "",
+    firstName: "",
+    lastName: "",
+    userName: "",
+    phoneNumber: "",
+    mobileNumber: "",
+    faxNumber: "",
+    constactType: "",
+    comments: "",
+    groupAttributes: "",
     createdAt: new Date(),
     updatedAt: new Date()
   };

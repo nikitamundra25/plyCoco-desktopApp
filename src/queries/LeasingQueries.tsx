@@ -19,7 +19,7 @@ export const LEASING_DATA_FIELDS = `
 
 `;
 
-export const GET_LEASING_DATA = gql`
+export const GET_LEASING_DATA_BY_ID = gql`
   query getLeasingData($userId: Int) {
     getLeasingData(userId:userId){
         ${LEASING_DATA_FIELDS}
@@ -27,9 +27,9 @@ export const GET_LEASING_DATA = gql`
   }
 `;
 
-export const ADD_LEASING_DATA = gql`
-mutation saveLeasingData ($userId:Int, $input:LeasingDataInput){
-    saveLeasingData(userId:$userId, input:$input ){
+export const UPDATE_LEASING_DATA = gql`
+mutation saveLeasingData ($userId:Int, $leasingInput:LeasingDataInput){
+    saveLeasingData(userId:$userId, leasingInput:$leasingInput ){
         ${LEASING_DATA_FIELDS}
     }
 }

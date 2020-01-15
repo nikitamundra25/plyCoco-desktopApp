@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -8,29 +8,29 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
-import { useHistory, useLocation } from 'react-router-dom';
-import { AppBreadcrumb } from '@coreui/react';
-import { useLazyQuery } from '@apollo/react-hooks';
-import * as qs from 'query-string';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { AppRoutes, PAGE_LIMIT } from '../../config';
-import routes from '../../routes/routes';
-import Search from '../../common/SearchFilter';
-import { languageTranslation, logger } from '../../helpers';
-import ButtonTooltip from '../../common/Tooltip/ButtonTooltip';
-import { EmployeeQueries } from '../../queries';
-import PaginationComponent from '../../common/Pagination';
-import { ISearchValues } from '../../interfaces';
+  DropdownItem
+} from "reactstrap";
+import { useHistory, useLocation } from "react-router-dom";
+import { AppBreadcrumb } from "@coreui/react";
+import { useLazyQuery } from "@apollo/react-hooks";
+import * as qs from "query-string";
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import { AppRoutes, PAGE_LIMIT } from "../../config";
+import routes from "../../routes/routes";
+import Search from "../../common/SearchFilter";
+import { languageTranslation, logger } from "../../helpers";
+import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
+import { EmployeeQueries } from "../../queries";
+import PaginationComponent from "../../common/Pagination";
+import { ISearchValues } from "../../interfaces";
 
 const [, , GET_EMPLOYEES] = EmployeeQueries;
 
 const sortFilter: any = {
-  3: 'name',
-  4: 'name-desc',
-  2: 'oldest',
-  1: 'newest',
+  3: "name",
+  4: "name-desc",
+  2: "oldest",
+  1: "newest"
 };
 
 const Employee: FunctionComponent = () => {
@@ -40,46 +40,46 @@ const Employee: FunctionComponent = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   // To get emplyee list from db
   const [fetchEmployeeList, { data, loading }] = useLazyQuery<any>(
-    GET_EMPLOYEES,
+    GET_EMPLOYEES
   );
-
+  
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     const query = qs.parse(search);
-    let searchBy: string = '';
-    let sortBy: any = { label: '', value: '' };
+    let searchBy: string = "";
+    let sortBy: any = { label: "", value: "" };
     // To handle display and query param text
     let sortByValue: any = Object.keys(sortFilter).find(
-      (key: any) => sortFilter[key] === query.sortBy,
+      (key: any) => sortFilter[key] === query.sortBy
     );
     logger(sortByValue);
     logger(typeof sortByValue);
-    if (sortByValue === '3') {
-      sortBy.label = 'Sort by A-Z';
+    if (sortByValue === "3") {
+      sortBy.label = "Sort by A-Z";
     }
-    if (sortByValue === '4') {
-      sortBy.label = 'Sort by Z-A';
+    if (sortByValue === "4") {
+      sortBy.label = "Sort by Z-A";
     }
-    if (sortByValue === '2') {
-      sortBy.label = 'Sort by Oldest';
+    if (sortByValue === "2") {
+      sortBy.label = "Sort by Oldest";
     }
-    if (sortByValue === '1') {
-      sortBy.label = 'Sort by Newest';
+    if (sortByValue === "1") {
+      sortBy.label = "Sort by Newest";
     }
     if (query) {
-      searchBy = query.search ? (query.search as string) : '';
+      searchBy = query.search ? (query.search as string) : "";
       sortBy = sortByValue
         ? {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy,
-              ) || '',
+                (key: any) => sortFilter[key] === query.sortBy
+              ) || ""
           }
-        : '';
+        : "";
       setSearchValues({
         searchValue: searchBy,
-        sortBy,
+        sortBy
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -91,17 +91,17 @@ const Employee: FunctionComponent = () => {
         limit: PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
         isActive: query.status
-          ? query.status === 'active'
-            ? { label: 'Active', value: 'true' }
-            : { label: 'Deactive', value: 'false' }
-          : '',
-      },
+          ? query.status === "active"
+            ? { label: "Active", value: "true" }
+            : { label: "Deactive", value: "false" }
+          : ""
+      }
     });
   }, [search]); // It will run when the search value gets changed
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>,
+    { setSubmitting }: FormikHelpers<ISearchValues>
   ) => {
     let params: {
       [key: string]: any;
@@ -113,33 +113,33 @@ const Employee: FunctionComponent = () => {
     // if (isActive && isActive.value !== '') {
     //   params.status = isActive.value === 'true' ? 'active' : 'deactive';
     // }
-    if (sortBy && sortBy.value !== '') {
-      params.sortBy = sortBy.value !== '' ? sortFilter[sortBy.value] : '';
+    if (sortBy && sortBy.value !== "") {
+      params.sortBy = sortBy.value !== "" ? sortFilter[sortBy.value] : "";
     }
-    const path = [pathname, qs.stringify(params)].join('?');
+    const path = [pathname, qs.stringify(params)].join("?");
     history.push(path);
-    logger('path', path);
+    logger("path", path);
   };
 
   const onPageChanged = (currentPage: number) => {
-    logger('onPageChanged', currentPage);
+    logger("onPageChanged", currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?',
+      "?"
     );
     history.push(path);
   };
 
   const {
-    searchValue = '',
+    searchValue = "",
     sortBy = undefined,
-    isActive = undefined,
+    isActive = undefined
   } = searchValues ? searchValues : {};
 
   const values: ISearchValues = {
     searchValue,
     isActive,
-    sortBy,
+    sortBy
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
 
@@ -184,9 +184,15 @@ const Employee: FunctionComponent = () => {
                     <UncontrolledDropdown className="custom-dropdown">
                       <DropdownToggle caret color="link" />
                       <DropdownMenu>
-                        <DropdownItem>Delete</DropdownItem>
-                        <DropdownItem>Active</DropdownItem>
-                        <DropdownItem>Disable</DropdownItem>
+                        <DropdownItem>
+                          {languageTranslation("DELETE")}
+                        </DropdownItem>
+                        <DropdownItem>
+                          {languageTranslation("ACTIVE")}
+                        </DropdownItem>
+                        <DropdownItem>
+                          {languageTranslation("DISABLE")}
+                        </DropdownItem>
                       </DropdownMenu>
                     </UncontrolledDropdown>
                   </div>
@@ -209,50 +215,50 @@ const Employee: FunctionComponent = () => {
               data.getEmployees.employeeData.map(
                 (employee: any, index: number) => {
                   const replaceObj: any = {
-                    ':id': employee.id,
-                    ':userName': employee.userName,
+                    ":id": employee.id,
+                    ":userName": employee.userName
                   };
                   return (
                     <tr key={index}>
                       <td>
-                        <div className='table-checkbox-wrap'>
-                          <div className='btn-group btn-check-action-wrap'>
-                            <span className='btn'>
-                              <span className='checkboxli checkbox-custom checkbox-default'>
+                        <div className="table-checkbox-wrap">
+                          <div className="btn-group btn-check-action-wrap">
+                            <span className="btn">
+                              <span className="checkboxli checkbox-custom checkbox-default">
                                 <input
-                                  type='checkbox'
-                                  id='checkAll'
-                                  className=''
+                                  type="checkbox"
+                                  id="checkAll"
+                                  className=""
                                 />
-                                <label className=''></label>
+                                <label className=""></label>
                               </span>
                             </span>
-                            <span className='checkbox-no'>{count++}</span>
+                            <span className="checkbox-no">{count++}</span>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <div className='info-column'>
-                          <div className='img-column'>
+                        <div className="info-column">
+                          <div className="img-column">
                             <img
-                              src='https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg'
-                              className='img-fluid'
+                              src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                              className="img-fluid"
                             />
                           </div>
-                          <div className='description-column'>
-                            <div className='info-title'>
-                              {employee.firstName ? employee.firstName : ''}
+                          <div className="description-column">
+                            <div className="info-title">
+                              {employee.firstName ? employee.firstName : ""}
                             </div>
-                            <p className='description-text'>
-                              <i className='fa fa-envelope mr-2'></i>
-                              <span className='align-middle'>
-                                {employee.email ? employee.email : ''}
+                            <p className="description-text">
+                              <i className="fa fa-envelope mr-2"></i>
+                              <span className="align-middle">
+                                {employee.email ? employee.email : ""}
                               </span>
                             </p>
                             {employee.phoneNumber ? (
-                              <p className='description-text'>
-                                <i className='fa fa-phone mr-2'></i>
-                                <span className='align-middle'>
+                              <p className="description-text">
+                                <i className="fa fa-phone mr-2"></i>
+                                <span className="align-middle">
                                   {employee.phoneNumber}
                                 </span>
                               </p>
@@ -261,15 +267,15 @@ const Employee: FunctionComponent = () => {
                         </div>
                       </td>
                       <td>
-                        <div className='description-column  ml-0'>
+                        <div className="description-column  ml-0">
                           {employee.region
                             ? employee.region
                               ? employee.region.map((region: any) => (
-                                  <p className='description-text '>
-                                    <span className='text-label mr-1'>
-                                      <i className='fa fa-angle-right'></i>
+                                  <p className="description-text ">
+                                    <span className="text-label mr-1">
+                                      <i className="fa fa-angle-right"></i>
                                     </span>
-                                    <span className='align-middle'>
+                                    <span className="align-middle">
                                       {region}
                                     </span>
                                   </p>
@@ -278,64 +284,64 @@ const Employee: FunctionComponent = () => {
                             : null}
                         </div>
                       </td>
-                      <td className='text-center'>
+                      <td className="text-center">
                         <div>{employee.assignedCanstitution}</div>
                       </td>
-                      <td className='text-center'>
+                      <td className="text-center">
                         {employee.isActive}
                         <span
                           className={`status-btn ${
-                            employee.isActive ? 'active' : 'inactive'
+                            employee.isActive ? "active" : "inactive"
                           }`}
                         >
                           {employee.isActive
-                            ? languageTranslation('ACTIVE')
-                            : languageTranslation('DISABLE')}
+                            ? languageTranslation("ACTIVE")
+                            : languageTranslation("DISABLE")}
                         </span>
                       </td>
                       <td>
-                        <div className='action-btn'>
+                        <div className="action-btn">
                           <ButtonTooltip
                             id={`edit${index}`}
-                            message={languageTranslation('EMP_EDIT')}
+                            message={languageTranslation("EMP_EDIT")}
                             onclick={() =>
                               history.push(
                                 AppRoutes.EDIT_EMPLOYEE.replace(
                                   /:id|:userName/gi,
                                   function(matched) {
                                     return replaceObj[matched];
-                                  },
-                                ),
+                                  }
+                                )
                               )
                             }
                           >
-                            {' '}
-                            <i className='fa fa-pencil'></i>
+                            {" "}
+                            <i className="fa fa-pencil"></i>
                           </ButtonTooltip>
                           <ButtonTooltip
                             id={`view${index}`}
-                            message={languageTranslation('EMP_VIEW')}
+                            message={languageTranslation("EMP_VIEW")}
                             onclick={() =>
                               history.push(AppRoutes.VIEW_EMPLOYEE)
                             }
                           >
-                            {' '}
-                            <i className='fa fa-eye'></i>
+                            {" "}
+                            <i className="fa fa-eye"></i>
                           </ButtonTooltip>
 
                           <ButtonTooltip
                             id={`delete${index}`}
-                            message={languageTranslation('EMP_DELETE')}
-                            onclick={() => history.push('')}
+                            message={languageTranslation("EMP_DELETE")}
+                            onclick={() => history.push("")}
                           >
-                            {' '}
-                            <i className='fa fa-trash'></i>
+                            {" "}
+                            <i className="fa fa-trash"></i>
                           </ButtonTooltip>
                         </div>
                       </td>
                     </tr>
                   );
-                },
+                }
               )
             )}
           </tbody>

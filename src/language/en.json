@@ -1,5 +1,6 @@
 {
   "REQUIRED_REGION": "Region name is required",
+  "DELETE":"Delete",
   "ACTIVE": "Active",
   "DISABLE": "Disable",
   "TABLE_HEAD_EMP_INFO": "Employee Information",
@@ -357,5 +358,10 @@
   "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added sucessfully",
   "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully",
   "REGION_MAXLENGTH": "Region must be less than 30 characters",
-  "ADD_NEW_EMPLOYEE_BUTTON":"Add New Empolyee"
+  "ADD_NEW_EMPLOYEE_BUTTON": "Add New Empolyee",
+  "ADD_NEW_REGION_BUTTON": "Add New Region",
+  "REGION_NAME": "Region Name",
+  "NUMBER_OF_CANSTITUTION": "Number of Canstitution",
+  "NUMBER_OF_CARE_GIVERS": "Number of Care Givers",
+  "CURRENT_ONGOING_APPOINTMENTS_COUNTER": " Current ongoing appointments counter"
 }

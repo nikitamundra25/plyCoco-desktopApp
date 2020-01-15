@@ -8,7 +8,7 @@ export const env: any = process.env.NODE_ENV || EnviornmentType.DEV;
 data = {
   GRAPHQL_ENDPOINT:
     env === EnviornmentType.DEV
-      ? 'http://192.168.2.14:8000/graphql'
+      ? 'http://54.156.71.73:8001/graphql'
       : 'http://192.168.2.14:8000/graphql',
 
   API_VERSION: 'api/v2',

@@ -37,6 +37,11 @@ const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 const CareGiverSidebar = React.lazy(() =>
   import('../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout'),
 );
+const CareInstitutionTodoLayoutComponent = React.lazy(() =>
+  import(
+    '../../pages/CareInstitutionTodo/Sidebar/SidebarLayout/CareInstitutionTodoLayout'
+  ),
+);
 const CareInstitutionSidebar = React.lazy(() =>
   import(
     '../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout'
@@ -242,7 +247,7 @@ const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
         <div className='common-detail-page'>
           <div className='common-detail-section'>
             <div className='sticky-common-header'>
-              <CareInstitutionSidebar {...props} />
+              <CareInstitutionTodoLayoutComponent {...props} />
             </div>
             <div className='common-content flex-grow-1'>
               <Component {...props} />
@@ -261,7 +266,7 @@ const CareInstitutionTodoLayout = ({ component: Component, ...rest }: any) => {
         <div className='common-detail-page'>
           <div className='common-detail-section'>
             <div className='sticky-common-header'>
-              <CareInstitutionSidebar {...props} />
+              <CareInstitutionTodoLayoutComponent {...props} />
             </div>
             <div className='common-content flex-grow-1'>
               <Component {...props} />

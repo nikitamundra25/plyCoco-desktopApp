@@ -12,4 +12,5 @@ const link: any = createUploadLink({
 export const client: any = new ApolloClient({
   cache,
   link,
+  assumeImmutableResults: true,
 });

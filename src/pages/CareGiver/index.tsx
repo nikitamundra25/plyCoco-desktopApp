@@ -31,7 +31,7 @@ import ButtonTooltip from '../../common/Tooltip/ButtonTooltip';
 import { languageTranslation } from '../../helpers';
 import { UsersQuery } from '../../queries';
 import { GET_CAREGIVERS, DELETE_CAREGIVER } from '../../queries/CareGiver';
-import { ISearchValues, IReactSelectInterface } from '../../interfaces';
+import { ISearchValues, IReactSelectInterface, ICareGiver } from '../../interfaces';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import { ConfirmBox } from '../../common/ConfirmBox';
@@ -255,16 +255,32 @@ const CareGiver: FunctionComponent = () => {
                 </tr>
               )
             :(
-              // data && 
-              // data.getCareGivers &&
-              //  data.getCareGivers.map(({
-              //    id,
+              data && 
+              data.getCareGivers &&
+               data.getCareGivers.map(({
+                id,
+                salutation,
+                firstName,
+                lastName,
+                address1,
+                address2,
+                street,
+                city,
+                state,
+                country,
+                postCode,
+                email,
+                phone,
+                qualification,
+                legalForm,
+                workZones,
+                status 
                  
-              //  }))
-              userData.map((user, index): any => {
-                console.log('userData', userData);
-                return (<tr>
-                    <td>
+               }:ICareGiver,
+               index:number)=>{
+                 return(
+                   <tr>
+                     <td>
                       <div className='table-checkbox-wrap'>
                         <div className='btn-group btn-check-action-wrap'>
                           <span className='btn'>
@@ -277,7 +293,6 @@ const CareGiver: FunctionComponent = () => {
                         </div>
                       </div>
                     </td>
-          
                     <td>
                       <div className='info-column'>
                         <div className='img-column'>
@@ -287,22 +302,22 @@ const CareGiver: FunctionComponent = () => {
                           />
                         </div>
                         <div className='description-column'>
-                          <div className='info-title'>{user.name}</div>
+                          <div className='info-title'>{`${salutation} ${firstName} ${lastName}`}</div>
                           <p className='description-text'>
                             <i className='fa fa-envelope mr-2'></i>
-                            <span className='align-middle'>{user.email}</span>
+                            <span className='align-middle'>{email}</span>
                           </p>
                           <p className='description-text'>
                             <i className='fa fa-phone mr-2'></i>
-                            <span className='align-middle'>{user.phone}</span>
+                            <span className='align-middle'>{phone}</span>
                           </p>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div className='description-column  ml-0'>
-                        {user.qualification
-                          ? user.qualification.map(qualification => (
+                        {qualification
+                          ? qualification.map(qualification => (
                               <>
                                 <p className='description-text '>
                                   <span className='text-label mr-1'>
@@ -315,56 +330,29 @@ const CareGiver: FunctionComponent = () => {
                           : null}
                       </div>
                     </td>
+
+                      
                     <td>
                       <div className='description-column  ml-0'>
-                        {user.region
-                          ? user.region.map(region => (
+                        {workZones
+                          ? workZones.map(wZ => (
                               <p className='description-text '>
                                 <span className='text-label mr-1'>
                                   <i className='fa fa-angle-right'></i>
                                 </span>
-                                <span className='align-middle'>{region}</span>
+                                <span className='align-middle'>{wZ}</span>
                               </p>
                             ))
                           : null}
                       </div>
                     </td>
-          
-                    {/* <td>
-                      <div className="description-column">
-                        <p className="description-text">
-                          <span className="text-bold mr-2">Fee Per Hour</span>
-                          <span className="align-middle">100 EUR</span>
-                        </p>
-                        <p className="description-text">
-                          <span className="text-bold mr-2">
-                            Night allowance per hour:
-                          </span>
-                          <span className="align-middle">120 EUR</span>
-                        </p>
-                        <p className="description-text">
-                          <span className="text-bold mr-2">
-                            Weekend allowance per hour:
-                          </span>
-                          <span className="align-middle">150 EUR</span>
-                        </p>
-                        <p className="description-text">
-                          <span className="text-bold mr-2">
-                            Holiday allowance per hour:
-                          </span>
-                          <span className="align-middle">200 EUR</span>
-                        </p>
-                      </div>
-                    </td> */}
-          
                     <td>
                       <div>
                         <p className='description-text'>
-                          <span className='align-middle'>{user.applyingAs}</span>
+                          <span className='align-middle'>{legalForm}</span>
                         </p>
                       </div>
                     </td>
-          
                     <td className='text-center'>
                       <span
                         className={`status-btn ${
@@ -395,9 +383,9 @@ const CareGiver: FunctionComponent = () => {
                         </ButtonTooltip>
                       </div>
                     </td>
-                  </tr>
-                )
-              })
+                   </tr>
+                 )
+               })
             )
             }
             </tbody>

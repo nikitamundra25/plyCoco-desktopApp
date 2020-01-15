@@ -1,16 +1,46 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const GET_CARE_INSTITUTION_LIST = gql`
-  query getCareInstitutions {
-    getCareInstitutions(searchBy:"",sortBy:1,limit:10,isActive:"") {
-      id
+  query(
+    $searchBy: String
+    $sortBy: Int
+    $limit: Int
+    $page: Int
+    $isActive: String
+  ) {
+    getCareInstitutions(
+      searchBy: $searchBy
+      sortBy: $sortBy
+      limit: $limit
+      page: $page
+      isActive: $isActive
+    ) {
+      totalCount
+      careInstitutionData {
+        firstName
+        lastName
+        email
+        userName
+        phoneNumber
+        isActive
+        canstitution {
+          city
+          zipCode
+          title
+        }
+      }
+    }
+  }
+`;
+
+const GET_CARE_INSTITUION_BY_ID = gql`
+  query getCareInstitution($careInstitutionId: Int!) {
+    getCareInstitution(careInstitutionId: $careInstitutionId) {
       firstName
       lastName
       email
-      userName
-      phoneNumber
-      isActive
-      canstitution{
+      createdAt
+      canstitution {
         city
         zipCode
         companyName
@@ -19,23 +49,6 @@ const GET_CARE_INSTITUTION_LIST = gql`
     }
   }
 `;
-
-const GET_CARE_INSTITUION_BY_ID = gql`
-query 
-  getCareInstitution($careInstitutionId: Int!){
-    getCareInstitution(careInstitutionId: $careInstitutionId){
-      firstName
-      lastName
-      email
-      createdAt
-      canstitution{
-        city
-        zipCode
-        companyName
-        shortName
-      }
-    }
-  }`
 
 const DELETE_CARE_INSTITUTION = gql`
   mutation DeleteUser($id: ID!) {
@@ -53,7 +66,8 @@ const ADD_CARE_INSTITUTION = gql`
     addCareInstitution(careInstitutionInput: $careInstitutionInput) {
       firstName
     }
-  }`;
+  }
+`;
 
 const UPDATE_CARE_INSTITUTION = gql`
   mutation updateCareInstitution(
@@ -62,7 +76,7 @@ const UPDATE_CARE_INSTITUTION = gql`
   ) {
     updateCareInstitution(
       id: $id
-      careInstitutionInput:$careInstitutionInput
+      careInstitutionInput: $careInstitutionInput
     ) {
       id
       firstName
@@ -77,4 +91,4 @@ export const CareInstitutionQueries = [
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION,
   GET_CARE_INSTITUION_BY_ID
-]
+];

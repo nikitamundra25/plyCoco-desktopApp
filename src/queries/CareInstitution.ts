@@ -56,17 +56,13 @@ const ADD_CARE_INSTITUTION = gql`
   }`;
 
 const UPDATE_CARE_INSTITUTION = gql`
-  mutation UpdateUser(
-    $id: ID!
-    $firstName: String!
-    $lastName: String
-    $email: String
+  mutation updateCareInstitution(
+    $id: Int!
+    $careInstitutionInput: CareInstitutionInput!
   ) {
-    updateUser(
+    updateCareInstitution(
       id: $id
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
+      careInstitutionInput:$careInstitutionInput
     ) {
       id
       firstName

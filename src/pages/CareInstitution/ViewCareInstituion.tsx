@@ -50,7 +50,12 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   let CareInstitutionList: Object[] = []
   if (careInstituition && careInstituition.getCareInstitutions) {
     const { getCareInstitutions } = careInstituition;
-    
+    getCareInstitutions.map((data: any, index: any) => {
+      CareInstitutionList.push({
+        name: `${data.firstName}${" "}${data.lastName}`,
+        id: data.id
+      })
+    })
   }
   const [activeTab, setactiveTab] = useState(0)
   const { search, pathname } = useLocation();

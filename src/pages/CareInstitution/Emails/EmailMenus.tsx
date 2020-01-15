@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Nav, NavItem, NavLink } from "reactstrap";
-import { AppRoutes } from "../../../config";
+// import { AppRoutes } from "../../../config";
 import { IEmailMenus } from "../../../interfaces/CareGiver";
 class EmailMenus extends Component<IEmailMenus, any> {
   render() {
@@ -16,9 +16,9 @@ class EmailMenus extends Component<IEmailMenus, any> {
               className={
                 pathname === "/care-institution/email/inbox" ? "active" : null
               }
-              onClick={() =>
-                this.props.history.push(AppRoutes.CARE_INSTITUTION_INBOX_EMAIL)
-              }
+              // onClick={() =>
+              //   this.props.history.push(AppRoutes.CARE_INSTITUTION_INBOX_EMAIL)
+              // }
             >
               <span className="icon">
                 <i className="fa fa-inbox"></i>
@@ -33,9 +33,9 @@ class EmailMenus extends Component<IEmailMenus, any> {
                   ? "active"
                   : null
               }
-              onClick={() =>
-                this.props.history.push(AppRoutes.CARE_INSTITUTION_SENT_EMAIL)
-              }
+              // onClick={() =>
+              //   this.props.history.push(AppRoutes.CARE_INSTITUTION_SENT_EMAIL)
+              // }
             >
               <span className="icon">
                 <i className="fa fa-send"></i>
@@ -50,9 +50,9 @@ class EmailMenus extends Component<IEmailMenus, any> {
                   ? "active"
                   : null
               }
-              onClick={() =>
-                this.props.history.push(AppRoutes.CARE_INSTITUTION_NEW_EMAIL)
-              }
+              // onClick={() =>
+              //   this.props.history.push(AppRoutes.CARE_INSTITUTION_NEW_EMAIL)
+              // }
             >
               <span className="icon">
                 <i className="fa fa-edit"></i>

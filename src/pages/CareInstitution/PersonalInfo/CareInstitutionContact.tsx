@@ -53,6 +53,7 @@ const CareInstitutionConstForm: any = (
                       <div>
                         <Input
                           type="text"
+                          disable
                           name={"firstName"}
                           placeholder={languageTranslation("ID")}
                           className="width-common"

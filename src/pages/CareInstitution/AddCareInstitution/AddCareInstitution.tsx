@@ -14,41 +14,52 @@ import Select from "react-select";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../routes/routes";
 import { FormikProps, Field, Form, Formik, FormikHelpers } from "formik";
-import { languageTranslation } from "../../../helpers";
+import { languageTranslation, logger } from "../../../helpers";
 import { State, Region, Salutation, Country } from "../../../config";
 import {
   ICareInstitutionFormValues,
   ICountries,
   IReactSelectInterface,
-  ICountry
+  ICountry,
+  IStates,
+  IState
 } from "../../../interfaces";
-import { ICareInstitutionContact } from "../../../interfaces";
-import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+// import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
+import { CountryQueries } from "../../../queries";
+
+const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const AddCareInstitution: any = (
   props: FormikProps<ICareInstitutionFormValues>
 ) => {
-  const handleSubmitConstact = (
-    values: ICareInstitutionContact,
-    { setSubmitting }: FormikHelpers<ICareInstitutionContact>
-  ) => {
-    //to set submit state to false after successful signup
-    setSubmitting(false);
-  };
+  const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY
+  );
+  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  const statesOpt: IReactSelectInterface[] | undefined = [];
+  if (data && data.countries) {
+    data.countries.forEach(({ id, name }: ICountry) =>
+      countriesOpt.push({ label: name, value: id })
+    );
+  }
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({ label: name, value: id })
+    );
+  }
 
-  const constactValues: ICareInstitutionContact = {
-    email: "",
-    firstName: "",
-    lastName: "",
-    userName: "",
-    phoneNumber: "",
-    mobileNumber: "",
-    faxNumber: "",
-    constactType: "",
-    comments: "",
-    groupAttributes: "",
-    createdAt: new Date(),
-    updatedAt: new Date()
+  // Custom function to handle react select fields
+  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
+    logger(selectOption, "value");
+    setFieldValue(name, selectOption);
+    if (name === "country") {
+      getStatesByCountry({
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
+      });
+      logger(statesData, "sdsdsdsd");
+    }
   };
 
   const {
@@ -64,9 +75,10 @@ const AddCareInstitution: any = (
       companyName,
       street,
       city,
-      zip,
+      zipCode,
       state,
-      country
+      country,
+      salutaion
     },
     touched,
     errors,
@@ -97,13 +109,16 @@ const AddCareInstitution: any = (
                           <Col sm="4">
                             <Label className="form-label col-form-label">
                               {languageTranslation("SALUTATION")}
-                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="8">
                             <div>
                               <Select
                                 placeholder={languageTranslation("SALUTATION")}
+                                value={salutaion ? salutaion : undefined}
+                                onChange={(value: any) =>
+                                  handleSelect(value, "salutaion")
+                                }
                                 options={Salutation}
                               />
                             </div>
@@ -242,8 +257,17 @@ const AddCareInstitution: any = (
                                 onChange={handleChange}
                                 value={mobileNumber}
                                 placeholder={languageTranslation("MOBILE")}
-                                className="width-common"
+                                className={
+                                  errors.mobileNumber && touched.mobileNumber
+                                    ? "text-input error"
+                                    : "text-input"
+                                }
                               />
+                              {errors.mobileNumber && touched.mobileNumber && (
+                                <div className="required-error">
+                                  {errors.mobileNumber}
+                                </div>
+                              )}
                             </div>
                           </Col>
                         </Row>
@@ -265,7 +289,15 @@ const AddCareInstitution: any = (
                                 name={"email"}
                                 placeholder={languageTranslation("EMAIL")}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                                onBlur={(e: any) => {
+                                  //get string before a @ to set username
+                                  const username = email
+                                    ? email.substring(0, email.indexOf("@"))
+                                    : "";
+
+                                  setFieldValue("userName", username);
+                                  handleBlur(e);
+                                }}
                                 value={email}
                                 className={
                                   errors.email && touched.email
@@ -300,8 +332,17 @@ const AddCareInstitution: any = (
                                 onChange={handleChange}
                                 value={userName}
                                 placeholder={languageTranslation("USERNAME")}
-                                className="width-common"
+                                className={
+                                  errors.userName && touched.userName
+                                    ? "text-input error"
+                                    : "text-input"
+                                }
                               />
+                              {errors.userName && touched.userName && (
+                                <div className="required-error">
+                                  {errors.userName}
+                                </div>
+                              )}
                             </div>
                           </Col>
                         </Row>
@@ -419,9 +460,9 @@ const AddCareInstitution: any = (
                             <div>
                               <Input
                                 type="text"
-                                name={"zip"}
+                                name={"zipCode"}
                                 onChange={handleChange}
-                                value={zip}
+                                value={zipCode}
                                 placeholder={languageTranslation("ZIP")}
                                 className=" width-common"
                               />
@@ -442,9 +483,14 @@ const AddCareInstitution: any = (
                             <div>
                               <Select
                                 placeholder={languageTranslation("STATE")}
-                                onChange={handleChange}
-                                options={State}
-                                value={state}
+                                options={statesOpt}
+                                value={state ? state : undefined}
+                                onChange={(value: any) =>
+                                  handleSelect(value, "state")
+                                }
+                                noOptionsMessage={() => {
+                                  return "Select a country first";
+                                }}
                               />
                             </div>
                           </Col>
@@ -463,9 +509,11 @@ const AddCareInstitution: any = (
                             <div>
                               <Select
                                 placeholder={languageTranslation("COUNTRY")}
-                                options={Country}
-                                onChange={handleChange}
-                                value={country}
+                                options={countriesOpt}
+                                value={country ? country : undefined}
+                                onChange={(value: any) =>
+                                  handleSelect(value, "country")
+                                }
                               />
                             </div>
                           </Col>
@@ -497,14 +545,14 @@ const AddCareInstitution: any = (
           </Form>
         </CardBody>
       </Card>
-      <Formik
+      {/* <Formik
         initialValues={constactValues}
         onSubmit={handleSubmitConstact}
         children={(props: FormikProps<ICareInstitutionContact>) => (
           <CareInstitutionContact {...props} />
         )}
         validationSchema={""}
-      />
+      /> */}
     </div>
   );
 };

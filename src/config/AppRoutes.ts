@@ -37,20 +37,5 @@ export const AppRoutes: IAppRoutes = {
   CARE_LOGIN: "/caregiver/loginlist",
   ADD_CARE_INSTITUTION: "/care-institution/add",
   CARE_INSTITUTION: "/care-institution",
-  CARE_INSTITUTION_PERSONAL_DATA: "/care-institution/personal-information",
-  CARE_INSTITUTION_COMISSION_AGREEMENT:
-    "/care-institution/commission-agreement",
-  CARE_INSTITUTION_OFFER: "/care-institution/offers",
-  CARE_INSTITUTION_LOGIN: "/care-institution/login",
-  CARE_INSTITUTION_INVOICE_CYCLE: "/care-institution/invoice-cycle",
-  CARE_INSTITUTION_DOCUMENT: "/care-institution/document",
-  CARE_INSTITUTION_DEPARTMENT: "/care-institution/department",
-  // CARE_INSTITUTION_EMAIL: "/care-institution/email",
-  CARE_INSTITUTION_INBOX_EMAIL: "/care-institution/email/inbox",
-  CARE_INSTITUTION_SENT_EMAIL: "/care-institution/email/sent-email",
-  CARE_INSTITUTION_NEW_EMAIL: "/care-institution/email/new-email",
-  // CARE_INSTITUTION_REMINDER: "/care-institution/todo"
-  CARE_INSTITUTION_REMINDER: "/care-institution/todo",
-  CAREGIVER_TODO: "/caregiver-todo",
-  CARE_INSTITUTION_TODO: "/care-institution-todo"
+  CARE_INSTITUION_VIEW: "/care-institution/view"
 };

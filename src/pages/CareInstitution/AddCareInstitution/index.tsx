@@ -3,16 +3,16 @@ import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { CareInstituionValidationSchema } from '../../../validations';
 import { ICareInstitutionFormValues } from '../../../interfaces';
 import AddCareInstitution from './AddCareInstitution';
-import { CareInstitution } from "../../../queries";
+import { CareInstitutionQueries } from "../../../queries";
 import { useMutation } from '@apollo/react-hooks';
-
+import { logger } from "../../../helpers";
 
 const [
-  GET_CARE_INSTITUTION,
+  GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION
-] = CareInstitution;
+] = CareInstitutionQueries;
 
 
 export const CareInstitutionForm = () => {
@@ -20,15 +20,38 @@ export const CareInstitutionForm = () => {
   const [addCareInstitution, { error, data }] = useMutation<{ addCareInstitution: ICareInstitutionFormValues }>(ADD_CARE_INSTITUTION);
 
 
-  const handleSubmit = (
-    values: any,
+  const handleSubmit = async (
+    values: ICareInstitutionFormValues,
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
   ) => {
     //to set submit state to false after successful signup
-    console.log("Value", values);
-
-    setSubmitting(false);
-    addCareInstitution(values)
+    try {
+      const dataSubmit: any = {
+        salutation: values && values.salutaion ? values.salutaion.label : "",
+        city: values.city,
+        companyName: values.companyName,
+        email: values.email,
+        fax: values.fax,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        mobileNumber: values.mobileNumber,
+        phoneNumber: values.phoneNumber,
+        shortName: values.shortName,
+        street: values.street,
+        userName: values.street,
+        zipCode: values.zipCode,
+        countryId: values && values.country ? values.country.value : "",
+        stateId: values && values.state ? values.state.value : "",
+      }
+      setSubmitting(false);
+      await addCareInstitution({
+        variables: {
+          careInstitutionInput: dataSubmit
+        }
+      })
+    } catch (error) {
+      logger(error)
+    }
   };
   // const { data, loading, error, refetch } = useQuery(GET_USERS);
   // console.log(data, 'dataaaaa');
@@ -37,24 +60,12 @@ export const CareInstitutionForm = () => {
     firstName: '',
     lastName: '',
     userName: '',
-    phoneNumber: '',
-    mobileNumber: 0,
     fax: '',
     shortName: '',
     companyName: '',
     street: '',
     city: '',
-    zip: '',
-    state: {
-      label: 'Select State',
-      value: '',
-    },
-    country: {
-      label: 'Select Country',
-      value: '',
-    },
-    createdAt: new Date(),
-    updatedAt: new Date()
+    isArchive: false,
   };
   return (
     <Formik

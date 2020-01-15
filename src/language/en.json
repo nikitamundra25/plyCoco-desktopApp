@@ -40,9 +40,10 @@
   "SEARCH_LABEL": "Search",
   "SEARCH_PLACEHOLDER": "Search..",
   "SORTBY_LABEL": "Sort By",
-  "SORTBY_OPTION1": "Popularity",
-  "SORTBY_OPTION2": "A-Z",
-  "SORTBY_OPTION3": "Z-A",
+  "SORTBY_OPTION1": "Sort by Newest",
+  "SORTBY_OPTION2": "Sort by Oldest",
+  "SORTBY_OPTION3": "Sort by A-Z",
+  "SORTBY_OPTION4": "Sort by Z-A",
   "RESET_LABEL": "Reset",
   "MENU_DASHBOARD": "Dashboard",
   "MENU_EMPLOYEE": "Employee",
@@ -103,7 +104,8 @@
   "EMPLOYEE_BANK_SWIFT_CODE_PLACEHOLDER": "Please Enter Swift code",
   "EMPLOYEE_DEPARTMENT_LABEL": "Department",
   "EMPLOYEE_DEPARTMENT": "department",
-  "EMPLOYEE_REGION_PLACEHOLDER": "Select Region",
+  "REGION_PLACEHOLDER": "Select Region",
+  "SORTBY_PLACEHOLDER": "Sort By",
   "EMPLOYEE_ADDRESS1_LABEL": "Address 1",
   "EMPLOYEE_ADDRESS1_PLACEHOLDER": "Please Enter Address",
   "EMPLOYEE_ADDRESS2_LABEL": "Address 2",
@@ -415,5 +417,7 @@
   "ADD_REMINDER": "Add Reminder",
   "CANCEL": "Cancel",
   "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added sucessfully",
-  "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully"
+  "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully",
+  "REGION_MAXLENGTH": "Region must be less than 30 characters",
+  "ADD_NEW_EMPLOYEE_BUTTON": "Add New Empolyee"
 }

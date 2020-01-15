@@ -39,17 +39,17 @@ export default {
       icon: "icon-email-temp",
       url: "#"
     },
-    // {
-    //   name: languageTranslation("MENU_TO_DO_CARE_GIVER"),
-    //   icon: "icon-todo-care",
-    //   url: AppRoutes.CAREGIVER_TODO
-    // },
-    // {
-    //   name: languageTranslation("MENU_TO_DO_INSTITUTION"),
-    //   icon: "icon-todo-inst",
-    //   url: AppRoutes.CARE_INSTITUTION_TODO
-    //   // url: AppRoutes.REGION
-    // },
+    {
+      name: languageTranslation("MENU_TO_DO_CARE_GIVER"),
+      icon: "icon-todo-care",
+      url: "#"
+    },
+    {
+      name: languageTranslation("MENU_TO_DO_INSTITUTION"),
+      icon: "icon-todo-inst",
+      url: "#"
+      // url: AppRoutes.REGION
+    },
     {
       name: languageTranslation("MENU_BULK_EMAIL"),
       icon: "icon-bulk-email",

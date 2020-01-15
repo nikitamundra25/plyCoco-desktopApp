@@ -46,32 +46,48 @@ const UPDATE_EMPLOYEE = gql`
 `;
 
 const GET_EMPLOYEES = gql`
-  query {
-    getEmployees {
-      id
-      firstName
-      lastName
-      email
-      userName
-      phoneNumber
-      isActive
-      employee {
-        joiningDate
-        employeeCustomId
-        country
-        state
-        city
-        zipCode
-        address1
-        address2
-        regionId
-      }
-      bankDetails {
-        bankName
-        accountHolder
-        additionalText
-        IBAN
-        BIC
+  query getEmployees(
+    $searchBy: String
+    $sortBy: Int
+    $limit: Int
+    $page: Int
+    $isActive: String
+  ) {
+    getEmployees(
+      searchBy: $searchBy
+      sortBy: $sortBy
+      limit: $limit
+      page: $page
+      isActive: $isActive
+    ) {
+      totalCount
+      employeeData {
+        id
+        firstName
+        lastName
+        email
+        userName
+        phoneNumber
+        isActive
+        profileImage
+        employee {
+          joiningDate
+          employeeCustomId
+          country
+          state
+          city
+          zipCode
+          address1
+          address2
+          regionId
+        }
+        bankDetails {
+          bankName
+          accountHolder
+          additionalText
+          IBAN
+          BIC
+        }
       }
     }
   }

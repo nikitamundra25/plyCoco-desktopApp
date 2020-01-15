@@ -65,6 +65,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     setFieldValue,
     setFieldTouched
   } = props;
+
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   // To fetch the list of countries
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
@@ -130,14 +131,11 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
           <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
           <Button
             color={"primary"}
+            disabled={isSubmitting}
             className={"btn-add"}
             onClick={handleSubmit}
           >
-            {isSubmitting === true ? (
-              <i className="fa fa-spinner fa-spin loader" />
-            ) : (
-              ""
-            )}
+            {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
             {languageTranslation("SAVE_BUTTON")}
           </Button>
         </CardHeader>

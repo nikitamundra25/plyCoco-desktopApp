@@ -1,3 +1,7 @@
 export interface IRegionFormValue {
-  nameofRegion: string;
+  regionName: string;
 }
+export interface IRegionInput {
+  regionName: string;
+}
+

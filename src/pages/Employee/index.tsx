@@ -398,11 +398,11 @@ const Employee: FunctionComponent = () => {
                       </td>
                       <td>
                         <div className="description-column  ml-0">
-                          {region ? region.regionName : null}
+                          {region ? region.regionName : "-"}
                         </div>
                       </td>
                       <td className="text-center">
-                        <div>{assignedCanstitution}</div>
+                        <div>{0}</div>
                       </td>
                       <td className="text-center">
                         {isActive}

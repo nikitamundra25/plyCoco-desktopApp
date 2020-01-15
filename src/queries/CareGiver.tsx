@@ -2,6 +2,7 @@ import gql from "graphql-tag";
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
+  id
   salutation
   firstName
   lastName
@@ -13,18 +14,21 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
   country
   postCode
   email
-  dob
   phone
+  qualification
+  legalForm
+  workZones
+  status
+  
+  dob
   fax
   mobilePhone
   username
   bankName
-  qualification
   leasing
   driverLicenseNumber
   driversLicense
   vehicleavailable
-  legalForm
   companyName
   registrationNumber
   registerCourt
@@ -32,8 +36,6 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
   socialSecurityContribution
   taxNumber
   remarks
-  workZones
-  status
 }`
 
 export const GET_CAREGIVERS = gql`

@@ -452,7 +452,14 @@ const Employee: FunctionComponent = () => {
                             <i
                               className="fa fa-eye"
                               onClick={() =>
-                                history.push(AppRoutes.VIEW_EMPLOYEE)
+                                history.push(
+                                  AppRoutes.VIEW_EMPLOYEE.replace(
+                                    /:id|:userName/gi,
+                                    function(matched) {
+                                      return replaceObj[matched];
+                                    }
+                                  )
+                                )
                               }
                             ></i>
                           </ButtonTooltip>

@@ -5,18 +5,19 @@ import routes from "../../routes/routes";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { EmployeeQueries } from "../../queries";
 import { useParams } from "react-router";
+import { AppConfig } from "../../config";
+import { IEmployee } from "../../interfaces";
 const [, GET_EMPLOYEE_BY_ID] = EmployeeQueries;
-
 const ViewEmployee: FunctionComponent = () => {
   let { id } = useParams();
   // To get the employee details by id
   const [getEmployeeDetails, { data, error, refetch }] = useLazyQuery<any>(
     GET_EMPLOYEE_BY_ID
   );
-  console.log(
-    "data is",
-    data && data.viewEmployee && data.viewEmployee.profileImage
-  );
+  console.log("data is", data);
+  const profileImage =
+    data && data.viewEmployee && data.viewEmployee.profileImage;
+
   useEffect(() => {
     // Fetch details by employee id
     if (id) {
@@ -25,20 +26,36 @@ const ViewEmployee: FunctionComponent = () => {
       });
     }
   }, []); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
-  const imgURL = "http://192.168.2.14:8000/graphql";
   return (
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className="w-100" />
       </CardHeader>
       <CardBody>
+        {console.log("data.viewEmployee", data && data.viewEmployee.firstName)}
+        {/* {data && data.viewEmployee
+          ? data.viewEmployee.map((employee: any, index: number) => {
+              const replaceObj: any = {
+                ":id": employee.id,
+                ":userName": employee.userName
+              };
+              return ( */}
         <div className="employee-details">
           <Row>
             <Col lg={"4"} md={"4"} className="mb-3">
               <div className="employee-title">Personal Information</div>
               <div className="user-item">
                 <span className="text-label">Employee Name</span>
-                <span className="text-value">:&nbsp;&nbsp;John Doe</span>
+                <span className="text-value">
+                  :&nbsp;&nbsp;
+                  {data && data.viewEmployee && data.viewEmployee.firstName
+                    ? data.viewEmployee.firstName
+                    : ""}
+                  &nbsp;&nbsp;
+                  {data && data.viewEmployee && data.viewEmployee.lastName
+                    ? data.viewEmployee.lastName
+                    : ""}
+                </span>
               </div>
               <div className="user-item">
                 <span className="text-label">Email Address</span>
@@ -95,13 +112,7 @@ const ViewEmployee: FunctionComponent = () => {
                 <span className="text-value">
                   <div className="profile-img">
                     <img
-                      // src={
-                      //   imgURL + data &&
-                      //   data.viewEmployee &&
-                      //   data.viewEmployee.profileImage
-                      //     ? data.viewEmployee.profileImage
-                      //     : ""
-                      // }
+                      src={`${AppConfig.FILES_ENDPOINT}${profileImage}`}
                       className="img-fluid"
                     />
                   </div>
@@ -130,6 +141,9 @@ const ViewEmployee: FunctionComponent = () => {
             </Col>
           </Row>
         </div>
+        {/* );
+            })
+          : null} */}
       </CardBody>
     </Card>
   );

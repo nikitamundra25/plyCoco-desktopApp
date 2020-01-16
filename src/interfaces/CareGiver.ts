@@ -1,5 +1,6 @@
 import { Location } from "history";
 import * as H from "history";
+import { IReactSelectInterface } from "./Constant";
 
 export interface ICareGiverInput {
   id?: string;
@@ -21,7 +22,7 @@ export interface ICareGiverInput {
   userName: string;
   legalForm: string;
   fax: string;
-  qualifications: string[];
+  qualifications: string;
   taxNumber: string;
   remarks: string;
   driversLicense: boolean;
@@ -41,16 +42,16 @@ export interface ICareGiverInput {
 }
 
 export interface CareGiverValues {
-  salutation: string;
+  salutation?: IReactSelectInterface;
   firstName: string;
   lastName: string;
   address1: string;
   address2: string;
   street: string;
   city: string;
-  stateId: string;
-  regionId?: string;
-  countryId: string;
+  stateId?: IReactSelectInterface;
+  regionId?: IReactSelectInterface;
+  countryId?: IReactSelectInterface;
   postCode: string;
   pinCode?: string;
   email: string;
@@ -62,7 +63,7 @@ export interface CareGiverValues {
   companyName: string;
   legalForm: string;
   bankName: string;
-  qualifications: any;
+  qualifications?: IReactSelectInterface;
   leasing: string;
   registrationNumber: string;
   registerCourt: string;
@@ -73,7 +74,7 @@ export interface CareGiverValues {
   driverLicenseNumber: string;
   executiveDirector: string;
   socialSecurityContribution: boolean;
-  workZones: string; //[],
+  workZones?: IReactSelectInterface;
   status: string;
 }
 
@@ -150,6 +151,7 @@ export interface ICareGiverValues {
 
 export interface ICareGiver {
   id: string;
+  userName:string;
   salutation: string;
   firstName: string;
   lastName: string;
@@ -166,4 +168,8 @@ export interface ICareGiver {
   legalForm: string;
   workZones: string[];
   status: string;
+}
+
+export interface IAddCargiverRes {
+  userId: string;
 }

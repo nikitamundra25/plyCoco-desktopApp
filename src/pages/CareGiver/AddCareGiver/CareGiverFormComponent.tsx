@@ -21,7 +21,6 @@ import {
   FormGroup
 } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
-import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import { State, Region, Salutation, LegalForm, Country } from "../../../config";
 import InputMask from "react-input-mask";

@@ -44,13 +44,13 @@ const ViewEmployee: FunctionComponent = () => {
                 </div>
                 <div className="user-item">
                   {employee && employee.firstName ? (
-                    <span className="text-label">
+                    <span className="text-label text-capitalize">
                       {languageTranslation("EMPLOYEE_NAME")}
                     </span>
                   ) : (
                     "N/A"
                   )}
-                  <span className="text-value">
+                  <span className="text-value text-capitalize">
                     :&nbsp;&nbsp;
                     {employee && employee.firstName
                       ? employee.firstName
@@ -96,8 +96,14 @@ const ViewEmployee: FunctionComponent = () => {
                   <span className="text-label">Status</span>
                   <span className="text-value">
                     :&nbsp;&nbsp;
-                    <span>
-                      {employee && employee.isActive ? "Active" : "Disable"}
+                    <span
+                      className={`status-btn ${
+                        employee.isActive ? "active" : "inactive"
+                      }`}
+                    >
+                      {employee.isActive
+                        ? languageTranslation("ACTIVE")
+                        : languageTranslation("DISABLE")}
                     </span>
                   </span>
                 </div>

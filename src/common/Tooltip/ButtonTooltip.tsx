@@ -4,7 +4,7 @@ import { ITooltipProps } from '../../interfaces';
 
 const ButtonTooltip = (props: ITooltipProps) => {
   return (
-    <span id={props.id} className='btn-icon mr-2'>
+    <span id={props.id} className='btn-icon mr-2' onClick={props.onBtnClick}>
       <UncontrolledTooltip
         placement={props.position ? props.position : 'top'}
         target={props.id}

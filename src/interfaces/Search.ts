@@ -5,3 +5,7 @@ export interface ISearchValues {
   isActive?: IReactSelectInterface;
   sortBy?: IReactSelectInterface;
 }
+
+export interface ISearchProps {
+  label?: string;
+}

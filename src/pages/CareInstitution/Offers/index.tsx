@@ -3,16 +3,16 @@ import { Row, Col, FormGroup } from "reactstrap";
 import { RouteComponentProps } from "react-router";
 import Select from "react-select";
 import { State, Region } from "../../../config";
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import { languageTranslation } from "../../../helpers";
 import { ICareInstitutionFormValues } from "../../../interfaces";
 
 import "../careinstitution.scss";
 
-const Offers: FunctionComponent<FormikProps<
-  ICareInstitutionFormValues
-> & RouteComponentProps> = (props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps) => {
-
+const Offers: FunctionComponent<FormikProps<ICareInstitutionFormValues> &
+  RouteComponentProps> = (
+  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
+) => {
   return (
     <>
       <div className="common-offer-section">
@@ -25,10 +25,16 @@ const Offers: FunctionComponent<FormikProps<
                   {languageTranslation("OFFER_FOR")}{" "}
                   <span className="font-weight-bold">
                     ( {languageTranslation("POSITIVE")})
-                    </span>
+                  </span>
                 </div>
-                <div className=" align-middle toggle-icon">
-                  <i className="fa fa-angle-down"></i>
+                <div className="common-list-footer form-section ">
+                  <FormGroup className="mb-0">
+                    <Select
+                      placeholder={languageTranslation("REGION", "STATE")}
+                      options={State}
+                      menuPlacement={"top"}
+                    />
+                  </FormGroup>
                 </div>
               </div>
               <div className="common-list-body">
@@ -56,10 +62,16 @@ const Offers: FunctionComponent<FormikProps<
                   {languageTranslation("NO_OFFER_FOR")}{" "}
                   <span className="font-weight-bold">
                     ({languageTranslation("NEGATIVE")})
-                    </span>
+                  </span>
                 </div>
-                <div className=" align-middle toggle-icon">
-                  <i className="fa fa-angle-down"></i>
+                <div className="common-list-footer form-section ">
+                  <FormGroup className="mb-0">
+                    <Select
+                      placeholder={languageTranslation("REGION", "STATE")}
+                      options={State}
+                      menuPlacement={"top"}
+                    />
+                  </FormGroup>
                 </div>
               </div>
               <div className="common-list-body">
@@ -86,8 +98,14 @@ const Offers: FunctionComponent<FormikProps<
                 <div className="common-list-title align-middle">
                   {languageTranslation("WORKED_AT")}{" "}
                 </div>
-                <div className=" align-middle toggle-icon">
-                  <i className="fa fa-angle-down"></i>
+                <div className="common-list-footer form-section ">
+                  <FormGroup className="mb-0">
+                    <Select
+                      placeholder={languageTranslation("REGION", "STATE")}
+                      options={State}
+                      menuPlacement={"top"}
+                    />
+                  </FormGroup>
                 </div>
               </div>
               <div className="common-list-body">
@@ -111,6 +129,6 @@ const Offers: FunctionComponent<FormikProps<
       </div>
     </>
   );
-}
+};
 
 export default Offers;

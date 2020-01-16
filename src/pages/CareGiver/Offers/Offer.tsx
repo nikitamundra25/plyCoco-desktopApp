@@ -52,6 +52,7 @@ class Offer extends Component {
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     options={State}
+                    menuPlacement={"top"}
                   />
                 </FormGroup>
               </div>
@@ -83,6 +84,7 @@ class Offer extends Component {
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     options={State}
+                    menuPlacement={"top"}
                   />
                 </FormGroup>
               </div>
@@ -111,6 +113,7 @@ class Offer extends Component {
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     options={State}
+                    menuPlacement={"top"}
                   />
                 </FormGroup>
               </div>

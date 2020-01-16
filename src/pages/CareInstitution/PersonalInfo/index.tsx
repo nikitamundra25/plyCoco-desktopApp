@@ -1,12 +1,14 @@
 import React from "react";
 import { Form } from "reactstrap";
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import CareInstitutionContact from "./CareInstitutionContact";
 import "../careinstitution.scss";
 import PersonalInfoForm from "./PersonalInfoForm";
-import { ICareInstitutionContact, ICareInstitutionFormValues } from "../../../interfaces";
+import {
+  ICareInstitutionContact,
+  ICareInstitutionFormValues
+} from "../../../interfaces";
 const PersonalInformation: any = (props: any) => {
-
   const handleContactSubmit = (
     values: ICareInstitutionContact,
     { setSubmitting }: FormikHelpers<ICareInstitutionContact>
@@ -16,16 +18,16 @@ const PersonalInformation: any = (props: any) => {
   };
 
   const contactFormValues: ICareInstitutionContact = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    userName: '',
-    phoneNumber: '',
-    mobileNumber: '',
-    faxNumber: '',
-    constactType: '',
-    comments: '',
-    groupAttributes: '',
+    email: "",
+    firstName: "",
+    lastName: "",
+    userName: "",
+    phoneNumber: "",
+    mobileNumber: "",
+    faxNumber: "",
+    constactType: "",
+    comments: "",
+    groupAttributes: "",
     createdAt: new Date(),
     updatedAt: new Date()
   };
@@ -40,15 +42,15 @@ const PersonalInformation: any = (props: any) => {
   // };
 
   const values: ICareInstitutionFormValues = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    userName: '',
-    fax: '',
-    shortName: '',
-    companyName: '',
-    street: '',
-    city: '',
+    email: "",
+    firstName: "",
+    lastName: "",
+    userName: "",
+    fax: "",
+    shortName: "",
+    companyName: "",
+    street: "",
+    city: ""
   };
 
   return (

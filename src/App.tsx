@@ -1,24 +1,24 @@
-import React, { Suspense, Component } from 'react';
-import { Router } from 'react-router-dom';
-import { Switch, Route } from 'react-router';
-import { Provider } from 'react-redux';
-import { Store } from 'redux';
-import { createBrowserHistory } from 'history';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { ToastContainer, Slide } from 'react-toastify';
-import { AppRoutes } from './config';
-import { client } from './config';
-import configureStore from './store';
-import FullPageLoader from './containers/Loader/FullPageLoader';
-import 'react-toastify/dist/ReactToastify.css';
-import './App.scss';
+import React, { Suspense, Component } from "react";
+import { Router } from "react-router-dom";
+import { Switch, Route } from "react-router";
+import { Provider } from "react-redux";
+import { Store } from "redux";
+import { createBrowserHistory } from "history";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { ToastContainer, Slide } from "react-toastify";
+import { AppRoutes } from "./config";
+import { client } from "./config";
+import configureStore from "./store";
+import FullPageLoader from "./containers/Loader/FullPageLoader";
+import "react-toastify/dist/ReactToastify.css";
+import "./App.scss";
 
 // import AppRouter from './routes';
-import { Login } from './pages';
+import { Login } from "./pages";
 
-const AppRoutesComponent = React.lazy(() => import('./routes'));
+const AppRoutesComponent = React.lazy(() => import("./routes"));
 const DefaultLayout = React.lazy(() =>
-  import('./containers/DefaultLayout/DefaultLayout'),
+  import("./containers/DefaultLayout/DefaultLayout")
 );
 
 // Create browser history
@@ -28,7 +28,7 @@ const store: Store = configureStore(history);
 
 class App extends Component<any, any> {
   componentDidMount() {
-    localStorage.setItem('language', 'en');
+    localStorage.setItem("language", "en");
   }
   render() {
     return (
@@ -47,7 +47,7 @@ class App extends Component<any, any> {
                   />
                   <Route
                     path={AppRoutes.MAIN}
-                    render={props => <DefaultLayout {...props}/>}
+                    render={props => <DefaultLayout {...props} />}
                   />
                 </Switch>
                 {/* <AppRoutesComponent /> */}
@@ -56,9 +56,12 @@ class App extends Component<any, any> {
             <ToastContainer
               autoClose={8000}
               hideProgressBar
+              draggable={false}
               pauseOnFocusLoss={false}
               pauseOnHover={false}
               transition={Slide}
+              newestOnTop
+              className="custom-toaster"
             />
           </Provider>
         </ApolloProvider>

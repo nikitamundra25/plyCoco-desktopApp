@@ -75,8 +75,8 @@ export const State: IReactSelectInterface[] = [
   { value: "Saxony", label: "Saxony" }
 ];
 export const Gender: IReactSelectInterface[] = [
-  { value: 'male', label: 'Male' },
-  { value: 'female', label: 'Female' },
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" }
 ];
 export const Department: IReactSelectInterface[] = [
   { value: "Sales", label: "Sales" },
@@ -268,6 +268,11 @@ export const CareGiver: IReactSelectInterface[] = [
   { value: "us5", label: "Ula Luckin" }
 ];
 
+export const Priority: IReactSelectInterface[] = [
+  { value: "Low", label: languageTranslation("LOW") },
+  { value: "Normal", label: languageTranslation("NORMAL") },
+  { value: "High", label: languageTranslation("HIGH") }
+];
 export const SortOptions: IReactSelectInterface[] = [
   {
     label: languageTranslation("SORTBY_OPTION3"),
@@ -289,11 +294,11 @@ export const SortOptions: IReactSelectInterface[] = [
 
 export const StatusOptions: IReactSelectInterface[] = [
   {
-    label: languageTranslation('ACTIVE'),
-    value: 'true',
+    label: languageTranslation("ACTIVE"),
+    value: "true"
   },
   {
-    label: languageTranslation('DISABLE'),
-    value: 'false',
-  },
+    label: languageTranslation("DISABLE"),
+    value: "false"
+  }
 ];

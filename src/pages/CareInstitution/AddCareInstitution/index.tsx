@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { CareInstituionValidationSchema } from "../../../validations";
 import { ICareInstitutionFormValues } from "../../../interfaces";
 import AddCareInstitution from "./AddCareInstitution";
 import { CareInstitutionQueries } from "../../../queries";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { logger, languageTranslation } from "../../../helpers";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
@@ -22,7 +22,24 @@ export const CareInstitutionForm = () => {
     addCareInstitution: ICareInstitutionFormValues;
   }>(ADD_CARE_INSTITUTION);
 
+  // const [fetchCareInstitutionList, { data: careInstitution, loading, refetch }] = useLazyQuery<
+  //   any
+  // >(GET_CARE_INSTITUTION_LIST);
+
   let history = useHistory();
+
+
+  // useEffect(() => {
+  //   fetchCareInstitutionList({
+  //     variables: {
+  //       searchBy: "",
+  //       sortBy: 0,
+  //       limit: 50,
+  //       page: 1,
+  //       isActive: ""
+  //     }
+  //   });
+  // }, [""])
 
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
@@ -47,20 +64,19 @@ export const CareInstitutionForm = () => {
         countryId: values && values.country ? values.country.value : null,
         stateId: values && values.state ? values.state.value : null
       };
-
       await addCareInstitution({
         variables: {
           careInstitutionInput: dataSubmit
         }
       });
       toast.success(languageTranslation("CARE_INSTITUTION_ADD_SUCCESS_MSG"));
+
       history.push(AppRoutes.CARE_INSTITUTION);
     } catch (error) {
       const message = error.message
         .replace("SequelizeValidationError: ", "")
         .replace("Validation error: ", "")
         .replace("GraphQL error: ", "");
-      // setFieldError('email', message);
       toast.error(message);
       logger(error);
     }

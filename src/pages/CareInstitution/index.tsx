@@ -142,7 +142,6 @@ const CareInstitution = (props: RouteComponentProps) => {
   }, [search]); // It will run when the search value gets changed
 
   const handleViewCareInstitution = (id: any) => {
-    console.log("DDDDDDDD", id);
     props.history.push(AppRoutes.CARE_INSTITUION_VIEW.replace(":id", id));
   };
 
@@ -275,7 +274,8 @@ const CareInstitution = (props: RouteComponentProps) => {
   };
 
   if (data) {
-    userData = data.getCareInstitutions.careInstitutionData;
+    userData =
+      data.getCareInstitutions && data.getCareInstitutions.careInstitutionData;
   }
   const tableData: any[] = [];
   const query = qs.parse(search);
@@ -305,9 +305,6 @@ const CareInstitution = (props: RouteComponentProps) => {
                     <div className="description-column">
                       <div className="info-title">
                         {`${user.firstName}  ${user.lastName}`}
-                        {/* {user.firstName}
-                        {""}
-                        {user.lastName} */}
                       </div>
                       <p className="description-text">
                         <i className="fa fa-envelope mr-2"></i>
@@ -364,7 +361,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                         placement="top"
                         target={`view${index}`}
                       >
-                        Click here to view Constitution
+                        Click here to view care institution
                       </UncontrolledTooltip>
                       <i className="fa fa-eye"></i>
                     </span>
@@ -377,7 +374,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                         placement="top"
                         target={`delete${index}`}
                       >
-                        Click here to delete employee
+                        Click here to delete care institution
                       </UncontrolledTooltip>
                       <i className="fa fa-trash"></i>
                     </span>
@@ -530,10 +527,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <div className="table-checkbox-wrap">
                   <div className="btn-group btn-check-action-wrap">
                     <span className="btn">
-                      <span
-                        className="checkboxli checkbox-custom
-checkbox-default"
-                      >
+                      <span className="checkboxli checkbox-custom checkbox-default">
                         <input type="checkbox" id="checkAll" className="" />
                         <label className=""></label>
                       </span>
@@ -557,13 +551,15 @@ checkbox-default"
           </thead>
           <tbody>{tableData}</tbody>
         </Table>
-        {userData && userData.totalCount && (
-          <PaginationComponent
-            totalRecords={userData.totalCount}
-            currentPage={currentPage}
-            onPageChanged={onPageChanged}
-          />
-        )}
+        {data &&
+          data.getCareInstitutions &&
+          data.getCareInstitutions.totalCount && (
+            <PaginationComponent
+              totalRecords={data.getCareInstitutions.totalCount}
+              currentPage={currentPage}
+              onPageChanged={onPageChanged}
+            />
+          )}
       </CardBody>
     </Card>
   );

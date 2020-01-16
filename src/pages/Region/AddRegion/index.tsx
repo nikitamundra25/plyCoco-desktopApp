@@ -12,8 +12,9 @@ import { useParams, useHistory } from "react-router";
 import { logger } from "../../../helpers";
 import { useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
+import { AppRoutes } from "../../../config";
 
-const [ADD_REGION] = RegionQueries;
+const [ADD_REGION, GET_REGIONS] = RegionQueries;
 
 export const AddRegion: FunctionComponent = () => {
   // get id from params
@@ -28,20 +29,6 @@ export const AddRegion: FunctionComponent = () => {
     { regionInput: IRegionInput }
   >(ADD_REGION);
 
-  //  // To get the employee details by id
-  // const [
-  //   getRegionDetails,
-  //   { data: regionDetails, error: detailsError, refetch }
-  // ] = useLazyQuery<any>(GET_REGION_BY_ID);
-
-  // // Similar to componentDidMount and componentDidUpdate:
-  // useEffect(() => {
-  //   // Fetch details by employee id
-  //   if (id) {
-  //     getRegionDetails({
-  //       variables: { id }
-  //     });
-  //   }
   const handleSubmit = async (
     values: IRegionFormValue,
     { setSubmitting }: FormikHelpers<IRegionFormValue>
@@ -57,6 +44,7 @@ export const AddRegion: FunctionComponent = () => {
         }
       });
       toast.success("Region Added Successfully");
+      history.push(AppRoutes.REGION)
     } catch (error) {
       const message = error.message
         .replace("SequelizeValidationError: ", "")

@@ -45,7 +45,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   const Id: any | undefined = id
 
   const { data: careInstituition, loading, error, refetch } = useQuery<any>(
-    GET_CARE_INSTITUTION_LIST,
+    GET_CARE_INSTITUTION_LIST
   );
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({ label: "", value: "" })

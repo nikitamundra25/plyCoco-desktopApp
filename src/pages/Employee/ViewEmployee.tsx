@@ -97,11 +97,14 @@ const ViewEmployee: FunctionComponent = () => {
                 </div>
                 <div className='user-item'>
                   <span className='text-label'>Status</span>
-                  <span className='text-value'>
-                    :&nbsp;&nbsp;
-                    <span>
-                      {employee && employee.isActive ? 'Active' : 'Disable'}
-                    </span>
+                  <span
+                    className={`status-btn ${
+                      employee && employee.isActive ? 'active' : 'inactive'
+                    }`}
+                  >
+                    {employee.isActive
+                      ? languageTranslation('ACTIVE')
+                      : languageTranslation('DISABLE')}
                   </span>
                 </div>
               </Col>

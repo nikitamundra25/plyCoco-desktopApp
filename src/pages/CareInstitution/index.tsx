@@ -304,9 +304,10 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className="info-column">
                     <div className="description-column">
                       <div className="info-title">
-                        {user.firstName}
+                        {`${user.firstName}  ${user.lastName}`}
+                        {/* {user.firstName}
                         {""}
-                        {user.lastName}
+                        {user.lastName} */}
                       </div>
                       <p className="description-text">
                         <i className="fa fa-envelope mr-2"></i>

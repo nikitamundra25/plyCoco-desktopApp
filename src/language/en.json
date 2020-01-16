@@ -49,7 +49,7 @@
   "MENU_DASHBOARD": "Dashboard",
   "MENU_EMPLOYEE": "Employee",
   "MENU_CAREGIVER": "Caregiver",
-  "MENU_INSTITUTION": "Care Institutions",
+  "MENU_INSTITUTION": "Care Institution",
   "MENU_APPOINTMENTS": "Appointments",
   "MENU_EMAIL": "Emails",
   "MENU_TO_DO_CARE_GIVER": "To-Dos Caregiver",
@@ -434,5 +434,5 @@
   "CONFIRM_CARE_INSTITUTION_DISABLED_MSG": "This care institution will be disabled.",
   "CARE_INSTITUTION_STATUS_UPDATE_MSG": "Care institution status updated sucessfully",
   "CARE_INSTITUTION_DELETE_SUCCESS_MSG": "Care institution has been deleted successfully",
-  "NEW_CONTACT_ADD_CARE_INSTITUTION":"Care institution contact added successfully."
+  "NEW_CONTACT_ADD_CARE_INSTITUTION": "Care institution contact added successfully."
 }

@@ -359,7 +359,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                         placement="top"
                         target={`view${index}`}
                       >
-                        Click here to view Constitution
+                        Click here to view care institution
                       </UncontrolledTooltip>
                       <i className="fa fa-eye"></i>
                     </span>
@@ -372,7 +372,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                         placement="top"
                         target={`delete${index}`}
                       >
-                        Click here to delete employee
+                        Click here to delete care institution
                       </UncontrolledTooltip>
                       <i className="fa fa-trash"></i>
                     </span>
@@ -521,8 +521,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className="btn-group btn-check-action-wrap">
                     <span className="btn">
                       <span
-                        className="checkboxli checkbox-custom
-checkbox-default"
+                        className="checkboxli checkbox-custom checkbox-default"
                       >
                         <input type="checkbox" id="checkAll" className="" />
                         <label className=""></label>
@@ -547,9 +546,9 @@ checkbox-default"
           </thead>
           <tbody>{tableData}</tbody>
         </Table>
-        {userData && userData.totalCount && (
+        {data && data.getCareInstitutions && data.getCareInstitutions.totalCount && (
           <PaginationComponent
-            totalRecords={userData.totalCount}
+            totalRecords={data.getCareInstitutions.totalCount}
             currentPage={currentPage}
             onPageChanged={onPageChanged}
           />

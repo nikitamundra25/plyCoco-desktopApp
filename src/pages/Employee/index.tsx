@@ -52,15 +52,19 @@ const sortFilter: any = {
 
 const Employee: FunctionComponent = () => {
   let history = useHistory();
-  const { search, pathname } = useLocation();
+  console.log('above use lcoation');
+
+  const { search, pathname, state } = useLocation();
+  const location = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFilterApplied, setIsFilter] = useState<boolean>(false);
 
   // To get employee list from db
-  const [fetchEmployeeList, { data, loading }] = useLazyQuery<any>(
+  const [fetchEmployeeList, { data, loading, refetch }] = useLazyQuery<any>(
     GET_EMPLOYEES,
   );
+  console.log(refetch, 'refecth');
 
   // Mutation to delete employee
   const [deleteEmployee, { error }] = useMutation<
@@ -141,6 +145,36 @@ const Employee: FunctionComponent = () => {
   }, [search]); // It will run when the search value gets changed
   console.log(searchValues, 'searchValuessearchValues');
 
+  useEffect(() => {
+    console.log(location, 'location');
+
+    logger(state, 'state in useEffect');
+    if (state && state.isValid) {
+      // const {
+      //   searchValue = '',
+      //   sortBy = undefined,
+      //   isActive = undefined,
+      // } = searchValues ? searchValues : {};
+      console.log(refetch);
+
+      // refetch({
+      //   limit: PAGE_LIMIT,
+      //   page: 1,
+      //   searchBy: '',
+      //   sortBy: 0,
+      //   isActive: '',
+      // });
+      // fetchEmployeeList({
+      //   variables: {
+      //     limit: PAGE_LIMIT,
+      //     page: 1,
+      //     searchBy: '',
+      //     sortBy: 0,
+      //     isActive: '',
+      //   },
+      // });
+    }
+  }, [state]);
   const {
     searchValue = '',
     sortBy = undefined,
@@ -329,8 +363,10 @@ const Employee: FunctionComponent = () => {
               <th className='text-center'>
                 {languageTranslation('TABLE_HEAD_ASSIGNED_CANSTITUTION')}
               </th>
-              <th>{languageTranslation('STATUS')}</th>
-              <th>{languageTranslation('TABLE_HEAD_ACTION')}</th>
+              <th className='text-center'>{languageTranslation('STATUS')}</th>
+              <th className='text-center'>
+                {languageTranslation('TABLE_HEAD_ACTION')}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -490,7 +526,7 @@ const Employee: FunctionComponent = () => {
               )
             ) : (
               <tr className={'text-center'}>
-                <td colSpan={5} className={'pt-5 pb-5'}>
+                <td colSpan={6} className={'pt-5 pb-5'}>
                   {isFilterApplied ? (
                     <NoSearchFound />
                   ) : (
@@ -499,7 +535,7 @@ const Employee: FunctionComponent = () => {
                         <i className='icon-ban' />
                       </div>
                       <h4 className='mb-1'>
-                        Currently there are No employee Added.{' '}
+                        Currently there are no employee Added.{' '}
                       </h4>
                       <p>Please click above button to add new. </p>
                     </div>

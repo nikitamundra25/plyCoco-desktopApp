@@ -149,11 +149,34 @@ const CareInstitution = (props: RouteComponentProps) => {
           );
         })
       : tableData.push(
-          <tr className={"text-center"}>
+        <>
+          {/* <tr className={"text-center no-search-section"}>
             <td colSpan={5} className={"pt-5 pb-5"}>
-              <h2>No data found</h2>
+              <div className="text-center mt-3">
+                <div className="no-user-found">
+                  <span className="no-search-block">
+                    {" "}
+                    <i className="icon-ban icons"></i>
+                  </span>
+                  <h3 className="title m-0">
+                    {" "}
+                    Currently there are no Parts added.
+                  </h3>
+                  <p className="sub-title mb-1">
+                    {" "}
+                    Please cleck button to add new
+                  </p>
+                  <Button outline color="primary mt-2">
+                    <span>
+                      <i className="fa fa-plus pr-1" aria-hidden="true"></i>{" "}
+                    </span>
+                    Add New
+                  </Button>{" "}
+                </div>
+              </div>
             </td>
-          </tr>
+          </tr> */}
+          </>
         )}
   </>;
   return (

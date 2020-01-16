@@ -4,4 +4,7 @@ export interface IRegionFormValue {
 export interface IRegionInput {
   regionName: string;
 }
-
+export interface IRegion {
+  id: string;
+  regionName: string;
+}

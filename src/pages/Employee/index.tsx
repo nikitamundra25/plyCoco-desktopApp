@@ -30,7 +30,7 @@ import {
 } from "../../interfaces";
 import { ConfirmBox } from "../../common/ConfirmBox";
 import { toast } from "react-toastify";
-
+import defaultProfile from "../../assets/avatars/default-profile.png";
 const [
   ,
   ,
@@ -57,6 +57,8 @@ const Employee: FunctionComponent = () => {
   const [fetchEmployeeList, { data, loading }] = useLazyQuery<any>(
     GET_EMPLOYEES
   );
+  console.log("data", data);
+
   // Mutation to delete employee
   const [deleteEmployee, { error }] = useMutation<
     { deleteEmployee: any },
@@ -281,7 +283,7 @@ const Employee: FunctionComponent = () => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} />
+              <Search {...props} label={"employee"} />
             )}
           />
           {/* <Search /> */}
@@ -301,11 +303,15 @@ const Employee: FunctionComponent = () => {
                     <UncontrolledDropdown className="custom-dropdown">
                       <DropdownToggle caret color="link" />
                       <DropdownMenu>
-                        <DropdownItem>Delete</DropdownItem>
+                        <DropdownItem>
+                          {languageTranslation("DELETE")}
+                        </DropdownItem>
                         <DropdownItem>
                           {languageTranslation("ACTIVE")}
                         </DropdownItem>
-                        <DropdownItem>Disable</DropdownItem>
+                        <DropdownItem>
+                          {languageTranslation("DISABLE")}
+                        </DropdownItem>
                       </DropdownMenu>
                     </UncontrolledDropdown>
                   </div>
@@ -313,7 +319,9 @@ const Employee: FunctionComponent = () => {
               </th>
               <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
               <th>{languageTranslation("REGION")}</th>
-              <th>{languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}</th>
+              <th className="text-center">
+                {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
+              </th>
               <th>{languageTranslation("STATUS")}</th>
               <th>{languageTranslation("TABLE_HEAD_ACTION")}</th>
             </tr>
@@ -371,12 +379,17 @@ const Employee: FunctionComponent = () => {
                         <div className="info-column">
                           <div className="img-column">
                             <img
-                              src={`${AppConfig.FILES_ENDPOINT}${profileThumbnailImage}`}
+                              src={`${
+                                profileThumbnailImage
+                                  ? `${AppConfig.FILES_ENDPOINT}${profileThumbnailImage}`
+                                  : defaultProfile
+                              }`}
                               className="img-fluid"
+                              alt=""
                             />
                           </div>
                           <div className="description-column">
-                            <div className="info-title">
+                            <div className="info-title text-capitalize">
                               {firstName ? firstName : ""}
                             </div>
                             <div className="description-text">
@@ -422,44 +435,45 @@ const Employee: FunctionComponent = () => {
                           <ButtonTooltip
                             id={`edit${index}`}
                             message={languageTranslation("EMP_EDIT")}
+                            onBtnClick={() =>
+                              history.push(
+                                AppRoutes.EDIT_EMPLOYEE.replace(
+                                  /:id|:userName/gi,
+                                  function(matched) {
+                                    return replaceObj[matched];
+                                  }
+                                )
+                              )
+                            }
                           >
                             {" "}
-                            <i
-                              className="fa fa-pencil"
-                              onClick={() =>
-                                history.push(
-                                  AppRoutes.EDIT_EMPLOYEE.replace(
-                                    /:id|:userName/gi,
-                                    function(matched) {
-                                      return replaceObj[matched];
-                                    }
-                                  )
-                                )
-                              }
-                            ></i>
+                            <i className="fa fa-pencil"></i>
                           </ButtonTooltip>
                           <ButtonTooltip
                             id={`view${index}`}
                             message={languageTranslation("EMP_VIEW")}
+                            onBtnClick={() =>
+                              history.push(
+                                AppRoutes.VIEW_EMPLOYEE.replace(
+                                  /:id|:userName/gi,
+                                  function(matched) {
+                                    return replaceObj[matched];
+                                  }
+                                )
+                              )
+                            }
                           >
                             {" "}
-                            <i
-                              className="fa fa-eye"
-                              onClick={() =>
-                                history.push(AppRoutes.VIEW_EMPLOYEE)
-                              }
-                            ></i>
+                            <i className="fa fa-eye"></i>
                           </ButtonTooltip>
 
                           <ButtonTooltip
                             id={`delete${index}`}
                             message={languageTranslation("EMP_DELETE")}
+                            onBtnClick={() => onDelete(id)}
                           >
                             {" "}
-                            <i
-                              className="fa fa-trash"
-                              onClick={() => onDelete(id)}
-                            ></i>
+                            <i className="fa fa-trash"></i>
                           </ButtonTooltip>
                         </div>
                       </td>

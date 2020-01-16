@@ -12,15 +12,20 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Region, SortOptions, StatusOptions } from '../../config';
 import { languageTranslation, logger } from '../../helpers';
 import { FormikProps, Form } from 'formik';
-import { ISearchValues, IReactSelectInterface } from '../../interfaces';
+import {
+  ISearchValues,
+  IReactSelectInterface,
+  ISearchProps,
+} from '../../interfaces';
 
-const Search: FunctionComponent<FormikProps<ISearchValues>> = (
-  props: FormikProps<ISearchValues>,
+const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
+  props: FormikProps<ISearchValues> & ISearchProps,
 ) => {
   let history = useHistory();
   let { pathname } = useLocation();
   const {
     values: { searchValue, sortBy, isActive },
+    label,
     handleSubmit,
     handleChange,
     setFieldValue,
@@ -78,20 +83,21 @@ const Search: FunctionComponent<FormikProps<ISearchValues>> = (
               />
             </FormGroup>
           </Col>
-          <Col lg={'2'}>
-            <FormGroup>
-              <Label for='Selectregion' className='col-form-label'>
-                {languageTranslation('STATUS_LABEL')} :
-              </Label>
-              <Select
-                placeholder={languageTranslation('STATUS_LABEL')}
-                options={StatusOptions}
-                value={isActive}
-                onChange={(value: any) => handleSelect(value, 'isActive')}
-              />
-            </FormGroup>
-          </Col>
-
+          {label === 'employee' ? (
+            <Col lg={'2'}>
+              <FormGroup>
+                <Label for='Selectregion' className='col-form-label'>
+                  {languageTranslation('STATUS_LABEL')} :
+                </Label>
+                <Select
+                  placeholder={languageTranslation('STATUS_LABEL')}
+                  options={StatusOptions}
+                  value={isActive}
+                  onChange={(value: any) => handleSelect(value, 'isActive')}
+                />
+              </FormGroup>
+            </Col>
+          ) : null}
           <Col lg={'2'}>
             <div className='label-height'></div>
             <div className='filter-btn-wrap'>

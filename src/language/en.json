@@ -1,10 +1,11 @@
 {
   "REQUIRED_REGION": "Region name is required",
+  "DELETE": "Delete",
   "ACTIVE": "Active",
   "DISABLE": "Disable",
   "TABLE_HEAD_EMP_INFO": "Employee Information",
   "REGION": "Region",
-  "TABLE_HEAD_ASSIGNED_CANSTITUTION": "Assigned Canstitution",
+  "TABLE_HEAD_ASSIGNED_CANSTITUTION": "Assigned Care Institution",
   "STATUS": "Status",
   "TABLE_HEAD_ACTION": "Action",
   "EMP_VIEW": "Click here to view employee",
@@ -107,9 +108,9 @@
   "EMPLOYEE_DEPARTMENT": "department",
   "REGION_PLACEHOLDER": "Select Region",
   "SORTBY_PLACEHOLDER": "Sort By",
-  "EMPLOYEE_ADDRESS1_LABEL": "Address 1",
+  "EMPLOYEE_ADDRESS1_LABEL": "Address Line 1",
   "EMPLOYEE_ADDRESS1_PLACEHOLDER": "Please Enter Address",
-  "EMPLOYEE_ADDRESS2_LABEL": "Address 2",
+  "EMPLOYEE_ADDRESS2_LABEL": "Address Line 2",
   "EMPLOYEE_ADDRESS2_PLACEHOLDER": "Please Enter Address",
   "EMPLOYEE_CITY_LABEL": "City",
   "EMPLOYEE_CITY_PLACEHOLDER": "Select City",
@@ -126,7 +127,6 @@
   "EMPLOYEE_OTHER_INFORMATION_PLACEHOLDER": "Please Enter  Any other information",
   "REGION_NAME_OF_REGION_LABEL": "Name of Region",
   "REGION_NAME_OF_REGION_PLACEHOLDER": "Please Enter the name of region",
-  "BANK_ADDRESS": "mobilePhone",
   "CAREGIVER_MOBILE_PHONE_PLACEHOLDER": " Mobile Phone",
   "CAREGIVER_EMAIL_ADDRESS_LABEL": "Email Address",
   "CAREGIVER_EMAIL": "email",
@@ -369,7 +369,6 @@
   "BLOCKED": "Blocked",
   "END": "End",
   "STORAGE_PANEL": "Storage Panel",
-
   "CG_MENU_NEW_CAREGIVER": "New Caregiver",
   "CG_MENU_CREATE_TODO": "Create Todo/Reminder",
   "CG_MENU_NEW_PASSWORD": "New Password",
@@ -419,10 +418,14 @@
   "CANCEL": "Cancel",
   "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added sucessfully",
   "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated sucessfully",
-  "EMPLOYEE_STATUS_UPDATE_MSG": "Employee status updated sucessfully",
-
+  "ADD_NEW_REGION_BUTTON": "Add New Region",
+  "REGION_NAME": "Region Name",
+  "NUMBER_OF_CANSTITUTION": "Number of Care Institution",
+  "NUMBER_OF_CARE_GIVERS": "Number of Care Givers",
+  "CURRENT_ONGOING_APPOINTMENTS_COUNTER": " Current ongoing appointments counter",
   "CONFIRM_LABEL": "Are you sure?",
-  "CONFIRM_EMPLOYEE_DELETE_MSG": "You want to delete this employee?",
+  "CONFIRM_EMPLOYEE_DELETE_MSG": "This employee will be deleted.",
+  "EMPLOYEE_STATUS_UPDATE_MSG": "Employee status updated sucessfully",
   "CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG": "This employee will be activated.",
   "CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG": "This employee will be disabled.",
   "CARE_INSTITUTION_ADD_SUCCESS_MSG": "Care Instituion added sucessfully",
@@ -434,5 +437,13 @@
   "CONFIRM_CARE_INSTITUTION_DISABLED_MSG": "This care institution will be disabled.",
   "CARE_INSTITUTION_STATUS_UPDATE_MSG": "Care institution status updated sucessfully",
   "CARE_INSTITUTION_DELETE_SUCCESS_MSG": "Care institution has been deleted successfully",
-  "NEW_CONTACT_ADD_CARE_INSTITUTION":"Care institution contact added successfully."
+  "NEW_CONTACT_ADD_CARE_INSTITUTION":"Care institution contact added successfully.",
+  "PERSONAL_INFORMATION": "Personal Information",
+
+  
+  "EMPLOYEE_NAME": "Employee Name",
+  "CONTACT_NO": "Contact No.",
+  "EMPLOYEE_USERNAME": "Employee Username",
+  "PROFILE_IMAGE": "Profile Image",
+  "ADDRESS": "Address"
 }

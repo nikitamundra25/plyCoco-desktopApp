@@ -1,76 +1,175 @@
-import React, { useEffect, useState, FunctionComponent } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import { useMutation, useLazyQuery } from "@apollo/react-hooks";
-import { Formik, FormikProps, FormikHelpers } from "formik";
-import { toast } from "react-toastify";
-import moment from "moment";
-import { EmployeeValidationSchema } from "../../../validations/EmployeeValidationSchema";
+import React, { useEffect, useState, FunctionComponent } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { toast } from 'react-toastify';
+import moment from 'moment';
+import { EmployeeValidationSchema } from '../../../validations/EmployeeValidationSchema';
 import {
   IEmployeeFormValues,
   IEmployeeInput,
-  IAddEmployeeRes
-} from "../../../interfaces";
-import EmployeeFormComponent from "./EmployeeFormComponent";
-import { EmployeeQueries } from "../../../queries";
-import { logger, languageTranslation } from "../../../helpers";
-import { AppRoutes } from "../../../config";
+  IAddEmployeeRes,
+  ICountries,
+  IReactSelectInterface,
+  ICountry,
+  IStates,
+  IState,
+} from '../../../interfaces';
+import EmployeeFormComponent from './EmployeeFormComponent';
+import { EmployeeQueries, CountryQueries } from '../../../queries';
+import { logger, languageTranslation } from '../../../helpers';
+import { AppRoutes } from '../../../config';
 
 const [ADD_EMPLOYEE, GET_EMPLOYEE_BY_ID, , UPDATE_EMPLOYEE] = EmployeeQueries;
+const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 export const EmployeeForm: FunctionComponent = () => {
   // get id from params
   let { id } = useParams();
   let history = useHistory();
-  const [
-    employeeData,
-    setEmployeeData
-  ] = useState<IEmployeeFormValues | null>();
-  logger(id, "id");
-
-  // To add emplyee details into db
-  const [addEmployee, { error, data }] = useMutation<
-    { addEmployee: IAddEmployeeRes },
-    { employeeInput: IEmployeeInput }
-  >(ADD_EMPLOYEE);
-
-  // To update employee details into db
-  const [updateEmployee] = useMutation<
-    { updateEmployee: IAddEmployeeRes },
-    { id: number; employeeInput: IEmployeeInput }
-  >(UPDATE_EMPLOYEE);
 
   // To get the employee details by id
   const [
     getEmployeeDetails,
-    { data: employeeDetails, error: detailsError, refetch }
+    { data: employeeDetails, error: detailsError, refetch },
   ] = useLazyQuery<any>(GET_EMPLOYEE_BY_ID);
+
+  // To fetch the list of countries
+  const { data: countriesData, loading } = useQuery<ICountries>(GET_COUNTRIES);
+  // To fetch the states of selected contry & don't want to query on initial load
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY,
+  );
+  const [
+    employeeData,
+    setEmployeeData,
+  ] = useState<IEmployeeFormValues | null>();
+
+  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  // const statesOpt: IReactSelectInterface[] | undefined = [];
+  if (countriesData && countriesData.countries) {
+    countriesData.countries.forEach(({ id, name }: ICountry) =>
+      countriesOpt.push({
+        label: name,
+        value: id,
+      }),
+    );
+  }
+  const [imageUrl, setImageUrl] = useState('');
+  const [statesOpt, setStatesOpt] = useState<IReactSelectInterface[] | []>([]);
+  const [states, setStatesValue] = useState<IReactSelectInterface | undefined>(
+    undefined,
+  );
+  logger(id, 'id');
+  const update = (cache: any, payload: any) => {
+    logger(payload, 'payload');
+  };
+  // To add emplyee details into db
+  const [addEmployee, { error, data }] = useMutation<
+    {
+      addEmployee: IAddEmployeeRes;
+    },
+    {
+      employeeInput: IEmployeeInput;
+    }
+  >(ADD_EMPLOYEE, { update });
+
+  // To update employee details into db
+  const [updateEmployee] = useMutation<
+    {
+      updateEmployee: IAddEmployeeRes;
+    },
+    {
+      id: number;
+      employeeInput: IEmployeeInput;
+    }
+  >(UPDATE_EMPLOYEE);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     // Fetch details by employee id
     if (id) {
       getEmployeeDetails({
-        variables: { id }
+        variables: {
+          id,
+        },
       });
     }
+  }, [id]);
+
+  useEffect(() => {
+    logger('in employeeDetail useEfect');
     if (employeeDetails && employeeDetails.viewEmployee) {
       const { viewEmployee } = employeeDetails;
+      setImageUrl(viewEmployee.profileImage ? viewEmployee.profileImage : '');
+      let index: number = -1;
+      if (viewEmployee.employee.country) {
+        index = countriesOpt.findIndex(
+          ({ label }: IReactSelectInterface) =>
+            label === viewEmployee.employee.country,
+        );
+        getStatesByCountry({
+          variables: {
+            countryid:
+              countriesOpt && index > -1 ? countriesOpt[index].value : '82',
+          }, // default code is for germany
+        });
+      }
+      logger(statesOpt, 'statesOpt');
       setEmployeeData({
         ...viewEmployee,
         ...viewEmployee.employee,
         ...viewEmployee.bankDetails,
+        country: index > -1 ? countriesOpt[index] : undefined,
+        joiningDate: viewEmployee.employee.joiningDate
+          ? moment(viewEmployee.employee.joiningDate).format('MM/DD/YYYY')
+          : null,
         accountHolderName: viewEmployee.bankDetails
           ? viewEmployee.bankDetails.accountHolder
-          : "",
-        telephoneNumber: viewEmployee.phoneNumber || ""
+          : '',
+        additionalText: viewEmployee.bankDetails.additionalText
+          ? viewEmployee.bankDetails.additionalText
+          : '',
+        telephoneNumber: viewEmployee.phoneNumber || '',
+        region: viewEmployee.region
+          ? [
+              {
+                label: viewEmployee.region.regionName,
+                value: viewEmployee.region.id,
+              },
+            ]
+          : null,
       });
+      console.log('viewEmployee.region', viewEmployee.region);
     }
   }, [employeeDetails]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
 
+  useEffect(() => {
+    if (statesData && statesData.states) {
+      let stateList: IReactSelectInterface[] = [];
+      statesData.states.forEach(({ id, name }: IState) =>
+        stateList.push({
+          label: name,
+          value: id,
+        }),
+      );
+      setStatesOpt(stateList);
+      // To call it only once
+      if (employeeData && !states) {
+        const { viewEmployee } = employeeDetails;
+        setStatesValue(
+          stateList.filter(
+            ({ label }: IReactSelectInterface) =>
+              label === viewEmployee.employee.state,
+          )[0],
+        );
+      }
+    }
+  }, [statesData]);
   // function to add/edit employee information
   const handleSubmit = async (
     values: IEmployeeFormValues,
-    { setSubmitting, setFieldError }: FormikHelpers<IEmployeeFormValues>
+    { setSubmitting, setFieldError }: FormikHelpers<IEmployeeFormValues>,
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -91,20 +190,26 @@ export const EmployeeForm: FunctionComponent = () => {
       city,
       zip,
       joiningDate,
-      image
+      image,
+      region,
     } = values;
+    logger(region, 'regionnnn');
     try {
       let employeeInput: IEmployeeInput = {
         firstName,
         lastName,
         userName,
         email,
-        phoneNumber: telephoneNumber ? telephoneNumber.toString() : "",
+        phoneNumber: telephoneNumber ? telephoneNumber.toString() : '',
         joiningDate: joiningDate
-          ? moment(joiningDate).format("YYYY/MM/DD")
+          ? moment(joiningDate).format('YYYY/MM/DD')
           : null,
         country: country && country.label ? country.label : null,
         state: state && state.label ? state.label : null,
+        regionId:
+          region && region.length
+            ? region.map((region: IReactSelectInterface) => region.value)
+            : null,
         city,
         zipCode: zip,
         address1,
@@ -121,45 +226,49 @@ export const EmployeeForm: FunctionComponent = () => {
         await updateEmployee({
           variables: {
             id: parseInt(id),
-            employeeInput
-          }
+            employeeInput,
+          },
         });
-        toast.success(languageTranslation("EMPLOYEE_UPDATE_SUCCESS_MSG"));
+        toast.success(languageTranslation('EMPLOYEE_UPDATE_SUCCESS_MSG'));
       } else {
         await addEmployee({
           variables: {
-            employeeInput
-          }
+            employeeInput,
+          },
         });
-        toast.success(languageTranslation("EMPLOYEE_ADD_SUCCESS_MSG"));
+        toast.success(languageTranslation('EMPLOYEE_ADD_SUCCESS_MSG'));
       }
       history.push(AppRoutes.EMPLOYEE);
     } catch (error) {
       const message = error.message
-        .replace("SequelizeValidationError: ", "")
-        .replace("Validation error: ", "")
-        .replace("GraphQL error: ", "");
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
       // setFieldError('email', message);
       toast.error(message);
     }
     setSubmitting(false);
   };
+  console.log(employeeData, 'viewEmployee');
   // Fetch values in case of edit by default it will be null or undefined
   const {
-    email = "",
-    firstName = "",
-    lastName = "",
-    userName = "",
-    address1 = "",
-    address2 = "",
-    city = "",
-    zip = "",
-    accountHolderName = "",
-    bankName = "",
-    IBAN = "",
-    BIC = "",
-    additionalText = "",
-    telephoneNumber = undefined
+    email = '',
+    firstName = '',
+    lastName = '',
+    userName = '',
+    address1 = '',
+    address2 = '',
+    city = '',
+    zip = '',
+    country = undefined,
+    region = undefined,
+    accountHolderName = '',
+    bankName = '',
+    IBAN = '',
+    BIC = '',
+    additionalText = '',
+    telephoneNumber = undefined,
+    joiningDate = '',
   } = employeeData ? employeeData : {};
 
   const values: IEmployeeFormValues = {
@@ -177,15 +286,30 @@ export const EmployeeForm: FunctionComponent = () => {
     address2,
     city,
     zip,
-    joiningDate: ""
+    joiningDate,
+    country,
+    region,
+    state: states,
   };
   return (
     <Formik
       initialValues={values}
       enableReinitialize={true}
       onSubmit={handleSubmit}
-      children={(props: FormikProps<IEmployeeFormValues>) => (
-        <EmployeeFormComponent {...props} />
+      children={(
+        props: FormikProps<IEmployeeFormValues> & {
+          imageUrl: string;
+          countriesOpt: IReactSelectInterface[];
+          statesOpt: IReactSelectInterface[];
+        },
+      ) => (
+        <EmployeeFormComponent
+          {...props}
+          imageUrl={imageUrl}
+          countriesOpt={countriesOpt}
+          statesOpt={statesOpt}
+          getStatesByCountry={getStatesByCountry}
+        />
       )}
       validationSchema={EmployeeValidationSchema}
     />

@@ -8,8 +8,8 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 }`
 
 export const GET_CAREGIVERS = gql`
-query getCareGivers {
-  getCareGivers 
+query getCaregivers {
+  getCaregivers 
   ${CAREGIVER_PERSONAL_INFO_FIELDS}
 }`;
 

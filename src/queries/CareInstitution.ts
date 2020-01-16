@@ -94,12 +94,27 @@ const UPDATE_CARE_INSTITUTION = gql`
     }
   }
 `;
-
+const ADD_NEW_CONTACT_CARE_INSTITUTION =
+  gql`
+  mutation addContact(
+    $contactInput: ContactInput!
+  ) {
+    addContact(
+      contactInput: $contactInput
+    ) {
+      id
+      firstName
+      surName,
+      contactType
+    }
+  }
+`
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION,
   GET_CARE_INSTITUION_BY_ID,
-  UPDATE_CARE_INSTITUTION_STATUS
+  UPDATE_CARE_INSTITUTION_STATUS,
+  ADD_NEW_CONTACT_CARE_INSTITUTION
 ];

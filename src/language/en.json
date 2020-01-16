@@ -433,5 +433,6 @@
   "CONFIRM_CARE_INSTITUTION_ACTIVATE_MSG": "This care institution will be activated.",
   "CONFIRM_CARE_INSTITUTION_DISABLED_MSG": "This care institution will be disabled.",
   "CARE_INSTITUTION_STATUS_UPDATE_MSG": "Care institution status updated sucessfully",
-  "CARE_INSTITUTION_DELETE_SUCCESS_MSG": "Care institution has been deleted successfully"
+  "CARE_INSTITUTION_DELETE_SUCCESS_MSG": "Care institution has been deleted successfully",
+  "NEW_CONTACT_ADD_CARE_INSTITUTION":"Care institution contact added successfully."
 }

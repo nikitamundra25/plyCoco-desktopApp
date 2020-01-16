@@ -320,13 +320,13 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <td>
                   <div className="description-column">
                     <div className="info-title">
-                      {user.canstitution.companyName
+                      {user.canstitution && user.canstitution.companyName
                         ? user.canstitution.companyName
                         : "N/A"}
                     </div>
                     <p className="description-text">
                       <span className="align-middle">
-                        {user.canstitution.shortName
+                        {user.canstitution && user.canstitution.shortName
                           ? user.canstitution.shortName
                           : "N/A"}
                       </span>

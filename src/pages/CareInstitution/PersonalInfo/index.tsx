@@ -10,7 +10,8 @@ import { useParams } from "react-router";
 import { CareInstitutionQueries } from "../../../queries";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
-import { logger } from "../../../helpers";
+import { logger, languageTranslation } from "../../../helpers";
+import { async } from "rxjs/internal/scheduler/async";
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -18,6 +19,8 @@ const [
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION,
   GET_CARE_INSTITUION_BY_ID,
+  UPDATE_CARE_INSTITUTION_STATUS,
+  ADD_NEW_CONTACT_CARE_INSTITUTION,
 ] = CareInstitutionQueries
 
 const PersonalInformation: any = (props: any) => {
@@ -32,7 +35,7 @@ const PersonalInformation: any = (props: any) => {
     getCareInstitutionDetails,
     { data: careInstituionDetails, error: detailsError, refetch },
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
-  
+
   useEffect(() => {
     if (props.isUserChange) {
       getCareInstitutionDetails({
@@ -51,13 +54,49 @@ const PersonalInformation: any = (props: any) => {
     }
   }, [])
 
-  const handleContactSubmit = (
+  const [addContact, { error: contactError, data: contactData }] = useMutation<{ addContact: ICareInstitutionFormValues }>(ADD_NEW_CONTACT_CARE_INSTITUTION);
+
+  const handleContactSubmit = async (
     values: ICareInstitutionContact,
     { setSubmitting }: FormikHelpers<ICareInstitutionContact>
   ) => {
-    //to set submit state to false after successful signup
-    setSubmitting(false);
-    console.log("Contact values", values);
+    try {
+      //to set submit state to false after successful signup
+      setSubmitting(false);
+      const contactInput: any = {
+        userId: parseInt(Id),
+        gender: values && values.gender ? values.gender.value : "",
+        title: values.title,
+        salutation: values && values.salutation ? values.salutation.value : "",
+        firstName: values.firstName,
+        surName: values.lastName,
+        contactType: values && values.contactType ? values.contactType.value : "",
+        street: values.street,
+        city: values.city,
+        zip: values.zipCode,
+        countryId: values && values.country ? values.country.value : "",
+        phoneNumber: values.phoneNumber,
+        phoneNumber2: values.phoneNumber,
+        fax: values.faxNumber,
+        mobileNumber: values.mobileNumber,
+        email: values.email,
+        remark: values.remaks,
+      }
+      await addContact({
+        variables: {
+          contactInput: contactInput
+        }
+      })
+      toast.success(languageTranslation("NEW_CONTACT_ADD_CARE_INSTITUTION"));
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      // setFieldError('email', message);
+      toast.error(message);
+      logger(error)
+    }
   };
 
   const contactFormValues: ICareInstitutionContact = {
@@ -85,8 +124,8 @@ const PersonalInformation: any = (props: any) => {
         lastName: values.lastName,
         shortName: values.shortName,
         companyName: values.companyName,
-        address: values.anonymousName,
-        address2: values.anonymousName2,
+        // anonymousName: values.anonymousName,
+        // anonymousName2: values.anonymousName2,
         street: values.street,
         zipCode: values.zipCode,
         countryId: values && values.country ? values.country.value : "",
@@ -98,11 +137,10 @@ const PersonalInformation: any = (props: any) => {
         doctorCommission: values.doctorCommission,
         // invoiceType: values && values.invoiceType ? values.invoiceType.value : "",
         // interval: values && values.interval ? values.interval.value : "",
-        emailInvoice: values.emailInvoice,
-        addressInvoice: values.addressInvoice
+        // emailInvoice: values.emailInvoice,
+        // addressInvoice: values.addressInvoice
       }
       setSubmitting(false);
-      console.log("DFSFDSFSFSF", values);
       await updateCareInstitution({
         variables: {
           id: parseInt(Id),

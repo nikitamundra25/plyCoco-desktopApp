@@ -96,13 +96,13 @@ const AddCareInstitution: any = (
         <CardHeader>
           <AppBreadcrumb appRoutes={routes} className="w-100" />
           <Button
-            color={'primary'}
-            className={'btn-add'}
+            color={"primary"}
+            className={"btn-add"}
             onClick={handleSubmit}
             disabled={isSubmitting}
           >
-            {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
-            {languageTranslation('SAVE_BUTTON')}
+            {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+            {languageTranslation("SAVE_BUTTON")}
           </Button>
         </CardHeader>
         <CardBody>
@@ -122,12 +122,10 @@ const AddCareInstitution: any = (
                           <Col sm="8">
                             <div>
                               <Select
-                                placeholder={languageTranslation(
-                                  "SALUTATION"
-                                )}
+                                placeholder={languageTranslation("SALUTATION")}
                                 value={salutation ? salutation : undefined}
                                 onChange={(value: any) =>
-                                  handleSelect(value, 'salutation')
+                                  handleSelect(value, "salutation")
                                 }
                                 options={Salutation}
                               />

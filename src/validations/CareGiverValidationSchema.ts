@@ -22,11 +22,11 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   address2: Yup.string(),
   street: Yup.string(),
   city: Yup.string(),
-  state: Yup.string(),
-  country: Yup.string(),
+  stateId: Yup.string(),
+  countryId: Yup.string(),
   postCode: Yup.string(),
   email: Yup.string(),
-  dob: Yup.mixed().test({
+  dateOfBirth: Yup.mixed().test({
     name: 'validate-date',
     test: function (val) {
       const { path, createError } = this;
@@ -34,7 +34,7 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
       return !val || isValid || createError({ path, message });
     },
   }),
-  phone: Yup.string().matches(
+  phoneNumber: Yup.string().matches(
     telephoneReqExp,
     languageTranslation('TELEPHONE_REQUIRED'),
   ),
@@ -43,11 +43,11 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     telephoneReqExp,
     languageTranslation('TELEPHONE_REQUIRED'),
   ),
-  username: Yup.string()
+  userName: Yup.string()
     .trim()
     .required(languageTranslation('USERNAME_REQUIRED')),
   bankName: Yup.string(),
-  qualification: Yup.string(),
+  qualifications: Yup.string(),
   // .required(messages.REQUIRED_FIELD),
   leasing: Yup.string(),
   legalForm: Yup.string(),

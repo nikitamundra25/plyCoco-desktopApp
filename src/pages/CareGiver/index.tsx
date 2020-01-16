@@ -266,11 +266,11 @@ const CareGiver: FunctionComponent = () => {
                 address2,
                 street,
                 city,
-                state,
-                country,
+                stateId,
+                countryId,
                 postCode,
                 email,
-                phone,
+                phoneNumber,
                 qualification,
                 legalForm,
                 workZones,
@@ -309,7 +309,7 @@ const CareGiver: FunctionComponent = () => {
                           </p>
                           <p className='description-text'>
                             <i className='fa fa-phone mr-2'></i>
-                            <span className='align-middle'>{phone}</span>
+                            <span className='align-middle'>{phoneNumber}</span>
                           </p>
                         </div>
                       </div>

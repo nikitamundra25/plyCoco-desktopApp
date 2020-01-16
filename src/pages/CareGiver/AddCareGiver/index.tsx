@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { CareGiverState, CareGiverValues } from "../../../interfaces";
+import {  CareGiverValues, ICareGiverInput } from "../../../interfaces";
 import { FormikHelpers, Formik, FormikProps } from "formik";
 import CareGiverFormComponent from "./CareGiverFormComponent";
 import { CareGiverValidationSchema } from "../../../validations/CareGiverValidationSchema";
@@ -7,17 +7,94 @@ import { useMutation } from "@apollo/react-hooks";
 import { ADD_CAREGIVER } from "../../../queries/CareGiver";
 import { Mutation } from "@apollo/react-components";
 
-class CareGiverForm extends Component<any, CareGiverState> {
+class CareGiverForm extends Component<any, CareGiverValues> {
   handleSubmit = (
     values: CareGiverValues,
     { setSubmitting }: FormikHelpers<CareGiverValues>,
     addCareGiver: any
   ) => {
     // todo call
+    const {
+      salutation,
+      firstName,
+      lastName,
+      address1,
+      address2,
+      street,
+      city,
+      stateId,
+      countryId,
+      postCode,
+      pinCode,
+      email,
+      dateOfBirth,
+      phoneNumber,
+      fax,
+      mobilePhone,
+      userName,
+      bankName,
+      qualifications,
+      leasing,
+      driverLicenseNumber,
+      driversLicense,
+      vehicleavailable,
+      legalForm,
+      companyName,
+      registrationNumber,
+      registerCourt,
+      executiveDirector,
+      socialSecurityContribution,
+      taxNumber,
+      remarks,
+      workZones,
+      status
+    } = values
     debugger;
+    try {
+      let  careGiverInput:ICareGiverInput = {
+        salutation,
+      firstName,
+      lastName,
+      address1,
+      address2,
+      street,
+      city,
+      stateId,
+      countryId,
+      postCode,
+      pinCode,
+      email,
+      dateOfBirth,
+      phoneNumber,
+      fax,
+      mobilePhone,
+      userName,
+      bankName,
+      qualifications,
+      leasing,
+      driverLicenseNumber,
+      driversLicense,
+      vehicleavailable,
+      legalForm,
+      companyName,
+      registrationNumber,
+      registerCourt,
+      executiveDirector,
+      socialSecurityContribution,
+      taxNumber,
+      remarks,
+      workZones,
+      status
+        
+      } 
+    } catch (error) {
+      
+    }
     const paylaod = {
       variables: {
-        careGiverInput: { ...values }
+        careGiverInput: { 
+          salutation: values.salutation
+         }
       }
     };
     addCareGiver(paylaod);
@@ -33,17 +110,18 @@ class CareGiverForm extends Component<any, CareGiverState> {
       address2: "tester",
       street: "tester",
       city: "tester",
-      state: "tester",
-      country: "",
+      stateId: "tester",
+      countryId: "",
       postCode: "9875563",
+      pinCode: "9875563",
       email: "tester@tester.tester",
-      dob: "12/12/1992",
-      phone: "789952",
+      dateOfBirth: "12/12/1992",
+      phoneNumber: "789952",
       fax: "789654",
       mobilePhone: "9874563215",
-      username: "tester",
+      userName: "tester",
       bankName: "tester",
-      qualification: ["tester"],
+      qualifications:"",
       leasing: "tester",
       driverLicenseNumber: "6978",
       driversLicense: false,
@@ -56,7 +134,7 @@ class CareGiverForm extends Component<any, CareGiverState> {
       socialSecurityContribution: false,
       taxNumber: "35tester",
       remarks: "tester",
-      workZones: "",
+      workZones:"",
       status: "active"
     };
 

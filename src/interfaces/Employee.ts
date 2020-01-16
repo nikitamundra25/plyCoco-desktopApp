@@ -15,6 +15,7 @@ export interface IEmployeeFormValues {
   address2: string;
   country?: IReactSelectInterface;
   state?: IReactSelectInterface;
+  region?: IReactSelectInterface[];
   zip: string;
   joiningDate: string;
   image?: File;

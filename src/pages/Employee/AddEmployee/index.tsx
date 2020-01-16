@@ -110,7 +110,8 @@ export const EmployeeForm: FunctionComponent = () => {
         );
         getStatesByCountry({
           variables: {
-            countryid: countriesOpt ? countriesOpt[index].value : '82',
+            countryid:
+              countriesOpt && index > -1 ? countriesOpt[index].value : '82',
           }, // default code is for germany
         });
       }
@@ -130,7 +131,16 @@ export const EmployeeForm: FunctionComponent = () => {
           ? viewEmployee.bankDetails.additionalText
           : '',
         telephoneNumber: viewEmployee.phoneNumber || '',
+        region: viewEmployee.region
+          ? [
+              {
+                label: viewEmployee.region.regionName,
+                value: viewEmployee.region.id,
+              },
+            ]
+          : null,
       });
+      console.log('viewEmployee.region', viewEmployee.region);
     }
   }, [employeeDetails]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
 
@@ -181,7 +191,9 @@ export const EmployeeForm: FunctionComponent = () => {
       zip,
       joiningDate,
       image,
+      region,
     } = values;
+    logger(region, 'regionnnn');
     try {
       let employeeInput: IEmployeeInput = {
         firstName,
@@ -194,7 +206,10 @@ export const EmployeeForm: FunctionComponent = () => {
           : null,
         country: country && country.label ? country.label : null,
         state: state && state.label ? state.label : null,
-        regionId: null,
+        regionId:
+          region && region.length
+            ? region.map((region: IReactSelectInterface) => region.value)
+            : null,
         city,
         zipCode: zip,
         address1,
@@ -234,8 +249,7 @@ export const EmployeeForm: FunctionComponent = () => {
     }
     setSubmitting(false);
   };
-  console.log(employeeData, 'employeeDataemployeeData');
-
+  console.log(employeeData, 'viewEmployee');
   // Fetch values in case of edit by default it will be null or undefined
   const {
     email = '',
@@ -247,13 +261,14 @@ export const EmployeeForm: FunctionComponent = () => {
     city = '',
     zip = '',
     country = undefined,
-    joiningDate = '',
+    region = undefined,
     accountHolderName = '',
     bankName = '',
     IBAN = '',
     BIC = '',
     additionalText = '',
     telephoneNumber = undefined,
+    joiningDate = '',
   } = employeeData ? employeeData : {};
 
   const values: IEmployeeFormValues = {
@@ -273,6 +288,7 @@ export const EmployeeForm: FunctionComponent = () => {
     zip,
     joiningDate,
     country,
+    region,
     state: states,
   };
   return (

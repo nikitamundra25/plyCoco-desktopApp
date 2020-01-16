@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const ADD_EMPLOYEE = gql`
   mutation AddEmployee($employeeInput: EmployeeInput!) {
@@ -25,7 +25,10 @@ const GET_EMPLOYEE_BY_ID = gql`
         city
         zipCode
         joiningDate
-        regionId
+      }
+      region {
+        regionName
+        id
       }
       bankDetails {
         bankName
@@ -87,6 +90,7 @@ const GET_EMPLOYEES = gql`
         }
         region {
           regionName
+          id
         }
         bankDetails {
           bankName
@@ -123,5 +127,5 @@ export const EmployeeQueries = [
   GET_EMPLOYEES,
   UPDATE_EMPLOYEE,
   UPDATE_EMPLOYEE_STATUS,
-  DELETE_EMPLOYEE,
+  DELETE_EMPLOYEE
 ];

@@ -6,7 +6,7 @@ export const NoSearchFound: React.FC = () => {
       <div className='no-data-icon'>
         <i className='icon-magnifier' />
       </div>
-      <h4 className='mb-1'>No details found related your search </h4>
+      <h4 className='mb-1'>No details found related to your search </h4>
       <div className='text-left search-text'>
         <p>
           <span className='pr-2'>&#8226;</span>Try to simplify your search

@@ -68,7 +68,7 @@ const ViewEmployee: FunctionComponent = () => {
                   </span>
 
                   <span className='text-value'>
-                    :&nbsp;&nbsp;{' '}
+                    :&nbsp;&nbsp;
                     {employee && employee.email ? employee.email : 'N/A'}
                   </span>
                 </div>
@@ -78,7 +78,7 @@ const ViewEmployee: FunctionComponent = () => {
                     {languageTranslation('CONTACT_NO')}
                   </span>
                   <span className='text-value'>
-                    :&nbsp;&nbsp;{' '}
+                    :&nbsp;&nbsp;
                     {employee && employee.phoneNumber
                       ? employee.phoneNumber
                       : 'N/A'}
@@ -97,14 +97,17 @@ const ViewEmployee: FunctionComponent = () => {
                 </div>
                 <div className='user-item'>
                   <span className='text-label'>Status</span>
-                  <span
-                    className={`status-btn ${
-                      employee && employee.isActive ? 'active' : 'inactive'
-                    }`}
-                  >
-                    {employee.isActive
-                      ? languageTranslation('ACTIVE')
-                      : languageTranslation('DISABLE')}
+                  <span className='text-value'>
+                    :&nbsp;&nbsp;
+                    <span
+                      className={`status-btn ${
+                        employee && employee.isActive ? 'active' : 'inactive'
+                      }`}
+                    >
+                      {employee.isActive
+                        ? languageTranslation('ACTIVE')
+                        : languageTranslation('DISABLE')}
+                    </span>
                   </span>
                 </div>
               </Col>

@@ -2564,14 +2564,18 @@ body {
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
       color: $white;
+      background: #fff !important;
+      color: #000;
+      border-left: 3px solid #39d7b3;
+      box-shadow: 0 10px 11px 1px rgba(0, 42, 90, 0.1);
       .Toastify__toast-body {
         padding-left: 55px;
         position: relative;
         font-size: $font_15;
         font-weight: 600;
         &::before {
-          background: url(assets/img/success-toaster.svg) no-repeat;
-          background-size: 35px;
+          // background: url('./assets/img/') no-repeat;
+          background-image: url('assets/img/success-toaster.svg');
           position: absolute;
           content: '';
           top: 50%;
@@ -2579,20 +2583,23 @@ body {
           left: -13px;
           width: 35px;
           height: 35px;
+          background-size: cover;
+          background-position: center center;
         }
       }
     }
-
     &.Toastify__toast--error {
-      background: #ff7e7e;
+      background: #e5453a;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
-      color: $white;
+      background: #fff !important;
+      border-left: 3px solid #e5453a;
+      color: $black;
       .Toastify__toast-body {
         padding-left: 55px;
         position: relative;
         &::before {
-          background: url(assets/img/error-toaster.svg) no-repeat;
+          background: url('assets/img/error-toaster.svg') no-repeat;
           background-size: 35px;
           position: absolute;
           content: '';
@@ -2606,18 +2613,20 @@ body {
     }
 
     &.Toastify__toast--warning {
-      background: #d4b603;
+      background: #efab12;
+      background: #fff !important;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
-      color: $white;
+      color: $black;
+      border-left: 3px solid #efab12;
       .Toastify__toast-body {
         padding-left: 55px;
         position: relative;
         &::before {
-          background: url(assets/img/warning-toaster.svg) no-repeat;
+          content: '';
+          background: url('assets/img/warning-toaster.svg') no-repeat;
           background-size: 35px;
           position: absolute;
-          content: '';
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
@@ -2628,7 +2637,7 @@ body {
     }
   }
   .Toastify__close-button {
-    color: $white;
+    color: $black;
     opacity: 1;
     position: absolute;
     right: 12px;

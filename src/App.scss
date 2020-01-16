@@ -2572,8 +2572,8 @@ body {
         }
       }
     }
-    &.Toastify__toast--error {
-      background: #3ae5b9;
+    &.Toastify__toast--error{
+      background: #e5453a;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
       color: $white;
@@ -2581,7 +2581,7 @@ body {
         padding-left: 55px;
         position: relative;
         &::before {
-          background: url(assets/img/error-toaster.svg) no-repeat;
+          background: url("assets/img/error-toaster.svg") no-repeat;
           background-size: 35px;
           position: absolute;
           content: "";
@@ -2595,7 +2595,7 @@ body {
     }
 
     &.Toastify__toast--warning {
-      background: #3ae5b9;
+      background: #e5d43a;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
       color: $white;
@@ -2604,7 +2604,7 @@ body {
         position: relative;
         &::before {
           content: "";
-          display: inline-block;
+          background: url("assets/img/warning-toaster.svg") no-repeat;
           background-size: 35px;
           position: absolute;
           top: 50%;

@@ -30,7 +30,7 @@ import {
 } from "../../interfaces";
 import { ConfirmBox } from "../../common/ConfirmBox";
 import { toast } from "react-toastify";
-
+import defaultProfile from "../../assets/avatars/default-profile.png";
 const [
   ,
   ,
@@ -319,7 +319,9 @@ const Employee: FunctionComponent = () => {
               </th>
               <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
               <th>{languageTranslation("REGION")}</th>
-              <th>{languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}</th>
+              <th className="text-center">
+                {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
+              </th>
               <th>{languageTranslation("STATUS")}</th>
               <th>{languageTranslation("TABLE_HEAD_ACTION")}</th>
             </tr>
@@ -377,8 +379,13 @@ const Employee: FunctionComponent = () => {
                         <div className="info-column">
                           <div className="img-column">
                             <img
-                              src={`${AppConfig.FILES_ENDPOINT}${profileThumbnailImage}`}
+                              src={`${
+                                profileThumbnailImage
+                                  ? `${AppConfig.FILES_ENDPOINT}${profileThumbnailImage}`
+                                  : defaultProfile
+                              }`}
                               className="img-fluid"
+                              alt=""
                             />
                           </div>
                           <div className="description-column">

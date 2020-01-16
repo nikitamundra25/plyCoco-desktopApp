@@ -44,6 +44,7 @@ export const EmployeeForm: FunctionComponent = () => {
     employeeData,
     setEmployeeData,
   ] = useState<IEmployeeFormValues | null>();
+
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   // const statesOpt: IReactSelectInterface[] | undefined = [];
   if (countriesData && countriesData.countries) {
@@ -56,18 +57,30 @@ export const EmployeeForm: FunctionComponent = () => {
   }
   const [imageUrl, setImageUrl] = useState('');
   const [statesOpt, setStatesOpt] = useState<IReactSelectInterface[] | []>([]);
+  const [states, setStatesValue] = useState<IReactSelectInterface | undefined>(
+    undefined,
+  );
   logger(id, 'id');
 
   // To add emplyee details into db
   const [addEmployee, { error, data }] = useMutation<
-    { addEmployee: IAddEmployeeRes },
-    { employeeInput: IEmployeeInput }
+    {
+      addEmployee: IAddEmployeeRes;
+    },
+    {
+      employeeInput: IEmployeeInput;
+    }
   >(ADD_EMPLOYEE);
 
   // To update employee details into db
   const [updateEmployee] = useMutation<
-    { updateEmployee: IAddEmployeeRes },
-    { id: number; employeeInput: IEmployeeInput }
+    {
+      updateEmployee: IAddEmployeeRes;
+    },
+    {
+      id: number;
+      employeeInput: IEmployeeInput;
+    }
   >(UPDATE_EMPLOYEE);
 
   // Similar to componentDidMount and componentDidUpdate:
@@ -75,9 +88,15 @@ export const EmployeeForm: FunctionComponent = () => {
     // Fetch details by employee id
     if (id) {
       getEmployeeDetails({
-        variables: { id },
+        variables: {
+          id,
+        },
       });
     }
+  }, [id]);
+
+  useEffect(() => {
+    logger('in employeeDetail useEfect');
     if (employeeDetails && employeeDetails.viewEmployee) {
       const { viewEmployee } = employeeDetails;
       setImageUrl(viewEmployee.profileImage ? viewEmployee.profileImage : '');
@@ -102,33 +121,36 @@ export const EmployeeForm: FunctionComponent = () => {
         accountHolderName: viewEmployee.bankDetails
           ? viewEmployee.bankDetails.accountHolder
           : '',
+        additionalText: viewEmployee.bankDetails.additionalText
+          ? viewEmployee.bankDetails.additionalText
+          : '',
         telephoneNumber: viewEmployee.phoneNumber || '',
       });
-      if (statesData && statesData.states) {
-        console.log('instatesData if');
-        let stateList: IReactSelectInterface[] = [];
-        statesData.states.forEach(({ id, name }: IState) =>
-          stateList.push({
-            label: name,
-            value: id,
-          }),
-        );
-        setStatesOpt(stateList);
+    }
+  }, [employeeDetails]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
 
-        if (employeeData) {
-          const { viewEmployee } = employeeDetails;
-          setEmployeeData({
-            ...employeeData,
-            state: statesOpt.filter(
-              ({ label }: IReactSelectInterface) =>
-                label === viewEmployee.employee.state,
-            )[0],
-          });
-        }
+  useEffect(() => {
+    if (statesData && statesData.states) {
+      let stateList: IReactSelectInterface[] = [];
+      statesData.states.forEach(({ id, name }: IState) =>
+        stateList.push({
+          label: name,
+          value: id,
+        }),
+      );
+      setStatesOpt(stateList);
+      // To call it only once
+      if (employeeData && !states) {
+        const { viewEmployee } = employeeDetails;
+        setStatesValue(
+          stateList.filter(
+            ({ label }: IReactSelectInterface) =>
+              label === viewEmployee.employee.state,
+          )[0],
+        );
       }
     }
-  }, [employeeDetails, statesData]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
-
+  }, [statesData]);
   // function to add/edit employee information
   const handleSubmit = async (
     values: IEmployeeFormValues,
@@ -206,6 +228,8 @@ export const EmployeeForm: FunctionComponent = () => {
     }
     setSubmitting(false);
   };
+  console.log(employeeData, 'employeeDataemployeeData');
+
   // Fetch values in case of edit by default it will be null or undefined
   const {
     email = '',
@@ -217,7 +241,7 @@ export const EmployeeForm: FunctionComponent = () => {
     city = '',
     zip = '',
     country = undefined,
-    state = undefined,
+    // state = undefined,
     accountHolderName = '',
     bankName = '',
     IBAN = '',
@@ -243,7 +267,7 @@ export const EmployeeForm: FunctionComponent = () => {
     zip,
     joiningDate: '',
     country,
-    state,
+    state: states,
   };
   return (
     <Formik

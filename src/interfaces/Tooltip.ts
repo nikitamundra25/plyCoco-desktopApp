@@ -3,5 +3,5 @@ export interface ITooltipProps {
   message: string;
   position?: string;
   children?: any;
-  onclick?: any;
+  onBtnClick?: any;
 }

@@ -150,7 +150,7 @@ class CareGiver extends Component<RouteComponentProps, any> {
               <ButtonTooltip
                 id={`view${index}`}
                 message={languageTranslation('CAREGIVER_VIEW')}
-                onclick={() =>
+                onBtnClick={() =>
                   this.props.history.push(AppRoutes.PERSONAL_INFORMATION)
                 }
               >
@@ -160,7 +160,7 @@ class CareGiver extends Component<RouteComponentProps, any> {
               <ButtonTooltip
                 id={`delete${index}`}
                 message={languageTranslation('CAREGIVER_DELETE')}
-                onclick={() => this.props.history.push('')}
+                onBtnClick={() => this.props.history.push('')}
               >
                 <i className='fa fa-trash'></i>
               </ButtonTooltip>

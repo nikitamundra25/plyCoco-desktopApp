@@ -283,7 +283,7 @@ const Employee: FunctionComponent = () => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} />
+              <Search {...props} label={'employee'} />
             )}
           />
           {/* <Search /> */}
@@ -428,51 +428,45 @@ const Employee: FunctionComponent = () => {
                           <ButtonTooltip
                             id={`edit${index}`}
                             message={languageTranslation('EMP_EDIT')}
+                            onBtnClick={() =>
+                              history.push(
+                                AppRoutes.EDIT_EMPLOYEE.replace(
+                                  /:id|:userName/gi,
+                                  function(matched) {
+                                    return replaceObj[matched];
+                                  },
+                                ),
+                              )
+                            }
                           >
                             {' '}
-                            <i
-                              className='fa fa-pencil'
-                              onClick={() =>
-                                history.push(
-                                  AppRoutes.EDIT_EMPLOYEE.replace(
-                                    /:id|:userName/gi,
-                                    function(matched) {
-                                      return replaceObj[matched];
-                                    },
-                                  ),
-                                )
-                              }
-                            ></i>
+                            <i className='fa fa-pencil'></i>
                           </ButtonTooltip>
                           <ButtonTooltip
                             id={`view${index}`}
                             message={languageTranslation('EMP_VIEW')}
+                            onBtnClick={() =>
+                              history.push(
+                                AppRoutes.VIEW_EMPLOYEE.replace(
+                                  /:id|:userName/gi,
+                                  function(matched) {
+                                    return replaceObj[matched];
+                                  },
+                                ),
+                              )
+                            }
                           >
                             {' '}
-                            <i
-                              className='fa fa-eye'
-                              onClick={() =>
-                                history.push(
-                                  AppRoutes.VIEW_EMPLOYEE.replace(
-                                    /:id|:userName/gi,
-                                    function(matched) {
-                                      return replaceObj[matched];
-                                    },
-                                  ),
-                                )
-                              }
-                            ></i>
+                            <i className='fa fa-eye'></i>
                           </ButtonTooltip>
 
                           <ButtonTooltip
                             id={`delete${index}`}
                             message={languageTranslation('EMP_DELETE')}
+                            onBtnClick={() => onDelete(id)}
                           >
                             {' '}
-                            <i
-                              className='fa fa-trash'
-                              onClick={() => onDelete(id)}
-                            ></i>
+                            <i className='fa fa-trash'></i>
                           </ButtonTooltip>
                         </div>
                       </td>

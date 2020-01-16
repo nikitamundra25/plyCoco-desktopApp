@@ -139,7 +139,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
+    logger(selectOption, 'selectOptionvalue');
     setFieldValue(name, selectOption);
     if (name === 'country') {
       getStatesByCountry({
@@ -149,7 +149,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       });
     }
   };
-  logger(country, 'countryyyyyy');
+  console.log(country, state, 'dfdsfhdjsfh');
+
   return (
     <div>
       <Card>

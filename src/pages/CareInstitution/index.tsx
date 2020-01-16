@@ -16,11 +16,11 @@ import {
   DropdownItem,
   UncontrolledTooltip
 } from "reactstrap";
-import { AppRoutes, PAGE_LIMIT } from "../../config";
+import { AppRoutes, PAGE_LIMIT, client } from "../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import { CareInstitutionQueries } from "../../queries";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
 import {
   ICareInstitutionFormValues,
   ICareInstitutionListDataInterface,
@@ -36,12 +36,15 @@ import Search from "../../common/SearchFilter";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { languageTranslation } from "../../helpers";
 import { ConfirmBox } from "../../common/ConfirmBox";
+import { toast } from "react-toastify";
 
 const [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION,
-  ADD_CARE_INSTITUTION
+  ADD_CARE_INSTITUTION,
+  GET_CARE_INSTITUION_BY_ID,
+  UPDATE_CARE_INSTITUTION_STATUS
 ] = CareInstitutionQueries;
 
 const sortFilter: any = {
@@ -52,23 +55,28 @@ const sortFilter: any = {
 };
 
 const CareInstitution = (props: RouteComponentProps) => {
-  const [
-    fetchCareInstitutionList,
-    { data, loading, error, refetch }
-  ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST);
+  const [fetchCareInstitutionList, { data, loading, refetch }] = useLazyQuery<
+    any
+  >(GET_CARE_INSTITUTION_LIST);
   console.log("This is required Data", data);
-
-  // Mutation to update care institution
-  //   const [updateStatus, { error }] = useMutation<
-  //   { updateStatus: any },
-  //   { id: string }
-  // >(UPDATE_CARE_INSTITUTION);
 
   let userData: [Object] | any;
   let history = useHistory();
   const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  // Mutation to update careInstitution status
+  const [updateStatus] = useMutation<
+    { changeStatusCareInstitution: any },
+    { id: string; isActive: boolean }
+  >(UPDATE_CARE_INSTITUTION_STATUS);
+
+  // Mutation to delete employee
+  const [deleteCareInstitution, { error }] = useMutation<
+    { deleteCareInstitution: any },
+    { id: string }
+  >(DELETE_CARE_INSTITUTION);
 
   // Similar to componentDidMount and componentDidUpdate: updateStatus
   useEffect(() => {
@@ -168,23 +176,100 @@ const CareInstitution = (props: RouteComponentProps) => {
     history.push(path);
   };
 
-  const handleStatus = async (status: Boolean) => {
+  const handleStatus = async (id: any, status: boolean) => {
     const { value } = await ConfirmBox({
       title: languageTranslation("CONFIRM_LABEL"),
-      // text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG'),
-      text: status ? "You want to disable" : "You want to active"
+      text: status
+        ? languageTranslation("CONFIRM_CARE_INSTITUTION_DISABLED_MSG")
+        : languageTranslation("CONFIRM_CARE_INSTITUTION_ACTIVATE_MSG")
     });
     if (!value) {
       return;
     } else {
-      console.log(status, "status");
-      // await updateStatus({
-      //   variables: {
-      //     isActive: status,
-      //   },
-      // });
-      // let { data } = client.readQuery({ query: GET_CARE_INSTITUTION_LIST });
-      // console.log(data, 'ressssssssssssssssssssss');
+      try {
+        await updateStatus({
+          variables: {
+            id,
+            isActive: !status
+          }
+        });
+        toast.success(
+          languageTranslation("CARE_INSTITUTION_STATUS_UPDATE_MSG")
+        );
+      } catch (error) {
+        const message = error.message
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
+        toast.error(message);
+      }
+    }
+  };
+
+  const {
+    searchValue = "",
+    sortBy = undefined,
+    isActive = undefined
+  } = searchValues ? searchValues : {};
+
+  const queryVariables = {
+    page: currentPage,
+    isActive: isActive ? isActive.value : "",
+    sortBy: sortBy ? sortBy.value : 0,
+    searchBy: searchValue ? searchValue : "",
+    limit: PAGE_LIMIT
+  };
+
+  const onDelete = async (id: any) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_CARE_INSTITUTION_DELETE_MSG")
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        await deleteCareInstitution({
+          variables: {
+            id
+          }
+        });
+
+        toast.success(
+          languageTranslation("CARE_INSTITUTION_DELETE_SUCCESS_MSG")
+        );
+
+        const data = await client.readQuery({
+          query: GET_CARE_INSTITUTION_LIST,
+          variables: queryVariables
+        });
+
+        const newData = data.getCareInstitutions.careInstitutionData.filter(
+          (user: any) => user.id !== id
+        );
+
+        const updatedData = {
+          ...data,
+          getCareInstitutions: {
+            ...data.getCareInstitutions,
+            careInstitutionData: newData,
+            totalCount: newData.length
+          }
+        };
+
+        client.writeQuery({
+          query: GET_CARE_INSTITUTION_LIST,
+          variables: queryVariables,
+          data: updatedData
+        });
+      } catch (error) {
+        const message = error.message
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
+        // toast.error(message);
+        // logger(error.message, "error");
+      }
     }
   };
 
@@ -258,7 +343,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                     className={`status-btn ${
                       user.isActive === true ? "active" : "inactive"
                     }`}
-                    onClick={() => handleStatus(user.isActive)}
+                    onClick={() => handleStatus(user.id, user.isActive)}
                   >
                     {user.isActive === true ? "Active" : "Disable"}
                   </span>
@@ -281,7 +366,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                     <span
                       className="btn-icon "
                       id={`delete${index}`}
-                      onClick={() => props.history.push("")}
+                      onClick={() => onDelete(user.id)}
                     >
                       <UncontrolledTooltip
                         placement="top"
@@ -300,7 +385,7 @@ const CareInstitution = (props: RouteComponentProps) => {
       : tableData.push(
           <tr className={"text-center"}>
             <td colSpan={5} className={"pt-5 pb-5"}>
-            <div className="no-data-section">
+              <div className="no-data-section">
                 <div className="no-data-icon">
                   <i className="icon-ban" />
                 </div>
@@ -333,11 +418,11 @@ const CareInstitution = (props: RouteComponentProps) => {
           </tr>
         )}
   </>;
-  const {
-    searchValue = "",
-    sortBy = undefined,
-    isActive = undefined
-  } = searchValues ? searchValues : {};
+  // const {
+  //   searchValue = "",
+  //   sortBy = undefined,
+  //   isActive = undefined
+  // } = searchValues ? searchValues : {};
   const values: ISearchValues = {
     searchValue,
     isActive,

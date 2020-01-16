@@ -394,7 +394,7 @@ const Employee: FunctionComponent = () => {
                             {phoneNumber ? (
                               <div className="description-text">
                                 <i className="fa fa-phone mr-2"></i>
-                                <span className="align-middle ">
+                                <span className="align-middle">
                                   {phoneNumber}
                                 </span>
                               </div>

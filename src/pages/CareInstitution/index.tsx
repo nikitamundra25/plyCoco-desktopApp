@@ -142,7 +142,6 @@ const CareInstitution = (props: RouteComponentProps) => {
   }, [search]); // It will run when the search value gets changed
 
   const handleViewCareInstitution = (id: any) => {
-    console.log("DDDDDDDD", id);
     props.history.push(AppRoutes.CARE_INSTITUION_VIEW.replace(":id", id));
   };
 
@@ -305,7 +304,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                     <div className="description-column">
                       <div className="info-title">
                         {user.firstName}
-                        {""}
+                        {" "}
                         {user.lastName}
                       </div>
                       <p className="description-text">

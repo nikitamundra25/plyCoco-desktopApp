@@ -15,6 +15,7 @@ export interface IEmployeeFormValues {
   address2: string;
   country?: IReactSelectInterface;
   state?: IReactSelectInterface;
+  region?: IReactSelectInterface[];
   zip: string;
   joiningDate: string;
   image?: File;
@@ -35,7 +36,7 @@ export interface IEmployeeInput {
   zipCode: string;
   address1: string;
   address2: string;
-  regionId?: number;
+  regionId?: string[] | null;
   bankName: string;
   accountHolder: string;
   additionalText: string;

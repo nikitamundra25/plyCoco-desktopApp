@@ -209,7 +209,7 @@ const ViewEmployee: FunctionComponent = () => {
                   <span className="text-label">
                     {languageTranslation("REGION")}
                   </span>
-                  <span className="text-value">:&nbsp;&nbsp;-</span>
+                  <span className="text-value">:&nbsp;&nbsp;N/A</span>
                 </div>
 
                 <div className="user-item">

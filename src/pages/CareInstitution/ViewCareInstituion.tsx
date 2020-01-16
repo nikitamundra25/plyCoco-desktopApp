@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
 import { RouteComponentProps, useLocation, useParams } from "react-router";
 import Select from "react-select";
-import { CareGiver, AppRoutes } from "../../config";
+import { CareGiver, AppRoutes, PAGE_LIMIT } from "../../config";
 import add from "../../assets/img/add.svg";
 import save from "../../assets/img/save.svg";
 import reminder from "../../assets/img/reminder.svg";
@@ -18,10 +18,10 @@ import Departments from "./Departments";
 import Emails from "./Emails";
 import Reminders from "./Reminders";
 import qs from "query-string";
-import { ICareInstitutionFormValues, IHandleSubmitInterface } from "../../interfaces";
+import { ICareInstitutionFormValues, IHandleSubmitInterface, IReactSelectInterface } from "../../interfaces";
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { CareInstitutionQueries } from "../../queries";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 
 const [GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
@@ -44,21 +44,26 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   let { id } = useParams();
   const Id: any | undefined = id
 
-  const [getCareInstituitionList, { data: careInstituition }] = useLazyQuery(
+  const { data: careInstituition, loading, error, refetch } = useQuery<any>(
     GET_CARE_INSTITUTION_LIST,
   );
+
+  let [selectUser, setselectUser] = useState<IReactSelectInterface>({ label: "", value: "" })
+
   let CareInstitutionList: Object[] = []
   if (careInstituition && careInstituition.getCareInstitutions) {
     const { getCareInstitutions } = careInstituition;
-    getCareInstitutions.map((data: any, index: any) => {
+    const { careInstitutionData } = getCareInstitutions
+    careInstitutionData.map((data: any, index: any) => {
       CareInstitutionList.push({
-        name: `${data.firstName}${" "}${data.lastName}`,
-        id: data.id
+        label: `${data.firstName}${" "}${data.lastName}`,
+        value: data.id
       })
     })
   }
   const [activeTab, setactiveTab] = useState(0)
   const { search, pathname } = useLocation();
+
   useEffect(() => {
     const query: any = qs.parse(search);
     setactiveTab(
@@ -73,8 +78,23 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       `${AppRoutes.CARE_INSTITUION_VIEW.replace(":id", Id)}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
     );
   };
+  let [isUserChange, setisUserChange] = useState(false)
+  const handleSelect = (e: any) => {
+    if (e && e.value) {
+      const data: IReactSelectInterface = {
+        label: e.label,
+        value: e.value
+      }
+      setselectUser(selectUser = data)
+      if (e.value !== Id) {
+        props.history.push(
+          `${AppRoutes.CARE_INSTITUION_VIEW.replace(":id", e.value)}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
+        )
+        setisUserChange(isUserChange = true)
+      }
+    }
 
-
+  };
   return (
     <div>
       <div className="common-detail-page">
@@ -84,12 +104,11 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
               <div className="common-topheader d-flex align-items-center ">
                 <div className="user-select">
                   <Select
-                    defaultValue={{
-                      label: "John Doe",
-                      value: "0"
-                    }}
+                    defaultValue={selectUser}
                     placeholder="Select Caregiver"
-                    options={CareGiver}
+                    value={selectUser}
+                    onChange={(e) => handleSelect(e)}
+                    options={CareInstitutionList}
                   />
                 </div>
                 <div className="header-nav-item">
@@ -141,6 +160,11 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
             <div className="common-content flex-grow-1">
               {activeTab === 0 ? (
                 <PersonalInformation
+                  currentSelectuser={(Data: IReactSelectInterface) => {
+                    setselectUser(selectUser = Data)
+                  }}
+                  handleIsUserChange={()=> setisUserChange(isUserChange = false)}
+                  isUserChange={isUserChange}
                   {...props}
                 />
               ) : null}

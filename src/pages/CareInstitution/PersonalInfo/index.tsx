@@ -4,8 +4,8 @@ import { Formik, FormikProps, FormikHelpers } from 'formik';
 import CareInstitutionContact from "./CareInstitutionContact";
 import "../careinstitution.scss";
 import PersonalInfoForm from "./PersonalInfoForm";
-import { ICareInstitutionContact, ICareInstitutionFormValues } from "../../../interfaces";
-import { CareInstituionValidationSchema } from "../../../validations";
+import { ICareInstitutionContact, ICareInstitutionFormValues, IReactSelectInterface } from "../../../interfaces";
+import { CareInstituionValidationSchema, CareInstituionContactValidationSchema } from "../../../validations";
 import { useParams } from "react-router";
 import { CareInstitutionQueries } from "../../../queries";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
@@ -32,9 +32,18 @@ const PersonalInformation: any = (props: any) => {
     getCareInstitutionDetails,
     { data: careInstituionDetails, error: detailsError, refetch },
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
+  
+  useEffect(() => {
+    if (props.isUserChange) {
+      getCareInstitutionDetails({
+        variables: { careInstitutionId: parseInt(Id) },
+      });
+      props.handleIsUserChange()
+    }
+  }, [props.isUserChange])
 
   useEffect(() => {
-    // Fetch details by employee id
+    // Fetch details by care institution id
     if (id) {
       getCareInstitutionDetails({
         variables: { careInstitutionId: parseInt(Id) },
@@ -48,6 +57,7 @@ const PersonalInformation: any = (props: any) => {
   ) => {
     //to set submit state to false after successful signup
     setSubmitting(false);
+    console.log("Contact values", values);
   };
 
   const contactFormValues: ICareInstitutionContact = {
@@ -58,11 +68,8 @@ const PersonalInformation: any = (props: any) => {
     phoneNumber: "",
     mobileNumber: "",
     faxNumber: "",
-    constactType: "",
     comments: "",
     groupAttributes: "",
-    createdAt: new Date(),
-    updatedAt: new Date()
   };
 
   const handleSubmit = async (
@@ -72,7 +79,7 @@ const PersonalInformation: any = (props: any) => {
     //to set submit state to false after successful signup
     try {
       const careInstitutionInput: any = {
-        genderId: values && values.gender ? values.gender.value : "",
+        // gender: values && values.gender ? values.gender.value : "",
         salutation: values && values.salutation ? values.salutation.value : "",
         firstName: values.firstName,
         lastName: values.lastName,
@@ -83,12 +90,14 @@ const PersonalInformation: any = (props: any) => {
         street: values.street,
         zipCode: values.zipCode,
         countryId: values && values.country ? values.country.value : "",
-        statId: values && values.state ? values.state.value : "",
+        stateId: values && values.state ? values.state.value : "",
         website: values.website,
+        email: values.email,
+        userName: values.userName,
         careGiverCommission: values.careGiverCommission,
         doctorCommission: values.doctorCommission,
-        invoiceType: values && values.invoiceType ? values.invoiceType.value : "",
-        interval: values && values.interval ? values.interval.value : "",
+        // invoiceType: values && values.invoiceType ? values.invoiceType.value : "",
+        // interval: values && values.interval ? values.interval.value : "",
         emailInvoice: values.emailInvoice,
         addressInvoice: values.addressInvoice
       }
@@ -111,6 +120,7 @@ const PersonalInformation: any = (props: any) => {
     }
 
   };
+  let Data: IReactSelectInterface
   let values: ICareInstitutionFormValues
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails
@@ -126,7 +136,10 @@ const PersonalInformation: any = (props: any) => {
       street: '',
       city: '',
     };
-
+    Data = {
+      label: `${getCareInstitution.firstName} ${''} ${getCareInstitution.lastName}`,
+      value: Id
+    }
   } else {
     values = {
       email: '',
@@ -140,6 +153,11 @@ const PersonalInformation: any = (props: any) => {
       city: '',
     };
   }
+  useEffect(() => {
+    if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
+      props.currentSelectuser(Data)
+    }
+  }, [careInstituionDetails && careInstituionDetails.getCareInstitution])
 
   return (
     <Form className="form-section forms-main-section">
@@ -159,7 +177,7 @@ const PersonalInformation: any = (props: any) => {
         children={(props: FormikProps<ICareInstitutionContact>) => (
           <CareInstitutionContact {...props} />
         )}
-        validationSchema={""}
+        validationSchema={CareInstituionContactValidationSchema}
       />
     </Form>
   );

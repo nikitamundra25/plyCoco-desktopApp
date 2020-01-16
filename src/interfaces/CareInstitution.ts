@@ -54,19 +54,40 @@ export interface ICareInstitutionValidationSchema {
     city: string,
 }
 
+export interface ICareInstitutionContactValidationSchema {
+    email: string;
+    firstName: string;
+    lastName: string;
+    mobileNumber: number;
+    city: string,
+}
+
 export interface ICareInstitutionContact {
     email: string;
     firstName: string;
     lastName: string;
     userName: string;
-    phoneNumber: string;
-    mobileNumber: string;
-    faxNumber: string;
-    constactType: string;
+    phoneNumber?: string;
+    phoneNumber2?: string;
+    mobileNumber?: string;
+    faxNumber?: string;
+    contactType?: IReactSelectInterface;
+    remaks?: string;
     comments: string;
-    groupAttributes: string;
-    createdAt: Date;
-    updatedAt: Date;
+    salutation?: IReactSelectInterface;
+    country?: IReactSelectInterface;
+    countryId?: string;
+    street?: string;
+    stateId?: string;
+    gender?: IReactSelectInterface;
+    id?: number;
+    title?: string;
+    state?: IReactSelectInterface;
+    city?: string;
+    zipCode?: string;
+    groupAttributes?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export interface ICareInstitutionListDataInterface {

@@ -40,7 +40,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
       firstName
       lastName
       email
-      createdAt
+      userName
       canstitution {
         city
         zipCode

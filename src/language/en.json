@@ -127,7 +127,6 @@
   "EMPLOYEE_OTHER_INFORMATION_PLACEHOLDER": "Please Enter  Any other information",
   "REGION_NAME_OF_REGION_LABEL": "Name of Region",
   "REGION_NAME_OF_REGION_PLACEHOLDER": "Please Enter the name of region",
-  "BANK_ADDRESS": "mobilePhone",
   "CAREGIVER_MOBILE_PHONE_PLACEHOLDER": " Mobile Phone",
   "CAREGIVER_EMAIL_ADDRESS_LABEL": "Email Address",
   "CAREGIVER_EMAIL": "email",
@@ -399,5 +398,11 @@
   "CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG": "This employee will be activated.",
   "CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG": "This employee will be disabled.",
   "REGION_MAXLENGTH": "Region must be less than 30 characters",
-  "ADD_NEW_EMPLOYEE_BUTTON": "Add New Empolyee"
+  "ADD_NEW_EMPLOYEE_BUTTON": "Add New Empolyee",
+  "PERSONAL_INFORMATION": "Personal Information",
+  "EMPLOYEE_NAME": "Employee Name",
+  "CONTACT_NO": "Contact No.",
+  "EMPLOYEE_USERNAME": "Employee Username",
+  "PROFILE_IMAGE": "Profile Image",
+  "ADDRESS": "Address"
 }

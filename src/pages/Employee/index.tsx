@@ -31,6 +31,8 @@ import {
 import { ConfirmBox } from '../../common/ConfirmBox';
 import { toast } from 'react-toastify';
 import defaultProfile from '../../assets/avatars/default-profile.png';
+import Loader from '../../containers/Loader/Loader';
+import { NoSearchFound } from '../../common/SearchFilter/NoSearchFound';
 
 const [
   ,
@@ -53,12 +55,12 @@ const Employee: FunctionComponent = () => {
   const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isFilterApplied, setIsFilter] = useState<boolean>(false);
 
   // To get employee list from db
   const [fetchEmployeeList, { data, loading }] = useLazyQuery<any>(
     GET_EMPLOYEES,
   );
-  console.log('data', data);
 
   // Mutation to delete employee
   const [deleteEmployee, { error }] = useMutation<
@@ -118,6 +120,9 @@ const Employee: FunctionComponent = () => {
         isActive,
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+      setIsFilter(
+        searchBy !== '' || isActive !== undefined || sortBy !== undefined,
+      );
     }
     // call query
     fetchEmployeeList({
@@ -329,14 +334,14 @@ const Employee: FunctionComponent = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td>
-                  <div>Loading ...</div>
+                <td className={'table-loader'} colSpan={12}>
+                  <Loader />
                 </td>
               </tr>
-            ) : (
-              data &&
+            ) : data &&
               data.getEmployees &&
               data.getEmployees.employeeData &&
+              data.getEmployees.employeeData.length ? (
               data.getEmployees.employeeData.map(
                 (
                   {
@@ -481,16 +486,34 @@ const Employee: FunctionComponent = () => {
                   );
                 },
               )
+            ) : (
+              <tr className={'text-center'}>
+                <td colSpan={5} className={'pt-5 pb-5'}>
+                  {isFilterApplied ? (
+                    <NoSearchFound />
+                  ) : (
+                    <div className='no-data-section'>
+                      <div className='no-data-icon'>
+                        <i className='icon-ban' />
+                      </div>
+                      <h4 className='mb-1'>
+                        Currently there are No employee Added.{' '}
+                      </h4>
+                      <p>Please click above button to add new. </p>
+                    </div>
+                  )}
+                </td>
+              </tr>
             )}
           </tbody>
         </Table>
-        {data && data.getEmployees && data.getEmployees.totalCount && (
+        {data && data.getEmployees && data.getEmployees.totalCount ? (
           <PaginationComponent
             totalRecords={data.getEmployees.totalCount}
             currentPage={currentPage}
             onPageChanged={onPageChanged}
           />
-        )}
+        ) : null}
       </CardBody>
     </Card>
   );

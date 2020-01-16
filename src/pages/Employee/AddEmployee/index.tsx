@@ -118,6 +118,9 @@ export const EmployeeForm: FunctionComponent = () => {
         ...viewEmployee.employee,
         ...viewEmployee.bankDetails,
         country: index > -1 ? countriesOpt[index] : undefined,
+        joiningDate: viewEmployee.employee.joiningDate
+          ? moment(viewEmployee.employee.joiningDate).format('MM/DD/YYYY')
+          : null,
         accountHolderName: viewEmployee.bankDetails
           ? viewEmployee.bankDetails.accountHolder
           : '',
@@ -189,6 +192,7 @@ export const EmployeeForm: FunctionComponent = () => {
           : null,
         country: country && country.label ? country.label : null,
         state: state && state.label ? state.label : null,
+        regionId: null,
         city,
         zipCode: zip,
         address1,
@@ -241,7 +245,7 @@ export const EmployeeForm: FunctionComponent = () => {
     city = '',
     zip = '',
     country = undefined,
-    // state = undefined,
+    joiningDate = '',
     accountHolderName = '',
     bankName = '',
     IBAN = '',
@@ -265,7 +269,7 @@ export const EmployeeForm: FunctionComponent = () => {
     address2,
     city,
     zip,
-    joiningDate: '',
+    joiningDate,
     country,
     state: states,
   };

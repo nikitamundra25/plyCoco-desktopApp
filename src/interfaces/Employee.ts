@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from "./Constant";
+import { IReactSelectInterface } from './Constant';
 
 export interface IEmployeeFormValues {
   email: string;
@@ -35,7 +35,7 @@ export interface IEmployeeInput {
   zipCode: string;
   address1: string;
   address2: string;
-  regionId?: number;
+  regionId?: string[] | null;
   bankName: string;
   accountHolder: string;
   additionalText: string;

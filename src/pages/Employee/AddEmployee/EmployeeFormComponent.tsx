@@ -842,18 +842,22 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                           className={'img-preview'}
                                         />
                                       ) : (
-                                        <div className='icon-upload'>
-                                          <i className='cui-cloud-upload'></i>
-                                        </div>
+                                        <>
+                                          <div className='icon-upload'>
+                                            <i className='cui-cloud-upload'></i>
+                                          </div>
+                                          <div className='icon-text'>
+                                            {!image || errors.image
+                                              ? languageTranslation(
+                                                  'CHOOSE_IMAGE',
+                                                )
+                                              : ''}
+                                          </div>
+                                        </>
                                       )}
                                       {/* <div className="icon-text">
                                         Click here to select your profile image
                                       </div> */}
-                                      <div className='icon-text'>
-                                        {!image || errors.image
-                                          ? languageTranslation('CHOOSE_IMAGE')
-                                          : ''}
-                                      </div>
                                     </label>
                                     <input
                                       className='file-upload-input'

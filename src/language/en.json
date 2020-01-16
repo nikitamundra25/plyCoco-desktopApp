@@ -425,7 +425,13 @@
   "CONFIRM_EMPLOYEE_DELETE_MSG": "You want to delete this employee?",
   "CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG": "This employee will be activated.",
   "CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG": "This employee will be disabled.",
-  "CARE_INSTITUTION_ADD_SUCCESS_MSG":"Care Instituion added sucessfully",
+  "CARE_INSTITUTION_ADD_SUCCESS_MSG": "Care Instituion added sucessfully",
   "REGION_MAXLENGTH": "Region must be less than 30 characters",
-  "ADD_NEW_EMPLOYEE_BUTTON": "Add New Empolyee"
+  "ADD_NEW_EMPLOYEE_BUTTON": "Add New Empolyee",
+
+  "CONFIRM_CARE_INSTITUTION_DELETE_MSG": "You want to delete this care institution?",
+  "CONFIRM_CARE_INSTITUTION_ACTIVATE_MSG": "This care institution will be activated.",
+  "CONFIRM_CARE_INSTITUTION_DISABLED_MSG": "This care institution will be disabled.",
+  "CARE_INSTITUTION_STATUS_UPDATE_MSG": "Care institution status updated sucessfully",
+  "CARE_INSTITUTION_DELETE_SUCCESS_MSG": "Care institution has been deleted successfully"
 }

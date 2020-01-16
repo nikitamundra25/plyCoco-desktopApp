@@ -51,9 +51,18 @@ const GET_CARE_INSTITUION_BY_ID = gql`
   }
 `;
 
+const UPDATE_CARE_INSTITUTION_STATUS = gql`
+  mutation ChangeStatusCareInstitution($id: ID!, $isActive: Boolean) {
+    changeStatusCareInstitution(id: $id, isActive: $isActive) {
+      id
+      isActive
+    }
+  }
+`;
+
 const DELETE_CARE_INSTITUTION = gql`
-  mutation DeleteUser($id: ID!) {
-    deleteUser(id: $id) {
+  mutation DeleteCareInstitution($id: ID!) {
+    deleteCareInstitution(id: $id) {
       id
       firstName
       lastName
@@ -91,5 +100,6 @@ export const CareInstitutionQueries = [
   DELETE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION,
-  GET_CARE_INSTITUION_BY_ID
+  GET_CARE_INSTITUION_BY_ID,
+  UPDATE_CARE_INSTITUTION_STATUS
 ];

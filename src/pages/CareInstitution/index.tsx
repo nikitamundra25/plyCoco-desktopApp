@@ -273,7 +273,7 @@ const CareInstitution = (props: RouteComponentProps) => {
     }
   };
 
-  if (data) {
+  if (data && data.getCareInstitutions) {
     userData = data.getCareInstitutions.careInstitutionData;
   }
   const tableData: any[] = [];

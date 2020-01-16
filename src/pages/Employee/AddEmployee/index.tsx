@@ -61,7 +61,9 @@ export const EmployeeForm: FunctionComponent = () => {
     undefined,
   );
   logger(id, 'id');
-
+  const update = (cache: any, payload: any) => {
+    logger(payload, 'payload');
+  };
   // To add emplyee details into db
   const [addEmployee, { error, data }] = useMutation<
     {
@@ -70,7 +72,7 @@ export const EmployeeForm: FunctionComponent = () => {
     {
       employeeInput: IEmployeeInput;
     }
-  >(ADD_EMPLOYEE);
+  >(ADD_EMPLOYEE, { update });
 
   // To update employee details into db
   const [updateEmployee] = useMutation<

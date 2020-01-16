@@ -97,9 +97,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                 />
               </FormGroup>
             </Col>
-          ) : (
-            ''
-          )}
+          ) : null}
           <Col lg={'2'}>
             <div className='label-height'></div>
             <div className='filter-btn-wrap'>

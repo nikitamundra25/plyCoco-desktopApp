@@ -41,7 +41,9 @@ const GET_EMPLOYEE_BY_ID = gql`
 const UPDATE_EMPLOYEE = gql`
   mutation UpdateEmployee($id: Int!, $employeeInput: EmployeeInput) {
     updateEmployee(id: $id, employeeInput: $employeeInput) {
-      userId
+      id
+      firstName
+      lastName
     }
   }
 `;

@@ -30,6 +30,7 @@ import {
 } from '../../interfaces';
 import { ConfirmBox } from '../../common/ConfirmBox';
 import { toast } from 'react-toastify';
+import defaultProfile from '../../assets/avatars/default-profile.png';
 
 const [
   ,
@@ -133,6 +134,7 @@ const Employee: FunctionComponent = () => {
       },
     });
   }, [search]); // It will run when the search value gets changed
+  console.log(searchValues, 'searchValuessearchValues');
 
   const {
     searchValue = '',
@@ -377,8 +379,13 @@ const Employee: FunctionComponent = () => {
                         <div className='info-column'>
                           <div className='img-column'>
                             <img
-                              src={`${AppConfig.FILES_ENDPOINT}${profileThumbnailImage}`}
+                              src={`${
+                                profileThumbnailImage
+                                  ? `${AppConfig.FILES_ENDPOINT}${profileThumbnailImage}`
+                                  : defaultProfile
+                              }`}
                               className='img-fluid'
+                              alt=''
                             />
                           </div>
                           <div className='description-column'>

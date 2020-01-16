@@ -10,6 +10,7 @@ export const FormikTextField: any = (
     const {
         field,
         form,
+        type,
         variant = "standard",
         disabled = false,
         inputStyle,
@@ -31,6 +32,7 @@ export const FormikTextField: any = (
         <Input
             {...rest}
             {...field}
+            type={type}
             label={newLabel}
             value={value || value === 0 ? value : ""}
             onChange={handleChange(props)}

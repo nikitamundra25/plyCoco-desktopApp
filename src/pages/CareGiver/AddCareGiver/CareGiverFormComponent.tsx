@@ -313,8 +313,9 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                           <Col sm="8">
                             <div>
                               <Field
-                                // component={FormikTextField}
+                                component={FormikTextField}
                                 type="date"
+                                name={"dateOfBirth"}
                                 placeholder="DD/MM/YYYY"
                                 mask="99/99/9999"
                                 className="form-control"
@@ -381,7 +382,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                         <Row>
                           <Col sm="4">
                             <Label className="form-label col-form-label">
-                              Mobile Phone
+                              Mobile Number
                                     <span className="required">*</span>
                             </Label>
                           </Col>
@@ -389,8 +390,8 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                             <div>
                               <Field
                                 component={FormikTextField}
-                                name={"mobilePhone"}
-                                placeholder="Mobile Phone"
+                                name={"mobileNumber"}
+                                placeholder="Mobile Number"
                                 className="width-common"
                               />
                             </div>
@@ -433,7 +434,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                             <div>
                               <Field
                                 component={FormikTextField}
-                                name={"Username"}
+                                name={"userName"}
                                 placeholder=" Username"
                                 className="width-common"
                               />
@@ -517,7 +518,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                                   <CustomInput
                                     type="radio"
                                     id="yes_v"
-                                    name="vehicleavailable"
+                                    name="vehicleAvailable"
                                     label="Yes"
                                   />
                                 </FormGroup>
@@ -525,7 +526,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                                   <CustomInput
                                     type="radio"
                                     id="no_v"
-                                    name="vehicleavailable"
+                                    name="vehicleAvailable"
                                     label="No"
                                   />
                                 </FormGroup>

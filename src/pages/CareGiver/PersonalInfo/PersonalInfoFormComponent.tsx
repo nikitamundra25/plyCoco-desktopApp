@@ -434,7 +434,7 @@ const PersonalInfoFormComponent: any = (
                         <Row>
                             <Col sm="4">
                                 <Label className="form-label col-form-label">
-                                    Mobile
+                                    Mobile Number
                 <span className="required">*</span>
                                 </Label>
                             </Col>
@@ -442,8 +442,8 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.mobilePhone"}
-                                        placeholder="Mobile Phone"
+                                        name={"personalInformation.mobileNumber"}
+                                        placeholder="Mobile Number"
                                         className="width-common"
                                     />
                                 </div>
@@ -596,9 +596,9 @@ const PersonalInfoFormComponent: any = (
                             <Col sm="8">
                                 <div>
                                     <Field
-                                    name="personalInformation.legalForm"
-                                    component={FormikSelectField}
-                                    placeholder="Legal Form" options={State} />
+                                        name="personalInformation.legalForm"
+                                        component={FormikSelectField}
+                                        placeholder="Legal Form" options={State} />
                                 </div>
                             </Col>
                         </Row>
@@ -675,7 +675,7 @@ const PersonalInfoFormComponent: any = (
                         <Row>
                             <Col sm="4">
                                 <Label className="form-label col-form-label">
-                                Executive Director
+                                    Executive Director
                 <span className="required">*</span>
                                 </Label>
                             </Col>
@@ -704,10 +704,10 @@ const PersonalInfoFormComponent: any = (
                             <Col sm="8">
                                 <div>
                                     <div className=" checkbox-custom mb-0">
-                                       <Field 
-                                         component={FormikCheckbox}
-                                         name={"personalInformation.employed"}
-                                       />
+                                        <Field
+                                            component={FormikCheckbox}
+                                            name={"personalInformation.employed"}
+                                        />
                                     </div>
                                 </div>
                             </Col>

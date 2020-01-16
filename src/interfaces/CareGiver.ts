@@ -4,38 +4,36 @@ import { IReactSelectInterface } from "./Constant";
 
 export interface ICareGiverInput {
   id?: string;
-  salutation: string;
+  salutation?: string;
   firstName: string;
   lastName: string;
   address1: string;
   address2: string;
   street: string;
   city: string;
-  stateId: string;
+  stateId?: number;
   regionId?: string;
-  countryId: string;
+  countryId?: number;
   postCode: string;
   pinCode?: string;
   email: string;
-  dateOfBirth: string;
+  dateOfBirth?: string;
   phoneNumber: string;
   userName: string;
   legalForm: string;
   fax: string;
-  qualifications: string;
+  qualifications?: string;
   taxNumber: string;
   remarks: string;
   driversLicense: boolean;
   driverLicenseNumber: string;
-  vehicleavailable: boolean;
+  vehicleAvailable: boolean;
   socialSecurityContribution: boolean;
-  workZones: string; //[]
+  workZones?: string[];
   status: string;
   companyName: string;
-  bankName: string;
-  leasing: string;
   registrationNumber: string;
-  mobilePhone: string;
+  mobileNumber: string;
   registerCourt: string;
   executiveDirector: string;
   employed?: boolean;
@@ -55,26 +53,24 @@ export interface CareGiverValues {
   postCode: string;
   pinCode?: string;
   email: string;
-  dateOfBirth: string;
+  dateOfBirth?: string;
   phoneNumber: string;
   fax: string;
-  mobilePhone: string;
+  mobileNumber: string;
   userName: string;
   companyName: string;
-  legalForm: string;
-  bankName: string;
+  legalForm?: IReactSelectInterface;
   qualifications?: IReactSelectInterface;
-  leasing: string;
   registrationNumber: string;
   registerCourt: string;
   taxNumber: string;
   remarks: string;
   driversLicense: boolean;
-  vehicleavailable: boolean;
+  vehicleAvailable: boolean;
   driverLicenseNumber: string;
   executiveDirector: string;
   socialSecurityContribution: boolean;
-  workZones?: IReactSelectInterface;
+  workZones?: IReactSelectInterface[];
   status: string;
 }
 
@@ -92,7 +88,6 @@ export interface IBillingSettingsValues {
   holidayAllowancePerHourFee: string;
   nextInvoiceNumber: string;
   statementsMaturity: string;
-  bankName: string;
   accountHolderName: string;
   iban: string;
   bic: string;
@@ -101,27 +96,26 @@ export interface IBillingSettingsValues {
 
 export interface IPersonalObject {
   userName?: string;
-  stateId: string;
+  stateId?: number;
   regionId?: string;
   registartionSince?: string;
   gender?: string;
   title?: string;
-  salutation: string;
+  salutation?: string;
   firstName: string;
   lastName: string;
-  dateOfBirth: string;
+  dateOfBirth?: string;
   age: string;
   street: string;
   city: string;
   postCode: string;
   pinCode?: string;
-  countryId: string;
+  countryId?: number;
   phoneNumber: string;
   fax: string;
-  mobilePhone: string;
+  mobileNumber: string;
   email: string;
   taxNumber: string;
-  bankName: string;
   iban: string;
   password?: string;
   belongTo?: string;
@@ -159,14 +153,14 @@ export interface ICareGiver {
   address2: string;
   street: string;
   city: string;
-  stateId: string;
-  countryId: string;
+  stateId?: number;
+  countryId?: number;
   postCode: string;
   email: string;
   phoneNumber: string;
-  qualification: string[];
+  qualifications?: string[];
   legalForm: string;
-  workZones: string[];
+  workZones?: string[];
   status: string;
 }
 

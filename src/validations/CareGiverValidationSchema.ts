@@ -7,7 +7,6 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
   CareGiverValues
 >> = Yup.object().shape<CareGiverValues>({
-  salutation: Yup.string(),
   firstName: Yup.string()
     .trim()
     .matches(nameRegExp, languageTranslation('FIRSTNAME_SPECIALCHARACTER'))
@@ -22,35 +21,24 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   address2: Yup.string(),
   street: Yup.string(),
   city: Yup.string(),
-  stateId: Yup.string(),
-  countryId: Yup.string(),
   postCode: Yup.string(),
   email: Yup.string(),
-  dateOfBirth: Yup.mixed().test({
-    name: 'validate-date',
-    test: function (val) {
-      const { path, createError } = this;
-      const { isValid, message }: IDateResponse = dateValidator(val);
-      return !val || isValid || createError({ path, message });
-    },
-  }),
-  phoneNumber: Yup.string().matches(
-    telephoneReqExp,
-    languageTranslation('TELEPHONE_REQUIRED'),
-  ),
+  // dateOfBirth: Yup.mixed().test({
+  //   name: 'validate-date',
+  //   test: function (val) {
+  //     const { path, createError } = this;
+  //     const { isValid, message }: IDateResponse = dateValidator(val);
+  //     return !val || isValid || createError({ path, message });
+  //   },
+  // }),
+  phoneNumber: Yup.string().min(10).max(13),
   fax: Yup.string(),
-  mobilePhone: Yup.string().matches(
-    telephoneReqExp,
-    languageTranslation('TELEPHONE_REQUIRED'),
-  ),
+  mobileNumber: Yup.string().min(10).max(13),
   userName: Yup.string()
     .trim()
     .required(languageTranslation('USERNAME_REQUIRED')),
-  bankName: Yup.string(),
-  qualifications: Yup.string(),
+  // bankName: Yup.string(),
   // .required(messages.REQUIRED_FIELD),
-  leasing: Yup.string(),
-  legalForm: Yup.string(),
   companyName: Yup.string(),
   registrationNumber: Yup.string(),
   registerCourt: Yup.string(),
@@ -59,8 +47,7 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   taxNumber: Yup.string(),
   remarks: Yup.string(),
   driversLicense:Yup.bool().default(false),
-    vehicleavailable:Yup.bool().default(false),
+    vehicleAvailable:Yup.bool().default(false),
     driverLicenseNumber: Yup.string(),
-  workZones: Yup.string(),
   status: Yup.string(),
 });

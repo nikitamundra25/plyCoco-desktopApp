@@ -17,6 +17,12 @@ import { AppRoutes } from "../../../config";
 
 export const CareGiverForm: FunctionComponent = () => {
   let history = useHistory();
+
+  const [
+    caregiverData,
+    setCaregiverData,
+  ] = useState<CareGiverValues | null>();
+
   // To add emplyee details into db
   const [addCaregiver, { error, data }] = useMutation<
     { addCaregiver: IAddCargiverRes },
@@ -45,14 +51,12 @@ export const CareGiverForm: FunctionComponent = () => {
       dateOfBirth,
       phoneNumber,
       fax,
-      mobilePhone,
+      mobileNumber,
       userName,
-      bankName,
       qualifications,
-      leasing,
       driverLicenseNumber,
       driversLicense,
-      vehicleavailable,
+      vehicleAvailable,
       legalForm,
       companyName,
       registrationNumber,
@@ -73,24 +77,22 @@ export const CareGiverForm: FunctionComponent = () => {
         address2,
         street,
         city,
-        stateId: stateId && stateId.value ? stateId.value : "",
-        countryId: countryId && countryId.value ? countryId.value : "",
+        stateId: stateId && stateId.value ? parseInt(stateId.value) : undefined,
+        countryId: countryId && countryId.value ? parseInt(countryId.value) : undefined,
         postCode,
         pinCode,
         email,
         dateOfBirth,
         phoneNumber,
         fax,
-        mobilePhone,
+        mobileNumber,
         userName,
-        bankName,
         qualifications:
           qualifications && qualifications.value ? qualifications.value : "",
-        leasing,
         driverLicenseNumber,
         driversLicense,
-        vehicleavailable,
-        legalForm,
+        vehicleAvailable,
+        legalForm: legalForm && legalForm.value ? legalForm.value :"",
         companyName,
         registrationNumber,
         registerCourt,
@@ -98,7 +100,7 @@ export const CareGiverForm: FunctionComponent = () => {
         socialSecurityContribution,
         taxNumber,
         remarks,
-        workZones: workZones && workZones.value ? workZones.value : "",
+        workZones: workZones && workZones.length ? workZones.map(wz=> wz.value) : [],
         status
       };
       await addCaregiver({
@@ -127,6 +129,40 @@ export const CareGiverForm: FunctionComponent = () => {
     }
   };
 
+  const {
+    salutation = undefined,
+    firstName = "",
+    lastName = "",
+    address1 = "",
+    address2 = "",
+    street = "",
+    city = "",
+    stateId = undefined,
+    countryId = undefined,
+    postCode = "",
+    pinCode = "",
+    email = "",
+    dateOfBirth = "",
+    phoneNumber = "",
+    fax = "",
+    mobileNumber = "",
+    userName = "",
+    qualifications = undefined,
+    driverLicenseNumber = "",
+    driversLicense = false,
+    vehicleAvailable = false,
+    legalForm = undefined,
+    companyName = "",
+    registrationNumber = "",
+    registerCourt = "",
+    executiveDirector = "",
+    socialSecurityContribution = false,
+    taxNumber = "",
+    remarks = "",
+    workZones = undefined,
+    status = ""
+  } = caregiverData ? caregiverData : {};
+
   const initialValues: CareGiverValues = {
     salutation,
     firstName,
@@ -143,14 +179,12 @@ export const CareGiverForm: FunctionComponent = () => {
     dateOfBirth,
     phoneNumber,
     fax,
-    mobilePhone,
+    mobileNumber,
     userName,
-    bankName,
     qualifications,
-    leasing,
     driverLicenseNumber,
     driversLicense,
-    vehicleavailable,
+    vehicleAvailable,
     legalForm,
     companyName,
     registrationNumber,

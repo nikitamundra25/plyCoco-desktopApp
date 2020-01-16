@@ -66,7 +66,7 @@ const CareGiver: FunctionComponent = () => {
   // Mutation to delete care giver
   const [deleteCaregiver, { error }] = useMutation<
     { deleteCaregiver: any },
-    { id: string }
+    { id: number }
   >(DELETE_CAREGIVER);
 
   useEffect(() => {
@@ -96,12 +96,12 @@ const CareGiver: FunctionComponent = () => {
       searchBy = query.search ? (query.search as string) : "";
       sortBy = sortByValue
         ? {
-            ...sortBy,
-            value:
-              Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy
-              ) || ""
-          }
+          ...sortBy,
+          value:
+            Object.keys(sortFilter).find(
+              (key: any) => sortFilter[key] === query.sortBy
+            ) || ""
+        }
         : undefined;
       isActive = query.status
         ? query.status === "active"
@@ -173,16 +173,19 @@ const CareGiver: FunctionComponent = () => {
       console.log(id, "iddddddddddd");
       await deleteCaregiver({
         variables: {
-          id
+          id: parseInt(id)
         },
-        update: cache => {
-          let data: any = cache.readQuery({ query: GET_CAREGIVERS });
-          debugger;
-          data.getCareGivers.pullAllBy([{ id }], "id");
+        update: async(cache) => {
+          let data : any = await cache.readQuery({ query: GET_CAREGIVERS });
+          console.log("==before==", data.getCaregivers)
+          pullAllBy(data.getCaregivers, [{ id }], "id");
           cache.writeQuery({
             query: GET_CAREGIVERS,
-            data: { getCareGivers: data.getCareGivers }
+            data: { getCaregivers: data.getCaregivers }
           });
+          let dataNe : any = await cache.readQuery({ query: GET_CAREGIVERS });
+          debugger;
+          console.log("==after==", dataNe.getCaregivers)
         }
       });
     }
@@ -200,7 +203,6 @@ const CareGiver: FunctionComponent = () => {
     sortBy
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
-
   return (
     <Row className="m-0">
       <Col xs={"12"} lg={"12"} className="p-0">
@@ -272,82 +274,82 @@ const CareGiver: FunctionComponent = () => {
                   </td>
                 </tr>
               ) : (
-                data &&
-                data.getCareGivers &&
-                data.getCareGivers.map(
-                  (
-                    {
-                      id,
-                      userName,
-                      salutation,
-                      firstName,
-                      lastName,
-                      address1,
-                      address2,
-                      street,
-                      city,
-                      stateId,
-                      countryId,
-                      postCode,
-                      email,
-                      phoneNumber,
-                      qualification,
-                      legalForm,
-                      workZones,
-                      status
-                    }: ICareGiver,
-                    index: number
-                  ) => {
-                    const replaceObj: any = {
-                      ":id": id,
-                      ":userName": userName
-                    };
-                    return (
-                      <tr>
-                        <td>
-                          <div className="table-checkbox-wrap">
-                            <div className="btn-group btn-check-action-wrap">
-                              <span className="btn">
-                                <span className="checkboxli checkbox-custom checkbox-default">
-                                  <input
-                                    type="checkbox"
-                                    id="checkAll"
-                                    className=""
-                                  />
-                                  <label className=""></label>
+                  data &&
+                  data.getCaregivers &&
+                  data.getCaregivers.map(
+                    (
+                      {
+                        id,
+                        userName,
+                        salutation,
+                        firstName,
+                        lastName,
+                        address1,
+                        address2,
+                        street,
+                        city,
+                        stateId,
+                        countryId,
+                        postCode,
+                        email,
+                        phoneNumber,
+                        qualifications,
+                        legalForm,
+                        workZones,
+                        status
+                      }: ICareGiver,
+                      index: number
+                    ) => {
+                      const replaceObj: any = {
+                        ":id": id,
+                        ":userName": userName
+                      };
+                      return (
+                        <tr key={index}>
+                          <td>
+                            <div className="table-checkbox-wrap">
+                              <div className="btn-group btn-check-action-wrap">
+                                <span className="btn">
+                                  <span className="checkboxli checkbox-custom checkbox-default">
+                                    <input
+                                      type="checkbox"
+                                      id="checkAll"
+                                      className=""
+                                    />
+                                    <label className=""></label>
+                                  </span>
                                 </span>
-                              </span>
-                              <span className="checkbox-no">{index + 1}</span>
+                                <span className="checkbox-no">{index + 1}</span>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="info-column">
-                            <div className="img-column">
-                              <img
-                                src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
-                                className="img-fluid"
-                              />
+                          </td>
+                          <td>
+                            <div className="info-column">
+                              <div className="img-column">
+                                <img
+                                  src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                                  className="img-fluid"
+                                />
+                              </div>
+                              <div className="description-column">
+                                <div className="info-title">{`${salutation} ${firstName} ${lastName}`}</div>
+                                <p className="description-text">
+                                  <i className="fa fa-envelope mr-2"></i>
+                                  <span className="align-middle">{email}</span>
+                                </p>
+                                <p className="description-text">
+                                  <i className="fa fa-phone mr-2"></i>
+                                  <span className="align-middle">
+                                    {phoneNumber}
+                                  </span>
+                                </p>
+                              </div>
                             </div>
-                            <div className="description-column">
-                              <div className="info-title">{`${salutation} ${firstName} ${lastName}`}</div>
-                              <p className="description-text">
-                                <i className="fa fa-envelope mr-2"></i>
-                                <span className="align-middle">{email}</span>
-                              </p>
-                              <p className="description-text">
-                                <i className="fa fa-phone mr-2"></i>
-                                <span className="align-middle">
-                                  {phoneNumber}
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="description-column  ml-0">
-                            {qualification
-                              ? qualification.map(qualification => (
+                          </td>
+                          <td>
+                            <div className="description-column  ml-0">
+                              {qualifications
+                                ? qualifications.map(qualification => (
                                   <>
                                     <p className="description-text ">
                                       <span className="text-label mr-1">
@@ -359,14 +361,14 @@ const CareGiver: FunctionComponent = () => {
                                     </p>
                                   </>
                                 ))
-                              : null}
-                          </div>
-                        </td>
+                                : null}
+                            </div>
+                          </td>
 
-                        <td>
-                          <div className="description-column  ml-0">
-                            {workZones
-                              ? workZones.map(wZ => (
+                          <td>
+                            <div className="description-column  ml-0">
+                              {workZones
+                                ? workZones.map(wZ => (
                                   <p className="description-text ">
                                     <span className="text-label mr-1">
                                       <i className="fa fa-angle-right"></i>
@@ -374,75 +376,75 @@ const CareGiver: FunctionComponent = () => {
                                     <span className="align-middle">{wZ}</span>
                                   </p>
                                 ))
-                              : null}
-                          </div>
-                        </td>
-                        <td>
-                          <div>
-                            <p className="description-text">
-                              <span className="align-middle">{legalForm}</span>
-                            </p>
-                          </div>
-                        </td>
-                        <td className="text-center">
-                          <span
-                            className={`status-btn ${
-                              index % 2 === 0 ? "active" : "inactive"
-                            }`}
-                          >
-                            {index % 2 === 0 ? "Active" : "Disable"}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="action-btn">
-                            <ButtonTooltip
-                              id={`edit${index}`}
-                              message={languageTranslation("CG_EDIT")}
-                              onclick={() =>
-                                history.push(
-                                  AppRoutes.EDIT_CARE_GIVER.replace(
-                                    /:id|:userName/gi,
-                                    function(matched) {
-                                      return replaceObj[matched];
-                                    }
+                                : null}
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <p className="description-text">
+                                <span className="align-middle">{legalForm}</span>
+                              </p>
+                            </div>
+                          </td>
+                          <td className="text-center">
+                            <span
+                              className={`status-btn ${
+                                index % 2 === 0 ? "active" : "inactive"
+                                }`}
+                            >
+                              {index % 2 === 0 ? "Active" : "Disable"}
+                            </span>
+                          </td>
+                          <td>
+                            <div className="action-btn">
+                              <ButtonTooltip
+                                id={`edit${index}`}
+                                message={languageTranslation("CG_EDIT")}
+                                onclick={() =>
+                                  history.push(
+                                    AppRoutes.EDIT_CARE_GIVER.replace(
+                                      /:id|:userName/gi,
+                                      function (matched) {
+                                        return replaceObj[matched];
+                                      }
+                                    )
                                   )
-                                )
-                              }
-                            >
-                              {" "}
-                              <i className="fa fa-pencil"></i>
-                            </ButtonTooltip>
-                            <ButtonTooltip
-                              id={`view${index}`}
-                              message={languageTranslation("CAREGIVER_VIEW")}
-                              onclick={() =>
-                                history.push(
-                                  AppRoutes.PERSONAL_INFORMATION.replace(
-                                    /:id|:userName/gi,
-                                    function(matched) {
-                                      return replaceObj[matched];
-                                    }
+                                }
+                              >
+                                {" "}
+                                <i className="fa fa-pencil"></i>
+                              </ButtonTooltip>
+                              <ButtonTooltip
+                                id={`view${index}`}
+                                message={languageTranslation("CAREGIVER_VIEW")}
+                                onclick={() =>
+                                  history.push(
+                                    AppRoutes.PERSONAL_INFORMATION.replace(
+                                      /:id|:userName/gi,
+                                      function (matched) {
+                                        return replaceObj[matched];
+                                      }
+                                    )
                                   )
-                                )
-                              }
-                            >
-                              {" "}
-                              <i className="fa fa-eye"></i>
-                            </ButtonTooltip>
-                            <ButtonTooltip
-                              id={`delete${index}`}
-                              message={languageTranslation("CAREGIVER_DELETE")}
-                              onclick={() => onDelete(id)}
-                            >
-                              <i className="fa fa-trash"></i>
-                            </ButtonTooltip>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  }
-                )
-              )}
+                                }
+                              >
+                                {" "}
+                                <i className="fa fa-eye"></i>
+                              </ButtonTooltip>
+                              <ButtonTooltip
+                                id={`delete${index}`}
+                                message={languageTranslation("CAREGIVER_DELETE")}
+                                onclick={() => onDelete(id)}
+                              >
+                                <i className="fa fa-trash"></i>
+                              </ButtonTooltip>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    }
+                  )
+                )}
             </tbody>
           </Table>
         </Card>

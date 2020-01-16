@@ -139,7 +139,7 @@
   "CAREGIVER_DRIVER_LICENSE_NUMBER": "driverLicenseNumber",
   "CAREGIVER_DRIVER_LICENSE_NUMBER_PLACEHOLDER": "Driver's License Number",
   "CAREGIVER_OWN_VEHICLE_AVAILABLE_LABEL": " Own vehicle available",
-  "CAREGIVER_OWN_VEHICLE_AVAILABLE": "vehicleavailable",
+  "CAREGIVER_OWN_VEHICLE_AVAILABLE": "vehicleAvailable",
   "CAREGIVER_LEGAL_FORM_LABEL": "Legal Form",
   "CAREGIVER_LEGAL_FORM_PLACEHOLDER": "Legal Form",
   "CAREGIVER_COMPANY_NAME_LABEL": "Company Name",
@@ -397,7 +397,7 @@
   "TABEL_HEAD_CG_APPLYING_AS":"Applying as",
   "TABEL_HEAD_CG_STATUS":"Status",
   "TABEL_HEAD_CG_ACTION":"Action",
-  "CAREGIVER_ADD_SUCCESS_MSG": "Care Giver added sucessfully",
+  "CAREGIVER_ADD_SUCCESS_MSG": "Care Giver added sucessfully"
 
   
 }

@@ -3,7 +3,16 @@ import gql from "graphql-tag";
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
   
-  address1
+  id
+    firstName
+    lastName
+    salutation
+    userName
+    email
+    password
+    phoneNumber
+    profileImage
+    isActive
  
 }`
 

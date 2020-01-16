@@ -44,8 +44,8 @@ export const CareInstitutionForm = () => {
         street: values.street,
         userName: values.userName,
         zipCode: values.zipCode,
-        countryId: values && values.country ? values.country.value : "",
-        stateId: values && values.state ? values.state.value : "",
+        countryId: values && values.country ? values.country.value : null,
+        stateId: values && values.state ? values.state.value : null,
       }
       setSubmitting(false);
       await addCareInstitution({

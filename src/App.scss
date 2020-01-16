@@ -1,100 +1,100 @@
 // Styles
 // CoreUI Icons Set
-@import "~@coreui/icons/css/coreui-icons.css";
+@import '~@coreui/icons/css/coreui-icons.css';
 // Import Flag Icons Set
-@import "~flag-icon-css/css/flag-icon.min.css";
+@import '~flag-icon-css/css/flag-icon.min.css';
 // Import Font Awesome Icons Set
-@import "~font-awesome/css/font-awesome.min.css";
+@import '~font-awesome/css/font-awesome.min.css';
 // Import Simple Line Icons Set
-@import "~simple-line-icons/css/simple-line-icons.css";
+@import '~simple-line-icons/css/simple-line-icons.css';
 // Import Main styles for this application
-@import "./scss/style.scss";
+@import './scss/style.scss';
 
-@import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap');
 
 @font-face {
   font-family: TechniqueBRKNormal;
-  src: url("./assets/fonts/techniqu-webfont.eot");
-  src: url("./assets/fonts/techniqu-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("./assets/fonts/techniqu-webfont.woff") format("woff"),
-    url("./assets/fonts/techniqu-webfont.ttf") format("truetype"),
-    url("./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal") format("svg");
+  src: url('./assets/fonts/techniqu-webfont.eot');
+  src: url('./assets/fonts/techniqu-webfont.eot?#iefix')
+      format('embedded-opentype'),
+    url('./assets/fonts/techniqu-webfont.woff') format('woff'),
+    url('./assets/fonts/techniqu-webfont.ttf') format('truetype'),
+    url('./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal') format('svg');
 
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Regular";
-  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
-    format("truetype");
-  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
-      format("woff2"),
-    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
-      format("woff");
+  font-family: 'FrutigerNeueLTPro-Regular';
+  src: url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf')
+    format('truetype');
+  src: url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix')
+      format('embedded-opentype'),
+    url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2')
+      format('woff2'),
+    url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff')
+      format('woff');
   //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Medium";
-  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
-      format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
-      format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
-      format("truetype");
+  font-family: 'FrutigerNeueLTPro-Medium';
+  src: url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot');
+  src: url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix')
+      format('embedded-opentype'),
+    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2')
+      format('woff2'),
+    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff')
+      format('woff'),
+    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf')
+      format('truetype');
   // url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Bold";
-  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
-      format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
-      format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
-      format("truetype");
+  font-family: 'FrutigerNeueLTPro-Bold';
+  src: url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot');
+  src: url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix')
+      format('embedded-opentype'),
+    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2')
+      format('woff2'),
+    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff')
+      format('woff'),
+    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf')
+      format('truetype');
   // url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Light";
-  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
-      format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
-      format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
-      format("truetype");
+  font-family: 'FrutigerNeueLTPro-Light';
+  src: url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot');
+  src: url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix')
+      format('embedded-opentype'),
+    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2')
+      format('woff2'),
+    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff')
+      format('woff'),
+    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf')
+      format('truetype');
   //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: $font_13;
   background: $white;
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
   a {
@@ -117,8 +117,8 @@ body {
     font-weight: 700;
     .logo-text {
       color: $theme_color;
-      font-family: "TechniqueBRKNormal", "Gotham Narrow SSm A",
-        "Gotham Narrow SSm B", Arial, Helvetica, sans-serif;
+      font-family: 'TechniqueBRKNormal', 'Gotham Narrow SSm A',
+        'Gotham Narrow SSm B', Arial, Helvetica, sans-serif;
       letter-spacing: 1px;
       margin: 0;
       font-size: 20px;
@@ -187,6 +187,22 @@ body {
       padding: 15px;
       background: $card_header_bg;
     }
+    .status-btn {
+      padding: 3px 10px;
+      font-size: $font_12;
+      border-radius: 4px;
+      display: inline-block;
+      cursor: pointer;
+      min-width: 65px;
+      &.active {
+        background: $active_green;
+        color: $white;
+      }
+      &.inactive {
+        background: $red;
+        color: $white;
+      }
+    }
   }
 
   // .table-checkbox-wrap {
@@ -243,7 +259,7 @@ body {
     margin-bottom: 0;
   }
 
-  .checkbox-custom input[type="checkbox"] {
+  .checkbox-custom input[type='checkbox'] {
     opacity: 0;
     position: absolute;
     top: 50%;
@@ -253,12 +269,12 @@ body {
     cursor: pointer;
   }
 
-  .checkbox-custom input[type="checkbox"]:checked + label:after {
+  .checkbox-custom input[type='checkbox']:checked + label:after {
     position: absolute;
     display: inline-block;
-    font-family: "FontAwesome";
+    font-family: 'FontAwesome';
     font-weight: 400;
-    content: "\F00C";
+    content: '\F00C';
     top: 50%;
     left: 4px;
     margin-top: -5px;
@@ -269,19 +285,19 @@ body {
     color: #333;
   }
 
-  .checkbox-custom input[type="checkbox"]:disabled {
+  .checkbox-custom input[type='checkbox']:disabled {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type="checkbox"]:disabled:checked + label:after {
+  .checkbox-custom input[type='checkbox']:disabled:checked + label:after {
     color: #999;
   }
 
-  .checkbox-custom input[type="checkbox"]:disabled + label {
+  .checkbox-custom input[type='checkbox']:disabled + label {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type="checkbox"]:disabled + label:before {
+  .checkbox-custom input[type='checkbox']:disabled + label:before {
     background-color: #eee;
   }
 
@@ -295,7 +311,7 @@ body {
   }
 
   .checkbox-custom label:before {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     left: 0;
@@ -463,7 +479,7 @@ body {
       left: auto !important;
       top: 6px !important;
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         width: 0;
         height: 0;
@@ -840,7 +856,7 @@ body {
     margin-bottom: 10px;
     font-family: $font_Frutiger_Medium;
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       height: 2px;
       width: 55px;
@@ -1431,7 +1447,7 @@ body {
     font-weight: 600;
     margin-bottom: 10px;
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       height: 2px;
       width: 55px;
@@ -1719,7 +1735,7 @@ body {
         font-family: $font_Frutiger_Medium;
         margin-bottom: 15px;
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           height: 2px;
           width: 55px;
@@ -1967,7 +1983,7 @@ body {
 .custom-col {
   margin-left: -7.5px;
   margin-right: -7.5px;
-  [class*="col-"] {
+  [class*='col-'] {
     padding: 0 7.5px;
   }
 }
@@ -2060,7 +2076,7 @@ body {
         display: inline-block;
         margin-left: 0.255em;
         vertical-align: 0.255em;
-        content: "";
+        content: '';
         border-top: 0.3em solid;
         border-right: 0.3em solid transparent;
         border-bottom: 0;
@@ -2167,7 +2183,7 @@ body {
     display: inline-block;
     margin-left: 0.255em;
     vertical-align: 0.255em;
-    content: "";
+    content: '';
     border-top: 0.3em solid;
     border-right: 0.3em solid transparent;
     border-bottom: 0;
@@ -2261,7 +2277,7 @@ body {
 .forms-main-section {
   .inner-no-padding-col {
     margin: 0px;
-    [class*="col-"] {
+    [class*='col-'] {
       padding: 0px;
       label {
         padding-left: 7px;
@@ -2565,38 +2581,45 @@ body {
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
       color: $white;
+      background: #fff !important;
+      color: #000;
+      border-left: 3px solid #39d7b3;
+      box-shadow: 0 10px 11px 1px rgba(0, 42, 90, 0.1);
       .Toastify__toast-body {
         padding-left: 55px;
         position: relative;
         font-size: $font_15;
         font-weight: 600;
         &::before {
-          background: url(assets/img/success-toaster.svg) no-repeat;
-          background-size: 35px;
+          // background: url('./assets/img/') no-repeat;
+          background-image: url('assets/img/success-toaster.svg');
           position: absolute;
-          content: "";
+          content: '';
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
           width: 35px;
           height: 35px;
+          background-size: cover;
+          background-position: center center;
         }
       }
     }
-
     &.Toastify__toast--error {
-      background: #ff7e7e;
+      background: #e5453a;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
-      color: $white;
+      background: #fff !important;
+      border-left: 3px solid #e5453a;
+      color: $black;
       .Toastify__toast-body {
         padding-left: 55px;
         position: relative;
         &::before {
-          background: url(assets/img/error-toaster.svg) no-repeat;
+          background: url('assets/img/error-toaster.svg') no-repeat;
           background-size: 35px;
           position: absolute;
-          content: "";
+          content: '';
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
@@ -2607,18 +2630,20 @@ body {
     }
 
     &.Toastify__toast--warning {
-      background: #d4b603;
+      background: #efab12;
+      background: #fff !important;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
-      color: $white;
+      color: $black;
+      border-left: 3px solid #efab12;
       .Toastify__toast-body {
         padding-left: 55px;
         position: relative;
         &::before {
-          background: url(assets/img/warning-toaster.svg) no-repeat;
+          content: '';
+          background: url('assets/img/warning-toaster.svg') no-repeat;
           background-size: 35px;
           position: absolute;
-          content: "";
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
@@ -2629,7 +2654,7 @@ body {
     }
   }
   .Toastify__close-button {
-    color: $white;
+    color: $black;
     opacity: 1;
     position: absolute;
     right: 12px;

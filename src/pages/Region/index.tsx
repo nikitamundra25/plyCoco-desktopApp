@@ -22,6 +22,7 @@ const sortFilter: any = {
   2: "oldest",
   1: "newest"
 };
+
 export const Region: FunctionComponent = () => {
   let history = useHistory();
   const { search, pathname } = useLocation();
@@ -188,9 +189,9 @@ export const Region: FunctionComponent = () => {
                   <tr key={index}>
                     <td>{count++}</td>
                     <td>{region.regionName}</td>
-                    <td className="text-center">0</td>
-                    <td className="text-center">0</td>
-                    <td className="text-center">0</td>
+                    <td className='text-center'>0</td>
+                    <td className='text-center'>0</td>
+                    <td className='text-center'>0</td>
                     {/* <td>
                     <div className="action-btn">
                       <ButtonTooltip

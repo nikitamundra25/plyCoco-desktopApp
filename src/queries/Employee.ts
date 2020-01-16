@@ -34,6 +34,7 @@ const ADD_EMPLOYEE = gql`
 const GET_EMPLOYEE_BY_ID = gql`
   query getEmployee($id: ID) {
     viewEmployee(id: $id) {
+      id
       firstName
       lastName
       email
@@ -41,6 +42,7 @@ const GET_EMPLOYEE_BY_ID = gql`
       phoneNumber
       profileImage
       isActive
+      profileThumbnailImage
       employee {
         address1
         address2
@@ -71,6 +73,9 @@ const UPDATE_EMPLOYEE = gql`
       id
       firstName
       lastName
+      email
+      phoneNumber
+      profileThumbnailImage
     }
   }
 `;

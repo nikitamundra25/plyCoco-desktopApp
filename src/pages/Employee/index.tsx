@@ -317,13 +317,13 @@ const Employee: FunctionComponent = () => {
                   </div>
                 </div>
               </th>
-              <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
-              <th>{languageTranslation("REGION")}</th>
-              <th className="text-center">
-                {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
+              <th>{languageTranslation('TABLE_HEAD_EMP_INFO')}</th>
+              <th>{languageTranslation('REGION')}</th>
+              <th className='text-center'>
+                {languageTranslation('TABLE_HEAD_ASSIGNED_CANSTITUTION')}
               </th>
-              <th>{languageTranslation("STATUS")}</th>
-              <th>{languageTranslation("TABLE_HEAD_ACTION")}</th>
+              <th>{languageTranslation('STATUS')}</th>
+              <th>{languageTranslation('TABLE_HEAD_ACTION')}</th>
             </tr>
           </thead>
           <tbody>

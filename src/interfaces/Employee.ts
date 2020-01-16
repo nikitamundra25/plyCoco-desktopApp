@@ -20,6 +20,7 @@ export interface IEmployeeFormValues {
   joiningDate: string;
   image?: File;
   city: string;
+  profileThumbnailImage?: string;
 }
 
 export interface IEmployeeInput {
@@ -43,6 +44,7 @@ export interface IEmployeeInput {
   IBAN: string;
   BIC: string;
   profileImage?: File;
+  profileThumbnailImage?: string;
 }
 
 export interface IAddEmployeeRes {

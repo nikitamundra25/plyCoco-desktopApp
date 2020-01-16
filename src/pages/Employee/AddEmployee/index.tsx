@@ -20,7 +20,12 @@ import { EmployeeQueries, CountryQueries } from '../../../queries';
 import { logger, languageTranslation } from '../../../helpers';
 import { AppRoutes } from '../../../config';
 
-const [ADD_EMPLOYEE, GET_EMPLOYEE_BY_ID, , UPDATE_EMPLOYEE] = EmployeeQueries;
+const [
+  ADD_EMPLOYEE,
+  GET_EMPLOYEE_BY_ID,
+  GET_EMPLOYEES,
+  UPDATE_EMPLOYEE,
+] = EmployeeQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 export const EmployeeForm: FunctionComponent = () => {
@@ -61,8 +66,13 @@ export const EmployeeForm: FunctionComponent = () => {
     undefined,
   );
   logger(id, 'id');
+
   const update = (cache: any, payload: any) => {
     logger(payload, 'payload');
+    const data = cache.readQuery({
+      query: GET_EMPLOYEES,
+    });
+    logger(data, 'data');
   };
   // To add emplyee details into db
   const [addEmployee, { error, data }] = useMutation<
@@ -83,7 +93,7 @@ export const EmployeeForm: FunctionComponent = () => {
       id: number;
       employeeInput: IEmployeeInput;
     }
-  >(UPDATE_EMPLOYEE);
+  >(UPDATE_EMPLOYEE, { update });
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -127,9 +137,10 @@ export const EmployeeForm: FunctionComponent = () => {
         accountHolderName: viewEmployee.bankDetails
           ? viewEmployee.bankDetails.accountHolder
           : '',
-        additionalText: viewEmployee.bankDetails.additionalText
-          ? viewEmployee.bankDetails.additionalText
-          : '',
+        additionalText:
+          viewEmployee.bankDetails && viewEmployee.bankDetails.additionalText
+            ? viewEmployee.bankDetails.additionalText
+            : '',
         telephoneNumber: viewEmployee.phoneNumber || '',
         region: viewEmployee.region
           ? [
@@ -139,6 +150,7 @@ export const EmployeeForm: FunctionComponent = () => {
               },
             ]
           : null,
+        profileThumbnailImage: viewEmployee.profileThumbnailImage,
       });
       console.log('viewEmployee.region', viewEmployee.region);
     }
@@ -223,6 +235,9 @@ export const EmployeeForm: FunctionComponent = () => {
       };
       // Edit employee details
       if (id) {
+        employeeInput.profileThumbnailImage = employeeData
+          ? employeeData.profileThumbnailImage
+          : '';
         await updateEmployee({
           variables: {
             id: parseInt(id),
@@ -230,6 +245,11 @@ export const EmployeeForm: FunctionComponent = () => {
           },
         });
         toast.success(languageTranslation('EMPLOYEE_UPDATE_SUCCESS_MSG'));
+        history.push(AppRoutes.EMPLOYEE);
+        // history.push({
+        //   pathname: AppRoutes.EMPLOYEE,
+        //   state: { isValid: true },
+        // });
       } else {
         await addEmployee({
           variables: {
@@ -237,8 +257,13 @@ export const EmployeeForm: FunctionComponent = () => {
           },
         });
         toast.success(languageTranslation('EMPLOYEE_ADD_SUCCESS_MSG'));
+        history.push(AppRoutes.EMPLOYEE);
+
+        // history.push({
+        //   pathname: AppRoutes.EMPLOYEE,
+        //   state: { isValid: true },
+        // });
       }
-      history.push(AppRoutes.EMPLOYEE);
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')

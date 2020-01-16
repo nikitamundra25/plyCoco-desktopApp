@@ -2576,7 +2576,9 @@ body {
       background: #e5453a;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
-      color: $white;
+      background: #fff !important;
+      border-left:3px solid #e5453a;
+      color:$black;
       .Toastify__toast-body {
         padding-left: 55px;
         position: relative;
@@ -2595,10 +2597,12 @@ body {
     }
 
     &.Toastify__toast--warning {
-      background: #e5d43a;
+      background: #efab12;
+      background: #fff !important;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
-      color: $white;
+      color:$black;
+      border-left:3px solid #efab12;
       .Toastify__toast-body {
         padding-left: 55px;
         position: relative;

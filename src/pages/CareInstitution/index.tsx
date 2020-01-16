@@ -194,6 +194,7 @@ const CareInstitution = (props: RouteComponentProps) => {
           className={"btn-add"}
           id={"add-new-pm-tooltip"}
           onClick={() => props.history.push(AppRoutes.ADD_CARE_INSTITUTION)}
+          
         >
           <i className={"fa fa-plus"} />
           &nbsp; Add New Care Institution

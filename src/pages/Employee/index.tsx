@@ -326,7 +326,9 @@ const Employee: FunctionComponent = () => {
               </th>
               <th>{languageTranslation('TABLE_HEAD_EMP_INFO')}</th>
               <th>{languageTranslation('REGION')}</th>
-              <th>{languageTranslation('TABLE_HEAD_ASSIGNED_CANSTITUTION')}</th>
+              <th className='text-center'>
+                {languageTranslation('TABLE_HEAD_ASSIGNED_CANSTITUTION')}
+              </th>
               <th>{languageTranslation('STATUS')}</th>
               <th>{languageTranslation('TABLE_HEAD_ACTION')}</th>
             </tr>

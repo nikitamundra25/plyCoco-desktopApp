@@ -119,6 +119,9 @@ export const EmployeeForm: FunctionComponent = () => {
         ...viewEmployee.employee,
         ...viewEmployee.bankDetails,
         country: index > -1 ? countriesOpt[index] : undefined,
+        joiningDate: viewEmployee.employee.joiningDate
+          ? moment(viewEmployee.employee.joiningDate).format("MM/DD/YYYY")
+          : null,
         accountHolderName: viewEmployee.bankDetails
           ? viewEmployee.bankDetails.accountHolder
           : "",
@@ -262,7 +265,8 @@ export const EmployeeForm: FunctionComponent = () => {
     IBAN = "",
     BIC = "",
     additionalText = "",
-    telephoneNumber = undefined
+    telephoneNumber = undefined,
+    joiningDate = ""
   } = employeeData ? employeeData : {};
 
   const values: IEmployeeFormValues = {
@@ -280,7 +284,7 @@ export const EmployeeForm: FunctionComponent = () => {
     address2,
     city,
     zip,
-    joiningDate: "",
+    joiningDate,
     country,
     region,
     state: states

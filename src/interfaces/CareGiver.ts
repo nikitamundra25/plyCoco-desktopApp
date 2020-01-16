@@ -1,7 +1,8 @@
 import { Location } from "history";
 import * as H from "history";
 
-export interface CareGiverState {
+export interface ICareGiverInput {
+  id?: string;
   salutation: string;
   firstName: string;
   lastName: string;
@@ -9,32 +10,34 @@ export interface CareGiverState {
   address2: string;
   street: string;
   city: string;
-  state: string;
-  country: string;
+  stateId: string;
+  regionId?: string;
+  countryId: string;
   postCode: string;
+  pinCode?: string;
   email: string;
-  dob: string;
-  phone: string;
-  fax: string;
-  mobilePhone: string;
-  username: string;
-  companyName: string;
-  bankName: string;
-  qualification: any;
-  leasing: string;
-  status: string;
+  dateOfBirth: string;
+  phoneNumber: string;
+  userName: string;
   legalForm: string;
-  registrationNumber: string;
-  registerCourt: string;
+  fax: string;
+  qualifications: string[];
   taxNumber: string;
-  vehicleavailable: boolean;
+  remarks: string;
   driversLicense: boolean;
   driverLicenseNumber: string;
-  remarks: string;
-  executiveDirector: string;
+  vehicleavailable: boolean;
   socialSecurityContribution: boolean;
-  employed?: boolean;
   workZones: string; //[]
+  status: string;
+  companyName: string;
+  bankName: string;
+  leasing: string;
+  registrationNumber: string;
+  mobilePhone: string;
+  registerCourt: string;
+  executiveDirector: string;
+  employed?: boolean;
 }
 
 export interface CareGiverValues {
@@ -45,19 +48,21 @@ export interface CareGiverValues {
   address2: string;
   street: string;
   city: string;
-  state: string;
-  country: string;
+  stateId: string;
+  regionId?: string;
+  countryId: string;
   postCode: string;
+  pinCode?: string;
   email: string;
-  dob: string;
-  phone: string;
+  dateOfBirth: string;
+  phoneNumber: string;
   fax: string;
   mobilePhone: string;
-  username: string;
+  userName: string;
   companyName: string;
   legalForm: string;
   bankName: string;
-  qualification: any;
+  qualifications: any;
   leasing: string;
   registrationNumber: string;
   registerCourt: string;
@@ -74,7 +79,7 @@ export interface CareGiverValues {
 
 export interface IEmailMenus<
   Params extends { [K in keyof Params]?: string } = {}
-> {
+  > {
   history: H.History;
   location: H.Location;
 }
@@ -94,28 +99,29 @@ export interface IBillingSettingsValues {
 }
 
 export interface IPersonalObject {
-  userId?: string;
-  state: string;
+  userName?: string;
+  stateId: string;
+  regionId?: string;
   registartionSince?: string;
   gender?: string;
   title?: string;
   salutation: string;
   firstName: string;
   lastName: string;
-  dob: string;
+  dateOfBirth: string;
   age: string;
   street: string;
   city: string;
   postCode: string;
-  country: string;
-  phone: string;
+  pinCode?: string;
+  countryId: string;
+  phoneNumber: string;
   fax: string;
   mobilePhone: string;
   email: string;
   taxNumber: string;
   bankName: string;
   iban: string;
-  username: string;
   password?: string;
   belongTo?: string;
   legalForm: string;
@@ -151,11 +157,11 @@ export interface ICareGiver {
   address2: string;
   street: string;
   city: string;
-  state: string;
-  country: string;
+  stateId: string;
+  countryId: string;
   postCode: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
   qualification: string[];
   legalForm: string;
   workZones: string[];

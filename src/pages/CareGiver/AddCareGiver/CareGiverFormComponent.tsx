@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, FunctionComponent } from "react";
 import {
   Card,
   CardHeader,
@@ -34,15 +34,42 @@ import {
   FieldProps,
   FormikValues
 } from "formik";
-import { CareGiverValues } from "../../../interfaces";
+import { CareGiverValues, IReactSelectInterface, ICountry, ICountries, IStates, IState } from "../../../interfaces";
 import { FormikSelectField, FormikTextField } from "../../../common/forms/FormikFields";
+import { CountryQueries } from '../../../queries';
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 
+const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
-const CareGiverFormComponent: any = (
-  props: FormikProps<CareGiverValues>
-) => {
+const CareGiverFormComponent: FunctionComponent<FormikProps<
+  CareGiverValues
+>> = (props: FormikProps<CareGiverValues>) => {
   const { values } = props;
-  console.log("errorrrrrssssssssss==========>", props.errors)
+  console.log("+++++++++++", props.errors)
+  // To fetch the list of countries
+  const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
+  // To fetch the states of selected contry & don't want to query on initial load
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY,
+  );
+  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  const statesOpt: IReactSelectInterface[] | undefined = [];
+  if (data && data.countries) {
+    data.countries.forEach(({ id, name }: ICountry) =>
+      countriesOpt.push({
+        label: name,
+        value: id,
+      }),
+    );
+  }
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({
+        label: name,
+        value: id,
+      }),
+    );
+  }
   return (
     <>
 
@@ -243,8 +270,8 @@ const CareGiverFormComponent: any = (
                             <div>
                               <Field
                                 placeholder="Region/State"
-                                options={State}
-                                name={"state"}
+                                options={statesOpt}
+                                name={"stateId"}
                                 component={FormikSelectField}
                               />
                             </div>
@@ -264,10 +291,10 @@ const CareGiverFormComponent: any = (
                           <Col sm="8">
                             <div>
                               <Field
-                                name={"country"}
+                                name={"countryId"}
                                 component={FormikSelectField}
                                 placeholder="Select Country"
-                                options={Country}
+                                options={countriesOpt}
                               />
                             </div>
                           </Col>
@@ -319,7 +346,7 @@ const CareGiverFormComponent: any = (
                             <div>
                               <Field
                                 component={FormikTextField}
-                                name={"phone"}
+                                name={"phoneNumber"}
                                 placeholder=" Phone Number"
                                 className="width-common"
                               />

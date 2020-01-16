@@ -241,7 +241,7 @@ const PersonalInfoFormComponent: any = (
                                     <Col sm="7">
                                         <div>
                                             <Field
-                                                name={"personalInformation.dob"}
+                                                name={"personalInformation.dateOfBirth"}
                                                 component={FormikTextField}
                                                 type="date"
                                                 placeholder="06/09/2020"
@@ -375,7 +375,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikSelectField}
-                                        name="personalInformation.state"
+                                        name="personalInformation.stateId"
                                         placeholder="Bavaria"
                                         options={State} />
                                 </div>

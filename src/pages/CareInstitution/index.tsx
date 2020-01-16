@@ -149,34 +149,40 @@ const CareInstitution = (props: RouteComponentProps) => {
           );
         })
       : tableData.push(
-        <>
-          {/* <tr className={"text-center no-search-section"}>
-            <td colSpan={5} className={"pt-5 pb-5"}>
-              <div className="text-center mt-3">
-                <div className="no-user-found">
-                  <span className="no-search-block">
-                    {" "}
-                    <i className="icon-ban icons"></i>
-                  </span>
-                  <h3 className="title m-0">
-                    {" "}
-                    Currently there are no Parts added.
-                  </h3>
-                  <p className="sub-title mb-1">
-                    {" "}
-                    Please cleck button to add new
+          <tr className={"text-center"}>
+            <td colSpan={5}>
+              <div className="no-data-section">
+                <div className="no-data-icon">
+                  <i className="icon-ban" />
+                </div>
+                <h4 className="mb-1">
+                  Currently there are No care institution Added.{" "}
+                </h4>
+                <p>Please click above button to add new. </p>
+              </div>
+
+              <div className="no-search-section">
+                <div className="no-data-icon">
+                  <i className="icon-magnifier" />
+                </div>
+                <h4 className="mb-1">No details found related your search </h4>
+                <div className="text-left search-text">
+                  <p>
+                    <span className="pr-2">&#8226;</span>Try to simplify your
+                    search
                   </p>
-                  <Button outline color="primary mt-2">
-                    <span>
-                      <i className="fa fa-plus pr-1" aria-hidden="true"></i>{" "}
-                    </span>
-                    Add New
-                  </Button>{" "}
+                  <p>
+                    <span className="pr-2">&#8226;</span>Use different keywords
+                  </p>
+                  <p>
+                    <span className="pr-2">&#8226;</span>Make sure words are
+                    spelled correctly
+                  </p>
                 </div>
               </div>
             </td>
-          </tr> */}
-          </>
+          </tr>
+         
         )}
   </>;
   return (

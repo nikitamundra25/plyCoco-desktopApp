@@ -39,6 +39,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
     getCareInstitution(careInstitutionId: $careInstitutionId) {
       firstName
       lastName
+      salutation
       email
       userName
       canstitution {
@@ -94,21 +95,16 @@ const UPDATE_CARE_INSTITUTION = gql`
     }
   }
 `;
-const ADD_NEW_CONTACT_CARE_INSTITUTION =
-  gql`
-  mutation addContact(
-    $contactInput: ContactInput!
-  ) {
-    addContact(
-      contactInput: $contactInput
-    ) {
+const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
+  mutation addContact($contactInput: ContactInput!) {
+    addContact(contactInput: $contactInput) {
       id
       firstName
-      surName,
+      surName
       contactType
     }
   }
-`
+`;
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,

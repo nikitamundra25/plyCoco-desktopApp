@@ -279,7 +279,6 @@ const CareInstitution = (props: RouteComponentProps) => {
   }
   const tableData: any[] = [];
   const query = qs.parse(search);
-  console.log("query", query);
 
   <>
     {userData && userData.length

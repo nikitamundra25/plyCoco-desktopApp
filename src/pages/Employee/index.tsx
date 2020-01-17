@@ -112,12 +112,12 @@ const Employee: FunctionComponent = () => {
                 (key: any) => sortFilter[key] === query.sortBy,
               ) || '',
           }
-        : undefined;
+        : { label: '', value: '' };
       isActive = query.status
         ? query.status === 'active'
           ? { label: languageTranslation('ACTIVE'), value: 'true' }
           : { label: languageTranslation('DISABLE'), value: 'false' }
-        : undefined;
+        : { label: '', value: '' };
       setSearchValues({
         searchValue: searchBy,
         sortBy,

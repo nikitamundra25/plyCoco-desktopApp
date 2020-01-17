@@ -42,11 +42,44 @@ const GET_CARE_INSTITUION_BY_ID = gql`
       salutation
       email
       userName
+      phoneNumber
+      regionId
       canstitution {
         city
         zipCode
         companyName
         shortName
+        street
+        countryId
+        stateId
+        remarks
+        title
+        fax
+        linkedTo
+        doctorCommission
+        leasingPriceListId
+        isArchive
+      }
+      contact {
+        salutation
+        firstName
+        surName
+        gender
+        title
+        salutation
+        firstName
+        surName
+        countryId
+        street
+        city
+        contactType
+        phoneNumber
+        zip
+        phoneNumber2
+        fax
+        mobileNumber
+        email
+        remark
       }
     }
   }
@@ -89,7 +122,6 @@ const UPDATE_CARE_INSTITUTION = gql`
       id: $id
       careInstitutionInput: $careInstitutionInput
     ) {
-      id
       firstName
       lastName
     }

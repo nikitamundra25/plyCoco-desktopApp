@@ -43,7 +43,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 
   let { id } = useParams();
   const Id: any | undefined = id
-
+  let sortBy: IReactSelectInterface | undefined = { label: "3", value: "Sort by A-Z" };
   const { data: careInstituition, loading, error, refetch } = useQuery<any>(
     GET_CARE_INSTITUTION_LIST
   );

@@ -16,8 +16,7 @@
 @font-face {
   font-family: TechniqueBRKNormal;
   src: url("./assets/fonts/techniqu-webfont.eot");
-  src: url("./assets/fonts/techniqu-webfont.eot?#iefix")
-      format("embedded-opentype"),
+  src: url("./assets/fonts/techniqu-webfont.eot?#iefix") format("embedded-opentype"),
     url("./assets/fonts/techniqu-webfont.woff") format("woff"),
     url("./assets/fonts/techniqu-webfont.ttf") format("truetype"),
     url("./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal") format("svg");
@@ -28,65 +27,48 @@
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Regular";
-  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
-    format("truetype");
-  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
-      format("woff2"),
-    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
-      format("woff");
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf") format("truetype");
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix") format("embedded-opentype"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2") format("woff2"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff") format("woff");
   //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
 }
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Medium";
   src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
-      format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
-      format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
-      format("truetype");
+  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix") format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2") format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff") format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf") format("truetype");
   // url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
 }
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Bold";
   src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
-      format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
-      format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
-      format("truetype");
+  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix") format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2") format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff") format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf") format("truetype");
   // url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
 }
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Light";
   src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
-      format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
-      format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
-      format("truetype");
+  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix") format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2") format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff") format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf") format("truetype");
   //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "Open Sans", sans-serif;
@@ -94,8 +76,7 @@ body {
   background: $white;
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-      monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
   }
   a {
     color: $theme_color;
@@ -117,8 +98,7 @@ body {
     font-weight: 700;
     .logo-text {
       color: $theme_color;
-      font-family: "TechniqueBRKNormal", "Gotham Narrow SSm A",
-        "Gotham Narrow SSm B", Arial, Helvetica, sans-serif;
+      font-family: "TechniqueBRKNormal", "Gotham Narrow SSm A", "Gotham Narrow SSm B", Arial, Helvetica, sans-serif;
       letter-spacing: 1px;
       margin: 0;
       font-size: 20px;
@@ -478,22 +458,28 @@ body {
       right: 6px !important;
       left: auto !important;
       top: 6px !important;
-      &:after {
-        content: "";
+      transform: translate3d(0px, 32px, 0px) !important;
+      &:before {
         position: absolute;
-        width: 0;
-        height: 0;
-        top: -8px;
-        right: 5px;
-        box-sizing: border-box;
-        border: 5px solid $black;
-        border-color: transparent transparent $white $white;
-        -webkit-transform-origin: 0 50%;
-        transform-origin: 0 50%;
-        -webkit-transform: rotate(135deg);
-        transform: rotate(135deg);
+        top: -7px;
+        right: 9px;
+        display: inline-block;
+        border-right: 7px solid transparent;
+        border-bottom: 7px solid #ccc;
+        border-left: 7px solid transparent;
+        border-bottom-color: #c8ced3;
+        content: "";
+      }
 
-        background-color: $white;
+      &:after {
+        position: absolute;
+        top: -6px;
+        right: 10px;
+        display: inline-block;
+        border-right: 6px solid transparent;
+        border-bottom: 6px solid #ffffff;
+        border-left: 6px solid transparent;
+        content: "";
       }
     }
   }
@@ -816,6 +802,12 @@ body {
   font-size: $font_11;
   color: $red;
 }
+.css-1n7v3ny-option,
+.css-yt9ioa-option,
+.css-9gakcf-option {
+  padding: 2px 12px !important;
+  font-size: 12px !important;
+}
 .form-section {
   .label-height {
     height: 18px;
@@ -1007,55 +999,57 @@ body {
     font-size: $font_13;
   }
 
-  .fileinput-preview {
-    border: 2px dotted $light_gray;
-    padding: 0px 10px;
-    margin-bottom: 20px;
-    width: 100%;
-    height: 130px;
-    position: relative;
-    text-align: center;
-    .img-preview {
-      max-width: 100%;
-      position: absolute;
-      display: flex;
-      max-height: 100%;
-      // z-index: 9;
-    }
-    .file-upload {
-      position: absolute;
-      display: block;
-      height: 100%;
+  .file-preview-section {
+    .fileinput-preview {
+      // border: 2px dotted $light_gray;
+      padding: 0px 10px;
       width: 100%;
-      left: 0px;
-      .file-upload-label {
-        color: $btn_hover_gray;
+      height: 130px;
+      position: relative;
+      text-align: center;
+      .img-preview {
+        max-width: 100%;
         position: absolute;
         display: flex;
-        flex-flow: column;
-        align-items: center;
-        justify-content: center;
+        max-height: 100%;
+        // z-index: 9;
+      }
+      .file-upload {
+        position: absolute;
+        display: block;
         height: 100%;
         width: 100%;
         left: 0px;
-
-        &:hover {
-          cursor: pointer;
-          color: $gray_color;
+        .file-upload-label {
+          color: $btn_hover_gray;
+          position: absolute;
+          display: flex;
+          flex-flow: column;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          width: 100%;
+          left: 0px;
+          border-style: dashed;
+          border-width: 1px;
+          &:hover {
+            cursor: pointer;
+            color: $gray_color;
+          }
+          .icon-upload {
+            font-size: 35px;
+          }
         }
-        .icon-upload {
-          font-size: 35px;
+        .file-upload-input {
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          width: 0;
+          height: 100%;
+          opacity: 0;
         }
-      }
-      .file-upload-input {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 0;
-        height: 100%;
-        opacity: 0;
       }
     }
   }
@@ -1176,6 +1170,15 @@ body {
     }
   }
 }
+.top-form-button {
+  right: 8px;
+  position: absolute;
+  top: -34px;
+  z-index: 10;
+  padding: 4px 30px;
+  font-weight: 600;
+  font-size: 13px;
+}
 
 .common-list-wrap {
   margin-bottom: 12px;
@@ -1218,6 +1221,11 @@ body {
     bottom: 0px;
     width: 100%;
   }
+}
+.one-line-text{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .table {
   background: $white;
@@ -1423,6 +1431,7 @@ body {
   .dropdown-menu {
     min-width: auto;
     border-color: $table_border;
+
     .dropdown-item {
       padding: 4px 15px;
       color: $light_black;
@@ -1474,7 +1483,7 @@ body {
       font-size: $font_13;
       color: $dark_gray;
       display: inline-block;
-      width: 170px;
+      flex:0 0 170px;
     }
     .text-value {
       font-weight: 600;
@@ -1486,6 +1495,41 @@ body {
     .profile-img {
       width: 180px;
       display: inline-block;
+    }
+  }
+  .profile-wrap {
+    .profile-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      margin: auto;
+      overflow: hidden;
+      position: relative;
+      background-size: cover;
+      background-position: 50%;
+      box-shadow: 0 0 0 2px #b5b5b5;
+    }
+    .user-back-img-wrap {
+      background-size: cover;
+      background-position: 50%;
+      width: 100%;
+      height: 100%;
+    }
+    .changeProfile {
+      position: absolute;
+      cursor: pointer;
+      left: 0;
+      bottom: -3px;
+      background: rgba(0, 0, 0, 0.75);
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
+      width: 100%;
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      height: 30px;
+      padding-top: 1px;
     }
   }
 }
@@ -1641,21 +1685,9 @@ body {
             text-align: center;
             line-height: normal;
             background: $white;
-            background: -moz-linear-gradient(
-              top,
-              $white 0%,
-              $common_inner_tab_bg 100%
-            );
-            background: -webkit-linear-gradient(
-              top,
-              $white 0%,
-              $common_inner_tab_bg 100%
-            );
-            background: linear-gradient(
-              to bottom,
-              $white 0%,
-              $common_inner_tab_bg 100%
-            );
+            background: -moz-linear-gradient(top, $white 0%, $common_inner_tab_bg 100%);
+            background: -webkit-linear-gradient(top, $white 0%, $common_inner_tab_bg 100%);
+            background: linear-gradient(to bottom, $white 0%, $common_inner_tab_bg 100%);
             .nav-icon {
               margin-right: 8px;
               vertical-align: middle;
@@ -1667,21 +1699,9 @@ body {
               height: 32px;
               margin-top: -5px;
               background: $common_inner_tab_bg;
-              background: -moz-linear-gradient(
-                top,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
-              background: -webkit-linear-gradient(
-                top,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
-              background: linear-gradient(
-                to bottom,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
+              background: -moz-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
+              background: -webkit-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
+              background: linear-gradient(to bottom, $common_inner_tab_bg 0%, $white 100%);
             }
           }
           &:hover {
@@ -1689,21 +1709,9 @@ body {
               height: 32px;
               margin-top: -5px;
               background: $common_inner_tab_bg;
-              background: -moz-linear-gradient(
-                top,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
-              background: -webkit-linear-gradient(
-                top,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
-              background: linear-gradient(
-                to bottom,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
+              background: -moz-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
+              background: -webkit-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
+              background: linear-gradient(to bottom, $common_inner_tab_bg 0%, $white 100%);
             }
           }
         }
@@ -2277,6 +2285,9 @@ body {
 .forms-main-section {
   .inner-no-padding-col {
     margin: 0px;
+    .form-group {
+      margin-bottom: 0px;
+    }
     [class*="col-"] {
       padding: 0px;
       label {
@@ -2613,6 +2624,7 @@ body {
       border-left: 3px solid #e5453a;
       color: $black;
       .Toastify__toast-body {
+        font-weight: 600;
         padding-left: 55px;
         position: relative;
         &::before {
@@ -2637,6 +2649,7 @@ body {
       color: $black;
       border-left: 3px solid #efab12;
       .Toastify__toast-body {
+        font-weight: 600;
         padding-left: 55px;
         position: relative;
         &::before {
@@ -2756,24 +2769,21 @@ body {
     font-size: 15px;
   }
   .swal2-styled.swal2-confirm {
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
-      0 7px 10px -5px rgba(206, 210, 214, 0.18);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(206, 210, 214, 0.18);
     background: #d4d4d4 !important;
     color: #000;
     padding: 8px 30px;
     &:hover,
     &:focus {
       outline: none;
-      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
-        0 7px 10px -5px rgba(206, 210, 214, 0.18);
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(206, 210, 214, 0.18);
       background: #cbccce !important;
       color: #000;
     }
   }
   .swal2-styled.swal2-cancel {
     padding: 8px 30px;
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
-      0 7px 10px -5px rgba(221, 51, 51, 0.4);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(221, 51, 51, 0.4);
   }
 }
 

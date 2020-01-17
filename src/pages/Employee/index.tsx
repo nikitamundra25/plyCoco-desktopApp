@@ -423,14 +423,14 @@ const Employee: FunctionComponent = () => {
                             </div>
                             <div className="description-text">
                               <i className="fa fa-envelope mr-2"></i>
-                              <span className="align-middle">
+                              <span className="align-middle one-line-text">
                                 {email ? email : ""}
                               </span>
                             </div>
                             {phoneNumber ? (
                               <div className="description-text">
                                 <i className="fa fa-phone mr-2"></i>
-                                <span className="align-middle">
+                                <span className="align-middle one-line-text">
                                   {phoneNumber}
                                 </span>
                               </div>
@@ -439,11 +439,10 @@ const Employee: FunctionComponent = () => {
                         </div>
                       </td>
                       <td>
-                        <div className="description-column  ml-0">
+                        <div className="description-column one-line-text  ml-0">
                           {region ? region.regionName : "-"}
                         </div>
                       </td>
-
                       <td className="text-center">
                         <div>{0}</div>
                       </td>

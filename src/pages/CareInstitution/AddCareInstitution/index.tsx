@@ -1,14 +1,28 @@
-import React, { Component, useEffect } from "react";
+import React, { Component, useEffect, Suspense, useState, FunctionComponent } from "react";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { CareInstituionValidationSchema } from "../../../validations";
-import { ICareInstitutionFormValues } from "../../../interfaces";
+import { ICareInstitutionFormValues, IHandleSubmitInterface } from "../../../interfaces";
 import AddCareInstitution from "./AddCareInstitution";
 import { CareInstitutionQueries } from "../../../queries";
 import { useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { logger, languageTranslation } from "../../../helpers";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router";
+import { useHistory, RouteComponentProps } from "react-router";
 import { AppRoutes } from "../../../config";
+import { careInstitutionRoutes } from "../Sidebar/SidebarRoutes/ConstitutionRoutes";
+import add from "../../../assets/img/add.svg";
+import reminder from "../../../assets/img/reminder.svg";
+import password from "../../../assets/img/password.svg";
+import appointment from "../../../assets/img/appointment.svg";
+import clear from "../../../assets/img/clear.svg";
+
+const CareInstitutionSidebar = React.lazy(() =>
+  import(
+    "../Sidebar/SidebarLayout/CareInstitutionLayout"
+  )
+);
+
+const CareInstitutionTabs = careInstitutionRoutes
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -17,30 +31,23 @@ const [
   ADD_CARE_INSTITUTION
 ] = CareInstitutionQueries;
 
-export const CareInstitutionForm = () => {
+export const CareInstitutionForm: FunctionComponent<FormikProps<
+  ICareInstitutionFormValues
+> & RouteComponentProps & IHandleSubmitInterface> = (props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps) => {
   const [addCareInstitution, { error, data }] = useMutation<{
     addCareInstitution: ICareInstitutionFormValues;
   }>(ADD_CARE_INSTITUTION);
 
-  // const [fetchCareInstitutionList, { data: careInstitution, loading, refetch }] = useLazyQuery<
-  //   any
-  // >(GET_CARE_INSTITUTION_LIST);
-
   let history = useHistory();
+  console.log("Data", data);
 
-
-  // useEffect(() => {
-  //   fetchCareInstitutionList({
-  //     variables: {
-  //       searchBy: "",
-  //       sortBy: 0,
-  //       limit: 50,
-  //       page: 1,
-  //       isActive: ""
-  //     }
-  //   });
-  // }, [""])
-
+  useEffect(() => {
+    if (data) {
+      console.log("In use Effect");
+      const Data: any = data
+      history.push(AppRoutes.CARE_INSTITUION_VIEW.replace(":id", Data.addCareInstitution ? Data.addCareInstitution.id : "null"));
+    }
+  }, [data])
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
@@ -48,21 +55,28 @@ export const CareInstitutionForm = () => {
     //to set submit state to false after successful signup
     try {
       const dataSubmit: any = {
-        salutation: values && values.salutation ? values.salutation.label : "",
-        city: values.city,
-        companyName: values.companyName,
-        email: values.email,
-        fax: values.fax,
+        gender: values && values.gender ? values.gender.value : "",
+        salutation: values && values.salutation ? values.salutation.value : "",
         firstName: values.firstName,
         lastName: values.lastName,
-        mobileNumber: values.mobileNumber,
-        phoneNumber: values.phoneNumber,
         shortName: values.shortName,
+        companyName: values.companyName,
+        anonymousName: values.anonymousName,
+        anonymousName2: values.anonymousName2,
         street: values.street,
-        userName: values.userName,
         zipCode: values.zipCode,
-        countryId: values && values.country ? values.country.value : null,
-        stateId: values && values.state ? values.state.value : null
+        countryId: values && values.country ? values.country.value : "",
+        stateId: values && values.state ? values.state.value : "",
+        remarks: values.remarks,
+        website: values.website,
+        email: values.email,
+        userName: values.userName,
+        careGiverCommission: values.careGiverCommission,
+        doctorCommission: values.doctorCommission,
+        invoiceType: values && values.invoiceType ? values.invoiceType.value : "",
+        interval: values && values.interval ? values.interval.value : "",
+        emailInvoice: values.emailInvoice,
+        addressInvoice: values.addressInvoice
       };
       await addCareInstitution({
         variables: {
@@ -70,8 +84,6 @@ export const CareInstitutionForm = () => {
         }
       });
       toast.success(languageTranslation("CARE_INSTITUTION_ADD_SUCCESS_MSG"));
-
-      history.push(AppRoutes.CARE_INSTITUTION);
     } catch (error) {
       const message = error.message
         .replace("SequelizeValidationError: ", "")
@@ -82,6 +94,9 @@ export const CareInstitutionForm = () => {
     }
     setSubmitting(false);
   };
+
+  const [activeTab, setactiveTab] = useState(0)
+
   // const { data, loading, error, refetch } = useQuery(GET_USERS);
   // console.log(data, 'dataaaaa');
   const values: ICareInstitutionFormValues = {
@@ -97,14 +112,71 @@ export const CareInstitutionForm = () => {
     isArchive: false
   };
   return (
-    <Formik
-      initialValues={values}
-      onSubmit={handleSubmit}
-      children={(props: FormikProps<ICareInstitutionFormValues>) => (
-        <AddCareInstitution {...props} />
-      )}
-      validationSchema={CareInstituionValidationSchema}
-    />
+    <div className="common-detail-page">
+      <div className="common-detail-section">
+        <Suspense fallback={"Loading.."}>
+          <div className="sticky-common-header">
+            <div className="common-topheader d-flex align-items-center ">
+              <div className="user-select">
+                Add Care Institution
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={reminder} alt="" />
+                </span>
+                <span
+                  className="header-nav-text"
+                // onClick={() => {
+                //   this.setState({ show: true });
+                // }}
+                >
+                  Create Todo/Reminder
+              </span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={password} alt="" />
+                </span>
+                <span className="header-nav-text">New Password</span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={appointment} alt="" />
+                </span>
+                <span className="header-nav-text">Display Appointments</span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={clear} alt="" />
+                </span>
+                <span className="header-nav-text">Clear</span>
+              </div>
+            </div>
+            <CareInstitutionSidebar
+              tabs={CareInstitutionTabs}
+              activeTab={activeTab}
+              onTabChange={""}
+            />
+          </div>
+        </Suspense>
+        <Suspense fallback={""}>
+          <div className="common-content flex-grow-1">
+            {activeTab === 0 ? (
+              <div className={"form-section forms-main-section"}>
+                <Formik
+                  initialValues={values}
+                  onSubmit={handleSubmit}
+                  children={(props: FormikProps<ICareInstitutionFormValues>) => (
+                    <AddCareInstitution {...props} />
+                  )}
+                  validationSchema={CareInstituionValidationSchema}
+                />
+              </div>
+            ) : null}
+          </div>
+        </Suspense>
+      </div>
+    </div>
   );
 };
 

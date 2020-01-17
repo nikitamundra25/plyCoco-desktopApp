@@ -27,7 +27,9 @@ const GET_CARE_INSTITUTION_LIST = gql`
         canstitution {
           city
           zipCode
-          title
+          title,
+          companyName,
+          shortName,
         }
       }
     }
@@ -80,7 +82,6 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         mobileNumber
         email
         remark
-        id
       }
     }
   }
@@ -109,6 +110,7 @@ const DELETE_CARE_INSTITUTION = gql`
 const ADD_CARE_INSTITUTION = gql`
   mutation AddCareInstitution($careInstitutionInput: CareInstitutionInput) {
     addCareInstitution(careInstitutionInput: $careInstitutionInput) {
+      id
       firstName
     }
   }
@@ -123,7 +125,6 @@ const UPDATE_CARE_INSTITUTION = gql`
       id: $id
       careInstitutionInput: $careInstitutionInput
     ) {
-      id
       firstName
       lastName
     }

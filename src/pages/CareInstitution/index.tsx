@@ -278,7 +278,6 @@ const CareInstitution = (props: RouteComponentProps) => {
   }
   const tableData: any[] = [];
   const query = qs.parse(search);
-  console.log("query", query);
 
   <>
     {userData && userData.length
@@ -303,7 +302,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className="info-column">
                     <div className="description-column">
                       <div className="info-title">
-                        {user.firstName} {user.lastName}
+                        {`${user.firstName}  ${user.lastName}`}
                       </div>
                       <p className="description-text">
                         <i className="fa fa-envelope mr-2"></i>
@@ -422,6 +421,7 @@ const CareInstitution = (props: RouteComponentProps) => {
               )}
             </td>
           </tr>
+         
         )}
   </>;
   // const {

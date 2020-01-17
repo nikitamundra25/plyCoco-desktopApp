@@ -8,12 +8,18 @@ import {
   ICareInstitutionRemarks
 } from "../../../../interfaces";
 import { State } from "../../../../config";
+import moment from "moment";
 
 const RemarkFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 >> = (props: FormikProps<ICareInstitutionFormValues>) => {
-  let [addRemark, setRemark] = useState(false);
-  let [remarkInput, setRemarkInput] = useState("");
+  let [addRemark, setRemark] = useState(true);
+  let [changeRemark, setchangeRemark] = useState({
+    data: "",
+    createdAt: "",
+    createdBy: ""
+  });
+
   const {
     values: { remarks },
     touched,
@@ -34,13 +40,6 @@ const RemarkFormData: FunctionComponent<FormikProps<
             {" "}
             {languageTranslation("REMARKS")}
           </h5>
-          <div
-            className="edit-remark my-2"
-            onClick={() => setRemark((addRemark = true))}
-          >
-            <i className="icon-note mr-2" />{" "}
-            {languageTranslation("ADD_REMARKS")}
-          </div>
         </div>
         <div className="remark-body remark-body-max-height ">
           <div className="activity-logs ">
@@ -50,95 +49,89 @@ const RemarkFormData: FunctionComponent<FormikProps<
                   name="remarks"
                   render={arrayHelpers => (
                     <div>
-                      {remarks && remarks.length > 0 ? (
-                        remarks.map(
-                          (remarks: ICareInstitutionRemarks, index: number) => (
-                            <div key={index}>
-                              <div className="activity-block py-2 px-3">
-                                <div className="pr-3 text-left">
-                                  <div className="remark-section">
-                                    <Input
-                                      type="textarea"
-                                      name={"remarks"}
-                                      handleChange={(e: any) =>
-                                        arrayHelpers.push(e.target.value)
-                                      }
-                                      placeholder="Remarks"
-                                      className="height-textarea "
-                                    />
-                                    <div
-                                      className="add-remark-btn"
-                                      onClick={e => {
-                                        console.log("e.target.value", e);
-                                        arrayHelpers.insert(index, "");
-                                        setRemark((addRemark = false));
-                                      }}
-                                    >
-                                      {" "}
-                                      {languageTranslation("ADD_REMARKS")}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="text-left activity-date">
-                                  <span>
-                                    <i className="fa fa-clock-o mr-2"></i>Dec
-                                    28th 2019, 2:54 PM
-                                  </span>
-                                  <span>
-                                    <i className="fa fa-user mr-2"></i>Mark
-                                    Smith
-                                  </span>
-                                </div>
-                                <span className="activity-icon activity-set"></span>
+                      <div>
+                        <div className="activity-block py-2 px-3">
+                          <div className="pr-3 text-left">
+                            <div className="remark-section">
+                              <Input
+                                type="textarea"
+                                name={"remarks"}
+                                onChange={(e: any) =>
+                                  setchangeRemark(
+                                    (changeRemark = {
+                                      data: e.target.value,
+                                      createdAt: moment().format(
+                                        "MMMM Do YYYY, h:mm a"
+                                      ),
+                                      createdBy: "john doe"
+                                    })
+                                  )
+                                }
+                                placeholder="Remarks"
+                                value={changeRemark.data}
+                                className="height-textarea "
+                              />
+                              <div
+                                className="add-remark-btn"
+                                onClick={e => {
+                                  arrayHelpers.push(changeRemark);
+                                  setchangeRemark(
+                                    (changeRemark = {
+                                      data: "",
+                                      createdAt: "",
+                                      createdBy: ""
+                                    })
+                                  );
+                                }}
+                              >
+                                {" "}
+                                {languageTranslation("ADD_REMARKS")}
                               </div>
                             </div>
-                          )
-                        )
-                      ) : (
-                        <>
-                          <div className="activity-block py-2 px-3">
-                            <div className="pr-3 text-left">
-                              <div className="remark-section">
-                                <Input
-                                  type="textarea"
-                                  name={"remarks"}
-                                  placeholder="Remarks"
-                                  value={remarks}
-                                  handleChange={(e: any) =>
-                                    arrayHelpers.push(e.target.value)
-                                  }
-                                  className="height-textarea "
-                                />
-                                <div
-                                  className="add-remark-btn"
-                                  onClick={e => {
-                                    console.log("e.target.value", remarkInput);
-                                    setRemark((addRemark = false));
-                                  }}
-                                >
-                                  {" "}
-                                  {languageTranslation("ADD_REMARKS")}
-                                </div>
-                              </div>
-                            </div>
-                            <div className="text-left activity-date">
-                              <span>
-                                <i className="fa fa-clock-o mr-2"></i>Dec 28th
-                                2019, 2:54 PM
-                              </span>
-                              <span>
-                                <i className="fa fa-user mr-2"></i>Mark Smith
-                              </span>
-                            </div>
-                            <span className="activity-icon activity-set"></span>
                           </div>
-                        </>
-                      )}
+                          <div className="text-left activity-date">
+                            <span>
+                              <i className="fa fa-clock-o mr-2"></i>
+                              {moment().format("MMMM Do YYYY, h:mm a")}
+                            </span>
+                            <span>
+                              <i className="fa fa-user mr-2"></i>Mark Smith
+                            </span>
+                          </div>
+                          <span className="activity-icon activity-set"></span>
+                        </div>
+                      </div>
                     </div>
                   )}
                 />
               </>
             ) : null}
+            {remarks && remarks.length ? (
+              <>
+                {remarks.map(remark => {
+                  return (
+                    <div className="activity-block py-2 px-3">
+                      <div className="pr-3 text-left">
+                        <div className="remark-section">{remark.data}</div>
+                      </div>
+                      <div className="text-left activity-date">
+                        <span>
+                          <i className="fa fa-clock-o mr-2"></i>
+                          {remark.createdAt}
+                        </span>
+                        <span>
+                          <i className="fa fa-user mr-2"></i>Mark Smith
+                        </span>
+                      </div>
+                      <span className="activity-icon activity-set"></span>
+                    </div>
+                  );
+                })}
+              </>
+            ) : (
+              ""
+            )}
+
             {remarks && remarks.length
               ? remarks.map(
                   (remarkData: ICareInstitutionRemarks, index: number) => {

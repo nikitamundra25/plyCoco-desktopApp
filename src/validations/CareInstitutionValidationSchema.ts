@@ -1,11 +1,13 @@
 import * as Yup from "yup";
 import {
-  ICareInstitutionValidationSchema,
-  IDateResponse,
-  ICareInstitutionContactValidationSchema
-} from "../interfaces";
-import { nameRegExp, mobMin, mobMax } from "../config";
-import { languageTranslation, logger, dateValidator } from "../helpers";
+  nameRegExp,
+  mobMin,
+  mobMax,
+  webRegExp
+} from '../config';
+import { languageTranslation, logger, dateValidator } from '../helpers';
+import { ICareInstitutionValidationSchema, ICareInstitutionContactValidationSchema } from "../interfaces";
+
 
 export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -22,8 +24,9 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation("FIRSTNAME_REQUIRED")),
   lastName: Yup.string()
     .trim()
-    .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
+    .min(3, languageTranslation("NAME_MINLENGTH"))
+    .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .required(languageTranslation("LASTNAME_REQUIRED")),
   userName: Yup.string()
     .trim()
@@ -40,7 +43,10 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
       value =>
         !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
-  city: Yup.string()
+  city: Yup.string(),
+  website: Yup.string()
+    .trim()
+    .matches(webRegExp, languageTranslation("ENTER_VALID_WEB_URL")),
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -58,8 +64,9 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation("FIRSTNAME_REQUIRED")),
   lastName: Yup.string()
     .trim()
-    .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
+    .min(3, languageTranslation("NAME_MINLENGTH"))
+    .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .required(languageTranslation("LASTNAME_REQUIRED")),
   mobileNumber: Yup.mixed()
     .test(

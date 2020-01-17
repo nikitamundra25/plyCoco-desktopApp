@@ -66,6 +66,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       title,
       gender,
       website,
+      remarks,
       linkedTo,
       fax,
       anonymousName2,
@@ -83,6 +84,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldValue,
     setFieldTouched
   } = props;
+  console.log("state", state);
+
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
   // Custom function to handle react select fields
@@ -96,7 +99,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       logger(statesData, "sdsdsdsd");
     }
   };
-
   return (
     <Row className=" ">
       <Button
@@ -165,7 +167,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                   <Col sm="4">
                     <Label className="form-label col-form-label">
                       {languageTranslation("REGION")}
-                      <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="8">
@@ -185,7 +186,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                   <Col sm="4">
                     <Label className="form-label col-form-label">
                       {languageTranslation("GENDER")}
-                      <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="8">
@@ -493,7 +493,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                   <Col sm="4">
                     <Label className="form-label col-form-label ">
                       {languageTranslation("COUNTRY")}
-                      <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="8">
@@ -517,7 +516,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                   <Col sm="4">
                     <Label className="form-label col-form-label ">
                       {languageTranslation("STATE")}
-                      <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="8">

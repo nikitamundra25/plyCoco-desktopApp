@@ -335,31 +335,13 @@ const Employee: FunctionComponent = () => {
               <th>
                 <div className="table-checkbox-wrap">
                   <div className="btn-group btn-check-action-wrap">
-                    <span className="btn">
-                      <span className="checkboxli checkbox-custom checkbox-default">
-                        <input type="checkbox" id="checkAll" className="" />
-                        <label className=""></label>
-                      </span>
-                    </span>
-                    <UncontrolledDropdown className="custom-dropdown">
-                      <DropdownToggle caret color="link" />
-                      <DropdownMenu>
-                        <DropdownItem>
-                          {languageTranslation("DELETE")}
-                        </DropdownItem>
-                        <DropdownItem>
-                          {languageTranslation("ACTIVE")}
-                        </DropdownItem>
-                        <DropdownItem>
-                          {languageTranslation("DISABLE")}
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
+                    <span className="btn"></span>
                   </div>
                 </div>
               </th>
               <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
               <th>{languageTranslation("REGION")}</th>
+              <th>{languageTranslation("CREATED_DATE")}</th>
               <th className="text-center">
                 {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
               </th>
@@ -404,7 +386,7 @@ const Employee: FunctionComponent = () => {
                       <td>
                         <div className="table-checkbox-wrap">
                           <div className="btn-group btn-check-action-wrap">
-                            <span className="btn">
+                            {/* <span className="btn">
                               <span className="checkboxli checkbox-custom checkbox-default">
                                 <input
                                   type="checkbox"
@@ -413,7 +395,7 @@ const Employee: FunctionComponent = () => {
                                 />
                                 <label className=""></label>
                               </span>
-                            </span>
+                            </span> */}
                             <span className="checkbox-no">{count++}</span>
                           </div>
                         </div>
@@ -455,6 +437,11 @@ const Employee: FunctionComponent = () => {
                       <td>
                         <div className="description-column  ml-0">
                           {region ? region.regionName : "-"}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="description-column  ml-0">
+                          12 Dec, 2019
                         </div>
                       </td>
                       <td className="text-center">

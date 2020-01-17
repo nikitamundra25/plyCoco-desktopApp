@@ -13,6 +13,7 @@ import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import * as qs from "query-string";
 import { FormikHelpers, FormikProps, Formik } from "formik";
 import PaginationComponent from "../../common/Pagination";
+import { NoSearchFound } from "../../common/SearchFilter/NoSearchFound";
 
 const [, GET_REGIONS] = RegionQueries;
 
@@ -28,6 +29,7 @@ export const Region: FunctionComponent = () => {
   const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isFilterApplied, setIsFilter] = useState<boolean>(false);
 
   // To get emplyee list from db
   const [fetchRegionList, { data, loading }] = useLazyQuery<any>(GET_REGIONS);
@@ -71,6 +73,9 @@ export const Region: FunctionComponent = () => {
         searchValue: searchBy,
         sortBy
       });
+      setIsFilter(
+        searchBy !== "" || isActive !== undefined || sortBy !== undefined
+      );
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
     // call query
@@ -180,10 +185,10 @@ export const Region: FunctionComponent = () => {
           <tbody>
             {loading ? (
               <p>Loading ...</p>
-            ) : (
-              data &&
+            ) : data &&
               data.getRegions &&
               data.getRegions.regionData &&
+              data.getRegions.regionData.length ? (
               data.getRegions.regionData.map((region: any, index: number) => {
                 return (
                   <tr key={index}>
@@ -205,16 +210,34 @@ export const Region: FunctionComponent = () => {
                   </tr>
                 );
               })
+            ) : (
+              <tr className={"text-center"}>
+                <td colSpan={6} className={"pt-5 pb-5"}>
+                  {isFilterApplied ? (
+                    <NoSearchFound />
+                  ) : (
+                    <div className="no-data-section">
+                      <div className="no-data-icon">
+                        <i className="icon-ban" />
+                      </div>
+                      <h4 className="mb-1">
+                        Currently there are no employee Added.{" "}
+                      </h4>
+                      <p>Please click above button to add new. </p>
+                    </div>
+                  )}
+                </td>
+              </tr>
             )}
           </tbody>
         </Table>
-        {data && data.getRegions && data.getRegions.totalCount && (
+        {data && data.getRegions && data.getRegions.totalCount ? (
           <PaginationComponent
             totalRecords={data.getRegions.totalCount}
             currentPage={currentPage}
             onPageChanged={onPageChanged}
           />
-        )}
+        ) : null}
       </CardBody>
     </Card>
   );

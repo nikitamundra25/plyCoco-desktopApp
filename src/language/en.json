@@ -404,7 +404,7 @@
   "MIN_TEXT": "This field must contain atleast 5 characters",
   "IBAN_INVALID": "IBAN number is not valid",
   "UNSUPPORTED_FORMAT": "Unsupported File Format",
-  "FILE_SIZE_TO_LARGE": "File size too large",
+  "FILE_SIZE_TO_LARGE": "Image size must be less than 1 mb",
   "COUNTRY_PLACEHOLDER": "Select Country",
   "CHOOSE_IMAGE": " Click here to select your profile image",
   "TIME_OF_DAY": "Time of Day",

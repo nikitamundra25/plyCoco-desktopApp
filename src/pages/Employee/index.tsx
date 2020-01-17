@@ -344,7 +344,9 @@ const Employee: FunctionComponent = () => {
                 {languageTranslation("CREATED_DATE")}
               </th>
 
-              <th className="text-center">{languageTranslation("STATUS")}</th>
+              <th className="text-center" style={{ width: "100px" }}>
+                {languageTranslation("STATUS")}
+              </th>
               <th className="text-center">
                 {languageTranslation("TABLE_HEAD_ACTION")}
               </th>
@@ -499,7 +501,6 @@ const Employee: FunctionComponent = () => {
                             {" "}
                             <i className="fa fa-eye"></i>
                           </ButtonTooltip>
-
                           <ButtonTooltip
                             id={`delete${index}`}
                             message={languageTranslation("EMP_DELETE")}

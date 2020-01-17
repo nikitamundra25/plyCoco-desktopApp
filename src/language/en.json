@@ -439,7 +439,7 @@
   "CARE_INSTITUTION_DELETE_SUCCESS_MSG": "Care institution has been deleted successfully",
   "NEW_CONTACT_ADD_CARE_INSTITUTION":"Care institution contact added successfully.",
   "PERSONAL_INFORMATION": "Personal Information",
-
+  "CARE_INSTI_UPDATE_SUCCESS":"Care institution updated successfully",
   
   "EMPLOYEE_NAME": "Employee Name",
   "CONTACT_NO": "Contact No.",

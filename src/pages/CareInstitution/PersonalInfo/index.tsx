@@ -141,6 +141,7 @@ const PersonalInformation: any = (props: any) => {
         // addressInvoice: values.addressInvoice
       }
       setSubmitting(false);
+      toast.success(languageTranslation("CARE_INSTI_UPDATE_SUCCESS"));
       await updateCareInstitution({
         variables: {
           id: parseInt(Id),

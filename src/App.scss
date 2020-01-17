@@ -1176,6 +1176,15 @@ body {
     }
   }
 }
+    .top-form-button{
+      right: 8px;
+      position: absolute;
+      top: -34px;
+      z-index: 10;
+      padding: 4px 30px;
+      font-weight: 600;
+      font-size: 13px;
+    }
 
 .common-list-wrap {
   margin-bottom: 12px;

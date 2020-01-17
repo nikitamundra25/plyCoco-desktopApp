@@ -81,7 +81,7 @@ export interface ICareInstitutionContact {
   street?: string;
   stateId?: string;
   gender?: IReactSelectInterface;
-  id?: number;
+  id?: string;
   title?: string;
   state?: IReactSelectInterface;
   city?: string;

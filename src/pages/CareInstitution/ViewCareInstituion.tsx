@@ -126,7 +126,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     defaultValue={selectUser}
                     placeholder="Select Caregiver"
                     value={selectUser}
-                    onChange={e => handleSelect(e)}
+                    onChange={(e: any) => handleSelect(e)}
                     options={CareInstitutionList}
                   />
                 </div>

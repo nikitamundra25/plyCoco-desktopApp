@@ -51,6 +51,12 @@ class PersonalInformation extends Component<
         lastName: "",
         dateOfBirth: "",
         age: "",
+        address1: "",
+        address2: "",
+        driversLicense: false,
+        driverLicenseNumber: "",
+        vehicleAvailable: false,
+        qualifications: [],
         street: "",
         city: "",
         postCode: "",
@@ -60,6 +66,7 @@ class PersonalInformation extends Component<
         mobileNumber: "",
         email: "",
         taxNumber: "",
+        socialSecurityContribution: false,
         // bankName: "",
         iban: "",
         password: "",
@@ -70,11 +77,12 @@ class PersonalInformation extends Component<
         registrationNumber: "",
         executiveDirector: "",
         employed: false,
-        additionalText: ""
+        additionalText: "",
+        status: "active",
+        remarks: [{ commentBy: "", description: "", commentAt: "" }]
       },
       billingSettings: {
         fee: "",
-        night: "",
         weekendAllowancePerHour: "",
         holidayAllowancePerHourFee: "",
         nightAllowancePerHour: "",
@@ -93,7 +101,7 @@ class PersonalInformation extends Component<
             ): Promise<any> | void =>
               this.handleSubmit(values, actions, updateCareGiver)
             }
-            render={(props:any) => {
+            render={(props: any) => {
               return (
                 <Form className="form-section forms-main-section">
                   <Row>
@@ -105,7 +113,7 @@ class PersonalInformation extends Component<
                       <BillingSettingsFormComponent {...props} />
                       <QualificationFormComponent {...props} />
 
-                      <AttributeFormComponent {...props} />
+                      {/* <AttributeFormComponent {...props} /> */}
                     </Col>
                     <Col lg={4}>
                       <RemarkFormComponent {...props} />

@@ -61,13 +61,13 @@ const BillingSettingsFormComponent: any = (
                                             />
                                         </div>
                                     </Col>
-                                    <Col sm="8">
+                                    {/* <Col sm="8">
                                         <FormGroup>
                                             <Row className="custom-col inner-no-padding-col">
                                                 <Col sm="6">
                                                     <Label className="form-label col-form-label inner-label">
                                                         Night
-                              <span className="required">*</span>
+                                                        <span className="required">*</span>
                                                     </Label>
                                                 </Col>
                                                 <Col sm="6">
@@ -82,7 +82,7 @@ const BillingSettingsFormComponent: any = (
                                                 </Col>
                                             </Row>
                                         </FormGroup>
-                                    </Col>
+                                    </Col> */}
                                 </Row>
                             </Col>
                         </Row>

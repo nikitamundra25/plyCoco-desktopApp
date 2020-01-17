@@ -339,7 +339,9 @@ const Employee: FunctionComponent = () => {
               <th className="text-center">
                 {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
               </th>
-              <th>{languageTranslation("CREATED_DATE")}</th>
+              <th className="text-center">
+                {languageTranslation("CREATED_DATE")}
+              </th>
 
               <th className="text-center">{languageTranslation("STATUS")}</th>
               <th className="text-center">
@@ -401,7 +403,19 @@ const Employee: FunctionComponent = () => {
                             />
                           </div>
                           <div className="description-column">
-                            <div className="info-title">
+                            <div
+                              className="info-title"
+                              onClick={() =>
+                                history.push(
+                                  AppRoutes.VIEW_EMPLOYEE.replace(
+                                    /:id|:userName/gi,
+                                    function(matched) {
+                                      return replaceObj[matched];
+                                    }
+                                  )
+                                )
+                              }
+                            >
                               {firstName ? firstName : ""}
                             </div>
                             <div className="description-text">
@@ -430,11 +444,9 @@ const Employee: FunctionComponent = () => {
                       <td className="text-center">
                         <div>{0}</div>
                       </td>
-                      <td>
-                        <div className="description-column  ml-0">
-                          {createdAt
-                            ? moment(createdAt).format("Do MMM, YYYY")
-                            : ""}
+                      <td className="text-center">
+                        <div className="description-column  ml-0 ">
+                          {createdAt ? moment(createdAt).format("LLL") : ""}
                         </div>
                       </td>
                       <td className="text-center">

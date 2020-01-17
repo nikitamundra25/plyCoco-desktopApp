@@ -163,7 +163,6 @@ const PersonalInformation: any = (props: any) => {
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
   ) => {
     //to set submit state to false after successful signup
-    console.log("valuessss", values);
 
     try {
       const careInstitutionInput: any = {

@@ -132,7 +132,9 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   return (
     <Row className=" ">
       <Button
-        className={"save-button btn-add btn btn-primary text-white top-form-button"}
+        className={
+          "save-button btn-add btn btn-primary text-white top-form-button"
+        }
         onClick={handleSubmit}
       >
         Save
@@ -793,11 +795,12 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     <div>
                       <Input
                         type="textarea"
-                        name={"additionalText "}
+                        name={"remarksViewable"}
                         placeholder={languageTranslation("REMARKS")}
-                        className="textarea-custom " 
+                        className="textarea-custom "
                         rows="4"
-                        value = {remarksViewable}
+                        value={remarksViewable}
+                        onChange={handleChange}
                       />
                     </div>
                   </Col>

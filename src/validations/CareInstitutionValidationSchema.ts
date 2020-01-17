@@ -24,8 +24,9 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation("FIRSTNAME_REQUIRED")),
   lastName: Yup.string()
     .trim()
-    .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
+    .min(3, languageTranslation("NAME_MINLENGTH"))
+    .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .required(languageTranslation("LASTNAME_REQUIRED")),
   userName: Yup.string()
     .trim()
@@ -63,8 +64,9 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation("FIRSTNAME_REQUIRED")),
   lastName: Yup.string()
     .trim()
-    .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
+    .min(3, languageTranslation("NAME_MINLENGTH"))
+    .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .required(languageTranslation("LASTNAME_REQUIRED")),
   mobileNumber: Yup.mixed()
     .test(

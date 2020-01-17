@@ -1,11 +1,14 @@
-import React, { Component } from 'react';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { CareInstituionValidationSchema } from '../../../validations';
-import { ICareInstitutionFormValues } from '../../../interfaces';
-import AddCareInstitution from './AddCareInstitution';
+import React, { Component, useEffect } from "react";
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import { CareInstituionValidationSchema } from "../../../validations";
+import { ICareInstitutionFormValues } from "../../../interfaces";
+import AddCareInstitution from "./AddCareInstitution";
 import { CareInstitutionQueries } from "../../../queries";
-import { useMutation } from '@apollo/react-hooks';
-import { logger } from "../../../helpers";
+import { useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { logger, languageTranslation } from "../../../helpers";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router";
+import { AppRoutes } from "../../../config";
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -14,20 +17,38 @@ const [
   ADD_CARE_INSTITUTION
 ] = CareInstitutionQueries;
 
-
 export const CareInstitutionForm = () => {
+  const [addCareInstitution, { error, data }] = useMutation<{
+    addCareInstitution: ICareInstitutionFormValues;
+  }>(ADD_CARE_INSTITUTION);
 
-  const [addCareInstitution, { error, data }] = useMutation<{ addCareInstitution: ICareInstitutionFormValues }>(ADD_CARE_INSTITUTION);
+  // const [fetchCareInstitutionList, { data: careInstitution, loading, refetch }] = useLazyQuery<
+  //   any
+  // >(GET_CARE_INSTITUTION_LIST);
 
+  let history = useHistory();
+
+
+  // useEffect(() => {
+  //   fetchCareInstitutionList({
+  //     variables: {
+  //       searchBy: "",
+  //       sortBy: 0,
+  //       limit: 50,
+  //       page: 1,
+  //       isActive: ""
+  //     }
+  //   });
+  // }, [""])
 
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
-    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
   ) => {
     //to set submit state to false after successful signup
     try {
       const dataSubmit: any = {
-        salutation: values && values.salutaion ? values.salutaion.label : "",
+        salutation: values && values.salutation ? values.salutation.label : "",
         city: values.city,
         companyName: values.companyName,
         email: values.email,
@@ -38,34 +59,42 @@ export const CareInstitutionForm = () => {
         phoneNumber: values.phoneNumber,
         shortName: values.shortName,
         street: values.street,
-        userName: values.street,
+        userName: values.userName,
         zipCode: values.zipCode,
-        countryId: values && values.country ? values.country.value : "",
-        stateId: values && values.state ? values.state.value : "",
-      }
-      setSubmitting(false);
+        countryId: values && values.country ? values.country.value : null,
+        stateId: values && values.state ? values.state.value : null
+      };
       await addCareInstitution({
         variables: {
           careInstitutionInput: dataSubmit
         }
-      })
+      });
+      toast.success(languageTranslation("CARE_INSTITUTION_ADD_SUCCESS_MSG"));
+
+      history.push(AppRoutes.CARE_INSTITUTION);
     } catch (error) {
-      logger(error)
+      const message = error.message
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
+      toast.error(message);
+      logger(error);
     }
+    setSubmitting(false);
   };
   // const { data, loading, error, refetch } = useQuery(GET_USERS);
   // console.log(data, 'dataaaaa');
   const values: ICareInstitutionFormValues = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    userName: '',
-    fax: '',
-    shortName: '',
-    companyName: '',
-    street: '',
-    city: '',
-    isArchive: false,
+    email: "",
+    firstName: "",
+    lastName: "",
+    userName: "",
+    fax: "",
+    shortName: "",
+    companyName: "",
+    street: "",
+    city: "",
+    isArchive: false
   };
   return (
     <Formik

@@ -1,15 +1,16 @@
 import React, { FunctionComponent, useState } from "react";
 import { FormGroup, Label, Input, Col, Row, Form } from "reactstrap";
 import Select from "react-select";
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { Formik, FormikProps, FormikHelpers, FieldArray } from 'formik';
 import { languageTranslation, logger } from "../../../../helpers";
-import { ICareInstitutionFormValues } from "../../../../interfaces";
+import { ICareInstitutionFormValues, ICareInstitutionRemarks } from "../../../../interfaces";
 import { State } from "../../../../config";
 
 const RemarkFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 >> = (props: FormikProps<ICareInstitutionFormValues>) => {
   let [addRemark, setRemark] = useState(false);
+  let [remarkInput, setRemarkInput] = useState("")
   const {
     values: {
       remarks
@@ -40,113 +41,113 @@ const RemarkFormData: FunctionComponent<FormikProps<
         <div className="remark-body remark-body-max-height ">
           <div className="activity-logs ">
             {addRemark ? (
-              <div className="activity-block py-2 px-3">
-                <div className="pr-3 text-left">
-                  <div className="remark-section">
-                    <Input
-                      type="textarea"
-                      name={"remarks"}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={remarks}
-                      placeholder="Remarks"
-                      className="height-textarea "
-                    />
-                    <div className="add-remark-btn" onClick={() => setRemark(addRemark = false)}>
-                      {" "}
-                      {languageTranslation("ADD_REMARKS")}
+              <>
+                <FieldArray
+                  name="remarks"
+                  render={arrayHelpers => (
+                    <div>
+                      {remarks && remarks.length > 0 ? (
+                        remarks.map((remarks: ICareInstitutionRemarks, index: number) => (
+                          <div key={index}>
+                            <div className="activity-block py-2 px-3">
+                              <div className="pr-3 text-left">
+                                <div className="remark-section">
+                                  <Input
+                                    type="textarea"
+                                    name={"remarks"}
+                                    handleChange={(e: any) => arrayHelpers.push(e.target.value)}
+                                    placeholder="Remarks"
+                                    className="height-textarea "
+                                  />
+                                  <div className="add-remark-btn" onClick={(e) => {
+                                    console.log("e.target.value", e);
+                                    arrayHelpers.insert(index, '');
+                                    setRemark(addRemark = false)
+                                  }}>
+                                    {" "}
+                                    {languageTranslation("ADD_REMARKS")}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="text-left activity-date">
+                                <span>
+                                  <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                                  2:54 PM
+                                </span>
+                                <span>
+                                  <i className="fa fa-user mr-2"></i>Mark Smith
+                                </span>
+                              </div>
+                              <span className="activity-icon activity-set"></span>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+
+                          <>
+                            <div className="activity-block py-2 px-3">
+                              <div className="pr-3 text-left">
+                                <div className="remark-section">
+                                  <Input
+                                    type="textarea"
+                                    name={"remarks"}
+                                    placeholder="Remarks"
+                                    value={remarks}
+                                    handleChange={(e: any) => arrayHelpers.push(e.target.value)}
+                                    className="height-textarea "
+                                  />
+                                  <div className="add-remark-btn" onClick={(e) => {
+                                    console.log("e.target.value", remarkInput);
+                                    ;
+                                    setRemark(addRemark = false)
+                                  }}>
+                                    {" "}
+                                    {languageTranslation("ADD_REMARKS")}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="text-left activity-date">
+                                <span>
+                                  <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
+                                  2:54 PM
+                                </span>
+                                <span>
+                                  <i className="fa fa-user mr-2"></i>Mark Smith
+                                </span>
+                              </div>
+                              <span className="activity-icon activity-set"></span>
+                            </div>
+                          </>
+                        )}
                     </div>
-                  </div>
-                </div>
-                <div className="text-left activity-date">
-                  <span>
-                    <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
-                    2:54 PM
-                    </span>
-                  <span>
-                    <i className="fa fa-user mr-2"></i>Mark Smith
-                    </span>
-                </div>
-                <span className="activity-icon activity-set"></span>
-              </div>
+                  )}
+                />
+              </>
             ) : null}
-            <div className="activity-block py-2 px-3">
-              <div className="pr-3 text-left">
-                <span className="text-capitalize">
-                  Called a few days before the registration (they
-                  repeatedly asked to register), is KS and wants to make
-                  some money, preferably in clinics...
-                    <span className="view-more-link">View More</span>
-                </span>
-              </div>
-              <div className="text-left activity-date">
-                <span>
-                  <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
-                  2:54 PM
-                  </span>
-                <span>
-                  <i className="fa fa-user mr-2"></i>Mark Smith
-                  </span>
-              </div>
-              <span className="activity-icon activity-set"></span>
-            </div>
-            <div className="activity-block  py-2 px-3">
-              <div className="pr-3 text-left">
-                <span className="text-capitalize">
-                  She came to the info talk with her little son (about 3
-                  years). But everyone ran quietly. She had a lot of
-                    questions, generally freelance...<span className="view-more-link">View More</span>
-                </span>
-              </div>
-              <div className="text-left activity-date">
-                <span>
-                  <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
-                  2:54 PM
-                  </span>
-                <span>
-                  <i className="fa fa-user mr-2"></i>Mark Smith
-                  </span>
-              </div>
-              <span className="activity-icon activity-set"></span>
-            </div>
-            <div className="activity-block  py-2 px-3">
-              <div className="pr-3 text-left">
-                <span className="text-capitalize">
-                  she called (yesterday on the phone again with Norma and
-                  asked everything again, apparently hadn't listened to
-                    the conversation), now she ...<span className="view-more-link">View More</span>
-                </span>
-              </div>
-              <div className="text-left activity-date">
-                <span>
-                  <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
-                  2:54 PM
-                  </span>
-                <span>
-                  <i className="fa fa-user mr-2"></i>Mark Smith
-                  </span>
-              </div>
-              <span className="activity-icon activity-set"></span>
-            </div>
-            <div className="activity-block  py-2 px-3">
-              <div className="pr-3 text-left">
-                <span className="text-capitalize">
-                  Although she still wants to become a freelancer, her
-                  child has to get used to kindergarten and this takes 1
-                    to 2 months. She knows ....<span className="view-more-link">View More</span>
-                </span>
-              </div>
-              <div className="text-left activity-date">
-                <span>
-                  <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
-                  2:54 PM
-                  </span>
-                <span>
-                  <i className="fa fa-user mr-2"></i>Mark Smith
-                  </span>
-              </div>
-              <span className="activity-icon activity-set"></span>
-            </div>
+            {
+              remarks && remarks.length ?
+                remarks.map((remarkData: ICareInstitutionRemarks, index: number) => {
+                  <div className="activity-block py-2 px-3">
+                    <div className="pr-3 text-left">
+                      <span className="text-capitalize">
+                        {remarkData.data}
+                        <span className="view-more-link">View More</span>
+                      </span>
+                    </div>
+                    <div className="text-left activity-date">
+                      <span>
+                        <i className="fa fa-clock-o mr-2"></i>
+                        {remarkData.createdAt}
+                      </span>
+                      <span>
+                        <i className="fa fa-user mr-2"></i>{remarkData.createdBy}
+                      </span>
+                    </div>
+                    <span className="activity-icon activity-set"></span>
+                  </div>
+                }) :
+                null
+            }
           </div>
         </div>
       </div>

@@ -60,7 +60,6 @@ const CommissionFormData: FunctionComponent<FormikProps<
                         <Col sm="6">
                           <Label className="form-label col-form-label inner-label">
                             {languageTranslation("DOCTOR_FEE")}
-                            <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="6">

@@ -1,7 +1,7 @@
 import { IReactSelectInterface } from "./Constant"
 
 export interface ICareInstitutionFormValues {
-    salutaion?: IReactSelectInterface,
+    salutation?: IReactSelectInterface,
     email: string;
     firstName: string;
     lastName: string;
@@ -31,7 +31,7 @@ export interface ICareInstitutionFormValues {
     countryId?: string,
     stateId?: string,
     regionId?: number,
-    remarks?: string,
+    remarks?: [ICareInstitutionRemarks] | undefined,
     linkedTo?: string,
     anonymousName?: string,
     anonymousName2?: string,
@@ -54,17 +54,59 @@ export interface ICareInstitutionValidationSchema {
     city: string,
 }
 
+export interface ICareInstitutionContactValidationSchema {
+    email: string;
+    firstName: string;
+    lastName: string;
+    mobileNumber: number;
+    city: string,
+}
+
 export interface ICareInstitutionContact {
     email: string;
     firstName: string;
     lastName: string;
     userName: string;
-    phoneNumber: string;
-    mobileNumber: string;
-    faxNumber: string;
-    constactType: string;
+    phoneNumber?: string;
+    phoneNumber2?: string;
+    mobileNumber?: string;
+    faxNumber?: string;
+    contactType?: IReactSelectInterface;
+    remaks?: string;
     comments: string;
-    groupAttributes: string;
-    createdAt: Date;
-    updatedAt: Date;
+    salutation?: IReactSelectInterface;
+    country?: IReactSelectInterface;
+    countryId?: string;
+    street?: string;
+    stateId?: string;
+    gender?: IReactSelectInterface;
+    id?: number;
+    title?: string;
+    state?: IReactSelectInterface;
+    city?: string;
+    zipCode?: string;
+    groupAttributes?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export interface ICareInstitutionListDataInterface {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    userName: string;
+    phoneNumber: string;
+    isActive: boolean;
+    canstitution: ICareInstitutionObjectInterface
+}
+
+export interface ICareInstitutionObjectInterface {
+    companyName: string;
+    shortName: string;
+}
+export interface ICareInstitutionRemarks {
+    data: string,
+    createdAt: Date,
+    createdBy: string
 }

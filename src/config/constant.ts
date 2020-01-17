@@ -67,6 +67,13 @@ export const Status: IReactSelectInterface[] = [
   { value: "true", label: languageTranslation("ACTIVE") },
   { value: "false", label: languageTranslation("DISABLE") }
 ];
+export const ContactType: IReactSelectInterface[] = [
+  { value:"Director", label: "Director"},
+  { value:"Pesident", label: "Pesident"},
+  { value:"vicePesident", label: "Vice Pesident"},
+  { value:"Nursing", label: "Nursing"}
+
+]
 export const State: IReactSelectInterface[] = [
   { value: "Thuringia", label: "Thuringia" },
   { value: "Bavaria", label: "Bavaria" },

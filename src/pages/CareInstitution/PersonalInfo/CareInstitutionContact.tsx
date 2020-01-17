@@ -10,15 +10,81 @@ import {
   NavLink,
   Button
 } from "reactstrap";
-import { languageTranslation } from "../../../helpers";
+import { languageTranslation, logger } from "../../../helpers";
 import Select from "react-select";
-import { State, Country } from "../../../config";
+import { State, Country, Gender, Salutation, ContactType } from "../../../config";
 import { FormikProps, Field, Form } from "formik";
-import { ICareInstitutionContact } from "../../../interfaces";
+import { ICareInstitutionContact, IReactSelectInterface, ICountries, IStates, ICountry, IState } from "../../../interfaces";
+import { CountryQueries } from "../../../queries";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+
+const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const CareInstitutionConstForm: any = (
   props: FormikProps<ICareInstitutionContact>
 ) => {
+  const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY,
+  );
+
+  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  const statesOpt: IReactSelectInterface[] | undefined = [];
+  if (data && data.countries) {
+    data.countries.forEach(({ id, name }: ICountry) =>
+      countriesOpt.push({ label: name, value: id }),
+    );
+  }
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({ label: name, value: id }),
+    );
+  }
+
+  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
+    logger(selectOption, 'value');
+    setFieldValue(name, selectOption);
+    if (name === 'country') {
+      getStatesByCountry({
+        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+      });
+      logger(statesData, 'sdsdsdsd');
+    }
+  };
+
+  const {
+    values: {
+      email,
+      firstName,
+      lastName,
+      userName,
+      phoneNumber,
+      phoneNumber2,
+      mobileNumber,
+      salutation,
+      country,
+      remaks,
+      street,
+      state,
+      city,
+      zipCode,
+      title,
+      gender,
+      contactType,
+      faxNumber,
+      id,
+      createdAt
+    },
+    touched,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+    setFieldTouched,
+  } = props;
+
   return (
     <Col lg={12} className={"form-section"}>
       <div className="d-flex align-items-center justify-content-between my-3">
@@ -30,7 +96,7 @@ const CareInstitutionConstForm: any = (
             <NavLink>New Contact 2</NavLink>
           </NavItem>
         </Nav>
-        <Button color={"primary"} className={"btn-save"}>
+        <Button onClick={handleSubmit} color={"primary"} className={"btn-save"}>
           {languageTranslation("SAVE_BUTTON")}
         </Button>
       </div>
@@ -54,7 +120,7 @@ const CareInstitutionConstForm: any = (
                         <Input
                           type="text"
                           disable
-                          name={"firstName"}
+                          disabled
                           placeholder={languageTranslation("ID")}
                           className="width-common"
                         />
@@ -69,7 +135,6 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("GENDER")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
@@ -78,7 +143,11 @@ const CareInstitutionConstForm: any = (
                           <div>
                             <Select
                               placeholder={languageTranslation("GENDER")}
-                              options={State}
+                              value={gender ? gender : undefined}
+                              onChange={(value: any) =>
+                                handleSelect(value, 'gender')
+                              }
+                              options={Gender}
                             />
                           </div>
                         </Col>
@@ -88,7 +157,6 @@ const CareInstitutionConstForm: any = (
                               <Col sm="6">
                                 <Label className="form-label col-form-label inner-label">
                                   {languageTranslation("TITLE")}
-                                  <span className="required">*</span>
                                 </Label>
                               </Col>
                               <Col sm="6">
@@ -115,16 +183,17 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("SALUTATION")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
                       <div>
-                        <Input
-                          type="text"
-                          name={"firstName"}
+                        <Select
                           placeholder={languageTranslation("SALUTATION")}
-                          className="width-common"
+                          value={salutation ? salutation : undefined}
+                          onChange={(value: any) =>
+                            handleSelect(value, 'salutation')
+                          }
+                          options={Salutation}
                         />
                       </div>
                     </Col>
@@ -146,8 +215,20 @@ const CareInstitutionConstForm: any = (
                           type="text"
                           name={"firstName"}
                           placeholder={languageTranslation("FIRST_NAME")}
-                          className="width-common"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={firstName}
+                          className={
+                            errors.firstName && touched.firstName
+                              ? "text-input error"
+                              : "text-input"
+                          }
                         />
+                        {errors.firstName && touched.firstName && (
+                          <div className="required-error">
+                            {errors.firstName}
+                          </div>
+                        )}
                       </div>
                     </Col>
                   </Row>
@@ -166,10 +247,22 @@ const CareInstitutionConstForm: any = (
                       <div>
                         <Input
                           type="text"
-                          name={"firstName"}
+                          name={"lastName"}
                           placeholder={languageTranslation("SURNAME")}
-                          className="width-common"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={lastName}
+                          className={
+                            errors.lastName && touched.lastName
+                              ? "text-input error"
+                              : "text-input"
+                          }
                         />
+                        {errors.lastName && touched.lastName && (
+                          <div className="required-error">
+                            {errors.lastName}
+                          </div>
+                        )}
                       </div>
                     </Col>
                   </Row>
@@ -185,14 +278,17 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("CONTACT_TYPE")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
                       <div>
                         <Select
                           placeholder={languageTranslation("CONTACT_TYPE")}
-                          options={State}
+                          value={contactType ? contactType : undefined}
+                          onChange={(value: any) =>
+                            handleSelect(value, 'contactType')
+                          }
+                          options={ContactType}
                         />
                       </div>
                     </Col>
@@ -205,14 +301,16 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("STREET")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
                       <div>
                         <Input
                           type="text"
-                          name={"firstName"}
+                          name={"street"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={street}
                           placeholder={languageTranslation("STREET")}
                           className="width-common"
                         />
@@ -227,14 +325,16 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("CITY")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
                       <div>
                         <Input
                           type="text"
-                          name={"firstName"}
+                          name={"city"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={city}
                           placeholder={languageTranslation("CITY")}
                           className="width-common"
                         />
@@ -249,14 +349,16 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("ZIP")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
                       <div>
                         <Input
                           type="text"
-                          name={"firstName"}
+                          name={"zipCode"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={zipCode}
                           placeholder={languageTranslation("ZIP")}
                           className="width-common"
                         />
@@ -271,15 +373,17 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("COUNTRY")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
                       <div>
                         <Select
-                          // value={this.state.selectedOption}
-                          placeholder="Select Country"
-                          options={Country}
+                          placeholder={languageTranslation("COUNTRY")}
+                          options={countriesOpt}
+                          value={country ? country : undefined}
+                          onChange={(value: any) =>
+                            handleSelect(value, 'country')
+                          }
                         />
                       </div>
                     </Col>
@@ -296,14 +400,16 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("PHONE")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
                       <div>
                         <Input
                           type="text"
-                          name={"firstName"}
+                          name={"phoneNumber"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={phoneNumber}
                           placeholder={languageTranslation("PHONE")}
                           className="width-common"
                         />
@@ -318,14 +424,16 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("PHONE2")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
                       <div>
                         <Input
                           type="text"
-                          name={"firstName"}
+                          name={"phoneNumber2"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={phoneNumber2}
                           placeholder={languageTranslation("PHONE2")}
                           className="width-common"
                         />
@@ -340,14 +448,16 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("FAX")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
                       <div>
                         <Input
                           type="text"
-                          name={"firstName"}
+                          name={"faxNumber"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={faxNumber}
                           placeholder={languageTranslation("FAX")}
                           className="width-common"
                         />
@@ -362,17 +472,28 @@ const CareInstitutionConstForm: any = (
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("MOBILE")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col sm="8">
                       <div>
                         <Input
                           type="text"
-                          name={"firstName"}
+                          name={"mobileNumber"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={mobileNumber}
                           placeholder={languageTranslation("MOBILE")}
-                          className="width-common"
+                          className={
+                            errors.mobileNumber && touched.mobileNumber
+                              ? "text-input error"
+                              : "text-input"
+                          }
                         />
+                        {errors.mobileNumber && touched.mobileNumber && (
+                          <div className="required-error">
+                            {errors.mobileNumber}
+                          </div>
+                        )}
                       </div>
                     </Col>
                   </Row>
@@ -391,10 +512,22 @@ const CareInstitutionConstForm: any = (
                       <div>
                         <Input
                           type="text"
-                          name={"firstName"}
+                          name={"email"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={email}
                           placeholder={languageTranslation("EMAIL")}
-                          className="width-common"
+                          className={
+                            errors.email && touched.email
+                              ? "text-input error"
+                              : "text-input"
+                          }
                         />
+                        {errors.email && touched.email && (
+                          <div className="required-error">
+                            {errors.email}
+                          </div>
+                        )}
                       </div>
                     </Col>
                   </Row>
@@ -419,7 +552,10 @@ const CareInstitutionConstForm: any = (
                       <div>
                         <Input
                           type="textarea"
-                          name={"additionalText "}
+                          name={"remaks"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={remaks}
                           placeholder={languageTranslation("REMARKS")}
                           className="textarea-care-institution"
                           rows="4"

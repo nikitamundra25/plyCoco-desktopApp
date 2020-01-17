@@ -12,7 +12,7 @@ export const telMin: number = 9;
 export const telMax: number = 14;
 export const mobMin: number = 10;
 export const mobMax: number = 12;
-export const fileSize: number = 125 * 1024;
+export const fileSize: number = 1 * 1024 * 1024;
 export const nameRegExp: RegExp = /^[A-Za-z][A-Za-z ]+$/;
 export const SupportedFormats: string[] = [
   "image/jpg",

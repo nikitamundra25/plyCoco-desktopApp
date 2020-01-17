@@ -12,9 +12,22 @@ import {
 } from "reactstrap";
 import { languageTranslation, logger } from "../../../helpers";
 import Select from "react-select";
-import { State, Country, Gender, Salutation, ContactType } from "../../../config";
+import {
+  State,
+  Country,
+  Gender,
+  Salutation,
+  ContactType
+} from "../../../config";
 import { FormikProps, Field, Form } from "formik";
-import { ICareInstitutionContact, IReactSelectInterface, ICountries, IStates, ICountry, IState } from "../../../interfaces";
+import {
+  ICareInstitutionContact,
+  IReactSelectInterface,
+  ICountries,
+  IStates,
+  ICountry,
+  IState
+} from "../../../interfaces";
 import { CountryQueries } from "../../../queries";
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 
@@ -25,30 +38,30 @@ const CareInstitutionConstForm: any = (
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
+    logger(selectOption, "value");
     setFieldValue(name, selectOption);
-    if (name === 'country') {
+    if (name === "country") {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
+      logger(statesData, "sdsdsdsd");
     }
   };
 
@@ -82,7 +95,7 @@ const CareInstitutionConstForm: any = (
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched,
+    setFieldTouched
   } = props;
 
   return (
@@ -145,7 +158,7 @@ const CareInstitutionConstForm: any = (
                               placeholder={languageTranslation("GENDER")}
                               value={gender ? gender : undefined}
                               onChange={(value: any) =>
-                                handleSelect(value, 'gender')
+                                handleSelect(value, "gender")
                               }
                               options={Gender}
                             />
@@ -191,7 +204,7 @@ const CareInstitutionConstForm: any = (
                           placeholder={languageTranslation("SALUTATION")}
                           value={salutation ? salutation : undefined}
                           onChange={(value: any) =>
-                            handleSelect(value, 'salutation')
+                            handleSelect(value, "salutation")
                           }
                           options={Salutation}
                         />
@@ -286,7 +299,7 @@ const CareInstitutionConstForm: any = (
                           placeholder={languageTranslation("CONTACT_TYPE")}
                           value={contactType ? contactType : undefined}
                           onChange={(value: any) =>
-                            handleSelect(value, 'contactType')
+                            handleSelect(value, "contactType")
                           }
                           options={ContactType}
                         />
@@ -382,7 +395,7 @@ const CareInstitutionConstForm: any = (
                           options={countriesOpt}
                           value={country ? country : undefined}
                           onChange={(value: any) =>
-                            handleSelect(value, 'country')
+                            handleSelect(value, "country")
                           }
                         />
                       </div>
@@ -524,9 +537,7 @@ const CareInstitutionConstForm: any = (
                           }
                         />
                         {errors.email && touched.email && (
-                          <div className="required-error">
-                            {errors.email}
-                          </div>
+                          <div className="required-error">{errors.email}</div>
                         )}
                       </div>
                     </Col>

@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const ADD_EMPLOYEE = gql`
   mutation AddEmployee($employeeInput: EmployeeInput!) {
@@ -40,6 +40,7 @@ const GET_EMPLOYEE_BY_ID = gql`
       email
       userName
       phoneNumber
+      isActive
       profileImage
       isActive
       profileThumbnailImage
@@ -76,6 +77,27 @@ const UPDATE_EMPLOYEE = gql`
       email
       phoneNumber
       profileThumbnailImage
+      employee {
+        joiningDate
+        employeeCustomId
+        country
+        state
+        city
+        zipCode
+        address1
+        address2
+      }
+      region {
+        regionName
+        id
+      }
+      bankDetails {
+        bankName
+        accountHolder
+        additionalText
+        IBAN
+        BIC
+      }
     }
   }
 `;
@@ -155,5 +177,5 @@ export const EmployeeQueries = [
   GET_EMPLOYEES,
   UPDATE_EMPLOYEE,
   UPDATE_EMPLOYEE_STATUS,
-  DELETE_EMPLOYEE
+  DELETE_EMPLOYEE,
 ];

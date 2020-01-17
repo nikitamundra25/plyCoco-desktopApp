@@ -151,7 +151,7 @@ const PersonalInformation: any = (props: any) => {
         // interval: values && values.interval ? values.interval.value : "",
         // emailInvoice: values.emailInvoice,
         // addressInvoice: values.addressInvoice
-      }
+      };
       setSubmitting(false);
       toast.success(languageTranslation("CARE_INSTI_UPDATE_SUCCESS"));
       await updateCareInstitution({

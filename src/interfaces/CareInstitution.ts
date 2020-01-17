@@ -64,31 +64,31 @@ export interface ICareInstitutionContactValidationSchema {
 }
 
 export interface ICareInstitutionContact {
-    email: string;
-    firstName: string;
-    lastName: string;
-    userName: string;
-    phoneNumber?: string;
-    phoneNumber2?: string;
-    mobileNumber?: string;
-    faxNumber?: string;
-    contactType?: IReactSelectInterface;
-    remaks?: string;
-    comments: string;
-    salutation?: IReactSelectInterface;
-    country?: IReactSelectInterface;
-    countryId?: string;
-    street?: string;
-    stateId?: string;
-    gender?: IReactSelectInterface;
-    id?: number;
-    title?: string;
-    state?: IReactSelectInterface;
-    city?: string;
-    zipCode?: string;
-    groupAttributes?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+  email: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  phoneNumber?: string;
+  phoneNumber2?: string;
+  mobileNumber?: string;
+  faxNumber?: string;
+  contactType?: IReactSelectInterface;
+  remaks?: string;
+  comments: string;
+  salutation?: IReactSelectInterface;
+  country?: IReactSelectInterface;
+  countryId?: string;
+  street?: string;
+  stateId?: string;
+  gender?: IReactSelectInterface;
+  id?: number;
+  title?: string;
+  state?: IReactSelectInterface;
+  city?: string;
+  zipCode?: string;
+  groupAttributes?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface ICareInstitutionListDataInterface {
@@ -103,8 +103,8 @@ export interface ICareInstitutionListDataInterface {
 }
 
 export interface ICareInstitutionObjectInterface {
-    companyName: string;
-    shortName: string;
+  companyName: string;
+  shortName: string;
 }
 export interface ICareInstitutionRemarks {
     data: string;

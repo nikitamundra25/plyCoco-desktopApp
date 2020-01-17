@@ -93,7 +93,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       anonymousName,
       id,
       regionId,
-      createdAt
+      createdAt,
+      remarksViewable
     },
     touched,
     errors,
@@ -794,8 +795,9 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         type="textarea"
                         name={"additionalText "}
                         placeholder={languageTranslation("REMARKS")}
-                        className="textarea-custom"
+                        className="textarea-custom " 
                         rows="4"
+                        value = {remarksViewable}
                       />
                     </div>
                   </Col>

@@ -10,7 +10,7 @@ import {
   NavLink,
   Button,
 } from 'reactstrap';
-import { languageTranslation, logger } from '../../../helpers';
+import { languageTranslation, logger } from '../../../../helpers';
 import Select from 'react-select';
 import {
   State,
@@ -18,7 +18,7 @@ import {
   Gender,
   Salutation,
   ContactType,
-} from '../../../config';
+} from '../../../../config';
 import { FormikProps, Field, Form } from 'formik';
 import {
   ICareInstitutionContact,
@@ -27,13 +27,13 @@ import {
   IStates,
   ICountry,
   IState,
-} from '../../../interfaces';
-import { CountryQueries } from '../../../queries';
+} from '../../../../interfaces';
+import { CountryQueries } from '../../../../queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
-const CareInstitutionConstForm: any = (
+const CotactFormComponent: any = (
   props: FormikProps<ICareInstitutionContact>,
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
@@ -100,19 +100,12 @@ const CareInstitutionConstForm: any = (
 
   return (
     <Col lg={12} className={'form-section'}>
-      <div className='d-flex align-items-center justify-content-between my-3'>
-        <Nav tabs className='contact-tabs'>
-          <NavItem>
-            <NavLink className='active'>New Contact</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink>New Contact 2</NavLink>
-          </NavItem>
-        </Nav>
-        <Button onClick={handleSubmit} color={'primary'} className={'btn-save'}>
-          {languageTranslation('SAVE_BUTTON')}
-        </Button>
-      </div>
+      <Button onClick={handleSubmit} color={'primary'} className={'btn-save'}>
+        {id
+          ? languageTranslation('SAVE_BUTTON')
+          : languageTranslation('UPDATE_BUTTON')}
+        {}
+      </Button>
       <div className='form-flex-section mt-3 form-card minheight-auto'>
         {/* <h5 className="main-title">Add New contact </h5> */}
 
@@ -121,25 +114,28 @@ const CareInstitutionConstForm: any = (
             <Row>
               <Col lg={'12'}>
                 <FormGroup>
-                  <Row>
-                    <Col sm='4'>
-                      <Label className='form-label col-form-label'>
-                        {languageTranslation('ID')}
-                        <span className='required'>*</span>
-                      </Label>
-                    </Col>
-                    <Col sm='8'>
-                      <div>
-                        <Input
-                          type='text'
-                          disable
-                          disabled
-                          placeholder={languageTranslation('ID')}
-                          className='width-common'
-                        />
-                      </div>
-                    </Col>
-                  </Row>
+                  {id ? (
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('ID')}
+                          <span className='required'>*</span>
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div>
+                          <Input
+                            type='text'
+                            disable
+                            disabled
+                            value={id}
+                            placeholder={languageTranslation('ID')}
+                            className='width-common'
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  ) : null}
                 </FormGroup>
               </Col>
               <Col lg={'12'}>
@@ -612,4 +608,4 @@ const CareInstitutionConstForm: any = (
     </Col>
   );
 };
-export default CareInstitutionConstForm;
+export default CotactFormComponent;

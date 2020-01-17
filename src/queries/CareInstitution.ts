@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const GET_CARE_INSTITUTION_LIST = gql`
   query(
@@ -39,13 +39,48 @@ const GET_CARE_INSTITUION_BY_ID = gql`
     getCareInstitution(careInstitutionId: $careInstitutionId) {
       firstName
       lastName
+      salutation
       email
       userName
+      phoneNumber
+      regionId
       canstitution {
         city
         zipCode
         companyName
         shortName
+        street
+        countryId
+        stateId
+        remarks
+        title
+        fax
+        linkedTo
+        doctorCommission
+        leasingPriceListId
+        isArchive
+      }
+      contact {
+        salutation
+        firstName
+        surName
+        gender
+        title
+        salutation
+        firstName
+        surName
+        countryId
+        street
+        city
+        contactType
+        phoneNumber
+        zip
+        phoneNumber2
+        fax
+        mobileNumber
+        email
+        remark
+        id
       }
     }
   }
@@ -94,21 +129,26 @@ const UPDATE_CARE_INSTITUTION = gql`
     }
   }
 `;
-const ADD_NEW_CONTACT_CARE_INSTITUTION =
-  gql`
-  mutation addContact(
-    $contactInput: ContactInput!
-  ) {
-    addContact(
-      contactInput: $contactInput
-    ) {
+const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
+  mutation addContact($contactInput: ContactInput!) {
+    addContact(contactInput: $contactInput) {
       id
       firstName
-      surName,
+      surName
       contactType
     }
   }
-`
+`;
+const UPDATE_NEW_CONTACT_CARE_INSTITUTION = gql`
+  mutation updateContact($id: Int!, $contactInput: ContactInput!) {
+    updateContact(id: $id, contactInput: $contactInput) {
+      id
+      firstName
+      surName
+      contactType
+    }
+  }
+`;
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
@@ -116,5 +156,6 @@ export const CareInstitutionQueries = [
   ADD_CARE_INSTITUTION,
   GET_CARE_INSTITUION_BY_ID,
   UPDATE_CARE_INSTITUTION_STATUS,
-  ADD_NEW_CONTACT_CARE_INSTITUTION
+  ADD_NEW_CONTACT_CARE_INSTITUTION,
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
 ];

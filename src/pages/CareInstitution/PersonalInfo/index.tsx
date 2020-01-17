@@ -1,17 +1,25 @@
-import React, { useEffect } from "react";
-import { Form, Button } from "reactstrap";
+import React, { useEffect, useState } from 'react';
+import { Form, Button } from 'reactstrap';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import CareInstitutionContact from "./CareInstitutionContact";
-import "../careinstitution.scss";
-import PersonalInfoForm from "./PersonalInfoForm";
-import { ICareInstitutionContact, ICareInstitutionFormValues, IReactSelectInterface } from "../../../interfaces";
-import { CareInstituionValidationSchema, CareInstituionContactValidationSchema } from "../../../validations";
-import { useParams } from "react-router";
-import { CareInstitutionQueries } from "../../../queries";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
-import { toast } from "react-toastify";
-import { logger, languageTranslation } from "../../../helpers";
-import { async } from "rxjs/internal/scheduler/async";
+import CareInstitutionContact from './CareInstitutionContact';
+import '../careinstitution.scss';
+import PersonalInfoForm from './PersonalInfoForm';
+import {
+  ICareInstitutionContact,
+  ICareInstitutionFormValues,
+  IReactSelectInterface,
+} from '../../../interfaces';
+import {
+  CareInstituionValidationSchema,
+  CareInstituionContactValidationSchema,
+} from '../../../validations';
+import { useParams } from 'react-router';
+import { CareInstitutionQueries } from '../../../queries';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { toast } from 'react-toastify';
+import { logger, languageTranslation } from '../../../helpers';
+import { async } from 'rxjs/internal/scheduler/async';
+import CareInstitutionContacts from './CareInstitutionContacts';
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -21,14 +29,16 @@ const [
   GET_CARE_INSTITUION_BY_ID,
   UPDATE_CARE_INSTITUTION_STATUS,
   ADD_NEW_CONTACT_CARE_INSTITUTION,
-] = CareInstitutionQueries
+] = CareInstitutionQueries;
 
 const PersonalInformation: any = (props: any) => {
-
   let { id } = useParams();
-  const Id: any | undefined = id
+  const Id: any | undefined = id;
+  const [contacts, setContacts] = useState<any>([]);
 
-  const [updateCareInstitution, { error, data }] = useMutation<{ updateCareInstitution: ICareInstitutionFormValues }>(UPDATE_CARE_INSTITUTION);
+  const [updateCareInstitution, { error, data }] = useMutation<{
+    updateCareInstitution: ICareInstitutionFormValues;
+  }>(UPDATE_CARE_INSTITUTION);
 
   // To get the care instituion details by id
   const [
@@ -41,9 +51,9 @@ const PersonalInformation: any = (props: any) => {
       getCareInstitutionDetails({
         variables: { careInstitutionId: parseInt(Id) },
       });
-      props.handleIsUserChange()
+      props.handleIsUserChange();
     }
-  }, [props.isUserChange])
+  }, [props.isUserChange]);
 
   useEffect(() => {
     // Fetch details by care institution id
@@ -52,42 +62,69 @@ const PersonalInformation: any = (props: any) => {
         variables: { careInstitutionId: parseInt(Id) },
       });
     }
-  }, [])
+  }, []);
+  // It calls when the response will come
+  useEffect(() => {
+    // Fetch details by care institution id
+    if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
+      logger(
+        careInstituionDetails.getCareInstitution,
+        'careInstituionDetails****',
+      );
+      const contactsData: any[] =
+        careInstituionDetails.getCareInstitution.contact;
+      contactsData.push({
+        email: '',
+        firstName: '',
+        lastName: '',
+        userName: '',
+        phoneNumber: '',
+        mobileNumber: '',
+        faxNumber: '',
+        comments: '',
+        groupAttributes: '',
+      });
+      setContacts(contactsData);
+    }
+  }, [careInstituionDetails]);
 
-  const [addContact, { error: contactError, data: contactData }] = useMutation<{ addContact: ICareInstitutionFormValues }>(ADD_NEW_CONTACT_CARE_INSTITUTION);
+  const [addContact, { error: contactError, data: contactData }] = useMutation<{
+    addContact: ICareInstitutionFormValues;
+  }>(ADD_NEW_CONTACT_CARE_INSTITUTION);
 
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
-    { setSubmitting }: FormikHelpers<ICareInstitutionContact>
+    { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
   ) => {
     try {
       //to set submit state to false after successful signup
       setSubmitting(false);
       const contactInput: any = {
         userId: parseInt(Id),
-        gender: values && values.gender ? values.gender.value : "",
+        gender: values && values.gender ? values.gender.value : '',
         title: values.title,
-        salutation: values && values.salutation ? values.salutation.value : "",
+        salutation: values && values.salutation ? values.salutation.value : '',
         firstName: values.firstName,
         surName: values.lastName,
-        contactType: values && values.contactType ? values.contactType.value : "",
+        contactType:
+          values && values.contactType ? values.contactType.value : '',
         street: values.street,
         city: values.city,
         zip: values.zipCode,
-        countryId: values && values.country ? values.country.value : "",
+        countryId: values && values.country ? values.country.value : '',
         phoneNumber: values.phoneNumber,
         phoneNumber2: values.phoneNumber,
         fax: values.faxNumber,
         mobileNumber: values.mobileNumber,
         email: values.email,
         remark: values.remaks,
-      }
+      };
       await addContact({
         variables: {
-          contactInput: contactInput
-        }
-      })
-      toast.success(languageTranslation("NEW_CONTACT_ADD_CARE_INSTITUTION"));
+          contactInput: contactInput,
+        },
+      });
+      toast.success(languageTranslation('NEW_CONTACT_ADD_CARE_INSTITUTION'));
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
@@ -95,20 +132,20 @@ const PersonalInformation: any = (props: any) => {
         .replace('GraphQL error: ', '');
       // setFieldError('email', message);
       toast.error(message);
-      logger(error)
+      logger(error);
     }
   };
 
   const contactFormValues: ICareInstitutionContact = {
-    email: "",
-    firstName: "",
-    lastName: "",
-    userName: "",
-    phoneNumber: "",
-    mobileNumber: "",
-    faxNumber: "",
-    comments: "",
-    groupAttributes: "",
+    email: '',
+    firstName: '',
+    lastName: '',
+    userName: '',
+    phoneNumber: '',
+    mobileNumber: '',
+    faxNumber: '',
+    comments: '',
+    groupAttributes: '',
   };
 
   const handleSubmit = async (
@@ -119,7 +156,7 @@ const PersonalInformation: any = (props: any) => {
     try {
       const careInstitutionInput: any = {
         // gender: values && values.gender ? values.gender.value : "",
-        salutation: values && values.salutation ? values.salutation.value : "",
+        salutation: values && values.salutation ? values.salutation.value : '',
         firstName: values.firstName,
         lastName: values.lastName,
         shortName: values.shortName,
@@ -128,8 +165,8 @@ const PersonalInformation: any = (props: any) => {
         // anonymousName2: values.anonymousName2,
         street: values.street,
         zipCode: values.zipCode,
-        countryId: values && values.country ? values.country.value : "",
-        stateId: values && values.state ? values.state.value : "",
+        countryId: values && values.country ? values.country.value : '',
+        stateId: values && values.state ? values.state.value : '',
         website: values.website,
         email: values.email,
         userName: values.userName,
@@ -139,14 +176,14 @@ const PersonalInformation: any = (props: any) => {
         // interval: values && values.interval ? values.interval.value : "",
         // emailInvoice: values.emailInvoice,
         // addressInvoice: values.addressInvoice
-      }
+      };
       setSubmitting(false);
       await updateCareInstitution({
         variables: {
           id: parseInt(Id),
-          careInstitutionInput: careInstitutionInput
-        }
-      })
+          careInstitutionInput: careInstitutionInput,
+        },
+      });
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
@@ -154,14 +191,13 @@ const PersonalInformation: any = (props: any) => {
         .replace('GraphQL error: ', '');
       // setFieldError('email', message);
       toast.error(message);
-      logger(error)
+      logger(error);
     }
-
   };
-  let Data: IReactSelectInterface
-  let values: ICareInstitutionFormValues
+  let Data: IReactSelectInterface;
+  let values: ICareInstitutionFormValues;
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
-    const { getCareInstitution } = careInstituionDetails
+    const { getCareInstitution } = careInstituionDetails;
     values = {
       id: Id,
       email: getCareInstitution.email,
@@ -175,9 +211,11 @@ const PersonalInformation: any = (props: any) => {
       city: '',
     };
     Data = {
-      label: `${getCareInstitution.firstName} ${''} ${getCareInstitution.lastName}`,
-      value: Id
-    }
+      label: `${getCareInstitution.firstName} ${''} ${
+        getCareInstitution.lastName
+      }`,
+      value: Id,
+    };
   } else {
     values = {
       email: '',
@@ -193,12 +231,13 @@ const PersonalInformation: any = (props: any) => {
   }
   useEffect(() => {
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
-      props.currentSelectuser(Data)
+      props.currentSelectuser(Data);
     }
-  }, [careInstituionDetails && careInstituionDetails.getCareInstitution])
+  }, [careInstituionDetails && careInstituionDetails.getCareInstitution]);
 
+  logger(contacts, 'contact');
   return (
-    <Form className="form-section forms-main-section">
+    <Form className='form-section forms-main-section'>
       <Formik
         initialValues={values}
         enableReinitialize={true}
@@ -208,15 +247,15 @@ const PersonalInformation: any = (props: any) => {
         )}
         validationSchema={CareInstituionValidationSchema}
       />
-
-      <Formik
+      <CareInstitutionContacts contacts={contacts} careInstId={id} />
+      {/* <Formik
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}
         children={(props: FormikProps<ICareInstitutionContact>) => (
           <CareInstitutionContact {...props} />
         )}
         validationSchema={CareInstituionContactValidationSchema}
-      />
+      /> */}
     </Form>
   );
 };

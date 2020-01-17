@@ -421,6 +421,7 @@ const CareInstitution = (props: RouteComponentProps) => {
               )}
             </td>
           </tr>
+         
         )}
   </>;
   // const {

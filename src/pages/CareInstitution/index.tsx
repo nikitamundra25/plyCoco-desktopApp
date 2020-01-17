@@ -278,7 +278,6 @@ const CareInstitution = (props: RouteComponentProps) => {
   }
   const tableData: any[] = [];
   const query = qs.parse(search);
-  console.log("query", query);
 
   <>
     {userData && userData.length
@@ -303,9 +302,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className="info-column">
                     <div className="description-column">
                       <div className="info-title">
-                        {user.firstName}
-                        {" "}
-                        {user.lastName}
+                        {`${user.firstName}  ${user.lastName}`}
                       </div>
                       <p className="description-text">
                         <i className="fa fa-envelope mr-2"></i>
@@ -528,9 +525,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <div className="table-checkbox-wrap">
                   <div className="btn-group btn-check-action-wrap">
                     <span className="btn">
-                      <span
-                        className="checkboxli checkbox-custom checkbox-default"
-                      >
+                      <span className="checkboxli checkbox-custom checkbox-default">
                         <input type="checkbox" id="checkAll" className="" />
                         <label className=""></label>
                       </span>
@@ -554,13 +549,15 @@ const CareInstitution = (props: RouteComponentProps) => {
           </thead>
           <tbody>{tableData}</tbody>
         </Table>
-        {data && data.getCareInstitutions && data.getCareInstitutions.totalCount && (
-          <PaginationComponent
-            totalRecords={data.getCareInstitutions.totalCount}
-            currentPage={currentPage}
-            onPageChanged={onPageChanged}
-          />
-        )}
+        {data &&
+          data.getCareInstitutions &&
+          data.getCareInstitutions.totalCount && (
+            <PaginationComponent
+              totalRecords={data.getCareInstitutions.totalCount}
+              currentPage={currentPage}
+              onPageChanged={onPageChanged}
+            />
+          )}
       </CardBody>
     </Card>
   );

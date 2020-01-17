@@ -1,7 +1,7 @@
-import { IReactSelectInterface } from "./Constant"
+import { IReactSelectInterface } from "./Constant";
 
 export interface ICareInstitutionFormValues {
-    salutation?: IReactSelectInterface,
+    salutation?: IReactSelectInterface;
     email: string;
     firstName: string;
     lastName: string;
@@ -20,29 +20,29 @@ export interface ICareInstitutionFormValues {
     state?: IReactSelectInterface;
     createdAt?: Date;
     updatedAt?: Date;
-    id?: number
-    salt?: String,
-    userRole?: String,
-    qualificationId?: IReactSelectInterface,
-    attributeId?: IReactSelectInterface
-    isActive?: Boolean,
-    isDeleted?: Boolean,
-    zipCode?: string,
-    countryId?: string,
-    stateId?: string,
-    regionId?: number,
-    remarks?: [ICareInstitutionRemarks] | undefined,
-    linkedTo?: string,
-    anonymousName?: string,
-    anonymousName2?: string,
-    careGiverCommission?: string,
-    doctorCommission?: string,
-    leasingPriceListId?: IReactSelectInterface,
-    invoiceType?: IReactSelectInterface,
-    interval?: IReactSelectInterface,
-    emailInvoice?: string,
-    addressInvoice?: string,
-    isArchive?: Boolean,
+    id?: number;
+    salt?: String;
+    userRole?: String;
+    qualificationId?: IReactSelectInterface;
+    attributeId?: IReactSelectInterface;
+    isActive?: Boolean;
+    isDeleted?: Boolean;
+    zipCode?: string;
+    countryId?: string;
+    stateId?: string;
+    regionId?: number;
+    remarks?: [ICareInstitutionRemarks] | undefined;
+    linkedTo?: string;
+    anonymousName?: string;
+    anonymousName2?: string;
+    careGiverCommission?: string;
+    doctorCommission?: string;
+    leasingPriceListId?: IReactSelectInterface;
+    invoiceType?: IReactSelectInterface;
+    interval?: IReactSelectInterface;
+    emailInvoice?: string;
+    addressInvoice?: string;
+    isArchive?: Boolean;
 }
 
 export interface ICareInstitutionValidationSchema {
@@ -51,7 +51,8 @@ export interface ICareInstitutionValidationSchema {
     lastName: string;
     userName: string;
     mobileNumber: number;
-    city: string,
+    website: string;
+    city: string;
 }
 
 export interface ICareInstitutionContactValidationSchema {
@@ -59,35 +60,35 @@ export interface ICareInstitutionContactValidationSchema {
     firstName: string;
     lastName: string;
     mobileNumber: number;
-    city: string,
+    city: string;
 }
 
 export interface ICareInstitutionContact {
-    email: string;
-    firstName: string;
-    lastName: string;
-    userName: string;
-    phoneNumber?: string;
-    phoneNumber2?: string;
-    mobileNumber?: string;
-    faxNumber?: string;
-    contactType?: IReactSelectInterface;
-    remaks?: string;
-    comments: string;
-    salutation?: IReactSelectInterface;
-    country?: IReactSelectInterface;
-    countryId?: string;
-    street?: string;
-    stateId?: string;
-    gender?: IReactSelectInterface;
-    id?: number;
-    title?: string;
-    state?: IReactSelectInterface;
-    city?: string;
-    zipCode?: string;
-    groupAttributes?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+  email: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  phoneNumber?: string;
+  phoneNumber2?: string;
+  mobileNumber?: string;
+  faxNumber?: string;
+  contactType?: IReactSelectInterface;
+  remaks?: string;
+  comments: string;
+  salutation?: IReactSelectInterface;
+  country?: IReactSelectInterface;
+  countryId?: string;
+  street?: string;
+  stateId?: string;
+  gender?: IReactSelectInterface;
+  id?: number;
+  title?: string;
+  state?: IReactSelectInterface;
+  city?: string;
+  zipCode?: string;
+  groupAttributes?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface ICareInstitutionListDataInterface {
@@ -98,15 +99,15 @@ export interface ICareInstitutionListDataInterface {
     userName: string;
     phoneNumber: string;
     isActive: boolean;
-    canstitution: ICareInstitutionObjectInterface
+    canstitution: ICareInstitutionObjectInterface;
 }
 
 export interface ICareInstitutionObjectInterface {
-    companyName: string;
-    shortName: string;
+  companyName: string;
+  shortName: string;
 }
 export interface ICareInstitutionRemarks {
-    data: string,
-    createdAt: Date,
-    createdBy: string
+    data: string;
+    createdAt: Date;
+    createdBy: string;
 }

@@ -2,24 +2,32 @@ import React, { Component, FunctionComponent, useEffect } from "react";
 import { Card, CardHeader, CardBody, Col, Row } from "reactstrap";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { EmployeeQueries } from "../../queries";
 import { useParams } from "react-router";
-import { AppConfig } from "../../config";
+import { AppConfig, AppRoutes } from "../../config";
 import { IEmployee } from "../../interfaces";
 import { languageTranslation } from "../../helpers";
 import moment from "moment";
-import defaultProfile from "../../assets/avatars/default-profile.png";
+import defaultProfile from "../../assets/avatars/default-profile-2.png";
+import { toast } from "react-toastify";
+import { ConfirmBox } from "../../common/ConfirmBox";
+import { useHistory, useLocation } from "react-router-dom";
 
-const [, GET_EMPLOYEE_BY_ID] = EmployeeQueries;
+const [, GET_EMPLOYEE_BY_ID, , , UPDATE_EMPLOYEE_STATUS] = EmployeeQueries;
 let employee: any;
 
 const ViewEmployee: FunctionComponent = () => {
+  let history = useHistory();
   let { id } = useParams();
   // To get the employee details by id
   const [getEmployeeDetails, { data, error, refetch }] = useLazyQuery<any>(
     GET_EMPLOYEE_BY_ID
   );
+  const [updateEmployeeStatus] = useMutation<
+    { activeStatusEmployee: any },
+    { id: string; isActive: boolean }
+  >(UPDATE_EMPLOYEE_STATUS);
   console.log("data is", data);
   if (data) {
     employee = data.viewEmployee;
@@ -32,6 +40,42 @@ const ViewEmployee: FunctionComponent = () => {
       });
     }
   }, []); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
+
+  const onStatusUpdate = async (id: string, status: boolean) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation(
+        status
+          ? "CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG"
+          : "CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG"
+      )
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        await updateEmployeeStatus({
+          variables: {
+            id,
+            isActive: status
+          }
+        });
+        toast.success(languageTranslation("EMPLOYEE_STATUS_UPDATE_MSG"));
+      } catch (error) {
+        const message = error.message
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
+        toast.error(message);
+      }
+    }
+  };
+  const replaceObj: any = {
+    ":id": employee && employee.id,
+    ":userName": employee && employee.userName
+  };
+  console.log("employee",employee);
+  
   return (
     <Card>
       <CardHeader>
@@ -41,19 +85,61 @@ const ViewEmployee: FunctionComponent = () => {
         {data ? (
           <div className="employee-details">
             <Row>
+
+              <Col lg={"12"}  className="mb-4">
+                {/* <div className="employee-title">
+                  {languageTranslation("PROFILE_IMAGE")}
+                </div> */}
+                {/* {employee && employee.profileImage ? ( */}
+                <div className="user-item align-items-center justify-content-center">
+                
+                  <div className="profile-wrap">
+                    <div className="profile-img-tile">
+                      <div className="profile-img">
+                        {console.log(employee.profileImage)}
+                        <div className="user-back-img-wrap" 
+                         style={{
+                          backgroundImage: `url(${employee && employee.profileImage ? AppConfig.FILES_ENDPOINT+employee.profileImage : defaultProfile})`
+                         
+                        }}
+                        >
+                            { }
+                        </div>
+                        <span className="changeProfile"
+                         onClick={() =>
+                          history.push(
+                            AppRoutes.EDIT_EMPLOYEE.replace(
+                              /:id|:userName/gi,
+                              function (matched) {
+                                return replaceObj[matched];
+                              }
+                            )
+                          )
+                        }
+                        >
+                        EDIT</span>
+                      </div>
+                    </div>
+                    <div className="profile-text-tile color-black">
+                      
+                    </div>
+                  </div>
+                </div>
+              </Col>
               <Col lg={"4"} md={"4"} className="mb-3">
                 <div className="employee-title">
                   {languageTranslation("PERSONAL_INFORMATION")}
                 </div>
                 <div className="user-item">
+                  {/* <Button>Edit</Button> */}
                   {employee && employee.firstName ? (
-                    <span className="text-label text-capitalize">
+                    <span className="text-label">
                       {languageTranslation("EMPLOYEE_NAME")}
                     </span>
                   ) : (
-                    "N/A"
-                  )}
-                  <span className="text-value text-capitalize">
+                      "N/A"
+                    )}
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
                     {employee && employee.firstName
                       ? employee.firstName
@@ -67,9 +153,9 @@ const ViewEmployee: FunctionComponent = () => {
                     {languageTranslation("EMPLOYEE_EMAIL_ADDRESS_LABEL")}
                   </span>
 
-                  <span className='text-value'>
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
-                    {employee && employee.email ? employee.email : 'N/A'}
+                    {employee && employee.email ? employee.email : "N/A"}
                   </span>
                 </div>
 
@@ -77,7 +163,7 @@ const ViewEmployee: FunctionComponent = () => {
                   <span className="text-label">
                     {languageTranslation("CONTACT_NO")}
                   </span>
-                  <span className='text-value'>
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
                     {employee && employee.phoneNumber
                       ? employee.phoneNumber
@@ -90,7 +176,7 @@ const ViewEmployee: FunctionComponent = () => {
                     {languageTranslation("EMPLOYEE_USERNAME")}
                   </span>
 
-                  <span className="text-value">
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
                     {employee && employee.userName ? employee.userName : "N/A"}
                   </span>
@@ -99,16 +185,32 @@ const ViewEmployee: FunctionComponent = () => {
                   <span className="text-label">
                     {languageTranslation("STATUS")}
                   </span>
-                  <span className="text-value">
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
-                    <span
+                    {/* <span
                       className={`status-btn ${
-                        employee && employee.isActive ? 'active' : 'inactive'
+                        employee && employee.isActive ? "active" : "inactive"
                       }`}
                     >
-                      {employee.isActive
-                        ? languageTranslation('ACTIVE')
-                        : languageTranslation('DISABLE')}
+                      {employee && employee.isActive
+                        ? languageTranslation("ACTIVE")
+                        : languageTranslation("DISABLE")}
+                    </span> */}
+                    {console.log(employee && employee.id, "employee.id")}
+                    <span
+                      className={`status-btn ${
+                        employee && employee.isActive ? "active" : "inactive"
+                        }`}
+                      onClick={() =>
+                        onStatusUpdate(
+                          employee && employee.id,
+                          employee && !employee.isActive
+                        )
+                      }
+                    >
+                      {employee && employee.isActive
+                        ? languageTranslation("ACTIVE")
+                        : languageTranslation("DISABLE")}
                     </span>
                   </span>
                 </div>
@@ -123,11 +225,11 @@ const ViewEmployee: FunctionComponent = () => {
                   <span className="text-label">
                     {languageTranslation("EMPLOYEE_BANK_NAME_LABEL")}
                   </span>
-                  <span className="text-value">
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
                     {employee &&
-                    employee.bankDetails &&
-                    employee.bankDetails.bankName
+                      employee.bankDetails &&
+                      employee.bankDetails.bankName
                       ? employee.bankDetails.bankName
                       : "N/A"}
                   </span>
@@ -136,11 +238,11 @@ const ViewEmployee: FunctionComponent = () => {
                   <span className="text-label">
                     {languageTranslation("BANK_ACCOUNT_HOLDER_NAME_LABEL")}
                   </span>
-                  <span className="text-value">
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
                     {employee &&
-                    employee.bankDetails &&
-                    employee.bankDetails.accountHolder
+                      employee.bankDetails &&
+                      employee.bankDetails.accountHolder
                       ? employee.bankDetails.accountHolder
                       : "N/A"}
                   </span>
@@ -150,11 +252,11 @@ const ViewEmployee: FunctionComponent = () => {
                   <span className="text-label">
                     {languageTranslation("BANK_IBAN_LABEL")}
                   </span>
-                  <span className="text-value">
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
                     {employee &&
-                    employee.bankDetails &&
-                    employee.bankDetails.IBAN
+                      employee.bankDetails &&
+                      employee.bankDetails.IBAN
                       ? employee.bankDetails.IBAN
                       : "N/A"}
                   </span>
@@ -164,11 +266,11 @@ const ViewEmployee: FunctionComponent = () => {
                   <span className="text-label">
                     {languageTranslation("BANK_BIC_LABEL")}
                   </span>
-                  <span className="text-value">
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
                     {employee &&
-                    employee.bankDetails &&
-                    employee.bankDetails.BIC
+                      employee.bankDetails &&
+                      employee.bankDetails.BIC
                       ? employee.bankDetails.BIC
                       : "N/A"}
                   </span>
@@ -178,50 +280,27 @@ const ViewEmployee: FunctionComponent = () => {
                   <span className="text-label">
                     {languageTranslation("ADDITIONAL_TEXT_LABEL")}
                   </span>
-                  <span className="text-value">
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
                     {employee &&
-                    employee.bankDetails &&
-                    employee.bankDetails.additionalText
+                      employee.bankDetails &&
+                      employee.bankDetails.additionalText
                       ? employee.bankDetails.additionalText
                       : "N/A"}
                   </span>
                 </div>
               </Col>
 
-              <Col lg={"4"} md={"4"} className="mb-4">
-                <div className="employee-title">
-                  {languageTranslation("PROFILE_IMAGE")}
-                </div>
-                {/* {employee && employee.profileImage ? ( */}
-                <div className="user-item">
-                  <span className="text-value">
-                    <div className="profile-img">
-                      <img
-                        src={`${
-                          employee && employee.profileImage
-                            ? `${AppConfig.FILES_ENDPOINT}${employee.profileImage}`
-                            : defaultProfile
-                        }`}
-                        className="img-fluid"
-                        alt=""
-                      />
-                    </div>
-                  </span>
-                </div>
-              </Col>
 
-              <Col lg={"12"} md={"12"}>
+              <Col lg={"4"} md={"12"}>
                 <div className="employee-title">
                   {languageTranslation("OTHER_INFORMATION")}
                 </div>
-              </Col>
-              <Col lg={"6"} md={"6"} className="mb-3">
                 <div className="user-item">
                   <span className="text-label">
                     {languageTranslation("REGION")}
                   </span>
-                  <span className="text-value">
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
                     {employee && employee.region && employee.region.regionName
                       ? employee.region.regionName
@@ -233,14 +312,14 @@ const ViewEmployee: FunctionComponent = () => {
                   <span className="text-label">
                     {languageTranslation("EMPLOYEE_JOINING_DATE_LABEL")}
                   </span>
-                  <span className="text-value">
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
                     {employee &&
-                    employee.employee &&
-                    employee.employee.joiningDate
+                      employee.employee &&
+                      employee.employee.joiningDate
                       ? moment(employee.employee.joiningDate).format(
-                          "Do MMM, YYYY"
-                        )
+                        "Do MMM, YYYY"
+                      )
                       : "N/A"}
                   </span>
                 </div>
@@ -249,19 +328,21 @@ const ViewEmployee: FunctionComponent = () => {
                   <span className="text-label">
                     {languageTranslation("ADDRESS")}
                   </span>
-                  <span className="text-value">
+                  <span className="text-value one-line-text">
                     :&nbsp;&nbsp;
                     {employee && employee.employee && employee.employee.address1
                       ? employee.employee.address1
                       : "N/A"}
                   </span>
                 </div>
+              
               </Col>
+             
             </Row>
           </div>
         ) : (
-          <h2>No Data Found</h2>
-        )}
+            <h2>No Data Found</h2>
+          )}
       </CardBody>
     </Card>
   );

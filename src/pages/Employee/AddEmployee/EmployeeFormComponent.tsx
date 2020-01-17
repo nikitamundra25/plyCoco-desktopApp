@@ -2,10 +2,10 @@ import React, {
   useState,
   ChangeEvent,
   FunctionComponent,
-  useEffect,
-} from 'react';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
-import { AppBreadcrumb } from '@coreui/react';
+  useEffect
+} from "react";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { AppBreadcrumb } from "@coreui/react";
 import {
   Button,
   FormGroup,
@@ -15,27 +15,27 @@ import {
   CardBody,
   Input,
   Col,
-  Row,
-} from 'reactstrap';
-import Select from 'react-select';
-import MaskedInput from 'react-text-mask';
-import { FormikProps, Form } from 'formik';
+  Row
+} from "reactstrap";
+import Select from "react-select";
+import MaskedInput from "react-text-mask";
+import { FormikProps, Form } from "formik";
 import {
   Region,
   IBANRegex,
   DateMask,
   AppConfig,
-  PAGE_LIMIT,
-} from '../../../config';
-import routes from '../../../routes/routes';
+  PAGE_LIMIT
+} from "../../../config";
+import routes from "../../../routes/routes";
 import {
   IEmployeeFormValues,
   IReactSelectInterface,
-  IRegion,
-} from '../../../interfaces';
-import { logger, languageTranslation } from '../../../helpers';
-import InputFieldTooltip from '../../../common/Tooltip/InputFieldTooltip';
-import { RegionQueries } from '../../../queries/Region';
+  IRegion
+} from "../../../interfaces";
+import { logger, languageTranslation } from "../../../helpers";
+import InputFieldTooltip from "../../../common/Tooltip/InputFieldTooltip";
+import { RegionQueries } from "../../../queries/Region";
 
 const [, GET_REGIONS] = RegionQueries;
 
@@ -52,7 +52,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     countriesOpt: IReactSelectInterface[];
     statesOpt: IReactSelectInterface[];
     getStatesByCountry: any;
-  },
+  }
 ) => {
   const {
     values: {
@@ -74,7 +74,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       city,
       zip,
       joiningDate,
-      image,
+      image
     },
     touched,
     errors,
@@ -88,23 +88,25 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     countriesOpt,
     statesOpt,
     getStatesByCountry,
+    setFieldError
   } = props;
+  console.log(props, "propsssssssssssssss");
 
-  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
   const regionOptions: IReactSelectInterface[] | undefined = [];
   if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
   useEffect(() => {
-    console.log(imageUrl, 'countryName', country);
+    console.log(imageUrl, "countryName", country);
     if (imageUrl) {
       setUrl(`${AppConfig.FILES_ENDPOINT}${imageUrl}`);
     }
@@ -112,12 +114,12 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
   // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setFieldTouched('image', true);
+    setFieldTouched("image", true);
     const {
-      target: { files },
+      target: { files }
     } = e;
     let reader = new FileReader();
-    let file: any = '';
+    let file: any = "";
     if (files) {
       file = files[0];
     }
@@ -126,49 +128,50 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
         setUrl(reader.result);
       };
       reader.readAsDataURL(file);
-      setFieldValue('image', file);
+      setFieldValue("image", file);
     }
   };
   useEffect(() => {
     // call query
     fetchRegionList({
       variables: {
-        limit: PAGE_LIMIT,
-      },
+        limit: PAGE_LIMIT
+      }
     });
   }, []);
-
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'selectOptionvalue');
+    logger(selectOption, "selectOptionvalue");
     setFieldValue(name, selectOption);
-    if (name === 'country') {
+    if (name === "country") {
+      setFieldValue("state", { label: "", value: "" });
       getStatesByCountry({
         variables: {
-          countryid: selectOption ? selectOption.value : '82',
-        }, // default code is for germany
+          countryid: selectOption ? selectOption.value : "82"
+        } // default code is for germany
       });
     }
   };
+
   return (
     <div>
       <Card>
         <CardHeader>
-          <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+          <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
           <Button
-            color={'primary'}
+            color={"primary"}
             disabled={isSubmitting}
-            className={'btn-add'}
+            className={"btn-add"}
             onClick={handleSubmit}
           >
-            {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
-            {languageTranslation('SAVE_BUTTON')}
+            {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+            {languageTranslation("SAVE_BUTTON")}
           </Button>
         </CardHeader>
         <CardBody>
           <Row>
-            <Col xs={'12'} lg={'12'}>
-              <Form onSubmit={handleSubmit} className='form-section'>
+            <Col xs={"12"} lg={"12"}>
+              <Form onSubmit={handleSubmit} className="form-section">
                 <Row>
                 <Col lg={"6"}>
                     <div className="form-card minheight-auto">
@@ -274,7 +277,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       const username = email
                                         ? email.substring(0, email.indexOf("@"))
                                         : "";
-
+                                      setFieldError("userName", " ");
                                       setFieldValue("userName", username);
                                       handleBlur(e);
                                     }}
@@ -459,6 +462,34 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             <Row>
                               <Col sm="4">
                                 <Label className="form-label col-form-label">
+                                  {languageTranslation("EMPLOYEE_STATE_LABEL")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div>
+                                  <Select
+                                    placeholder={languageTranslation(
+                                      "EMPLOYEE_STATE_PLACEHOLDER"
+                                    )}
+                                    options={statesOpt}
+                                    value={state ? state : undefined}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, "state")
+                                    }
+                                    noOptionsMessage={() => {
+                                      return "Select a country first";
+                                    }}
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
                                   {languageTranslation("EMPLOYEE_CITY_LABEL")}
                                 </Label>
                               </Col>
@@ -484,6 +515,42 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("EMPLOYEE_ZIP_LABEL")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div>
+                                  <Input
+                                    name={"zip"}
+                                    onChange={handleChange}
+                                    // className="form-control"
+                                    placeholder={languageTranslation(
+                                      "EMPLOYEE_ZIP_PLACEHOLDER"
+                                    )}
+                                    value={zip}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.zip && touched.zip
+                                        ? "text-input error"
+                                        : "text-input"
+                                    }
+                                  />
+                                  {errors.zip && touched.zip && (
+                                    <div className="required-error">
+                                      {errors.zip}
+                                    </div>
+                                  )}
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                     
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
@@ -549,90 +616,18 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
-                          <FormGroup>
-                            <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("EMPLOYEE_STATE_LABEL")}
-                                </Label>
-                              </Col>
-                              <Col sm="8">
-                                <div>
-                                  <Select
-                                    placeholder={languageTranslation(
-                                      "EMPLOYEE_STATE_PLACEHOLDER"
-                                    )}
-                                    options={statesOpt}
-                                    value={state ? state : undefined}
-                                    onChange={(value: any) =>
-                                      handleSelect(value, "state")
-                                    }
-                                    noOptionsMessage={() => {
-                                      return "Select a country first";
-                                    }}
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                        </Col>
-                        <Col lg={"12"}>
-                          <FormGroup>
-                            <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("EMPLOYEE_ZIP_LABEL")}
-                                </Label>
-                              </Col>
-                              <Col sm="8">
-                                <div>
-                                  <Input
-                                    name={"zip"}
-                                    onChange={handleChange}
-                                    // className="form-control"
-                                    placeholder={languageTranslation(
-                                      "EMPLOYEE_ZIP_PLACEHOLDER"
-                                    )}
-                                    value={zip}
-                                    onBlur={handleBlur}
-                                    className={
-                                      errors.zip && touched.zip
-                                        ? "text-input error"
-                                        : "text-input"
-                                    }
-                                  />
-                                  {errors.zip && touched.zip && (
-                                    <div className="required-error">
-                                      {errors.zip}
-                                    </div>
-                                  )}
-                                </div>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                        </Col>
                       </Row>
                     </div>
                   </Col>
 
                   <Col lg={"6"}>
-                    {/* <h5 className="main-title ">
-                      {languageTranslation("BANK_ACCOUNT_INFORMATION")}
-                    </h5> */}
-                    <div className="form-card">
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation(
+                  <h5 className='main-title '>
+                  {languageTranslation(
                                   "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
                                 )}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="fileinput-preview d-flex align-items-center justify-content-center">
+                    </h5>
+                    <div className="form-card minheight-auto file-preview-section p-0">
+                    <div className="fileinput-preview d-flex align-items-center justify-content-center">
                                 {!errors.image ? (
                                   imagePreviewUrl &&
                                   typeof imagePreviewUrl === "string" ? (
@@ -682,11 +677,13 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   {errors.image}
                                 </div>
                               )}
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
+                
+                    </div>
+                    <h5 className='main-title '>
+                      {languageTranslation('BANK_ACCOUNT_INFORMATION')}
+                    </h5>
+                    <div className="form-card minheight-auto">
+                    <Col lg={"12"}>
                         <FormGroup>
                           <Row>
                             <Col sm="4">
@@ -872,9 +869,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                   </Col>
                   </Row>
 
-                <div className='d-flex align-items-center justify-content-between'>
-                  <div className='mandatory-text'>
-                    {languageTranslation('REQUIRED_FIELDS')}
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="mandatory-text">
+                    {languageTranslation("REQUIRED_FIELDS")}
                   </div>
                 </div>
               </Form>

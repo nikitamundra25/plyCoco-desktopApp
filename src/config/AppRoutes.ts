@@ -1,4 +1,4 @@
-import { IAppRoutes } from '../interfaces';
+import { IAppRoutes } from "../interfaces";
 
 export const AppRoutes: IAppRoutes = {
   MAIN: "/",
@@ -8,8 +8,8 @@ export const AppRoutes: IAppRoutes = {
   USERS: "/users",
   EMPLOYEE: "/employee",
   ADD_EMPLOYEE: "/employee/add",
-  VIEW_EMPLOYEE: '/employee/view/:id/:userName',
-  EDIT_EMPLOYEE: '/employee/edit/:id/:userName',
+  VIEW_EMPLOYEE: "/employee/view/:id/:userName",
+  EDIT_EMPLOYEE: "/employee/edit/:id/:userName",
   DEPARTMENT: "/department",
   ADD_DEPARTMENT: "/department/add",
   REGION: "/region",

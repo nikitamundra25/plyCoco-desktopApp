@@ -273,9 +273,8 @@ const CareInstitution = (props: RouteComponentProps) => {
     }
   };
 
-  if (data) {
-    userData =
-      data.getCareInstitutions && data.getCareInstitutions.careInstitutionData;
+  if (data && data.getCareInstitutions) {
+    userData = data.getCareInstitutions.careInstitutionData;
   }
   const tableData: any[] = [];
   const query = qs.parse(search);

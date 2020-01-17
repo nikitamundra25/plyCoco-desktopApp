@@ -33,23 +33,33 @@ import {
   FieldProps,
   FormikValues
 } from "formik";
-import { CareGiverValues, IReactSelectInterface, ICountry, ICountries, IStates, IState } from "../../../interfaces";
-import { FormikSelectField, FormikTextField } from "../../../common/forms/FormikFields";
-import { CountryQueries } from '../../../queries';
+import {
+  CareGiverValues,
+  IReactSelectInterface,
+  ICountry,
+  ICountries,
+  IStates,
+  IState
+} from "../../../interfaces";
+import {
+  FormikSelectField,
+  FormikTextField
+} from "../../../common/forms/FormikFields";
+import { CountryQueries } from "../../../queries";
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
-const CareGiverFormComponent: FunctionComponent<FormikProps<
-  CareGiverValues
->> = (props: FormikProps<CareGiverValues>) => {
+const CareGiverFormComponent: FunctionComponent<
+  FormikProps<CareGiverValues>
+> = (props: FormikProps<CareGiverValues>) => {
   const { values } = props;
-  console.log("+++++++++++", props.errors)
+  console.log("+++++++++++", props.errors);
   // To fetch the list of countries
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
@@ -57,21 +67,20 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
     data.countries.forEach(({ id, name }: ICountry) =>
       countriesOpt.push({
         label: name,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
       statesOpt.push({
         label: name,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
   return (
     <>
-
       <Card>
         <CardHeader className="detail-card">
           <Breadcrumb className="w-100">
@@ -105,7 +114,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                               <InputGroup>
                                 <InputGroupAddon addonType="prepend">
                                   <Field
-                                    name={'salutation'}
+                                    name={"salutation"}
                                     placeholder="Salutation"
                                     options={Salutation}
                                     className="custom-select-width"
@@ -152,8 +161,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                         <Row>
                           <Col sm="4">
                             <Label className="form-label col-form-label ">
-                              Address Line 1
-                              <span className="required">*</span>
+                              Address Line 1<span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="8">
@@ -307,7 +315,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                           <Col sm="4">
                             <Label className="form-label col-form-label">
                               Date of Birth
-                                    <span className="required">*</span>
+                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="8">
@@ -339,7 +347,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                           <Col sm="4">
                             <Label className="form-label col-form-label">
                               Phone
-                                    <span className="required">*</span>
+                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="8">
@@ -361,7 +369,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                           <Col sm="4">
                             <Label className="form-label col-form-label">
                               Fax
-                                    <span className="required">*</span>
+                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="8">
@@ -383,7 +391,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                           <Col sm="4">
                             <Label className="form-label col-form-label">
                               Mobile Number
-                                    <span className="required">*</span>
+                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="8">
@@ -405,7 +413,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                           <Col sm="4">
                             <Label className="form-label col-form-label">
                               Email address
-                                    <span className="required">*</span>
+                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="8">
@@ -427,7 +435,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                           <Col sm="4">
                             <Label className="form-label col-form-label">
                               Username
-                                    <span className="required">*</span>
+                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="8">
@@ -455,7 +463,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                             <Col sm="4">
                               <Label className="form-label col-form-label">
                                 Driver's license
-                                      <span className="required">*</span>
+                                <span className="required">*</span>
                               </Label>
                             </Col>
                             <Col sm="8">
@@ -487,7 +495,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                             <Col sm="4">
                               <Label className="form-label col-form-label">
                                 Driver's License Number
-                                      <span className="required">*</span>
+                                <span className="required">*</span>
                               </Label>
                             </Col>
                             <Col sm="8">
@@ -509,7 +517,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                             <Col sm="4">
                               <Label className="form-label col-form-label">
                                 Own vehicle available
-                                      <span className="required">*</span>
+                                <span className="required">*</span>
                               </Label>
                             </Col>
                             <Col sm="8">
@@ -550,7 +558,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                           <Col sm="4">
                             <Label className="form-label col-form-label">
                               Legal Form
-                                    <span className="required">*</span>
+                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="8">
@@ -567,106 +575,110 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                       </FormGroup>
                     </Col>
                     <Col lg={"12"}></Col>
-                    <Col lg={"6"}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="4">
-                            <Label className="form-label col-form-label">
-                              Company Name
+                    {values.legalForm &&
+                      ["UG", "GmbH", "Ltd.", "GbR"].includes(
+                        values.legalForm.value
+                      ) && (
+                        <>
+                          <Col lg={"6"}>
+                            <FormGroup>
+                              <Row>
+                                <Col sm="4">
+                                  <Label className="form-label col-form-label">
+                                    Company Name
                                     <span className="required">*</span>
-                              <br />
-                              <small>(Including GMBH, UG)</small>
-                            </Label>
+                                    <br />
+                                    <small>(Including GMBH, UG)</small>
+                                  </Label>
+                                </Col>
+                                <Col sm="8">
+                                  <div>
+                                    <Field
+                                      component={FormikTextField}
+                                      name="companyName"
+                                      placeholder="Company Name"
+                                      className="width-common"
+                                    />
+                                  </div>
+                                </Col>
+                              </Row>
+                            </FormGroup>
                           </Col>
-                          <Col sm="8">
-                            <div>
-                              <Field
-                                component={FormikTextField}
-                                name="companyName"
-                                placeholder="Company Name"
-                                className="width-common"
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-
-                    <Col lg={"6"}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="4">
-                            <Label className="form-label col-form-label">
-                              Registration Number
+                          <Col lg={"6"}>
+                            <FormGroup>
+                              <Row>
+                                <Col sm="4">
+                                  <Label className="form-label col-form-label">
+                                    Registration Number
                                     <span className="required">*</span>
-                            </Label>
+                                  </Label>
+                                </Col>
+                                <Col sm="8">
+                                  <div>
+                                    <Field
+                                      component={FormikTextField}
+                                      name="registrationNumber"
+                                      placeholder="Registration number"
+                                      className="width-common"
+                                    />
+                                  </div>
+                                </Col>
+                              </Row>
+                            </FormGroup>
                           </Col>
-                          <Col sm="8">
-                            <div>
-                              <Field
-                                component={FormikTextField}
-                                name="registrationNumber"
-                                placeholder="Registration number"
-                                className="width-common"
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={"6"}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="4">
-                            <Label className="form-label col-form-label">
-                              Register Court
+                          <Col lg={"6"}>
+                            <FormGroup>
+                              <Row>
+                                <Col sm="4">
+                                  <Label className="form-label col-form-label">
+                                    Register Court
                                     <span className="required">*</span>
-                            </Label>
+                                  </Label>
+                                </Col>
+                                <Col sm="8">
+                                  <div>
+                                    <Field
+                                      component={FormikTextField}
+                                      name="registerCourt"
+                                      placeholder="Register Court"
+                                      className="width-common"
+                                    />
+                                  </div>
+                                </Col>
+                              </Row>
+                            </FormGroup>
                           </Col>
-                          <Col sm="8">
-                            <div>
-                              <Field
-                                component={FormikTextField}
-                                name="registerCourt"
-                                placeholder="Register Court"
-                                className="width-common"
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={"6"}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="4">
-                            <Label className="form-label col-form-label">
-                              Executive Director
+                          <Col lg={"6"}>
+                            <FormGroup>
+                              <Row>
+                                <Col sm="4">
+                                  <Label className="form-label col-form-label">
+                                    Executive Director
                                     <span className="required">*</span>
-                            </Label>
+                                  </Label>
+                                </Col>
+                                <Col sm="8">
+                                  <div>
+                                    <Field
+                                      component={FormikTextField}
+                                      name="executiveDirector"
+                                      placeholder="Executive Director"
+                                      className="width-common"
+                                    />
+                                  </div>
+                                </Col>
+                              </Row>
+                            </FormGroup>
                           </Col>
-                          <Col sm="8">
-                            <div>
-                              <Field
-                                component={FormikTextField}
-                                name="executiveDirector"
-                                placeholder="Executive Director"
-                                className="width-common"
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-
+                        </>
+                      )}
                     <Col lg={"6"}>
                       <FormGroup>
                         <Row>
                           <Col sm="7">
                             <Label className="form-label col-form-label">
-                              Employee subject to social security
-                              contribution
-                                    <span className="required">*</span>
+                              Employee subject to social security contribution
+                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="5">
@@ -699,7 +711,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                           <Col sm="4">
                             <Label className="form-label col-form-label">
                               Tax Number
-                                    <span className="required">*</span>
+                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="8">
@@ -752,7 +764,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                           <Col sm="8">
                             <div>
                               <Field
-                                component={FormikSelectField}
+                                component={FormikTextField}
                                 type="textarea"
                                 name={"remarks"}
                                 placeholder="Remarks"
@@ -786,6 +798,6 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
       </Card>
     </>
   );
-}
+};
 
 export default CareGiverFormComponent;

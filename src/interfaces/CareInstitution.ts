@@ -16,6 +16,7 @@ export interface ICareInstitutionFormValues {
     gender?: IReactSelectInterface;
     website?: string;
     title?: string;
+    remarksViewable?: string;
     country?: IReactSelectInterface;
     state?: IReactSelectInterface;
     createdAt?: Date;

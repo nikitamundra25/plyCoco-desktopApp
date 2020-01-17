@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { FormGroup, Label, Col, Row, Input, Button, Form } from "reactstrap";
-import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   Status,

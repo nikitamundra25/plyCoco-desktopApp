@@ -1,6 +1,7 @@
 import gql from "graphql-tag";
 
 export const LEASING_DATA_FIELDS = `
+    id
     placeOfBirth
     birthName
     nationality

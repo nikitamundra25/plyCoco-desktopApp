@@ -18,10 +18,7 @@ import { AppRoutes } from "../../../config";
 export const CareGiverForm: FunctionComponent = () => {
   let history = useHistory();
 
-  const [
-    caregiverData,
-    setCaregiverData,
-  ] = useState<CareGiverValues | null>();
+  const [caregiverData, setCaregiverData] = useState<CareGiverValues | null>();
 
   // To add emplyee details into db
   const [addCaregiver, { error, data }] = useMutation<
@@ -78,7 +75,8 @@ export const CareGiverForm: FunctionComponent = () => {
         street,
         city,
         stateId: stateId && stateId.value ? parseInt(stateId.value) : undefined,
-        countryId: countryId && countryId.value ? parseInt(countryId.value) : undefined,
+        countryId:
+          countryId && countryId.value ? parseInt(countryId.value) : undefined,
         postCode,
         pinCode,
         email,
@@ -88,11 +86,13 @@ export const CareGiverForm: FunctionComponent = () => {
         mobileNumber,
         userName,
         qualifications:
-          qualifications && qualifications.value ? qualifications.value : "",
+          qualifications && qualifications.length
+            ? qualifications.map(quali => quali.value)
+            : [],
         driverLicenseNumber,
         driversLicense,
         vehicleAvailable,
-        legalForm: legalForm && legalForm.value ? legalForm.value :"",
+        legalForm: legalForm && legalForm.value ? legalForm.value : "",
         companyName,
         registrationNumber,
         registerCourt,
@@ -100,7 +100,8 @@ export const CareGiverForm: FunctionComponent = () => {
         socialSecurityContribution,
         taxNumber,
         remarks,
-        workZones: workZones && workZones.length ? workZones.map(wz=> wz.value) : [],
+        workZones:
+          workZones && workZones.length ? workZones.map(wz => wz.value) : [],
         status
       };
       await addCaregiver({
@@ -158,7 +159,7 @@ export const CareGiverForm: FunctionComponent = () => {
     executiveDirector = "",
     socialSecurityContribution = false,
     taxNumber = "",
-    remarks = "",
+    remarks = [{ commentBy: "", description: "", commentAt: "" }],
     workZones = undefined,
     status = ""
   } = caregiverData ? caregiverData : {};

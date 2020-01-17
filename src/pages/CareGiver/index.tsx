@@ -27,7 +27,7 @@ import {
 import { pullAllBy } from "lodash";
 import * as qs from "query-string";
 import { AppRoutes, PAGE_LIMIT } from "../../config";
-import { RouteComponentProps, useHistory, useLocation } from "react-router";
+import { RouteComponentProps,  useLocation, useHistory } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import { userData } from "./CareGiverData";

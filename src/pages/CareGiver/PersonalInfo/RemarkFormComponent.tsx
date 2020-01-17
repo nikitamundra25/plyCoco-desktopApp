@@ -57,7 +57,7 @@ const RemarkFormComponent: any = (
                                     <Field
                                         component={FormikTextField}
                                         type="textarea"
-                                        name={"Remarks"}
+                                        name={"personalInformation.remarks"}
                                         placeholder="Remarks"
                                         className="height-textarea "
                                     />

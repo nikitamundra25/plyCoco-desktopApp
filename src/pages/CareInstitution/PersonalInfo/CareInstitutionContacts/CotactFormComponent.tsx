@@ -8,60 +8,60 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Button
-} from "reactstrap";
-import { languageTranslation, logger } from "../../../helpers";
-import Select from "react-select";
+  Button,
+} from 'reactstrap';
+import { languageTranslation, logger } from '../../../../helpers';
+import Select from 'react-select';
 import {
   State,
   Country,
   Gender,
   Salutation,
-  ContactType
-} from "../../../config";
-import { FormikProps, Field, Form } from "formik";
+  ContactType,
+} from '../../../../config';
+import { FormikProps, Field, Form } from 'formik';
 import {
   ICareInstitutionContact,
   IReactSelectInterface,
   ICountries,
   IStates,
   ICountry,
-  IState
-} from "../../../interfaces";
-import { CountryQueries } from "../../../queries";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+  IState,
+} from '../../../../interfaces';
+import { CountryQueries } from '../../../../queries';
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
-const CareInstitutionConstForm: any = (
+const CotactFormComponent: any = (
   props: FormikProps<ICareInstitutionContact>,
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY
+    GET_STATES_BY_COUNTRY,
   );
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id })
+      countriesOpt.push({ label: name, value: id }),
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id })
+      statesOpt.push({ label: name, value: id }),
     );
   }
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, "value");
+    logger(selectOption, 'value');
     setFieldValue(name, selectOption);
-    if (name === "country") {
+    if (name === 'country') {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
       });
-      logger(statesData, "sdsdsdsd");
+      logger(statesData, 'sdsdsdsd');
     }
   };
 
@@ -95,24 +95,17 @@ const CareInstitutionConstForm: any = (
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched
+    setFieldTouched,
   } = props;
 
   return (
     <Col lg={12} className={'form-section'}>
-      <div className='d-flex align-items-center justify-content-between my-3'>
-        <Nav tabs className='contact-tabs'>
-          <NavItem>
-            <NavLink className='active'>New Contact</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink>New Contact 2</NavLink>
-          </NavItem>
-        </Nav>
-        <Button onClick={handleSubmit} color={'primary'} className={'btn-save'}>
-          {languageTranslation('SAVE_BUTTON')}
-        </Button>
-      </div>
+      <Button onClick={handleSubmit} color={'primary'} className={'btn-save save-button'}>
+        {id
+          ? languageTranslation('UPDATE_BUTTON')
+          : languageTranslation('SAVE_BUTTON')}
+        {}
+      </Button>
       <div className='form-flex-section mt-3 form-card minheight-auto'>
         {/* <h5 className="main-title">Add New contact </h5> */}
 
@@ -121,25 +114,28 @@ const CareInstitutionConstForm: any = (
             <Row>
               <Col lg={'12'}>
                 <FormGroup>
-                  <Row>
-                    <Col sm='4'>
-                      <Label className='form-label col-form-label'>
-                        {languageTranslation('ID')}
-                        <span className='required'>*</span>
-                      </Label>
-                    </Col>
-                    <Col sm='8'>
-                      <div>
-                        <Input
-                          type='text'
-                          disable
-                          disabled
-                          placeholder={languageTranslation('ID')}
-                          className='width-common'
-                        />
-                      </div>
-                    </Col>
-                  </Row>
+                  {id ? (
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('ID')}
+                          <span className='required'>*</span>
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div>
+                          <Input
+                            type='text'
+                            disable
+                            disabled
+                            value={id}
+                            placeholder={languageTranslation('ID')}
+                            className='width-common'
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  ) : null}
                 </FormGroup>
               </Col>
               <Col lg={'12'}>
@@ -158,7 +154,7 @@ const CareInstitutionConstForm: any = (
                               placeholder={languageTranslation('GENDER')}
                               value={gender ? gender : undefined}
                               onChange={(value: any) =>
-                                handleSelect(value, "gender")
+                                handleSelect(value, 'gender')
                               }
                               options={Gender}
                             />
@@ -204,7 +200,7 @@ const CareInstitutionConstForm: any = (
                           placeholder={languageTranslation('SALUTATION')}
                           value={salutation ? salutation : undefined}
                           onChange={(value: any) =>
-                            handleSelect(value, "salutation")
+                            handleSelect(value, 'salutation')
                           }
                           options={Salutation}
                         />
@@ -299,7 +295,7 @@ const CareInstitutionConstForm: any = (
                           placeholder={languageTranslation('CONTACT_TYPE')}
                           value={contactType ? contactType : undefined}
                           onChange={(value: any) =>
-                            handleSelect(value, "contactType")
+                            handleSelect(value, 'contactType')
                           }
                           options={ContactType}
                         />
@@ -395,7 +391,7 @@ const CareInstitutionConstForm: any = (
                           options={countriesOpt}
                           value={country ? country : undefined}
                           onChange={(value: any) =>
-                            handleSelect(value, "country")
+                            handleSelect(value, 'country')
                           }
                         />
                       </div>
@@ -537,7 +533,7 @@ const CareInstitutionConstForm: any = (
                           }
                         />
                         {errors.email && touched.email && (
-                          <div className="required-error">{errors.email}</div>
+                          <div className='required-error'>{errors.email}</div>
                         )}
                       </div>
                     </Col>
@@ -612,4 +608,4 @@ const CareInstitutionConstForm: any = (
     </Col>
   );
 };
-export default CareInstitutionConstForm;
+export default CotactFormComponent;

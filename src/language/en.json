@@ -441,6 +441,8 @@
   "CARE_INSTITUTION_DELETE_SUCCESS_MSG": "Care institution has been deleted successfully",
   "NEW_CONTACT_ADD_CARE_INSTITUTION": "Care institution contact added successfully.",
   "CARE_INSTI_UPDATE_SUCCESS": "Care institution updated successfully",
+  "CONTACT_UPDATE_CARE_INSTITUTION": "Care institution contact updated successfully!",
+  "UPDATE_BUTTON": "Update",
   "EMPLOYEE_NAME": "Employee Name",
   "CONTACT_NO": "Contact No.",
   "EMPLOYEE_USERNAME": "Employee Username",

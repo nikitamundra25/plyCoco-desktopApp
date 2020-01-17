@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const GET_CARE_INSTITUTION_LIST = gql`
   query(
@@ -82,6 +82,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         mobileNumber
         email
         remark
+        id
       }
     }
   }
@@ -140,6 +141,16 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
     }
   }
 `;
+const UPDATE_NEW_CONTACT_CARE_INSTITUTION = gql`
+  mutation updateContact($id: Int!, $contactInput: ContactInput!) {
+    updateContact(id: $id, contactInput: $contactInput) {
+      id
+      firstName
+      surName
+      contactType
+    }
+  }
+`;
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
@@ -147,5 +158,6 @@ export const CareInstitutionQueries = [
   ADD_CARE_INSTITUTION,
   GET_CARE_INSTITUION_BY_ID,
   UPDATE_CARE_INSTITUTION_STATUS,
-  ADD_NEW_CONTACT_CARE_INSTITUTION
+  ADD_NEW_CONTACT_CARE_INSTITUTION,
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
 ];

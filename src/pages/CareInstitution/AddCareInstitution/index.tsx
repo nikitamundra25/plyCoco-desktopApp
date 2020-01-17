@@ -55,21 +55,28 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
     //to set submit state to false after successful signup
     try {
       const dataSubmit: any = {
-        salutation: values && values.salutation ? values.salutation.label : "",
-        city: values.city,
-        companyName: values.companyName,
-        email: values.email,
-        fax: values.fax,
+        gender: values && values.gender ? values.gender.value : "",
+        salutation: values && values.salutation ? values.salutation.value : "",
         firstName: values.firstName,
         lastName: values.lastName,
-        mobileNumber: values.mobileNumber,
-        phoneNumber: values.phoneNumber,
         shortName: values.shortName,
+        companyName: values.companyName,
+        anonymousName: values.anonymousName,
+        anonymousName2: values.anonymousName2,
         street: values.street,
-        userName: values.userName,
         zipCode: values.zipCode,
-        countryId: values && values.country ? values.country.value : null,
-        stateId: values && values.state ? values.state.value : null
+        countryId: values && values.country ? values.country.value : "",
+        stateId: values && values.state ? values.state.value : "",
+        remarks: values.remarks,
+        website: values.website,
+        email: values.email,
+        userName: values.userName,
+        careGiverCommission: values.careGiverCommission,
+        doctorCommission: values.doctorCommission,
+        invoiceType: values && values.invoiceType ? values.invoiceType.value : "",
+        interval: values && values.interval ? values.interval.value : "",
+        emailInvoice: values.emailInvoice,
+        addressInvoice: values.addressInvoice
       };
       await addCareInstitution({
         variables: {

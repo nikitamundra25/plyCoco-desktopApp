@@ -7,15 +7,17 @@ import PersonalInfoForm from "./PersonalInfoForm";
 import {
   ICareInstitutionContact,
   ICareInstitutionFormValues,
-  IReactSelectInterface
+  IReactSelectInterface,
+  ICountries,
+  IStates
 } from "../../../interfaces";
 import {
   CareInstituionValidationSchema,
   CareInstituionContactValidationSchema
 } from "../../../validations";
 import { useParams } from "react-router";
-import { CareInstitutionQueries } from "../../../queries";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { CareInstitutionQueries, CountryQueries } from "../../../queries";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
 import { logger, languageTranslation } from "../../../helpers";
 import { async } from "rxjs/internal/scheduler/async";
@@ -43,6 +45,14 @@ const PersonalInformation: any = (props: any) => {
     getCareInstitutionDetails,
     { data: careInstituionDetails, error: detailsError, refetch }
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
+
+  const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+
+  //To get country details
+  const { data: countries, loading } = useQuery<ICountries>(GET_COUNTRIES);
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY
+  );
 
   useEffect(() => {
     if (props.isUserChange) {
@@ -135,6 +145,7 @@ const PersonalInformation: any = (props: any) => {
         lastName: values.lastName,
         shortName: values.shortName,
         companyName: values.companyName,
+        phoneNumber: values.phoneNumber,
         // anonymousName: values.anonymousName,
         // anonymousName2: values.anonymousName2,
         street: values.street,
@@ -173,14 +184,48 @@ const PersonalInformation: any = (props: any) => {
   };
   let Data: IReactSelectInterface;
   let values: ICareInstitutionFormValues;
+  let countryData: Number;
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
+
+    countryData = getCareInstitution.canstitution
+      ? getCareInstitution.canstitution.countryId
+      : "";
+    let userSelectedCountry: any = {};
+    if (countries && countries.countries) {
+      const userCountry = countries.countries.filter(
+        (x: any) => x.id === countryData
+      );
+      userSelectedCountry = {
+        label: userCountry[0].name,
+        value: userCountry[0].id
+      };
+    }
+
+    const stateData = getCareInstitution.canstitution
+      ? getCareInstitution.canstitution.stateId
+      : "";
+    let userSelectedState: any = {};
+    console.log("statesData.states", statesData);
+    if (statesData && statesData.states) {
+      const userState = statesData.states.filter(
+        (x: any) => x.id === stateData
+      );
+      console.log("userState", userState);
+
+      userSelectedCountry = {
+        label: userState[0].name,
+        value: userState[0].id
+      };
+    }
+
     values = {
       id: Id,
       email: getCareInstitution.email,
       firstName: getCareInstitution.firstName,
       lastName: getCareInstitution.lastName,
       userName: getCareInstitution.userName,
+      phoneNumber: getCareInstitution.phoneNumber,
       salutation: {
         label: getCareInstitution.salutation
           ? getCareInstitution.salutation
@@ -189,7 +234,38 @@ const PersonalInformation: any = (props: any) => {
           ? getCareInstitution.salutation
           : ""
       },
-      fax: "",
+      fax: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.fax
+        : "",
+      zipCode: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.zipCode
+        : "",
+      country: {
+        label: userSelectedCountry.label,
+        value: userSelectedCountry.value
+      },
+      state: { label: userSelectedState.label, value: userSelectedState.value },
+      stateId: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.stateId
+        : "",
+      remarks: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.remarks
+        : "",
+      title: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.title
+        : "",
+      linkedTo: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.linkedTo
+        : "",
+      doctorCommission: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.doctorCommission
+        : "",
+      leasingPriceListId: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.leasingPriceListId
+        : "",
+      isArchive: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.isArchive
+        : "",
       shortName: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.shortName
         : "",
@@ -229,6 +305,15 @@ const PersonalInformation: any = (props: any) => {
       props.currentSelectuser(Data);
     }
   }, [careInstituionDetails && careInstituionDetails.getCareInstitution]);
+
+  useEffect(() => {
+    // Fetch state details by country id
+    if (countryData) {
+      getStatesByCountry({
+        variables: { countryid: countryData ? countryData : "82" } // default code is for germany
+      });
+    }
+  }, []);
 
   return (
     <Form className="form-section forms-main-section">

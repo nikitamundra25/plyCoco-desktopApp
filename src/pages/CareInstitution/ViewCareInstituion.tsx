@@ -52,7 +52,10 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 ) => {
   let { id } = useParams();
   const Id: any | undefined = id;
-
+  let sortBy: IReactSelectInterface | undefined = {
+    label: "3",
+    value: "Sort by A-Z"
+  };
   const { data: careInstituition, loading, error, refetch } = useQuery<any>(
     GET_CARE_INSTITUTION_LIST
   );
@@ -114,6 +117,11 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       }
     }
   };
+
+  const handleAddNewCareInstitution = () =>{
+    props.history.push(AppRoutes.ADD_CARE_INSTITUTION)
+  }
+
   return (
     <div>
       <div className="common-detail-page">
@@ -130,7 +138,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     options={CareInstitutionList}
                   />
                 </div>
-                <div className="header-nav-item">
+                <div onClick ={handleAddNewCareInstitution} className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={add} alt="" />
                   </span>

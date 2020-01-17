@@ -84,6 +84,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldValue,
     setFieldTouched
   } = props;
+  console.log("state", state);
+
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
   // Custom function to handle react select fields

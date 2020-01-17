@@ -82,6 +82,7 @@ const AddCareInstitution: any = (
       zipCode,
       shortName,
       companyName,
+      remarksViewable,
       title,
       gender,
       website,
@@ -748,7 +749,10 @@ const AddCareInstitution: any = (
                     <div>
                       <Input
                         type="textarea"
-                        name={"additionalText "}
+                        name={"remarksViewable"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={remarksViewable}
                         placeholder={languageTranslation("REMARKS")}
                         className="textarea-custom"
                         rows="4"

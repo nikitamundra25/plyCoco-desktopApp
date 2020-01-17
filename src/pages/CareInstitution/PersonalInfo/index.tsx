@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Button } from 'reactstrap';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import CareInstitutionContact from './CareInstitutionContact';
-import '../careinstitution.scss';
-import PersonalInfoForm from './PersonalInfoForm';
+import React, { useEffect, useState } from "react";
+import { Form, Button } from "reactstrap";
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import CareInstitutionContact from "./CareInstitutionContact";
+import "../careinstitution.scss";
+import PersonalInfoForm from "./PersonalInfoForm";
 import {
   ICareInstitutionContact,
   ICareInstitutionFormValues,
   IReactSelectInterface,
   ICountries,
-  IStates,
-} from '../../../interfaces';
+  IStates
+} from "../../../interfaces";
 import {
   CareInstituionValidationSchema,
-  CareInstituionContactValidationSchema,
-} from '../../../validations';
-import { useParams } from 'react-router';
-import { CareInstitutionQueries, CountryQueries } from '../../../queries';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
-import { toast } from 'react-toastify';
-import { logger, languageTranslation } from '../../../helpers';
-import { async } from 'rxjs/internal/scheduler/async';
-import CareInstitutionContacts from './CareInstitutionContacts';
+  CareInstituionContactValidationSchema
+} from "../../../validations";
+import { useParams } from "react-router";
+import { CareInstitutionQueries, CountryQueries } from "../../../queries";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
+import { toast } from "react-toastify";
+import { logger, languageTranslation } from "../../../helpers";
+import { async } from "rxjs/internal/scheduler/async";
+import CareInstitutionContacts from "./CareInstitutionContacts";
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -30,7 +30,7 @@ const [
   ADD_CARE_INSTITUTION,
   GET_CARE_INSTITUION_BY_ID,
   UPDATE_CARE_INSTITUTION_STATUS,
-  ADD_NEW_CONTACT_CARE_INSTITUTION,
+  ADD_NEW_CONTACT_CARE_INSTITUTION
 ] = CareInstitutionQueries;
 
 const PersonalInformation: any = (props: any) => {
@@ -79,20 +79,20 @@ const PersonalInformation: any = (props: any) => {
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
       logger(
         careInstituionDetails.getCareInstitution,
-        'careInstituionDetails****',
+        "careInstituionDetails****"
       );
       const contactsData: any[] =
         careInstituionDetails.getCareInstitution.contact;
       contactsData.push({
-        email: '',
-        firstName: '',
-        lastName: '',
-        userName: '',
-        phoneNumber: '',
-        mobileNumber: '',
-        faxNumber: '',
-        comments: '',
-        groupAttributes: '',
+        email: "",
+        firstName: "",
+        lastName: "",
+        userName: "",
+        phoneNumber: "",
+        mobileNumber: "",
+        faxNumber: "",
+        comments: "",
+        groupAttributes: ""
       });
       setContacts(contactsData);
     }
@@ -104,37 +104,37 @@ const PersonalInformation: any = (props: any) => {
 
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
-    { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionContact>
   ) => {
     try {
       //to set submit state to false after successful signup
       setSubmitting(false);
       const contactInput: any = {
         userId: parseInt(Id),
-        gender: values && values.gender ? values.gender.value : '',
+        gender: values && values.gender ? values.gender.value : "",
         title: values.title,
-        salutation: values && values.salutation ? values.salutation.value : '',
+        salutation: values && values.salutation ? values.salutation.value : "",
         firstName: values.firstName,
         surName: values.lastName,
         contactType:
-          values && values.contactType ? values.contactType.value : '',
+          values && values.contactType ? values.contactType.value : "",
         street: values.street,
         city: values.city,
         zip: values.zipCode,
-        countryId: values && values.country ? values.country.value : '',
+        countryId: values && values.country ? values.country.value : "",
         phoneNumber: values.phoneNumber,
         phoneNumber2: values.phoneNumber,
         fax: values.faxNumber,
         mobileNumber: values.mobileNumber,
         email: values.email,
-        remark: values.remaks,
+        remark: values.remaks
       };
       await addContact({
         variables: {
-          contactInput: contactInput,
-        },
+          contactInput: contactInput
+        }
       });
-      toast.success(languageTranslation('NEW_CONTACT_ADD_CARE_INSTITUTION'));
+      toast.success(languageTranslation("NEW_CONTACT_ADD_CARE_INSTITUTION"));
     } catch (error) {
       const message = error.message
         .replace("SequelizeValidationError: ", "")
@@ -147,15 +147,15 @@ const PersonalInformation: any = (props: any) => {
   };
 
   const contactFormValues: ICareInstitutionContact = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    userName: '',
-    phoneNumber: '',
-    mobileNumber: '',
-    faxNumber: '',
-    comments: '',
-    groupAttributes: '',
+    email: "",
+    firstName: "",
+    lastName: "",
+    userName: "",
+    phoneNumber: "",
+    mobileNumber: "",
+    faxNumber: "",
+    comments: "",
+    groupAttributes: ""
   };
 
   const handleSubmit = async (
@@ -163,19 +163,24 @@ const PersonalInformation: any = (props: any) => {
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
   ) => {
     //to set submit state to false after successful signup
+    console.log("valuessss", values);
+
     try {
       const careInstitutionInput: any = {
-        // gender: values && values.gender ? values.gender.value : "",
-        salutation: values && values.salutation ? values.salutation.value : '',
+        gender: values && values.gender ? values.gender.value : "",
+        salutation: values && values.salutation ? values.salutation.value : "",
         firstName: values.firstName,
         lastName: values.lastName,
         shortName: values.shortName,
         companyName: values.companyName,
         phoneNumber: values.phoneNumber,
-        // anonymousName: values.anonymousName,
-        // anonymousName2: values.anonymousName2,
+        mobileNumber: values.mobileNumber,
+        anonymousName: values.anonymousName,
+        anonymousName2: values.anonymousName2,
+        remarksViewable: values.remarksViewable,
         street: values.street,
         zipCode: values.zipCode,
+        title: values.title,
         countryId: values && values.country ? values.country.value : "",
         stateId: values && values.state ? values.state.value : "",
         remarks: values.remarks,
@@ -183,19 +188,20 @@ const PersonalInformation: any = (props: any) => {
         email: values.email,
         userName: values.userName,
         careGiverCommission: values.careGiverCommission,
-        doctorCommission: values.doctorCommission
-        // invoiceType: values && values.invoiceType ? values.invoiceType.value : "",
-        // interval: values && values.interval ? values.interval.value : "",
-        // emailInvoice: values.emailInvoice,
-        // addressInvoice: values.addressInvoice
+        doctorCommission: values.doctorCommission,
+        invoiceType:
+          values && values.invoiceType ? values.invoiceType.value : "",
+        interval: values && values.interval ? values.interval.value : "",
+        emailInvoice: values.emailInvoice,
+        addressInvoice: values.addressInvoice
       };
       setSubmitting(false);
       toast.success(languageTranslation("CARE_INSTI_UPDATE_SUCCESS"));
       await updateCareInstitution({
         variables: {
           id: parseInt(Id),
-          careInstitutionInput: careInstitutionInput,
-        },
+          careInstitutionInput: careInstitutionInput
+        }
       });
     } catch (error) {
       const message = error.message
@@ -222,10 +228,13 @@ const PersonalInformation: any = (props: any) => {
       const userCountry = countries.countries.filter(
         (x: any) => x.id === countryData
       );
-      userSelectedCountry = {
-        label: userCountry[0].name,
-        value: userCountry[0].id
-      };
+
+      if (userCountry && userCountry.length) {
+        userSelectedCountry = {
+          label: userCountry[0].name,
+          value: userCountry[0].id
+        };
+      }
     }
 
     const stateData = getCareInstitution.canstitution
@@ -238,11 +247,12 @@ const PersonalInformation: any = (props: any) => {
         (x: any) => x.id === stateData
       );
       console.log("userState", userState);
-
-      userSelectedCountry = {
-        label: userState[0].name,
-        value: userState[0].id
-      };
+      if (userSelectedCountry && userSelectedCountry.length) {
+        userSelectedCountry = {
+          label: userState[0].name,
+          value: userState[0].id
+        };
+      }
     }
 
     values = {
@@ -250,8 +260,15 @@ const PersonalInformation: any = (props: any) => {
       email: getCareInstitution.email,
       firstName: getCareInstitution.firstName,
       lastName: getCareInstitution.lastName,
+      gender: {
+        label: getCareInstitution ? getCareInstitution.gender : "",
+        value: getCareInstitution ? getCareInstitution.gender : ""
+      },
       userName: getCareInstitution.userName,
       phoneNumber: getCareInstitution.phoneNumber,
+      careGiverCommission: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.careGiverCommission
+        : "",
       salutation: {
         label: getCareInstitution.salutation
           ? getCareInstitution.salutation
@@ -279,6 +296,30 @@ const PersonalInformation: any = (props: any) => {
         : "",
       title: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.title
+        : "",
+      anonymousName: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.anonymousName
+        : "",
+      anonymousName2: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.anonymousName2
+        : "",
+      mobileNumber: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.mobileNumber
+        : "",
+      remarksViewable: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.remarksViewable
+        : "",
+      invoiceType: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.invoiceType
+        : "",
+      emailInvoice: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.emailInvoice
+        : "",
+      addressInvoice: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.addressInvoice
+        : "",
+      interval: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.interval
         : "",
       linkedTo: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.linkedTo
@@ -341,9 +382,9 @@ const PersonalInformation: any = (props: any) => {
     }
   }, []);
 
-  logger(contacts, 'contact');
+  logger(contacts, "contact");
   return (
-    <Form className='form-section forms-main-section'>
+    <Form className="form-section forms-main-section">
       <Formik
         initialValues={values}
         enableReinitialize={true}

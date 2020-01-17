@@ -1,12 +1,19 @@
 import React, { FunctionComponent } from "react";
 import { FormGroup, Label, Input, Col, Row, Button } from "reactstrap";
 import Select from "react-select";
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import { State, Region, Salutation, Country, Gender } from "../../../../config";
 import { languageTranslation, logger } from "../../../../helpers";
-import { ICareInstitutionFormValues, IReactSelectInterface, ICountries, IStates, ICountry, IState } from "../../../../interfaces";
+import {
+  ICareInstitutionFormValues,
+  IReactSelectInterface,
+  ICountries,
+  IStates,
+  ICountry,
+  IState
+} from "../../../../interfaces";
 import { CountryQueries, CareInstitutionQueries } from "../../../../queries";
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import CommissionFormData from "./CommissionFormData";
 import InvoiceFormData from "./InvoiceFormData";
 import QuallificationAttribute from "./QuallificationAttribute";
@@ -22,22 +29,21 @@ const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 const PersonalInformationForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 >> = (props: FormikProps<ICareInstitutionFormValues>) => {
-
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
@@ -60,6 +66,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       title,
       gender,
       website,
+      remarks,
       linkedTo,
       fax,
       anonymousName2,
@@ -75,25 +82,30 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched,
+    setFieldTouched
   } = props;
-  const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date()
+
+  const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
+    logger(selectOption, "value");
     setFieldValue(name, selectOption);
-    if (name === 'country') {
+    if (name === "country") {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
+      logger(statesData, "sdsdsdsd");
     }
   };
-
   return (
     <Row className=" ">
-      <Button className={"save-button btn-add btn btn-primary text-white"} onClick={handleSubmit}>Save</Button>
+      <Button
+        className={"save-button btn-add btn btn-primary text-white"}
+        onClick={handleSubmit}
+      >
+        Save
+      </Button>
       <Col lg={"4"}>
         <div className="form-card h-100">
           <Row>
@@ -183,7 +195,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                             placeholder={languageTranslation("GENDER")}
                             value={gender ? gender : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'gender')
+                              handleSelect(value, "gender")
                             }
                             options={Gender}
                           />
@@ -232,7 +244,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         placeholder={languageTranslation("SALUTATION")}
                         value={salutation ? salutation : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'salutation')
+                          handleSelect(value, "salutation")
                         }
                         options={Salutation}
                       />
@@ -266,9 +278,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.firstName && touched.firstName && (
-                        <div className="required-error">
-                          {errors.firstName}
-                        </div>
+                        <div className="required-error">{errors.firstName}</div>
                       )}
                     </div>
                   </Col>
@@ -300,9 +310,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.lastName && touched.lastName && (
-                        <div className="required-error">
-                          {errors.lastName}
-                        </div>
+                        <div className="required-error">{errors.lastName}</div>
                       )}
                     </div>
                   </Col>
@@ -493,7 +501,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         options={countriesOpt}
                         value={country ? country : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'country')
+                          handleSelect(value, "country")
                         }
                       />
                     </div>
@@ -515,11 +523,9 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         placeholder={languageTranslation("STATE")}
                         options={statesOpt}
                         value={state ? state : undefined}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'state')
-                        }
+                        onChange={(value: any) => handleSelect(value, "state")}
                         noOptionsMessage={() => {
-                          return 'Select a country first';
+                          return "Select a country first";
                         }}
                       />
                     </div>
@@ -634,9 +640,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.email && touched.email && (
-                        <div className="required-error">
-                          {errors.email}
-                        </div>
+                        <div className="required-error">{errors.email}</div>
                       )}
                     </div>
                   </Col>
@@ -668,9 +672,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.userName && touched.userName && (
-                        <div className="required-error">
-                          {errors.userName}
-                        </div>
+                        <div className="required-error">{errors.userName}</div>
                       )}
                     </div>
                   </Col>
@@ -693,9 +695,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                           "DEFAULT_QAULIFICATION"
                         )}
                         value={state ? state : undefined}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'state')
-                        }
+                        onChange={(value: any) => handleSelect(value, "state")}
                         options={State}
                       />
                     </div>
@@ -741,9 +741,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                       <Select
                         placeholder={languageTranslation("LIKED_TO")}
                         value={state ? state : undefined}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'state')
-                        }
+                        onChange={(value: any) => handleSelect(value, "state")}
                         options={State}
                       />
                     </div>
@@ -786,7 +784,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       </Col>
       <RemarkFormData {...props} />
     </Row>
-  )
-}
+  );
+};
 
-export default PersonalInformationForm
+export default PersonalInformationForm;

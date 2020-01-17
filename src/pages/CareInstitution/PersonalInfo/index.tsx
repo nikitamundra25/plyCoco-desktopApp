@@ -1,11 +1,18 @@
 import React, { useEffect } from "react";
 import { Form, Button } from "reactstrap";
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import CareInstitutionContact from "./CareInstitutionContact";
 import "../careinstitution.scss";
 import PersonalInfoForm from "./PersonalInfoForm";
-import { ICareInstitutionContact, ICareInstitutionFormValues, IReactSelectInterface } from "../../../interfaces";
-import { CareInstituionValidationSchema, CareInstituionContactValidationSchema } from "../../../validations";
+import {
+  ICareInstitutionContact,
+  ICareInstitutionFormValues,
+  IReactSelectInterface
+} from "../../../interfaces";
+import {
+  CareInstituionValidationSchema,
+  CareInstituionContactValidationSchema
+} from "../../../validations";
 import { useParams } from "react-router";
 import { CareInstitutionQueries } from "../../../queries";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
@@ -20,41 +27,44 @@ const [
   ADD_CARE_INSTITUTION,
   GET_CARE_INSTITUION_BY_ID,
   UPDATE_CARE_INSTITUTION_STATUS,
-  ADD_NEW_CONTACT_CARE_INSTITUTION,
-] = CareInstitutionQueries
+  ADD_NEW_CONTACT_CARE_INSTITUTION
+] = CareInstitutionQueries;
 
 const PersonalInformation: any = (props: any) => {
-
   let { id } = useParams();
-  const Id: any | undefined = id
+  const Id: any | undefined = id;
 
-  const [updateCareInstitution, { error, data }] = useMutation<{ updateCareInstitution: ICareInstitutionFormValues }>(UPDATE_CARE_INSTITUTION);
+  const [updateCareInstitution, { error, data }] = useMutation<{
+    updateCareInstitution: ICareInstitutionFormValues;
+  }>(UPDATE_CARE_INSTITUTION);
 
   // To get the care instituion details by id
   const [
     getCareInstitutionDetails,
-    { data: careInstituionDetails, error: detailsError, refetch },
+    { data: careInstituionDetails, error: detailsError, refetch }
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
 
   useEffect(() => {
     if (props.isUserChange) {
       getCareInstitutionDetails({
-        variables: { careInstitutionId: parseInt(Id) },
+        variables: { careInstitutionId: parseInt(Id) }
       });
-      props.handleIsUserChange()
+      props.handleIsUserChange();
     }
-  }, [props.isUserChange])
+  }, [props.isUserChange]);
 
   useEffect(() => {
     // Fetch details by care institution id
     if (id) {
       getCareInstitutionDetails({
-        variables: { careInstitutionId: parseInt(Id) },
+        variables: { careInstitutionId: parseInt(Id) }
       });
     }
-  }, [])
+  }, []);
 
-  const [addContact, { error: contactError, data: contactData }] = useMutation<{ addContact: ICareInstitutionFormValues }>(ADD_NEW_CONTACT_CARE_INSTITUTION);
+  const [addContact, { error: contactError, data: contactData }] = useMutation<{
+    addContact: ICareInstitutionFormValues;
+  }>(ADD_NEW_CONTACT_CARE_INSTITUTION);
 
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
@@ -70,7 +80,8 @@ const PersonalInformation: any = (props: any) => {
         salutation: values && values.salutation ? values.salutation.value : "",
         firstName: values.firstName,
         surName: values.lastName,
-        contactType: values && values.contactType ? values.contactType.value : "",
+        contactType:
+          values && values.contactType ? values.contactType.value : "",
         street: values.street,
         city: values.city,
         zip: values.zipCode,
@@ -80,22 +91,22 @@ const PersonalInformation: any = (props: any) => {
         fax: values.faxNumber,
         mobileNumber: values.mobileNumber,
         email: values.email,
-        remark: values.remaks,
-      }
+        remark: values.remaks
+      };
       await addContact({
         variables: {
           contactInput: contactInput
         }
-      })
+      });
       toast.success(languageTranslation("NEW_CONTACT_ADD_CARE_INSTITUTION"));
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       // setFieldError('email', message);
       toast.error(message);
-      logger(error)
+      logger(error);
     }
   };
 
@@ -108,12 +119,12 @@ const PersonalInformation: any = (props: any) => {
     mobileNumber: "",
     faxNumber: "",
     comments: "",
-    groupAttributes: "",
+    groupAttributes: ""
   };
 
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
-    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
   ) => {
     //to set submit state to false after successful signup
     try {
@@ -130,11 +141,12 @@ const PersonalInformation: any = (props: any) => {
         zipCode: values.zipCode,
         countryId: values && values.country ? values.country.value : "",
         stateId: values && values.state ? values.state.value : "",
+        remarks: values.remarks,
         website: values.website,
         email: values.email,
         userName: values.userName,
         careGiverCommission: values.careGiverCommission,
-        doctorCommission: values.doctorCommission,
+        doctorCommission: values.doctorCommission
         // invoiceType: values && values.invoiceType ? values.invoiceType.value : "",
         // interval: values && values.interval ? values.interval.value : "",
         // emailInvoice: values.emailInvoice,
@@ -147,56 +159,76 @@ const PersonalInformation: any = (props: any) => {
           id: parseInt(Id),
           careInstitutionInput: careInstitutionInput
         }
-      })
+      });
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       // setFieldError('email', message);
       toast.error(message);
-      logger(error)
+      logger(error);
     }
-
+    setSubmitting(false);
   };
-  let Data: IReactSelectInterface
-  let values: ICareInstitutionFormValues
+  let Data: IReactSelectInterface;
+  let values: ICareInstitutionFormValues;
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
-    const { getCareInstitution } = careInstituionDetails
+    const { getCareInstitution } = careInstituionDetails;
     values = {
       id: Id,
       email: getCareInstitution.email,
       firstName: getCareInstitution.firstName,
       lastName: getCareInstitution.lastName,
       userName: getCareInstitution.userName,
-      fax: '',
-      shortName: '',
-      companyName: '',
-      street: '',
-      city: '',
+      salutation: {
+        label: getCareInstitution.salutation
+          ? getCareInstitution.salutation
+          : "",
+        value: getCareInstitution.salutation
+          ? getCareInstitution.salutation
+          : ""
+      },
+      fax: "",
+      shortName: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.shortName
+        : "",
+      companyName: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.companyName
+        : "",
+      street: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.street
+        : "",
+      city: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.city
+        : ""
     };
     Data = {
-      label: `${getCareInstitution.firstName} ${''} ${getCareInstitution.lastName}`,
+      label: `${getCareInstitution.firstName} ${""} ${
+        getCareInstitution.lastName
+      }`,
       value: Id
-    }
+    };
   } else {
     values = {
-      email: '',
-      firstName: '',
-      lastName: '',
-      userName: '',
-      fax: '',
-      shortName: '',
-      companyName: '',
-      street: '',
-      city: '',
+      email: "",
+      firstName: "",
+      lastName: "",
+      salutation: { label: "", value: "" },
+      userName: "",
+      fax: "",
+      shortName: "",
+      companyName: "",
+      street: "",
+      city: ""
     };
   }
+
   useEffect(() => {
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
-      props.currentSelectuser(Data)
+      props.currentSelectuser(Data);
     }
-  }, [careInstituionDetails && careInstituionDetails.getCareInstitution])
+  }, [careInstituionDetails && careInstituionDetails.getCareInstitution]);
 
   return (
     <Form className="form-section forms-main-section">

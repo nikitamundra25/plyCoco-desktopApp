@@ -104,7 +104,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldValue,
     setFieldTouched
   } = props;
-  console.log("state", state);
+  console.log("state", errors);
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
@@ -131,7 +131,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   return (
     <Row className=" ">
       <Button
-        className={"save-button btn-add btn btn-primary text-white"}
+        className={"save-button btn-add btn btn-primary text-white top-form-button"}
         onClick={handleSubmit}
       >
         Save

@@ -24,6 +24,10 @@
   font-weight: 600;
   font-size: 12px;
   z-index: 10;
+  &.top-form-button{
+    position: fixed;
+    top: 70px;
+  }
 }
 .common-offer-section {
   .common-offer-row {

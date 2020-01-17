@@ -37,8 +37,8 @@ const [
 
 const CareInstitutionSidebar = React.lazy(() =>
   import(
-    "../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout"
-  )
+    '../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout'
+  ),
 );
 
 const CareInstitutionTabs = careInstitutionRoutes;
@@ -57,7 +57,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     value: "Sort by A-Z"
   };
   const { data: careInstituition, loading, error, refetch } = useQuery<any>(
-    GET_CARE_INSTITUTION_LIST
+    GET_CARE_INSTITUTION_LIST,
   );
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
@@ -124,15 +124,15 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 
   return (
     <div>
-      <div className="common-detail-page">
-        <div className="common-detail-section">
-          <Suspense fallback={"Loading.."}>
-            <div className="sticky-common-header">
-              <div className="common-topheader d-flex align-items-center ">
-                <div className="user-select">
+      <div className='common-detail-page'>
+        <div className='common-detail-section'>
+          <Suspense fallback={'Loading..'}>
+            <div className='sticky-common-header'>
+              <div className='common-topheader d-flex align-items-center '>
+                <div className='user-select'>
                   <Select
                     defaultValue={selectUser}
-                    placeholder="Select Caregiver"
+                    placeholder='Select Caregiver'
                     value={selectUser}
                     onChange={e => handleSelect(e)}
                     options={CareInstitutionList}
@@ -142,11 +142,11 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                   <span className="header-nav-icon">
                     <img src={add} alt="" />
                   </span>
-                  <span className="header-nav-text">New Care Institution</span>
+                  <span className='header-nav-text'>New Care Institution</span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={reminder} alt="" />
+                <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={reminder} alt='' />
                   </span>
                   <span
                     className="header-nav-text"
@@ -157,23 +157,23 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     Create Todo/Reminder
                   </span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={password} alt="" />
+                <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={password} alt='' />
                   </span>
-                  <span className="header-nav-text">New Password</span>
+                  <span className='header-nav-text'>New Password</span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={appointment} alt="" />
+                <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={appointment} alt='' />
                   </span>
-                  <span className="header-nav-text">Display Appointments</span>
+                  <span className='header-nav-text'>Display Appointments</span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={clear} alt="" />
+                <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={clear} alt='' />
                   </span>
-                  <span className="header-nav-text">Clear</span>
+                  <span className='header-nav-text'>Clear</span>
                 </div>
               </div>
               <CareInstitutionSidebar
@@ -183,8 +183,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
               />
             </div>
           </Suspense>
-          <Suspense fallback={""}>
-            <div className="common-content flex-grow-1">
+          <Suspense fallback={''}>
+            <div className='common-content flex-grow-1'>
               {activeTab === 0 ? (
                 <PersonalInformation
                   currentSelectuser={(Data: IReactSelectInterface) => {

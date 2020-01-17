@@ -139,7 +139,9 @@ const ViewEmployee: FunctionComponent = () => {
                   </span>
                 </div>
                 <div className="user-item">
-                  <span className="text-label">Status</span>
+                  <span className="text-label">
+                    {languageTranslation("STATUS")}
+                  </span>
                   <span className="text-value">
                     :&nbsp;&nbsp;
                     {/* <span

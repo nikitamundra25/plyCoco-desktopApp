@@ -5,9 +5,8 @@ const CareinstitutionTabs = (props: any) => {
   return (
     <div className="common-sidnav">
       <Nav className="common-ul" tabs>
-        {
-          props.tabs
-            ? props.tabs.map((tab: any, index: number) => {
+        {props.tabs
+          ? props.tabs.map((tab: any, index: number) => {
               return (
                 <NavItem>
                   <NavLink
@@ -18,15 +17,15 @@ const CareinstitutionTabs = (props: any) => {
                       if (props.onTabChange) props.onTabChange(index);
                     }}
                   >
-                    <span className="nav-text">{tab.name}</span>
+                    <span className="nav-text text-capitalize">{tab.name}</span>
                   </NavLink>
                 </NavItem>
-              )
-            }) :
-            null}
+              );
+            })
+          : null}
       </Nav>
     </div>
   );
-}
+};
 
 export default CareinstitutionTabs;

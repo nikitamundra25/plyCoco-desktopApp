@@ -143,6 +143,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     logger(selectOption, "selectOptionvalue");
     setFieldValue(name, selectOption);
     if (name === "country") {
+      setFieldValue("state", { label: "", value: "" });
       getStatesByCountry({
         variables: {
           countryid: selectOption ? selectOption.value : "82"
@@ -150,6 +151,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       });
     }
   };
+
   return (
     <div>
       <Card>
@@ -698,7 +700,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       "EMPLOYEE_STATE_PLACEHOLDER"
                                     )}
                                     options={statesOpt}
-                                    value={state ? state : undefined}
+                                    value={
+                                      state && state.value !== "" ? state : null
+                                    }
                                     onChange={(value: any) =>
                                       handleSelect(value, "state")
                                     }

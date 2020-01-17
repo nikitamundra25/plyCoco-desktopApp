@@ -78,7 +78,7 @@ const AddCareInstitution: any = (
       zipCode,
       state,
       country,
-      salutaion
+      salutation
     },
     touched,
     errors,
@@ -89,13 +89,21 @@ const AddCareInstitution: any = (
     setFieldValue,
     setFieldTouched
   } = props;
-  console.log("Error", errors);
 
   return (
     <div>
       <Card>
         <CardHeader>
           <AppBreadcrumb appRoutes={routes} className="w-100" />
+          <Button
+            color={"primary"}
+            className={"btn-add"}
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+            {languageTranslation("SAVE_BUTTON")}
+          </Button>
         </CardHeader>
         <CardBody>
           <Form className="form-section">
@@ -115,9 +123,9 @@ const AddCareInstitution: any = (
                             <div>
                               <Select
                                 placeholder={languageTranslation("SALUTATION")}
-                                value={salutaion ? salutaion : undefined}
+                                value={salutation ? salutation : undefined}
                                 onChange={(value: any) =>
-                                  handleSelect(value, "salutaion")
+                                  handleSelect(value, "salutation")
                                 }
                                 options={Salutation}
                               />
@@ -521,24 +529,6 @@ const AddCareInstitution: any = (
                       </FormGroup>
                     </Col>
                   </Row>
-                </div>
-              </Col>
-              <Col lg={"12"}>
-                <div className="d-flex align-items-center justify-content-between">
-                  <div className="mandatory-text">
-                    {" "}
-                    {languageTranslation("REQUIRED_FIELDS")}
-                  </div>
-                  <div className={"text-right"}>
-                    <Button
-                      color="primary"
-                      type="submit"
-                      onSubmit={handleSubmit}
-                      className="btn-sumbit"
-                    >
-                      {languageTranslation("SAVE_BUTTON")}
-                    </Button>
-                  </div>
                 </div>
               </Col>
             </Row>

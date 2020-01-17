@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const ADD_EMPLOYEE = gql`
   mutation AddEmployee($employeeInput: EmployeeInput!) {
@@ -12,6 +12,17 @@ const ADD_EMPLOYEE = gql`
       isActive
       profileImage
       profileThumbnailImage
+      employee {
+        joiningDate
+        employeeCustomId
+        country
+        state
+        city
+        zipCode
+        address1
+        address2
+        regionId
+      }
       region {
         regionName
         id
@@ -31,6 +42,7 @@ const GET_EMPLOYEE_BY_ID = gql`
       phoneNumber
       isActive
       profileImage
+      isActive
       profileThumbnailImage
       employee {
         address1
@@ -68,7 +80,6 @@ const UPDATE_EMPLOYEE = gql`
     }
   }
 `;
-
 const GET_EMPLOYEES = gql`
   query GetEmployees(
     $searchBy: String
@@ -145,5 +156,5 @@ export const EmployeeQueries = [
   GET_EMPLOYEES,
   UPDATE_EMPLOYEE,
   UPDATE_EMPLOYEE_STATUS,
-  DELETE_EMPLOYEE,
+  DELETE_EMPLOYEE
 ];

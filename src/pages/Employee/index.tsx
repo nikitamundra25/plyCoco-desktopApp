@@ -112,12 +112,12 @@ const Employee: FunctionComponent = () => {
                 (key: any) => sortFilter[key] === query.sortBy
               ) || ""
           }
-        : undefined;
+        : { label: "", value: "" };
       isActive = query.status
         ? query.status === "active"
           ? { label: languageTranslation("ACTIVE"), value: "true" }
           : { label: languageTranslation("DISABLE"), value: "false" }
-        : undefined;
+        : { label: "", value: "" };
       setSearchValues({
         searchValue: searchBy,
         sortBy,
@@ -535,11 +535,9 @@ const Employee: FunctionComponent = () => {
                         <i className="icon-ban" />
                       </div>
                       <h4 className="mb-1">
-                        {languageTranslation(
-                          "CURRENTLY_THERE_ARE_NO_EMPLOYEES"
-                        )}
+                        Currently there are no employee Added.{" "}
                       </h4>
-                      <p>{languageTranslation("CLICK_ABOVE_TO_ADD_NEW")}</p>
+                      <p>Please click above button to add new. </p>
                     </div>
                   )}
                 </td>

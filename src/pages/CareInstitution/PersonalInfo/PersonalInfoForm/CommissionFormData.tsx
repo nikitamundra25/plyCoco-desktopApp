@@ -1,20 +1,22 @@
 import React, { FunctionComponent } from "react";
 import { FormGroup, Label, Input, Col, Row, Form } from "reactstrap";
 import Select from "react-select";
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import { languageTranslation, logger } from "../../../../helpers";
-import { ICareInstitutionFormValues, IHandleSelectInterface } from "../../../../interfaces";
+import {
+  ICareInstitutionFormValues,
+  IHandleSelectInterface
+} from "../../../../interfaces";
 import { Region } from "../../../../config";
 
 const CommissionFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
-> & IHandleSelectInterface> = (props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface) => {
+> &
+  IHandleSelectInterface> = (
+  props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface
+) => {
   const {
-    values: {
-      careGiverCommission,
-      doctorCommission,
-      leasingPriceListId,
-    },
+    values: { careGiverCommission, doctorCommission, leasingPriceListId },
     touched,
     errors,
     isSubmitting,
@@ -47,9 +49,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={careGiverCommission}
-                        placeholder={languageTranslation(
-                          "HEALTH_CARE_FEE"
-                        )}
+                        placeholder={languageTranslation("HEALTH_CARE_FEE")}
                         className="width-common"
                       />
                     </div>
@@ -60,7 +60,6 @@ const CommissionFormData: FunctionComponent<FormikProps<
                         <Col sm="6">
                           <Label className="form-label col-form-label inner-label">
                             {languageTranslation("DOCTOR_FEE")}
-                            <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="6">
@@ -71,9 +70,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={doctorCommission}
-                              placeholder={languageTranslation(
-                                "DOCTOR_FEE"
-                              )}
+                              placeholder={languageTranslation("DOCTOR_FEE")}
                               className="width-common"
                             />
                           </div>
@@ -97,13 +94,11 @@ const CommissionFormData: FunctionComponent<FormikProps<
               <Col sm="8">
                 <div>
                   <Select
-                    placeholder={languageTranslation(
-                      "LEASING_PRICE_LIST"
-                    )}
+                    placeholder={languageTranslation("LEASING_PRICE_LIST")}
                     isMulti
                     value={leasingPriceListId ? leasingPriceListId : undefined}
                     onChange={(value: any) =>
-                      handleSelect(value, 'leasingPriceList')
+                      handleSelect(value, "leasingPriceList")
                     }
                     options={Region}
                   />
@@ -114,7 +109,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
-export default CommissionFormData
+export default CommissionFormData;

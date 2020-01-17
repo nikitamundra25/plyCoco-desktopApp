@@ -1,39 +1,49 @@
 import React, { FunctionComponent } from "react";
-import { FormGroup, Label, Input, Col, Row, Form } from "reactstrap";
+import { FormGroup, Label, Input, Col, Row, Button } from "reactstrap";
 import Select from "react-select";
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import { State, Region, Salutation, Country, Gender } from "../../../../config";
 import { languageTranslation, logger } from "../../../../helpers";
-import { ICareInstitutionFormValues, IReactSelectInterface, ICountries, IStates, ICountry, IState } from "../../../../interfaces";
-import { CountryQueries } from "../../../../queries";
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import {
+  ICareInstitutionFormValues,
+  IReactSelectInterface,
+  ICountries,
+  IStates,
+  ICountry,
+  IState
+} from "../../../../interfaces";
+import { CountryQueries, CareInstitutionQueries } from "../../../../queries";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import CommissionFormData from "./CommissionFormData";
 import InvoiceFormData from "./InvoiceFormData";
 import QuallificationAttribute from "./QuallificationAttribute";
 import RemarkFormData from "./RemarkFormData";
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-
+// const [GET_CARE_INSTITUTION_LIST,
+//   DELETE_CARE_INSTITUTION,
+//   UPDATE_CARE_INSTITUTION,
+//   ADD_CARE_INSTITUTION,
+//   GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries
 
 const PersonalInformationForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 >> = (props: FormikProps<ICareInstitutionFormValues>) => {
-
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
@@ -45,7 +55,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       userName,
       phoneNumber,
       mobileNumber,
-      salutaion,
+      salutation,
       country,
       street,
       state,
@@ -71,25 +81,30 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched,
+    setFieldTouched
   } = props;
-  const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date()
+  const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
-
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
+    logger(selectOption, "value");
     setFieldValue(name, selectOption);
-    if (name === 'country') {
+    if (name === "country") {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
+      logger(statesData, "sdsdsdsd");
     }
   };
 
   return (
     <Row className=" ">
+      <Button
+        className={"save-button btn-add btn btn-primary text-white"}
+        onClick={handleSubmit}
+      >
+        Save
+      </Button>
       <Col lg={"4"}>
         <div className="form-card h-100">
           <Row>
@@ -181,7 +196,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                             placeholder={languageTranslation("GENDER")}
                             value={gender ? gender : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'gender')
+                              handleSelect(value, "gender")
                             }
                             options={Gender}
                           />
@@ -222,16 +237,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                   <Col sm="4">
                     <Label className="form-label col-form-label">
                       {languageTranslation("SALUTATION")}
-                      <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col sm="8">
                     <div>
                       <Select
                         placeholder={languageTranslation("SALUTATION")}
-                        value={salutaion ? salutaion : undefined}
+                        value={salutation ? salutation : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'salutaion')
+                          handleSelect(value, "salutation")
                         }
                         options={Salutation}
                       />
@@ -258,8 +272,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={firstName}
                         placeholder={languageTranslation("FIRST_NAME")}
-                        className="width-common"
+                        className={
+                          errors.firstName && touched.firstName
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.firstName && touched.firstName && (
+                        <div className="required-error">{errors.firstName}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -283,8 +304,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={lastName}
                         placeholder={languageTranslation("SURNAME")}
-                        className="width-common"
+                        className={
+                          errors.lastName && touched.lastName
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.lastName && touched.lastName && (
+                        <div className="required-error">{errors.lastName}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -475,7 +503,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         options={countriesOpt}
                         value={country ? country : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'country')
+                          handleSelect(value, "country")
                         }
                       />
                     </div>
@@ -498,11 +526,9 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         placeholder={languageTranslation("STATE")}
                         options={statesOpt}
                         value={state ? state : undefined}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'state')
-                        }
+                        onChange={(value: any) => handleSelect(value, "state")}
                         noOptionsMessage={() => {
-                          return 'Select a country first';
+                          return "Select a country first";
                         }}
                       />
                     </div>
@@ -526,7 +552,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={phoneNumber}
-                        placeholder={languageTranslation("FAX")}
+                        placeholder={languageTranslation("PHONE")}
                         className="width-common"
                       />
                     </div>
@@ -576,8 +602,17 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={mobileNumber}
                         placeholder={languageTranslation("MOBILE")}
-                        className="width-common"
+                        className={
+                          errors.mobileNumber && touched.mobileNumber
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.mobileNumber && touched.mobileNumber && (
+                        <div className="required-error">
+                          {errors.mobileNumber}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -601,8 +636,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={email}
                         placeholder={languageTranslation("EMAIL")}
-                        className="width-common"
+                        className={
+                          errors.email && touched.email
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.email && touched.email && (
+                        <div className="required-error">{errors.email}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -626,8 +668,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={userName}
                         placeholder={languageTranslation("USERNAME")}
-                        className="width-common"
+                        className={
+                          errors.userName && touched.userName
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.userName && touched.userName && (
+                        <div className="required-error">{errors.userName}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -649,9 +698,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                           "DEFAULT_QAULIFICATION"
                         )}
                         value={state ? state : undefined}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'state')
-                        }
+                        onChange={(value: any) => handleSelect(value, "state")}
                         options={State}
                       />
                     </div>
@@ -697,9 +744,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                       <Select
                         placeholder={languageTranslation("LIKED_TO")}
                         value={state ? state : undefined}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'state')
-                        }
+                        onChange={(value: any) => handleSelect(value, "state")}
                         options={State}
                       />
                     </div>
@@ -742,7 +787,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       </Col>
       <RemarkFormData {...props} />
     </Row>
-  )
-}
+  );
+};
 
-export default PersonalInformationForm
+export default PersonalInformationForm;

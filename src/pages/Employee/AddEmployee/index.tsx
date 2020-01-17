@@ -113,11 +113,7 @@ export const EmployeeForm: FunctionComponent = () => {
       const { viewEmployee } = employeeDetails;
       setImageUrl(viewEmployee.profileImage ? viewEmployee.profileImage : "");
       let index: number = -1;
-      if (
-        viewEmployee &&
-        viewEmployee.employee &&
-        viewEmployee.employee.country
-      ) {
+      if (viewEmployee.employee.country) {
         index = countriesOpt.findIndex(
           ({ label }: IReactSelectInterface) =>
             label === viewEmployee.employee.country
@@ -135,20 +131,14 @@ export const EmployeeForm: FunctionComponent = () => {
         ...viewEmployee.employee,
         ...viewEmployee.bankDetails,
         country: index > -1 ? countriesOpt[index] : undefined,
-        joiningDate:
-          viewEmployee &&
-          viewEmployee.employee &&
-          viewEmployee.employee.joiningDate
-            ? moment(viewEmployee.employee.joiningDate).format("MM/DD/YYYY")
-            : null,
-        accountHolderName:
-          viewEmployee && viewEmployee.bankDetails
-            ? viewEmployee.bankDetails.accountHolder
-            : "",
+        joiningDate: viewEmployee.employee.joiningDate
+          ? moment(viewEmployee.employee.joiningDate).format("MM/DD/YYYY")
+          : null,
+        accountHolderName: viewEmployee.bankDetails
+          ? viewEmployee.bankDetails.accountHolder
+          : "",
         additionalText:
-          viewEmployee &&
-          viewEmployee.bankDetails &&
-          viewEmployee.bankDetails.additionalText
+          viewEmployee.bankDetails && viewEmployee.bankDetails.additionalText
             ? viewEmployee.bankDetails.additionalText
             : "",
         telephoneNumber: viewEmployee.phoneNumber || "",

@@ -12,7 +12,7 @@ export const telMin: number = 9;
 export const telMax: number = 14;
 export const mobMin: number = 10;
 export const mobMax: number = 12;
-export const fileSize: number = 125 * 1024;
+export const fileSize: number = 1 * 1024 * 1024;
 export const nameRegExp: RegExp = /^[A-Za-z][A-Za-z ]+$/;
 export const SupportedFormats: string[] = [
   "image/jpg",
@@ -66,6 +66,12 @@ export const DateMask: maskArray = [
 export const Status: IReactSelectInterface[] = [
   { value: "true", label: languageTranslation("ACTIVE") },
   { value: "false", label: languageTranslation("DISABLE") }
+];
+export const ContactType: IReactSelectInterface[] = [
+  { value: "Director", label: "Director" },
+  { value: "Pesident", label: "Pesident" },
+  { value: "vicePesident", label: "Vice Pesident" },
+  { value: "Nursing", label: "Nursing" }
 ];
 export const State: IReactSelectInterface[] = [
   { value: "Thuringia", label: "Thuringia" },

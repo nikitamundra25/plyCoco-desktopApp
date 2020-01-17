@@ -174,7 +174,7 @@ const Employee: FunctionComponent = () => {
       //   },
       // });
     }
-  }, [state]);
+  }, [location]);
   const {
     searchValue = '',
     sortBy = undefined,

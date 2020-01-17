@@ -104,7 +104,7 @@ const ViewEmployee: FunctionComponent = () => {
                         employee && employee.isActive ? 'active' : 'inactive'
                       }`}
                     >
-                      {employee.isActive
+                      {employee && employee.isActive
                         ? languageTranslation('ACTIVE')
                         : languageTranslation('DISABLE')}
                     </span>

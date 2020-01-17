@@ -127,7 +127,7 @@ const PersonalInformation: any = (props: any) => {
         fax: values.faxNumber,
         mobileNumber: values.mobileNumber,
         email: values.email,
-        remark: values.remaks
+        remark: values.remark
       };
       await addContact({
         variables: {

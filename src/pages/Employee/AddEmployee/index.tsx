@@ -150,9 +150,13 @@ export const EmployeeForm: FunctionComponent = () => {
               }
             ]
           : null,
-        profileThumbnailImage: viewEmployee.profileThumbnailImage
+        profileThumbnailImage: viewEmployee.profileThumbnailImage,
+        zip:
+          viewEmployee.employee && viewEmployee.employee.zipCode
+            ? viewEmployee.employee.zipCode
+            : ""
       });
-      console.log("viewEmployee.region", viewEmployee.region);
+      console.log("viewEmployee.employee");
     }
   }, [employeeDetails]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
 
@@ -274,6 +278,8 @@ export const EmployeeForm: FunctionComponent = () => {
     }
     setSubmitting(false);
   };
+  console.log("employeedata");
+
   // Fetch values in case of edit by default it will be null or undefined
   const {
     email = "",

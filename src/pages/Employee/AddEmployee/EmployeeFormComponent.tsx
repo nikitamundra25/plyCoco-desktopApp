@@ -87,8 +87,10 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     imageUrl,
     countriesOpt,
     statesOpt,
-    getStatesByCountry
+    getStatesByCountry,
+    setFieldError
   } = props;
+  console.log(props, "propsssssssssssssss");
 
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
@@ -137,7 +139,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       }
     });
   }, []);
-
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     logger(selectOption, "selectOptionvalue");
@@ -279,7 +280,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       const username = email
                                         ? email.substring(0, email.indexOf("@"))
                                         : "";
-
+                                      setFieldError("userName", " ");
                                       setFieldValue("userName", username);
                                       handleBlur(e);
                                     }}

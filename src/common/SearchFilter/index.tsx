@@ -51,25 +51,14 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                 id="search"
                 value={searchValue}
                 onChange={handleChange}
-                placeholder={languageTranslation("SEARCH_PLACEHOLDER")}
+                placeholder={
+                  label === "employee"
+                    ? languageTranslation("SEARCH_EMPLOYEE_PLACEHOLDER")
+                    : languageTranslation("SEARCH_REGION_PLACEHOLDER")
+                }
               />
             </FormGroup>
           </Col>
-          {/* <Col lg={'2'}>
-            <FormGroup>
-              <Label className='col-form-label'>
-                {languageTranslation('REGION')} :
-              </Label>
-              <div>
-                <Select
-                  placeholder={languageTranslation('REGION_PLACEHOLDER')}
-                  options={Region}
-                  value={IReactSelectInterface}
-                />
-              </div>
-            </FormGroup>
-          </Col> */}
-
           <Col lg={"2"}>
             <FormGroup>
               <Label for="Selectregion" className="col-form-label">

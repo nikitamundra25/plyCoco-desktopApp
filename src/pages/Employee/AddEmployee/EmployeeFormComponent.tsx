@@ -135,7 +135,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     // call query
     fetchRegionList({
       variables: {
-        limit: PAGE_LIMIT
+        limit: PAGE_LIMIT,
+        sortBy: 3
       }
     });
   }, []);
@@ -597,7 +598,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_ADDRESS1_PLACEHOLDER"
                                     )}
-                                    className="textarea-custom"
                                     onChange={handleChange}
                                     value={address1}
                                   />
@@ -627,7 +627,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     )}
                                     onChange={handleChange}
                                     value={address2}
-                                    className="textarea-custom"
                                   />
                                 </div>
                               </Col>

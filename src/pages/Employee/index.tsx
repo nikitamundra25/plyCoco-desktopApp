@@ -33,6 +33,7 @@ import { toast } from "react-toastify";
 import defaultProfile from "../../assets/avatars/default-profile.png";
 import Loader from "../../containers/Loader/Loader";
 import { NoSearchFound } from "../../common/SearchFilter/NoSearchFound";
+import moment from "moment";
 
 const [
   ,
@@ -91,16 +92,16 @@ const Employee: FunctionComponent = () => {
     logger(sortByValue);
     logger(typeof sortByValue);
     if (sortByValue === "3") {
-      sortBy.label = "Sort by A-Z";
+      sortBy.label = "A-Z";
     }
     if (sortByValue === "4") {
-      sortBy.label = "Sort by Z-A";
+      sortBy.label = "Z-A";
     }
     if (sortByValue === "2") {
-      sortBy.label = "Sort by Oldest";
+      sortBy.label = "Oldest";
     }
     if (sortByValue === "1") {
-      sortBy.label = "Sort by Newest";
+      sortBy.label = "Newest";
     }
     if (query) {
       searchBy = query.search ? (query.search as string) : "";
@@ -301,7 +302,7 @@ const Employee: FunctionComponent = () => {
     sortBy
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
-  logger(data, "dataaaaaaaa");
+  console.log("datatatatatattata", data);
 
   return (
     <Card>
@@ -332,19 +333,14 @@ const Employee: FunctionComponent = () => {
         <Table bordered hover responsive>
           <thead className="thead-bg">
             <tr>
-              <th>
-                <div className="table-checkbox-wrap">
-                  <div className="btn-group btn-check-action-wrap">
-                    <span className="btn"></span>
-                  </div>
-                </div>
-              </th>
+              <th>S.No</th>
               <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
               <th>{languageTranslation("REGION")}</th>
-              <th>{languageTranslation("CREATED_DATE")}</th>
               <th className="text-center">
                 {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
               </th>
+              <th>{languageTranslation("CREATED_DATE")}</th>
+
               <th className="text-center">{languageTranslation("STATUS")}</th>
               <th className="text-center">
                 {languageTranslation("TABLE_HEAD_ACTION")}
@@ -373,7 +369,8 @@ const Employee: FunctionComponent = () => {
                     region,
                     assignedCanstitution,
                     isActive,
-                    profileThumbnailImage
+                    profileThumbnailImage,
+                    createdAt
                   }: IEmployee,
                   index: number
                 ) => {
@@ -386,16 +383,6 @@ const Employee: FunctionComponent = () => {
                       <td>
                         <div className="table-checkbox-wrap">
                           <div className="btn-group btn-check-action-wrap">
-                            {/* <span className="btn">
-                              <span className="checkboxli checkbox-custom checkbox-default">
-                                <input
-                                  type="checkbox"
-                                  id="checkAll"
-                                  className=""
-                                />
-                                <label className=""></label>
-                              </span>
-                            </span> */}
                             <span className="checkbox-no">{count++}</span>
                           </div>
                         </div>
@@ -439,13 +426,16 @@ const Employee: FunctionComponent = () => {
                           {region ? region.regionName : "-"}
                         </div>
                       </td>
-                      <td>
-                        <div className="description-column  ml-0">
-                          12 Dec, 2019
-                        </div>
-                      </td>
+
                       <td className="text-center">
                         <div>{0}</div>
+                      </td>
+                      <td>
+                        <div className="description-column  ml-0">
+                          {createdAt
+                            ? moment(createdAt).format("Do MMM, YYYY")
+                            : ""}
+                        </div>
                       </td>
                       <td className="text-center">
                         {isActive}

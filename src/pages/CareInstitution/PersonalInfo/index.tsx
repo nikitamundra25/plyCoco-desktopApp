@@ -139,7 +139,7 @@ const PersonalInformation: any = (props: any) => {
     //to set submit state to false after successful signup
     try {
       const careInstitutionInput: any = {
-        // gender: values && values.gender ? values.gender.value : "",
+        gender: values && values.gender ? values.gender.value : "",
         salutation: values && values.salutation ? values.salutation.value : "",
         firstName: values.firstName,
         lastName: values.lastName,
@@ -196,10 +196,13 @@ const PersonalInformation: any = (props: any) => {
       const userCountry = countries.countries.filter(
         (x: any) => x.id === countryData
       );
-      userSelectedCountry = {
-        label: userCountry[0].name,
-        value: userCountry[0].id
-      };
+
+      if (userCountry && userCountry.length) {
+        userSelectedCountry = {
+          label: userCountry[0].name,
+          value: userCountry[0].id
+        };
+      }
     }
 
     const stateData = getCareInstitution.canstitution
@@ -212,11 +215,12 @@ const PersonalInformation: any = (props: any) => {
         (x: any) => x.id === stateData
       );
       console.log("userState", userState);
-
-      userSelectedCountry = {
-        label: userState[0].name,
-        value: userState[0].id
-      };
+      if (userSelectedCountry && userSelectedCountry.length) {
+        userSelectedCountry = {
+          label: userState[0].name,
+          value: userState[0].id
+        };
+      }
     }
 
     values = {
@@ -224,8 +228,15 @@ const PersonalInformation: any = (props: any) => {
       email: getCareInstitution.email,
       firstName: getCareInstitution.firstName,
       lastName: getCareInstitution.lastName,
+      gender: {
+        label: getCareInstitution ? getCareInstitution.gender : "",
+        value: getCareInstitution ? getCareInstitution.gender : ""
+      },
       userName: getCareInstitution.userName,
       phoneNumber: getCareInstitution.phoneNumber,
+      careGiverCommission: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.careGiverCommission
+        : "",
       salutation: {
         label: getCareInstitution.salutation
           ? getCareInstitution.salutation

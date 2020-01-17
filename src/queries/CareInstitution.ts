@@ -46,6 +46,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
       userName
       phoneNumber
       regionId
+      gender
       canstitution {
         city
         zipCode
@@ -61,6 +62,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         doctorCommission
         leasingPriceListId
         isArchive
+        careGiverCommission
       }
       contact {
         salutation

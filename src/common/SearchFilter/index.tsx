@@ -67,8 +67,9 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
               <Select
                 placeholder={languageTranslation("SORTBY_PLACEHOLDER")}
                 options={SortOptions}
-                value={sortBy && sortBy.value !== "" ? sortBy : null}
-                onChange={(value: any) => handleSelect(value, "sortBy")}
+                isClearable={true}
+                value={sortBy && sortBy.value !== '' ? sortBy : null}
+                onChange={(value: any) => handleSelect(value, 'sortBy')}
               />
             </FormGroup>
           </Col>
@@ -81,8 +82,9 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                 <Select
                   placeholder={languageTranslation("STATUS_LABEL")}
                   options={StatusOptions}
-                  value={isActive && isActive.value !== "" ? isActive : null}
-                  onChange={(value: any) => handleSelect(value, "isActive")}
+                  isClearable={true}
+                  value={isActive && isActive.value !== '' ? isActive : null}
+                  onChange={(value: any) => handleSelect(value, 'isActive')}
                 />
               </FormGroup>
             </Col>

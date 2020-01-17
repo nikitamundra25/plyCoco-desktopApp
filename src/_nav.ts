@@ -13,7 +13,7 @@ export default {
       url: AppRoutes.EMPLOYEE
     },
     {
-      name: languageTranslation("MENU_REGION"),
+      name: languageTranslation("REGION"),
       icon: "icon-reg",
       url: AppRoutes.REGION
     },
@@ -42,13 +42,12 @@ export default {
     {
       name: languageTranslation("MENU_TO_DO_CARE_GIVER"),
       icon: "icon-todo-care",
-      url: "#"
-      // url: AppRoutes.REGION
+      url: AppRoutes.CAREGIVER_TODO
     },
     {
       name: languageTranslation("MENU_TO_DO_INSTITUTION"),
       icon: "icon-todo-inst",
-      url: "#"
+      url: AppRoutes.CARE_INSTITUTION_TODO
       // url: AppRoutes.REGION
     },
     {

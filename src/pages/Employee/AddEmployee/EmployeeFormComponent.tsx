@@ -1,4 +1,11 @@
-import React, { Component, useState, ChangeEvent } from 'react';
+import React, {
+  useState,
+  ChangeEvent,
+  FunctionComponent,
+  useEffect,
+} from 'react';
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { AppBreadcrumb } from '@coreui/react';
 import {
   Button,
   FormGroup,
@@ -11,20 +18,42 @@ import {
   Row,
 } from 'reactstrap';
 import Select from 'react-select';
-import { State, Region, City } from '../../../config';
-import { AppBreadcrumb } from '@coreui/react';
+import MaskedInput from 'react-text-mask';
+import { FormikProps, Form } from 'formik';
+import {
+  Region,
+  IBANRegex,
+  DateMask,
+  AppConfig,
+  PAGE_LIMIT,
+} from '../../../config';
 import routes from '../../../routes/routes';
-import InputMask from 'react-input-mask';
-import { IEmployeeFormValues } from '../../../interfaces';
-import { FormikProps, Field, Form } from 'formik';
-import { languageTranslation } from '../../../helpers';
-import { logger } from '../../../helpers';
+import {
+  IEmployeeFormValues,
+  IReactSelectInterface,
+  IRegion,
+} from '../../../interfaces';
+import { logger, languageTranslation } from '../../../helpers';
 import InputFieldTooltip from '../../../common/Tooltip/InputFieldTooltip';
+import { RegionQueries } from '../../../queries/Region';
 
-const EmployeeFormComponent: any = (
-  props: FormikProps<IEmployeeFormValues>,
+const [, GET_REGIONS] = RegionQueries;
+
+const EmployeeFormComponent: FunctionComponent<FormikProps<
+  IEmployeeFormValues
+> & {
+  imageUrl: string;
+  countriesOpt: IReactSelectInterface[];
+  statesOpt: IReactSelectInterface[];
+  getStatesByCountry: any;
+}> = (
+  props: FormikProps<IEmployeeFormValues> & {
+    imageUrl: string;
+    countriesOpt: IReactSelectInterface[];
+    statesOpt: IReactSelectInterface[];
+    getStatesByCountry: any;
+  },
 ) => {
-  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   const {
     values: {
       email,
@@ -40,9 +69,11 @@ const EmployeeFormComponent: any = (
       address1,
       address2,
       country,
+      state,
+      region,
+      city,
       zip,
       joiningDate,
-      bankAccountNumber,
       image,
     },
     touched,
@@ -53,11 +84,32 @@ const EmployeeFormComponent: any = (
     handleSubmit,
     setFieldValue,
     setFieldTouched,
+    imageUrl,
+    countriesOpt,
+    statesOpt,
+    getStatesByCountry,
   } = props;
-  logger('errors**********');
-  logger(errors);
-  logger('touched*******');
-  logger(touched);
+
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
+  const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
+    GET_REGIONS,
+  );
+  const regionOptions: IReactSelectInterface[] | undefined = [];
+  if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
+    RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
+      regionOptions.push({
+        label: regionName,
+        value: id,
+      }),
+    );
+  }
+  useEffect(() => {
+    console.log(imageUrl, 'countryName', country);
+    if (imageUrl) {
+      setUrl(`${AppConfig.FILES_ENDPOINT}${imageUrl}`);
+    }
+  }, [imageUrl, country]);
+  // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setFieldTouched('image', true);
@@ -77,7 +129,27 @@ const EmployeeFormComponent: any = (
       setFieldValue('image', file);
     }
   };
+  useEffect(() => {
+    // call query
+    fetchRegionList({
+      variables: {
+        limit: PAGE_LIMIT,
+      },
+    });
+  }, []);
 
+  // Custom function to handle react select fields
+  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
+    logger(selectOption, 'selectOptionvalue');
+    setFieldValue(name, selectOption);
+    if (name === 'country') {
+      getStatesByCountry({
+        variables: {
+          countryid: selectOption ? selectOption.value : '82',
+        }, // default code is for germany
+      });
+    }
+  };
   return (
     <div>
       <Card>
@@ -85,9 +157,11 @@ const EmployeeFormComponent: any = (
           <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
           <Button
             color={'primary'}
+            disabled={isSubmitting}
             className={'btn-add'}
             onClick={handleSubmit}
           >
+            {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
             {languageTranslation('SAVE_BUTTON')}
           </Button>
         </CardHeader>
@@ -107,9 +181,7 @@ const EmployeeFormComponent: any = (
                             <Row>
                               <Col sm='4'>
                                 <Label className='form-label col-form-label'>
-                                  {languageTranslation(
-                                    'EMPLOYEE_FIRST_NAME_LABEL',
-                                  )}
+                                  {languageTranslation('FIRST_NAME')}
                                   <span className='required'>*</span>
                                 </Label>
                               </Col>
@@ -121,8 +193,8 @@ const EmployeeFormComponent: any = (
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_FIRST_NAME_PLACEHOLDER',
                                     )}
-                                    onChange={handleChange}
                                     maxLength='20'
+                                    onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={firstName}
                                     className={
@@ -200,7 +272,15 @@ const EmployeeFormComponent: any = (
                                       'EMPLOYEE_EMAIL_ADDRESS_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
-                                    onBlur={handleBlur}
+                                    onBlur={(e: any) => {
+                                      //get string before a @ to set username
+                                      const username = email
+                                        ? email.substring(0, email.indexOf('@'))
+                                        : '';
+
+                                      setFieldValue('userName', username);
+                                      handleBlur(e);
+                                    }}
                                     value={email}
                                     className={
                                       errors.email && touched.email
@@ -269,12 +349,12 @@ const EmployeeFormComponent: any = (
                               </Col>
                               <Col sm='8'>
                                 <div>
-                                  <InputMask
+                                  <Input
                                     name={'telephoneNumber'}
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_TELEPHONE_NUMBER_PLACEHOLDER',
                                     )}
-                                    mask='999-999-9999'
+                                    // mask="999-999-9999"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={telephoneNumber}
@@ -393,14 +473,13 @@ const EmployeeFormComponent: any = (
                             </Col>
                             <Col sm='8'>
                               <div>
-                                <InputMask
+                                <MaskedInput
                                   name={'IBAN'}
                                   value={IBAN}
                                   placeholder={languageTranslation(
                                     'BANK_IBAN_PLACEHOLDER',
                                   )}
-                                  // "91 1000 0000 0123 4567 89"
-                                  mask={'DE 99 9999 999 999'}
+                                  mask={IBANRegex}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   className={`form-control ${
@@ -414,7 +493,6 @@ const EmployeeFormComponent: any = (
                                     {errors.IBAN}
                                   </div>
                                 )}
-                                {/* <Input type="text" name={"IBAN"} /> */}
                               </div>
                             </Col>
                           </Row>
@@ -558,9 +636,7 @@ const EmployeeFormComponent: any = (
                             <Row>
                               <Col sm='4'>
                                 <Label className='form-label col-form-label'>
-                                  {languageTranslation('EMPLOYEE_REGION_LABEL')}
-
-                                  <span className='required'>*</span>
+                                  {languageTranslation('REGION')}
                                 </Label>
                               </Col>
                               <Col sm='8'>
@@ -570,7 +646,12 @@ const EmployeeFormComponent: any = (
                                       'EMPLOYEE_REGION_PLACEHOLDER',
                                     )}
                                     isMulti
-                                    options={Region}
+                                    options={regionOptions}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, 'region')
+                                    }
+                                    value={region ? region : undefined}
+                                    // options={regionOptions}
                                   />
                                 </div>
                               </Col>
@@ -580,21 +661,22 @@ const EmployeeFormComponent: any = (
                         <Col lg={'6'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("COUNTRY_LABEL")}
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('COUNTRY')}
                                 </Label>
                               </Col>
                               <Col sm='8'>
                                 <div>
-                                  <Input
-                                    type='text'
-                                    name={'country'}
+                                  <Select
                                     placeholder={languageTranslation(
                                       'COUNTRY_PLACEHOLDER',
                                     )}
-                                    onChange={handleChange}
-                                    className='width-common'
+                                    options={countriesOpt}
+                                    value={country ? country : undefined}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, 'country')
+                                    }
                                   />
                                 </div>
                               </Col>
@@ -615,7 +697,14 @@ const EmployeeFormComponent: any = (
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_STATE_PLACEHOLDER',
                                     )}
-                                    options={State}
+                                    options={statesOpt}
+                                    value={state ? state : undefined}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, 'state')
+                                    }
+                                    noOptionsMessage={() => {
+                                      return 'Select a country first';
+                                    }}
                                   />
                                 </div>
                               </Col>
@@ -632,11 +721,20 @@ const EmployeeFormComponent: any = (
                               </Col>
                               <Col sm='8'>
                                 <div>
-                                  <Select
+                                  <Input
+                                    name={'city'}
+                                    onChange={handleChange}
+                                    // className="form-control"
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_CITY_PLACEHOLDER',
                                     )}
-                                    options={City}
+                                    value={city}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.city && touched.city
+                                        ? 'text-input error'
+                                        : 'text-input'
+                                    }
                                   />
                                 </div>
                               </Col>
@@ -656,12 +754,23 @@ const EmployeeFormComponent: any = (
                                   <Input
                                     name={'zip'}
                                     onChange={handleChange}
-                                    className='form-control'
+                                    // className="form-control"
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_ZIP_PLACEHOLDER',
                                     )}
                                     value={zip}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.zip && touched.zip
+                                        ? 'text-input error'
+                                        : 'text-input'
+                                    }
                                   />
+                                  {errors.zip && touched.zip && (
+                                    <div className='required-error'>
+                                      {errors.zip}
+                                    </div>
+                                  )}
                                 </div>
                               </Col>
                             </Row>
@@ -681,12 +790,12 @@ const EmployeeFormComponent: any = (
                                 <div>
                                   <Row>
                                     <Col>
-                                      <InputMask
+                                      <MaskedInput
                                         name={'joiningDate'}
                                         placeholder={languageTranslation(
                                           'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
                                         )}
-                                        mask='99/99/9999'
+                                        mask={DateMask}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={joiningDate}
@@ -722,37 +831,54 @@ const EmployeeFormComponent: any = (
                                 </Label>
                               </Col>
                               <Col sm='8'>
-                                <div>
-                                  <Input
-                                    type='file'
-                                    name={'image'}
-                                    accept='image/*'
-                                    placeholder={languageTranslation(
-                                      'EMPLOYEE_ADD_PROFILE_IMAGE_LABEL',
-                                    )}
-                                    onChange={handleImageChange}
-                                  />
-                                  {!errors.image ? (
-                                    imagePreviewUrl &&
-                                    typeof imagePreviewUrl === 'string' ? (
-                                      <img
-                                        src={imagePreviewUrl}
-                                        width={30}
-                                        height={30}
-                                      />
-                                    ) : (
-                                      ''
-                                    )
-                                  ) : (
-                                    ''
-                                  )}
-
-                                  {errors.image && touched.image && (
-                                    <div className='required-error'>
-                                      {errors.image}
-                                    </div>
-                                  )}
+                                <div className='fileinput-preview d-flex align-items-center justify-content-center'>
+                                  <div className='file-upload'>
+                                    <label
+                                      htmlFor='gallery-photo-add'
+                                      className='file-upload-label'
+                                    >
+                                      {!errors.image &&
+                                      imagePreviewUrl &&
+                                      typeof imagePreviewUrl === 'string' ? (
+                                        <img
+                                          src={imagePreviewUrl}
+                                          className={'img-preview'}
+                                        />
+                                      ) : (
+                                        <>
+                                          <div className='icon-upload'>
+                                            <i className='cui-cloud-upload'></i>
+                                          </div>
+                                          <div className='icon-text'>
+                                            {!image || errors.image
+                                              ? languageTranslation(
+                                                  'CHOOSE_IMAGE',
+                                                )
+                                              : ''}
+                                          </div>
+                                        </>
+                                      )}
+                                      {/* <div className="icon-text">
+                                        Click here to select your profile image
+                                      </div> */}
+                                    </label>
+                                    <input
+                                      className='file-upload-input'
+                                      type='file'
+                                      accept='image/*'
+                                      id='gallery-photo-add'
+                                      placeholder={languageTranslation(
+                                        'EMPLOYEE_ADD_PROFILE_IMAGE_LABEL',
+                                      )}
+                                      onChange={handleImageChange}
+                                    />
+                                  </div>
                                 </div>
+                                {errors.image && touched.image && (
+                                  <div className='file-error-text'>
+                                    {errors.image}
+                                  </div>
+                                )}
                               </Col>
                             </Row>
                           </FormGroup>
@@ -761,13 +887,12 @@ const EmployeeFormComponent: any = (
                     </div>
                   </Col>
                 </Row>
-                <Col lg={'12'}>
-                  <div className='d-flex align-items-center justify-content-between'>
-                    <div className='mandatory-text'>
-                      {languageTranslation('REQUIRED_FIELDS')}
-                    </div>
+
+                <div className='d-flex align-items-center justify-content-between'>
+                  <div className='mandatory-text'>
+                    {languageTranslation('REQUIRED_FIELDS')}
                   </div>
-                </Col>
+                </div>
               </Form>
             </Col>
           </Row>

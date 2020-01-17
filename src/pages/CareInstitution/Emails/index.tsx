@@ -1,30 +1,37 @@
 import React, { Component } from "react";
-import { Card, CardBody } from "reactstrap";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { EditorState } from "draft-js";
+import { Button, Col, Row, Form, FormGroup, Label, Input } from "reactstrap";
+import EmailMenus from "./EmailMenus";
 import { RouteComponentProps } from "react-router";
+import Select from "react-select";
+import { languageTranslation } from "../../../helpers";
 
 class Emails extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      startDate: ""
+      editorState: EditorState.createEmpty()
     };
   }
-  handleChange = (date: any) => {
+  options = [
+    { value: "Denis", label: "Aaron, Hank" },
+    { value: "Denis", label: "Bergman, Ingmar" },
+    { value: "Beck, Glenn", label: "Berle, Milton" }
+  ];
+  onEditorStateChange = (editorState: any) => {
     this.setState({
-      startDate: date
+      editorState
     });
   };
-  onFocus = () => {
-    this.setState({
-      error: true
-    });
-  };
+
   render() {
+    const { editorState } = this.state;
+
     return (
-      <div>
-        <Card>
-          <CardBody>Emails</CardBody>
-        </Card>
+      <div className="email-section">
+        emails Main
       </div>
     );
   }

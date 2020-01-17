@@ -17,7 +17,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { RouteComponentProps } from "react-router";
 import InputMask from "react-input-mask";
-
 import {
   State,
   Region,
@@ -27,7 +26,7 @@ import {
   NightAllowancePerHour
 } from "../../../config";
 import { languageTranslation } from "../../../helpers";
-
+import "../caregiver.scss";
 class PersonalInformation extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
@@ -65,7 +64,7 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
           </div> */}
           <Row>
             <Col lg={"4"}>
-              <div className="form-card">
+              <div className="form-card h-100">
                 <Row>
                   <Col lg={"12"}>
                     <FormGroup>
@@ -120,14 +119,14 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            {languageTranslation("CAREGIVER_STATE_LABEL")}
+                            {languageTranslation("REGION")}
                             <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
                           <div>
                             <Select
-                              placeholder="Region/State"
+                              placeholder={languageTranslation("REGION")}
                               options={State}
                             />
                           </div>
@@ -262,9 +261,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                           <Row className="custom-col inner-no-padding-col">
                             <Col sm="7">
                               <div>
-                                <Select
-                                  placeholder="06/09/2020"
-                                  options={State}
+                                <InputMask
+                                  placeholder="DD/MM/YYYY"
+                                  mask="99/99/9999"
+                                  className="form-control"
                                 />
                               </div>
                             </Col>
@@ -744,245 +744,253 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
             </Col>
 
             <Col lg={"4"}>
-              <div className="form-card minheight-auto">
-                <Row>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Fee
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <Row className="custom-col inner-no-padding-col">
-                            <Col sm="4">
-                              <div>
-                                <Input
-                                  type="text"
-                                  name={"lastName"}
-                                  placeholder="Fee"
-                                  className="width-common"
-                                />
-                              </div>
-                            </Col>
-                            <Col sm="8">
-                              <FormGroup>
-                                <Row className="custom-col inner-no-padding-col">
-                                  <Col sm="6">
-                                    <Label className="form-label col-form-label inner-label">
-                                      Night
-                                      <span className="required">*</span>
-                                    </Label>
-                                  </Col>
-                                  <Col sm="6">
-                                    <div>
-                                      <Input
-                                        type="text"
-                                        name={"lastName"}
-                                        placeholder="Night"
-                                        className="width-common"
-                                      />
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </FormGroup>
-                            </Col>
-                          </Row>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Weekend Allowance
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <Row className="custom-col inner-no-padding-col">
-                            <Col sm="4">
-                              <div>
-                                <Input
-                                  type="text"
-                                  name={"lastName"}
-                                  placeholder="Weekend Allowance"
-                                  className="width-common"
-                                />
-                              </div>
-                            </Col>
-                            <Col sm="8">
-                              <FormGroup>
-                                <Row className="custom-col inner-no-padding-col">
-                                  <Col sm="6">
-                                    <Label className="form-label col-form-label inner-label">
-                                      Holiday
-                                      {/* <span className="required">*</span> */}
-                                    </Label>
-                                  </Col>
-                                  <Col sm="6">
-                                    <div>
-                                      <Input
-                                        type="text"
-                                        name={"lastName"}
-                                        placeholder="Holiday"
-                                        className="width-common"
-                                      />
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </FormGroup>
-                            </Col>
-                          </Row>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Night Allowance
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <Row className="custom-col inner-no-padding-col">
-                            <Col sm="8">
-                              <div>
-                                <Select
-                                  options={NightAllowancePerHour}
-                                  className="custom-input-width"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
+              <div className="common-col">
+                <div className="form-card minheight-auto">
+                  <Row>
+                    <Col lg={"12"}>
+                      <FormGroup>
+                        <Row>
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              Fee
+                              <span className="required">*</span>
+                            </Label>
+                          </Col>
+                          <Col sm="8">
+                            <Row className="custom-col inner-no-padding-col">
+                              <Col sm="4">
+                                <div>
+                                  <Input
+                                    type="text"
+                                    name={"lastName"}
+                                    placeholder="Fee"
+                                    className="width-common"
+                                  />
+                                </div>
+                              </Col>
+                              <Col sm="8">
+                                <FormGroup>
+                                  <Row className="custom-col inner-no-padding-col">
+                                    <Col sm="6">
+                                      <Label className="form-label col-form-label inner-label">
+                                        Night
+                                        <span className="required">*</span>
+                                      </Label>
+                                    </Col>
+                                    <Col sm="6">
+                                      <div>
+                                        <Input
+                                          type="text"
+                                          name={"lastName"}
+                                          placeholder="Night"
+                                          className="width-common"
+                                        />
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                </FormGroup>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col lg={"12"}>
+                      <FormGroup>
+                        <Row>
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              Weekend Allowance
+                              <span className="required">*</span>
+                            </Label>
+                          </Col>
+                          <Col sm="8">
+                            <Row className="custom-col inner-no-padding-col">
+                              <Col sm="4">
+                                <div>
+                                  <Input
+                                    type="text"
+                                    name={"lastName"}
+                                    placeholder="Weekend Allowance"
+                                    className="width-common"
+                                  />
+                                </div>
+                              </Col>
+                              <Col sm="8">
+                                <FormGroup>
+                                  <Row className="custom-col inner-no-padding-col">
+                                    <Col sm="6">
+                                      <Label className="form-label col-form-label inner-label">
+                                        Holiday
+                                        {/* <span className="required">*</span> */}
+                                      </Label>
+                                    </Col>
+                                    <Col sm="6">
+                                      <div>
+                                        <Input
+                                          type="text"
+                                          name={"lastName"}
+                                          placeholder="Holiday"
+                                          className="width-common"
+                                        />
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                </FormGroup>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col lg={"12"}>
+                      <FormGroup>
+                        <Row>
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              Night Allowance
+                              <span className="required">*</span>
+                            </Label>
+                          </Col>
+                          <Col sm="8">
+                            <Row className="custom-col inner-no-padding-col">
+                              <Col sm="8">
+                                <div>
+                                  <Select
+                                    options={NightAllowancePerHour}
+                                    className="custom-input-width"
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
 
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Invoice interval
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select
-                              placeholder="Invoice interval"
-                              isMulti
-                              options={Region}
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Leasing Price List
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select
-                              placeholder="Lessing Price List"
-                              isMulti
-                              options={Region}
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </div>
-              <div className="form-inner-list-section fix-height-section">
-                <h5 className="content-title">Qualifications</h5>
-                <Row className="custom-col">
-                  <Col sm={12}>
-                    <Card>
-                      <div className="form-inner-list-wrap">
-                        <h5 className="heading toggle-filter  ">
-                          Qualification
-                        </h5>
-                        <div className="form-inner-list-content-wrap">
-                          <ul>
-                            <li className="ative">Dialysis </li>
-                            <li>Home Management</li>
-                            <li>Nurse/carer</li>
-                            <li> Neonatology</li>
-                            <li>Paramedic </li>
-                          </ul>
+                    <Col lg={"12"}>
+                      <FormGroup>
+                        <Row>
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              Invoice interval
+                            </Label>
+                          </Col>
+                          <Col sm="8">
+                            <div>
+                              <Select
+                                placeholder="Invoice interval"
+                                isMulti
+                                options={Region}
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col lg={"12"}>
+                      <FormGroup>
+                        <Row>
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              Leasing Price List
+                            </Label>
+                          </Col>
+                          <Col sm="8">
+                            <div>
+                              <Select
+                                placeholder="Lessing Price List"
+                                isMulti
+                                options={Region}
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </div>
+                <div className="quality-attribute-section d-flex flex-column">
+                  <div className="common-list-card">
+                    <h5 className="content-title">
+                      {languageTranslation("QUALIFICATIONS")}
+                    </h5>
+                    <div className="common-list-wrap">
+                      <div className="common-list-header d-flex align-items-cente justify-content-between">
+                        <div className="common-list-title align-middle">
+                          {" "}
+                          {languageTranslation("QUALIFICATION")}
+                        </div>
+                        <div className=" align-middle toggle-icon">
+                          <i className="fa fa-angle-down"></i>
                         </div>
                       </div>
-
-                      <div className="custom-select-wrap">
-                        <select className="w-100">
-                          <option>Bernhard, Sandra</option>
-                          <option>Berlin, Irving</option>
-                          <option>Berne, Eric</option>
-                          <option>Berry, Halle</option>
-                        </select>
+                      <div className="common-list-body">
+                        <ul className="common-list list-unstyled">
+                          <li>Dialysis </li>
+                          <li>Home Management</li>
+                          <li>Nurse/carer</li>
+                        </ul>
                       </div>
-                    </Card>
-                  </Col>
-                </Row>
-              </div>
-
-              <div className="form-inner-list-section mt-3 fix-height-section">
-                <h5 className="content-title">Attributes</h5>
-                <Row className="custom-col">
-                  <Col sm={12}>
-                    <Card>
-                      <div className="form-inner-list-wrap">
-                        <h5 className="heading toggle-filter  ">Attribut</h5>
-                        <div className="form-inner-list-content-wrap">
-                          <ul>
-                            <li className="ative">Aaron, Hank </li>
-                            <li>Abbey, Edward</li>
-                            <li>Abel, Reuben</li>
-                            <li> Abelson, Hal</li>
-                            <li>Abourezk, James </li>
-                            <li>Abrams, Creighton </li>
-                          </ul>
+                      <div className="common-list-footer form-section ">
+                        <FormGroup className="mb-0">
+                          <Select
+                            placeholder={languageTranslation("REGION", "STATE")}
+                            options={State}
+                            menuPlacement={"top"}
+                          />
+                        </FormGroup>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="common-list-card">
+                    <h5 className="content-title">
+                      {languageTranslation("ATTRIBUTES")}
+                    </h5>
+                    <div className="common-list-wrap">
+                      <div className="common-list-header d-flex align-items-cente justify-content-between">
+                        <div className="common-list-title align-middle">
+                          {" "}
+                          {languageTranslation("ATTRIBUTES")}
+                        </div>
+                        <div className=" align-middle toggle-icon">
+                          <i className="fa fa-angle-down"></i>
                         </div>
                       </div>
-
-                      <div className="custom-select-wrap">
-                        <select className="w-100">
-                          <option>Bernhard, Sandra</option>
-                          <option>Berlin, Irving</option>
-                          <option>Berne, Eric</option>
-                          <option>Berry, Halle</option>
-                        </select>
+                      <div className="common-list-body">
+                        <ul className="common-list list-unstyled">
+                          <li>Dialysis </li>
+                          <li>Home Management</li>
+                          <li>Nurse/carer</li>
+                        </ul>
                       </div>
-                    </Card>
-                  </Col>
-                </Row>
+                      <div className="common-list-footer form-section ">
+                        <FormGroup className="mb-0">
+                          <Select
+                            placeholder={languageTranslation("REGION", "STATE")}
+                            options={State}
+                            menuPlacement={"top"}
+                          />
+                        </FormGroup>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </Col>
             <Col lg={4}>
               <div className="remark-details">
                 <div className="remark-header d-flex align-items-center justify-content-between">
-                  <h5 className="my-2 text-left activity-title">Remarks</h5>
+                  <h5 className="my-2 text-left activity-title">
+                    {" "}
+                    {languageTranslation("REMARKS")}
+                  </h5>
                   <div
                     onClick={this.handleOnClick}
                     className="edit-remark my-2"
                   >
-                    <i className="icon-note" />
+                    <i className="icon-note mr-2" />{" "}
+                    {languageTranslation("ADD_REMARKS")}
                   </div>
                 </div>
                 <div className="remark-body">
@@ -997,7 +1005,10 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                               placeholder="Remarks"
                               className="height-textarea "
                             />
-                            <div className="add-remark-btn">Add Remarks</div>
+                            <div className="add-remark-btn">
+                              {" "}
+                              {languageTranslation("ADD_REMARKS")}
+                            </div>
                           </div>
                         </div>
                         <div className="text-left activity-date">
@@ -1017,10 +1028,8 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         <span className="text-capitalize">
                           Called a few days before the registration (they
                           repeatedly asked to register), is KS and wants to make
-                          some extra money, preferably in clinics, has 2
-                          children and currently no PC because the children
-                          broke it, is coming on 09/18 at 11 a.m. for the info
-                          call, email office address + Stegemann sent, Jenny
+                          some extra money, ....{" "}
+                          <span className="view-more-link">View More</span>
                         </span>
                       </div>
                       <div className="text-left activity-date">
@@ -1039,13 +1048,8 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         <span className="text-capitalize">
                           She came to the info talk with her little son (about 3
                           years). But everyone ran quietly. She had a lot of
-                          questions, generally freelance. She is exam. AP. The
-                          little one gets his daycare place in October and so
-                          she wants to get started with us in November. In
-                          January she wants to see if she wants to work
-                          part-time at a hospital. She is very friendly and
-                          bright, new password sent. WV Doks, set to October
-                          because it only wants to start in November. Norma
+                          questions, generally freelance.....{" "}
+                          <span className="view-more-link">View More</span>
                         </span>
                       </div>
                       <div className="text-left activity-date">
@@ -1064,14 +1068,8 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         <span className="text-capitalize">
                           she called (yesterday on the phone again with Norma
                           and asked everything again, apparently hadn't listened
-                          to the conversation), now she asked questions again
-                          and explained to me that she couldn't remember
-                          everything, so she is now writing, Then she wanted to
-                          make another appointment just to talk about the NV,
-                          offered to ask her questions or end it by email, and
-                          then she thought I sounded annoyed and she just wanted
-                          to speak to Norma, that she would like to ask her
-                          questions, but then she was no longer willing to do
+                          to the conversation), ....{" "}
+                          <span className="view-more-link">View More</span>
                           so, Jenny
                         </span>
                       </div>
@@ -1091,9 +1089,8 @@ class PersonalInformation extends Component<RouteComponentProps, any> {
                         <span className="text-capitalize">
                           Although she still wants to become a freelancer, her
                           child has to get used to kindergarten and this takes 1
-                          to 2 months. She knows which docs we need and will
-                          send them and then, but only as soon as her little one
-                          has settled in and she has come to a rest., Carolin
+                          to 2 months. She knows which....{" "}
+                          <span className="view-more-link">View More</span>
                         </span>
                       </div>
                       <div className="text-left activity-date">

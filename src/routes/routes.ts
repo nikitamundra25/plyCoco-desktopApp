@@ -6,9 +6,7 @@ const Dashboard = React.lazy(() => import("../pages/Dashboard"));
 const Login = React.lazy(() => import("../pages/Login"));
 const MyProfile = React.lazy(() => import("../pages/MyProfile"));
 const Employee = React.lazy(() => import("../pages/Employee"));
-const EmployeeFormComponent = React.lazy(() =>
-  import("../pages/Employee/AddEmployee")
-);
+const AddEmployee = React.lazy(() => import("../pages/Employee/AddEmployee"));
 const ViewEmployee = React.lazy(() => import("../pages/Employee/ViewEmployee"));
 const EditEmployee = React.lazy(() => import("../pages/Employee/EditEmployee"));
 const Department = React.lazy(() => import("../pages/Department"));
@@ -73,11 +71,14 @@ const DocumentUpload = React.lazy(() =>
   import("../pages/CareGiver/Documents/DocumentsUpload")
 );
 const AddCareInstitution = React.lazy(() =>
-  import("../pages/CareInstitution/AddCareInstitution/AddCareInstitution")
+  import("../pages/CareInstitution/AddCareInstitution")
 );
 const Constitution = React.lazy(() => import("../pages/CareInstitution"));
 const ConstitutionPersonalInfo = React.lazy(() =>
   import("../pages/CareInstitution/PersonalInfo")
+);
+const ViewCareInstitution = React.lazy(() =>
+  import("../pages/CareInstitution/ViewCareInstituion")
 );
 const ConstitutionCommissionAgreement = React.lazy(() =>
   import("../pages/CareInstitution/CommisionAgreement")
@@ -98,12 +99,31 @@ const ConstitutionDocuments = React.lazy(() =>
 const ConstitutionDepartment = React.lazy(() =>
   import("../pages/CareInstitution/Departments")
 );
-const ConstitutionEmail = React.lazy(() =>
-  import("../pages/CareInstitution/Emails")
+
+const ConstitutionInboxEmail = React.lazy(() =>
+  import("../pages/CareInstitution/Emails/InboxEmail")
+);
+const ConstitutionSentEmail = React.lazy(() =>
+  import("../pages/CareInstitution/Emails/SentEmail")
+);
+const ConstitutionNewEmail = React.lazy(() =>
+  import("../pages/CareInstitution/Emails/NewEmail")
 );
 const ConstitutionReminder = React.lazy(() =>
   import("../pages/CareInstitution/Reminders")
 );
+const CareGiverTodo = React.lazy(() => import("../pages/CareGiverTodo"));
+const CareInstitutionTodo = React.lazy(() =>
+  import("../pages/CareInstitutionTodo")
+);
+const CareGiverTodoLayout = React.lazy(() =>
+  import("../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout")
+);
+
+const CareInstitutionTodoLayout = React.lazy(() =>
+  import("../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout")
+);
+
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -113,7 +133,7 @@ const routes = [
   },
   {
     path: AppRoutes.ADD_CARE_INSTITUTION,
-    name: "Add Constitution",
+    name: "Add Care Institution",
     component: AddCareInstitution,
     exact: true
   },
@@ -126,7 +146,7 @@ const routes = [
   {
     path: AppRoutes.ADD_EMPLOYEE,
     name: "Add Employee",
-    component: EmployeeFormComponent,
+    component: AddEmployee,
     exact: true
   },
   {
@@ -141,7 +161,7 @@ const routes = [
     component: BillingSetting,
     layout: CareGiverLayout,
     layoutName: "CareGiver",
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.CARE_GIVER,
@@ -167,82 +187,22 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION,
-    name: "Constitution",
+    name: "Care Institution",
     component: Constitution,
     exact: true
   },
-  { path: AppRoutes.MAIN, exact: true, name: "Dashboard" },
   {
-    path: AppRoutes.CARE_INSTITUTION_COMISSION_AGREEMENT,
-    name: "Constitution Comission Agreement",
-    component: ConstitutionCommissionAgreement,
+    path: AppRoutes.MAIN,
     exact: true,
-    layout: ConstitutionLayout,
-    layoutName: "Constitution"
+    name: "Dashboard"
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_PERSONAL_DATA,
-    name: "Constitution Personal Data",
-    component: ConstitutionPersonalInfo,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: "Constitution"
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_OFFER,
-    name: "Constitution Offer",
-    component: ConstitutionOffer,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: "Constitution"
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_LOGIN,
-    name: "Constitution Login",
-    component: ConstitutionLogin,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: "Constitution"
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_INVOICE_CYCLE,
-    name: "Constitution Invoices",
-    component: ConstitutionInvoices,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: "Constitution"
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_DOCUMENT,
-    name: "Constitution Documents",
-    component: ConstitutionDocuments,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: "Constitution"
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_DEPARTMENT,
-    name: "Constitution Department",
-    component: ConstitutionDepartment,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: "Constitution"
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_EMAIL,
-    name: "Constitution Emails",
-    component: ConstitutionEmail,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: "Constitution"
-  },
-  {
-    path: AppRoutes.CARE_INSTITUTION_REMINDER,
-    name: "Constitution Reminders",
-    component: ConstitutionReminder,
-    exact: true,
-    layout: ConstitutionLayout,
-    layoutName: "Constitution"
+    path: AppRoutes.CARE_INSTITUION_VIEW,
+    name: "Care Institution View",
+    component: ViewCareInstitution,
+    exact: true
+    // layout: ConstitutionLayout,
+    // layoutName: 'Constitution',
   },
   {
     path: AppRoutes.HOME,
@@ -273,7 +233,7 @@ const routes = [
   {
     path: AppRoutes.EDIT_EMPLOYEE,
     name: "Edit Employee",
-    component: EditEmployee,
+    component: AddEmployee, //EditEmployee,
     exact: true
   },
   {
@@ -409,6 +369,22 @@ const routes = [
     name: "View Employee",
     component: ViewEmployee,
     exact: true
+  },
+  {
+    path: AppRoutes.CAREGIVER_TODO,
+    name: "Care Giver Todo",
+    component: CareGiverTodo,
+    exact: true,
+    layout: CareGiverTodoLayout,
+    layoutName: "CareGiverTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_TODO,
+    name: "Care Institution Todo",
+    component: CareInstitutionTodo,
+    exact: true,
+    layout: CareInstitutionTodoLayout,
+    layoutName: "CareInstitutionTodoLayout"
   }
 ];
 

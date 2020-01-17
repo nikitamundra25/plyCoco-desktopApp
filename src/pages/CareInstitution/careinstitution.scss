@@ -1,0 +1,114 @@
+@import "../../scss/variables";
+.common-col {
+  height: 100%;
+  .quality-attribute-section {
+    height: calc(100% - 377px);
+    .common-list-card {
+      height: 100%;
+      margin-bottom: 12px;
+      .common-list-wrap {
+        height: calc(100% - 35px);
+        margin-bottom: 0px;
+        .common-list-body {
+          height: calc(100% - 22px);
+        }
+      }
+    }
+  }
+}
+.common-offer-section {
+  .common-offer-row {
+    min-height: calc(100vh - 220px);
+    .common-list-wrap {
+      height: 100%;
+      .common-list-body {
+        height: calc(100% - 22px);
+      }
+    }
+  }
+}
+.invoice-table {
+  th {
+    border: 1px solid $table_border;
+  }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-invoice-table {
+    margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+  .sno-col {
+    width: 45px;
+  }
+  .invoice-number-col {
+    width: 110px;
+  }
+  .invoice-date-col {
+    width: 110px;
+  }
+  .caregiver-name-col {
+    width: 150px;
+  }
+  .amount-col {
+    width: 110px;
+  }
+  .due-date-col {
+    width: 110px;
+  }
+  .status-col {
+    width: 80px;
+  }
+  .supported-documents-col {
+    width: 200px;
+  }
+}
+
+.reminders-todo-table {
+  th {
+    border: 1px solid $table_border;
+  }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-reminders-todo-table {
+    margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+  .sno-col {
+    width: 45px;
+  }
+  .institution-col {
+    width: 100px;
+  }
+  .date-col {
+    width: 121px;
+  }
+
+  .contact-col {
+    width: 270px;
+  }
+
+  .done-col {
+    width: 60px;
+  }
+
+  .remarks-col {
+    width: 270px;
+  }
+
+  .external-col {
+    width: 60px;
+  }
+  .prio-col {
+    width: 92px;
+  }
+}

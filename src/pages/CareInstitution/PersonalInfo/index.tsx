@@ -308,7 +308,7 @@ const PersonalInformation: any = (props: any) => {
     Data = {
       label: `${getCareInstitution.firstName} ${""} ${
         getCareInstitution.lastName
-      }`,
+        }`,
       value: Id
     };
   } else {
@@ -353,7 +353,11 @@ const PersonalInformation: any = (props: any) => {
         )}
         validationSchema={CareInstituionValidationSchema}
       />
-      <CareInstitutionContacts contacts={contacts} careInstId={id} />
+      <CareInstitutionContacts
+        contacts={contacts}
+        careInstId={id}
+        setContacts={(contacts: any) => setContacts(contacts = contacts)}
+      />
       {/* <Formik
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}

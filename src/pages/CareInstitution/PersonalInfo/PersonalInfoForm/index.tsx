@@ -102,7 +102,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   return (
     <Row className=" ">
       <Button
-        className={"save-button btn-add btn btn-primary text-white top-form-button"}
+        className={"save-button btn-add btn btn-primary text-white "}
         onClick={handleSubmit}
       >
         Save

@@ -22,9 +22,9 @@ export interface ICareGiverInput {
   userName: string;
   legalForm: string;
   fax: string;
-  qualifications?: string;
+  qualifications?: string[];
   taxNumber: string;
-  remarks: string;
+  remarks: IRemark[];
   driversLicense: boolean;
   driverLicenseNumber: string;
   vehicleAvailable: boolean;
@@ -37,6 +37,12 @@ export interface ICareGiverInput {
   registerCourt: string;
   executiveDirector: string;
   employed?: boolean;
+}
+
+export interface IRemark {
+  commentBy: string;
+  description: string;
+  commentAt: string;
 }
 
 export interface CareGiverValues {
@@ -60,11 +66,11 @@ export interface CareGiverValues {
   userName: string;
   companyName: string;
   legalForm?: IReactSelectInterface;
-  qualifications?: IReactSelectInterface;
+  qualifications?: IReactSelectInterface[];
   registrationNumber: string;
   registerCourt: string;
   taxNumber: string;
-  remarks: string;
+  remarks: IRemark[];
   driversLicense: boolean;
   vehicleAvailable: boolean;
   driverLicenseNumber: string;
@@ -76,22 +82,18 @@ export interface CareGiverValues {
 
 export interface IEmailMenus<
   Params extends { [K in keyof Params]?: string } = {}
-  > {
+> {
   history: H.History;
   location: H.Location;
 }
 
 export interface IBillingSettingsValues {
-  feePerHour: string;
-  nightAllowancePerHour: string;
+  fee: string;
   weekendAllowancePerHour: string;
   holidayAllowancePerHourFee: string;
-  nextInvoiceNumber: string;
-  statementsMaturity: string;
-  accountHolderName: string;
-  iban: string;
-  bic: string;
-  additionalText: string;
+  nightAllowancePerHour: string;
+  invoiceInterval: string;
+  leasingPrice: string;
 }
 
 export interface IPersonalObject {
@@ -106,6 +108,8 @@ export interface IPersonalObject {
   lastName: string;
   dateOfBirth?: string;
   age: string;
+  address1: string;
+  address2: string;
   street: string;
   city: string;
   postCode: string;
@@ -126,26 +130,24 @@ export interface IPersonalObject {
   executiveDirector: string;
   employed: boolean;
   additionalText: string;
-}
-
-interface IBillingSettingsObject {
-  fee: string;
-  night: string;
-  weekendAllowancePerHour: string;
-  holidayAllowancePerHourFee: string;
-  nightAllowancePerHour: string;
-  leasingPrice: string;
-  invoiceInterval: string;
+  driversLicense: boolean;
+  vehicleAvailable: boolean;
+  driverLicenseNumber: string;
+  socialSecurityContribution: boolean;
+  qualifications?: IReactSelectInterface[];
+  workZones?: IReactSelectInterface[];
+  remarks?: IRemark[];
+  status: string;
 }
 
 export interface ICareGiverValues {
   personalInformation: IPersonalObject;
-  billingSettings?: IBillingSettingsObject;
+  billingSettings?: IBillingSettingsValues;
 }
 
 export interface ICareGiver {
   id: string;
-  userName:string;
+  userName: string;
   salutation: string;
   firstName: string;
   lastName: string;

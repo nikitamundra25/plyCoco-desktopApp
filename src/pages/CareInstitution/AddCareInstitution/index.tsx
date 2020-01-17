@@ -41,6 +41,13 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   let history = useHistory();
   console.log("Data", data);
 
+  useEffect(() => {
+    if (data) {
+      console.log("In use Effect");
+      const Data: any = data
+      history.push(AppRoutes.CARE_INSTITUION_VIEW.replace(":id", Data.addCareInstitution ? Data.addCareInstitution.id : "null"));
+    }
+  }, [data])
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
@@ -70,11 +77,6 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         }
       });
       toast.success(languageTranslation("CARE_INSTITUTION_ADD_SUCCESS_MSG"));
-      const Data: any = data
-      console.log("Data", data);
-      if (data) {
-        history.push(AppRoutes.CARE_INSTITUION_VIEW.replace(":id", Data.id));
-      }
     } catch (error) {
       const message = error.message
         .replace("SequelizeValidationError: ", "")
@@ -110,12 +112,6 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
             <div className="common-topheader d-flex align-items-center ">
               <div className="user-select">
                 Add Care Institution
-              </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={add} alt="" />
-                </span>
-                <span className="header-nav-text">New Care Institution</span>
               </div>
               <div className="header-nav-item">
                 <span className="header-nav-icon">

@@ -3,7 +3,8 @@ import { ICareInstitutionValidationSchema, IDateResponse, ICareInstitutionContac
 import {
   nameRegExp,
   mobMin,
-  mobMax
+  mobMax,
+  webRegExp
 } from '../config';
 import { languageTranslation, logger, dateValidator } from '../helpers';
 
@@ -41,7 +42,10 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
       value =>
         !value || (value && value.length >= mobMin && value.length <= mobMax),
     ),
-  city: Yup.string()
+  city: Yup.string(),
+  website: Yup.string()
+    .trim()
+    .matches(webRegExp, languageTranslation("ENTER_VALID_WEB_URL")),
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<

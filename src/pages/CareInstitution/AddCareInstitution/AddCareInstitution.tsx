@@ -695,8 +695,17 @@ const AddCareInstitution: any = (
                         onBlur={handleBlur}
                         value={website}
                         placeholder={languageTranslation("WEBSITE")}
-                        className="width-common"
+                        className={
+                          errors.website && touched.website
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.website && touched.website && (
+                        <div className="required-error">
+                          {errors.website}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>

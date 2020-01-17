@@ -445,5 +445,7 @@
   "CONTACT_NO": "Contact No.",
   "EMPLOYEE_USERNAME": "Employee Username",
   "PROFILE_IMAGE": "Profile Image",
-  "ADDRESS": "Address"
+  "ADDRESS": "Address",
+
+  "ENTER_VALID_WEB_URL":"Enter proper website url with http://"
 }

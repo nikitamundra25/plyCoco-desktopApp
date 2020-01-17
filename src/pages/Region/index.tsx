@@ -189,9 +189,9 @@ export const Region: FunctionComponent = () => {
                   <tr key={index}>
                     <td>{count++}</td>
                     <td>{region.regionName}</td>
-                    <td className='text-center'>0</td>
-                    <td className='text-center'>0</td>
-                    <td className='text-center'>0</td>
+                    <td className="text-center">0</td>
+                    <td className="text-center">0</td>
+                    <td className="text-center">0</td>
                     {/* <td>
                     <div className="action-btn">
                       <ButtonTooltip

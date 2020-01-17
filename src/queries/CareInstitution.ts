@@ -27,7 +27,9 @@ const GET_CARE_INSTITUTION_LIST = gql`
         canstitution {
           city
           zipCode
-          title
+          title,
+          companyName,
+          shortName,
         }
       }
     }
@@ -108,6 +110,7 @@ const DELETE_CARE_INSTITUTION = gql`
 const ADD_CARE_INSTITUTION = gql`
   mutation AddCareInstitution($careInstitutionInput: CareInstitutionInput) {
     addCareInstitution(careInstitutionInput: $careInstitutionInput) {
+      id
       firstName
     }
   }

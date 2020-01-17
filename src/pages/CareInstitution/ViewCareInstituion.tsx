@@ -18,16 +18,22 @@ import Departments from "./Departments";
 import Emails from "./Emails";
 import Reminders from "./Reminders";
 import qs from "query-string";
-import { ICareInstitutionFormValues, IHandleSubmitInterface, IReactSelectInterface } from "../../interfaces";
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import {
+  ICareInstitutionFormValues,
+  IHandleSubmitInterface,
+  IReactSelectInterface
+} from "../../interfaces";
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import { CareInstitutionQueries } from "../../queries";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 
-const [GET_CARE_INSTITUTION_LIST,
+const [
+  GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION,
-  GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries
+  GET_CARE_INSTITUION_BY_ID
+] = CareInstitutionQueries;
 
 const CareInstitutionSidebar = React.lazy(() =>
   import(
@@ -35,65 +41,81 @@ const CareInstitutionSidebar = React.lazy(() =>
   )
 );
 
-const CareInstitutionTabs = careInstitutionRoutes
+const CareInstitutionTabs = careInstitutionRoutes;
 
 const ViewCareInstitution: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
-> & RouteComponentProps & IHandleSubmitInterface> = (props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps) => {
-
+> &
+  RouteComponentProps &
+  IHandleSubmitInterface> = (
+  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
+) => {
   let { id } = useParams();
-  const Id: any | undefined = id
-  let sortBy: IReactSelectInterface | undefined = { label: "3", value: "Sort by A-Z" };
+  const Id: any | undefined = id;
+  let sortBy: IReactSelectInterface | undefined = {
+    label: "3",
+    value: "Sort by A-Z"
+  };
   const { data: careInstituition, loading, error, refetch } = useQuery<any>(
     GET_CARE_INSTITUTION_LIST
   );
 
-  let [selectUser, setselectUser] = useState<IReactSelectInterface>({ label: "", value: "" })
+  let [selectUser, setselectUser] = useState<IReactSelectInterface>({
+    label: "",
+    value: ""
+  });
 
-  let CareInstitutionList: Object[] = []
+  let CareInstitutionList: Object[] = [];
   if (careInstituition && careInstituition.getCareInstitutions) {
     const { getCareInstitutions } = careInstituition;
-    const { careInstitutionData } = getCareInstitutions
+    const { careInstitutionData } = getCareInstitutions;
     careInstitutionData.map((data: any, index: any) => {
       CareInstitutionList.push({
         label: `${data.firstName}${" "}${data.lastName}`,
         value: data.id
-      })
-    })
+      });
+    });
   }
-  const [activeTab, setactiveTab] = useState(0)
+  const [activeTab, setactiveTab] = useState(0);
   const { search, pathname } = useLocation();
 
   useEffect(() => {
     const query: any = qs.parse(search);
     setactiveTab(
       query.tab
-        ? CareInstitutionTabs.findIndex(d => d.name === decodeURIComponent(query.tab))
+        ? CareInstitutionTabs.findIndex(
+            d => d.name === decodeURIComponent(query.tab)
+          )
         : 0
-    )
+    );
   }, [search]);
 
   const onTabChange = (activeTab: number) => {
     props.history.push(
-      `${AppRoutes.CARE_INSTITUION_VIEW.replace(":id", Id)}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
+      `${AppRoutes.CARE_INSTITUION_VIEW.replace(
+        ":id",
+        Id
+      )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
     );
   };
-  let [isUserChange, setisUserChange] = useState(false)
+  let [isUserChange, setisUserChange] = useState(false);
   const handleSelect = (e: any) => {
     if (e && e.value) {
       const data: IReactSelectInterface = {
         label: e.label,
         value: e.value
-      }
-      setselectUser(selectUser = data)
+      };
+      setselectUser((selectUser = data));
       if (e.value !== Id) {
         props.history.push(
-          `${AppRoutes.CARE_INSTITUION_VIEW.replace(":id", e.value)}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
-        )
-        setisUserChange(isUserChange = true)
+          `${AppRoutes.CARE_INSTITUION_VIEW.replace(
+            ":id",
+            e.value
+          )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
+        );
+        setisUserChange((isUserChange = true));
       }
     }
-
   };
   return (
     <div>
@@ -107,7 +129,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     defaultValue={selectUser}
                     placeholder="Select Caregiver"
                     value={selectUser}
-                    onChange={(e) => handleSelect(e)}
+                    onChange={e => handleSelect(e)}
                     options={CareInstitutionList}
                   />
                 </div>
@@ -123,12 +145,12 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                   </span>
                   <span
                     className="header-nav-text"
-                  // onClick={() => {
-                  //   this.setState({ show: true });
-                  // }}
+                    // onClick={() => {
+                    //   this.setState({ show: true });
+                    // }}
                   >
                     Create Todo/Reminder
-                    </span>
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
@@ -161,53 +183,27 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
               {activeTab === 0 ? (
                 <PersonalInformation
                   currentSelectuser={(Data: IReactSelectInterface) => {
-                    setselectUser(selectUser = Data)
+                    setselectUser((selectUser = Data));
                   }}
-                  handleIsUserChange={()=> setisUserChange(isUserChange = false)}
+                  handleIsUserChange={() =>
+                    setisUserChange((isUserChange = false))
+                  }
                   isUserChange={isUserChange}
                   {...props}
                 />
               ) : null}
-              {activeTab === 1 ? (
-                <Offers
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 2 ? (
-                <Login
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 3 ? (
-                <InvoiceMenu
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 4 ? (
-                <Documents
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 5 ? (
-                <Departments
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 6 ? (
-                <Emails
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 7 ? (
-                <Reminders
-                  {...props}
-                />
-              ) : null}
+              {activeTab === 1 ? <Offers {...props} /> : null}
+              {activeTab === 2 ? <Login {...props} /> : null}
+              {activeTab === 3 ? <InvoiceMenu {...props} /> : null}
+              {activeTab === 4 ? <Documents {...props} /> : null}
+              {activeTab === 5 ? <Departments {...props} /> : null}
+              {activeTab === 6 ? <Emails {...props} /> : null}
+              {activeTab === 7 ? <Reminders {...props} /> : null}
             </div>
           </Suspense>
         </div>
       </div>
     </div>
   );
-}
+};
 export default ViewCareInstitution;

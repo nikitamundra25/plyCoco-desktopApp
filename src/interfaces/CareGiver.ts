@@ -24,7 +24,7 @@ export interface ICareGiverInput {
   fax: string;
   qualifications?: string[];
   taxNumber: string;
-  remarks: IRemark[];
+  remarks?: IRemark;
   driversLicense: boolean;
   driverLicenseNumber: string;
   vehicleAvailable: boolean;
@@ -40,9 +40,8 @@ export interface ICareGiverInput {
 }
 
 export interface IRemark {
-  commentBy: string;
+  createdBy: string;
   description: string;
-  commentAt: string;
 }
 
 export interface CareGiverValues {
@@ -70,7 +69,7 @@ export interface CareGiverValues {
   registrationNumber: string;
   registerCourt: string;
   taxNumber: string;
-  remarks: IRemark[];
+  remarks?: IRemark;
   driversLicense: boolean;
   vehicleAvailable: boolean;
   driverLicenseNumber: string;
@@ -136,14 +135,112 @@ export interface IPersonalObject {
   socialSecurityContribution: boolean;
   qualifications?: IReactSelectInterface[];
   workZones?: IReactSelectInterface[];
-  remarks?: IRemark[];
+  remarks?: IRemark;
   status: string;
 }
 
 export interface ICareGiverValues {
-  personalInformation: IPersonalObject;
+  // personalInformation: IPersonalObject;
+  // billingSettings?: IBillingSettingsValues;
+  userName?: string;
+  stateId?: number;
+  regionId?: string;
+  registartionSince?: string;
+  gender?: string;
+  title?: string;
+  salutation?: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth?: string;
+  age: string;
+  address1: string;
+  address2: string;
+  street: string;
+  city: string;
+  postCode: string;
+  pinCode?: string;
+  countryId?: number;
+  phoneNumber: string;
+  fax: string;
+  mobileNumber: string;
+  email: string;
+  taxNumber: string;
+  iban: string;
+  password?: string;
+  belongTo?: string;
+  legalForm: string;
+  companyName: string;
+  registerCourt: string;
+  registrationNumber: string;
+  executiveDirector: string;
+  employed: boolean;
+  additionalText: string;
+  driversLicense: boolean;
+  vehicleAvailable: boolean;
+  driverLicenseNumber: string;
+  socialSecurityContribution: boolean;
+  qualifications?: IReactSelectInterface[];
+  workZones?: IReactSelectInterface[];
+  remarks?: IRemark;
+  status: string;
+  fee: string;
+  weekendAllowancePerHour: string;
+  holidayAllowancePerHourFee: string;
+  nightAllowancePerHour: string;
+  invoiceInterval: string;
+  leasingPrice: string;
+}
+
+
+export interface IPersonalInfoObject {
+  userName?: string;
+  stateId?: number;
+  regionId?: string;
+  registartionSince?: string;
+  gender?: string;
+  title?: string;
+  salutation?: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth?: string;
+  age: string;
+  address1: string;
+  address2: string;
+  street: string;
+  city: string;
+  postCode: string;
+  pinCode?: string;
+  countryId?: number;
+  phoneNumber: string;
+  fax: string;
+  mobileNumber: string;
+  email: string;
+  taxNumber: string;
+  iban: string;
+  password?: string;
+  belongTo?: string;
+  legalForm: string;
+  companyName: string;
+  registerCourt: string;
+  registrationNumber: string;
+  executiveDirector: string;
+  employed: boolean;
+  additionalText: string;
+  driversLicense: boolean;
+  vehicleAvailable: boolean;
+  driverLicenseNumber: string;
+  socialSecurityContribution: boolean;
+  qualifications?: string[];
+  workZones?: string[];
+  remarks?: IRemark;
+  status: string;
+}
+
+export interface IEditCareGInput {
+  personalInformation: IPersonalInfoObject;
   billingSettings?: IBillingSettingsValues;
 }
+
 
 export interface ICareGiver {
   id: string;

@@ -54,6 +54,13 @@ const CareGiverFormComponent: FunctionComponent<
   FormikProps<CareGiverValues>
 > = (props: FormikProps<CareGiverValues>) => {
   const { values } = props;
+  const handleField = (e:any)=>{
+    const value={
+      createdBy:`${values.firstName} ${values.lastName}`,
+      description:e.target.value
+    }
+    props.setFieldValue('remarks', value)
+};
   console.log("+++++++++++", props.errors);
   // To fetch the list of countries
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
@@ -766,7 +773,8 @@ const CareGiverFormComponent: FunctionComponent<
                               <Field
                                 component={FormikTextField}
                                 type="textarea"
-                                name={"remarks"}
+                                onChange={handleField}
+                                name={"remarks.description"}
                                 placeholder="Remarks"
                                 rows="4"
                                 className="textarea-custom "

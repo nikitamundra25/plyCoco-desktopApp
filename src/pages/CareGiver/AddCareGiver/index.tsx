@@ -159,7 +159,7 @@ export const CareGiverForm: FunctionComponent = () => {
     executiveDirector = "",
     socialSecurityContribution = false,
     taxNumber = "",
-    remarks = [{ commentBy: "", description: "", commentAt: "" }],
+    remarks = { createdBy: "", description: "" },
     workZones = undefined,
     status = ""
   } = caregiverData ? caregiverData : {};

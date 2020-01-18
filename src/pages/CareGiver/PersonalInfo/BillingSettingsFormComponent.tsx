@@ -55,7 +55,7 @@ const BillingSettingsFormComponent: any = (
                                         <div>
                                             <Field
                                                 component={FormikTextField}
-                                                name={"billingSettings.fee"}
+                                                name={"fee"}
                                                 placeholder="Fee"
                                                 className="width-common"
                                             />
@@ -74,7 +74,7 @@ const BillingSettingsFormComponent: any = (
                                                     <div>
                                                         <Field
                                                             component={FormikTextField}
-                                                            name={"billingSettings.night"}
+                                                            name={"night"}
                                                             placeholder="Night"
                                                             className="width-common"
                                                         />
@@ -103,7 +103,7 @@ const BillingSettingsFormComponent: any = (
                                         <div>
                                             <Field
                                                 component={FormikTextField}
-                                                name={"billingSettings.weekendAllowancePerHour"}
+                                                name={"weekendAllowancePerHour"}
                                                 placeholder="Weekend Allowance"
                                                 className="width-common"
                                             />
@@ -122,7 +122,7 @@ const BillingSettingsFormComponent: any = (
                                                     <div>
                                                         <Field
                                                             component={FormikTextField}
-                                                            name={"billingSettings.holidayAllowancePerHourFee"}
+                                                            name={"holidayAllowancePerHourFee"}
                                                             placeholder="Holiday"
                                                             className="width-common"
                                                         />
@@ -150,7 +150,7 @@ const BillingSettingsFormComponent: any = (
                                     <Col sm="8">
                                         <div>
                                             <Field
-                                                name={"billingSettings.nightAllowancePerHour"}
+                                                name={"nightAllowancePerHour"}
                                                 component={FormikSelectField}
                                                 options={NightAllowancePerHour}
                                                 className="custom-input-width"
@@ -175,7 +175,7 @@ const BillingSettingsFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikSelectField}
-                                        name={"billingSettings.invoiceInterval"}
+                                        name={"invoiceInterval"}
                                         placeholder="Invoice interval"
                                         isMulti
                                         options={Region}
@@ -197,7 +197,7 @@ const BillingSettingsFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikSelectField}
-                                        name={"billingSettings.leasingPrice"}
+                                        name={"leasingPrice"}
                                         placeholder="Lessing Price List"
                                         isMulti
                                         options={Region}

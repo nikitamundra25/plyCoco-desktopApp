@@ -184,7 +184,6 @@ const CareGiver: FunctionComponent = () => {
             data: { getCaregivers: data.getCaregivers }
           });
           let dataNe : any = await cache.readQuery({ query: GET_CAREGIVERS });
-          debugger;
           console.log("==after==", dataNe.getCaregivers)
         }
       });
@@ -397,7 +396,7 @@ const CareGiver: FunctionComponent = () => {
                           </td>
                           <td>
                             <div className="action-btn">
-                              <ButtonTooltip
+                              {/* <ButtonTooltip
                                 id={`edit${index}`}
                                 message={languageTranslation("CG_EDIT")}
                                 onclick={() =>
@@ -413,7 +412,7 @@ const CareGiver: FunctionComponent = () => {
                               >
                                 {" "}
                                 <i className="fa fa-pencil"></i>
-                              </ButtonTooltip>
+                              </ButtonTooltip> */}
                               <ButtonTooltip
                                 id={`view${index}`}
                                 message={languageTranslation("CAREGIVER_VIEW")}

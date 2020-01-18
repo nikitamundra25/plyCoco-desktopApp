@@ -36,7 +36,13 @@ const PersonalInfoFormComponent: any = (
     props: FormikProps<CareGiverValues>
 ) => {
     const { values } = props;
-    console.log("errorrrrrssssssssss==========>", props.errors)
+    const handleField = (e:any)=>{
+        const value={
+          createdBy:`${values.firstName} ${values.lastName}`,
+          description:e.target.value
+        }
+        props.setFieldValue('remarks', value)
+    };
     return (
         <div className="form-card">
             <Row>
@@ -55,7 +61,7 @@ const PersonalInfoFormComponent: any = (
                                         <div>
                                             <Field
                                                 component={FormikTextField}
-                                                name={"personalInformation.lastName"}
+                                                name={"lastName"}
                                                 placeholder={languageTranslation("USER_ID")}
                                                 className="width-common"
                                             />
@@ -74,7 +80,7 @@ const PersonalInfoFormComponent: any = (
                                                     <div>
                                                         <Field
                                                             component={FormikTextField}
-                                                            name={"personalInformation.registartionSince"}
+                                                            name={"registartionSince"}
                                                             placeholder="Reg Since"
                                                             className="width-common"
                                                         />
@@ -100,7 +106,7 @@ const PersonalInfoFormComponent: any = (
                             <Col sm="8">
                                 <div>
                                     <Field
-                                        name={"personalInformation.state"}
+                                        name={"state"}
                                         component={FormikSelectField}
                                         placeholder="Region/State"
                                         options={State}
@@ -124,7 +130,7 @@ const PersonalInfoFormComponent: any = (
                                     <Col sm="5">
                                         <div>
                                             <Field
-                                                name={"personalInformation.gender"}
+                                                name={"gender"}
                                                 placeholder={languageTranslation("GENDER")}
                                                 options={State}
                                             />
@@ -143,7 +149,7 @@ const PersonalInfoFormComponent: any = (
                                                     <div>
                                                         <Field
                                                             component={FormikTextField}
-                                                            name={"personalInformation.title"}
+                                                            name={"title"}
                                                             placeholder={languageTranslation(
                                                                 "TITLE"
                                                             )}
@@ -171,7 +177,7 @@ const PersonalInfoFormComponent: any = (
                             <Col sm="8">
                                 <div>
                                     <Field
-                                        name={"personalInformation.salutation"}
+                                        name={"salutation"}
                                         component={FormikSelectField}
                                         placeholder={languageTranslation("SALUTATION")}
                                         options={Salutation}
@@ -195,7 +201,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.firstName"}
+                                        name={"firstName"}
                                         placeholder={languageTranslation("FIRST_NAME")}
                                         className="width-common"
                                     />
@@ -218,7 +224,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.lastName"}
+                                        name={"lastName"}
                                         placeholder={languageTranslation("SURNAME")}
                                         className="width-common"
                                     />
@@ -241,7 +247,7 @@ const PersonalInfoFormComponent: any = (
                                     <Col sm="7">
                                         <div>
                                             <Field
-                                                name={"personalInformation.dateOfBirth"}
+                                                name={"dateOfBirth"}
                                                 component={FormikTextField}
                                                 type="date"
                                                 placeholder="06/09/2020"
@@ -261,7 +267,7 @@ const PersonalInfoFormComponent: any = (
                                                     <div>
                                                         <Field
                                                             component={FormikTextField}
-                                                            name={"personalInformation.age"}
+                                                            name={"age"}
                                                             placeholder="123"
                                                             className="width-common"
                                                         />
@@ -288,7 +294,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.street"}
+                                        name={"street"}
                                         placeholder="Street"
                                         className=" width-common"
                                     />
@@ -309,7 +315,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.city"}
+                                        name={"city"}
                                         placeholder="City"
                                         className=" width-common"
                                     />
@@ -332,7 +338,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.postCode"}
+                                        name={"postCode"}
                                         placeholder="Post Code"
                                         className=" width-common"
                                     />
@@ -354,7 +360,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikSelectField}
-                                        name={"personalInformation.country"}
+                                        name={"country"}
                                         placeholder="Germany"
                                         options={Country} />
                                 </div>
@@ -375,7 +381,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikSelectField}
-                                        name="personalInformation.stateId"
+                                        name="stateId"
                                         placeholder="Bavaria"
                                         options={State} />
                                 </div>
@@ -397,7 +403,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.phone"}
+                                        name={"phone"}
                                         placeholder=" Phone Number"
                                         className="width-common"
                                     />
@@ -420,7 +426,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.fax"}
+                                        name={"fax"}
                                         placeholder=" Fax"
                                         className="width-common"
                                     />
@@ -442,7 +448,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.mobileNumber"}
+                                        name={"mobileNumber"}
                                         placeholder="Mobile Number"
                                         className="width-common"
                                     />
@@ -465,7 +471,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.email"}
+                                        name={"email"}
                                         placeholder=" Email"
                                         className="width-common"
                                     />
@@ -487,7 +493,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component="text"
-                                        name={"personalInformation.taxNumber"}
+                                        name={"taxNumber"}
                                         placeholder="Tax Number"
                                         className="width-common"
                                     />
@@ -509,7 +515,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.bankName"}
+                                        name={"bankName"}
                                         placeholder="Bank"
                                         className="width-common"
                                     />
@@ -531,7 +537,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.iban"}
+                                        name={"iban"}
                                         placeholder="IBAN"
                                         className="width-common"
                                     />
@@ -553,7 +559,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.username"}
+                                        name={"username"}
                                         placeholder="Username"
                                         className="width-common"
                                     />
@@ -575,7 +581,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikSelectField}
-                                        name={"personalInformation.belongsTo"}
+                                        name={"belongsTo"}
                                         placeholder="Belongs to"
                                         options={State}
                                     />
@@ -596,7 +602,7 @@ const PersonalInfoFormComponent: any = (
                             <Col sm="8">
                                 <div>
                                     <Field
-                                        name="personalInformation.legalForm"
+                                        name="legalForm"
                                         component={FormikSelectField}
                                         placeholder="Legal Form" options={State} />
                                 </div>
@@ -617,7 +623,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.companyName"}
+                                        name={"companyName"}
                                         placeholder="Company Name"
                                         className="width-common"
                                     />
@@ -639,7 +645,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.registerCourt"}
+                                        name={"registerCourt"}
                                         placeholder="Register Court"
                                         className="width-common"
                                     />
@@ -661,7 +667,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         type={FormikTextField}
-                                        name={"personalInformation.registrationNumber"}
+                                        name={"registrationNumber"}
                                         placeholder="Registeration Number"
                                         className="width-common"
                                     />
@@ -683,7 +689,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         component={FormikTextField}
-                                        name={"personalInformation.executiveDirector"}
+                                        name={"executiveDirector"}
                                         placeholder="Executive Director"
                                         className="width-common"
                                     />
@@ -706,7 +712,7 @@ const PersonalInfoFormComponent: any = (
                                     <div className=" checkbox-custom mb-0">
                                         <Field
                                             component={FormikCheckbox}
-                                            name={"personalInformation.employed"}
+                                            name={"employed"}
                                         />
                                     </div>
                                 </div>
@@ -728,7 +734,8 @@ const PersonalInfoFormComponent: any = (
                                     <Field
                                         component={FormikTextField}
                                         type="textarea"
-                                        name={"personalInformation.additionalText"}
+                                        onChange={handleField}
+                                        name={"additionalText"}
                                         placeholder="Comments (Internally)"
                                         className="textarea-custom"
                                         rows="4"

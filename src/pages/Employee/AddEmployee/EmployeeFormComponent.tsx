@@ -112,7 +112,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       target: { files },
     } = e;
     let reader = new FileReader();
-    let file: any = '';
+    let file: File | null = null;
     if (files) {
       file = files[0];
     }

@@ -14,7 +14,7 @@ import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { EmployeeQueries } from '../../queries';
 import { useParams } from 'react-router';
 import { AppConfig, AppRoutes } from '../../config';
-import { IEmployee } from '../../interfaces';
+import { IEmployee, IReplaceObjectInterface } from '../../interfaces';
 import { languageTranslation } from '../../helpers';
 import moment from 'moment';
 import defaultProfile from '../../assets/avatars/default-profile.png';
@@ -78,7 +78,7 @@ const ViewEmployee: FunctionComponent = () => {
       }
     }
   };
-  const replaceObj: any = {
+  const replaceObj: IReplaceObjectInterface = {
     ':id': employee && employee.id,
     ':userName': employee && employee.userName,
   };

@@ -17,6 +17,8 @@ import {
   ISearchValues,
   IEmployee,
   IReactSelectInterface,
+  IObjectType,
+  IReplaceObjectInterface,
 } from '../../interfaces';
 import { ConfirmBox } from '../../common/ConfirmBox';
 import { toast } from 'react-toastify';
@@ -24,6 +26,8 @@ import defaultProfile from '../../assets/avatars/default-profile.png';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../common/SearchFilter/NoSearchFound';
 import moment from 'moment';
+
+let toastId: any = null;
 
 const [
   ,
@@ -34,7 +38,7 @@ const [
   DELETE_EMPLOYEE,
 ] = EmployeeQueries;
 
-const sortFilter: any = {
+const sortFilter: IObjectType = {
   3: 'name',
   4: 'name-desc',
   2: 'oldest',
@@ -74,10 +78,10 @@ const Employee: FunctionComponent = () => {
     let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
     let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
     // To handle display and query param text
-    let sortByValue: any = '1';
+    let sortByValue: string | undefined = '1';
     if (query.sortBy) {
       sortByValue = Object.keys(sortFilter).find(
-        (key: any) => sortFilter[key] === query.sortBy,
+        (key: string) => sortFilter[key] === query.sortBy,
       );
     }
     logger(sortByValue);
@@ -162,7 +166,6 @@ const Employee: FunctionComponent = () => {
       // });
     }
   }, [location]);
-  console.log(searchValues, 'searchValues');
 
   const {
     searchValue = '',
@@ -174,9 +177,7 @@ const Employee: FunctionComponent = () => {
     { searchValue, isActive, sortBy }: ISearchValues,
     { setSubmitting }: FormikHelpers<ISearchValues>,
   ) => {
-    let params: {
-      [key: string]: any;
-    } = {};
+    let params: IObjectType = {};
     params.page = 1;
     if (searchValue) {
       params.search = searchValue;
@@ -243,13 +244,17 @@ const Employee: FunctionComponent = () => {
           variables: queryVariables,
           data: updatedData,
         });
-        toast.success('Employee deleted successfully');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success('Employee deleted successfully');
+        }
       } catch (error) {
         const message = error.message
           .replace('SequelizeValidationError: ', '')
           .replace('Validation error: ', '')
           .replace('GraphQL error: ', '');
-        toast.error(message);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
         logger(error.message, 'error');
       }
     }
@@ -268,19 +273,26 @@ const Employee: FunctionComponent = () => {
       return;
     } else {
       try {
+        toast.dismiss();
         await updateEmployeeStatus({
           variables: {
             id,
             isActive: status,
           },
         });
-        toast.success(languageTranslation('EMPLOYEE_STATUS_UPDATE_MSG'));
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('EMPLOYEE_STATUS_UPDATE_MSG'),
+          );
+        }
       } catch (error) {
         const message = error.message
           .replace('SequelizeValidationError: ', '')
           .replace('Validation error: ', '')
           .replace('GraphQL error: ', '');
-        toast.error(message);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
       }
     }
   };
@@ -363,7 +375,7 @@ const Employee: FunctionComponent = () => {
                   }: IEmployee,
                   index: number,
                 ) => {
-                  const replaceObj: any = {
+                  const replaceObj: IReplaceObjectInterface = {
                     ':id': id,
                     ':userName': userName,
                   };
@@ -396,7 +408,7 @@ const Employee: FunctionComponent = () => {
                                 history.push(
                                   AppRoutes.VIEW_EMPLOYEE.replace(
                                     /:id|:userName/gi,
-                                    function(matched) {
+                                    function(matched: string) {
                                       return replaceObj[matched];
                                     },
                                   ),

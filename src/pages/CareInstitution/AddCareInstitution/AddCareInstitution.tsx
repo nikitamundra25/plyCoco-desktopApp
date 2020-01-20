@@ -31,6 +31,7 @@ import CommissionFormData from "../PersonalInfo/PersonalInfoForm/CommissionFormD
 import InvoiceFormData from "../PersonalInfo/PersonalInfoForm/InvoiceFormData";
 import QuallificationAttribute from "../PersonalInfo/PersonalInfoForm/QuallificationAttribute";
 import RemarkFormData from "../PersonalInfo/PersonalInfoForm/RemarkFormData";
+import "../careinstitution.scss";
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
@@ -101,15 +102,18 @@ const AddCareInstitution: any = (
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched,
+    setFieldTouched
   } = props;
 
   return (
     <Row className=" ">
       <Button
         disabled={isSubmitting}
-        className={"save-button btn-add btn btn-primary text-white top-form-button"}
-        onClick={handleSubmit}>
+        className={
+          "save-button btn-add btn btn-primary text-white top-form-button"
+        }
+        onClick={handleSubmit}
+      >
         {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
         {languageTranslation("SAVE_BUTTON")}
       </Button>
@@ -151,7 +155,7 @@ const AddCareInstitution: any = (
                             placeholder={languageTranslation("GENDER")}
                             value={gender ? gender : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'gender')
+                              handleSelect(value, "gender")
                             }
                             options={Gender}
                           />
@@ -200,7 +204,7 @@ const AddCareInstitution: any = (
                         placeholder={languageTranslation("SALUTATION")}
                         value={salutation ? salutation : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'salutation')
+                          handleSelect(value, "salutation")
                         }
                         options={Salutation}
                       />
@@ -234,9 +238,7 @@ const AddCareInstitution: any = (
                         }
                       />
                       {errors.firstName && touched.firstName && (
-                        <div className="required-error">
-                          {errors.firstName}
-                        </div>
+                        <div className="required-error">{errors.firstName}</div>
                       )}
                     </div>
                   </Col>
@@ -268,9 +270,7 @@ const AddCareInstitution: any = (
                         }
                       />
                       {errors.lastName && touched.lastName && (
-                        <div className="required-error">
-                          {errors.lastName}
-                        </div>
+                        <div className="required-error">{errors.lastName}</div>
                       )}
                     </div>
                   </Col>
@@ -461,7 +461,7 @@ const AddCareInstitution: any = (
                         options={countriesOpt}
                         value={country ? country : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'country')
+                          handleSelect(value, "country")
                         }
                       />
                     </div>
@@ -483,11 +483,9 @@ const AddCareInstitution: any = (
                         placeholder={languageTranslation("STATE")}
                         options={statesOpt}
                         value={state ? state : undefined}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'state')
-                        }
+                        onChange={(value: any) => handleSelect(value, "state")}
                         noOptionsMessage={() => {
-                          return 'Select a country first';
+                          return "Select a country first";
                         }}
                       />
                     </div>
@@ -596,10 +594,10 @@ const AddCareInstitution: any = (
                         onBlur={(e: any) => {
                           //get string before a @ to set username
                           const username = email
-                            ? email.substring(0, email.indexOf('@'))
-                            : '';
+                            ? email.substring(0, email.indexOf("@"))
+                            : "";
 
-                          setFieldValue('userName', username);
+                          setFieldValue("userName", username);
                           handleBlur(e);
                         }}
                         placeholder={languageTranslation("EMAIL")}
@@ -610,9 +608,7 @@ const AddCareInstitution: any = (
                         }
                       />
                       {errors.email && touched.email && (
-                        <div className="required-error">
-                          {errors.email}
-                        </div>
+                        <div className="required-error">{errors.email}</div>
                       )}
                     </div>
                   </Col>
@@ -644,9 +640,7 @@ const AddCareInstitution: any = (
                         }
                       />
                       {errors.userName && touched.userName && (
-                        <div className="required-error">
-                          {errors.userName}
-                        </div>
+                        <div className="required-error">{errors.userName}</div>
                       )}
                     </div>
                   </Col>
@@ -669,9 +663,7 @@ const AddCareInstitution: any = (
                           "DEFAULT_QAULIFICATION"
                         )}
                         value={state ? state : undefined}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'state')
-                        }
+                        onChange={(value: any) => handleSelect(value, "state")}
                         options={State}
                       />
                     </div>
@@ -703,9 +695,7 @@ const AddCareInstitution: any = (
                         }
                       />
                       {errors.website && touched.website && (
-                        <div className="required-error">
-                          {errors.website}
-                        </div>
+                        <div className="required-error">{errors.website}</div>
                       )}
                     </div>
                   </Col>
@@ -726,9 +716,7 @@ const AddCareInstitution: any = (
                       <Select
                         placeholder={languageTranslation("LIKED_TO")}
                         value={state ? state : undefined}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'state')
-                        }
+                        onChange={(value: any) => handleSelect(value, "state")}
                         options={State}
                       />
                     </div>
@@ -742,8 +730,8 @@ const AddCareInstitution: any = (
                   <Col sm="4">
                     <Label className="form-label col-form-label">
                       {languageTranslation("REMARKS")} (
-                    {languageTranslation("FOR_CANSTITUTION_VIEWBLE")})
-                  </Label>
+                      {languageTranslation("FOR_CANSTITUTION_VIEWBLE")})
+                    </Label>
                   </Col>
                   <Col sm="8">
                     <div>

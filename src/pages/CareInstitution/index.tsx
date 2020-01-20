@@ -383,7 +383,7 @@ const CareInstitution = (props: RouteComponentProps) => {
           }
         )
       : tableData.push(
-          <tr className={"text-center"}>
+          <tr className={"text-center no-hover-row"}>
             <td colSpan={5} className={"pt-5 pb-5"}>
               {!query.page ? (
                 <div className="no-data-section">
@@ -421,7 +421,6 @@ const CareInstitution = (props: RouteComponentProps) => {
               )}
             </td>
           </tr>
-         
         )}
   </>;
   // const {

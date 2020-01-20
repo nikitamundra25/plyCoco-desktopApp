@@ -203,7 +203,7 @@ const Employee: FunctionComponent = () => {
   const queryVariables = {
     page: currentPage,
     isActive: isActive ? isActive.value : '',
-    sortBy: sortBy && sortBy.value ? sortBy.value : 1,
+    sortBy: sortBy && sortBy.value ? sortBy.value : 0,
     searchBy: searchValue ? searchValue : '',
     limit: PAGE_LIMIT,
   };
@@ -339,7 +339,7 @@ const Employee: FunctionComponent = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td className={'table-loader'} colSpan={12}>
+                <td className={'table-loader'} colSpan={7}>
                   <Loader />
                 </td>
               </tr>
@@ -499,7 +499,7 @@ const Employee: FunctionComponent = () => {
                 },
               )
             ) : (
-              <tr className={'text-center'}>
+              <tr className={'text-center no-hover-row'}>
                 <td colSpan={7} className={'pt-5 pb-5'}>
                   {isFilterApplied ? (
                     <NoSearchFound />

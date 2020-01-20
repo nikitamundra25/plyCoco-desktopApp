@@ -629,7 +629,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                     <h5 className='main-title '>
                       {languageTranslation('EMPLOYEE_ADD_PROFILE_IMAGE_LABEL')}
                     </h5>
-                    <div className='form-card minheight-auto file-preview-section p-0'>
+                    <div className=' file-preview-section p-0'>
                       <div className='fileinput-preview d-flex align-items-center justify-content-center'>
                         <div className='file-upload'>
                           <label
@@ -835,7 +835,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 {/* <InputFieldTooltip
                                   id='ADDITIONAL_TEXT'
                                   message={languageTranslation(
-                                    'ADDITIONAL_TEXT',
+                                    "ADDITIONAL_TEXT"
                                   )}
                                 /> */}
                               </Label>

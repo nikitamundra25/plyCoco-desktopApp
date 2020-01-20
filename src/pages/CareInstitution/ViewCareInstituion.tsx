@@ -56,14 +56,27 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     label: '3',
     value: 'Sort by A-Z',
   };
-  const { data: careInstituition, loading, error, refetch } = useQuery<any>(
-    GET_CARE_INSTITUTION_LIST,
-  );
+  const [
+    fetchCareInstitutionList,
+    { data: careInstituition, loading, refetch },
+  ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST);
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: '',
     value: '',
   });
+
+  useEffect(() => {
+    fetchCareInstitutionList({
+      variables: {
+        searchBy: null,
+        sortBy: 3,
+        limit: 200,
+        page: 1,
+        isActive: '',
+      },
+    });
+  }, [careInstituition]);
 
   let CareInstitutionList: Object[] = [];
   if (careInstituition && careInstituition.getCareInstitutions) {

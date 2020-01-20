@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button } from "reactstrap";
 import { Formik, FormikProps, FormikHelpers } from "formik";
-import CareInstitutionContact from "./CareInstitutionContact";
 import "../careinstitution.scss";
 import PersonalInfoForm from "./PersonalInfoForm";
 import {
@@ -97,6 +96,12 @@ const PersonalInformation: any = (props: any) => {
       setContacts(contactsData);
     }
   }, [careInstituionDetails]);
+
+  useEffect(() => {
+    if (countries) {
+      getStatesByCountry()
+    }
+  }, [countries])
 
   const [addContact, { error: contactError, data: contactData }] = useMutation<{
     addContact: ICareInstitutionFormValues;

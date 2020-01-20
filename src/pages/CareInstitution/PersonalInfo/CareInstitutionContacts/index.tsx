@@ -88,43 +88,6 @@ const CareInstitutionContacts: any = (props: any) => {
     }
   };
 
-  // useEffect(() => {
-  //   let contactsData:any[] = contacts
-  //   if (contactData) {
-  //     console.log(contacts);
-      
-  //     if (contacts[contacts.length-1].email === "") {
-  //       console.log("in if");
-        
-  //       contactsData = contactsData.filter((contacts:any, index:number) => contacts.email !== "")
-  //     }
-  //     console.log(contactsData,"contactsData");
-      
-  //     contactsData.push(
-  //       contactData.addContact,
-  //       // {
-  //       //   email: '',
-  //       //   firstName: '',
-  //       //   lastName: '',
-  //       //   userName: '',
-  //       //   phoneNumber: '',
-  //       //   mobileNumber: '',
-  //       //   faxNumber: '',
-  //       //   comments: '',
-  //       //   groupAttributes: '',
-
-  //       // }
-  //     )
-  //     if (contacts && contacts.length) {
-  //       setActiveContact(contacts.length-1)
-  //     }
-  //     console.log("contacts", contacts);
-  //     console.log("contactData", contactData);
-
-  //     props.setContacts(contacts)
-  //   }
-  // }, [contactData])
-
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
     { setSubmitting }: FormikHelpers<ICareInstitutionContact>
@@ -228,14 +191,6 @@ const CareInstitutionContacts: any = (props: any) => {
               );
             })}
           </Nav>
-          {/* <Button
-            // onClick={handleSubmit}
-            color={'primary'}
-            className={'btn-save'}
-            onClick={handleContactSubmit}
-          >
-            {languageTranslation('SAVE_BUTTON')}
-          </Button> */}
         </div>
       </Col>
       <Formik

@@ -398,7 +398,7 @@
   "NAME_MINLENGTH": "Please enter atleast 3 characters",
   "TEL_MINLENGTH": "Telephone number must be between 9 to 14 numbers",
   "TEL_MAXLENGTH": "Telephone number must be less than of 14 numbers",
-  "TEL_NUMERROR": "That doesn't look like a phone number",
+  "TEL_NUMERROR": "That doesn't look like a telephone number",
   "MOB_NUMERROR": "That doesn't look like a mobile number",
   "MOB_MAXLENGTH": "Mobile number must be less than of 14 numbers",
   "MOB_MINLENGTH": "Mobile number must be between 9 to 14 numbers",

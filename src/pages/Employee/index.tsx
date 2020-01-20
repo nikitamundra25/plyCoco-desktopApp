@@ -84,9 +84,12 @@ const Employee: FunctionComponent = () => {
     let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
     let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
     // To handle display and query param text
-    let sortByValue: any = Object.keys(sortFilter).find(
-      (key: any) => sortFilter[key] === query.sortBy,
-    );
+    let sortByValue: any = '1';
+    if (query.sortBy) {
+      sortByValue = Object.keys(sortFilter).find(
+        (key: any) => sortFilter[key] === query.sortBy,
+      );
+    }
     logger(sortByValue);
     logger(typeof sortByValue);
     if (sortByValue === '3') {
@@ -208,7 +211,7 @@ const Employee: FunctionComponent = () => {
   const queryVariables = {
     page: currentPage,
     isActive: isActive ? isActive.value : '',
-    sortBy: sortBy && sortBy.value ? sortBy.value : 0,
+    sortBy: sortBy && sortBy.value ? sortBy.value : 1,
     searchBy: searchValue ? searchValue : '',
     limit: PAGE_LIMIT,
   };
@@ -507,7 +510,7 @@ const Employee: FunctionComponent = () => {
               )
             ) : (
               <tr className={'text-center'}>
-                <td colSpan={6} className={'pt-5 pb-5'}>
+                <td colSpan={7} className={'pt-5 pb-5'}>
                   {isFilterApplied ? (
                     <NoSearchFound />
                   ) : (

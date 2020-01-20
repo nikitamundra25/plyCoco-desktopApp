@@ -550,7 +550,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                     
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>

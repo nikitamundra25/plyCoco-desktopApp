@@ -1,6 +1,6 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
 
-import { Button, Card, CardHeader, CardBody, Table } from "reactstrap";
+import { Button, Card, CardHeader, CardBody, Table, Collapse, Input, Row, Col } from "reactstrap";
 import { AppRoutes, PAGE_LIMIT } from "../../config";
 import { useHistory, useLocation } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
@@ -28,7 +28,8 @@ export const Region: FunctionComponent = () => {
   const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
   // To get emplyee list from db
   const [fetchRegionList, { data, loading }] = useLazyQuery<any>(GET_REGIONS);
   console.log("data", data);
@@ -60,12 +61,12 @@ export const Region: FunctionComponent = () => {
       searchBy = query.search ? (query.search as string) : "";
       sortBy = sortByValue
         ? {
-            ...sortBy,
-            value:
-              Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy
-              ) || ""
-          }
+          ...sortBy,
+          value:
+            Object.keys(sortFilter).find(
+              (key: any) => sortFilter[key] === query.sortBy
+            ) || ""
+        }
         : "";
       setSearchValues({
         searchValue: searchBy,
@@ -136,17 +137,39 @@ export const Region: FunctionComponent = () => {
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-        <Button
-          color={"primary"}
-          className={"btn-add"}
-          id={"add-new-pm-tooltip"}
-          onClick={() => {
-            history.push(AppRoutes.ADD_REGION);
-          }}
-        >
-          <i className={"fa fa-plus"} />
-          &nbsp; {languageTranslation("ADD_NEW_REGION_BUTTON")}
-        </Button>
+        <div className="add-region-wrap">
+          <Button
+            color={"primary"}
+            className={"btn-add"}
+            id={"add-new-pm-tooltip"}
+            onClick={toggle}
+          >
+            <i className={"fa fa-plus"} />
+            &nbsp; {languageTranslation("ADD_NEW_REGION_BUTTON")}
+          </Button>
+          <Collapse isOpen={isOpen} className="region-input">
+            <Row>
+              <Col xs={12}>
+                <Input
+                  type="text"
+                  name={"regionName"}
+                  placeholder={languageTranslation(
+                    "REGION_NAME_OF_REGION_PLACEHOLDER"
+                  )}
+
+                />
+              </Col>
+              <Col xs={12} className="text-center mt-2">
+              <Button
+                      color="primary"
+                      className="btn-sumbit"
+                    >
+                      Save
+                    </Button>
+              </Col>
+            </Row>
+          </Collapse>
+        </div>
       </CardHeader>
       <CardBody>
         <div>
@@ -181,18 +204,18 @@ export const Region: FunctionComponent = () => {
             {loading ? (
               <p>Loading ...</p>
             ) : (
-              data &&
-              data.getRegions &&
-              data.getRegions.regionData &&
-              data.getRegions.regionData.map((region: any, index: number) => {
-                return (
-                  <tr key={index}>
-                    <td>{count++}</td>
-                    <td>{region.regionName}</td>
-                    <td className="text-center">0</td>
-                    <td className="text-center">0</td>
-                    <td className="text-center">0</td>
-                    {/* <td>
+                data &&
+                data.getRegions &&
+                data.getRegions.regionData &&
+                data.getRegions.regionData.map((region: any, index: number) => {
+                  return (
+                    <tr key={index}>
+                      <td>{count++}</td>
+                      <td>{region.regionName}</td>
+                      <td className="text-center">0</td>
+                      <td className="text-center">0</td>
+                      <td className="text-center">0</td>
+                      {/* <td>
                     <div className="action-btn">
                       <ButtonTooltip
                         id={`careGiverDelete${index}`}
@@ -202,10 +225,10 @@ export const Region: FunctionComponent = () => {
                       </ButtonTooltip>
                     </div>
                   </td> */}
-                  </tr>
-                );
-              })
-            )}
+                    </tr>
+                  );
+                })
+              )}
           </tbody>
         </Table>
         {data && data.getRegions && data.getRegions.totalCount && (

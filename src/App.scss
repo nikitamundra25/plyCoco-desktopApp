@@ -1566,7 +1566,9 @@ body {
       flex: 1 1 100%;
     }
     .profile-wrap {
-      margin-right: 15px;
+      margin-right: 25px;
+      flex: 0 0 105px;  
+      
       .emloyee-profile-img {
         width: 100px;
         height: 100px;

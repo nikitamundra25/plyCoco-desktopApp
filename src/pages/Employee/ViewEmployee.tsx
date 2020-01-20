@@ -102,8 +102,8 @@ const ViewEmployee: FunctionComponent = () => {
               )
             }
           >
-            <i className={"fa fa-plus"} />
-            &nbsp; Edit Emloyee
+            <i className={"icon-note"} />
+            &nbsp;{languageTranslation("EDIT_EMPLOYEE_BUTTON")}
           </Button>
         </CardHeader>
 
@@ -151,21 +151,9 @@ const ViewEmployee: FunctionComponent = () => {
                         <span className=" text-label">
                           {" "}
                           {employee && employee.firstName ? (
-                            <>
-                              <i
-                                className="fa fa-user mr-1"
-                                aria-hidden="true"
-                              ></i>
-                              {languageTranslation("EMPLOYEE_NAME")}
-                            </>
+                            <>{languageTranslation("EMPLOYEE_NAME")}</>
                           ) : (
-                            <>
-                              <i
-                                className="fa fa-user mr-1"
-                                aria-hidden="true"
-                              ></i>
-                              {languageTranslation("EMPLOYEE_NAME")}
-                            </>
+                            <>{languageTranslation("EMPLOYEE_NAME")}</>
                           )}
                         </span>
                         <span className="text-value one-line-text d-flex align-items-center">
@@ -184,11 +172,7 @@ const ViewEmployee: FunctionComponent = () => {
                       </div>
                       <div className="user-item">
                         <span className="text-label">
-                          <i
-                            className="fa fa-user-circle-o mr-1"
-                            aria-hidden="true"
-                          ></i>
-                          {languageTranslation("EMPLOYEE_USERNAME")}
+                          {languageTranslation("EMPLOYEE_USER_NAME_LABEL")}
                         </span>
 
                         <span className="text-value one-line-text">
@@ -200,10 +184,6 @@ const ViewEmployee: FunctionComponent = () => {
                       </div>
                       <div className="user-item">
                         <span className="text-label">
-                          <i
-                            className="fa fa-envelope mr-1"
-                            aria-hidden="true"
-                          ></i>
                           {languageTranslation("EMPLOYEE_EMAIL_ADDRESS_LABEL")}
                         </span>
 
@@ -215,11 +195,9 @@ const ViewEmployee: FunctionComponent = () => {
 
                       <div className="user-item">
                         <div className="text-label">
-                          <i
-                            className="fa fa-phone mr-1"
-                            aria-hidden="true"
-                          ></i>
-                          {languageTranslation("EMPLOYEE_EMAIL_ADDRESS_LABEL")}
+                          {languageTranslation(
+                            "EMPLOYEE_TELEPHONE_NUMBER_LABEL"
+                          )}
                         </div>
                         <span className="text-value one-line-text">
                           :&nbsp;&nbsp;
@@ -231,7 +209,6 @@ const ViewEmployee: FunctionComponent = () => {
 
                       <div className="user-item">
                         <span className="text-label">
-                          <i className="fa fa-bell mr-1" aria-hidden="true"></i>
                           {languageTranslation("STATUS")}
                         </span>
                         <span className="text-value one-line-text">
@@ -263,6 +240,62 @@ const ViewEmployee: FunctionComponent = () => {
                               ? languageTranslation("ACTIVE")
                               : languageTranslation("DISABLE")}
                           </span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="profile-text">
+                      <div className="user-item">
+                        <span className=" text-label">
+                          {languageTranslation("EMPLOYEE_ADDRESS1_LABEL")}
+                        </span>
+                        <span className="text-value one-line-text d-flex align-items-center">
+                          :&nbsp;&nbsp; 112, Neelkanth colony
+                        </span>
+                      </div>
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("EMPLOYEE_ADDRESS2_LABEL")}
+                        </span>
+
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp; 30 A, high Street
+                        </span>
+                      </div>
+
+                      <div className="user-item">
+                        <div className="text-label">
+                          {languageTranslation("COUNTRY")}
+                        </div>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp; India
+                        </span>
+                      </div>
+
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("EMPLOYEE_STATE_LABEL")}
+                        </span>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp; Madhya Pradesh
+                        </span>
+                      </div>
+
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("EMPLOYEE_CITY_LABEL")}
+                        </span>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp; Indore
+                        </span>
+                      </div>
+
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("EMPLOYEE_ZIP_LABEL")}
+                        </span>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp; 46367
                         </span>
                       </div>
                     </div>
@@ -350,19 +383,6 @@ const ViewEmployee: FunctionComponent = () => {
                     <div className="employee-title">
                       {languageTranslation("OTHER_INFORMATION")}
                     </div>
-                    <div className="user-item">
-                      <span className="text-label">
-                        {languageTranslation("REGION")}
-                      </span>
-                      <span className="text-value one-line-text">
-                        :&nbsp;&nbsp;
-                        {employee &&
-                        employee.region &&
-                        employee.region.regionName
-                          ? employee.region.regionName
-                          : "N/A"}
-                      </span>
-                    </div>
 
                     <div className="user-item">
                       <span className="text-label">
@@ -382,6 +402,20 @@ const ViewEmployee: FunctionComponent = () => {
 
                     <div className="user-item">
                       <span className="text-label">
+                        {languageTranslation("REGION")}
+                      </span>
+                      <span className="text-value one-line-text">
+                        :&nbsp;&nbsp;
+                        {employee &&
+                        employee.region &&
+                        employee.region.regionName
+                          ? employee.region.regionName
+                          : "N/A"}
+                      </span>
+                    </div>
+
+                    {/* <div className="user-item">
+                      <span className="text-label">
                         {languageTranslation("ADDRESS")}
                       </span>
                       <span className="text-value one-line-text">
@@ -392,12 +426,12 @@ const ViewEmployee: FunctionComponent = () => {
                           ? employee.employee.address1
                           : "N/A"}
                       </span>
-                    </div>
+                    </div> */}
                   </div>
                 </Col>
               </Row>
             ) : (
-              <h2>No Data Found</h2>
+              <h4 className="text-center">No Data Found</h4>
             )}
           </div>
         </CardBody>

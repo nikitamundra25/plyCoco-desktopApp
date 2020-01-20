@@ -45,6 +45,7 @@ import {
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { FormikHelpers, Formik, FormikProps } from "formik";
 import { ConfirmBox } from "../../common/ConfirmBox";
+import PaginationComponent from "../../common/Pagination";
 
 const sortFilter: any = {
   3: "name",
@@ -111,7 +112,7 @@ const CareGiver: FunctionComponent = () => {
       setSearchValues({
         searchValue: searchBy,
         sortBy,
-        isActive
+        // isActive 
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -124,9 +125,9 @@ const CareGiver: FunctionComponent = () => {
         page: query.page ? parseInt(query.page as string) : 1,
         isActive: query.status
           ? query.status === "active"
-            ? { label: "Active", value: "true" }
-            : { label: "Deactive", value: "false" }
-          : ""
+            ? true
+            : false
+          : undefined
       }
     });
   }, [search]); // It will run when the search value gets changed
@@ -231,7 +232,6 @@ const CareGiver: FunctionComponent = () => {
             </div>
           </CardBody>
           <Table bordered hover responsive>
-            <thead className="thead-bg">
               <thead className="thead-bg">
                 <tr>
                   <th>
@@ -264,7 +264,6 @@ const CareGiver: FunctionComponent = () => {
                   <th>{languageTranslation("TABEL_HEAD_CG_ACTION")}</th>
                 </tr>
               </thead>
-            </thead>
             <tbody>
               {loading ? (
                 <tr>
@@ -274,7 +273,7 @@ const CareGiver: FunctionComponent = () => {
                 </tr>
               ) : (
                   data &&
-                  data.getCaregivers &&
+                  data.getCaregivers ?
                   data.getCaregivers.map(
                     (
                       {
@@ -324,12 +323,6 @@ const CareGiver: FunctionComponent = () => {
                           </td>
                           <td>
                             <div className="info-column">
-                              <div className="img-column">
-                                <img
-                                  src="https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
-                                  className="img-fluid"
-                                />
-                              </div>
                               <div className="description-column">
                                 <div className="info-title">{`${salutation} ${firstName} ${lastName}`}</div>
                                 <p className="description-text">
@@ -391,7 +384,7 @@ const CareGiver: FunctionComponent = () => {
                                 index % 2 === 0 ? "active" : "inactive"
                                 }`}
                             >
-                              {index % 2 === 0 ? "Active" : "Disable"}
+                              {isActive ? "Active" : "Disable"}
                             </span>
                           </td>
                           <td>
@@ -442,10 +435,21 @@ const CareGiver: FunctionComponent = () => {
                         </tr>
                       );
                     }
-                  )
+                  ): ( <tr className={"text-center"}>
+                  <td colSpan={7} className={"pt-7 pb-7"}>
+                    <h2>No data found</h2>
+                  </td>
+                </tr>)
                 )}
             </tbody>
           </Table>
+          {data && data.getCaregiversCount && (
+          <PaginationComponent
+            totalRecords={data.getCaregiversCount}
+            currentPage={currentPage}
+            onPageChanged={onPageChanged}
+          />
+        )}
         </Card>
       </Col>
     </Row>

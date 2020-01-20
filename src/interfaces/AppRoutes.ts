@@ -36,4 +36,5 @@ export interface IAppRoutes {
   ADD_CARE_INSTITUTION: string;
   CARE_INSTITUTION: string;
   CARE_INSTITUION_VIEW: string;
+  CARE_GIVER_VIEW: string;
 }

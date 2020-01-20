@@ -1,4 +1,9 @@
-import React, { Component, FunctionComponent, useState, useEffect } from "react";
+import React, {
+  Component,
+  FunctionComponent,
+  useState,
+  useEffect
+} from "react";
 import {
   Button,
   FormGroup,
@@ -22,19 +27,25 @@ import AttributeFormComponent from "./AttributesFromComponent";
 import RemarkFormComponent from "./RemarkFormComponent";
 import { Formik, FormikHelpers, Form, FormikProps } from "formik";
 import { Mutation, Query } from "@apollo/react-components";
-import { UPDATE_CAREGIVER, GET_CAREGIVER_BY_ID, UPDATE_BILLING_SETTINGS, GET_BILLING_SETTINGS } from "../../../queries/CareGiver";
-import { ICareGiverValues, IEditCareGInput, IPersonalObject, IBillingSettingsValues } from "../../../interfaces";
+import {
+  UPDATE_CAREGIVER,
+  GET_CAREGIVER_BY_ID,
+  UPDATE_BILLING_SETTINGS,
+  GET_BILLING_SETTINGS
+} from "../../../queries/CareGiver";
+import {
+  ICareGiverValues,
+  IEditCareGInput,
+  IPersonalObject,
+  IBillingSettingsValues
+} from "../../../interfaces";
 import { useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
   let history = useHistory();
-  const [
-    careGiverData,
-    setCareGiverData,
-  ] = useState<ICareGiverValues | null>();
-
+  const [careGiverData, setCareGiverData] = useState<ICareGiverValues | null>();
 
   // To update employee details into db
   const [updateCaregiver] = useMutation<
@@ -47,12 +58,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     { id: number; careGiverInput: IPersonalObject }
   >(UPDATE_BILLING_SETTINGS);
 
-
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
-    debugger
+    debugger;
     //to set submit state to false after successful signup
     // const {
     //   personalInformation: {
@@ -177,7 +187,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     nightAllowancePerHour = "",
     leasingPrice = "",
     invoiceInterval = ""
-  } = props.getCaregiver ? props.getCaregiver : {}
+  } = props.getCaregiver ? props.getCaregiver : {};
 
   const values: ICareGiverValues = {
     userName,
@@ -227,50 +237,59 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     invoiceInterval
   };
 
-  return (<Formik
-    initialValues={values}
-    onSubmit={handleSubmit}
-    enableReinitialize
-    render={(props: FormikProps<ICareGiverValues>) => {
-      debugger
-      return (
-        <Form className="form-section forms-main-section">
-          <Row>
-            <Col lg={"4"}>
-              <PersonalInfoFormComponent {...props} />
-            </Col>
+  return (
+    <Formik
+      initialValues={values}
+      onSubmit={handleSubmit}
+      enableReinitialize
+      render={(props: FormikProps<ICareGiverValues>) => {
+        debugger;
+        return (
+          <Form className="form-section forms-main-section">
+            <Row>
+              <Col lg={"4"}>
+                <PersonalInfoFormComponent {...props} />
+              </Col>
 
-            <Col lg={"4"}>
-              <BillingSettingsFormComponent {...props} />
-              <QualificationFormComponent {...props} />
+              <Col lg={"4"}>
+                <BillingSettingsFormComponent {...props} />
+                <QualificationFormComponent {...props} />
 
-              {/* <AttributeFormComponent {...props} /> */}
-            </Col>
-            <Col lg={4}>
-              <RemarkFormComponent {...props} />
-            </Col>
-          </Row>
-          <Button onSubmit={props.handleSubmit}>Save</Button>
-        </Form>
-      );
-    }}
-  />)
+                {/* <AttributeFormComponent {...props} /> */}
+              </Col>
+              <Col lg={4}>
+                <RemarkFormComponent {...props} />
+              </Col>
+            </Row>
+            <Button onSubmit={props.handleSubmit}>Save</Button>
+          </Form>
+        );
+      }}
+    />
+  );
+};
 
-}
-
-class GetData extends Component<RouteComponentProps, any>{
+class GetData extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
   }
 
   formatData = (caregiverDetails: any) => {
-    assignIn(caregiverDetails, caregiverDetails.caregiverDetails)
-    assignIn(caregiverDetails, caregiverDetails.caregiverDetails)
+    assignIn(caregiverDetails, caregiverDetails.caregiverDetails);
+    assignIn(caregiverDetails, caregiverDetails.caregiverDetails);
     if (caregiverDetails.bankDetails) {
-      assignIn(caregiverDetails, caregiverDetails, caregiverDetails.bankDetails)
+      assignIn(
+        caregiverDetails,
+        caregiverDetails,
+        caregiverDetails.bankDetails
+      );
     }
     if (caregiverDetails.billingSettingDetails) {
-      assignIn(caregiverDetails, caregiverDetails, caregiverDetails.billingSettingDetails)
+      assignIn(
+        caregiverDetails,
+        caregiverDetails,
+        caregiverDetails.billingSettingDetails
+      );
     } else {
       assignIn(caregiverDetails, caregiverDetails, {
         fee: "",
@@ -279,19 +298,30 @@ class GetData extends Component<RouteComponentProps, any>{
         nightAllowancePerHour: "",
         leasingPrice: "",
         invoiceInterval: ""
-      })
+      });
     }
-    caregiverDetails.salutation = { value: caregiverDetails.salutation, label: caregiverDetails.salutation }
-    caregiverDetails.state = { value: caregiverDetails.state, label: caregiverDetails.state }
-    caregiverDetails.legalForm = { value: caregiverDetails.legalForm, label: caregiverDetails.legalForm }
-    caregiverDetails.workZones = caregiverDetails.workZones.length ? caregiverDetails.workZones.map((wz:String)=> {
-      return { label: wz, value: wz }
-    }) : []
+    caregiverDetails.salutation = {
+      value: caregiverDetails.salutation,
+      label: caregiverDetails.salutation
+    };
+    caregiverDetails.state = {
+      value: caregiverDetails.state,
+      label: caregiverDetails.state
+    };
+    caregiverDetails.legalForm = {
+      value: caregiverDetails.legalForm,
+      label: caregiverDetails.legalForm
+    };
+    caregiverDetails.workZones = caregiverDetails.workZones.length
+      ? caregiverDetails.workZones.map((wz: String) => {
+          return { label: wz, value: wz };
+        })
+      : [];
     delete caregiverDetails.bankDetails;
     delete caregiverDetails.billingSettingDetails;
     delete caregiverDetails.caregiverDetails;
-    return caregiverDetails
-  }
+    return caregiverDetails;
+  };
 
   render() {
     return (
@@ -301,12 +331,17 @@ class GetData extends Component<RouteComponentProps, any>{
         variables={{ id: 17 }}
       >
         {({ loading, error, data }: any) => {
-          if (loading) return (<div>Loading</div>);
-          return (<PersonalInformation {...this.props} getCaregiver={this.formatData(data.getCaregiver)} />)
+          if (loading) return <div>Loading</div>;
+          if (error) return <div>Caught error: {error.message}</div>;
+          return (
+            <PersonalInformation
+              {...this.props}
+              getCaregiver={this.formatData(data.getCaregiver)}
+            />
+          );
         }}
-
       </Query>
-    )
+    );
   }
 }
 export default GetData;

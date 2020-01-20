@@ -17,12 +17,12 @@ import {
   GET_LEASING_DATA_BY_ID
 } from "../../../queries/LeasingQueries";
 import { LeasingDataValidationSchema } from "../../../validations/LeasingDataValidationSchema";
-import { useParams, useHistory } from "react-router";
+import { useParams, useHistory, RouteComponentProps } from "react-router";
 import { useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { languageTranslation } from "../../../helpers";
 import { toast } from "react-toastify";
 
-export const LeasingPersonalData: FunctionComponent = () => {
+export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (props:RouteComponentProps) => {
   let { id } = useParams();
   const [leasingData, setleasingData] = useState<ILeasingValues | null>();
 

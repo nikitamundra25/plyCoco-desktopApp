@@ -139,7 +139,7 @@ class EditCareGiver extends Component<RouteComponentProps, any> {
                 <TabPane tabId="4">
                   <Row>
                     <div>
-                      <LeasingPersonalData />
+                      <LeasingPersonalData {...this.props} />
                     </div>
                   </Row>
                 </TabPane>

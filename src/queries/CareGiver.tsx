@@ -2,7 +2,6 @@ import gql from "graphql-tag";
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
-  
     id
     firstName
     lastName
@@ -70,11 +69,29 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       
     }
  
-}`
+}`;
 
 export const GET_CAREGIVERS = gql`
-query getCaregivers {
-  getCaregivers 
+query getCaregivers(
+  $searchBy: String
+  $sortBy: Int
+  $limit: Int
+  $page: Int
+  $isActive: Boolean
+  ) {
+  getCaregiversCount(
+     searchBy: $searchBy,
+     sortBy: $sortBy,
+     limit: $limit,
+     page: $page,
+     isActive: $isActive)
+      
+  getCaregivers (
+    searchBy: $searchBy,
+    sortBy: $sortBy,
+    limit: $limit,
+    page: $page,
+    isActive: $isActive)
   ${CAREGIVER_PERSONAL_INFO_FIELDS}
 }`;
 
@@ -83,7 +100,7 @@ query getCaregiver($id:Int!){
   getCaregiver(id:$id)
   ${CAREGIVER_PERSONAL_INFO_FIELDS}
 }
-`
+`;
 
 export const ADD_CAREGIVER = gql`
 mutation addCaregiver($careGiverInput: CareGiverInput!) {
@@ -99,44 +116,44 @@ export const UPDATE_CAREGIVER = gql`
 `;
 
 export const DELETE_CAREGIVER = gql`
-mutation deleteCaregiver($id: Int!){
-  deleteCaregiver(id: $id)
-}
-`
+  mutation deleteCaregiver($id: Int!) {
+    deleteCaregiver(id: $id)
+  }
+`;
 
 export const UPDATE_BILLING_SETTINGS = gql`
-mutation addUpdateBillingSettings(
-  $userId: Int
-  $billingSettingInput: BillingSettingsInput!
-) {
-  addUpdateBillingSettings(
-    userId: $userId
-    billingSettingInput: $billingSettingInput
+  mutation addUpdateBillingSettings(
+    $userId: Int
+    $billingSettingInput: BillingSettingsInput!
   ) {
-    id
-    userId
-    feePerHour
-    nightAllowancePerHour
-    weekendAllowancePerHour
-    holidayAllowancePerHourFee
-    nextInvoiceNumber
-    statementsMaturity
-    additionalText
+    addUpdateBillingSettings(
+      userId: $userId
+      billingSettingInput: $billingSettingInput
+    ) {
+      id
+      userId
+      feePerHour
+      nightAllowancePerHour
+      weekendAllowancePerHour
+      holidayAllowancePerHourFee
+      nextInvoiceNumber
+      statementsMaturity
+      additionalText
+    }
   }
-}
 `;
 
 export const GET_BILLING_SETTINGS = gql`
-query getBillingSettings($userId: Int!) {
-  getBillingSettings(userId: $userId) {
-    id
-    userId
-    feePerHour
-    nightAllowancePerHour
-    weekendAllowancePerHour
-    holidayAllowancePerHourFee
-    nextInvoiceNumber
-    additionalText
+  query getBillingSettings($userId: Int!) {
+    getBillingSettings(userId: $userId) {
+      id
+      userId
+      feePerHour
+      nightAllowancePerHour
+      weekendAllowancePerHour
+      holidayAllowancePerHourFee
+      nextInvoiceNumber
+      additionalText
+    }
   }
-}
-`
+`;

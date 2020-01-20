@@ -78,6 +78,7 @@ const ConstitutionPersonalInfo = React.lazy(() =>
   import("../pages/CareInstitution/PersonalInfo")
 );
 const ViewCareInstitution = React.lazy(() => import('../pages/CareInstitution/ViewCareInstituion'));
+const ViewCareGiver = React.lazy(() => import('../pages/CareGiver/ViewCareGiver'));
 const ConstitutionCommissionAgreement = React.lazy(() =>
   import("../pages/CareInstitution/CommisionAgreement")
 );
@@ -189,6 +190,12 @@ const routes = [
     exact: true,
     // layout: ConstitutionLayout,
     // layoutName: 'Constitution',
+  },
+  {
+    path: AppRoutes.CARE_GIVER_VIEW,
+    name: 'Care Giver View',
+    component: ViewCareGiver,
+    exact: true
   },
   {
     path: AppRoutes.HOME,

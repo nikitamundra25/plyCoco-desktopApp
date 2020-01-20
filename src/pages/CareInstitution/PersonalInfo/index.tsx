@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "reactstrap";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import CareInstitutionContact from "./CareInstitutionContact";
@@ -21,6 +21,7 @@ import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
 import { logger, languageTranslation } from "../../../helpers";
 import { async } from "rxjs/internal/scheduler/async";
+import CareInstitutionContacts from "./CareInstitutionContacts";
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -35,6 +36,7 @@ const [
 const PersonalInformation: any = (props: any) => {
   let { id } = useParams();
   const Id: any | undefined = id;
+  const [contacts, setContacts] = useState<any>([]);
 
   const [updateCareInstitution, { error, data }] = useMutation<{
     updateCareInstitution: ICareInstitutionFormValues;
@@ -71,6 +73,30 @@ const PersonalInformation: any = (props: any) => {
       });
     }
   }, []);
+  // It calls when the response will come
+  useEffect(() => {
+    // Fetch details by care institution id
+    if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
+      logger(
+        careInstituionDetails.getCareInstitution,
+        "careInstituionDetails****"
+      );
+      const contactsData: any[] =
+        careInstituionDetails.getCareInstitution.contact;
+      contactsData.push({
+        email: "",
+        firstName: "",
+        lastName: "",
+        userName: "",
+        phoneNumber: "",
+        mobileNumber: "",
+        faxNumber: "",
+        comments: "",
+        groupAttributes: ""
+      });
+      setContacts(contactsData);
+    }
+  }, [careInstituionDetails]);
 
   const [addContact, { error: contactError, data: contactData }] = useMutation<{
     addContact: ICareInstitutionFormValues;
@@ -101,7 +127,7 @@ const PersonalInformation: any = (props: any) => {
         fax: values.faxNumber,
         mobileNumber: values.mobileNumber,
         email: values.email,
-        remark: values.remaks
+        remark: values.remark
       };
       await addContact({
         variables: {
@@ -137,19 +163,23 @@ const PersonalInformation: any = (props: any) => {
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
   ) => {
     //to set submit state to false after successful signup
+
     try {
       const careInstitutionInput: any = {
-        // gender: values && values.gender ? values.gender.value : "",
+        gender: values && values.gender ? values.gender.value : "",
         salutation: values && values.salutation ? values.salutation.value : "",
         firstName: values.firstName,
         lastName: values.lastName,
         shortName: values.shortName,
         companyName: values.companyName,
         phoneNumber: values.phoneNumber,
-        // anonymousName: values.anonymousName,
-        // anonymousName2: values.anonymousName2,
+        mobileNumber: values.mobileNumber,
+        anonymousName: values.anonymousName,
+        anonymousName2: values.anonymousName2,
+        remarksViewable: values.remarksViewable,
         street: values.street,
         zipCode: values.zipCode,
+        title: values.title,
         countryId: values && values.country ? values.country.value : "",
         stateId: values && values.state ? values.state.value : "",
         remarks: values.remarks,
@@ -157,11 +187,12 @@ const PersonalInformation: any = (props: any) => {
         email: values.email,
         userName: values.userName,
         careGiverCommission: values.careGiverCommission,
-        doctorCommission: values.doctorCommission
-        // invoiceType: values && values.invoiceType ? values.invoiceType.value : "",
-        // interval: values && values.interval ? values.interval.value : "",
-        // emailInvoice: values.emailInvoice,
-        // addressInvoice: values.addressInvoice
+        doctorCommission: values.doctorCommission,
+        invoiceType:
+          values && values.invoiceType ? values.invoiceType.value : "",
+        interval: values && values.interval ? values.interval.value : "",
+        emailInvoice: values.emailInvoice,
+        addressInvoice: values.addressInvoice
       };
       setSubmitting(false);
       toast.success(languageTranslation("CARE_INSTI_UPDATE_SUCCESS"));
@@ -196,10 +227,13 @@ const PersonalInformation: any = (props: any) => {
       const userCountry = countries.countries.filter(
         (x: any) => x.id === countryData
       );
-      userSelectedCountry = {
-        label: userCountry[0].name,
-        value: userCountry[0].id
-      };
+
+      if (userCountry && userCountry.length) {
+        userSelectedCountry = {
+          label: userCountry[0].name,
+          value: userCountry[0].id
+        };
+      }
     }
 
     const stateData = getCareInstitution.canstitution
@@ -212,11 +246,12 @@ const PersonalInformation: any = (props: any) => {
         (x: any) => x.id === stateData
       );
       console.log("userState", userState);
-
-      userSelectedCountry = {
-        label: userState[0].name,
-        value: userState[0].id
-      };
+      if (userSelectedCountry && userSelectedCountry.length) {
+        userSelectedCountry = {
+          label: userState[0].name,
+          value: userState[0].id
+        };
+      }
     }
 
     values = {
@@ -224,8 +259,15 @@ const PersonalInformation: any = (props: any) => {
       email: getCareInstitution.email,
       firstName: getCareInstitution.firstName,
       lastName: getCareInstitution.lastName,
+      gender: {
+        label: getCareInstitution ? getCareInstitution.gender : "",
+        value: getCareInstitution ? getCareInstitution.gender : ""
+      },
       userName: getCareInstitution.userName,
       phoneNumber: getCareInstitution.phoneNumber,
+      careGiverCommission: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.careGiverCommission
+        : "",
       salutation: {
         label: getCareInstitution.salutation
           ? getCareInstitution.salutation
@@ -253,6 +295,30 @@ const PersonalInformation: any = (props: any) => {
         : "",
       title: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.title
+        : "",
+      anonymousName: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.anonymousName
+        : "",
+      anonymousName2: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.anonymousName2
+        : "",
+      mobileNumber: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.mobileNumber
+        : "",
+      remarksViewable: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.remarksViewable
+        : "",
+      invoiceType: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.invoiceType
+        : "",
+      emailInvoice: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.emailInvoice
+        : "",
+      addressInvoice: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.addressInvoice
+        : "",
+      interval: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.interval
         : "",
       linkedTo: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.linkedTo
@@ -315,6 +381,7 @@ const PersonalInformation: any = (props: any) => {
     }
   }, []);
 
+  logger(contacts, "contact");
   return (
     <Form className="form-section forms-main-section">
       <Formik
@@ -326,15 +393,15 @@ const PersonalInformation: any = (props: any) => {
         )}
         validationSchema={CareInstituionValidationSchema}
       />
-
-      <Formik
+      <CareInstitutionContacts contacts={contacts} careInstId={id} />
+      {/* <Formik
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}
         children={(props: FormikProps<ICareInstitutionContact>) => (
           <CareInstitutionContact {...props} />
         )}
         validationSchema={CareInstituionContactValidationSchema}
-      />
+      /> */}
     </Form>
   );
 };

@@ -213,10 +213,10 @@ const Employee: FunctionComponent = () => {
   };
   const queryVariables = {
     page: currentPage,
-    isActive: isActive ? isActive.value : "",
-    sortBy: sortBy ? sortBy.value : 0,
-    searchBy: searchValue ? searchValue : "",
-    limit: PAGE_LIMIT
+    isActive: isActive ? isActive.value : '',
+    sortBy: sortBy && sortBy.value ? sortBy.value : 0,
+    searchBy: searchValue ? searchValue : '',
+    limit: PAGE_LIMIT,
   };
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({

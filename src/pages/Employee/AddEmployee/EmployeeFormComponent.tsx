@@ -90,7 +90,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     getStatesByCountry,
     setFieldError,
   } = props;
-  console.log(props, 'propsssssssssssssss');
 
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(

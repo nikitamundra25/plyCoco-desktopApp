@@ -20,14 +20,14 @@ import BillingSettingsFormComponent from "./BillingSettingsFormComponent";
 import QualificationFormComponent from "./QualificationFormComponent";
 import AttributeFormComponent from "./AttributesFromComponent";
 import RemarkFormComponent from "./RemarkFormComponent";
-import { Formik, FormikHelpers, Form } from "formik";
-import { Mutation } from "@apollo/react-components";
+import { Formik, FormikHelpers, Form, FormikProps } from "formik";
+import { Mutation, Query } from "@apollo/react-components";
 import { UPDATE_CAREGIVER, GET_CAREGIVER_BY_ID, UPDATE_BILLING_SETTINGS, GET_BILLING_SETTINGS } from "../../../queries/CareGiver";
 import { ICareGiverValues, IEditCareGInput, IPersonalObject, IBillingSettingsValues } from "../../../interfaces";
 import { useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
 
-export const PersonalInformation: FunctionComponent = () => {
+export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
   let history = useHistory();
   const [
@@ -47,60 +47,12 @@ export const PersonalInformation: FunctionComponent = () => {
     { id: number; careGiverInput: IPersonalObject }
   >(UPDATE_BILLING_SETTINGS);
 
-  // To get the employee details by id
-  const [
-    getCaregiverDetails,
-    { data: caregiverDetails, error: detailsError, refetch },
-  ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
-
-  const [
-    getBillingSettignsDetails,
-    { data: billingSettingDetails, error },
-  ] = useLazyQuery<any>(GET_BILLING_SETTINGS);
-
-  useEffect(() => {
-    // Fetch details by employee id
-    if (id) {
-      getCaregiverDetails({
-        variables: { id: parseInt(id) },
-      });
-      getBillingSettignsDetails({
-        variables: { userId: parseInt(id) },
-      });
-    }
-    if (caregiverDetails) {
-      assignIn(caregiverDetails, caregiverDetails.getCaregiver, caregiverDetails.getCaregiver.caregiverDetails)
-      assignIn(caregiverDetails, caregiverDetails.caregiverDetails)
-      if (caregiverDetails.getCaregiver.bankDetails) {
-        assignIn(caregiverDetails, caregiverDetails, caregiverDetails.getCaregiver.bankDetails)
-      }
-      if (caregiverDetails.getCaregiver.billingSettingDetails) {
-        assignIn(caregiverDetails, caregiverDetails, caregiverDetails.getCaregiver.billingSettingDetails)
-      } else {
-        assignIn(caregiverDetails, caregiverDetails, {
-          fee: "",
-          weekendAllowancePerHour: "",
-          holidayAllowancePerHourFee: "",
-          nightAllowancePerHour: "",
-          leasingPrice: "",
-          invoiceInterval: ""
-        })
-      }
-      delete caregiverDetails.getCaregiver;
-      delete caregiverDetails.bankDetails;
-      delete caregiverDetails.billingSettingDetails;
-      delete caregiverDetails.caregiverDetails;
-
-      setCareGiverData({
-        ...caregiverDetails
-      });
-    }
-  }, [caregiverDetails]);
 
   const handleSubmit = async (
     values: ICareGiverValues,
     { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
   ) => {
+    debugger
     //to set submit state to false after successful signup
     // const {
     //   personalInformation: {
@@ -225,7 +177,7 @@ export const PersonalInformation: FunctionComponent = () => {
     nightAllowancePerHour = "",
     leasingPrice = "",
     invoiceInterval = ""
-  } = caregiverDetails ? caregiverDetails : {}
+  } = props.getCaregiver ? props.getCaregiver : {}
 
   const values: ICareGiverValues = {
     userName,
@@ -278,7 +230,9 @@ export const PersonalInformation: FunctionComponent = () => {
   return (<Formik
     initialValues={values}
     onSubmit={handleSubmit}
-    render={(props: any) => {
+    enableReinitialize
+    render={(props: FormikProps<ICareGiverValues>) => {
+      debugger
       return (
         <Form className="form-section forms-main-section">
           <Row>
@@ -303,4 +257,56 @@ export const PersonalInformation: FunctionComponent = () => {
   />)
 
 }
-export default PersonalInformation;
+
+class GetData extends Component<RouteComponentProps, any>{
+  constructor(props: any) {
+    super(props);
+  }
+
+  formatData = (caregiverDetails: any) => {
+    assignIn(caregiverDetails, caregiverDetails.caregiverDetails)
+    assignIn(caregiverDetails, caregiverDetails.caregiverDetails)
+    if (caregiverDetails.bankDetails) {
+      assignIn(caregiverDetails, caregiverDetails, caregiverDetails.bankDetails)
+    }
+    if (caregiverDetails.billingSettingDetails) {
+      assignIn(caregiverDetails, caregiverDetails, caregiverDetails.billingSettingDetails)
+    } else {
+      assignIn(caregiverDetails, caregiverDetails, {
+        fee: "",
+        weekendAllowancePerHour: "",
+        holidayAllowancePerHourFee: "",
+        nightAllowancePerHour: "",
+        leasingPrice: "",
+        invoiceInterval: ""
+      })
+    }
+    caregiverDetails.salutation = { value: caregiverDetails.salutation, label: caregiverDetails.salutation }
+    caregiverDetails.state = { value: caregiverDetails.state, label: caregiverDetails.state }
+    caregiverDetails.legalForm = { value: caregiverDetails.legalForm, label: caregiverDetails.legalForm }
+    caregiverDetails.workZones = caregiverDetails.workZones.length ? caregiverDetails.workZones.map((wz:String)=> {
+      return { label: wz, value: wz }
+    }) : []
+    delete caregiverDetails.bankDetails;
+    delete caregiverDetails.billingSettingDetails;
+    delete caregiverDetails.caregiverDetails;
+    return caregiverDetails
+  }
+
+  render() {
+    return (
+      <Query
+        query={GET_CAREGIVER_BY_ID}
+        fetchPolicy="network-only"
+        variables={{ id: 17 }}
+      >
+        {({ loading, error, data }: any) => {
+          if (loading) return (<div>Loading</div>);
+          return (<PersonalInformation {...this.props} getCaregiver={this.formatData(data.getCaregiver)} />)
+        }}
+
+      </Query>
+    )
+  }
+}
+export default GetData;

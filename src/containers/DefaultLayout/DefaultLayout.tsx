@@ -18,6 +18,7 @@ import {
 } from "@coreui/react";
 import Loader from "../Loader/Loader";
 import Select from "react-select";
+import logo from "../../assets/img/plycoco-white.png";
 import add from "../../assets/img/add.svg";
 import save from "../../assets/img/save.svg";
 import reminder from "../../assets/img/reminder.svg";
@@ -323,6 +324,9 @@ class DefaultLayout extends Component<any, any> {
         </AppHeader>
         <div className="app-body">
           <AppSidebar fixed minimized display="lg" id="sidebar">
+            <div className="sidebar-logo">
+              <img src={logo} alt="" className="img-fluid" />
+            </div>
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense fallback={<Loader />}>

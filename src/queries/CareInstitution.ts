@@ -149,6 +149,18 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
       firstName
       surName
       contactType
+      gender
+      title
+      street
+      city
+      zip
+      countryId
+      phoneNumber
+      phoneNumber2
+      fax
+      mobileNumber
+      email
+      remark
     }
   }
 `;
@@ -159,6 +171,18 @@ const UPDATE_NEW_CONTACT_CARE_INSTITUTION = gql`
       firstName
       surName
       contactType
+      gender
+      title
+      street
+      city
+      zip
+      countryId
+      phoneNumber
+      phoneNumber2
+      fax
+      mobileNumber
+      email
+      remark
     }
   }
 `;

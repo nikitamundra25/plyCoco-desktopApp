@@ -176,7 +176,10 @@ const CotactFormComponent: any = (
                                 <div>
                                   <Input
                                     type="text"
-                                    name={"lastName"}
+                                    name={"title"}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={title}
                                     placeholder={languageTranslation("TITLE")}
                                     className="width-common"
                                   />

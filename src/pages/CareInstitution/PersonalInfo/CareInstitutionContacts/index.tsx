@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
-  FormGroup,
-  Label,
-  Input,
   Col,
-  Row,
   Nav,
   NavItem,
   NavLink,
-  Button
 } from "reactstrap";
 import { languageTranslation, logger } from "../../../../helpers";
 import { FormikProps, Field, Formik, FormikHelpers } from "formik";
@@ -49,21 +44,38 @@ const CareInstitutionContacts: any = (props: any) => {
     setActiveContact(contacts.length - 1);
   }, [contacts]);
 
+  const updateContacts = (cache: any, data: any) => {
+    console.log(contacts, data.data, 'dataaaaaaaaaaa');
+    let newContacts = contacts;
+    console.log(contacts, "contacts++++");
+    const ResctData: any = {
+      email: "",
+      firstName: "",
+      lastName: "",
+      userName: "",
+      phoneNumber: "",
+      mobileNumber: "",
+      faxNumber: "",
+      comments: "",
+      groupAttributes: ""
+    }
+    newContacts[newContacts.length - 1] = (data.data.addContact);
+    props.setContacts(newContacts);
+  }
   // Mutation to add new contact
-  const [addContact, { error: contactError, data: contactData }] = useMutation<{
+  const [addContact, { error: contactError, data: contactDataA }] = useMutation<{
     addContact: ICareInstitutionFormValues;
-  }>(ADD_NEW_CONTACT_CARE_INSTITUTION);
+  }>(ADD_NEW_CONTACT_CARE_INSTITUTION, { update: updateContacts });
 
   // Mutation to update new contact
   const [updateContact] = useMutation<{
     updateContact: ICareInstitutionFormValues;
-  }>(UPDATE_NEW_CONTACT_CARE_INSTITUTION);
+  }>(UPDATE_NEW_CONTACT_CARE_INSTITUTION, { update: updateContacts });
 
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY
   );
-
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
@@ -130,6 +142,7 @@ const CareInstitutionContacts: any = (props: any) => {
             contactInput: contactInput
           }
         });
+
         toast.success(languageTranslation("NEW_CONTACT_ADD_CARE_INSTITUTION"));
       }
     } catch (error) {
@@ -146,28 +159,74 @@ const CareInstitutionContacts: any = (props: any) => {
   const {
     email = "",
     firstName = "",
-    lastName = "",
+    surName = "",
     userName = "",
     phoneNumber = "",
+    phoneNumber2 = "",
     mobileNumber = "",
-    faxNumber = "",
+    fax = "",
     comments = "",
     groupAttributes = "",
     id = "",
-    remark = ""
+    remark = "",
+    street = "",
+    city = "",
+    zip = "",
+    title = "",
+    contactType = "",
+    gender = "",
+    salutation = "",
+    countryId = ""
   } = contacts[activeContact] ? contacts[activeContact] : {};
+
+
+  let countryData: Number;
+  countryData = countryId ? countryId
+    : "";
+  let userSelectedCountry: any = {};
+  if (data && data.countries) {
+    const userCountry = data.countries.filter(
+      (x: any) => x.id === countryData
+    );
+
+    if (userCountry && userCountry.length) {
+      userSelectedCountry = {
+        label: userCountry[0].name,
+        value: userCountry[0].id
+      };
+    }
+  }
+
 
   const contactFormValues: ICareInstitutionContact = {
     email,
     firstName,
-    lastName,
+    lastName: surName,
     userName,
     phoneNumber,
+    phoneNumber2,
     mobileNumber,
-    faxNumber,
+    faxNumber: fax,
     comments,
     groupAttributes,
+    street,
+    zipCode: zip,
+    city,
+    title,
+    contactType: {
+      label: contactType,
+      value: contactType
+    },
+    gender: {
+      label: gender,
+      value: gender
+    },
+    salutation: {
+      label: salutation,
+      value: salutation
+    },
     id,
+    country: userSelectedCountry,
     remark
   };
 

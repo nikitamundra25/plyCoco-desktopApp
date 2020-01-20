@@ -98,10 +98,18 @@ const PersonalInformation: any = (props: any) => {
   }, [careInstituionDetails]);
 
   useEffect(() => {
-    if (countries) {
-      getStatesByCountry()
+    if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
+      const { getCareInstitution } = careInstituionDetails;
+
+      getStatesByCountry({
+        variables: {
+          countryid: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.countryId
+            : ""
+        }
+      })
     }
-  }, [countries])
+  }, [careInstituionDetails])
 
   const [addContact, { error: contactError, data: contactData }] = useMutation<{
     addContact: ICareInstitutionFormValues;
@@ -245,14 +253,14 @@ const PersonalInformation: any = (props: any) => {
       ? getCareInstitution.canstitution.stateId
       : "";
     let userSelectedState: any = {};
-    console.log("statesData.states", statesData);
+    console.log("statesData.states", stateData);
     if (statesData && statesData.states) {
       const userState = statesData.states.filter(
         (x: any) => x.id === stateData
       );
       console.log("userState", userState);
-      if (userSelectedCountry && userSelectedCountry.length) {
-        userSelectedCountry = {
+      if (userState && userState.length) {
+        userSelectedState = {
           label: userState[0].name,
           value: userState[0].id
         };
@@ -401,7 +409,9 @@ const PersonalInformation: any = (props: any) => {
       <CareInstitutionContacts
         contacts={contacts}
         careInstId={id}
-        setContacts={(contacts: any) => setContacts(contacts = contacts)}
+        setContacts={(contacts: any) => {
+          setContacts(contacts = contacts)
+        }}
       />
       {/* <Formik
         initialValues={contactFormValues}

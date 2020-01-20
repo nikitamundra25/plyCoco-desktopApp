@@ -32,7 +32,7 @@ export interface ICareInstitutionFormValues {
   countryId?: string;
   stateId?: string;
   regionId?: number;
-  remarks?: [ICareInstitutionRemarks] | undefined;
+  remarks?: [ICareInstitutionRemarks] | undefined | any;
   linkedTo?: string;
   anonymousName?: string;
   anonymousName2?: string;

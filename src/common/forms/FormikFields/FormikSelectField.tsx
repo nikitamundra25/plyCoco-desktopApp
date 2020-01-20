@@ -35,7 +35,7 @@ export const FormikSelectField: any = (
 
     return (
         <div style={{ minWidth: 80, marginTop: "6px" }}>
-          <Label htmlFor={name} error={showError}>
+          <Label htmlFor={name} >
             {newLabel}
           </Label>
           <Select

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
     Card,
     CardHeader,
@@ -26,50 +26,67 @@ import {
     FieldProps,
     FormikValues
 } from "formik";
-import { CareGiverValues } from "../../../interfaces";
+import { CareGiverValues, IReactSelectInterface } from "../../../interfaces";
 import { FormikSelectField, FormikTextField } from "../../../common/forms/FormikFields";
 import { languageTranslation } from "../../../helpers";
 import FormikCheckbox from "../../../common/forms/FormikFields/FormikCheckbox";
+import { IQualifications } from "../../../interfaces/qualification";
+import { GET_QUALIFICATION_ATTRIBUTES } from "../../../queries";
+import { useQuery } from "@apollo/react-hooks";
 
 
 const QualificationFormComponent: any = (
     props: FormikProps<CareGiverValues>
 ) => {
-    const { values } = props;
-    console.log("errorrrrrssssssssss==========>", props.errors)
-    return (
-        <div className="form-inner-list-section fix-height-section">
-            <h5 className="content-title">Qualifications</h5>
-            <Row className="custom-col">
-                <Col sm={12}>
-                    <Card>
-                        <div className="form-inner-list-wrap">
-                            <h5 className="heading toggle-filter  ">
-                                Qualification
+    const { values, initialValues } = props;
+
+
+
+    const { data, loading, error, refetch } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTES);
+    const qualificationList: IReactSelectInterface[] | undefined = [];
+    if (data && data.getQualificationAttributes) {
+        data.getQualificationAttributes.forEach((quali: any) => {
+            qualificationList.push({
+                label: quali.attributeName,
+                value: quali.id
+            })
+        });
+    }
+        // props.setFieldValue("qualifications", []);
+        return (
+            <div className="form-inner-list-section fix-height-section">
+                <h5 className="content-title">Qualifications</h5>
+                <Row className="custom-col">
+                    <Col sm={12}>
+                        <Card>
+                            <div className="form-inner-list-wrap">
+                                <h5 className="heading toggle-filter  ">
+                                    Qualification
                         </h5>
-                            <div className="form-inner-list-content-wrap">
-                                <ul>
-                                    <li className="ative">Dialysis </li>
-                                    <li>Home Management</li>
-                                    <li>Nurse/carer</li>
-                                    <li> Neonatology</li>
-                                    <li>Paramedic </li>
-                                </ul>
+                                <div className="form-inner-list-content-wrap">
+                                    <ul>
+                                        <li className="ative">Dialysis </li>
+                                        {initialValues.qualifications &&
+                                            initialValues.qualifications.map(quali => {
+                                                return <li>{quali}</li>
+                                            })}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="custom-select-wrap">
-                            <select className="w-100">
-                                <option>Bernhard, Sandra</option>
-                                <option>Berlin, Irving</option>
-                                <option>Berne, Eric</option>
-                                <option>Berry, Halle</option>
-                            </select>
-                        </div>
-                    </Card>
-                </Col>
-            </Row>
-        </div>);
-}
+                            <div className="custom-select-wrap">
+                                <Field
+                                    component={FormikSelectField}
+                                    name={"selected_qualifications"}
+                                    placeholder={"Add Qualification"}
+                                    options={qualificationList}
+                                    className="w-100"
+                                />
+                            </div>
+                        </Card>
+                    </Col>
+                </Row>
+            </div>);
+    }
 
-export default QualificationFormComponent;
+    export default QualificationFormComponent;

@@ -48,10 +48,10 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<
   executiveDirector: Yup.string(),
   socialSecurityContribution: Yup.boolean(),
   taxNumber: Yup.string(),
-  remarks: Yup.object().shape<IRemark>({
+  remarks: Yup.array(Yup.object().shape<IRemark>({
     createdBy: Yup.string(),
     description: Yup.string()
-  }),
+  })),
   driversLicense: Yup.bool().default(false),
   vehicleAvailable: Yup.bool().default(false),
   driverLicenseNumber: Yup.string(),

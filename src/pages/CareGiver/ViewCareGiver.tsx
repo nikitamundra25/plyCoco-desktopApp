@@ -17,7 +17,7 @@ import { Formik, FormikProps, FormikHelpers } from "formik";
 import { GET_CAREGIVERS } from "../../queries";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import Invoices from "./Invoices/Invoices";
-import { PersonalInformation } from "./PersonalInfo/PersonalInformation";
+import  PersonalInformation  from "./PersonalInfo/PersonalInformation";
 import DocumentsUpload from "./Documents/DocumentsUpload";
 import Offer from "./Offers/Offer";
 import LoginLogs from "./Logins/CareLogin";
@@ -53,8 +53,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   let CareGireList: Object[] = [];
   if (careGiver && careGiver.getCaregivers) {
     const { getCaregivers } = careGiver;
-    const { careGiverData } = getCaregivers;
-    careGiverData.map((data: any, index: any) => {
+    getCaregivers.map((data: any, index: any) => {
       CareGireList.push({
         label: `${data.firstName}${" "}${data.lastName}`,
         value: data.id

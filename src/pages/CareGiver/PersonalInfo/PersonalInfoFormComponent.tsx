@@ -130,6 +130,7 @@ const PersonalInfoFormComponent: any = (
                                     <Col sm="5">
                                         <div>
                                             <Field
+                                                component={FormikSelectField}
                                                 name={"gender"}
                                                 placeholder={languageTranslation("GENDER")}
                                                 options={State}
@@ -178,6 +179,7 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         name={"salutation"}
+                                        multi={false}
                                         component={FormikSelectField}
                                         placeholder={languageTranslation("SALUTATION")}
                                         options={Salutation}
@@ -492,7 +494,7 @@ const PersonalInfoFormComponent: any = (
                             <Col sm="8">
                                 <div>
                                     <Field
-                                        component="text"
+                                        component={FormikTextField}
                                         name={"taxNumber"}
                                         placeholder="Tax Number"
                                         className="width-common"
@@ -604,7 +606,8 @@ const PersonalInfoFormComponent: any = (
                                     <Field
                                         name="legalForm"
                                         component={FormikSelectField}
-                                        placeholder="Legal Form" options={State} />
+                                        placeholder="Legal Form" 
+                                        options={State} />
                                 </div>
                             </Col>
                         </Row>

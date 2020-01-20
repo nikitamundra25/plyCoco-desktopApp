@@ -99,7 +99,7 @@ export const CareGiverForm: FunctionComponent = () => {
         executiveDirector,
         socialSecurityContribution,
         taxNumber,
-        remarks,
+        remarks: remarks && remarks.length ? remarks : undefined,
         workZones:
           workZones && workZones.length ? workZones.map(wz => wz.value) : [],
         status
@@ -159,7 +159,7 @@ export const CareGiverForm: FunctionComponent = () => {
     executiveDirector = "",
     socialSecurityContribution = false,
     taxNumber = "",
-    remarks = { createdBy: "", description: "" },
+    remarks = undefined,
     workZones = undefined,
     status = ""
   } = caregiverData ? caregiverData : {};

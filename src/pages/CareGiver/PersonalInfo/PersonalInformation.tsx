@@ -37,10 +37,12 @@ import {
   ICareGiverValues,
   IEditCareGInput,
   IPersonalObject,
-  IBillingSettingsValues
+  IBillingSettingsValues,
+  ICareGiverInput
 } from "../../../interfaces";
 import { useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
+import { AppRoutes } from "../../../config";
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
@@ -58,87 +60,123 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     { id: number; careGiverInput: IPersonalObject }
   >(UPDATE_BILLING_SETTINGS);
 
-  const handleSubmit = async (
+  const handleSubmit = async(
     values: ICareGiverValues,
     { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
-    debugger;
-    //to set submit state to false after successful signup
-    // const {
-    //   personalInformation: {
-    //     userName,
-    //     stateId,
-    //     registartionSince,
-    //     gender,
-    //     title,
-    //     salutation,
-    //     firstName,
-    //     lastName,
-    //     dateOfBirth,
-    //     age,
-    //     address1,
-    //     address2,
-    //     driversLicense,
-    //     driverLicenseNumber,
-    //     vehicleAvailable,
-    //     qualifications,
-    //     street,
-    //     city,
-    //     postCode,
-    //     countryId,
-    //     phoneNumber,
-    //     fax,
-    //     mobileNumber,
-    //     email,
-    //     taxNumber,
-    //     socialSecurityContribution,
-    //     // bankName: "",
-    //     iban,
-    //     password,
-    //     belongTo,
-    //     legalForm,
-    //     companyName,
-    //     registerCourt,
-    //     registrationNumber,
-    //     executiveDirector,
-    //     employed,
-    //     additionalText,
-    //     status,
-    //     remarks
-    //   },
-    //   billingSettings
-    // } = values;
-    // try {
-    //   let careGiverInput: IPersonalInfoObject = {
-    //     personalInformation
-    //   };
-    //   // Edit employee details
-    //   if (id) {
-    //     await updateCaregiver({
-    //       variables: {
-    //         id: parseInt(id),
-    //         careGiverInput,
-    //       },
-    //     });
-    //     toast.success(languageTranslation('EMPLOYEE_UPDATE_SUCCESS_MSG'));
-    //   } else {
-    //     await addEmployee({
-    //       variables: {
-    //         employeeInput,
-    //       },
-    //     });
-    //     toast.success(languageTranslation('EMPLOYEE_ADD_SUCCESS_MSG'));
-    //   }
-    //   history.push(AppRoutes.EMPLOYEE);
-    // } catch (error) {
-    //   const message = error.message
-    //     .replace('SequelizeValidationError: ', '')
-    //     .replace('Validation error: ', '')
-    //     .replace('GraphQL error: ', '');
-    //   // setFieldError('email', message);
-    //   toast.error(message);
-    // }
-    // setSubmitting(false);
+    debugger
+    // to set submit state to false after successful signup
+    const {
+      userName,
+      stateId,
+      registartionSince,
+      gender,
+      title,
+      salutation,
+      firstName,
+      lastName,
+      dateOfBirth,
+      age,
+      address1,
+      address2,
+      driversLicense,
+      driverLicenseNumber,
+      vehicleAvailable,
+      qualifications,
+      street,
+      city,
+      postCode,
+      countryId,
+      phoneNumber,
+      fax,
+      mobileNumber,
+      email,
+      taxNumber,
+      socialSecurityContribution,
+      // bankName: "",
+      iban,
+      password,
+      belongTo,
+      legalForm,
+      companyName,
+      registerCourt,
+      registrationNumber,
+      executiveDirector,
+      employed,
+      additionalText,
+      status,
+      remarks,
+      fee,
+      weekendAllowancePerHour,
+      holidayAllowancePerHourFee,
+      nightAllowancePerHour,
+      invoiceInterval,
+      leasingPrice
+    } = values;
+    try {
+      let careGiverInput: IPersonalObject = {
+        userName,
+        stateId,
+        registartionSince,
+        gender,
+        title,
+        salutation,
+        firstName,
+        lastName,
+        dateOfBirth,
+        age,
+        address1,
+        address2,
+        driversLicense,
+        driverLicenseNumber,
+        vehicleAvailable,
+        qualifications: qualifications && qualifications.length
+          ? qualifications.map(quali => quali.value)
+          : [],
+        street,
+        city,
+        postCode,
+        countryId,
+        phoneNumber,
+        fax,
+        mobileNumber,
+        email,
+        taxNumber,
+        socialSecurityContribution,
+        // bankName: "",
+        iban,
+        password,
+        belongTo,
+        legalForm: legalForm,
+        companyName,
+        registerCourt,
+        registrationNumber,
+        executiveDirector,
+        employed,
+        additionalText,
+        status,
+        remarks
+      };
+      // Edit employee details
+      if (id) {
+        await updateCaregiver({
+          variables: {
+            id: parseInt(id),
+            careGiverInput,
+          },
+        });
+        toast.success(languageTranslation('EMPLOYEE_UPDATE_SUCCESS_MSG'));
+      }
+      history.push(AppRoutes.CARE_GIVER);
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      // setFieldError('email', message);
+      toast.error(message);
+    }
+    setSubmitting(false);
   };
 
   const {
@@ -147,7 +185,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     registartionSince = "",
     gender = "",
     title = "",
-    salutation = "",
+    salutation = undefined,
     firstName = "",
     lastName = "",
     dateOfBirth = "",
@@ -157,7 +195,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     driversLicense = false,
     driverLicenseNumber = "",
     vehicleAvailable = false,
-    qualifications = [],
+    qualifications = undefined,
     street = "",
     city = "",
     postCode = "",
@@ -172,7 +210,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     iban = "",
     password = "",
     belongTo = "",
-    legalForm = "",
+    legalForm = undefined,
     companyName = "",
     registerCourt = "",
     registrationNumber = "",
@@ -180,7 +218,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     employed = false,
     additionalText = "",
     status = "active",
-    remarks = { createdBy: "", description: "" },
+    remarks = undefined,
+    workZones = undefined,
     fee = "",
     weekendAllowancePerHour = "",
     holidayAllowancePerHourFee = "",
@@ -189,7 +228,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     invoiceInterval = ""
   } = props.getCaregiver ? props.getCaregiver : {};
 
-  const values: ICareGiverValues = {
+  const initialValues: ICareGiverValues = {
     userName,
     stateId,
     registartionSince,
@@ -239,29 +278,37 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   return (
     <Formik
-      initialValues={values}
+      initialValues={initialValues}
       onSubmit={handleSubmit}
       enableReinitialize
       render={(props: FormikProps<ICareGiverValues>) => {
-        debugger;
         return (
           <Form className="form-section forms-main-section">
             <Row>
               <Col lg={"4"}>
                 <PersonalInfoFormComponent {...props} />
               </Col>
-
               <Col lg={"4"}>
                 <BillingSettingsFormComponent {...props} />
                 <QualificationFormComponent {...props} />
-
-                {/* <AttributeFormComponent {...props} /> */}
               </Col>
               <Col lg={4}>
                 <RemarkFormComponent {...props} />
               </Col>
             </Row>
-            <Button onSubmit={props.handleSubmit}>Save</Button>
+            <Col lg={"12"}>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="mandatory-text">* Required Fields</div>
+              </div>
+              <Button
+                color="primary"
+                type="submit"
+                className="btn-sumbit"
+                onClick={props.handleSubmit}
+              >
+                Save
+                </Button>
+            </Col>
           </Form>
         );
       }}
@@ -269,7 +316,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   );
 };
 
-class GetData extends Component<RouteComponentProps, any> {
+
+class GetData extends Component<any, any> {
   constructor(props: any) {
     super(props);
   }
@@ -314,8 +362,8 @@ class GetData extends Component<RouteComponentProps, any> {
     };
     caregiverDetails.workZones = caregiverDetails.workZones.length
       ? caregiverDetails.workZones.map((wz: String) => {
-          return { label: wz, value: wz };
-        })
+        return { label: wz, value: wz };
+      })
       : [];
     delete caregiverDetails.bankDetails;
     delete caregiverDetails.billingSettingDetails;
@@ -328,7 +376,7 @@ class GetData extends Component<RouteComponentProps, any> {
       <Query
         query={GET_CAREGIVER_BY_ID}
         fetchPolicy="network-only"
-        variables={{ id: 17 }}
+        variables={{ id: 1 }}
       >
         {({ loading, error, data }: any) => {
           if (loading) return <div>Loading</div>;

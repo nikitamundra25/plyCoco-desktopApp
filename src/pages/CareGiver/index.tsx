@@ -27,7 +27,7 @@ import {
 import { pullAllBy } from "lodash";
 import * as qs from "query-string";
 import { AppRoutes, PAGE_LIMIT } from "../../config";
-import { RouteComponentProps,  useLocation, useHistory } from "react-router";
+import { RouteComponentProps, useLocation, useHistory } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import { userData } from "./CareGiverData";
@@ -114,7 +114,7 @@ const CareGiver: FunctionComponent = () => {
         sortBy,
         // isActive 
       });
-      setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+      setCurrentPage(query.page ? parseInt(query.page as string) : 0);
     }
     // call query
     fetchCareGiverList({
@@ -122,7 +122,7 @@ const CareGiver: FunctionComponent = () => {
         searchBy,
         sortBy: sortByValue ? parseInt(sortByValue) : 0,
         limit: PAGE_LIMIT,
-        page: query.page ? parseInt(query.page as string) : 1,
+        page: query.page ? parseInt(query.page as string) : 0,
         isActive: query.status
           ? query.status === "active"
             ? true
@@ -139,7 +139,7 @@ const CareGiver: FunctionComponent = () => {
     let params: {
       [key: string]: any;
     } = {};
-    params.page = 1;
+    params.page = 0;
     if (searchValue) {
       params.search = searchValue;
     }
@@ -176,15 +176,18 @@ const CareGiver: FunctionComponent = () => {
         variables: {
           id: parseInt(id)
         },
-        update: async(cache) => {
-          let data : any = await cache.readQuery({ query: GET_CAREGIVERS });
+        update: async (cache) => {
+          let data: any = await cache.readQuery({ query: GET_CAREGIVERS });
           console.log("==before==", data.getCaregivers)
           pullAllBy(data.getCaregivers, [{ id }], "id");
           cache.writeQuery({
             query: GET_CAREGIVERS,
-            data: { getCaregivers: data.getCaregivers }
+            data: {
+              // getCaregiversCount: data.getCaregiversCount - 1,
+              getCaregivers: data.getCaregivers
+            }
           });
-          let dataNe : any = await cache.readQuery({ query: GET_CAREGIVERS });
+          let dataNe: any = await cache.readQuery({ query: GET_CAREGIVERS });
           console.log("==after==", dataNe.getCaregivers)
         }
       });
@@ -232,38 +235,38 @@ const CareGiver: FunctionComponent = () => {
             </div>
           </CardBody>
           <Table bordered hover responsive>
-              <thead className="thead-bg">
-                <tr>
-                  <th>
-                    <div className="table-checkbox-wrap">
-                      <div className="btn-group btn-check-action-wrap">
-                        <span className="btn">
-                          <span className="checkboxli checkbox-custom checkbox-default">
-                            <input type="checkbox" id="checkAll" className="" />
-                            <label className=""></label>
-                          </span>
+            <thead className="thead-bg">
+              <tr>
+                <th>
+                  <div className="table-checkbox-wrap">
+                    <div className="btn-group btn-check-action-wrap">
+                      <span className="btn">
+                        <span className="checkboxli checkbox-custom checkbox-default">
+                          <input type="checkbox" id="checkAll" className="" />
+                          <label className=""></label>
                         </span>
-                        <UncontrolledDropdown className="custom-dropdown">
-                          <DropdownToggle caret color="link" />
-                          <DropdownMenu>
-                            <DropdownItem>Delete</DropdownItem>
-                            <DropdownItem>
-                              {languageTranslation("ACTIVE")}
-                            </DropdownItem>
-                            <DropdownItem>Disable</DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </div>
+                      </span>
+                      <UncontrolledDropdown className="custom-dropdown">
+                        <DropdownToggle caret color="link" />
+                        <DropdownMenu>
+                          <DropdownItem>Delete</DropdownItem>
+                          <DropdownItem>
+                            {languageTranslation("ACTIVE")}
+                          </DropdownItem>
+                          <DropdownItem>Disable</DropdownItem>
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
                     </div>
-                  </th>
-                  <th>{languageTranslation("TABEL_HEAD_CG_INFO")}</th>
-                  <th>{languageTranslation("TABEL_HEAD_CG_QUALIFICATION")}</th>
-                  <th>{languageTranslation("TABEL_HEAD_CG_REGION")}</th>
-                  <th>{languageTranslation("TABEL_HEAD_CG_APPLYING_AS")}</th>
-                  <th>{languageTranslation("TABEL_HEAD_CG_STATUS")}</th>
-                  <th>{languageTranslation("TABEL_HEAD_CG_ACTION")}</th>
-                </tr>
-              </thead>
+                  </div>
+                </th>
+                <th>{languageTranslation("TABEL_HEAD_CG_INFO")}</th>
+                <th>{languageTranslation("TABEL_HEAD_CG_QUALIFICATION")}</th>
+                <th>{languageTranslation("TABEL_HEAD_CG_REGION")}</th>
+                <th>{languageTranslation("TABEL_HEAD_CG_APPLYING_AS")}</th>
+                <th>{languageTranslation("TABEL_HEAD_CG_STATUS")}</th>
+                <th>{languageTranslation("TABEL_HEAD_CG_ACTION")}</th>
+              </tr>
+            </thead>
             <tbody>
               {loading ? (
                 <tr>
@@ -273,123 +276,123 @@ const CareGiver: FunctionComponent = () => {
                 </tr>
               ) : (
                   data &&
-                  data.getCaregivers ?
-                  data.getCaregivers.map(
-                    (
-                      {
-                        id,
-                        userName,
-                        salutation,
-                        firstName,
-                        lastName,
-                        address1,
-                        address2,
-                        street,
-                        city,
-                        stateId,
-                        countryId,
-                        postCode,
-                        email,
-                        phoneNumber,
-                        qualifications,
-                        legalForm,
-                        workZones,
-                        status
-                      }: ICareGiver,
-                      index: number
-                    ) => {
-                      const replaceObj: any = {
-                        ":id": id,
-                        ":userName": userName
-                      };
-                      return (
-                        <tr key={index}>
-                          <td>
-                            <div className="table-checkbox-wrap">
-                              <div className="btn-group btn-check-action-wrap">
-                                <span className="btn">
-                                  <span className="checkboxli checkbox-custom checkbox-default">
-                                    <input
-                                      type="checkbox"
-                                      id="checkAll"
-                                      className=""
-                                    />
-                                    <label className=""></label>
+                    data.getCaregivers ?
+                    data.getCaregivers.map(
+                      (
+                        {
+                          id,
+                          userName,
+                          salutation,
+                          firstName,
+                          lastName,
+                          address1,
+                          address2,
+                          street,
+                          city,
+                          stateId,
+                          countryId,
+                          postCode,
+                          email,
+                          phoneNumber,
+                          qualifications,
+                          legalForm,
+                          workZones,
+                          status
+                        }: ICareGiver,
+                        index: number
+                      ) => {
+                        const replaceObj: any = {
+                          ":id": id,
+                          ":userName": userName
+                        };
+                        return (
+                          <tr key={index}>
+                            <td>
+                              <div className="table-checkbox-wrap">
+                                <div className="btn-group btn-check-action-wrap">
+                                  <span className="btn">
+                                    <span className="checkboxli checkbox-custom checkbox-default">
+                                      <input
+                                        type="checkbox"
+                                        id="checkAll"
+                                        className=""
+                                      />
+                                      <label className=""></label>
+                                    </span>
                                   </span>
-                                </span>
-                                <span className="checkbox-no">{index + 1}</span>
+                                  <span className="checkbox-no">{index + 1}</span>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="info-column">
-                              <div className="description-column">
-                                <div className="info-title">{`${salutation} ${firstName} ${lastName}`}</div>
-                                <p className="description-text">
-                                  <i className="fa fa-envelope mr-2"></i>
-                                  <span className="align-middle">{email}</span>
-                                </p>
-                                <p className="description-text">
-                                  <i className="fa fa-phone mr-2"></i>
-                                  <span className="align-middle">
-                                    {phoneNumber}
-                                  </span>
-                                </p>
+                            </td>
+                            <td>
+                              <div className="info-column">
+                                <div className="description-column">
+                                  <div className="info-title">{`${salutation} ${firstName} ${lastName}`}</div>
+                                  <p className="description-text">
+                                    <i className="fa fa-envelope mr-2"></i>
+                                    <span className="align-middle">{email}</span>
+                                  </p>
+                                  <p className="description-text">
+                                    <i className="fa fa-phone mr-2"></i>
+                                    <span className="align-middle">
+                                      {phoneNumber}
+                                    </span>
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="description-column  ml-0">
-                              {qualifications
-                                ? qualifications.map(qualification => (
-                                  <>
+                            </td>
+                            <td>
+                              <div className="description-column  ml-0">
+                                {qualifications
+                                  ? qualifications.map(qualification => (
+                                    <>
+                                      <p className="description-text ">
+                                        <span className="text-label mr-1">
+                                          <i className="fa fa-angle-right"></i>
+                                        </span>
+                                        <span className="align-middle">
+                                          {qualification}
+                                        </span>
+                                      </p>
+                                    </>
+                                  ))
+                                  : null}
+                              </div>
+                            </td>
+
+                            <td>
+                              <div className="description-column  ml-0">
+                                {workZones
+                                  ? workZones.map(wZ => (
                                     <p className="description-text ">
                                       <span className="text-label mr-1">
                                         <i className="fa fa-angle-right"></i>
                                       </span>
-                                      <span className="align-middle">
-                                        {qualification}
-                                      </span>
+                                      <span className="align-middle">{wZ}</span>
                                     </p>
-                                  </>
-                                ))
-                                : null}
-                            </div>
-                          </td>
-
-                          <td>
-                            <div className="description-column  ml-0">
-                              {workZones
-                                ? workZones.map(wZ => (
-                                  <p className="description-text ">
-                                    <span className="text-label mr-1">
-                                      <i className="fa fa-angle-right"></i>
-                                    </span>
-                                    <span className="align-middle">{wZ}</span>
-                                  </p>
-                                ))
-                                : null}
-                            </div>
-                          </td>
-                          <td>
-                            <div>
-                              <p className="description-text">
-                                <span className="align-middle">{legalForm}</span>
-                              </p>
-                            </div>
-                          </td>
-                          <td className="text-center">
-                            <span
-                              className={`status-btn ${
-                                index % 2 === 0 ? "active" : "inactive"
-                                }`}
-                            >
-                              {isActive ? "Active" : "Disable"}
-                            </span>
-                          </td>
-                          <td>
-                            <div className="action-btn">
-                              {/* <ButtonTooltip
+                                  ))
+                                  : null}
+                              </div>
+                            </td>
+                            <td>
+                              <div>
+                                <p className="description-text">
+                                  <span className="align-middle">{legalForm}</span>
+                                </p>
+                              </div>
+                            </td>
+                            <td className="text-center">
+                              <span
+                                className={`status-btn ${
+                                  index % 2 === 0 ? "active" : "inactive"
+                                  }`}
+                              >
+                                {isActive ? "Active" : "Disable"}
+                              </span>
+                            </td>
+                            <td>
+                              <div className="action-btn">
+                                {/* <ButtonTooltip
                                 id={`edit${index}`}
                                 message={languageTranslation("CG_EDIT")}
                                 onclick={() =>
@@ -406,50 +409,50 @@ const CareGiver: FunctionComponent = () => {
                                 {" "}
                                 <i className="fa fa-pencil"></i>
                               </ButtonTooltip> */}
-                              <ButtonTooltip
-                                id={`view${index}`}
-                                message={languageTranslation("CAREGIVER_VIEW")}
-                                onclick={() =>
-                                  history.push(
-                                    AppRoutes.PERSONAL_INFORMATION.replace(
-                                      /:id|:userName/gi,
-                                      function (matched) {
-                                        return replaceObj[matched];
-                                      }
+                                <ButtonTooltip
+                                  id={`view${index}`}
+                                  message={languageTranslation("CAREGIVER_VIEW")}
+                                  onclick={() =>
+                                    history.push(
+                                      AppRoutes.CARE_GIVER_VIEW.replace(
+                                        /:id/gi,
+                                        function (matched) {
+                                          return replaceObj[matched];
+                                        }
+                                      )
                                     )
-                                  )
-                                }
-                              >
-                                {" "}
-                                <i className="fa fa-eye"></i>
-                              </ButtonTooltip>
-                              <ButtonTooltip
-                                id={`delete${index}`}
-                                message={languageTranslation("CAREGIVER_DELETE")}
-                                onclick={() => onDelete(id)}
-                              >
-                                <i className="fa fa-trash"></i>
-                              </ButtonTooltip>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    }
-                  ): ( <tr className={"text-center"}>
-                  <td colSpan={7} className={"pt-7 pb-7"}>
-                    <h2>No data found</h2>
-                  </td>
-                </tr>)
+                                  }
+                                >
+                                  {" "}
+                                  <i className="fa fa-eye"></i>
+                                </ButtonTooltip>
+                                <ButtonTooltip
+                                  id={`delete${index}`}
+                                  message={languageTranslation("CAREGIVER_DELETE")}
+                                  onclick={() => onDelete(id)}
+                                >
+                                  <i className="fa fa-trash"></i>
+                                </ButtonTooltip>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      }
+                    ) : (<tr className={"text-center"}>
+                      <td colSpan={7} className={"pt-7 pb-7"}>
+                        <h2>No data found</h2>
+                      </td>
+                    </tr>)
                 )}
             </tbody>
           </Table>
           {data && data.getCaregiversCount && (
-          <PaginationComponent
-            totalRecords={data.getCaregiversCount}
-            currentPage={currentPage}
-            onPageChanged={onPageChanged}
-          />
-        )}
+            <PaginationComponent
+              totalRecords={data.getCaregiversCount}
+              currentPage={currentPage}
+              onPageChanged={onPageChanged}
+            />
+          )}
         </Card>
       </Col>
     </Row>

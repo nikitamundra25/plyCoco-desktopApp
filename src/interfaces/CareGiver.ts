@@ -24,7 +24,7 @@ export interface ICareGiverInput {
   fax: string;
   qualifications?: string[];
   taxNumber: string;
-  remarks?: IRemark;
+  remarks?: IRemark[];
   driversLicense: boolean;
   driverLicenseNumber: string;
   vehicleAvailable: boolean;
@@ -69,7 +69,7 @@ export interface CareGiverValues {
   registrationNumber: string;
   registerCourt: string;
   taxNumber: string;
-  remarks?: IRemark;
+  remarks?: IRemark[];
   driversLicense: boolean;
   vehicleAvailable: boolean;
   driverLicenseNumber: string;
@@ -133,9 +133,9 @@ export interface IPersonalObject {
   vehicleAvailable: boolean;
   driverLicenseNumber: string;
   socialSecurityContribution: boolean;
-  qualifications?: IReactSelectInterface[];
-  workZones?: IReactSelectInterface[];
-  remarks?: IRemark;
+  qualifications?: string[];
+  workZones?: string[];
+  remarks?: IRemark[];
   status: string;
 }
 
@@ -181,7 +181,7 @@ export interface ICareGiverValues {
   socialSecurityContribution: boolean;
   qualifications?: IReactSelectInterface[];
   workZones?: IReactSelectInterface[];
-  remarks?: IRemark;
+  remarks?: IRemark[];
   status: string;
   fee: string;
   weekendAllowancePerHour: string;
@@ -232,7 +232,7 @@ export interface IPersonalInfoObject {
   socialSecurityContribution: boolean;
   qualifications?: string[];
   workZones?: string[];
-  remarks?: IRemark;
+  remarks?: IRemark[];
   status: string;
 }
 

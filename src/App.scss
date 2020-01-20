@@ -813,9 +813,20 @@ body {
 }
 .region-input-section {
   background: $white;
-  padding: 8px 12px;
+  padding: 8px 12px 30px;
   margin-bottom: 12px;
   border: 1px solid $table_border;
+  .region-input {
+    width: 400px;
+  }
+  .required-error {
+    left: 0px !important;
+  }
+  .mandatory-text {
+    position: absolute;
+    bottom: -35px;
+    left: 0px;
+  }
   .btn-region {
     padding: 0px 30px;
     display: flex;
@@ -2756,6 +2767,8 @@ body {
 
 // custom-toaster
 .custom-toaster {
+  width: 360px;
+  font-family: $font_open_sans;
   .Toastify__toast {
     &.Toastify__toast--success {
       // background: #3ae5b9;
@@ -2766,12 +2779,13 @@ body {
       color: #000;
       border-left: 3px solid #39d7b3;
       box-shadow: 0 10px 11px 1px rgba(0, 42, 90, 0.1);
-      padding-right: 20px;
+      padding: 20px 8px;
       .Toastify__toast-body {
+        font-weight: 400;
+        font-size: $font_14;
         padding-left: 50px;
         position: relative;
-        font-size: $font_15;
-        font-weight: 600;
+        font-family: $font_open_sans;
         &::before {
           // background: url('./assets/img/') no-repeat;
           background-image: url('assets/img/success-toaster.svg');
@@ -2794,12 +2808,13 @@ body {
       background: #fff;
       border-left: 3px solid #e5453a;
       color: $black;
-      padding-right: 20px;
+      padding: 20px 8px;
       .Toastify__toast-body {
-        font-weight: 600;
+        font-weight: 400;
+        font-size: $font_14;
         padding-left: 50px;
         position: relative;
-        font-size: $font_15;
+        font-family: $font_open_sans;
         &::before {
           background: url('assets/img/error-toaster.svg') no-repeat;
           background-size: 35px;
@@ -2821,12 +2836,13 @@ body {
       border-radius: 10px;
       color: $black;
       border-left: 3px solid #efab12;
-      padding-right: 20px;
+      padding: 20px 8px;
       .Toastify__toast-body {
-        font-weight: 600;
-        font-size: $font_15;
+        font-weight: 400;
+        font-size: $font_14;
         padding-left: 50px;
         position: relative;
+        font-family: $font_open_sans;
         &::before {
           content: '';
           background: url('assets/img/warning-toaster.svg') no-repeat;
@@ -2845,7 +2861,7 @@ body {
     color: $black;
     opacity: 1;
     position: absolute;
-    right: 6px;
+    right: 10px;
     top: 4px;
     font-size: $font_12;
   }

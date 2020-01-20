@@ -55,17 +55,20 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
         </CardHeader>
         <CardBody>
           <Row>
-            <Col xs={"12"} lg={"8"} className="mx-auto"> */}
+            <div xs={"12"} lg={"8"} className="mx-auto"> */}
       <Form onSubmit={handleSubmit} className="form-section">
         <FormGroup>
-          <Row>
-            <Col sm="3">
+          <div className="d-flex align-items-center justify-content-center">
+            <div className="mr-3 position-relative ">
               <Label className="form-label col-form-label ">
                 {languageTranslation("REGION_NAME_OF_REGION_LABEL")}
                 <span className="required">*</span>
               </Label>
-            </Col>
-            <Col sm="7">
+              <div className="mandatory-text">
+                {languageTranslation("REQUIRED_FIELDS")}
+              </div>
+            </div>
+            <div className="mr-3 region-input  position-relative">
               <Input
                 type="text"
                 name={"regionName"}
@@ -85,8 +88,8 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
               {errors.regionName && touched.regionName && (
                 <div className="required-error">{errors.regionName}</div>
               )}
-            </Col>
-            <Col sm="2">
+            </div>
+            <div className="mr-3">
               <Button
                 color={"primary"}
                 disabled={isSubmitting}
@@ -100,15 +103,9 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
                 )}
                 {languageTranslation("SAVE_BUTTON")}
               </Button>
-            </Col>
-          </Row>
-        </FormGroup>
-
-        <div className="d-flex align-items-center justify-content-between">
-          <div className="mandatory-text">
-            {languageTranslation("REQUIRED_FIELDS")}
+            </div>
           </div>
-        </div>
+        </FormGroup>
       </Form>
 
       {/* </Row>

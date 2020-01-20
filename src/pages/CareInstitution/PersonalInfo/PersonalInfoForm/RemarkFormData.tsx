@@ -108,7 +108,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
             ) : null}
             {remarks && remarks.length ? (
               <>
-                {remarks.map(remark => {
+                {remarks.reverse().map((remark: ICareInstitutionRemarks) => {
                   return (
                     <div className="activity-block py-2 px-3">
                       <div className="pr-3 text-left">
@@ -133,7 +133,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
             )}
 
             {remarks && remarks.length
-              ? remarks.map(
+              ? remarks.reverse().map(
                   (remarkData: ICareInstitutionRemarks, index: number) => {
                     <div className="activity-block py-2 px-3">
                       <div className="pr-3 text-left">

@@ -725,8 +725,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         placeholder={languageTranslation(
                           "DEFAULT_QAULIFICATION"
                         )}
-                        value={state ? state : undefined}
-                        onChange={(value: any) => handleSelect(value, "state")}
+                        // value={state ? state : undefined}
+                        // onChange={(value: any) => handleSelect(value, "state")}
                         options={State}
                       />
                     </div>
@@ -771,8 +771,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation("LIKED_TO")}
-                        value={state ? state : undefined}
-                        onChange={(value: any) => handleSelect(value, "state")}
+                        // value={state ? state : undefined}
+                        // onChange={(value: any) => handleSelect(value, "state")}
                         options={State}
                       />
                     </div>

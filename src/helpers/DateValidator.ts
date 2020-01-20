@@ -29,7 +29,7 @@ export const dateValidator = (dateString: string): IDateResponse => {
   if (moment(new Date(dateString)) > moment(new Date())) {
     return {
       isValid: false,
-      message: 'Please enter a valid date',
+      message: 'Joining  Date cannot be in the future',
     };
   }
   logger(moment(new Date(dateString)) > moment(new Date()));

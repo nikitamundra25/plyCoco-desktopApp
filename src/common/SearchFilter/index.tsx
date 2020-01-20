@@ -7,9 +7,10 @@ import {
   Col,
   Row,
   UncontrolledTooltip,
+  Button,
 } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Region, SortOptions, StatusOptions } from '../../config';
+import { SortOptions, StatusOptions } from '../../config';
 import { languageTranslation, logger } from '../../helpers';
 import { FormikProps, Form } from 'formik';
 import {
@@ -92,8 +93,9 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
           <Col lg={'2'}>
             <div className='label-height'></div>
             <div className='filter-btn-wrap'>
-              <span
+              <Button
                 className='btn-filter mr-2'
+                type='submit'
                 id='search1'
                 onClick={() => {
                   handleSubmit();
@@ -103,8 +105,8 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                   {languageTranslation('SEARCH_LABEL')}
                 </UncontrolledTooltip>
                 <i className='fa fa-search'></i>
-              </span>
-              <span
+              </Button>
+              <Button
                 className='btn-filter mr-2'
                 id='reset'
                 onClick={() => {
@@ -115,7 +117,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                   {languageTranslation('RESET_LABEL')}
                 </UncontrolledTooltip>
                 <i className='fa fa-refresh '></i>
-              </span>
+              </Button>
             </div>
           </Col>
         </Row>

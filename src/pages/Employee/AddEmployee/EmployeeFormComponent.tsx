@@ -566,7 +566,11 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       "EMPLOYEE_REGION_PLACEHOLDER"
                                     )}
                                     isMulti
-                                    options={Region}
+                                    options={regionOptions}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, "region")
+                                    }
+                                    value={region ? region : undefined}
                                   />
                                 </div>
                               </Col>

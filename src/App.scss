@@ -16,7 +16,8 @@
 @font-face {
   font-family: TechniqueBRKNormal;
   src: url("./assets/fonts/techniqu-webfont.eot");
-  src: url("./assets/fonts/techniqu-webfont.eot?#iefix") format("embedded-opentype"),
+  src: url("./assets/fonts/techniqu-webfont.eot?#iefix")
+      format("embedded-opentype"),
     url("./assets/fonts/techniqu-webfont.woff") format("woff"),
     url("./assets/fonts/techniqu-webfont.ttf") format("truetype"),
     url("./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal") format("svg");
@@ -27,48 +28,65 @@
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Regular";
-  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf") format("truetype");
-  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix") format("embedded-opentype"),
-    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2") format("woff2"),
-    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff") format("woff");
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
+    format("truetype");
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
+      format("woff2"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
+      format("woff");
   //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
 }
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Medium";
   src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix") format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2") format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff") format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf") format("truetype");
+  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
+      format("truetype");
   // url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
 }
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Bold";
   src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix") format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2") format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff") format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf") format("truetype");
+  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
+      format("truetype");
   // url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
 }
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Light";
   src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix") format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2") format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff") format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf") format("truetype");
+  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
+      format("truetype");
   //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "Open Sans", sans-serif;
@@ -76,7 +94,8 @@ body {
   background: $white;
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
   }
   a {
     color: $theme_color;
@@ -98,7 +117,8 @@ body {
     font-weight: 700;
     .logo-text {
       color: $theme_color;
-      font-family: "TechniqueBRKNormal", "Gotham Narrow SSm A", "Gotham Narrow SSm B", Arial, Helvetica, sans-serif;
+      font-family: "TechniqueBRKNormal", "Gotham Narrow SSm A",
+        "Gotham Narrow SSm B", Arial, Helvetica, sans-serif;
       letter-spacing: 1px;
       margin: 0;
       font-size: 20px;
@@ -1000,6 +1020,8 @@ body {
   }
 
   .file-preview-section {
+    position: relative;
+    margin-bottom: 22px;
     .fileinput-preview {
       // border: 2px dotted $light_gray;
       padding: 0px 10px;
@@ -1056,11 +1078,11 @@ body {
   .file-error-text {
     color: $red;
     position: absolute;
-    bottom: 23px;
+    bottom: -18px;
     font-size: 12px;
     font-style: italic;
     font-weight: 500;
-    left: 15px;
+    left: 0px;
   }
   .file-img {
     width: 100px;
@@ -1222,7 +1244,7 @@ body {
     width: 100%;
   }
 }
-.one-line-text{
+.one-line-text {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1233,6 +1255,13 @@ body {
     th,
     td {
       border: 1px solid $table_border;
+    }
+  }
+
+  .no-hover-row {
+    &:hover {
+      color: #23282c;
+      background-color: $transparent;
     }
   }
 
@@ -1483,7 +1512,7 @@ body {
       font-size: $font_13;
       color: $dark_gray;
       display: inline-block;
-      flex:0 0 170px;
+      flex: 0 0 170px;
     }
     .text-value {
       font-weight: 600;
@@ -1685,9 +1714,21 @@ body {
             text-align: center;
             line-height: normal;
             background: $white;
-            background: -moz-linear-gradient(top, $white 0%, $common_inner_tab_bg 100%);
-            background: -webkit-linear-gradient(top, $white 0%, $common_inner_tab_bg 100%);
-            background: linear-gradient(to bottom, $white 0%, $common_inner_tab_bg 100%);
+            background: -moz-linear-gradient(
+              top,
+              $white 0%,
+              $common_inner_tab_bg 100%
+            );
+            background: -webkit-linear-gradient(
+              top,
+              $white 0%,
+              $common_inner_tab_bg 100%
+            );
+            background: linear-gradient(
+              to bottom,
+              $white 0%,
+              $common_inner_tab_bg 100%
+            );
             .nav-icon {
               margin-right: 8px;
               vertical-align: middle;
@@ -1699,9 +1740,21 @@ body {
               height: 32px;
               margin-top: -5px;
               background: $common_inner_tab_bg;
-              background: -moz-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
-              background: -webkit-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
-              background: linear-gradient(to bottom, $common_inner_tab_bg 0%, $white 100%);
+              background: -moz-linear-gradient(
+                top,
+                $common_inner_tab_bg 0%,
+                $white 100%
+              );
+              background: -webkit-linear-gradient(
+                top,
+                $common_inner_tab_bg 0%,
+                $white 100%
+              );
+              background: linear-gradient(
+                to bottom,
+                $common_inner_tab_bg 0%,
+                $white 100%
+              );
             }
           }
           &:hover {
@@ -1709,9 +1762,21 @@ body {
               height: 32px;
               margin-top: -5px;
               background: $common_inner_tab_bg;
-              background: -moz-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
-              background: -webkit-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
-              background: linear-gradient(to bottom, $common_inner_tab_bg 0%, $white 100%);
+              background: -moz-linear-gradient(
+                top,
+                $common_inner_tab_bg 0%,
+                $white 100%
+              );
+              background: -webkit-linear-gradient(
+                top,
+                $common_inner_tab_bg 0%,
+                $white 100%
+              );
+              background: linear-gradient(
+                to bottom,
+                $common_inner_tab_bg 0%,
+                $white 100%
+              );
             }
           }
         }
@@ -2588,11 +2653,11 @@ body {
 .custom-toaster {
   .Toastify__toast {
     &.Toastify__toast--success {
-      background: #3ae5b9;
+      // background: #3ae5b9;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
       color: $white;
-      background: #fff !important;
+      background: #fff;
       color: #000;
       border-left: 3px solid #39d7b3;
       box-shadow: 0 10px 11px 1px rgba(0, 42, 90, 0.1);
@@ -2617,10 +2682,10 @@ body {
       }
     }
     &.Toastify__toast--error {
-      background: #e5453a;
+      // background: #e5453a;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
-      background: #fff !important;
+      background: #fff;
       border-left: 3px solid #e5453a;
       color: $black;
       .Toastify__toast-body {
@@ -2642,8 +2707,8 @@ body {
     }
 
     &.Toastify__toast--warning {
-      background: #efab12;
-      background: #fff !important;
+      // background: #efab12;
+      background: #fff;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
       color: $black;
@@ -2769,21 +2834,24 @@ body {
     font-size: 15px;
   }
   .swal2-styled.swal2-confirm {
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(206, 210, 214, 0.18);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+      0 7px 10px -5px rgba(206, 210, 214, 0.18);
     background: #d4d4d4 !important;
     color: #000;
     padding: 8px 30px;
     &:hover,
     &:focus {
       outline: none;
-      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(206, 210, 214, 0.18);
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+        0 7px 10px -5px rgba(206, 210, 214, 0.18);
       background: #cbccce !important;
       color: #000;
     }
   }
   .swal2-styled.swal2-cancel {
     padding: 8px 30px;
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(221, 51, 51, 0.4);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+      0 7px 10px -5px rgba(221, 51, 51, 0.4);
   }
 }
 

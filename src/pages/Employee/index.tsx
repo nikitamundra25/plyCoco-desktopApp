@@ -355,7 +355,7 @@ const Employee: FunctionComponent = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td className={"table-loader"} colSpan={12}>
+                <td className={"table-loader"} colSpan={7}>
                   <Loader />
                 </td>
               </tr>
@@ -515,8 +515,8 @@ const Employee: FunctionComponent = () => {
                 }
               )
             ) : (
-              <tr className={"text-center"}>
-                <td colSpan={6} className={"pt-5 pb-5"}>
+              <tr className={"text-center no-hover-row"}>
+                <td colSpan={7} className={"pt-5 pb-5"}>
                   {isFilterApplied ? (
                     <NoSearchFound />
                   ) : (

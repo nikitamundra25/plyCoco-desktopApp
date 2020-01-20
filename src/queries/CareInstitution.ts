@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const GET_CARE_INSTITUTION_LIST = gql`
   query(
@@ -27,9 +27,9 @@ const GET_CARE_INSTITUTION_LIST = gql`
         canstitution {
           city
           zipCode
-          title,
-          companyName,
-          shortName,
+          title
+          companyName
+          shortName
         }
       }
     }
@@ -46,6 +46,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
       userName
       phoneNumber
       regionId
+      gender
       canstitution {
         city
         zipCode
@@ -61,6 +62,16 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         doctorCommission
         leasingPriceListId
         isArchive
+        careGiverCommission
+        anonymousName
+        anonymousName2
+        mobileNumber
+        remarksViewable
+        defaultQualification
+        invoiceType
+        emailInvoice
+        addressInvoice
+        interval
       }
       contact {
         salutation
@@ -82,6 +93,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         mobileNumber
         email
         remark
+        id
       }
     }
   }
@@ -158,5 +170,5 @@ export const CareInstitutionQueries = [
   GET_CARE_INSTITUION_BY_ID,
   UPDATE_CARE_INSTITUTION_STATUS,
   ADD_NEW_CONTACT_CARE_INSTITUTION,
-  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION
 ];

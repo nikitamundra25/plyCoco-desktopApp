@@ -76,7 +76,7 @@ const CareInstitutionConstForm: any = (
       mobileNumber,
       salutation,
       country,
-      remaks,
+      remark,
       street,
       state,
       city,
@@ -566,7 +566,7 @@ const CareInstitutionConstForm: any = (
                           name={"remaks"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={remaks}
+                          value={remark}
                           placeholder={languageTranslation("REMARKS")}
                           className="textarea-care-institution"
                           rows="4"

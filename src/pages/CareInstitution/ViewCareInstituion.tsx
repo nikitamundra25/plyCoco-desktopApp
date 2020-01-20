@@ -118,9 +118,9 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     }
   };
 
-  const handleAddNewCareInstitution = () =>{
-    props.history.push(AppRoutes.ADD_CARE_INSTITUTION)
-  }
+  const handleAddNewCareInstitution = () => {
+    props.history.push(AppRoutes.ADD_CARE_INSTITUTION);
+  };
 
   return (
     <div>
@@ -138,7 +138,10 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     options={CareInstitutionList}
                   />
                 </div>
-                <div onClick ={handleAddNewCareInstitution} className="header-nav-item">
+                <div
+                  onClick={handleAddNewCareInstitution}
+                  className="header-nav-item"
+                >
                   <span className="header-nav-icon">
                     <img src={add} alt="" />
                   </span>

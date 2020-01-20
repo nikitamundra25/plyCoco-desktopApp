@@ -1,6 +1,16 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
 
-import { Button, Card, CardHeader, CardBody, Table } from "reactstrap";
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  Table,
+  Collapse,
+  Input,
+  Row,
+  Col
+} from "reactstrap";
 import { AppRoutes, PAGE_LIMIT } from "../../config";
 import { useHistory, useLocation } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
@@ -33,6 +43,9 @@ export const Region: FunctionComponent = () => {
   });
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFilterApplied, setIsFilter] = useState<boolean>(false);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
 
   // To get emplyee list from db
   const [fetchRegionList, { data, loading }] = useLazyQuery<any>(GET_REGIONS);
@@ -143,17 +156,35 @@ export const Region: FunctionComponent = () => {
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-        <Button
-          color={"primary"}
-          className={"btn-add"}
-          id={"add-new-pm-tooltip"}
-          onClick={() => {
-            history.push(AppRoutes.ADD_REGION);
-          }}
-        >
-          <i className={"fa fa-plus"} />
-          &nbsp; {languageTranslation("ADD_NEW_REGION_BUTTON")}
-        </Button>
+        <div className="add-region-wrap">
+          <Button
+            color={"primary"}
+            className={"btn-add"}
+            id={"add-new-pm-tooltip"}
+            onClick={toggle}
+          >
+            <i className={"fa fa-plus"} />
+            &nbsp; {languageTranslation("ADD_NEW_REGION_BUTTON")}
+          </Button>
+          <Collapse isOpen={isOpen} className="region-input">
+            <Row>
+              <Col xs={12}>
+                <Input
+                  type="text"
+                  name={"regionName"}
+                  placeholder={languageTranslation(
+                    "REGION_NAME_OF_REGION_PLACEHOLDER"
+                  )}
+                />
+              </Col>
+              <Col xs={12} className="text-center mt-2">
+                <Button color="primary" className="btn-sumbit">
+                  Save
+                </Button>
+              </Col>
+            </Row>
+          </Collapse>
+        </div>
       </CardHeader>
       <CardBody>
         <div>

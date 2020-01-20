@@ -53,7 +53,6 @@ const sortFilter: any = {
 
 const Employee: FunctionComponent = () => {
   let history = useHistory();
-  console.log("above use lcoation");
 
   const { search, pathname, state } = useLocation();
   const location = useLocation();
@@ -65,7 +64,6 @@ const Employee: FunctionComponent = () => {
   const [fetchEmployeeList, { data, loading, refetch }] = useLazyQuery<any>(
     GET_EMPLOYEES
   );
-  console.log(refetch, "refecth");
 
   // Mutation to delete employee
   const [deleteEmployee, { error }] = useMutation<
@@ -86,9 +84,12 @@ const Employee: FunctionComponent = () => {
     let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
     let isActive: IReactSelectInterface | undefined = { label: "", value: "" };
     // To handle display and query param text
-    let sortByValue: any = Object.keys(sortFilter).find(
-      (key: any) => sortFilter[key] === query.sortBy
-    );
+    let sortByValue: any = "1";
+    if (query.sortBy) {
+      sortByValue = Object.keys(sortFilter).find(
+        (key: any) => sortFilter[key] === query.sortBy
+      );
+    }
     logger(sortByValue);
     logger(typeof sortByValue);
     if (sortByValue === "3") {
@@ -113,7 +114,7 @@ const Employee: FunctionComponent = () => {
                 (key: any) => sortFilter[key] === query.sortBy
               ) || ""
           }
-        : { label: "", value: "" };
+        : { label: "Newest", value: "1" };
       isActive = query.status
         ? query.status === "active"
           ? { label: languageTranslation("ACTIVE"), value: "true" }
@@ -144,11 +145,8 @@ const Employee: FunctionComponent = () => {
       }
     });
   }, [search]); // It will run when the search value gets changed
-  console.log(searchValues, "searchValuessearchValues");
 
   useEffect(() => {
-    console.log(location, "location");
-
     logger(state, "state in useEffect");
     if (state && state.isValid) {
       // const {
@@ -156,8 +154,6 @@ const Employee: FunctionComponent = () => {
       //   sortBy = undefined,
       //   isActive = undefined,
       // } = searchValues ? searchValues : {};
-      console.log(refetch);
-
       // refetch({
       //   limit: PAGE_LIMIT,
       //   page: 1,
@@ -215,7 +211,7 @@ const Employee: FunctionComponent = () => {
   const queryVariables = {
     page: currentPage,
     isActive: isActive ? isActive.value : "",
-    sortBy: sortBy && sortBy.value ? sortBy.value : 0,
+    sortBy: sortBy && sortBy.value ? sortBy.value : 1,
     searchBy: searchValue ? searchValue : "",
     limit: PAGE_LIMIT
   };
@@ -303,8 +299,6 @@ const Employee: FunctionComponent = () => {
     sortBy
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
-  console.log("datatatatatattata", data);
-
   return (
     <Card>
       <CardHeader>

@@ -391,7 +391,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col sm="8">
                                 <div>
                                   <Input
-                                    type="textarea"
+                                    type="text"
                                     name={"address1"}
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_ADDRESS1_PLACEHOLDER"
@@ -418,7 +418,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col sm="8">
                                 <div className="custom-radio-block">
                                   <Input
-                                    type="textarea"
+                                    type="text"
                                     name={"address2"}
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_ADDRESS2_PLACEHOLDER"
@@ -849,6 +849,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     "ADDITIONAL_TEXT_PLACEHOLDER"
                                   )}
                                   rows="4"
+                                  maxLength={255}
                                   onChange={handleChange}
                                   value={additionalText}
                                 />

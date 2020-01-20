@@ -27,13 +27,15 @@ const sortFilter: any = {
 export const Region: FunctionComponent = () => {
   let history = useHistory();
   const { search, pathname } = useLocation();
-  const [searchValues, setSearchValues] = useState<ISearchValues | null>();
+  const [searchValues, setSearchValues] = useState<ISearchValues | null>({
+    searchValue: "",
+    sortBy: { label: "Newest", value: "1" }
+  });
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFilterApplied, setIsFilter] = useState<boolean>(false);
 
   // To get emplyee list from db
   const [fetchRegionList, { data, loading }] = useLazyQuery<any>(GET_REGIONS);
-  console.log("data", data);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -47,16 +49,16 @@ export const Region: FunctionComponent = () => {
     logger(sortByValue);
     logger(typeof sortByValue);
     if (sortByValue === "3") {
-      sortBy.label = "Sort by A-Z";
+      sortBy.label = "A-Z";
     }
     if (sortByValue === "4") {
-      sortBy.label = "Sort by Z-A";
+      sortBy.label = "Z-A";
     }
     if (sortByValue === "2") {
-      sortBy.label = "Sort by Oldest";
+      sortBy.label = "Oldest";
     }
     if (sortByValue === "1") {
-      sortBy.label = "Sort by Newest";
+      sortBy.label = "Newest";
     }
     if (query) {
       searchBy = query.search ? (query.search as string) : "";
@@ -68,7 +70,7 @@ export const Region: FunctionComponent = () => {
                 (key: any) => sortFilter[key] === query.sortBy
               ) || ""
           }
-        : "";
+        : { label: "Newest", value: "1" };
       setSearchValues({
         searchValue: searchBy,
         sortBy

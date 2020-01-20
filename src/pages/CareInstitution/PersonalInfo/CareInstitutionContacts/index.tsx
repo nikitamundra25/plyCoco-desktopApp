@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   FormGroup,
   Label,
@@ -8,10 +8,10 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Button,
-} from 'reactstrap';
-import { languageTranslation, logger } from '../../../../helpers';
-import { FormikProps, Field, Formik, FormikHelpers } from 'formik';
+  Button
+} from "reactstrap";
+import { languageTranslation, logger } from "../../../../helpers";
+import { FormikProps, Field, Formik, FormikHelpers } from "formik";
 import {
   ICareInstitutionContact,
   IReactSelectInterface,
@@ -19,13 +19,13 @@ import {
   IStates,
   ICountry,
   IState,
-  ICareInstitutionFormValues,
-} from '../../../../interfaces';
-import { CountryQueries, CareInstitutionQueries } from '../../../../queries';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
-import { CareInstituionContactValidationSchema } from '../../../../validations';
-import CotactFormComponent from './CotactFormComponent';
-import { toast } from 'react-toastify';
+  ICareInstitutionFormValues
+} from "../../../../interfaces";
+import { CountryQueries, CareInstitutionQueries } from "../../../../queries";
+import { useQuery, useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { CareInstituionContactValidationSchema } from "../../../../validations";
+import CotactFormComponent from "./CotactFormComponent";
+import { toast } from "react-toastify";
 
 const [
   ,
@@ -35,7 +35,7 @@ const [
   ,
   ,
   ADD_NEW_CONTACT_CARE_INSTITUTION,
-  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION
 ] = CareInstitutionQueries;
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -61,30 +61,30 @@ const CareInstitutionContacts: any = (props: any) => {
 
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
+    logger(selectOption, "value");
     // setFieldValue(name, selectOption);
-    if (name === 'country') {
+    if (name === "country") {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
+      logger(statesData, "sdsdsdsd");
     }
   };
 
@@ -127,53 +127,53 @@ const CareInstitutionContacts: any = (props: any) => {
 
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
-    { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionContact>
   ) => {
-    console.log(values, 'values');
+    console.log(values, "values");
     try {
       //to set submit state to false after successful signup
       setSubmitting(false);
       const contactInput: any = {
         userId: parseInt(careInstId),
-        gender: values && values.gender ? values.gender.value : '',
+        gender: values && values.gender ? values.gender.value : "",
         title: values.title,
-        salutation: values && values.salutation ? values.salutation.value : '',
+        salutation: values && values.salutation ? values.salutation.value : "",
         firstName: values.firstName,
         surName: values.lastName,
         contactType:
-          values && values.contactType ? values.contactType.value : '',
+          values && values.contactType ? values.contactType.value : "",
         street: values.street,
         city: values.city,
         zip: values.zipCode,
-        countryId: values && values.country ? values.country.value : '',
+        countryId: values && values.country ? values.country.value : "",
         phoneNumber: values.phoneNumber,
         phoneNumber2: values.phoneNumber,
         fax: values.faxNumber,
         mobileNumber: values.mobileNumber,
         email: values.email,
-        remark: values.remaks,
+        remark: values.remark
       };
       if (id) {
         await updateContact({
           variables: {
             id: values.id ? parseInt(values.id) : null,
-            contactInput: contactInput,
-          },
+            contactInput: contactInput
+          }
         });
-        toast.success(languageTranslation('CONTACT_UPDATE_CARE_INSTITUTION'));
+        toast.success(languageTranslation("CONTACT_UPDATE_CARE_INSTITUTION"));
       } else {
         await addContact({
           variables: {
-            contactInput: contactInput,
-          },
+            contactInput: contactInput
+          }
         });
-        toast.success(languageTranslation('NEW_CONTACT_ADD_CARE_INSTITUTION'));
+        toast.success(languageTranslation("NEW_CONTACT_ADD_CARE_INSTITUTION"));
       }
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       // setFieldError('email', message);
       toast.error(message);
       logger(error);
@@ -181,16 +181,17 @@ const CareInstitutionContacts: any = (props: any) => {
   };
 
   const {
-    email = '',
-    firstName = '',
-    lastName = '',
-    userName = '',
-    phoneNumber = '',
-    mobileNumber = '',
-    faxNumber = '',
-    comments = '',
-    groupAttributes = '',
-    id = '',
+    email = "",
+    firstName = "",
+    lastName = "",
+    userName = "",
+    phoneNumber = "",
+    mobileNumber = "",
+    faxNumber = "",
+    comments = "",
+    groupAttributes = "",
+    id = "",
+    remark = ""
   } = contacts[activeContact] ? contacts[activeContact] : {};
 
   const contactFormValues: ICareInstitutionContact = {
@@ -204,23 +205,24 @@ const CareInstitutionContacts: any = (props: any) => {
     comments,
     groupAttributes,
     id,
+    remark
   };
 
   return (
     <>
-      <Col lg={12} className={'form-section'}>
-        <div className='d-flex align-items-center justify-content-between my-3'>
-          <Nav tabs className='contact-tabs'>
+      <Col lg={12} className={"form-section"}>
+        <div className="d-flex align-items-center justify-content-between my-3">
+          <Nav tabs className="contact-tabs">
             {contacts.map((contact: any, index: number) => {
               return (
                 <NavItem>
                   <NavLink
-                    className={`${index === activeContact ? 'active' : ''}`}
+                    className={`${index === activeContact ? "active" : ""}`}
                     onClick={() => setActiveContact(index)}
                   >
                     {contact && contact.firstName
                       ? contact.firstName
-                      : 'New contact'}{' '}
+                      : "New contact"}{" "}
                   </NavLink>
                 </NavItem>
               );

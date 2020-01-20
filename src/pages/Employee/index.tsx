@@ -1,15 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  Table,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
+import { Button, Card, CardHeader, CardBody, Table } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { AppBreadcrumb } from '@coreui/react';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -112,7 +102,7 @@ const Employee: FunctionComponent = () => {
             value:
               Object.keys(sortFilter).find(
                 (key: any) => sortFilter[key] === query.sortBy,
-              ) || '',
+              ) || '1',
           }
         : { label: 'Newest', value: '1' };
       isActive = query.status
@@ -172,6 +162,8 @@ const Employee: FunctionComponent = () => {
       // });
     }
   }, [location]);
+  console.log(searchValues, 'searchValues');
+
   const {
     searchValue = '',
     sortBy = undefined,
@@ -334,9 +326,7 @@ const Employee: FunctionComponent = () => {
               <th className='text-center'>
                 {languageTranslation('TABLE_HEAD_ASSIGNED_CANSTITUTION')}
               </th>
-              <th className='text-center'>
-                {languageTranslation('CREATED_DATE')}
-              </th>
+              <th>{languageTranslation('CREATED_DATE')}</th>
 
               <th className='text-center' style={{ width: '100px' }}>
                 {languageTranslation('STATUS')}
@@ -440,7 +430,7 @@ const Employee: FunctionComponent = () => {
                       <td className='text-center'>
                         <div>{0}</div>
                       </td>
-                      <td className='text-center'>
+                      <td>
                         <div className='description-column  ml-0 '>
                           {createdAt ? moment(createdAt).format('LLL') : ''}
                         </div>

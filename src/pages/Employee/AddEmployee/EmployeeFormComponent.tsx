@@ -345,7 +345,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   {languageTranslation(
                                     'EMPLOYEE_TELEPHONE_NUMBER_LABEL',
                                   )}
-                                  <span className='required'>*</span>
                                 </Label>
                               </Col>
                               <Col sm='8'>
@@ -472,7 +471,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       'EMPLOYEE_STATE_PLACEHOLDER',
                                     )}
                                     options={statesOpt}
-                                    value={state ? state : undefined}
+                                    value={
+                                      state && state.value !== '' ? state : null
+                                    }
                                     onChange={(value: any) =>
                                       handleSelect(value, 'state')
                                     }
@@ -831,12 +832,12 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Label className='form-label col-form-label '>
                                 {languageTranslation('ADDITIONAL_TEXT_LABEL')}
                                 &nbsp;
-                                <InputFieldTooltip
+                                {/* <InputFieldTooltip
                                   id='ADDITIONAL_TEXT'
                                   message={languageTranslation(
                                     'ADDITIONAL_TEXT',
                                   )}
-                                />
+                                /> */}
                               </Label>
                             </Col>
                             <Col sm='8'>

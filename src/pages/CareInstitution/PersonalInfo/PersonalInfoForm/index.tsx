@@ -1,8 +1,15 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { FormGroup, Label, Input, Col, Row, Button } from "reactstrap";
 import Select from "react-select";
 import { Formik, FormikProps, FormikHelpers } from "formik";
-import { State, Region, Salutation, Country, Gender } from "../../../../config";
+import {
+  State,
+  Region,
+  Salutation,
+  Country,
+  Gender,
+  PAGE_LIMIT
+} from "../../../../config";
 import { languageTranslation, logger } from "../../../../helpers";
 import {
   ICareInstitutionFormValues,
@@ -10,7 +17,8 @@ import {
   ICountries,
   IStates,
   ICountry,
-  IState
+  IState,
+  IRegion
 } from "../../../../interfaces";
 import { CountryQueries, CareInstitutionQueries } from "../../../../queries";
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
@@ -18,7 +26,8 @@ import CommissionFormData from "./CommissionFormData";
 import InvoiceFormData from "./InvoiceFormData";
 import QuallificationAttribute from "./QuallificationAttribute";
 import RemarkFormData from "./RemarkFormData";
-
+import { RegionQueries } from "../../../../queries/Region";
+const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 // const [GET_CARE_INSTITUTION_LIST,
 //   DELETE_CARE_INSTITUTION,
@@ -33,7 +42,18 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY
   );
-
+  const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
+    GET_REGIONS
+  );
+  const regionOptions: IReactSelectInterface[] | undefined = [];
+  if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
+    RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
+      regionOptions.push({
+        label: regionName,
+        value: id
+      })
+    );
+  }
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
@@ -73,7 +93,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       anonymousName,
       id,
       regionId,
-      createdAt
+      createdAt,
+      remarksViewable
     },
     touched,
     errors,
@@ -84,10 +105,19 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldValue,
     setFieldTouched
   } = props;
-  console.log("state", state);
+  console.log("state", errors);
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
+
+  useEffect(() => {
+    // call query
+    fetchRegionList({
+      variables: {
+        limit: PAGE_LIMIT
+      }
+    });
+  }, []);
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     logger(selectOption, "value");
@@ -102,7 +132,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   return (
     <Row className=" ">
       <Button
-        className={"save-button btn-add btn btn-primary text-white"}
+        className={"save-button btn-add btn btn-primary text-white "}
         onClick={handleSubmit}
       >
         Save
@@ -173,7 +203,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation("REGION", "STATE")}
-                        options={State}
+                        options={regionOptions}
                       />
                     </div>
                   </Col>
@@ -763,10 +793,12 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     <div>
                       <Input
                         type="textarea"
-                        name={"additionalText "}
+                        name={"remarksViewable"}
                         placeholder={languageTranslation("REMARKS")}
-                        className="textarea-custom"
+                        className="textarea-custom "
                         rows="4"
+                        value={remarksViewable}
+                        onChange={handleChange}
                       />
                     </div>
                   </Col>

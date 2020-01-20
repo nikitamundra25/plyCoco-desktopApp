@@ -9,7 +9,10 @@ import {
   Collapse,
   Input,
   Row,
-  Col
+  Col,
+  FormGroup,
+  Form,
+  Label
 } from "reactstrap";
 import { AppRoutes, PAGE_LIMIT } from "../../config";
 import { useHistory, useLocation } from "react-router";
@@ -24,6 +27,7 @@ import * as qs from "query-string";
 import { FormikHelpers, FormikProps, Formik } from "formik";
 import PaginationComponent from "../../common/Pagination";
 import { NoSearchFound } from "../../common/SearchFilter/NoSearchFound";
+import AddRegion from "./AddRegion";
 
 const [, GET_REGIONS] = RegionQueries;
 
@@ -166,27 +170,66 @@ export const Region: FunctionComponent = () => {
             <i className={"fa fa-plus"} />
             &nbsp; {languageTranslation("ADD_NEW_REGION_BUTTON")}
           </Button>
-          <Collapse isOpen={isOpen} className="region-input">
-            <Row>
-              <Col xs={12}>
-                <Input
-                  type="text"
-                  name={"regionName"}
-                  placeholder={languageTranslation(
-                    "REGION_NAME_OF_REGION_PLACEHOLDER"
-                  )}
-                />
-              </Col>
-              <Col xs={12} className="text-center mt-2">
-                <Button color="primary" className="btn-sumbit">
-                  Save
-                </Button>
-              </Col>
-            </Row>
-          </Collapse>
         </div>
       </CardHeader>
       <CardBody>
+        <Collapse isOpen={isOpen} className="region-input-section">
+          <AddRegion />
+          {/* <Form onSubmit={handleSubmit} className="form-section">
+            <FormGroup>
+              <Row>
+                <Col sm="3">
+                  <Label className="form-label col-form-label ">
+                    {languageTranslation("REGION_NAME_OF_REGION_LABEL")}
+                    <span className="required">*</span>
+                  </Label>
+                </Col>
+                <Col sm="7">
+                  <Input
+                    type="text"
+                    name={"regionName"}
+                    placeholder={languageTranslation(
+                      "REGION_NAME_OF_REGION_PLACEHOLDER"
+                    )}
+                    onChange={handleChange}
+                    maxLength="30"
+                    onBlur={handleBlur}
+                    value={regionName}
+                    className={
+                      errors.regionName && touched.regionName
+                        ? "text-input error"
+                        : "text-input"
+                    }
+                  />
+                  {errors.regionName && touched.regionName && (
+                      <div className="required-error">{errors.regionName}</div>
+                    )}
+                </Col>
+                <Col sm="2">
+                  <Button
+                    color={"primary"}
+                    // disabled={isSubmitting}
+                    className={"btn-region"}
+                    onClick={handleSubmit}
+                  >
+                    {isSubmitting === true ? (
+                      <i className="fa fa-spinner fa-spin loader" />
+                    ) : (
+                      ""
+                    )}
+                    {languageTranslation("SAVE_BUTTON")}
+                  </Button>
+                </Col>
+              </Row>
+            </FormGroup>
+
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="mandatory-text">
+                {languageTranslation("REQUIRED_FIELDS")}
+              </div>
+            </div>
+          </Form> */}
+        </Collapse>
         <div>
           <Formik
             initialValues={values}

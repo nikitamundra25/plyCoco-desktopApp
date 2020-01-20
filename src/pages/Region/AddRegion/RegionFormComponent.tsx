@@ -36,7 +36,7 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
 
   return (
     <>
-      <Card>
+      {/* <Card>
         <CardHeader>
           <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
           <Button
@@ -55,53 +55,65 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
         </CardHeader>
         <CardBody>
           <Row>
-            <Col xs={"12"} lg={"8"} className="mx-auto">
-              <Form onSubmit={handleSubmit} className="form-section">
-                <FormGroup>
-                  <Row>
-                    <Col sm="3">
-                      <Label className="form-label col-form-label ">
-                        {languageTranslation("REGION_NAME_OF_REGION_LABEL")}
-                        <span className="required">*</span>
-                      </Label>
-                    </Col>
-                    <Col sm="9">
-                      <Input
-                        type="text"
-                        name={"regionName"}
-                        placeholder={languageTranslation(
-                          "REGION_NAME_OF_REGION_PLACEHOLDER"
-                        )}
-                        onChange={handleChange}
-                        maxLength='30'
-                        onBlur={handleBlur}
-                        value={regionName}
-                        className={
-                          errors.regionName && touched.regionName
-                            ? "text-input error"
-                            : "text-input"
-                        }
-                      />
-                      {errors.regionName && touched.regionName && (
-                        <div className="required-error">
-                          {errors.regionName}
-                        </div>
-                      )}
-                    </Col>
-                  </Row>
-                </FormGroup>
-                <Col lg={"12"}>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="mandatory-text">
-                      {languageTranslation("REQUIRED_FIELDS")}
-                    </div>
-                  </div>
-                </Col>
-              </Form>
+            <Col xs={"12"} lg={"8"} className="mx-auto"> */}
+      <Form onSubmit={handleSubmit} className="form-section">
+        <FormGroup>
+          <Row>
+            <Col sm="3">
+              <Label className="form-label col-form-label ">
+                {languageTranslation("REGION_NAME_OF_REGION_LABEL")}
+                <span className="required">*</span>
+              </Label>
+            </Col>
+            <Col sm="7">
+              <Input
+                type="text"
+                name={"regionName"}
+                placeholder={languageTranslation(
+                  "REGION_NAME_OF_REGION_PLACEHOLDER"
+                )}
+                onChange={handleChange}
+                maxLength="30"
+                onBlur={handleBlur}
+                value={regionName}
+                className={
+                  errors.regionName && touched.regionName
+                    ? "text-input error"
+                    : "text-input"
+                }
+              />
+              {errors.regionName && touched.regionName && (
+                <div className="required-error">{errors.regionName}</div>
+              )}
+            </Col>
+            <Col sm="2">
+              <Button
+                color={"primary"}
+                disabled={isSubmitting}
+                className={"btn-region"}
+                onClick={handleSubmit}
+              >
+                {isSubmitting === true ? (
+                  <i className="fa fa-spinner fa-spin loader" />
+                ) : (
+                  ""
+                )}
+                {languageTranslation("SAVE_BUTTON")}
+              </Button>
             </Col>
           </Row>
-        </CardBody>
-      </Card>
+        </FormGroup>
+
+        <div className="d-flex align-items-center justify-content-between">
+          <div className="mandatory-text">
+            {languageTranslation("REQUIRED_FIELDS")}
+          </div>
+        </div>
+      </Form>
+
+      {/* </Row>
+         </CardBody>
+      </Card> */}
     </>
   );
 };

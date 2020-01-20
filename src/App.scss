@@ -800,6 +800,21 @@ body {
     height: auto;
   }
 }
+.region-input-section{
+  background: $white;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  border: 1px solid $table_border;
+  .btn-region{
+    padding: 0px 30px;
+    display: flex;
+    align-items: center;
+    height: 25px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: normal;
+  }
+}
 .rdw-editor-toolbar {
   margin-bottom: 0px;
 }

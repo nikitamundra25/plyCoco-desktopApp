@@ -33,6 +33,7 @@ import { toast } from "react-toastify";
 import defaultProfile from "../../assets/avatars/default-profile.png";
 import Loader from "../../containers/Loader/Loader";
 import { NoSearchFound } from "../../common/SearchFilter/NoSearchFound";
+import moment from "moment";
 
 const [
   ,
@@ -52,7 +53,6 @@ const sortFilter: any = {
 
 const Employee: FunctionComponent = () => {
   let history = useHistory();
-  console.log("above use lcoation");
 
   const { search, pathname, state } = useLocation();
   const location = useLocation();
@@ -64,7 +64,6 @@ const Employee: FunctionComponent = () => {
   const [fetchEmployeeList, { data, loading, refetch }] = useLazyQuery<any>(
     GET_EMPLOYEES
   );
-  console.log(refetch, "refecth");
 
   // Mutation to delete employee
   const [deleteEmployee, { error }] = useMutation<
@@ -85,22 +84,25 @@ const Employee: FunctionComponent = () => {
     let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
     let isActive: IReactSelectInterface | undefined = { label: "", value: "" };
     // To handle display and query param text
-    let sortByValue: any = Object.keys(sortFilter).find(
-      (key: any) => sortFilter[key] === query.sortBy
-    );
+    let sortByValue: any = "1";
+    if (query.sortBy) {
+      sortByValue = Object.keys(sortFilter).find(
+        (key: any) => sortFilter[key] === query.sortBy
+      );
+    }
     logger(sortByValue);
     logger(typeof sortByValue);
     if (sortByValue === "3") {
-      sortBy.label = "Sort by A-Z";
+      sortBy.label = "A-Z";
     }
     if (sortByValue === "4") {
-      sortBy.label = "Sort by Z-A";
+      sortBy.label = "Z-A";
     }
     if (sortByValue === "2") {
-      sortBy.label = "Sort by Oldest";
+      sortBy.label = "Oldest";
     }
     if (sortByValue === "1") {
-      sortBy.label = "Sort by Newest";
+      sortBy.label = "Newest";
     }
     if (query) {
       searchBy = query.search ? (query.search as string) : "";
@@ -112,7 +114,7 @@ const Employee: FunctionComponent = () => {
                 (key: any) => sortFilter[key] === query.sortBy
               ) || ""
           }
-        : { label: "", value: "" };
+        : { label: "Newest", value: "1" };
       isActive = query.status
         ? query.status === "active"
           ? { label: languageTranslation("ACTIVE"), value: "true" }
@@ -143,11 +145,8 @@ const Employee: FunctionComponent = () => {
       }
     });
   }, [search]); // It will run when the search value gets changed
-  console.log(searchValues, "searchValuessearchValues");
 
   useEffect(() => {
-    console.log(location, "location");
-
     logger(state, "state in useEffect");
     if (state && state.isValid) {
       // const {
@@ -155,8 +154,6 @@ const Employee: FunctionComponent = () => {
       //   sortBy = undefined,
       //   isActive = undefined,
       // } = searchValues ? searchValues : {};
-      console.log(refetch);
-
       // refetch({
       //   limit: PAGE_LIMIT,
       //   page: 1,
@@ -213,10 +210,10 @@ const Employee: FunctionComponent = () => {
   };
   const queryVariables = {
     page: currentPage,
-    isActive: isActive ? isActive.value : '',
+    isActive: isActive ? isActive.value : "",
     sortBy: sortBy && sortBy.value ? sortBy.value : 0,
-    searchBy: searchValue ? searchValue : '',
-    limit: PAGE_LIMIT,
+    searchBy: searchValue ? searchValue : "",
+    limit: PAGE_LIMIT
   };
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
@@ -254,6 +251,7 @@ const Employee: FunctionComponent = () => {
           variables: queryVariables,
           data: updatedData
         });
+        toast.success("Employee deleted successfully");
       } catch (error) {
         const message = error.message
           .replace("SequelizeValidationError: ", "")
@@ -301,8 +299,6 @@ const Employee: FunctionComponent = () => {
     sortBy
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
-  logger(data, "dataaaaaaaa");
-
   return (
     <Card>
       <CardHeader>
@@ -332,20 +328,19 @@ const Employee: FunctionComponent = () => {
         <Table bordered hover responsive>
           <thead className="thead-bg">
             <tr>
-              <th>
-                <div className="table-checkbox-wrap">
-                  <div className="btn-group btn-check-action-wrap">
-                    <span className="btn"></span>
-                  </div>
-                </div>
-              </th>
+              <th>S.No</th>
               <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
               <th>{languageTranslation("REGION")}</th>
-              <th>{languageTranslation("CREATED_DATE")}</th>
               <th className="text-center">
                 {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
               </th>
-              <th className="text-center">{languageTranslation("STATUS")}</th>
+              <th className="text-center">
+                {languageTranslation("CREATED_DATE")}
+              </th>
+
+              <th className="text-center" style={{ width: "100px" }}>
+                {languageTranslation("STATUS")}
+              </th>
               <th className="text-center">
                 {languageTranslation("TABLE_HEAD_ACTION")}
               </th>
@@ -354,7 +349,7 @@ const Employee: FunctionComponent = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td className={"table-loader"} colSpan={12}>
+                <td className={"table-loader"} colSpan={7}>
                   <Loader />
                 </td>
               </tr>
@@ -373,7 +368,8 @@ const Employee: FunctionComponent = () => {
                     region,
                     assignedCanstitution,
                     isActive,
-                    profileThumbnailImage
+                    profileThumbnailImage,
+                    createdAt
                   }: IEmployee,
                   index: number
                 ) => {
@@ -386,16 +382,6 @@ const Employee: FunctionComponent = () => {
                       <td>
                         <div className="table-checkbox-wrap">
                           <div className="btn-group btn-check-action-wrap">
-                            {/* <span className="btn">
-                              <span className="checkboxli checkbox-custom checkbox-default">
-                                <input
-                                  type="checkbox"
-                                  id="checkAll"
-                                  className=""
-                                />
-                                <label className=""></label>
-                              </span>
-                            </span> */}
                             <span className="checkbox-no">{count++}</span>
                           </div>
                         </div>
@@ -414,19 +400,31 @@ const Employee: FunctionComponent = () => {
                             />
                           </div>
                           <div className="description-column">
-                            <div className="info-title">
+                            <div
+                              className="info-title"
+                              onClick={() =>
+                                history.push(
+                                  AppRoutes.VIEW_EMPLOYEE.replace(
+                                    /:id|:userName/gi,
+                                    function(matched) {
+                                      return replaceObj[matched];
+                                    }
+                                  )
+                                )
+                              }
+                            >
                               {firstName ? firstName : ""}
                             </div>
                             <div className="description-text">
                               <i className="fa fa-envelope mr-2"></i>
-                              <span className="align-middle">
+                              <span className="align-middle one-line-text">
                                 {email ? email : ""}
                               </span>
                             </div>
                             {phoneNumber ? (
                               <div className="description-text">
                                 <i className="fa fa-phone mr-2"></i>
-                                <span className="align-middle">
+                                <span className="align-middle one-line-text">
                                   {phoneNumber}
                                 </span>
                               </div>
@@ -435,17 +433,17 @@ const Employee: FunctionComponent = () => {
                         </div>
                       </td>
                       <td>
-                        <div className="description-column  ml-0">
+                        <div className="description-column one-line-text  ml-0">
                           {region ? region.regionName : "-"}
-                        </div>
-                      </td>
-                      <td>
-                        <div className="description-column  ml-0">
-                          12 Dec, 2019
                         </div>
                       </td>
                       <td className="text-center">
                         <div>{0}</div>
+                      </td>
+                      <td className="text-center">
+                        <div className="description-column  ml-0 ">
+                          {createdAt ? moment(createdAt).format("LLL") : ""}
+                        </div>
                       </td>
                       <td className="text-center">
                         {isActive}
@@ -496,7 +494,6 @@ const Employee: FunctionComponent = () => {
                             {" "}
                             <i className="fa fa-eye"></i>
                           </ButtonTooltip>
-
                           <ButtonTooltip
                             id={`delete${index}`}
                             message={languageTranslation("EMP_DELETE")}
@@ -512,8 +509,8 @@ const Employee: FunctionComponent = () => {
                 }
               )
             ) : (
-              <tr className={"text-center"}>
-                <td colSpan={6} className={"pt-5 pb-5"}>
+              <tr className={"text-center no-hover-row"}>
+                <td colSpan={7} className={"pt-5 pb-5"}>
                   {isFilterApplied ? (
                     <NoSearchFound />
                   ) : (

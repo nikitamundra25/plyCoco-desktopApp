@@ -1,6 +1,19 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
 
-import { Button, Card, CardHeader, CardBody, Table } from "reactstrap";
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  Table,
+  Collapse,
+  Input,
+  Row,
+  Col,
+  FormGroup,
+  Form,
+  Label
+} from "reactstrap";
 import { AppRoutes, PAGE_LIMIT } from "../../config";
 import { useHistory, useLocation } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
@@ -13,6 +26,8 @@ import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import * as qs from "query-string";
 import { FormikHelpers, FormikProps, Formik } from "formik";
 import PaginationComponent from "../../common/Pagination";
+import { NoSearchFound } from "../../common/SearchFilter/NoSearchFound";
+import AddRegion from "./AddRegion";
 
 const [, GET_REGIONS] = RegionQueries;
 
@@ -26,12 +41,18 @@ const sortFilter: any = {
 export const Region: FunctionComponent = () => {
   let history = useHistory();
   const { search, pathname } = useLocation();
-  const [searchValues, setSearchValues] = useState<ISearchValues | null>();
+  const [searchValues, setSearchValues] = useState<ISearchValues | null>({
+    searchValue: "",
+    sortBy: { label: "Newest", value: "1" }
+  });
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isFilterApplied, setIsFilter] = useState<boolean>(false);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
 
   // To get emplyee list from db
   const [fetchRegionList, { data, loading }] = useLazyQuery<any>(GET_REGIONS);
-  console.log("data", data);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -45,16 +66,16 @@ export const Region: FunctionComponent = () => {
     logger(sortByValue);
     logger(typeof sortByValue);
     if (sortByValue === "3") {
-      sortBy.label = "Sort by A-Z";
+      sortBy.label = "A-Z";
     }
     if (sortByValue === "4") {
-      sortBy.label = "Sort by Z-A";
+      sortBy.label = "Z-A";
     }
     if (sortByValue === "2") {
-      sortBy.label = "Sort by Oldest";
+      sortBy.label = "Oldest";
     }
     if (sortByValue === "1") {
-      sortBy.label = "Sort by Newest";
+      sortBy.label = "Newest";
     }
     if (query) {
       searchBy = query.search ? (query.search as string) : "";
@@ -66,11 +87,14 @@ export const Region: FunctionComponent = () => {
                 (key: any) => sortFilter[key] === query.sortBy
               ) || ""
           }
-        : "";
+        : { label: "Newest", value: "1" };
       setSearchValues({
         searchValue: searchBy,
         sortBy
       });
+      setIsFilter(
+        searchBy !== "" || isActive !== undefined || sortBy !== undefined
+      );
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
     // call query
@@ -136,19 +160,76 @@ export const Region: FunctionComponent = () => {
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-        <Button
-          color={"primary"}
-          className={"btn-add"}
-          id={"add-new-pm-tooltip"}
-          onClick={() => {
-            history.push(AppRoutes.ADD_REGION);
-          }}
-        >
-          <i className={"fa fa-plus"} />
-          &nbsp; {languageTranslation("ADD_NEW_REGION_BUTTON")}
-        </Button>
+        <div className="add-region-wrap">
+          <Button
+            color={"primary"}
+            className={"btn-add"}
+            id={"add-new-pm-tooltip"}
+            onClick={toggle}
+          >
+            <i className={"fa fa-plus"} />
+            &nbsp; {languageTranslation("ADD_NEW_REGION_BUTTON")}
+          </Button>
+        </div>
       </CardHeader>
       <CardBody>
+        <Collapse isOpen={isOpen} className="region-input-section">
+          <AddRegion />
+          {/* <Form onSubmit={handleSubmit} className="form-section">
+            <FormGroup>
+              <Row>
+                <Col sm="3">
+                  <Label className="form-label col-form-label ">
+                    {languageTranslation("REGION_NAME_OF_REGION_LABEL")}
+                    <span className="required">*</span>
+                  </Label>
+                </Col>
+                <Col sm="7">
+                  <Input
+                    type="text"
+                    name={"regionName"}
+                    placeholder={languageTranslation(
+                      "REGION_NAME_OF_REGION_PLACEHOLDER"
+                    )}
+                    onChange={handleChange}
+                    maxLength="30"
+                    onBlur={handleBlur}
+                    value={regionName}
+                    className={
+                      errors.regionName && touched.regionName
+                        ? "text-input error"
+                        : "text-input"
+                    }
+                  />
+                  {errors.regionName && touched.regionName && (
+                      <div className="required-error">{errors.regionName}</div>
+                    )}
+                </Col>
+                <Col sm="2">
+                  <Button
+                    color={"primary"}
+                    // disabled={isSubmitting}
+                    className={"btn-region"}
+                    onClick={handleSubmit}
+                  >
+                    {isSubmitting === true ? (
+                      <i className="fa fa-spinner fa-spin loader" />
+                    ) : (
+                      ""
+                    )}
+                    {languageTranslation("SAVE_BUTTON")}
+                  </Button>
+                </Col>
+              </Row>
+            </FormGroup>
+
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="mandatory-text">
+                {languageTranslation("REQUIRED_FIELDS")}
+              </div>
+            </div>
+          </Form> */}
+        </Collapse>
         <div>
           <Formik
             initialValues={values}
@@ -180,10 +261,10 @@ export const Region: FunctionComponent = () => {
           <tbody>
             {loading ? (
               <p>Loading ...</p>
-            ) : (
-              data &&
+            ) : data &&
               data.getRegions &&
               data.getRegions.regionData &&
+              data.getRegions.regionData.length ? (
               data.getRegions.regionData.map((region: any, index: number) => {
                 return (
                   <tr key={index}>
@@ -205,16 +286,34 @@ export const Region: FunctionComponent = () => {
                   </tr>
                 );
               })
+            ) : (
+              <tr className={"text-center no-hover-row"}>
+                <td colSpan={5} className={"pt-5 pb-5"}>
+                  {isFilterApplied ? (
+                    <NoSearchFound />
+                  ) : (
+                    <div className="no-data-section">
+                      <div className="no-data-icon">
+                        <i className="icon-ban" />
+                      </div>
+                      <h4 className="mb-1">
+                        Currently there are no employee Added.{" "}
+                      </h4>
+                      <p>Please click above button to add new. </p>
+                    </div>
+                  )}
+                </td>
+              </tr>
             )}
           </tbody>
         </Table>
-        {data && data.getRegions && data.getRegions.totalCount && (
+        {data && data.getRegions && data.getRegions.totalCount ? (
           <PaginationComponent
             totalRecords={data.getRegions.totalCount}
             currentPage={currentPage}
             onPageChanged={onPageChanged}
           />
-        )}
+        ) : null}
       </CardBody>
     </Card>
   );

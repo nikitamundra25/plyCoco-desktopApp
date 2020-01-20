@@ -361,7 +361,7 @@ const PersonalInformation: any = (props: any) => {
     Data = {
       label: `${getCareInstitution.firstName} ${""} ${
         getCareInstitution.lastName
-        }`,
+      }`,
       value: Id
     };
   } else {

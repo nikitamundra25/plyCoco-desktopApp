@@ -1,5 +1,13 @@
 import React, { Component, FunctionComponent, useEffect } from "react";
-import { Card, CardHeader, CardBody, Col, Row } from "reactstrap";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Col,
+  Row,
+  Button,
+  Badge
+} from "reactstrap";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
@@ -74,77 +82,138 @@ const ViewEmployee: FunctionComponent = () => {
     ":id": employee && employee.id,
     ":userName": employee && employee.userName
   };
+  // console.log("employee", employee);
+
   return (
-    <Card>
-      <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className="w-100" />
-      </CardHeader>
-      <CardBody>
-        {data ? (
+    <>
+      <Card>
+        <CardHeader>
+          <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+          <Button
+            className="btn-add"
+            color={"primary"}
+            onClick={() =>
+              history.push(
+                AppRoutes.EDIT_EMPLOYEE.replace(/:id|:userName/gi, function(
+                  matched
+                ) {
+                  return replaceObj[matched];
+                })
+              )
+            }
+          >
+            <i className={"icon-note"} />
+            &nbsp;{languageTranslation("EDIT_EMPLOYEE_BUTTON")}
+          </Button>
+        </CardHeader>
+
+        <CardBody>
           <div className="employee-details">
-            <Row>
-              <Col lg={"4"} md={"4"} className="mb-3">
-                <div className="employee-title">
-                  {languageTranslation("PERSONAL_INFORMATION")}
-                </div>
-                <div className="user-item">
-                  {/* <Button>Edit</Button> */}
-                  {employee && employee.firstName ? (
-                    <span className="text-label">
-                      {languageTranslation("EMPLOYEE_NAME")}
-                    </span>
-                  ) : (
-                    "N/A"
-                  )}
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee && employee.firstName
-                      ? employee.firstName
-                      : "N/A"}
-                    &nbsp;&nbsp;
-                    {employee && employee.lastName ? employee.lastName : "N/A"}
-                  </span>
-                </div>
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("EMPLOYEE_EMAIL_ADDRESS_LABEL")}
-                  </span>
+            {data ? (
+              <Row className="custom-col">
+                <Col lg={"12"} className="mb-2">
+                  {/* <div className="employee-title">
+                  {languageTranslation("PROFILE_IMAGE")}
+                </div> */}
+                  {/* {employee && employee.profileImage ? ( */}
+                  {/* <div className="employee-title">
+                      {languageTranslation("PERSONAL_INFORMATION")}
+                    </div> */}
+                  <div className="user-item emloyee-detail-card">
+                    <div className="profile-wrap">
+                      <div className="profile-img-tile">
+                        <div className="emloyee-profile-img">
+                          {/* {console.log(employee.profileImage)} */}
+                          <div
+                            className="user-back-img-wrap"
+                            style={{
+                              backgroundImage: `url(${
+                                employee && employee.profileImage
+                                  ? AppConfig.FILES_ENDPOINT +
+                                    employee.profileImage
+                                  : defaultProfile
+                              })`
+                            }}
+                          >
+                            {}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="profile-text-tile color-black"></div>
+                    </div>
 
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee && employee.email ? employee.email : "N/A"}
-                  </span>
-                </div>
+                    <div className="profile-text">
+                      {/* <div className="employee-title">
+                      {languageTranslation("PERSONAL_INFORMATION")}
+                    </div> */}
+                      <div className="user-item">
+                        {/* <Button>Edit</Button> */}
+                        <span className=" text-label">
+                          {" "}
+                          {employee && employee.firstName ? (
+                            <>{languageTranslation("EMPLOYEE_NAME")}</>
+                          ) : (
+                            <>{languageTranslation("EMPLOYEE_NAME")}</>
+                          )}
+                        </span>
+                        <span className="text-value one-line-text d-flex align-items-center">
+                          :&nbsp;&nbsp;
+                          <span className="">
+                            {employee && employee.firstName
+                              ? employee.firstName
+                              : "N/A"}
+                            &nbsp;&nbsp;
+                            {employee && employee.lastName
+                              ? employee.lastName
+                              : "N/A"}
+                          </span>
+                          {/* <Badge color="" className="degination"> FreeLancer</Badge> */}
+                        </span>
+                      </div>
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("EMPLOYEE_USER_NAME_LABEL")}
+                        </span>
 
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("CONTACT_NO")}
-                  </span>
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee && employee.phoneNumber
-                      ? employee.phoneNumber
-                      : "N/A"}
-                  </span>
-                </div>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp;
+                          {employee && employee.userName
+                            ? employee.userName
+                            : "N/A"}
+                        </span>
+                      </div>
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("EMPLOYEE_EMAIL_ADDRESS_LABEL")}
+                        </span>
 
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("EMPLOYEE_USERNAME")}
-                  </span>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp;
+                          {employee && employee.email ? employee.email : "N/A"}
+                        </span>
+                      </div>
 
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee && employee.userName ? employee.userName : "N/A"}
-                  </span>
-                </div>
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("STATUS")}
-                  </span>
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {/* <span
+                      <div className="user-item">
+                        <div className="text-label">
+                          {languageTranslation(
+                            "EMPLOYEE_TELEPHONE_NUMBER_LABEL"
+                          )}
+                        </div>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp;
+                          {employee && employee.phoneNumber
+                            ? employee.phoneNumber
+                            : "N/A"}
+                        </span>
+                      </div>
+
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("STATUS")}
+                        </span>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp;
+                          {/* <span
                       className={`status-btn ${
                         employee && employee.isActive ? "active" : "inactive"
                       }`}
@@ -153,191 +222,221 @@ const ViewEmployee: FunctionComponent = () => {
                         ? languageTranslation("ACTIVE")
                         : languageTranslation("DISABLE")}
                     </span> */}
-                    {console.log(employee && employee.id, "employee.id")}
-                    <span
-                      className={`status-btn ${
-                        employee && employee.isActive ? "active" : "inactive"
-                      }`}
-                      onClick={() =>
-                        onStatusUpdate(
-                          employee && employee.id,
-                          employee && !employee.isActive
-                        )
-                      }
-                    >
-                      {employee && employee.isActive
-                        ? languageTranslation("ACTIVE")
-                        : languageTranslation("DISABLE")}
-                    </span>
-                  </span>
-                </div>
-              </Col>
-
-              <Col lg={"4"} md={"4"} className="mb-3">
-                <div className="employee-title">
-                  {languageTranslation("BANK_ACCOUNT_INFORMATION")}
-                </div>
-
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("EMPLOYEE_BANK_NAME_LABEL")}
-                  </span>
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee &&
-                    employee.bankDetails &&
-                    employee.bankDetails.bankName
-                      ? employee.bankDetails.bankName
-                      : "N/A"}
-                  </span>
-                </div>
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("BANK_ACCOUNT_HOLDER_NAME_LABEL")}
-                  </span>
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee &&
-                    employee.bankDetails &&
-                    employee.bankDetails.accountHolder
-                      ? employee.bankDetails.accountHolder
-                      : "N/A"}
-                  </span>
-                </div>
-
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("BANK_IBAN_LABEL")}
-                  </span>
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee &&
-                    employee.bankDetails &&
-                    employee.bankDetails.IBAN
-                      ? employee.bankDetails.IBAN
-                      : "N/A"}
-                  </span>
-                </div>
-
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("BANK_BIC_LABEL")}
-                  </span>
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee &&
-                    employee.bankDetails &&
-                    employee.bankDetails.BIC
-                      ? employee.bankDetails.BIC
-                      : "N/A"}
-                  </span>
-                </div>
-
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("ADDITIONAL_TEXT_LABEL")}
-                  </span>
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee &&
-                    employee.bankDetails &&
-                    employee.bankDetails.additionalText
-                      ? employee.bankDetails.additionalText
-                      : "N/A"}
-                  </span>
-                </div>
-              </Col>
-
-              <Col lg={"4"} md={"4"} className="mb-4">
-                {/* <div className="employee-title">
-                  {languageTranslation("PROFILE_IMAGE")}
-                </div> */}
-                {/* {employee && employee.profileImage ? ( */}
-                <div className="user-item">
-                  <button
-                    onClick={() =>
-                      history.push(
-                        AppRoutes.EDIT_EMPLOYEE.replace(
-                          /:id|:userName/gi,
-                          function(matched) {
-                            return replaceObj[matched];
-                          }
-                        )
-                      )
-                    }
-                  >
-                    Edit
-                  </button>
-
-                  <span className="text-value">
-                    <div className="profile-img">
-                      <img
-                        src={`${
-                          employee && employee.profileImage
-                            ? `${AppConfig.FILES_ENDPOINT}${employee.profileImage}`
-                            : defaultProfile
-                        }`}
-                        className="img-fluid"
-                        alt=""
-                      />
+                          {console.log(employee && employee.id, "employee.id")}
+                          <span
+                            className={`status-btn text-center ${
+                              employee && employee.isActive
+                                ? "active"
+                                : "inactive"
+                            }`}
+                            onClick={() =>
+                              onStatusUpdate(
+                                employee && employee.id,
+                                employee && !employee.isActive
+                              )
+                            }
+                          >
+                            {employee && employee.isActive
+                              ? languageTranslation("ACTIVE")
+                              : languageTranslation("DISABLE")}
+                          </span>
+                        </span>
+                      </div>
                     </div>
-                  </span>
-                </div>
-              </Col>
 
-              <Col lg={"12"} md={"12"}>
-                <div className="employee-title">
-                  {languageTranslation("OTHER_INFORMATION")}
-                </div>
-              </Col>
-              <Col lg={"6"} md={"6"} className="mb-3">
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("REGION")}
-                  </span>
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee && employee.region && employee.region.regionName
-                      ? employee.region.regionName
-                      : "N/A"}
-                  </span>
-                </div>
+                    <div className="profile-text">
+                      <div className="user-item">
+                        <span className=" text-label">
+                          {languageTranslation("EMPLOYEE_ADDRESS1_LABEL")}
+                        </span>
+                        <span className="text-value one-line-text d-flex align-items-center">
+                          :&nbsp;&nbsp; 112, Neelkanth colony
+                        </span>
+                      </div>
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("EMPLOYEE_ADDRESS2_LABEL")}
+                        </span>
 
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("EMPLOYEE_JOINING_DATE_LABEL")}
-                  </span>
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee &&
-                    employee.employee &&
-                    employee.employee.joiningDate
-                      ? moment(employee.employee.joiningDate).format(
-                          "Do MMM, YYYY"
-                        )
-                      : "N/A"}
-                  </span>
-                </div>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp; 30 A, high Street
+                        </span>
+                      </div>
 
-                <div className="user-item">
-                  <span className="text-label">
-                    {languageTranslation("ADDRESS")}
-                  </span>
-                  <span className="text-value">
-                    :&nbsp;&nbsp;
-                    {employee && employee.employee && employee.employee.address1
-                      ? employee.employee.address1
-                      : "N/A"}
-                  </span>
-                </div>
-              </Col>
-            </Row>
+                      <div className="user-item">
+                        <div className="text-label">
+                          {languageTranslation("COUNTRY")}
+                        </div>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp; India
+                        </span>
+                      </div>
+
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("EMPLOYEE_STATE_LABEL")}
+                        </span>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp; Madhya Pradesh
+                        </span>
+                      </div>
+
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("EMPLOYEE_CITY_LABEL")}
+                        </span>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp; Indore
+                        </span>
+                      </div>
+
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("EMPLOYEE_ZIP_LABEL")}
+                        </span>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp; 46367
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+
+                <Col lg={"6"} md={"6"}>
+                  <div className="emloyee-detail-card h-100">
+                    <div className="employee-title">
+                      {languageTranslation("BANK_ACCOUNT_INFORMATION")}
+                    </div>
+
+                    <div className="user-item">
+                      <span className="text-label">
+                        {languageTranslation("EMPLOYEE_BANK_NAME_LABEL")}
+                      </span>
+                      <span className="text-value one-line-text">
+                        :&nbsp;&nbsp;
+                        {employee &&
+                        employee.bankDetails &&
+                        employee.bankDetails.bankName
+                          ? employee.bankDetails.bankName
+                          : "N/A"}
+                      </span>
+                    </div>
+                    <div className="user-item">
+                      <span className="text-label">
+                        {languageTranslation("BANK_ACCOUNT_HOLDER_NAME_LABEL")}
+                      </span>
+                      <span className="text-value one-line-text">
+                        :&nbsp;&nbsp;
+                        {employee &&
+                        employee.bankDetails &&
+                        employee.bankDetails.accountHolder
+                          ? employee.bankDetails.accountHolder
+                          : "N/A"}
+                      </span>
+                    </div>
+
+                    <div className="user-item">
+                      <span className="text-label">
+                        {languageTranslation("BANK_IBAN_LABEL")}
+                      </span>
+                      <span className="text-value one-line-text">
+                        :&nbsp;&nbsp;
+                        {employee &&
+                        employee.bankDetails &&
+                        employee.bankDetails.IBAN
+                          ? employee.bankDetails.IBAN
+                          : "N/A"}
+                      </span>
+                    </div>
+
+                    <div className="user-item">
+                      <span className="text-label">
+                        {languageTranslation("BANK_BIC_LABEL")}
+                      </span>
+                      <span className="text-value one-line-text">
+                        :&nbsp;&nbsp;
+                        {employee &&
+                        employee.bankDetails &&
+                        employee.bankDetails.BIC
+                          ? employee.bankDetails.BIC
+                          : "N/A"}
+                      </span>
+                    </div>
+
+                    <div className="user-item">
+                      <span className="text-label">
+                        {languageTranslation("ADDITIONAL_TEXT_LABEL")}
+                      </span>
+                      <span className="text-value one-line-text">
+                        :&nbsp;&nbsp;
+                        {employee &&
+                        employee.bankDetails &&
+                        employee.bankDetails.additionalText
+                          ? employee.bankDetails.additionalText
+                          : "N/A"}
+                      </span>
+                    </div>
+                  </div>
+                </Col>
+                <Col lg={"6"} md={"6"}>
+                  <div className="emloyee-detail-card  h-100">
+                    <div className="employee-title">
+                      {languageTranslation("OTHER_INFORMATION")}
+                    </div>
+
+                    <div className="user-item">
+                      <span className="text-label">
+                        {languageTranslation("EMPLOYEE_JOINING_DATE_LABEL")}
+                      </span>
+                      <span className="text-value one-line-text">
+                        :&nbsp;&nbsp;
+                        {employee &&
+                        employee.employee &&
+                        employee.employee.joiningDate
+                          ? moment(employee.employee.joiningDate).format(
+                              "Do MMM, YYYY"
+                            )
+                          : "N/A"}
+                      </span>
+                    </div>
+
+                    <div className="user-item">
+                      <span className="text-label">
+                        {languageTranslation("REGION")}
+                      </span>
+                      <span className="text-value one-line-text">
+                        :&nbsp;&nbsp;
+                        {employee &&
+                        employee.region &&
+                        employee.region.regionName
+                          ? employee.region.regionName
+                          : "N/A"}
+                      </span>
+                    </div>
+
+                    {/* <div className="user-item">
+                      <span className="text-label">
+                        {languageTranslation("ADDRESS")}
+                      </span>
+                      <span className="text-value one-line-text">
+                        :&nbsp;&nbsp;
+                        {employee &&
+                        employee.employee &&
+                        employee.employee.address1
+                          ? employee.employee.address1
+                          : "N/A"}
+                      </span>
+                    </div> */}
+                  </div>
+                </Col>
+              </Row>
+            ) : (
+              <h4 className="text-center">No Data Found</h4>
+            )}
           </div>
-        ) : (
-          <h2>No Data Found</h2>
-        )}
-      </CardBody>
-    </Card>
+        </CardBody>
+      </Card>
+    </>
   );
 };
 

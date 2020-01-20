@@ -21,6 +21,7 @@ export interface IEmployeeFormValues {
   image?: File;
   city: string;
   profileThumbnailImage?: string;
+  profileImage?: string;
 }
 
 export interface IEmployeeInput {
@@ -43,8 +44,9 @@ export interface IEmployeeInput {
   additionalText: string;
   IBAN: string;
   BIC: string;
-  profileImage?: File;
+  image?: File;
   profileThumbnailImage?: string;
+  profileImage?: string;
 }
 
 export interface IAddEmployeeRes {
@@ -61,4 +63,5 @@ export interface IEmployee {
   assignedCanstitution: string;
   isActive: boolean;
   profileThumbnailImage: string;
+  createdAt: string;
 }

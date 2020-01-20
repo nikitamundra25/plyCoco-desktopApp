@@ -37,8 +37,8 @@ const [
 
 const CareInstitutionSidebar = React.lazy(() =>
   import(
-    '../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout'
-  ),
+    "../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout"
+  )
 );
 
 const CareInstitutionTabs = careInstitutionRoutes;

@@ -44,6 +44,7 @@ const GET_EMPLOYEE_BY_ID = gql`
       profileImage
       isActive
       profileThumbnailImage
+      profileImage
       employee {
         address1
         address2
@@ -77,6 +78,7 @@ const UPDATE_EMPLOYEE = gql`
       email
       phoneNumber
       profileThumbnailImage
+      profileImage
       employee {
         joiningDate
         employeeCustomId
@@ -127,6 +129,7 @@ const GET_EMPLOYEES = gql`
         isActive
         profileImage
         profileThumbnailImage
+        createdAt
         employee {
           joiningDate
           employeeCustomId

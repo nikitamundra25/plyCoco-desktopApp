@@ -1,4 +1,6 @@
 import { IDateResponse } from '../interfaces';
+import moment from 'moment';
+import { logger } from './Logger';
 
 export const dateValidator = (dateString: string): IDateResponse => {
   const date = dateString ? dateString.replace(/\D+/g, '') : '';
@@ -24,6 +26,13 @@ export const dateValidator = (dateString: string): IDateResponse => {
       message: 'Please enter a valid month',
     };
   }
+  if (moment(new Date(dateString)) > moment(new Date())) {
+    return {
+      isValid: false,
+      message: 'Please enter a valid date',
+    };
+  }
+  logger(moment(new Date(dateString)) > moment(new Date()));
 
   if (year < getDifference || year > getCurrentYear)
     return {

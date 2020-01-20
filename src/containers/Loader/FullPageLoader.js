@@ -13,7 +13,7 @@ const FullPageLoader = () => {
             cy="50"
             r="20"
             fill="none"
-            stroke="#4caa60"
+            stroke="#d99119"
             strokeWidth="2.5"
           />
         </svg>

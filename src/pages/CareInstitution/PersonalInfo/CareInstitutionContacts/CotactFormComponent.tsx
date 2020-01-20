@@ -99,11 +99,11 @@ const CotactFormComponent: any = (
   } = props;
 
   return (
-    <Col lg={12} className={"form-section"}>
+    <div className={"form-section position-relative"}>
       <Button
         onClick={handleSubmit}
         color={"primary"}
-        className={"btn-save save-button"}
+        className={"btn-contact-save save-button"}
       >
         {id
           ? languageTranslation("UPDATE_BUTTON")
@@ -142,7 +142,7 @@ const CotactFormComponent: any = (
                   ) : null}
                 </FormGroup>
               </Col>
-              <Col lg={"12"}>
+              {/* <Col lg={"12"}>
                 <FormGroup>
                   <Row>
                     <Col sm="4">
@@ -192,7 +192,54 @@ const CotactFormComponent: any = (
                     </Col>
                   </Row>
                 </FormGroup>
+              </Col> */}
+
+              <Col lg={"12"}>
+                <FormGroup>
+                  <Row>
+                    <Col sm="4">
+                      <Label className="form-label col-form-label">
+                        {languageTranslation("GENDER")}
+                      </Label>
+                    </Col>
+                    <Col sm="8">
+                      <div>
+                        <Select
+                          placeholder={languageTranslation("GENDER")}
+                          value={gender ? gender : undefined}
+                          onChange={(value: any) =>
+                            handleSelect(value, "gender")
+                          }
+                          options={Gender}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </FormGroup>
               </Col>
+
+              <Col lg={"12"}>
+                <FormGroup>
+                  <Row>
+                    <Col sm="4">
+                      <Label className="form-label col-form-label">
+                        {languageTranslation("TITLE")}
+                      </Label>
+                    </Col>
+                    <Col sm="8">
+                      <div>
+                        <Input
+                          type="text"
+                          name={"lastName"}
+                          placeholder={languageTranslation("TITLE")}
+                          className="width-common"
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </FormGroup>
+              </Col>
+
               <Col lg={"12"}>
                 <FormGroup>
                   <Row>
@@ -552,7 +599,9 @@ const CotactFormComponent: any = (
 
           <div className="form-flex-tile">
             <div className="d-flex align-items-center justify-content-between">
-              <div>{languageTranslation("ADD_REMARKS")} </div>
+              <div className="font-weight-bold">
+                {languageTranslation("ADD_REMARKS")}{" "}
+              </div>
               <div className="edit-remark mb-1">
                 <i className="icon-note" />
               </div>
@@ -612,7 +661,7 @@ const CotactFormComponent: any = (
           </div>
         </div>
       </div>
-    </Col>
+    </div>
   );
 };
 export default CotactFormComponent;

@@ -1577,19 +1577,19 @@ body {
       flex: 1 1 100%;
     }
     .profile-wrap {
-      margin-right: 25px;
+      margin-right: 30px;
       flex: 0 0 125px;
 
       .emloyee-profile-img {
         width: 120px;
         height: 120px;
-        border-radius: 0%;
+        border-radius: 3px;
         margin: auto;
         overflow: hidden;
         position: relative;
         background-size: cover;
         background-position: 50%;
-        box-shadow: 0 0 0 1px #b5b5b5;
+        // box-shadow: 0 0 0 1px #b5b5b5;
       }
 
       .user-back-img-wrap {

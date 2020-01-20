@@ -244,7 +244,7 @@ export const Region: FunctionComponent = () => {
         <Table bordered hover responsive>
           <thead className="thead-bg">
             <tr>
-              <th>S no.</th>
+              <th>{languageTranslation("S_NO")}</th>
               <th>{languageTranslation("REGION_NAME")}</th>
               <th className="text-center">
                 {languageTranslation("NUMBER_OF_CANSTITUTION")}

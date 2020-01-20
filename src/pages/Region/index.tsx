@@ -184,7 +184,7 @@ export const Region: FunctionComponent = () => {
         <Table bordered hover responsive>
           <thead className='thead-bg'>
             <tr>
-              <th>{languageTranslation('S_NO')}</th>
+              <th className={'text-center'}>{languageTranslation('S_NO')}</th>
               <th>{languageTranslation('REGION_NAME')}</th>
               <th className='text-center'>
                 {languageTranslation('NUMBER_OF_CANSTITUTION')}
@@ -208,8 +208,8 @@ export const Region: FunctionComponent = () => {
               data.getRegions.regionData.map((region: any, index: number) => {
                 return (
                   <tr key={index}>
-                    <td>{count++}</td>
-                    <td>{region.regionName}</td>
+                    <td className={'text-center'}>{count++}</td>
+                    <td className={'text-capitalize'}>{region.regionName}</td>
                     <td className='text-center'>0</td>
                     <td className='text-center'>0</td>
                     <td className='text-center'>0</td>

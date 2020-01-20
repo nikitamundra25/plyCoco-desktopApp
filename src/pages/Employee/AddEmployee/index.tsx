@@ -225,7 +225,9 @@ export const EmployeeForm: FunctionComponent = () => {
         state: state && state.label ? state.label : null,
         regionId:
           region && region.length
-            ? region.map((region: IReactSelectInterface) => region.value)
+            ? `{${region
+                .map((region: IReactSelectInterface) => region.value)
+                .join(', ')}}`
             : null,
         city,
         zipCode: zip,

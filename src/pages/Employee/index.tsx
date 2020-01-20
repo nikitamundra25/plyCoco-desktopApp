@@ -320,7 +320,7 @@ const Employee: FunctionComponent = () => {
         <Table bordered hover responsive>
           <thead className='thead-bg'>
             <tr>
-              <th>S.No</th>
+              <th className={'text-center'}>{languageTranslation('S_NO')}</th>
               <th>{languageTranslation('TABLE_HEAD_EMP_INFO')}</th>
               <th>{languageTranslation('REGION')}</th>
               <th className='text-center'>
@@ -369,7 +369,7 @@ const Employee: FunctionComponent = () => {
                   };
                   return (
                     <tr key={index}>
-                      <td>
+                      <td className={'text-center'}>
                         <div className='table-checkbox-wrap'>
                           <div className='btn-group btn-check-action-wrap'>
                             <span className='checkbox-no'>{count++}</span>
@@ -391,7 +391,7 @@ const Employee: FunctionComponent = () => {
                           </div>
                           <div className='description-column'>
                             <div
-                              className='info-title'
+                              className='info-title text-capitalize'
                               onClick={() =>
                                 history.push(
                                   AppRoutes.VIEW_EMPLOYEE.replace(

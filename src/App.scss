@@ -2766,8 +2766,9 @@ body {
       color: #000;
       border-left: 3px solid #39d7b3;
       box-shadow: 0 10px 11px 1px rgba(0, 42, 90, 0.1);
+      padding-right: 20px;
       .Toastify__toast-body {
-        padding-left: 55px;
+        padding-left: 50px;
         position: relative;
         font-size: $font_15;
         font-weight: 600;
@@ -2793,10 +2794,12 @@ body {
       background: #fff;
       border-left: 3px solid #e5453a;
       color: $black;
+      padding-right: 20px;
       .Toastify__toast-body {
         font-weight: 600;
-        padding-left: 55px;
+        padding-left: 50px;
         position: relative;
+        font-size: $font_15;
         &::before {
           background: url('assets/img/error-toaster.svg') no-repeat;
           background-size: 35px;
@@ -2818,9 +2821,11 @@ body {
       border-radius: 10px;
       color: $black;
       border-left: 3px solid #efab12;
+      padding-right: 20px;
       .Toastify__toast-body {
         font-weight: 600;
-        padding-left: 55px;
+        font-size: $font_15;
+        padding-left: 50px;
         position: relative;
         &::before {
           content: '';
@@ -2840,8 +2845,9 @@ body {
     color: $black;
     opacity: 1;
     position: absolute;
-    right: 12px;
-    top: 8px;
+    right: 6px;
+    top: 4px;
+    font-size: $font_12;
   }
 }
 .loader {

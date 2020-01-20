@@ -150,14 +150,14 @@ const ViewEmployee: FunctionComponent = () => {
                         <span className=' text-label'>
                           {' '}
                           {employee && employee.firstName ? (
-                            <>{languageTranslation('EMPLOYEE_NAME')}</>
+                            <>{languageTranslation('NAME')}</>
                           ) : (
-                            <>{languageTranslation('EMPLOYEE_NAME')}</>
+                            <>{languageTranslation('NAME')}</>
                           )}
                         </span>
                         <span className='text-value one-line-text d-flex align-items-center'>
                           :&nbsp;&nbsp;
-                          <span className=''>
+                          <span className='text-capitalize'>
                             {employee && employee.firstName
                               ? employee.firstName
                               : 'N/A'}

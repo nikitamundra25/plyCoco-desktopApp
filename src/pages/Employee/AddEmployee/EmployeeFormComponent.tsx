@@ -20,13 +20,7 @@ import {
 import Select from 'react-select';
 import MaskedInput from 'react-text-mask';
 import { FormikProps, Form } from 'formik';
-import {
-  Region,
-  IBANRegex,
-  DateMask,
-  AppConfig,
-  PAGE_LIMIT,
-} from '../../../config';
+import { IBANRegex, DateMask, AppConfig, PAGE_LIMIT } from '../../../config';
 import routes from '../../../routes/routes';
 import {
   IEmployeeFormValues,

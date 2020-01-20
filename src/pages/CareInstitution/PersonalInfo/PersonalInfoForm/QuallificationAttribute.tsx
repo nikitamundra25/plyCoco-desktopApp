@@ -1,19 +1,22 @@
 import React, { FunctionComponent } from "react";
 import { FormGroup, Label, Input, Col, Row, Form } from "reactstrap";
 import Select from "react-select";
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import { languageTranslation, logger } from "../../../../helpers";
-import { ICareInstitutionFormValues, IHandleSelectInterface } from "../../../../interfaces";
+import {
+  ICareInstitutionFormValues,
+  IHandleSelectInterface
+} from "../../../../interfaces";
 import { State } from "../../../../config";
 
 const QuallificationAttribute: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
-> & IHandleSelectInterface> = (props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface) => {
+> &
+  IHandleSelectInterface> = (
+  props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface
+) => {
   const {
-    values: {
-      qualificationId,
-      attributeId
-    },
+    values: { qualificationId, attributeId },
     touched,
     errors,
     isSubmitting,
@@ -52,20 +55,17 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               <Select
                 placeholder={languageTranslation("REGION", "STATE")}
                 value={qualificationId ? qualificationId : undefined}
-                onChange={(value: any) =>
-                  handleSelect(value, 'qualification')
-                }
+                onChange={(value: any) => handleSelect(value, "qualification")}
                 isMulti
                 options={State}
+                menuPlacement={"top"}
               />
             </FormGroup>
           </div>
         </div>
       </div>
       <div className="common-list-card">
-        <h5 className="content-title">
-          {languageTranslation("ATTRIBUTES")}
-        </h5>
+        <h5 className="content-title">{languageTranslation("ATTRIBUTES")}</h5>
         <div className="common-list-wrap">
           <div className="common-list-header d-flex align-items-cente justify-content-between">
             <div className="common-list-title align-middle">
@@ -88,17 +88,16 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               <Select
                 placeholder={languageTranslation("REGION", "STATE")}
                 value={attributeId ? attributeId : undefined}
-                onChange={(value: any) =>
-                  handleSelect(value, 'attribute')
-                }
+                onChange={(value: any) => handleSelect(value, "attribute")}
                 isMulti
                 options={State}
+                menuPlacement={"top"}
               />
             </FormGroup>
           </div>
         </div>
       </div>
     </div>
-  )
-}
-export default QuallificationAttribute
+  );
+};
+export default QuallificationAttribute;

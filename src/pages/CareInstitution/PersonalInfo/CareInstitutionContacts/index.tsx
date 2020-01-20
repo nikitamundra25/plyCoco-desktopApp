@@ -173,7 +173,7 @@ const CareInstitutionContacts: any = (props: any) => {
 
   return (
     <>
-      <Col lg={12} className={"form-section"}>
+      <div className={"form-section position-relative"}>
         <div className="d-flex align-items-center justify-content-between my-3">
           <Nav tabs className="contact-tabs">
             {contacts.map((contact: any, index: number) => {
@@ -192,7 +192,7 @@ const CareInstitutionContacts: any = (props: any) => {
             })}
           </Nav>
         </div>
-      </Col>
+      </div>
       <Formik
         enableReinitialize={true}
         initialValues={contactFormValues}

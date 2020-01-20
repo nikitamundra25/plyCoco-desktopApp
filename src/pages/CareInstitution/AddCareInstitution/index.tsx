@@ -1,7 +1,16 @@
-import React, { Component, useEffect, Suspense, useState, FunctionComponent } from "react";
+import React, {
+  Component,
+  useEffect,
+  Suspense,
+  useState,
+  FunctionComponent
+} from "react";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { CareInstituionValidationSchema } from "../../../validations";
-import { ICareInstitutionFormValues, IHandleSubmitInterface } from "../../../interfaces";
+import {
+  ICareInstitutionFormValues,
+  IHandleSubmitInterface
+} from "../../../interfaces";
 import AddCareInstitution from "./AddCareInstitution";
 import { CareInstitutionQueries } from "../../../queries";
 import { useMutation, useLazyQuery } from "@apollo/react-hooks";
@@ -17,12 +26,10 @@ import appointment from "../../../assets/img/appointment.svg";
 import clear from "../../../assets/img/clear.svg";
 
 const CareInstitutionSidebar = React.lazy(() =>
-  import(
-    "../Sidebar/SidebarLayout/CareInstitutionLayout"
-  )
+  import("../Sidebar/SidebarLayout/CareInstitutionLayout")
 );
 
-const CareInstitutionTabs = careInstitutionRoutes
+const CareInstitutionTabs = careInstitutionRoutes;
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -33,7 +40,11 @@ const [
 
 export const CareInstitutionForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
-> & RouteComponentProps & IHandleSubmitInterface> = (props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps) => {
+> &
+  RouteComponentProps &
+  IHandleSubmitInterface> = (
+  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
+) => {
   const [addCareInstitution, { error, data }] = useMutation<{
     addCareInstitution: ICareInstitutionFormValues;
   }>(ADD_CARE_INSTITUTION);
@@ -44,10 +55,15 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   useEffect(() => {
     if (data) {
       console.log("In use Effect");
-      const Data: any = data
-      history.push(AppRoutes.CARE_INSTITUION_VIEW.replace(":id", Data.addCareInstitution ? Data.addCareInstitution.id : "null"));
+      const Data: any = data;
+      history.push(
+        AppRoutes.CARE_INSTITUION_VIEW.replace(
+          ":id",
+          Data.addCareInstitution ? Data.addCareInstitution.id : "null"
+        )
+      );
     }
-  }, [data])
+  }, [data]);
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
@@ -73,7 +89,8 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         userName: values.userName,
         careGiverCommission: values.careGiverCommission,
         doctorCommission: values.doctorCommission,
-        invoiceType: values && values.invoiceType ? values.invoiceType.value : "",
+        invoiceType:
+          values && values.invoiceType ? values.invoiceType.value : "",
         interval: values && values.interval ? values.interval.value : "",
         emailInvoice: values.emailInvoice,
         addressInvoice: values.addressInvoice
@@ -95,7 +112,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
     setSubmitting(false);
   };
 
-  const [activeTab, setactiveTab] = useState(0)
+  const [activeTab, setactiveTab] = useState(0);
 
   // const { data, loading, error, refetch } = useQuery(GET_USERS);
   // console.log(data, 'dataaaaa');
@@ -117,21 +134,19 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         <Suspense fallback={"Loading.."}>
           <div className="sticky-common-header">
             <div className="common-topheader d-flex align-items-center ">
-              <div className="user-select">
-                Add Care Institution
-              </div>
+              <div className="common-title">Add Care Institution</div>
               <div className="header-nav-item">
                 <span className="header-nav-icon">
                   <img src={reminder} alt="" />
                 </span>
                 <span
                   className="header-nav-text"
-                // onClick={() => {
-                //   this.setState({ show: true });
-                // }}
+                  // onClick={() => {
+                  //   this.setState({ show: true });
+                  // }}
                 >
                   Create Todo/Reminder
-              </span>
+                </span>
               </div>
               <div className="header-nav-item">
                 <span className="header-nav-icon">
@@ -166,9 +181,9 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
                 <Formik
                   initialValues={values}
                   onSubmit={handleSubmit}
-                  children={(props: FormikProps<ICareInstitutionFormValues>) => (
-                    <AddCareInstitution {...props} />
-                  )}
+                  children={(
+                    props: FormikProps<ICareInstitutionFormValues>
+                  ) => <AddCareInstitution {...props} />}
                   validationSchema={CareInstituionValidationSchema}
                 />
               </div>

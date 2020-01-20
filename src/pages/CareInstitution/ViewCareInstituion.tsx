@@ -145,7 +145,9 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                   <span className="header-nav-icon">
                     <img src={add} alt="" />
                   </span>
-                  <span className="header-nav-text">New Care Institution</span>
+                  <span className="header-nav-text">
+                    Add New Care Institution
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">

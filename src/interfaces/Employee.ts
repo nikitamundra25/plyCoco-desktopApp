@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from './Constant';
+import { IReactSelectInterface } from "./Constant";
 
 export interface IEmployeeFormValues {
   email: string;
@@ -15,10 +15,12 @@ export interface IEmployeeFormValues {
   address2: string;
   country?: IReactSelectInterface;
   state?: IReactSelectInterface;
+  region?: IReactSelectInterface[];
   zip: string;
   joiningDate: string;
   image?: File;
   city: string;
+  profileThumbnailImage?: string;
 }
 
 export interface IEmployeeInput {
@@ -35,13 +37,14 @@ export interface IEmployeeInput {
   zipCode: string;
   address1: string;
   address2: string;
-  regionId?: string;
+  regionId?: string[] | null;
   bankName: string;
   accountHolder: string;
   additionalText: string;
   IBAN: string;
   BIC: string;
   profileImage?: File;
+  profileThumbnailImage?: string;
 }
 
 export interface IAddEmployeeRes {
@@ -58,4 +61,5 @@ export interface IEmployee {
   assignedCanstitution: string;
   isActive: boolean;
   profileThumbnailImage: string;
+  createdAt: string;
 }

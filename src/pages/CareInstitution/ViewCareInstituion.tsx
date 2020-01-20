@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
-import { RouteComponentProps, useLocation } from "react-router";
+import { RouteComponentProps, useLocation, useParams } from "react-router";
 import Select from "react-select";
-import { CareGiver, AppRoutes } from "../../config";
+import { CareGiver, AppRoutes, PAGE_LIMIT } from "../../config";
 import add from "../../assets/img/add.svg";
 import save from "../../assets/img/save.svg";
 import reminder from "../../assets/img/reminder.svg";
@@ -18,8 +18,22 @@ import Departments from "./Departments";
 import Emails from "./Emails";
 import Reminders from "./Reminders";
 import qs from "query-string";
-import { ICareInstitutionFormValues, IHandleSubmitInterface } from "../../interfaces";
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import {
+  ICareInstitutionFormValues,
+  IHandleSubmitInterface,
+  IReactSelectInterface
+} from "../../interfaces";
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import { CareInstitutionQueries } from "../../queries";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+
+const [
+  GET_CARE_INSTITUTION_LIST,
+  DELETE_CARE_INSTITUTION,
+  UPDATE_CARE_INSTITUTION,
+  ADD_CARE_INSTITUTION,
+  GET_CARE_INSTITUION_BY_ID
+] = CareInstitutionQueries;
 
 const CareInstitutionSidebar = React.lazy(() =>
   import(
@@ -27,38 +41,87 @@ const CareInstitutionSidebar = React.lazy(() =>
   )
 );
 
-const CareInstitutionTabs = careInstitutionRoutes
+const CareInstitutionTabs = careInstitutionRoutes;
 
 const ViewCareInstitution: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
-> & RouteComponentProps & IHandleSubmitInterface> = (props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps) => {
-
-  const handleSubmit = (
-    values: ICareInstitutionFormValues,
-    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
-  ) => {
-    //to set submit state to false after successful signup
-    setSubmitting(false);
-    console.log("Value", values);
-
+> &
+  RouteComponentProps &
+  IHandleSubmitInterface> = (
+  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
+) => {
+  let { id } = useParams();
+  const Id: any | undefined = id;
+  let sortBy: IReactSelectInterface | undefined = {
+    label: "3",
+    value: "Sort by A-Z"
   };
+  const { data: careInstituition, loading, error, refetch } = useQuery<any>(
+    GET_CARE_INSTITUTION_LIST
+  );
 
-  const [activeTab, setactiveTab] = useState(0)
+  let [selectUser, setselectUser] = useState<IReactSelectInterface>({
+    label: "",
+    value: ""
+  });
+
+  let CareInstitutionList: Object[] = [];
+  if (careInstituition && careInstituition.getCareInstitutions) {
+    const { getCareInstitutions } = careInstituition;
+    const { careInstitutionData } = getCareInstitutions;
+    careInstitutionData.map((data: any, index: any) => {
+      CareInstitutionList.push({
+        label: `${data.firstName}${" "}${data.lastName}`,
+        value: data.id
+      });
+    });
+  }
+  const [activeTab, setactiveTab] = useState(0);
   const { search, pathname } = useLocation();
+
   useEffect(() => {
     const query: any = qs.parse(search);
     setactiveTab(
       query.tab
-        ? CareInstitutionTabs.findIndex(d => d.name === decodeURIComponent(query.tab))
+        ? CareInstitutionTabs.findIndex(
+            d => d.name === decodeURIComponent(query.tab)
+          )
         : 0
-    )
+    );
   }, [search]);
 
   const onTabChange = (activeTab: number) => {
     props.history.push(
-      `${AppRoutes.CARE_INSTITUION_VIEW}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
+      `${AppRoutes.CARE_INSTITUION_VIEW.replace(
+        ":id",
+        Id
+      )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
     );
   };
+  let [isUserChange, setisUserChange] = useState(false);
+  const handleSelect = (e: any) => {
+    if (e && e.value) {
+      const data: IReactSelectInterface = {
+        label: e.label,
+        value: e.value
+      };
+      setselectUser((selectUser = data));
+      if (e.value !== Id) {
+        props.history.push(
+          `${AppRoutes.CARE_INSTITUION_VIEW.replace(
+            ":id",
+            e.value
+          )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
+        );
+        setisUserChange((isUserChange = true));
+      }
+    }
+  };
+
+  const handleAddNewCareInstitution = () =>{
+    props.history.push(AppRoutes.ADD_CARE_INSTITUTION)
+  }
+
   return (
     <div>
       <div className="common-detail-page">
@@ -68,30 +131,18 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
               <div className="common-topheader d-flex align-items-center ">
                 <div className="user-select">
                   <Select
-                    defaultValue={{
-                      label: "John Doe",
-                      value: "0"
-                    }}
+                    defaultValue={selectUser}
                     placeholder="Select Caregiver"
-                    options={CareGiver}
+                    value={selectUser}
+                    onChange={(e: any) => handleSelect(e)}
+                    options={CareInstitutionList}
                   />
                 </div>
-                <div className="header-nav-item">
+                <div onClick ={handleAddNewCareInstitution} className="header-nav-item">
                   <span className="header-nav-icon">
                     <img src={add} alt="" />
                   </span>
                   <span className="header-nav-text">New Care Institution</span>
-                </div>
-
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={save} alt="" />
-                  </span>
-                  <span
-                    // onClick={() => handleSubmit()}
-                    className="header-nav-text">
-                    Save
-                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
@@ -99,12 +150,12 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                   </span>
                   <span
                     className="header-nav-text"
-                  // onClick={() => {
-                  //   this.setState({ show: true });
-                  // }}
+                    // onClick={() => {
+                    //   this.setState({ show: true });
+                    // }}
                   >
                     Create Todo/Reminder
-                    </span>
+                  </span>
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">
@@ -136,53 +187,28 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
             <div className="common-content flex-grow-1">
               {activeTab === 0 ? (
                 <PersonalInformation
-                  handleSubmit={()=>{
-                    console.log("sdadadasdada");
-                    
+                  currentSelectuser={(Data: IReactSelectInterface) => {
+                    setselectUser((selectUser = Data));
                   }}
+                  handleIsUserChange={() =>
+                    setisUserChange((isUserChange = false))
+                  }
+                  isUserChange={isUserChange}
                   {...props}
                 />
               ) : null}
-              {activeTab === 1 ? (
-                <Offers
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 2 ? (
-                <Login
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 3 ? (
-                <InvoiceMenu
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 4 ? (
-                <Documents
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 5 ? (
-                <Departments
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 6 ? (
-                <Emails
-                  {...props}
-                />
-              ) : null}
-              {activeTab === 7 ? (
-                <Reminders
-                  {...props}
-                />
-              ) : null}
+              {activeTab === 1 ? <Offers {...props} /> : null}
+              {activeTab === 2 ? <Login {...props} /> : null}
+              {activeTab === 3 ? <InvoiceMenu {...props} /> : null}
+              {activeTab === 4 ? <Documents {...props} /> : null}
+              {activeTab === 5 ? <Departments {...props} /> : null}
+              {activeTab === 6 ? <Emails {...props} /> : null}
+              {activeTab === 7 ? <Reminders {...props} /> : null}
             </div>
           </Suspense>
         </div>
       </div>
     </div>
   );
-}
+};
 export default ViewCareInstitution;

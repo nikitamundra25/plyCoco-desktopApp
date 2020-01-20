@@ -8,12 +8,21 @@ const ADD_REGION = gql`
     }
   }
 `;
-// const ADD_EMPLOYEE = gql`
-//   mutation AddEmployee($employeeInput: EmployeeInput!) {
-//     addEmployee(employeeInput: $employeeInput) {
-//       userId
-//     }
-//   }
-// `;
 
-export const RegionQueries = [ADD_REGION];
+const GET_REGIONS = gql`
+  query GetRegions($searchBy: String, $sortBy: Int, $limit: Int, $page: Int) {
+    getRegions(
+      searchBy: $searchBy
+      sortBy: $sortBy
+      limit: $limit
+      page: $page
+    ) {
+      totalCount
+      regionData {
+        id
+        regionName
+      }
+    }
+  }
+`;
+export const RegionQueries = [ADD_REGION, GET_REGIONS];

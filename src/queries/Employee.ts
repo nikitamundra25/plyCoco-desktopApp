@@ -1,9 +1,32 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const ADD_EMPLOYEE = gql`
   mutation AddEmployee($employeeInput: EmployeeInput!) {
     addEmployee(employeeInput: $employeeInput) {
-      userId
+      id
+      firstName
+      lastName
+      email
+      userName
+      phoneNumber
+      isActive
+      profileImage
+      profileThumbnailImage
+      employee {
+        joiningDate
+        employeeCustomId
+        country
+        state
+        city
+        zipCode
+        address1
+        address2
+        regionId
+      }
+      region {
+        regionName
+        id
+      }
     }
   }
 `;
@@ -11,11 +34,16 @@ const ADD_EMPLOYEE = gql`
 const GET_EMPLOYEE_BY_ID = gql`
   query getEmployee($id: ID) {
     viewEmployee(id: $id) {
+      id
       firstName
       lastName
       email
       userName
       phoneNumber
+      isActive
+      profileImage
+      isActive
+      profileThumbnailImage
       employee {
         address1
         address2
@@ -24,7 +52,10 @@ const GET_EMPLOYEE_BY_ID = gql`
         city
         zipCode
         joiningDate
-        regionId
+      }
+      region {
+        regionName
+        id
       }
       bankDetails {
         bankName
@@ -40,11 +71,36 @@ const GET_EMPLOYEE_BY_ID = gql`
 const UPDATE_EMPLOYEE = gql`
   mutation UpdateEmployee($id: Int!, $employeeInput: EmployeeInput) {
     updateEmployee(id: $id, employeeInput: $employeeInput) {
-      userId
+      id
+      firstName
+      lastName
+      email
+      phoneNumber
+      profileThumbnailImage
+      employee {
+        joiningDate
+        employeeCustomId
+        country
+        state
+        city
+        zipCode
+        address1
+        address2
+      }
+      region {
+        regionName
+        id
+      }
+      bankDetails {
+        bankName
+        accountHolder
+        additionalText
+        IBAN
+        BIC
+      }
     }
   }
 `;
-
 const GET_EMPLOYEES = gql`
   query GetEmployees(
     $searchBy: String
@@ -71,6 +127,7 @@ const GET_EMPLOYEES = gql`
         isActive
         profileImage
         profileThumbnailImage
+        createdAt
         employee {
           joiningDate
           employeeCustomId
@@ -84,6 +141,7 @@ const GET_EMPLOYEES = gql`
         }
         region {
           regionName
+          id
         }
         bankDetails {
           bankName
@@ -120,5 +178,5 @@ export const EmployeeQueries = [
   GET_EMPLOYEES,
   UPDATE_EMPLOYEE,
   UPDATE_EMPLOYEE_STATUS,
-  DELETE_EMPLOYEE,
+  DELETE_EMPLOYEE
 ];

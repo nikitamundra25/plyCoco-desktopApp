@@ -8,7 +8,7 @@ export const AppRoutes: IAppRoutes = {
   USERS: "/users",
   EMPLOYEE: "/employee",
   ADD_EMPLOYEE: "/employee/add",
-  VIEW_EMPLOYEE: "/employee/view",
+  VIEW_EMPLOYEE: "/employee/view/:id/:userName",
   EDIT_EMPLOYEE: "/employee/edit/:id/:userName",
   DEPARTMENT: "/department",
   ADD_DEPARTMENT: "/department/add",
@@ -37,7 +37,7 @@ export const AppRoutes: IAppRoutes = {
   CARE_LOGIN: "/caregiver/loginlist",
   ADD_CARE_INSTITUTION: "/care-institution/add",
   CARE_INSTITUTION: "/care-institution",
-  CARE_INSTITUION_VIEW: "/care-institution/view",
+  CARE_INSTITUION_VIEW: "/care-institution/view/:id",
   CAREGIVER_TODO: "/caregiver-todo",
   CARE_INSTITUTION_TODO: "/care-institution-todo"
 };

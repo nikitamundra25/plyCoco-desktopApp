@@ -21,6 +21,7 @@ import PaginationComponent from "../../common/Pagination";
 import { NoSearchFound } from "../../common/SearchFilter/NoSearchFound";
 import AddRegion from "./AddRegion";
 import moment from "moment";
+import Loader from "../../containers/Loader/Loader";
 
 const [, GET_REGIONS] = RegionQueries;
 
@@ -119,9 +120,6 @@ export const Region: FunctionComponent = () => {
     if (searchValue) {
       params.search = searchValue;
     }
-    // if (isActive && isActive.value !== '') {
-    //   params.status = isActive.value === 'true' ? 'active' : 'deactive';
-    // }
     if (sortBy && sortBy.value !== "") {
       params.sortBy = sortBy.value !== "" ? sortFilter[sortBy.value] : "";
     }
@@ -186,7 +184,6 @@ export const Region: FunctionComponent = () => {
               <Search {...props} label={"region"} />
             )}
           />
-          {/* <Search /> */}
         </div>
         <Table bordered hover responsive>
           <thead className="thead-bg">
@@ -208,7 +205,11 @@ export const Region: FunctionComponent = () => {
           </thead>
           <tbody>
             {loading ? (
-              <p>Loading ...</p>
+              <tr>
+                <td className={"table-loader"} colSpan={5}>
+                  <Loader />
+                </td>
+              </tr>
             ) : data &&
               data.getRegions &&
               data.getRegions.regionData &&
@@ -226,16 +227,6 @@ export const Region: FunctionComponent = () => {
                         ? moment(region.createdAt).format("LLL")
                         : ""}
                     </td>
-                    {/* <td>
-                    <div className="action-btn">
-                      <ButtonTooltip
-                        id={`careGiverDelete${index}`}
-                        message={languageTranslation("REGION_DELETE")}
-                      >
-                        <i className="fa fa-trash"></i>
-                      </ButtonTooltip>
-                    </div>
-                  </td> */}
                   </tr>
                 );
               })

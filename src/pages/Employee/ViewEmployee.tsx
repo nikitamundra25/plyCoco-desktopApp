@@ -36,7 +36,6 @@ const ViewEmployee: FunctionComponent = () => {
     { activeStatusEmployee: any },
     { id: string; isActive: boolean }
   >(UPDATE_EMPLOYEE_STATUS);
-  console.log("data is", data);
   if (data) {
     employee = data.viewEmployee;
   }
@@ -221,7 +220,6 @@ const ViewEmployee: FunctionComponent = () => {
                         ? languageTranslation("ACTIVE")
                         : languageTranslation("DISABLE")}
                     </span> */}
-                          {console.log(employee && employee.id, "employee.id")}
                           <span
                             className={`status-btn text-center ${
                               employee && employee.isActive

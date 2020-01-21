@@ -818,16 +818,17 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col sm="8">
                 <div>
-                  <div className=" checkbox-custom mb-0">
-                    {/* <Field
+                  {/*<div className=" checkbox-custom mb-0">
+                     <Field
                       component={FormikCheckbox}
                       type="checkbox"
                       name={"employed"}
-                    /> */}
-                    <div className=" checkbox-custom mb-0">
-                      <input type="checkbox" id="check" className="" />
-                      <Label for="check"></Label>
-                    </div>
+                    />
+                   
+                  </div> */}
+                  <div className=" checkbox-custom mb-0">
+                    <input type="checkbox" id="check" className="" />
+                    <Label for="check"></Label>
                   </div>
                 </div>
               </Col>

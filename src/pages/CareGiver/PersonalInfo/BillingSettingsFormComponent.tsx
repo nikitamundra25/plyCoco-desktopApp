@@ -54,14 +54,11 @@ const BillingSettingsFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm="4">
-                <Label className="form-label col-form-label">
-                  Fee
-                  <span className="required">*</span>
-                </Label>
+                <Label className="form-label col-form-label">Fee</Label>
               </Col>
               <Col sm="8">
                 <Row className="custom-col inner-no-padding-col">
-                  <Col sm="4">
+                  <Col sm="5">
                     <div>
                       <Field
                         component={FormikTextField}
@@ -71,16 +68,15 @@ const BillingSettingsFormComponent: any = (
                       />
                     </div>
                   </Col>
-                  <Col sm="8">
+                  <Col sm="7">
                     <FormGroup>
                       <Row className="custom-col inner-no-padding-col">
-                        <Col sm="6">
+                        <Col sm="5">
                           <Label className="form-label col-form-label inner-label">
                             Night
-                            <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm="6">
+                        <Col sm="7">
                           <div>
                             <Field
                               component={FormikTextField}
@@ -102,33 +98,30 @@ const BillingSettingsFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm="4">
-                <Label className="form-label col-form-label">
-                  Weekend Allowance
-                  <span className="required">*</span>
-                </Label>
+                <Label className="form-label col-form-label">Weekend</Label>
               </Col>
               <Col sm="8">
                 <Row className="custom-col inner-no-padding-col">
-                  <Col sm="4">
+                  <Col sm="5">
                     <div>
                       <Field
                         component={FormikTextField}
                         name={"weekendAllowancePerHour"}
-                        placeholder="Weekend Allowance"
+                        placeholder="Weekend"
                         className="width-common"
                       />
                     </div>
                   </Col>
-                  <Col sm="8">
+                  <Col sm="7">
                     <FormGroup>
                       <Row className="custom-col inner-no-padding-col">
-                        <Col sm="6">
+                        <Col sm="5">
                           <Label className="form-label col-form-label inner-label">
                             Holiday
                             {/* <span className="required">*</span> */}
                           </Label>
                         </Col>
-                        <Col sm="6">
+                        <Col sm="7">
                           <div>
                             <Field
                               component={FormikTextField}
@@ -152,20 +145,12 @@ const BillingSettingsFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Night Allowance
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
-                <Row className="custom-col inner-no-padding-col">
-                  <Col sm="8">
-                    <div>
-                      <Select
-                        options={NightAllowancePerHour}
-                        className="custom-input-width"
-                      />
-                    </div>
-                  </Col>
-                </Row>
+                <div>
+                  <Select options={NightAllowancePerHour} />
+                </div>
               </Col>
             </Row>
           </FormGroup>

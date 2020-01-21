@@ -181,11 +181,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   const {
     userName = "",
-    stateId = undefined,
+    stateId = {label:"", value:""},
     registartionSince = "",
     gender = "",
     title = "",
-    salutation = undefined,
+    salutation = {label:"", value:""},
     firstName = "",
     lastName = "",
     dateOfBirth = "",
@@ -199,7 +199,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     street = "",
     city = "",
     postCode = "",
-    countryId = undefined,
+    countryId = {label:"", value:""},
     phoneNumber = "",
     fax = "",
     mobileNumber = "",
@@ -210,7 +210,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     iban = "",
     password = "",
     belongTo = "",
-    legalForm = undefined,
+    legalForm = {label:"", value:""},
     companyName = "",
     registerCourt = "",
     registrationNumber = "",
@@ -218,8 +218,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     employed = false,
     additionalText = "",
     status = "active",
-    remarks = undefined,
-    workZones = undefined,
+    remarks = [],
+    workZones = [],
     fee = "",
     weekendAllowancePerHour = "",
     holidayAllowancePerHourFee = "",
@@ -280,7 +280,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      enableReinitialize
+      enableReinitialize={true}
       render={(props: FormikProps<ICareGiverValues>) => {
         return (
           <Form className="form-section forms-main-section">

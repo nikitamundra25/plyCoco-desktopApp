@@ -13,7 +13,7 @@ import { Mutation } from "@apollo/react-components";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 import { languageTranslation } from "../../../helpers";
-import { AppRoutes } from "../../../config";
+import { AppRoutes, PAGE_LIMIT } from "../../../config";
 
 export const CareGiverForm: FunctionComponent = () => {
   let history = useHistory();
@@ -109,7 +109,13 @@ export const CareGiverForm: FunctionComponent = () => {
           careGiverInput
         },
         update: (cache, { data: { addCaregiver } }: any) => {
-          const data: any = cache.readQuery({ query: GET_CAREGIVERS });
+          const data: any = cache.readQuery({ query: GET_CAREGIVERS, variables:{
+            searchBy:"",
+            sortBy: 0,
+            limit: PAGE_LIMIT,
+            page:  0,
+            isActive:  undefined
+          }  });
           cache.writeQuery({
             query: GET_CAREGIVERS,
             data: {

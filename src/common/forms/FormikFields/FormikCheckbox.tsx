@@ -1,29 +1,8 @@
 import React from "react"
 import { Input } from 'reactstrap';
 import { getIn } from "formik"
+import { IFormikCheckbox } from "../../../interfaces/FormikCheckbox";
 
-
-interface IField {
-    value: string,
-    name: string
-}
-
-interface IFormikForm {
-    touched: boolean,
-    errors: any,
-    isSubmitting: boolean,
-    handleChange: (event: any) => void,
-    setFieldTouched: (name: string, value: boolean, touched: boolean) => void
-}
-
-interface IFormikCheckbox {
-    field: IField,
-    form: IFormikForm,
-    classes: any,
-    disabled: boolean,
-    [key: string]: any,
-    style: any
-}
 
 const FormikCheckbox = (props: IFormikCheckbox) => {
     const { field, form, disabled = false, style, classes, ...rest } = props

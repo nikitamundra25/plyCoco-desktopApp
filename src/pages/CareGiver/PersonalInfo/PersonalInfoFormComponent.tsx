@@ -36,13 +36,7 @@ const PersonalInfoFormComponent: any = (
     props: FormikProps<CareGiverValues>
 ) => {
     const { values } = props;
-    const handleField = (e:any)=>{
-        const value={
-          createdBy:`${values.firstName} ${values.lastName}`,
-          description:e.target.value
-        }
-        props.setFieldValue('remarks', value)
-    };
+debugger
     return (
         <div className="form-card">
             <Row>
@@ -179,7 +173,6 @@ const PersonalInfoFormComponent: any = (
                                 <div>
                                     <Field
                                         name={"salutation"}
-                                        multi={false}
                                         component={FormikSelectField}
                                         placeholder={languageTranslation("SALUTATION")}
                                         options={Salutation}
@@ -715,6 +708,7 @@ const PersonalInfoFormComponent: any = (
                                     <div className=" checkbox-custom mb-0">
                                         <Field
                                             component={FormikCheckbox}
+                                            type="checkbox"
                                             name={"employed"}
                                         />
                                     </div>
@@ -737,7 +731,6 @@ const PersonalInfoFormComponent: any = (
                                     <Field
                                         component={FormikTextField}
                                         type="textarea"
-                                        onChange={handleField}
                                         name={"additionalText"}
                                         placeholder="Comments (Internally)"
                                         className="textarea-custom"

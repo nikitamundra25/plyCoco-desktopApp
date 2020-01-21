@@ -3,10 +3,12 @@ import { getIn } from 'formik';
 import { Input } from 'reactstrap';
 import { toLower } from "lodash";
 import { getHelperText, handleChange, handleBlur } from './utils';
+import { IFormikTextField } from '../../../interfaces/FormikTextField';
 
 
-export const FormikTextField: any = (
-    props: any) => {
+
+export const FormikTextField = (
+    props: IFormikTextField) => {
     const {
         field,
         form,
@@ -34,7 +36,7 @@ export const FormikTextField: any = (
             {...field}
             type={type}
             label={newLabel}
-            value={value || value === 0 ? value : ""}
+            value={value ? value : ""}
             onChange={handleChange(props)}
             onClick={rest.onClick || null}
             onBlur={handleBlur(value, props)}

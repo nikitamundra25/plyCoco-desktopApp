@@ -55,7 +55,6 @@ export const CareGiverForm: FunctionComponent = () => {
       stateId,
       countryId,
       postCode,
-      pinCode,
       email,
       dateOfBirth,
       phoneNumber,
@@ -80,7 +79,7 @@ export const CareGiverForm: FunctionComponent = () => {
     console.log("Values",values);
     
     try {
-      let careGiverInput: ICareGiverInput = {
+      let careGiverInput: any = {
         salutation: salutation && salutation.label ? salutation.label : "",
         firstName,
         lastName,
@@ -91,18 +90,17 @@ export const CareGiverForm: FunctionComponent = () => {
         stateId: stateId && stateId.value ? parseInt(stateId.value) : undefined,
         countryId:
           countryId && countryId.value ? parseInt(countryId.value) : undefined,
-        postCode,
-        pinCode,
+        // postalCode: postCode,
         email,
         dateOfBirth,
         phoneNumber,
         fax,
         mobileNumber,
         userName,
-        qualifications:
-          qualifications && qualifications.length
-            ? qualifications.map(quali => quali.value)
-            : [],
+        // qualifications:
+        //   qualifications && qualifications.length
+        //     ? qualifications.map(quali => quali.value)
+        //     : [],
         driverLicenseNumber,
         driversLicense,
         vehicleAvailable,
@@ -113,9 +111,9 @@ export const CareGiverForm: FunctionComponent = () => {
         executiveDirector,
         socialSecurityContribution,
         taxNumber,
-        remarks: remarks && remarks.length ? remarks : undefined,
-        workZones:
-          workZones && workZones.length ? workZones.map(wz => wz.value) : [],
+        // remarks: remarks && remarks.length ? remarks : [],
+        // workZones:
+        //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],
         status
       };
       await addCaregiver({

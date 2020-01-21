@@ -36,6 +36,11 @@ export const FormikTextField = (
         {...field}
         type={type}
         label={newLabel}
+        className={
+          errors.value
+            ? "text-input error"
+            : "text-input"
+        }
         value={value ? value : ""}
         onChange={handleChange(props)}
         onClick={rest.onClick || null}
@@ -56,7 +61,9 @@ export const FormikTextField = (
         variant={variant}
         fullwidth={true}
       />
-      {showError && fieldError}
+      <div className="required-error">
+        {showError && fieldError}
+      </div>
     </>
   )
 }

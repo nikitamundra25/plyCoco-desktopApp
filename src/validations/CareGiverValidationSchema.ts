@@ -16,7 +16,10 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<
     .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
     .required(languageTranslation("LASTNAME_REQUIRED")),
-  email: Yup.string(),
+  email: Yup.string()
+    .trim()
+    .email(languageTranslation("VALID_EMAIL"))
+    .required(languageTranslation("REQUIRED_EMAIL")),
   dateOfBirth: Yup.mixed().test({
     name: "validate-date",
     test: function (val) {

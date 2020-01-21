@@ -440,7 +440,7 @@ const Employee: FunctionComponent = () => {
                       <td>
                         <div className="description-column one-line-text  ml-0 text-capitalize">
                           {regions
-                            ? regions.map((region: any) => {
+                            ? regions.map((region: any, index: number) => {
                                 return (
                                   <p className="description-text ">
                                     <span className="text-label mr-1">

@@ -77,15 +77,40 @@ export const ContactType: IReactSelectInterface[] = [
   { value: "Nursing", label: "Nursing" }
 ];
 export const InvoiceType: IReactSelectInterface[] = [
-  { value: "byEmailsWithoutDocuments", label: "By emails without documents" },
-  { value: "byEmailWithDocuments", label: "By email with documents" },
+  { value: "By emails without documents", label: "By emails without documents" },
+  { value: "By email with documents", label: "By email with documents" },
   {
-    value: "byPost+EmailWithoutDocuments",
+    value: "By post + email without documents",
     label: "By post + email without documents"
   },
   {
-    value: "byPost+EmailsWithDocuments",
+    value: "By post + email with documents",
     label: "By post + email with documents"
+  },
+  {
+    value: "One Email For Each Invoice",
+    label: "One Email For Each Invoice"
+  },
+  {
+    value: "One Email For Each Invoice Incl. Working Proof",
+    label: "One Email For Each Invoice Incl. Working Proof"
+  },
+  {
+    value: "Via Email Without Work Proof",
+    label: "Via Email Without Work Proof"
+  },
+  {
+    value: "via Email With Work Proof",
+    label: "via Email With Work Proof"
+  }
+
+];
+export const InvoiceInterval: IReactSelectInterface[] = [
+  { value: "Monthly for the 1st", label: "Monthly for the 1st" },
+  { value: "Semimonthly for 1 and 16", label: "Semimonthly for 1 and 16" },
+  {
+    value: "Weekly Mondays",
+    label: "Weekly Mondays"
   }
 ];
 export const State: IReactSelectInterface[] = [

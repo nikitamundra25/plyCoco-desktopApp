@@ -453,5 +453,6 @@
   "CLICK_ABOVE_TO_ADD_NEW": "Please click above button to add new. ",
   "CREATED_DATE": "Created Date and Time",
   "ENTER_VALID_WEB_URL": "Enter proper website url with http://",
-  "REGION_SPECIALCHAR": "Special characters are not allowed in region name"
+  "REGION_SPECIALCHAR": "Special characters are not allowed in region name",
+  "SEARCH_CARE_INSTI_PLACEHOLDER": "By care institution name or email"
 }

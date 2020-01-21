@@ -113,7 +113,8 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
           values && values.invoiceType ? values.invoiceType.value : "",
         interval: values && values.interval ? values.interval.value : "",
         emailInvoice: values.emailInvoice,
-        addressInvoice: values.addressInvoice
+        addressInvoice: values.addressInvoice,
+        regionId: values && values.regionId ? values.regionId.value : null,
       };
       await addCareInstitution({
         variables: {

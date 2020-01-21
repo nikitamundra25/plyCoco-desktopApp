@@ -1,7 +1,7 @@
 let data: any;
 export const EnviornmentType: any = {
-  DEV: 'development',
-  PROD: 'production',
+  DEV: "development",
+  PROD: "production"
 };
 
 export const env: any = process.env.NODE_ENV || EnviornmentType.DEV;
@@ -15,9 +15,9 @@ data = {
       ? 'http://192.168.2.14:8000'
       : 'http://192.168.2.14:8000',
 
-  API_VERSION: 'api/v2',
+  API_VERSION: "api/v2"
 };
 
-data.DEFAULT_DATE_FORMAT = 'LLL';
+data.DEFAULT_DATE_FORMAT = "LLL";
 
 export const AppConfig = data;

@@ -20,6 +20,7 @@ import { FormikHelpers, FormikProps, Formik } from "formik";
 import PaginationComponent from "../../common/Pagination";
 import { NoSearchFound } from "../../common/SearchFilter/NoSearchFound";
 import AddRegion from "./AddRegion";
+import moment from "moment";
 
 const [, GET_REGIONS] = RegionQueries;
 
@@ -195,6 +196,7 @@ export const Region: FunctionComponent = () => {
               <th className="text-center">
                 {languageTranslation("CURRENT_ONGOING_APPOINTMENTS_COUNTER")}
               </th>
+              <th>{languageTranslation("CREATED_DATE")}</th>
               {/* <th className="text-center">Action</th> */}
             </tr>
           </thead>
@@ -209,10 +211,15 @@ export const Region: FunctionComponent = () => {
                 return (
                   <tr key={index}>
                     <td>{count++}</td>
-                    <td>{region.regionName}</td>
+                    <td className="text-capitalize">{region.regionName}</td>
                     <td className="text-center">0</td>
                     <td className="text-center">0</td>
                     <td className="text-center">0</td>
+                    <td>
+                      {region && region.createdAt
+                        ? moment(region.createdAt).format("LLL")
+                        : ""}
+                    </td>
                     {/* <td>
                     <div className="action-btn">
                       <ButtonTooltip

@@ -1,20 +1,12 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
-
 import {
   Button,
   Card,
   CardHeader,
   CardBody,
   Table,
-  Collapse,
-  Input,
-  Row,
-  Col,
-  FormGroup,
-  Form,
-  Label
+  Collapse
 } from "reactstrap";
-import { AppRoutes, PAGE_LIMIT } from "../../config";
 import { useHistory, useLocation } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
@@ -22,7 +14,7 @@ import Search from "../../common/SearchFilter";
 import { languageTranslation, logger } from "../../helpers";
 import { RegionQueries } from "../../queries/Region";
 import { ISearchValues } from "../../interfaces";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/react-hooks";
 import * as qs from "query-string";
 import { FormikHelpers, FormikProps, Formik } from "formik";
 import PaginationComponent from "../../common/Pagination";
@@ -37,6 +29,8 @@ const sortFilter: any = {
   2: "oldest",
   1: "newest"
 };
+
+const pageLimit: number = 25;
 
 export const Region: FunctionComponent = () => {
   let history = useHistory();
@@ -102,7 +96,7 @@ export const Region: FunctionComponent = () => {
       variables: {
         searchBy,
         sortBy: sortByValue ? parseInt(sortByValue) : 0,
-        limit: PAGE_LIMIT,
+        limit: pageLimit,
         page: query.page ? parseInt(query.page as string) : 1,
         isActive: query.status
           ? query.status === "active"
@@ -155,7 +149,7 @@ export const Region: FunctionComponent = () => {
     isActive,
     sortBy
   };
-  let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  let count = (currentPage - 1) * pageLimit + 1;
   return (
     <Card>
       <CardHeader>
@@ -174,61 +168,7 @@ export const Region: FunctionComponent = () => {
       </CardHeader>
       <CardBody>
         <Collapse isOpen={isOpen} className="region-input-section">
-          <AddRegion />
-          {/* <Form onSubmit={handleSubmit} className="form-section">
-            <FormGroup>
-              <Row>
-                <Col sm="3">
-                  <Label className="form-label col-form-label ">
-                    {languageTranslation("REGION_NAME_OF_REGION_LABEL")}
-                    <span className="required">*</span>
-                  </Label>
-                </Col>
-                <Col sm="7">
-                  <Input
-                    type="text"
-                    name={"regionName"}
-                    placeholder={languageTranslation(
-                      "REGION_NAME_OF_REGION_PLACEHOLDER"
-                    )}
-                    onChange={handleChange}
-                    maxLength="30"
-                    onBlur={handleBlur}
-                    value={regionName}
-                    className={
-                      errors.regionName && touched.regionName
-                        ? "text-input error"
-                        : "text-input"
-                    }
-                  />
-                  {errors.regionName && touched.regionName && (
-                      <div className="required-error">{errors.regionName}</div>
-                    )}
-                </Col>
-                <Col sm="2">
-                  <Button
-                    color={"primary"}
-                    // disabled={isSubmitting}
-                    className={"btn-region"}
-                    onClick={handleSubmit}
-                  >
-                    {isSubmitting === true ? (
-                      <i className="fa fa-spinner fa-spin loader" />
-                    ) : (
-                      ""
-                    )}
-                    {languageTranslation("SAVE_BUTTON")}
-                  </Button>
-                </Col>
-              </Row>
-            </FormGroup>
-
-            <div className="d-flex align-items-center justify-content-between">
-              <div className="mandatory-text">
-                {languageTranslation("REQUIRED_FIELDS")}
-              </div>
-            </div>
-          </Form> */}
+          <AddRegion toggle={toggle} />
         </Collapse>
         <div>
           <Formik
@@ -244,7 +184,7 @@ export const Region: FunctionComponent = () => {
         <Table bordered hover responsive>
           <thead className="thead-bg">
             <tr>
-              <th>S no.</th>
+              <th>{languageTranslation("S_NO")}</th>
               <th>{languageTranslation("REGION_NAME")}</th>
               <th className="text-center">
                 {languageTranslation("NUMBER_OF_CANSTITUTION")}
@@ -312,6 +252,7 @@ export const Region: FunctionComponent = () => {
             totalRecords={data.getRegions.totalCount}
             currentPage={currentPage}
             onPageChanged={onPageChanged}
+            pageLimit={pageLimit}
           />
         ) : null}
       </CardBody>

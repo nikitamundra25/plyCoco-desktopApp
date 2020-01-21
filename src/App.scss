@@ -541,9 +541,17 @@ body {
 .sidebar {
   background: $theme_color;
   // height: 100vh !important;
+  .sidebar-logo {
+    width: 180px;
+    margin: 8px auto;
+    display: none;
+  }
   &.sidebar-sticky {
     top: 0px;
     height: 100vh !important;
+    .sidebar-logo {
+      display: block;
+    }
   }
   .nav-item {
     .nav-link {
@@ -711,6 +719,9 @@ body {
 .sidebar-minimized {
   .sidebar {
     background: $theme_color;
+    .sidebar-logo {
+      display: none;
+    }
     .nav-item {
       .nav-link {
         padding-left: 0 !important;
@@ -800,12 +811,23 @@ body {
     height: auto;
   }
 }
-.region-input-section{
+.region-input-section {
   background: $white;
-  padding: 8px 12px;
+  padding: 8px 12px 30px;
   margin-bottom: 12px;
   border: 1px solid $table_border;
-  .btn-region{
+  .region-input {
+    width: 400px;
+  }
+  .required-error {
+    left: 0px;
+  }
+  .mandatory-text {
+    position: absolute;
+    bottom: -35px;
+    left: 0px;
+  }
+  .btn-region {
     padding: 0px 30px;
     display: flex;
     align-items: center;
@@ -1496,7 +1518,7 @@ body {
   }
 }
 .employee-details {
-  .degination{
+  .degination {
     padding: 4px 10px;
     border-radius: 15px;
     background: $theme_color;
@@ -1504,7 +1526,7 @@ body {
     margin-left: 5px;
     font-weight: normal;
   }
-  i{
+  i {
     width: 16px;
     font-size: 14px;
     display: inline-flex;
@@ -1566,19 +1588,18 @@ body {
       flex: 1 1 100%;
     }
     .profile-wrap {
-      margin-right: 25px;
-      flex: 0 0 105px;  
-      
+      margin-right: 30px;
+      flex: 0 0 125px;
       .emloyee-profile-img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        border-radius: 3px;
         margin: auto;
         overflow: hidden;
         position: relative;
         background-size: cover;
         background-position: 50%;
-        box-shadow: 0 0 0 2px #b5b5b5;
+        // box-shadow: 0 0 0 1px #b5b5b5;
       }
 
       .user-back-img-wrap {
@@ -1605,10 +1626,10 @@ body {
       }
     }
   }
-  .emloyee-detail-card{
+  .emloyee-detail-card {
     background: $white;
     padding: 15px;
-    align-items:  center;
+    align-items: center;
     border: 1px solid #ccc;
   }
 }
@@ -2746,6 +2767,8 @@ body {
 
 // custom-toaster
 .custom-toaster {
+  width: 360px;
+  font-family: $font_open_sans;
   .Toastify__toast {
     &.Toastify__toast--success {
       // background: #3ae5b9;
@@ -2756,11 +2779,13 @@ body {
       color: #000;
       border-left: 3px solid #39d7b3;
       box-shadow: 0 10px 11px 1px rgba(0, 42, 90, 0.1);
+      padding: 20px 8px;
       .Toastify__toast-body {
-        padding-left: 55px;
+        font-weight: 400;
+        font-size: $font_14;
+        padding-left: 50px;
         position: relative;
-        font-size: $font_15;
-        font-weight: 600;
+        font-family: $font_open_sans;
         &::before {
           // background: url('./assets/img/') no-repeat;
           background-image: url("assets/img/success-toaster.svg");
@@ -2783,10 +2808,13 @@ body {
       background: #fff;
       border-left: 3px solid #e5453a;
       color: $black;
+      padding: 20px 8px;
       .Toastify__toast-body {
-        font-weight: 600;
-        padding-left: 55px;
+        font-weight: 400;
+        font-size: $font_14;
+        padding-left: 50px;
         position: relative;
+        font-family: $font_open_sans;
         &::before {
           background: url("assets/img/error-toaster.svg") no-repeat;
           background-size: 35px;
@@ -2808,10 +2836,13 @@ body {
       border-radius: 10px;
       color: $black;
       border-left: 3px solid #efab12;
+      padding: 20px 8px;
       .Toastify__toast-body {
-        font-weight: 600;
-        padding-left: 55px;
+        font-weight: 400;
+        font-size: $font_14;
+        padding-left: 50px;
         position: relative;
+        font-family: $font_open_sans;
         &::before {
           content: "";
           background: url("assets/img/warning-toaster.svg") no-repeat;
@@ -2830,8 +2861,9 @@ body {
     color: $black;
     opacity: 1;
     position: absolute;
-    right: 12px;
-    top: 8px;
+    right: 10px;
+    top: 4px;
+    font-size: $font_12;
   }
 }
 .loader {

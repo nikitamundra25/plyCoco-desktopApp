@@ -80,7 +80,7 @@ const PersonalInfoFormComponent: any = (
                     <div>
                       <Field
                         component={FormikTextField}
-                        name={"lastName"}
+                        name={"userId"}
                         placeholder={languageTranslation("USER_ID")}
                         className="width-common"
                       />

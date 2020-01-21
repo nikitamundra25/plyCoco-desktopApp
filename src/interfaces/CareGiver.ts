@@ -79,9 +79,20 @@ export interface CareGiverValues {
   status: string;
 }
 
+export interface ICareGiverValidationInterface {
+  salutation?: IReactSelectInterface;
+  firstName: string;
+  lastName: string;
+  email: string;
+  dateOfBirth?: string;
+  phoneNumber?: string;
+  mobileNumber?: string;
+  userName?: string;
+}
+
 export interface IEmailMenus<
   Params extends { [K in keyof Params]?: string } = {}
-> {
+  > {
   history: H.History;
   location: H.Location;
 }
@@ -261,7 +272,7 @@ export interface ICareGiver {
   legalForm: string;
   workZones?: string[];
   status: string;
-  caregiverDetails:object
+  caregiverDetails: object
 }
 
 export interface IAddCargiverRes {

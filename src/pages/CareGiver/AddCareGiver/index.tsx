@@ -121,13 +121,16 @@ export const CareGiverForm: FunctionComponent = () => {
           careGiverInput
         },
         update: (cache, { data: { addCaregiver } }: any) => {
-          const data: any = cache.readQuery({ query: GET_CAREGIVERS, variables:{
-            searchBy:"",
-            sortBy: 0,
-            limit: PAGE_LIMIT,
-            page:  0,
-            isActive:  undefined
-          }  });
+          const data: any = cache.readQuery({
+            query: GET_CAREGIVERS,
+            variables: {
+              searchBy: "",
+              sortBy: 0,
+              limit: PAGE_LIMIT,
+              page: 0,
+              isActive: undefined
+            }
+          });
           cache.writeQuery({
             query: GET_CAREGIVERS,
             data: {
@@ -221,70 +224,71 @@ export const CareGiverForm: FunctionComponent = () => {
   };
   return (
     <>
-    <div>
-    <div className="common-detail-page">
-      <div className="common-detail-section">
-        <Suspense fallback={"Loading.."}>
-          <div className="sticky-common-header">
-            <div className="common-topheader d-flex align-items-center ">
-              <div className="user-select">
-               Add new Care Giver
+      <div>
+        <div className="common-detail-page">
+          <div className="common-detail-section">
+            <Suspense fallback={"Loading.."}>
+              <div className="sticky-common-header">
+                <div className="common-topheader d-flex align-items-center ">
+                  <div className="common-title">Add New Care Giver</div>
+
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <img src={reminder} alt="" />
+                    </span>
+                    <span
+                      className="header-nav-text"
+                      // onClick={() => {
+                      //   this.setState({ show: true });
+                      // }}
+                    >
+                      Create Todo/Reminder
+                    </span>
+                  </div>
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <img src={password} alt="" />
+                    </span>
+                    <span className="header-nav-text">New Password</span>
+                  </div>
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <img src={appointment} alt="" />
+                    </span>
+                    <span className="header-nav-text">
+                      Display Appointments
+                    </span>
+                  </div>
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <img src={clear} alt="" />
+                    </span>
+                    <span className="header-nav-text">Clear</span>
+                  </div>
+                </div>
+                <CareGiverSidebar
+                  tabs={CareGiverRoutesTabs}
+                  activeTab={activeTab}
+                />
               </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={reminder} alt="" />
-                </span>
-                <span
-                  className="header-nav-text"
-                  // onClick={() => {
-                  //   this.setState({ show: true });
-                  // }}
-                >
-                  Create Todo/Reminder
-                </span>
+            </Suspense>
+            <Suspense fallback={""}>
+              <div className="common-content flex-grow-1">
+                {activeTab === 0 ? (
+                  <Formik
+                    initialValues={initialValues}
+                    onSubmit={handleSubmit}
+                    validationSchema={CareGiverValidationSchema}
+                    render={(props: FormikProps<CareGiverValues>) => {
+                      return <CareGiverFormComponent {...props} />;
+                    }}
+                  />
+                ) : null}
               </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={password} alt="" />
-                </span>
-                <span className="header-nav-text">New Password</span>
-              </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={appointment} alt="" />
-                </span>
-                <span className="header-nav-text">Display Appointments</span>
-              </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={clear} alt="" />
-                </span>
-                <span className="header-nav-text">Clear</span>
-              </div>
-            </div>
-            <CareGiverSidebar
-              tabs={CareGiverRoutesTabs}
-              activeTab={activeTab}
-            />
+            </Suspense>
           </div>
-        </Suspense>
-        <Suspense fallback={""}>
-          <div className="common-content flex-grow-1">
-            {activeTab === 0 ? (
-             <Formik
-             initialValues={initialValues}
-             onSubmit={handleSubmit}
-             validationSchema={CareGiverValidationSchema}
-             render={(props: FormikProps<CareGiverValues>) => {
-               return <CareGiverFormComponent {...props} />;
-             }}
-           />
-            ) : null}
-          </div>
-        </Suspense>
+        </div>
       </div>
-    </div>
-  </div>
     </>
   );
 };

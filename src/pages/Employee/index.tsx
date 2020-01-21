@@ -355,8 +355,8 @@ const Employee: FunctionComponent = () => {
                     userName,
                     email,
                     phoneNumber,
-                    region,
                     assignedCanstitution,
+                    regions,
                     isActive,
                     profileThumbnailImage,
                     createdAt
@@ -424,7 +424,20 @@ const Employee: FunctionComponent = () => {
                       </td>
                       <td>
                         <div className="description-column one-line-text  ml-0 text-capitalize">
-                          {region ? region.regionName : "-"}
+                          {regions
+                            ? regions.map((region: any) => {
+                                return (
+                                  <p className="description-text ">
+                                    <span className="text-label mr-1">
+                                      <i className="fa fa-angle-right"></i>
+                                    </span>
+                                    <span className="align-middle">
+                                      {region ? region.regionName : "-"}
+                                    </span>
+                                  </p>
+                                );
+                              })
+                            : "-"}
                         </div>
                       </td>
                       <td className="text-center">

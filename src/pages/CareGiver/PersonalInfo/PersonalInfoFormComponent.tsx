@@ -16,8 +16,6 @@ import {
   FormGroup,
   Input,
 } from 'reactstrap';
-import 'react-datepicker/dist/react-datepicker.css';
-import 'react-datepicker/dist/react-datepicker.css';
 import {
   State,
   Region,

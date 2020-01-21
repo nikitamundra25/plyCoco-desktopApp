@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Table } from "reactstrap";
 import { languageTranslation } from "../../../helpers";
-class ToDo extends Component {
+class LoginLogs extends Component {
   render() {
     return (
       <>
@@ -101,4 +101,4 @@ class ToDo extends Component {
     );
   }
 }
-export default ToDo;
+export default LoginLogs;

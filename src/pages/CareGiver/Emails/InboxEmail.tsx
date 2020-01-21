@@ -12,7 +12,7 @@ import EmailMenus from "./EmailMenus";
 import { languageTranslation } from "../../../helpers";
 import { RouteComponentProps } from "react-router";
 import Select from "react-select";
-class Email extends Component<RouteComponentProps, any> {
+class InboxEmail extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -218,4 +218,4 @@ class Email extends Component<RouteComponentProps, any> {
     );
   }
 }
-export default Email;
+export default InboxEmail;

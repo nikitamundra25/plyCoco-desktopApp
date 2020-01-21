@@ -143,7 +143,7 @@
   "CAREGIVER_DRIVER_LICENSE_NUMBER": "driverLicenseNumber",
   "CAREGIVER_DRIVER_LICENSE_NUMBER_PLACEHOLDER": "Driver's License Number",
   "CAREGIVER_OWN_VEHICLE_AVAILABLE_LABEL": " Own vehicle available",
-  "CAREGIVER_OWN_VEHICLE_AVAILABLE": "vehicleavailable",
+  "CAREGIVER_OWN_VEHICLE_AVAILABLE": "vehicleAvailable",
   "CAREGIVER_LEGAL_FORM_LABEL": "Legal Form",
   "CAREGIVER_LEGAL_FORM_PLACEHOLDER": "Legal Form",
   "CAREGIVER_COMPANY_NAME_LABEL": "Company Name",
@@ -373,6 +373,7 @@
   "BLOCKED": "Blocked",
   "END": "End",
   "STORAGE_PANEL": "Storage Panel",
+  "CG_EDIT": "Click here to edit care giver",
   "CG_MENU_NEW_CAREGIVER": "New Caregiver",
   "CG_MENU_CREATE_TODO": "Create Todo/Reminder",
   "CG_MENU_NEW_PASSWORD": "New Password",
@@ -454,5 +455,12 @@
   "CREATED_DATE": "Created Date",
   "ENTER_VALID_WEB_URL": "Enter proper website url with http://",
   "REGION_SPECIALCHAR":"Special characters are not allowed in region name",
-  "SEARCH_CARE_INSTI_PLACEHOLDER":"By care institution name or email"
+  "SEARCH_CARE_INSTI_PLACEHOLDER":"By care institution name or email",
+  "TABEL_HEAD_CG_INFO":"CareGiver Information",
+  "TABEL_HEAD_CG_QUALIFICATION":"Qualification",
+  "TABEL_HEAD_CG_REGION":"Region",
+  "TABEL_HEAD_CG_APPLYING_AS":"Applying as",
+  "TABEL_HEAD_CG_STATUS":"Status",
+  "TABEL_HEAD_CG_ACTION":"Action",
+  "CAREGIVER_ADD_SUCCESS_MSG": "Care Giver added sucessfully"
 }

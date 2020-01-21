@@ -352,6 +352,7 @@ const CotactFormComponent: any = (
                             handleSelect(value, "contactType")
                           }
                           options={ContactType}
+                          menuPlacement={"auto"}
                         />
                       </div>
                     </Col>
@@ -446,7 +447,9 @@ const CotactFormComponent: any = (
                           value={country ? country : undefined}
                           onChange={(value: any) =>
                             handleSelect(value, "country")
+                            
                           }
+                          menuPlacement={"top"}
                         />
                       </div>
                     </Col>

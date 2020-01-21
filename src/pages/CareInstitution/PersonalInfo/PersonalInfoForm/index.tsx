@@ -29,11 +29,8 @@ import RemarkFormData from "./RemarkFormData";
 import { RegionQueries } from "../../../../queries/Region";
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-// const [GET_CARE_INSTITUTION_LIST,
-//   DELETE_CARE_INSTITUTION,
-//   UPDATE_CARE_INSTITUTION,
-//   ADD_CARE_INSTITUTION,
-//   GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries
+
+
 
 const PersonalInformationForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -86,7 +83,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       title,
       gender,
       website,
-      remarks,
       linkedTo,
       fax,
       anonymousName2,
@@ -132,6 +128,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   return (
     <Row className=" ">
       <Button
+        id={"submit-btn"}
         className={"save-button btn-add btn btn-primary text-white "}
         onClick={handleSubmit}
       >
@@ -204,6 +201,10 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                       <Select
                         placeholder={languageTranslation("REGION", "STATE")}
                         options={regionOptions}
+                        value={regionId ? regionId : undefined}
+                        onChange={(value: any) =>
+                          handleSelect(value, "regionId")
+                        }
                       />
                     </div>
                   </Col>

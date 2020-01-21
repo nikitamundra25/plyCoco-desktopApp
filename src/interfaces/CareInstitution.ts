@@ -98,6 +98,7 @@ export interface ICareInstitutionListDataInterface {
   userName: string;
   phoneNumber: string;
   isActive: boolean;
+  createdAt: string;
   canstitution: ICareInstitutionObjectInterface;
 }
 

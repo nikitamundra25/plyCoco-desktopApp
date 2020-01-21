@@ -244,7 +244,7 @@ const ViewEmployee: FunctionComponent = () => {
                     <div className='profile-text'>
                       <div className='user-item'>
                         <span className='text-label'>
-                          {languageTranslation('ADDRESS')}
+                          {languageTranslation('EMPLOYEE_ADDRESS1_LABEL')}
                         </span>
                         <span className='text-value one-line-text'>
                           :&nbsp;&nbsp;
@@ -270,66 +270,58 @@ const ViewEmployee: FunctionComponent = () => {
                           </span>
                         </div>
                       ) : null}
-                      {employee &&
-                      employee.employee &&
-                      employee.employee.city ? (
-                        <div className='user-item'>
-                          <span className='text-label'>
-                            {languageTranslation('CITY')}
-                          </span>
-                          <span className='text-value one-line-text'>
-                            :&nbsp;&nbsp;
-                            {employee.employee.city
-                              ? employee.employee.city
-                              : 'N/A'}
-                          </span>
-                        </div>
-                      ) : null}
-                      {employee &&
-                      employee.employee &&
-                      employee.employee.country ? (
-                        <div className='user-item'>
-                          <span className='text-label'>
-                            {languageTranslation('COUNTRY')}
-                          </span>
-                          <span className='text-value one-line-text'>
-                            :&nbsp;&nbsp;
-                            {employee.employee.country
-                              ? employee.employee.country
-                              : 'N/A'}
-                          </span>
-                        </div>
-                      ) : null}
-                      {employee &&
-                      employee.employee &&
-                      employee.employee.state ? (
-                        <div className='user-item'>
-                          <span className='text-label'>
-                            {languageTranslation('STATE')}
-                          </span>
-                          <span className='text-value one-line-text'>
-                            :&nbsp;&nbsp;
-                            {employee.employee.state
-                              ? employee.employee.state
-                              : 'N/A'}
-                          </span>
-                        </div>
-                      ) : null}
-                      {employee &&
-                      employee.employee &&
-                      employee.employee.zipCode ? (
-                        <div className='user-item'>
-                          <span className='text-label'>
-                            {languageTranslation('ZIP')}
-                          </span>
-                          <span className='text-value one-line-text'>
-                            :&nbsp;&nbsp;
-                            {employee.employee.zipCode
-                              ? employee.employee.zipCode
-                              : 'N/A'}
-                          </span>
-                        </div>
-                      ) : null}
+                      <div className='user-item'>
+                        <span className='text-label'>
+                          {languageTranslation('CITY')}
+                        </span>
+                        <span className='text-value one-line-text'>
+                          :&nbsp;&nbsp;
+                          {employee &&
+                          employee.employee &&
+                          employee.employee.city
+                            ? employee.employee.city
+                            : 'N/A'}
+                        </span>
+                      </div>
+                      <div className='user-item'>
+                        <span className='text-label'>
+                          {languageTranslation('COUNTRY')}
+                        </span>
+                        <span className='text-value one-line-text'>
+                          :&nbsp;&nbsp;
+                          {employee &&
+                          employee.employee &&
+                          employee.employee.country
+                            ? employee.employee.country
+                            : 'N/A'}
+                        </span>
+                      </div>
+                      <div className='user-item'>
+                        <span className='text-label'>
+                          {languageTranslation('STATE')}
+                        </span>
+                        <span className='text-value one-line-text'>
+                          :&nbsp;&nbsp;
+                          {employee &&
+                          employee.employee &&
+                          employee.employee.state
+                            ? employee.employee.state
+                            : 'N/A'}
+                        </span>
+                      </div>
+                      <div className='user-item'>
+                        <span className='text-label'>
+                          {languageTranslation('ZIP')}
+                        </span>
+                        <span className='text-value one-line-text'>
+                          :&nbsp;&nbsp;
+                          {employee &&
+                          employee.employee &&
+                          employee.employee.zipCode
+                            ? employee.employee.zipCode
+                            : 'N/A'}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </Col>
@@ -436,7 +428,7 @@ const ViewEmployee: FunctionComponent = () => {
                       <span className='text-label'>
                         {languageTranslation('REGION')}
                       </span>
-                      <span className='text-value one-line-text'>
+                      <span className='text-value one-line-text text-capitalize'>
                         :&nbsp;&nbsp;
                         {employee && employee.regions
                           ? employee.regions

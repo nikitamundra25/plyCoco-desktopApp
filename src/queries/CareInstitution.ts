@@ -24,6 +24,7 @@ const GET_CARE_INSTITUTION_LIST = gql`
         userName
         phoneNumber
         isActive
+        createdAt
         canstitution {
           city
           zipCode

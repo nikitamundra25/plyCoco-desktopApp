@@ -126,15 +126,15 @@ export const EmployeeForm: FunctionComponent = () => {
           }, // default code is for germany
         });
       }
-      if (viewEmployee.region && viewEmployee.region.length) {
-        viewEmployee.region.map(({ id, regionName }: any) => {
+      if (viewEmployee.regions && viewEmployee.regions.length) {
+        viewEmployee.regions.map(({ id, regionName }: any) => {
           regionData.push({
             label: regionName,
             value: id,
           });
         });
       }
-      logger(statesOpt, 'statesOpt');
+      logger(regionData, 'statesOpt');
       setEmployeeData({
         ...viewEmployee,
         ...viewEmployee.employee,

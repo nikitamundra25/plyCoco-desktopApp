@@ -50,8 +50,26 @@ const CreateTodo = (props: any) => {
         <ModalHeader>Create Todo/Reminder for John Doe </ModalHeader>
         <ModalBody>
           <div className="">
-            <div className="calender-wrapper">
+            <div className="calender-wrapper mb-4">
               <Row>
+                <Col lg={"4"}>
+                  <div>
+                    <DayPicker
+                      selectedDays={new Date()}
+                      modifiers={modifiers}
+                      modifiersStyles={modifiersStyles}
+                    />
+                  </div>
+                </Col>
+                <Col lg={"4"}>
+                  <div>
+                    <DayPicker
+                      selectedDays={new Date()}
+                      modifiers={modifiers}
+                      modifiersStyles={modifiersStyles}
+                    />
+                  </div>
+                </Col>
                 <Col lg={"4"}>
                   <div>
                     <DayPicker

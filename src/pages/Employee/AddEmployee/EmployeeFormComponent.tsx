@@ -143,11 +143,11 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
           <Row>
             <Col xs={"12"} lg={"12"}>
               <Form onSubmit={handleSubmit} className="form-section">
+                <h5 className="main-title ">
+                  {languageTranslation("PERSONAL_DATA")}
+                </h5>
                 <Row>
                   <Col lg={"6"}>
-                    <h5 className="main-title ">
-                      {languageTranslation("PERSONAL_DATA")}
-                    </h5>
                     <div className="form-card">
                       <Row>
                         <Col lg={"12"}>
@@ -350,15 +350,319 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
+
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation(
+                                    "EMPLOYEE_ADDRESS1_LABEL"
+                                  )}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div>
+                                  <Input
+                                    type="textarea"
+                                    name={"address1"}
+                                    placeholder={languageTranslation(
+                                      "EMPLOYEE_ADDRESS1_PLACEHOLDER"
+                                    )}
+                                    className="textarea-custom"
+                                    onChange={handleChange}
+                                    value={address1}
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation(
+                                    "EMPLOYEE_ADDRESS2_LABEL"
+                                  )}
+                                </Label>
+                              </Col>
+
+                              <Col sm="8">
+                                <div className="custom-radio-block">
+                                  <Input
+                                    type="textarea"
+                                    name={"address2"}
+                                    placeholder={languageTranslation(
+                                      "EMPLOYEE_ADDRESS2_PLACEHOLDER"
+                                    )}
+                                    onChange={handleChange}
+                                    value={address2}
+                                    className="textarea-custom form-control"
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("COUNTRY")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div>
+                                  <Select
+                                    placeholder={languageTranslation(
+                                      "COUNTRY_PLACEHOLDER"
+                                    )}
+                                    options={countriesOpt}
+                                    value={country ? country : undefined}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, "country")
+                                    }
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("EMPLOYEE_CITY_LABEL")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div>
+                                  <Input
+                                    name={"city"}
+                                    onChange={handleChange}
+                                    // className="form-control"
+                                    placeholder={languageTranslation(
+                                      "EMPLOYEE_CITY_PLACEHOLDER"
+                                    )}
+                                    value={city}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.city && touched.city
+                                        ? "text-input error"
+                                        : "text-input"
+                                    }
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation(
+                                    "EMPLOYEE_JOINING_DATE_LABEL"
+                                  )}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div>
+                                  <Row>
+                                    <Col>
+                                      <MaskedInput
+                                        name={"joiningDate"}
+                                        placeholder={languageTranslation(
+                                          "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
+                                        )}
+                                        mask={DateMask}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={joiningDate}
+                                        className={`form-control ${
+                                          errors.joiningDate &&
+                                          touched.joiningDate
+                                            ? "text-input error"
+                                            : "text-input"
+                                        }`}
+                                      />
+                                      {errors.joiningDate &&
+                                        touched.joiningDate && (
+                                          <div className="required-error">
+                                            {errors.joiningDate}
+                                          </div>
+                                        )}
+                                    </Col>
+                                  </Row>
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("REGION")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div>
+                                  <Select
+                                    placeholder={languageTranslation(
+                                      "EMPLOYEE_REGION_PLACEHOLDER"
+                                    )}
+                                    isMulti
+                                    options={Region}
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("EMPLOYEE_STATE_LABEL")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div>
+                                  <Select
+                                    placeholder={languageTranslation(
+                                      "EMPLOYEE_STATE_PLACEHOLDER"
+                                    )}
+                                    options={statesOpt}
+                                    value={state ? state : undefined}
+                                    onChange={(value: any) =>
+                                      handleSelect(value, "state")
+                                    }
+                                    noOptionsMessage={() => {
+                                      return "Select a country first";
+                                    }}
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("EMPLOYEE_ZIP_LABEL")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div>
+                                  <Input
+                                    name={"zip"}
+                                    onChange={handleChange}
+                                    // className="form-control"
+                                    placeholder={languageTranslation(
+                                      "EMPLOYEE_ZIP_PLACEHOLDER"
+                                    )}
+                                    value={zip}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.zip && touched.zip
+                                        ? "text-input error"
+                                        : "text-input"
+                                    }
+                                  />
+                                  {errors.zip && touched.zip && (
+                                    <div className="required-error">
+                                      {errors.zip}
+                                    </div>
+                                  )}
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
                       </Row>
                     </div>
                   </Col>
 
                   <Col lg={"6"}>
-                    <h5 className="main-title ">
+                    {/* <h5 className="main-title ">
                       {languageTranslation("BANK_ACCOUNT_INFORMATION")}
-                    </h5>
+                    </h5> */}
                     <div className="form-card">
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation(
+                                  "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
+                                )}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="fileinput-preview d-flex align-items-center justify-content-center">
+                                {!errors.image ? (
+                                  imagePreviewUrl &&
+                                  typeof imagePreviewUrl === "string" ? (
+                                    <img
+                                      src={imagePreviewUrl}
+                                      // width={100}
+                                      // height={100}
+                                      className="img-preview "
+                                    />
+                                  ) : (
+                                    ""
+                                  )
+                                ) : (
+                                  ""
+                                )}
+                                <div className="file-upload">
+                                  <label
+                                    htmlFor="gallery-photo-add"
+                                    className="file-upload-label"
+                                  >
+                                    <div className="icon-upload">
+                                      <i className="cui-cloud-upload"></i>
+                                    </div>
+                                    {/* <div className="icon-text">
+                                        Click here to select your profile image
+                                      </div> */}
+                                    <div className="icon-text">
+                                      {!image || errors.image
+                                        ? languageTranslation("CHOOSE_IMAGE")
+                                        : ""}
+                                    </div>
+                                  </label>
+                                  <input
+                                    className="file-upload-input"
+                                    type="file"
+                                    accept="image/*"
+                                    id="gallery-photo-add"
+                                    placeholder={languageTranslation(
+                                      "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
+                                    )}
+                                    onChange={handleImageChange}
+                                  />
+                                </div>
+                              </div>
+                              {errors.image && touched.image && (
+                                <div className="file-error-text">
+                                  {errors.image}
+                                </div>
+                              )}
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
                       <Col lg={"12"}>
                         <FormGroup>
                           <Row>
@@ -543,8 +847,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                       </Col>
                     </div>
                   </Col>
-
-                  <Col lg={"12"}>
+                  {/* <Col lg={"12"}>
                     <h5 className="main-title ">
                       {languageTranslation("OTHER_INFORMATION")}
                     </h5>
@@ -577,6 +880,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
+
                         <Col lg={"6"}>
                           <FormGroup>
                             <Row>
@@ -824,9 +1128,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       <div className="icon-upload">
                                         <i className="cui-cloud-upload"></i>
                                       </div>
-                                      {/* <div className="icon-text">
+                                      <div className="icon-text">
                                         Click here to select your profile image
-                                      </div> */}
+                                      </div>
                                       <div className="icon-text">
                                         {!image || errors.image
                                           ? languageTranslation("CHOOSE_IMAGE")
@@ -856,7 +1160,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                         </Col>
                       </Row>
                     </div>
-                  </Col>
+                  </Col> */}
                 </Row>
 
                 <div className="d-flex align-items-center justify-content-between">

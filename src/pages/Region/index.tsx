@@ -57,7 +57,7 @@ export const Region: FunctionComponent = () => {
           className={"btn-add"}
           id={"add-new-pm-tooltip"}
           onClick={() => {
-            toast.success("Add region");
+            toast.warn("Add region");
             // this.props.history.push(AppRoutes.ADD_REGION);
           }}
         >

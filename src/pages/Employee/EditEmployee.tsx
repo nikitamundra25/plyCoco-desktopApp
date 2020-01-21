@@ -54,7 +54,7 @@ class AddEmployee extends Component<any, any> {
                 <Form className="form-section">
                   <Row>
                     <Col lg={"6"}>
-                      <h5 className="main-title">Personal Data</h5>
+                      <h5 className="main-title">Personal Data </h5>
                       <div className="form-card">
                         <Row>
                           <Col lg={"12"}>

@@ -41,35 +41,14 @@ class CareGiverTodo extends Component<RouteComponentProps, any> {
    return (
      <>
        <div className="email-section">
-         <Row>
-           <Col lg={"5"}>
-             <Row>
-               <Col lg={"4"}>
-                 <div className="filter-btn-wrap mb-2">
-                   <span className="" id="search1">
-                     <div className="edit-remark">
-                       {languageTranslation("HIDE_DONE")}
-                     </div>
-                   </span>
-                 </div>
-               </Col>
-               <Col lg={"4"}>
-                 <div className="filter-btn-wrap mb-2">
-                   <span className="" id="search1">
-                     <div className="edit-remark">
-                       {languageTranslation("HIDE_FUTURE_ONES")}
-                     </div>
-                   </span>
-                 </div>
-               </Col>
-               
-             </Row>
-           </Col>
-         </Row>
+         {/* <EmailMenus
+           location={this.props.location}
+           history={this.props.history}
+         /> */}
          <div className="email-content">
-           {/* <h5 className="content-title">
+           <h5 className="content-title">
              {languageTranslation("CARE_GIVER_TODO")}
-           </h5> */}
+           </h5>
 
            <Row>
              <Col lg={"12"}>
@@ -110,11 +89,11 @@ class CareGiverTodo extends Component<RouteComponentProps, any> {
                      <i className="fa fa-refresh mr-1"></i>
                      <span>{languageTranslation("REFRESH")}</span>
                    </div>
-                   <span className="email-attributes-seprator">|</span>
+                   {/* <span className="email-attributes-seprator">|</span>
                    <div className="email-attributes-content">
                      <i className="fa fa-hourglass-end mr-1"></i>
                      <span>{languageTranslation("REPLY")}</span>
-                   </div>
+                   </div> */}
                  </div>
 
                  <Table responsive className="care-giver-todo">

@@ -75,9 +75,9 @@ class CareGiverTodo extends Component<RouteComponentProps, any> {
             </Col>
           </Row>
           <div className="email-content">
-            {/* <h5 className="content-title">
+            <h5 className="content-title">
               {languageTranslation("CARE_INSTITUTION")}
-            </h5> */}
+            </h5>
 
             <Row>
               <Col lg={"12"}>
@@ -118,11 +118,11 @@ class CareGiverTodo extends Component<RouteComponentProps, any> {
                       <i className="fa fa-refresh mr-1"></i>
                       <span>{languageTranslation("REFRESH")}</span>
                     </div>
-                    {/* <span className="email-attributes-seprator">|</span> */}
-                    {/* <div className="email-attributes-content">
+                    <span className="email-attributes-seprator">|</span>
+                    <div className="email-attributes-content">
                       <i className="fa fa-hourglass-end mr-1"></i>
                       <span>{languageTranslation("REPLY")}</span>
-                    </div> */}
+                    </div>
                   </div>
 
                   <Table responsive className="care-giver-todo">

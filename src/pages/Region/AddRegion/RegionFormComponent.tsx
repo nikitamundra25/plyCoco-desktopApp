@@ -1,27 +1,10 @@
-import React, { FunctionComponent } from "react";
-import { FormikProps } from "formik";
-import logo from "../../assets/img/plycoco-logo.png";
-import { ILoginFormValues, IRegionFormValue } from "../../../interfaces";
-import {
-  FormGroup,
-  Form,
-  Row,
-  Col,
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  Label,
-  Input
-} from "reactstrap";
-import { AppBreadcrumb } from "@coreui/react";
-import routes from "../../../routes/routes";
-import Search from "../../../common/SearchFilter";
-import { toast } from "react-toastify";
-import ButtonTooltip from "../../../common/Tooltip/ButtonTooltip";
-import { languageTranslation } from "../../../helpers";
+import React, { FunctionComponent } from 'react';
+import { FormikProps } from 'formik';
+import { IRegionFormValue } from '../../../interfaces';
+import { FormGroup, Form, Button, Label, Input } from 'reactstrap';
+import { languageTranslation } from '../../../helpers';
 const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
-  props: FormikProps<IRegionFormValue>
+  props: FormikProps<IRegionFormValue>,
 ) => {
   const {
     values: { regionName },
@@ -30,9 +13,8 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
     isSubmitting,
     handleChange,
     handleBlur,
-    handleSubmit
+    handleSubmit,
   } = props;
-  console.log("errors", errors);
 
   return (
     <>
@@ -56,52 +38,52 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
         <CardBody>
           <Row>
             <div xs={"12"} lg={"8"} className="mx-auto"> */}
-      <Form onSubmit={handleSubmit} className="form-section">
+      <Form onSubmit={handleSubmit} className='form-section'>
         <FormGroup>
-          <div className="d-flex align-items-center justify-content-center">
-            <div className="mr-3 position-relative ">
-              <Label className="form-label col-form-label ">
-                {languageTranslation("REGION_NAME_OF_REGION_LABEL")}
-                <span className="required">*</span>
+          <div className='d-flex align-items-center justify-content-center'>
+            <div className='mr-3 position-relative '>
+              <Label className='form-label col-form-label '>
+                {languageTranslation('REGION_NAME_OF_REGION_LABEL')}
+                <span className='required'>*</span>
               </Label>
-              <div className="mandatory-text">
-                {languageTranslation("REQUIRED_FIELDS")}
+              <div className='mandatory-text'>
+                {languageTranslation('REQUIRED_FIELDS')}
               </div>
             </div>
-            <div className="mr-3 region-input  position-relative">
+            <div className='mr-3 region-input  position-relative'>
               <Input
-                type="text"
-                name={"regionName"}
+                type='text'
+                name={'regionName'}
                 placeholder={languageTranslation(
-                  "REGION_NAME_OF_REGION_PLACEHOLDER"
+                  'REGION_NAME_OF_REGION_PLACEHOLDER',
                 )}
                 onChange={handleChange}
-                maxLength="30"
+                maxLength='30'
                 onBlur={handleBlur}
                 value={regionName}
                 className={
                   errors.regionName && touched.regionName
-                    ? "text-input error"
-                    : "text-input"
+                    ? 'text-input error'
+                    : 'text-input'
                 }
               />
               {errors.regionName && touched.regionName && (
-                <div className="required-error">{errors.regionName}</div>
+                <div className='required-error'>{errors.regionName}</div>
               )}
             </div>
-            <div className="mr-3">
+            <div className='mr-3'>
               <Button
-                color={"primary"}
+                color={'primary'}
                 disabled={isSubmitting}
-                className={"btn-region"}
+                className={'btn-region'}
                 onClick={handleSubmit}
               >
                 {isSubmitting === true ? (
-                  <i className="fa fa-spinner fa-spin loader" />
+                  <i className='fa fa-spinner fa-spin loader' />
                 ) : (
-                  ""
+                  ''
                 )}
-                {languageTranslation("SAVE_BUTTON")}
+                {languageTranslation('SAVE_BUTTON')}
               </Button>
             </div>
           </div>

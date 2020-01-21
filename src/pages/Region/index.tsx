@@ -156,13 +156,19 @@ export const Region: FunctionComponent = () => {
         <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
         <div className='add-region-wrap'>
           <Button
-            color={'primary'}
+            color={!isOpen ? 'primary' : 'danger'}
             className={'btn-add'}
             id={'add-new-pm-tooltip'}
             onClick={toggle}
           >
-            <i className={'fa fa-plus'} />
-            &nbsp; {languageTranslation('ADD_NEW_REGION_BUTTON')}
+            {!isOpen ? (
+              <>
+                <i className={'fa fa-plus'} />
+                &nbsp; {languageTranslation('ADD_NEW_REGION_BUTTON')}
+              </>
+            ) : (
+              languageTranslation('CANCEL')
+            )}
           </Button>
         </div>
       </CardHeader>

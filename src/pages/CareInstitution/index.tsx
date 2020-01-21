@@ -113,7 +113,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                 (key: any) => sortFilter[key] === query.sortBy,
               ) || '',
           }
-        : undefined;
+        : { label: 'Newest', value: '1' };
       isActive = query.status
         ? query.status === 'active'
           ? { label: languageTranslation('ACTIVE'), value: 'true' }
@@ -448,7 +448,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} label={'employee'} />
+              <Search {...props} label={'care institution'} />
             )}
           />
         </div>

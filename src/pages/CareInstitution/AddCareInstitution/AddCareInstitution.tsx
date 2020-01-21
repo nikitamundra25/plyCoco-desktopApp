@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import {
   Button,
   FormGroup,
@@ -22,7 +22,8 @@ import {
   IReactSelectInterface,
   ICountry,
   IStates,
-  IState
+  IState,
+  IRegion
 } from "../../../interfaces";
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 // import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
@@ -32,7 +33,9 @@ import InvoiceFormData from "../PersonalInfo/PersonalInfoForm/InvoiceFormData";
 import QuallificationAttribute from "../PersonalInfo/PersonalInfoForm/QuallificationAttribute";
 import RemarkFormData from "../PersonalInfo/PersonalInfoForm/RemarkFormData";
 import "../careinstitution.scss";
+import { RegionQueries } from "../../../queries/Region";
 
+const [, GET_REGIONS] = RegionQueries
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const AddCareInstitution: any = (
@@ -66,6 +69,30 @@ const AddCareInstitution: any = (
       logger(statesData, "sdsdsdsd");
     }
   };
+  // Region Data
+  const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
+    GET_REGIONS
+  );
+  //Region List Data
+  const regionOptions: IReactSelectInterface[] | undefined = [];
+  if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
+    RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
+      regionOptions.push({
+        label: regionName,
+        value: id
+      })
+    );
+  }
+
+  useEffect(() => {
+    // call query
+    fetchRegionList({
+      variables: {
+        limit: 200,
+        sortBy: 3
+      }
+    });
+  }, []);
 
   const {
     values: {
@@ -132,7 +159,11 @@ const AddCareInstitution: any = (
                     <div>
                       <Select
                         placeholder={languageTranslation("REGION", "STATE")}
-                        options={State}
+                        value={regionId ? regionId : undefined}
+                        onChange={(value: any) =>
+                          handleSelect(value, "regionId")
+                        }
+                        options={regionOptions}
                       />
                     </div>
                   </Col>

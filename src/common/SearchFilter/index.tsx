@@ -55,7 +55,9 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                 placeholder={
                   label === "employee"
                     ? languageTranslation("SEARCH_EMPLOYEE_PLACEHOLDER")
-                    : languageTranslation("SEARCH_REGION_PLACEHOLDER")
+                    : label === "care institution" ?
+                      languageTranslation("SEARCH_CARE_INSTI_PLACEHOLDER") :
+                      languageTranslation("SEARCH_REGION_PLACEHOLDER")
                 }
               />
             </FormGroup>
@@ -74,7 +76,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
               />
             </FormGroup>
           </Col>
-          {label === "employee" ? (
+          {label === "employee" || label === "care institution"? (
             <Col lg={"2"}>
               <FormGroup>
                 <Label for="Selectregion" className="col-form-label">

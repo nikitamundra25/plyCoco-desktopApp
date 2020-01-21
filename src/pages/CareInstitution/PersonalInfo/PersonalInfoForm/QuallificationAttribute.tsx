@@ -53,7 +53,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
           <div className="common-list-footer form-section ">
             <FormGroup className="mb-0">
               <Select
-                placeholder={languageTranslation("REGION", "STATE")}
+                placeholder={"Qualifications"}
                 value={qualificationId ? qualificationId : undefined}
                 onChange={(value: any) => handleSelect(value, "qualification")}
                 isMulti
@@ -86,7 +86,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
           <div className="common-list-footer form-section ">
             <FormGroup className="mb-0">
               <Select
-                placeholder={languageTranslation("REGION", "STATE")}
+                placeholder={"Attributes"}
                 value={attributeId ? attributeId : undefined}
                 onChange={(value: any) => handleSelect(value, "attribute")}
                 isMulti

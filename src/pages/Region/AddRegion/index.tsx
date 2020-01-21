@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import { AppRoutes } from '../../../config';
 
 const [ADD_REGION, GET_REGIONS] = RegionQueries;
+let toastId: any = null;
 
 export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
   toggle: () => void;
@@ -40,12 +41,15 @@ export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
       let regionInput: IRegionFormValue = {
         regionName,
       };
+      toast.dismiss();
       await addRegion({
         variables: {
           regionInput,
         },
       });
-      toast.success('Region Added Successfully.');
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success('Region Added Successfully.');
+      }
       props.toggle();
       history.push(AppRoutes.REGION);
     } catch (error) {
@@ -54,7 +58,9 @@ export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
         .replace('Validation error: ', '')
         .replace('GraphQL error: ', '');
       // setFieldError('email', message);
-      toast.error(message);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
     }
 
     setSubmitting(false);

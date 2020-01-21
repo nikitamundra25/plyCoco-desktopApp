@@ -109,10 +109,10 @@ const AddCareInstitution: any = (
     <Row className=" ">
       <Button
         disabled={isSubmitting}
-        className={
-          "save-button btn-add btn btn-primary text-white top-form-button"
-        }
+        id={"caregiver-add-btn"}
         onClick={handleSubmit}
+        color={"primary"}
+        className={"save-button"}
       >
         {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
         {languageTranslation("SAVE_BUTTON")}

@@ -99,7 +99,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     );
   }
   useEffect(() => {
-    console.log(imageUrl, 'countryName', country);
     if (imageUrl) {
       setUrl(`${AppConfig.FILES_ENDPOINT}${imageUrl}`);
     }

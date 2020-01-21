@@ -50,7 +50,27 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   }>(ADD_CARE_INSTITUTION);
 
   let history = useHistory();
-  console.log("Data", data);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    const scrollPositionY = window.scrollY;
+    const buttonDiv: HTMLElement | null = document.getElementById(
+      "caregiver-add-btn"
+    );
+    if (buttonDiv) {
+      if (scrollPositionY >= 35) {
+        buttonDiv.classList.add("sticky-save-btn");
+      } else {
+        buttonDiv.classList.remove("sticky-save-btn");
+      }
+    }
+  };
 
   useEffect(() => {
     if (data) {

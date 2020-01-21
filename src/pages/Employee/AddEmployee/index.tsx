@@ -293,7 +293,6 @@ export const EmployeeForm: FunctionComponent = () => {
     }
     setSubmitting(false);
   };
-  console.log('employeedata');
 
   // Fetch values in case of edit by default it will be null or undefined
   const {

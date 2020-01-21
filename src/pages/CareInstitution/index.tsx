@@ -468,9 +468,7 @@ const CareInstitution = (props: RouteComponentProps) => {
           </thead>
           <tbody>{tableData}</tbody>
         </Table>
-      </CardBody>
-      
-      {data && userData && userData.length &&
+        {data && userData && userData.length &&
         data.getCareInstitutions &&
         data.getCareInstitutions.totalCount ? (
           <PaginationComponent
@@ -479,6 +477,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             onPageChanged={onPageChanged}
           />
         ):null}
+      </CardBody>
     </Card>
   );
 };

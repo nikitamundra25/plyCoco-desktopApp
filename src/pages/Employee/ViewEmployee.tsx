@@ -332,59 +332,6 @@ const ViewEmployee: FunctionComponent = () => {
                           </span>
                         </div>
                       ) : null}
-                      {/* <div className='user-item'>
-                        <span className=' text-label'>
-                          {languageTranslation('EMPLOYEE_ADDRESS1_LABEL')}
-                        </span>
-                        <span className='text-value one-line-text d-flex align-items-center'>
-                          :&nbsp;&nbsp; 112, Neelkanth colony
-                        </span>
-                      </div>
-                      <div className='user-item'>
-                        <span className='text-label'>
-                          {languageTranslation('EMPLOYEE_ADDRESS2_LABEL')}
-                        </span>
-
-                        <span className='text-value one-line-text'>
-                          :&nbsp;&nbsp; 30 A, high Street
-                        </span>
-                      </div>
-
-                      <div className='user-item'>
-                        <div className='text-label'>
-                          {languageTranslation('COUNTRY')}
-                        </div>
-                        <span className='text-value one-line-text'>
-                          :&nbsp;&nbsp; India
-                        </span>
-                      </div>
-
-                      <div className='user-item'>
-                        <span className='text-label'>
-                          {languageTranslation('EMPLOYEE_STATE_LABEL')}
-                        </span>
-                        <span className='text-value one-line-text'>
-                          :&nbsp;&nbsp; Madhya Pradesh
-                        </span>
-                      </div>
-
-                      <div className='user-item'>
-                        <span className='text-label'>
-                          {languageTranslation('EMPLOYEE_CITY_LABEL')}
-                        </span>
-                        <span className='text-value one-line-text'>
-                          :&nbsp;&nbsp; Indore
-                        </span>
-                      </div>
-
-                      <div className='user-item'>
-                        <span className='text-label'>
-                          {languageTranslation('EMPLOYEE_ZIP_LABEL')}
-                        </span>
-                        <span className='text-value one-line-text'>
-                          :&nbsp;&nbsp; 46367
-                        </span>
-                      </div> */}
                     </div>
                   </div>
                 </Col>
@@ -493,10 +440,10 @@ const ViewEmployee: FunctionComponent = () => {
                       </span>
                       <span className='text-value one-line-text'>
                         :&nbsp;&nbsp;
-                        {employee &&
-                        employee.region &&
-                        employee.region.regionName
-                          ? employee.region.regionName
+                        {employee && employee.regions
+                          ? employee.regions
+                              .map((region: any) => region.regionName)
+                              .join(', ')
                           : 'N/A'}
                       </span>
                     </div>

@@ -31,7 +31,7 @@ export interface ICareInstitutionFormValues {
   zipCode?: string;
   countryId?: string;
   stateId?: string;
-  regionId?: number;
+  regionId?: IReactSelectInterface;
   remarks?: [ICareInstitutionRemarks] | undefined | any;
   linkedTo?: string;
   anonymousName?: string;

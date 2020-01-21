@@ -17,6 +17,8 @@ import { CareInstituionContactValidationSchema } from '../../../../validations';
 import CotactFormComponent from './CotactFormComponent';
 import { toast } from 'react-toastify';
 
+let toastId: any
+
 const [
   ,
   ,
@@ -39,23 +41,21 @@ const CareInstitutionContacts: any = (props: any) => {
     setActiveContact(contacts.length - 1);
   }, [contacts]);
 
-  const updateContacts = (cache: any, data: any) => {
-    console.log(contacts, data.data, 'dataaaaaaaaaaa');
+  const addContacts = (cache: any, data: any) => {
     let newContacts = contacts;
-    console.log(contacts, 'contacts++++');
     const ResctData: any = {
-      email: '',
-      firstName: '',
-      lastName: '',
-      userName: '',
-      phoneNumber: '',
-      mobileNumber: '',
-      faxNumber: '',
-      comments: '',
-      groupAttributes: '',
-    };
-    newContacts[newContacts.length - 1] = data.data.addContact;
-    newContacts.push(ResctData);
+      email: "",
+      firstName: "",
+      lastName: "",
+      userName: "",
+      phoneNumber: "",
+      mobileNumber: "",
+      faxNumber: "",
+      comments: "",
+      groupAttributes: ""
+    }
+    newContacts[newContacts.length - 1] = (data.data.addContact);
+    newContacts.push(ResctData)
     props.setContacts(newContacts);
   };
   // Mutation to add new contact
@@ -64,12 +64,12 @@ const CareInstitutionContacts: any = (props: any) => {
     { error: contactError, data: contactDataA },
   ] = useMutation<{
     addContact: ICareInstitutionFormValues;
-  }>(ADD_NEW_CONTACT_CARE_INSTITUTION, { update: updateContacts });
+  }>(ADD_NEW_CONTACT_CARE_INSTITUTION, { update: addContacts });
 
   // Mutation to update new contact
   const [updateContact] = useMutation<{
     updateContact: ICareInstitutionFormValues;
-  }>(UPDATE_NEW_CONTACT_CARE_INSTITUTION, { update: updateContacts });
+  }>(UPDATE_NEW_CONTACT_CARE_INSTITUTION);
 
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
@@ -98,7 +98,6 @@ const CareInstitutionContacts: any = (props: any) => {
       logger(statesData, 'sdsdsdsd');
     }
   };
-
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
     { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
@@ -134,7 +133,9 @@ const CareInstitutionContacts: any = (props: any) => {
             contactInput: contactInput,
           },
         });
-        toast.success(languageTranslation('CONTACT_UPDATE_CARE_INSTITUTION'));
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(languageTranslation("CONTACT_UPDATE_CARE_INSTITUTION"))
+        }
       } else {
         await addContact({
           variables: {

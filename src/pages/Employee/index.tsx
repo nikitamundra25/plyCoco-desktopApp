@@ -245,7 +245,7 @@ const Employee: FunctionComponent = () => {
           data: updatedData,
         });
         if (!toast.isActive(toastId)) {
-          toastId = toast.success('Employee deleted successfully');
+          toastId = toast.success('Employee deleted successfully.');
         }
       } catch (error) {
         const message = error.message
@@ -367,8 +367,8 @@ const Employee: FunctionComponent = () => {
                     userName,
                     email,
                     phoneNumber,
-                    region,
                     assignedCanstitution,
+                    regions,
                     isActive,
                     profileThumbnailImage,
                     createdAt,
@@ -435,8 +435,21 @@ const Employee: FunctionComponent = () => {
                         </div>
                       </td>
                       <td>
-                        <div className='description-column one-line-text  ml-0'>
-                          {region ? region.regionName : '-'}
+                        <div className='description-column one-line-text  ml-0 text-capitalize'>
+                          {regions
+                            ? regions.map((region: any) => {
+                                return (
+                                  <p className='description-text '>
+                                    <span className='text-label mr-1'>
+                                      <i className='fa fa-angle-right'></i>
+                                    </span>
+                                    <span className='align-middle'>
+                                      {region ? region.regionName : '-'}
+                                    </span>
+                                  </p>
+                                );
+                              })
+                            : '-'}
                         </div>
                       </td>
                       <td className='text-center'>

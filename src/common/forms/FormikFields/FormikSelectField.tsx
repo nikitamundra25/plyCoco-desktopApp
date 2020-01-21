@@ -2,31 +2,9 @@ import React from 'react';
 import { getIn } from 'formik';
 import {Label} from 'reactstrap';
 import Select from "react-select"
+import { IFormikSelectField } from '../../../interfaces/FormikSelectField';
 
 
-interface IField {
-  value: string,
-  name: string
-}
-
-interface IFormikForm {
-  touched: boolean,
-  errors: any,
-  isSubmitting: boolean,
-  handleChange: (event: any) => void,
-  setFieldTouched: (name: string, value: boolean, touched: boolean) => void,
-  handleBlur: (name: string, value: boolean, touched: boolean) => void,
-  setFieldValue: (name: string, value: boolean, touched: boolean) => void
-}
-
-interface IFormikSelectField {
-  field: IField,
-  form: IFormikForm,
-  classes: any,
-  disabled: boolean,
-  [key: string]: any,
-  style: any
-}
 
 export const FormikSelectField = (
     props: IFormikSelectField) => {

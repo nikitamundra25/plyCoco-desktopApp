@@ -2779,7 +2779,8 @@ body {
       color: #000;
       border-left: 3px solid #39d7b3;
       box-shadow: 0 10px 11px 1px rgba(0, 42, 90, 0.1);
-      padding: 20px 8px;
+      padding: 8px 6px;
+      padding-right: 20px;
       .Toastify__toast-body {
         font-weight: 400;
         font-size: $font_14;
@@ -2808,7 +2809,8 @@ body {
       background: #fff;
       border-left: 3px solid #e5453a;
       color: $black;
-      padding: 20px 8px;
+      padding: 8px 6px;
+      padding-right: 20px;
       .Toastify__toast-body {
         font-weight: 400;
         font-size: $font_14;
@@ -2836,7 +2838,8 @@ body {
       border-radius: 10px;
       color: $black;
       border-left: 3px solid #efab12;
-      padding: 20px 8px;
+      padding: 8px 6px;
+      padding-right: 20px;
       .Toastify__toast-body {
         font-weight: 400;
         font-size: $font_14;
@@ -2861,8 +2864,8 @@ body {
     color: $black;
     opacity: 1;
     position: absolute;
-    right: 10px;
-    top: 4px;
+    right: 6px;
+    top: 8px;
     font-size: $font_12;
   }
 }

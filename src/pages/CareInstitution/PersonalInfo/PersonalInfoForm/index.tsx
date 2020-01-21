@@ -109,7 +109,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     // call query
     fetchRegionList({
       variables: {
-        limit: PAGE_LIMIT
+        limit: PAGE_LIMIT,
+        sortBy: 3
       }
     });
   }, []);

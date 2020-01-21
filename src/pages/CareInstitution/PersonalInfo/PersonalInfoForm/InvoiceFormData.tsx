@@ -4,7 +4,7 @@ import Select from "react-select";
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { languageTranslation, logger } from "../../../../helpers";
 import { ICareInstitutionFormValues, IHandleSelectInterface } from "../../../../interfaces";
-import { Region, InvoiceType } from "../../../../config";
+import { Region, InvoiceType, InvoiceInterval } from "../../../../config";
 
 const InvoiceFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -42,7 +42,6 @@ const InvoiceFormData: FunctionComponent<FormikProps<
                 <div>
                   <Select
                     placeholder={languageTranslation("INVOICE_TYPE")}
-                    isMulti
                     value={invoiceType ? invoiceType : undefined}
                     onChange={(value: any) =>
                       handleSelect(value, 'invoiceType')
@@ -66,12 +65,11 @@ const InvoiceFormData: FunctionComponent<FormikProps<
                 <div>
                   <Select
                     placeholder={languageTranslation("Interval")}
-                    isMulti
                     value={interval ? interval : undefined}
                     onChange={(value: any) =>
                       handleSelect(value, 'interval')
                     }
-                    options={Region}
+                    options={InvoiceInterval}
                   />
                 </div>
               </Col>

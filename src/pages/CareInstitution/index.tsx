@@ -113,7 +113,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                 (key: any) => sortFilter[key] === query.sortBy,
               ) || '',
           }
-        : undefined;
+        : { label: 'Newest', value: '1' };
       isActive = query.status
         ? query.status === 'active'
           ? { label: languageTranslation('ACTIVE'), value: 'true' }

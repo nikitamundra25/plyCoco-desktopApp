@@ -256,10 +256,10 @@ const PersonalInformation: any = (props: any) => {
       email: getCareInstitution.email,
       firstName: getCareInstitution.firstName,
       lastName: getCareInstitution.lastName,
-      gender: {
+      gender: getCareInstitution.gender ? {
         label: getCareInstitution ? getCareInstitution.gender : '',
-        value: getCareInstitution ? getCareInstitution.gender : '',
-      },
+        value: getCareInstitution ? getCareInstitution.gender : null,
+      } : undefined,
       userName: getCareInstitution.userName,
       phoneNumber: getCareInstitution.phoneNumber,
       careGiverCommission: getCareInstitution.canstitution
@@ -279,11 +279,11 @@ const PersonalInformation: any = (props: any) => {
       zipCode: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.zipCode
         : '',
-      country: {
-        label: userSelectedCountry.label,
-        value: userSelectedCountry.value,
-      },
-      state: { label: userSelectedState.label, value: userSelectedState.value },
+      country: userSelectedCountry.value ? {
+        label: userSelectedCountry.value ? userSelectedCountry.label : null,
+        value: userSelectedCountry.value ? userSelectedCountry.value : null,
+      } : undefined,
+      state: userSelectedState.value ? { label: userSelectedState.label, value: userSelectedState.value } : undefined,
       stateId: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.stateId
         : '',
@@ -305,18 +305,28 @@ const PersonalInformation: any = (props: any) => {
       remarksViewable: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.remarksViewable
         : '',
-      invoiceType: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.invoiceType
-        : '',
+      invoiceType: getCareInstitution.canstitution.invoiceType ? {
+        label: getCareInstitution.canstitution
+          ? getCareInstitution.canstitution.invoiceType : "",
+        value: getCareInstitution.canstitution
+          ? getCareInstitution.canstitution.invoiceType : ""
+      } : undefined,
       emailInvoice: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.emailInvoice
         : '',
       addressInvoice: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.addressInvoice
         : '',
-      interval: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.interval
-        : '',
+      interval:
+        getCareInstitution.canstitution.interval ?
+          {
+            label: getCareInstitution.canstitution
+              ? getCareInstitution.canstitution.interval
+              : '',
+            value: getCareInstitution.canstitution
+              ? getCareInstitution.canstitution.interval
+              : ''
+          } : undefined,
       linkedTo: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.linkedTo
         : '',
@@ -338,7 +348,7 @@ const PersonalInformation: any = (props: any) => {
       street: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.street
         : "",
-      regionId: userSelectedRegion ? userSelectedRegion : {},
+      regionId: userSelectedRegion.value ? userSelectedRegion : undefined,
       city: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.city
         : '',

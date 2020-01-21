@@ -173,10 +173,10 @@ const CareInstitutionContacts: any = (props: any) => {
     city = '',
     zip = '',
     title = '',
-    contactType = '',
-    gender = '',
+    contactType = undefined,
+    gender = undefined,
     salutation = '',
-    countryId = '',
+    countryId = undefined,
   } = contacts[activeContact] ? contacts[activeContact] : {};
 
   let countryData: Number;

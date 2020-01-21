@@ -21,6 +21,7 @@ const GET_REGIONS = gql`
       regionData {
         id
         regionName
+        createdAt
       }
     }
   }

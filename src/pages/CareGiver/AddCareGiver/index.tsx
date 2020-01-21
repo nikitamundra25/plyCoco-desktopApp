@@ -77,6 +77,8 @@ export const CareGiverForm: FunctionComponent = () => {
       workZones,
       status
     } = values;
+    console.log("Values",values);
+    
     try {
       let careGiverInput: ICareGiverInput = {
         salutation: salutation && salutation.label ? salutation.label : "",

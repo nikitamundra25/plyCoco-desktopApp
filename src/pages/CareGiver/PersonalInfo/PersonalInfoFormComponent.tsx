@@ -51,6 +51,7 @@ import { languageTranslation } from "../../../helpers";
 import FormikCheckbox from "../../../common/forms/FormikFields/FormikCheckbox";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { CountryQueries } from "../../../queries";
+import { useLocation } from "react-router";
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
@@ -72,6 +73,11 @@ const PersonalInfoFormComponent: any = (
       })
     );
   }
+
+  let { pathname } = useLocation();
+  console.log("pathname", pathname.split('/'));
+  let PathArray: string[] = pathname.split('/')
+
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
       statesOpt.push({
@@ -95,50 +101,54 @@ const PersonalInfoFormComponent: any = (
       <Row>
         <Col lg={"12"}>
           <FormGroup>
-            <Row>
-              <Col sm="4">
-                <Label className="form-label col-form-label">
-                  {languageTranslation("USER_ID")}
-                  <span className="required">*</span>
-                </Label>
-              </Col>
-              <Col sm="8">
-                <Row className="custom-col inner-no-padding-col">
+            {
+              PathArray && PathArray[2] !== 'add' ?
+                <Row>
                   <Col sm="4">
-                    <div>
-                      <Field
-                        component={FormikTextField}
-                        name={"userId"}
-                        placeholder={languageTranslation("USER_ID")}
-                        className="width-common"
-                      />
-                    </div>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("USER_ID")}
+                      <span className="required">*</span>
+                    </Label>
                   </Col>
                   <Col sm="8">
-                    <FormGroup>
-                      <Row className="custom-col inner-no-padding-col">
-                        <Col sm="6">
-                          <Label className="form-label col-form-label inner-label">
-                            {languageTranslation("REG_SINCE")}
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="6">
-                          <div>
-                            <Field
-                              component={FormikTextField}
-                              name={"registartionSince"}
-                              placeholder="Reg Since"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
+                    <Row className="custom-col inner-no-padding-col">
+                      <Col sm="4">
+                        <div>
+                          <Field
+                            component={FormikTextField}
+                            name={"userId"}
+                            placeholder={languageTranslation("USER_ID")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                      <Col sm="8">
+                        <FormGroup>
+                          <Row className="custom-col inner-no-padding-col">
+                            <Col sm="6">
+                              <Label className="form-label col-form-label inner-label">
+                                {languageTranslation("REG_SINCE")}
+                                <span className="required">*</span>
+                              </Label>
+                            </Col>
+                            <Col sm="6">
+                              <div>
+                                <Field
+                                  component={FormikTextField}
+                                  name={"registartionSince"}
+                                  placeholder="Reg Since"
+                                  className="width-common"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                    </Row>
                   </Col>
-                </Row>
-              </Col>
-            </Row>
+                </Row> :
+                null
+            }
           </FormGroup>
         </Col>
         <Col lg={"12"}>
@@ -147,7 +157,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   {"Region"}
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -168,7 +177,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   {languageTranslation("GENDER")}
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -187,7 +195,6 @@ const PersonalInfoFormComponent: any = (
                         <Col sm="6">
                           <Label className="form-label col-form-label inner-label">
                             {languageTranslation("TITLE")}
-                            <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="6">
@@ -214,7 +221,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   {languageTranslation("SALUTATION")}
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -280,8 +286,7 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Birthday Date
-                  <span className="required">*</span>
-                </Label>
+                 </Label>
               </Col>
               <Col sm="8">
                 <Row className="custom-col inner-no-padding-col">
@@ -301,7 +306,6 @@ const PersonalInfoFormComponent: any = (
                         <Col sm="6">
                           <Label className="form-label col-form-label inner-label">
                             Age
-                            <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="6">
@@ -328,7 +332,7 @@ const PersonalInfoFormComponent: any = (
             <Row>
               <Col sm="4">
                 <Label className="form-label col-form-label ">
-                  Street<span className="required">*</span>
+                  Street
                 </Label>
               </Col>
               <Col sm="8">
@@ -359,7 +363,6 @@ const PersonalInfoFormComponent: any = (
                     className=" width-common"
                   />
                 </div>
-                {/* <Button  className="alfabate-btn btn">N</Button> */}
               </Col>
             </Row>
           </FormGroup>
@@ -370,7 +373,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label ">
                   ZIP
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -392,7 +394,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label ">
                   Country
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -409,7 +410,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label ">
                   State
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -427,7 +427,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Phone
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -450,7 +449,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Fax
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -472,7 +470,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Mobile Number
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -517,8 +514,7 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Tax Number
-                  <span className="required">*</span>
-                </Label>
+                 </Label>
               </Col>
               <Col sm="8">
                 <div>
@@ -539,7 +535,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Bank
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -561,7 +556,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   IBAN
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -590,7 +584,7 @@ const PersonalInfoFormComponent: any = (
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"username"}
+                    name={"userName"}
                     placeholder="Username"
                     className="width-common"
                   />
@@ -605,7 +599,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Belongs to
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -622,7 +615,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Driver's license
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -654,7 +646,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Driver's License Number
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -676,7 +667,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Own vehicle available
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -708,7 +698,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Legal Form
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -725,7 +714,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Company Name
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -747,8 +735,7 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Register Court
-                  <span className="required">*</span>
-                </Label>
+                 </Label>
               </Col>
               <Col sm="8">
                 <div>
@@ -769,14 +756,13 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Registeration Number
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
                 <div>
                   <Input
                     type="text"
-                    name={"email"}
+                    name={"regNumber"}
                     placeholder="Registeration Number"
                     className="width-common"
                   />
@@ -791,7 +777,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Executive Director
-                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col sm="8">
@@ -813,8 +798,7 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Employed
-                  <span className="required">*</span>
-                </Label>
+                 </Label>
               </Col>
               <Col sm="8">
                 <div>
@@ -840,8 +824,7 @@ const PersonalInfoFormComponent: any = (
               <Col sm="4">
                 <Label className="form-label col-form-label">
                   Comments (Internally)
-                  <span className="required">*</span>
-                </Label>
+                 </Label>
               </Col>
               <Col sm="8">
                 <div>

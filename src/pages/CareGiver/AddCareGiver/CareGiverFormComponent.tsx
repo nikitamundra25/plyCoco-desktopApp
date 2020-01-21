@@ -111,9 +111,7 @@ const CareGiverFormComponent: FunctionComponent<
           <BillingSettingsFormComponent {...props} />
           <QualificationFormComponent {...props} />
         </Col>
-        <Col lg={4}>
-          <RemarkFormComponent />
-        </Col>
+        <RemarkFormComponent />
       </Row>
     </Form>
   );

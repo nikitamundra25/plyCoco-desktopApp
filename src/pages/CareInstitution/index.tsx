@@ -91,16 +91,16 @@ const CareInstitution = (props: RouteComponentProps) => {
     );
     logger(sortByValue);
     if (sortByValue === "3") {
-      sortBy.label = "Sort by A-Z";
+      sortBy.label = "A-Z";
     }
     if (sortByValue === "4") {
-      sortBy.label = "Sort by Z-A";
+      sortBy.label = "Z-A";
     }
     if (sortByValue === "2") {
-      sortBy.label = "Sort by Oldest";
+      sortBy.label = "Oldest";
     }
     if (sortByValue === "1") {
-      sortBy.label = "Sort by Newest";
+      sortBy.label = "Newest";
     }
     if (query) {
       searchBy = query.search ? (query.search as string) : "";
@@ -267,8 +267,6 @@ const CareInstitution = (props: RouteComponentProps) => {
           .replace("SequelizeValidationError: ", "")
           .replace("Validation error: ", "")
           .replace("GraphQL error: ", "");
-        // toast.error(message);
-        // logger(error.message, "error");
       }
     }
   };
@@ -416,7 +414,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             </td>
           </tr>
         )}
-  </>;
+  </>
   // const {
   //   searchValue = "",
   //   sortBy = undefined,
@@ -448,7 +446,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} />
+              <Search {...props} label={"employee"}  />
             )}
           />
         </div>
@@ -470,15 +468,15 @@ const CareInstitution = (props: RouteComponentProps) => {
           </thead>
           <tbody>{tableData}</tbody>
         </Table>
-        {data &&
-          data.getCareInstitutions &&
-          data.getCareInstitutions.totalCount && (
-            <PaginationComponent
-              totalRecords={data.getCareInstitutions.totalCount}
-              currentPage={currentPage}
-              onPageChanged={onPageChanged}
-            />
-          )}
+        {data && userData && userData.length &&
+        data.getCareInstitutions &&
+        data.getCareInstitutions.totalCount ? (
+          <PaginationComponent
+            totalRecords={data.getCareInstitutions.totalCount}
+            currentPage={currentPage}
+            onPageChanged={onPageChanged}
+          />
+        ):null}
       </CardBody>
     </Card>
   );

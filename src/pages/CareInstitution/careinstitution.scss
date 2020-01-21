@@ -24,9 +24,10 @@
   font-weight: 600;
   font-size: 12px;
   z-index: 10;
-  &.top-form-button {
+  &.sticky-save-btn {
     position: fixed;
-    top: 70px;
+    top: 34px;
+    right: 8px;
   }
 }
 .common-offer-section {

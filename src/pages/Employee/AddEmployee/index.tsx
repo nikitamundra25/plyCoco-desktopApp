@@ -113,6 +113,7 @@ export const EmployeeForm: FunctionComponent = () => {
       const { viewEmployee } = employeeDetails;
       setImageUrl(viewEmployee.profileImage ? viewEmployee.profileImage : '');
       let index: number = -1;
+      const regionData: IReactSelectInterface[] | undefined = [];
       if (viewEmployee.employee.country) {
         index = countriesOpt.findIndex(
           ({ label }: IReactSelectInterface) =>
@@ -125,7 +126,15 @@ export const EmployeeForm: FunctionComponent = () => {
           }, // default code is for germany
         });
       }
-      logger(statesOpt, 'statesOpt');
+      if (viewEmployee.regions && viewEmployee.regions.length) {
+        viewEmployee.regions.map(({ id, regionName }: any) => {
+          regionData.push({
+            label: regionName,
+            value: id,
+          });
+        });
+      }
+      logger(regionData, 'statesOpt');
       setEmployeeData({
         ...viewEmployee,
         ...viewEmployee.employee,
@@ -142,14 +151,15 @@ export const EmployeeForm: FunctionComponent = () => {
             ? viewEmployee.bankDetails.additionalText
             : '',
         telephoneNumber: viewEmployee.phoneNumber || '',
-        region: viewEmployee.region
-          ? [
-              {
-                label: viewEmployee.region.regionName,
-                value: viewEmployee.region.id,
-              },
-            ]
-          : null,
+        region: regionData,
+        // viewEmployee.region
+        //   ? [
+        //       {
+        //         label: viewEmployee.region.regionName,
+        //         value: viewEmployee.region.id,
+        //       },
+        //     ]
+        //   : null,
         profileThumbnailImage: viewEmployee.profileThumbnailImage,
         profileImage: viewEmployee.profileImage,
         zip:
@@ -157,7 +167,6 @@ export const EmployeeForm: FunctionComponent = () => {
             ? viewEmployee.employee.zipCode
             : '',
       });
-      console.log('viewEmployee.employee');
     }
   }, [employeeDetails]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
 
@@ -186,7 +195,7 @@ export const EmployeeForm: FunctionComponent = () => {
   // function to add/edit employee information
   const handleSubmit = async (
     values: IEmployeeFormValues,
-    { setSubmitting, setFieldError }: FormikHelpers<IEmployeeFormValues>,
+    { setSubmitting }: FormikHelpers<IEmployeeFormValues>,
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -225,7 +234,9 @@ export const EmployeeForm: FunctionComponent = () => {
         state: state && state.label ? state.label : null,
         regionId:
           region && region.length
-            ? region.map((region: IReactSelectInterface) => region.value)
+            ? `{${region
+                .map((region: IReactSelectInterface) => region.value)
+                .join(', ')}}`
             : null,
         city,
         zipCode: zip,

@@ -38,7 +38,7 @@ export interface IEmployeeInput {
   zipCode: string;
   address1: string;
   address2: string;
-  regionId?: string[] | null;
+  regionId?: string | null;
   bankName: string;
   accountHolder: string;
   additionalText: string;

@@ -65,6 +65,26 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       label: '',
       value: '',
     });
+    useEffect(() => {
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []);
+
+    const handleScroll = () => {
+      const scrollPositionY = window.scrollY;
+      const buttonDiv: HTMLElement | null = document.getElementById(
+        'caregiver-save-btn',
+      );
+      if (buttonDiv) {
+        if (scrollPositionY >= 35) {
+          buttonDiv.classList.add('sidebar-sticky');
+        } else {
+          buttonDiv.classList.remove('sidebar-sticky');
+        }
+      }
+    };
 
     useEffect(() => {
       fetchCareInstitutionList({

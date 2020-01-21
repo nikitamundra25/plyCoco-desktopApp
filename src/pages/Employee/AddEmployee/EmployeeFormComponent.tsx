@@ -20,13 +20,7 @@ import {
 import Select from 'react-select';
 import MaskedInput from 'react-text-mask';
 import { FormikProps, Form } from 'formik';
-import {
-  Region,
-  IBANRegex,
-  DateMask,
-  AppConfig,
-  PAGE_LIMIT,
-} from '../../../config';
+import { IBANRegex, DateMask, AppConfig, PAGE_LIMIT } from '../../../config';
 import routes from '../../../routes/routes';
 import {
   IEmployeeFormValues,
@@ -118,7 +112,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       target: { files },
     } = e;
     let reader = new FileReader();
-    let file: any = '';
+    let file: File | null = null;
     if (files) {
       file = files[0];
     }

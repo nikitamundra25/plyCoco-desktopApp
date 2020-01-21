@@ -97,7 +97,7 @@ const PersonalInfoFormComponent: any = (
 
   const { values } = props;
   return (
-    <div className="form-card">
+    <div className="form-card h-100">
       <Row>
         <Col lg={"12"}>
           <FormGroup>

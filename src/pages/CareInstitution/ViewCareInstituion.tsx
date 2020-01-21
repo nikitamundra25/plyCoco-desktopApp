@@ -67,6 +67,13 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   });
 
   useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
     fetchCareInstitutionList({
       variables: {
         searchBy: null,
@@ -77,6 +84,20 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       },
     });
   }, [careInstituition]);
+
+  const handleScroll = () => {
+    const scrollPositionY = window.scrollY;
+    const buttonDiv: HTMLElement | null = document.getElementById(
+      'caregiver-save-btn',
+    );
+    if (buttonDiv) {
+      if (scrollPositionY >= 35) {
+        buttonDiv.classList.add('sidebar-sticky');
+      } else {
+        buttonDiv.classList.remove('sidebar-sticky');
+      }
+    }
+  };
 
   let CareInstitutionList: Object[] = [];
   if (careInstituition && careInstituition.getCareInstitutions) {

@@ -86,7 +86,24 @@ export const InvoiceType: IReactSelectInterface[] = [
   {
     value: "byPost+EmailsWithDocuments",
     label: "By post + email with documents"
+  },
+  {
+    value: "oneEmailForEachInvoice",
+    label: "One Email For Each Invoice"
+  },
+  {
+    value: "oneEmailForEachInvoiceInclWorkingProof",
+    label: "one Email For Each Invoice Incl. Working Proof"
+  },
+  {
+    value: "viaEmailWithoutWorkProof",
+    label: "Via Email Without Work Proof"
+  },
+  {
+    value: "viaEmailWithWorkProof",
+    label: "via Email With Work Proof"
   }
+
 ];
 export const State: IReactSelectInterface[] = [
   { value: "Thuringia", label: "Thuringia" },

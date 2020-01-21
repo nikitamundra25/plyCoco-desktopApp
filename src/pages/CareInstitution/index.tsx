@@ -448,7 +448,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} label={'employee'} />
+              <Search {...props} label={'care institution'} />
             )}
           />
         </div>

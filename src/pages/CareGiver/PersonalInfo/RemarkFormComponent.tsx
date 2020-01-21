@@ -46,11 +46,11 @@ import { languageTranslation } from "../../../helpers";
 import FormikCheckbox from "../../../common/forms/FormikFields/FormikCheckbox";
 
 // CareGiverValues
-const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
-  props: FormikProps<ICareGiverValues>
+const RemarkFormComponent: FunctionComponent = (
+  props: any
 ) => {
+  let remarks: Object[] = []
   let {
-    values: { remarks, firstName, lastName },
     touched,
     errors,
     isSubmitting,
@@ -67,9 +67,9 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
   };
 
   const handleSave = () => {
-    let remarkValue = remarks || [];
+    let remarkValue = [];
     remarkValue.push({
-      createdBy: `${firstName} ${lastName}`,
+      createdBy: `${"firstName"} ${"lastName"}`,
       description: `${addRemark}`
     });
     setIsRemark((isRemark = false));
@@ -116,14 +116,14 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                 </span>
                 <span>
                   <i className="fa fa-user mr-2"></i>
-                  {firstName} {lastName}
+                  {"firstName"} {"lastName"}
                 </span>
               </div>
               <span className="activity-icon activity-set"></span>
             </div>
           ) : null}
 
-          {remarks &&
+          {remarks && remarks.length ?
             remarks.map((rmk: any) => {
               return (
                 <div className="activity-block py-2 px-3">
@@ -146,7 +146,9 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                   <span className="activity-icon activity-set"></span>
                 </div>
               );
-            })}
+            }) :
+            null
+          }
           {/* <div className="activity-block py-2 px-3">
             <div className="pr-3 text-left">
               <span className="text-capitalize">

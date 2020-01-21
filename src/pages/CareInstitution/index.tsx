@@ -91,16 +91,16 @@ const CareInstitution = (props: RouteComponentProps) => {
     );
     logger(sortByValue);
     if (sortByValue === "3") {
-      sortBy.label = "Sort by A-Z";
+      sortBy.label = "A-Z";
     }
     if (sortByValue === "4") {
-      sortBy.label = "Sort by Z-A";
+      sortBy.label = "Z-A";
     }
     if (sortByValue === "2") {
-      sortBy.label = "Sort by Oldest";
+      sortBy.label = "Oldest";
     }
     if (sortByValue === "1") {
-      sortBy.label = "Sort by Newest";
+      sortBy.label = "Newest";
     }
     if (query) {
       searchBy = query.search ? (query.search as string) : "";
@@ -112,7 +112,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                 (key: any) => sortFilter[key] === query.sortBy
               ) || ""
           }
-        : undefined;
+        : { label: "Newest", value: "1" };
       isActive = query.status
         ? query.status === "active"
           ? { label: languageTranslation("ACTIVE"), value: "true" }
@@ -448,7 +448,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} />
+              <Search {...props} label={"employee"} />
             )}
           />
         </div>
@@ -457,9 +457,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             <tr>
               <th>
                 <div className="table-checkbox-wrap">
-                  <div className="btn-group btn-check-action-wrap">
-                    SNo.
-                  </div>
+                  <div className="btn-group btn-check-action-wrap">SNo.</div>
                 </div>
               </th>
               <th>Care Institution Information</th>

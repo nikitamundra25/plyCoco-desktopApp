@@ -97,17 +97,31 @@ const PersonalInformation: any = (props: any) => {
       );
       const contactsData: any[] =
         careInstituionDetails.getCareInstitution.contact;
-      contactsData.push({
-        email: '',
-        firstName: '',
-        lastName: '',
-        userName: '',
-        phoneNumber: '',
-        mobileNumber: '',
-        faxNumber: '',
-        comments: '',
-        groupAttributes: '',
-      });
+      if (contactsData && !contactsData.length) {
+        contactsData.push({
+          email: '',
+          firstName: '',
+          lastName: '',
+          userName: '',
+          phoneNumber: '',
+          mobileNumber: '',
+          faxNumber: '',
+          comments: '',
+          groupAttributes: '',
+        });
+      } else if (contactsData && contactsData[contactsData.length - 1].id) {
+        contactsData.push({
+          email: '',
+          firstName: '',
+          lastName: '',
+          userName: '',
+          phoneNumber: '',
+          mobileNumber: '',
+          faxNumber: '',
+          comments: '',
+          groupAttributes: '',
+        });
+      }
       setContacts(contactsData);
     }
   }, [careInstituionDetails]);
@@ -225,12 +239,10 @@ const PersonalInformation: any = (props: any) => {
       ? getCareInstitution.canstitution.stateId
       : '';
     let userSelectedState: any = {};
-    console.log('statesData.states', stateData);
     if (statesData && statesData.states) {
       const userState = statesData.states.filter(
         (x: any) => x.id === stateData,
       );
-      console.log('userState', userState);
       if (userState && userState.length) {
         userSelectedState = {
           label: userState[0].name,
@@ -238,7 +250,6 @@ const PersonalInformation: any = (props: any) => {
         };
       }
     }
-    console.log("userSelectedRegionuserSelectedRegion", userSelectedRegion);
 
     values = {
       id: Id,
@@ -376,7 +387,8 @@ const PersonalInformation: any = (props: any) => {
         enableReinitialize={true}
         onSubmit={handleSubmit}
         children={(props: FormikProps<ICareInstitutionFormValues>) => (
-          <PersonalInfoForm {...props} />
+          <PersonalInfoForm
+            {...props} />
         )}
         validationSchema={CareInstituionValidationSchema}
       />

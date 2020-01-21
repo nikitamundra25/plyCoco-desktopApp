@@ -32,7 +32,7 @@ const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const PersonalInformationForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
->> = (props: FormikProps<ICareInstitutionFormValues>) => {
+>> = (props: FormikProps<ICareInstitutionFormValues> & any) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
@@ -98,6 +98,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     handleSubmit,
     setFieldValue,
     setFieldTouched,
+    CareInstitutionList
   } = props;
   console.log('state', errors);
 
@@ -757,6 +758,9 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
+            {
+              console.log("CareInstitutionListCareInstitutionList", CareInstitutionList)
+            }
 
             <Col lg={'12'}>
               <FormGroup>
@@ -772,7 +776,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         placeholder={languageTranslation('LIKED_TO')}
                         // value={state ? state : undefined}
                         // onChange={(value: any) => handleSelect(value, "state")}
-                        options={State}
+                        options={CareInstitutionList}
                       />
                     </div>
                   </Col>

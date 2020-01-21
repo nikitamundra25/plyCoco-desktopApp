@@ -19,8 +19,8 @@
   "REQUIRED_FIELDS": "* Required Fields",
   "BANK_ACCOUNT_INFORMATION": " Bank Account Information",
   "SAVE_BUTTON": "Save",
-  "VALID_EMAIL": "Please Enter a valid email",
-  "REQUIRED_EMAIL": "Email is Required",
+  "VALID_EMAIL": "Please Enter a valid email address",
+  "REQUIRED_EMAIL": "Email Address is Required",
   "MIN_LENGTH_PASSWORD": "Password is too short!",
   "REQUIRED_PASSWORD": "Password is Required",
   "SIGNIN": "Sign In",
@@ -403,7 +403,7 @@
   "MOB_MAXLENGTH": "Mobile number must be less than of 14 numbers",
   "MOB_MINLENGTH": "Mobile number must be between 9 to 14 numbers",
   "MIN_TEXT": "This field must contain atleast 5 characters",
-  "IBAN_INVALID": "IBAN number is not valid",
+  "IBAN_INVALID": "Please enter valid IBAN number",
   "UNSUPPORTED_FORMAT": "Unsupported File Format",
   "FILE_SIZE_TO_LARGE": "Image size must be less than 1 mb",
   "COUNTRY_PLACEHOLDER": "Select Country",
@@ -451,7 +451,7 @@
   "ADDRESS": "Address",
   "CURRENTLY_THERE_ARE_NO_EMPLOYEES": "Currently there are no employees added.",
   "CLICK_ABOVE_TO_ADD_NEW": "Please click above button to add new. ",
-  "CREATED_DATE": "Created Date",
+  "CREATED_DATE": "Created Date and Time",
   "ENTER_VALID_WEB_URL": "Enter proper website url with http://",
-  "REGION_SPECIALCHAR":"Special characters are not allowed in region name"
+  "REGION_SPECIALCHAR": "Special characters are not allowed in region name"
 }

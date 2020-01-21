@@ -65,4 +65,5 @@ export interface IEmployee {
   profileThumbnailImage: string;
   createdAt: string;
   regions: string[];
+  lastName: string;
 }

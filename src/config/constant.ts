@@ -3,7 +3,7 @@ import { languageTranslation } from "../helpers";
 import { maskArray } from "react-text-mask";
 
 export const PAGE_LIMIT: number = 10;
-export const alphaNumeric: RegExp = /^[A-Za-z0-9]+$/;
+export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
 // /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 export const IBANReplaceRegex: RegExp = /[^A-Z0-9]/gi;

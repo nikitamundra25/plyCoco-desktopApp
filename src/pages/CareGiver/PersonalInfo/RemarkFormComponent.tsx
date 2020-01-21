@@ -33,7 +33,11 @@ import {
   FieldProps,
   FormikValues
 } from "formik";
-import { CareGiverValues, IRemark, ICareGiverValues } from "../../../interfaces";
+import {
+  CareGiverValues,
+  IRemark,
+  ICareGiverValues
+} from "../../../interfaces";
 import {
   FormikSelectField,
   FormikTextField
@@ -123,7 +127,32 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                 <span className="activity-icon activity-set"></span>
               </div>
             ) : null}
-            <div className="activity-block py-2 px-3">
+
+            {remarks &&
+              remarks.map((rmk: any) => {
+                return (
+                  <div className="activity-block py-2 px-3">
+                    <div className="pr-3 text-left">
+                      <span className="text-capitalize">
+                        {rmk.description}
+                        <span className="view-more-link">View More</span>
+                      </span>
+                    </div>
+                    <div className="text-left activity-date">
+                      <span>
+                        <i className="fa fa-clock-o mr-2"></i>
+                        {rmk.createdAt}
+                      </span>
+                      <span>
+                        <i className="fa fa-user mr-2"></i>
+                        {rmk.createdBy}
+                      </span>
+                    </div>
+                    <span className="activity-icon activity-set"></span>
+                  </div>
+                );
+              })}
+            {/* <div className="activity-block py-2 px-3">
               <div className="pr-3 text-left">
                 <span className="text-capitalize">
                   Called a few days before the registration (they repeatedly
@@ -198,6 +227,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
               </div>
               <span className="activity-icon activity-set"></span>
             </div>
+             */}
           </div>
         </div>
       </div>

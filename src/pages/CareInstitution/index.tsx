@@ -267,8 +267,6 @@ const CareInstitution = (props: RouteComponentProps) => {
           .replace("SequelizeValidationError: ", "")
           .replace("Validation error: ", "")
           .replace("GraphQL error: ", "");
-        // toast.error(message);
-        // logger(error.message, "error");
       }
     }
   };
@@ -416,7 +414,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             </td>
           </tr>
         )}
-  </>;
+  </>
   // const {
   //   searchValue = "",
   //   sortBy = undefined,
@@ -470,16 +468,20 @@ const CareInstitution = (props: RouteComponentProps) => {
           </thead>
           <tbody>{tableData}</tbody>
         </Table>
-        {data &&
-          data.getCareInstitutions &&
-          data.getCareInstitutions.totalCount && (
-            <PaginationComponent
-              totalRecords={data.getCareInstitutions.totalCount}
-              currentPage={currentPage}
-              onPageChanged={onPageChanged}
-            />
-          )}
       </CardBody>
+      {
+        console.log("userData.length",userData)
+        
+      }
+      {data && userData && userData.length &&
+        data.getCareInstitutions &&
+        data.getCareInstitutions.totalCount ? (
+          <PaginationComponent
+            totalRecords={data.getCareInstitutions.totalCount}
+            currentPage={currentPage}
+            onPageChanged={onPageChanged}
+          />
+        ):null}
     </Card>
   );
 };

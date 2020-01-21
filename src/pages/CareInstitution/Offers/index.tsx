@@ -27,14 +27,8 @@ const Offers: FunctionComponent<FormikProps<ICareInstitutionFormValues> &
                     ( {languageTranslation("POSITIVE")})
                   </span>
                 </div>
-                <div className="common-list-footer form-section ">
-                  <FormGroup className="mb-0">
-                    <Select
-                      placeholder={languageTranslation("REGION", "STATE")}
-                      options={State}
-                      menuPlacement={"top"}
-                    />
-                  </FormGroup>
+                <div className=" align-middle toggle-icon">
+                  <i className="fa fa-angle-down"></i>
                 </div>
               </div>
               <div className="common-list-body">
@@ -49,6 +43,7 @@ const Offers: FunctionComponent<FormikProps<ICareInstitutionFormValues> &
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     options={State}
+                    menuPlacement={"top"}
                   />
                 </FormGroup>
               </div>
@@ -64,14 +59,8 @@ const Offers: FunctionComponent<FormikProps<ICareInstitutionFormValues> &
                     ({languageTranslation("NEGATIVE")})
                   </span>
                 </div>
-                <div className="common-list-footer form-section ">
-                  <FormGroup className="mb-0">
-                    <Select
-                      placeholder={languageTranslation("REGION", "STATE")}
-                      options={State}
-                      menuPlacement={"top"}
-                    />
-                  </FormGroup>
+                <div className=" align-middle toggle-icon">
+                  <i className="fa fa-angle-down"></i>
                 </div>
               </div>
               <div className="common-list-body">
@@ -86,6 +75,7 @@ const Offers: FunctionComponent<FormikProps<ICareInstitutionFormValues> &
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     options={State}
+                    menuPlacement={"top"}
                   />
                 </FormGroup>
               </div>
@@ -98,14 +88,8 @@ const Offers: FunctionComponent<FormikProps<ICareInstitutionFormValues> &
                 <div className="common-list-title align-middle">
                   {languageTranslation("WORKED_AT")}{" "}
                 </div>
-                <div className="common-list-footer form-section ">
-                  <FormGroup className="mb-0">
-                    <Select
-                      placeholder={languageTranslation("REGION", "STATE")}
-                      options={State}
-                      menuPlacement={"top"}
-                    />
-                  </FormGroup>
+                <div className=" align-middle toggle-icon">
+                  <i className="fa fa-angle-down"></i>
                 </div>
               </div>
               <div className="common-list-body">
@@ -120,6 +104,7 @@ const Offers: FunctionComponent<FormikProps<ICareInstitutionFormValues> &
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     options={State}
+                    menuPlacement={"top"}
                   />
                 </FormGroup>
               </div>

@@ -61,7 +61,7 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     )
     .test(
       "fileSize",
-      languageTranslation("FILE_SIZE"),
+      languageTranslation("FILE_SIZE_TO_LARGE"),
       value => !value || (value && value.size <= fileSize)
     ),
   IBAN: Yup.mixed().test(

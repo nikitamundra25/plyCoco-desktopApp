@@ -2,7 +2,7 @@
 .common-col {
   height: 100%;
   .quality-attribute-section {
-    height: calc(100% - 377px);
+    height: calc(100% - 359px);
     .common-list-card {
       height: 100%;
       margin-bottom: 12px;
@@ -14,6 +14,19 @@
         }
       }
     }
+  }
+}
+.save-button {
+  position: absolute;
+  top: -34px;
+  right: 8px;
+  padding: 4px 30px;
+  font-weight: 600;
+  font-size: 12px;
+  z-index: 10;
+  &.top-form-button {
+    position: fixed;
+    top: 70px;
   }
 }
 .common-offer-section {

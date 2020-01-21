@@ -12,7 +12,7 @@ export const telMin: number = 9;
 export const telMax: number = 14;
 export const mobMin: number = 10;
 export const mobMax: number = 12;
-export const fileSize: number = 125 * 1024;
+export const fileSize: number = 1 * 1024 * 1024;
 export const nameRegExp: RegExp = /^[A-Za-z][A-Za-z ]+$/;
 export const SupportedFormats: string[] = [
   "image/jpg",
@@ -67,6 +67,23 @@ export const Status: IReactSelectInterface[] = [
   { value: "true", label: languageTranslation("ACTIVE") },
   { value: "false", label: languageTranslation("DISABLE") }
 ];
+
+export const webRegExp: RegExp =
+  /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.​\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[​6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1​,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00​a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u​00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i
+  ;
+
+export const ContactType: IReactSelectInterface[] = [
+  { value: "Director", label: "Director" },
+  { value: "Pesident", label: "Pesident" },
+  { value: "vicePesident", label: "Vice Pesident" },
+  { value: "Nursing", label: "Nursing" }
+]
+export const InvoiceType: IReactSelectInterface[] = [
+  { value: "byEmailsWithoutDocuments", label: "By emails without documents" },
+  { value: "byEmailWithDocuments", label: "By email with documents" },
+  { value: "byPost+EmailWithoutDocuments", label: "By post + email without documents" },
+  { value: "byPost+EmailsWithDocuments", label: "By post + email with documents" },
+]
 export const State: IReactSelectInterface[] = [
   { value: "Thuringia", label: "Thuringia" },
   { value: "Bavaria", label: "Bavaria" },

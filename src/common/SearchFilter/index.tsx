@@ -7,20 +7,26 @@ import {
   Col,
   Row,
   UncontrolledTooltip,
+  Button,
 } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Region, SortOptions, StatusOptions } from '../../config';
+import { SortOptions, StatusOptions } from '../../config';
 import { languageTranslation, logger } from '../../helpers';
 import { FormikProps, Form } from 'formik';
-import { ISearchValues, IReactSelectInterface } from '../../interfaces';
+import {
+  ISearchValues,
+  IReactSelectInterface,
+  ISearchProps,
+} from '../../interfaces';
 
-const Search: FunctionComponent<FormikProps<ISearchValues>> = (
-  props: FormikProps<ISearchValues>,
+const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
+  props: FormikProps<ISearchValues> & ISearchProps,
 ) => {
   let history = useHistory();
   let { pathname } = useLocation();
   const {
     values: { searchValue, sortBy, isActive },
+    label,
     handleSubmit,
     handleChange,
     setFieldValue,
@@ -46,25 +52,14 @@ const Search: FunctionComponent<FormikProps<ISearchValues>> = (
                 id='search'
                 value={searchValue}
                 onChange={handleChange}
-                placeholder={languageTranslation('SEARCH_PLACEHOLDER')}
+                placeholder={
+                  label === 'employee'
+                    ? languageTranslation('SEARCH_EMPLOYEE_PLACEHOLDER')
+                    : languageTranslation('SEARCH_REGION_PLACEHOLDER')
+                }
               />
             </FormGroup>
           </Col>
-          {/* <Col lg={'2'}>
-            <FormGroup>
-              <Label className='col-form-label'>
-                {languageTranslation('REGION')} :
-              </Label>
-              <div>
-                <Select
-                  placeholder={languageTranslation('REGION_PLACEHOLDER')}
-                  options={Region}
-                  value={IReactSelectInterface}
-                />
-              </div>
-            </FormGroup>
-          </Col> */}
-
           <Col lg={'2'}>
             <FormGroup>
               <Label for='Selectregion' className='col-form-label'>
@@ -73,30 +68,34 @@ const Search: FunctionComponent<FormikProps<ISearchValues>> = (
               <Select
                 placeholder={languageTranslation('SORTBY_PLACEHOLDER')}
                 options={SortOptions}
-                value={sortBy}
+                isClearable={true}
+                value={sortBy && sortBy.value !== '' ? sortBy : null}
                 onChange={(value: any) => handleSelect(value, 'sortBy')}
               />
             </FormGroup>
           </Col>
-          <Col lg={'2'}>
-            <FormGroup>
-              <Label for='Selectregion' className='col-form-label'>
-                {languageTranslation('STATUS_LABEL')} :
-              </Label>
-              <Select
-                placeholder={languageTranslation('STATUS_LABEL')}
-                options={StatusOptions}
-                value={isActive}
-                onChange={(value: any) => handleSelect(value, 'isActive')}
-              />
-            </FormGroup>
-          </Col>
-
+          {label === 'employee' ? (
+            <Col lg={'2'}>
+              <FormGroup>
+                <Label for='Selectregion' className='col-form-label'>
+                  {languageTranslation('STATUS_LABEL')} :
+                </Label>
+                <Select
+                  placeholder={languageTranslation('STATUS_PLACEHOLDER')}
+                  options={StatusOptions}
+                  isClearable={true}
+                  value={isActive && isActive.value !== '' ? isActive : null}
+                  onChange={(value: any) => handleSelect(value, 'isActive')}
+                />
+              </FormGroup>
+            </Col>
+          ) : null}
           <Col lg={'2'}>
             <div className='label-height'></div>
             <div className='filter-btn-wrap'>
-              <span
+              <Button
                 className='btn-filter mr-2'
+                type='submit'
                 id='search1'
                 onClick={() => {
                   handleSubmit();
@@ -106,8 +105,8 @@ const Search: FunctionComponent<FormikProps<ISearchValues>> = (
                   {languageTranslation('SEARCH_LABEL')}
                 </UncontrolledTooltip>
                 <i className='fa fa-search'></i>
-              </span>
-              <span
+              </Button>
+              <Button
                 className='btn-filter mr-2'
                 id='reset'
                 onClick={() => {
@@ -118,7 +117,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues>> = (
                   {languageTranslation('RESET_LABEL')}
                 </UncontrolledTooltip>
                 <i className='fa fa-refresh '></i>
-              </span>
+              </Button>
             </div>
           </Col>
         </Row>

@@ -1,35 +1,33 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  Table,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "reactstrap";
-import { useHistory, useLocation } from "react-router-dom";
-import { AppBreadcrumb } from "@coreui/react";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
-import * as qs from "query-string";
-import { Formik, FormikProps, FormikHelpers } from "formik";
-import { AppConfig } from "../../config";
-import { AppRoutes, PAGE_LIMIT, client } from "../../config";
-import routes from "../../routes/routes";
-import Search from "../../common/SearchFilter";
-import { languageTranslation, logger } from "../../helpers";
-import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
-import { EmployeeQueries } from "../../queries";
-import PaginationComponent from "../../common/Pagination";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Button, Card, CardHeader, CardBody, Table } from 'reactstrap';
+import { useHistory, useLocation } from 'react-router-dom';
+import { AppBreadcrumb } from '@coreui/react';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import * as qs from 'query-string';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { AppConfig } from '../../config';
+import { AppRoutes, PAGE_LIMIT, client } from '../../config';
+import routes from '../../routes/routes';
+import Search from '../../common/SearchFilter';
+import { languageTranslation, logger } from '../../helpers';
+import ButtonTooltip from '../../common/Tooltip/ButtonTooltip';
+import { EmployeeQueries } from '../../queries';
+import PaginationComponent from '../../common/Pagination';
 import {
   ISearchValues,
   IEmployee,
-  IReactSelectInterface
-} from "../../interfaces";
-import { ConfirmBox } from "../../common/ConfirmBox";
-import { toast } from "react-toastify";
+  IReactSelectInterface,
+  IObjectType,
+  IReplaceObjectInterface,
+} from '../../interfaces';
+import { ConfirmBox } from '../../common/ConfirmBox';
+import { toast } from 'react-toastify';
+import defaultProfile from '../../assets/avatars/default-profile.png';
+import Loader from '../../containers/Loader/Loader';
+import { NoSearchFound } from '../../common/SearchFilter/NoSearchFound';
+import moment from 'moment';
+
+let toastId: any = null;
 
 const [
   ,
@@ -37,26 +35,30 @@ const [
   GET_EMPLOYEES,
   ,
   UPDATE_EMPLOYEE_STATUS,
-  DELETE_EMPLOYEE
+  DELETE_EMPLOYEE,
 ] = EmployeeQueries;
 
-const sortFilter: any = {
-  3: "name",
-  4: "name-desc",
-  2: "oldest",
-  1: "newest"
+const sortFilter: IObjectType = {
+  3: 'name',
+  4: 'name-desc',
+  2: 'oldest',
+  1: 'newest',
 };
 
 const Employee: FunctionComponent = () => {
   let history = useHistory();
-  const { search, pathname } = useLocation();
+
+  const { search, pathname, state } = useLocation();
+  const location = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isFilterApplied, setIsFilter] = useState<boolean>(false);
 
   // To get employee list from db
-  const [fetchEmployeeList, { data, loading }] = useLazyQuery<any>(
-    GET_EMPLOYEES
+  const [fetchEmployeeList, { data, loading, refetch }] = useLazyQuery<any>(
+    GET_EMPLOYEES,
   );
+
   // Mutation to delete employee
   const [deleteEmployee, { error }] = useMutation<
     { deleteEmployee: any },
@@ -72,49 +74,55 @@ const Employee: FunctionComponent = () => {
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     const query = qs.parse(search);
-    let searchBy: string = "";
-    let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
-    let isActive: IReactSelectInterface | undefined = { label: "", value: "" };
+    let searchBy: string = '';
+    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
+    let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
     // To handle display and query param text
-    let sortByValue: any = Object.keys(sortFilter).find(
-      (key: any) => sortFilter[key] === query.sortBy
-    );
+    let sortByValue: string | undefined = '1';
+    if (query.sortBy) {
+      sortByValue = Object.keys(sortFilter).find(
+        (key: string) => sortFilter[key] === query.sortBy,
+      );
+    }
     logger(sortByValue);
     logger(typeof sortByValue);
-    if (sortByValue === "3") {
-      sortBy.label = "Sort by A-Z";
+    if (sortByValue === '3') {
+      sortBy.label = 'A-Z';
     }
-    if (sortByValue === "4") {
-      sortBy.label = "Sort by Z-A";
+    if (sortByValue === '4') {
+      sortBy.label = 'Z-A';
     }
-    if (sortByValue === "2") {
-      sortBy.label = "Sort by Oldest";
+    if (sortByValue === '2') {
+      sortBy.label = 'Oldest';
     }
-    if (sortByValue === "1") {
-      sortBy.label = "Sort by Newest";
+    if (sortByValue === '1') {
+      sortBy.label = 'Newest';
     }
     if (query) {
-      searchBy = query.search ? (query.search as string) : "";
+      searchBy = query.search ? (query.search as string) : '';
       sortBy = sortByValue
         ? {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy
-              ) || ""
+                (key: any) => sortFilter[key] === query.sortBy,
+              ) || '1',
           }
-        : undefined;
+        : { label: 'Newest', value: '1' };
       isActive = query.status
-        ? query.status === "active"
-          ? { label: languageTranslation("ACTIVE"), value: "true" }
-          : { label: languageTranslation("DISABLE"), value: "false" }
-        : undefined;
+        ? query.status === 'active'
+          ? { label: languageTranslation('ACTIVE'), value: 'true' }
+          : { label: languageTranslation('DISABLE'), value: 'false' }
+        : { label: '', value: '' };
       setSearchValues({
         searchValue: searchBy,
         sortBy,
-        isActive
+        isActive,
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+      setIsFilter(
+        searchBy !== '' || isActive !== undefined || sortBy !== undefined,
+      );
     }
     // call query
     fetchEmployeeList({
@@ -124,61 +132,86 @@ const Employee: FunctionComponent = () => {
         limit: PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
         isActive: query.status
-          ? query.status === "active"
-            ? "true"
-            : "false"
-          : ""
-      }
+          ? query.status === 'active'
+            ? 'true'
+            : 'false'
+          : '',
+      },
     });
   }, [search]); // It will run when the search value gets changed
 
+  useEffect(() => {
+    logger(state, 'state in useEffect');
+    if (state && state.isValid) {
+      // const {
+      //   searchValue = '',
+      //   sortBy = undefined,
+      //   isActive = undefined,
+      // } = searchValues ? searchValues : {};
+      // refetch({
+      //   limit: PAGE_LIMIT,
+      //   page: 1,
+      //   searchBy: '',
+      //   sortBy: 0,
+      //   isActive: '',
+      // });
+      // fetchEmployeeList({
+      //   variables: {
+      //     limit: PAGE_LIMIT,
+      //     page: 1,
+      //     searchBy: '',
+      //     sortBy: 0,
+      //     isActive: '',
+      //   },
+      // });
+    }
+  }, [location]);
+
   const {
-    searchValue = "",
+    searchValue = '',
     sortBy = undefined,
-    isActive = undefined
+    isActive = undefined,
   } = searchValues ? searchValues : {};
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>
+    { setSubmitting }: FormikHelpers<ISearchValues>,
   ) => {
-    let params: {
-      [key: string]: any;
-    } = {};
+    let params: IObjectType = {};
     params.page = 1;
     if (searchValue) {
       params.search = searchValue;
     }
-    if (isActive && isActive.value !== "") {
-      params.status = isActive.value === "true" ? "active" : "disable";
+    if (isActive && isActive.value !== '') {
+      params.status = isActive.value === 'true' ? 'active' : 'disable';
     }
-    if (sortBy && sortBy.value !== "") {
-      params.sortBy = sortBy.value !== "" ? sortFilter[sortBy.value] : "";
+    if (sortBy && sortBy.value !== '') {
+      params.sortBy = sortBy.value !== '' ? sortFilter[sortBy.value] : '';
     }
-    const path = [pathname, qs.stringify(params)].join("?");
+    const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);
-    logger("path", path);
+    logger('path', path);
   };
 
   const onPageChanged = (currentPage: number) => {
-    logger("onPageChanged", currentPage);
+    logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      "?"
+      '?',
     );
     history.push(path);
   };
   const queryVariables = {
     page: currentPage,
-    isActive: isActive ? isActive.value : "",
-    sortBy: sortBy ? sortBy.value : 0,
-    searchBy: searchValue ? searchValue : "",
-    limit: PAGE_LIMIT
+    isActive: isActive ? isActive.value : '',
+    sortBy: sortBy && sortBy.value ? sortBy.value : 0,
+    searchBy: searchValue ? searchValue : '',
+    limit: PAGE_LIMIT,
   };
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation("CONFIRM_EMPLOYEE_DELETE_MSG")
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG'),
     });
     if (!value) {
       return;
@@ -186,16 +219,16 @@ const Employee: FunctionComponent = () => {
       try {
         await deleteEmployee({
           variables: {
-            id
-          }
+            id,
+          },
         });
 
         const data = await client.readQuery({
           query: GET_EMPLOYEES,
-          variables: queryVariables
+          variables: queryVariables,
         });
         const newEmployees = data.getEmployees.employeeData.filter(
-          (employee: any) => employee.id !== id
+          (employee: any) => employee.id !== id,
         );
 
         const updatedData = {
@@ -203,51 +236,63 @@ const Employee: FunctionComponent = () => {
           getEmployees: {
             ...data.getEmployees,
             employeeData: newEmployees,
-            totalCount: newEmployees.length
-          }
+            totalCount: newEmployees.length,
+          },
         };
         client.writeQuery({
           query: GET_EMPLOYEES,
           variables: queryVariables,
-          data: updatedData
+          data: updatedData,
         });
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success('Employee deleted successfully');
+        }
       } catch (error) {
         const message = error.message
-          .replace("SequelizeValidationError: ", "")
-          .replace("Validation error: ", "")
-          .replace("GraphQL error: ", "");
-        toast.error(message);
-        logger(error.message, "error");
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+        logger(error.message, 'error');
       }
     }
   };
 
   const onStatusUpdate = async (id: string, status: boolean) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
+      title: languageTranslation('CONFIRM_LABEL'),
       text: languageTranslation(
         status
-          ? "CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG"
-          : "CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG"
-      )
+          ? 'CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG'
+          : 'CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG',
+      ),
     });
     if (!value) {
       return;
     } else {
       try {
+        toast.dismiss();
         await updateEmployeeStatus({
           variables: {
             id,
-            isActive: status
-          }
+            isActive: status,
+          },
         });
-        toast.success(languageTranslation("EMPLOYEE_STATUS_UPDATE_MSG"));
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('EMPLOYEE_STATUS_UPDATE_MSG'),
+          );
+        }
       } catch (error) {
         const message = error.message
-          .replace("SequelizeValidationError: ", "")
-          .replace("Validation error: ", "")
-          .replace("GraphQL error: ", "");
-        toast.error(message);
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
       }
     }
   };
@@ -255,23 +300,21 @@ const Employee: FunctionComponent = () => {
   const values: ISearchValues = {
     searchValue,
     isActive,
-    sortBy
+    sortBy,
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
-  logger(data, "dataaaaaaaa");
-
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
         <Button
-          color={"primary"}
-          className={"btn-add"}
-          id={"add-new-pm-tooltip"}
+          color={'primary'}
+          className={'btn-add'}
+          id={'add-new-pm-tooltip'}
           onClick={() => history.push(AppRoutes.ADD_EMPLOYEE)}
         >
-          <i className={"fa fa-plus"} />
-          &nbsp;{languageTranslation("ADD_NEW_EMPLOYEE_BUTTON")}
+          <i className={'fa fa-plus'} />
+          &nbsp;{languageTranslation('ADD_NEW_EMPLOYEE_BUTTON')}
         </Button>
       </CardHeader>
       <CardBody>
@@ -281,54 +324,41 @@ const Employee: FunctionComponent = () => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} />
+              <Search {...props} label={'employee'} />
             )}
           />
           {/* <Search /> */}
         </div>
         <Table bordered hover responsive>
-          <thead className="thead-bg">
+          <thead className='thead-bg'>
             <tr>
-              <th>
-                <div className="table-checkbox-wrap">
-                  <div className="btn-group btn-check-action-wrap">
-                    <span className="btn">
-                      <span className="checkboxli checkbox-custom checkbox-default">
-                        <input type="checkbox" id="checkAll" className="" />
-                        <label className=""></label>
-                      </span>
-                    </span>
-                    <UncontrolledDropdown className="custom-dropdown">
-                      <DropdownToggle caret color="link" />
-                      <DropdownMenu>
-                        <DropdownItem>Delete</DropdownItem>
-                        <DropdownItem>
-                          {languageTranslation("ACTIVE")}
-                        </DropdownItem>
-                        <DropdownItem>Disable</DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
-                  </div>
-                </div>
+              <th className={'text-center'}>{languageTranslation('S_NO')}</th>
+              <th>{languageTranslation('TABLE_HEAD_EMP_INFO')}</th>
+              <th>{languageTranslation('REGION')}</th>
+              <th className='text-center'>
+                {languageTranslation('TABLE_HEAD_ASSIGNED_CANSTITUTION')}
               </th>
-              <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
-              <th>{languageTranslation("REGION")}</th>
-              <th>{languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}</th>
-              <th>{languageTranslation("STATUS")}</th>
-              <th>{languageTranslation("TABLE_HEAD_ACTION")}</th>
+              <th>{languageTranslation('CREATED_DATE')}</th>
+
+              <th className='text-center' style={{ width: '100px' }}>
+                {languageTranslation('STATUS')}
+              </th>
+              <th className='text-center'>
+                {languageTranslation('TABLE_HEAD_ACTION')}
+              </th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td>
-                  <div>Loading ...</div>
+                <td className={'table-loader'} colSpan={7}>
+                  <Loader />
                 </td>
               </tr>
-            ) : (
-              data &&
+            ) : data &&
               data.getEmployees &&
               data.getEmployees.employeeData &&
+              data.getEmployees.employeeData.length ? (
               data.getEmployees.employeeData.map(
                 (
                   {
@@ -340,55 +370,63 @@ const Employee: FunctionComponent = () => {
                     region,
                     assignedCanstitution,
                     isActive,
-                    profileThumbnailImage
+                    profileThumbnailImage,
+                    createdAt,
                   }: IEmployee,
-                  index: number
+                  index: number,
                 ) => {
-                  const replaceObj: any = {
-                    ":id": id,
-                    ":userName": userName
+                  const replaceObj: IReplaceObjectInterface = {
+                    ':id': id,
+                    ':userName': userName,
                   };
                   return (
                     <tr key={index}>
-                      <td>
-                        <div className="table-checkbox-wrap">
-                          <div className="btn-group btn-check-action-wrap">
-                            <span className="btn">
-                              <span className="checkboxli checkbox-custom checkbox-default">
-                                <input
-                                  type="checkbox"
-                                  id="checkAll"
-                                  className=""
-                                />
-                                <label className=""></label>
-                              </span>
-                            </span>
-                            <span className="checkbox-no">{count++}</span>
+                      <td className={'text-center'}>
+                        <div className='table-checkbox-wrap'>
+                          <div className='btn-group btn-check-action-wrap'>
+                            <span className='checkbox-no'>{count++}</span>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <div className="info-column">
-                          <div className="img-column">
+                        <div className='info-column'>
+                          <div className='img-column'>
                             <img
-                              src={`${AppConfig.FILES_ENDPOINT}${profileThumbnailImage}`}
-                              className="img-fluid"
+                              src={`${
+                                profileThumbnailImage
+                                  ? `${AppConfig.FILES_ENDPOINT}${profileThumbnailImage}`
+                                  : defaultProfile
+                              }`}
+                              className='img-fluid'
+                              alt=''
                             />
                           </div>
-                          <div className="description-column">
-                            <div className="info-title">
-                              {firstName ? firstName : ""}
+                          <div className='description-column'>
+                            <div
+                              className='info-title text-capitalize'
+                              onClick={() =>
+                                history.push(
+                                  AppRoutes.VIEW_EMPLOYEE.replace(
+                                    /:id|:userName/gi,
+                                    function(matched: string) {
+                                      return replaceObj[matched];
+                                    },
+                                  ),
+                                )
+                              }
+                            >
+                              {firstName ? firstName : ''}
                             </div>
-                            <div className="description-text">
-                              <i className="fa fa-envelope mr-2"></i>
-                              <span className="align-middle">
-                                {email ? email : ""}
+                            <div className='description-text'>
+                              <i className='fa fa-envelope mr-2'></i>
+                              <span className='align-middle one-line-text'>
+                                {email ? email : ''}
                               </span>
                             </div>
                             {phoneNumber ? (
-                              <div className="description-text">
-                                <i className="fa fa-phone mr-2"></i>
-                                <span className="align-middle">
+                              <div className='description-text'>
+                                <i className='fa fa-phone mr-2'></i>
+                                <span className='align-middle one-line-text'>
                                   {phoneNumber}
                                 </span>
                               </div>
@@ -397,86 +435,109 @@ const Employee: FunctionComponent = () => {
                         </div>
                       </td>
                       <td>
-                        <div className="description-column  ml-0">
-                          {region ? region.regionName : "-"}
+                        <div className='description-column one-line-text  ml-0'>
+                          {region ? region.regionName : '-'}
                         </div>
                       </td>
-                      <td className="text-center">
+                      <td className='text-center'>
                         <div>{0}</div>
                       </td>
-                      <td className="text-center">
+                      <td>
+                        <div className='description-column  ml-0 '>
+                          {createdAt ? moment(createdAt).format('LLL') : ''}
+                        </div>
+                      </td>
+                      <td className='text-center'>
                         {isActive}
                         <span
                           className={`status-btn ${
-                            isActive ? "active" : "inactive"
+                            isActive ? 'active' : 'inactive'
                           }`}
                           onClick={() => onStatusUpdate(id, !isActive)}
                         >
                           {isActive
-                            ? languageTranslation("ACTIVE")
-                            : languageTranslation("DISABLE")}
+                            ? languageTranslation('ACTIVE')
+                            : languageTranslation('DISABLE')}
                         </span>
                       </td>
                       <td>
-                        <div className="action-btn">
+                        <div className='action-btn'>
                           <ButtonTooltip
                             id={`edit${index}`}
-                            message={languageTranslation("EMP_EDIT")}
+                            message={languageTranslation('EMP_EDIT')}
+                            onBtnClick={() =>
+                              history.push(
+                                AppRoutes.EDIT_EMPLOYEE.replace(
+                                  /:id|:userName/gi,
+                                  function(matched) {
+                                    return replaceObj[matched];
+                                  },
+                                ),
+                              )
+                            }
                           >
-                            {" "}
-                            <i
-                              className="fa fa-pencil"
-                              onClick={() =>
-                                history.push(
-                                  AppRoutes.EDIT_EMPLOYEE.replace(
-                                    /:id|:userName/gi,
-                                    function(matched) {
-                                      return replaceObj[matched];
-                                    }
-                                  )
-                                )
-                              }
-                            ></i>
+                            {' '}
+                            <i className='fa fa-pencil'></i>
                           </ButtonTooltip>
                           <ButtonTooltip
                             id={`view${index}`}
-                            message={languageTranslation("EMP_VIEW")}
+                            message={languageTranslation('EMP_VIEW')}
+                            onBtnClick={() =>
+                              history.push(
+                                AppRoutes.VIEW_EMPLOYEE.replace(
+                                  /:id|:userName/gi,
+                                  function(matched) {
+                                    return replaceObj[matched];
+                                  },
+                                ),
+                              )
+                            }
                           >
-                            {" "}
-                            <i
-                              className="fa fa-eye"
-                              onClick={() =>
-                                history.push(AppRoutes.VIEW_EMPLOYEE)
-                              }
-                            ></i>
+                            {' '}
+                            <i className='fa fa-eye'></i>
                           </ButtonTooltip>
-
                           <ButtonTooltip
                             id={`delete${index}`}
-                            message={languageTranslation("EMP_DELETE")}
+                            message={languageTranslation('EMP_DELETE')}
+                            onBtnClick={() => onDelete(id)}
                           >
-                            {" "}
-                            <i
-                              className="fa fa-trash"
-                              onClick={() => onDelete(id)}
-                            ></i>
+                            {' '}
+                            <i className='fa fa-trash'></i>
                           </ButtonTooltip>
                         </div>
                       </td>
                     </tr>
                   );
-                }
+                },
               )
+            ) : (
+              <tr className={'text-center no-hover-row'}>
+                <td colSpan={7} className={'pt-5 pb-5'}>
+                  {isFilterApplied ? (
+                    <NoSearchFound />
+                  ) : (
+                    <div className='no-data-section'>
+                      <div className='no-data-icon'>
+                        <i className='icon-ban' />
+                      </div>
+                      <h4 className='mb-1'>
+                        Currently there are no employee Added.{' '}
+                      </h4>
+                      <p>Please click above button to add new. </p>
+                    </div>
+                  )}
+                </td>
+              </tr>
             )}
           </tbody>
         </Table>
-        {data && data.getEmployees && data.getEmployees.totalCount && (
+        {data && data.getEmployees && data.getEmployees.totalCount ? (
           <PaginationComponent
             totalRecords={data.getEmployees.totalCount}
             currentPage={currentPage}
             onPageChanged={onPageChanged}
           />
-        )}
+        ) : null}
       </CardBody>
     </Card>
   );

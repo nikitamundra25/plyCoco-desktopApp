@@ -204,7 +204,7 @@ const Employee: FunctionComponent = () => {
   const queryVariables = {
     page: currentPage,
     isActive: isActive ? isActive.value : '',
-    sortBy: sortBy && sortBy.value ? sortBy.value : 0,
+    sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
     searchBy: searchValue ? searchValue : '',
     limit: PAGE_LIMIT,
   };
@@ -437,9 +437,9 @@ const Employee: FunctionComponent = () => {
                       <td>
                         <div className='description-column one-line-text  ml-0 text-capitalize'>
                           {regions
-                            ? regions.map((region: any) => {
+                            ? regions.map((region: any, index: number) => {
                                 return (
-                                  <p className='description-text '>
+                                  <p className='description-text' key={index}>
                                     <span className='text-label mr-1'>
                                       <i className='fa fa-angle-right'></i>
                                     </span>

@@ -37,6 +37,7 @@ import { Formik, FormikProps, FormikHelpers } from "formik";
 import { languageTranslation } from "../../helpers";
 import { ConfirmBox } from "../../common/ConfirmBox";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -330,6 +331,11 @@ const CareInstitution = (props: RouteComponentProps) => {
                     </p>
                   </div>
                 </td>
+                <td>
+                  <div className='description-column  ml-0 '>
+                    {user.createdAt ? moment(user.createdAt).format('LLL') : ''}
+                  </div>
+                </td>
                 <td className="text-center">
                   <span
                     className={`status-btn ${
@@ -376,7 +382,7 @@ const CareInstitution = (props: RouteComponentProps) => {
         )
       : tableData.push(
           <tr className={"text-center no-hover-row"}>
-            <td colSpan={5} className={"pt-5 pb-5"}>
+            <td colSpan={6} className={"pt-5 pb-5"}>
               {!query.page ? (
                 <div className="no-data-section">
                   <div className="no-data-icon">
@@ -415,11 +421,7 @@ const CareInstitution = (props: RouteComponentProps) => {
           </tr>
         )}
   </>
-  // const {
-  //   searchValue = "",
-  //   sortBy = undefined,
-  //   isActive = undefined
-  // } = searchValues ? searchValues : {};
+
   const values: ISearchValues = {
     searchValue,
     isActive,
@@ -462,6 +464,7 @@ const CareInstitution = (props: RouteComponentProps) => {
               </th>
               <th>Care Institution Information</th>
               <th>Company Details</th>
+              <th>{languageTranslation("CREATED_DATE")}</th>
               <th className="text-center">Status</th>
               <th className="text-center">Action</th>
             </tr>

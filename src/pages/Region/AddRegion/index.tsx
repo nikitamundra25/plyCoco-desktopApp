@@ -45,7 +45,7 @@ export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
           regionInput,
         },
       });
-      toast.success('Region Added Successfully');
+      toast.success('Region Added Successfully.');
       props.toggle();
       history.push(AppRoutes.REGION);
     } catch (error) {

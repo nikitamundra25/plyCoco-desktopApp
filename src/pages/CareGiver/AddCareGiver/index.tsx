@@ -1,4 +1,10 @@
-import React, { Component, useState, FunctionComponent, Suspense } from "react";
+import React, {
+  Component,
+  useState,
+  FunctionComponent,
+  Suspense,
+  useEffect
+} from "react";
 import {
   CareGiverValues,
   ICareGiverInput,
@@ -26,6 +32,27 @@ const CareGiverRoutesTabs = careGiverRoutes;
 
 export const CareGiverForm: FunctionComponent = () => {
   let history = useHistory();
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    const scrollPositionY = window.scrollY;
+    const buttonDiv: HTMLElement | null = document.getElementById(
+      "caregiver-add-btn"
+    );
+    if (buttonDiv) {
+      if (scrollPositionY >= 35) {
+        buttonDiv.classList.add("sticky-save-btn");
+      } else {
+        buttonDiv.classList.remove("sticky-save-btn");
+      }
+    }
+  };
 
   const [caregiverData, setCaregiverData] = useState<CareGiverValues | null>();
 

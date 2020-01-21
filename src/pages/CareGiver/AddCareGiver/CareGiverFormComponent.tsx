@@ -22,7 +22,14 @@ import {
 } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker.css";
-import { State, Region, Salutation, LegalForm, Country, Gender } from "../../../config";
+import {
+  State,
+  Region,
+  Salutation,
+  LegalForm,
+  Country,
+  Gender
+} from "../../../config";
 import InputMask from "react-input-mask";
 import {
   Formik,
@@ -52,20 +59,22 @@ import { languageTranslation } from "../../../helpers";
 import PersonalInfoFormComponent from "../PersonalInfo/PersonalInfoFormComponent";
 import BillingSettingsFormComponent from "../PersonalInfo/BillingSettingsFormComponent";
 import QualificationFormComponent from "../PersonalInfo/QualificationFormComponent";
+import AttributeFormComponent from "../PersonalInfo/AttributesFromComponent";
 import RemarkFormComponent from "../PersonalInfo/RemarkFormComponent";
+import "../caregiver.scss";
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
-const CareGiverFormComponent: FunctionComponent<
-  FormikProps<CareGiverValues>
-> = (props: FormikProps<CareGiverValues>) => {
+const CareGiverFormComponent: FunctionComponent<FormikProps<
+  CareGiverValues
+>> = (props: FormikProps<CareGiverValues>) => {
   const { values } = props;
   const handleField = (e: any) => {
     const value = {
       createdBy: `${values.firstName} ${values.lastName}`,
       description: e.target.value
-    }
-    props.setFieldValue('remarks', [value])
+    };
+    props.setFieldValue("remarks", [value]);
   };
   console.log("+++++++++++", props.errors);
   // To fetch the list of countries
@@ -108,12 +117,15 @@ const CareGiverFormComponent: FunctionComponent<
           <PersonalInfoFormComponent {...props} />
         </Col>
         <Col lg={"4"}>
-          <BillingSettingsFormComponent {...props} />
-          <QualificationFormComponent {...props} />
+          <div className="common-col">
+            <BillingSettingsFormComponent {...props} />
+            <div className="quality-attribute-section d-flex flex-column">
+              <QualificationFormComponent {...props} />
+              <AttributeFormComponent {...props} />
+            </div>
+          </div>
         </Col>
-        <Col lg={4}>
-          <RemarkFormComponent />
-        </Col>
+        <RemarkFormComponent />
       </Row>
     </Form>
   );

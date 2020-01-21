@@ -6,7 +6,9 @@ interface IField {
 interface IFormikForm {
     touched: boolean,
     errors: any,
+    value: any,
     isSubmitting: boolean,
+    setFieldValue: (name: string, value: string) => void
     handleChange: (event: any) => void,
     setFieldTouched: (name: string, value: boolean, touched: boolean) => void
 }

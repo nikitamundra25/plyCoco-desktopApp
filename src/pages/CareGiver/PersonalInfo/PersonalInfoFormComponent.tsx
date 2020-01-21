@@ -1,7 +1,40 @@
-import React from 'react';
-import { Label, Col, Row, FormGroup } from 'reactstrap';
-import { State, Salutation, Gender } from '../../../config';
-import { FormikProps, Field } from 'formik';
+import React, { Component } from 'react';
+import Select from 'react-select';
+import {
+  Card,
+  CardHeader,
+  Label,
+  CardBody,
+  Col,
+  Row,
+  Button,
+  CustomInput,
+  BreadcrumbItem,
+  Breadcrumb,
+  InputGroup,
+  InputGroupAddon,
+  FormGroup,
+  Input,
+} from 'reactstrap';
+import 'react-datepicker/dist/react-datepicker.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import {
+  State,
+  Region,
+  Salutation,
+  LegalForm,
+  Country,
+  Gender,
+} from '../../../config';
+import {
+  Formik,
+  FormikHelpers,
+  FormikProps,
+  Form,
+  Field,
+  FieldProps,
+  FormikValues,
+} from 'formik';
 import {
   CareGiverValues,
   IReactSelectInterface,
@@ -18,6 +51,7 @@ import { languageTranslation } from '../../../helpers';
 import FormikCheckbox from '../../../common/forms/FormikFields/FormikCheckbox';
 import { useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { CountryQueries } from '../../../queries';
+import { useLocation } from 'react-router';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
@@ -39,6 +73,11 @@ const PersonalInfoFormComponent: any = (
       }),
     );
   }
+
+  let { pathname } = useLocation();
+  console.log('pathname', pathname.split('/'));
+  let PathArray: string[] = pathname.split('/');
+
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
       statesOpt.push({
@@ -47,74 +86,81 @@ const PersonalInfoFormComponent: any = (
       }),
     );
   }
+
+  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
+    if (name === 'country') {
+      getStatesByCountry({
+        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+      });
+    }
+  };
+
   const { values } = props;
   return (
-    <div className='form-card'>
+    <div className='form-card h-100'>
       <Row>
         <Col lg={'12'}>
           <FormGroup>
-            <Row>
-              <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  {languageTranslation('USER_ID')}
-                  <span className='required'>*</span>
-                </Label>
-              </Col>
-              <Col sm='8'>
-                <Row className='custom-col inner-no-padding-col'>
-                  <Col sm='4'>
-                    <div>
-                      <Field
-                        component={FormikTextField}
-                        name={'lastName'}
-                        placeholder={languageTranslation('USER_ID')}
-                        className='width-common'
-                      />
-                    </div>
-                  </Col>
-                  <Col sm='8'>
-                    <FormGroup>
-                      <Row className='custom-col inner-no-padding-col'>
-                        <Col sm='6'>
-                          <Label className='form-label col-form-label inner-label'>
-                            {languageTranslation('REG_SINCE')}
-                            <span className='required'>*</span>
-                          </Label>
-                        </Col>
-                        <Col sm='6'>
-                          <div>
-                            <Field
-                              component={FormikTextField}
-                              name={'registartionSince'}
-                              placeholder='Reg Since'
-                              className='width-common'
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
+            {PathArray && PathArray[2] !== 'add' ? (
+              <Row>
+                <Col sm='4'>
+                  <Label className='form-label col-form-label'>
+                    {languageTranslation('USER_ID')}
+                    <span className='required'>*</span>
+                  </Label>
+                </Col>
+                <Col sm='8'>
+                  <Row className='custom-col inner-no-padding-col'>
+                    <Col sm='4'>
+                      <div>
+                        <Field
+                          component={FormikTextField}
+                          name={'userId'}
+                          placeholder={languageTranslation('USER_ID')}
+                          className='width-common'
+                        />
+                      </div>
+                    </Col>
+                    <Col sm='8'>
+                      <FormGroup>
+                        <Row className='custom-col inner-no-padding-col'>
+                          <Col sm='6'>
+                            <Label className='form-label col-form-label inner-label'>
+                              {languageTranslation('REG_SINCE')}
+                              <span className='required'>*</span>
+                            </Label>
+                          </Col>
+                          <Col sm='6'>
+                            <div>
+                              <Field
+                                component={FormikTextField}
+                                name={'registartionSince'}
+                                placeholder='Reg Since'
+                                className='width-common'
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            ) : null}
           </FormGroup>
         </Col>
         <Col lg={'12'}>
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  {'Region'}
-                  <span className='required'>*</span>
-                </Label>
+                <Label className='form-label col-form-label'>{'Region'}</Label>
               </Col>
               <Col sm='8'>
-                <div>
-                  <Field
-                    name={'state'}
-                    component={FormikSelectField}
-                    placeholder='Region/State'
-                    options={State}
+                <div className='field-class'>
+                  <Select
+                    placeholder={languageTranslation('REGION', 'STATE')}
+                    options={statesOpt}
+                    onChange={(value: any) => handleSelect(value, 'regionId')}
                   />
                 </div>
               </Col>
@@ -127,16 +173,13 @@ const PersonalInfoFormComponent: any = (
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
                   {languageTranslation('GENDER')}
-                  <span className='required'>*</span>
                 </Label>
               </Col>
               <Col sm='8'>
                 <Row className='custom-col inner-no-padding-col'>
                   <Col sm='5'>
                     <div>
-                      <Field
-                        component={FormikSelectField}
-                        name={'gender'}
+                      <Select
                         placeholder={languageTranslation('GENDER')}
                         options={Gender}
                       />
@@ -148,7 +191,6 @@ const PersonalInfoFormComponent: any = (
                         <Col sm='6'>
                           <Label className='form-label col-form-label inner-label'>
                             {languageTranslation('TITLE')}
-                            <span className='required'>*</span>
                           </Label>
                         </Col>
                         <Col sm='6'>
@@ -175,14 +217,11 @@ const PersonalInfoFormComponent: any = (
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
                   {languageTranslation('SALUTATION')}
-                  <span className='required'>*</span>
                 </Label>
               </Col>
               <Col sm='8'>
                 <div>
-                  <Field
-                    name={'salutation'}
-                    component={FormikSelectField}
+                  <Select
                     placeholder={languageTranslation('SALUTATION')}
                     options={Salutation}
                   />
@@ -243,7 +282,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
                   Birthday Date
-                  <span className='required'>*</span>
                 </Label>
               </Col>
               <Col sm='8'>
@@ -264,7 +302,6 @@ const PersonalInfoFormComponent: any = (
                         <Col sm='6'>
                           <Label className='form-label col-form-label inner-label'>
                             Age
-                            <span className='required'>*</span>
                           </Label>
                         </Col>
                         <Col sm='6'>
@@ -290,9 +327,7 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label '>
-                  Street<span className='required'>*</span>
-                </Label>
+                <Label className='form-label col-form-label '>Street</Label>
               </Col>
               <Col sm='8'>
                 <div>
@@ -322,7 +357,6 @@ const PersonalInfoFormComponent: any = (
                     className=' width-common'
                   />
                 </div>
-                {/* <Button  className="alfabate-btn btn">N</Button> */}
               </Col>
             </Row>
           </FormGroup>
@@ -331,10 +365,7 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label '>
-                  ZIP
-                  <span className='required'>*</span>
-                </Label>
+                <Label className='form-label col-form-label '>ZIP</Label>
               </Col>
               <Col sm='8'>
                 <div>
@@ -353,19 +384,11 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label '>
-                  Country
-                  <span className='required'>*</span>
-                </Label>
+                <Label className='form-label col-form-label '>Country</Label>
               </Col>
               <Col sm='8'>
                 <div>
-                  <Field
-                    component={FormikSelectField}
-                    name={'country'}
-                    placeholder='Germany'
-                    options={countriesOpt}
-                  />
+                  <Select placeholder='Germany' options={Country} />
                 </div>
               </Col>
             </Row>
@@ -375,19 +398,11 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label '>
-                  State
-                  <span className='required'>*</span>
-                </Label>
+                <Label className='form-label col-form-label '>State</Label>
               </Col>
               <Col sm='8'>
                 <div>
-                  <Field
-                    component={FormikSelectField}
-                    name='stateId'
-                    placeholder='Bavaria'
-                    options={statesOpt}
-                  />
+                  <Select placeholder='Bavaria' options={State} />
                 </div>
               </Col>
             </Row>
@@ -398,10 +413,7 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  Phone
-                  <span className='required'>*</span>
-                </Label>
+                <Label className='form-label col-form-label'>Phone</Label>
               </Col>
               <Col sm='8'>
                 <div>
@@ -421,10 +433,7 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  Fax
-                  <span className='required'>*</span>
-                </Label>
+                <Label className='form-label col-form-label'>Fax</Label>
               </Col>
               <Col sm='8'>
                 <div>
@@ -445,7 +454,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
                   Mobile Number
-                  <span className='required'>*</span>
                 </Label>
               </Col>
               <Col sm='8'>
@@ -488,10 +496,7 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  Tax Number
-                  <span className='required'>*</span>
-                </Label>
+                <Label className='form-label col-form-label'>Tax Number</Label>
               </Col>
               <Col sm='8'>
                 <div>
@@ -510,10 +515,7 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  Bank
-                  <span className='required'>*</span>
-                </Label>
+                <Label className='form-label col-form-label'>Bank</Label>
               </Col>
               <Col sm='8'>
                 <div>
@@ -532,10 +534,7 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  IBAN
-                  <span className='required'>*</span>
-                </Label>
+                <Label className='form-label col-form-label'>IBAN</Label>
               </Col>
               <Col sm='8'>
                 <div>
@@ -563,7 +562,7 @@ const PersonalInfoFormComponent: any = (
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={'username'}
+                    name={'userName'}
                     placeholder='Username'
                     className='width-common'
                   />
@@ -576,18 +575,62 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
+                <Label className='form-label col-form-label'>Belongs to</Label>
+              </Col>
+              <Col sm='8'>
+                <div>
+                  <Select placeholder='Belongs to' options={State} />
+                </div>
+              </Col>
+            </Row>
+          </FormGroup>
+        </Col>
+        <Col lg={'12'}>
+          <FormGroup>
+            <Row>
+              <Col sm='4'>
                 <Label className='form-label col-form-label'>
-                  Belongs to
-                  <span className='required'>*</span>
+                  Driver's license
+                </Label>
+              </Col>
+              <Col sm='8'>
+                <div className='custom-radio-block'>
+                  <FormGroup check inline>
+                    <CustomInput
+                      type='radio'
+                      id='yes'
+                      name='driversLicense'
+                      label='Yes'
+                    />
+                  </FormGroup>
+                  <FormGroup check inline>
+                    <CustomInput
+                      type='radio'
+                      id='no'
+                      name='driversLicense'
+                      label='No'
+                    />
+                  </FormGroup>
+                </div>
+              </Col>
+            </Row>
+          </FormGroup>
+        </Col>
+        <Col lg={'12'}>
+          <FormGroup>
+            <Row>
+              <Col sm='4'>
+                <Label className='form-label col-form-label'>
+                  Driver's License Number
                 </Label>
               </Col>
               <Col sm='8'>
                 <div>
-                  <Field
-                    component={FormikSelectField}
-                    name={'belongsTo'}
-                    placeholder='Belongs to'
-                    options={State}
+                  <Input
+                    type='text'
+                    name='driverLicenseNumber'
+                    placeholder="Driver's License Number"
+                    className='width-common'
                   />
                 </div>
               </Col>
@@ -599,18 +642,41 @@ const PersonalInfoFormComponent: any = (
             <Row>
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
-                  Legal Form
-                  <span className='required'>*</span>
+                  Own vehicle available
                 </Label>
               </Col>
               <Col sm='8'>
+                <div className='custom-radio-block'>
+                  <FormGroup check inline>
+                    <CustomInput
+                      type='radio'
+                      id='yes_v'
+                      name='vehicleavailable'
+                      label='Yes'
+                    />
+                  </FormGroup>
+                  <FormGroup check inline>
+                    <CustomInput
+                      type='radio'
+                      id='no_v'
+                      name='vehicleavailable'
+                      label='No'
+                    />
+                  </FormGroup>
+                </div>
+              </Col>
+            </Row>
+          </FormGroup>
+        </Col>
+        <Col lg={'12'}>
+          <FormGroup>
+            <Row>
+              <Col sm='4'>
+                <Label className='form-label col-form-label'>Legal Form</Label>
+              </Col>
+              <Col sm='8'>
                 <div>
-                  <Field
-                    name='legalForm'
-                    component={FormikSelectField}
-                    placeholder='Legal Form'
-                    options={State}
-                  />
+                  <Select placeholder='Legal Form' options={State} />
                 </div>
               </Col>
             </Row>
@@ -622,7 +688,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
                   Company Name
-                  <span className='required'>*</span>
                 </Label>
               </Col>
               <Col sm='8'>
@@ -644,7 +709,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
                   Register Court
-                  <span className='required'>*</span>
                 </Label>
               </Col>
               <Col sm='8'>
@@ -666,14 +730,13 @@ const PersonalInfoFormComponent: any = (
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
                   Registeration Number
-                  <span className='required'>*</span>
                 </Label>
               </Col>
               <Col sm='8'>
                 <div>
-                  <Field
-                    type={FormikTextField}
-                    name={'registrationNumber'}
+                  <Input
+                    type='text'
+                    name={'regNumber'}
                     placeholder='Registeration Number'
                     className='width-common'
                   />
@@ -688,7 +751,6 @@ const PersonalInfoFormComponent: any = (
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
                   Executive Director
-                  <span className='required'>*</span>
                 </Label>
               </Col>
               <Col sm='8'>
@@ -708,19 +770,21 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  Employed
-                  <span className='required'>*</span>
-                </Label>
+                <Label className='form-label col-form-label'>Employed</Label>
               </Col>
               <Col sm='8'>
                 <div>
-                  <div className=' checkbox-custom mb-0'>
-                    <Field
+                  {/*<div className=" checkbox-custom mb-0">
+                     <Field
                       component={FormikCheckbox}
                       type='checkbox'
                       name={'employed'}
                     />
+                   
+                  </div> */}
+                  <div className=' checkbox-custom mb-0'>
+                    <input type='checkbox' id='check' className='' />
+                    <Label for='check'></Label>
                   </div>
                 </div>
               </Col>
@@ -733,15 +797,13 @@ const PersonalInfoFormComponent: any = (
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
                   Comments (Internally)
-                  <span className='required'>*</span>
                 </Label>
               </Col>
               <Col sm='8'>
                 <div>
-                  <Field
-                    component={FormikTextField}
+                  <Input
                     type='textarea'
-                    name={'additionalText'}
+                    name={'additionalText '}
                     placeholder='Comments (Internally)'
                     className='textarea-custom'
                     rows='4'

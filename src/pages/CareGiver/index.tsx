@@ -145,8 +145,8 @@ const CareGiver: FunctionComponent = () => {
         page: query.page ? parseInt(query.page as string) : 0,
         isActive: query.status
           ? query.status === 'active'
-            ? true
-            : false
+            ? 'true'
+            : 'false'
           : undefined,
       },
     });
@@ -174,7 +174,6 @@ const CareGiver: FunctionComponent = () => {
   };
 
   const onPageChanged = (currentPage: number) => {
-    console.log('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
       '?',
@@ -346,8 +345,8 @@ const CareGiver: FunctionComponent = () => {
                       <Loader />
                     </td>
                   </tr>
-                ) : data && data.getCaregivers ? (
-                  data.getCaregivers.map(
+                ) : data && data.getCaregivers && data.getCaregivers.result ? (
+                  data.getCaregivers.result.map(
                     (careGiverData: any, index: number) => {
                       const replaceObj: any = {
                         ':id': careGiverData.id,
@@ -393,7 +392,9 @@ const CareGiver: FunctionComponent = () => {
                           </td>
                           <td>
                             <div className='description-column  ml-0'>
-                              {careGiverData.caregiverDetails.qualifications
+                              {careGiverData &&
+                              careGiverData.caregiverDetails &&
+                              careGiverData.caregiverDetails.qualifications
                                 ? careGiverData.caregiverDetails.qualifications.map(
                                     (qualification: any) => (
                                       <>
@@ -414,7 +415,9 @@ const CareGiver: FunctionComponent = () => {
 
                           <td>
                             <div className='description-column  ml-0'>
-                              {careGiverData.caregiverDetails.workZones
+                              {careGiverData &&
+                              careGiverData.caregiverDetails &&
+                              careGiverData.caregiverDetails.workZones
                                 ? careGiverData.caregiverDetails.workZones.map(
                                     (wZ: string) => (
                                       <p className='description-text '>
@@ -434,7 +437,10 @@ const CareGiver: FunctionComponent = () => {
                             <div>
                               <p className='description-text'>
                                 <span className='align-middle'>
-                                  {careGiverData.caregiverDetails.legalForm}
+                                  {careGiverData &&
+                                  careGiverData.caregiverDetails
+                                    ? careGiverData.caregiverDetails.legalForm
+                                    : ''}
                                 </span>
                               </p>
                             </div>

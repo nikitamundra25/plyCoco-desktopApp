@@ -21,7 +21,7 @@ export const FormikTextField = (props: IFormikTextField) => {
     ...rest
   } = props;
   const { name, value } = field;
-  const { touched, errors, isSubmitting } = form;
+  const { touched, errors, isSubmitting, setFieldValue } = form;
   const fieldError = getIn(errors, name);
   const showError = getIn(touched, name) && !!fieldError;
   const shrink = field.value !== null && toLower(field.value).length > 0;
@@ -33,15 +33,28 @@ export const FormikTextField = (props: IFormikTextField) => {
         {...field}
         type={type}
         label={newLabel}
+        className={errors.value ? 'text-input error' : 'text-input'}
         value={value ? value : ''}
         onChange={handleChange(props)}
         onClick={rest.onClick || null}
-        onBlur={handleBlur(value, props)}
+        onBlur={
+          name !== 'email'
+            ? handleBlur(value, props)
+            : (e: any) => {
+                //get string before a @ to set username
+                const username = value
+                  ? value.substring(0, value.indexOf('@'))
+                  : '';
+
+                setFieldValue('userName', username);
+                handleBlur(value, props);
+              }
+        }
         disabled={isSubmitting || disabled}
         variant={variant}
-        fullwidth={'true'}
+        fullwidth={true}
       />
-      {showError && fieldError}
+      <div className='required-error'>{showError && fieldError}</div>
     </>
   );
 };

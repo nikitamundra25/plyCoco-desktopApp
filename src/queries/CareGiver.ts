@@ -12,7 +12,6 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     phoneNumber
     profileImage
     profileThumbnailImage
-    regionId
     isActive
     phoneNumber 
     caregiverDetails{
@@ -22,23 +21,17 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       userName
       address1
       address2
-      postCode
+      postalCode
       dateOfBirth
       legalForm
       city
-      pinCode
       street
       fax
       countryId
       stateId
       qualifications
-      regionId
       taxNumber
-      remarks{
-        description
-        createdAt
-        createdBy
-      }
+      remarks
       driversLicense
       driverLicenseNumber
       vehicleAvailable
@@ -77,9 +70,9 @@ export const GET_CAREGIVERS = gql`
     $sortBy: Int
     $limit: Int
     $page: Int
-    $isActive: Boolean
+    $isActive: String
   ) {
-    getEmployees(
+    getCaregivers(
       searchBy: $searchBy
       sortBy: $sortBy
       limit: $limit
@@ -87,12 +80,14 @@ export const GET_CAREGIVERS = gql`
       isActive: $isActive
     ) {
       result {
+        id
         firstName
         lastName
         email
         userName
         phoneNumber
         regionId
+        isActive
       }
     }
   }
@@ -106,8 +101,8 @@ query getCaregiver($id:Int!){
 `;
 
 export const ADD_CAREGIVER = gql`
-mutation addCaregiver($careGiverInput: CareGiverInput!) {
-  addCaregiver(careGiverInput: $careGiverInput)
+mutation addCareGiver($careGiverInput: CareGiverInput!) {
+  addCareGiver(careGiverInput: $careGiverInput)
    ${CAREGIVER_PERSONAL_INFO_FIELDS}
 }`;
 
@@ -162,7 +157,7 @@ export const GET_BILLING_SETTINGS = gql`
 `;
 
 export const UPDATE_CARE_GIVER_STATUS = gql`
-  mutation changeStatusCareGiver(id:ID!, isActive: Boolean):{
+  mutation changeStatusCareGiver($id: ID!, $isActive: Boolean) {
     updateCareGiverStatus(id: $id, isActive: $isActive) {
       id
       isActive

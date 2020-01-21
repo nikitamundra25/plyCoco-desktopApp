@@ -112,7 +112,10 @@ export const CareGiverForm: FunctionComponent = () => {
           const data: any = cache.readQuery({ query: GET_CAREGIVERS });
           cache.writeQuery({
             query: GET_CAREGIVERS,
-            data: { getCaregivers: data.getCaregivers.concat([addCaregiver]) }
+            data: {
+              getCaregiversCount: data.getCaregiversCount + 1,
+              getCaregivers: data.getCaregivers.concat([addCaregiver])
+            }
           });
         }
       });

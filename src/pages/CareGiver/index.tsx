@@ -177,13 +177,19 @@ const CareGiver: FunctionComponent = () => {
           id: parseInt(id)
         },
         update: async (cache) => {
-          let data: any = await cache.readQuery({ query: GET_CAREGIVERS });
+          let data: any = await cache.readQuery({ query: GET_CAREGIVERS, variables:{
+            searchBy:"",
+            sortBy: 0,
+            limit: PAGE_LIMIT,
+            page:  0,
+            isActive:  undefined
+          } });
           console.log("==before==", data.getCaregivers)
           pullAllBy(data.getCaregivers, [{ id }], "id");
           cache.writeQuery({
             query: GET_CAREGIVERS,
             data: {
-              // getCaregiversCount: data.getCaregiversCount - 1,
+              getCaregiversCount: data.getCaregiversCount - 1,
               getCaregivers: data.getCaregivers
             }
           });
@@ -279,31 +285,12 @@ const CareGiver: FunctionComponent = () => {
                     data.getCaregivers ?
                     data.getCaregivers.map(
                       (
-                        {
-                          id,
-                          userName,
-                          salutation,
-                          firstName,
-                          lastName,
-                          address1,
-                          address2,
-                          street,
-                          city,
-                          stateId,
-                          countryId,
-                          postCode,
-                          email,
-                          phoneNumber,
-                          qualifications,
-                          legalForm,
-                          workZones,
-                          status
-                        }: ICareGiver,
+                       careGiverData: any,
                         index: number
                       ) => {
                         const replaceObj: any = {
-                          ":id": id,
-                          ":userName": userName
+                          ":id": careGiverData.id,
+                          ":userName": careGiverData.userName
                         };
                         return (
                           <tr key={index}>
@@ -327,15 +314,15 @@ const CareGiver: FunctionComponent = () => {
                             <td>
                               <div className="info-column">
                                 <div className="description-column">
-                                  <div className="info-title">{`${salutation} ${firstName} ${lastName}`}</div>
+                                  <div className="info-title">{`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}</div>
                                   <p className="description-text">
                                     <i className="fa fa-envelope mr-2"></i>
-                                    <span className="align-middle">{email}</span>
+                                    <span className="align-middle">{careGiverData.email}</span>
                                   </p>
                                   <p className="description-text">
                                     <i className="fa fa-phone mr-2"></i>
                                     <span className="align-middle">
-                                      {phoneNumber}
+                                      {careGiverData.phoneNumber}
                                     </span>
                                   </p>
                                 </div>
@@ -343,8 +330,8 @@ const CareGiver: FunctionComponent = () => {
                             </td>
                             <td>
                               <div className="description-column  ml-0">
-                                {qualifications
-                                  ? qualifications.map(qualification => (
+                                {careGiverData.caregiverDetails.qualifications
+                                  ? careGiverData.caregiverDetails.qualifications.map((qualification:any) => (
                                     <>
                                       <p className="description-text ">
                                         <span className="text-label mr-1">
@@ -362,8 +349,8 @@ const CareGiver: FunctionComponent = () => {
 
                             <td>
                               <div className="description-column  ml-0">
-                                {workZones
-                                  ? workZones.map(wZ => (
+                                {careGiverData.caregiverDetails.workZones
+                                  ? careGiverData.caregiverDetails.workZones.map((wZ:string) => (
                                     <p className="description-text ">
                                       <span className="text-label mr-1">
                                         <i className="fa fa-angle-right"></i>
@@ -377,17 +364,17 @@ const CareGiver: FunctionComponent = () => {
                             <td>
                               <div>
                                 <p className="description-text">
-                                  <span className="align-middle">{legalForm}</span>
+                                  <span className="align-middle">{careGiverData.caregiverDetails.legalForm}</span>
                                 </p>
                               </div>
                             </td>
                             <td className="text-center">
                               <span
                                 className={`status-btn ${
-                                  index % 2 === 0 ? "active" : "inactive"
+                                  careGiverData.isActive ? "active" : "inactive"
                                   }`}
                               >
-                                {isActive ? "Active" : "Disable"}
+                                {careGiverData.isActive ? "Active" : "Disable"}
                               </span>
                             </td>
                             <td>
@@ -429,7 +416,7 @@ const CareGiver: FunctionComponent = () => {
                                 <ButtonTooltip
                                   id={`delete${index}`}
                                   message={languageTranslation("CAREGIVER_DELETE")}
-                                  onclick={() => onDelete(id)}
+                                  onclick={() => onDelete(careGiverData.id)}
                                 >
                                   <i className="fa fa-trash"></i>
                                 </ButtonTooltip>

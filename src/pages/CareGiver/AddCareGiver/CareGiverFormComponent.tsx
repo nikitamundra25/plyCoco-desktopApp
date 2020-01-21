@@ -59,7 +59,7 @@ const CareGiverFormComponent: FunctionComponent<
       createdBy:`${values.firstName} ${values.lastName}`,
       description:e.target.value
     }
-    props.setFieldValue('remarks', value)
+    props.setFieldValue('remarks', [value])
 };
   console.log("+++++++++++", props.errors);
   // To fetch the list of countries
@@ -774,7 +774,7 @@ const CareGiverFormComponent: FunctionComponent<
                                 component={FormikTextField}
                                 type="textarea"
                                 onChange={handleField}
-                                name={"remarks.description"}
+                                name={"remarks[0].description"}
                                 placeholder="Remarks"
                                 rows="4"
                                 className="textarea-custom "

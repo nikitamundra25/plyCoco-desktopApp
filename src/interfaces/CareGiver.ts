@@ -261,6 +261,7 @@ export interface ICareGiver {
   legalForm: string;
   workZones?: string[];
   status: string;
+  caregiverDetails:object
 }
 
 export interface IAddCargiverRes {

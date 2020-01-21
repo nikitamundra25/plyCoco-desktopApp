@@ -33,14 +33,22 @@ import FormikCheckbox from "../../../common/forms/FormikFields/FormikCheckbox";
 import { IQualifications } from "../../../interfaces/qualification";
 import { GET_QUALIFICATION_ATTRIBUTES } from "../../../queries";
 import { useQuery } from "@apollo/react-hooks";
+import Select from "react-select";
 
 
 const QualificationFormComponent: any = (
     props: FormikProps<CareGiverValues>
 ) => {
     const { values, initialValues } = props;
-
-
+    let [selectedQualification, setselectedQualification] = useState<IReactSelectInterface>({
+        label: "",
+        value: ""
+      });
+  const  handleQualification=(value:any)=>{
+    setselectedQualification((selectedQualification=value))
+    let qualificationValue:any = initialValues.qualifications
+    props.setFieldValue('qualifications', qualificationValue.concat(value))
+    }
 
     const { data, loading, error, refetch } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTES);
     const qualificationList: IReactSelectInterface[] | undefined = [];
@@ -65,7 +73,6 @@ const QualificationFormComponent: any = (
                         </h5>
                                 <div className="form-inner-list-content-wrap">
                                     <ul>
-                                        <li className="ative">Dialysis </li>
                                         {initialValues.qualifications &&
                                             initialValues.qualifications.map(quali => {
                                                 return <li>{quali}</li>
@@ -75,11 +82,11 @@ const QualificationFormComponent: any = (
                             </div>
 
                             <div className="custom-select-wrap">
-                                <Field
-                                    component={FormikSelectField}
-                                    name={"selected_qualifications"}
+                                <Select
+                                    name={"selectedQualification"}
                                     placeholder={"Add Qualification"}
                                     options={qualificationList}
+                                    onChange={handleQualification}
                                     className="w-100"
                                 />
                             </div>

@@ -16,7 +16,7 @@ import {
 } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker.css";
-import { State, Region, Salutation, LegalForm, Country } from "../../../config";
+import { State, Region, Salutation, LegalForm, Country, Gender } from "../../../config";
 import {
     Formik,
     FormikHelpers,
@@ -26,15 +26,41 @@ import {
     FieldProps,
     FormikValues
 } from "formik";
-import { CareGiverValues } from "../../../interfaces";
+import { CareGiverValues, IReactSelectInterface, IStates, ICountries, ICountry, IState } from "../../../interfaces";
 import { FormikSelectField, FormikTextField } from "../../../common/forms/FormikFields";
 import { languageTranslation } from "../../../helpers";
 import FormikCheckbox from "../../../common/forms/FormikFields/FormikCheckbox";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { CountryQueries } from "../../../queries";
 
+const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const PersonalInfoFormComponent: any = (
     props: FormikProps<CareGiverValues>
 ) => {
+    const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
+  // To fetch the states of selected contry & don't want to query on initial load
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY
+  );
+  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  const statesOpt: IReactSelectInterface[] | undefined = [];
+  if (data && data.countries) {
+    data.countries.forEach(({ id, name }: ICountry) =>
+      countriesOpt.push({
+        label: name,
+        value: id
+      })
+    );
+  }
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({
+        label: name,
+        value: id
+      })
+    );
+  }
     const { values } = props;
 debugger
     return (
@@ -127,7 +153,7 @@ debugger
                                                 component={FormikSelectField}
                                                 name={"gender"}
                                                 placeholder={languageTranslation("GENDER")}
-                                                options={State}
+                                                options={Gender}
                                             />
                                         </div>
                                     </Col>
@@ -357,7 +383,7 @@ debugger
                                         component={FormikSelectField}
                                         name={"country"}
                                         placeholder="Germany"
-                                        options={Country} />
+                                        options={countriesOpt} />
                                 </div>
                             </Col>
                         </Row>
@@ -378,7 +404,7 @@ debugger
                                         component={FormikSelectField}
                                         name="stateId"
                                         placeholder="Bavaria"
-                                        options={State} />
+                                        options={statesOpt} />
                                 </div>
                             </Col>
                         </Row>

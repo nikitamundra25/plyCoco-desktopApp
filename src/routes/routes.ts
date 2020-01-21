@@ -37,7 +37,7 @@ const BillingSetting = React.lazy(() =>
 );
 const Billing = React.lazy(() => import('../pages/CareGiver/Billings'));
 const LeasingPersonalData = React.lazy(() =>
-  import('../pages/CareGiver/LeasingData/LeasingPersonalData'),
+  import('../pages/CareGiver/LeasingData'),
 );
 const ChangePassword = React.lazy(() =>
   import('../pages/CareGiver/ChangePassword/ChangePassword'),

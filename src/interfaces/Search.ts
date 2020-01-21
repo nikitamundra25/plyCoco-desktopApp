@@ -8,4 +8,5 @@ export interface ISearchValues {
 
 export interface ISearchProps {
   label?: string;
+  searchPlacholderText?: string;
 }

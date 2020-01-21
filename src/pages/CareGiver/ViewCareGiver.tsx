@@ -1,53 +1,51 @@
-import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
-import { RouteComponentProps, useLocation, useParams } from "react-router";
-import Select from "react-select";
-import { CareGiver, AppRoutes, PAGE_LIMIT } from "../../config";
-import add from "../../assets/img/add.svg";
-import save from "../../assets/img/save.svg";
-import reminder from "../../assets/img/reminder.svg";
-import password from "../../assets/img/password.svg";
-import appointment from "../../assets/img/appointment.svg";
-import clear from "../../assets/img/clear.svg";
-import { careGiverRoutes } from "./Sidebar/SidebarRoutes/CareGiverRoutes";
-import qs from "query-string";
-import {
-  IReactSelectInterface
-} from "../../interfaces";
-import { Formik, FormikProps, FormikHelpers } from "formik";
-import { GET_CAREGIVERS } from "../../queries";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-import Invoices from "./Invoices/Invoices";
-import  PersonalInformation  from "./PersonalInfo/PersonalInformation";
-import DocumentsUpload from "./Documents/DocumentsUpload";
-import Offer from "./Offers/Offer";
-import LoginLogs from "./Logins/CareLogin";
-import InboxEmail from "./Emails/InboxEmail";
-import ToDo from "./ToDos/ToDos";
-import LeasingPersonalData from "./LeasingData/LeasingPersonalData";
-import QualificationAttribute from "./QualificationAttributes/QualificationAttribute";
+import React, { FunctionComponent, useState, Suspense, useEffect } from 'react';
+import { RouteComponentProps, useLocation, useParams } from 'react-router';
+import Select from 'react-select';
+import { CareGiver, AppRoutes, PAGE_LIMIT } from '../../config';
+import add from '../../assets/img/add.svg';
+import save from '../../assets/img/save.svg';
+import reminder from '../../assets/img/reminder.svg';
+import password from '../../assets/img/password.svg';
+import appointment from '../../assets/img/appointment.svg';
+import clear from '../../assets/img/clear.svg';
+import { careGiverRoutes } from './Sidebar/SidebarRoutes/CareGiverRoutes';
+import qs from 'query-string';
+import { IReactSelectInterface } from '../../interfaces';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { GET_CAREGIVERS } from '../../queries';
+import { useLazyQuery, useQuery } from '@apollo/react-hooks';
+import Invoices from './Invoices/Invoices';
+import PersonalInformation from './PersonalInfo/PersonalInformation';
+import DocumentsUpload from './Documents/DocumentsUpload';
+import Offer from './Offers/Offer';
+import LoginLogs from './Logins/CareLogin';
+import InboxEmail from './Emails/InboxEmail';
+import ToDo from './ToDos/ToDos';
+import LeasingPersonalData from './LeasingData';
+import QualificationAttribute from './QualificationAttributes/QualificationAttribute';
 
 const CareGiverSidebar = React.lazy(() =>
-  import("../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
+  import('../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout'),
 );
 
 const CareGiverRoutesTabs = careGiverRoutes;
 
 const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
-  props: RouteComponentProps
+  props: RouteComponentProps,
 ) => {
   let { id } = useParams();
   const Id: any | undefined = id;
   let sortBy: IReactSelectInterface | undefined = {
-    label: "3",
-    value: "Sort by A-Z"
+    label: '3',
+    value: 'Sort by A-Z',
   };
   const { data: careGiver, loading, error, refetch } = useQuery<any>(
-    GET_CAREGIVERS
+    GET_CAREGIVERS,
   );
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
-    label: "",
-    value: ""
+    label: '',
+    value: '',
   });
 
   let CareGireList: Object[] = [];
@@ -55,8 +53,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     const { getCaregivers } = careGiver;
     getCaregivers.map((data: any, index: any) => {
       CareGireList.push({
-        label: `${data.firstName}${" "}${data.lastName}`,
-        value: data.id
+        label: `${data.firstName}${' '}${data.lastName}`,
+        value: data.id,
       });
     });
   }
@@ -68,18 +66,17 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     setactiveTab(
       query.tab
         ? careGiverRoutes.findIndex(
-            d => d.name === decodeURIComponent(query.tab)
+            d => d.name === decodeURIComponent(query.tab),
           )
-        : 0
+        : 0,
     );
   }, [search]);
 
   const onTabChange = (activeTab: number) => {
     props.history.push(
-      `${AppRoutes.CARE_GIVER_VIEW.replace(
-        ":id",
-        Id
-      )}?tab=${encodeURIComponent(careGiverRoutes[activeTab].name)}`
+      `${AppRoutes.CARE_GIVER_VIEW.replace(':id', Id)}?tab=${encodeURIComponent(
+        careGiverRoutes[activeTab].name,
+      )}`,
     );
   };
   let [isUserChange, setisUserChange] = useState(false);
@@ -87,15 +84,15 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     if (e && e.value) {
       const data: IReactSelectInterface = {
         label: e.label,
-        value: e.value
+        value: e.value,
       };
       setselectUser((selectUser = data));
       if (e.value !== Id) {
         props.history.push(
           `${AppRoutes.CARE_GIVER_VIEW.replace(
-            ":id",
-            e.value
-          )}?tab=${encodeURIComponent(careGiverRoutes[activeTab].name)}`
+            ':id',
+            e.value,
+          )}?tab=${encodeURIComponent(careGiverRoutes[activeTab].name)}`,
         );
         setisUserChange((isUserChange = true));
       }
@@ -108,15 +105,15 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 
   return (
     <div>
-      <div className="common-detail-page">
-        <div className="common-detail-section">
-          <Suspense fallback={"Loading.."}>
-            <div className="sticky-common-header">
-              <div className="common-topheader d-flex align-items-center ">
-                <div className="user-select">
+      <div className='common-detail-page'>
+        <div className='common-detail-section'>
+          <Suspense fallback={'Loading..'}>
+            <div className='sticky-common-header'>
+              <div className='common-topheader d-flex align-items-center '>
+                <div className='user-select'>
                   <Select
                     defaultValue={selectUser}
-                    placeholder="Select Caregiver"
+                    placeholder='Select Caregiver'
                     value={selectUser}
                     onChange={(e: any) => handleSelect(e)}
                     options={CareGireList}
@@ -124,19 +121,19 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                 </div>
                 <div
                   onClick={handleAddNewCareGiver}
-                  className="header-nav-item"
+                  className='header-nav-item'
                 >
-                  <span className="header-nav-icon">
-                    <img src={add} alt="" />
+                  <span className='header-nav-icon'>
+                    <img src={add} alt='' />
                   </span>
-                  <span className="header-nav-text">New Care Giver</span>
+                  <span className='header-nav-text'>New Care Giver</span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={reminder} alt="" />
+                <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={reminder} alt='' />
                   </span>
                   <span
-                    className="header-nav-text"
+                    className='header-nav-text'
                     // onClick={() => {
                     //   this.setState({ show: true });
                     // }}
@@ -144,23 +141,23 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                     Create Todo/Reminder
                   </span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={password} alt="" />
+                <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={password} alt='' />
                   </span>
-                  <span className="header-nav-text">New Password</span>
+                  <span className='header-nav-text'>New Password</span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={appointment} alt="" />
+                <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={appointment} alt='' />
                   </span>
-                  <span className="header-nav-text">Display Appointments</span>
+                  <span className='header-nav-text'>Display Appointments</span>
                 </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={clear} alt="" />
+                <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={clear} alt='' />
                   </span>
-                  <span className="header-nav-text">Clear</span>
+                  <span className='header-nav-text'>Clear</span>
                 </div>
               </div>
               <CareGiverSidebar
@@ -170,8 +167,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               />
             </div>
           </Suspense>
-          <Suspense fallback={""}>
-            <div className="common-content flex-grow-1">
+          <Suspense fallback={''}>
+            <div className='common-content flex-grow-1'>
               {activeTab === 0 ? (
                 <PersonalInformation
                   currentSelectuser={(Data: IReactSelectInterface) => {

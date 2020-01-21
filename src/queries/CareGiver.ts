@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
@@ -154,6 +154,15 @@ export const GET_BILLING_SETTINGS = gql`
       holidayAllowancePerHourFee
       nextInvoiceNumber
       additionalText
+    }
+  }
+`;
+
+export const UPDATE_CARE_GIVER_STATUS = gql`
+  mutation updateCareGiverStatus($id: ID!, $isActive: Boolean) {
+    updateCareGiverStatus(id: $id, isActive: $isActive) {
+      id
+      isActive
     }
   }
 `;

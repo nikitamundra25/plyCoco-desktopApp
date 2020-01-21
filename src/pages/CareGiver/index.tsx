@@ -30,17 +30,19 @@ import { AppRoutes, PAGE_LIMIT } from '../../config';
 import { RouteComponentProps, useLocation, useHistory } from 'react-router';
 import { AppBreadcrumb } from '@coreui/react';
 import routes from '../../routes/routes';
-import { userData } from './CareGiverData';
-import { string } from 'prop-types';
 import Search from '../../common/SearchFilter';
 import ButtonTooltip from '../../common/Tooltip/ButtonTooltip';
 import { languageTranslation } from '../../helpers';
-import { UsersQuery } from '../../queries';
-import { GET_CAREGIVERS, DELETE_CAREGIVER } from '../../queries/CareGiver';
+import {
+  GET_CAREGIVERS,
+  DELETE_CAREGIVER,
+  UPDATE_CARE_GIVER_STATUS,
+} from '../../queries/CareGiver';
 import {
   ISearchValues,
   IReactSelectInterface,
   ICareGiver,
+  IObjectType,
 } from '../../interfaces';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
@@ -48,13 +50,15 @@ import { ConfirmBox } from '../../common/ConfirmBox';
 import PaginationComponent from '../../common/Pagination';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../common/SearchFilter/NoSearchFound';
+import { toast } from 'react-toastify';
 
-const sortFilter: any = {
+const sortFilter: IObjectType = {
   3: 'name',
   4: 'name-desc',
   2: 'oldest',
   1: 'newest',
 };
+let toastId: any = '';
 
 const CareGiver: FunctionComponent = () => {
   let history = useHistory();
@@ -68,6 +72,12 @@ const CareGiver: FunctionComponent = () => {
     GET_CAREGIVERS,
   );
 
+  // Mutation to update care giver status
+  const [updateEmployeeStatus] = useMutation<
+    { updateCareGiverStatus: any },
+    { id: string; isActive: boolean }
+  >(UPDATE_CARE_GIVER_STATUS);
+
   // Mutation to delete care giver
   const [deleteCaregiver, { error }] = useMutation<
     { deleteCaregiver: any },
@@ -80,11 +90,12 @@ const CareGiver: FunctionComponent = () => {
     let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
     let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
     // To handle display and query param text
-    let sortByValue: any = Object.keys(sortFilter).find(
-      (key: any) => sortFilter[key] === query.sortBy,
-    );
-    console.log(sortByValue);
-    console.log(typeof sortByValue);
+    let sortByValue: string | undefined = '1';
+    if (query.sortBy) {
+      sortByValue = Object.keys(sortFilter).find(
+        (key: string) => sortFilter[key] === query.sortBy,
+      );
+    }
     if (sortByValue === '3') {
       sortBy.label = 'A-Z';
     }
@@ -105,21 +116,23 @@ const CareGiver: FunctionComponent = () => {
             value:
               Object.keys(sortFilter).find(
                 (key: any) => sortFilter[key] === query.sortBy,
-              ) || '',
+              ) || '1',
           }
-        : undefined;
+        : { label: 'Newest', value: '1' };
       isActive = query.status
         ? query.status === 'active'
           ? { label: languageTranslation('ACTIVE'), value: 'true' }
           : { label: languageTranslation('DISABLE'), value: 'false' }
-        : undefined;
+        : { label: '', value: '' };
       setSearchValues({
         searchValue: searchBy,
         sortBy,
-        // isActive
+        isActive,
       });
       setIsFilter(
-        searchBy !== '' || isActive !== undefined || sortBy !== undefined,
+        searchBy !== '' ||
+          query.status !== undefined ||
+          query.sortBy !== undefined,
       );
       setCurrentPage(query.page ? parseInt(query.page as string) : 0);
     }
@@ -208,6 +221,43 @@ const CareGiver: FunctionComponent = () => {
     }
   };
 
+  const onStatusUpdate = async (id: string, status: boolean) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation(
+        status
+          ? 'CONFIRM_CAREGIVER_STATUS_ACTIVATE_MSG'
+          : 'CONFIRM_CAREGIVER_STATUS_DISABLED_MSG',
+      ),
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        toast.dismiss();
+        await updateEmployeeStatus({
+          variables: {
+            id,
+            isActive: status,
+          },
+        });
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('CAREGIVER_STATUS_UPDATE_MSG'),
+          );
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
+
   const {
     searchValue = '',
     sortBy = undefined,
@@ -243,15 +293,20 @@ const CareGiver: FunctionComponent = () => {
                 enableReinitialize={true}
                 onSubmit={handleSubmit}
                 children={(props: FormikProps<ISearchValues>) => (
-                  <Search {...props} />
+                  <Search
+                    {...props}
+                    searchPlacholderText={languageTranslation(
+                      'SEARCH_CAREGIVER_PLACEHOLDER',
+                    )}
+                  />
                 )}
               />
             </div>
-          </CardBody>
-          <Table bordered hover responsive>
-            <thead className='thead-bg'>
-              <tr>
-                <th>
+
+            <Table bordered hover responsive>
+              <thead className='thead-bg'>
+                <tr>
+                  {/* <th>
                   <div className='table-checkbox-wrap'>
                     <div className='btn-group btn-check-action-wrap'>
                       <span className='btn'>
@@ -272,180 +327,195 @@ const CareGiver: FunctionComponent = () => {
                       </UncontrolledDropdown>
                     </div>
                   </div>
-                </th>
-                <th>{languageTranslation('TABEL_HEAD_CG_INFO')}</th>
-                <th>{languageTranslation('TABEL_HEAD_CG_QUALIFICATION')}</th>
-                <th>{languageTranslation('TABEL_HEAD_CG_REGION')}</th>
-                <th>{languageTranslation('TABEL_HEAD_CG_APPLYING_AS')}</th>
-                <th>{languageTranslation('TABEL_HEAD_CG_STATUS')}</th>
-                <th>{languageTranslation('TABEL_HEAD_CG_ACTION')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td className={'table-loader'} colSpan={7}>
-                    <Loader />
-                  </td>
+                </th> */}
+                  <th className={'text-center'}>
+                    {languageTranslation('S_NO')}
+                  </th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_INFO')}</th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_QUALIFICATION')}</th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_REGION')}</th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_APPLYING_AS')}</th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_STATUS')}</th>
+                  <th>{languageTranslation('TABEL_HEAD_CG_ACTION')}</th>
                 </tr>
-              ) : data && data.getCaregivers ? (
-                data.getCaregivers.map((careGiverData: any, index: number) => {
-                  const replaceObj: any = {
-                    ':id': careGiverData.id,
-                    ':userName': careGiverData.userName,
-                  };
-                  return (
-                    <tr key={index}>
-                      <td>
-                        <div className='table-checkbox-wrap'>
-                          <div className='btn-group btn-check-action-wrap'>
-                            <span className='btn'>
-                              <span className='checkboxli checkbox-custom checkbox-default'>
-                                <input
-                                  type='checkbox'
-                                  id='checkAll'
-                                  className=''
-                                />
-                                <label className=''></label>
-                              </span>
-                            </span>
-                            <span className='checkbox-no'>{index + 1}</span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div className='info-column'>
-                          <div className='description-column'>
-                            <div className='info-title'>{`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}</div>
-                            <p className='description-text'>
-                              <i className='fa fa-envelope mr-2'></i>
-                              <span className='align-middle'>
-                                {careGiverData.email}
-                              </span>
-                            </p>
-                            <p className='description-text'>
-                              <i className='fa fa-phone mr-2'></i>
-                              <span className='align-middle'>
-                                {careGiverData.phoneNumber}
-                              </span>
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div className='description-column  ml-0'>
-                          {careGiverData.caregiverDetails.qualifications
-                            ? careGiverData.caregiverDetails.qualifications.map(
-                                (qualification: any) => (
-                                  <>
-                                    <p className='description-text '>
-                                      <span className='text-label mr-1'>
-                                        <i className='fa fa-angle-right'></i>
-                                      </span>
-                                      <span className='align-middle'>
-                                        {qualification}
-                                      </span>
-                                    </p>
-                                  </>
-                                ),
-                              )
-                            : null}
-                        </div>
-                      </td>
+              </thead>
+              <tbody>
+                {loading ? (
+                  <tr>
+                    <td className={'table-loader'} colSpan={7}>
+                      <Loader />
+                    </td>
+                  </tr>
+                ) : data && data.getCaregivers ? (
+                  data.getCaregivers.map(
+                    (careGiverData: any, index: number) => {
+                      const replaceObj: any = {
+                        ':id': careGiverData.id,
+                        ':userName': careGiverData.userName,
+                      };
+                      return (
+                        <tr key={index}>
+                          <td className={'text-center'}>
+                            <div className='table-checkbox-wrap'>
+                              <div className='btn-group btn-check-action-wrap'>
+                                <span className='btn'>
+                                  <span className='checkboxli checkbox-custom checkbox-default'>
+                                    <input
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
+                                    />
+                                    <label className=''></label>
+                                  </span>
+                                </span>
+                                <span className='checkbox-no'>{count++}</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div className='info-column'>
+                              <div className='description-column'>
+                                <div className='info-title'>{`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}</div>
+                                <p className='description-text'>
+                                  <i className='fa fa-envelope mr-2'></i>
+                                  <span className='align-middle'>
+                                    {careGiverData.email}
+                                  </span>
+                                </p>
+                                <p className='description-text'>
+                                  <i className='fa fa-phone mr-2'></i>
+                                  <span className='align-middle'>
+                                    {careGiverData.phoneNumber}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div className='description-column  ml-0'>
+                              {careGiverData.caregiverDetails.qualifications
+                                ? careGiverData.caregiverDetails.qualifications.map(
+                                    (qualification: any) => (
+                                      <>
+                                        <p className='description-text '>
+                                          <span className='text-label mr-1'>
+                                            <i className='fa fa-angle-right'></i>
+                                          </span>
+                                          <span className='align-middle'>
+                                            {qualification}
+                                          </span>
+                                        </p>
+                                      </>
+                                    ),
+                                  )
+                                : null}
+                            </div>
+                          </td>
 
-                      <td>
-                        <div className='description-column  ml-0'>
-                          {careGiverData.caregiverDetails.workZones
-                            ? careGiverData.caregiverDetails.workZones.map(
-                                (wZ: string) => (
-                                  <p className='description-text '>
-                                    <span className='text-label mr-1'>
-                                      <i className='fa fa-angle-right'></i>
-                                    </span>
-                                    <span className='align-middle'>{wZ}</span>
-                                  </p>
-                                ),
-                              )
-                            : null}
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <p className='description-text'>
-                            <span className='align-middle'>
-                              {careGiverData.caregiverDetails.legalForm}
+                          <td>
+                            <div className='description-column  ml-0'>
+                              {careGiverData.caregiverDetails.workZones
+                                ? careGiverData.caregiverDetails.workZones.map(
+                                    (wZ: string) => (
+                                      <p className='description-text '>
+                                        <span className='text-label mr-1'>
+                                          <i className='fa fa-angle-right'></i>
+                                        </span>
+                                        <span className='align-middle'>
+                                          {wZ}
+                                        </span>
+                                      </p>
+                                    ),
+                                  )
+                                : null}
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              <p className='description-text'>
+                                <span className='align-middle'>
+                                  {careGiverData.caregiverDetails.legalForm}
+                                </span>
+                              </p>
+                            </div>
+                          </td>
+                          <td className='text-center'>
+                            <span
+                              className={`status-btn ${
+                                careGiverData.isActive ? 'active' : 'inactive'
+                              }`}
+                              onClick={() =>
+                                onStatusUpdate(careGiverData.id, !isActive)
+                              }
+                            >
+                              {careGiverData.isActive
+                                ? languageTranslation('ACTIVE')
+                                : languageTranslation('DISABLE')}
                             </span>
-                          </p>
+                          </td>
+                          <td>
+                            <div className='action-btn'>
+                              <ButtonTooltip
+                                id={`view${index}`}
+                                message={languageTranslation('CAREGIVER_VIEW')}
+                                onBtnClick={() =>
+                                  history.push(
+                                    AppRoutes.CARE_GIVER_VIEW.replace(
+                                      /:id/gi,
+                                      function(matched) {
+                                        return replaceObj[matched];
+                                      },
+                                    ),
+                                  )
+                                }
+                              >
+                                {' '}
+                                <i className='fa fa-eye'></i>
+                              </ButtonTooltip>
+                              <ButtonTooltip
+                                id={`delete${index}`}
+                                message={languageTranslation(
+                                  'CAREGIVER_DELETE',
+                                )}
+                                onBtnClick={() => onDelete(careGiverData.id)}
+                              >
+                                <i className='fa fa-trash'></i>
+                              </ButtonTooltip>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    },
+                  )
+                ) : (
+                  <tr className={'text-center no-hover-row'}>
+                    <td colSpan={7} className={'pt-5 pb-5'}>
+                      {isFilterApplied ? (
+                        <NoSearchFound />
+                      ) : (
+                        <div className='no-data-section'>
+                          <div className='no-data-icon'>
+                            <i className='icon-ban' />
+                          </div>
+                          <h4 className='mb-1'>
+                            Currently there are no care giver Added.{' '}
+                          </h4>
+                          <p>Please click above button to add new. </p>
                         </div>
-                      </td>
-                      <td className='text-center'>
-                        <span
-                          className={`status-btn ${
-                            careGiverData.isActive ? 'active' : 'inactive'
-                          }`}
-                        >
-                          {careGiverData.isActive ? 'Active' : 'Disable'}
-                        </span>
-                      </td>
-                      <td>
-                        <div className='action-btn'>
-                          <ButtonTooltip
-                            id={`view${index}`}
-                            message={languageTranslation('CAREGIVER_VIEW')}
-                            onBtnClick={() =>
-                              history.push(
-                                AppRoutes.CARE_GIVER_VIEW.replace(
-                                  /:id/gi,
-                                  function(matched) {
-                                    return replaceObj[matched];
-                                  },
-                                ),
-                              )
-                            }
-                          >
-                            {' '}
-                            <i className='fa fa-eye'></i>
-                          </ButtonTooltip>
-                          <ButtonTooltip
-                            id={`delete${index}`}
-                            message={languageTranslation('CAREGIVER_DELETE')}
-                            onBtnClick={() => onDelete(careGiverData.id)}
-                          >
-                            <i className='fa fa-trash'></i>
-                          </ButtonTooltip>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr className={'text-center no-hover-row'}>
-                  <td colSpan={7} className={'pt-5 pb-5'}>
-                    {isFilterApplied ? (
-                      <NoSearchFound />
-                    ) : (
-                      <div className='no-data-section'>
-                        <div className='no-data-icon'>
-                          <i className='icon-ban' />
-                        </div>
-                        <h4 className='mb-1'>
-                          Currently there are no care giver Added.{' '}
-                        </h4>
-                        <p>Please click above button to add new. </p>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-          {data && data.getCaregiversCount ? (
-            <PaginationComponent
-              totalRecords={data.getCaregiversCount}
-              currentPage={currentPage}
-              onPageChanged={onPageChanged}
-            />
-          ) : null}
+                      )}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+            {data && data.getCaregiversCount ? (
+              <PaginationComponent
+                totalRecords={data.getCaregiversCount}
+                currentPage={currentPage}
+                onPageChanged={onPageChanged}
+              />
+            ) : null}
+          </CardBody>
         </Card>
       </Col>
     </Row>

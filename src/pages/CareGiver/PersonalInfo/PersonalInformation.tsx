@@ -64,7 +64,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     values: ICareGiverValues,
     { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
-    debugger
     // to set submit state to false after successful signup
     const {
       userName,
@@ -285,17 +284,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         return (
           <Form className="form-section forms-main-section">
             <Row>
-              <Col lg={"4"}>
-                <PersonalInfoFormComponent {...props} />
-              </Col>
-              <Col lg={"4"}>
-                <BillingSettingsFormComponent {...props} />
-                <QualificationFormComponent {...props} />
-              </Col>
-              <Col lg={4}>
-                <RemarkFormComponent {...props} />
-              </Col>
-            </Row>
             <Col lg={"12"}>
               <div className="d-flex align-items-center justify-content-between">
                 <div className="mandatory-text">* Required Fields</div>
@@ -307,8 +295,19 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 onClick={props.handleSubmit}
               >
                 Save
-                </Button>
+            </Button>
             </Col>
+              <Col lg={"4"}>
+                <PersonalInfoFormComponent {...props} />
+              </Col>
+              <Col lg={"4"}>
+                <BillingSettingsFormComponent {...props} />
+                <QualificationFormComponent {...props} />
+              </Col>
+              <Col lg={4}>
+                <RemarkFormComponent />
+              </Col>
+            </Row>
           </Form>
         );
       }}

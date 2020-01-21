@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
-import { Pagination } from 'react-bootstrap';
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { IPaginationProps, IPaginationState } from '../../interfaces';
-
-// class PaginationComponent extends Component<IPaginationProps, any> {
-//   render() {
-//     return <>cvxxxxxxx</>;
-//   }
-// }
 
 const LEFT_PAGE: string = 'LEFT';
 const RIGHT_PAGE: string = 'RIGHT';
@@ -168,35 +162,43 @@ class PaginationComponent extends Component<
 
     return (
       <div className={'float-right'}>
-        <Pagination>
+        <Pagination className={'custom-pagination'}>
           {pages.map((page, index) => {
             return page === LEFT_PAGE ? (
-              <Pagination.Item key={index} onClick={this.handleMoveLeft}>
-                <span aria-hidden='true'>«</span> Prev
-              </Pagination.Item>
+              <PaginationItem key={index} onClick={this.handleMoveLeft}>
+                <PaginationLink previous tag='button'>
+                  <span aria-hidden='true'>«</span> Prev
+                </PaginationLink>
+              </PaginationItem>
             ) : page === RIGHT_PAGE ? (
-              <Pagination.Item key={index} onClick={this.handleMoveRight}>
-                Next <span aria-hidden='true'>»</span>
-              </Pagination.Item>
+              <PaginationItem key={index} onClick={this.handleMoveRight}>
+                <PaginationLink next tag='button'>
+                  Next <span aria-hidden='true'>»</span>
+                </PaginationLink>
+              </PaginationItem>
             ) : page === FIRST_PAGE ? (
-              <Pagination.Item key={index} onClick={this.handleClick(1)}>
-                First <span aria-hidden='true'>«</span>
-              </Pagination.Item>
+              <PaginationItem key={index} onClick={this.handleClick(1)}>
+                <PaginationLink next tag='button'>
+                  First <span aria-hidden='true'>«</span>
+                </PaginationLink>
+              </PaginationItem>
             ) : page === LAST_PAGE ? (
-              <Pagination.Item
+              <PaginationItem
                 key={index}
                 onClick={this.handleClick(this.totalPages)}
               >
-                Last <span aria-hidden='true'>»</span>
-              </Pagination.Item>
+                <PaginationLink next tag='button'>
+                  Last <span aria-hidden='true'>»</span>
+                </PaginationLink>
+              </PaginationItem>
             ) : (
-              <Pagination.Item
+              <PaginationItem
                 key={index}
                 onClick={this.handleClick(page)}
                 active={currentPage === page}
               >
-                {page}
-              </Pagination.Item>
+                <PaginationLink tag='button'>{page}</PaginationLink>
+              </PaginationItem>
             );
           })}
         </Pagination>

@@ -1,36 +1,26 @@
-import { AppRoutes } from "../../../../config";
-
-export const careGiverRoutes = [
+export const careInstitutionRoutes = [
   {
-    path: AppRoutes.CARE_INSTITUTION_PERSONAL_DATA,
-    name: "Overview"
+    name: "overview"
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_OFFER,
-    name: "Offers"
+    name: "offers"
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_LOGIN,
-    name: "Login"
+    name: "login"
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_INVOICE_CYCLE,
-    name: "Invoices"
+    name: "invoices"
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_DOCUMENT,
-    name: "Documents"
+    name: "documents"
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_DEPARTMENT,
-    name: "Departments"
+    name: "departments"
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_EMAIL,
-    name: "Emails"
+    name: "emails"
   },
   {
-    path: AppRoutes.CARE_INSTITUTION_REMINDER,
-    name: "Reminders/Todos"
+    name: "reminders"
   }
 ];

@@ -1,18 +1,109 @@
 import { IReactSelectInterface } from "../interfaces";
 import { languageTranslation } from "../helpers";
-export const telephoneReqExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-export const nameRegExp = /^[A-Za-z]+$/;
-export const fileSize = 125 * 1024;
+import { maskArray } from "react-text-mask";
 
-export const SupportedFormats = [
+export const PAGE_LIMIT: number = 10;
+export const alphaNumeric: RegExp = /^[A-Za-z0-9]+$/;
+export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
+// /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+export const IBANReplaceRegex: RegExp = /[^A-Z0-9]/gi;
+export const IBANlength: number = 22;
+export const telMin: number = 9;
+export const telMax: number = 14;
+export const mobMin: number = 10;
+export const mobMax: number = 12;
+export const fileSize: number = 1 * 1024 * 1024;
+export const nameRegExp: RegExp = /^[A-Za-z][A-Za-z ]+$/;
+export const SupportedFormats: string[] = [
   "image/jpg",
   "image/jpeg",
   "image/gif",
   "image/png"
 ];
+export const IBANRegex: maskArray = [
+  /[A-Za-z]/,
+  /[A-Za-z]/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/
+];
+
+export const DateMask: maskArray = [
+  /[0-9]/,
+  /\d/,
+  "/",
+  /\d/,
+  /\d/,
+  "/",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/
+];
+
 export const Status: IReactSelectInterface[] = [
   { value: "true", label: languageTranslation("ACTIVE") },
   { value: "false", label: languageTranslation("DISABLE") }
+];
+
+export const webRegExp: RegExp = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.​\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[​6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1​,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00​a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u​00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i;
+
+export const ContactType: IReactSelectInterface[] = [
+  { value: "Director", label: "Director" },
+  { value: "Pesident", label: "Pesident" },
+  { value: "vicePesident", label: "Vice Pesident" },
+  { value: "Nursing", label: "Nursing" }
+];
+export const InvoiceType: IReactSelectInterface[] = [
+  { value: "byEmailsWithoutDocuments", label: "By emails without documents" },
+  { value: "byEmailWithDocuments", label: "By email with documents" },
+  {
+    value: "byPost+EmailWithoutDocuments",
+    label: "By post + email without documents"
+  },
+  {
+    value: "byPost+EmailsWithDocuments",
+    label: "By post + email with documents"
+  },
+  {
+    value: "oneEmailForEachInvoice",
+    label: "One Email For Each Invoice"
+  },
+  {
+    value: "oneEmailForEachInvoiceInclWorkingProof",
+    label: "one Email For Each Invoice Incl. Working Proof"
+  },
+  {
+    value: "viaEmailWithoutWorkProof",
+    label: "Via Email Without Work Proof"
+  },
+  {
+    value: "viaEmailWithWorkProof",
+    label: "via Email With Work Proof"
+  }
+
 ];
 export const State: IReactSelectInterface[] = [
   { value: "Thuringia", label: "Thuringia" },
@@ -20,6 +111,10 @@ export const State: IReactSelectInterface[] = [
   { value: "Hamburg", label: "Hamburg" },
   { value: "Saarland", label: "Saarland" },
   { value: "Saxony", label: "Saxony" }
+];
+export const Gender: IReactSelectInterface[] = [
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" }
 ];
 export const Department: IReactSelectInterface[] = [
   { value: "Sales", label: "Sales" },
@@ -209,4 +304,39 @@ export const CareGiver: IReactSelectInterface[] = [
   { value: "us2", label: "Stark Smith" },
   { value: "us6", label: "Tierney St. Louis" },
   { value: "us5", label: "Ula Luckin" }
+];
+
+export const Priority: IReactSelectInterface[] = [
+  { value: "Low", label: languageTranslation("LOW") },
+  { value: "Normal", label: languageTranslation("NORMAL") },
+  { value: "High", label: languageTranslation("HIGH") }
+];
+export const SortOptions: IReactSelectInterface[] = [
+  {
+    label: languageTranslation("SORTBY_OPTION3"),
+    value: "3"
+  },
+  {
+    label: languageTranslation("SORTBY_OPTION4"),
+    value: "4"
+  },
+  {
+    label: languageTranslation("SORTBY_OPTION1"),
+    value: "1"
+  },
+  {
+    label: languageTranslation("SORTBY_OPTION2"),
+    value: "2"
+  }
+];
+
+export const StatusOptions: IReactSelectInterface[] = [
+  {
+    label: languageTranslation("ACTIVE"),
+    value: "true"
+  },
+  {
+    label: languageTranslation("DISABLE"),
+    value: "false"
+  }
 ];

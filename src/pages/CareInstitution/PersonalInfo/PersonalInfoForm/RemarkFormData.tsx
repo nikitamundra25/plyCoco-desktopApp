@@ -74,14 +74,16 @@ const RemarkFormData: FunctionComponent<FormikProps<
                               <div
                                 className="add-remark-btn"
                                 onClick={e => {
-                                  arrayHelpers.push(changeRemark);
+                                  changeRemark && changeRemark.data ?
+                                    arrayHelpers.push(changeRemark) : null
                                   setchangeRemark(
                                     (changeRemark = {
                                       data: "",
                                       createdAt: "",
                                       createdBy: ""
                                     })
-                                  );
+                                  )
+                                  null;
                                 }}
                               >
                                 {" "}
@@ -129,33 +131,33 @@ const RemarkFormData: FunctionComponent<FormikProps<
                 })}
               </>
             ) : (
-              ""
-            )}
+                ""
+              )}
 
             {remarks && remarks.length
               ? remarks.reverse().map(
-                  (remarkData: ICareInstitutionRemarks, index: number) => {
-                    <div className="activity-block py-2 px-3">
-                      <div className="pr-3 text-left">
-                        <span className="text-capitalize">
-                          {remarkData.data}
-                          <span className="view-more-link">View More</span>
-                        </span>
-                      </div>
-                      <div className="text-left activity-date">
-                        <span>
-                          <i className="fa fa-clock-o mr-2"></i>
-                          {remarkData.createdAt}
-                        </span>
-                        <span>
-                          <i className="fa fa-user mr-2"></i>
-                          {remarkData.createdBy}
-                        </span>
-                      </div>
-                      <span className="activity-icon activity-set"></span>
-                    </div>;
-                  }
-                )
+                (remarkData: ICareInstitutionRemarks, index: number) => {
+                  <div className="activity-block py-2 px-3">
+                    <div className="pr-3 text-left">
+                      <span className="text-capitalize">
+                        {remarkData.data}
+                        <span className="view-more-link">View More</span>
+                      </span>
+                    </div>
+                    <div className="text-left activity-date">
+                      <span>
+                        <i className="fa fa-clock-o mr-2"></i>
+                        {remarkData.createdAt}
+                      </span>
+                      <span>
+                        <i className="fa fa-user mr-2"></i>
+                        {remarkData.createdBy}
+                      </span>
+                    </div>
+                    <span className="activity-icon activity-set"></span>
+                  </div>;
+                }
+              )
               : null}
           </div>
         </div>

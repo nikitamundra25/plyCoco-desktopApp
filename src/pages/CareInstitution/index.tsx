@@ -288,12 +288,6 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <td>
                   <div className="table-checkbox-wrap">
                     <div className="btn-group btn-check-action-wrap">
-                      <span className="btn">
-                        <span className="checkboxli checkbox-custom checkbox-default">
-                          <input type="checkbox" id="checkAll" className="" />
-                          <label className=""></label>
-                        </span>
-                      </span>
                       <span className="checkbox-no">{index + 1}</span>
                     </div>
                   </div>
@@ -458,86 +452,13 @@ const CareInstitution = (props: RouteComponentProps) => {
             )}
           />
         </div>
-        {/* <div className="filter-form form-section">
-          <Row>
-            <Col lg={"2"}>
-              <FormGroup>
-                <Label for="search" className="col-form-label">
-                  Search:
-                </Label>
-                <Input
-                  type="text"
-                  name="search"
-                  id="search"
-                  placeholder="Search.."
-                />
-              </FormGroup>
-            </Col>
-            <Col lg={"2"}>
-              <FormGroup>
-                <Label for="Selectregion" className="col-form-label">
-                  Region:
-                </Label>
-                <Input type="select" name="region" id="Selectregion">
-                  <option>Western India</option>
-                  <option>East India</option>
-                  <option>South India</option>
-                  <option>Northeast India</option>
-                  <option>Central India</option>
-                </Input>
-              </FormGroup>
-            </Col>
-            <Col lg={"2"}>
-              <FormGroup>
-                <Label for="Selectregion" className="col-form-label">
-                  Sort By:
-                </Label>
-                <Input type="select" name="region" id="Selectregion">
-                  <option>Popularity</option>
-                  <option>A-Z</option>
-                  <option>Z-A</option>
-                </Input>
-              </FormGroup>
-            </Col>
-            <Col lg={"2"}>
-              <div className="label-height"></div>
-              <div className="filter-btn-wrap">
-                <span className="btn-filter mr-2" id="search1">
-                  <UncontrolledTooltip placement="top" target="search1">
-                    Search
-                  </UncontrolledTooltip>
-                  <i className="fa fa-search"></i>
-                </span>
-                <span className="btn-filter mr-2" id="reset">
-                  <UncontrolledTooltip placement="top" target="reset">
-                    Reset
-                  </UncontrolledTooltip>
-                  <i className="fa fa-refresh "></i>
-                </span>
-              </div>
-            </Col>
-          </Row>
-        </div> */}
         <Table bordered hover responsive>
           <thead className="thead-bg">
             <tr>
               <th>
                 <div className="table-checkbox-wrap">
                   <div className="btn-group btn-check-action-wrap">
-                    <span className="btn">
-                      <span className="checkboxli checkbox-custom checkbox-default">
-                        <input type="checkbox" id="checkAll" className="" />
-                        <label className=""></label>
-                      </span>
-                    </span>
-                    <UncontrolledDropdown className="custom-dropdown">
-                      <DropdownToggle caret color="link" />
-                      <DropdownMenu>
-                        <DropdownItem>Delete</DropdownItem>
-                        <DropdownItem>Active</DropdownItem>
-                        <DropdownItem>Disable</DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
+                    SNo.
                   </div>
                 </div>
               </th>

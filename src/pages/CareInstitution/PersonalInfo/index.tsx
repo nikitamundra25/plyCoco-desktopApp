@@ -21,7 +21,10 @@ import { toast } from "react-toastify";
 import { logger, languageTranslation } from "../../../helpers";
 import { async } from "rxjs/internal/scheduler/async";
 import CareInstitutionContacts from "./CareInstitutionContacts";
+import { RegionQueries } from "../../../queries/Region";
 
+
+const [, GET_REGIONS] = RegionQueries;
 const [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
@@ -54,6 +57,18 @@ const PersonalInformation: any = (props: any) => {
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY
   );
+  // To get region list
+  const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
+    GET_REGIONS
+  );
+  useEffect(() => {
+    // call query
+    fetchRegionList({
+      variables: {
+        limit: 10
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (props.isUserChange) {
@@ -111,66 +126,6 @@ const PersonalInformation: any = (props: any) => {
     }
   }, [careInstituionDetails])
 
-  const [addContact, { error: contactError, data: contactData }] = useMutation<{
-    addContact: ICareInstitutionFormValues;
-  }>(ADD_NEW_CONTACT_CARE_INSTITUTION);
-
-  const handleContactSubmit = async (
-    values: ICareInstitutionContact,
-    { setSubmitting }: FormikHelpers<ICareInstitutionContact>
-  ) => {
-    try {
-      //to set submit state to false after successful signup
-      setSubmitting(false);
-      const contactInput: any = {
-        userId: parseInt(Id),
-        gender: values && values.gender ? values.gender.value : "",
-        title: values.title,
-        salutation: values && values.salutation ? values.salutation.value : "",
-        firstName: values.firstName,
-        surName: values.lastName,
-        contactType:
-          values && values.contactType ? values.contactType.value : "",
-        street: values.street,
-        city: values.city,
-        zip: values.zipCode,
-        countryId: values && values.country ? values.country.value : "",
-        phoneNumber: values.phoneNumber,
-        phoneNumber2: values.phoneNumber,
-        fax: values.faxNumber,
-        mobileNumber: values.mobileNumber,
-        email: values.email,
-        remark: values.remark
-      };
-      await addContact({
-        variables: {
-          contactInput: contactInput
-        }
-      });
-      toast.success(languageTranslation("NEW_CONTACT_ADD_CARE_INSTITUTION"));
-    } catch (error) {
-      const message = error.message
-        .replace("SequelizeValidationError: ", "")
-        .replace("Validation error: ", "")
-        .replace("GraphQL error: ", "");
-      // setFieldError('email', message);
-      toast.error(message);
-      logger(error);
-    }
-  };
-
-  const contactFormValues: ICareInstitutionContact = {
-    email: "",
-    firstName: "",
-    lastName: "",
-    userName: "",
-    phoneNumber: "",
-    mobileNumber: "",
-    faxNumber: "",
-    comments: "",
-    groupAttributes: ""
-  };
-
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
@@ -196,6 +151,7 @@ const PersonalInformation: any = (props: any) => {
         countryId: values && values.country ? values.country.value : "",
         stateId: values && values.state ? values.state.value : "",
         remarks: values.remarks,
+        regionId: values && values.regionId ? values.regionId.value : null,
         website: values.website,
         email: values.email,
         userName: values.userName,
@@ -229,12 +185,14 @@ const PersonalInformation: any = (props: any) => {
   let Data: IReactSelectInterface;
   let values: ICareInstitutionFormValues;
   let countryData: Number;
+  let regionId: Number;
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
 
     countryData = getCareInstitution.canstitution
       ? getCareInstitution.canstitution.countryId
       : "";
+    regionId = getCareInstitution.canstitution ? getCareInstitution.canstitution.regionId : ""
     let userSelectedCountry: any = {};
     if (countries && countries.countries) {
       const userCountry = countries.countries.filter(
@@ -249,6 +207,20 @@ const PersonalInformation: any = (props: any) => {
       }
     }
 
+    let userSelectedRegion: any = {};
+   
+    if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData.length) {
+      const userRegion = RegionData.getRegions.regionData.filter(
+        (x: any) => x.id === regionId
+      );
+   
+      if (userRegion && userRegion.length) {
+        userSelectedRegion = {
+          label: userRegion[0].regionName,
+          value: userRegion[0].id
+        };
+      }
+    }
     const stateData = getCareInstitution.canstitution
       ? getCareInstitution.canstitution.stateId
       : "";
@@ -266,6 +238,7 @@ const PersonalInformation: any = (props: any) => {
         };
       }
     }
+    console.log("userSelectedRegionuserSelectedRegion", userSelectedRegion);
 
     values = {
       id: Id,
@@ -354,6 +327,7 @@ const PersonalInformation: any = (props: any) => {
       street: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.street
         : "",
+      regionId: userSelectedRegion ? userSelectedRegion : {},
       city: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.city
         : ""
@@ -361,7 +335,7 @@ const PersonalInformation: any = (props: any) => {
     Data = {
       label: `${getCareInstitution.firstName} ${""} ${
         getCareInstitution.lastName
-      }`,
+        }`,
       value: Id
     };
   } else {

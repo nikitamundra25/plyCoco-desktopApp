@@ -319,7 +319,7 @@
   "LEASING_PRICE_LIST": "Leasing Price List",
   "INVOICE_TYPE": "Invoice type",
   "Interval": "Interval",
-  "ADRESS_INVOICE": "Address invoice",
+  "ADRESS_INVOICE": "Address Invoice",
   "QUALIFICATIONS": "Qualifications",
   "QUALIFICATION": "Qualification",
   "ATTRIBUTES": "Attributes",
@@ -453,5 +453,5 @@
   "CLICK_ABOVE_TO_ADD_NEW": "Please click above button to add new. ",
   "CREATED_DATE": "Created Date",
   "ENTER_VALID_WEB_URL": "Enter proper website url with http://",
-  "REGION_SPECIALCHAR":"Special characters are not allowed in region name"
+  "REGION_SPECIALCHAR": "Special characters are not allowed in region name"
 }

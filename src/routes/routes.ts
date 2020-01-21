@@ -18,9 +18,6 @@ const CareGiver = React.lazy(() => import('../pages/CareGiver'));
 const AddCareGiver = React.lazy(() =>
   import('../pages/CareGiver/AddCareGiver/index'),
 );
-const EditCareGiver = React.lazy(() =>
-  import('../pages/CareGiver/EditCareGiver'),
-);
 const CareGiverLayout = React.lazy(() =>
   import('../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout'),
 );
@@ -79,7 +76,9 @@ const Constitution = React.lazy(() => import('../pages/CareInstitution'));
 const ViewCareInstitution = React.lazy(() =>
   import('../pages/CareInstitution/ViewCareInstituion'),
 );
-const ViewCareGiver = React.lazy(() => import('../pages/CareGiver/ViewCareGiver'));
+const ViewCareGiver = React.lazy(() =>
+  import('../pages/CareGiver/ViewCareGiver'),
+);
 
 const CareGiverTodo = React.lazy(() => import('../pages/CareGiverTodo'));
 const CareInstitutionTodo = React.lazy(() =>
@@ -177,7 +176,7 @@ const routes = [
     path: AppRoutes.CARE_GIVER_VIEW,
     name: 'Care Giver View',
     component: ViewCareGiver,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.HOME,
@@ -198,12 +197,6 @@ const routes = [
     exact: true,
     layout: CareGiverLayout,
     layoutName: 'CareGiver',
-  },
-  {
-    path: AppRoutes.EDIT_CARE_GIVER,
-    name: 'Edit Care Giver',
-    component: EditCareGiver,
-    exact: true,
   },
   {
     path: AppRoutes.EDIT_EMPLOYEE,

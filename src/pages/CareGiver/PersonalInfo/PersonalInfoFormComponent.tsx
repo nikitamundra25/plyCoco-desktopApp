@@ -130,7 +130,17 @@ const PersonalInfoFormComponent: any = (
   }, []);
 
   const {
-    values: { dateOfBirth, id, createdAt, regionId, gender, salutation, country },
+    values: {
+      dateOfBirth,
+      id,
+      createdAt,
+      regionId,
+      gender,
+      salutation,
+      country,
+      driverLicenseNumber,
+      IBAN
+    },
     handleChange,
     handleBlur,
     errors,
@@ -206,6 +216,7 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col sm="8">
                 <div className="field-class">
+                  {console.log("regionIdregionId", regionId)}
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     onChange={(value: any) => handleSelect(value, "regionId")}
@@ -232,7 +243,7 @@ const PersonalInfoFormComponent: any = (
                       <Select
                         placeholder={languageTranslation("GENDER")}
                         options={Gender}
-                        value={gender? gender :null}
+                        value={gender ? gender : null}
                         onChange={(value: any) => handleSelect(value, "gender")}
                       />
                     </div>
@@ -276,7 +287,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("SALUTATION")}
                     options={Salutation}
-                    value={salutation ? salutation: null}
+                    value={salutation ? salutation : null}
                     onChange={(value: any) => handleSelect(value, "salutation")}
                   />
                 </div>
@@ -460,7 +471,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("COUNTRY")}
                     options={countriesOpt}
-                    value={country? country: undefined}
+                    value={country ? country : undefined}
                     onChange={(value: any) => handleSelect(value, "country")}
                   />
                 </div>
@@ -624,6 +635,7 @@ const PersonalInfoFormComponent: any = (
                     component={FormikTextField}
                     name={"IBAN"}
                     placeholder="IBAN"
+                    value={IBAN}
                     className="width-common"
                   />
                 </div>
@@ -681,7 +693,6 @@ const PersonalInfoFormComponent: any = (
                     <CustomInput
                       type="radio"
                       id="yes"
-                      
                       name="driversLicense"
                       label="Yes"
                     />
@@ -714,6 +725,7 @@ const PersonalInfoFormComponent: any = (
                     name="driverLicenseNumber"
                     placeholder="Driver's License Number"
                     className="width-common"
+                    value={driverLicenseNumber}
                   />
                 </div>
               </Col>

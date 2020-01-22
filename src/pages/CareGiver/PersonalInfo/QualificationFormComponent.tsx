@@ -33,7 +33,11 @@ import {
   FieldProps,
   FormikValues
 } from "formik";
-import { CareGiverValues, IReactSelectInterface, ICareGiverValues } from "../../../interfaces";
+import {
+  CareGiverValues,
+  IReactSelectInterface,
+  ICareGiverValues
+} from "../../../interfaces";
 import {
   FormikSelectField,
   FormikTextField
@@ -46,7 +50,7 @@ import { useQuery } from "@apollo/react-hooks";
 import Select from "react-select";
 
 const QualificationFormComponent: FunctionComponent<FormikProps<
-ICareGiverValues
+  ICareGiverValues
 >> = (props: FormikProps<ICareGiverValues>) => {
   const { values, initialValues } = props;
   let [selectedQualification, setselectedQualification] = useState<
@@ -55,14 +59,12 @@ ICareGiverValues
     label: "",
     value: ""
   });
-  const {qualifications} = values
-  
+
+  const { qualifications } = values;
   const handleQualification = (value: any) => {
     setselectedQualification((selectedQualification = value));
     let qualificationValue: any = initialValues.qualifications;
-    console.log("qualificationValue",qualificationValue);
-    
-    props.setFieldValue("qualifications", qualificationValue.concat(value));
+    props.setFieldValue("qualifications", value);
   };
 
   const { data, loading, error, refetch } = useQuery<IQualifications>(

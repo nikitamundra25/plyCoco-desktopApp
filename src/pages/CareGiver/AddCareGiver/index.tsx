@@ -17,7 +17,7 @@ import CareGiverFormComponent from "./CareGiverFormComponent";
 import { CareGiverValidationSchema } from "../../../validations/CareGiverValidationSchema";
 import { useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { ADD_CAREGIVER, GET_CAREGIVERS } from "../../../queries/CareGiver";
-import {GET_QUALIFICATION_ATTRIBUTE} from "../../../queries/qualification";
+import { GET_QUALIFICATION_ATTRIBUTE } from "../../../queries/qualification";
 import { Mutation } from "@apollo/react-components";
 import { useHistory, useParams } from "react-router";
 import { toast } from "react-toastify";
@@ -165,10 +165,10 @@ export const CareGiverForm: FunctionComponent = () => {
         mobileNumber,
         nightAllownce,
         userName,
-        // qualifications:
-        //   qualifications && qualifications.length
-        //     ? qualifications.map(quali => quali.value)
-        //     : [],
+        qualifications:
+          qualifications && qualifications.length
+            ? qualifications.map(quali => quali.value)
+            : [],
         driverLicenseNumber,
         driversLicense,
         vehicleAvailable,
@@ -242,7 +242,7 @@ export const CareGiverForm: FunctionComponent = () => {
     fax = "",
     mobileNumber = "",
     userName = "",
-    qualifications = undefined,
+    qualifications = [],
     driverLicenseNumber = "",
     driversLicense = false,
     vehicleAvailable = false,
@@ -284,10 +284,9 @@ export const CareGiverForm: FunctionComponent = () => {
     socialSecurityContribution,
     taxNumber,
     workZones,
-    status
+    status,
+    qualifications
   };
-
-  console.log("legalFormlegalForm", legalForm);
 
   return (
     <>

@@ -771,8 +771,6 @@ const AddCareInstitution: any = (
                     <div>
                       <Select
                         placeholder={languageTranslation("LIKED_TO")}
-                        value={state ? state : undefined}
-                        onChange={(value: any) => handleSelect(value, "state")}
                         options={CareInstitutionList}
                       />
                     </div>

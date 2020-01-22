@@ -937,6 +937,7 @@ body {
       top: 25px;
       font-size: $font_10;
       color: $red;
+      line-height: 11px;
     }
 
     .form-control {
@@ -2719,6 +2720,12 @@ body {
   .form-flex-tile {
     padding: 0 7.5px;
     flex: 1 1 20%;
+    .col-form-label {
+      white-space: nowrap;
+    }
+    .form-group {
+      margin-bottom: 24px;
+    }
   }
 }
 

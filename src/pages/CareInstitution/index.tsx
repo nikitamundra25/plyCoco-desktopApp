@@ -38,6 +38,7 @@ import { languageTranslation } from "../../helpers";
 import { ConfirmBox } from "../../common/ConfirmBox";
 import { toast } from "react-toastify";
 import moment from "moment";
+import Loader from "../../containers/Loader/Loader";
 let toastId: any = null;
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -300,7 +301,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className="info-column">
                     <div className="description-column">
                       <div className="info-title">
-                        {`${user.firstName}  ${user.lastName}`}
+                        {`${user.firstName} ${user.lastName}`}
                       </div>
                       <p className="description-text">
                         <i className="fa fa-envelope mr-2"></i>
@@ -468,7 +469,17 @@ const CareInstitution = (props: RouteComponentProps) => {
               <th className="text-center">Action</th>
             </tr>
           </thead>
-          <tbody>{tableData}</tbody>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td className={"table-loader"} colSpan={7}>
+                  <Loader />
+                </td>
+              </tr>
+            ) : (
+              tableData
+            )}
+          </tbody>
         </Table>
         {data &&
         userData &&

@@ -318,7 +318,7 @@ const Employee: FunctionComponent = () => {
           &nbsp;{languageTranslation("ADD_NEW_EMPLOYEE_BUTTON")}
         </Button>
       </CardHeader>
-      <CardBody>
+      <CardBody>                          
         <div>
           <Formik
             initialValues={values}

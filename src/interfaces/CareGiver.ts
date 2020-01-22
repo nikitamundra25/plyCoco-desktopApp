@@ -209,7 +209,7 @@ export interface ICareGiverValues {
   executiveDirector?: String
   legalForm?: IReactSelectInterface
   legalFormValue?: IReactSelectInterface
-  qualifications?: Object[]
+  qualifications?: IReactSelectInterface[]
   remarks?: ICareInstitutionRemarks[]
   comments?: String
   nightAllownce?: number

@@ -38,7 +38,8 @@ import {
   IEditCareGInput,
   IPersonalObject,
   IBillingSettingsValues,
-  ICareGiverInput
+  ICareGiverInput,
+  IReactSelectInterface
 } from "../../../interfaces";
 import { useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
@@ -102,6 +103,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       executiveDirector,
       employed,
       comments,
+      qualifications,
       status,
       remarks,
     } = values;
@@ -121,9 +123,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         driversLicense,
         driverLicenseNumber,
         vehicleAvailable,
-        // qualifications: qualifications && qualifications.length
-        //   ? qualifications.map(quali => quali.value)
-        //   : [],
+        qualifications: qualifications && qualifications.length
+        ? `{${qualifications
+        .map((qualification: IReactSelectInterface) => qualification.value)
+        .join(', ')}}`
+        : null,
         street,
         city,
         postalCode,

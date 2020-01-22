@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, FunctionComponent } from "react";
 import {
   Card,
   CardHeader,
@@ -33,7 +33,7 @@ import {
   FieldProps,
   FormikValues
 } from "formik";
-import { CareGiverValues, IReactSelectInterface } from "../../../interfaces";
+import { CareGiverValues, IReactSelectInterface, ICareGiverValues } from "../../../interfaces";
 import {
   FormikSelectField,
   FormikTextField
@@ -45,9 +45,9 @@ import { GET_QUALIFICATION_ATTRIBUTES } from "../../../queries";
 import { useQuery } from "@apollo/react-hooks";
 import Select from "react-select";
 
-const QualificationFormComponent: any = (
-  props: FormikProps<CareGiverValues>
-) => {
+const QualificationFormComponent: FunctionComponent<FormikProps<
+ICareGiverValues
+>> = (props: FormikProps<ICareGiverValues>) => {
   const { values, initialValues } = props;
   let [selectedQualification, setselectedQualification] = useState<
     IReactSelectInterface
@@ -55,6 +55,8 @@ const QualificationFormComponent: any = (
     label: "",
     value: ""
   });
+  const {qualifications} = values
+  
   const handleQualification = (value: any) => {
     setselectedQualification((selectedQualification = value));
     let qualificationValue: any = initialValues.qualifications;
@@ -104,6 +106,7 @@ const QualificationFormComponent: any = (
               <Select
                 isMulti
                 menuPlacement={"top"}
+                value={qualifications}
                 name={"selectedQualification"}
                 placeholder={"Add Qualification"}
                 options={qualificationList}

@@ -41,10 +41,12 @@ import {
   ICareGiverInput,
   IReactSelectInterface,
 } from '../../../interfaces';
-import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
 import { AppRoutes } from '../../../config';
 import '../caregiver.scss';
+import { GET_QUALIFICATION_ATTRIBUTES } from '../../../queries';
+import { IQualifications } from '../../../interfaces/qualification';
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
@@ -61,6 +63,20 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     { updateBillingSettings: IBillingSettingsValues },
     { id: number; careGiverInput: IPersonalObject }
   >(UPDATE_BILLING_SETTINGS);
+
+  // To fecth qualification attributes list
+  const { data, loading, error, refetch } = useQuery<IQualifications>(
+    GET_QUALIFICATION_ATTRIBUTES,
+  );
+  const qualificationList: IReactSelectInterface[] | undefined = [];
+  if (data && data.getQualificationAttributes) {
+    data.getQualificationAttributes.forEach((quali: any) => {
+      qualificationList.push({
+        label: quali.attributeName,
+        value: quali.id,
+      });
+    });
+  }
 
   const handleSubmit = async (
     values: ICareGiverValues,
@@ -196,6 +212,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   //   }
   // };
 
+  console.log(
+    props.getCaregiver,
+    'propsssssssssssss' /* (test = test.match(/[\w.-]+/g).map(Number)) */,
+  );
+
   const {
     userName = '',
     stateId = '',
@@ -213,7 +234,23 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     legalForm = '',
     status = 'active',
     invoiceInterval = '',
+    caregiver = {},
   } = props.getCaregiver ? props.getCaregiver : {};
+  const qualificationsData: IReactSelectInterface[] | undefined = [];
+
+  const { qualifications } = caregiver;
+  if (qualifications) {
+    const qualificationData = qualifications.match(/[\w.-]+/g).map(Number);
+    qualificationData.forEach((qualification: any) => {
+      const data: any = qualificationList.filter(
+        (qualifications: IReactSelectInterface) =>
+          qualifications.value === qualification.toString(),
+      )[0];
+      if (data) {
+        qualificationsData.push(data);
+      }
+    });
+  }
 
   const initialValues: ICareGiverValues = {
     id,
@@ -315,12 +352,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         ? props.getCaregiver.caregiver.remarks
         : [],
     invoiceInterval,
-    qualifications:
-      props.getCaregiver &&
-      props.getCaregiver.caregiver &&
-      props.getCaregiver.caregiver.qualifications
-        ? props.getCaregiver.caregiver.qualifications
-        : [],
+    qualifications: qualificationsData,
   };
 
   return (
@@ -348,7 +380,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 <div className='common-col'>
                   <BillingSettingsFormComponent {...props} />
                   <div className='quality-attribute-section d-flex flex-column'>
-                    <QualificationFormComponent {...props} />
+                    <QualificationFormComponent
+                      {...props}
+                      qualificationList={qualificationList}
+                    />
                     <AttributeFormComponent {...props} />
                   </div>
                 </div>

@@ -12,7 +12,7 @@ import {
   IState,
   ICareGiverValues,
 } from '../../../interfaces';
-import { CountryQueries } from '../../../queries';
+import { CountryQueries, GET_QUALIFICATION_ATTRIBUTES } from '../../../queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import { languageTranslation } from '../../../helpers';
 import PersonalInfoFormComponent from '../PersonalInfo/PersonalInfoFormComponent';
@@ -21,6 +21,7 @@ import QualificationFormComponent from '../PersonalInfo/QualificationFormCompone
 import AttributeFormComponent from '../PersonalInfo/AttributesFromComponent';
 import RemarkFormComponent from '../PersonalInfo/RemarkFormComponent';
 import '../caregiver.scss';
+import { IQualifications } from '../../../interfaces/qualification';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
@@ -59,6 +60,19 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
       }),
     );
   }
+  // To fecth qualification attributes list
+  const { data: qualificationData } = useQuery<IQualifications>(
+    GET_QUALIFICATION_ATTRIBUTES,
+  );
+  const qualificationList: IReactSelectInterface[] | undefined = [];
+  if (qualificationData && qualificationData.getQualificationAttributes) {
+    qualificationData.getQualificationAttributes.forEach((quali: any) => {
+      qualificationList.push({
+        label: quali.attributeName,
+        value: quali.id,
+      });
+    });
+  }
   return (
     <Form className='form-section forms-main-section'>
       <Button
@@ -78,7 +92,10 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
           <div className='common-col'>
             <BillingSettingsFormComponent {...props} />
             <div className='quality-attribute-section d-flex flex-column'>
-              <QualificationFormComponent {...props} />
+              <QualificationFormComponent
+                {...props}
+                qualificationList={qualificationList}
+              />
               <AttributeFormComponent {...props} />
             </div>
           </div>

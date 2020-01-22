@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from "./Constant";
+import { IReactSelectInterface } from './Constant';
 
 export interface ICareInstitutionFormValues {
   salutation?: IReactSelectInterface;
@@ -24,7 +24,7 @@ export interface ICareInstitutionFormValues {
   id?: number;
   salt?: String;
   userRole?: String;
-  qualificationId?: IReactSelectInterface;
+  qualificationId?: IReactSelectInterface[];
   attributeId?: IReactSelectInterface;
   isActive?: Boolean;
   isDeleted?: Boolean;

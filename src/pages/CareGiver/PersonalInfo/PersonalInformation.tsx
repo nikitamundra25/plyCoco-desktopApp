@@ -163,8 +163,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         email,
         taxNumber,
         socialSecurityContribution,
-        countryId: country && country.value ? country.value: null,
-        stateId: state && state.value? state.value: null,
+        countryId: country && country.value ? country.value : null,
+        stateId: state && state.value ? state.value : null,
         bankName,
         password,
         // belongTo,
@@ -177,12 +177,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         comments,
         status,
         remarks,
-        fee: fee ? parseInt(fee):null,
-        nightAllowance: nightAllowance && nightAllowance.value? nightAllowance.value:null,
-        weekendAllowance:weekendAllowance?parseInt(weekendAllowance):null ,
-        holiday: holiday? parseInt(holiday):null,
-        night: night? parseInt(night) :null,
-        regionId: regionId && regionId.value?`{${regionId.value}}`:null,
+        fee: fee ? parseInt(fee) : null,
+        nightAllowance:
+          nightAllowance && nightAllowance.value ? nightAllowance.value : null,
+        weekendAllowance: weekendAllowance ? parseInt(weekendAllowance) : null,
+        holiday: holiday ? parseInt(holiday) : null,
+        night: night ? parseInt(night) : null,
+        regionId: regionId && regionId.value ? `{${regionId.value}}` : null,
       };
       // Edit employee details
       if (id) {
@@ -231,6 +232,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       qualificationsData.push({ label: attributeName, value: id });
     });
   }
+  console.log(props.getCaregiver, 'props.getCaregiver');
 
   const initialValues: ICareGiverValues = {
     id,
@@ -277,6 +279,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         ? props.getCaregiver.caregiver.postalCode
         : '',
     countryId,
+    regionId:
+      props.getCaregiver && props.getCaregiver.regions
+        ? {
+            label: props.getCaregiver.regions[0].regionName,
+            value: props.getCaregiver.regions[0].id,
+          }
+        : undefined,
     phoneNumber:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.phoneNumber
@@ -298,6 +307,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     bankName:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.bankName
+        : '',
+    IBAN:
+      props.getCaregiver && props.getCaregiver.bankDetails
+        ? props.getCaregiver.bankDetails.IBAN
         : '',
     belongTo,
     legalForm,
@@ -332,20 +345,50 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : [],
     invoiceInterval,
     qualifications: qualificationsData,
-    fee: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.fee?props.getCaregiver.caregiver.fee: null,
-    nightAllowance: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.nightAllowance?props.getCaregiver.caregiver.nightAllowance: null,
-    weekendAllowance: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.weekendAllowance?props.getCaregiver.caregiver.weekendAllowance: null,
-    holiday: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.holiday?props.getCaregiver.caregiver.holiday: null,
-    night: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.night?props.getCaregiver.caregiver.night: null,
-    salutation: props.getCaregiver && props.getCaregiver.salutation?
-    {
-      label: props.getCaregiver.salutation,
-      value: props.getCaregiver.salutation
-    }: undefined,
-    gender: props.getCaregiver && props.getCaregiver.gender?{
-      label: props.getCaregiver.gender,
-      value: props.getCaregiver.gender
-    }: undefined
+    fee:
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.fee
+        ? props.getCaregiver.caregiver.fee
+        : null,
+    nightAllowance:
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.nightAllowance
+        ? props.getCaregiver.caregiver.nightAllowance
+        : null,
+    weekendAllowance:
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.weekendAllowance
+        ? props.getCaregiver.caregiver.weekendAllowance
+        : null,
+    holiday:
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.holiday
+        ? props.getCaregiver.caregiver.holiday
+        : null,
+    night:
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.night
+        ? props.getCaregiver.caregiver.night
+        : null,
+    salutation:
+      props.getCaregiver && props.getCaregiver.salutation
+        ? {
+            label: props.getCaregiver.salutation,
+            value: props.getCaregiver.salutation,
+          }
+        : undefined,
+    gender:
+      props.getCaregiver && props.getCaregiver.gender
+        ? {
+            label: props.getCaregiver.gender,
+            value: props.getCaregiver.gender,
+          }
+        : undefined,
   };
   return (
     <Formik
@@ -424,8 +467,6 @@ class GetData extends Component<any, any> {
       value: caregiverDetails.salutation,
       label: caregiverDetails.salutation,
     };
-    console.log("caregiverDetails.salutation",caregiverDetails.salutation);
-    
     caregiverDetails.state = {
       value: caregiverDetails.state,
       label: caregiverDetails.state,
@@ -433,6 +474,10 @@ class GetData extends Component<any, any> {
     caregiverDetails.legalForm = {
       value: caregiverDetails.legalForm,
       label: caregiverDetails.legalForm,
+    };
+    caregiverDetails.regionId = {
+      value: caregiverDetails.regions[0]._id,
+      label: caregiverDetails.regions[0].regionName,
     };
     caregiverDetails.workZones =
       caregiverDetails.workZones && caregiverDetails.workZones.length

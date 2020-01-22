@@ -15,8 +15,9 @@ import {
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import CareGiverFormComponent from './CareGiverFormComponent';
 import { CareGiverValidationSchema } from '../../../validations/CareGiverValidationSchema';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { ADD_CAREGIVER, GET_CAREGIVERS } from '../../../queries/CareGiver';
+import { GET_QUALIFICATION_ATTRIBUTE } from '../../../queries/qualification';
 import { Mutation } from '@apollo/react-components';
 import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -62,6 +63,12 @@ export const CareGiverForm: FunctionComponent = () => {
     { addCaregiver: IAddCargiverRes },
     { careGiverInput: ICareGiverInput }
   >(ADD_CAREGIVER);
+
+  //Qualification attributes
+  // const [
+  //   getQualificationAttribute,
+  //   { data: qualificationData, loading, refetch }
+  // ] = useLazyQuery<any>(GET_QUALIFICATION_ATTRIBUTE);
 
   let { id } = useParams();
   const Id: any | undefined = id;
@@ -144,8 +151,7 @@ export const CareGiverForm: FunctionComponent = () => {
         city,
         stateId: state && state.value ? state.value : undefined,
         countryId: country && country.value ? country.value : undefined,
-        regionId:
-          values && values.regionId ? parseInt(values.regionId.value) : null,
+        regionId: regionId ? `{${regionId.value}}` : undefined,
         postalCode,
         email,
         IBAN,
@@ -159,10 +165,10 @@ export const CareGiverForm: FunctionComponent = () => {
         mobileNumber,
         nightAllownce,
         userName,
-        // qualifications:
-        //   qualifications && qualifications.length
-        //     ? qualifications.map(quali => quali.value)
-        //     : [],
+        qualifications:
+          qualifications && qualifications.length
+            ? qualifications.map(quali => quali.value)
+            : [],
         driverLicenseNumber,
         driversLicense,
         vehicleAvailable,
@@ -236,7 +242,7 @@ export const CareGiverForm: FunctionComponent = () => {
     fax = '',
     mobileNumber = '',
     userName = '',
-    qualifications = undefined,
+    qualifications = [],
     driverLicenseNumber = '',
     driversLicense = false,
     vehicleAvailable = false,
@@ -268,7 +274,6 @@ export const CareGiverForm: FunctionComponent = () => {
     fax,
     mobileNumber,
     userName,
-    qualifications,
     driverLicenseNumber,
     driversLicense,
     vehicleAvailable,
@@ -280,9 +285,8 @@ export const CareGiverForm: FunctionComponent = () => {
     taxNumber,
     workZones,
     status,
+    qualifications,
   };
-
-  console.log('legalFormlegalForm', legalForm);
 
   return (
     <>

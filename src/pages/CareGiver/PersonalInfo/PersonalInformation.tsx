@@ -39,6 +39,7 @@ import {
   IPersonalObject,
   IBillingSettingsValues,
   ICareGiverInput,
+  IReactSelectInterface,
 } from '../../../interfaces';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
@@ -83,7 +84,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       driversLicense,
       driverLicenseNumber,
       vehicleAvailable,
-      qualifications,
       street,
       city,
       postalCode,
@@ -96,12 +96,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       socialSecurityContribution,
       belongTo,
       legalForm,
+      bankName,
       companyName,
       registerCourt,
       registrationNumber,
       executiveDirector,
       employed,
       comments,
+      qualifications,
       status,
       remarks,
     } = values;
@@ -121,9 +123,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         driversLicense,
         driverLicenseNumber,
         vehicleAvailable,
-        // qualifications: qualifications && qualifications.length
-        //   ? qualifications.map(quali => quali.value)
-        //   : [],
+        qualifications:
+          qualifications && qualifications.length
+            ? `{${qualifications
+                .map(
+                  (qualification: IReactSelectInterface) => qualification.value,
+                )
+                .join(', ')}}`
+            : null,
         street,
         city,
         postalCode,
@@ -157,7 +164,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         });
         toast.success(languageTranslation('CARE_GIVER_UPDATED_SUCCESS'));
       }
-      history.push(AppRoutes.CARE_GIVER);
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
@@ -198,7 +204,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     firstName = '',
     lastName = '',
     dateOfBirth = '',
-    qualifications = undefined,
     countryId = '',
     email = '',
     socialSecurityContribution = false,
@@ -234,7 +239,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     driversLicense:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.driversLicense
-        : '',
+        : false,
     driverLicenseNumber:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.driverLicenseNumber
@@ -243,7 +248,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.vehicleAvailable
         : false,
-    qualifications,
     street:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.street
@@ -275,7 +279,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         ? props.getCaregiver.caregiver.taxNumber
         : '',
     socialSecurityContribution,
-    // bankName: "",
+    bankName:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.bankName
+        : '',
     belongTo,
     legalForm,
     companyName:
@@ -308,6 +315,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         ? props.getCaregiver.caregiver.remarks
         : [],
     invoiceInterval,
+    qualifications:
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.qualifications
+        ? props.getCaregiver.caregiver.qualifications
+        : [],
   };
 
   return (

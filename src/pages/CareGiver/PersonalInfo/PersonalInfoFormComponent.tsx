@@ -137,8 +137,6 @@ const PersonalInfoFormComponent: any = (
     touched
   } = props;
 
-  console.log("values", props.values);
-
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
 
@@ -679,6 +677,7 @@ const PersonalInfoFormComponent: any = (
                     <CustomInput
                       type="radio"
                       id="yes"
+                      
                       name="driversLicense"
                       label="Yes"
                     />

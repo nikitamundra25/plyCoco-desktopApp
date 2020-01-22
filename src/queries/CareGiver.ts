@@ -14,7 +14,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     isActive
     phoneNumber
     createdAt 
-    caregiver{  
+    caregiver{
       qualifications
       address1
       address2
@@ -38,6 +38,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       title
       taxNumber
       belongTo
+      bankName
       legalForm
       nightAllowance
       weekendAllowance
@@ -75,6 +76,7 @@ export const GET_CAREGIVERS = gql`
         gender
         isActive
         createdAt
+        qualificationId
         caregiver {
           qualifications
           address1

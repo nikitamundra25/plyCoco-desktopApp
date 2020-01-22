@@ -88,7 +88,7 @@ export interface CareGiverValues {
   executiveDirector?: String;
   legalForm?: IReactSelectInterface;
   legalFormValue?: IReactSelectInterface;
-  qualifications?: JSON;
+  qualifications?: IReactSelectInterface[];
   remarks?: JSON;
   comments?: String;
   nightAllownce?: number;
@@ -209,7 +209,7 @@ export interface ICareGiverValues {
   executiveDirector?: String;
   legalForm?: IReactSelectInterface;
   legalFormValue?: IReactSelectInterface;
-  qualifications?: JSON;
+  qualifications?: IReactSelectInterface[];
   remarks?: ICareInstitutionRemarks[];
   comments?: String;
   nightAllownce?: number;

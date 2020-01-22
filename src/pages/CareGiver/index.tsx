@@ -290,8 +290,6 @@ const CareGiver: FunctionComponent = () => {
     sortBy,
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
-  console.log(count, 'counttt', currentPage);
-
   return (
     <Row className='m-0'>
       <Col xs={'12'} lg={'12'} className='p-0'>
@@ -409,14 +407,16 @@ const CareGiver: FunctionComponent = () => {
                                     {careGiverData.email}
                                   </span>
                                 </p>
-                                <p className='description-text'>
-                                  <i className='fa fa-phone mr-2'></i>
-                                  <span className='align-middle'>
-                                    {careGiverData.phoneNumber
-                                      ? careGiverData.phoneNumber
-                                      : 'N/A'}
-                                  </span>
-                                </p>
+                                {careGiverData.phoneNumber ? (
+                                  <p className='description-text'>
+                                    <i className='fa fa-phone mr-2'></i>
+                                    <span className='align-middle'>
+                                      {careGiverData.phoneNumber}
+                                    </span>
+                                  </p>
+                                ) : (
+                                  ''
+                                )}
                               </div>
                             </div>
                           </td>
@@ -480,7 +480,7 @@ const CareGiver: FunctionComponent = () => {
                           </td>
 
                           <td>
-                            <div className='text-center'>
+                            <div>
                               {careGiverData.createdAt
                                 ? moment(careGiverData.createdAt).format('LLL')
                                 : '-'}

@@ -76,7 +76,6 @@ export const GET_CAREGIVERS = gql`
         userName
         phoneNumber
         gender
-        regionId
         isActive
         createdAt
         qualificationId

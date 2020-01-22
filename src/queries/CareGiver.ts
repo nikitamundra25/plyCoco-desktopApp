@@ -78,6 +78,7 @@ export const GET_CAREGIVERS = gql`
         regionId
         isActive
         createdAt
+        qualificationId
         caregiver {
           qualifications
           address1

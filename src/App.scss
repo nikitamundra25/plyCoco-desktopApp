@@ -818,8 +818,8 @@ body {
   .region-input {
     width: 400px;
   }
-  .required-error{
-    left:0px !important;
+  .required-error {
+    left: 0px !important;
   }
   .form-section {
     padding: 15px 12px;
@@ -937,6 +937,7 @@ body {
       top: 25px;
       font-size: $font_10;
       color: $red;
+      line-height: 11px;
     }
 
     .form-control {
@@ -1123,7 +1124,6 @@ body {
     position: absolute;
     bottom: -18px;
     font-size: 12px;
-    font-style: italic;
     font-weight: 500;
     left: 0px;
   }
@@ -1373,6 +1373,8 @@ body {
       flex: 0 0 66px;
       margin: auto;
       position: relative;
+      display: flex;
+      align-items: center;
     }
     .description-column {
       letter-spacing: 0px;
@@ -1393,6 +1395,7 @@ body {
         display: flex;
         align-items: center;
         font-weight: 500;
+        word-break: break-word;
         .text-label {
           font-weight: 500;
           color: $dark_gray;
@@ -2477,11 +2480,11 @@ body {
       }
     }
   }
-  .form-group {
-    .form-control {
-      padding: 0px 4px;
-    }
-  }
+  // .form-group {
+  //   .form-control {
+  //     padding: 0px 4px;
+  //   }
+  // }
 }
 .remark-details {
   border: 1px solid $table_border;
@@ -2720,6 +2723,12 @@ body {
   .form-flex-tile {
     padding: 0 7.5px;
     flex: 1 1 20%;
+    .col-form-label {
+      white-space: nowrap;
+    }
+    .form-group {
+      margin-bottom: 24px;
+    }
   }
 }
 

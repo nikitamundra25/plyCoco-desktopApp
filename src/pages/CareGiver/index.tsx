@@ -561,9 +561,9 @@ const CareGiver: FunctionComponent = () => {
                 )}
               </tbody>
             </Table>
-            {data && data.getCaregivers && data.getCaregivers.count ? (
+            {data && data.getCaregivers && data.getCaregivers.totalCount ? (
               <PaginationComponent
-                totalRecords={data.getCaregivers.count}
+                totalRecords={data.getCaregivers.totalCount}
                 currentPage={currentPage}
                 onPageChanged={onPageChanged}
               />

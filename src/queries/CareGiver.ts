@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
+    id
     firstName
     lastName
     salutation
@@ -118,10 +119,59 @@ export const GET_CAREGIVERS = gql`
 `;
 
 export const GET_CAREGIVER_BY_ID = gql`
-query getCaregiver($id:Int!){
-  getCaregiver(id:$id)
-  ${CAREGIVER_PERSONAL_INFO_FIELDS}
-}
+  query getCaregiver($id: Int!) {
+    getCaregiver(id: $id) {
+      firstName
+      lastName
+      salutation
+      userName
+      email
+      password
+      phoneNumber
+      profileImage
+      profileThumbnailImage
+      isActive
+      phoneNumber
+      createdAt
+      caregiver {
+        address1
+        address2
+        age
+        fax
+        workZones
+        mobileNumber
+        countryId
+        stateId
+        postalCode
+        employed
+        comments
+        companyName
+        registerCourt
+        remarks
+        registrationNumber
+        driversLicense
+        driverLicenseNumber
+        city
+        street
+        title
+        taxNumber
+        belongTo
+        bankName
+        legalForm
+        nightAllowance
+        weekendAllowance
+        executiveDirector
+        phoneNumber
+        fee
+        holiday
+        invoiceInterval
+      }
+      qualifications {
+        id
+        attributeName
+      }
+    }
+  }
 `;
 
 export const ADD_CAREGIVER = gql`
@@ -202,6 +252,21 @@ export const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
       userId: $userId
       leasingInformationInput: $leasingInformationInput
     ) {
+      id
+      placeOfBirth
+      birthName
+      nationality
+      maritalStatus
+      children
+      factorChildAllowance
+      healthInsuranceType
+      healthInsuranceProvider
+      socialSecurityNumber
+      religion
+      controlId
+      taxBracket
+      preOccupation
+      payrollIBAN
       status
     }
   }
@@ -210,6 +275,7 @@ export const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
 export const GET_LEASING_INFO = gql`
   query getLeasingInformation($userId: Int!) {
     getLeasingInformation(userId: $userId) {
+      id
       placeOfBirth
       birthName
       factorChildAllowance

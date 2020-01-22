@@ -22,7 +22,7 @@ const DefaultLayout = React.lazy(() =>
 );
 
 // Create browser history
-const history = createBrowserHistory();
+const history = createBrowserHistory({basename: "/superadmin"});
 // Configure store
 const store: Store = configureStore(history);
 
@@ -35,7 +35,7 @@ class App extends Component<any, any> {
       <>
         <ApolloProvider client={client}>
           <Provider store={store}>
-            <Router history={history} basename={"/superadmin"}>
+            <Router history={history}>
               <Suspense fallback={<FullPageLoader />}>
                 {/* sss
                 <Login /> */}

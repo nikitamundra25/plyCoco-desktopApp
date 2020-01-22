@@ -1,6 +1,7 @@
 import { Location } from "history";
 import * as H from "history";
 import { IReactSelectInterface } from "./Constant";
+import { ICareInstitutionRemarks } from "./CareInstitution";
 
 export interface ICareGiverInput {
   id?: string;
@@ -166,55 +167,54 @@ export interface IPersonalObject {
 }
 
 export interface ICareGiverValues {
-  // personalInformation: IPersonalObject;
-  // billingSettings?: IBillingSettingsValues;
-  id?: number;
-  userName?: string;
-  stateId?: number;
-  regionId?: string;
-  registartionSince?: string;
-  gender?: string;
-  title?: string;
-  salutation?: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth?: string;
-  age: string;
-  address1: string;
-  address2: string;
-  street: string;
-  city: string;
-  postCode: string;
-  pinCode?: string;
-  countryId?: number;
-  phoneNumber: string;
-  fax: string;
-  mobileNumber: string;
-  email: string;
-  taxNumber: string;
-  password?: string;
-  belongTo?: string;
-  legalForm: string;
-  companyName: string;
-  registerCourt: string;
-  registrationNumber: string;
-  executiveDirector: string;
-  employed: boolean;
-  additionalText: string;
-  driversLicense: boolean;
-  vehicleAvailable: boolean;
-  driverLicenseNumber: string;
-  socialSecurityContribution: boolean;
-  qualifications?: IReactSelectInterface[];
-  workZones?: IReactSelectInterface[];
-  remarks?: IRemark[];
-  status: string;
-  fee: string;
-  weekendAllowancePerHour: string;
-  holidayAllowancePerHourFee: string;
-  nightAllowancePerHour: string;
-  invoiceInterval: string;
-  leasingPrice: string;
+  id?: string
+  userId?: number
+  salutation?: IReactSelectInterface
+  firstName?: String,
+  lastName?: String,
+  userName?: String,
+  gender?: IReactSelectInterface
+  email: String,
+  phoneNumber?: String,
+  mobileNumber?: String
+  title?: String
+  dateOfBirth?: string,
+  createdAt?: Date,
+  age?: number
+  street?: String
+  city?: String
+  postalCode?: String
+  address1?: String
+  address2?: String
+  countryId?: string
+  country?: IReactSelectInterface
+  state?: IReactSelectInterface
+  stateId?: string
+  fax?: String
+  taxNumber?: String
+  bankName?: String
+  IBAN?: String
+  driversLicense?: Boolean
+  driverLicenseNumber?: String
+  vehicleAvailable?: Boolean
+  socialSecurityContribution?: Boolean
+  workZones?: JSON
+  status?: String
+  belongTo?: IReactSelectInterface,
+  employed?: Boolean,
+  companyName?: String
+  registrationNumber?: String
+  registerCourt?: String
+  regionId?: IReactSelectInterface;
+  executiveDirector?: String
+  legalForm?: IReactSelectInterface
+  legalFormValue?: IReactSelectInterface
+  qualifications?: JSON
+  remarks?: ICareInstitutionRemarks[]
+  comments?: String
+  nightAllownce?: number
+  invoiceInterval?: String
+  leasingPricingList?: String
 }
 
 export interface IPersonalInfoObject {

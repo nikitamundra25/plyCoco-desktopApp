@@ -9,24 +9,25 @@ import {
   CareGiverValues,
   ICareGiverInput,
   IAddCargiverRes,
-  IReactSelectInterface
-} from "../../../interfaces";
-import { FormikHelpers, Formik, FormikProps } from "formik";
-import CareGiverFormComponent from "./CareGiverFormComponent";
-import { CareGiverValidationSchema } from "../../../validations/CareGiverValidationSchema";
-import { useMutation } from "@apollo/react-hooks";
-import { ADD_CAREGIVER, GET_CAREGIVERS } from "../../../queries/CareGiver";
-import { Mutation } from "@apollo/react-components";
-import { useHistory, useParams } from "react-router";
-import { toast } from "react-toastify";
-import { languageTranslation } from "../../../helpers";
-import { AppRoutes, PAGE_LIMIT } from "../../../config";
-import CareGiverSidebar from "../Sidebar/SidebarLayout/CareGiverLayout";
-import reminder from "../../../assets/img/reminder.svg";
-import password from "../../../assets/img/password.svg";
-import appointment from "../../../assets/img/appointment.svg";
-import clear from "../../../assets/img/clear.svg";
-import { careGiverRoutes } from "../Sidebar/SidebarRoutes/CareGiverRoutes";
+  IReactSelectInterface,
+  ICareGiverValues,
+} from '../../../interfaces';
+import { FormikHelpers, Formik, FormikProps } from 'formik';
+import CareGiverFormComponent from './CareGiverFormComponent';
+import { CareGiverValidationSchema } from '../../../validations/CareGiverValidationSchema';
+import { useMutation } from '@apollo/react-hooks';
+import { ADD_CAREGIVER, GET_CAREGIVERS } from '../../../queries/CareGiver';
+import { Mutation } from '@apollo/react-components';
+import { useHistory, useParams } from 'react-router';
+import { toast } from 'react-toastify';
+import { languageTranslation } from '../../../helpers';
+import { AppRoutes, PAGE_LIMIT } from '../../../config';
+import CareGiverSidebar from '../Sidebar/SidebarLayout/CareGiverLayout';
+import reminder from '../../../assets/img/reminder.svg';
+import password from '../../../assets/img/password.svg';
+import appointment from '../../../assets/img/appointment.svg';
+import clear from '../../../assets/img/clear.svg';
+import { careGiverRoutes } from '../Sidebar/SidebarRoutes/CareGiverRoutes';
 
 const CareGiverRoutesTabs = careGiverRoutes;
 
@@ -65,10 +66,24 @@ export const CareGiverForm: FunctionComponent = () => {
   let { id } = useParams();
   const Id: any | undefined = id;
 
+  useEffect(() => {
+    if (data) {
+      console.log("In use Effect");
+      const Data: any = data;
+      history.push(
+        AppRoutes.CARE_GIVER_VIEW.replace(
+          ":id",
+          Data.addCareGiver ? Data.addCareGiver.id : "null"
+        )
+      );
+    }
+  }, [data]);
+
+
   // function to add/edit employee information
   const handleSubmit = async (
-    values: CareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<CareGiverValues>
+    values: ICareGiverValues,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -191,9 +206,7 @@ export const CareGiverForm: FunctionComponent = () => {
           });
         }
       });
-      toast.success(languageTranslation("CAREGIVER_ADD_SUCCESS_MSG"));
-
-      history.push(AppRoutes.CARE_GIVER);
+      toast.success(languageTranslation('CAREGIVER_ADD_SUCCESS_MSG'));
     } catch (error) {
       const message = error.message
         .replace("SequelizeValidationError: ", "")
@@ -233,13 +246,12 @@ export const CareGiverForm: FunctionComponent = () => {
     registerCourt = "",
     executiveDirector = "",
     socialSecurityContribution = false,
-    taxNumber = "",
-    remarks = undefined,
+    taxNumber = '',
     workZones = undefined,
     status = ""
   } = caregiverData ? caregiverData : {};
 
-  const initialValues: CareGiverValues = {
+  const initialValues: ICareGiverValues = {
     salutation,
     firstName,
     lastName,
@@ -260,14 +272,12 @@ export const CareGiverForm: FunctionComponent = () => {
     driverLicenseNumber,
     driversLicense,
     vehicleAvailable,
-    legalForm,
     companyName,
     registrationNumber,
     registerCourt,
     executiveDirector,
     socialSecurityContribution,
     taxNumber,
-    remarks,
     workZones,
     status
   };
@@ -331,7 +341,7 @@ export const CareGiverForm: FunctionComponent = () => {
                     initialValues={initialValues}
                     onSubmit={handleSubmit}
                     validationSchema={CareGiverValidationSchema}
-                    render={(props: FormikProps<CareGiverValues>) => {
+                    render={(props: FormikProps<ICareGiverValues>) => {
                       return <CareGiverFormComponent {...props} />;
                     }}
                   />

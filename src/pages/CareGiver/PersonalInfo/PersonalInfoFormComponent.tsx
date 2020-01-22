@@ -129,7 +129,7 @@ const PersonalInfoFormComponent: any = (
   }, []);
 
   const {
-    values: { dateOfBirth, userId, createdAt },
+    values: { dateOfBirth, id, createdAt },
     handleChange,
     handleBlur,
     errors,
@@ -163,7 +163,7 @@ const PersonalInfoFormComponent: any = (
                           type="text"
                           name={"id"}
                           disabled
-                          value={userId}
+                          value={id}
                           placeholder={languageTranslation("USER_ID")}
                           className="width-common"
                         />

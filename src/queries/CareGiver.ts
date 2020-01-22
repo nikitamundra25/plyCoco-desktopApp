@@ -31,6 +31,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       comments
       companyName
       registerCourt
+      remarks
       registrationNumber
       driversLicense
       driverLicenseNumber
@@ -121,8 +122,8 @@ export const ADD_CAREGIVER = gql`
 `;
 
 export const UPDATE_CAREGIVER = gql`
-  mutation updateCaregiver($id: Int!, $careGiverInput: CareGiverInput!) {
-    updateCaregiver(id: $id, careGiverInput: $careGiverInput)
+  mutation updateCareGiver($id: Int!, $careGiverInput: CareGiverInput!) {
+    updateCareGiver(id: $id, careGiverInput: $careGiverInput)
     ${CAREGIVER_PERSONAL_INFO_FIELDS}
   }
 `;

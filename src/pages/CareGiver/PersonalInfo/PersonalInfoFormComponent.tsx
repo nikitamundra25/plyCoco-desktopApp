@@ -74,7 +74,6 @@ const PersonalInfoFormComponent: any = (
   }
 
   let { pathname } = useLocation();
-  console.log("pathname", pathname.split("/"));
   let PathArray: string[] = pathname.split("/");
 
   if (statesData && statesData.states) {
@@ -94,15 +93,19 @@ const PersonalInfoFormComponent: any = (
       });
     }
   };
-
   const {
-    values: { dateOfBirth },
+    values: { dateOfBirth, userId, createdAt },
     handleChange,
     handleBlur,
     errors,
     setFieldValue,
     touched
   } = props;
+
+  console.log("values", props.values);
+
+  const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
+  const RegYear: Date | undefined = CreatedAt.getFullYear();
 
   return (
     <div className="form-card h-100">
@@ -121,9 +124,11 @@ const PersonalInfoFormComponent: any = (
                   <Row className="custom-col inner-no-padding-col">
                     <Col sm="4">
                       <div>
-                        <Field
-                          component={FormikTextField}
-                          name={"userId"}
+                        <Input
+                          type="text"
+                          name={"id"}
+                          disabled
+                          value={userId}
                           placeholder={languageTranslation("USER_ID")}
                           className="width-common"
                         />
@@ -140,9 +145,11 @@ const PersonalInfoFormComponent: any = (
                           </Col>
                           <Col sm="6">
                             <div>
-                              <Field
-                                component={FormikTextField}
-                                name={"registartionSince"}
+                              <Input
+                                type="text"
+                                name={"regSince"}
+                                disabled
+                                value={RegYear}
                                 placeholder="Reg Since"
                                 className="width-common"
                               />
@@ -305,6 +312,7 @@ const PersonalInfoFormComponent: any = (
                               "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
                             )}
                             mask={DateMask}
+                            className={"form-control"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={dateOfBirth}

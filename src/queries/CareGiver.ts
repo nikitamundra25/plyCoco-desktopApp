@@ -13,45 +13,39 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     profileImage
     profileThumbnailImage
     isActive
-    phoneNumber 
-    caregiverDetails{
-		  id
+    phoneNumber
+    createdAt 
+    caregiver{
       userId
-      mobileNumber
-      userName
+      qualifications
       address1
       address2
-      postalCode
-      legalForm
-      city
-      street
+      age
       fax
+      workZones
+      mobileNumber
       countryId
       stateId
-      qualifications
-      taxNumber
-      remarks
+      postalCode
+      employed
+      comments
+      companyName
+      registerCourt
+      registrationNumber
       driversLicense
       driverLicenseNumber
-      vehicleAvailable
-      socialSecurityContribution
-      workZones
-      status
-      gender
-      companyName
-      registrationNumber
-      registerCourt
+      city
+      street
+      title
+      taxNumber
+      belongTo
+      legalForm
+      nightAllowance
+      weekendAllowance
       executiveDirector
-      bankName
-      IBAN
-      BIC
-      feePerHour
-      nightAllowancePerHour
-      weekendAllowancePerHour
-      holidayAllowancePerHourFee
-      nextInvoiceNumber
-      statementsMaturity
-      additionalText
+      fee
+      holiday
+      invoiceInterval
     }
     
 }`;
@@ -183,6 +177,31 @@ export const UPDATE_CARE_GIVER_STATUS = gql`
     changeStatusCareGiver(id: $id, isActive: $isActive) {
       id
       isActive
+    }
+  }
+`;
+
+export const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
+  mutation addUpdateLeasingInformation(
+    $userId: Int!
+    $leasingInformationInput: LeasingInformationInput!
+  ) {
+    addUpdateLeasingInformation(
+      userId: $userId
+      leasingInformationInput: $leasingInformationInput
+    )
+  }
+`;
+
+export const GET_LEASING_INFO = gql`
+  query getLeasingInformation($userId: Int!) {
+    getLeasingInformation(userId: $userId) {
+      placeOfBirth
+      birthName
+      factorChildAllowance
+      socialSecurityNumber
+      preoccupation
+      status
     }
   }
 `;

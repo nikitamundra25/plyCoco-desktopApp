@@ -207,6 +207,7 @@ const PersonalInformation: any = (props: any) => {
       ? getCareInstitution.canstitution.countryId
       : "";
     regionId = getCareInstitution.canstitution ? getCareInstitution.canstitution.regionId : ""
+    
     let userSelectedCountry: any = {};
     if (countries && countries.countries) {
       const userCountry = countries.countries.filter(

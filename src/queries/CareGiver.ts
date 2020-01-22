@@ -163,6 +163,14 @@ export const GET_CAREGIVER_BY_ID = gql`
         id
         attributeName
       }
+      regions {
+        id
+        regionName
+      }
+      bankDetails {
+        bankName
+        IBAN
+      }
     }
   }
 `;

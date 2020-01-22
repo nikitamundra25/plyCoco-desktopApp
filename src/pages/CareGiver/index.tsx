@@ -412,7 +412,9 @@ const CareGiver: FunctionComponent = () => {
                                 <p className="description-text">
                                   <i className="fa fa-phone mr-2"></i>
                                   <span className="align-middle">
-                                    {careGiverData.phoneNumber}
+                                    {careGiverData.phoneNumber
+                                      ? careGiverData.phoneNumber
+                                      : "N/A"}
                                   </span>
                                 </p>
                               </div>
@@ -422,22 +424,24 @@ const CareGiver: FunctionComponent = () => {
                             <div className="description-column  ml-0">
                               {careGiverData &&
                               careGiverData.caregiverDetails &&
-                              careGiverData.caregiverDetails.qualifications
-                                ? careGiverData.caregiverDetails.qualifications.map(
-                                    (qualification: any) => (
-                                      <>
-                                        <p className="description-text ">
-                                          <span className="text-label mr-1">
-                                            <i className="fa fa-angle-right"></i>
-                                          </span>
-                                          <span className="align-middle">
-                                            {qualification}
-                                          </span>
-                                        </p>
-                                      </>
-                                    )
+                              careGiverData.caregiverDetails.qualifications ? (
+                                careGiverData.caregiverDetails.qualifications.map(
+                                  (qualification: any) => (
+                                    <>
+                                      <p className="description-text ">
+                                        <span className="text-label mr-1">
+                                          <i className="fa fa-angle-right"></i>
+                                        </span>
+                                        <span className="align-middle">
+                                          {qualification}
+                                        </span>
+                                      </p>
+                                    </>
                                   )
-                                : null}
+                                )
+                              ) : (
+                                <div className="text-center">-</div>
+                              )}
                             </div>
                           </td>
 
@@ -445,29 +449,31 @@ const CareGiver: FunctionComponent = () => {
                             <div className="description-column  ml-0">
                               {careGiverData &&
                               careGiverData.caregiverDetails &&
-                              careGiverData.caregiverDetails.workZones
-                                ? careGiverData.caregiverDetails.workZones.map(
-                                    (wZ: string) => (
-                                      <p className="description-text ">
-                                        <span className="text-label mr-1">
-                                          <i className="fa fa-angle-right"></i>
-                                        </span>
-                                        <span className="align-middle">
-                                          {wZ}
-                                        </span>
-                                      </p>
-                                    )
+                              careGiverData.caregiverDetails.workZones ? (
+                                careGiverData.caregiverDetails.workZones.map(
+                                  (wZ: string) => (
+                                    <p className="description-text ">
+                                      <span className="text-label mr-1">
+                                        <i className="fa fa-angle-right"></i>
+                                      </span>
+                                      <span className="align-middle">{wZ}</span>
+                                    </p>
                                   )
-                                : null}
+                                )
+                              ) : (
+                                <div className="text-center">-</div>
+                              )}
                             </div>
                           </td>
                           <td>
                             <div>
                               <p className="description-text">
                                 <span className="align-middle">
-                                  {careGiverData && careGiverData.caregiver
+                                  {careGiverData &&
+                                  careGiverData.caregiver &&
+                                  careGiverData.caregiver.legalForm
                                     ? careGiverData.caregiver.legalForm
-                                    : ""}
+                                    : "N/A"}
                                 </span>
                               </p>
                             </div>
@@ -477,7 +483,7 @@ const CareGiver: FunctionComponent = () => {
                             <div className="text-center">
                               {careGiverData.createdAt
                                 ? moment(careGiverData.createdAt).format("LLL")
-                                : ""}
+                                : "-"}
                             </div>
                           </td>
 

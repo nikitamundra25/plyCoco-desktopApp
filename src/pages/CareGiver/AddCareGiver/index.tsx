@@ -110,11 +110,14 @@ export const CareGiverForm: FunctionComponent = () => {
       legalFormValue,
       qualifications,
       remarks,
+      regionId,
       comments,
       nightAllownce,
       invoiceInterval,
       leasingPricingList
     } = values;
+
+    console.log("valuess", values);
 
     try {
       let careGiverInput: any = {
@@ -127,6 +130,8 @@ export const CareGiverForm: FunctionComponent = () => {
         city,
         stateId: state && state.value ? state.value : undefined,
         countryId: country && country.value ? country.value : undefined,
+        regionId:
+          values && values.regionId ? parseInt(values.regionId.value) : null,
         postalCode,
         email,
         IBAN,

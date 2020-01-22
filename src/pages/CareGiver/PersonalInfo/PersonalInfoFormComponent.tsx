@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import Select from "react-select";
 import {
   Card,
@@ -40,7 +40,8 @@ import {
   IStates,
   ICountries,
   ICountry,
-  IState
+  IState,
+  IRegion
 } from "../../../interfaces";
 import {
   FormikSelectField,
@@ -51,7 +52,9 @@ import MaskedInput from "react-text-mask";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { CountryQueries } from "../../../queries";
 import { useLocation } from "react-router";
+import { RegionQueries } from "../../../queries/Region";
 
+const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const PersonalInfoFormComponent: any = (
@@ -72,6 +75,26 @@ const PersonalInfoFormComponent: any = (
       })
     );
   }
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({ label: name, value: id })
+    );
+  }
+
+  // Region Data
+  const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
+    GET_REGIONS
+  );
+  //Region List Data
+  const regionOptions: IReactSelectInterface[] | undefined = [];
+  if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
+    RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
+      regionOptions.push({
+        label: regionName,
+        value: id
+      })
+    );
+  }
 
   let { pathname } = useLocation();
   let PathArray: string[] = pathname.split("/");
@@ -88,11 +111,23 @@ const PersonalInfoFormComponent: any = (
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
     if (name === "country") {
+      console.log("selectOption", selectOption);
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
     }
   };
+
+  useEffect(() => {
+    // call query
+    fetchRegionList({
+      variables: {
+        limit: 200,
+        sortBy: 3
+      }
+    });
+  }, []);
+
   const {
     values: { dateOfBirth, userId, createdAt },
     handleChange,
@@ -174,8 +209,9 @@ const PersonalInfoFormComponent: any = (
                 <div className="field-class">
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
-                    options={statesOpt}
                     onChange={(value: any) => handleSelect(value, "regionId")}
+                    // value={regionId ? regionId : undefined}
+                    options={regionOptions}
                   />
                 </div>
               </Col>
@@ -197,6 +233,7 @@ const PersonalInfoFormComponent: any = (
                       <Select
                         placeholder={languageTranslation("GENDER")}
                         options={Gender}
+                        onChange={(value: any) => handleSelect(value, "gender")}
                       />
                     </div>
                   </Col>
@@ -239,6 +276,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("SALUTATION")}
                     options={Salutation}
+                    onChange={(value: any) => handleSelect(value, "salutation")}
                   />
                 </div>
                 {/* <Button  className="alfabate-btn btn">S</Button> */}
@@ -418,7 +456,11 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col sm="8">
                 <div>
-                  <Select placeholder="Germany" options={Country} />
+                  <Select
+                    placeholder={languageTranslation("COUNTRY")}
+                    options={countriesOpt}
+                    onChange={(value: any) => handleSelect(value, "country")}
+                  />
                 </div>
               </Col>
             </Row>
@@ -432,7 +474,15 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col sm="8">
                 <div>
-                  <Select placeholder="Bavaria" options={State} />
+                  <Select
+                    placeholder={languageTranslation("STATE")}
+                    // placeholder="Bavaria"
+                    options={statesOpt}
+                    onChange={(value: any) => handleSelect(value, "state")}
+                    noOptionsMessage={() => {
+                      return "Select a country first";
+                    }}
+                  />
                 </div>
               </Col>
             </Row>
@@ -449,7 +499,7 @@ const PersonalInfoFormComponent: any = (
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"phone"}
+                    name={"phoneNumber"}
                     placeholder=" Phone Number"
                     className="width-common"
                   />

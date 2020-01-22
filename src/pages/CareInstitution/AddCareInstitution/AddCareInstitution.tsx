@@ -27,7 +27,7 @@ import {
 } from "../../../interfaces";
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 // import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
-import { CountryQueries } from "../../../queries";
+import { CountryQueries, CareInstitutionQueries } from "../../../queries";
 import CommissionFormData from "../PersonalInfo/PersonalInfoForm/CommissionFormData";
 import InvoiceFormData from "../PersonalInfo/PersonalInfoForm/InvoiceFormData";
 import QuallificationAttribute from "../PersonalInfo/PersonalInfoForm/QuallificationAttribute";
@@ -37,7 +37,7 @@ import { RegionQueries } from "../../../queries/Region";
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-
+const [GET_CARE_INSTITUTION_LIST] = CareInstitutionQueries;
 const AddCareInstitution: any = (
   props: FormikProps<ICareInstitutionFormValues>
 ) => {
@@ -83,6 +83,9 @@ const AddCareInstitution: any = (
       })
     );
   }
+  const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
+    any
+  >(GET_CARE_INSTITUTION_LIST);
 
   useEffect(() => {
     // call query
@@ -92,7 +95,28 @@ const AddCareInstitution: any = (
         sortBy: 3
       }
     });
+    fetchCareInstitutionList({
+      variables: {
+        searchBy: null,
+        sortBy: 3,
+        limit: 200,
+        page: 1,
+        isActive: ""
+      }
+    });
   }, []);
+  let CareInstitutionList: Object[] = [];
+  if (careInstituition && careInstituition.getCareInstitutions) {
+    const { getCareInstitutions } = careInstituition;
+    const { careInstitutionData } = getCareInstitutions;
+    careInstitutionData.map((data: any, index: any) => {
+      CareInstitutionList.push({
+        label: `${data.firstName}${" "}${data.lastName}`,
+        value: data.id
+      });
+      return true;
+    });
+  }
 
   const {
     values: {
@@ -749,7 +773,7 @@ const AddCareInstitution: any = (
                         placeholder={languageTranslation("LIKED_TO")}
                         value={state ? state : undefined}
                         onChange={(value: any) => handleSelect(value, "state")}
-                        options={State}
+                        options={CareInstitutionList}
                       />
                     </div>
                   </Col>

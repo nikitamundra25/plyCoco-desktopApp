@@ -88,12 +88,12 @@ query getCaregiver($id:Int!){
 `;
 
 export const ADD_CAREGIVER = gql`
-mutation addCareGiver($careGiverInput: CareGiverInput!) {
-  addCareGiver(careGiverInput: $careGiverInput)
-   {
-     id
-   }
-}`;
+  mutation addCareGiver($careGiverInput: CareGiverInput!) {
+    addCareGiver(careGiverInput: $careGiverInput) {
+      id
+    }
+  }
+`;
 
 export const UPDATE_CAREGIVER = gql`
   mutation updateCaregiver($id: Int!, $careGiverInput: CareGiverInput!) {
@@ -153,5 +153,17 @@ export const UPDATE_CARE_GIVER_STATUS = gql`
       id
       isActive
     }
+  }
+`;
+
+export const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
+  mutation addUpdateLeasingInformation(
+    $userId: Int!
+    $leasingInformationInput: LeasingInformationInput!
+  ) {
+    addUpdateLeasingInformation(
+      userId: $userId
+      leasingInformationInput: $leasingInformationInput
+    )
   }
 `;

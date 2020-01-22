@@ -42,6 +42,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       nightAllowance
       weekendAllowance
       executiveDirector
+      phoneNumber
       fee
       holiday
       invoiceInterval

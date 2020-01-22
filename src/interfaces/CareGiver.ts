@@ -109,7 +109,7 @@ export interface ICareGiverValidationInterface {
 
 export interface IEmailMenus<
   Params extends { [K in keyof Params]?: string } = {}
-> {
+  > {
   history: H.History;
   location: H.Location;
 }
@@ -212,9 +212,12 @@ export interface ICareGiverValues {
   qualifications?: IReactSelectInterface[];
   remarks?: ICareInstitutionRemarks[];
   comments?: String;
-  nightAllownce?: number;
   invoiceInterval?: String;
   leasingPricingList?: String;
+  fee?: number
+  nightAllowance?: IReactSelectInterface
+  weekendAllowance?: number
+  holiday?: number
 }
 
 export interface IPersonalInfoObject {

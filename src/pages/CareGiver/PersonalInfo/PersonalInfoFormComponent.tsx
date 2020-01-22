@@ -302,6 +302,7 @@ const PersonalInfoFormComponent: any = (
                               'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
                             )}
                             mask={DateMask}
+                            className={"form-control"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={dateOfBirth}

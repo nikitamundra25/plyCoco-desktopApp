@@ -78,12 +78,6 @@ const CareGiver: FunctionComponent = () => {
     { id: string; isActive: boolean }
   >(UPDATE_CARE_GIVER_STATUS);
 
-  // Mutation to delete care giver
-  const [deleteCaregiver, { error }] = useMutation<
-    { deleteCaregiver: any },
-    { id: number }
-  >(DELETE_CAREGIVER);
-
   useEffect(() => {
     const query = qs.parse(search);
     let searchBy: string = '';
@@ -134,7 +128,7 @@ const CareGiver: FunctionComponent = () => {
           query.status !== undefined ||
           query.sortBy !== undefined,
       );
-      setCurrentPage(query.page ? parseInt(query.page as string) : 0);
+      setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
     // call query
     fetchCareGiverList({
@@ -147,10 +141,62 @@ const CareGiver: FunctionComponent = () => {
           ? query.status === 'active'
             ? 'true'
             : 'false'
-          : undefined,
+          : '',
       },
     });
   }, [search]); // It will run when the search value gets changed
+
+  const {
+    searchValue = '',
+    sortBy = undefined,
+    isActive = undefined,
+  } = searchValues ? searchValues : {};
+
+  // Mutation to delete care giver
+  const [deleteCaregiver, { error }] = useMutation<
+    { deleteCaregiver: any },
+    { id: number }
+  >(DELETE_CAREGIVER, {
+    update(cache, { data: { deleteCareGiver } }: any) {
+      console.log(data, 'data');
+      let caregiverData: any = cache.readQuery({
+        query: GET_CAREGIVERS,
+        variables: {
+          page: currentPage,
+          isActive: isActive ? isActive.value : '',
+          sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
+          searchBy: searchValue ? searchValue : '',
+          limit: PAGE_LIMIT,
+        },
+      });
+      const id: any = deleteCareGiver ? deleteCareGiver.id : '';
+
+      const newCareGiver = caregiverData.getCaregivers.result.filter(
+        (caregiver: any) => caregiver.id !== id,
+      );
+
+      const updatedData = {
+        ...caregiverData,
+        getCaregivers: {
+          ...caregiverData.getCaregivers,
+          result: newCareGiver,
+          totalCount: newCareGiver.length,
+        },
+      };
+
+      cache.writeQuery({
+        query: GET_CAREGIVERS,
+        variables: {
+          page: currentPage,
+          isActive: isActive ? isActive.value : '',
+          sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
+          searchBy: searchValue ? searchValue : '',
+          limit: PAGE_LIMIT,
+        },
+        data: updatedData,
+      });
+    },
+  });
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
@@ -184,7 +230,7 @@ const CareGiver: FunctionComponent = () => {
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG'),
+      text: languageTranslation('CONFIRM_CAREGIVER_DELETE_MSG'),
     });
     if (!value) {
       return;
@@ -193,30 +239,10 @@ const CareGiver: FunctionComponent = () => {
         variables: {
           id: parseInt(id),
         },
-        update: async cache => {
-          let data: any = await cache.readQuery({
-            query: GET_CAREGIVERS,
-            variables: {
-              searchBy: '',
-              sortBy: 0,
-              limit: PAGE_LIMIT,
-              page: 0,
-              isActive: undefined,
-            },
-          });
-          console.log('==before==', data.getCaregivers);
-          pullAllBy(data.getCaregivers, [{ id }], 'id');
-          cache.writeQuery({
-            query: GET_CAREGIVERS,
-            data: {
-              getCaregiversCount: data.getCaregiversCount - 1,
-              getCaregivers: data.getCaregivers,
-            },
-          });
-          let dataNe: any = await cache.readQuery({ query: GET_CAREGIVERS });
-          console.log('==after==', dataNe.getCaregivers);
-        },
       });
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success('Care giver deleted successfully.');
+      }
     }
   };
 
@@ -257,18 +283,14 @@ const CareGiver: FunctionComponent = () => {
     }
   };
 
-  const {
-    searchValue = '',
-    sortBy = undefined,
-    isActive = undefined,
-  } = searchValues ? searchValues : {};
-
   const values: ISearchValues = {
     searchValue,
     isActive,
     sortBy,
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  console.log(count, 'counttt', currentPage);
+
   return (
     <Row className='m-0'>
       <Col xs={'12'} lg={'12'} className='p-0'>
@@ -357,7 +379,7 @@ const CareGiver: FunctionComponent = () => {
                           <td className={'text-center'}>
                             <div className='table-checkbox-wrap'>
                               <div className='btn-group btn-check-action-wrap'>
-                                <span className='btn'>
+                                {/* <span className='btn'>
                                   <span className='checkboxli checkbox-custom checkbox-default'>
                                     <input
                                       type='checkbox'
@@ -366,7 +388,7 @@ const CareGiver: FunctionComponent = () => {
                                     />
                                     <label className=''></label>
                                   </span>
-                                </span>
+                                </span> */}
                                 <span className='checkbox-no'>{count++}</span>
                               </div>
                             </div>
@@ -514,9 +536,9 @@ const CareGiver: FunctionComponent = () => {
                 )}
               </tbody>
             </Table>
-            {data && data.getCaregiversCount ? (
+            {data && data.getCaregivers && data.getCaregivers.count ? (
               <PaginationComponent
-                totalRecords={data.getCaregiversCount}
+                totalRecords={data.getCaregivers.count}
                 currentPage={currentPage}
                 onPageChanged={onPageChanged}
               />

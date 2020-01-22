@@ -89,6 +89,7 @@ export const GET_CAREGIVERS = gql`
         regionId
         isActive
       }
+      totalCount
     }
   }
 `;
@@ -114,8 +115,10 @@ export const UPDATE_CAREGIVER = gql`
 `;
 
 export const DELETE_CAREGIVER = gql`
-  mutation deleteCaregiver($id: Int!) {
-    deleteCaregiver(id: $id)
+  mutation deleteCareGiver($id: Int!) {
+    deleteCareGiver(id: $id) {
+      id
+    }
   }
 `;
 
@@ -158,7 +161,7 @@ export const GET_BILLING_SETTINGS = gql`
 
 export const UPDATE_CARE_GIVER_STATUS = gql`
   mutation changeStatusCareGiver($id: ID!, $isActive: Boolean) {
-    updateCareGiverStatus(id: $id, isActive: $isActive) {
+    changeStatusCareGiver(id: $id, isActive: $isActive) {
       id
       isActive
     }

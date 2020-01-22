@@ -431,6 +431,7 @@
   "CURRENT_ONGOING_APPOINTMENTS_COUNTER": " Current Ongoing Appointments Counter",
   "CONFIRM_LABEL": "Are you sure?",
   "CONFIRM_EMPLOYEE_DELETE_MSG": "This employee will be deleted.",
+  "CONFIRM_CAREGIVER_DELETE_MSG": "This care giver will be deleted.",
   "EMPLOYEE_STATUS_UPDATE_MSG": "Employee status updated successfully.",
   "CAREGIVER_STATUS_UPDATE_MSG": "Care giver status updated successfully.",
   "CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG": "This employee will be activated.",

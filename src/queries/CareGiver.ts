@@ -76,9 +76,9 @@ export const GET_CAREGIVERS = gql`
         userName
         phoneNumber
         gender
-        regionId
         isActive
         createdAt
+        qualificationId
         caregiver {
           qualifications
           address1

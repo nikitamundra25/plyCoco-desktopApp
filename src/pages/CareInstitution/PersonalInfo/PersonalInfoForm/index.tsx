@@ -794,7 +794,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                   </Col>
                   <Col sm="8">
                     <div>
-                      {console.log("CareInstitutionList", CareInstitutionList)}
                       <Select
                         placeholder={languageTranslation("LIKED_TO")}
                         // value={linkedTo}

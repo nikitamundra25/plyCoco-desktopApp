@@ -118,7 +118,9 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
           values && values.regionId ? `{${values.regionId.value}}` : null,
         city: values && values.city,
         fax: values && values.fax,
-        linkedTo: values && values.linkedTo
+        linkedTo: values && values.linkedTo,
+        phoneNumber: values && values.phoneNumber,
+        mobileNumber: values.mobileNumber
       };
       console.log("dataSubmit", values);
 

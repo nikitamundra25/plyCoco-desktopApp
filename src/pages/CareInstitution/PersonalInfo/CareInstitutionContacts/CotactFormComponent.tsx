@@ -252,7 +252,7 @@ const CotactFormComponent: any = (
                       <div>
                         <Select
                           placeholder={languageTranslation("SALUTATION")}
-                          value={salutation ? salutation : undefined}
+                          value={salutation}
                           onChange={(value: any) =>
                             handleSelect(value, "salutation")
                           }

@@ -35,7 +35,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 ) => {
   let { id } = useParams();
   const Id: any | undefined = id;
-  
+
   let sortBy: IReactSelectInterface | undefined = {
     label: '3',
     value: 'Sort by A-Z',
@@ -178,6 +178,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                   handleIsUserChange={() =>
                     setisUserChange((isUserChange = false))
                   }
+                  Id={Id}
                   isUserChange={isUserChange}
                   {...props}
                 />

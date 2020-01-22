@@ -2,27 +2,30 @@ import React, {
   Component,
   useState,
   FunctionComponent,
-  useEffect
-} from "react";
+  useEffect,
+} from 'react';
 import {
   ILeasingValues,
   IAddLeasingRes,
-  ILeasingInput
-} from "../../../interfaces";
-import { FormikHelpers, Formik, FormikProps } from "formik";
-import { Mutation, Query } from "@apollo/react-components";
-import LeasingPersonalDataFormComponent from "./LeasingPersonalDataFormComponent";
+  ILeasingInput,
+} from '../../../interfaces';
+import { FormikHelpers, Formik, FormikProps } from 'formik';
+import { Mutation, Query } from '@apollo/react-components';
+import LeasingPersonalDataFormComponent from './LeasingPersonalDataFormComponent';
 import {
   UPDATE_LEASING_DATA,
-  GET_LEASING_DATA_BY_ID
-} from "../../../queries/LeasingQueries";
-import { LeasingDataValidationSchema } from "../../../validations/LeasingDataValidationSchema";
-import { useParams, useHistory, RouteComponentProps } from "react-router";
-import { useMutation, useLazyQuery } from "@apollo/react-hooks";
-import { languageTranslation } from "../../../helpers";
-import { toast } from "react-toastify";
+  GET_LEASING_DATA_BY_ID,
+} from '../../../queries/LeasingQueries';
+import { LeasingDataValidationSchema } from '../../../validations/LeasingDataValidationSchema';
+import { useParams, useHistory, RouteComponentProps } from 'react-router';
+import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { languageTranslation } from '../../../helpers';
+import { toast } from 'react-toastify';
+import { GET_LEASING_INFO } from '../../../queries';
 
-export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (props:RouteComponentProps) => {
+export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
+  props: RouteComponentProps,
+) => {
   let { id } = useParams();
   const [leasingData, setleasingData] = useState<ILeasingValues | null>();
 
@@ -34,29 +37,29 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (prop
 
   // To get the employee details by id
   const [
-    getLeasingDataDetails,
-    { data: getLeasingData, error: detailsError, refetch }
-  ] = useLazyQuery<any>(GET_LEASING_DATA_BY_ID);
+    getLeasingInformation,
+    { data: leasingDetails, error: detailsError, refetch },
+  ] = useLazyQuery<any>(GET_LEASING_INFO);
 
-  // Similar to componentDidMount and componentDidUpdate:
+  // Fetch leasing data on mount
   useEffect(() => {
-    // Fetch details by employee id
+    // Fetch details by care giver id
     if (id) {
-      getLeasingDataDetails({
-        variables: { userId: id }
+      getLeasingInformation({
+        variables: { userId: id },
       });
     }
-    if (getLeasingData) {
-      setleasingData({
-        ...getLeasingData
-      });
+  }, []);
+
+  useEffect(() => {
+    if (leasingDetails) {
     }
-  }, [getLeasingData]);
+  }, [leasingDetails]);
 
   // function to add/edit employee information
   const handleSubmit = async (
     values: ILeasingValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ILeasingValues>
+    { setSubmitting, setFieldError }: FormikHelpers<ILeasingValues>,
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -74,7 +77,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (prop
       taxBracket,
       preoccupation,
       payrollIBAN,
-      status
+      status,
     } = values;
     try {
       let leasingInput: ILeasingInput = {
@@ -93,44 +96,44 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (prop
         taxBracket,
         preoccupation,
         payrollIBAN,
-        status
+        status,
       };
       // Edit employee details
       if (id) {
         await saveLeasingData({
           variables: {
             id: parseInt(id),
-            leasingInput
-          }
+            leasingInput,
+          },
         });
-        toast.success(languageTranslation("EMPLOYEE_UPDATE_SUCCESS_MSG"));
+        toast.success(languageTranslation('EMPLOYEE_UPDATE_SUCCESS_MSG'));
       }
     } catch (error) {
       const message = error.message
-        .replace("SequelizeValidationError: ", "")
-        .replace("Validation error: ", "")
-        .replace("GraphQL error: ", "");
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
       // setFieldError('email', message);
       toast.error(message);
     }
     setSubmitting(false);
   };
   const {
-    placeOfBirth = "",
-    birthName = "",
-    nationality = "",
-    maritalStatus = "",
-    children = "",
-    factorChildAllowance = "",
-    healthInsuranceType = "",
-    healthInsuranceProvider = "",
-    socialSecurityNumber = "",
-    religion = "",
-    controlId = "",
-    taxBracket = "",
-    preoccupation = "",
-    payrollIBAN = "",
-    status = ""
+    placeOfBirth = '',
+    birthName = '',
+    nationality = '',
+    maritalStatus = '',
+    children = '',
+    factorChildAllowance = '',
+    healthInsuranceType = '',
+    healthInsuranceProvider = '',
+    socialSecurityNumber = '',
+    religion = '',
+    controlId = '',
+    taxBracket = '',
+    preoccupation = '',
+    payrollIBAN = '',
+    status = '',
   } = leasingData ? leasingData : {};
   const initialValues: ILeasingValues = {
     placeOfBirth,
@@ -147,7 +150,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (prop
     taxBracket,
     preoccupation,
     payrollIBAN,
-    status
+    status,
   };
 
   return (

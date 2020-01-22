@@ -34,7 +34,6 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<ICareGiverValues
     };
     props.setFieldValue('remarks', [value]);
   };
-  console.log('+++++++++++', props.errors);
   // To fetch the list of countries
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load

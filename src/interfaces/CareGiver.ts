@@ -46,53 +46,54 @@ export interface IRemark {
 }
 
 export interface CareGiverValues {
-  id?: number
-  userId?: number
-  salutation?: IReactSelectInterface
-  firstName?: String,
-  lastName?: String,
-  userName?: String,
-  gender?: IReactSelectInterface
-  email: String,
-  phoneNumber?: String,
-  mobileNumber?: String
-  title?: String
-  dateOfBirth?: string,
-  createdAt?: Date,
-  age?: number
-  street?: String
-  city?: String
-  postalCode?: String
-  address1?: String
-  address2?: String
-  countryId?: string
-  country?: IReactSelectInterface
-  state?: IReactSelectInterface
-  stateId?: string
-  fax?: String
-  taxNumber?: String
-  bankName?: String
-  IBAN?: String
-  driversLicense?: Boolean
-  driverLicenseNumber?: String
-  vehicleAvailable?: Boolean
-  socialSecurityContribution?: Boolean
-  workZones?: JSON
-  status?: String
-  belongTo?: IReactSelectInterface,
-  employed?: Boolean,
-  companyName?: String
-  registrationNumber?: String
-  registerCourt?: String
-  executiveDirector?: String
-  legalForm?: String
-  legalFormValue?: IReactSelectInterface
-  qualifications?: JSON
-  remarks?: JSON
-  comments?: String
-  nightAllownce?: number
-  invoiceInterval?: String
-  leasingPricingList?: String
+  id?: number;
+  userId?: number;
+  salutation?: IReactSelectInterface;
+  firstName?: String;
+  lastName?: String;
+  userName?: String;
+  gender?: IReactSelectInterface;
+  email: String;
+  phoneNumber?: String;
+  mobileNumber?: String;
+  title?: String;
+  dateOfBirth?: string;
+  createdAt?: Date;
+  age?: number;
+  street?: String;
+  city?: String;
+  postalCode?: String;
+  address1?: String;
+  address2?: String;
+  countryId?: string;
+  country?: IReactSelectInterface;
+  regionId?: IReactSelectInterface;
+  state?: IReactSelectInterface;
+  stateId?: string;
+  fax?: String;
+  taxNumber?: String;
+  bankName?: String;
+  IBAN?: String;
+  driversLicense?: Boolean;
+  driverLicenseNumber?: String;
+  vehicleAvailable?: Boolean;
+  socialSecurityContribution?: Boolean;
+  workZones?: JSON;
+  status?: String;
+  belongTo?: IReactSelectInterface;
+  employed?: Boolean;
+  companyName?: String;
+  registrationNumber?: String;
+  registerCourt?: String;
+  executiveDirector?: String;
+  legalForm?: IReactSelectInterface;
+  legalFormValue?: IReactSelectInterface;
+  qualifications?: JSON;
+  remarks?: JSON;
+  comments?: String;
+  nightAllownce?: number;
+  invoiceInterval?: String;
+  leasingPricingList?: String;
 }
 
 export interface ICareGiverValidationInterface {
@@ -108,7 +109,7 @@ export interface ICareGiverValidationInterface {
 
 export interface IEmailMenus<
   Params extends { [K in keyof Params]?: string } = {}
-  > {
+> {
   history: H.History;
   location: H.Location;
 }
@@ -204,8 +205,9 @@ export interface ICareGiverValues {
   companyName?: String
   registrationNumber?: String
   registerCourt?: String
+  regionId?: IReactSelectInterface;
   executiveDirector?: String
-  legalForm?: String
+  legalForm?: IReactSelectInterface
   legalFormValue?: IReactSelectInterface
   qualifications?: JSON
   remarks?: ICareInstitutionRemarks[]
@@ -214,7 +216,6 @@ export interface ICareGiverValues {
   invoiceInterval?: String
   leasingPricingList?: String
 }
-
 
 export interface IPersonalInfoObject {
   userName?: string;
@@ -265,7 +266,6 @@ export interface IEditCareGInput {
   billingSettings?: IBillingSettingsValues;
 }
 
-
 export interface ICareGiver {
   id: string;
   userName: string;
@@ -285,7 +285,7 @@ export interface ICareGiver {
   legalForm: string;
   workZones?: string[];
   status: string;
-  caregiverDetails: object
+  caregiverDetails: object;
 }
 
 export interface IAddCargiverRes {

@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
@@ -68,13 +68,38 @@ export const GET_CAREGIVERS = gql`
     ) {
       result {
         id
+        salutation
         firstName
         lastName
         email
         userName
         phoneNumber
+        gender
         regionId
         isActive
+        createdAt
+        caregiver {
+          qualifications
+          address1
+          address2
+          age
+          fax
+          workZones
+          mobileNumber
+          countryId
+          stateId
+          postalCode
+          legalForm
+          employed
+          comments
+          companyName
+          registerCourt
+          driversLicense
+          driverLicenseNumber
+          city
+          street
+          title
+        }
       }
       totalCount
     }
@@ -166,5 +191,18 @@ export const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
       userId: $userId
       leasingInformationInput: $leasingInformationInput
     )
+  }
+`;
+
+export const GET_LEASING_INFO = gql`
+  query getLeasingInformation($userId: Int!) {
+    getLeasingInformation(userId: $userId) {
+      placeOfBirth
+      birthName
+      factorChildAllowance
+      socialSecurityNumber
+      preoccupation
+      status
+    }
   }
 `;

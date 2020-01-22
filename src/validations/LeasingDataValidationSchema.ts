@@ -13,24 +13,19 @@ export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .matches(nameRegExp, languageTranslation('FIRSTNAME_SPECIALCHARACTER'))
     .max(20, languageTranslation('FIRSTNAME_MAXLENGTH'))
     .required(languageTranslation('FIRSTNAME_REQUIRED')),
-  nationality: Yup.string()
-    .trim()
-    .matches(nameRegExp, languageTranslation('LASTNAME_SPECIALCHARACTER'))
-    .max(20, languageTranslation('LASTNAME_MAXLENGTH'))
-    .required(languageTranslation('LASTNAME_REQUIRED')),
-  maritalStatus: Yup.string().required(
+  nationality: Yup.mixed().required(languageTranslation('LASTNAME_REQUIRED')),
+  maritalStatus: Yup.mixed().required(
     languageTranslation('MARITAL_STATUS_REQUIRED'),
   ),
   children: Yup.string(),
-  factorChildAllowance: Yup.string(),
-  healthInsuranceType: Yup.string(),
-  healthInsuranceProvider: Yup.string(),
+  factorChildAllowance: Yup.mixed(),
+  healthInsuranceType: Yup.mixed(),
+  healthInsuranceProvider: Yup.mixed(),
   socialSecurityNumber: Yup.string(),
-  religion: Yup.string(),
+  religion: Yup.mixed(),
   controlId: Yup.string(),
-
   taxBracket: Yup.string(),
-  preoccupation: Yup.string(),
+  preoccupation: Yup.mixed(),
   payrollIBAN: Yup.string(),
-  status: Yup.string(),
+  status: Yup.mixed(),
 });

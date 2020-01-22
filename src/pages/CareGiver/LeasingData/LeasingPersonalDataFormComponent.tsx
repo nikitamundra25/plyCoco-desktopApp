@@ -9,6 +9,7 @@ import {
   HealthInsuranceProvider,
   Religion,
   Preoccupation,
+  IBANRegex,
 } from '../../../config';
 import { FormikProps, Field } from 'formik';
 import { ILeasingValues } from '../../../interfaces';
@@ -17,11 +18,20 @@ import {
   FormikSelectField,
 } from '../../../common/forms/FormikFields';
 import { languageTranslation } from '../../../helpers';
+import MaskedInput from 'react-text-mask';
 
 const LeasingPersonalDataFormComponent: any = (
   props: FormikProps<ILeasingValues>,
 ) => {
-  const { isSubmitting, handleSubmit } = props;
+  const {
+    values: { payrollIBAN },
+    isSubmitting,
+    handleSubmit,
+    handleBlur,
+    handleChange,
+    errors,
+    touched,
+  } = props;
   return (
     <div>
       <Form className='form-section'>
@@ -363,11 +373,28 @@ const LeasingPersonalDataFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm='8'>
-                        <Field
-                          component={FormikTextField}
-                          name={'payrollIBAN'}
-                          placeholder='Payroll IBAN'
-                        />
+                        <Field name='payrollIBAN'>
+                          {({ field }: any) => (
+                            <div>
+                              <MaskedInput
+                                {...field}
+                                className={'form-control'}
+                                value={payrollIBAN}
+                                placeholder={languageTranslation(
+                                  'BANK_IBAN_PLACEHOLDER',
+                                )}
+                                mask={IBANRegex}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                              />
+                              {errors.payrollIBAN && touched.payrollIBAN && (
+                                <div className='required-error'>
+                                  {errors.payrollIBAN}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </Field>
                       </Col>
                     </Row>
                   </FormGroup>

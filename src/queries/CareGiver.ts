@@ -16,7 +16,6 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     phoneNumber
     createdAt 
     caregiver{
-      userId
       qualifications
       address1
       address2

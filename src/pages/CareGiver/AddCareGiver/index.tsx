@@ -174,7 +174,7 @@ export const CareGiverForm: FunctionComponent = () => {
         companyName,
         registrationNumber,
         registerCourt,
-        age,
+        age: age? parseInt(age) : null,
         title,
         executiveDirector,
         socialSecurityContribution,

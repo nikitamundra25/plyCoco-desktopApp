@@ -125,6 +125,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       fee,
       nightAllowance,
       weekendAllowance,
+      night,
       holiday,
     } = values;
     try {
@@ -173,10 +174,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         comments,
         status,
         remarks,
-        fee,
+        fee: fee ? parseInt(fee):null,
         nightAllowance: nightAllowance && nightAllowance.value? nightAllowance.value:null,
-        weekendAllowance,
-        holiday
+        weekendAllowance:weekendAllowance?parseInt(weekendAllowance):null ,
+        holiday: holiday? parseInt(holiday):null,
+        night: night? parseInt(night) :null,
       };
       // Edit employee details
       if (id) {
@@ -247,18 +249,18 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const qualificationsData: IReactSelectInterface[] | undefined = [];
 
   const { qualifications } = caregiver;
-  if (qualifications) {
-    const qualificationData = qualifications.match(/[\w.-]+/g).map(Number);
-    qualificationData.forEach((qualification: any) => {
-      const data: any = qualificationList.filter(
-        (qualifications: IReactSelectInterface) =>
-          qualifications.value === qualification.toString(),
-      )[0];
-      if (data) {
-        qualificationsData.push(data);
-      }
-    });
-  }
+  // if (qualifications) {
+  //   const qualificationData = qualifications.match(/[\w.-]+/g).map(Number);
+  //   qualificationData.forEach((qualification: any) => {
+  //     const data: any = qualificationList.filter(
+  //       (qualifications: IReactSelectInterface) =>
+  //         qualifications.value === qualification.toString(),
+  //     )[0];
+  //     if (data) {
+  //       qualificationsData.push(data);
+  //     }
+  //   });
+  // }
 
   const initialValues: ICareGiverValues = {
     id,
@@ -365,6 +367,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     nightAllowance: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.nightAllowance?props.getCaregiver.caregiver.nightAllowance: null,
     weekendAllowance: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.weekendAllowance?props.getCaregiver.caregiver.weekendAllowance: null,
     holiday: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.holiday?props.getCaregiver.caregiver.holiday: null,
+    night: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.night?props.getCaregiver.caregiver.night: null
   };
 
   return (

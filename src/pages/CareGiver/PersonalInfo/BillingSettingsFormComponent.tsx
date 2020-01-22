@@ -80,7 +80,7 @@ const BillingSettingsFormComponent: any = (
                           <div>
                             <Field
                               component={FormikTextField}
-                              name={"nightAllowance"}
+                              name={"night"}
                               placeholder="Night"
                               className="width-common"
                             />

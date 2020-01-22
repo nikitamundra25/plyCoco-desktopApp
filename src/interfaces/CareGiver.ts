@@ -214,10 +214,11 @@ export interface ICareGiverValues {
   comments?: String;
   invoiceInterval?: String;
   leasingPricingList?: String;
-  fee?: number
+  fee?: string
   nightAllowance?: IReactSelectInterface
-  weekendAllowance?: number
-  holiday?: number
+  weekendAllowance?: string
+  holiday?: string,
+  night?: string
 }
 
 export interface IPersonalInfoObject {

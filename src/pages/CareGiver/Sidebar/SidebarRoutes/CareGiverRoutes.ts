@@ -15,12 +15,15 @@ export const careGiverRoutes = [
     name: 'documents',
   },
   {
-    name: 'departments',
-  },
-  {
     name: 'emails',
   },
   {
+    name: 'reminders/todos',
+  },
+  {
     name: 'leasing',
+  },
+  {
+    name: 'grouped below',
   },
 ];

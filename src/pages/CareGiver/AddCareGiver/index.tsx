@@ -10,6 +10,7 @@ import {
   ICareGiverInput,
   IAddCargiverRes,
   IReactSelectInterface,
+  ICareGiverValues,
 } from '../../../interfaces';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import CareGiverFormComponent from './CareGiverFormComponent';
@@ -65,10 +66,24 @@ export const CareGiverForm: FunctionComponent = () => {
   let { id } = useParams();
   const Id: any | undefined = id;
 
+  useEffect(() => {
+    if (data) {
+      console.log("In use Effect");
+      const Data: any = data;
+      history.push(
+        AppRoutes.CARE_GIVER_VIEW.replace(
+          ":id",
+          Data.addCareGiver ? Data.addCareGiver.id : "null"
+        )
+      );
+    }
+  }, [data]);
+
+
   // function to add/edit employee information
   const handleSubmit = async (
-    values: CareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<CareGiverValues>,
+    values: ICareGiverValues,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -188,8 +203,6 @@ export const CareGiverForm: FunctionComponent = () => {
         },
       });
       toast.success(languageTranslation('CAREGIVER_ADD_SUCCESS_MSG'));
-
-      history.push(AppRoutes.CARE_GIVER);
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
@@ -230,12 +243,11 @@ export const CareGiverForm: FunctionComponent = () => {
     executiveDirector = '',
     socialSecurityContribution = false,
     taxNumber = '',
-    remarks = undefined,
     workZones = undefined,
     status = '',
   } = caregiverData ? caregiverData : {};
 
-  const initialValues: CareGiverValues = {
+  const initialValues: ICareGiverValues = {
     salutation,
     firstName,
     lastName,
@@ -263,7 +275,6 @@ export const CareGiverForm: FunctionComponent = () => {
     executiveDirector,
     socialSecurityContribution,
     taxNumber,
-    remarks,
     workZones,
     status,
   };
@@ -324,7 +335,7 @@ export const CareGiverForm: FunctionComponent = () => {
                     initialValues={initialValues}
                     onSubmit={handleSubmit}
                     validationSchema={CareGiverValidationSchema}
-                    render={(props: FormikProps<CareGiverValues>) => {
+                    render={(props: FormikProps<ICareGiverValues>) => {
                       return <CareGiverFormComponent {...props} />;
                     }}
                   />

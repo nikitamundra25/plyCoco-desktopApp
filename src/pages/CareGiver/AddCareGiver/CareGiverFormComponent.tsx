@@ -10,6 +10,7 @@ import {
   ICountries,
   IStates,
   IState,
+  ICareGiverValues,
 } from '../../../interfaces';
 import { CountryQueries } from '../../../queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
@@ -23,9 +24,8 @@ import '../caregiver.scss';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
-const CareGiverFormComponent: FunctionComponent<FormikProps<
-  CareGiverValues
->> = (props: FormikProps<CareGiverValues>) => {
+const CareGiverFormComponent: FunctionComponent<FormikProps<ICareGiverValues
+>> = (props: FormikProps<ICareGiverValues>) => {
   const { values } = props;
   const handleField = (e: any) => {
     const value = {
@@ -83,7 +83,9 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
             </div>
           </div>
         </Col>
-        <RemarkFormComponent />
+        <RemarkFormComponent
+          {...props}
+        />
       </Row>
     </Form>
   );

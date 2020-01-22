@@ -41,7 +41,8 @@ import {
   ICountries,
   ICountry,
   IState,
-  IRegion
+  IRegion,
+  ICareGiverValues
 } from "../../../interfaces";
 import {
   FormikSelectField,
@@ -58,7 +59,7 @@ const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const PersonalInfoFormComponent: any = (
-  props: FormikProps<CareGiverValues>
+  props: FormikProps<ICareGiverValues>
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
@@ -129,7 +130,7 @@ const PersonalInfoFormComponent: any = (
   }, []);
 
   const {
-    values: { dateOfBirth, id, createdAt },
+    values: { dateOfBirth, id, createdAt, regionId, gender, salutation },
     handleChange,
     handleBlur,
     errors,
@@ -208,7 +209,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     onChange={(value: any) => handleSelect(value, "regionId")}
-                    // value={regionId ? regionId : undefined}
+                    value={regionId ? regionId : undefined}
                     options={regionOptions}
                   />
                 </div>
@@ -231,6 +232,7 @@ const PersonalInfoFormComponent: any = (
                       <Select
                         placeholder={languageTranslation("GENDER")}
                         options={Gender}
+                        value={gender? gender :null}
                         onChange={(value: any) => handleSelect(value, "gender")}
                       />
                     </div>
@@ -274,6 +276,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("SALUTATION")}
                     options={Salutation}
+                    value={salutation ? salutation: null}
                     onChange={(value: any) => handleSelect(value, "salutation")}
                   />
                 </div>

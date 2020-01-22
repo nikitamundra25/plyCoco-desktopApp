@@ -50,9 +50,9 @@ export const FormikTextField = (props: IFormikTextField) => {
                 handleBlur(value, props);
               }
         }
-        disabled={isSubmitting || disabled}
+        // disabled={isSubmitting || disabled}
         variant={variant}
-        fullwidth={true}
+        // fullwidth={true}
       />
       <div className='required-error'>{showError && fieldError}</div>
     </>

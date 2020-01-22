@@ -51,7 +51,6 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       id
       attributeName
     }
-    
 }`;
 
 export const GET_CAREGIVERS = gql`

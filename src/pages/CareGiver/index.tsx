@@ -137,7 +137,7 @@ const CareGiver: FunctionComponent = () => {
         searchBy,
         sortBy: sortByValue ? parseInt(sortByValue) : 0,
         limit: PAGE_LIMIT,
-        page: query.page ? parseInt(query.page as string) : 0,
+        page: query.page ? parseInt(query.page as string) : 1,
         isActive: query.status
           ? query.status === 'active'
             ? 'true'
@@ -355,7 +355,7 @@ const CareGiver: FunctionComponent = () => {
                   <th>{languageTranslation('TABEL_HEAD_CG_QUALIFICATION')}</th>
                   <th>{languageTranslation('TABEL_HEAD_CG_REGION')}</th>
                   <th>{languageTranslation('TABEL_HEAD_CG_APPLYING_AS')}</th>
-                  <th>{languageTranslation('TABEL_HEAD_CG_CREATED_AT')}</th>
+                  <th>{languageTranslation('CREATED_DATE')}</th>
                   <th className={'text-center'}>
                     {languageTranslation('TABEL_HEAD_CG_STATUS')}
                   </th>

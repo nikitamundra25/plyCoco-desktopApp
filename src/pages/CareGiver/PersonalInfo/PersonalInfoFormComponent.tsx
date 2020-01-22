@@ -130,7 +130,7 @@ const PersonalInfoFormComponent: any = (
   }, []);
 
   const {
-    values: { dateOfBirth, id, createdAt, regionId, gender, salutation },
+    values: { dateOfBirth, id, createdAt, regionId, gender, salutation, country },
     handleChange,
     handleBlur,
     errors,
@@ -460,6 +460,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("COUNTRY")}
                     options={countriesOpt}
+                    value={country? country: undefined}
                     onChange={(value: any) => handleSelect(value, "country")}
                   />
                 </div>

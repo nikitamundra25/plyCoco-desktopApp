@@ -15,6 +15,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     isActive
     phoneNumber
     createdAt 
+    gender
     caregiver{
       address1
       address2
@@ -26,6 +27,8 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       stateId
       postalCode
       employed
+      salutation
+      gender
       comments
       companyName
       registerCourt
@@ -47,6 +50,10 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       fee
       holiday
       invoiceInterval
+    }
+    regions{
+      id
+     regionName
     }
     qualifications{
       id

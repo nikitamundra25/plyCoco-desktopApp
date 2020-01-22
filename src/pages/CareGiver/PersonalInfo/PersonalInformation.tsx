@@ -96,6 +96,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       dateOfBirth,
       age,
       address1,
+      regionId,
       address2,
       driversLicense,
       driverLicenseNumber,
@@ -179,6 +180,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         weekendAllowance:weekendAllowance?parseInt(weekendAllowance):null ,
         holiday: holiday? parseInt(holiday):null,
         night: night? parseInt(night) :null,
+        regionId: regionId && regionId.value?`{${regionId.value}}`:null,
       };
       // Edit employee details
       if (id) {
@@ -200,32 +202,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     }
     setSubmitting(false);
   };
-
-  // useEffect(() => {
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
-
-  // const handleScroll = () => {
-  //   const scrollPositionY = window.scrollY;
-  //   const buttonDiv: HTMLElement | null = document.getElementById(
-  //     'caregiver-add-btn',
-  //   );
-  //   if (buttonDiv) {
-  //     if (scrollPositionY >= 35) {
-  //       buttonDiv.classList.add('sticky-save-btn');
-  //     } else {
-  //       buttonDiv.classList.remove('sticky-save-btn');
-  //     }
-  //   }
-  // };
-
-  console.log(
-    props.getCaregiver,
-    'propsssssssssssss' /* (test = test.match(/[\w.-]+/g).map(Number)) */,
-  );
 
   const {
     userName = '',
@@ -258,7 +234,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     id,
     userName,
     stateId,
-    gender,
     title,
     firstName,
     lastName,
@@ -359,9 +334,17 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     nightAllowance: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.nightAllowance?props.getCaregiver.caregiver.nightAllowance: null,
     weekendAllowance: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.weekendAllowance?props.getCaregiver.caregiver.weekendAllowance: null,
     holiday: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.holiday?props.getCaregiver.caregiver.holiday: null,
-    night: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.night?props.getCaregiver.caregiver.night: null
+    night: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.night?props.getCaregiver.caregiver.night: null,
+    salutation: props.getCaregiver && props.getCaregiver.salutation?
+    {
+      label: props.getCaregiver.salutation,
+      value: props.getCaregiver.salutation
+    }: undefined,
+    gender: props.getCaregiver && props.getCaregiver.gender?{
+      label: props.getCaregiver.gender,
+      value: props.getCaregiver.gender
+    }: undefined
   };
-
   return (
     <Formik
       initialValues={initialValues}
@@ -439,6 +422,8 @@ class GetData extends Component<any, any> {
       value: caregiverDetails.salutation,
       label: caregiverDetails.salutation,
     };
+    console.log("caregiverDetails.salutation",caregiverDetails.salutation);
+    
     caregiverDetails.state = {
       value: caregiverDetails.state,
       label: caregiverDetails.state,
@@ -472,7 +457,7 @@ class GetData extends Component<any, any> {
           return (
             <PersonalInformation
               {...this.props}
-              getCaregiver={this.formatData(data.getCaregiver)}
+              getCaregiver={data.getCaregiver}
             />
           );
         }}

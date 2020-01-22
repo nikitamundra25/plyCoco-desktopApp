@@ -130,8 +130,7 @@ export const CareGiverForm: FunctionComponent = () => {
         city,
         stateId: state && state.value ? state.value : undefined,
         countryId: country && country.value ? country.value : undefined,
-        regionId:
-          values && values.regionId ? parseInt(values.regionId.value) : null,
+        regionId: regionId ? `{${regionId.value}}` : undefined,
         postalCode,
         email,
         IBAN,

@@ -38,6 +38,7 @@
   "MARITAL_STATUS_REQUIRED": "Please select your marital status",
   "TELEPHONE_REQUIRED": "Telephone number is not valid",
   "USERNAME_REQUIRED": "Username is required",
+  "INVALID_NUMBER": "Please enter valid number",
   "PERSONAL_DATA": "Personal Data",
   "SEARCH_LABEL": "Search",
   "SEARCH_LABEL_PLACEHOLDER": "Search By",

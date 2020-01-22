@@ -14,8 +14,12 @@ export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .max(20, languageTranslation('FIRSTNAME_MAXLENGTH')),
   nationality: Yup.mixed(),
   maritalStatus: Yup.mixed(),
-  children: Yup.string(),
-  factorChildAllowance: Yup.mixed(),
+  children: Yup.number().typeError(languageTranslation('INVALID_NUMBER')),
+  // .integer('sdsadjasdja')
+  // .strict(true),
+  factorChildAllowance: Yup.number().typeError(
+    languageTranslation('INVALID_NUMBER'),
+  ),
   healthInsuranceType: Yup.mixed(),
   healthInsuranceProvider: Yup.mixed(),
   socialSecurityNumber: Yup.string(),

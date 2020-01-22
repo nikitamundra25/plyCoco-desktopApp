@@ -131,8 +131,10 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
         nationality: nationality && nationality.value ? nationality.value : '',
         maritalStatus:
           maritalStatus && maritalStatus.value ? maritalStatus.value : '',
-        children,
-        factorChildAllowance: factorChildAllowance ? factorChildAllowance : '',
+        children: children ? children.toString() : '',
+        factorChildAllowance: factorChildAllowance
+          ? factorChildAllowance.toString()
+          : '',
         healthInsuranceType:
           healthInsuranceType && healthInsuranceType.value
             ? healthInsuranceType.value
@@ -169,15 +171,14 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     }
     setSubmitting(false);
   };
-  console.log(leasingData, 'leasingData');
 
   const {
     placeOfBirth = '',
     birthName = '',
     nationality = undefined,
     maritalStatus = undefined,
-    children = '',
-    factorChildAllowance = '',
+    children = null,
+    factorChildAllowance = null,
     healthInsuranceType = undefined,
     healthInsuranceProvider = undefined,
     socialSecurityNumber = '',

@@ -19,6 +19,7 @@ import {
 } from '../../../common/forms/FormikFields';
 import { languageTranslation } from '../../../helpers';
 import MaskedInput from 'react-text-mask';
+import '../caregiver.scss';
 
 const LeasingPersonalDataFormComponent: any = (
   props: FormikProps<ILeasingValues>,
@@ -36,10 +37,11 @@ const LeasingPersonalDataFormComponent: any = (
     <div>
       <Form className='form-section'>
         <Button
-          color={'primary'}
           disabled={isSubmitting}
-          className={'btn-add'}
+          id={'caregiver-add-btn'}
           onClick={handleSubmit}
+          color={'primary'}
+          className={'save-button'}
         >
           {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
           {languageTranslation('SAVE_BUTTON')}
@@ -54,7 +56,8 @@ const LeasingPersonalDataFormComponent: any = (
                     <Row>
                       <Col sm='4'>
                         <Label className='form-label col-form-label '>
-                          Place of Birth <span className='required'>*</span>
+                          Place of Birth{' '}
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -77,7 +80,7 @@ const LeasingPersonalDataFormComponent: any = (
                           Birth Name
                           <br />
                           <small>(only if different from family name)</small>
-                          <span className='required'>*</span>
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -98,7 +101,7 @@ const LeasingPersonalDataFormComponent: any = (
                     <Row>
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
-                          Nationality<span className='required'>*</span>
+                          Nationality{/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -120,7 +123,7 @@ const LeasingPersonalDataFormComponent: any = (
                       <Col sm='4'>
                         <Label className='form-label col-form-label '>
                           Marital Status
-                          <span className='required'>*</span>
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -144,7 +147,7 @@ const LeasingPersonalDataFormComponent: any = (
                           Children
                           <br />
                           <small>(0 if none)</small>
-                          <span className='required'>*</span>
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -168,7 +171,7 @@ const LeasingPersonalDataFormComponent: any = (
                           Factor Child allowance
                           <br />
                           <small>(0 if none)</small>
-                          <span className='required'>*</span>
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -191,7 +194,7 @@ const LeasingPersonalDataFormComponent: any = (
                       <Col sm='4'>
                         <Label className='form-label col-form-label '>
                           Status
-                          <span className='required'>*</span>
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -213,7 +216,7 @@ const LeasingPersonalDataFormComponent: any = (
                       <Col sm='4'>
                         <Label className='form-label col-form-label '>
                           Tax Bracket
-                          <span className='required'>*</span>
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -235,7 +238,7 @@ const LeasingPersonalDataFormComponent: any = (
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
                           Health insurance type
-                          <span className='required'>*</span>
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -257,7 +260,7 @@ const LeasingPersonalDataFormComponent: any = (
                       <Col sm='4'>
                         <Label className='form-label col-form-label '>
                           Health insurance provider
-                          <span className='required'>*</span>
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -281,7 +284,7 @@ const LeasingPersonalDataFormComponent: any = (
                           Social Security Number
                           <br />
                           <small>(example: 65170839J003)</small>
-                          <span className='required'>*</span>
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -323,7 +326,7 @@ const LeasingPersonalDataFormComponent: any = (
                       <Col sm='4'>
                         <Label className='form-label col-form-label '>
                           Control Id
-                          <span className='required'>*</span>
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -344,7 +347,7 @@ const LeasingPersonalDataFormComponent: any = (
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
                           Preoccupation
-                          <span className='required'>*</span>
+                          {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
                       <Col sm='8'>

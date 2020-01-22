@@ -62,8 +62,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   const [activeTab, setactiveTab] = useState(0);
   const { search, pathname } = useLocation();
 
-  // Fetch list of care givers on mount
   useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    // Fetch list of care givers
     fetchCareGivers({
       variables: {
         searchBy: '',
@@ -73,7 +74,24 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         isActive: '',
       },
     });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
+
+  const handleScroll = () => {
+    const scrollPositionY = window.scrollY;
+    const buttonDiv: HTMLElement | null = document.getElementById(
+      'caregiver-add-btn',
+    );
+    if (buttonDiv) {
+      if (scrollPositionY >= 35) {
+        buttonDiv.classList.add('sticky-save-btn');
+      } else {
+        buttonDiv.classList.remove('sticky-save-btn');
+      }
+    }
+  };
 
   const careGiverOpt: IReactSelectInterface[] | undefined = [];
   if (

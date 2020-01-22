@@ -1,8 +1,7 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
-    id
     firstName
     lastName
     salutation

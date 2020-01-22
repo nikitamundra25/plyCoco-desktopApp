@@ -11,12 +11,9 @@ export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
   birthName: Yup.string()
     .trim()
     .matches(nameRegExp, languageTranslation('FIRSTNAME_SPECIALCHARACTER'))
-    .max(20, languageTranslation('FIRSTNAME_MAXLENGTH'))
-    .required(languageTranslation('FIRSTNAME_REQUIRED')),
-  nationality: Yup.mixed().required(languageTranslation('LASTNAME_REQUIRED')),
-  maritalStatus: Yup.mixed().required(
-    languageTranslation('MARITAL_STATUS_REQUIRED'),
-  ),
+    .max(20, languageTranslation('FIRSTNAME_MAXLENGTH')),
+  nationality: Yup.mixed(),
+  maritalStatus: Yup.mixed(),
   children: Yup.string(),
   factorChildAllowance: Yup.mixed(),
   healthInsuranceType: Yup.mixed(),

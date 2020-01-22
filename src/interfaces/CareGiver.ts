@@ -56,7 +56,8 @@ export interface CareGiverValues {
   phoneNumber?: String,
   mobileNumber?: String
   title?: String
-  dateOfBirth?: string
+  dateOfBirth?: string,
+  createdAt?: Date,
   age?: number
   street?: String
   city?: String
@@ -144,7 +145,6 @@ export interface IPersonalObject {
   mobileNumber: string;
   email: string;
   taxNumber: string;
-  iban: string;
   password?: string;
   belongTo?: string;
   legalForm: string;
@@ -167,6 +167,7 @@ export interface IPersonalObject {
 export interface ICareGiverValues {
   // personalInformation: IPersonalObject;
   // billingSettings?: IBillingSettingsValues;
+  id?: number
   userName?: string;
   stateId?: number;
   regionId?: string;
@@ -190,7 +191,6 @@ export interface ICareGiverValues {
   mobileNumber: string;
   email: string;
   taxNumber: string;
-  iban: string;
   password?: string;
   belongTo?: string;
   legalForm: string;

@@ -180,7 +180,7 @@ export interface ICareGiverValues {
   title?: String
   dateOfBirth?: string,
   createdAt?: Date,
-  age?: number
+  age?: string
   street?: String
   city?: String
   postalCode?: String

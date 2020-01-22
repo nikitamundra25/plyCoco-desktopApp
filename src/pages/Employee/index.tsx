@@ -206,7 +206,7 @@ const Employee: FunctionComponent = () => {
   const queryVariables = {
     page: currentPage,
     isActive: isActive ? isActive.value : '',
-    sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
+    sortBy: sortBy && sortBy.value ? sortBy.value : 0,
     searchBy: searchValue ? searchValue : '',
     limit: PAGE_LIMIT,
   };
@@ -366,6 +366,7 @@ const Employee: FunctionComponent = () => {
                   {
                     id,
                     firstName,
+                    lastName,
                     userName,
                     email,
                     phoneNumber,
@@ -381,6 +382,7 @@ const Employee: FunctionComponent = () => {
                     ':id': id,
                     ':userName': userName,
                   };
+                  var elements = [firstName, lastName];
                   return (
                     <tr key={index}>
                       <td className={'text-center'}>
@@ -417,7 +419,7 @@ const Employee: FunctionComponent = () => {
                                 )
                               }
                             >
-                              {firstName ? firstName : ''}
+                              {elements.join(' ')}
                             </div>
                             <div className='description-text'>
                               <i className='fa fa-envelope mr-2'></i>
@@ -441,7 +443,7 @@ const Employee: FunctionComponent = () => {
                           {regions
                             ? regions.map((region: any, index: number) => {
                                 return (
-                                  <p className='description-text' key={index}>
+                                  <p className='description-text '>
                                     <span className='text-label mr-1'>
                                       <i className='fa fa-angle-right'></i>
                                     </span>

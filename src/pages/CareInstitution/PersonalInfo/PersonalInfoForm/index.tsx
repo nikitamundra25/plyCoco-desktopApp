@@ -29,10 +29,10 @@ import RemarkFormData from './RemarkFormData';
 import { RegionQueries } from '../../../../queries/Region';
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-
 const PersonalInformationForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
->> = (props: FormikProps<ICareInstitutionFormValues> & any) => {
+> &
+  any> = (props: FormikProps<ICareInstitutionFormValues> & any) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
@@ -122,6 +122,25 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
+    }
+  };
+
+  const handleLinkedToSelect = (e: any) => {
+    if (e && e.value) {
+      const data: IReactSelectInterface = {
+        label: e.label,
+        value: e.value,
+      };
+      // setselectUser((selectUser = data));
+      // if (e.value !== Id) {
+      //   props.history.push(
+      //     `${AppRoutes.CARE_INSTITUION_VIEW.replace(
+      //       ":id",
+      //       e.value
+      //     )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
+      //   );
+      //   setisUserChange((isUserChange = true));
+      // }
     }
   };
   return (
@@ -776,8 +795,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation('LIKED_TO')}
-                        // value={state ? state : undefined}
-                        // onChange={(value: any) => handleSelect(value, "state")}
+                        // value={linkedTo}
+                        onChange={(e: any) => handleLinkedToSelect(e)}
                         options={CareInstitutionList}
                       />
                     </div>

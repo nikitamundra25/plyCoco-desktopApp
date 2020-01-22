@@ -186,7 +186,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_FIRST_NAME_PLACEHOLDER',
                                     )}
-                                    maxLength='20'
+                                    // maxLength='20'
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={firstName}
@@ -226,7 +226,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       'EMPLOYEE_SURNAME_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
-                                    maxLength='20'
+                                    // maxLength='20'
                                     onBlur={handleBlur}
                                     value={lastName}
                                     className={

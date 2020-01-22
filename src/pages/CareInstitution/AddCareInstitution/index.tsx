@@ -114,8 +114,16 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         interval: values && values.interval ? values.interval.value : "",
         emailInvoice: values.emailInvoice,
         addressInvoice: values.addressInvoice,
-        regionId: values && values.regionId ? values.regionId.value : null,
+        regionId:
+          values && values.regionId ? `{${values.regionId.value}}` : null,
+        city: values && values.city,
+        fax: values && values.fax,
+        linkedTo: values && values.linkedTo,
+        phoneNumber: values && values.phoneNumber,
+        mobileNumber: values.mobileNumber
       };
+      console.log("dataSubmit", values);
+
       await addCareInstitution({
         variables: {
           careInstitutionInput: dataSubmit

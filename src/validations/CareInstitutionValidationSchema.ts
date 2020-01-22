@@ -1,13 +1,10 @@
 import * as Yup from "yup";
+import { nameRegExp, mobMin, mobMax, webRegExp } from "../config";
+import { languageTranslation, logger, dateValidator } from "../helpers";
 import {
-  nameRegExp,
-  mobMin,
-  mobMax,
-  webRegExp
-} from '../config';
-import { languageTranslation, logger, dateValidator } from '../helpers';
-import { ICareInstitutionValidationSchema, ICareInstitutionContactValidationSchema } from "../interfaces";
-
+  ICareInstitutionValidationSchema,
+  ICareInstitutionContactValidationSchema
+} from "../interfaces";
 
 export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -19,13 +16,14 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation("REQUIRED_EMAIL")),
   firstName: Yup.string()
     .trim()
-    .matches(nameRegExp, languageTranslation("FIRSTNAME_SPECIALCHARACTER"))
+    .min(3, languageTranslation("NAME_MINLENGTH"))
     .max(20, languageTranslation("FIRSTNAME_MAXLENGTH"))
-    .required(languageTranslation("FIRSTNAME_REQUIRED")),
+    .required(languageTranslation("FIRSTNAME_REQUIRED"))
+    .matches(nameRegExp, languageTranslation("FIRSTNAME_SPECIALCHARACTER")),
   lastName: Yup.string()
     .trim()
-    .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
     .min(3, languageTranslation("NAME_MINLENGTH"))
+    .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
     .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .required(languageTranslation("LASTNAME_REQUIRED")),
   userName: Yup.string()
@@ -43,9 +41,10 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
       value =>
         !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
+
   website: Yup.string()
     .trim()
-    .matches(webRegExp, languageTranslation("ENTER_VALID_WEB_URL")),
+    .matches(webRegExp, languageTranslation("ENTER_VALID_WEB_URL"))
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -78,5 +77,5 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
       languageTranslation("MOB_MAXLENGTH"),
       value =>
         !value || (value && value.length >= mobMin && value.length <= mobMax)
-    ),
+    )
 });

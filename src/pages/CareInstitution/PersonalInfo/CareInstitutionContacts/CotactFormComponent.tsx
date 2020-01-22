@@ -116,9 +116,9 @@ const CotactFormComponent: any = (
         <div className="form-flex-block">
           <div className="form-flex-tile">
             <Row>
-              <Col lg={"12"}>
-                <FormGroup>
-                  {id ? (
+              {id ? (
+                <Col lg={"12"}>
+                  <FormGroup>
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
@@ -139,9 +139,9 @@ const CotactFormComponent: any = (
                         </div>
                       </Col>
                     </Row>
-                  ) : null}
-                </FormGroup>
-              </Col>
+                  </FormGroup>
+                </Col>
+              ) : null}
               {/* <Col lg={"12"}>
                 <FormGroup>
                   <Row>
@@ -252,7 +252,7 @@ const CotactFormComponent: any = (
                       <div>
                         <Select
                           placeholder={languageTranslation("SALUTATION")}
-                          value={salutation ? salutation : undefined}
+                          value={salutation}
                           onChange={(value: any) =>
                             handleSelect(value, "salutation")
                           }
@@ -447,7 +447,6 @@ const CotactFormComponent: any = (
                           value={country ? country : undefined}
                           onChange={(value: any) =>
                             handleSelect(value, "country")
-                            
                           }
                           menuPlacement={"top"}
                         />

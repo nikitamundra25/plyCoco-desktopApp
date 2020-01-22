@@ -59,7 +59,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                                 onChange={(e: any) =>
                                   setchangeRemark(
                                     (changeRemark = {
-                                      data: e.target.value,
+                                      data: e.target.value.trimStart(),
                                       createdAt: moment().format(
                                         "MMMM Do YYYY, h:mm a"
                                       ),
@@ -72,17 +72,21 @@ const RemarkFormData: FunctionComponent<FormikProps<
                                 className="height-textarea "
                               />
                               <div
-                                className="add-remark-btn"
+                                className={`add-remark-btn ${
+                                  !changeRemark.data ? "disabled-div" : " "
+                                }`}
+                                // {changeRemark.data !== "add-remark-btn"? "add-remark-btn disabled" }
                                 onClick={e => {
-                                  changeRemark && changeRemark.data ?
-                                    arrayHelpers.push(changeRemark) : null
+                                  changeRemark && changeRemark.data
+                                    ? arrayHelpers.push(changeRemark)
+                                    : null;
                                   setchangeRemark(
                                     (changeRemark = {
                                       data: "",
                                       createdAt: "",
                                       createdBy: ""
                                     })
-                                  )
+                                  );
                                   null;
                                 }}
                               >
@@ -131,33 +135,33 @@ const RemarkFormData: FunctionComponent<FormikProps<
                 })}
               </>
             ) : (
-                ""
-              )}
+              ""
+            )}
 
             {remarks && remarks.length
-              ? remarks.reverse().map(
-                (remarkData: ICareInstitutionRemarks, index: number) => {
-                  <div className="activity-block py-2 px-3">
-                    <div className="pr-3 text-left">
-                      <span className="text-capitalize">
-                        {remarkData.data}
-                        <span className="view-more-link">View More</span>
-                      </span>
-                    </div>
-                    <div className="text-left activity-date">
-                      <span>
-                        <i className="fa fa-clock-o mr-2"></i>
-                        {remarkData.createdAt}
-                      </span>
-                      <span>
-                        <i className="fa fa-user mr-2"></i>
-                        {remarkData.createdBy}
-                      </span>
-                    </div>
-                    <span className="activity-icon activity-set"></span>
-                  </div>;
-                }
-              )
+              ? remarks
+                  .reverse()
+                  .map((remarkData: ICareInstitutionRemarks, index: number) => {
+                    <div className="activity-block py-2 px-3">
+                      <div className="pr-3 text-left">
+                        <span className="text-capitalize">
+                          {remarkData.data}
+                          <span className="view-more-link">View More</span>
+                        </span>
+                      </div>
+                      <div className="text-left activity-date">
+                        <span>
+                          <i className="fa fa-clock-o mr-2"></i>
+                          {remarkData.createdAt}
+                        </span>
+                        <span>
+                          <i className="fa fa-user mr-2"></i>
+                          {remarkData.createdBy}
+                        </span>
+                      </div>
+                      <span className="activity-icon activity-set"></span>
+                    </div>;
+                  })
               : null}
           </div>
         </div>

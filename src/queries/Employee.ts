@@ -75,6 +75,7 @@ const UPDATE_EMPLOYEE = gql`
       id
       firstName
       lastName
+      userName
       email
       phoneNumber
       profileThumbnailImage

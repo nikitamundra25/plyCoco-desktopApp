@@ -58,7 +58,9 @@ const QualificationFormComponent: any = (
   const handleQualification = (value: any) => {
     setselectedQualification((selectedQualification = value));
     let qualificationValue: any = initialValues.qualifications;
-    props.setFieldValue("qualifications", qualificationValue.concat(value));
+    console.log("qualificationValue",qualificationValue);
+    
+    // props.setFieldValue("qualifications", qualificationValue.concat(value));
   };
 
   const { data, loading, error, refetch } = useQuery<IQualifications>(

@@ -167,3 +167,16 @@ export const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
     )
   }
 `;
+
+export const GET_LEASING_INFO = gql`
+  query getLeasingInformation($userId: Int!) {
+    getLeasingInformation(userId: $userId) {
+      placeOfBirth
+      birthName
+      factorChildAllowance
+      socialSecurityNumber
+      preoccupation
+      status
+    }
+  }
+`;

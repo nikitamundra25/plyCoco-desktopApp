@@ -1,19 +1,21 @@
+import { IReactSelectInterface } from './Constant';
+
 export interface ILeasingValues {
   placeOfBirth: string;
   birthName: string;
-  nationality: string;
-  maritalStatus: string;
+  nationality?: IReactSelectInterface;
+  maritalStatus?: IReactSelectInterface;
   children: string;
   factorChildAllowance: string;
-  healthInsuranceType: string;
-  healthInsuranceProvider: string;
+  healthInsuranceType?: IReactSelectInterface;
+  healthInsuranceProvider?: IReactSelectInterface;
   socialSecurityNumber: string;
-  religion: string;
+  religion?: IReactSelectInterface;
   controlId: string;
   taxBracket: string;
-  preoccupation: string;
+  preoccupation?: IReactSelectInterface;
   payrollIBAN: string;
-  status: string;
+  status?: IReactSelectInterface;
 }
 
 export interface IAddLeasingRes {
@@ -21,10 +23,9 @@ export interface IAddLeasingRes {
 }
 
 export interface ILeasingInput {
-  id?: string;
   placeOfBirth: string;
   birthName: string;
-  nationality: string;
+  nationality?: string | null;
   maritalStatus: string;
   children: string;
   factorChildAllowance: string;
@@ -34,7 +35,7 @@ export interface ILeasingInput {
   religion: string;
   controlId: string;
   taxBracket: string;
-  preoccupation: string;
+  preOccupation: string;
   payrollIBAN: string;
   status: string;
 }

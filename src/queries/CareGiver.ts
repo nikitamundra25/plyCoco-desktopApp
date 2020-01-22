@@ -191,7 +191,9 @@ export const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
     addUpdateLeasingInformation(
       userId: $userId
       leasingInformationInput: $leasingInformationInput
-    )
+    ) {
+      status
+    }
   }
 `;
 
@@ -202,8 +204,17 @@ export const GET_LEASING_INFO = gql`
       birthName
       factorChildAllowance
       socialSecurityNumber
-      preoccupation
+      payrollIBAN
+      preOccupation
       status
+      nationality
+      maritalStatus
+      religion
+      children
+      healthInsuranceType
+      healthInsuranceProvider
+      controlId
+      taxBracket
     }
   }
 `;

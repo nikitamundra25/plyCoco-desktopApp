@@ -73,7 +73,8 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         emailInvoice
         addressInvoice
         interval
-        website        
+        website
+        attributes
       }
       qualifications {
         id

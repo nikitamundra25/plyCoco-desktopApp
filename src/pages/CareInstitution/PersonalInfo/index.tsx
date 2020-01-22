@@ -34,7 +34,6 @@ const [
   ADD_NEW_CONTACT_CARE_INSTITUTION,
 ] = CareInstitutionQueries;
 
-
 const PersonalInformation: any = (props: any) => {
   let { id } = useParams();
   const Id: any | undefined = id;
@@ -69,7 +68,6 @@ const PersonalInformation: any = (props: any) => {
       },
     });
   }, []);
-
 
   useEffect(() => {
     if (props.isUserChange) {
@@ -146,8 +144,8 @@ const PersonalInformation: any = (props: any) => {
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
   ) => {
     //to set submit state to false after successful signup
-    console.log("DDDDDDDDDDDD");
-    
+    console.log('DDDDDDDDDDDD');
+
     try {
       const careInstitutionInput: any = {
         gender: values && values.gender ? values.gender.value : '',
@@ -169,7 +167,10 @@ const PersonalInformation: any = (props: any) => {
         countryId: values && values.country ? values.country.value : null,
         stateId: values && values.state ? values.state.value : null,
         remarks: values.remarks,
-        linkedTo: values.linkedTo && values.linkedTo.value ? values.linkedTo.value : null,
+        linkedTo:
+          values.linkedTo && values.linkedTo.value
+            ? values.linkedTo.value
+            : null,
         regionId:
           values && values.regionId ? `{${values.regionId.value}}` : null,
         website: values.website,
@@ -189,6 +190,12 @@ const PersonalInformation: any = (props: any) => {
                   (qualification: IReactSelectInterface) => qualification.value,
                 )
                 .join(', ')}}`
+            : null,
+        attributes:
+          values.attributeId && values.attributeId.length
+            ? values.attributeId.map(
+                (attribute: IReactSelectInterface) => attribute.label,
+              )
             : null,
       };
       setSubmitting(false);
@@ -226,7 +233,9 @@ const PersonalInformation: any = (props: any) => {
         ? getCareInstitution.regions[0].id
         : '';
 
-    linkedToId = getCareInstitution.canstitution ? getCareInstitution.canstitution.linkedTo : ""
+    linkedToId = getCareInstitution.canstitution
+      ? getCareInstitution.canstitution.linkedTo
+      : '';
 
     let userSelectedCountry: any = {};
     if (countries && countries.countries) {
@@ -263,11 +272,9 @@ const PersonalInformation: any = (props: any) => {
 
     let UserSelectedLinkedTo: any = {};
 
-    if (
-      props.CareInstitutionList
-    ) {
+    if (props.CareInstitutionList) {
       const userSelectedLinkedTo = props.CareInstitutionList.filter(
-        (x: any) => x.value === linkedToId
+        (x: any) => x.value === linkedToId,
       );
       if (userSelectedLinkedTo && userSelectedLinkedTo.length) {
         UserSelectedLinkedTo = userSelectedLinkedTo[0];
@@ -297,9 +304,9 @@ const PersonalInformation: any = (props: any) => {
       lastName: getCareInstitution.lastName,
       gender: getCareInstitution.gender
         ? {
-          label: getCareInstitution ? getCareInstitution.gender : "",
-          value: getCareInstitution ? getCareInstitution.gender : null
-        }
+            label: getCareInstitution ? getCareInstitution.gender : '',
+            value: getCareInstitution ? getCareInstitution.gender : null,
+          }
         : undefined,
       userName: getCareInstitution.userName,
       phoneNumber: getCareInstitution.phoneNumber,
@@ -322,9 +329,9 @@ const PersonalInformation: any = (props: any) => {
         : '',
       country: userSelectedCountry.value
         ? {
-          label: userSelectedCountry.value ? userSelectedCountry.label : null,
-          value: userSelectedCountry.value ? userSelectedCountry.value : null
-        }
+            label: userSelectedCountry.value ? userSelectedCountry.label : null,
+            value: userSelectedCountry.value ? userSelectedCountry.value : null,
+          }
         : undefined,
       state: userSelectedState.value
         ? { label: userSelectedState.label, value: userSelectedState.value }
@@ -352,13 +359,13 @@ const PersonalInformation: any = (props: any) => {
         : '',
       invoiceType: getCareInstitution.canstitution.invoiceType
         ? {
-          label: getCareInstitution.canstitution
-            ? getCareInstitution.canstitution.invoiceType
-            : "",
-          value: getCareInstitution.canstitution
-            ? getCareInstitution.canstitution.invoiceType
-            : ""
-        }
+            label: getCareInstitution.canstitution
+              ? getCareInstitution.canstitution.invoiceType
+              : '',
+            value: getCareInstitution.canstitution
+              ? getCareInstitution.canstitution.invoiceType
+              : '',
+          }
         : undefined,
       emailInvoice: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.emailInvoice
@@ -368,13 +375,13 @@ const PersonalInformation: any = (props: any) => {
         : '',
       interval: getCareInstitution.canstitution.interval
         ? {
-          label: getCareInstitution.canstitution
-            ? getCareInstitution.canstitution.interval
-            : "",
-          value: getCareInstitution.canstitution
-            ? getCareInstitution.canstitution.interval
-            : ""
-        }
+            label: getCareInstitution.canstitution
+              ? getCareInstitution.canstitution.interval
+              : '',
+            value: getCareInstitution.canstitution
+              ? getCareInstitution.canstitution.interval
+              : '',
+          }
         : undefined,
       doctorCommission: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.doctorCommission
@@ -397,13 +404,14 @@ const PersonalInformation: any = (props: any) => {
       regionId: userSelectedRegion.value ? userSelectedRegion : undefined,
       city: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.city
-        : "",
+        : '',
       website: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.website
-        : "",
-      linkedTo: UserSelectedLinkedTo ? UserSelectedLinkedTo : null
+        : '',
+      linkedTo: UserSelectedLinkedTo ? UserSelectedLinkedTo : null,
     };
     const qualificationsData: IReactSelectInterface[] | undefined = [];
+    const attributeData: IReactSelectInterface[] = [];
     if (getCareInstitution.qualifications) {
       getCareInstitution.qualifications.forEach(
         ({ attributeName, id }: any) => {
@@ -412,10 +420,27 @@ const PersonalInformation: any = (props: any) => {
       );
     }
     values.qualificationId = qualificationsData;
+    console.log(getCareInstitution, 'getCareInstitutiongetCareInstitution');
+
+    if (
+      getCareInstitution.canstitution &&
+      getCareInstitution.canstitution.attributes
+    ) {
+      // const parsedAttributes = getCareInstitution.canstitution.attributes
+      //   .match(/[\w.-]+/g)
+      //   .map(String);
+      // parsedAttributes.forEach((element: any) => {
+      //   attributeData.push({
+      //     label: element,
+      //     value: element,
+      //   });
+      // });
+    }
+    values.attributeId = attributeData;
     Data = {
       label: `${getCareInstitution.firstName} ${''} ${
         getCareInstitution.lastName
-        }`,
+      }`,
       value: Id,
     };
   } else {

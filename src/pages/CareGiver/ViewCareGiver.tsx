@@ -40,16 +40,16 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     label: '3',
     value: 'Sort by A-Z',
   };
-  const { data: careGiver, loading, error, refetch } = useQuery<any>(
-    GET_CAREGIVERS,
+  // To fetch the list of all care giver
+  const [
+    fetchCareGivers,
+    { data: careGivers, loading, refetch },
+  ] = useLazyQuery<any>(GET_CAREGIVERS);
+
+  let [selectUser, setselectUser] = useState<IReactSelectInterface | null>(
+    null,
   );
 
-  let [selectUser, setselectUser] = useState<IReactSelectInterface>({
-    label: '',
-    value: '',
-  });
-
-  let CareGireList: Object[] = [];
   // if (careGiver && careGiver.getCaregivers) {
   //   const { getCaregivers } = careGiver;
   //   getCaregivers.map((data: any, index: any) => {
@@ -62,16 +62,52 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   const [activeTab, setactiveTab] = useState(0);
   const { search, pathname } = useLocation();
 
+  // Fetch list of care givers on mount
+  useEffect(() => {
+    fetchCareGivers({
+      variables: {
+        searchBy: '',
+        sortBy: 3,
+        limit: 200,
+        page: 1,
+        isActive: '',
+      },
+    });
+  }, []);
+
+  const careGiverOpt: IReactSelectInterface[] | undefined = [];
+  if (
+    careGivers &&
+    careGivers.getCaregivers &&
+    careGivers.getCaregivers.result
+  ) {
+    careGivers.getCaregivers.result.forEach(
+      ({ id, firstName, lastName }: any) =>
+        careGiverOpt.push({
+          label: `${firstName}${' '}${lastName}`,
+          value: id,
+        }),
+    );
+  }
+  // It's used to set active tab
   useEffect(() => {
     const query: any = qs.parse(search);
     setactiveTab(
       query.tab
         ? careGiverRoutes.findIndex(
-          d => d.name === decodeURIComponent(query.tab),
-        )
+            d => d.name === decodeURIComponent(query.tab),
+          )
         : 0,
     );
   }, [search]);
+
+  // Set selected care giver
+  useEffect(() => {
+    const currenCareGiver = careGiverOpt.filter(
+      (careGiver: any) => careGiver.value === id,
+    )[0];
+    setselectUser(currenCareGiver);
+  }, [careGivers]);
 
   const onTabChange = (activeTab: number) => {
     props.history.push(
@@ -117,7 +153,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                     placeholder='Select Caregiver'
                     value={selectUser}
                     onChange={(e: any) => handleSelect(e)}
-                    options={CareGireList}
+                    options={careGiverOpt}
                   />
                 </div>
                 <div
@@ -135,9 +171,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                   </span>
                   <span
                     className='header-nav-text'
-                  // onClick={() => {
-                  //   this.setState({ show: true });
-                  // }}
+                    // onClick={() => {
+                    //   this.setState({ show: true });
+                    // }}
                   >
                     Create Todo/Reminder
                   </span>

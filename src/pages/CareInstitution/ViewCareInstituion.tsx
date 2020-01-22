@@ -165,6 +165,10 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
             <div className="sticky-common-header">
               <div className="common-topheader d-flex align-items-center ">
                 <div className="user-select">
+                  {console.log(
+                    CareInstitutionList,
+                    "CareInstitutionListCareInstitutionListCareInstitutionList"
+                  )}
                   <Select
                     defaultValue={selectUser}
                     placeholder="Select Caregiver"

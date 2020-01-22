@@ -232,7 +232,7 @@ export const Region: FunctionComponent = () => {
               })
             ) : (
               <tr className={"text-center no-hover-row"}>
-                <td colSpan={5} className={"pt-5 pb-5"}>
+                <td colSpan={6} className={"pt-5 pb-5"}>
                   {isFilterApplied ? (
                     <NoSearchFound />
                   ) : (

@@ -38,7 +38,7 @@ import { languageTranslation } from "../../helpers";
 import { ConfirmBox } from "../../common/ConfirmBox";
 import { toast } from "react-toastify";
 import moment from "moment";
-
+let toastId: any = null;
 const [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
@@ -188,21 +188,26 @@ const CareInstitution = (props: RouteComponentProps) => {
       return;
     } else {
       try {
+        toast.dismiss();
         await updateStatus({
           variables: {
             id,
             isActive: !status
           }
         });
-        toast.success(
-          languageTranslation("CARE_INSTITUTION_STATUS_UPDATE_MSG")
-        );
+        if (!toast.isActive(toastId)) {
+          toast.success(
+            languageTranslation("CARE_INSTITUTION_STATUS_UPDATE_MSG")
+          );
+        }
       } catch (error) {
         const message = error.message
           .replace("SequelizeValidationError: ", "")
           .replace("Validation error: ", "")
           .replace("GraphQL error: ", "");
-        toast.error(message);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
       }
     }
   };

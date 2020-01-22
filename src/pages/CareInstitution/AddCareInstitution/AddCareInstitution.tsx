@@ -35,7 +35,7 @@ import RemarkFormData from "../PersonalInfo/PersonalInfoForm/RemarkFormData";
 import "../careinstitution.scss";
 import { RegionQueries } from "../../../queries/Region";
 
-const [, GET_REGIONS] = RegionQueries
+const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const AddCareInstitution: any = (
@@ -131,6 +131,7 @@ const AddCareInstitution: any = (
     setFieldValue,
     setFieldTouched
   } = props;
+  console.log("props.err", props);
 
   return (
     <Row className=" ">

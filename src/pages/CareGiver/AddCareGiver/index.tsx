@@ -165,8 +165,12 @@ export const CareGiverForm: FunctionComponent = () => {
         userName,
         qualificationId:
           qualifications && qualifications.length
-            ? qualifications.map(quali => quali.value)
-            : [],
+            ? `{${qualifications
+                .map(
+                  (qualification: IReactSelectInterface) => qualification.value,
+                )
+                .join(', ')}}`
+            : null,
         driverLicenseNumber,
         driversLicense,
         vehicleAvailable,
@@ -174,7 +178,7 @@ export const CareGiverForm: FunctionComponent = () => {
         companyName,
         registrationNumber,
         registerCourt,
-        age: age? parseInt(age) : null,
+        age: age ? parseInt(age) : null,
         title,
         executiveDirector,
         socialSecurityContribution,

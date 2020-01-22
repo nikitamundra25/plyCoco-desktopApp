@@ -35,14 +35,16 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 ) => {
   let { id } = useParams();
   const Id: any | undefined = id;
-  
+
   let sortBy: IReactSelectInterface | undefined = {
     label: '3',
     value: 'Sort by A-Z',
   };
-  const { data: careGiver, loading, error, refetch } = useQuery<any>(
-    GET_CAREGIVERS,
-  );
+  // To fetch the list of all care giver
+  const [
+    fetchCareGivers,
+    { data: careGivers, loading, refetch },
+  ] = useLazyQuery<any>(GET_CAREGIVERS);
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: '',
@@ -67,8 +69,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     setactiveTab(
       query.tab
         ? careGiverRoutes.findIndex(
-          d => d.name === decodeURIComponent(query.tab),
-        )
+            d => d.name === decodeURIComponent(query.tab),
+          )
         : 0,
     );
   }, [search]);
@@ -135,9 +137,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                   </span>
                   <span
                     className='header-nav-text'
-                  // onClick={() => {
-                  //   this.setState({ show: true });
-                  // }}
+                    // onClick={() => {
+                    //   this.setState({ show: true });
+                    // }}
                   >
                     Create Todo/Reminder
                   </span>

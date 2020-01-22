@@ -131,7 +131,7 @@ export const CareGiverForm: FunctionComponent = () => {
         email,
         IBAN,
         employed,
-        // dateOfBirth,
+        dateOfBirth,
         bankName,
         gender: gender && gender.value? gender.value: "",
         phoneNumber,

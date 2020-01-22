@@ -372,22 +372,10 @@ class GetData extends Component<any, any> {
 
   render() {
     return (
-      <Query
-        query={GET_CAREGIVER_BY_ID}
-        fetchPolicy="network-only"
-        variables={{ id: 1 }}
-      >
-        {({ loading, error, data }: any) => {
-          if (loading) return <div>Loading</div>;
-          if (error) return <div>Caught error: {error.message}</div>;
-          return (
-            <PersonalInformation
-              {...this.props}
-              getCaregiver={this.formatData(data.getCaregiver)}
-            />
-          );
-        }}
-      </Query>
+      <PersonalInformation
+      {...this.props}
+      // getCaregiver={this.formatData(data.getCaregiver)}
+    />
     );
   }
 }

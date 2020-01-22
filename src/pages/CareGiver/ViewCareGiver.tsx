@@ -35,6 +35,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 ) => {
   let { id } = useParams();
   const Id: any | undefined = id;
+  
   let sortBy: IReactSelectInterface | undefined = {
     label: '3',
     value: 'Sort by A-Z',
@@ -49,15 +50,15 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   });
 
   let CareGireList: Object[] = [];
-  if (careGiver && careGiver.getCaregivers) {
-    const { getCaregivers } = careGiver;
-    getCaregivers.map((data: any, index: any) => {
-      CareGireList.push({
-        label: `${data.firstName}${' '}${data.lastName}`,
-        value: data.id,
-      });
-    });
-  }
+  // if (careGiver && careGiver.getCaregivers) {
+  //   const { getCaregivers } = careGiver;
+  //   getCaregivers.map((data: any, index: any) => {
+  //     CareGireList.push({
+  //       label: `${data.firstName}${' '}${data.lastName}`,
+  //       value: data.id,
+  //     });
+  //   });
+  // }
   const [activeTab, setactiveTab] = useState(0);
   const { search, pathname } = useLocation();
 
@@ -66,8 +67,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     setactiveTab(
       query.tab
         ? careGiverRoutes.findIndex(
-            d => d.name === decodeURIComponent(query.tab),
-          )
+          d => d.name === decodeURIComponent(query.tab),
+        )
         : 0,
     );
   }, [search]);
@@ -134,9 +135,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                   </span>
                   <span
                     className='header-nav-text'
-                    // onClick={() => {
-                    //   this.setState({ show: true });
-                    // }}
+                  // onClick={() => {
+                  //   this.setState({ show: true });
+                  // }}
                   >
                     Create Todo/Reminder
                   </span>

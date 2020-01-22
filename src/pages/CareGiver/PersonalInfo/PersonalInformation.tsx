@@ -380,7 +380,7 @@ class GetData extends Component<any, any> {
       value: caregiverDetails.legalForm,
       label: caregiverDetails.legalForm
     };
-    caregiverDetails.workZones = caregiverDetails.workZones.length
+    caregiverDetails.workZones = caregiverDetails.workZones && caregiverDetails.workZones.length
       ? caregiverDetails.workZones.map((wz: String) => {
         return { label: wz, value: wz };
       })
@@ -393,10 +393,22 @@ class GetData extends Component<any, any> {
 
   render() {
     return (
-      <PersonalInformation
-      {...this.props}
-      // getCaregiver={this.formatData(data.getCaregiver)}
-    />
+      <Query
+      query={GET_CAREGIVER_BY_ID}
+      fetchPolicy="network-only"
+      variables={{ id: parseInt(this.props.Id) }}
+    >
+      {({ loading, error, data }: any) => {
+        if (loading) return <div>Loading</div>;
+        if (error) return <div>Caught error: {error.message}</div>;
+        return (
+          <PersonalInformation
+            {...this.props}
+            getCaregiver={this.formatData(data.getCaregiver)}
+          />
+        );
+      }}
+    </Query>
     );
   }
 }

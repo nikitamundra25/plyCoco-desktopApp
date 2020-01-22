@@ -214,6 +214,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                   handleIsUserChange={() =>
                     setisUserChange((isUserChange = false))
                   }
+                  Id={Id}
                   isUserChange={isUserChange}
                   {...props}
                 />

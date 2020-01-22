@@ -4,12 +4,14 @@ import Select from "react-select";
 import { Formik, FormikProps, FormikHelpers, FieldArray } from "formik";
 import { languageTranslation, logger } from "../../../helpers";
 import {
-  ICareInstitutionFormValues,
-  ICareInstitutionRemarks
+  ICareInstitutionRemarks,
+  ICareGiverValues
 } from "../../../interfaces";
 import moment from "moment";
 
-const RemarkFormComponent: FunctionComponent = (props: any) => {
+const RemarkFormComponent:  FunctionComponent<FormikProps<
+ICareGiverValues
+>> = (props: FormikProps<ICareGiverValues>) => {
   let [addRemark, setRemark] = useState(true);
   let [changeRemark, setchangeRemark] = useState({
     data: "",
@@ -18,6 +20,7 @@ const RemarkFormComponent: FunctionComponent = (props: any) => {
   });
 
   const {
+     values: { remarks },
     touched,
     errors,
     isSubmitting,
@@ -27,7 +30,7 @@ const RemarkFormComponent: FunctionComponent = (props: any) => {
     setFieldValue,
     setFieldTouched
   } = props;
-  const remarks: ICareInstitutionRemarks[] = []
+  
   return (
     <Col lg={4}>
       <div className="remark-details">

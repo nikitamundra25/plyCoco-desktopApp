@@ -65,11 +65,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     values: ICareGiverValues,
     { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
+    console.log("Values",values);
+    
     // to set submit state to false after successful signup
     const {
       userName,
       stateId,
-      registartionSince,
       gender,
       title,
       salutation,
@@ -85,7 +86,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       qualifications,
       street,
       city,
-      postCode,
+      postalCode,
       countryId,
       phoneNumber,
       fax,
@@ -93,8 +94,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       email,
       taxNumber,
       socialSecurityContribution,
-      // bankName: "",
-      password,
       belongTo,
       legalForm,
       companyName,
@@ -102,39 +101,32 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       registrationNumber,
       executiveDirector,
       employed,
-      additionalText,
+      comments,
       status,
       remarks,
-      fee,
-      weekendAllowancePerHour,
-      holidayAllowancePerHourFee,
-      nightAllowancePerHour,
-      invoiceInterval,
-      leasingPrice
     } = values;
     try {
-      let careGiverInput: IPersonalObject = {
+      let careGiverInput: any = {
         userName,
         stateId,
-        registartionSince,
-        gender,
+        gender: gender && gender.value? gender.value:"",
         title,
-        salutation,
+        salutation: salutation && salutation.value? salutation.value: "",
         firstName,
         lastName,
         dateOfBirth,
-        age,
+        age: age ? parseInt(age) : null,
         address1,
         address2,
         driversLicense,
         driverLicenseNumber,
         vehicleAvailable,
-        qualifications: qualifications && qualifications.length
-          ? qualifications.map(quali => quali.value)
-          : [],
+        // qualifications: qualifications && qualifications.length
+        //   ? qualifications.map(quali => quali.value)
+        //   : [],
         street,
         city,
-        postCode,
+        postalCode,
         countryId,
         phoneNumber,
         fax,
@@ -142,16 +134,16 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         email,
         taxNumber,
         socialSecurityContribution,
-        // bankName: "",
+        bankName,
         password,
-        belongTo,
-        legalForm: legalForm,
+        // belongTo,
+        // legalForm: legalForm,
         companyName,
         registerCourt,
         registrationNumber,
         executiveDirector,
         employed,
-        additionalText,
+        comments,
         status,
         remarks
       };
@@ -163,7 +155,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
             careGiverInput,
           },
         });
-        toast.success(languageTranslation('EMPLOYEE_UPDATE_SUCCESS_MSG'));
+        toast.success(languageTranslation('CARE_GIVER_UPDATED_SUCCESS'));
       }
       history.push(AppRoutes.CARE_GIVER);
     } catch (error) {
@@ -200,97 +192,62 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   const {
     userName = "",
-    stateId = {label:"", value:""},
-    registartionSince = "",
+    stateId = "",
     gender = "",
     title = "",
-    salutation = {label:"", value:""},
     firstName = "",
     lastName = "",
     dateOfBirth = "",
-    age = "",
-    address1 = "",
-    address2 = "",
-    driversLicense = false,
-    driverLicenseNumber = "",
-    vehicleAvailable = false,
     qualifications = undefined,
-    street = "",
-    city = "",
-    postCode = "",
-    countryId = {label:"", value:""},
-    phoneNumber = "",
-    fax = "",
-    mobileNumber = "",
+    countryId = "",
     email = "",
-    taxNumber = "",
     socialSecurityContribution = false,
-    // bankName: "",
+    bankName = "",
     password = "",
     belongTo = "",
-    legalForm = {label:"", value:""},
-    companyName = "",
-    registerCourt = "",
-    registrationNumber = "",
-    executiveDirector = "",
-    employed = false,
-    additionalText = "",
+    legalForm = "",
     status = "active",
-    remarks = [],
-    workZones = [],
-    fee = "",
-    weekendAllowancePerHour = "",
-    holidayAllowancePerHourFee = "",
-    nightAllowancePerHour = "",
-    leasingPrice = "",
-    invoiceInterval = ""
+    invoiceInterval = "",
   } = props.getCaregiver ? props.getCaregiver : {};
 
   const initialValues: ICareGiverValues = {
+    id,
     userName,
     stateId,
-    registartionSince,
     gender,
     title,
-    salutation,
     firstName,
     lastName,
     dateOfBirth,
-    age,
-    address1,
-    address2,
-    driversLicense,
-    driverLicenseNumber,
-    vehicleAvailable,
+    age: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.age:null,
+    address1: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.address1:"",
+    address2:props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.address2:"",
+    driversLicense: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.driversLicense:"",
+    driverLicenseNumber: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.driverLicenseNumber:"",
+    vehicleAvailable: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.vehicleAvailable: false,
     qualifications,
-    street,
-    city,
-    postCode,
+    street: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.street: "",
+    city: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.city: "",
+    postalCode : props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.postalCode: "",
     countryId,
-    phoneNumber,
-    fax,
-    mobileNumber,
+    phoneNumber: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.phoneNumber: "",
+    fax: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.fax: "",
+    mobileNumber: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.mobileNumber: "",
     email,
-    taxNumber,
+    taxNumber: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.taxNumber: "",
     socialSecurityContribution,
     // bankName: "",
-    password,
     belongTo,
     legalForm,
-    companyName,
-    registerCourt,
-    registrationNumber,
-    executiveDirector,
-    employed,
-    additionalText,
+    companyName: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.companyName: "",
+    registerCourt: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.registerCourt: "",
+    registrationNumber: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.registrationNumber: "",
+    executiveDirector: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.executiveDirector: "",
+    employed: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.employed: false,
+    comments:  props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.comments: "",
     status,
-    remarks,
-    fee,
-    weekendAllowancePerHour,
-    holidayAllowancePerHourFee,
-    nightAllowancePerHour,
-    leasingPrice,
-    invoiceInterval
+    remarks: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.remarks:[],
+    invoiceInterval,
   };
 
   return (
@@ -323,7 +280,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                   </div>
                 </div>
               </Col>
-              <RemarkFormComponent />
+              <RemarkFormComponent
+                {...props}
+              />
               </Row>
           </Form>
         );

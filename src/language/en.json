@@ -463,10 +463,12 @@
   "REGION_SPECIALCHAR": "Special characters are not allowed in region name",
   "SEARCH_CARE_INSTI_PLACEHOLDER": "By care institution name or email",
   "TABEL_HEAD_CG_INFO": "CareGiver Information",
-  "TABEL_HEAD_CG_QUALIFICATION": "Qualification",
-  "TABEL_HEAD_CG_REGION": "Region",
+  "TABEL_HEAD_CG_QUALIFICATION": "Qualifications",
+  "TABEL_HEAD_CG_REGION": "Regions",
   "TABEL_HEAD_CG_APPLYING_AS": "Applying as",
+  "TABEL_HEAD_CG_CREATED_AT": "Created at",
   "TABEL_HEAD_CG_STATUS": "Status",
   "TABEL_HEAD_CG_ACTION": "Action",
-  "CAREGIVER_ADD_SUCCESS_MSG": "Care Giver added sucessfully"
+  "CAREGIVER_ADD_SUCCESS_MSG": "Care Giver added sucessfully",
+  "CARE_GIVER_UPDATED_SUCCESS":"Care Giver updated sucessfully"
 }

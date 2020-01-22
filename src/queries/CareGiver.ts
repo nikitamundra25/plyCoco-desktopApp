@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
@@ -31,6 +31,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       comments
       companyName
       registerCourt
+      remarks
       registrationNumber
       driversLicense
       driverLicenseNumber
@@ -67,13 +68,38 @@ export const GET_CAREGIVERS = gql`
     ) {
       result {
         id
+        salutation
         firstName
         lastName
         email
         userName
         phoneNumber
+        gender
         regionId
         isActive
+        createdAt
+        caregiver {
+          qualifications
+          address1
+          address2
+          age
+          fax
+          workZones
+          mobileNumber
+          countryId
+          stateId
+          postalCode
+          legalForm
+          employed
+          comments
+          companyName
+          registerCourt
+          driversLicense
+          driverLicenseNumber
+          city
+          street
+          title
+        }
       }
       totalCount
     }
@@ -96,8 +122,8 @@ export const ADD_CAREGIVER = gql`
 `;
 
 export const UPDATE_CAREGIVER = gql`
-  mutation updateCaregiver($id: Int!, $careGiverInput: CareGiverInput!) {
-    updateCaregiver(id: $id, careGiverInput: $careGiverInput)
+  mutation updateCareGiver($id: Int!, $careGiverInput: CareGiverInput!) {
+    updateCareGiver(id: $id, careGiverInput: $careGiverInput)
     ${CAREGIVER_PERSONAL_INFO_FIELDS}
   }
 `;

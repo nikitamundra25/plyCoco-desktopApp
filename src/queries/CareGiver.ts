@@ -1,8 +1,7 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
-    id
     firstName
     lastName
     salutation
@@ -16,7 +15,6 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     phoneNumber
     createdAt 
     caregiver{
-      userId
       qualifications
       address1
       address2
@@ -75,7 +73,6 @@ export const GET_CAREGIVERS = gql`
         userName
         phoneNumber
         gender
-        regionId
         isActive
         createdAt
         caregiver {

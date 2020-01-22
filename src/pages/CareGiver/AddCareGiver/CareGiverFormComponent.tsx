@@ -24,7 +24,8 @@ import '../caregiver.scss';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
-const CareGiverFormComponent: FunctionComponent<FormikProps<ICareGiverValues
+const CareGiverFormComponent: FunctionComponent<FormikProps<
+  ICareGiverValues
 >> = (props: FormikProps<ICareGiverValues>) => {
   const { values } = props;
   const handleField = (e: any) => {
@@ -82,9 +83,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<ICareGiverValues
             </div>
           </div>
         </Col>
-        <RemarkFormComponent
-          {...props}
-        />
+        <RemarkFormComponent {...props} />
       </Row>
     </Form>
   );

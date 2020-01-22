@@ -43,7 +43,7 @@ import {
 } from '../../../interfaces';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
-import { AppRoutes } from '../../../config';
+import { AppRoutes, Country } from '../../../config';
 import '../caregiver.scss';
 import { GET_QUALIFICATION_ATTRIBUTES } from '../../../queries';
 import { IQualifications } from '../../../interfaces/qualification';
@@ -95,6 +95,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       lastName,
       dateOfBirth,
       age,
+      state,
       address1,
       regionId,
       address2,
@@ -105,6 +106,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       city,
       postalCode,
       countryId,
+      country,
       phoneNumber,
       fax,
       mobileNumber,
@@ -132,7 +134,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     try {
       let careGiverInput: any = {
         userName,
-        stateId,
         gender: gender && gender.value ? gender.value : '',
         title,
         salutation: salutation && salutation.value ? salutation.value : '',
@@ -156,13 +157,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         street,
         city,
         postalCode,
-        countryId,
         phoneNumber,
         fax,
         mobileNumber,
         email,
         taxNumber,
         socialSecurityContribution,
+        countryId: country && country.value ? country.value : null,
+        stateId: state && state.value ? state.value : null,
         bankName,
         password,
         // belongTo,
@@ -277,6 +279,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         ? props.getCaregiver.caregiver.postalCode
         : '',
     countryId,
+    regionId:
+      props.getCaregiver && props.getCaregiver.regions
+        ? {
+            label: props.getCaregiver.regions[0].regionName,
+            value: props.getCaregiver.regions[0].id,
+          }
+        : undefined,
     phoneNumber:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.phoneNumber
@@ -298,6 +307,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     bankName:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.bankName
+        : '',
+    IBAN:
+      props.getCaregiver && props.getCaregiver.bankDetails
+        ? props.getCaregiver.bankDetails.IBAN
         : '',
     belongTo,
     legalForm,
@@ -454,8 +467,6 @@ class GetData extends Component<any, any> {
       value: caregiverDetails.salutation,
       label: caregiverDetails.salutation,
     };
-    console.log('caregiverDetails.salutation', caregiverDetails.salutation);
-
     caregiverDetails.state = {
       value: caregiverDetails.state,
       label: caregiverDetails.state,
@@ -463,6 +474,10 @@ class GetData extends Component<any, any> {
     caregiverDetails.legalForm = {
       value: caregiverDetails.legalForm,
       label: caregiverDetails.legalForm,
+    };
+    caregiverDetails.regionId = {
+      value: caregiverDetails.regions[0]._id,
+      label: caregiverDetails.regions[0].regionName,
     };
     caregiverDetails.workZones =
       caregiverDetails.workZones && caregiverDetails.workZones.length

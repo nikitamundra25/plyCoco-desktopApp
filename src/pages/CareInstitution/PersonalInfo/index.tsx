@@ -161,12 +161,14 @@ const PersonalInformation: any = (props: any) => {
         street: values.street,
         zipCode: values.zipCode,
         title: values.title,
+        city: values.city,
         countryId: values && values.country ? values.country.value : '',
         stateId: values && values.state ? values.state.value : '',
         remarks: values.remarks,
         regionId:
           values && values.regionId ? `{${values.regionId.value}}` : null,
         // regionId: values && values.regionId ? values.regionId.value : null,
+
         website: values.website,
         email: values.email,
         userName: values.userName,

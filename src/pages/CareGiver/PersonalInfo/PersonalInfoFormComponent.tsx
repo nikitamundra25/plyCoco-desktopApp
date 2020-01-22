@@ -562,7 +562,7 @@ const PersonalInfoFormComponent: any = (
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"iban"}
+                    name={"IBAN"}
                     placeholder="IBAN"
                     className="width-common"
                   />
@@ -831,7 +831,7 @@ const PersonalInfoFormComponent: any = (
                 <div>
                   <Input
                     type="textarea"
-                    name={"additionalText "}
+                    name={"comments"}
                     placeholder="Comments (Internally)"
                     className="textarea-custom"
                     rows="4"

@@ -22,7 +22,6 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       address1
       address2
       postalCode
-      dateOfBirth
       legalForm
       city
       street
@@ -43,15 +42,9 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       registrationNumber
       registerCourt
       executiveDirector
-    }
-    bankDetails{
       bankName
       IBAN
       BIC
-    }
-    billingSettingDetails{
-      id
-      userId
       feePerHour
       nightAllowancePerHour
       weekendAllowancePerHour
@@ -59,9 +52,8 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       nextInvoiceNumber
       statementsMaturity
       additionalText
-      
     }
- 
+    
 }`;
 
 export const GET_CAREGIVERS = gql`
@@ -98,7 +90,9 @@ query getCaregiver($id:Int!){
 export const ADD_CAREGIVER = gql`
 mutation addCareGiver($careGiverInput: CareGiverInput!) {
   addCareGiver(careGiverInput: $careGiverInput)
-   ${CAREGIVER_PERSONAL_INFO_FIELDS}
+   {
+     id
+   }
 }`;
 
 export const UPDATE_CAREGIVER = gql`

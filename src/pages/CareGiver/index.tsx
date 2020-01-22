@@ -51,6 +51,7 @@ import PaginationComponent from "../../common/Pagination";
 import Loader from "../../containers/Loader/Loader";
 import { NoSearchFound } from "../../common/SearchFilter/NoSearchFound";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 const sortFilter: IObjectType = {
   3: "name",
@@ -356,8 +357,13 @@ const CareGiver: FunctionComponent = () => {
                   <th>{languageTranslation("TABEL_HEAD_CG_QUALIFICATION")}</th>
                   <th>{languageTranslation("TABEL_HEAD_CG_REGION")}</th>
                   <th>{languageTranslation("TABEL_HEAD_CG_APPLYING_AS")}</th>
-                  <th>{languageTranslation("TABEL_HEAD_CG_STATUS")}</th>
-                  <th>{languageTranslation("TABEL_HEAD_CG_ACTION")}</th>
+                  <th>{languageTranslation("TABEL_HEAD_CG_CREATED_AT")}</th>
+                  <th className={"text-center"}>
+                    {languageTranslation("TABEL_HEAD_CG_STATUS")}
+                  </th>
+                  <th className={"text-center"}>
+                    {languageTranslation("TABEL_HEAD_CG_ACTION")}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -466,6 +472,15 @@ const CareGiver: FunctionComponent = () => {
                               </p>
                             </div>
                           </td>
+
+                          <td>
+                            <div className="text-center">
+                              {careGiverData.createdAt
+                                ? moment(careGiverData.createdAt).format("LLL")
+                                : ""}
+                            </div>
+                          </td>
+
                           <td className="text-center">
                             <span
                               className={`status-btn ${
@@ -480,7 +495,7 @@ const CareGiver: FunctionComponent = () => {
                                 : languageTranslation("DISABLE")}
                             </span>
                           </td>
-                          <td>
+                          <td className="text-center">
                             <div className="action-btn">
                               <ButtonTooltip
                                 id={`view${index}`}

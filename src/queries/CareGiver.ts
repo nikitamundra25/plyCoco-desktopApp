@@ -82,6 +82,7 @@ export const GET_CAREGIVERS = gql`
         gender
         regionId
         isActive
+        createdAt
         caregiver {
           qualifications
           address1
@@ -118,12 +119,12 @@ query getCaregiver($id:Int!){
 `;
 
 export const ADD_CAREGIVER = gql`
-mutation addCareGiver($careGiverInput: CareGiverInput!) {
-  addCareGiver(careGiverInput: $careGiverInput)
-   {
-     id
-   }
-}`;
+  mutation addCareGiver($careGiverInput: CareGiverInput!) {
+    addCareGiver(careGiverInput: $careGiverInput) {
+      id
+    }
+  }
+`;
 
 export const UPDATE_CAREGIVER = gql`
   mutation updateCaregiver($id: Int!, $careGiverInput: CareGiverInput!) {

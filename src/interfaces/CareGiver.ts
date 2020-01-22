@@ -83,7 +83,7 @@ export interface CareGiverValues {
   registrationNumber?: String
   registerCourt?: String
   executiveDirector?: String
-  legalForm?: String
+  legalForm?: IReactSelectInterface
   legalFormValue?: IReactSelectInterface
   qualifications?: JSON
   remarks?: JSON

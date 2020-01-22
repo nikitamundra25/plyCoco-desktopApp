@@ -5,8 +5,8 @@ export interface ILeasingValues {
   birthName: string;
   nationality?: IReactSelectInterface;
   maritalStatus?: IReactSelectInterface;
-  children: number | null;
-  factorChildAllowance: number | null;
+  children: string;
+  factorChildAllowance: string;
   healthInsuranceType?: IReactSelectInterface;
   healthInsuranceProvider?: IReactSelectInterface;
   socialSecurityNumber: string;

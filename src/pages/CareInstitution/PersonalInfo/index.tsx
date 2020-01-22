@@ -200,16 +200,18 @@ const PersonalInformation: any = (props: any) => {
   let Data: IReactSelectInterface;
   let values: ICareInstitutionFormValues;
   let countryData: Number;
-  let regionId: Number;
+  let regionId: String;
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
 
     countryData = getCareInstitution.canstitution
       ? getCareInstitution.canstitution.countryId
       : "";
-    regionId = getCareInstitution.canstitution
-      ? getCareInstitution.canstitution.regionId
+    regionId = getCareInstitution.regions &&
+    getCareInstitution.regions.length
+      ? getCareInstitution.regions[0].id
       : "";
+
     let userSelectedCountry: any = {};
     if (countries && countries.countries) {
       const userCountry = countries.countries.filter(
@@ -265,9 +267,9 @@ const PersonalInformation: any = (props: any) => {
       lastName: getCareInstitution.lastName,
       gender: getCareInstitution.gender
         ? {
-            label: getCareInstitution ? getCareInstitution.gender : "",
-            value: getCareInstitution ? getCareInstitution.gender : null
-          }
+          label: getCareInstitution ? getCareInstitution.gender : "",
+          value: getCareInstitution ? getCareInstitution.gender : null
+        }
         : undefined,
       userName: getCareInstitution.userName,
       phoneNumber: getCareInstitution.phoneNumber,
@@ -290,9 +292,9 @@ const PersonalInformation: any = (props: any) => {
         : "",
       country: userSelectedCountry.value
         ? {
-            label: userSelectedCountry.value ? userSelectedCountry.label : null,
-            value: userSelectedCountry.value ? userSelectedCountry.value : null
-          }
+          label: userSelectedCountry.value ? userSelectedCountry.label : null,
+          value: userSelectedCountry.value ? userSelectedCountry.value : null
+        }
         : undefined,
       state: userSelectedState.value
         ? { label: userSelectedState.label, value: userSelectedState.value }
@@ -320,13 +322,13 @@ const PersonalInformation: any = (props: any) => {
         : "",
       invoiceType: getCareInstitution.canstitution.invoiceType
         ? {
-            label: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.invoiceType
-              : "",
-            value: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.invoiceType
-              : ""
-          }
+          label: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.invoiceType
+            : "",
+          value: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.invoiceType
+            : ""
+        }
         : undefined,
       emailInvoice: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.emailInvoice
@@ -336,13 +338,13 @@ const PersonalInformation: any = (props: any) => {
         : "",
       interval: getCareInstitution.canstitution.interval
         ? {
-            label: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.interval
-              : "",
-            value: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.interval
-              : ""
-          }
+          label: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.interval
+            : "",
+          value: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.interval
+            : ""
+        }
         : undefined,
       linkedTo: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.linkedTo
@@ -373,7 +375,7 @@ const PersonalInformation: any = (props: any) => {
     Data = {
       label: `${getCareInstitution.firstName} ${""} ${
         getCareInstitution.lastName
-      }`,
+        }`,
       value: Id
     };
   } else {

@@ -121,7 +121,9 @@ const Employee: FunctionComponent = () => {
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       setIsFilter(
-        searchBy !== '' || isActive !== undefined || sortBy !== undefined,
+        searchBy !== '' ||
+          query.status !== undefined ||
+          query.sortBy !== undefined,
       );
     }
     // call query

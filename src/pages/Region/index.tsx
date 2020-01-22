@@ -89,7 +89,9 @@ export const Region: FunctionComponent = () => {
         sortBy,
       });
       setIsFilter(
-        searchBy !== '' || isActive !== undefined || sortBy !== undefined,
+        searchBy !== '' ||
+          query.status !== undefined ||
+          query.sortBy !== undefined,
       );
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -205,7 +207,7 @@ export const Region: FunctionComponent = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td className={'table-loader'} colSpan={5}>
+                <td className={'table-loader'} colSpan={6}>
                   <Loader />
                 </td>
               </tr>
@@ -231,7 +233,7 @@ export const Region: FunctionComponent = () => {
               })
             ) : (
               <tr className={'text-center no-hover-row'}>
-                <td colSpan={5} className={'pt-5 pb-5'}>
+                <td colSpan={6} className={'pt-5 pb-5'}>
                   {isFilterApplied ? (
                     <NoSearchFound />
                   ) : (

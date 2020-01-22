@@ -133,7 +133,6 @@ export const CareGiverForm: FunctionComponent = () => {
       remarks,
       regionId,
       comments,
-      nightAllownce,
       invoiceInterval,
       leasingPricingList
     } = values;
@@ -163,7 +162,6 @@ export const CareGiverForm: FunctionComponent = () => {
         fax,
         comments,
         mobileNumber,
-        nightAllownce,
         userName,
         qualifications:
           qualifications && qualifications.length

@@ -23,7 +23,8 @@ import {
   Salutation,
   LegalForm,
   Country,
-  NightAllowancePerHour
+  NightAllowancePerHour,
+  InvoiceInterval
 } from "../../../config";
 import {
   Formik,
@@ -46,7 +47,6 @@ const BillingSettingsFormComponent: any = (
   props: FormikProps<CareGiverValues>
 ) => {
   const { values } = props;
-  console.log("errorrrrrssssssssss==========>", props.errors);
   return (
     <div className="form-card minheight-auto">
       <Row>
@@ -80,7 +80,7 @@ const BillingSettingsFormComponent: any = (
                           <div>
                             <Field
                               component={FormikTextField}
-                              name={"night"}
+                              name={"nightAllowance"}
                               placeholder="Night"
                               className="width-common"
                             />
@@ -106,7 +106,7 @@ const BillingSettingsFormComponent: any = (
                     <div>
                       <Field
                         component={FormikTextField}
-                        name={"weekendAllowancePerHour"}
+                        name={"weekendAllowance"}
                         placeholder="Weekend"
                         className="width-common"
                       />
@@ -125,7 +125,7 @@ const BillingSettingsFormComponent: any = (
                           <div>
                             <Field
                               component={FormikTextField}
-                              name={"holidayAllowancePerHourFee"}
+                              name={"holiday"}
                               placeholder="Holiday"
                               className="width-common"
                             />
@@ -168,8 +168,7 @@ const BillingSettingsFormComponent: any = (
                 <div>
                   <Select
                     placeholder="Invoice interval"
-                    isMulti
-                    options={Region}
+                    options={InvoiceInterval}
                   />
                 </div>
               </Col>
@@ -188,7 +187,6 @@ const BillingSettingsFormComponent: any = (
                 <div>
                   <Select
                     placeholder="Lessing Price List"
-                    isMulti
                     options={Region}
                   />
                 </div>

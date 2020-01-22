@@ -106,6 +106,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       qualifications,
       status,
       remarks,
+      fee,
+      nightAllowance,
+      weekendAllowance,
+      holiday,
     } = values;
     try {
       let careGiverInput: any = {
@@ -150,6 +154,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         comments,
         status,
         remarks,
+        fee,
+        nightAllowance: nightAllowance && nightAllowance.value? nightAllowance.value:null,
+        weekendAllowance,
+        holiday
       };
       // Edit employee details
       if (id) {
@@ -249,7 +257,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     status,
     remarks: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.remarks:[],
     invoiceInterval,
-    qualifications: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.qualifications?props.getCaregiver.caregiver.qualifications:[]
+    qualifications: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.qualifications?props.getCaregiver.caregiver.qualifications:[],
+    fee: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.fee?props.getCaregiver.caregiver.fee: null,
+    nightAllowance: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.nightAllowance?props.getCaregiver.caregiver.nightAllowance: null,
+    weekendAllowance: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.weekendAllowance?props.getCaregiver.caregiver.weekendAllowance: null,
+    holiday: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.holiday?props.getCaregiver.caregiver.holiday: null,
   };
 
   return (

@@ -679,6 +679,7 @@ const PersonalInfoFormComponent: any = (
                     <CustomInput
                       type="radio"
                       id="yes"
+                      
                       name="driversLicense"
                       label="Yes"
                     />

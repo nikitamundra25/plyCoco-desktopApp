@@ -1,27 +1,29 @@
-import React, {
-  Component,
-  useState,
-  FunctionComponent,
-  useEffect,
-} from 'react';
+import React, { useState, FunctionComponent, useEffect } from 'react';
 import {
   ILeasingValues,
   IAddLeasingRes,
   ILeasingInput,
+  IReactSelectInterface,
 } from '../../../interfaces';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
-import { Mutation, Query } from '@apollo/react-components';
 import LeasingPersonalDataFormComponent from './LeasingPersonalDataFormComponent';
-import {
-  UPDATE_LEASING_DATA,
-  GET_LEASING_DATA_BY_ID,
-} from '../../../queries/LeasingQueries';
 import { LeasingDataValidationSchema } from '../../../validations/LeasingDataValidationSchema';
-import { useParams, useHistory, RouteComponentProps } from 'react-router';
+import { useParams, RouteComponentProps } from 'react-router';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { languageTranslation } from '../../../helpers';
 import { toast } from 'react-toastify';
-import { GET_LEASING_INFO } from '../../../queries';
+import {
+  GET_LEASING_INFO,
+  ADD_UPDATE_CARE_GIVER_LEASING_INFO,
+} from '../../../queries';
+import {
+  Nationality,
+  MaritalStatus,
+  Religion,
+  Preoccupation,
+  HealthInsuranceProvider,
+  HealthInsuranceType,
+} from '../../../config';
 
 export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps,
@@ -30,10 +32,10 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
   const [leasingData, setleasingData] = useState<ILeasingValues | null>();
 
   // To update employee details into db
-  const [saveLeasingData] = useMutation<
-    { saveLeasingData: IAddLeasingRes },
-    { id: number; leasingInput: ILeasingInput }
-  >(UPDATE_LEASING_DATA);
+  const [addUpdateLeasingInformation] = useMutation<
+    { addUpdateLeasingInformation: IAddLeasingRes },
+    { userId: number; leasingInformationInput: ILeasingInput }
+  >(ADD_UPDATE_CARE_GIVER_LEASING_INFO);
 
   // To get the employee details by id
   const [
@@ -46,13 +48,56 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     // Fetch details by care giver id
     if (id) {
       getLeasingInformation({
-        variables: { userId: id },
+        variables: { userId: parseInt(id) },
       });
     }
   }, []);
 
+  const setLabelValue = (
+    value: string,
+    fieldOptions: IReactSelectInterface[],
+  ) => {
+    console.log(value, fieldOptions, 'dataaaaa');
+
+    if (value) {
+      return fieldOptions.filter(
+        (item: IReactSelectInterface) => item.value === value,
+      )[0];
+    } else {
+      return undefined;
+    }
+  };
+
   useEffect(() => {
     if (leasingDetails) {
+      console.log(leasingDetails, 'leasingDetails');
+      const { getLeasingInformation } = leasingDetails;
+      if (getLeasingInformation) {
+        setleasingData({
+          ...getLeasingInformation,
+          nationality: setLabelValue(
+            getLeasingInformation.nationality,
+            Nationality,
+          ),
+          maritalStatus: setLabelValue(
+            getLeasingInformation.maritalStatus,
+            MaritalStatus,
+          ),
+          religion: setLabelValue(getLeasingInformation.religion, Religion),
+          preoccupation: setLabelValue(
+            getLeasingInformation.preOccupation,
+            Preoccupation,
+          ),
+          healthInsuranceProvider: setLabelValue(
+            getLeasingInformation.healthInsuranceProvider,
+            HealthInsuranceProvider,
+          ),
+          healthInsuranceType: setLabelValue(
+            getLeasingInformation.healthInsuranceType,
+            HealthInsuranceType,
+          ),
+        });
+      }
     }
   }, [leasingDetails]);
 
@@ -81,33 +126,39 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     } = values;
     try {
       let leasingInput: ILeasingInput = {
-        id,
         placeOfBirth,
         birthName,
-        nationality,
-        maritalStatus,
+        nationality: nationality && nationality.value ? nationality.value : '',
+        maritalStatus:
+          maritalStatus && maritalStatus.value ? maritalStatus.value : '',
         children,
-        factorChildAllowance,
-        healthInsuranceType,
-        healthInsuranceProvider,
+        factorChildAllowance: factorChildAllowance ? factorChildAllowance : '',
+        healthInsuranceType:
+          healthInsuranceType && healthInsuranceType.value
+            ? healthInsuranceType.value
+            : '',
+        healthInsuranceProvider:
+          healthInsuranceProvider && healthInsuranceProvider.value
+            ? healthInsuranceProvider.value
+            : '',
         socialSecurityNumber,
-        religion,
+        religion: religion && religion.value ? religion.value : '',
         controlId,
         taxBracket,
-        preoccupation,
+        preOccupation:
+          preoccupation && preoccupation.value ? preoccupation.value : '',
         payrollIBAN,
-        status,
+        status: status && status.value ? status.value : '',
       };
-      // Edit employee details
       if (id) {
-        await saveLeasingData({
+        await addUpdateLeasingInformation({
           variables: {
-            id: parseInt(id),
-            leasingInput,
+            userId: parseInt(id),
+            leasingInformationInput: leasingInput,
           },
         });
-        toast.success(languageTranslation('EMPLOYEE_UPDATE_SUCCESS_MSG'));
       }
+      toast.success(languageTranslation('EMPLOYEE_UPDATE_SUCCESS_MSG'));
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
@@ -118,22 +169,24 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     }
     setSubmitting(false);
   };
+  console.log(leasingData, 'leasingData');
+
   const {
     placeOfBirth = '',
     birthName = '',
-    nationality = '',
-    maritalStatus = '',
+    nationality = undefined,
+    maritalStatus = undefined,
     children = '',
     factorChildAllowance = '',
-    healthInsuranceType = '',
-    healthInsuranceProvider = '',
+    healthInsuranceType = undefined,
+    healthInsuranceProvider = undefined,
     socialSecurityNumber = '',
-    religion = '',
+    religion = undefined,
     controlId = '',
     taxBracket = '',
-    preoccupation = '',
+    preoccupation = undefined,
     payrollIBAN = '',
-    status = '',
+    status = undefined,
   } = leasingData ? leasingData : {};
   const initialValues: ILeasingValues = {
     placeOfBirth,
@@ -156,6 +209,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
   return (
     <Formik
       initialValues={initialValues}
+      enableReinitialize={true}
       onSubmit={handleSubmit}
       validationSchema={LeasingDataValidationSchema}
       render={(props: FormikProps<ILeasingValues>) => {

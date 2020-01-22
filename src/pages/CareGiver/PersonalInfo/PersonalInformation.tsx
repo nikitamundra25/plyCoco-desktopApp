@@ -83,7 +83,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       driversLicense,
       driverLicenseNumber,
       vehicleAvailable,
-      qualifications,
       street,
       city,
       postalCode,
@@ -96,6 +95,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       socialSecurityContribution,
       belongTo,
       legalForm,
+      bankName,
       companyName,
       registerCourt,
       registrationNumber,
@@ -145,7 +145,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         employed,
         comments,
         status,
-        remarks
+        remarks,
       };
       // Edit employee details
       if (id) {
@@ -157,7 +157,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         });
         toast.success(languageTranslation('CARE_GIVER_UPDATED_SUCCESS'));
       }
-      history.push(AppRoutes.CARE_GIVER);
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
@@ -198,7 +197,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     firstName = "",
     lastName = "",
     dateOfBirth = "",
-    qualifications = undefined,
     countryId = "",
     email = "",
     socialSecurityContribution = false,
@@ -222,10 +220,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     age: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.age:null,
     address1: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.address1:"",
     address2:props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.address2:"",
-    driversLicense: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.driversLicense:"",
+    driversLicense: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.driversLicense:false,
     driverLicenseNumber: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.driverLicenseNumber:"",
     vehicleAvailable: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.vehicleAvailable: false,
-    qualifications,
     street: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.street: "",
     city: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.city: "",
     postalCode : props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.postalCode: "",
@@ -236,7 +233,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     email,
     taxNumber: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.taxNumber: "",
     socialSecurityContribution,
-    // bankName: "",
+    bankName: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.bankName: "",
     belongTo,
     legalForm,
     companyName: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.companyName: "",
@@ -248,6 +245,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     status,
     remarks: props.getCaregiver && props.getCaregiver.caregiver?props.getCaregiver.caregiver.remarks:[],
     invoiceInterval,
+    qualifications: props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.qualifications?props.getCaregiver.caregiver.qualifications:[]
   };
 
   return (

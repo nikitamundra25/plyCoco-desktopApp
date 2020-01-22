@@ -15,7 +15,6 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     phoneNumber
     createdAt 
     caregiver{
-      qualifications
       address1
       address2
       age
@@ -47,6 +46,10 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       holiday
       invoiceInterval
     }
+    qualifications{
+      id
+      attributeName
+    }
     
 }`;
 
@@ -76,9 +79,11 @@ export const GET_CAREGIVERS = gql`
         gender
         isActive
         createdAt
-        qualificationId
+        qualifications {
+          id
+          attributeName
+        }
         caregiver {
-          qualifications
           address1
           address2
           age

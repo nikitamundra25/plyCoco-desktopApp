@@ -74,7 +74,6 @@ const PersonalInfoFormComponent: any = (
   }
 
   let { pathname } = useLocation();
-  console.log('pathname', pathname.split('/'));
   let PathArray: string[] = pathname.split('/');
 
   if (statesData && statesData.states) {
@@ -93,14 +92,19 @@ const PersonalInfoFormComponent: any = (
       });
     }
   };
-
   const {
-    values: { dateOfBirth },
+    values: { dateOfBirth, userId, createdAt },
     handleChange,
     handleBlur,
     errors,
     touched,
   } = props;
+
+  console.log("values", props.values);
+
+  const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
+  const RegYear: Date | undefined = CreatedAt.getFullYear();
+
   return (
     <div className='form-card h-100'>
       <Row>
@@ -118,11 +122,13 @@ const PersonalInfoFormComponent: any = (
                   <Row className='custom-col inner-no-padding-col'>
                     <Col sm='4'>
                       <div>
-                        <Field
-                          component={FormikTextField}
-                          name={'userId'}
-                          placeholder={languageTranslation('USER_ID')}
-                          className='width-common'
+                        <Input
+                          type="text"
+                          name={"id"}
+                          disabled
+                          value={userId}
+                          placeholder={languageTranslation("USER_ID")}
+                          className="width-common"
                         />
                       </div>
                     </Col>
@@ -137,11 +143,13 @@ const PersonalInfoFormComponent: any = (
                           </Col>
                           <Col sm='6'>
                             <div>
-                              <Field
-                                component={FormikTextField}
-                                name={'registartionSince'}
-                                placeholder='Reg Since'
-                                className='width-common'
+                              <Input
+                                type="text"
+                                name={"regSince"}
+                                disabled
+                                value={RegYear}
+                                placeholder="Reg Since"
+                                className="width-common"
                               />
                             </div>
                           </Col>

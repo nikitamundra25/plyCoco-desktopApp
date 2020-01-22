@@ -35,7 +35,7 @@ class App extends Component<any, any> {
       <>
         <ApolloProvider client={client}>
           <Provider store={store}>
-            <Router history={history}>
+            <Router history={history} basename={"/superadmin"}>
               <Suspense fallback={<FullPageLoader />}>
                 {/* sss
                 <Login /> */}

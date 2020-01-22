@@ -144,7 +144,6 @@ const PersonalInformation: any = (props: any) => {
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
   ) => {
     //to set submit state to false after successful signup
-    console.log('DDDDDDDDDDDD');
 
     try {
       const careInstitutionInput: any = {
@@ -164,8 +163,9 @@ const PersonalInformation: any = (props: any) => {
         zipCode: values.zipCode,
         title: values.title,
         city: values.city,
-        countryId: values && values.country ? values.country.value : null,
-        stateId: values && values.state ? values.state.value : null,
+        countryId:
+          values && values.country ? parseInt(values.country.value) : null,
+        stateId: values && values.state ? parseInt(values.state.value) : null,
         remarks: values.remarks,
         linkedTo:
           values.linkedTo && values.linkedTo.value
@@ -238,9 +238,11 @@ const PersonalInformation: any = (props: any) => {
       : '';
 
     let userSelectedCountry: any = {};
+    console.log('countries', countryData);
+
     if (countries && countries.countries) {
       const userCountry = countries.countries.filter(
-        (x: any) => x.id === countryData,
+        (x: any) => parseInt(x.id) === countryData,
       );
 
       if (userCountry && userCountry.length) {
@@ -287,7 +289,7 @@ const PersonalInformation: any = (props: any) => {
     let userSelectedState: any = {};
     if (statesData && statesData.states) {
       const userState = statesData.states.filter(
-        (x: any) => x.id === stateData,
+        (x: any) => parseInt(x.id) === stateData,
       );
       if (userState && userState.length) {
         userSelectedState = {

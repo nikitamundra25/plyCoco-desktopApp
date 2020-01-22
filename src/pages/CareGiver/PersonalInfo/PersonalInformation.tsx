@@ -43,6 +43,7 @@ import {
 import { useMutation, useLazyQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
 import { AppRoutes } from "../../../config";
+import '../caregiver.scss';
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
@@ -178,6 +179,27 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     setSubmitting(false);
   };
 
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    const scrollPositionY = window.scrollY;
+    const buttonDiv: HTMLElement | null = document.getElementById(
+      'caregiver-add-btn',
+    );
+    if (buttonDiv) {
+      if (scrollPositionY >= 35) {
+        buttonDiv.classList.add('sticky-save-btn');
+      } else {
+        buttonDiv.classList.remove('sticky-save-btn');
+      }
+    }
+  };
+
   const {
     userName = "",
     stateId = {label:"", value:""},
@@ -283,31 +305,30 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       render={(props: FormikProps<ICareGiverValues>) => {
         return (
           <Form className="form-section forms-main-section">
-            <Row>
-            <Col lg={"12"}>
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="mandatory-text">* Required Fields</div>
-              </div>
-              <Button
-                color="primary"
-                type="submit"
-                className="btn-sumbit"
-                onClick={props.handleSubmit}
-              >
-                Save
+            <Button
+              disabled={false}
+              id={'caregiver-add-btn'}
+              onClick={props.handleSubmit}
+              color={'primary'}
+              className={'save-button'}
+            >
+              {languageTranslation('SAVE_BUTTON')}
             </Button>
-            </Col>
+            <Row>
               <Col lg={"4"}>
                 <PersonalInfoFormComponent {...props} />
               </Col>
-              <Col lg={"4"}>
-                <BillingSettingsFormComponent {...props} />
-                <QualificationFormComponent {...props} />
+              <Col lg={'4'}>
+                <div className='common-col'>
+                  <BillingSettingsFormComponent {...props} />
+                  <div className='quality-attribute-section d-flex flex-column'>
+                    <QualificationFormComponent {...props} />
+                    <AttributeFormComponent {...props} />
+                  </div>
+                </div>
               </Col>
-              <Col lg={4}>
-                <RemarkFormComponent />
-              </Col>
-            </Row>
+              <RemarkFormComponent />
+              </Row>
           </Form>
         );
       }}

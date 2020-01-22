@@ -22,7 +22,6 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       address1
       address2
       postalCode
-      dateOfBirth
       legalForm
       city
       street
@@ -43,15 +42,9 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       registrationNumber
       registerCourt
       executiveDirector
-    }
-    bankDetails{
       bankName
       IBAN
       BIC
-    }
-    billingSettingDetails{
-      id
-      userId
       feePerHour
       nightAllowancePerHour
       weekendAllowancePerHour
@@ -59,9 +52,8 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       nextInvoiceNumber
       statementsMaturity
       additionalText
-      
     }
- 
+    
 }`;
 
 export const GET_CAREGIVERS = gql`
@@ -113,6 +105,7 @@ export const GET_CAREGIVERS = gql`
           title
         }
       }
+      totalCount
     }
   }
 `;
@@ -127,7 +120,9 @@ query getCaregiver($id:Int!){
 export const ADD_CAREGIVER = gql`
 mutation addCareGiver($careGiverInput: CareGiverInput!) {
   addCareGiver(careGiverInput: $careGiverInput)
-   ${CAREGIVER_PERSONAL_INFO_FIELDS}
+   {
+     id
+   }
 }`;
 
 export const UPDATE_CAREGIVER = gql`
@@ -138,8 +133,10 @@ export const UPDATE_CAREGIVER = gql`
 `;
 
 export const DELETE_CAREGIVER = gql`
-  mutation deleteCaregiver($id: Int!) {
-    deleteCaregiver(id: $id)
+  mutation deleteCareGiver($id: Int!) {
+    deleteCareGiver(id: $id) {
+      id
+    }
   }
 `;
 
@@ -182,7 +179,7 @@ export const GET_BILLING_SETTINGS = gql`
 
 export const UPDATE_CARE_GIVER_STATUS = gql`
   mutation changeStatusCareGiver($id: ID!, $isActive: Boolean) {
-    updateCareGiverStatus(id: $id, isActive: $isActive) {
+    changeStatusCareGiver(id: $id, isActive: $isActive) {
       id
       isActive
     }

@@ -4,7 +4,7 @@ import React, {
   FunctionComponent,
   useEffect,
 } from 'react';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/react-hooks';
 import { AppBreadcrumb } from '@coreui/react';
 import {
   Button,

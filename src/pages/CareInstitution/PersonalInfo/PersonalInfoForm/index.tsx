@@ -100,6 +100,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldTouched,
     CareInstitutionList,
   } = props;
+console.log("errors",errors);
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
@@ -726,30 +727,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                       {errors.userName && touched.userName && (
                         <div className='required-error'>{errors.userName}</div>
                       )}
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('DEFAULT_QAULIFICATION')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div>
-                      <Select
-                        placeholder={languageTranslation(
-                          'DEFAULT_QAULIFICATION',
-                        )}
-                        // value={state ? state : undefined}
-                        // onChange={(value: any) => handleSelect(value, "state")}
-                        options={State}
-                      />
                     </div>
                   </Col>
                 </Row>

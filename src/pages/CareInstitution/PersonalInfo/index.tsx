@@ -166,8 +166,8 @@ const PersonalInformation: any = (props: any) => {
         zipCode: values.zipCode,
         title: values.title,
         city: values.city,
-        countryId: values && values.country ? values.country.value : '',
-        stateId: values && values.state ? values.state.value : '',
+        countryId: values && values.country ? values.country.value : null,
+        stateId: values && values.state ? values.state.value : null,
         remarks: values.remarks,
         linkedTo: values.linkedTo && values.linkedTo.value ? values.linkedTo.value : null,
         regionId:

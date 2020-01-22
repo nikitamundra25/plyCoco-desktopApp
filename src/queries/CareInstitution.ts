@@ -72,8 +72,11 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         invoiceType
         emailInvoice
         addressInvoice
-        interval
-        regionId
+        interval        
+      }
+      regions{
+        id
+        regionName
       }
       contact {
         salutation

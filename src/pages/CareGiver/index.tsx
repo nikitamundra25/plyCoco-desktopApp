@@ -137,7 +137,7 @@ const CareGiver: FunctionComponent = () => {
         searchBy,
         sortBy: sortByValue ? parseInt(sortByValue) : 0,
         limit: PAGE_LIMIT,
-        page: query.page ? parseInt(query.page as string) : 0,
+        page: query.page ? parseInt(query.page as string) : 1,
         isActive: query.status
           ? query.status === 'active'
             ? 'true'
@@ -355,7 +355,7 @@ const CareGiver: FunctionComponent = () => {
                   <th>{languageTranslation('TABEL_HEAD_CG_QUALIFICATION')}</th>
                   <th>{languageTranslation('TABEL_HEAD_CG_REGION')}</th>
                   <th>{languageTranslation('TABEL_HEAD_CG_APPLYING_AS')}</th>
-                  <th>{languageTranslation('TABEL_HEAD_CG_CREATED_AT')}</th>
+                  <th>{languageTranslation('CREATED_DATE')}</th>
                   <th className={'text-center'}>
                     {languageTranslation('TABEL_HEAD_CG_STATUS')}
                   </th>
@@ -371,7 +371,10 @@ const CareGiver: FunctionComponent = () => {
                       <Loader />
                     </td>
                   </tr>
-                ) : data && data.getCaregivers && data.getCaregivers.result ? (
+                ) : data &&
+                  data.getCaregivers &&
+                  data.getCaregivers.result &&
+                  data.getCaregivers.result.length ? (
                   data.getCaregivers.result.map(
                     (careGiverData: any, index: number) => {
                       const replaceObj: any = {
@@ -421,30 +424,29 @@ const CareGiver: FunctionComponent = () => {
                             </div>
                           </td>
                           <td>
-                            <div className='description-column  ml-0'>
-                              {careGiverData &&
-                              careGiverData.caregiverDetails &&
-                              careGiverData.caregiverDetails.qualifications ? (
-                                careGiverData.caregiverDetails.qualifications.map(
-                                  (qualification: any) => (
-                                    <>
-                                      <p className='description-text '>
-                                        <span className='text-label mr-1'>
-                                          <i className='fa fa-angle-right'></i>
-                                        </span>
-                                        <span className='align-middle'>
-                                          {qualification}
-                                        </span>
-                                      </p>
-                                    </>
-                                  ),
-                                )
-                              ) : (
-                                <div className='text-center'>-</div>
-                              )}
+                            <div className='description-column one-line-text  ml-0 text-capitalize'>
+                              {careGiverData.qualifications &&
+                              careGiverData.qualifications.length
+                                ? careGiverData.qualifications.map(
+                                    (qualification: any, index: number) => {
+                                      return (
+                                        <p
+                                          className='description-text'
+                                          key={index}
+                                        >
+                                          <span className='text-label mr-1'>
+                                            <i className='fa fa-angle-right'></i>
+                                          </span>
+                                          <span className='align-middle'>
+                                            {qualification.attributeName}
+                                          </span>
+                                        </p>
+                                      );
+                                    },
+                                  )
+                                : '-'}
                             </div>
                           </td>
-
                           <td>
                             <div className='description-column  ml-0'>
                               {careGiverData &&

@@ -163,7 +163,7 @@ export const CareGiverForm: FunctionComponent = () => {
         comments,
         mobileNumber,
         userName,
-        qualifications:
+        qualificationId:
           qualifications && qualifications.length
             ? qualifications.map(quali => quali.value)
             : [],

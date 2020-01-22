@@ -52,7 +52,7 @@ export const FormikSelectField = (props: IFormikSelectField) => {
         onBlur={rest.onBlur || form.handleBlur}
         variant={variant}
         arrowRenderer={null}
-        isDisabled={isSubmitting || disabled}
+        // isDisabled={isSubmitting || disabled}
         endAdornment={endAdornment || null}
         ignoreAccents={false}
         theme={rest.theme}

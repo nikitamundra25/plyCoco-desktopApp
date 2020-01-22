@@ -144,7 +144,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         driversLicense,
         driverLicenseNumber,
         vehicleAvailable,
-        qualifications:
+        qualificationId:
           qualifications && qualifications.length
             ? `{${qualifications
                 .map(
@@ -244,23 +244,15 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     legalForm = '',
     status = 'active',
     invoiceInterval = '',
+    qualifications = [],
     caregiver = {},
   } = props.getCaregiver ? props.getCaregiver : {};
   const qualificationsData: IReactSelectInterface[] | undefined = [];
-
-  const { qualifications } = caregiver;
-  // if (qualifications) {
-  //   const qualificationData = qualifications.match(/[\w.-]+/g).map(Number);
-  //   qualificationData.forEach((qualification: any) => {
-  //     const data: any = qualificationList.filter(
-  //       (qualifications: IReactSelectInterface) =>
-  //         qualifications.value === qualification.toString(),
-  //     )[0];
-  //     if (data) {
-  //       qualificationsData.push(data);
-  //     }
-  //   });
-  // }
+  if (qualifications) {
+    qualifications.forEach(({ attributeName, id }: any) => {
+      qualificationsData.push({ label: attributeName, value: id });
+    });
+  }
 
   const initialValues: ICareGiverValues = {
     id,

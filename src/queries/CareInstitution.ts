@@ -72,7 +72,8 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         invoiceType
         emailInvoice
         addressInvoice
-        interval        
+        interval
+        website        
       }
       regions{
         id

@@ -131,6 +131,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         label: e.label,
         value: e.value,
       };
+      setFieldValue("linkedTo", data);
       // setselectUser((selectUser = data));
       // if (e.value !== Id) {
       //   props.history.push(
@@ -778,11 +779,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            {console.log(
-              'CareInstitutionListCareInstitutionList',
-              CareInstitutionList,
-            )}
-
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
@@ -795,7 +791,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation('LIKED_TO')}
-                        // value={linkedTo}
+                        value={linkedTo}
                         onChange={(e: any) => handleLinkedToSelect(e)}
                         options={CareInstitutionList}
                       />

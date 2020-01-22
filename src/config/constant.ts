@@ -107,6 +107,40 @@ export const InvoiceType: IReactSelectInterface[] = [
     label: 'via Email With Work Proof',
   },
 ];
+export const CareGiveAttributes: IReactSelectInterface[] = [{
+  label: "Offers → Blass Rosé",
+  value: "Offers → Blass Rosé"
+},
+{
+  label: "Single-book button → pale turquoise",
+  value: "Single-book button → pale turquoise"
+},
+{
+  label: "Leasing is not possible",
+  value: "Leasing is not possible"
+},
+{
+  label: "Unlocked → pale turquoise",
+  value: "Unlocked → pale turquoise"
+},
+{
+  label: "Permanent employment → Purple",
+  value: "Permanent employment → Purple"
+},
+{
+  label: "entry certificate of good conduct → fire red",
+  value: "entry certificate of good conduct → fire red"
+},
+{
+  label: "TIMyoCY → Pink / Fuchsia",
+  value: "TIMyoCY → Pink / Fuchsia"
+},
+{
+  label: "Login possible → pale turquoise",
+  value: "Login possible → pale turquoise"
+}
+]
+
 export const InvoiceInterval: IReactSelectInterface[] = [
   { value: 'Monthly for the 1st', label: 'Monthly for the 1st' },
   { value: 'Semimonthly for 1 and 16', label: 'Semimonthly for 1 and 16' },

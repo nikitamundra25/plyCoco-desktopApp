@@ -34,6 +34,7 @@ const [
   ADD_NEW_CONTACT_CARE_INSTITUTION
 ] = CareInstitutionQueries;
 
+
 const PersonalInformation: any = (props: any) => {
   let { id } = useParams();
   const Id: any | undefined = id;
@@ -68,6 +69,7 @@ const PersonalInformation: any = (props: any) => {
       }
     });
   }, []);
+
 
   useEffect(() => {
     if (props.isUserChange) {
@@ -158,6 +160,7 @@ const PersonalInformation: any = (props: any) => {
         anonymousName: values.anonymousName,
         anonymousName2: values.anonymousName2,
         remarksViewable: values.remarksViewable,
+        fax: values.fax,
         street: values.street,
         zipCode: values.zipCode,
         title: values.title,
@@ -165,10 +168,9 @@ const PersonalInformation: any = (props: any) => {
         countryId: values && values.country ? values.country.value : "",
         stateId: values && values.state ? values.state.value : "",
         remarks: values.remarks,
+        linkedTo: values.linkedTo && values.linkedTo.value ? values.linkedTo.value : null,
         regionId:
           values && values.regionId ? `{${values.regionId.value}}` : null,
-        // regionId: values && values.regionId ? values.regionId.value : null,
-        
         website: values.website,
         email: values.email,
         userName: values.userName,
@@ -203,6 +205,7 @@ const PersonalInformation: any = (props: any) => {
   let values: ICareInstitutionFormValues;
   let countryData: Number;
   let regionId: String;
+  let linkedToId: String;
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
 
@@ -213,6 +216,8 @@ const PersonalInformation: any = (props: any) => {
       getCareInstitution.regions && getCareInstitution.regions.length
         ? getCareInstitution.regions[0].id
         : "";
+
+    linkedToId = getCareInstitution.canstitution ? getCareInstitution.canstitution.linkedTo : ""
 
     let userSelectedCountry: any = {};
     if (countries && countries.countries) {
@@ -246,6 +251,20 @@ const PersonalInformation: any = (props: any) => {
         };
       }
     }
+
+    let UserSelectedLinkedTo: any = {};
+
+    if (
+      props.CareInstitutionList
+    ) {
+      const userSelectedLinkedTo = props.CareInstitutionList.filter(
+        (x: any) => x.value === linkedToId
+      );
+      if (userSelectedLinkedTo && userSelectedLinkedTo.length) {
+        UserSelectedLinkedTo = userSelectedLinkedTo[0];
+      }
+    }
+
     const stateData = getCareInstitution.canstitution
       ? getCareInstitution.canstitution.stateId
       : "";
@@ -269,9 +288,9 @@ const PersonalInformation: any = (props: any) => {
       lastName: getCareInstitution.lastName,
       gender: getCareInstitution.gender
         ? {
-            label: getCareInstitution ? getCareInstitution.gender : "",
-            value: getCareInstitution ? getCareInstitution.gender : null
-          }
+          label: getCareInstitution ? getCareInstitution.gender : "",
+          value: getCareInstitution ? getCareInstitution.gender : null
+        }
         : undefined,
       userName: getCareInstitution.userName,
       phoneNumber: getCareInstitution.phoneNumber,
@@ -294,9 +313,9 @@ const PersonalInformation: any = (props: any) => {
         : "",
       country: userSelectedCountry.value
         ? {
-            label: userSelectedCountry.value ? userSelectedCountry.label : null,
-            value: userSelectedCountry.value ? userSelectedCountry.value : null
-          }
+          label: userSelectedCountry.value ? userSelectedCountry.label : null,
+          value: userSelectedCountry.value ? userSelectedCountry.value : null
+        }
         : undefined,
       state: userSelectedState.value
         ? { label: userSelectedState.label, value: userSelectedState.value }
@@ -324,13 +343,13 @@ const PersonalInformation: any = (props: any) => {
         : "",
       invoiceType: getCareInstitution.canstitution.invoiceType
         ? {
-            label: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.invoiceType
-              : "",
-            value: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.invoiceType
-              : ""
-          }
+          label: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.invoiceType
+            : "",
+          value: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.invoiceType
+            : ""
+        }
         : undefined,
       emailInvoice: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.emailInvoice
@@ -340,17 +359,14 @@ const PersonalInformation: any = (props: any) => {
         : "",
       interval: getCareInstitution.canstitution.interval
         ? {
-            label: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.interval
-              : "",
-            value: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.interval
-              : ""
-          }
+          label: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.interval
+            : "",
+          value: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.interval
+            : ""
+        }
         : undefined,
-      linkedTo: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.linkedTo
-        : "",
       doctorCommission: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.doctorCommission
         : "",
@@ -372,13 +388,17 @@ const PersonalInformation: any = (props: any) => {
       regionId: userSelectedRegion.value ? userSelectedRegion : undefined,
       city: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.city
-        : ""
+        : "",
+      website: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.website
+        : "",
+      linkedTo: UserSelectedLinkedTo ? UserSelectedLinkedTo : null
     };
     Data = {
       label: `${getCareInstitution.firstName} ${""} ${
         getCareInstitution.lastName
-      }`,
-      value: Id
+        }`,
+      value: Id,
     };
   } else {
     values = {

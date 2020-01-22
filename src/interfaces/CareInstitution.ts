@@ -33,7 +33,7 @@ export interface ICareInstitutionFormValues {
   stateId?: string;
   regionId?: IReactSelectInterface;
   remarks?: [ICareInstitutionRemarks] | undefined | any;
-  linkedTo?: string;
+  linkedTo?: IReactSelectInterface;
   anonymousName?: string;
   anonymousName2?: string;
   careGiverCommission?: string;

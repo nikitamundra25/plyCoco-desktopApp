@@ -22,7 +22,8 @@ import {
   Salutation,
   LegalForm,
   Country,
-  NightAllowancePerHour
+  NightAllowancePerHour,
+  CareGiveAttributes
 } from "../../../config";
 import {
   Formik,
@@ -60,11 +61,11 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
             </div>
           </div>
           <div className="common-list-body">
-            <ul className="common-list list-unstyled">
+            {/* <ul className="common-list list-unstyled">
               <li>Dialysis </li>
               <li>Home Management</li>
               <li>Nurse/carer</li>
-            </ul>
+            </ul> */}
           </div>
           <div className="common-list-footer form-section ">
             <FormGroup className="mb-0">
@@ -73,7 +74,7 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
                 // value={attributeId ? attributeId : undefined}
                 // onChange={(value: any) => handleSelect(value, "attribute")}
                 isMulti
-                options={State}
+                options={CareGiveAttributes}
                 menuPlacement={"top"}
               />
             </FormGroup>

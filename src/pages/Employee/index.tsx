@@ -206,7 +206,7 @@ const Employee: FunctionComponent = () => {
   const queryVariables = {
     page: currentPage,
     isActive: isActive ? isActive.value : '',
-    sortBy: sortBy && sortBy.value ? sortBy.value : 0,
+    sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
     searchBy: searchValue ? searchValue : '',
     limit: PAGE_LIMIT,
   };

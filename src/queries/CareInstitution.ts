@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const GET_CARE_INSTITUTION_LIST = gql`
   query(
@@ -72,9 +72,13 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         invoiceType
         emailInvoice
         addressInvoice
-        interval        
+        interval
       }
-      regions{
+      qualifications {
+        id
+        attributeName
+      }
+      regions {
         id
         regionName
       }
@@ -199,5 +203,5 @@ export const CareInstitutionQueries = [
   GET_CARE_INSTITUION_BY_ID,
   UPDATE_CARE_INSTITUTION_STATUS,
   ADD_NEW_CONTACT_CARE_INSTITUTION,
-  UPDATE_NEW_CONTACT_CARE_INSTITUTION
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
 ];

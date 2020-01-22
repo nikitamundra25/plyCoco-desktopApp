@@ -836,7 +836,11 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         <div className='common-col'>
           <CommissionFormData {...props} handleSelect={handleSelect} />
           <InvoiceFormData {...props} handleSelect={handleSelect} />
-          <QuallificationAttribute {...props} handleSelect={handleSelect} />
+          <QuallificationAttribute
+            {...props}
+            handleSelect={handleSelect}
+            qualificationList={props.qualificationList}
+          />
         </div>
       </Col>
       <RemarkFormData {...props} />

@@ -10,24 +10,25 @@ import {
   ICareGiverInput,
   IAddCargiverRes,
   IReactSelectInterface,
-  ICareGiverValues,
-} from '../../../interfaces';
-import { FormikHelpers, Formik, FormikProps } from 'formik';
-import CareGiverFormComponent from './CareGiverFormComponent';
-import { CareGiverValidationSchema } from '../../../validations/CareGiverValidationSchema';
-import { useMutation } from '@apollo/react-hooks';
-import { ADD_CAREGIVER, GET_CAREGIVERS } from '../../../queries/CareGiver';
-import { Mutation } from '@apollo/react-components';
-import { useHistory, useParams } from 'react-router';
-import { toast } from 'react-toastify';
-import { languageTranslation } from '../../../helpers';
-import { AppRoutes, PAGE_LIMIT } from '../../../config';
-import CareGiverSidebar from '../Sidebar/SidebarLayout/CareGiverLayout';
-import reminder from '../../../assets/img/reminder.svg';
-import password from '../../../assets/img/password.svg';
-import appointment from '../../../assets/img/appointment.svg';
-import clear from '../../../assets/img/clear.svg';
-import { careGiverRoutes } from '../Sidebar/SidebarRoutes/CareGiverRoutes';
+  ICareGiverValues
+} from "../../../interfaces";
+import { FormikHelpers, Formik, FormikProps } from "formik";
+import CareGiverFormComponent from "./CareGiverFormComponent";
+import { CareGiverValidationSchema } from "../../../validations/CareGiverValidationSchema";
+import { useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { ADD_CAREGIVER, GET_CAREGIVERS } from "../../../queries/CareGiver";
+import {GET_QUALIFICATION_ATTRIBUTE} from "../../../queries/qualification";
+import { Mutation } from "@apollo/react-components";
+import { useHistory, useParams } from "react-router";
+import { toast } from "react-toastify";
+import { languageTranslation } from "../../../helpers";
+import { AppRoutes, PAGE_LIMIT } from "../../../config";
+import CareGiverSidebar from "../Sidebar/SidebarLayout/CareGiverLayout";
+import reminder from "../../../assets/img/reminder.svg";
+import password from "../../../assets/img/password.svg";
+import appointment from "../../../assets/img/appointment.svg";
+import clear from "../../../assets/img/clear.svg";
+import { careGiverRoutes } from "../Sidebar/SidebarRoutes/CareGiverRoutes";
 
 const CareGiverRoutesTabs = careGiverRoutes;
 
@@ -63,6 +64,12 @@ export const CareGiverForm: FunctionComponent = () => {
     { careGiverInput: ICareGiverInput }
   >(ADD_CAREGIVER);
 
+  //Qualification attributes
+  // const [
+  //   getQualificationAttribute,
+  //   { data: qualificationData, loading, refetch }
+  // ] = useLazyQuery<any>(GET_QUALIFICATION_ATTRIBUTE);
+
   let { id } = useParams();
   const Id: any | undefined = id;
 
@@ -79,11 +86,10 @@ export const CareGiverForm: FunctionComponent = () => {
     }
   }, [data]);
 
-
   // function to add/edit employee information
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -206,7 +212,7 @@ export const CareGiverForm: FunctionComponent = () => {
           });
         }
       });
-      toast.success(languageTranslation('CAREGIVER_ADD_SUCCESS_MSG'));
+      toast.success(languageTranslation("CAREGIVER_ADD_SUCCESS_MSG"));
     } catch (error) {
       const message = error.message
         .replace("SequelizeValidationError: ", "")
@@ -246,7 +252,7 @@ export const CareGiverForm: FunctionComponent = () => {
     registerCourt = "",
     executiveDirector = "",
     socialSecurityContribution = false,
-    taxNumber = '',
+    taxNumber = "",
     workZones = undefined,
     status = ""
   } = caregiverData ? caregiverData : {};

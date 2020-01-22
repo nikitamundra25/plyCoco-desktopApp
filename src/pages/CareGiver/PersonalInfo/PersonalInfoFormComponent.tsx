@@ -23,6 +23,7 @@ import {
   LegalForm,
   Country,
   Gender,
+  DateMask,
 } from '../../../config';
 import {
   Formik,
@@ -46,7 +47,7 @@ import {
   FormikTextField,
 } from '../../../common/forms/FormikFields';
 import { languageTranslation } from '../../../helpers';
-import FormikCheckbox from '../../../common/forms/FormikFields/FormikCheckbox';
+import MaskedInput from 'react-text-mask';
 import { useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { CountryQueries } from '../../../queries';
 import { useLocation } from 'react-router';
@@ -93,7 +94,13 @@ const PersonalInfoFormComponent: any = (
     }
   };
 
-  const { values } = props;
+  const {
+    values: { dateOfBirth },
+    handleChange,
+    handleBlur,
+    errors,
+    touched,
+  } = props;
   return (
     <div className='form-card h-100'>
       <Row>
@@ -288,10 +295,24 @@ const PersonalInfoFormComponent: any = (
                     <div>
                       <Field
                         name={'dateOfBirth'}
-                        component={FormikTextField}
-                        type='date'
-                        placeholder='06/09/2020'
+                        render={({ field }: any) => (
+                          <MaskedInput
+                            {...field}
+                            placeholder={languageTranslation(
+                              'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
+                            )}
+                            mask={DateMask}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={dateOfBirth}
+                          />
+                        )}
                       />
+                      {errors.dateOfBirth && touched.dateOfBirth && (
+                        <div className='required-error'>
+                          {errors.dateOfBirth}
+                        </div>
+                      )}
                     </div>
                   </Col>
                   <Col sm='5'>
@@ -538,9 +559,9 @@ const PersonalInfoFormComponent: any = (
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"IBAN"}
-                    placeholder="IBAN"
-                    className="width-common"
+                    name={'IBAN'}
+                    placeholder='IBAN'
+                    className='width-common'
                   />
                 </div>
               </Col>
@@ -800,11 +821,11 @@ const PersonalInfoFormComponent: any = (
               <Col sm='8'>
                 <div>
                   <Input
-                    type="textarea"
-                    name={"comments"}
-                    placeholder="Comments (Internally)"
-                    className="textarea-custom"
-                    rows="4"
+                    type='textarea'
+                    name={'comments'}
+                    placeholder='Comments (Internally)'
+                    className='textarea-custom'
+                    rows='4'
                   />
                 </div>
               </Col>

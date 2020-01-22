@@ -206,7 +206,7 @@ export const Region: FunctionComponent = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td className={"table-loader"} colSpan={5}>
+                <td className={"table-loader"} colSpan={6}>
                   <Loader />
                 </td>
               </tr>

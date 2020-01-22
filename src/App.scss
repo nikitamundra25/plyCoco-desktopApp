@@ -1373,6 +1373,8 @@ body {
       flex: 0 0 66px;
       margin: auto;
       position: relative;
+      display: flex;
+      align-items: center;
     }
     .description-column {
       letter-spacing: 0px;
@@ -1393,6 +1395,7 @@ body {
         display: flex;
         align-items: center;
         font-weight: 500;
+        word-break: break-word;
         .text-label {
           font-weight: 500;
           color: $dark_gray;
@@ -2477,11 +2480,11 @@ body {
       }
     }
   }
-  .form-group {
-    .form-control {
-      padding: 0px 4px;
-    }
-  }
+  // .form-group {
+  //   .form-control {
+  //     padding: 0px 4px;
+  //   }
+  // }
 }
 .remark-details {
   border: 1px solid $table_border;

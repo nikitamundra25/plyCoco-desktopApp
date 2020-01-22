@@ -53,7 +53,6 @@ export interface ICareInstitutionValidationSchema {
   lastName: string;
   userName: string;
   mobileNumber: number;
-  website: string;
 }
 
 export interface ICareInstitutionContactValidationSchema {

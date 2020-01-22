@@ -40,6 +40,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       title
       taxNumber
       belongTo
+      bankName
       legalForm
       nightAllowance
       weekendAllowance

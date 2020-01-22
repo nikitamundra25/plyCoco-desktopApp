@@ -60,7 +60,7 @@ const QualificationFormComponent: any = (
     let qualificationValue: any = initialValues.qualifications;
     console.log("qualificationValue",qualificationValue);
     
-    // props.setFieldValue("qualifications", qualificationValue.concat(value));
+    props.setFieldValue("qualifications", qualificationValue.concat(value));
   };
 
   const { data, loading, error, refetch } = useQuery<IQualifications>(

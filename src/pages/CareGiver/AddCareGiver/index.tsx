@@ -269,7 +269,6 @@ export const CareGiverForm: FunctionComponent = () => {
     fax,
     mobileNumber,
     userName,
-    qualifications,
     driverLicenseNumber,
     driversLicense,
     vehicleAvailable,

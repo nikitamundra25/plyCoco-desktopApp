@@ -149,8 +149,13 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
                 )
                 .join(', ')}}`
             : null,
+        attributes:
+          values.attributeId && values.attributeId.length
+            ? `{${values.attributeId
+                .map((attribute: IReactSelectInterface) => attribute.value)
+                .join(', ')}}`
+            : null,
       };
-      console.log('dataSubmit', values);
 
       await addCareInstitution({
         variables: {

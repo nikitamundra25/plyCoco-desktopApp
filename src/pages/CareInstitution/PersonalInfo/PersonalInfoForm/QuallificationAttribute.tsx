@@ -8,7 +8,7 @@ import {
   IHandleSelectInterface,
   IReactSelectInterface,
 } from '../../../../interfaces';
-import { State } from '../../../../config';
+import { State, CareInstitutionAttr } from '../../../../config';
 
 const QuallificationAttribute: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -100,9 +100,9 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               <Select
                 placeholder={'Attributes'}
                 value={attributeId ? attributeId : undefined}
-                onChange={(value: any) => handleSelect(value, 'attribute')}
+                onChange={(value: any) => handleSelect(value, 'attributeId')}
                 isMulti
-                options={State}
+                options={CareInstitutionAttr}
                 menuPlacement={'top'}
               />
             </FormGroup>

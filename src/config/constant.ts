@@ -107,39 +107,71 @@ export const InvoiceType: IReactSelectInterface[] = [
     label: 'via Email With Work Proof',
   },
 ];
-export const CareGiveAttributes: IReactSelectInterface[] = [{
-  label: "Offers → Blass Rosé",
-  value: "Offers → Blass Rosé"
-},
-{
-  label: "Single-book button → pale turquoise",
-  value: "Single-book button → pale turquoise"
-},
-{
-  label: "Leasing is not possible",
-  value: "Leasing is not possible"
-},
-{
-  label: "Unlocked → pale turquoise",
-  value: "Unlocked → pale turquoise"
-},
-{
-  label: "Permanent employment → Purple",
-  value: "Permanent employment → Purple"
-},
-{
-  label: "entry certificate of good conduct → fire red",
-  value: "entry certificate of good conduct → fire red"
-},
-{
-  label: "TIMyoCY → Pink / Fuchsia",
-  value: "TIMyoCY → Pink / Fuchsia"
-},
-{
-  label: "Login possible → pale turquoise",
-  value: "Login possible → pale turquoise"
-}
-]
+export const CareGiveAttributes: IReactSelectInterface[] = [
+  {
+    label: 'Offers → Blass Rosé',
+    value: 'Offers → Blass Rosé',
+  },
+  {
+    label: 'Single-book button → pale turquoise',
+    value: 'Single-book button → pale turquoise',
+  },
+  {
+    label: 'Leasing is not possible',
+    value: 'Leasing is not possible',
+  },
+  {
+    label: 'Unlocked → pale turquoise',
+    value: 'Unlocked → pale turquoise',
+  },
+  {
+    label: 'Permanent employment → Purple',
+    value: 'Permanent employment → Purple',
+  },
+  {
+    label: 'entry certificate of good conduct → fire red',
+    value: 'entry certificate of good conduct → fire red',
+  },
+  {
+    label: 'TIMyoCY → Pink / Fuchsia',
+    value: 'TIMyoCY → Pink / Fuchsia',
+  },
+  {
+    label: 'Login possible → pale turquoise',
+    value: 'Login possible → pale turquoise',
+  },
+];
+
+export const CareInstitutionAttr: IReactSelectInterface[] = [
+  {
+    label: 'Single-book button → pale turquoise',
+    value: 'Single-book button → pale turquoise',
+  },
+  {
+    label: 'Unlocked → pale turquoise',
+    value: 'Unlocked → pale turquoise',
+  },
+  {
+    label: 'Login possible → pale turquoise',
+    value: 'Login possible → pale turquoise',
+  },
+  {
+    label: 'Currently no appointment requirements',
+    value: 'Currently no appointment requirements',
+  },
+  {
+    label: 'Plycoco → Orange as from the logo',
+    value: 'Plycoco → Orange as from the logo',
+  },
+  {
+    label: 'TIMyoCY → Pink / Fuchsia',
+    value: 'TIMyoCY → Pink / Fuchsia',
+  },
+  {
+    label: 'TIM by post',
+    value: 'TIM by post',
+  },
+];
 
 export const InvoiceInterval: IReactSelectInterface[] = [
   { value: 'Monthly for the 1st', label: 'Monthly for the 1st' },

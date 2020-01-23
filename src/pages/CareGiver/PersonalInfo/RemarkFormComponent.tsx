@@ -55,7 +55,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                                 onChange={(e: any) =>
                                   setchangeRemark(
                                     (changeRemark = {
-                                      data: e.target.value,
+                                      data: e.target.value.trimStart(),
                                       createdAt: moment().format(
                                         "MMMM Do YYYY, h:mm a"
                                       ),

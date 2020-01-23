@@ -249,30 +249,6 @@ const CareInstitution = (props: RouteComponentProps) => {
         toast.success(
           languageTranslation("CARE_INSTITUTION_DELETE_SUCCESS_MSG")
         );
-        // const data = await client.readQuery({
-        //   query: GET_CARE_INSTITUTION_LIST,
-        //   variables: queryVariables,
-        // });
-        // logger(data, 'data');
-        // const newData = data.getCareInstitutions.careInstitutionData.filter(
-        //   (user: any) => user.id !== id,
-        // );
-        // logger(newData, 'newData');
-
-        // const updatedData = {
-        //   ...data,
-        //   getCareInstitutions: {
-        //     ...data.getCareInstitutions,
-        //     careInstitutionData: newData,
-        //     totalCount: newData.length,
-        //   },
-        // };
-
-        // client.writeQuery({
-        //   query: GET_CARE_INSTITUTION_LIST,
-        //   variables: queryVariables,
-        //   data: updatedData,
-        // });
       } catch (error) {
         console.log(error, "errorerrorerror");
 

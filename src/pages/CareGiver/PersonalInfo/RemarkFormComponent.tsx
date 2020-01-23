@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
-import { FormGroup, Label, Input, Col, Row, Form } from "reactstrap";
-import Select from "react-select";
-import { Formik, FormikProps, FormikHelpers, FieldArray } from "formik";
-import { languageTranslation, logger } from "../../../helpers";
+import { Input, Col } from "reactstrap";
+import { FormikProps, FieldArray } from "formik";
+import { languageTranslation } from "../../../helpers";
 import { ICareInstitutionRemarks, ICareGiverValues } from "../../../interfaces";
 import moment from "moment";
 
@@ -85,8 +84,10 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                                   null;
                                 }}
                               >
-                                {" "}
-                                {languageTranslation("ADD_REMARKS")}
+                                 <i className={"fa fa-plus"} />
+                                  &nbsp; Add More
+                                
+                                
                               </div>
                             </div>
                           </div>

@@ -259,7 +259,7 @@ const CareInstitutionContacts: any = (props: any) => {
           <Nav tabs className="contact-tabs">
             {contacts.map((contact: any, index: number) => {
               return (
-                <NavItem>
+                <NavItem className="text-capitalize">
                   <NavLink
                     className={`${index === activeContact ? "active" : ""}`}
                     onClick={() => setActiveContact(index)}

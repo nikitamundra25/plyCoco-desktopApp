@@ -40,7 +40,7 @@ const BillingSettingsFormComponent: any = (
               <Col sm='8'>
                 <Row className='custom-col inner-no-padding-col'>
                   <Col sm='5'>
-                    <div>
+                    <div >
                       <Field
                         component={FormikTextField}
                         name={'fee'}

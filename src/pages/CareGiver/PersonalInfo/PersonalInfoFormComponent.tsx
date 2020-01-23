@@ -930,7 +930,7 @@ const PersonalInfoFormComponent: any = (
                     placeholder="Comments (Internally)"
                     className="textarea-custom"
                     rows="4"
-                    value={comments}
+                    value={comments ? comments : undefined}
                     onChange={handleChange}
                   />
                 </div>

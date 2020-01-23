@@ -159,6 +159,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       leasingPricingList,
       invoiceInterval
     } = values;
+    console.log("values", values);
+
     try {
       let careGiverInput: any = {
         userName,

@@ -304,6 +304,7 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
     : null,
     firstName,
     lastName,
+    phoneNumber: props.getCaregiver ? props.getCaregiver.phoneNumber:"",
     dateOfBirth: props.getCaregiver && props.getCaregiver.caregiver
     ? props.getCaregiver.caregiver.dateOfBirth
     : null,
@@ -355,10 +356,6 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
             value: props.getCaregiver.regions[0].id
           }
         : undefined,
-    phoneNumber:
-      props.getCaregiver && props.getCaregiver.caregiver
-        ? props.getCaregiver.caregiver.phoneNumber
-        : "",
     fax:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.fax

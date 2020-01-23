@@ -719,30 +719,6 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-
-            <Col lg={"12"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("DEFAULT_QAULIFICATION")}
-                    </Label>
-                  </Col>
-                  <Col sm="8">
-                    <div>
-                      <Select
-                        placeholder={languageTranslation(
-                          "DEFAULT_QAULIFICATION"
-                        )}
-                        value={state ? state : undefined}
-                        onChange={(value: any) => handleSelect(value, "state")}
-                        options={props.qualificationList}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
             <Col lg={"12"}>
               <FormGroup>
                 <Row>

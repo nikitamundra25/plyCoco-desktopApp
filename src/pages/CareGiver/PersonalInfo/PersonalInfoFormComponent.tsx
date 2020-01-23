@@ -690,10 +690,7 @@ const PersonalInfoFormComponent: any = (
                   Driver's license
                 </Label>
               </Col>
-              {
-                console.log("driversLicenseValue", driversLicense)
-
-              }
+              {console.log("driversLicenseValue", driversLicense)}
               <Col sm="8">
                 <div className="custom-radio-block">
                   <FormGroup check inline>
@@ -702,7 +699,11 @@ const PersonalInfoFormComponent: any = (
                       id="yes_v"
                       name="driversLicense"
                       label="Yes"
-                      checked={(driversLicense === "yes" || driversLicense) ? true : false}
+                      checked={
+                        driversLicense === "yes" || driversLicense
+                          ? true
+                          : false
+                      }
                       value={"yes"}
                       onChange={handleChange}
                     />
@@ -713,7 +714,11 @@ const PersonalInfoFormComponent: any = (
                       id="no_v"
                       name="driversLicense"
                       label="No"
-                      checked={(driversLicense === "no" || !driversLicense) ? true : false}
+                      checked={
+                        driversLicense === "no" || !driversLicense
+                          ? true
+                          : false
+                      }
                       value={"no"}
                       onChange={handleChange}
                     />

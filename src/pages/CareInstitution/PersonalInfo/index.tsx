@@ -151,7 +151,6 @@ const PersonalInformation: any = (props: any) => {
           AttributeData.push(attribute.label)
       )
     }
-    console.log("AttributeData", AttributeData);
 
     values.attributeId && values.attributeId.length
       ? values.attributeId.map(
@@ -231,6 +230,7 @@ const PersonalInformation: any = (props: any) => {
   let countryData: Number;
   let regionId: String;
   let linkedToId: String;
+
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
 
@@ -305,16 +305,17 @@ const PersonalInformation: any = (props: any) => {
         };
       }
     }
+    
     let selectedAttributes: IReactSelectInterface[] = []
     if (getCareInstitution && getCareInstitution.canstitution && getCareInstitution.canstitution.attributes && getCareInstitution.canstitution.attributes.length) {
-      getCareInstitution.canstitution.attributes.map((attData: string)=>{
+      getCareInstitution.canstitution.attributes.map((attData: string) => {
         selectedAttributes.push({
           label: attData,
           value: attData
         })
       })
     }
-   
+
     values = {
       id: Id,
       email: getCareInstitution.email,
@@ -439,17 +440,13 @@ const PersonalInformation: any = (props: any) => {
       );
     }
     values.qualificationId = qualificationsData;
-   
+
     Data = {
       label: `${getCareInstitution.firstName} ${''} ${
         getCareInstitution.lastName
         }`,
       value: Id,
     };
-    console.log(
-      ' getCareInstitution.canstitution.city',
-      getCareInstitution.canstitution && getCareInstitution.canstitution.city,
-    );
   } else {
     values = {
       email: '',
@@ -461,7 +458,7 @@ const PersonalInformation: any = (props: any) => {
       shortName: '',
       companyName: '',
       street: '',
-      city: '', 
+      city: '',
     };
   }
 
@@ -482,8 +479,6 @@ const PersonalInformation: any = (props: any) => {
 
   const { qualificationList } = props;
   const CareInstitutionLinkedTo = props.CareInstitutionList;
-  console.log('valueee', values.city);
-
   return (
     <Form className='form-section forms-main-section'>
       <Formik

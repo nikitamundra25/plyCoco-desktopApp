@@ -39,13 +39,17 @@ import {
   IPersonalObject,
   IBillingSettingsValues,
   ICareGiverInput,
-  IReactSelectInterface
+  IReactSelectInterface,
+  ICountries,
+  IStates
 } from "../../../interfaces";
+import { CareGiverValidationSchema } from "../../../validations/CareGiverValidationSchema";
+
 import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
 import { AppRoutes, Country } from "../../../config";
 import "../caregiver.scss";
-import { GET_QUALIFICATION_ATTRIBUTES } from "../../../queries";
+import { GET_QUALIFICATION_ATTRIBUTES, CountryQueries } from "../../../queries";
 import { IQualifications } from "../../../interfaces/qualification";
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
@@ -78,12 +82,32 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     });
   }
 
+  const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+
+  //To get country details
+  const { data: countries, loading: countryLoading } = useQuery<ICountries>(
+    GET_COUNTRIES
+  );
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY
+  );
+
+  useEffect(() => {
+    if (props.getCaregiver && props.getCaregiver.caregiver) {
+      getStatesByCountry({
+        variables: {
+          countryid: props.getCaregiver
+            ? props.getCaregiver.caregiver.countryId
+            : ""
+        }
+      });
+    }
+  }, [props.getCaregiver]);
+
   const handleSubmit = async (
     values: ICareGiverValues,
     { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
-    console.log("Values", values);
-
     // to set submit state to false after successful signup
     const {
       userName,
@@ -156,7 +180,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
             : null,
         street,
         city,
-        postalCode,
+        zipCode: postalCode,
         phoneNumber,
         fax,
         mobileNumber,
@@ -232,16 +256,57 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       qualificationsData.push({ label: attributeName, value: id });
     });
   }
-  console.log(props.getCaregiver, "props.getCaregiver");
+  let countryData: Number;
+
+  if (props.getCaregiver && props.getCaregiver.caregiver) {
+    countryData = props.getCaregiver.caregiver.countryId;
+  }
+
+  let userSelectedCountry: any = {};
+
+  if (countries && countries.countries) {
+    const userCountry = countries.countries.filter(
+      (x: any) => x.id === countryData
+    );
+
+    if (userCountry && userCountry.length) {
+      userSelectedCountry = {
+        label: userCountry[0].name,
+        value: userCountry[0].id
+      };
+    }
+  }
+
+  const stateData =
+    props.getCaregiver && props.getCaregiver.caregiver
+      ? props.getCaregiver.caregiver.stateId
+      : "";
+
+  let userSelectedState: any = {};
+  if (statesData && statesData.states) {
+    const userState = statesData.states.filter((x: any) => x.id === stateData);
+    if (userState && userState.length) {
+      userSelectedState = {
+        label: userState[0].name,
+        value: userState[0].id
+      };
+    }
+  }
 
   const initialValues: ICareGiverValues = {
     id,
     userName,
-    stateId,
-    title,
+    state: userSelectedState,
+    title:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.title
+        : null,
     firstName,
     lastName,
-    dateOfBirth,
+    dateOfBirth:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.dateOfBirth
+        : null,
     age:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.age
@@ -262,6 +327,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.driverLicenseNumber
         : "",
+
+    country: userSelectedCountry,
     vehicleAvailable:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.vehicleAvailable
@@ -276,7 +343,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : "",
     postalCode:
       props.getCaregiver && props.getCaregiver.caregiver
-        ? props.getCaregiver.caregiver.postalCode
+        ? props.getCaregiver.caregiver.zipCode
         : "",
     countryId,
     regionId:
@@ -307,8 +374,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : "",
     socialSecurityContribution,
     bankName:
-      props.getCaregiver && props.getCaregiver.caregiver
-        ? props.getCaregiver.caregiver.bankName
+      props.getCaregiver && props.getCaregiver.bankDetails
+        ? props.getCaregiver.bankDetails.bankName
         : "",
     IBAN:
       props.getCaregiver && props.getCaregiver.bankDetails
@@ -397,6 +464,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       initialValues={initialValues}
       onSubmit={handleSubmit}
       enableReinitialize={true}
+      validationSchema={CareGiverValidationSchema}
       render={(props: FormikProps<ICareGiverValues>) => {
         return (
           <Form className="form-section forms-main-section">

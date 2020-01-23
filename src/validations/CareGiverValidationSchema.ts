@@ -42,12 +42,43 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     )
     .test(
       "num-length",
-      languageTranslation("PHONE_NUM_ERROR"),
+      languageTranslation("PHONE_MAXLENGTH"),
       value =>
         !value || (value && value.length >= telMin && value.length <= telMax)
     ),
-  mobileNumber: Yup.string().min(10, languageTranslation("MOBILE_NUM_ERROR")),
+  mobileNumber: Yup.string()
+    .test(
+      "check-num",
+      languageTranslation("MOB_NUMERROR"),
+      value => !value || (value && !isNaN(value))
+    )
+    .test(
+      "num-length",
+      languageTranslation("MOB_MAXLENGTH"),
+      value =>
+        !value || (value && value.length >= telMin && value.length <= telMax)
+    ),
   userName: Yup.string()
     .trim()
-    .required(languageTranslation("USERNAME_REQUIRED"))
+    .required(languageTranslation("USERNAME_REQUIRED")),
+  fee: Yup.string().test(
+    "check-num",
+    languageTranslation("FEE_NUMERROR"),
+    value => !value || (value && !isNaN(value))
+  ),
+  night: Yup.string().test(
+    "check-num",
+    languageTranslation("NIGHT_NUMERROR"),
+    value => !value || (value && !isNaN(value))
+  ),
+  weekendAllowance: Yup.string().test(
+    "check-num",
+    languageTranslation("WEEKEND_ALLOWANCE_NUMERROR"),
+    value => !value || (value && !isNaN(value))
+  ),
+  holiday: Yup.string().test(
+    "check-num",
+    languageTranslation("HOLIDAY_NUMERROR"),
+    value => !value || (value && !isNaN(value))
+  )
 });

@@ -32,8 +32,8 @@ import CommissionFormData from '../PersonalInfo/PersonalInfoForm/CommissionFormD
 import InvoiceFormData from '../PersonalInfo/PersonalInfoForm/InvoiceFormData';
 import QuallificationAttribute from '../PersonalInfo/PersonalInfoForm/QuallificationAttribute';
 import RemarkFormData from '../PersonalInfo/PersonalInfoForm/RemarkFormData';
-import '../careinstitution.scss';
 import { RegionQueries } from '../../../queries/Region';
+import '../careinstitution.scss';
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -572,8 +572,18 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={phoneNumber}
                         placeholder={languageTranslation('PHONE')}
-                        className='width-common'
+                        // className="width-common"
+                        className={
+                          errors.mobileNumber && touched.mobileNumber
+                            ? 'width-common text-input error'
+                            : 'width-common text-input'
+                        }
                       />
+                      {errors.phoneNumber && touched.phoneNumber && (
+                        <div className='required-error'>
+                          {errors.phoneNumber}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>

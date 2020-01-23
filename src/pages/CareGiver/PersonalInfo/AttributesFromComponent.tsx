@@ -1,81 +1,54 @@
-import React, { Component } from "react";
-import {
-  Card,
-  CardHeader,
-  Label,
-  CardBody,
-  Col,
-  Row,
-  Button,
-  CustomInput,
-  BreadcrumbItem,
-  Breadcrumb,
-  InputGroup,
-  InputGroupAddon,
-  FormGroup
-} from "reactstrap";
-import "react-datepicker/dist/react-datepicker.css";
-import "react-datepicker/dist/react-datepicker.css";
-import {
-  State,
-  Region,
-  Salutation,
-  LegalForm,
-  Country,
-  NightAllowancePerHour,
-  CareGiveAttributes
-} from "../../../config";
-import {
-  Formik,
-  FormikHelpers,
-  FormikProps,
-  Form,
-  Field,
-  FieldProps,
-  FormikValues
-} from "formik";
-import { CareGiverValues } from "../../../interfaces";
-import {
-  FormikSelectField,
-  FormikTextField
-} from "../../../common/forms/FormikFields";
-import { languageTranslation } from "../../../helpers";
-import FormikCheckbox from "../../../common/forms/FormikFields/FormikCheckbox";
-import Select from "react-select";
+import React from 'react';
+import { FormGroup } from 'reactstrap';
+import { CareGiveAttributes } from '../../../config';
+import { FormikProps } from 'formik';
+import { CareGiverValues, IReactSelectInterface } from '../../../interfaces';
+import { languageTranslation } from '../../../helpers';
+import Select from 'react-select';
 
 const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
-  const { values } = props;
-  console.log("errorrrrrssssssssss==========>", props.errors);
+  const {
+    values: { attributeId },
+    setFieldValue,
+  } = props;
+  // Custom function to handle react select fields
+  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
+    setFieldValue(name, selectOption);
+  };
   return (
     <>
-      <div className="common-list-card">
-        <h5 className="content-title">{languageTranslation("ATTRIBUTES")}</h5>
-        <div className="common-list-wrap">
-          <div className="common-list-header d-flex align-items-cente justify-content-between">
-            <div className="common-list-title align-middle">
-              {" "}
-              {languageTranslation("ATTRIBUTES")}
+      <div className='common-list-card'>
+        <h5 className='content-title'>{languageTranslation('ATTRIBUTES')}</h5>
+        <div className='common-list-wrap'>
+          <div className='common-list-header d-flex align-items-cente justify-content-between'>
+            <div className='common-list-title align-middle'>
+              {' '}
+              {languageTranslation('ATTRIBUTES')}
             </div>
-            <div className=" align-middle toggle-icon">
-              <i className="fa fa-angle-down"></i>
+            <div className=' align-middle toggle-icon'>
+              <i className='fa fa-angle-down'></i>
             </div>
           </div>
-          <div className="common-list-body">
-            {/* <ul className="common-list list-unstyled">
-              <li>Dialysis </li>
-              <li>Home Management</li>
-              <li>Nurse/carer</li>
-            </ul> */}
+          <div className='common-list-body'>
+            <ul className='common-list list-unstyled'>
+              {attributeId
+                ? attributeId.map(
+                    ({ label }: IReactSelectInterface, index: number) => {
+                      return <li key={index}>{label}</li>;
+                    },
+                  )
+                : null}
+            </ul>
           </div>
-          <div className="common-list-footer form-section ">
-            <FormGroup className="mb-0">
+          <div className='common-list-footer form-section '>
+            <FormGroup className='mb-0'>
               <Select
-                placeholder={"Add Attributes"}
-                // value={attributeId ? attributeId : undefined}
-                // onChange={(value: any) => handleSelect(value, "attribute")}
+                placeholder={'Attributes'}
+                value={attributeId ? attributeId : undefined}
+                onChange={(value: any) => handleSelect(value, 'attributeId')}
                 isMulti
                 options={CareGiveAttributes}
-                menuPlacement={"top"}
+                menuPlacement={'top'}
               />
             </FormGroup>
           </div>

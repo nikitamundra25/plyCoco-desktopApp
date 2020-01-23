@@ -129,6 +129,7 @@ export const CareGiverForm: FunctionComponent = () => {
       executiveDirector,
       legalFormValue,
       qualifications,
+      attributeId,
       remarks,
       regionId,
       comments,
@@ -141,8 +142,6 @@ export const CareGiverForm: FunctionComponent = () => {
       holiday,
       postalCode,
     } = values;
-
-    console.log('valuess', values);
 
     try {
       let careGiverInput: any = {
@@ -176,6 +175,10 @@ export const CareGiverForm: FunctionComponent = () => {
                 )
                 .join(', ')}}`
             : null,
+        attributes:
+          attributeId && attributeId.length
+            ? attributeId.map(({ label }: IReactSelectInterface) => label)
+            : [],
         driverLicenseNumber,
         driversLicense,
         vehicleAvailable,

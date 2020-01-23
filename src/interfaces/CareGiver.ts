@@ -89,6 +89,7 @@ export interface CareGiverValues {
   legalForm?: IReactSelectInterface;
   legalFormValue?: IReactSelectInterface;
   qualifications?: IReactSelectInterface[];
+  attributeId?: IReactSelectInterface[];
   remarks?: JSON;
   comments?: String;
   nightAllowance?: IReactSelectInterface;
@@ -105,6 +106,10 @@ export interface ICareGiverValidationInterface {
   phoneNumber?: string;
   mobileNumber?: string;
   userName?: string;
+  fee?: string;
+  night?: string;
+  weekendAllowance?: string;
+  holiday?: string;
 }
 
 export interface IEmailMenus<
@@ -210,6 +215,7 @@ export interface ICareGiverValues {
   legalForm?: IReactSelectInterface;
   legalFormValue?: IReactSelectInterface;
   qualifications?: IReactSelectInterface[];
+  attributeId?: IReactSelectInterface[];
   remarks?: ICareInstitutionRemarks[];
   comments?: String;
   invoiceInterval?: IReactSelectInterface;

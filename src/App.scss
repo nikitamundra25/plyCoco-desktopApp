@@ -1000,6 +1000,11 @@ body {
         padding: 0px 0px;
       }
     }
+    .css-1hwfws3 {
+      max-height: 68px;
+      overflow-y: auto;
+ 
+    }
     .css-1rhbuit-multiValue {
       line-height: normal;
     }
@@ -1040,6 +1045,7 @@ body {
   .btn-contact-save {
     font-size: $font_13;
     top: 0px;
+    z-index: unset;
   }
 
   .file-preview-section {

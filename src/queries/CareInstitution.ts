@@ -105,6 +105,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         email
         remark
         id
+        attributes
       }
     }
   }

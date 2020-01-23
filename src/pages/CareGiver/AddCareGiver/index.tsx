@@ -48,7 +48,7 @@ export const CareGiverForm: FunctionComponent = () => {
       "caregiver-add-btn"
     );
     if (buttonDiv) {
-      if (scrollPositionY >= 35) {
+      if (scrollPositionY >= 18) {
         buttonDiv.classList.add("sticky-save-btn");
       } else {
         buttonDiv.classList.remove("sticky-save-btn");

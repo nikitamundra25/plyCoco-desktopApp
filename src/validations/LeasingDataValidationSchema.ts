@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import { ILeasingValues } from '../interfaces';
 import { languageTranslation } from '../helpers';
-import { nameRegExp } from '../config';
 
 export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -10,7 +9,6 @@ export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
   placeOfBirth: Yup.string(),
   birthName: Yup.string()
     .trim()
-    .matches(nameRegExp, languageTranslation('FIRSTNAME_SPECIALCHARACTER'))
     .max(20, languageTranslation('FIRSTNAME_MAXLENGTH')),
   nationality: Yup.mixed(),
   maritalStatus: Yup.mixed(),

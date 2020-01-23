@@ -17,7 +17,8 @@ import {
   Country,
   Gender,
   Salutation,
-  ContactType
+  ContactType,
+  CareInstitutionContactAttribute
 } from "../../../../config";
 import { FormikProps, Field, Form } from "formik";
 import {
@@ -86,7 +87,8 @@ const CotactFormComponent: any = (
       contactType,
       faxNumber,
       id,
-      createdAt
+      createdAt,
+      attributeId
     },
     touched,
     errors,
@@ -119,10 +121,10 @@ const CotactFormComponent: any = (
             <div className="form-flex-tile">
 
               <Row>
-              {id ? (
-                <Col lg={"12"}>
-                  <FormGroup>
-                    
+                {id ? (
+                  <Col lg={"12"}>
+                    <FormGroup>
+
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
@@ -143,10 +145,10 @@ const CotactFormComponent: any = (
                           </div>
                         </Col>
                       </Row>
-                   
-                  </FormGroup>
-                </Col>
-                 ) : null}
+
+                    </FormGroup>
+                  </Col>
+                ) : null}
                 {/* <Col lg={"12"}>
                 <FormGroup>
                   <Row>
@@ -452,7 +454,6 @@ const CotactFormComponent: any = (
                             value={country ? country : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "country")
-
                             }
                             menuPlacement={"top"}
                           />
@@ -648,16 +649,27 @@ const CotactFormComponent: any = (
                 </div>
                 <div className="common-list-body">
                   <ul className="common-list list-unstyled">
-                    <li>Dialysis </li>
-                    <li>Home Management</li>
-                    <li>Nurse/carer</li>
+                    {
+                      attributeId && attributeId.length ?
+                        attributeId.map((data: IReactSelectInterface) => {
+                          return (
+                            <li>{data.label}</li>
+                          )
+                        }) :
+                        null
+                    }
                   </ul>
                 </div>
                 <div className="common-list-footer form-section ">
                   <FormGroup className="mb-0">
                     <Select
-                      placeholder={languageTranslation("REGION", "STATE")}
-                      options={State}
+                      placeholder={"Attributes"}
+                      options={CareInstitutionContactAttribute}
+                      value={attributeId ? attributeId : undefined}
+                      onChange={(value: any) =>
+                        handleSelect(value, "attributeId")
+                      }
+                      isMulti
                       menuPlacement={"top"}
                     />
                   </FormGroup>

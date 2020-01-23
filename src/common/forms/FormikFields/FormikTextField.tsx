@@ -34,7 +34,7 @@ export const FormikTextField = (props: IFormikTextField) => {
         type={type}
         label={newLabel}
         className={errors.value ? "text-input error left" : "text-input"}
-        value={value ? value : ""}
+        value={value !== "" ? value : ""}
         onChange={handleChange(props)}
         onClick={rest.onClick || null}
         onBlur={

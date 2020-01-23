@@ -168,10 +168,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         age: age ? parseInt(age) : null,
         address1,
         address2,
-        driversLicense,
+        driversLicense: driversLicense === "true" ? true : false,
         driverLicenseNumber,
         IBAN: values.IBAN,
-        vehicleAvailable,
+        vehicleAvailable: vehicleAvailable === "true" ? true : false,
         qualificationId:
           qualifications && qualifications.length
             ? `{${qualifications

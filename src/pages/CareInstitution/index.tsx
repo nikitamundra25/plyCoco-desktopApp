@@ -38,6 +38,7 @@ import { ConfirmBox } from '../../common/ConfirmBox';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import Loader from '../../containers/Loader/Loader';
+import ButtonTooltip from '../../common/Tooltip/ButtonTooltip';
 let toastId: any = null;
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -249,30 +250,6 @@ const CareInstitution = (props: RouteComponentProps) => {
         toast.success(
           languageTranslation('CARE_INSTITUTION_DELETE_SUCCESS_MSG'),
         );
-        // const data = await client.readQuery({
-        //   query: GET_CARE_INSTITUTION_LIST,
-        //   variables: queryVariables,
-        // });
-        // logger(data, 'data');
-        // const newData = data.getCareInstitutions.careInstitutionData.filter(
-        //   (user: any) => user.id !== id,
-        // );
-        // logger(newData, 'newData');
-
-        // const updatedData = {
-        //   ...data,
-        //   getCareInstitutions: {
-        //     ...data.getCareInstitutions,
-        //     careInstitutionData: newData,
-        //     totalCount: newData.length,
-        //   },
-        // };
-
-        // client.writeQuery({
-        //   query: GET_CARE_INSTITUTION_LIST,
-        //   variables: queryVariables,
-        //   data: updatedData,
-        // });
       } catch (error) {
         console.log(error, 'errorerrorerror');
 
@@ -345,7 +322,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                 </td>
                 <td>
                   <div className='description-column  ml-0 '>
-                    {user.createdAt ? moment(user.createdAt).format('LLL') : ''}
+                    {user.createdAt ? moment(user.createdAt).format('lll') : ''}
                   </div>
                 </td>
                 <td className='text-center'>
@@ -360,19 +337,16 @@ const CareInstitution = (props: RouteComponentProps) => {
                 </td>
                 <td>
                   <div className='action-btn'>
-                    <span
-                      className='btn-icon mr-2'
+                    <ButtonTooltip
                       id={`view${index}`}
-                      onClick={() => handleViewCareInstitution(user.id)}
+                      message={'Click here to view Care Institution'}
+                      redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
+                        ':id',
+                        user.id.toString(),
+                      )}
                     >
-                      <UncontrolledTooltip
-                        placement='top'
-                        target={`view${index}`}
-                      >
-                        Click here to view care institution
-                      </UncontrolledTooltip>
                       <i className='fa fa-eye'></i>
-                    </span>
+                    </ButtonTooltip>
                     <span
                       className='btn-icon '
                       id={`delete${index}`}
@@ -400,8 +374,8 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className='no-data-icon'>
                     <i className='icon-ban' />
                   </div>
-                  <h4 className="mb-1">
-                    Currently there are no care institution added.{" "}
+                  <h4 className='mb-1'>
+                    Currently there are no care institution added.{' '}
                   </h4>
                   <p>Please click above button to add new. </p>
                 </div>
@@ -470,7 +444,9 @@ const CareInstitution = (props: RouteComponentProps) => {
               <th className={'text-center'}>{languageTranslation('S_NO')}</th>
               <th>Care Institution Information</th>
               <th>Company Details</th>
-              <th className="date-th-column">{languageTranslation('CREATED_DATE')}</th>
+              <th className='date-th-column'>
+                {languageTranslation('CREATED_DATE')}
+              </th>
               <th className='text-center'>Status</th>
               <th className='text-center'>Action</th>
             </tr>

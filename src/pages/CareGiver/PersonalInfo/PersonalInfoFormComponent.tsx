@@ -31,7 +31,9 @@ const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const PersonalInfoFormComponent: any = (
-  props: FormikProps<ICareGiverValues>
+  props: FormikProps<ICareGiverValues> & {
+    CareInstitutionList: IReactSelectInterface[] | undefined;
+  }
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
@@ -117,7 +119,8 @@ const PersonalInfoFormComponent: any = (
       driversLicense,
       legalForm,
       vehicleAvailable,
-      comments
+      comments,
+      belongTo
     },
     handleChange,
     handleBlur,
@@ -228,7 +231,7 @@ const PersonalInfoFormComponent: any = (
                   </Col>
                   <Col sm="7">
                     <FormGroup>
-                      <Row className="custom-col inner-no-padding-col d-flex align-items-center">
+                      <Row className="custom-col inner-no-padding-col d-flex ">
                         <Col sm="6">
                           <Label className="form-label col-form-label inner-label">
                             {languageTranslation("TITLE")}
@@ -289,7 +292,7 @@ const PersonalInfoFormComponent: any = (
                     component={FormikTextField}
                     name={"firstName"}
                     placeholder={languageTranslation("FIRST_NAME")}
-                    className="width-common"
+                    className="width-common text-capitalize"
                   />
                 </div>
                 {/* <Button  className="alfabate-btn btn">N</Button> */}
@@ -312,7 +315,7 @@ const PersonalInfoFormComponent: any = (
                     component={FormikTextField}
                     name={"lastName"}
                     placeholder={languageTranslation("SURNAME")}
-                    className="width-common"
+                    className="width-common text-capitalize"
                   />
                 </div>
               </Col>
@@ -356,7 +359,7 @@ const PersonalInfoFormComponent: any = (
                   </Col>
                   <Col sm="5">
                     <FormGroup>
-                      <Row className="custom-col inner-no-padding-col d-flex align-items-center">
+                      <Row className="custom-col inner-no-padding-col d-flex ">
                         <Col sm="6">
                           <Label className="form-label col-form-label inner-label">
                             Age
@@ -668,7 +671,12 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col sm="8">
                 <div>
-                  <Select placeholder="Belongs to" options={State} />
+                  <Select
+                    placeholder="Belongs to"
+                    options={props.CareInstitutionList}
+                    value={belongTo ? belongTo : undefined}
+                    onChange={(value: any) => handleSelect(value, "belongTo")}
+                  />
                 </div>
               </Col>
             </Row>
@@ -682,10 +690,7 @@ const PersonalInfoFormComponent: any = (
                   Driver's license
                 </Label>
               </Col>
-              {
-                console.log("driversLicenseValue", driversLicense)
-
-              }
+              {console.log("driversLicenseValue", driversLicense)}
               <Col sm="8">
                 <div className="custom-radio-block">
                   <FormGroup check inline>
@@ -694,7 +699,11 @@ const PersonalInfoFormComponent: any = (
                       id="yes_v"
                       name="driversLicense"
                       label="Yes"
-                      checked={(driversLicense === "yes" || driversLicense) ? true : false}
+                      checked={
+                        driversLicense === "yes" || driversLicense
+                          ? true
+                          : false
+                      }
                       value={"yes"}
                       onChange={handleChange}
                     />
@@ -705,7 +714,11 @@ const PersonalInfoFormComponent: any = (
                       id="no_v"
                       name="driversLicense"
                       label="No"
-                      checked={(driversLicense === "no" || !driversLicense) ? true : false}
+                      checked={
+                        driversLicense === "no" || !driversLicense
+                          ? true
+                          : false
+                      }
                       value={"no"}
                       onChange={handleChange}
                     />
@@ -930,7 +943,7 @@ const PersonalInfoFormComponent: any = (
                     placeholder="Comments (Internally)"
                     className="textarea-custom"
                     rows="4"
-                    value={comments}
+                    value={comments ? comments : undefined}
                     onChange={handleChange}
                   />
                 </div>

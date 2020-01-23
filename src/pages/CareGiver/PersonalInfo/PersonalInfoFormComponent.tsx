@@ -1,27 +1,16 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Select from 'react-select';
 import { Label, Col, Row, CustomInput, FormGroup, Input } from 'reactstrap';
 import {
   State,
-  Region,
   Salutation,
   LegalForm,
-  Country,
   Gender,
   DateMask,
   IBANRegex,
 } from '../../../config';
+import { FormikProps, Field } from 'formik';
 import {
-  Formik,
-  FormikHelpers,
-  FormikProps,
-  Form,
-  Field,
-  FieldProps,
-  FormikValues,
-} from 'formik';
-import {
-  CareGiverValues,
   IReactSelectInterface,
   IStates,
   ICountries,
@@ -30,10 +19,7 @@ import {
   IRegion,
   ICareGiverValues,
 } from '../../../interfaces';
-import {
-  FormikSelectField,
-  FormikTextField,
-} from '../../../common/forms/FormikFields';
+import { FormikTextField } from '../../../common/forms/FormikFields';
 import { languageTranslation } from '../../../helpers';
 import MaskedInput from 'react-text-mask';
 import { useLazyQuery, useQuery } from '@apollo/react-hooks';

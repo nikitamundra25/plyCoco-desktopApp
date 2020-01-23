@@ -25,7 +25,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       mobileNumber
       countryId
       stateId
-      postalCode
+      zipCode
       employed
       salutation
       gender
@@ -100,7 +100,7 @@ export const GET_CAREGIVERS = gql`
           mobileNumber
           countryId
           stateId
-          postalCode
+          zipCode
           legalForm
           employed
           comments
@@ -142,7 +142,7 @@ export const GET_CAREGIVER_BY_ID = gql`
         mobileNumber
         countryId
         stateId
-        postalCode
+        zipCode
         employed
         comments
         companyName

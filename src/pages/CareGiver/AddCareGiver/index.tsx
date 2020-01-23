@@ -142,8 +142,6 @@ export const CareGiverForm: FunctionComponent = () => {
       holiday
     } = values;
 
-    console.log("valuess", values);
-
     try {
       let careGiverInput: any = {
         salutation: salutation && salutation.label ? salutation.label : "",

@@ -32,8 +32,8 @@ import CommissionFormData from '../PersonalInfo/PersonalInfoForm/CommissionFormD
 import InvoiceFormData from '../PersonalInfo/PersonalInfoForm/InvoiceFormData';
 import QuallificationAttribute from '../PersonalInfo/PersonalInfoForm/QuallificationAttribute';
 import RemarkFormData from '../PersonalInfo/PersonalInfoForm/RemarkFormData';
-import '../careinstitution.scss';
 import { RegionQueries } from '../../../queries/Region';
+import '../careinstitution.scss';
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;

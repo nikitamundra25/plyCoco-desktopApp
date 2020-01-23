@@ -89,6 +89,7 @@ export interface CareGiverValues {
   legalForm?: IReactSelectInterface;
   legalFormValue?: IReactSelectInterface;
   qualifications?: IReactSelectInterface[];
+  attributeId?: IReactSelectInterface[];
   remarks?: JSON;
   comments?: String;
   nightAllowance?: IReactSelectInterface;

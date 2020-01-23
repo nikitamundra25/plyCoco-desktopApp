@@ -58,7 +58,9 @@ const sortFilter: any = {
 const CareInstitution = (props: RouteComponentProps) => {
   const [fetchCareInstitutionList, { data, loading, refetch }] = useLazyQuery<
     any
-  >(GET_CARE_INSTITUTION_LIST);
+  >(GET_CARE_INSTITUTION_LIST, {
+    fetchPolicy: 'no-cache',
+  });
 
   let userData: [Object] | any;
   let history = useHistory();
@@ -197,6 +199,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             isActive: !status,
           },
         });
+        refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
             languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG'),
@@ -242,36 +245,34 @@ const CareInstitution = (props: RouteComponentProps) => {
             id,
           },
         });
-
+        refetch();
         toast.success(
           languageTranslation('CARE_INSTITUTION_DELETE_SUCCESS_MSG'),
         );
-        console.log('dffffffffffffffffffffffffffffffffffff');
+        // const data = await client.readQuery({
+        //   query: GET_CARE_INSTITUTION_LIST,
+        //   variables: queryVariables,
+        // });
+        // logger(data, 'data');
+        // const newData = data.getCareInstitutions.careInstitutionData.filter(
+        //   (user: any) => user.id !== id,
+        // );
+        // logger(newData, 'newData');
 
-        const data = await client.readQuery({
-          query: GET_CARE_INSTITUTION_LIST,
-          variables: queryVariables,
-        });
-        logger(data, 'data');
-        const newData = data.getCareInstitutions.careInstitutionData.filter(
-          (user: any) => user.id !== id,
-        );
-        logger(newData, 'newData');
+        // const updatedData = {
+        //   ...data,
+        //   getCareInstitutions: {
+        //     ...data.getCareInstitutions,
+        //     careInstitutionData: newData,
+        //     totalCount: newData.length,
+        //   },
+        // };
 
-        const updatedData = {
-          ...data,
-          getCareInstitutions: {
-            ...data.getCareInstitutions,
-            careInstitutionData: newData,
-            totalCount: newData.length,
-          },
-        };
-
-        client.writeQuery({
-          query: GET_CARE_INSTITUTION_LIST,
-          variables: queryVariables,
-          data: updatedData,
-        });
+        // client.writeQuery({
+        //   query: GET_CARE_INSTITUTION_LIST,
+        //   variables: queryVariables,
+        //   data: updatedData,
+        // });
       } catch (error) {
         console.log(error, 'errorerrorerror');
 

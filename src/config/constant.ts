@@ -71,10 +71,27 @@ export const Status: IReactSelectInterface[] = [
 export const webRegExp: RegExp = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.​\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[​6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1​,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00​a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u​00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i;
 
 export const ContactType: IReactSelectInterface[] = [
+  { value: 'Medical director', label: 'Medical director' },
+  { value: 'Bookkeeper', label: 'Bookkeeper' },
+  { value: 'Head physician', label: 'Head physician' },
   { value: 'Director', label: 'Director' },
-  { value: 'Pesident', label: 'Pesident' },
-  { value: 'vicePesident', label: 'Vice Pesident' },
-  { value: 'Nursing', label: 'Nursing' },
+  { value: 'Managing director', label: 'Managing director' },
+  { value: 'Nursing home director', label: 'Nursing home director' },
+  { value: 'Assistant medical director', label: 'Assistant medical director' },
+  { value: 'Head of the nursing service', label: 'Head of the nursing service' },
+  { value: 'Head of the nursing service', label: 'Head of the nursing service' },
+  { value: 'Assitant to the head of the nursing service', label: 'Assitant to the head of the nursing service' },
+  { value: 'Guesthouse', label: 'Guesthouse' },
+  { value: 'HR department', label: 'HR department' },
+  { value: 'Health care director', label: 'Health care director' },
+  { value: 'Practice manager', label: 'Practice manager' },
+  { value: 'General manager', label: 'General manager' },
+  { value: 'Secretary', label: 'Secretary' },
+  { value: 'Other', label: 'Other' },
+  { value: 'Vice director', label: 'Vice director' },
+  { value: 'Administration department', label: 'Administration department' },
+  { value: 'Headquarter', label: 'Headquarter' },
+  { value: 'Branch office', label: 'Branch office' }
 ];
 export const InvoiceType: IReactSelectInterface[] = [
   {
@@ -107,6 +124,51 @@ export const InvoiceType: IReactSelectInterface[] = [
     label: 'via Email With Work Proof',
   },
 ];
+
+export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
+  {
+    label: "Acquisition only twice a year",
+    value: "Acquisition only twice a year"
+  },
+  {
+    label: "Acquire block 1 - 5",
+    value: "Acquire block 1 - 5"
+  },
+  {
+    label: "Need skilled workers → yellow",
+    value: "Need skilled workers → yellow"
+  },
+  {
+    label: "Incorrect data set → black with white text",
+    value: "Incorrect data set → black with white text"
+  },
+  {
+    label: "Information mail sent → yellow",
+    value: "Information mail sent → yellow"
+  },
+  {
+    label: "Would info by email → yellow",
+    value: "Would info by email → yellow"
+  },
+  {
+    label: "Would info by callback → Yellow",
+    value: "Would info by callback → Yellow"
+  },
+  {
+    label: "Do not want to contact anymore → black with white text",
+    value: "Do not want to contact anymore → black with white text"
+  },
+  {
+    label: "Currently no interest → Yellow",
+    value: "Currently no interest → Yellow"
+  },
+  {
+    label: "Not available → black with white text",
+    value: "Not available → black with white text"
+  }
+]
+
+
 export const CareGiveAttributes: IReactSelectInterface[] = [
   {
     label: 'Offers → Blass Rosé',
@@ -141,6 +203,7 @@ export const CareGiveAttributes: IReactSelectInterface[] = [
     value: 'Login possible → pale turquoise',
   },
 ];
+
 
 export const CareInstitutionAttr: IReactSelectInterface[] = [
   {
@@ -189,8 +252,8 @@ export const State: IReactSelectInterface[] = [
   { value: 'Saxony', label: 'Saxony' },
 ];
 export const Gender: IReactSelectInterface[] = [
-  { value: 'male', label: 'Male' },
-  { value: 'female', label: 'Female' },
+  { value: 'Male', label: 'Male' },
+  { value: 'Female', label: 'Female' },
 ];
 export const Department: IReactSelectInterface[] = [
   { value: 'Sales', label: 'Sales' },

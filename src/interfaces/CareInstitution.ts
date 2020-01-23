@@ -91,6 +91,7 @@ export interface ICareInstitutionContact {
   groupAttributes?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  attributeId?: IReactSelectInterface[]
 }
 
 export interface ICareInstitutionListDataInterface {

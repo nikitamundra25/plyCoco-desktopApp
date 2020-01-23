@@ -51,6 +51,7 @@ import { AppRoutes, Country } from "../../../config";
 import "../caregiver.scss";
 import { GET_QUALIFICATION_ATTRIBUTES, CountryQueries } from "../../../queries";
 import { IQualifications } from "../../../interfaces/qualification";
+import Loader from "../../../containers/Loader/Loader";
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
@@ -155,7 +156,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       weekendAllowance,
       night,
       holiday,
-      leasingPricingList
+      leasingPricingList,
+      invoiceInterval
     } = values;
     try {
       let careGiverInput: any = {
@@ -199,7 +201,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         bankName,
         password,
         // belongTo,
-        legalForm: legalForm && legalForm.value?legalForm.label:null,
+        legalForm: legalForm && legalForm.value ? legalForm.label : null,
         companyName,
         registerCourt,
         registrationNumber,
@@ -215,8 +217,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         holiday: holiday ? parseInt(holiday) : null,
         night: night ? parseInt(night) : null,
         regionId: regionId && regionId.value ? `{${regionId.value}}` : null,
-        invoiceInterval: invoiceInterval && invoiceInterval.value?invoiceInterval.label:null,
-        leasingPricingList: leasingPricingList && leasingPricingList.value?leasingPricingList.label:null  
+        invoiceInterval:
+          invoiceInterval && invoiceInterval.value
+            ? invoiceInterval.label
+            : null,
+        leasingPricingList:
+          leasingPricingList && leasingPricingList.value
+            ? leasingPricingList.label
+            : null
       };
       // Edit employee details
       if (id) {
@@ -255,10 +263,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     belongTo = "",
     legalForm = "",
     status = "active",
-    invoiceInterval = "",
     qualifications = [],
     caregiver = {}
   } = props.getCaregiver ? props.getCaregiver : {};
+
+  const { nightAllowance, leasingPricingList, invoiceInterval } = caregiver;
   const qualificationsData: IReactSelectInterface[] | undefined = [];
   if (qualifications) {
     qualifications.forEach(({ attributeName, id }: any) => {
@@ -403,7 +412,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         ? props.getCaregiver.bankDetails.IBAN
         : "",
     belongTo,
-    legalForm,
+    legalForm:
+      props.getCaregiver && props.getCaregiver.caregiver.legalForm
+        ? {
+            label: props.getCaregiver.caregiver.legalForm,
+            value: props.getCaregiver.caregiver.legalForm
+          }
+        : undefined,
     companyName:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.companyName
@@ -433,7 +448,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.remarks
         : [],
-    invoiceInterval,
+    invoiceInterval: invoiceInterval
+      ? { label: invoiceInterval, value: invoiceInterval }
+      : undefined,
     qualifications: qualificationsData,
     fee:
       props.getCaregiver &&
@@ -441,12 +458,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       props.getCaregiver.caregiver.fee
         ? props.getCaregiver.caregiver.fee
         : null,
-    nightAllowance:
-      props.getCaregiver &&
-      props.getCaregiver.caregiver &&
-      props.getCaregiver.caregiver.nightAllowance
-        ? props.getCaregiver.caregiver.nightAllowance
-        : null,
+    nightAllowance: nightAllowance
+      ? { label: nightAllowance, value: nightAllowance }
+      : undefined,
+    leasingPricingList: leasingPricingList
+      ? { label: leasingPricingList, value: leasingPricingList }
+      : undefined,
     weekendAllowance:
       props.getCaregiver &&
       props.getCaregiver.caregiver &&
@@ -481,6 +498,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : undefined,
     attributeId: selectedAttributes
   };
+  console.log("props in personal info", props.getCaregiver);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -596,7 +615,12 @@ class GetData extends Component<any, any> {
         variables={{ id: parseInt(this.props.Id) }}
       >
         {({ loading, error, data }: any) => {
-          if (loading) return <div>Loading</div>;
+          if (loading)
+            return (
+              <div>
+                <Loader />
+              </div>
+            );
           if (error) return <div>Caught error: {error.message}</div>;
           return (
             <PersonalInformation

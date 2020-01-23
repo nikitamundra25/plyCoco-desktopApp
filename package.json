@@ -6,7 +6,6 @@
   "copyright": "Copyright 2019 Chapter247 Infotech",
   "license": "MIT",
   "private": true,
-  "homepage": "http://192.249.123.124:8010/superadmin",
   "repository": {
     "type": "git",
     "url": "https://github.com/anandchapter247/plyCoco.git"

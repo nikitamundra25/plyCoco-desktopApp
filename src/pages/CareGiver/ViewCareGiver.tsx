@@ -234,6 +234,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                   }
                   Id={Id}
                   isUserChange={isUserChange}
+                  careGiverOpt={careGiverOpt}
                   {...props}
                 />
               ) : null}

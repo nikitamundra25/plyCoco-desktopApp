@@ -4,21 +4,10 @@ import React, {
   useState,
   useEffect
 } from "react";
-import {
-  Button,
-  FormGroup,
-  Label,
-  Input,
-  Col,
-  Row,
-  CustomInput,
-  InputGroup,
-  InputGroupAddon,
-  Card
-} from "reactstrap";
+import { Button, Col, Row } from "reactstrap";
 import { assignIn } from "lodash";
 import "react-datepicker/dist/react-datepicker.css";
-import { RouteComponentProps, useParams, useHistory } from "react-router";
+import { useParams, useHistory } from "react-router";
 import { languageTranslation } from "../../../helpers";
 import PersonalInfoFormComponent from "./PersonalInfoFormComponent";
 import BillingSettingsFormComponent from "./BillingSettingsFormComponent";
@@ -26,7 +15,7 @@ import QualificationFormComponent from "./QualificationFormComponent";
 import AttributeFormComponent from "./AttributesFromComponent";
 import RemarkFormComponent from "./RemarkFormComponent";
 import { Formik, FormikHelpers, Form, FormikProps } from "formik";
-import { Mutation, Query } from "@apollo/react-components";
+import { Query } from "@apollo/react-components";
 import {
   UPDATE_CAREGIVER,
   GET_CAREGIVER_BY_ID,
@@ -35,10 +24,8 @@ import {
 } from "../../../queries/CareGiver";
 import {
   ICareGiverValues,
-  IEditCareGInput,
   IPersonalObject,
   IBillingSettingsValues,
-  ICareGiverInput,
   IReactSelectInterface,
   ICountries,
   IStates
@@ -47,7 +34,6 @@ import { CareGiverValidationSchema } from "../../../validations/CareGiverValidat
 
 import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
-import { AppRoutes, Country } from "../../../config";
 import "../caregiver.scss";
 import { GET_QUALIFICATION_ATTRIBUTES, CountryQueries } from "../../../queries";
 import { IQualifications } from "../../../interfaces/qualification";
@@ -159,8 +145,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       leasingPricingList,
       invoiceInterval
     } = values;
-    console.log("values", values);
-
+ 
     try {
       let careGiverInput: any = {
         userName,
@@ -202,7 +187,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         stateId: state && state.value ? state.value : null,
         bankName,
         password,
-        // belongTo,
+        belongTo: belongTo && belongTo.value ? parseInt(belongTo.value) : null,
         legalForm: legalForm && legalForm.value ? legalForm.label : null,
         companyName,
         registerCourt,
@@ -328,6 +313,22 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     });
   }
 
+  let UserSelectedBelongsTo: any = {};
+  let belongToId =
+    props.getCaregiver && props.getCaregiver.caregiver
+      ? props.getCaregiver.caregiver.belongTo
+      : null;
+
+  if (props.careGiverOpt && props.careGiverOpt.length) {
+    const userBelongTo = props.careGiverOpt.filter(
+      (x: any) => parseInt(x.value) === belongToId
+    );
+
+    if (userBelongTo && userBelongTo.length) {
+      UserSelectedBelongsTo = userBelongTo[0];
+    }
+  }
+
   const initialValues: ICareGiverValues = {
     id,
     userName,
@@ -413,7 +414,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       props.getCaregiver && props.getCaregiver.bankDetails
         ? props.getCaregiver.bankDetails.IBAN
         : "",
-    belongTo,
+    belongTo: UserSelectedBelongsTo ? UserSelectedBelongsTo : null,
     legalForm:
       props.getCaregiver && props.getCaregiver.caregiver.legalForm
         ? {
@@ -500,8 +501,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : undefined,
     attributeId: selectedAttributes
   };
-  console.log("props in personal info", props.getCaregiver);
 
+  const usersList = props.careGiverOpt;
   return (
     <Formik
       initialValues={initialValues}
@@ -527,7 +528,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
             </Button>
             <Row>
               <Col lg={"4"}>
-                <PersonalInfoFormComponent {...props} />
+                <PersonalInfoFormComponent
+                  {...props}
+                  CareInstitutionList={usersList}
+                />
               </Col>
               <Col lg={"4"}>
                 <div className="common-col">
@@ -610,6 +614,8 @@ class GetData extends Component<any, any> {
   };
 
   render() {
+    // const CareInstitutionLinkedTo = props.CareInstitutionList;
+
     return (
       <Query
         query={GET_CAREGIVER_BY_ID}

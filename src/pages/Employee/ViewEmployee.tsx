@@ -321,7 +321,7 @@ const ViewEmployee: FunctionComponent = () => {
                 </Col>
 
                 <Col lg={"6"} md={"6"}>
-                  <div className="emloyee-detail-card h-100">
+                  <div className="emloyee-detail-card">
                     <div className="employee-title">
                       {languageTranslation("BANK_ACCOUNT_INFORMATION")}
                     </div>
@@ -397,7 +397,7 @@ const ViewEmployee: FunctionComponent = () => {
                   </div>
                 </Col>
                 <Col lg={"6"} md={"6"}>
-                  <div className="emloyee-detail-card  h-100">
+                  <div className="emloyee-detail-card   emloyee-other-info">
                     <div className="employee-title">
                       {languageTranslation("OTHER_INFORMATION")}
                     </div>

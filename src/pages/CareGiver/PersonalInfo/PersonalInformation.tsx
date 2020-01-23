@@ -252,7 +252,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     caregiver = {},
   } = props.getCaregiver ? props.getCaregiver : {};
 
-  const { nightAllowance, leasingPricingList, invoiceInterval } = caregiver;
+  const {
+    nightAllowance = undefined,
+    leasingPricingList = undefined,
+    invoiceInterval = undefined,
+  } = caregiver ? caregiver : {};
   const qualificationsData: IReactSelectInterface[] | undefined = [];
   if (qualifications) {
     qualifications.forEach(({ attributeName, id }: any) => {
@@ -414,39 +418,55 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : '',
     belongTo: UserSelectedBelongsTo ? UserSelectedBelongsTo : null,
     legalForm:
-      props.getCaregiver && props.getCaregiver.caregiver.legalForm
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.legalForm
         ? {
             label: props.getCaregiver.caregiver.legalForm,
             value: props.getCaregiver.caregiver.legalForm,
           }
         : undefined,
     companyName:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.companyName
         ? props.getCaregiver.caregiver.companyName
         : '',
     registerCourt:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.registerCourt
         ? props.getCaregiver.caregiver.registerCourt
         : '',
     registrationNumber:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.registrationNumber
         ? props.getCaregiver.caregiver.registrationNumber
         : '',
     executiveDirector:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.executiveDirector
         ? props.getCaregiver.caregiver.executiveDirector
         : '',
     employed:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.employed
         ? props.getCaregiver.caregiver.employed
         : false,
     comments:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.comments
         ? props.getCaregiver.caregiver.comments
         : '',
     status,
     remarks:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.remarks
         ? props.getCaregiver.caregiver.remarks
         : [],
     invoiceInterval: invoiceInterval

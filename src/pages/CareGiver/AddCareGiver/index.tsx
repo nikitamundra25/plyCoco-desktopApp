@@ -198,6 +198,10 @@ export const CareGiverForm: FunctionComponent = () => {
           invoiceInterval && invoiceInterval.value
             ? invoiceInterval.value
             : null,
+        leasingPricingList:
+          leasingPricingList && leasingPricingList.value
+            ? leasingPricingList.value
+            : null,
         // remarks: remarks && remarks.length ? remarks : [],
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],

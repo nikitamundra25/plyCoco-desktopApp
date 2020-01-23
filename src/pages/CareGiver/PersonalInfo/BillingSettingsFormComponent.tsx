@@ -7,6 +7,7 @@ import {
   Region,
   NightAllowancePerHour,
   InvoiceInterval,
+  LeasingPriceList,
 } from '../../../config';
 import { FormikProps, Field } from 'formik';
 import { CareGiverValues, IReactSelectInterface } from '../../../interfaces';
@@ -17,7 +18,7 @@ const BillingSettingsFormComponent: any = (
   props: FormikProps<CareGiverValues>,
 ) => {
   const {
-    values: { nightAllowance, invoiceInterval },
+    values: { nightAllowance, invoiceInterval, leasingPricingList },
     setFieldValue,
   } = props;
   logger(nightAllowance, 'values');
@@ -175,7 +176,14 @@ const BillingSettingsFormComponent: any = (
               </Col>
               <Col sm='8'>
                 <div>
-                  <Select placeholder='Lessing Price List' options={Region} />
+                  <Select
+                    placeholder='Lessing Price List'
+                    options={LeasingPriceList}
+                    onChange={(value: any) =>
+                      handleSelect(value, 'leasingPricingList')
+                    }
+                    value={leasingPricingList}
+                  />
                 </div>
               </Col>
             </Row>

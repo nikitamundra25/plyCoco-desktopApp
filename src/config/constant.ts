@@ -416,3 +416,42 @@ export const StatusOptions: IReactSelectInterface[] = [
     value: 'false',
   },
 ];
+
+export const LeasingPriceList: IReactSelectInterface[] = [
+  {
+    label: 'Standard nurse',
+    value: 'Standard nurse',
+  },
+  {
+    label: 'Permanent employees 12,50',
+    value: 'Permanent employees 12,50',
+  },
+  {
+    label: 'MediTech',
+    value: 'MediTech',
+  },
+  {
+    label: 'Salaried 27,00',
+    value: 'Salaried 27,00',
+  },
+  {
+    label: 'Salaried 25,00',
+    value: 'Salaried 25,00',
+  },
+  {
+    label: 'Salaried 20,00',
+    value: 'Salaried 20,00',
+  },
+  {
+    label: 'Salaried 23,50',
+    value: 'Salaried 23,50',
+  },
+  {
+    label: 'Salaried 14,50',
+    value: 'Salaried 14,50',
+  },
+  {
+    label: 'Salaried 26,00',
+    value: 'Salaried 26,00',
+  },
+];

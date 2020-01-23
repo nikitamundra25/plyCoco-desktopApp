@@ -93,7 +93,7 @@ export interface CareGiverValues {
   comments?: String;
   nightAllowance?: IReactSelectInterface;
   invoiceInterval?: IReactSelectInterface;
-  leasingPricingList?: String;
+  leasingPricingList?: IReactSelectInterface;
 }
 
 export interface ICareGiverValidationInterface {
@@ -213,7 +213,7 @@ export interface ICareGiverValues {
   remarks?: ICareInstitutionRemarks[];
   comments?: String;
   invoiceInterval?: IReactSelectInterface;
-  leasingPricingList?: String;
+  leasingPricingList?: IReactSelectInterface;
   fee?: string;
   nightAllowance?: IReactSelectInterface;
   weekendAllowance?: string;

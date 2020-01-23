@@ -23,6 +23,7 @@ import {
   Preoccupation,
   HealthInsuranceProvider,
   HealthInsuranceType,
+  StatusOptions,
 } from '../../../config';
 
 export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
@@ -83,6 +84,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
             getLeasingInformation.maritalStatus,
             MaritalStatus,
           ),
+          status: setLabelValue(getLeasingInformation.status, StatusOptions),
           religion: setLabelValue(getLeasingInformation.religion, Religion),
           preoccupation: setLabelValue(
             getLeasingInformation.preOccupation,
@@ -131,8 +133,10 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
         nationality: nationality && nationality.value ? nationality.value : '',
         maritalStatus:
           maritalStatus && maritalStatus.value ? maritalStatus.value : '',
-        children,
-        factorChildAllowance: factorChildAllowance ? factorChildAllowance : '',
+        children: children ? children.toString() : '',
+        factorChildAllowance: factorChildAllowance
+          ? factorChildAllowance.toString()
+          : '',
         healthInsuranceType:
           healthInsuranceType && healthInsuranceType.value
             ? healthInsuranceType.value
@@ -176,8 +180,8 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     birthName = '',
     nationality = undefined,
     maritalStatus = undefined,
-    children = '',
-    factorChildAllowance = '',
+    children = 0,
+    factorChildAllowance = 0,
     healthInsuranceType = undefined,
     healthInsuranceProvider = undefined,
     socialSecurityNumber = '',
@@ -193,8 +197,8 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     birthName,
     nationality,
     maritalStatus,
-    children,
-    factorChildAllowance,
+    children: children ? children : 0,
+    factorChildAllowance: factorChildAllowance ? factorChildAllowance : 0,
     healthInsuranceType,
     healthInsuranceProvider,
     socialSecurityNumber,

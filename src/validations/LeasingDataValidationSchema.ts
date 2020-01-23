@@ -10,7 +10,6 @@ export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
   placeOfBirth: Yup.string(),
   birthName: Yup.string()
     .trim()
-    .matches(nameRegExp, languageTranslation('FIRSTNAME_SPECIALCHARACTER'))
     .max(20, languageTranslation('FIRSTNAME_MAXLENGTH')),
   nationality: Yup.mixed(),
   maritalStatus: Yup.mixed(),

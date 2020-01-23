@@ -97,7 +97,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     // call query
     fetchRegionList({
       variables: {
-        limit: 200,
+        limit: 25,
         sortBy: 3,
       },
     });

@@ -95,7 +95,7 @@ const PersonalInfoFormComponent: any = (
     // call query
     fetchRegionList({
       variables: {
-        limit: 200,
+        limit: 25,
         sortBy: 3
       }
     });
@@ -115,6 +115,7 @@ const PersonalInfoFormComponent: any = (
       state,
       employed,
       driversLicense,
+      legalForm,
       vehicleAvailable,
       comments
     },
@@ -124,8 +125,6 @@ const PersonalInfoFormComponent: any = (
     setFieldValue,
     touched
   } = props;
-  console.log(props.values, "props.value");
-  console.log("{driversLicense}{driversLicense}", driversLicense);
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
@@ -784,7 +783,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder="Legal Form"
                     options={LegalForm}
-                    //  value={qualificationId ? qualificationId : undefined}
+                    value={legalForm ? legalForm : undefined}
                     onChange={(value: any) => handleSelect(value, "legalForm")}
                   />
                 </div>

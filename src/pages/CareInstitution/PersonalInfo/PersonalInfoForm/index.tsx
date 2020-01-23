@@ -100,7 +100,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldTouched,
     CareInstitutionList,
   } = props;
-console.log("errors",errors);
+  console.log('errors', errors);
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
@@ -109,7 +109,7 @@ console.log("errors",errors);
     // call query
     fetchRegionList({
       variables: {
-        limit: PAGE_LIMIT,
+        limit: 25,
         sortBy: 3,
       },
     });
@@ -132,7 +132,7 @@ console.log("errors",errors);
         label: e.label,
         value: e.value,
       };
-      setFieldValue("linkedTo", data);
+      setFieldValue('linkedTo', data);
       // setselectUser((selectUser = data));
       // if (e.value !== Id) {
       //   props.history.push(

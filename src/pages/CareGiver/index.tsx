@@ -206,7 +206,7 @@ const CareGiver: FunctionComponent = () => {
     let params: {
       [key: string]: any;
     } = {};
-    params.page = 0;
+    params.page = 1;
     if (searchValue) {
       params.search = searchValue;
     }
@@ -221,7 +221,11 @@ const CareGiver: FunctionComponent = () => {
   };
 
   const onPageChanged = (currentPage: number) => {
+    console.log("currentpge in opc", currentPage);
+
     const query = qs.parse(search);
+    console.log("query", query);
+
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
       "?"
     );
@@ -289,6 +293,8 @@ const CareGiver: FunctionComponent = () => {
     isActive,
     sortBy
   };
+  console.log("current page", currentPage);
+
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
     <Row className="m-0">

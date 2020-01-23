@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
@@ -177,6 +177,7 @@ export const GET_CAREGIVER_BY_ID = gql`
         holiday
         invoiceInterval
         attributes
+        vehicleAvailable
         night
         leasingPricingList
       }

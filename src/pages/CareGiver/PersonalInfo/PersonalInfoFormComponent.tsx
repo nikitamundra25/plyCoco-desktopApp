@@ -1,27 +1,16 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 import Select from "react-select";
 import { Label, Col, Row, CustomInput, FormGroup, Input } from "reactstrap";
 import {
   State,
-  Region,
   Salutation,
   LegalForm,
-  Country,
   Gender,
   DateMask,
   IBANRegex
 } from "../../../config";
+import { FormikProps, Field } from "formik";
 import {
-  Formik,
-  FormikHelpers,
-  FormikProps,
-  Form,
-  Field,
-  FieldProps,
-  FormikValues
-} from "formik";
-import {
-  CareGiverValues,
   IReactSelectInterface,
   IStates,
   ICountries,
@@ -30,10 +19,7 @@ import {
   IRegion,
   ICareGiverValues
 } from "../../../interfaces";
-import {
-  FormikSelectField,
-  FormikTextField
-} from "../../../common/forms/FormikFields";
+import { FormikTextField } from "../../../common/forms/FormikFields";
 import { languageTranslation } from "../../../helpers";
 import MaskedInput from "react-text-mask";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
@@ -129,7 +115,8 @@ const PersonalInfoFormComponent: any = (
       state,
       employed,
       driversLicense,
-      legalForm
+      legalForm,
+      vehicleAvailable
     },
     handleChange,
     handleBlur,
@@ -137,7 +124,6 @@ const PersonalInfoFormComponent: any = (
     setFieldValue,
     touched
   } = props;
-  console.log(props.values, "props.value");
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
@@ -703,7 +689,8 @@ const PersonalInfoFormComponent: any = (
                       id="yes"
                       name="driversLicense"
                       label="Yes"
-                      value={driversLicense ? true : undefined}
+                      checked={driversLicense}
+                      value={true}
                       onChange={handleChange}
                     />
                   </FormGroup>
@@ -713,6 +700,7 @@ const PersonalInfoFormComponent: any = (
                       id="no"
                       name="driversLicense"
                       label="No"
+                      checked={driversLicense}
                       value={false}
                       onChange={handleChange}
                     />
@@ -760,6 +748,7 @@ const PersonalInfoFormComponent: any = (
                       id="yes_v"
                       name="vehicleAvailable"
                       label="Yes"
+                      checked={vehicleAvailable}
                       value={true}
                       onChange={handleChange}
                     />
@@ -770,6 +759,7 @@ const PersonalInfoFormComponent: any = (
                       id="no_v"
                       name="vehicleAvailable"
                       label="No"
+                      checked={vehicleAvailable}
                       value={false}
                       onChange={handleChange}
                     />

@@ -1,14 +1,14 @@
-import React, { FunctionComponent } from 'react';
-import { FormGroup, Label, Input, Col, Row, Form } from 'reactstrap';
-import Select from 'react-select';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { languageTranslation, logger } from '../../../../helpers';
+import React, { FunctionComponent } from "react";
+import { FormGroup, Label, Input, Col, Row, Form } from "reactstrap";
+import Select from "react-select";
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import { languageTranslation, logger } from "../../../../helpers";
 import {
   ICareInstitutionFormValues,
   IHandleSelectInterface,
-  IReactSelectInterface,
-} from '../../../../interfaces';
-import { State, CareInstitutionAttr } from '../../../../config';
+  IReactSelectInterface
+} from "../../../../interfaces";
+import { State, CareInstitutionAttr } from "../../../../config";
 
 const QuallificationAttribute: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -19,65 +19,65 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
   props: FormikProps<ICareInstitutionFormValues> &
     IHandleSelectInterface & {
       qualificationList: IReactSelectInterface[] | undefined;
-    },
+    }
 ) => {
   const {
     values: { qualificationId, attributeId },
     handleSelect,
-    qualificationList,
+    qualificationList
   } = props;
   return (
-    <div className='quality-attribute-section d-flex flex-column'>
-      <div className='common-list-card'>
-        <h5 className='content-title'>
-          {languageTranslation('QUALIFICATIONS')}
+    <div className="quality-attribute-section d-flex flex-column">
+      <div className="common-list-card">
+        <h5 className="content-title">
+          {languageTranslation("QUALIFICATIONS")}
         </h5>
-        <div className='common-list-wrap'>
-          <div className='common-list-header d-flex align-items-cente justify-content-between'>
-            <div className='common-list-title align-middle'>
-              {' '}
-              {languageTranslation('QUALIFICATION')}
+        <div className="common-list-wrap">
+          <div className="common-list-header d-flex align-items-cente justify-content-between">
+            <div className="common-list-title align-middle">
+              {" "}
+              {languageTranslation("QUALIFICATION")}
             </div>
-            <div className=' align-middle toggle-icon'>
-              <i className='fa fa-angle-down'></i>
+            <div className=" align-middle toggle-icon">
+              <i className="fa fa-angle-down"></i>
             </div>
           </div>
-          <div className='common-list-body'>
+          <div className="common-list-body">
             {qualificationId && qualificationId.length ? (
-              <ul className='common-list list-unstyled'>
+              <ul className="common-list list-unstyled">
                 {qualificationId.map((qualification: IReactSelectInterface) => {
                   return <li>{qualification.label}</li>;
                 })}
               </ul>
             ) : null}
           </div>
-          <div className='common-list-footer form-section '>
-            <FormGroup className='mb-0'>
+          <div className="common-list-footer form-section ">
+            <FormGroup className="mb-0">
               <Select
-                placeholder={'Qualifications'}
-                name={'qualificationId'}
+                placeholder={"Type to add qualifications"}
+                name={"qualificationId"}
                 value={qualificationId ? qualificationId : undefined}
                 onChange={(value: any) =>
-                  handleSelect(value, 'qualificationId')
+                  handleSelect(value, "qualificationId")
                 }
                 isMulti
                 options={qualificationList}
-                menuPlacement={'top'}
+                menuPlacement={"top"}
               />
             </FormGroup>
           </div>
         </div>
       </div>
-      <div className='common-list-card'>
-        <h5 className='content-title'>{languageTranslation('ATTRIBUTES')}</h5>
-        <div className='common-list-wrap'>
-          <div className='common-list-header d-flex align-items-cente justify-content-between'>
-            <div className='common-list-title align-middle'>
-              {' '}
-              {languageTranslation('ATTRIBUTES')}
+      <div className="common-list-card">
+        <h5 className="content-title">{languageTranslation("ATTRIBUTES")}</h5>
+        <div className="common-list-wrap">
+          <div className="common-list-header d-flex align-items-cente justify-content-between">
+            <div className="common-list-title align-middle">
+              {" "}
+              {languageTranslation("ATTRIBUTES")}
             </div>
-            <div className=' align-middle toggle-icon'>
-              <i className='fa fa-angle-down'></i>
+            <div className=" align-middle toggle-icon">
+              <i className="fa fa-angle-down"></i>
             </div>
           </div>
           <div className="common-list-body">
@@ -89,15 +89,15 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
                 : null}
             </ul>
           </div>
-          <div className='common-list-footer form-section '>
-            <FormGroup className='mb-0'>
+          <div className="common-list-footer form-section ">
+            <FormGroup className="mb-0">
               <Select
-                placeholder={'Attributes'}
+                placeholder={"Type to add attributes"}
                 value={attributeId ? attributeId : undefined}
-                onChange={(value: any) => handleSelect(value, 'attributeId')}
+                onChange={(value: any) => handleSelect(value, "attributeId")}
                 isMulti
                 options={CareInstitutionAttr}
-                menuPlacement={'top'}
+                menuPlacement={"top"}
               />
             </FormGroup>
           </div>

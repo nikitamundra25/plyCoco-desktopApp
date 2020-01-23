@@ -863,6 +863,12 @@ html:not([dir="rtl"]) {
   border: 1px solid $table_border;
   .region-input {
     width: 400px;
+    @media (max-width: 767px) and (min-width: 576px) {
+      width: 200px;
+    }
+    @media (max-width: 575px) {
+      width: auto;
+    }
   }
   .required-error {
     left: 0px !important;
@@ -1391,6 +1397,9 @@ html:not([dir="rtl"]) {
       &.region-th-column {
         width: 250px;
         min-width: 250px;
+      }
+      &.company-th-column{
+        min-width: 150px;
       }
       &.date-th-column {
         width: 180px;
@@ -2550,6 +2559,7 @@ html:not([dir="rtl"]) {
 
     .remark-section {
       position: relative;
+      word-wrap:break-word;
       textarea {
         height: 70px;
         border-radius: 0px;

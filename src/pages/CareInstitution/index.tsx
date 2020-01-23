@@ -450,7 +450,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             <tr>
               <th className={"text-center"}>{languageTranslation("S_NO")}</th>
               <th>Care Institution Information</th>
-              <th>Company Details</th>
+              <th className="company-th-column">Company Details</th>
               <th className="date-th-column">
                 {languageTranslation("CREATED_DATE")}
               </th>

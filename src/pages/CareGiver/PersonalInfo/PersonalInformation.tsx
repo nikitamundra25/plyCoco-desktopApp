@@ -170,6 +170,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         address2,
         driversLicense,
         driverLicenseNumber,
+        IBAN: values.IBAN,
         vehicleAvailable,
         qualificationId:
           qualifications && qualifications.length

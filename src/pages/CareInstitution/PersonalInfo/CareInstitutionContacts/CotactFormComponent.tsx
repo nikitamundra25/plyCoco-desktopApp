@@ -103,23 +103,26 @@ const CotactFormComponent: any = (
       <Button
         onClick={handleSubmit}
         color={"primary"}
-        className={"btn-contact-save save-button contact-btn"}
+        className={"btn-contact-save save-button"}
       >
         {id
           ? languageTranslation("UPDATE_BUTTON")
           : languageTranslation("SAVE_BUTTON")}
         {}
       </Button>
-      <div className={"form-section position-relative "}>
+      <div className={"form-section position-relative"}>
+
         <div className="form-flex-section mt-3 form-card minheight-auto">
           {/* <h5 className="main-title">Add New contact </h5> */}
 
           <div className="form-flex-block">
             <div className="form-flex-tile">
+
               <Row>
-                {id ? (
-                  <Col lg={"12"}>
-                    <FormGroup>
+              {id ? (
+                <Col lg={"12"}>
+                  <FormGroup>
+                    
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
@@ -140,9 +143,10 @@ const CotactFormComponent: any = (
                           </div>
                         </Col>
                       </Row>
-                    </FormGroup>
-                  </Col>
-                ) : null}
+                   
+                  </FormGroup>
+                </Col>
+                 ) : null}
                 {/* <Col lg={"12"}>
                 <FormGroup>
                   <Row>
@@ -232,8 +236,6 @@ const CotactFormComponent: any = (
                           <Input
                             type="text"
                             name={"title"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
                             placeholder={languageTranslation("TITLE")}
                             className="width-common"
                           />
@@ -255,7 +257,7 @@ const CotactFormComponent: any = (
                         <div>
                           <Select
                             placeholder={languageTranslation("SALUTATION")}
-                            value={salutation}
+                            value={salutation ? salutation : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "salutation")
                             }
@@ -450,6 +452,7 @@ const CotactFormComponent: any = (
                             value={country ? country : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "country")
+
                             }
                             menuPlacement={"top"}
                           />
@@ -604,28 +607,61 @@ const CotactFormComponent: any = (
 
             <div className="form-flex-tile">
               <div className="d-flex align-items-center justify-content-between">
-                <div className="font-weight-bold">
+                <div className="font-weight-bold mb-2">
                   {languageTranslation("ADD_REMARKS")}{" "}
                 </div>
-                <div className="edit-remark mb-1">
-                  <i className="icon-note" />
+              </div>
+
+              <Row>
+                <Col lg={"12"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="12">
+                        <div>
+                          <Input
+                            type="textarea"
+                            name={"remark"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={remark}
+                            placeholder={languageTranslation("REMARKS")}
+                            className="textarea-care-institution"
+                            rows="4"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+              </Row>
+            </div>
+            <div className="form-flex-tile">
+              <div className="common-list-wrap">
+                <div className="common-list-header d-flex align-items-cente justify-content-between">
+                  <div className="common-list-title align-middle">
+                    {" "}
+                    {languageTranslation("ATTRIBUTES")}
+                  </div>
+                  <div className=" align-middle toggle-icon">
+                    <i className="fa fa-angle-down"></i>
+                  </div>
                 </div>
-              </div>
-              <div className="common-list-body">
-                <ul className="common-list list-unstyled">
-                  <li>Dialysis </li>
-                  <li>Home Management</li>
-                  <li>Nurse/carer</li>
-                </ul>
-              </div>
-              <div className="common-list-footer form-section ">
-                <FormGroup className="mb-0">
-                  <Select
-                    placeholder="Add Attributes"
-                    options={State}
-                    menuPlacement={"top"}
-                  />
-                </FormGroup>
+                <div className="common-list-body">
+                  <ul className="common-list list-unstyled">
+                    <li>Dialysis </li>
+                    <li>Home Management</li>
+                    <li>Nurse/carer</li>
+                  </ul>
+                </div>
+                <div className="common-list-footer form-section ">
+                  <FormGroup className="mb-0">
+                    <Select
+                      placeholder={languageTranslation("REGION", "STATE")}
+                      options={State}
+                      menuPlacement={"top"}
+                    />
+                  </FormGroup>
+                </div>
               </div>
             </div>
           </div>

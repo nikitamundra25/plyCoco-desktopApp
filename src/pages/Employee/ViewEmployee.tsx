@@ -166,7 +166,7 @@ const ViewEmployee: FunctionComponent = () => {
                             {employee && employee.firstName
                               ? employee.firstName
                               : "N/A"}
-                            &nbsp;&nbsp;
+                            &nbsp;
                             {employee && employee.lastName
                               ? employee.lastName
                               : "N/A"}
@@ -250,7 +250,7 @@ const ViewEmployee: FunctionComponent = () => {
                     <div className="profile-text">
                       <div className="user-item">
                         <span className="text-label">
-                          {languageTranslation("ADDRESS")}
+                          {languageTranslation("ADRESS")}
                         </span>
                         <span className="text-value one-line-text">
                           :&nbsp;&nbsp;

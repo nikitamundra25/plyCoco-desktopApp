@@ -23,6 +23,7 @@ import {
   Preoccupation,
   HealthInsuranceProvider,
   HealthInsuranceType,
+  StatusOptions,
 } from '../../../config';
 
 export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
@@ -43,7 +44,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     { data: leasingDetails, error: detailsError, refetch },
   ] = useLazyQuery<any>(GET_LEASING_INFO);
 
-  // Fetch leasing data on mount
+  // Fetch leasing data on mount & user update
   useEffect(() => {
     // Fetch details by care giver id
     if (id) {
@@ -51,14 +52,12 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
         variables: { userId: parseInt(id) },
       });
     }
-  }, []);
+  }, [id]);
 
   const setLabelValue = (
     value: string,
     fieldOptions: IReactSelectInterface[],
   ) => {
-    console.log(value, fieldOptions, 'dataaaaa');
-
     if (value) {
       return fieldOptions.filter(
         (item: IReactSelectInterface) => item.value === value,
@@ -83,6 +82,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
             getLeasingInformation.maritalStatus,
             MaritalStatus,
           ),
+          status: setLabelValue(getLeasingInformation.status, StatusOptions),
           religion: setLabelValue(getLeasingInformation.religion, Religion),
           preoccupation: setLabelValue(
             getLeasingInformation.preOccupation,
@@ -97,6 +97,8 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
             HealthInsuranceType,
           ),
         });
+      } else {
+        setleasingData(null);
       }
     }
   }, [leasingDetails]);
@@ -131,8 +133,10 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
         nationality: nationality && nationality.value ? nationality.value : '',
         maritalStatus:
           maritalStatus && maritalStatus.value ? maritalStatus.value : '',
-        children,
-        factorChildAllowance: factorChildAllowance ? factorChildAllowance : '',
+        children: children ? children.toString() : '',
+        factorChildAllowance: factorChildAllowance
+          ? factorChildAllowance.toString()
+          : '',
         healthInsuranceType:
           healthInsuranceType && healthInsuranceType.value
             ? healthInsuranceType.value
@@ -169,15 +173,14 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     }
     setSubmitting(false);
   };
-  console.log(leasingData, 'leasingData');
 
   const {
     placeOfBirth = '',
     birthName = '',
     nationality = undefined,
     maritalStatus = undefined,
-    children = '',
-    factorChildAllowance = '',
+    children = 0,
+    factorChildAllowance = 0,
     healthInsuranceType = undefined,
     healthInsuranceProvider = undefined,
     socialSecurityNumber = '',
@@ -193,8 +196,8 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     birthName,
     nationality,
     maritalStatus,
-    children,
-    factorChildAllowance,
+    children: children ? children : 0,
+    factorChildAllowance: factorChildAllowance ? factorChildAllowance : 0,
     healthInsuranceType,
     healthInsuranceProvider,
     socialSecurityNumber,

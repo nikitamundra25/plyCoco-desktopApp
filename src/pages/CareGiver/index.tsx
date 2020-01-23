@@ -352,10 +352,18 @@ const CareGiver: FunctionComponent = () => {
                     {languageTranslation("S_NO")}
                   </th>
                   <th>{languageTranslation("TABEL_HEAD_CG_INFO")}</th>
-                  <th className="qualifications-th-column">{languageTranslation("TABEL_HEAD_CG_QUALIFICATION")}</th>
-                  <th className="region-th-column">{languageTranslation("TABEL_HEAD_CG_REGION")}</th>
-                  <th className="applying-th-column">{languageTranslation("TABEL_HEAD_CG_APPLYING_AS")}</th>
-                  <th className="date-th-column">{languageTranslation("CREATED_DATE")}</th>
+                  <th className="qualifications-th-column">
+                    {languageTranslation("TABEL_HEAD_CG_QUALIFICATION")}
+                  </th>
+                  <th className="region-th-column">
+                    {languageTranslation("TABEL_HEAD_CG_REGION")}
+                  </th>
+                  <th className="applying-th-column">
+                    {languageTranslation("TABEL_HEAD_CG_APPLYING_AS")}
+                  </th>
+                  <th className="date-th-column">
+                    {languageTranslation("CREATED_DATE")}
+                  </th>
                   <th className={"text-center"}>
                     {languageTranslation("TABEL_HEAD_CG_STATUS")}
                   </th>
@@ -423,7 +431,7 @@ const CareGiver: FunctionComponent = () => {
                               </div>
                             </div>
                           </td>
-                          <td >
+                          <td>
                             <div className="description-column region-column   ml-0 text-capitalize">
                               {careGiverData.qualifications &&
                               careGiverData.qualifications.length
@@ -484,7 +492,7 @@ const CareGiver: FunctionComponent = () => {
                           <td>
                             <div>
                               {careGiverData.createdAt
-                                ? moment(careGiverData.createdAt).format("LLL")
+                                ? moment(careGiverData.createdAt).format("lll")
                                 : "-"}
                             </div>
                           </td>

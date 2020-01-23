@@ -17,6 +17,7 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
 >> = Yup.object().shape<IEmployeeFormValues>({
   email: Yup.string()
     .trim()
+    .max(30, languageTranslation("USERNAME_MAXLENGTH"))
     .email(languageTranslation("VALID_EMAIL"))
     .required(languageTranslation("REQUIRED_EMAIL")),
   firstName: Yup.string()
@@ -33,6 +34,7 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation("LASTNAME_REQUIRED")),
   userName: Yup.string()
     .trim()
+    .max(50, languageTranslation("USERNAME_MAXLENGTH"))
     .required(languageTranslation("USERNAME_REQUIRED")),
   accountHolderName: Yup.string()
     .trim()

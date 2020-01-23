@@ -19,6 +19,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     caregiver{
       address1
       address2
+      attributes
       age
       fax
       workZones
@@ -169,6 +170,7 @@ export const GET_CAREGIVER_BY_ID = gql`
         fee
         holiday
         invoiceInterval
+        attributes
       }
       qualifications {
         id

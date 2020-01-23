@@ -112,6 +112,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     const {
       userName,
       stateId,
+      attributeId,
       gender,
       title,
       salutation,
@@ -179,6 +180,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 .join(", ")}}`
             : null,
         street,
+        attributes:
+          attributeId && attributeId.length
+            ? attributeId.map(({ label }: IReactSelectInterface) => label)
+            : [],
         city,
         zipCode: postalCode,
         phoneNumber,
@@ -292,6 +297,16 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       };
     }
   }
+
+  let selectedAttributes: IReactSelectInterface[] = []
+    if (props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.attributes && props.getCaregiver.caregiver.attributes .length) {
+      props.getCaregiver.caregiver.attributes .map((attData: string) => {
+        selectedAttributes.push({
+          label: attData,
+          value: attData
+        })
+      })
+    }
 
   const initialValues: ICareGiverValues = {
     id,
@@ -453,7 +468,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
             label: props.getCaregiver.gender,
             value: props.getCaregiver.gender
           }
-        : undefined
+        : undefined,
+    attributeId: selectedAttributes
   };
   return (
     <Formik

@@ -304,7 +304,6 @@ const PersonalInformation: any = (props: any) => {
         };
       }
     }
-
     let selectedAttributes: IReactSelectInterface[] = [];
     if (
       getCareInstitution &&
@@ -498,13 +497,15 @@ const PersonalInformation: any = (props: any) => {
         )}
         validationSchema={CareInstituionValidationSchema}
       />
-      <CareInstitutionContacts
-        contacts={contacts}
-        careInstId={id}
-        setContacts={(contacts: any) => {
-          setContacts((contacts = contacts));
-        }}
-      />
+      <div className="position-relative">
+        <CareInstitutionContacts
+          contacts={contacts}
+          careInstId={id}
+          setContacts={(contacts: any) => {
+            setContacts((contacts = contacts));
+          }}
+        />
+      </div>
       {/* <Formik
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}

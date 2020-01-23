@@ -424,7 +424,7 @@ const CareGiver: FunctionComponent = () => {
                             </div>
                           </td>
                           <td className="text-center">
-                            <div className="description-column one-line-text  ml-0 text-capitalize">
+                            <div className="description-column region-column one-line-text  ml-0 text-capitalize">
                               {careGiverData.qualifications &&
                               careGiverData.qualifications.length
                                 ? careGiverData.qualifications.map(
@@ -448,20 +448,20 @@ const CareGiver: FunctionComponent = () => {
                             </div>
                           </td>
                           <td>
-                            <div className="description-column  ml-0">
+                            <div className="description-column region-column ml-0">
                               {careGiverData &&
                               careGiverData.regions &&
                               careGiverData.regions.length ? (
-                                careGiverData.regions.map(
-                                  (wZ: any) => (
-                                    <p className="description-text ">
-                                      <span className="text-label mr-1">
-                                        <i className="fa fa-angle-right"></i>
-                                      </span>
-                                      <span className="align-middle">{wZ.regionName}</span>
-                                    </p>
-                                  )
-                                )
+                                careGiverData.regions.map((wZ: any) => (
+                                  <p className="description-text ">
+                                    <span className="text-label mr-1">
+                                      <i className="fa fa-angle-right"></i>
+                                    </span>
+                                    <span className="align-middle">
+                                      {wZ.regionName}
+                                    </span>
+                                  </p>
+                                ))
                               ) : (
                                 <div className="text-center">-</div>
                               )}

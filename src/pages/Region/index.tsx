@@ -206,7 +206,7 @@ export const Region: FunctionComponent = () => {
               <th className='text-center'>
                 {languageTranslation('CURRENT_ONGOING_APPOINTMENTS_COUNTER')}
               </th>
-              <th>{languageTranslation('CREATED_DATE')}</th>
+              <th className="">{languageTranslation('CREATED_DATE')}</th>
               {/* <th className="text-center">Action</th> */}
             </tr>
           </thead>

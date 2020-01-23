@@ -288,8 +288,8 @@ const CotactFormComponent: any = (
                             value={firstName}
                             className={
                               errors.firstName && touched.firstName
-                                ? "text-input error"
-                                : "text-input"
+                                ? "text-input error text-capitalize"
+                                : "text-input text-capitalize"
                             }
                           />
                           {errors.firstName && touched.firstName && (
@@ -322,8 +322,8 @@ const CotactFormComponent: any = (
                             value={lastName}
                             className={
                               errors.lastName && touched.lastName
-                                ? "text-input error"
-                                : "text-input"
+                                ? "text-input error text-capitalize"
+                                : "text-input text-capitalize"
                             }
                           />
                           {errors.lastName && touched.lastName && (

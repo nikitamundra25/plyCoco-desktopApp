@@ -72,6 +72,7 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                       label: "John Doe",
                       value: "0"
                     }}
+                    classNamePrefix="react-select"
                     placeholder="Select Caregiver"
                     options={CareGiver}
                   />
@@ -182,6 +183,7 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
                       label: "John Doe",
                       value: "0"
                     }}
+                    classNamePrefix="react-select"
                     placeholder="Select Caregiver"
                     options={CareGiver}
                   />

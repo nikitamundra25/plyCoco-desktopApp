@@ -228,7 +228,7 @@ const PersonalInfoFormComponent: any = (
                   </Col>
                   <Col sm="7">
                     <FormGroup>
-                      <Row className="custom-col inner-no-padding-col d-flex align-items-center">
+                      <Row className="custom-col inner-no-padding-col d-flex ">
                         <Col sm="6">
                           <Label className="form-label col-form-label inner-label">
                             {languageTranslation("TITLE")}
@@ -289,7 +289,7 @@ const PersonalInfoFormComponent: any = (
                     component={FormikTextField}
                     name={"firstName"}
                     placeholder={languageTranslation("FIRST_NAME")}
-                    className="width-common"
+                    className="width-common text-capitalize"
                   />
                 </div>
                 {/* <Button  className="alfabate-btn btn">N</Button> */}
@@ -312,7 +312,7 @@ const PersonalInfoFormComponent: any = (
                     component={FormikTextField}
                     name={"lastName"}
                     placeholder={languageTranslation("SURNAME")}
-                    className="width-common"
+                    className="width-common text-capitalize"
                   />
                 </div>
               </Col>
@@ -356,7 +356,7 @@ const PersonalInfoFormComponent: any = (
                   </Col>
                   <Col sm="5">
                     <FormGroup>
-                      <Row className="custom-col inner-no-padding-col d-flex align-items-center">
+                      <Row className="custom-col inner-no-padding-col d-flex ">
                         <Col sm="6">
                           <Label className="form-label col-form-label inner-label">
                             Age

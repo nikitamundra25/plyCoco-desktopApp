@@ -4,6 +4,7 @@
   "description": "Admin panel for Plycoco",
   "author": "Chapter247",
   "copyright": "Copyright 2019 Chapter247 Infotech",
+  "homepage": "http://192.249.123.124:8010/superadmin",
   "license": "MIT",
   "private": true,
   "repository": {

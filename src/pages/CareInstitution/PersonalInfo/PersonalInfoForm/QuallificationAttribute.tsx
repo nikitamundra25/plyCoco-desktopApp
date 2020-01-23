@@ -80,8 +80,8 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               <i className='fa fa-angle-down'></i>
             </div>
           </div>
-          <div className='common-list-body'>
-            <ul className='common-list list-unstyled'>
+          <div className="common-list-body">
+            <ul className="common-list list-unstyled">
               {attributeId && attributeId.length
                 ? attributeId.map((attData: IReactSelectInterface) => {
                     return <li>{attData.label} </li>;

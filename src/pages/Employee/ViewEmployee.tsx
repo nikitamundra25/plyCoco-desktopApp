@@ -422,14 +422,26 @@ const ViewEmployee: FunctionComponent = () => {
                       <span className="text-label">
                         {languageTranslation("REGION")}
                       </span>
-                      <span className="text-value one-line-text text-capitalize">
-                        :&nbsp;&nbsp;
-                        {employee && employee.regions
-                          ? employee.regions
-                              .map((region: any) => region.regionName)
-                              .join(", ")
-                          : "N/A"}
-                      </span>
+                      <div className="region-list text-value text-capitalize">
+                        {employee &&
+                        employee.regions &&
+                        employee.regions.length ? (
+                          employee.regions.map((region: any) => {
+                            return (
+                              <p className="region-text ">
+                                <span className=" mr-1">
+                                  <i className="fa fa-angle-right"></i>
+                                </span>
+                                <span className="align-middle">
+                                  {region && region.regionName}
+                                </span>
+                              </p>
+                            );
+                          })
+                        ) : (
+                          <span>:&nbsp;&nbsp;N/A</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </Col>

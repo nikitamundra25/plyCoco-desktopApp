@@ -280,7 +280,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : '',
     countryId,
     regionId:
-      props.getCaregiver && props.getCaregiver.regions
+      props.getCaregiver && props.getCaregiver.regions && props.getCaregiver.regions.length
         ? {
             label: props.getCaregiver.regions[0].regionName,
             value: props.getCaregiver.regions[0].id,

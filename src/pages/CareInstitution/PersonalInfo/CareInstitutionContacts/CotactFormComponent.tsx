@@ -603,11 +603,8 @@ const CotactFormComponent: any = (
 
           <div className="form-flex-tile">
             <div className="d-flex align-items-center justify-content-between">
-              <div className="font-weight-bold">
+              <div className="font-weight-bold mb-2">
                 {languageTranslation("ADD_REMARKS")}{" "}
-              </div>
-              <div className="edit-remark mb-1">
-                <i className="icon-note" />
               </div>
             </div>
 

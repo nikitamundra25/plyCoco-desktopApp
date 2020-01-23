@@ -250,7 +250,6 @@ const CareInstitution = (props: RouteComponentProps) => {
           query: GET_CARE_INSTITUTION_LIST,
           variables: queryVariables
         });
-
         const newData = data.getCareInstitutions.careInstitutionData.filter(
           (user: any) => user.id !== id
         );

@@ -1,7 +1,7 @@
-import { Location } from 'history';
-import * as H from 'history';
-import { IReactSelectInterface } from './Constant';
-import { ICareInstitutionRemarks } from './CareInstitution';
+import { Location } from "history";
+import * as H from "history";
+import { IReactSelectInterface } from "./Constant";
+import { ICareInstitutionRemarks } from "./CareInstitution";
 
 export interface ICareGiverInput {
   id?: string;
@@ -74,9 +74,9 @@ export interface CareGiverValues {
   taxNumber?: String;
   bankName?: String;
   IBAN?: String;
-  driversLicense?: Boolean;
+  driversLicense?: string | undefined;
   driverLicenseNumber?: String;
-  vehicleAvailable?: Boolean;
+  vehicleAvailable?: string | undefined;
   socialSecurityContribution?: Boolean;
   workZones?: JSON;
   status?: String;
@@ -199,14 +199,14 @@ export interface ICareGiverValues {
   taxNumber?: String;
   bankName?: String;
   IBAN?: String;
-  driversLicense?: Boolean;
+  driversLicense?: string | undefined;
   driverLicenseNumber?: String;
-  vehicleAvailable?: Boolean;
+  vehicleAvailable?: string | undefined;
   socialSecurityContribution?: Boolean;
   workZones?: JSON;
   status?: String;
   belongTo?: IReactSelectInterface;
-  employed?: Boolean;
+  employed?: boolean | undefined;
   companyName?: String;
   registrationNumber?: String;
   registerCourt?: String;

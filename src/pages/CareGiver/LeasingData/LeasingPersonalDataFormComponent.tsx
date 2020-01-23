@@ -25,7 +25,23 @@ const LeasingPersonalDataFormComponent: any = (
   props: FormikProps<ILeasingValues>,
 ) => {
   const {
-    values: { payrollIBAN },
+    values: {
+      payrollIBAN,
+      placeOfBirth,
+      birthName,
+      nationality,
+      maritalStatus,
+      children,
+      factorChildAllowance,
+      healthInsuranceType,
+      healthInsuranceProvider,
+      socialSecurityNumber,
+      religion,
+      controlId,
+      taxBracket,
+      preoccupation,
+      status,
+    },
     isSubmitting,
     handleSubmit,
     handleBlur,
@@ -37,11 +53,29 @@ const LeasingPersonalDataFormComponent: any = (
     <div>
       <Form className='form-section'>
         <Button
-          disabled={isSubmitting}
+          // disabled={isSubmitting}
           id={'caregiver-add-btn'}
           onClick={handleSubmit}
           color={'primary'}
           className={'save-button'}
+          disabled={
+            isSubmitting ||
+            (!placeOfBirth &&
+              !birthName &&
+              !nationality &&
+              !maritalStatus &&
+              !children &&
+              !factorChildAllowance &&
+              !healthInsuranceType &&
+              !healthInsuranceProvider &&
+              !socialSecurityNumber &&
+              !religion &&
+              !controlId &&
+              !taxBracket &&
+              !preoccupation &&
+              !payrollIBAN &&
+              !status)
+          }
         >
           {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
           {languageTranslation('SAVE_BUTTON')}

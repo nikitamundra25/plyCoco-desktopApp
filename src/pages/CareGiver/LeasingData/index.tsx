@@ -157,8 +157,8 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
             leasingInformationInput: leasingInput,
           },
         });
+        toast.success(languageTranslation('CARE_GIVER_LEASING_UPDATE_SUCCESS'));
       }
-      toast.success(languageTranslation('CARE_GIVER_LEASING_UPDATE_SUCCESS'));
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')

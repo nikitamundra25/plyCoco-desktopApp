@@ -34,6 +34,10 @@
   font-weight: 600;
   font-size: 12px;
   z-index: 10;
+  @media only screen and (max-width: 767px) {
+    position: fixed;
+    top: 76px;
+  }
   // &.contact-btn {
   //   top: 0px;
   //   right: 0px;
@@ -45,6 +49,10 @@
     right: 8px;
     @media only screen and (max-width: 991px) {
       top: 72px;
+    }
+    @media only screen and (max-width: 767px) {
+      position: fixed;
+      top: 76px;
     }
   }
 }

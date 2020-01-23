@@ -44,7 +44,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     { data: leasingDetails, error: detailsError, refetch },
   ] = useLazyQuery<any>(GET_LEASING_INFO);
 
-  // Fetch leasing data on mount
+  // Fetch leasing data on mount & user update
   useEffect(() => {
     // Fetch details by care giver id
     if (id) {
@@ -52,14 +52,12 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
         variables: { userId: parseInt(id) },
       });
     }
-  }, []);
+  }, [id]);
 
   const setLabelValue = (
     value: string,
     fieldOptions: IReactSelectInterface[],
   ) => {
-    console.log(value, fieldOptions, 'dataaaaa');
-
     if (value) {
       return fieldOptions.filter(
         (item: IReactSelectInterface) => item.value === value,
@@ -99,6 +97,8 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
             HealthInsuranceType,
           ),
         });
+      } else {
+        setleasingData(null);
       }
     }
   }, [leasingDetails]);
@@ -173,7 +173,6 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     }
     setSubmitting(false);
   };
-  console.log(leasingData, 'leasingData');
 
   const {
     placeOfBirth = '',

@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import { ILeasingValues } from '../interfaces';
 import { languageTranslation } from '../helpers';
-import { nameRegExp } from '../config';
 
 export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,

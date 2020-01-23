@@ -467,7 +467,7 @@ const Employee: FunctionComponent = () => {
                       </td>
                       <td>
                         <div>
-                          {createdAt ? moment(createdAt).format("LLL") : ""}
+                          {createdAt ? moment(createdAt).format("lll") : ""}
                         </div>
                       </td>
                       <td className="text-center">

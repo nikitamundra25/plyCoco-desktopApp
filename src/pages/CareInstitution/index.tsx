@@ -249,30 +249,6 @@ const CareInstitution = (props: RouteComponentProps) => {
         toast.success(
           languageTranslation("CARE_INSTITUTION_DELETE_SUCCESS_MSG")
         );
-        // const data = await client.readQuery({
-        //   query: GET_CARE_INSTITUTION_LIST,
-        //   variables: queryVariables,
-        // });
-        // logger(data, 'data');
-        // const newData = data.getCareInstitutions.careInstitutionData.filter(
-        //   (user: any) => user.id !== id,
-        // );
-        // logger(newData, 'newData');
-
-        // const updatedData = {
-        //   ...data,
-        //   getCareInstitutions: {
-        //     ...data.getCareInstitutions,
-        //     careInstitutionData: newData,
-        //     totalCount: newData.length,
-        //   },
-        // };
-
-        // client.writeQuery({
-        //   query: GET_CARE_INSTITUTION_LIST,
-        //   variables: queryVariables,
-        //   data: updatedData,
-        // });
       } catch (error) {
         console.log(error, "errorerrorerror");
 
@@ -352,7 +328,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                 </td>
                 <td>
                   <div className=" ">
-                    {user.createdAt ? moment(user.createdAt).format("LLL") : ""}
+                    {user.createdAt ? moment(user.createdAt).format("lll") : ""}
                   </div>
                 </td>
                 <td className="text-center">

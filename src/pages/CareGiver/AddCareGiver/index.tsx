@@ -180,8 +180,8 @@ export const CareGiverForm: FunctionComponent = () => {
             ? attributeId.map(({ label }: IReactSelectInterface) => label)
             : [],
         driverLicenseNumber,
-        driversLicense: driversLicense === "true" ? true : false,
-        vehicleAvailable: vehicleAvailable === "true" ? true : false,
+        driversLicense: driversLicense,
+        vehicleAvailable: vehicleAvailable,
         legalForm: legalForm && legalForm.value ? legalForm.value : "",
         companyName,
         registrationNumber,

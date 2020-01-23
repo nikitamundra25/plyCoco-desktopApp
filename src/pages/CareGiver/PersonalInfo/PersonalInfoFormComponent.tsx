@@ -31,7 +31,9 @@ const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const PersonalInfoFormComponent: any = (
-  props: FormikProps<ICareGiverValues>
+  props: FormikProps<ICareGiverValues> & {
+    CareInstitutionList: IReactSelectInterface[] | undefined;
+  }
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
@@ -117,7 +119,8 @@ const PersonalInfoFormComponent: any = (
       driversLicense,
       legalForm,
       vehicleAvailable,
-      comments
+      comments,
+      belongTo
     },
     handleChange,
     handleBlur,
@@ -668,7 +671,12 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col sm="8">
                 <div>
-                  <Select placeholder="Belongs to" options={State} />
+                  <Select
+                    placeholder="Belongs to"
+                    options={props.CareInstitutionList}
+                    value={belongTo ? belongTo : undefined}
+                    onChange={(value: any) => handleSelect(value, "belongTo")}
+                  />
                 </div>
               </Col>
             </Row>
@@ -682,31 +690,38 @@ const PersonalInfoFormComponent: any = (
                   Driver's license
                 </Label>
               </Col>
+              {console.log("driversLicenseValue", driversLicense)}
               <Col sm="8">
                 <div className="custom-radio-block">
                   <FormGroup check inline>
-                    <Input
+                    <CustomInput
                       type="radio"
-                      id="yes"
+                      id="yes_v"
                       name="driversLicense"
                       label="Yes"
-                      checked={driversLicense ? "true" : "false"}
-                      value={true}
+                      checked={
+                        driversLicense === "yes" || driversLicense
+                          ? true
+                          : false
+                      }
+                      value={"yes"}
                       onChange={handleChange}
                     />
-                    <Label>yes</Label>
                   </FormGroup>
                   <FormGroup check inline>
-                    <Input
+                    <CustomInput
                       type="radio"
-                      id="no"
+                      id="no_v"
                       name="driversLicense"
                       label="No"
-                      checked={!driversLicense ? "true" : "false"}
-                      value={false}
+                      checked={
+                        driversLicense === "no" || !driversLicense
+                          ? true
+                          : false
+                      }
+                      value={"no"}
                       onChange={handleChange}
                     />
-                    <Label>No</Label>
                   </FormGroup>
                 </div>
               </Col>
@@ -748,22 +763,22 @@ const PersonalInfoFormComponent: any = (
                   <FormGroup check inline>
                     <CustomInput
                       type="radio"
-                      id="yes_v"
+                      id="yes"
                       name="vehicleAvailable"
                       label="Yes"
-                      checked={vehicleAvailable}
-                      value={true}
+                      checked={vehicleAvailable === "yes" ? true : false}
+                      value={"yes"}
                       onChange={handleChange}
                     />
                   </FormGroup>
                   <FormGroup check inline>
                     <CustomInput
                       type="radio"
-                      id="no_v"
+                      id="no"
                       name="vehicleAvailable"
                       label="No"
-                      checked={vehicleAvailable}
-                      value={false}
+                      checked={vehicleAvailable === "no" ? true : false}
+                      value={"no"}
                       onChange={handleChange}
                     />
                   </FormGroup>
@@ -928,7 +943,7 @@ const PersonalInfoFormComponent: any = (
                     placeholder="Comments (Internally)"
                     className="textarea-custom"
                     rows="4"
-                    value={comments}
+                    value={comments ? comments : undefined}
                     onChange={handleChange}
                   />
                 </div>

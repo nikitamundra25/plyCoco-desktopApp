@@ -458,9 +458,7 @@ const CareGiver: FunctionComponent = () => {
                               careGiverData.regions &&
                               careGiverData.regions.length ? (
                                 careGiverData.regions.map((wZ: any) => (
-                                  <span >
-                                    {wZ.regionName}
-                                  </span>
+                                  <span>{wZ.regionName}</span>
                                 ))
                               ) : (
                                 <div className="text-center">-</div>
@@ -484,7 +482,7 @@ const CareGiver: FunctionComponent = () => {
                           <td>
                             <div>
                               {careGiverData.createdAt
-                                ? moment(careGiverData.createdAt).format("LLL")
+                                ? moment(careGiverData.createdAt).format("lll")
                                 : "-"}
                             </div>
                           </td>

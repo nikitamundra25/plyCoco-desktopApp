@@ -235,7 +235,7 @@ export const Region: FunctionComponent = () => {
                     <td className="text-center">0</td>
                     <td>
                       {region && region.createdAt
-                        ? moment(region.createdAt).format("LLL")
+                        ? moment(region.createdAt).format("lll")
                         : ""}
                     </td>
                   </tr>

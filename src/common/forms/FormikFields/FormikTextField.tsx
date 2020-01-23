@@ -34,7 +34,7 @@ export const FormikTextField = (props: IFormikTextField) => {
         type={type}
         label={newLabel}
         className={errors.value ? "text-input error left" : "text-input"}
-        value={value ? value : ""}
+        value={value !== "" ? value : ""}
         onChange={handleChange(props)}
         onClick={rest.onClick || null}
         onBlur={
@@ -54,7 +54,14 @@ export const FormikTextField = (props: IFormikTextField) => {
         variant={variant}
         // fullwidth={true}
       />
-      <div className="required-error">{showError && fieldError}</div>
+      {name === "fee" ||
+      name === "night" ||
+      name === "weekendAllowance" ||
+      name === "holiday" ? (
+        <div className="required-error left">{showError && fieldError}</div>
+      ) : (
+        <div className="required-error ">{showError && fieldError}</div>
+      )}
     </>
   );
 };

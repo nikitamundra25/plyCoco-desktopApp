@@ -53,14 +53,14 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
       value =>
         !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
-  careGiverCommission: Yup.string().test(
+  careGiverCommission: Yup.mixed().test(
     "check-num",
-    languageTranslation("HOLIDAY_NUMERROR"),
+    languageTranslation("INVALID_NUM"),
     value => !value || (value && !isNaN(value))
   ),
-  doctorCommission: Yup.string().test(
+  doctorCommission: Yup.mixed().test(
     "check-num",
-    languageTranslation("HOLIDAY_NUMERROR"),
+    languageTranslation("INVALID_NUM"),
     value => !value || (value && !isNaN(value))
   )
 });

@@ -41,7 +41,7 @@
   "TELEPHONE_REQUIRED": "Telephone number is not valid",
   "USERNAME_REQUIRED": "Username is required",
   "INVALID_NUMBER": "Please enter valid number",
-  "INVALID_NUM": "Invalid number",
+  "INVALID_NUM": "Numbers only",
   "PERSONAL_DATA": "Personal Data",
   "SEARCH_LABEL": "Search",
   "SEARCH_LABEL_PLACEHOLDER": "Search By",

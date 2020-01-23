@@ -852,7 +852,7 @@ const PersonalInfoFormComponent: any = (
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={'regNumber'}
+                    name={'registrationNumber'}
                     placeholder='Registration Number'
                     className='width-common'
                   />

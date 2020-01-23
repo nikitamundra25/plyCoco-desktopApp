@@ -2,8 +2,8 @@ import React, {
   Component,
   FunctionComponent,
   useState,
-  useEffect,
-} from 'react';
+  useEffect
+} from "react";
 import {
   Button,
   FormGroup,
@@ -14,25 +14,25 @@ import {
   CustomInput,
   InputGroup,
   InputGroupAddon,
-  Card,
-} from 'reactstrap';
-import { assignIn } from 'lodash';
-import 'react-datepicker/dist/react-datepicker.css';
-import { RouteComponentProps, useParams, useHistory } from 'react-router';
-import { languageTranslation } from '../../../helpers';
-import PersonalInfoFormComponent from './PersonalInfoFormComponent';
-import BillingSettingsFormComponent from './BillingSettingsFormComponent';
-import QualificationFormComponent from './QualificationFormComponent';
-import AttributeFormComponent from './AttributesFromComponent';
-import RemarkFormComponent from './RemarkFormComponent';
-import { Formik, FormikHelpers, Form, FormikProps } from 'formik';
-import { Mutation, Query } from '@apollo/react-components';
+  Card
+} from "reactstrap";
+import { assignIn } from "lodash";
+import "react-datepicker/dist/react-datepicker.css";
+import { RouteComponentProps, useParams, useHistory } from "react-router";
+import { languageTranslation } from "../../../helpers";
+import PersonalInfoFormComponent from "./PersonalInfoFormComponent";
+import BillingSettingsFormComponent from "./BillingSettingsFormComponent";
+import QualificationFormComponent from "./QualificationFormComponent";
+import AttributeFormComponent from "./AttributesFromComponent";
+import RemarkFormComponent from "./RemarkFormComponent";
+import { Formik, FormikHelpers, Form, FormikProps } from "formik";
+import { Mutation, Query } from "@apollo/react-components";
 import {
   UPDATE_CAREGIVER,
   GET_CAREGIVER_BY_ID,
   UPDATE_BILLING_SETTINGS,
-  GET_BILLING_SETTINGS,
-} from '../../../queries/CareGiver';
+  GET_BILLING_SETTINGS
+} from "../../../queries/CareGiver";
 import {
   ICareGiverValues,
   IEditCareGInput,
@@ -68,14 +68,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   // To fecth qualification attributes list
   const { data, loading, error, refetch } = useQuery<IQualifications>(
-    GET_QUALIFICATION_ATTRIBUTES,
+    GET_QUALIFICATION_ATTRIBUTES
   );
   const qualificationList: IReactSelectInterface[] | undefined = [];
   if (data && data.getQualificationAttributes) {
     data.getQualificationAttributes.forEach((quali: any) => {
       qualificationList.push({
         label: quali.attributeName,
-        value: quali.id,
+        value: quali.id
       });
     });
   }
@@ -90,9 +90,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
-    console.log('Values', values);
+    console.log("Values", values);
 
     // to set submit state to false after successful signup
     const {
@@ -139,14 +139,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       nightAllowance,
       weekendAllowance,
       night,
-      holiday,
+      holiday
     } = values;
     try {
       let careGiverInput: any = {
         userName,
-        gender: gender && gender.value ? gender.value : '',
+        gender: gender && gender.value ? gender.value : "",
         title,
-        salutation: salutation && salutation.value ? salutation.value : '',
+        salutation: salutation && salutation.value ? salutation.value : "",
         firstName,
         lastName,
         dateOfBirth,
@@ -160,9 +160,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           qualifications && qualifications.length
             ? `{${qualifications
                 .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
+                  (qualification: IReactSelectInterface) => qualification.value
                 )
-                .join(', ')}}`
+                .join(", ")}}`
             : null,
         street,
         city,
@@ -193,23 +193,23 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         weekendAllowance: weekendAllowance ? parseInt(weekendAllowance) : null,
         holiday: holiday ? parseInt(holiday) : null,
         night: night ? parseInt(night) : null,
-        regionId: regionId && regionId.value ? `{${regionId.value}}` : null,
+        regionId: regionId && regionId.value ? `{${regionId.value}}` : null
       };
       // Edit employee details
       if (id) {
         await updateCaregiver({
           variables: {
             id: parseInt(id),
-            careGiverInput,
-          },
+            careGiverInput
+          }
         });
-        toast.success(languageTranslation('CARE_GIVER_UPDATED_SUCCESS'));
+        toast.success(languageTranslation("CARE_GIVER_UPDATED_SUCCESS"));
       }
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       // setFieldError('email', message);
       toast.error(message);
     }
@@ -217,24 +217,24 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   };
 
   const {
-    userName = '',
-    stateId = '',
-    gender = '',
-    title = '',
-    firstName = '',
-    lastName = '',
-    dateOfBirth = '',
-    countryId = '',
-    email = '',
+    userName = "",
+    stateId = "",
+    gender = "",
+    title = "",
+    firstName = "",
+    lastName = "",
+    dateOfBirth = "",
+    countryId = "",
+    email = "",
     socialSecurityContribution = false,
-    bankName = '',
-    password = '',
-    belongTo = '',
-    legalForm = '',
-    status = 'active',
-    invoiceInterval = '',
+    bankName = "",
+    password = "",
+    belongTo = "",
+    legalForm = "",
+    status = "active",
+    invoiceInterval = "",
     qualifications = [],
-    caregiver = {},
+    caregiver = {}
   } = props.getCaregiver ? props.getCaregiver : {};
   const qualificationsData: IReactSelectInterface[] | undefined = [];
   if (qualifications) {
@@ -285,11 +285,11 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
     address1:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.address1
-        : '',
+        : "",
     address2:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.address2
-        : '',
+        : "",
     driversLicense:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.driversLicense
@@ -297,7 +297,7 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
     driverLicenseNumber:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.driverLicenseNumber
-        : '',
+        : "",
     vehicleAvailable:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.vehicleAvailable
@@ -305,67 +305,69 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
     street:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.street
-        : '',
+        : "",
     city:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.city
-        : '',
+        : "",
     postalCode:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.zipCode
         : '',
     countryId,
     regionId:
-      props.getCaregiver && props.getCaregiver.regions && props.getCaregiver.regions.length
+      props.getCaregiver &&
+      props.getCaregiver.regions &&
+      props.getCaregiver.regions.length
         ? {
             label: props.getCaregiver.regions[0].regionName,
-            value: props.getCaregiver.regions[0].id,
+            value: props.getCaregiver.regions[0].id
           }
         : undefined,
     phoneNumber:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.phoneNumber
-        : '',
+        : "",
     fax:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.fax
-        : '',
+        : "",
     mobileNumber:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.mobileNumber
-        : '',
+        : "",
     email,
     taxNumber:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.taxNumber
-        : '',
+        : "",
     socialSecurityContribution,
     bankName:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.bankName
-        : '',
+        : "",
     IBAN:
       props.getCaregiver && props.getCaregiver.bankDetails
         ? props.getCaregiver.bankDetails.IBAN
-        : '',
+        : "",
     belongTo,
     legalForm,
     companyName:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.companyName
-        : '',
+        : "",
     registerCourt:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.registerCourt
-        : '',
+        : "",
     registrationNumber:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.registrationNumber
-        : '',
+        : "",
     executiveDirector:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.executiveDirector
-        : '',
+        : "",
     employed:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.employed
@@ -373,7 +375,7 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
     comments:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.comments
-        : '',
+        : "",
     status,
     remarks:
       props.getCaregiver && props.getCaregiver.caregiver
@@ -415,16 +417,16 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
       props.getCaregiver && props.getCaregiver.salutation
         ? {
             label: props.getCaregiver.salutation,
-            value: props.getCaregiver.salutation,
+            value: props.getCaregiver.salutation
           }
         : undefined,
     gender:
       props.getCaregiver && props.getCaregiver.gender
         ? {
             label: props.getCaregiver.gender,
-            value: props.getCaregiver.gender,
+            value: props.getCaregiver.gender
           }
-        : undefined,
+        : undefined
   };
   return (
     <Formik
@@ -433,24 +435,24 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
       enableReinitialize={true}
       render={(props: FormikProps<ICareGiverValues>) => {
         return (
-          <Form className='form-section forms-main-section'>
+          <Form className="form-section forms-main-section">
             <Button
               disabled={false}
-              id={'caregiver-add-btn'}
+              id={"caregiver-add-btn"}
               onClick={props.handleSubmit}
-              color={'primary'}
-              className={'save-button'}
+              color={"primary"}
+              className={"save-button"}
             >
-              {languageTranslation('SAVE_BUTTON')}
+              {languageTranslation("SAVE_BUTTON")}
             </Button>
             <Row>
-              <Col lg={'4'}>
+              <Col lg={"4"}>
                 <PersonalInfoFormComponent {...props} />
               </Col>
-              <Col lg={'4'}>
-                <div className='common-col'>
+              <Col lg={"4"}>
+                <div className="common-col">
                   <BillingSettingsFormComponent {...props} />
-                  <div className='quality-attribute-section d-flex flex-column'>
+                  <div className="quality-attribute-section d-flex flex-column">
                     <QualificationFormComponent
                       {...props}
                       qualificationList={qualificationList}
@@ -480,40 +482,40 @@ class GetData extends Component<any, any> {
       assignIn(
         caregiverDetails,
         caregiverDetails,
-        caregiverDetails.bankDetails,
+        caregiverDetails.bankDetails
       );
     }
     if (caregiverDetails.billingSettingDetails) {
       assignIn(
         caregiverDetails,
         caregiverDetails,
-        caregiverDetails.billingSettingDetails,
+        caregiverDetails.billingSettingDetails
       );
     } else {
       assignIn(caregiverDetails, caregiverDetails, {
-        fee: '',
-        weekendAllowancePerHour: '',
-        holidayAllowancePerHourFee: '',
-        nightAllowancePerHour: '',
-        leasingPrice: '',
-        invoiceInterval: '',
+        fee: "",
+        weekendAllowancePerHour: "",
+        holidayAllowancePerHourFee: "",
+        nightAllowancePerHour: "",
+        leasingPrice: "",
+        invoiceInterval: ""
       });
     }
     caregiverDetails.salutation = {
       value: caregiverDetails.salutation,
-      label: caregiverDetails.salutation,
+      label: caregiverDetails.salutation
     };
     caregiverDetails.state = {
       value: caregiverDetails.state,
-      label: caregiverDetails.state,
+      label: caregiverDetails.state
     };
     caregiverDetails.legalForm = {
       value: caregiverDetails.legalForm,
-      label: caregiverDetails.legalForm,
+      label: caregiverDetails.legalForm
     };
     caregiverDetails.regionId = {
       value: caregiverDetails.regions[0]._id,
-      label: caregiverDetails.regions[0].regionName,
+      label: caregiverDetails.regions[0].regionName
     };
     caregiverDetails.workZones =
       caregiverDetails.workZones && caregiverDetails.workZones.length
@@ -531,7 +533,7 @@ class GetData extends Component<any, any> {
     return (
       <Query
         query={GET_CAREGIVER_BY_ID}
-        fetchPolicy='network-only'
+        fetchPolicy="network-only"
         variables={{ id: parseInt(this.props.Id) }}
       >
         {({ loading, error, data }: any) => {

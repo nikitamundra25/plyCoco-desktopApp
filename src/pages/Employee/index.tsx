@@ -443,7 +443,7 @@ const Employee: FunctionComponent = () => {
                           {regions
                             ? regions.map((region: any, index: number) => {
                                 return (
-                                  <p className='description-text '>
+                                  <p className='description-text' key={index}>
                                     <span className='text-label mr-1'>
                                       <i className='fa fa-angle-right'></i>
                                     </span>

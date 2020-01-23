@@ -35,7 +35,11 @@ export const AddRegion: FunctionComponent<{
 
   const handleSubmit = async (
     values: IRegionFormValue,
-    { setSubmitting }: FormikHelpers<IRegionFormValue>,
+    {
+      setSubmitting,
+      setFieldValue,
+      setFieldTouched,
+    }: FormikHelpers<IRegionFormValue>,
   ) => {
     const { regionName } = values;
     try {
@@ -54,6 +58,10 @@ export const AddRegion: FunctionComponent<{
       props.toggle();
       props.refetch();
       history.push(AppRoutes.REGION);
+      setTimeout(() => {
+        setFieldValue('regionName', '');
+        setFieldTouched('regionName', false);
+      }, 2000);
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
@@ -72,6 +80,7 @@ export const AddRegion: FunctionComponent<{
   return (
     <Formik
       initialValues={values}
+      enableReinitialize={true}
       onSubmit={handleSubmit}
       children={(props: FormikProps<IRegionFormValue>) => (
         <RegionFormComponent {...props} />

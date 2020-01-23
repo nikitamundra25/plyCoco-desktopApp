@@ -125,16 +125,21 @@ const ViewEmployee: FunctionComponent = () => {
                           {/* {console.log(employee.profileImage)} */}
                           <div
                             className="user-back-img-wrap"
-                            style={{
-                              backgroundImage: `url(${
+                            // style={{
+                            //   backgroundImage: `url(${
+                            //     employee && employee.profileImage
+                            //       ? AppConfig.FILES_ENDPOINT +
+                            //         employee.profileImage
+                            //       : defaultProfile
+                            //   })`
+                            // }}
+                          >
+                            <img src={
                                 employee && employee.profileImage
                                   ? AppConfig.FILES_ENDPOINT +
                                     employee.profileImage
                                   : defaultProfile
-                              })`
-                            }}
-                          >
-                            {}
+                              } alt=""/>
                           </div>
                         </div>
                       </div>
@@ -161,7 +166,7 @@ const ViewEmployee: FunctionComponent = () => {
                             {employee && employee.firstName
                               ? employee.firstName
                               : "N/A"}
-                            &nbsp;&nbsp;
+                            &nbsp;
                             {employee && employee.lastName
                               ? employee.lastName
                               : "N/A"}
@@ -245,7 +250,7 @@ const ViewEmployee: FunctionComponent = () => {
                     <div className="profile-text">
                       <div className="user-item">
                         <span className="text-label">
-                          {languageTranslation("ADDRESS")}
+                          {languageTranslation("ADRESS")}
                         </span>
                         <span className="text-value one-line-text">
                           :&nbsp;&nbsp;
@@ -321,7 +326,7 @@ const ViewEmployee: FunctionComponent = () => {
                 </Col>
 
                 <Col lg={"6"} md={"6"}>
-                  <div className="emloyee-detail-card">
+                  <div className="emloyee-detail-card other-detail-card">
                     <div className="employee-title">
                       {languageTranslation("BANK_ACCOUNT_INFORMATION")}
                     </div>
@@ -397,7 +402,7 @@ const ViewEmployee: FunctionComponent = () => {
                   </div>
                 </Col>
                 <Col lg={"6"} md={"6"}>
-                  <div className="emloyee-detail-card   emloyee-other-info">
+                  <div className="emloyee-detail-card   emloyee-other-info other-detail-card">
                     <div className="employee-title">
                       {languageTranslation("OTHER_INFORMATION")}
                     </div>

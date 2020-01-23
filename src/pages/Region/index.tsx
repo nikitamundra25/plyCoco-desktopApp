@@ -196,7 +196,7 @@ export const Region: FunctionComponent = () => {
           <thead className='thead-bg'>
             <tr>
               <th className={'text-center'}>{languageTranslation('S_NO')}</th>
-              <th>{languageTranslation('REGION_NAME')}</th>
+              <th className="region-th-column">{languageTranslation('REGION_NAME')}</th>
               <th className='text-center'>
                 {languageTranslation('NUMBER_OF_CANSTITUTION')}
               </th>

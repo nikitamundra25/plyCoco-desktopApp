@@ -352,10 +352,10 @@ const CareGiver: FunctionComponent = () => {
                     {languageTranslation("S_NO")}
                   </th>
                   <th>{languageTranslation("TABEL_HEAD_CG_INFO")}</th>
-                  <th>{languageTranslation("TABEL_HEAD_CG_QUALIFICATION")}</th>
-                  <th>{languageTranslation("TABEL_HEAD_CG_REGION")}</th>
-                  <th>{languageTranslation("TABEL_HEAD_CG_APPLYING_AS")}</th>
-                  <th>{languageTranslation("CREATED_DATE")}</th>
+                  <th className="qualifications-th-column">{languageTranslation("TABEL_HEAD_CG_QUALIFICATION")}</th>
+                  <th className="region-th-column">{languageTranslation("TABEL_HEAD_CG_REGION")}</th>
+                  <th className="applying-th-column">{languageTranslation("TABEL_HEAD_CG_APPLYING_AS")}</th>
+                  <th className="date-th-column">{languageTranslation("CREATED_DATE")}</th>
                   <th className={"text-center"}>
                     {languageTranslation("TABEL_HEAD_CG_STATUS")}
                   </th>
@@ -402,7 +402,7 @@ const CareGiver: FunctionComponent = () => {
                           </td>
                           <td>
                             <div className="info-column">
-                              <div className="description-column">
+                              <div className="description-column ">
                                 <div className="info-title">{`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}</div>
                                 <p className="description-text">
                                   <i className="fa fa-envelope mr-2"></i>
@@ -423,8 +423,8 @@ const CareGiver: FunctionComponent = () => {
                               </div>
                             </div>
                           </td>
-                          <td className="text-center">
-                            <div className="description-column region-column one-line-text  ml-0 text-capitalize">
+                          <td >
+                            <div className="description-column region-column   ml-0 text-capitalize">
                               {careGiverData.qualifications &&
                               careGiverData.qualifications.length
                                 ? careGiverData.qualifications.map(

@@ -151,12 +151,6 @@ const PersonalInformation: any = (props: any) => {
       );
     }
 
-    values.attributeId && values.attributeId.length
-      ? values.attributeId.map(
-          (attribute: IReactSelectInterface) => attribute.label,
-        )
-      : null;
-
     try {
       const careInstitutionInput: any = {
         gender: values && values.gender ? values.gender.value : '',

@@ -690,31 +690,33 @@ const PersonalInfoFormComponent: any = (
                   Driver's license
                 </Label>
               </Col>
+              {
+                console.log("driversLicenseValue", driversLicense)
+
+              }
               <Col sm="8">
                 <div className="custom-radio-block">
                   <FormGroup check inline>
-                    <Input
+                    <CustomInput
                       type="radio"
-                      id="yes"
+                      id="yes_v"
                       name="driversLicense"
                       label="Yes"
-                      checked={driversLicense ? "true" : "false"}
-                      value={true}
+                      checked={(driversLicense === "yes" || driversLicense) ? true : false}
+                      value={"yes"}
                       onChange={handleChange}
                     />
-                    <Label>yes</Label>
                   </FormGroup>
                   <FormGroup check inline>
-                    <Input
+                    <CustomInput
                       type="radio"
-                      id="no"
+                      id="no_v"
                       name="driversLicense"
                       label="No"
-                      checked={!driversLicense ? "true" : "false"}
-                      value={false}
+                      checked={(driversLicense === "no" || !driversLicense) ? true : false}
+                      value={"no"}
                       onChange={handleChange}
                     />
-                    <Label>No</Label>
                   </FormGroup>
                 </div>
               </Col>
@@ -756,22 +758,22 @@ const PersonalInfoFormComponent: any = (
                   <FormGroup check inline>
                     <CustomInput
                       type="radio"
-                      id="yes_v"
+                      id="yes"
                       name="vehicleAvailable"
                       label="Yes"
-                      checked={vehicleAvailable}
-                      value={true}
+                      checked={vehicleAvailable === "yes" ? true : false}
+                      value={"yes"}
                       onChange={handleChange}
                     />
                   </FormGroup>
                   <FormGroup check inline>
                     <CustomInput
                       type="radio"
-                      id="no_v"
+                      id="no"
                       name="vehicleAvailable"
                       label="No"
-                      checked={vehicleAvailable}
-                      value={false}
+                      checked={vehicleAvailable === "no" ? true : false}
+                      value={"no"}
                       onChange={handleChange}
                     />
                   </FormGroup>

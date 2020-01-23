@@ -103,6 +103,14 @@ const CareInstitutionContacts: any = (props: any) => {
     { setSubmitting }: FormikHelpers<ICareInstitutionContact>
   ) => {
     console.log(values, "values");
+
+    let AttributeData: string[] = [];
+    if (values.attributeId && values.attributeId.length) {
+      values.attributeId.map((attribute: IReactSelectInterface) =>
+        AttributeData.push(attribute.label)
+      );
+    }
+
     try {
       //to set submit state to false after successful signup
       setSubmitting(false);
@@ -124,7 +132,8 @@ const CareInstitutionContacts: any = (props: any) => {
         fax: values.faxNumber,
         mobileNumber: values.mobileNumber,
         email: values.email,
-        remark: values.remark
+        remark: values.remark,
+        attributes: AttributeData
       };
       if (id) {
         await updateContact({
@@ -152,7 +161,7 @@ const CareInstitutionContacts: any = (props: any) => {
         .replace("SequelizeValidationError: ", "")
         .replace("Validation error: ", "")
         .replace("GraphQL error: ", "");
-      // setFieldError('email', message);
+
       toast.error(message);
       logger(error);
     }
@@ -177,6 +186,7 @@ const CareInstitutionContacts: any = (props: any) => {
     title = "",
     contactType = undefined,
     gender = undefined,
+    attributes = [],
     salutation = "",
     countryId = undefined
   } = contacts[activeContact] ? contacts[activeContact] : {};
@@ -194,6 +204,20 @@ const CareInstitutionContacts: any = (props: any) => {
       };
     }
   }
+
+
+  let selectedAttributes: IReactSelectInterface[] = [];
+    if (
+      attributes &&
+      attributes.length
+    ) {
+      attributes.map((attData: string) => {
+        selectedAttributes.push({
+          label: attData,
+          value: attData
+        });
+      });
+    }
 
   const contactFormValues: ICareInstitutionContact = {
     email,
@@ -224,7 +248,8 @@ const CareInstitutionContacts: any = (props: any) => {
     },
     id,
     country: userSelectedCountry,
-    remark
+    remark,
+    attributeId: selectedAttributes
   };
 
   return (

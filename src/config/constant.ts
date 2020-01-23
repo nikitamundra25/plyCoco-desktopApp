@@ -124,6 +124,51 @@ export const InvoiceType: IReactSelectInterface[] = [
     label: 'via Email With Work Proof',
   },
 ];
+
+export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
+  {
+    label: "Acquisition only twice a year",
+    value: "Acquisition only twice a year"
+  },
+  {
+    label: "Acquire block 1 - 5",
+    value: "Acquire block 1 - 5"
+  },
+  {
+    label: "Need skilled workers → yellow",
+    value: "Need skilled workers → yellow"
+  },
+  {
+    label: "Incorrect data set → black with white text",
+    value: "Incorrect data set → black with white text"
+  },
+  {
+    label: "Information mail sent → yellow",
+    value: "Information mail sent → yellow"
+  },
+  {
+    label: "Would info by email → yellow",
+    value: "Would info by email → yellow"
+  },
+  {
+    label: "Would info by callback → Yellow",
+    value: "Would info by callback → Yellow"
+  },
+  {
+    label: "Do not want to contact anymore → black with white text",
+    value: "Do not want to contact anymore → black with white text"
+  },
+  {
+    label: "Currently no interest → Yellow",
+    value: "Currently no interest → Yellow"
+  },
+  {
+    label: "Not available → black with white text",
+    value: "Not available → black with white text"
+  }
+]
+
+
 export const CareGiveAttributes: IReactSelectInterface[] = [
   {
     label: 'Offers → Blass Rosé',
@@ -207,8 +252,8 @@ export const State: IReactSelectInterface[] = [
   { value: 'Saxony', label: 'Saxony' },
 ];
 export const Gender: IReactSelectInterface[] = [
-  { value: 'male', label: 'Male' },
-  { value: 'female', label: 'Female' },
+  { value: 'Male', label: 'Male' },
+  { value: 'Female', label: 'Female' },
 ];
 export const Department: IReactSelectInterface[] = [
   { value: 'Sales', label: 'Sales' },

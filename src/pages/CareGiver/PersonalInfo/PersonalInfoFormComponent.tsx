@@ -141,6 +141,7 @@ const PersonalInfoFormComponent: any = (
       country,
       driverLicenseNumber,
       IBAN,
+      state
     },
     handleChange,
     handleBlur,
@@ -494,6 +495,7 @@ const PersonalInfoFormComponent: any = (
                     placeholder={languageTranslation('STATE')}
                     // placeholder="Bavaria"
                     options={statesOpt}
+                    value={state?state:undefined}
                     onChange={(value: any) => handleSelect(value, 'state')}
                     noOptionsMessage={() => {
                       return 'Select a country first';
@@ -644,6 +646,7 @@ const PersonalInfoFormComponent: any = (
                           placeholder={languageTranslation(
                             'BANK_IBAN_PLACEHOLDER',
                           )}
+                          name={"IBAN"}
                           mask={IBANRegex}
                           onChange={handleChange}
                           onBlur={handleBlur}

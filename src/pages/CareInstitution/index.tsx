@@ -400,8 +400,8 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className='no-data-icon'>
                     <i className='icon-ban' />
                   </div>
-                  <h4 className='mb-1'>
-                    Currently there are No care institution Added.{' '}
+                  <h4 className="mb-1">
+                    Currently there are no care institution added.{" "}
                   </h4>
                   <p>Please click above button to add new. </p>
                 </div>

@@ -551,7 +551,7 @@ const CareGiver: FunctionComponent = () => {
                             <i className="icon-ban" />
                           </div>
                           <h4 className="mb-1">
-                            Currently there are no care giver Added.{" "}
+                            Currently there are no care giver added.{" "}
                           </h4>
                           <p>Please click above button to add new. </p>
                         </div>

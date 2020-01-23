@@ -8,18 +8,19 @@ import {
   DropdownItem
 } from "reactstrap";
 import { useHistory } from "react-router";
+import logo from "../../assets/img/plycoco-orange.png";
 
-
-const DefaultHeader:FunctionComponent=()=>{
-const history = useHistory()
+const DefaultHeader: FunctionComponent = () => {
+  const history = useHistory();
   return (
     <React.Fragment>
       <AppSidebarToggler className="d-lg-none" display="md" mobile />
       <div className="brand-logo">
-        <span className="logo-text">Plycoco</span>
+        <img src={logo} alt="" />
+        {/* <span className="logo-text">Plycoco</span> */}
       </div>
       <AppSidebarToggler className="d-md-down-none" display="lg" />
-  
+
       <Nav className="ml-auto profile-dropdown" navbar>
         <UncontrolledDropdown setActiveFromChild>
           <DropdownToggle
@@ -32,7 +33,7 @@ const history = useHistory()
               <i className="fa fa-user"></i>
             </div>
           </DropdownToggle>
-  
+
           <DropdownMenu className="profile-dropdown">
             <DropdownItem className="user-box">
               <div className="user-text">
@@ -45,7 +46,7 @@ const history = useHistory()
             <DropdownItem>
               <i className="fa fa-user" /> Profile
             </DropdownItem>
-            <DropdownItem onClick={()=>history.push('login')}>
+            <DropdownItem onClick={() => history.push("login")}>
               <i className="fa fa-lock" /> Logout
             </DropdownItem>
           </DropdownMenu>
@@ -53,7 +54,6 @@ const history = useHistory()
       </Nav>
     </React.Fragment>
   );
-
-}
+};
 
 export default DefaultHeader;

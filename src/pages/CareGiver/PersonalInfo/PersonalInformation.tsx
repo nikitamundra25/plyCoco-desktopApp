@@ -51,6 +51,7 @@ import { AppRoutes, Country } from "../../../config";
 import "../caregiver.scss";
 import { GET_QUALIFICATION_ATTRIBUTES, CountryQueries } from "../../../queries";
 import { IQualifications } from "../../../interfaces/qualification";
+import Loader from "../../../containers/Loader/Loader";
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
@@ -168,10 +169,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         age: age ? parseInt(age) : null,
         address1,
         address2,
-        driversLicense,
+        driversLicense: driversLicense === "true" ? true : false,
+        vehicleAvailable: vehicleAvailable === "true" ? true : false,
         driverLicenseNumber,
         IBAN: values.IBAN,
-        vehicleAvailable,
         qualificationId:
           qualifications && qualifications.length
             ? `{${qualifications
@@ -198,7 +199,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         bankName,
         password,
         // belongTo,
-        // legalForm: legalForm,
+        legalForm: legalForm,
         companyName,
         registerCourt,
         registrationNumber,
@@ -401,6 +402,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : "",
     belongTo,
     legalForm,
+    // :props.getCaregiver && props.getCaregiver.legalForm
+    //   ? {
+    //       label: props.getCaregiver.legalForm,
+    //       value: props.getCaregiver.legalForm
+    //     }
+    //   : undefined,
     companyName:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.companyName
@@ -478,6 +485,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : undefined,
     attributeId: selectedAttributes
   };
+  console.log("props in personal info", props.getCaregiver);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -593,7 +602,12 @@ class GetData extends Component<any, any> {
         variables={{ id: parseInt(this.props.Id) }}
       >
         {({ loading, error, data }: any) => {
-          if (loading) return <div>Loading</div>;
+          if (loading)
+            return (
+              <div>
+                <Loader />
+              </div>
+            );
           if (error) return <div>Caught error: {error.message}</div>;
           return (
             <PersonalInformation

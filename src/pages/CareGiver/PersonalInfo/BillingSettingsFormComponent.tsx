@@ -178,7 +178,7 @@ const BillingSettingsFormComponent: any = (
               <Col sm="8">
                 <div>
                   <Select
-                    placeholder="Lessing Price List"
+                    placeholder="Leasing Price List"
                     options={LeasingPriceList}
                     onChange={(value: any) =>
                       handleSelect(value, "leasingPricingList")

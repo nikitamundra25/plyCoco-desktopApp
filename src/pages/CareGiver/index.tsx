@@ -484,7 +484,7 @@ const CareGiver: FunctionComponent = () => {
                           <td>
                             <div>
                               {careGiverData.createdAt
-                                ? moment(careGiverData.createdAt).format("LLL")
+                                ? moment(careGiverData.createdAt).format("lll")
                                 : "-"}
                             </div>
                           </td>

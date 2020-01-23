@@ -159,6 +159,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       leasingPricingList,
       invoiceInterval
     } = values;
+    console.log("valuessss", values);
+
     try {
       let careGiverInput: any = {
         userName,
@@ -200,7 +202,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         stateId: state && state.value ? state.value : null,
         bankName,
         password,
-        // belongTo,
+        belongTo: belongTo && belongTo.value ? parseInt(belongTo.value) : null,
         legalForm: legalForm && legalForm.value ? legalForm.label : null,
         companyName,
         registerCourt,
@@ -498,8 +500,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : undefined,
     attributeId: selectedAttributes
   };
-  console.log("props in personal info", props.getCaregiver);
 
+  const usersList = props.careGiverOpt;
   return (
     <Formik
       initialValues={initialValues}
@@ -525,7 +527,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
             </Button>
             <Row>
               <Col lg={"4"}>
-                <PersonalInfoFormComponent {...props} />
+                <PersonalInfoFormComponent
+                  {...props}
+                  CareInstitutionList={usersList}
+                />
               </Col>
               <Col lg={"4"}>
                 <div className="common-col">
@@ -608,6 +613,8 @@ class GetData extends Component<any, any> {
   };
 
   render() {
+    // const CareInstitutionLinkedTo = props.CareInstitutionList;
+
     return (
       <Query
         query={GET_CAREGIVER_BY_ID}

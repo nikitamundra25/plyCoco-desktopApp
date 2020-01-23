@@ -95,7 +95,7 @@ const PersonalInfoFormComponent: any = (
     // call query
     fetchRegionList({
       variables: {
-        limit: 200,
+        limit: 25,
         sortBy: 3
       }
     });
@@ -116,7 +116,8 @@ const PersonalInfoFormComponent: any = (
       employed,
       driversLicense,
       legalForm,
-      vehicleAvailable
+      vehicleAvailable,
+      comments
     },
     handleChange,
     handleBlur,
@@ -684,26 +685,28 @@ const PersonalInfoFormComponent: any = (
               <Col sm="8">
                 <div className="custom-radio-block">
                   <FormGroup check inline>
-                    <CustomInput
+                    <Input
                       type="radio"
                       id="yes"
                       name="driversLicense"
                       label="Yes"
-                      checked={driversLicense}
+                      checked={driversLicense ? "true" : "false"}
                       value={true}
                       onChange={handleChange}
                     />
+                    <Label>yes</Label>
                   </FormGroup>
                   <FormGroup check inline>
-                    <CustomInput
+                    <Input
                       type="radio"
                       id="no"
                       name="driversLicense"
                       label="No"
-                      checked={driversLicense}
+                      checked={!driversLicense ? "true" : "false"}
                       value={false}
                       onChange={handleChange}
                     />
+                    <Label>No</Label>
                   </FormGroup>
                 </div>
               </Col>
@@ -925,6 +928,8 @@ const PersonalInfoFormComponent: any = (
                     placeholder="Comments (Internally)"
                     className="textarea-custom"
                     rows="4"
+                    value={comments}
+                    onChange={handleChange}
                   />
                 </div>
               </Col>

@@ -61,24 +61,26 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   userName: Yup.string()
     .trim()
     .required(languageTranslation("USERNAME_REQUIRED")),
-  // fee: Yup.string().test(
-  //   "check-num",
-  //   languageTranslation("FEE_NUMERROR"),
-  //   value => !value || (value && !isNaN(value))
-  // ),
-  // night: Yup.string().test(
-  //   "check-num",
-  //   languageTranslation("NIGHT_NUMERROR"),
-  //   value => !value || (value && !isNaN(value))
-  // ),
-  // weekendAllowance: Yup.string().test(
-  //   "check-num",
-  //   languageTranslation("WEEKEND_ALLOWANCE_NUMERROR"),
-  //   value => !value || (value && !isNaN(value))
-  // ),
-  // holiday: Yup.string().test(
-  //   "check-num",
-  //   languageTranslation("HOLIDAY_NUMERROR"),
-  //   value => !value || (value && !isNaN(value))
-  // )
+  fee: Yup.mixed().test(
+    "check-num",
+    languageTranslation("INVALID_NUM"),
+    value => !value || (value && !isNaN(value))
+  ),
+  night: Yup.mixed().test(
+    "check-num",
+    languageTranslation("INVALID_NUM"),
+    value => !value || (value && !isNaN(value))
+  ),
+
+  weekendAllowance: Yup.mixed().test(
+    "check-num",
+    languageTranslation("INVALID_NUM"),
+    value => !value || (value && !isNaN(value))
+  ),
+
+  holiday: Yup.mixed().test(
+    "check-num",
+    languageTranslation("INVALID_NUM"),
+    value => !value || (value && !isNaN(value))
+  )
 });

@@ -54,7 +54,14 @@ export const FormikTextField = (props: IFormikTextField) => {
         variant={variant}
         // fullwidth={true}
       />
-      <div className="required-error">{showError && fieldError}</div>
+      {name === "fee" ||
+      name === "night" ||
+      name === "weekendAllowance" ||
+      name === "holiday" ? (
+        <div className="required-error left">{showError && fieldError}</div>
+      ) : (
+        <div className="required-error ">{showError && fieldError}</div>
+      )}
     </>
   );
 };

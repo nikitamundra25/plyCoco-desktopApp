@@ -38,6 +38,7 @@ import { ConfirmBox } from "../../common/ConfirmBox";
 import { toast } from "react-toastify";
 import moment from "moment";
 import Loader from "../../containers/Loader/Loader";
+import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
 let toastId: any = null;
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -282,7 +283,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <td>
                   <div className="info-column">
                     <div className="description-column">
-                      <div className="info-title">
+                      <div className="info-title text-capitalize">
                         {`${user.firstName} ${user.lastName}`}
                       </div>
                       <p className="description-text">
@@ -299,7 +300,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                   </div>
                 </td>
                 <td>
-                  <div className="company-column">
+                  <div className="company-column text-capitalize">
                     <div className="company-text">
                       <i className="fa fa-building mr-2"></i>
                       <span className="align-middle">
@@ -343,19 +344,16 @@ const CareInstitution = (props: RouteComponentProps) => {
                 </td>
                 <td>
                   <div className="action-btn">
-                    <span
-                      className="btn-icon mr-2"
+                    <ButtonTooltip
                       id={`view${index}`}
-                      onClick={() => handleViewCareInstitution(user.id)}
+                      message={"Click here to view Care Institution"}
+                      redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
+                        ":id",
+                        user.id.toString()
+                      )}
                     >
-                      <UncontrolledTooltip
-                        placement="top"
-                        target={`view${index}`}
-                      >
-                        Click here to view care institution
-                      </UncontrolledTooltip>
                       <i className="fa fa-eye"></i>
-                    </span>
+                    </ButtonTooltip>
                     <span
                       className="btn-icon "
                       id={`delete${index}`}

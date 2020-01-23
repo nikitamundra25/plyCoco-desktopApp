@@ -813,27 +813,25 @@ html:not([dir="rtl"]) {
   .sidebar-lg-show {
     &.sidebar-fixed {
       .main {
-        @media (max-width: 1080px)  and (min-width: 992px)
-       {
-          .user-select, .region-select {
+        @media (max-width: 1080px) and (min-width: 992px) {
+          .user-select,
+          .region-select {
             width: 150px;
           }
-          .common-detail-page{
-            .common-detail-section{
+          .common-detail-page {
+            .common-detail-section {
               .common-topheader {
                 .header-nav-item {
                   padding: 4px 5px;
                   font-size: $font_11;
-                  .header-nav-icon{
+                  .header-nav-icon {
                     padding-right: 5px;
-          
                   }
                 }
               }
             }
           }
-      
-      }
+        }
       }
     }
   }
@@ -923,10 +921,10 @@ html:not([dir="rtl"]) {
     justify-content: flex-start;
 
     .btn-filter {
-      font-size: $font_14;
-      padding: 0px 0px;
+      font-size: $font_12;
+      padding: 0px 6px;
       font-weight: 700;
-      width: 25px;
+
       height: 25px;
       border-radius: 4px;
       display: flex;
@@ -941,6 +939,10 @@ html:not([dir="rtl"]) {
         color: $light_black;
         background-color: $btn_hover_gray;
         border-color: $btn_hover_gray;
+      }
+      .search-text {
+        font-size: $font_12;
+        margin-left: 4px;
       }
     }
   }
@@ -1716,12 +1718,12 @@ html:not([dir="rtl"]) {
     }
     .profile-wrap {
       position: absolute;
-      left: 0px;
+      left: 15px;
       margin: 0;
       width: 125px;
       .emloyee-profile-img {
-        width: 120px;
-        height: 120px;
+        width: 100%;
+        height: 100%;
         border-radius: 3px;
         margin: auto;
         overflow: hidden;
@@ -1736,6 +1738,14 @@ html:not([dir="rtl"]) {
         background-position: center center;
         width: 100%;
         height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          margin: auto;
+        }
       }
       .changeProfile {
         position: absolute;
@@ -1763,6 +1773,9 @@ html:not([dir="rtl"]) {
     border: 1px solid #ccc;
     padding-left: 140px;
     position: relative;
+    &.other-detail-card {
+      padding: 15px;
+    }
     .region-list {
       .region-text {
         margin-bottom: 2px;
@@ -1832,6 +1845,9 @@ html:not([dir="rtl"]) {
     .common-topheader {
       background: $white;
       padding-top: 4px;
+      .user-select {
+        text-transform: capitalize;
+      }
       .common-title {
         color: $black;
         font-size: $font_14;
@@ -2770,6 +2786,7 @@ html:not([dir="rtl"]) {
   border: 0px;
   .nav-item {
     .nav-link {
+      text-transform: capitalize;
       cursor: pointer;
       border-radius: 4px;
       padding: 4px 12px;

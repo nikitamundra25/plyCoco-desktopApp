@@ -1,9 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Button, Card, CardHeader, CardBody, Table } from "reactstrap";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, Link } from "react-router-dom";
 import { AppBreadcrumb } from "@coreui/react";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import * as qs from "query-string";
+import { UncontrolledTooltip } from "reactstrap";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { AppConfig } from "../../config";
 import { AppRoutes, PAGE_LIMIT, client } from "../../config";
@@ -485,48 +486,74 @@ const Employee: FunctionComponent = () => {
                       </td>
                       <td>
                         <div className="action-btn">
+                          {/* <Link
+                            to={AppRoutes.EDIT_EMPLOYEE.replace(
+                              /:id|:userName/gi,
+                              function(matched) {
+                                return replaceObj[matched];
+                              },
+                            )}
+                          > */}
                           <ButtonTooltip
                             id={`edit${index}`}
                             message={languageTranslation("EMP_EDIT")}
-                            onBtnClick={() =>
-                              history.push(
-                                AppRoutes.EDIT_EMPLOYEE.replace(
-                                  /:id|:userName/gi,
-                                  function(matched) {
-                                    return replaceObj[matched];
-                                  }
-                                )
-                              )
-                            }
+                            redirectUrl={AppRoutes.EDIT_EMPLOYEE.replace(
+                              /:id|:userName/gi,
+                              function(matched) {
+                                return replaceObj[matched];
+                              }
+                            )}
+                            // onBtnClick={() =>
+                            //   history.push(
+                            //     AppRoutes.EDIT_EMPLOYEE.replace(
+                            //       /:id|:userName/gi,
+                            //       function(matched) {
+                            //         return replaceObj[matched];
+                            //       },
+                            //     ),
+                            //   )
+                            // }
                           >
                             {" "}
                             <i className="fa fa-pencil"></i>
                           </ButtonTooltip>
+                          {/* </Link> */}
                           <ButtonTooltip
                             id={`view${index}`}
                             message={languageTranslation("EMP_VIEW")}
-                            onBtnClick={() =>
-                              history.push(
-                                AppRoutes.VIEW_EMPLOYEE.replace(
-                                  /:id|:userName/gi,
-                                  function(matched) {
-                                    return replaceObj[matched];
-                                  }
-                                )
-                              )
-                            }
+                            redirectUrl={AppRoutes.VIEW_EMPLOYEE.replace(
+                              /:id|:userName/gi,
+                              function(matched) {
+                                return replaceObj[matched];
+                              }
+                            )}
+                            // onBtnClick={() =>
+                            //   history.push(
+                            //     AppRoutes.VIEW_EMPLOYEE.replace(
+                            //       /:id|:userName/gi,
+                            //       function(matched) {
+                            //         return replaceObj[matched];
+                            //       },
+                            //     ),
+                            //   )
+                            // }
                           >
                             {" "}
                             <i className="fa fa-eye"></i>
                           </ButtonTooltip>
-                          <ButtonTooltip
+                          <span
                             id={`delete${index}`}
-                            message={languageTranslation("EMP_DELETE")}
-                            onBtnClick={() => onDelete(id)}
+                            className="btn-icon mr-2"
+                            onClick={() => onDelete(id)}
                           >
-                            {" "}
+                            <UncontrolledTooltip
+                              placement={"top"}
+                              target={`delete${index}`}
+                            >
+                              {languageTranslation("EMP_DELETE")}
+                            </UncontrolledTooltip>
                             <i className="fa fa-trash"></i>
-                          </ButtonTooltip>
+                          </span>
                         </div>
                       </td>
                     </tr>

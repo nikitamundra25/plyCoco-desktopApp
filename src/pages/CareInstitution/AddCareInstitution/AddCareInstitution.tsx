@@ -225,7 +225,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                       </Col>
                       <Col sm='7'>
                         <FormGroup>
-                          <Row className='custom-col inner-no-padding-col d-flex align-items-center'>
+                          <Row className='custom-col inner-no-padding-col d-flex'>
                             <Col sm='6'>
                               <Label className='form-label col-form-label inner-label'>
                                 {languageTranslation('TITLE')}
@@ -295,8 +295,8 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         placeholder={languageTranslation('FIRST_NAME')}
                         className={
                           errors.firstName && touched.firstName
-                            ? 'text-input error'
-                            : 'text-input'
+                            ? 'text-input error text-capitalize'
+                            : 'text-input text-capitalize'
                         }
                       />
                       {errors.firstName && touched.firstName && (
@@ -327,8 +327,8 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         placeholder={languageTranslation('SURNAME')}
                         className={
                           errors.lastName && touched.lastName
-                            ? 'text-input error'
-                            : 'text-input'
+                            ? 'text-input error text-capitalize'
+                            : 'text-input text-capitalize'
                         }
                       />
                       {errors.lastName && touched.lastName && (

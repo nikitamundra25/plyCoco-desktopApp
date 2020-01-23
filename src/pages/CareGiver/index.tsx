@@ -411,7 +411,7 @@ const CareGiver: FunctionComponent = () => {
                           <td>
                             <div className="info-column">
                               <div className="description-column ">
-                                <div className="info-title">{`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}</div>
+                                <div className="info-title text-capitalize">{`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}</div>
                                 <p className="description-text">
                                   <i className="fa fa-envelope mr-2"></i>
                                   <span className="align-middle">
@@ -467,15 +467,13 @@ const CareGiver: FunctionComponent = () => {
                           </td>
                           <td>
                             <div>
-                              <p className="description-text">
-                                <span className="align-middle">
-                                  {careGiverData &&
-                                  careGiverData.caregiver &&
-                                  careGiverData.caregiver.legalForm
-                                    ? careGiverData.caregiver.legalForm
-                                    : "N/A"}
-                                </span>
-                              </p>
+                              <span className="align-middle">
+                                {careGiverData &&
+                                careGiverData.caregiver &&
+                                careGiverData.caregiver.legalForm
+                                  ? careGiverData.caregiver.legalForm
+                                  : "N/A"}
+                              </span>
                             </div>
                           </td>
 
@@ -509,29 +507,29 @@ const CareGiver: FunctionComponent = () => {
                               <ButtonTooltip
                                 id={`view${index}`}
                                 message={languageTranslation("CAREGIVER_VIEW")}
-                                onBtnClick={() =>
-                                  history.push(
-                                    AppRoutes.CARE_GIVER_VIEW.replace(
-                                      /:id/gi,
-                                      function(matched) {
-                                        return replaceObj[matched];
-                                      }
-                                    )
-                                  )
-                                }
+                                redirectUrl={AppRoutes.CARE_GIVER_VIEW.replace(
+                                  /:id/gi,
+                                  function(matched) {
+                                    return replaceObj[matched];
+                                  }
+                                )}
                               >
                                 {" "}
                                 <i className="fa fa-eye"></i>
                               </ButtonTooltip>
-                              <ButtonTooltip
+                              <span
                                 id={`delete${index}`}
-                                message={languageTranslation(
-                                  "CAREGIVER_DELETE"
-                                )}
-                                onBtnClick={() => onDelete(careGiverData.id)}
+                                className="btn-icon mr-2"
+                                onClick={() => onDelete(careGiverData.id)}
                               >
+                                <UncontrolledTooltip
+                                  placement={"top"}
+                                  target={`delete${index}`}
+                                >
+                                  {languageTranslation("CAREGIVER_DELETE")}
+                                </UncontrolledTooltip>
                                 <i className="fa fa-trash"></i>
-                              </ButtonTooltip>
+                              </span>
                             </div>
                           </td>
                         </tr>

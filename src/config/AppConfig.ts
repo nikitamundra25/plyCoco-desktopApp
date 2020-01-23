@@ -1,23 +1,13 @@
-let data: any;
 export const EnviornmentType: any = {
   DEV: 'development',
   PROD: 'production',
 };
 
 export const env: any = process.env.NODE_ENV || EnviornmentType.DEV;
-data = {
-  GRAPHQL_ENDPOINT:
-    env === EnviornmentType.DEV
-      ? 'http://192.168.2.4:8000/graphql'
-      : 'http://192.168.2.4:8000/graphql',
-  FILES_ENDPOINT:
-    env === EnviornmentType.DEV
-      ? 'http://192.168.2.4:8000'
-      : 'http://192.168.2.4:8000',
 
-  API_VERSION: 'api/v2',
+export const AppConfig = {
+  GRAPHQL_ENDPOINT: process.env.REACT_APP_GRAPHQL_ENDPOINT,
+  FILES_ENDPOINT: process.env.REACT_APP_FILES_ENDPOINT,
+  API_VERSION: process.env.REACT_APP_API_VERSION,
+  DEFAULT_DATE_FORMAT: process.env.REACT_APP_DEFAULT_DATE_FORMAT,
 };
-
-data.DEFAULT_DATE_FORMAT = 'LLL';
-
-export const AppConfig = data;

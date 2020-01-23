@@ -89,7 +89,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: "Open Sans", sans-serif;
+  font-family: $font_open_sans;
   font-size: $font_13;
   background: $white;
 
@@ -126,15 +126,6 @@ body {
       line-height: normal;
     }
   }
-  .min-height650 {
-    min-height: 650px;
-  }
-  .height17 {
-    min-height: 17px;
-  }
-  .footer {
-    background: #f1f1f1;
-  }
 
   .card {
     border: 0px solid $card_border;
@@ -155,7 +146,6 @@ body {
         font-weight: 600;
       }
       .btn {
-        //padding: 0.2rem 0.75rem;
         padding: 4px 30px;
         font-weight: 600;
         font-size: $font_12;
@@ -205,37 +195,6 @@ body {
     }
   }
 
-  // .table-checkbox-wrap {
-  //   position: relative;
-  //   width: 100%;
-  //   height: 100%;
-  // }
-  // .table .checkboxli {
-  //   width: 30px;
-  //   position: relative;
-  //   z-index: 9;
-  //   padding-right: 0;
-  //   left: 0;
-  //   top: 0px;
-  // }
-  // .table-checkbox-wrap select.commonstatus {
-  //   height: 28px;
-  //   top: -4px;
-  //   border-radius: 0px;
-  //   left: 0;
-  //   padding-right: 0;
-  //   position: absolute;
-  //   text-indent: 10px;
-  //   border: 0;
-  //   background: #fdfdfd;
-  //   font-size: 13px;
-  //   line-height: 13px;
-  //   padding: 0;
-  //   padding-left: 10px;
-  // }
-  // .coloum-checkbox {
-  //   left: 0px;
-  // }
   /* Form - Custom Checkbox */
   .checkbox-custom {
     position: relative;
@@ -415,7 +374,7 @@ body {
       }
       .input-group-prepend {
         border: 1px solid $light_gray;
-        //  border-color: $light_gray;
+
         background: $white;
         margin-left: 1px;
         border-right: 0;
@@ -540,7 +499,7 @@ body {
 }
 .sidebar {
   background: $theme_color;
-  // height: 100vh !important;
+
   .sidebar-logo {
     width: 180px;
     margin: 8px auto;
@@ -557,6 +516,9 @@ body {
     .nav-link {
       padding: 8px 10px;
       font-size: $font_13;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
       .nav-icon {
         color: $white;
         background-position: center;
@@ -725,6 +687,7 @@ body {
     .nav-item {
       .nav-link {
         padding-left: 0 !important;
+        display: block;
         .nav-icon {
           margin: 0px 16px 0px 16px;
         }
@@ -783,6 +746,9 @@ body {
 }
 .app-body {
   overflow: inherit;
+  @media only screen and (max-width: 991px) {
+    margin-top: 35px;
+  }
   .main {
     background: $card_header_bg;
     .container-fluid {
@@ -790,6 +756,18 @@ body {
     }
   }
 }
+.sidebar-fixed {
+  .app-header {
+    & + .app-body {
+      .sidebar {
+        @media only screen and (min-width: 992px) {
+        height: calc(100vh - 35px);
+        }
+      }
+    }
+  }
+}
+
 
 .filter-form {
   margin-top: -5px;
@@ -1061,7 +1039,7 @@ body {
   }
   .btn-contact-save {
     font-size: $font_13;
-    top: -44px;
+    top: 0px;
   }
 
   .file-preview-section {
@@ -1388,6 +1366,9 @@ body {
       width: 230px;
       margin-left: 10px;
       flex: 1 1;
+      &.region-column {
+        width: auto;
+      }
       .info-title {
         font-size: $font_12;
         color: $black;
@@ -1474,12 +1455,12 @@ body {
     box-shadow: none !important;
   }
 }
-.password-btn2 {
+.password-btn {
   height: 25px;
   padding: 0px 0px;
   min-width: 225px;
 }
-.password-btn1 {
+.generate-password {
   height: 25px;
   padding: 0px 0px;
   min-width: 225px;
@@ -1698,6 +1679,9 @@ body {
       z-index: 10;
       top: 0px;
       background: $white;
+      @media only screen and (max-width: 991px) {
+        top: 34px;
+      }
     }
     .username-header {
       color: $black;
@@ -1868,6 +1852,9 @@ body {
                 $common_inner_tab_bg 0%,
                 $white 100%
               );
+            }
+            @media only screen and (max-width: 991px) {
+              padding: 0px 8px;
             }
           }
           &:hover {
@@ -2508,6 +2495,10 @@ body {
   border: 1px solid $table_border;
   height: 100%;
   background: $white;
+  @media only screen and (max-width: 991px) {
+    margin-bottom: 12px;
+    height: auto;
+  }
   .remark-header {
     padding: 0px 8px;
     background: $white;
@@ -2738,9 +2729,15 @@ body {
 .form-flex-block {
   margin: 0 -7.5px;
   display: flex;
+  @media only screen and (max-width: 991px) {
+    flex-flow: column;
+  }
   .form-flex-tile {
     padding: 0 7.5px;
     flex: 1 1 20%;
+    @media only screen and (max-width: 991px) {
+      flex: 1 1 100%;
+    }
     .col-form-label {
       white-space: nowrap;
     }
@@ -2800,12 +2797,11 @@ body {
   .Toastify__toast {
     &.Toastify__toast--success {
       // background: #3ae5b9;
-      box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
+
       border-radius: 10px;
-      color: $white;
-      background: #fff;
-      color: #000;
-      border-left: 3px solid #39d7b3;
+      background: $white;
+      color: $black;
+      border-left: 3px solid $toaster_success;
       box-shadow: 0 10px 11px 1px rgba(0, 42, 90, 0.1);
       padding: 8px 6px;
       padding-right: 20px;
@@ -2834,9 +2830,9 @@ body {
       // background: #e5453a;
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
-      background: #fff;
-      border-left: 3px solid #e5453a;
+      background: $white;
       color: $black;
+      border-left: 3px solid $toaster_error;
       padding: 8px 6px;
       padding-right: 20px;
       .Toastify__toast-body {
@@ -2861,11 +2857,12 @@ body {
 
     &.Toastify__toast--warning {
       // background: #efab12;
-      background: #fff;
+
       box-shadow: 0 10px 18px 0 rgba(0, 42, 90, 0.1);
       border-radius: 10px;
+      background: $white;
       color: $black;
-      border-left: 3px solid #efab12;
+      border-left: 3px solid $toaster_warning;
       padding: 8px 6px;
       padding-right: 20px;
       .Toastify__toast-body {
@@ -2943,13 +2940,13 @@ body {
         &:hover {
           color: $theme_color;
           text-decoration: none;
-          background-color: #ffffff;
+          background-color: $white;
           border-color: $theme_color;
         }
       }
       &.active {
         .page-link {
-          color: #fff;
+          color: $white;
           background-color: $theme_color;
           border-color: $theme_color;
         }
@@ -2968,7 +2965,7 @@ body {
   }
   p {
     font-size: 15px;
-    color: #989898;
+    color: $no_search_text_color;
   }
 }
 .no-search-section {
@@ -2986,7 +2983,7 @@ body {
   }
   p {
     font-size: 15px;
-    color: #989898;
+    color: $no_search_text_color;
     margin-bottom: 0px;
   }
 }
@@ -2998,7 +2995,7 @@ body {
     top: 130%;
     width: 360px;
     padding: 20px;
-    background: #fff;
+    background: $white;
     border: 1px solid #ccc;
   }
 }
@@ -3010,7 +3007,7 @@ body {
     display: none !important;
   }
   .swal2-title {
-    color: #000;
+    color: $black;
     font-size: 25px;
   }
   .swal2-content {

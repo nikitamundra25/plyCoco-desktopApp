@@ -1,8 +1,17 @@
 @import "../../scss/variables";
 .common-col {
   height: 100%;
+  .form-card {
+    @media only screen and (max-width: 991px) {
+      margin-top: 12px;
+      height: auto;
+    }
+  }
   .quality-attribute-section {
     height: calc(100% - 233px);
+    @media only screen and (max-width: 991px) {
+      height: auto;
+    }
     .common-list-card {
       height: 100%;
       margin-bottom: 12px;
@@ -11,6 +20,7 @@
         margin-bottom: 0px;
         .common-list-body {
           height: calc(100% - 22px);
+          min-height: 120px;
         }
       }
     }
@@ -118,7 +128,7 @@
 }
 .save-button {
   position: absolute;
-  top: -34px;
+  top: -31px;
   right: 8px;
   padding: 4px 30px;
   font-weight: 600;
@@ -128,5 +138,12 @@
     position: fixed;
     top: 34px;
     right: 8px;
+    @media only screen and (max-width: 991px) {
+      top: 72px;
+    }
   }
+}
+.disabled-div {
+  cursor: not-allowed !important;
+  opacity: 0.7;
 }

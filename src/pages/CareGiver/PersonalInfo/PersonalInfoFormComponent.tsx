@@ -128,7 +128,8 @@ const PersonalInfoFormComponent: any = (
       IBAN,
       state,
       employed,
-      driversLicense
+      driversLicense,
+      legalForm
     },
     handleChange,
     handleBlur,
@@ -137,7 +138,7 @@ const PersonalInfoFormComponent: any = (
     touched
   } = props;
   console.log(props.values, "props.value");
-  
+
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
 
@@ -789,7 +790,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder="Legal Form"
                     options={LegalForm}
-                    //  value={qualificationId ? qualificationId : undefined}
+                    value={legalForm ? legalForm : undefined}
                     onChange={(value: any) => handleSelect(value, "legalForm")}
                   />
                 </div>

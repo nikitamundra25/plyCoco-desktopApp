@@ -412,13 +412,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         ? props.getCaregiver.bankDetails.IBAN
         : "",
     belongTo,
-    legalForm,
-    // :props.getCaregiver && props.getCaregiver.legalForm
-    //   ? {
-    //       label: props.getCaregiver.legalForm,
-    //       value: props.getCaregiver.legalForm
-    //     }
-    //   : undefined,
+    legalForm:
+      props.getCaregiver && props.getCaregiver.caregiver.legalForm
+        ? {
+            label: props.getCaregiver.caregiver.legalForm,
+            value: props.getCaregiver.caregiver.legalForm
+          }
+        : undefined,
     companyName:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.companyName

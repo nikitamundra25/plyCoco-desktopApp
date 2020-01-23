@@ -156,6 +156,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       night,
       holiday,
       leasingPricingList,
+      invoiceInterval,
     } = values;
     try {
       let careGiverInput: any = {

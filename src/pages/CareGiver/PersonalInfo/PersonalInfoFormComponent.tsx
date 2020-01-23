@@ -446,14 +446,16 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm='4'>
-                <Label className='form-label col-form-label '>ZIP</Label>
+                <Label className='form-label col-form-label '>
+                  Postal Code
+                </Label>
               </Col>
               <Col sm='8'>
                 <div>
                   <Field
                     component={FormikTextField}
                     name={'postCode'}
-                    placeholder='Post Code'
+                    placeholder='Postal Code'
                     className=' width-common'
                   />
                 </div>
@@ -843,7 +845,7 @@ const PersonalInfoFormComponent: any = (
             <Row>
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
-                  Registeration Number
+                  Registration Number
                 </Label>
               </Col>
               <Col sm='8'>
@@ -851,7 +853,7 @@ const PersonalInfoFormComponent: any = (
                   <Input
                     type='text'
                     name={'regNumber'}
-                    placeholder='Registeration Number'
+                    placeholder='Registration Number'
                     className='width-common'
                   />
                 </div>

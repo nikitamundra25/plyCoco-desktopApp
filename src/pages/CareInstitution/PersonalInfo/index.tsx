@@ -445,6 +445,10 @@ const PersonalInformation: any = (props: any) => {
       }`,
       value: Id,
     };
+    console.log(
+      ' getCareInstitution.canstitution.city',
+      getCareInstitution.canstitution && getCareInstitution.canstitution.city,
+    );
   } else {
     values = {
       email: '',
@@ -475,10 +479,10 @@ const PersonalInformation: any = (props: any) => {
     }
   }, []);
 
-  // logger(contacts, "contact", props.CareInstitutionList);
-  console.log('contact', props.CareInstitutionList);
   const { qualificationList } = props;
   const CareInstitutionLinkedTo = props.CareInstitutionList;
+  console.log('valueee', values.city);
+
   return (
     <Form className='form-section forms-main-section'>
       <Formik

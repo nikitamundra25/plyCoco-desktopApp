@@ -50,7 +50,9 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       phoneNumber
       fee
       holiday
-      invoiceInterval
+      invoiceInterval,
+      leasingPricingList
+      night
     }
     regions{
       id
@@ -175,6 +177,7 @@ export const GET_CAREGIVER_BY_ID = gql`
         holiday
         invoiceInterval
         attributes
+        night
       }
       qualifications {
         id

@@ -144,6 +144,20 @@ const PersonalInformation: any = (props: any) => {
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
   ) => {
     //to set submit state to false after successful signup
+    let AttributeData: string[] = []
+    if (values.attributeId && values.attributeId.length) {
+      values.attributeId.map(
+        (attribute: IReactSelectInterface) =>
+          AttributeData.push(attribute.label)
+      )
+    }
+    console.log("AttributeData", AttributeData);
+
+    values.attributeId && values.attributeId.length
+      ? values.attributeId.map(
+        (attribute: IReactSelectInterface) => attribute.label,
+      )
+      : null
 
     try {
       const careInstitutionInput: any = {
@@ -186,17 +200,12 @@ const PersonalInformation: any = (props: any) => {
         qualificationId:
           values.qualificationId && values.qualificationId.length
             ? `{${values.qualificationId
-                .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
-                )
-                .join(', ')}}`
-            : null,
-        attributes:
-          values.attributeId && values.attributeId.length
-            ? values.attributeId.map(
-                (attribute: IReactSelectInterface) => attribute.label,
+              .map(
+                (qualification: IReactSelectInterface) => qualification.value,
               )
+              .join(', ')}}`
             : null,
+        attributes: AttributeData,
       };
       setSubmitting(false);
       toast.success(languageTranslation('CARE_INSTI_UPDATE_SUCCESS'));
@@ -238,8 +247,6 @@ const PersonalInformation: any = (props: any) => {
       : '';
 
     let userSelectedCountry: any = {};
-    console.log('countries', countryData);
-
     if (countries && countries.countries) {
       const userCountry = countries.countries.filter(
         (x: any) => parseInt(x.id) === countryData,
@@ -298,7 +305,16 @@ const PersonalInformation: any = (props: any) => {
         };
       }
     }
-
+    let selectedAttributes: IReactSelectInterface[] = []
+    if (getCareInstitution && getCareInstitution.canstitution && getCareInstitution.canstitution.attributes && getCareInstitution.canstitution.attributes.length) {
+      getCareInstitution.canstitution.attributes.map((attData: string)=>{
+        selectedAttributes.push({
+          label: attData,
+          value: attData
+        })
+      })
+    }
+   
     values = {
       id: Id,
       email: getCareInstitution.email,
@@ -306,9 +322,9 @@ const PersonalInformation: any = (props: any) => {
       lastName: getCareInstitution.lastName,
       gender: getCareInstitution.gender
         ? {
-            label: getCareInstitution ? getCareInstitution.gender : '',
-            value: getCareInstitution ? getCareInstitution.gender : null,
-          }
+          label: getCareInstitution ? getCareInstitution.gender : '',
+          value: getCareInstitution ? getCareInstitution.gender : null,
+        }
         : undefined,
       userName: getCareInstitution.userName,
       phoneNumber: getCareInstitution.phoneNumber,
@@ -331,9 +347,9 @@ const PersonalInformation: any = (props: any) => {
         : '',
       country: userSelectedCountry.value
         ? {
-            label: userSelectedCountry.value ? userSelectedCountry.label : null,
-            value: userSelectedCountry.value ? userSelectedCountry.value : null,
-          }
+          label: userSelectedCountry.value ? userSelectedCountry.label : null,
+          value: userSelectedCountry.value ? userSelectedCountry.value : null,
+        }
         : undefined,
       state: userSelectedState.value
         ? { label: userSelectedState.label, value: userSelectedState.value }
@@ -361,13 +377,13 @@ const PersonalInformation: any = (props: any) => {
         : '',
       invoiceType: getCareInstitution.canstitution.invoiceType
         ? {
-            label: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.invoiceType
-              : '',
-            value: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.invoiceType
-              : '',
-          }
+          label: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.invoiceType
+            : '',
+          value: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.invoiceType
+            : '',
+        }
         : undefined,
       emailInvoice: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.emailInvoice
@@ -377,13 +393,13 @@ const PersonalInformation: any = (props: any) => {
         : '',
       interval: getCareInstitution.canstitution.interval
         ? {
-            label: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.interval
-              : '',
-            value: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.interval
-              : '',
-          }
+          label: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.interval
+            : '',
+          value: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.interval
+            : '',
+        }
         : undefined,
       doctorCommission: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.doctorCommission
@@ -411,6 +427,7 @@ const PersonalInformation: any = (props: any) => {
         ? getCareInstitution.canstitution.website
         : '',
       linkedTo: UserSelectedLinkedTo ? UserSelectedLinkedTo : null,
+      attributeId: selectedAttributes
     };
     const qualificationsData: IReactSelectInterface[] | undefined = [];
     const attributeData: IReactSelectInterface[] = [];
@@ -422,27 +439,11 @@ const PersonalInformation: any = (props: any) => {
       );
     }
     values.qualificationId = qualificationsData;
-    console.log(getCareInstitution, 'getCareInstitutiongetCareInstitution');
-
-    if (
-      getCareInstitution.canstitution &&
-      getCareInstitution.canstitution.attributes
-    ) {
-      // const parsedAttributes = getCareInstitution.canstitution.attributes
-      //   .match(/[\w.-]+/g)
-      //   .map(String);
-      // parsedAttributes.forEach((element: any) => {
-      //   attributeData.push({
-      //     label: element,
-      //     value: element,
-      //   });
-      // });
-    }
-    values.attributeId = attributeData;
+   
     Data = {
       label: `${getCareInstitution.firstName} ${''} ${
         getCareInstitution.lastName
-      }`,
+        }`,
       value: Id,
     };
   } else {
@@ -456,7 +457,7 @@ const PersonalInformation: any = (props: any) => {
       shortName: '',
       companyName: '',
       street: '',
-      city: '',
+      city: '', 
     };
   }
 

@@ -31,7 +31,7 @@ class ChangePassword extends Component {
                           <Button
                             color="primary"
                             type="submit"
-                            className="password-btn1 d-flex align-items-center justify-content-center"
+                            className="generate-password d-flex align-items-center justify-content-center"
                           >
                             <i className="fa fa-key mr-2"></i>{" "}
                             <span className="align-middle">
@@ -52,7 +52,7 @@ class ChangePassword extends Component {
                           <Button
                             color="primary"
                             type="submit"
-                            className="password-btn2 d-flex align-items-center justify-content-center"
+                            className="password-btn d-flex align-items-center justify-content-center"
                           >
                             <i className="fa fa-envelope-o mr-2"></i>{" "}
                             <span className="align-middle">

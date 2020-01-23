@@ -19,6 +19,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     caregiver{
       address1
       address2
+      attributes
       age
       fax
       workZones
@@ -31,7 +32,6 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       dateOfBirth
       gender
       comments
-      zipCode
       companyName
       registerCourt
       remarks
@@ -137,7 +137,6 @@ export const GET_CAREGIVER_BY_ID = gql`
       gender
       profileThumbnailImage
       isActive
-      phoneNumber
       createdAt
       caregiver {
         address1
@@ -171,6 +170,7 @@ export const GET_CAREGIVER_BY_ID = gql`
         fee
         holiday
         invoiceInterval
+        attributes
       }
       qualifications {
         id

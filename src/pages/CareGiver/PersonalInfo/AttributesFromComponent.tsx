@@ -30,11 +30,15 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
             </div>
           </div>
           <div className='common-list-body'>
-            {/* <ul className="common-list list-unstyled">
-              <li>Dialysis </li>
-              <li>Home Management</li>
-              <li>Nurse/carer</li>
-            </ul> */}
+            <ul className='common-list list-unstyled'>
+              {attributeId
+                ? attributeId.map(
+                    ({ label }: IReactSelectInterface, index: number) => {
+                      return <li key={index}>{label}</li>;
+                    },
+                  )
+                : null}
+            </ul>
           </div>
           <div className='common-list-footer form-section '>
             <FormGroup className='mb-0'>

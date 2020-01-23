@@ -184,6 +184,7 @@ export const CareGiverForm: FunctionComponent = () => {
         vehicleAvailable: vehicleAvailable === "true" ? true : false,
         legalForm: legalForm && legalForm.value ? legalForm.value : "",
         companyName,
+        belongTo: belongTo && belongTo.value ? parseInt(belongTo.value) : null,
         registrationNumber,
         registerCourt,
         age: age ? parseInt(age) : null,

@@ -361,7 +361,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     driversLicense:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.driversLicense
-        : false,
+        : '',
     driverLicenseNumber:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.driverLicenseNumber
@@ -371,7 +371,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     vehicleAvailable:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.vehicleAvailable
-        : false,
+        : '',
     street:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.street

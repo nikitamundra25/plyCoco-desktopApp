@@ -241,8 +241,8 @@ export const CareGiverForm: FunctionComponent = () => {
         .replace('GraphQL error: ', '');
       // setFieldError('email', message);
       toast.error(message);
-      setSubmitting(false);
     }
+    setSubmitting(false);
   };
   const [activeTab, setactiveTab] = useState(0);
 

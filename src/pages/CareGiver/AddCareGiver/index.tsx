@@ -3,32 +3,32 @@ import React, {
   useState,
   FunctionComponent,
   Suspense,
-  useEffect,
-} from 'react';
+  useEffect
+} from "react";
 import {
   CareGiverValues,
   ICareGiverInput,
   IAddCargiverRes,
   IReactSelectInterface,
-  ICareGiverValues,
-} from '../../../interfaces';
-import { FormikHelpers, Formik, FormikProps } from 'formik';
-import CareGiverFormComponent from './CareGiverFormComponent';
-import { CareGiverValidationSchema } from '../../../validations/CareGiverValidationSchema';
-import { useMutation, useLazyQuery } from '@apollo/react-hooks';
-import { ADD_CAREGIVER, GET_CAREGIVERS } from '../../../queries/CareGiver';
-import { GET_QUALIFICATION_ATTRIBUTE } from '../../../queries/qualification';
-import { Mutation } from '@apollo/react-components';
-import { useHistory, useParams } from 'react-router';
-import { toast } from 'react-toastify';
-import { languageTranslation } from '../../../helpers';
-import { AppRoutes, PAGE_LIMIT } from '../../../config';
-import CareGiverSidebar from '../Sidebar/SidebarLayout/CareGiverLayout';
-import reminder from '../../../assets/img/reminder.svg';
-import password from '../../../assets/img/password.svg';
-import appointment from '../../../assets/img/appointment.svg';
-import clear from '../../../assets/img/clear.svg';
-import { careGiverRoutes } from '../Sidebar/SidebarRoutes/CareGiverRoutes';
+  ICareGiverValues
+} from "../../../interfaces";
+import { FormikHelpers, Formik, FormikProps } from "formik";
+import CareGiverFormComponent from "./CareGiverFormComponent";
+import { CareGiverValidationSchema } from "../../../validations/CareGiverValidationSchema";
+import { useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { ADD_CAREGIVER, GET_CAREGIVERS } from "../../../queries/CareGiver";
+import { GET_QUALIFICATION_ATTRIBUTE } from "../../../queries/qualification";
+import { Mutation } from "@apollo/react-components";
+import { useHistory, useParams } from "react-router";
+import { toast } from "react-toastify";
+import { languageTranslation } from "../../../helpers";
+import { AppRoutes, PAGE_LIMIT } from "../../../config";
+import CareGiverSidebar from "../Sidebar/SidebarLayout/CareGiverLayout";
+import reminder from "../../../assets/img/reminder.svg";
+import password from "../../../assets/img/password.svg";
+import appointment from "../../../assets/img/appointment.svg";
+import clear from "../../../assets/img/clear.svg";
+import { careGiverRoutes } from "../Sidebar/SidebarRoutes/CareGiverRoutes";
 
 const CareGiverRoutesTabs = careGiverRoutes;
 
@@ -36,22 +36,22 @@ export const CareGiverForm: FunctionComponent = () => {
   let history = useHistory();
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn',
+      "caregiver-add-btn"
     );
     if (buttonDiv) {
       if (scrollPositionY >= 35) {
-        buttonDiv.classList.add('sticky-save-btn');
+        buttonDiv.classList.add("sticky-save-btn");
       } else {
-        buttonDiv.classList.remove('sticky-save-btn');
+        buttonDiv.classList.remove("sticky-save-btn");
       }
     }
   };
@@ -75,13 +75,13 @@ export const CareGiverForm: FunctionComponent = () => {
 
   useEffect(() => {
     if (data) {
-      console.log('In use Effect');
+      console.log("In use Effect");
       const Data: any = data;
       history.push(
         AppRoutes.CARE_GIVER_VIEW.replace(
-          ':id',
-          Data.addCareGiver ? Data.addCareGiver.id : 'null',
-        ),
+          ":id",
+          Data.addCareGiver ? Data.addCareGiver.id : "null"
+        )
       );
     }
   }, [data]);
@@ -89,7 +89,7 @@ export const CareGiverForm: FunctionComponent = () => {
   // function to add/edit employee information
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -139,12 +139,12 @@ export const CareGiverForm: FunctionComponent = () => {
       weekendAllowance,
       night,
       holiday,
-      postalCode,
+      postalCode
     } = values;
 
     try {
       let careGiverInput: any = {
-        salutation: salutation && salutation.label ? salutation.label : '',
+        salutation: salutation && salutation.label ? salutation.label : "",
         firstName,
         lastName,
         address1,
@@ -160,7 +160,7 @@ export const CareGiverForm: FunctionComponent = () => {
         employed,
         dateOfBirth,
         bankName,
-        gender: gender && gender.value ? gender.value : '',
+        gender: gender && gender.value ? gender.value : "",
         phoneNumber,
         fax,
         comments,
@@ -170,14 +170,14 @@ export const CareGiverForm: FunctionComponent = () => {
           qualifications && qualifications.length
             ? `{${qualifications
                 .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
+                  (qualification: IReactSelectInterface) => qualification.value
                 )
-                .join(', ')}}`
+                .join(", ")}}`
             : null,
         driverLicenseNumber,
         driversLicense,
         vehicleAvailable,
-        legalForm: legalForm && legalForm.value ? legalForm.value : '',
+        legalForm: legalForm && legalForm.value ? legalForm.value : "",
         companyName,
         registrationNumber,
         registerCourt,
@@ -203,40 +203,40 @@ export const CareGiverForm: FunctionComponent = () => {
         // remarks: remarks && remarks.length ? remarks : [],
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],
-        status,
+        status
       };
-      console.log('careGiverInput', careGiverInput);
+      console.log("careGiverInput", careGiverInput);
 
       await addCaregiver({
         variables: {
-          careGiverInput,
+          careGiverInput
         },
         update: (cache, { data: { addCaregiver } }: any) => {
           const data: any = cache.readQuery({
             query: GET_CAREGIVERS,
             variables: {
-              searchBy: '',
+              searchBy: "",
               sortBy: 0,
               limit: PAGE_LIMIT,
               page: 0,
-              isActive: undefined,
-            },
+              isActive: undefined
+            }
           });
           cache.writeQuery({
             query: GET_CAREGIVERS,
             data: {
               getCaregiversCount: data.getCaregiversCount + 1,
-              getCaregivers: data.getCaregivers.concat([addCaregiver]),
-            },
+              getCaregivers: data.getCaregivers.concat([addCaregiver])
+            }
           });
-        },
+        }
       });
-      toast.success(languageTranslation('CAREGIVER_ADD_SUCCESS_MSG'));
+      toast.success(languageTranslation("CAREGIVER_ADD_SUCCESS_MSG"));
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       // setFieldError('email', message);
       toast.error(message);
     }
@@ -246,34 +246,34 @@ export const CareGiverForm: FunctionComponent = () => {
 
   const {
     salutation = undefined,
-    firstName = '',
-    lastName = '',
-    address1 = '',
-    address2 = '',
-    street = '',
-    city = '',
+    firstName = "",
+    lastName = "",
+    address1 = "",
+    address2 = "",
+    street = "",
+    city = "",
     stateId = undefined,
     countryId = undefined,
-    postalCode = '',
-    email = '',
-    dateOfBirth = '',
-    phoneNumber = '',
-    fax = '',
-    mobileNumber = '',
-    userName = '',
+    postalCode = "",
+    email = "",
+    dateOfBirth = "",
+    phoneNumber = "",
+    fax = "",
+    mobileNumber = "",
+    userName = "",
     qualifications = [],
-    driverLicenseNumber = '',
+    driverLicenseNumber = "",
     driversLicense = false,
     vehicleAvailable = false,
     legalForm = undefined,
-    companyName = '',
-    registrationNumber = '',
-    registerCourt = '',
-    executiveDirector = '',
+    companyName = "",
+    registrationNumber = "",
+    registerCourt = "",
+    executiveDirector = "",
     socialSecurityContribution = false,
-    taxNumber = '',
+    taxNumber = "",
     workZones = undefined,
-    status = '',
+    status = ""
   } = caregiverData ? caregiverData : {};
 
   const initialValues: ICareGiverValues = {
@@ -304,25 +304,25 @@ export const CareGiverForm: FunctionComponent = () => {
     taxNumber,
     workZones,
     status,
-    qualifications,
+    qualifications
   };
 
   return (
     <>
       <div>
-        <div className='common-detail-page'>
-          <div className='common-detail-section'>
-            <Suspense fallback={'Loading..'}>
-              <div className='sticky-common-header'>
-                <div className='common-topheader d-flex align-items-center '>
-                  <div className='common-title'>Add New Care Giver</div>
+        <div className="common-detail-page">
+          <div className="common-detail-section">
+            <Suspense fallback={"Loading.."}>
+              <div className="sticky-common-header">
+                <div className="common-topheader d-flex align-items-center ">
+                  <div className="common-title">Add New Care Giver</div>
 
-                  <div className='header-nav-item'>
-                    <span className='header-nav-icon'>
-                      <img src={reminder} alt='' />
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <img src={reminder} alt="" />
                     </span>
                     <span
-                      className='header-nav-text'
+                      className="header-nav-text"
                       // onClick={() => {
                       //   this.setState({ show: true });
                       // }}
@@ -330,25 +330,25 @@ export const CareGiverForm: FunctionComponent = () => {
                       Create Todo/Reminder
                     </span>
                   </div>
-                  <div className='header-nav-item'>
-                    <span className='header-nav-icon'>
-                      <img src={password} alt='' />
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <img src={password} alt="" />
                     </span>
-                    <span className='header-nav-text'>New Password</span>
+                    <span className="header-nav-text">New Password</span>
                   </div>
-                  <div className='header-nav-item'>
-                    <span className='header-nav-icon'>
-                      <img src={appointment} alt='' />
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <img src={appointment} alt="" />
                     </span>
-                    <span className='header-nav-text'>
+                    <span className="header-nav-text">
                       Display Appointments
                     </span>
                   </div>
-                  <div className='header-nav-item'>
-                    <span className='header-nav-icon'>
-                      <img src={clear} alt='' />
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <img src={clear} alt="" />
                     </span>
-                    <span className='header-nav-text'>Clear</span>
+                    <span className="header-nav-text">Clear</span>
                   </div>
                 </div>
                 <CareGiverSidebar
@@ -357,8 +357,8 @@ export const CareGiverForm: FunctionComponent = () => {
                 />
               </div>
             </Suspense>
-            <Suspense fallback={''}>
-              <div className='common-content flex-grow-1'>
+            <Suspense fallback={""}>
+              <div className="common-content flex-grow-1">
                 {activeTab === 0 ? (
                   <Formik
                     initialValues={initialValues}

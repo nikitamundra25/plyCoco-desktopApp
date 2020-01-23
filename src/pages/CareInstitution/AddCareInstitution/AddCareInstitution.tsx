@@ -572,8 +572,18 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={phoneNumber}
                         placeholder={languageTranslation('PHONE')}
-                        className='width-common'
+                        // className="width-common"
+                        className={
+                          errors.mobileNumber && touched.mobileNumber
+                            ? 'width-common text-input error'
+                            : 'width-common text-input'
+                        }
                       />
+                      {errors.phoneNumber && touched.phoneNumber && (
+                        <div className='required-error'>
+                          {errors.phoneNumber}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>

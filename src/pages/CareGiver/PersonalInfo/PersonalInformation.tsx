@@ -88,12 +88,24 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     GET_STATES_BY_COUNTRY,
   );
 
+
+  useEffect(() => {
+    if (props.getCaregiver && props.getCaregiver.caregiver) {
+      getStatesByCountry({
+        variables: {
+          countryid: props.getCaregiver
+            ? props.getCaregiver.caregiver.countryId
+            : '',
+        },
+      });
+    }
+  }, [props.getCaregiver]);
+
   const handleSubmit = async (
     values: ICareGiverValues,
     { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
-    console.log("Values", values);
-
+    
     // to set submit state to false after successful signup
     const {
       userName,
@@ -265,26 +277,28 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
     }
   }
   
-  // const stateData = getCareInstitution.canstitution
-  //     ? getCareInstitution.canstitution.stateId
-  //     : '';
-  //   let userSelectedState: any = {};
-  //   if (statesData && statesData.states) {
-  //     const userState = statesData.states.filter(
-  //       (x: any) => parseInt(x.id) === stateData,
-  //     );
-  //     if (userState && userState.length) {
-  //       userSelectedState = {
-  //         label: userState[0].name,
-  //         value: userState[0].id,
-  //       };
-  //     }
-  //   }
-
+  const stateData = props.getCaregiver && props.getCaregiver.caregiver
+      ? props.getCaregiver.caregiver.stateId
+      : '';
+    
+    let userSelectedState: any = {};
+    if (statesData && statesData.states) {
+      const userState = statesData.states.filter(
+        (x: any) => (
+          x.id === stateData),
+      );
+      if (userState && userState.length) {
+        userSelectedState = {
+          label: userState[0].name,
+          value: userState[0].id,
+        };
+      }
+    }
+   
   const initialValues: ICareGiverValues = {
     id,
     userName,
-    stateId,
+    state: userSelectedState,
     title: props.getCaregiver && props.getCaregiver.caregiver
     ? props.getCaregiver.caregiver.title
     : null,
@@ -360,8 +374,8 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
         : "",
     socialSecurityContribution,
     bankName:
-      props.getCaregiver && props.getCaregiver.caregiver
-        ? props.getCaregiver.caregiver.bankName
+      props.getCaregiver && props.getCaregiver.bankDetails
+        ? props.getCaregiver.bankDetails.bankName
         : "",
     IBAN:
       props.getCaregiver && props.getCaregiver.bankDetails

@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from './Constant';
+import { IReactSelectInterface } from "./Constant";
 
 export interface ICareInstitutionFormValues {
   salutation?: IReactSelectInterface;
@@ -53,6 +53,9 @@ export interface ICareInstitutionValidationSchema {
   lastName: string;
   userName: string;
   mobileNumber: number;
+  phoneNumber?: number;
+  careGiverCommission?: string;
+  doctorCommission?: string;
 }
 
 export interface ICareInstitutionContactValidationSchema {

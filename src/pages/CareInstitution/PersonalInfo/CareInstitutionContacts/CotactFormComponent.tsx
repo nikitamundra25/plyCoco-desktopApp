@@ -655,7 +655,7 @@ const CotactFormComponent: any = (
               <div className="common-list-footer form-section ">
                 <FormGroup className="mb-0">
                   <Select
-                    placeholder={languageTranslation("REGION", "STATE")}
+                    placeholder="Add Attributes"
                     options={State}
                     menuPlacement={"top"}
                   />

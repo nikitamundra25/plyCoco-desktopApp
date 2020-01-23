@@ -221,11 +221,7 @@ const CareGiver: FunctionComponent = () => {
   };
 
   const onPageChanged = (currentPage: number) => {
-    console.log("currentpge in opc", currentPage);
-
     const query = qs.parse(search);
-    console.log("query", query);
-
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
       "?"
     );
@@ -293,8 +289,6 @@ const CareGiver: FunctionComponent = () => {
     isActive,
     sortBy
   };
-  console.log("current page", currentPage);
-
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
     <Row className="m-0">
@@ -373,7 +367,7 @@ const CareGiver: FunctionComponent = () => {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td className={"table-loader"} colSpan={7}>
+                    <td className={"table-loader"} colSpan={8}>
                       <Loader />
                     </td>
                   </tr>
@@ -548,7 +542,7 @@ const CareGiver: FunctionComponent = () => {
                   )
                 ) : (
                   <tr className={"text-center no-hover-row"}>
-                    <td colSpan={7} className={"pt-5 pb-5"}>
+                    <td colSpan={8} className={"pt-5 pb-5"}>
                       {isFilterApplied ? (
                         <NoSearchFound />
                       ) : (

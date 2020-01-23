@@ -242,7 +242,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       qualificationsData.push({ label: attributeName, value: id });
     });
   }
-  let countryData: string
+  let countryData: Number
 
 if (props.getCaregiver && props.getCaregiver.caregiver) {
   countryData = props.getCaregiver.caregiver.countryId  
@@ -254,9 +254,9 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
   if (countries && countries.countries) {
     
     const userCountry = countries.countries.filter(
-      (x: any) => (x.id === countryData));
-      console.log("userCountry",userCountry);
-      
+      (x: any) => (
+        x.id === countryData));
+
     if (userCountry && userCountry.length) {
       userSelectedCountry = {
         label: userCountry[0].name,
@@ -264,7 +264,22 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
       };
     }
   }
-  console.log("NumberNumberNumber",userSelectedCountry);
+  
+  // const stateData = getCareInstitution.canstitution
+  //     ? getCareInstitution.canstitution.stateId
+  //     : '';
+  //   let userSelectedState: any = {};
+  //   if (statesData && statesData.states) {
+  //     const userState = statesData.states.filter(
+  //       (x: any) => parseInt(x.id) === stateData,
+  //     );
+  //     if (userState && userState.length) {
+  //       userSelectedState = {
+  //         label: userState[0].name,
+  //         value: userState[0].id,
+  //       };
+  //     }
+  //   }
 
   const initialValues: ICareGiverValues = {
     id,
@@ -298,6 +313,8 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.driverLicenseNumber
         : "",
+
+    country: userSelectedCountry,
     vehicleAvailable:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.vehicleAvailable

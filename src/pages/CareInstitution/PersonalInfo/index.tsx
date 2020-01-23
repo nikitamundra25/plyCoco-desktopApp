@@ -230,7 +230,7 @@ const PersonalInformation: any = (props: any) => {
   let countryData: Number;
   let regionId: String;
   let linkedToId: String;
-  
+
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
 
@@ -305,6 +305,7 @@ const PersonalInformation: any = (props: any) => {
         };
       }
     }
+    
     let selectedAttributes: IReactSelectInterface[] = []
     if (getCareInstitution && getCareInstitution.canstitution && getCareInstitution.canstitution.attributes && getCareInstitution.canstitution.attributes.length) {
       getCareInstitution.canstitution.attributes.map((attData: string) => {

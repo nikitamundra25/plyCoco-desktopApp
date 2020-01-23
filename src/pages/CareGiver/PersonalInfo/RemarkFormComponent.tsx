@@ -85,8 +85,10 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                                   null;
                                 }}
                               >
-                                {" "}
-                                {languageTranslation("ADD_REMARKS")}
+                                 <i className={"fa fa-plus"} />
+                                  &nbsp; Add More
+                                
+                                
                               </div>
                             </div>
                           </div>

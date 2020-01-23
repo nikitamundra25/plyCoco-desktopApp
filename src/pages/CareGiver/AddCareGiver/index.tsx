@@ -135,6 +135,11 @@ export const CareGiverForm: FunctionComponent = () => {
       comments,
       invoiceInterval,
       leasingPricingList,
+      fee,
+      nightAllowance,
+      weekendAllowance,
+      night,
+      holiday,
     } = values;
 
     console.log('valuess', values);
@@ -183,6 +188,12 @@ export const CareGiverForm: FunctionComponent = () => {
         executiveDirector,
         socialSecurityContribution,
         taxNumber,
+        fee: fee ? parseInt(fee) : null,
+        nightAllowance:
+          nightAllowance && nightAllowance.value ? nightAllowance.value : null,
+        weekendAllowance: weekendAllowance ? parseInt(weekendAllowance) : null,
+        holiday: holiday ? parseInt(holiday) : null,
+        night: night ? parseInt(night) : null,
         // remarks: remarks && remarks.length ? remarks : [],
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],

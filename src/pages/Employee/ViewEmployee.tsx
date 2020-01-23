@@ -21,6 +21,7 @@ import defaultProfile from "../../assets/avatars/default-profile.png";
 import { toast } from "react-toastify";
 import { ConfirmBox } from "../../common/ConfirmBox";
 import { useHistory, useLocation } from "react-router-dom";
+import Loader from "../../containers/Loader/Loader";
 
 const [, GET_EMPLOYEE_BY_ID, , , UPDATE_EMPLOYEE_STATUS] = EmployeeQueries;
 let employee: any;
@@ -433,9 +434,7 @@ const ViewEmployee: FunctionComponent = () => {
                   </div>
                 </Col>
               </Row>
-            ) : (
-              <h4 className="text-center">No Data Found</h4>
-            )}
+            ) : null}
           </div>
         </CardBody>
       </Card>

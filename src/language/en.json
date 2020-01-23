@@ -203,7 +203,7 @@
   "BANK_IBAN_LABEL": "IBAN",
   "BANK_IBAN_PLACEHOLDER": "DE91 1000 0000 0123 4567 89",
   "BANK_BIC_LABEL": "BIC",
-  "BANK_BIC_PLACEHOLDER": "BIC",
+  "BANK_BIC_PLACEHOLDER": "Please Enter BIC",
   "ADDITIONAL_TEXT_LABEL": "Additional Text",
   "ADDITIONAL_TEXT_PLACEHOLDER": "Additional Text",
   "CAREGIVER_PLACE_OF_BIRTH_LABEL": "Place of Birth",
@@ -404,6 +404,7 @@
   "TEL_MAXLENGTH": "Telephone number must be less than of 14 numbers",
   "TEL_NUMERROR": "That doesn't look like a telephone number",
   "MOB_NUMERROR": "That doesn't look like a mobile number",
+  "PHONE_NUMERROR": "That doesn't look like a phone number",
   "MOB_MAXLENGTH": "Mobile number must be between 9 to 14 numbers",
   "MOB_MINLENGTH": "Mobile number must be between 9 to 14 numbers",
   "MIN_TEXT": "This field must contain atleast 5 characters",
@@ -472,5 +473,8 @@
   "TABEL_HEAD_CG_ACTION": "Action",
   "CAREGIVER_ADD_SUCCESS_MSG": "Care Giver added sucessfully",
   "CARE_GIVER_UPDATED_SUCCESS": "Care Giver updated sucessfully",
-  "CARE_GIVER_LEASING_UPDATE_SUCCESS": "Leasing Personal Data saved successfully"
+  "CARE_GIVER_LEASING_UPDATE_SUCCESS": "Leasing Personal Data saved successfully",
+  "PHONE_NUM_ERROR": "Phone Number must be at least 10 characters",
+  "MOBILE_NUM_ERROR": "Mobile Number must be at least 10 characters",
+  "EMPLOYEE_REGION_PLACEHOLDER": "Select Region"
 }

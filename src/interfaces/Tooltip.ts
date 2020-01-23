@@ -4,4 +4,5 @@ export interface ITooltipProps {
   position?: string;
   children?: any;
   onBtnClick?: any;
+  redirectUrl: string;
 }

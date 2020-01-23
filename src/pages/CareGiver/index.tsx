@@ -364,7 +364,7 @@ const CareGiver: FunctionComponent = () => {
                   <th className="date-th-column">
                     {languageTranslation("CREATED_DATE")}
                   </th>
-                  <th className={"text-center"}>
+                  <th className={"text-center status-column"}>
                     {languageTranslation("TABEL_HEAD_CG_STATUS")}
                   </th>
                   <th className={"text-center"}>
@@ -411,7 +411,7 @@ const CareGiver: FunctionComponent = () => {
                           <td>
                             <div className="info-column">
                               <div className="description-column ">
-                                <div className="info-title">{`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}</div>
+                                <div className="info-title text-capitalize">{`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}</div>
                                 <p className="description-text">
                                   <i className="fa fa-envelope mr-2"></i>
                                   <span className="align-middle">
@@ -432,43 +432,33 @@ const CareGiver: FunctionComponent = () => {
                             </div>
                           </td>
                           <td>
-                            <div className="description-column region-column   ml-0 text-capitalize">
+                            <div className="region-list  text-capitalize">
                               {careGiverData.qualifications &&
-                              careGiverData.qualifications.length
-                                ? careGiverData.qualifications.map(
-                                    (qualification: any, index: number) => {
-                                      return (
-                                        <p
-                                          className="description-text"
-                                          key={index}
-                                        >
-                                          <span className="text-label mr-1">
-                                            <i className="fa fa-angle-right"></i>
-                                          </span>
-                                          <span className="align-middle">
-                                            {qualification.attributeName}
-                                          </span>
-                                        </p>
-                                      );
-                                    }
-                                  )
-                                : "-"}
+                              careGiverData.qualifications.length ? (
+                                careGiverData.qualifications.map(
+                                  (qualification: any, index: number) => {
+                                    return (
+                                      <span
+                                        className="region-label"
+                                        key={index}
+                                      >
+                                        {qualification.attributeName}
+                                      </span>
+                                    );
+                                  }
+                                )
+                              ) : (
+                                <div className="text-center">-</div>
+                              )}
                             </div>
                           </td>
                           <td>
-                            <div className="description-column region-column ml-0">
+                            <div className=" text-capitalize">
                               {careGiverData &&
                               careGiverData.regions &&
                               careGiverData.regions.length ? (
                                 careGiverData.regions.map((wZ: any) => (
-                                  <p className="description-text ">
-                                    <span className="text-label mr-1">
-                                      <i className="fa fa-angle-right"></i>
-                                    </span>
-                                    <span className="align-middle">
-                                      {wZ.regionName}
-                                    </span>
-                                  </p>
+                                  <span>{wZ.regionName}</span>
                                 ))
                               ) : (
                                 <div className="text-center">-</div>
@@ -477,15 +467,13 @@ const CareGiver: FunctionComponent = () => {
                           </td>
                           <td>
                             <div>
-                              <p className="description-text">
-                                <span className="align-middle">
-                                  {careGiverData &&
-                                  careGiverData.caregiver &&
-                                  careGiverData.caregiver.legalForm
-                                    ? careGiverData.caregiver.legalForm
-                                    : "N/A"}
-                                </span>
-                              </p>
+                              <span className="align-middle">
+                                {careGiverData &&
+                                careGiverData.caregiver &&
+                                careGiverData.caregiver.legalForm
+                                  ? careGiverData.caregiver.legalForm
+                                  : "N/A"}
+                              </span>
                             </div>
                           </td>
 
@@ -519,29 +507,29 @@ const CareGiver: FunctionComponent = () => {
                               <ButtonTooltip
                                 id={`view${index}`}
                                 message={languageTranslation("CAREGIVER_VIEW")}
-                                onBtnClick={() =>
-                                  history.push(
-                                    AppRoutes.CARE_GIVER_VIEW.replace(
-                                      /:id/gi,
-                                      function(matched) {
-                                        return replaceObj[matched];
-                                      }
-                                    )
-                                  )
-                                }
+                                redirectUrl={AppRoutes.CARE_GIVER_VIEW.replace(
+                                  /:id/gi,
+                                  function(matched) {
+                                    return replaceObj[matched];
+                                  }
+                                )}
                               >
                                 {" "}
                                 <i className="fa fa-eye"></i>
                               </ButtonTooltip>
-                              <ButtonTooltip
+                              <span
                                 id={`delete${index}`}
-                                message={languageTranslation(
-                                  "CAREGIVER_DELETE"
-                                )}
-                                onBtnClick={() => onDelete(careGiverData.id)}
+                                className="btn-icon mr-2"
+                                onClick={() => onDelete(careGiverData.id)}
                               >
+                                <UncontrolledTooltip
+                                  placement={"top"}
+                                  target={`delete${index}`}
+                                >
+                                  {languageTranslation("CAREGIVER_DELETE")}
+                                </UncontrolledTooltip>
                                 <i className="fa fa-trash"></i>
-                              </ButtonTooltip>
+                              </span>
                             </div>
                           </td>
                         </tr>

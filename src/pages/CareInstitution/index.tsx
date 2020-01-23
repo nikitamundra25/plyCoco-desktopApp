@@ -38,6 +38,7 @@ import { ConfirmBox } from "../../common/ConfirmBox";
 import { toast } from "react-toastify";
 import moment from "moment";
 import Loader from "../../containers/Loader/Loader";
+import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
 let toastId: any = null;
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -282,7 +283,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <td>
                   <div className="info-column">
                     <div className="description-column">
-                      <div className="info-title">
+                      <div className="info-title text-capitalize">
                         {`${user.firstName} ${user.lastName}`}
                       </div>
                       <p className="description-text">
@@ -299,20 +300,27 @@ const CareInstitution = (props: RouteComponentProps) => {
                   </div>
                 </td>
                 <td>
-                  <div className="description-column">
-                    <div className="info-title">
-                      {user.canstitution && user.canstitution.companyName
-                        ? user.canstitution.companyName
-                        : "N/A"}
-                    </div>
-                    <p className="description-text">
+                  <div className="company-column text-capitalize">
+                    <div className="company-text">
+                      <i className="fa fa-building mr-2"></i>
                       <span className="align-middle">
+                        {" "}
+                        {user.canstitution && user.canstitution.companyName
+                          ? user.canstitution.companyName
+                          : "N/A"}
+                      </span>
+                    </div>
+                    <p className="company-text">
+                      <i className="fa fa-id-card mr-2"></i>
+                      <span className="align-middle">
+                        {" "}
                         {user.canstitution && user.canstitution.shortName
                           ? user.canstitution.shortName
                           : "N/A"}
                       </span>
                     </p>
-                    <p className="description-text">
+                    <p className="company-text">
+                      <i className="fa fa-user mr-2"></i>
                       <span className="align-middle">
                         {user.userName ? user.userName : "N/A"}
                       </span>
@@ -320,7 +328,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                   </div>
                 </td>
                 <td>
-                  <div className="description-column  ml-0 ">
+                  <div className=" ">
                     {user.createdAt ? moment(user.createdAt).format("lll") : ""}
                   </div>
                 </td>
@@ -336,19 +344,16 @@ const CareInstitution = (props: RouteComponentProps) => {
                 </td>
                 <td>
                   <div className="action-btn">
-                    <span
-                      className="btn-icon mr-2"
+                    <ButtonTooltip
                       id={`view${index}`}
-                      onClick={() => handleViewCareInstitution(user.id)}
+                      message={"Click here to view Care Institution"}
+                      redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
+                        ":id",
+                        user.id.toString()
+                      )}
                     >
-                      <UncontrolledTooltip
-                        placement="top"
-                        target={`view${index}`}
-                      >
-                        Click here to view care institution
-                      </UncontrolledTooltip>
                       <i className="fa fa-eye"></i>
-                    </span>
+                    </ButtonTooltip>
                     <span
                       className="btn-icon "
                       id={`delete${index}`}
@@ -449,7 +454,7 @@ const CareInstitution = (props: RouteComponentProps) => {
               <th className="date-th-column">
                 {languageTranslation("CREATED_DATE")}
               </th>
-              <th className="text-center">Status</th>
+              <th className="text-center status-column">Status</th>
               <th className="text-center">Action</th>
             </tr>
           </thead>

@@ -127,8 +127,10 @@
   }
 }
 .save-button {
-  position: absolute;
-  top: -31px;
+  // position: absolute;
+  // top: -31px;
+  position: fixed;
+  top: 70px;
   right: 8px;
   padding: 4px 30px;
   font-weight: 600;

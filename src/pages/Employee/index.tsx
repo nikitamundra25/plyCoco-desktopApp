@@ -341,11 +341,15 @@ const Employee: FunctionComponent = () => {
             <tr>
               <th className={"text-center"}>{languageTranslation("S_NO")}</th>
               <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
-              <th className="region-th-column">{languageTranslation("REGION")}</th>
+              <th className="region-th-column">
+                {languageTranslation("REGION")}
+              </th>
               <th className="text-center">
                 {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
               </th>
-              <th className="date-th-column">{languageTranslation("CREATED_DATE")}</th>
+              <th className="date-th-column">
+                {languageTranslation("CREATED_DATE")}
+              </th>
 
               <th className="text-center" style={{ width: "100px" }}>
                 {languageTranslation("STATUS")}
@@ -443,7 +447,7 @@ const Employee: FunctionComponent = () => {
                           </div>
                         </div>
                       </td>
-                      <td >
+                      <td>
                         <div className="description-column region-column ml-0 text-capitalize">
                           {regions
                             ? regions.map((region: any, index: number) => {
@@ -466,7 +470,7 @@ const Employee: FunctionComponent = () => {
                       </td>
                       <td>
                         <div className="description-column table-date-column ml-0 ">
-                          {createdAt ? moment(createdAt).format("LLL") : ""}
+                          {createdAt ? moment(createdAt).format("lll") : ""}
                         </div>
                       </td>
                       <td className="text-center">

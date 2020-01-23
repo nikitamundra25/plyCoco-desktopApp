@@ -34,7 +34,7 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation("LASTNAME_REQUIRED")),
   userName: Yup.string()
     .trim()
-    .max(15, languageTranslation("USERNAME_MAXLENGTH"))
+    .max(50, languageTranslation("USERNAME_MAXLENGTH"))
     .required(languageTranslation("USERNAME_REQUIRED")),
   accountHolderName: Yup.string()
     .trim()

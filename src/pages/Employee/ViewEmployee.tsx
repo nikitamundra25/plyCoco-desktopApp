@@ -422,21 +422,25 @@ const ViewEmployee: FunctionComponent = () => {
                       <span className="text-label">
                         {languageTranslation("REGION")}
                       </span>
-                      <div className="description-column text-value text-capitalize">
-                        {employee && employee.regions && employee.regions.length
-                          ? employee.regions.map((region: any) => {
-                              return (
-                                <p className="description-text ">
-                                  <span className="text-label mr-1">
-                                    <i className="fa fa-angle-right"></i>
-                                  </span>
-                                  <span className="align-middle">
-                                    {region && region.regionName}
-                                  </span>
-                                </p>
-                              );
-                            })
-                          : " : N/A"}
+                      <div className="region-list text-value text-capitalize">
+                        {employee &&
+                        employee.regions &&
+                        employee.regions.length ? (
+                          employee.regions.map((region: any) => {
+                            return (
+                              <p className="region-text ">
+                                <span className=" mr-1">
+                                  <i className="fa fa-angle-right"></i>
+                                </span>
+                                <span className="align-middle">
+                                  {region && region.regionName}
+                                </span>
+                              </p>
+                            );
+                          })
+                        ) : (
+                          <span>:&nbsp;&nbsp;N/A</span>
+                        )}
                       </div>
                     </div>
                   </div>

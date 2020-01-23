@@ -395,7 +395,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                     <i className="icon-ban" />
                   </div>
                   <h4 className="mb-1">
-                    Currently there are No care institution Added.{" "}
+                    Currently there are No care institution added.{" "}
                   </h4>
                   <p>Please click above button to add new. </p>
                 </div>

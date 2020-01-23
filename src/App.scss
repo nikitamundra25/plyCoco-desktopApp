@@ -453,7 +453,7 @@ body {
   .brand-logo {
     min-width: 170px;
     img {
-      width: 100%;
+      width: 150px;
       height: auto;
     }
   }
@@ -1642,6 +1642,17 @@ body {
     padding: 15px;
     align-items: center;
     border: 1px solid #ccc;
+    .region-list {
+      .region-text {
+        margin-bottom: 2px;
+        font-size: $font_12;
+        color: $black;
+
+        font-weight: 600;
+        word-break: break-word;
+        margin-bottom: 0px;
+      }
+    }
   }
 }
 .custom-tabs {

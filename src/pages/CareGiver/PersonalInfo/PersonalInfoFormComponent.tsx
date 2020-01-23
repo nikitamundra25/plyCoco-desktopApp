@@ -114,6 +114,7 @@ const PersonalInfoFormComponent: any = (
       IBAN,
       state,
       employed,
+      driversLicense,
     },
     handleChange,
     handleBlur,
@@ -687,7 +688,7 @@ const PersonalInfoFormComponent: any = (
                       id='yes'
                       name='driversLicense'
                       label='Yes'
-                      value={true}
+                      value={driversLicense ? true : undefined}
                       onChange={handleChange}
                     />
                   </FormGroup>

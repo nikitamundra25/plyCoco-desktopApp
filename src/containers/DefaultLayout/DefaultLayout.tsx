@@ -300,10 +300,10 @@ class DefaultLayout extends Component<any, any> {
 
   handleScroll = () => {
     const scrollPositionY = window.scrollY;
-    // console.log(scrollPositionY, "scrollPositionY");
+    console.log(scrollPositionY, "scrollPositionY");
     const header: HTMLElement | null = document.getElementById("sidebar");
     if (header) {
-      if (scrollPositionY >= 35) {
+      if (scrollPositionY >= 20) {
         header.classList.add("sidebar-sticky");
       } else {
         header.classList.remove("sidebar-sticky");

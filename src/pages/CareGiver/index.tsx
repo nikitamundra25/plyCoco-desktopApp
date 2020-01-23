@@ -430,7 +430,7 @@ const CareGiver: FunctionComponent = () => {
                             </div>
                           </td>
                           <td className="text-center">
-                            <div className="description-column one-line-text  ml-0 text-capitalize">
+                            <div className="description-column region-column one-line-text  ml-0 text-capitalize">
                               {careGiverData.qualifications &&
                               careGiverData.qualifications.length
                                 ? careGiverData.qualifications.map(

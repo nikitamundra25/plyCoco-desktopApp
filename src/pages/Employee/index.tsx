@@ -439,7 +439,7 @@ const Employee: FunctionComponent = () => {
                         </div>
                       </td>
                       <td>
-                        <div className='description-column one-line-text  ml-0 text-capitalize'>
+                        <div className='description-column region-column one-line-text  ml-0 text-capitalize'>
                           {regions
                             ? regions.map((region: any, index: number) => {
                                 return (

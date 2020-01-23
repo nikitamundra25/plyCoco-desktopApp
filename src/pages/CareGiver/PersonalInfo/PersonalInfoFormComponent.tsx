@@ -128,7 +128,8 @@ const PersonalInfoFormComponent: any = (
       IBAN,
       state,
       employed,
-      driversLicense
+      driversLicense,
+      vehicleAvailable
     },
     handleChange,
     handleBlur,
@@ -702,7 +703,8 @@ const PersonalInfoFormComponent: any = (
                       id="yes"
                       name="driversLicense"
                       label="Yes"
-                      value={driversLicense ? true : undefined}
+                      checked={driversLicense}
+                      value={true}
                       onChange={handleChange}
                     />
                   </FormGroup>
@@ -712,7 +714,8 @@ const PersonalInfoFormComponent: any = (
                       id="no"
                       name="driversLicense"
                       label="No"
-                      value={!driversLicense ? false : undefined}
+                      checked={driversLicense}
+                      value={false}
                       onChange={handleChange}
                     />
                   </FormGroup>
@@ -759,6 +762,7 @@ const PersonalInfoFormComponent: any = (
                       id="yes_v"
                       name="vehicleAvailable"
                       label="Yes"
+                      checked={vehicleAvailable}
                       value={true}
                       onChange={handleChange}
                     />
@@ -769,6 +773,7 @@ const PersonalInfoFormComponent: any = (
                       id="no_v"
                       name="vehicleAvailable"
                       label="No"
+                      checked={vehicleAvailable}
                       value={false}
                       onChange={handleChange}
                     />

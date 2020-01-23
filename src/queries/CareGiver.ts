@@ -117,9 +117,9 @@ export const GET_CAREGIVERS = gql`
           street
           title
         }
-        regions{
+        regions {
           id
-         regionName
+          regionName
         }
       }
       totalCount
@@ -175,6 +175,7 @@ export const GET_CAREGIVER_BY_ID = gql`
         holiday
         invoiceInterval
         attributes
+        vehicleAvailable
       }
       qualifications {
         id

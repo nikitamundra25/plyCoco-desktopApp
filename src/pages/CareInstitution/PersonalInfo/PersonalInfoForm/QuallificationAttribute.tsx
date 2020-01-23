@@ -90,9 +90,11 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
           </div>
           <div className="common-list-body">
             <ul className="common-list list-unstyled">
-              <li>Dialysis </li>
-              <li>Home Management</li>
-              <li>Nurse/carer</li>
+              {attributeId && attributeId.length
+                ? attributeId.map((attData: IReactSelectInterface) => {
+                    return <li>{attData.label} </li>;
+                  })
+                : null}
             </ul>
           </div>
           <div className="common-list-footer form-section ">

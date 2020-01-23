@@ -49,9 +49,11 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
           <div className='common-list-body'>
             {qualifications && qualifications.length ? (
               <ul className='common-list list-unstyled'>
-                {qualifications.map((qualification: IReactSelectInterface) => {
-                  return <li>{qualification.label}</li>;
-                })}
+                {qualifications.map(
+                  (qualification: IReactSelectInterface, index: number) => {
+                    return <li key={index}>{qualification.label}</li>;
+                  },
+                )}
               </ul>
             ) : null}
           </div>

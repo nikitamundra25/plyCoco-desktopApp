@@ -25,7 +25,7 @@ export interface ICareInstitutionFormValues {
   salt?: String;
   userRole?: String;
   qualificationId?: IReactSelectInterface[];
-  attributeId?: IReactSelectInterface[];
+  attributeId?: IReactSelectInterface[] | undefined | any;
   isActive?: Boolean;
   isDeleted?: Boolean;
   zipCode?: string;

@@ -106,7 +106,6 @@ export const CareGiverForm: FunctionComponent = () => {
       age,
       street,
       city,
-      postalCode,
       address1,
       address2,
       country,
@@ -140,6 +139,7 @@ export const CareGiverForm: FunctionComponent = () => {
       weekendAllowance,
       night,
       holiday,
+      postalCode,
     } = values;
 
     console.log('valuess', values);
@@ -156,7 +156,7 @@ export const CareGiverForm: FunctionComponent = () => {
         stateId: state && state.value ? state.value : undefined,
         countryId: country && country.value ? country.value : undefined,
         regionId: regionId ? `{${regionId.value}}` : undefined,
-        postalCode,
+        zipCode: postalCode,
         email,
         IBAN,
         employed,
@@ -194,6 +194,14 @@ export const CareGiverForm: FunctionComponent = () => {
         weekendAllowance: weekendAllowance ? parseInt(weekendAllowance) : null,
         holiday: holiday ? parseInt(holiday) : null,
         night: night ? parseInt(night) : null,
+        invoiceInterval:
+          invoiceInterval && invoiceInterval.value
+            ? invoiceInterval.value
+            : null,
+        leasingPricingList:
+          leasingPricingList && leasingPricingList.value
+            ? leasingPricingList.value
+            : null,
         // remarks: remarks && remarks.length ? remarks : [],
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],
@@ -233,8 +241,8 @@ export const CareGiverForm: FunctionComponent = () => {
         .replace('GraphQL error: ', '');
       // setFieldError('email', message);
       toast.error(message);
-      setSubmitting(false);
     }
+    setSubmitting(false);
   };
   const [activeTab, setactiveTab] = useState(0);
 

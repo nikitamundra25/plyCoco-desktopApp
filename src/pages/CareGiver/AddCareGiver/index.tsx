@@ -106,7 +106,6 @@ export const CareGiverForm: FunctionComponent = () => {
       age,
       street,
       city,
-      postalCode,
       address1,
       address2,
       country,
@@ -140,6 +139,7 @@ export const CareGiverForm: FunctionComponent = () => {
       weekendAllowance,
       night,
       holiday,
+      postalCode,
     } = values;
 
     console.log('valuess', values);
@@ -156,7 +156,7 @@ export const CareGiverForm: FunctionComponent = () => {
         stateId: state && state.value ? state.value : undefined,
         countryId: country && country.value ? country.value : undefined,
         regionId: regionId ? `{${regionId.value}}` : undefined,
-        postalCode,
+        zipCode: postalCode,
         email,
         IBAN,
         employed,

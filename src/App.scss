@@ -2559,6 +2559,7 @@ html:not([dir="rtl"]) {
 
     .remark-section {
       position: relative;
+      word-wrap:break-word;
       textarea {
         height: 70px;
         border-radius: 0px;

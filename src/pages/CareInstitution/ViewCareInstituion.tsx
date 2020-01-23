@@ -63,7 +63,9 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   const [
     fetchCareInstitutionList,
     { data: careInstituition, loading, refetch },
-  ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST);
+  ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
+    fetchPolicy: 'no-cache',
+  });
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: '',

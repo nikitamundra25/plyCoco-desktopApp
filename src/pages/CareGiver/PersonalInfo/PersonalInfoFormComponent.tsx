@@ -736,9 +736,9 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col sm='8'>
                 <div>
-                  <Input
-                    type='text'
-                    name='driverLicenseNumber'
+                  <Field
+                    component={FormikTextField}
+                    name={'driverLicenseNumber'}
                     placeholder="Driver's License Number"
                     className='width-common'
                     value={driverLicenseNumber}
@@ -850,8 +850,8 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col sm='8'>
                 <div>
-                  <Input
-                    type='text'
+                  <Field
+                    component={FormikTextField}
                     name={'regNumber'}
                     placeholder='Registration Number'
                     className='width-common'

@@ -91,9 +91,9 @@ export interface CareGiverValues {
   qualifications?: IReactSelectInterface[];
   remarks?: JSON;
   comments?: String;
-  nightAllownce?: number;
-  invoiceInterval?: String;
-  leasingPricingList?: String;
+  nightAllowance?: IReactSelectInterface;
+  invoiceInterval?: IReactSelectInterface;
+  leasingPricingList?: IReactSelectInterface;
 }
 
 export interface ICareGiverValidationInterface {
@@ -109,7 +109,7 @@ export interface ICareGiverValidationInterface {
 
 export interface IEmailMenus<
   Params extends { [K in keyof Params]?: string } = {}
-  > {
+> {
   history: H.History;
   location: H.Location;
 }
@@ -212,13 +212,13 @@ export interface ICareGiverValues {
   qualifications?: IReactSelectInterface[];
   remarks?: ICareInstitutionRemarks[];
   comments?: String;
-  invoiceInterval?: String;
-  leasingPricingList?: String;
-  fee?: string
-  nightAllowance?: IReactSelectInterface
-  weekendAllowance?: string
-  holiday?: string,
-  night?: string
+  invoiceInterval?: IReactSelectInterface;
+  leasingPricingList?: IReactSelectInterface;
+  fee?: string;
+  nightAllowance?: IReactSelectInterface;
+  weekendAllowance?: string;
+  holiday?: string;
+  night?: string;
 }
 
 export interface IPersonalInfoObject {

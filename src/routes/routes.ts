@@ -18,9 +18,6 @@ const CareGiver = React.lazy(() => import('../pages/CareGiver'));
 const AddCareGiver = React.lazy(() =>
   import('../pages/CareGiver/AddCareGiver/index'),
 );
-const EditCareGiver = React.lazy(() =>
-  import('../pages/CareGiver/EditCareGiver'),
-);
 const CareGiverLayout = React.lazy(() =>
   import('../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout'),
 );
@@ -40,7 +37,7 @@ const BillingSetting = React.lazy(() =>
 );
 const Billing = React.lazy(() => import('../pages/CareGiver/Billings'));
 const LeasingPersonalData = React.lazy(() =>
-  import('../pages/CareGiver/LeasingData/LeasingPersonalData'),
+  import('../pages/CareGiver/LeasingData'),
 );
 const ChangePassword = React.lazy(() =>
   import('../pages/CareGiver/ChangePassword/ChangePassword'),
@@ -75,44 +72,14 @@ const AddCareInstitution = React.lazy(() =>
   import('../pages/CareInstitution/AddCareInstitution'),
 );
 const Constitution = React.lazy(() => import('../pages/CareInstitution'));
-const ConstitutionPersonalInfo = React.lazy(() =>
-  import('../pages/CareInstitution/PersonalInfo'),
-);
+
 const ViewCareInstitution = React.lazy(() =>
   import('../pages/CareInstitution/ViewCareInstituion'),
 );
-const ConstitutionCommissionAgreement = React.lazy(() =>
-  import('../pages/CareInstitution/CommisionAgreement'),
+const ViewCareGiver = React.lazy(() =>
+  import('../pages/CareGiver/ViewCareGiver'),
 );
 
-const ConstitutionOffer = React.lazy(() =>
-  import('../pages/CareInstitution/Offers'),
-);
-const ConstitutionLogin = React.lazy(() =>
-  import('../pages/CareInstitution/Login'),
-);
-const ConstitutionInvoices = React.lazy(() =>
-  import('../pages/CareInstitution/invoiceMenu'),
-);
-const ConstitutionDocuments = React.lazy(() =>
-  import('../pages/CareInstitution/Documents'),
-);
-const ConstitutionDepartment = React.lazy(() =>
-  import('../pages/CareInstitution/Departments'),
-);
-
-const ConstitutionInboxEmail = React.lazy(() =>
-  import('../pages/CareInstitution/Emails/InboxEmail'),
-);
-const ConstitutionSentEmail = React.lazy(() =>
-  import('../pages/CareInstitution/Emails/SentEmail'),
-);
-const ConstitutionNewEmail = React.lazy(() =>
-  import('../pages/CareInstitution/Emails/NewEmail'),
-);
-const ConstitutionReminder = React.lazy(() =>
-  import('../pages/CareInstitution/Reminders'),
-);
 const CareGiverTodo = React.lazy(() => import('../pages/CareGiverTodo'));
 const CareInstitutionTodo = React.lazy(() =>
   import('../pages/CareInstitutionTodo'),
@@ -206,6 +173,12 @@ const routes = [
     // layoutName: 'Constitution',
   },
   {
+    path: AppRoutes.CARE_GIVER_VIEW,
+    name: 'Care Giver View',
+    component: ViewCareGiver,
+    exact: true,
+  },
+  {
     path: AppRoutes.HOME,
     name: 'Dashboard',
     component: Dashboard,
@@ -224,12 +197,6 @@ const routes = [
     exact: true,
     layout: CareGiverLayout,
     layoutName: 'CareGiver',
-  },
-  {
-    path: AppRoutes.EDIT_CARE_GIVER,
-    name: 'Edit Care Giver',
-    component: EditCareGiver,
-    exact: true,
   },
   {
     path: AppRoutes.EDIT_EMPLOYEE,

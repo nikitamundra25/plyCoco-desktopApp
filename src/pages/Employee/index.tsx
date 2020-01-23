@@ -125,7 +125,9 @@ const Employee: FunctionComponent = () => {
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       setIsFilter(
-        searchBy !== "" || isActive !== undefined || sortBy !== undefined
+        searchBy !== "" ||
+          query.status !== undefined ||
+          query.sortBy !== undefined
       );
     }
     // call query
@@ -226,28 +228,28 @@ const Employee: FunctionComponent = () => {
             id
           }
         });
+        refetch();
+        // const data = await client.readQuery({
+        //   query: GET_EMPLOYEES,
+        //   variables: queryVariables,
+        // });
+        // const newEmployees = data.getEmployees.employeeData.filter(
+        //   (employee: any) => employee.id !== id,
+        // );
 
-        const data = await client.readQuery({
-          query: GET_EMPLOYEES,
-          variables: queryVariables
-        });
-        const newEmployees = data.getEmployees.employeeData.filter(
-          (employee: any) => employee.id !== id
-        );
-
-        const updatedData = {
-          ...data,
-          getEmployees: {
-            ...data.getEmployees,
-            employeeData: newEmployees,
-            totalCount: newEmployees.length
-          }
-        };
-        client.writeQuery({
-          query: GET_EMPLOYEES,
-          variables: queryVariables,
-          data: updatedData
-        });
+        // const updatedData = {
+        //   ...data,
+        //   getEmployees: {
+        //     ...data.getEmployees,
+        //     employeeData: newEmployees,
+        //     totalCount: newEmployees.length,
+        //   },
+        // };
+        // client.writeQuery({
+        //   query: GET_EMPLOYEES,
+        //   variables: queryVariables,
+        //   data: updatedData,
+        // });
         if (!toast.isActive(toastId)) {
           toastId = toast.success("Employee deleted successfully.");
         }
@@ -284,6 +286,7 @@ const Employee: FunctionComponent = () => {
             isActive: status
           }
         });
+        refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
             languageTranslation("EMPLOYEE_STATUS_UPDATE_MSG")
@@ -338,11 +341,11 @@ const Employee: FunctionComponent = () => {
             <tr>
               <th className={"text-center"}>{languageTranslation("S_NO")}</th>
               <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
-              <th>{languageTranslation("REGION")}</th>
+              <th className="region-th-column">{languageTranslation("REGION")}</th>
               <th className="text-center">
                 {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
               </th>
-              <th>{languageTranslation("CREATED_DATE")}</th>
+              <th className="date-th-column">{languageTranslation("CREATED_DATE")}</th>
 
               <th className="text-center" style={{ width: "100px" }}>
                 {languageTranslation("STATUS")}
@@ -368,6 +371,7 @@ const Employee: FunctionComponent = () => {
                   {
                     id,
                     firstName,
+                    lastName,
                     userName,
                     email,
                     phoneNumber,
@@ -383,6 +387,7 @@ const Employee: FunctionComponent = () => {
                     ":id": id,
                     ":userName": userName
                   };
+                  var elements = [firstName, lastName];
                   return (
                     <tr key={index}>
                       <td className={"text-center"}>
@@ -419,7 +424,7 @@ const Employee: FunctionComponent = () => {
                                 )
                               }
                             >
-                              {firstName ? firstName : ""}
+                              {elements.join(" ")}
                             </div>
                             <div className="description-text">
                               <i className="fa fa-envelope mr-2"></i>
@@ -438,8 +443,8 @@ const Employee: FunctionComponent = () => {
                           </div>
                         </div>
                       </td>
-                      <td>
-                        <div className="description-column one-line-text  ml-0 text-capitalize">
+                      <td >
+                        <div className="description-column region-column ml-0 text-capitalize">
                           {regions
                             ? regions.map((region: any, index: number) => {
                                 return (
@@ -460,7 +465,7 @@ const Employee: FunctionComponent = () => {
                         <div>{0}</div>
                       </td>
                       <td>
-                        <div className="description-column  ml-0 ">
+                        <div className="description-column table-date-column ml-0 ">
                           {createdAt ? moment(createdAt).format("LLL") : ""}
                         </div>
                       </td>
@@ -538,7 +543,7 @@ const Employee: FunctionComponent = () => {
                         <i className="icon-ban" />
                       </div>
                       <h4 className="mb-1">
-                        Currently there are no employee Added.{" "}
+                        Currently there are no employees added.{" "}
                       </h4>
                       <p>Please click above button to add new. </p>
                     </div>

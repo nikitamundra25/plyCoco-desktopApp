@@ -15,10 +15,12 @@ import { toast } from 'react-toastify';
 import { AppRoutes } from '../../../config';
 
 const [ADD_REGION, GET_REGIONS] = RegionQueries;
+let toastId: any = null;
 
-export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
+export const AddRegion: FunctionComponent<{
   toggle: () => void;
-}) => {
+  refetch: any;
+}> = (props: { toggle: () => void; refetch: any }) => {
   // get id from params
   let { id } = useParams();
   let history = useHistory();
@@ -40,13 +42,17 @@ export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
       let regionInput: IRegionFormValue = {
         regionName,
       };
+      toast.dismiss();
       await addRegion({
         variables: {
           regionInput,
         },
       });
-      toast.success('Region Added Successfully.');
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success('Region Added Successfully.');
+      }
       props.toggle();
+      props.refetch();
       history.push(AppRoutes.REGION);
     } catch (error) {
       const message = error.message
@@ -54,7 +60,9 @@ export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
         .replace('Validation error: ', '')
         .replace('GraphQL error: ', '');
       // setFieldError('email', message);
-      toast.error(message);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
     }
 
     setSubmitting(false);

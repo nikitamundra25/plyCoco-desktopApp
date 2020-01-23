@@ -1,52 +1,29 @@
-import { AppRoutes } from "../../../../config";
-import { languageTranslation } from "../../../../helpers";
-
 export const careGiverRoutes = [
   {
-    path: AppRoutes.PERSONAL_INFORMATION,
-    name: languageTranslation("CG_SUB_MENU_OVERVIEW")
-
+    name: 'overview',
   },
   {
-    path: AppRoutes.OFFER,
-    name: languageTranslation("OFFERS")
-
+    name: 'offers',
   },
   {
-    path: AppRoutes.CARE_LOGIN,
-    name: languageTranslation("CG_SUB_MENU_LOGIN")
-
+    name: 'login',
   },
   {
-    path: AppRoutes.INVOCES,
-    name: languageTranslation("MENU_INVOICES")
-
+    name: 'invoices',
   },
   {
-    path: AppRoutes.DOCUMENTS_UPLOAD,
-    name: languageTranslation("CG_SUB_MENU_DOCUMENTS")
-
+    name: 'documents',
   },
   {
-    path: AppRoutes.INBOX,
-    name: languageTranslation("MENU_EMAIL")
-
-  },
-
-  {
-    path: AppRoutes.TODO,
-    name: languageTranslation("CG_SUB_MENU_REMINDER")
-
+    name: 'emails',
   },
   {
-    path: AppRoutes.LEASING_PERSONALDATA,
-    name: languageTranslation("CG_SUB_MENU_LEASING")
-
+    name: 'reminders/todos',
   },
   {
-    path: AppRoutes.QUALIFICATION_ATTRIBUTE,
-    name: languageTranslation("CG_SUB_MENU_GROUPED")
-
-  }
+    name: 'leasing',
+  },
+  {
+    name: 'grouped below',
+  },
 ];
-

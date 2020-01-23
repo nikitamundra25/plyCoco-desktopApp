@@ -1,4 +1,9 @@
-import React, { Component } from "react";
+import React, {
+  Component,
+  FunctionComponent,
+  useState,
+  useEffect
+} from "react";
 import {
   Button,
   FormGroup,
@@ -6,1690 +11,626 @@ import {
   Input,
   Col,
   Row,
-  Form,
   CustomInput,
   InputGroup,
   InputGroupAddon,
   Card
 } from "reactstrap";
-import Select from "react-select";
-import DatePicker from "react-datepicker";
+import { assignIn } from "lodash";
 import "react-datepicker/dist/react-datepicker.css";
-import { RouteComponentProps } from "react-router";
-import InputMask from "react-input-mask";
-import {
-  State,
-  Region,
-  Salutation,
-  LegalForm,
-  Country,
-  NightAllowancePerHour
-} from "../../../config";
+import { RouteComponentProps, useParams, useHistory } from "react-router";
 import { languageTranslation } from "../../../helpers";
+import PersonalInfoFormComponent from "./PersonalInfoFormComponent";
+import BillingSettingsFormComponent from "./BillingSettingsFormComponent";
+import QualificationFormComponent from "./QualificationFormComponent";
+import AttributeFormComponent from "./AttributesFromComponent";
+import RemarkFormComponent from "./RemarkFormComponent";
+import { Formik, FormikHelpers, Form, FormikProps } from "formik";
+import { Mutation, Query } from "@apollo/react-components";
+import {
+  UPDATE_CAREGIVER,
+  GET_CAREGIVER_BY_ID,
+  UPDATE_BILLING_SETTINGS,
+  GET_BILLING_SETTINGS
+} from "../../../queries/CareGiver";
+import {
+  ICareGiverValues,
+  IEditCareGInput,
+  IPersonalObject,
+  IBillingSettingsValues,
+  ICareGiverInput,
+  IReactSelectInterface,
+  ICountries,
+  IStates
+} from "../../../interfaces";
+import { CareGiverValidationSchema } from "../../../validations/CareGiverValidationSchema";
+
+import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { toast } from "react-toastify";
+import { AppRoutes, Country } from "../../../config";
 import "../caregiver.scss";
-class PersonalInformation extends Component<RouteComponentProps, any> {
+import { GET_QUALIFICATION_ATTRIBUTES, CountryQueries } from "../../../queries";
+import { IQualifications } from "../../../interfaces/qualification";
+import Loader from "../../../containers/Loader/Loader";
+
+export const PersonalInformation: FunctionComponent<any> = (props: any) => {
+  let { id } = useParams();
+  let history = useHistory();
+  const [careGiverData, setCareGiverData] = useState<ICareGiverValues | null>();
+
+  // To update care giver details into db
+  const [updateCaregiver] = useMutation<
+    { updateCaregiver: ICareGiverValues },
+    { id: number; careGiverInput: IPersonalObject }
+  >(UPDATE_CAREGIVER);
+
+  const [updateBillingSettings] = useMutation<
+    { updateBillingSettings: IBillingSettingsValues },
+    { id: number; careGiverInput: IPersonalObject }
+  >(UPDATE_BILLING_SETTINGS);
+
+  // To fecth qualification attributes list
+  const { data, loading, error, refetch } = useQuery<IQualifications>(
+    GET_QUALIFICATION_ATTRIBUTES
+  );
+  const qualificationList: IReactSelectInterface[] | undefined = [];
+  if (data && data.getQualificationAttributes) {
+    data.getQualificationAttributes.forEach((quali: any) => {
+      qualificationList.push({
+        label: quali.attributeName,
+        value: quali.id
+      });
+    });
+  }
+
+  const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+
+  //To get country details
+  const { data: countries, loading: countryLoading } = useQuery<ICountries>(
+    GET_COUNTRIES
+  );
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY
+  );
+
+  useEffect(() => {
+    if (props.getCaregiver && props.getCaregiver.caregiver) {
+      getStatesByCountry({
+        variables: {
+          countryid: props.getCaregiver
+            ? props.getCaregiver.caregiver.countryId
+            : ""
+        }
+      });
+    }
+  }, [props.getCaregiver]);
+
+  const handleSubmit = async (
+    values: ICareGiverValues,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
+  ) => {
+    // to set submit state to false after successful signup
+    const {
+      userName,
+      stateId,
+      attributeId,
+      gender,
+      title,
+      salutation,
+      firstName,
+      lastName,
+      dateOfBirth,
+      age,
+      state,
+      address1,
+      regionId,
+      address2,
+      driversLicense,
+      driverLicenseNumber,
+      vehicleAvailable,
+      street,
+      city,
+      postalCode,
+      countryId,
+      country,
+      phoneNumber,
+      fax,
+      mobileNumber,
+      email,
+      taxNumber,
+      socialSecurityContribution,
+      belongTo,
+      legalForm,
+      bankName,
+      companyName,
+      registerCourt,
+      registrationNumber,
+      executiveDirector,
+      employed,
+      comments,
+      qualifications,
+      status,
+      remarks,
+      fee,
+      nightAllowance,
+      weekendAllowance,
+      night,
+      holiday,
+      leasingPricingList,
+      invoiceInterval
+    } = values;
+    try {
+      let careGiverInput: any = {
+        userName,
+        gender: gender && gender.value ? gender.value : "",
+        title,
+        salutation: salutation && salutation.value ? salutation.value : "",
+        firstName,
+        lastName,
+        dateOfBirth,
+        age: age ? parseInt(age) : null,
+        address1,
+        address2,
+        driversLicense,
+        driverLicenseNumber,
+        IBAN: values.IBAN,
+        vehicleAvailable,
+        qualificationId:
+          qualifications && qualifications.length
+            ? `{${qualifications
+                .map(
+                  (qualification: IReactSelectInterface) => qualification.value
+                )
+                .join(", ")}}`
+            : null,
+        street,
+        attributes:
+          attributeId && attributeId.length
+            ? attributeId.map(({ label }: IReactSelectInterface) => label)
+            : [],
+        city,
+        zipCode: postalCode,
+        phoneNumber,
+        fax,
+        mobileNumber,
+        email,
+        taxNumber,
+        socialSecurityContribution,
+        countryId: country && country.value ? country.value : null,
+        stateId: state && state.value ? state.value : null,
+        bankName,
+        password,
+        // belongTo,
+        legalForm: legalForm && legalForm.value ? legalForm.label : null,
+        companyName,
+        registerCourt,
+        registrationNumber,
+        executiveDirector,
+        employed,
+        comments,
+        status,
+        remarks,
+        fee: fee ? parseInt(fee) : null,
+        nightAllowance:
+          nightAllowance && nightAllowance.value ? nightAllowance.label : null,
+        weekendAllowance: weekendAllowance ? parseInt(weekendAllowance) : null,
+        holiday: holiday ? parseInt(holiday) : null,
+        night: night ? parseInt(night) : null,
+        regionId: regionId && regionId.value ? `{${regionId.value}}` : null,
+        invoiceInterval:
+          invoiceInterval && invoiceInterval.value
+            ? invoiceInterval.label
+            : null,
+        leasingPricingList:
+          leasingPricingList && leasingPricingList.value
+            ? leasingPricingList.label
+            : null
+      };
+      // Edit employee details
+      if (id) {
+        await updateCaregiver({
+          variables: {
+            id: parseInt(id),
+            careGiverInput
+          }
+        });
+        toast.success(languageTranslation("CARE_GIVER_UPDATED_SUCCESS"));
+      }
+    } catch (error) {
+      const message = error.message
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
+      // setFieldError('email', message);
+      toast.error(message);
+    }
+    setSubmitting(false);
+  };
+
+  const {
+    userName = "",
+    stateId = "",
+    gender = "",
+    title = "",
+    firstName = "",
+    lastName = "",
+    dateOfBirth = "",
+    countryId = "",
+    email = "",
+    socialSecurityContribution = false,
+    bankName = "",
+    password = "",
+    belongTo = "",
+    legalForm = "",
+    status = "active",
+    qualifications = [],
+    caregiver = {}
+  } = props.getCaregiver ? props.getCaregiver : {};
+
+  const { nightAllowance, leasingPricingList, invoiceInterval } = caregiver;
+  const qualificationsData: IReactSelectInterface[] | undefined = [];
+  if (qualifications) {
+    qualifications.forEach(({ attributeName, id }: any) => {
+      qualificationsData.push({ label: attributeName, value: id });
+    });
+  }
+  let countryData: Number;
+
+  if (props.getCaregiver && props.getCaregiver.caregiver) {
+    countryData = props.getCaregiver.caregiver.countryId;
+  }
+
+  let userSelectedCountry: any = {};
+
+  if (countries && countries.countries) {
+    const userCountry = countries.countries.filter(
+      (x: any) => x.id === countryData
+    );
+
+    if (userCountry && userCountry.length) {
+      userSelectedCountry = {
+        label: userCountry[0].name,
+        value: userCountry[0].id
+      };
+    }
+  }
+
+  const stateData =
+    props.getCaregiver && props.getCaregiver.caregiver
+      ? props.getCaregiver.caregiver.stateId
+      : "";
+
+  let userSelectedState: any = {};
+  if (statesData && statesData.states) {
+    const userState = statesData.states.filter((x: any) => x.id === stateData);
+    if (userState && userState.length) {
+      userSelectedState = {
+        label: userState[0].name,
+        value: userState[0].id
+      };
+    }
+  }
+
+  let selectedAttributes: IReactSelectInterface[] = [];
+  if (
+    props.getCaregiver &&
+    props.getCaregiver.caregiver &&
+    props.getCaregiver.caregiver.attributes &&
+    props.getCaregiver.caregiver.attributes.length
+  ) {
+    props.getCaregiver.caregiver.attributes.map((attData: string) => {
+      selectedAttributes.push({
+        label: attData,
+        value: attData
+      });
+    });
+  }
+
+  const initialValues: ICareGiverValues = {
+    id,
+    userName,
+    state: userSelectedState,
+    title:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.title
+        : null,
+    firstName,
+    lastName,
+    phoneNumber: props.getCaregiver ? props.getCaregiver.phoneNumber : "",
+    dateOfBirth:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.dateOfBirth
+        : null,
+    age:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.age
+        : null,
+    address1:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.address1
+        : "",
+    address2:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.address2
+        : "",
+    driversLicense:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.driversLicense
+        : false,
+    driverLicenseNumber:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.driverLicenseNumber
+        : "",
+
+    country: userSelectedCountry,
+    vehicleAvailable:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.vehicleAvailable
+        : false,
+    street:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.street
+        : "",
+    city:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.city
+        : "",
+    postalCode:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.zipCode
+        : "",
+    countryId,
+    regionId:
+      props.getCaregiver &&
+      props.getCaregiver.regions &&
+      props.getCaregiver.regions.length
+        ? {
+            label: props.getCaregiver.regions[0].regionName,
+            value: props.getCaregiver.regions[0].id
+          }
+        : undefined,
+    fax:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.fax
+        : "",
+    mobileNumber:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.mobileNumber
+        : "",
+    email,
+    taxNumber:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.taxNumber
+        : "",
+    socialSecurityContribution,
+    bankName:
+      props.getCaregiver && props.getCaregiver.bankDetails
+        ? props.getCaregiver.bankDetails.bankName
+        : "",
+    IBAN:
+      props.getCaregiver && props.getCaregiver.bankDetails
+        ? props.getCaregiver.bankDetails.IBAN
+        : "",
+    belongTo,
+    legalForm:
+      props.getCaregiver && props.getCaregiver.caregiver.legalForm
+        ? {
+            label: props.getCaregiver.caregiver.legalForm,
+            value: props.getCaregiver.caregiver.legalForm
+          }
+        : undefined,
+    companyName:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.companyName
+        : "",
+    registerCourt:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.registerCourt
+        : "",
+    registrationNumber:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.registrationNumber
+        : "",
+    executiveDirector:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.executiveDirector
+        : "",
+    employed:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.employed
+        : false,
+    comments:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.comments
+        : "",
+    status,
+    remarks:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.remarks
+        : [],
+    invoiceInterval: invoiceInterval
+      ? { label: invoiceInterval, value: invoiceInterval }
+      : undefined,
+    qualifications: qualificationsData,
+    fee:
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.fee
+        ? props.getCaregiver.caregiver.fee
+        : null,
+    nightAllowance: nightAllowance
+      ? { label: nightAllowance, value: nightAllowance }
+      : undefined,
+    leasingPricingList: leasingPricingList
+      ? { label: leasingPricingList, value: leasingPricingList }
+      : undefined,
+    weekendAllowance:
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.weekendAllowance
+        ? props.getCaregiver.caregiver.weekendAllowance
+        : null,
+    holiday:
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.holiday
+        ? props.getCaregiver.caregiver.holiday
+        : null,
+    night:
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.night
+        ? props.getCaregiver.caregiver.night
+        : null,
+    salutation:
+      props.getCaregiver && props.getCaregiver.salutation
+        ? {
+            label: props.getCaregiver.salutation,
+            value: props.getCaregiver.salutation
+          }
+        : undefined,
+    gender:
+      props.getCaregiver && props.getCaregiver.gender
+        ? {
+            label: props.getCaregiver.gender,
+            value: props.getCaregiver.gender
+          }
+        : undefined,
+    attributeId: selectedAttributes
+  };
+  console.log("props in personal info", props.getCaregiver);
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      enableReinitialize={true}
+      validationSchema={CareGiverValidationSchema}
+      render={(props: FormikProps<ICareGiverValues>) => {
+        return (
+          <Form className="form-section forms-main-section">
+            <Button
+              disabled={props.isSubmitting}
+              id={"caregiver-add-btn"}
+              onClick={props.handleSubmit}
+              color={"primary"}
+              className={"save-button"}
+            >
+              {props.isSubmitting ? (
+                <i className="fa fa-spinner fa-spin loader" />
+              ) : (
+                ""
+              )}
+              {languageTranslation("SAVE_BUTTON")}
+            </Button>
+            <Row>
+              <Col lg={"4"}>
+                <PersonalInfoFormComponent {...props} />
+              </Col>
+              <Col lg={"4"}>
+                <div className="common-col">
+                  <BillingSettingsFormComponent {...props} />
+                  <div className="quality-attribute-section d-flex flex-column">
+                    <QualificationFormComponent
+                      {...props}
+                      qualificationList={qualificationList}
+                    />
+                    <AttributeFormComponent {...props} />
+                  </div>
+                </div>
+              </Col>
+              <RemarkFormComponent {...props} />
+            </Row>
+          </Form>
+        );
+      }}
+    />
+  );
+};
+
+class GetData extends Component<any, any> {
   constructor(props: any) {
     super(props);
-    this.state = {
-      startDate: "",
-      addRemark: false
-    };
   }
-  handleChange = (date: any) => {
-    this.setState({
-      startDate: date
-    });
+
+  formatData = (caregiverDetails: any) => {
+    assignIn(caregiverDetails, caregiverDetails.caregiverDetails);
+    assignIn(caregiverDetails, caregiverDetails.caregiverDetails);
+    if (caregiverDetails.bankDetails) {
+      assignIn(
+        caregiverDetails,
+        caregiverDetails,
+        caregiverDetails.bankDetails
+      );
+    }
+    if (caregiverDetails.billingSettingDetails) {
+      assignIn(
+        caregiverDetails,
+        caregiverDetails,
+        caregiverDetails.billingSettingDetails
+      );
+    } else {
+      assignIn(caregiverDetails, caregiverDetails, {
+        fee: "",
+        weekendAllowancePerHour: "",
+        holidayAllowancePerHourFee: "",
+        nightAllowancePerHour: "",
+        leasingPrice: "",
+        invoiceInterval: ""
+      });
+    }
+    caregiverDetails.salutation = {
+      value: caregiverDetails.salutation,
+      label: caregiverDetails.salutation
+    };
+    caregiverDetails.state = {
+      value: caregiverDetails.state,
+      label: caregiverDetails.state
+    };
+    caregiverDetails.legalForm = {
+      value: caregiverDetails.legalForm,
+      label: caregiverDetails.legalForm
+    };
+    caregiverDetails.regionId = {
+      value: caregiverDetails.regions[0]._id,
+      label: caregiverDetails.regions[0].regionName
+    };
+    caregiverDetails.workZones =
+      caregiverDetails.workZones && caregiverDetails.workZones.length
+        ? caregiverDetails.workZones.map((wz: String) => {
+            return { label: wz, value: wz };
+          })
+        : [];
+    delete caregiverDetails.bankDetails;
+    delete caregiverDetails.billingSettingDetails;
+    delete caregiverDetails.caregiverDetails;
+    return caregiverDetails;
   };
-  handleOnClick = () => {
-    this.setState({
-      addRemark: true
-    });
-  };
+
   render() {
     return (
-      <div>
-        <Form className="form-section forms-main-section">
-          {/* <div>
-            <div className="custom-control custom-switch mb-2">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="switch1"
-              />
-
-              <Label className="custom-control-label" for="switch1">
-                To Edit
-              </Label>
-            </div>
-          </div> */}
-          <Row>
-            <Col lg={"4"}>
-              <div className="form-card h-100">
-                <Row>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            {languageTranslation("USER_ID")}
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <Row className="custom-col inner-no-padding-col">
-                            <Col sm="4">
-                              <div>
-                                <Input
-                                  type="text"
-                                  name={"lastName"}
-                                  placeholder={languageTranslation("USER_ID")}
-                                  className="width-common"
-                                />
-                              </div>
-                            </Col>
-                            <Col sm="8">
-                              <FormGroup>
-                                <Row className="custom-col inner-no-padding-col">
-                                  <Col sm="6">
-                                    <Label className="form-label col-form-label inner-label">
-                                      {languageTranslation("REG_SINCE")}
-                                      <span className="required">*</span>
-                                    </Label>
-                                  </Col>
-                                  <Col sm="6">
-                                    <div>
-                                      <Input
-                                        type="text"
-                                        name={"lastName"}
-                                        placeholder="Reg Since"
-                                        className="width-common"
-                                      />
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </FormGroup>
-                            </Col>
-                          </Row>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            {languageTranslation("REGION")}
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select
-                              placeholder={languageTranslation("REGION")}
-                              options={State}
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row className="">
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            {languageTranslation("GENDER")}
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <Row className="custom-col inner-no-padding-col">
-                            <Col sm="5">
-                              <div>
-                                <Select
-                                  placeholder={languageTranslation("GENDER")}
-                                  options={State}
-                                />
-                              </div>
-                            </Col>
-                            <Col sm="7">
-                              <FormGroup>
-                                <Row className="custom-col inner-no-padding-col d-flex align-items-center">
-                                  <Col sm="6">
-                                    <Label className="form-label col-form-label inner-label">
-                                      {languageTranslation("TITLE")}
-                                      <span className="required">*</span>
-                                    </Label>
-                                  </Col>
-                                  <Col sm="6">
-                                    <div>
-                                      <Input
-                                        type="text"
-                                        name={"lastName"}
-                                        placeholder={languageTranslation(
-                                          "TITLE"
-                                        )}
-                                        className="width-common"
-                                      />
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </FormGroup>
-                            </Col>
-                          </Row>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            {languageTranslation("SALUTATION")}
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select
-                              placeholder={languageTranslation("SALUTATION")}
-                              options={Salutation}
-                            />
-                          </div>
-                          {/* <Button  className="alfabate-btn btn">S</Button> */}
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            {languageTranslation("FIRST_NAME")}
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"firstName"}
-                              placeholder={languageTranslation("FIRST_NAME")}
-                              className="width-common"
-                            />
-                          </div>
-                          {/* <Button  className="alfabate-btn btn">N</Button> */}
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            {languageTranslation("SURNAME")}
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"lastName"}
-                              placeholder={languageTranslation("SURNAME")}
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row className="">
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Birthday Date
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <Row className="custom-col inner-no-padding-col">
-                            <Col sm="7">
-                              <div>
-                                <InputMask
-                                  placeholder="DD/MM/YYYY"
-                                  mask="99/99/9999"
-                                  className="form-control"
-                                />
-                              </div>
-                            </Col>
-                            <Col sm="5">
-                              <FormGroup>
-                                <Row className="custom-col inner-no-padding-col d-flex align-items-center">
-                                  <Col sm="6">
-                                    <Label className="form-label col-form-label inner-label">
-                                      Age
-                                      <span className="required">*</span>
-                                    </Label>
-                                  </Col>
-                                  <Col sm="6">
-                                    <div>
-                                      <Input
-                                        type="text"
-                                        name={"lastName"}
-                                        placeholder="123"
-                                        className="width-common"
-                                      />
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </FormGroup>
-                            </Col>
-                          </Row>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Street<span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"address"}
-                              placeholder="Street"
-                              className=" width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            City
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"address"}
-                              placeholder="City"
-                              className=" width-common"
-                            />
-                          </div>
-                          {/* <Button  className="alfabate-btn btn">N</Button> */}
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            ZIP
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"street"}
-                              placeholder="ZIP"
-                              className=" width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            Country
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select placeholder="Germany" options={Country} />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label ">
-                            State
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select placeholder="Bavaria" options={State} />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Phone
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"phone"}
-                              placeholder=" Phone Number"
-                              className="width-common"
-                            />
-                          </div>
-                          {/* <Button  className="alfabate-btn btn">M</Button> */}
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Fax
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"fax"}
-                              placeholder=" Fax"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Mobile
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"mobilePhone"}
-                              placeholder="Mobile Phone"
-                              className="width-common"
-                            />
-                          </div>
-                          {/* <Button  className="alfabate-btn btn">T</Button> */}
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Email
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"email"}
-                              placeholder=" Email"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Tax Number
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"email"}
-                              placeholder="Tax Number"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Bank
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"email"}
-                              placeholder="Bank"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            IBAN
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"email"}
-                              placeholder="IBAN"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Username
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"email"}
-                              placeholder="Username"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Belongs to
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select placeholder="Belongs to" options={State} />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Legal Form
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Select placeholder="Legal Form" options={State} />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Company Name
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"email"}
-                              placeholder="Company Name"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Register Court
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"email"}
-                              placeholder="Register Court"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Register Name
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"email"}
-                              placeholder="Register Name"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Manage Director
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"email"}
-                              placeholder="Manage Director"
-                              className="width-common"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Employed
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <div className=" checkbox-custom mb-0">
-                              <input type="checkbox" id="check" className="" />
-                              <Label for="check"></Label>
-                            </div>
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={"12"}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm="4">
-                          <Label className="form-label col-form-label">
-                            Comments (Internally)
-                            <span className="required">*</span>
-                          </Label>
-                        </Col>
-                        <Col sm="8">
-                          <div>
-                            <Input
-                              type="textarea"
-                              name={"additionalText "}
-                              placeholder="Comments (Internally)"
-                              className="textarea-custom"
-                              rows="4"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                </Row>
+      <Query
+        query={GET_CAREGIVER_BY_ID}
+        fetchPolicy="network-only"
+        variables={{ id: parseInt(this.props.Id) }}
+      >
+        {({ loading, error, data }: any) => {
+          if (loading)
+            return (
+              <div>
+                <Loader />
               </div>
-            </Col>
-
-            <Col lg={"4"}>
-              <div className="common-col">
-                <div className="form-card minheight-auto">
-                  <Row>
-                    <Col lg={"12"}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="4">
-                            <Label className="form-label col-form-label">
-                              Fee
-                              <span className="required">*</span>
-                            </Label>
-                          </Col>
-                          <Col sm="8">
-                            <Row className="custom-col inner-no-padding-col">
-                              <Col sm="4">
-                                <div>
-                                  <Input
-                                    type="text"
-                                    name={"lastName"}
-                                    placeholder="Fee"
-                                    className="width-common"
-                                  />
-                                </div>
-                              </Col>
-                              <Col sm="8">
-                                <FormGroup>
-                                  <Row className="custom-col inner-no-padding-col">
-                                    <Col sm="6">
-                                      <Label className="form-label col-form-label inner-label">
-                                        Night
-                                        <span className="required">*</span>
-                                      </Label>
-                                    </Col>
-                                    <Col sm="6">
-                                      <div>
-                                        <Input
-                                          type="text"
-                                          name={"lastName"}
-                                          placeholder="Night"
-                                          className="width-common"
-                                        />
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </FormGroup>
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={"12"}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="4">
-                            <Label className="form-label col-form-label">
-                              Weekend Allowance
-                              <span className="required">*</span>
-                            </Label>
-                          </Col>
-                          <Col sm="8">
-                            <Row className="custom-col inner-no-padding-col">
-                              <Col sm="4">
-                                <div>
-                                  <Input
-                                    type="text"
-                                    name={"lastName"}
-                                    placeholder="Weekend Allowance"
-                                    className="width-common"
-                                  />
-                                </div>
-                              </Col>
-                              <Col sm="8">
-                                <FormGroup>
-                                  <Row className="custom-col inner-no-padding-col">
-                                    <Col sm="6">
-                                      <Label className="form-label col-form-label inner-label">
-                                        Holiday
-                                        {/* <span className="required">*</span> */}
-                                      </Label>
-                                    </Col>
-                                    <Col sm="6">
-                                      <div>
-                                        <Input
-                                          type="text"
-                                          name={"lastName"}
-                                          placeholder="Holiday"
-                                          className="width-common"
-                                        />
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </FormGroup>
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={"12"}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="4">
-                            <Label className="form-label col-form-label">
-                              Night Allowance
-                              <span className="required">*</span>
-                            </Label>
-                          </Col>
-                          <Col sm="8">
-                            <Row className="custom-col inner-no-padding-col">
-                              <Col sm="8">
-                                <div>
-                                  <Select
-                                    options={NightAllowancePerHour}
-                                    className="custom-input-width"
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-
-                    <Col lg={"12"}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="4">
-                            <Label className="form-label col-form-label">
-                              Invoice interval
-                            </Label>
-                          </Col>
-                          <Col sm="8">
-                            <div>
-                              <Select
-                                placeholder="Invoice interval"
-                                isMulti
-                                options={Region}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={"12"}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm="4">
-                            <Label className="form-label col-form-label">
-                              Leasing Price List
-                            </Label>
-                          </Col>
-                          <Col sm="8">
-                            <div>
-                              <Select
-                                placeholder="Lessing Price List"
-                                isMulti
-                                options={Region}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                </div>
-                <div className="quality-attribute-section d-flex flex-column">
-                  <div className="common-list-card">
-                    <h5 className="content-title">
-                      {languageTranslation("QUALIFICATIONS")}
-                    </h5>
-                    <div className="common-list-wrap">
-                      <div className="common-list-header d-flex align-items-cente justify-content-between">
-                        <div className="common-list-title align-middle">
-                          {" "}
-                          {languageTranslation("QUALIFICATION")}
-                        </div>
-                        <div className=" align-middle toggle-icon">
-                          <i className="fa fa-angle-down"></i>
-                        </div>
-                      </div>
-                      <div className="common-list-body">
-                        <ul className="common-list list-unstyled">
-                          <li>Dialysis </li>
-                          <li>Home Management</li>
-                          <li>Nurse/carer</li>
-                        </ul>
-                      </div>
-                      <div className="common-list-footer form-section ">
-                        <FormGroup className="mb-0">
-                          <Select
-                            placeholder={languageTranslation("REGION", "STATE")}
-                            options={State}
-                            menuPlacement={"top"}
-                          />
-                        </FormGroup>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="common-list-card">
-                    <h5 className="content-title">
-                      {languageTranslation("ATTRIBUTES")}
-                    </h5>
-                    <div className="common-list-wrap">
-                      <div className="common-list-header d-flex align-items-cente justify-content-between">
-                        <div className="common-list-title align-middle">
-                          {" "}
-                          {languageTranslation("ATTRIBUTES")}
-                        </div>
-                        <div className=" align-middle toggle-icon">
-                          <i className="fa fa-angle-down"></i>
-                        </div>
-                      </div>
-                      <div className="common-list-body">
-                        <ul className="common-list list-unstyled">
-                          <li>Dialysis </li>
-                          <li>Home Management</li>
-                          <li>Nurse/carer</li>
-                        </ul>
-                      </div>
-                      <div className="common-list-footer form-section ">
-                        <FormGroup className="mb-0">
-                          <Select
-                            placeholder={languageTranslation("REGION", "STATE")}
-                            options={State}
-                            menuPlacement={"top"}
-                          />
-                        </FormGroup>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Col>
-            <Col lg={4}>
-              <div className="remark-details">
-                <div className="remark-header d-flex align-items-center justify-content-between">
-                  <h5 className="my-2 text-left activity-title">
-                    {" "}
-                    {languageTranslation("REMARKS")}
-                  </h5>
-                  <div
-                    onClick={this.handleOnClick}
-                    className="edit-remark my-2"
-                  >
-                    <i className="icon-note mr-2" />{" "}
-                    {languageTranslation("ADD_REMARKS")}
-                  </div>
-                </div>
-                <div className="remark-body">
-                  <div className="activity-logs ">
-                    {this.state.addRemark ? (
-                      <div className="activity-block py-2 px-3">
-                        <div className="pr-3 text-left">
-                          <div className="remark-section">
-                            <Input
-                              type="textarea"
-                              name={"Remarks"}
-                              placeholder="Remarks"
-                              className="height-textarea "
-                            />
-                            <div className="add-remark-btn">
-                              {" "}
-                              {languageTranslation("ADD_REMARKS")}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-left activity-date">
-                          <span>
-                            <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
-                            2:54 PM
-                          </span>
-                          <span>
-                            <i className="fa fa-user mr-2"></i>Mark Smith
-                          </span>
-                        </div>
-                        <span className="activity-icon activity-set"></span>
-                      </div>
-                    ) : null}
-                    <div className="activity-block py-2 px-3">
-                      <div className="pr-3 text-left">
-                        <span className="text-capitalize">
-                          Called a few days before the registration (they
-                          repeatedly asked to register), is KS and wants to make
-                          some extra money, ....{" "}
-                          <span className="view-more-link">View More</span>
-                        </span>
-                      </div>
-                      <div className="text-left activity-date">
-                        <span>
-                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
-                          2:54 PM
-                        </span>
-                        <span>
-                          <i className="fa fa-user mr-2"></i>Mark Smith
-                        </span>
-                      </div>
-                      <span className="activity-icon activity-set"></span>
-                    </div>
-                    <div className="activity-block  py-2 px-3">
-                      <div className="pr-3 text-left">
-                        <span className="text-capitalize">
-                          She came to the info talk with her little son (about 3
-                          years). But everyone ran quietly. She had a lot of
-                          questions, generally freelance.....{" "}
-                          <span className="view-more-link">View More</span>
-                        </span>
-                      </div>
-                      <div className="text-left activity-date">
-                        <span>
-                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
-                          2:54 PM
-                        </span>
-                        <span>
-                          <i className="fa fa-user mr-2"></i>Mark Smith
-                        </span>
-                      </div>
-                      <span className="activity-icon activity-set"></span>
-                    </div>
-                    <div className="activity-block  py-2 px-3">
-                      <div className="pr-3 text-left">
-                        <span className="text-capitalize">
-                          she called (yesterday on the phone again with Norma
-                          and asked everything again, apparently hadn't listened
-                          to the conversation), ....{" "}
-                          <span className="view-more-link">View More</span>
-                          so, Jenny
-                        </span>
-                      </div>
-                      <div className="text-left activity-date">
-                        <span>
-                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
-                          2:54 PM
-                        </span>
-                        <span>
-                          <i className="fa fa-user mr-2"></i>Mark Smith
-                        </span>
-                      </div>
-                      <span className="activity-icon activity-set"></span>
-                    </div>
-                    <div className="activity-block  py-2 px-3">
-                      <div className="pr-3 text-left">
-                        <span className="text-capitalize">
-                          Although she still wants to become a freelancer, her
-                          child has to get used to kindergarten and this takes 1
-                          to 2 months. She knows which....{" "}
-                          <span className="view-more-link">View More</span>
-                        </span>
-                      </div>
-                      <div className="text-left activity-date">
-                        <span>
-                          <i className="fa fa-clock-o mr-2"></i>Dec 28th 2019,
-                          2:54 PM
-                        </span>
-                        <span>
-                          <i className="fa fa-user mr-2"></i>Mark Smith
-                        </span>
-                      </div>
-                      <span className="activity-icon activity-set"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Col>
-          </Row>
-
-          {/* <Row>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      First Name
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <Select
-                            placeholder="Salutation"
-                            options={Salutation}
-                            className="custom-select-width"
-                          />
-                        </InputGroupAddon>
-                        <Input
-                          type="text"
-                          name={"firstGivenName"}
-                          placeholder="First Given Name"
-                          className="width-common"
-                        />
-                      </InputGroup>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Surname
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name={"lastName"}
-                        placeholder="Surname"
-                        className="width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label ">
-                      Street
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name={"street"}
-                        placeholder=" Street"
-                        className=" width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label ">
-                      City
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name={"city"}
-                        placeholder=" City"
-                        className=" width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label ">
-                      Post code
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name={"postCode"}
-                        placeholder="Post Code"
-                        className=" width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Region/State
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Select placeholder="Region/State" options={State} />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Country
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Select
-                        // value={this.state.selectedOption}
-                        placeholder="Select Country"
-                        options={Country}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Date of Birth
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <DatePicker
-                        placeholderText="Select Date"
-                        selected={this.state.startDate}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Phone
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name={"phone"}
-                        placeholder=" Phone Number"
-                        className="width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Fax
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name={"fax"}
-                        placeholder=" Fax"
-                        className="width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Mobile Phone
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name={"mobilePhone"}
-                        placeholder="Mobile Phone"
-                        className="width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Email address
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name={"email"}
-                        placeholder=" Email address"
-                        className="width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Driver's license
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div className="custom-radio-block">
-                      <Row>
-                        <Col>
-                          <CustomInput
-                            type="radio"
-                            id="yes"
-                            name="driversLicense"
-                            label="Yes"
-                          />
-                        </Col>
-                        <Col>
-                          <CustomInput
-                            type="radio"
-                            id="no"
-                            name="driversLicense"
-                            label="No"
-                          />
-                        </Col>
-                      </Row>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Own vehicle available
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div className="custom-radio-block">
-                      <Row>
-                        <Col>
-                          <CustomInput
-                            type="radio"
-                            id="yes_v"
-                            name="vehicleavailable"
-                            label="Yes"
-                          />
-                        </Col>
-                        <Col>
-                          <CustomInput
-                            type="radio"
-                            id="no_v"
-                            name="vehicleavailable"
-                            label="No"
-                          />
-                        </Col>
-                      </Row>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Driver's License Number
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name="driverLicenseNumber"
-                        placeholder="Driver's License Number"
-                        className="width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"12"}></Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Legal Form
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Select placeholder="Legal Form" options={LegalForm} />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"12"}></Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Company Name <small>(Including GMBH, UG)</small>
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name="companyName"
-                        placeholder="Company Name"
-                        className="width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Registration Number
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name="registrationNumber"
-                        placeholder="Registration number"
-                        className="width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Register Court
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name="registerCourt"
-                        placeholder="Register Court"
-                        className="width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Executive Director
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name="executiveDirector"
-                        placeholder="Executive Director"
-                        className="width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="7">
-                    <Label className="form-label col-form-label">
-                      Employee subject to social security contribution
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="5">
-                    <div className="custom-radio-block">
-                      <Row>
-                        <Col>
-                          <CustomInput
-                            type="radio"
-                            id="yes_s"
-                            name="socialSecurityContribution"
-                            label="Yes"
-                          />
-                        </Col>
-                        <Col>
-                          <CustomInput
-                            type="radio"
-                            id="no_s"
-                            name="socialSecurityContribution"
-                            label="No"
-                          />
-                        </Col>
-                      </Row>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Tax Number
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="text"
-                        name="taxNumber"
-                        placeholder="Tax Number"
-                        className="width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Working zones
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Select
-                        placeholder=" Working zones"
-                        isMulti
-                        options={Region}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-            <Col lg={"6"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="3">
-                    <Label className="form-label col-form-label">
-                      Remarks
-                      <span className="required">*</span>
-                    </Label>
-                  </Col>
-                  <Col sm="9">
-                    <div>
-                      <Input
-                        type="textarea"
-                        name={"Remarks"}
-                        placeholder="Remarks"
-                        className="height-auto "
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"12"}>
-              <div className={"text-right"}>
-                <Button color="primary" type="submit" className="btn-sumbit">
-                  Next Step
-                </Button>
-              </div>
-            </Col>
-          </Row> */}
-        </Form>
-      </div>
+            );
+          if (error) return <div>Caught error: {error.message}</div>;
+          return (
+            <PersonalInformation
+              {...this.props}
+              getCaregiver={data.getCaregiver}
+            />
+          );
+        }}
+      </Query>
     );
   }
 }
-export default PersonalInformation;
+export default GetData;

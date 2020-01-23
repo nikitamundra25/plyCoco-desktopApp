@@ -48,7 +48,12 @@ export const Region: FunctionComponent = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   // To get emplyee list from db
-  const [fetchRegionList, { data, loading }] = useLazyQuery<any>(GET_REGIONS);
+  const [fetchRegionList, { data, loading, refetch }] = useLazyQuery<any>(
+    GET_REGIONS,
+    {
+      fetchPolicy: 'no-cache',
+    },
+  );
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -89,7 +94,9 @@ export const Region: FunctionComponent = () => {
         sortBy,
       });
       setIsFilter(
-        searchBy !== '' || isActive !== undefined || sortBy !== undefined,
+        searchBy !== '' ||
+          query.status !== undefined ||
+          query.sortBy !== undefined,
       );
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -173,7 +180,7 @@ export const Region: FunctionComponent = () => {
       </CardHeader>
       <CardBody>
         <Collapse isOpen={isOpen} className='region-input-section'>
-          <AddRegion toggle={toggle} />
+          <AddRegion toggle={toggle} refetch={refetch} />
         </Collapse>
         <div>
           <Formik
@@ -189,7 +196,7 @@ export const Region: FunctionComponent = () => {
           <thead className='thead-bg'>
             <tr>
               <th className={'text-center'}>{languageTranslation('S_NO')}</th>
-              <th>{languageTranslation('REGION_NAME')}</th>
+              <th className="region-th-column">{languageTranslation('REGION_NAME')}</th>
               <th className='text-center'>
                 {languageTranslation('NUMBER_OF_CANSTITUTION')}
               </th>
@@ -200,12 +207,13 @@ export const Region: FunctionComponent = () => {
                 {languageTranslation('CURRENT_ONGOING_APPOINTMENTS_COUNTER')}
               </th>
               <th>{languageTranslation('CREATED_DATE')}</th>
+              {/* <th className="text-center">Action</th> */}
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td className={'table-loader'} colSpan={5}>
+                <td className={'table-loader'} colSpan={6}>
                   <Loader />
                 </td>
               </tr>
@@ -231,7 +239,7 @@ export const Region: FunctionComponent = () => {
               })
             ) : (
               <tr className={'text-center no-hover-row'}>
-                <td colSpan={5} className={'pt-5 pb-5'}>
+                <td colSpan={6} className={'pt-5 pb-5'}>
                   {isFilterApplied ? (
                     <NoSearchFound />
                   ) : (
@@ -240,9 +248,9 @@ export const Region: FunctionComponent = () => {
                         <i className='icon-ban' />
                       </div>
                       <h4 className='mb-1'>
-                        Currently there are no region Added.{' '}
+                        Currently there are no regions added.{' '}
                       </h4>
-                      <p>Please click above button to add new. </p>
+                      <p>Please click above button to add new.</p>
                     </div>
                   )}
                 </td>

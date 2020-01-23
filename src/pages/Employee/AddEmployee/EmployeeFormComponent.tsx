@@ -4,7 +4,7 @@ import React, {
   FunctionComponent,
   useEffect,
 } from 'react';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/react-hooks';
 import { AppBreadcrumb } from '@coreui/react';
 import {
   Button,
@@ -127,7 +127,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     // call query
     fetchRegionList({
       variables: {
-        limit: PAGE_LIMIT,
+        limit: 25,
         sortBy: 3,
       },
     });
@@ -186,7 +186,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_FIRST_NAME_PLACEHOLDER',
                                     )}
-                                    maxLength='20'
+                                    // maxLength='20'
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={firstName}
@@ -226,7 +226,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       'EMPLOYEE_SURNAME_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
-                                    maxLength='20'
+                                    // maxLength='20'
                                     onBlur={handleBlur}
                                     value={lastName}
                                     className={
@@ -668,189 +668,191 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                       {languageTranslation('BANK_ACCOUNT_INFORMATION')}
                     </h5>
                     <div className='form-card minheight-auto'>
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label '>
-                                {languageTranslation(
-                                  'EMPLOYEE_BANK_NAME_LABEL',
-                                )}
-                              </Label>
-                            </Col>
-                            <Col sm='8'>
-                              <div>
-                                <Input
-                                  type='text'
-                                  name={'bankName'}
-                                  placeholder={languageTranslation(
-                                    'EMPLOYEE_BANK_NAME_PLACEHOLDER',
+                      <Row>
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label '>
+                                  {languageTranslation(
+                                    'EMPLOYEE_BANK_NAME_LABEL',
                                   )}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={bankName}
-                                  className={`width-common ${
-                                    errors.bankName && touched.bankName
-                                      ? 'text-input error'
-                                      : 'text-input'
-                                  }`}
-                                />
-                                {errors.bankName && touched.bankName && (
-                                  <div className='required-error'>
-                                    {errors.bankName}
-                                  </div>
-                                )}
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation(
-                                  'BANK_ACCOUNT_HOLDER_NAME_LABEL',
-                                )}
-                                {/* Account Holder Name */}
-                              </Label>
-                            </Col>
-                            <Col sm='8'>
-                              <div>
-                                <Input
-                                  type='text'
-                                  name={'accountHolderName'}
-                                  placeholder={languageTranslation(
-                                    'BANK_ACCOUNT_HOLDER_NAME_PLACEHOLDER',
-                                  )}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={accountHolderName}
-                                  className={`width-common ${
-                                    errors.accountHolderName &&
-                                    touched.accountHolderName
-                                      ? 'text-input error'
-                                      : 'text-input'
-                                  }`}
-                                />
-                                {errors.accountHolderName &&
-                                  touched.accountHolderName && (
+                                </Label>
+                              </Col>
+                              <Col sm='8'>
+                                <div>
+                                  <Input
+                                    type='text'
+                                    name={'bankName'}
+                                    placeholder={languageTranslation(
+                                      'EMPLOYEE_BANK_NAME_PLACEHOLDER',
+                                    )}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={bankName}
+                                    className={`width-common ${
+                                      errors.bankName && touched.bankName
+                                        ? 'text-input error'
+                                        : 'text-input'
+                                    }`}
+                                  />
+                                  {errors.bankName && touched.bankName && (
                                     <div className='required-error'>
-                                      {errors.accountHolderName}
+                                      {errors.bankName}
                                     </div>
                                   )}
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label '>
-                                {languageTranslation('BANK_IBAN_LABEL')}
-                                {/* IBAN */}
-                              </Label>
-                            </Col>
-                            <Col sm='8'>
-                              <div>
-                                <MaskedInput
-                                  name={'IBAN'}
-                                  value={IBAN}
-                                  placeholder={languageTranslation(
-                                    'BANK_IBAN_PLACEHOLDER',
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation(
+                                    'BANK_ACCOUNT_HOLDER_NAME_LABEL',
                                   )}
-                                  mask={IBANRegex}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  className={`form-control ${
-                                    errors.IBAN && touched.IBAN
-                                      ? 'text-input error'
-                                      : 'text-input'
-                                  }`}
-                                />
-                                {errors.IBAN && touched.IBAN && (
-                                  <div className='required-error'>
-                                    {errors.IBAN}
-                                  </div>
-                                )}
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label '>
-                                {languageTranslation('BANK_BIC_LABEL')}
-                                {/* BIC */}
-                              </Label>
-                            </Col>
-                            <Col sm='8'>
-                              <div>
-                                <Input
-                                  type='text'
-                                  name={'BIC'}
-                                  placeholder={languageTranslation(
-                                    'BANK_BIC_PLACEHOLDER',
+                                  {/* Account Holder Name */}
+                                </Label>
+                              </Col>
+                              <Col sm='8'>
+                                <div>
+                                  <Input
+                                    type='text'
+                                    name={'accountHolderName'}
+                                    placeholder={languageTranslation(
+                                      'BANK_ACCOUNT_HOLDER_NAME_PLACEHOLDER',
+                                    )}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={accountHolderName}
+                                    className={`width-common ${
+                                      errors.accountHolderName &&
+                                      touched.accountHolderName
+                                        ? 'text-input error'
+                                        : 'text-input'
+                                    }`}
+                                  />
+                                  {errors.accountHolderName &&
+                                    touched.accountHolderName && (
+                                      <div className='required-error'>
+                                        {errors.accountHolderName}
+                                      </div>
+                                    )}
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label '>
+                                  {languageTranslation('BANK_IBAN_LABEL')}
+                                  {/* IBAN */}
+                                </Label>
+                              </Col>
+                              <Col sm='8'>
+                                <div>
+                                  <MaskedInput
+                                    name={'IBAN'}
+                                    value={IBAN}
+                                    placeholder={languageTranslation(
+                                      'BANK_IBAN_PLACEHOLDER',
+                                    )}
+                                    mask={IBANRegex}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    className={`form-control ${
+                                      errors.IBAN && touched.IBAN
+                                        ? 'text-input error'
+                                        : 'text-input'
+                                    }`}
+                                  />
+                                  {errors.IBAN && touched.IBAN && (
+                                    <div className='required-error'>
+                                      {errors.IBAN}
+                                    </div>
                                   )}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={BIC}
-                                  className={
-                                    errors.BIC && touched.BIC
-                                      ? 'text-input error'
-                                      : 'text-input'
-                                  }
-                                />
-                                {errors.BIC && touched.BIC && (
-                                  <div className='required-error'>
-                                    {errors.BIC}
-                                  </div>
-                                )}
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label '>
-                                {languageTranslation('ADDITIONAL_TEXT_LABEL')}
-                                &nbsp;
-                                {/* <InputFieldTooltip
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label '>
+                                  {languageTranslation('BANK_BIC_LABEL')}
+                                  {/* BIC */}
+                                </Label>
+                              </Col>
+                              <Col sm='8'>
+                                <div>
+                                  <Input
+                                    type='text'
+                                    name={'BIC'}
+                                    placeholder={languageTranslation(
+                                      'BANK_BIC_PLACEHOLDER',
+                                    )}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={BIC}
+                                    className={
+                                      errors.BIC && touched.BIC
+                                        ? 'text-input error'
+                                        : 'text-input'
+                                    }
+                                  />
+                                  {errors.BIC && touched.BIC && (
+                                    <div className='required-error'>
+                                      {errors.BIC}
+                                    </div>
+                                  )}
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label '>
+                                  {languageTranslation('ADDITIONAL_TEXT_LABEL')}
+                                  &nbsp;
+                                  {/* <InputFieldTooltip
                                   id='ADDITIONAL_TEXT'
                                   message={languageTranslation(
                                     "ADDITIONAL_TEXT"
                                   )}
                                 /> */}
-                              </Label>
-                            </Col>
-                            <Col sm='8'>
-                              <div>
-                                <Input
-                                  type='textarea'
-                                  name={'additionalText'}
-                                  className='textarea-custom'
-                                  placeholder={languageTranslation(
-                                    'ADDITIONAL_TEXT_PLACEHOLDER',
-                                  )}
-                                  rows='4'
-                                  maxLength={255}
-                                  onChange={handleChange}
-                                  value={additionalText}
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
+                                </Label>
+                              </Col>
+                              <Col sm='8'>
+                                <div>
+                                  <Input
+                                    type='textarea'
+                                    name={'additionalText'}
+                                    className='textarea-custom'
+                                    placeholder={languageTranslation(
+                                      'ADDITIONAL_TEXT_PLACEHOLDER',
+                                    )}
+                                    rows='4'
+                                    maxLength={255}
+                                    onChange={handleChange}
+                                    value={additionalText}
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                      </Row>
                     </div>
                   </Col>
                 </Row>

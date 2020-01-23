@@ -46,7 +46,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
       email
       userName
       phoneNumber
-      regionId
+
       gender
       canstitution {
         city
@@ -73,7 +73,16 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         emailInvoice
         addressInvoice
         interval
-        regionId
+        website
+        attributes
+      }
+      qualifications {
+        id
+        attributeName
+      }
+      regions {
+        id
+        regionName
       }
       contact {
         salutation
@@ -96,6 +105,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         email
         remark
         id
+        attributes
       }
     }
   }

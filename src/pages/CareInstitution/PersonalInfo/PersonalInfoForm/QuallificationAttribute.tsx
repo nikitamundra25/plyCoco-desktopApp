@@ -1,97 +1,103 @@
-import React, { FunctionComponent } from "react";
-import { FormGroup, Label, Input, Col, Row, Form } from "reactstrap";
-import Select from "react-select";
-import { Formik, FormikProps, FormikHelpers } from "formik";
-import { languageTranslation, logger } from "../../../../helpers";
+import React, { FunctionComponent } from 'react';
+import { FormGroup, Label, Input, Col, Row, Form } from 'reactstrap';
+import Select from 'react-select';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { languageTranslation, logger } from '../../../../helpers';
 import {
   ICareInstitutionFormValues,
-  IHandleSelectInterface
-} from "../../../../interfaces";
-import { State } from "../../../../config";
+  IHandleSelectInterface,
+  IReactSelectInterface,
+} from '../../../../interfaces';
+import { State, CareInstitutionAttr } from '../../../../config';
 
 const QuallificationAttribute: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 > &
-  IHandleSelectInterface> = (
-  props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface
+  IHandleSelectInterface & {
+    qualificationList: IReactSelectInterface[] | undefined;
+  }> = (
+  props: FormikProps<ICareInstitutionFormValues> &
+    IHandleSelectInterface & {
+      qualificationList: IReactSelectInterface[] | undefined;
+    },
 ) => {
   const {
     values: { qualificationId, attributeId },
-    touched,
-    errors,
-    isSubmitting,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    setFieldValue,
-    setFieldTouched,
-    handleSelect
+    handleSelect,
+    qualificationList,
   } = props;
   return (
-    <div className="quality-attribute-section d-flex flex-column">
-      <div className="common-list-card">
-        <h5 className="content-title">
-          {languageTranslation("QUALIFICATIONS")}
+    <div className='quality-attribute-section d-flex flex-column'>
+      <div className='common-list-card'>
+        <h5 className='content-title'>
+          {languageTranslation('QUALIFICATIONS')}
         </h5>
-        <div className="common-list-wrap">
-          <div className="common-list-header d-flex align-items-cente justify-content-between">
-            <div className="common-list-title align-middle">
-              {" "}
-              {languageTranslation("QUALIFICATION")}
+        <div className='common-list-wrap'>
+          <div className='common-list-header d-flex align-items-cente justify-content-between'>
+            <div className='common-list-title align-middle'>
+              {' '}
+              {languageTranslation('QUALIFICATION')}
             </div>
-            <div className=" align-middle toggle-icon">
-              <i className="fa fa-angle-down"></i>
+            <div className=' align-middle toggle-icon'>
+              <i className='fa fa-angle-down'></i>
             </div>
           </div>
-          <div className="common-list-body">
-            <ul className="common-list list-unstyled">
-              <li>Dialysis </li>
-              <li>Home Management</li>
-              <li>Nurse/carer</li>
-            </ul>
+          <div className='common-list-body'>
+            {qualificationId && qualificationId.length ? (
+              <ul className='common-list list-unstyled'>
+                {qualificationId.map((qualification: IReactSelectInterface) => {
+                  return <li>{qualification.label}</li>;
+                })}
+              </ul>
+            ) : null}
           </div>
-          <div className="common-list-footer form-section ">
-            <FormGroup className="mb-0">
+          <div className='common-list-footer form-section '>
+            <FormGroup className='mb-0'>
               <Select
-                placeholder={languageTranslation("REGION", "STATE")}
+                placeholder={'Qualifications'}
+                name={'qualificationId'}
                 value={qualificationId ? qualificationId : undefined}
-                onChange={(value: any) => handleSelect(value, "qualification")}
+                onChange={(value: any) =>
+                  handleSelect(value, 'qualificationId')
+                }
                 isMulti
-                options={State}
-                menuPlacement={"top"}
+                options={qualificationList}
+                menuPlacement={'top'}
               />
             </FormGroup>
           </div>
         </div>
       </div>
-      <div className="common-list-card">
-        <h5 className="content-title">{languageTranslation("ATTRIBUTES")}</h5>
-        <div className="common-list-wrap">
-          <div className="common-list-header d-flex align-items-cente justify-content-between">
-            <div className="common-list-title align-middle">
-              {" "}
-              {languageTranslation("ATTRIBUTES")}
+      <div className='common-list-card'>
+        <h5 className='content-title'>{languageTranslation('ATTRIBUTES')}</h5>
+        <div className='common-list-wrap'>
+          <div className='common-list-header d-flex align-items-cente justify-content-between'>
+            <div className='common-list-title align-middle'>
+              {' '}
+              {languageTranslation('ATTRIBUTES')}
             </div>
-            <div className=" align-middle toggle-icon">
-              <i className="fa fa-angle-down"></i>
+            <div className=' align-middle toggle-icon'>
+              <i className='fa fa-angle-down'></i>
             </div>
           </div>
           <div className="common-list-body">
             <ul className="common-list list-unstyled">
-              <li>Dialysis </li>
-              <li>Home Management</li>
-              <li>Nurse/carer</li>
+              {attributeId && attributeId.length
+                ? attributeId.map((attData: IReactSelectInterface) => {
+                    return <li>{attData.label} </li>;
+                  })
+                : null}
             </ul>
           </div>
-          <div className="common-list-footer form-section ">
-            <FormGroup className="mb-0">
+          <div className='common-list-footer form-section '>
+            <FormGroup className='mb-0'>
               <Select
-                placeholder={languageTranslation("REGION", "STATE")}
+                placeholder={'Attributes'}
                 value={attributeId ? attributeId : undefined}
-                onChange={(value: any) => handleSelect(value, "attribute")}
+                onChange={(value: any) => handleSelect(value, 'attributeId')}
                 isMulti
-                options={State}
-                menuPlacement={"top"}
+                options={CareInstitutionAttr}
+                menuPlacement={'top'}
               />
             </FormGroup>
           </div>

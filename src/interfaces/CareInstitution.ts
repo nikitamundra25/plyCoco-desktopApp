@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from './Constant';
+import { IReactSelectInterface } from "./Constant";
 
 export interface ICareInstitutionFormValues {
   salutation?: IReactSelectInterface;
@@ -24,8 +24,8 @@ export interface ICareInstitutionFormValues {
   id?: number;
   salt?: String;
   userRole?: String;
-  qualificationId?: IReactSelectInterface;
-  attributeId?: IReactSelectInterface;
+  qualificationId?: IReactSelectInterface[];
+  attributeId?: IReactSelectInterface[] | undefined | any;
   isActive?: Boolean;
   isDeleted?: Boolean;
   zipCode?: string;
@@ -33,7 +33,7 @@ export interface ICareInstitutionFormValues {
   stateId?: string;
   regionId?: IReactSelectInterface;
   remarks?: [ICareInstitutionRemarks] | undefined | any;
-  linkedTo?: string;
+  linkedTo?: IReactSelectInterface;
   anonymousName?: string;
   anonymousName2?: string;
   careGiverCommission?: string;
@@ -44,6 +44,7 @@ export interface ICareInstitutionFormValues {
   emailInvoice?: string;
   addressInvoice?: string;
   isArchive?: Boolean;
+  // CareInstitutionList?:IReactSelectInterface
 }
 
 export interface ICareInstitutionValidationSchema {
@@ -52,7 +53,9 @@ export interface ICareInstitutionValidationSchema {
   lastName: string;
   userName: string;
   mobileNumber: number;
-  website: string;
+  phoneNumber?: number;
+  careGiverCommission?: string;
+  doctorCommission?: string;
 }
 
 export interface ICareInstitutionContactValidationSchema {
@@ -88,6 +91,7 @@ export interface ICareInstitutionContact {
   groupAttributes?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  attributeId?: IReactSelectInterface[]
 }
 
 export interface ICareInstitutionListDataInterface {

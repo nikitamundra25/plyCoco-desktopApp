@@ -29,16 +29,16 @@ import {
 } from '../../interfaces';
 import { RouteComponentProps } from 'react-router';
 import PaginationComponent from '../../common/Pagination';
-import logger from 'redux-logger';
 import * as qs from 'query-string';
 import { useHistory, useLocation } from 'react-router-dom';
 import Search from '../../common/SearchFilter';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { languageTranslation } from '../../helpers';
+import { languageTranslation, logger } from '../../helpers';
 import { ConfirmBox } from '../../common/ConfirmBox';
 import { toast } from 'react-toastify';
 import moment from 'moment';
-
+import Loader from '../../containers/Loader/Loader';
+let toastId: any = null;
 const [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
@@ -58,8 +58,9 @@ const sortFilter: any = {
 const CareInstitution = (props: RouteComponentProps) => {
   const [fetchCareInstitutionList, { data, loading, refetch }] = useLazyQuery<
     any
-  >(GET_CARE_INSTITUTION_LIST);
-  console.log('This is required Data', data);
+  >(GET_CARE_INSTITUTION_LIST, {
+    fetchPolicy: 'no-cache',
+  });
 
   let userData: [Object] | any;
   let history = useHistory();
@@ -87,9 +88,12 @@ const CareInstitution = (props: RouteComponentProps) => {
     let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
     let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
     // To handle display and query param text
-    let sortByValue: any = Object.keys(sortFilter).find(
-      (key: any) => sortFilter[key] === query.sortBy,
-    );
+    let sortByValue: string | undefined = '1';
+    if (query.sortBy) {
+      sortByValue = Object.keys(sortFilter).find(
+        (key: string) => sortFilter[key] === query.sortBy,
+      );
+    }
     logger(sortByValue);
     if (sortByValue === '3') {
       sortBy.label = 'A-Z';
@@ -111,9 +115,9 @@ const CareInstitution = (props: RouteComponentProps) => {
             value:
               Object.keys(sortFilter).find(
                 (key: any) => sortFilter[key] === query.sortBy,
-              ) || '',
+              ) || '1',
           }
-        : undefined;
+        : { label: 'Newest', value: '1' };
       isActive = query.status
         ? query.status === 'active'
           ? { label: languageTranslation('ACTIVE'), value: 'true' }
@@ -188,21 +192,27 @@ const CareInstitution = (props: RouteComponentProps) => {
       return;
     } else {
       try {
+        toast.dismiss();
         await updateStatus({
           variables: {
             id,
             isActive: !status,
           },
         });
-        toast.success(
-          languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG'),
-        );
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toast.success(
+            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG'),
+          );
+        }
       } catch (error) {
         const message = error.message
           .replace('SequelizeValidationError: ', '')
           .replace('Validation error: ', '')
           .replace('GraphQL error: ', '');
-        toast.error(message);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
       }
     }
   };
@@ -216,7 +226,7 @@ const CareInstitution = (props: RouteComponentProps) => {
   const queryVariables = {
     page: currentPage,
     isActive: isActive ? isActive.value : '',
-    sortBy: sortBy ? sortBy.value : 0,
+    sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
     searchBy: searchValue ? searchValue : '',
     limit: PAGE_LIMIT,
   };
@@ -235,35 +245,37 @@ const CareInstitution = (props: RouteComponentProps) => {
             id,
           },
         });
-
+        refetch();
         toast.success(
           languageTranslation('CARE_INSTITUTION_DELETE_SUCCESS_MSG'),
         );
+        // const data = await client.readQuery({
+        //   query: GET_CARE_INSTITUTION_LIST,
+        //   variables: queryVariables,
+        // });
+        // logger(data, 'data');
+        // const newData = data.getCareInstitutions.careInstitutionData.filter(
+        //   (user: any) => user.id !== id,
+        // );
+        // logger(newData, 'newData');
 
-        const data = await client.readQuery({
-          query: GET_CARE_INSTITUTION_LIST,
-          variables: queryVariables,
-        });
+        // const updatedData = {
+        //   ...data,
+        //   getCareInstitutions: {
+        //     ...data.getCareInstitutions,
+        //     careInstitutionData: newData,
+        //     totalCount: newData.length,
+        //   },
+        // };
 
-        const newData = data.getCareInstitutions.careInstitutionData.filter(
-          (user: any) => user.id !== id,
-        );
-
-        const updatedData = {
-          ...data,
-          getCareInstitutions: {
-            ...data.getCareInstitutions,
-            careInstitutionData: newData,
-            totalCount: newData.length,
-          },
-        };
-
-        client.writeQuery({
-          query: GET_CARE_INSTITUTION_LIST,
-          variables: queryVariables,
-          data: updatedData,
-        });
+        // client.writeQuery({
+        //   query: GET_CARE_INSTITUTION_LIST,
+        //   variables: queryVariables,
+        //   data: updatedData,
+        // });
       } catch (error) {
+        console.log(error, 'errorerrorerror');
+
         const message = error.message
           .replace('SequelizeValidationError: ', '')
           .replace('Validation error: ', '')
@@ -295,7 +307,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className='info-column'>
                     <div className='description-column'>
                       <div className='info-title'>
-                        {`${user.firstName}  ${user.lastName}`}
+                        {`${user.firstName} ${user.lastName}`}
                       </div>
                       <p className='description-text'>
                         <i className='fa fa-envelope mr-2'></i>
@@ -388,8 +400,8 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className='no-data-icon'>
                     <i className='icon-ban' />
                   </div>
-                  <h4 className='mb-1'>
-                    Currently there are No care institution Added.{' '}
+                  <h4 className="mb-1">
+                    Currently there are no care institution added.{" "}
                   </h4>
                   <p>Please click above button to add new. </p>
                 </div>
@@ -458,12 +470,22 @@ const CareInstitution = (props: RouteComponentProps) => {
               <th className={'text-center'}>{languageTranslation('S_NO')}</th>
               <th>Care Institution Information</th>
               <th>Company Details</th>
-              <th>{languageTranslation('CREATED_DATE')}</th>
+              <th className="date-th-column">{languageTranslation('CREATED_DATE')}</th>
               <th className='text-center'>Status</th>
               <th className='text-center'>Action</th>
             </tr>
           </thead>
-          <tbody>{tableData}</tbody>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td className={'table-loader'} colSpan={7}>
+                  <Loader />
+                </td>
+              </tr>
+            ) : (
+              tableData
+            )}
+          </tbody>
         </Table>
         {data &&
         userData &&

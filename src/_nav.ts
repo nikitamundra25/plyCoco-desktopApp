@@ -83,11 +83,11 @@ export default {
       icon: "icon-cms",
       url: AppRoutes.HOME,
       children: [
-        {
-          name: languageTranslation("MENU_FURTHER_BULK_EMAIL_CANSTITUTION"),
-          icon: "icon-bulk-email",
-          url: AppRoutes.HOME
-        },
+        // {
+        //   name: languageTranslation("MENU_FURTHER_BULK_EMAIL_CANSTITUTION"),
+        //   icon: "icon-bulk-email",
+        //   url: AppRoutes.HOME
+        // },
         {
           name: languageTranslation("MENU_FURTHER_EMAIL_TEMPLATES"),
           icon: "icon-email-templates",

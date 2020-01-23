@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from "./Constant";
+import { IReactSelectInterface } from './Constant';
 
 export interface IEmployeeFormValues {
   email: string;
@@ -13,7 +13,7 @@ export interface IEmployeeFormValues {
   additionalText: string;
   address1: string;
   address2: string;
-  country?: IReactSelectInterface;
+  country?: IReactSelectInterface | undefined;
   state?: IReactSelectInterface;
   region?: IReactSelectInterface[];
   zip: string;

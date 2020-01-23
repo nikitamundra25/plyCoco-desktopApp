@@ -1,21 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import Select from 'react-select';
-import {
-  Card,
-  CardHeader,
-  Label,
-  CardBody,
-  Col,
-  Row,
-  Button,
-  CustomInput,
-  BreadcrumbItem,
-  Breadcrumb,
-  InputGroup,
-  InputGroupAddon,
-  FormGroup,
-  Input,
-} from 'reactstrap';
+import { Label, Col, Row, CustomInput, FormGroup, Input } from 'reactstrap';
 import {
   State,
   Region,
@@ -141,6 +126,8 @@ const PersonalInfoFormComponent: any = (
       country,
       driverLicenseNumber,
       IBAN,
+      state,
+      employed,
     },
     handleChange,
     handleBlur,
@@ -148,6 +135,7 @@ const PersonalInfoFormComponent: any = (
     setFieldValue,
     touched,
   } = props;
+  console.log(props.values, 'props.value');
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
@@ -155,9 +143,9 @@ const PersonalInfoFormComponent: any = (
   return (
     <div className='form-card h-100'>
       <Row>
-        <Col lg={'12'}>
-          <FormGroup>
-            {PathArray && PathArray[2] !== 'add' ? (
+        {PathArray && PathArray[2] !== 'add' ? (
+          <Col lg={'12'}>
+            <FormGroup>
               <Row>
                 <Col sm='4'>
                   <Label className='form-label col-form-label'>
@@ -206,9 +194,9 @@ const PersonalInfoFormComponent: any = (
                   </Row>
                 </Col>
               </Row>
-            ) : null}
-          </FormGroup>
-        </Col>
+            </FormGroup>
+          </Col>
+        ) : null}
         <Col lg={'12'}>
           <FormGroup>
             <Row>
@@ -371,7 +359,7 @@ const PersonalInfoFormComponent: any = (
                         )}
                       />
                       {errors.dateOfBirth && touched.dateOfBirth && (
-                        <div className='required-error'>
+                        <div className='required-error left'>
                           {errors.dateOfBirth}
                         </div>
                       )}
@@ -390,7 +378,7 @@ const PersonalInfoFormComponent: any = (
                             <Field
                               component={FormikTextField}
                               name={'age'}
-                              placeholder='123'
+                              placeholder='Age'
                               className='width-common'
                             />
                           </div>
@@ -454,7 +442,7 @@ const PersonalInfoFormComponent: any = (
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={'postCode'}
+                    name={'postalCode'}
                     placeholder='Postal Code'
                     className=' width-common'
                   />
@@ -494,6 +482,7 @@ const PersonalInfoFormComponent: any = (
                     placeholder={languageTranslation('STATE')}
                     // placeholder="Bavaria"
                     options={statesOpt}
+                    value={state ? state : undefined}
                     onChange={(value: any) => handleSelect(value, 'state')}
                     noOptionsMessage={() => {
                       return 'Select a country first';
@@ -644,6 +633,7 @@ const PersonalInfoFormComponent: any = (
                           placeholder={languageTranslation(
                             'BANK_IBAN_PLACEHOLDER',
                           )}
+                          name={'IBAN'}
                           mask={IBANRegex}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -711,6 +701,8 @@ const PersonalInfoFormComponent: any = (
                       id='yes'
                       name='driversLicense'
                       label='Yes'
+                      value={true}
+                      onChange={handleChange}
                     />
                   </FormGroup>
                   <FormGroup check inline>
@@ -719,6 +711,8 @@ const PersonalInfoFormComponent: any = (
                       id='no'
                       name='driversLicense'
                       label='No'
+                      value={false}
+                      onChange={handleChange}
                     />
                   </FormGroup>
                 </div>
@@ -762,16 +756,20 @@ const PersonalInfoFormComponent: any = (
                     <CustomInput
                       type='radio'
                       id='yes_v'
-                      name='vehicleavailable'
+                      name='vehicleAvailable'
                       label='Yes'
+                      value={true}
+                      onChange={handleChange}
                     />
                   </FormGroup>
                   <FormGroup check inline>
                     <CustomInput
                       type='radio'
                       id='no_v'
-                      name='vehicleavailable'
+                      name='vehicleAvailable'
                       label='No'
+                      value={false}
+                      onChange={handleChange}
                     />
                   </FormGroup>
                 </div>
@@ -852,7 +850,7 @@ const PersonalInfoFormComponent: any = (
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={'regNumber'}
+                    name={'registrationNumber'}
                     placeholder='Registration Number'
                     className='width-common'
                   />
@@ -899,7 +897,19 @@ const PersonalInfoFormComponent: any = (
                    
                   </div> */}
                   <div className=' checkbox-custom mb-0'>
-                    <input type='checkbox' id='check' className='' />
+                    <input
+                      type='checkbox'
+                      id='check'
+                      className=''
+                      name={'employed'}
+                      checked={employed}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const {
+                          target: { checked },
+                        } = e;
+                        setFieldValue('employed', checked);
+                      }}
+                    />
                     <Label for='check'></Label>
                   </div>
                 </div>

@@ -611,57 +611,21 @@ const CotactFormComponent: any = (
                   <i className="icon-note" />
                 </div>
               </div>
-
-              <Row>
-                <Col lg={"12"}>
-                  <FormGroup>
-                    <Row>
-                      <Col sm="12">
-                        <div>
-                          <Input
-                            type="textarea"
-                            name={"remark"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={remark}
-                            placeholder={languageTranslation("REMARKS")}
-                            className="textarea-care-institution"
-                            rows="4"
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </div>
-            <div className="form-flex-tile">
-              <div className="common-list-wrap">
-                <div className="common-list-header d-flex align-items-cente justify-content-between">
-                  <div className="common-list-title align-middle">
-                    {" "}
-                    {languageTranslation("ATTRIBUTES")}
-                  </div>
-                  <div className=" align-middle toggle-icon">
-                    <i className="fa fa-angle-down"></i>
-                  </div>
-                </div>
-                <div className="common-list-body">
-                  <ul className="common-list list-unstyled">
-                    <li>Dialysis </li>
-                    <li>Home Management</li>
-                    <li>Nurse/carer</li>
-                  </ul>
-                </div>
-                <div className="common-list-footer form-section ">
-                  <FormGroup className="mb-0">
-                    <Select
-                      placeholder={languageTranslation("REGION", "STATE")}
-                      options={State}
-                      menuPlacement={"top"}
-                    />
-                  </FormGroup>
-                </div>
+              <div className="common-list-body">
+                <ul className="common-list list-unstyled">
+                  <li>Dialysis </li>
+                  <li>Home Management</li>
+                  <li>Nurse/carer</li>
+                </ul>
+              </div>
+              <div className="common-list-footer form-section ">
+                <FormGroup className="mb-0">
+                  <Select
+                    placeholder="Add Attributes"
+                    options={State}
+                    menuPlacement={"top"}
+                  />
+                </FormGroup>
               </div>
             </div>
           </div>

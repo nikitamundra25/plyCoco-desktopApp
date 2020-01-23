@@ -150,7 +150,6 @@ const PersonalInformation: any = (props: any) => {
         AttributeData.push(attribute.label)
       );
     }
-    console.log("AttributeData", AttributeData);
 
     values.attributeId && values.attributeId.length
       ? values.attributeId.map(
@@ -206,7 +205,7 @@ const PersonalInformation: any = (props: any) => {
             : null,
         attributes: AttributeData
       };
-      setSubmitting(false);
+      // setSubmitting(false);
       toast.success(languageTranslation("CARE_INSTI_UPDATE_SUCCESS"));
       await updateCareInstitution({
         variables: {
@@ -230,6 +229,7 @@ const PersonalInformation: any = (props: any) => {
   let countryData: Number;
   let regionId: String;
   let linkedToId: String;
+
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
 
@@ -450,10 +450,6 @@ const PersonalInformation: any = (props: any) => {
       }`,
       value: Id
     };
-    console.log(
-      " getCareInstitution.canstitution.city",
-      getCareInstitution.canstitution && getCareInstitution.canstitution.city
-    );
   } else {
     values = {
       email: "",
@@ -486,8 +482,6 @@ const PersonalInformation: any = (props: any) => {
 
   const { qualificationList } = props;
   const CareInstitutionLinkedTo = props.CareInstitutionList;
-  console.log("valueee", values.city);
-
   return (
     <Form className="form-section forms-main-section">
       <Formik

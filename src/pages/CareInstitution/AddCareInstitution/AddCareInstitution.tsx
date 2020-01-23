@@ -32,8 +32,8 @@ import CommissionFormData from '../PersonalInfo/PersonalInfoForm/CommissionFormD
 import InvoiceFormData from '../PersonalInfo/PersonalInfoForm/InvoiceFormData';
 import QuallificationAttribute from '../PersonalInfo/PersonalInfoForm/QuallificationAttribute';
 import RemarkFormData from '../PersonalInfo/PersonalInfoForm/RemarkFormData';
-import '../careinstitution.scss';
 import { RegionQueries } from '../../../queries/Region';
+import '../careinstitution.scss';
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -572,8 +572,18 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={phoneNumber}
                         placeholder={languageTranslation('PHONE')}
-                        className='width-common'
+                        // className="width-common"
+                        className={
+                          errors.mobileNumber && touched.mobileNumber
+                            ? 'width-common text-input error'
+                            : 'width-common text-input'
+                        }
                       />
+                      {errors.phoneNumber && touched.phoneNumber && (
+                        <div className='required-error'>
+                          {errors.phoneNumber}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -704,30 +714,6 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                       {errors.userName && touched.userName && (
                         <div className='required-error'>{errors.userName}</div>
                       )}
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('DEFAULT_QAULIFICATION')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div>
-                      <Select
-                        placeholder={languageTranslation(
-                          'DEFAULT_QAULIFICATION',
-                        )}
-                        value={state ? state : undefined}
-                        onChange={(value: any) => handleSelect(value, 'state')}
-                        options={props.qualificationList}
-                      />
                     </div>
                   </Col>
                 </Row>

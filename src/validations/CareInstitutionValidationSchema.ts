@@ -40,7 +40,29 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
       languageTranslation("MOB_MAXLENGTH"),
       value =>
         !value || (value && value.length >= mobMin && value.length <= mobMax)
+    ),
+  phoneNumber: Yup.mixed()
+    .test(
+      "check-num",
+      languageTranslation("PHONE_NUMERROR"),
+      value => !value || (value && !isNaN(value))
     )
+    .test(
+      "num-length",
+      languageTranslation("PHONE_MAXLENGTH"),
+      value =>
+        !value || (value && value.length >= mobMin && value.length <= mobMax)
+    ),
+  careGiverCommission: Yup.string().test(
+    "check-num",
+    languageTranslation("HOLIDAY_NUMERROR"),
+    value => !value || (value && !isNaN(value))
+  ),
+  doctorCommission: Yup.string().test(
+    "check-num",
+    languageTranslation("HOLIDAY_NUMERROR"),
+    value => !value || (value && !isNaN(value))
+  )
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<

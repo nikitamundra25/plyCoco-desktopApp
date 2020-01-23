@@ -19,15 +19,17 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     caregiver{
       address1
       address2
+      attributes
       age
       fax
       workZones
       mobileNumber
       countryId
       stateId
-      postalCode
+      zipCode
       employed
       salutation
+      dateOfBirth
       gender
       comments
       companyName
@@ -41,7 +43,6 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       title
       taxNumber
       belongTo
-      bankName
       legalForm
       nightAllowance
       weekendAllowance
@@ -54,6 +55,10 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     regions{
       id
      regionName
+    }
+    bankDetails{
+      bankName
+      IBAN
     }
     qualifications{
       id
@@ -100,7 +105,7 @@ export const GET_CAREGIVERS = gql`
           mobileNumber
           countryId
           stateId
-          postalCode
+          zipCode
           legalForm
           employed
           comments
@@ -111,6 +116,10 @@ export const GET_CAREGIVERS = gql`
           city
           street
           title
+        }
+        regions{
+          id
+         regionName
         }
       }
       totalCount
@@ -129,9 +138,9 @@ export const GET_CAREGIVER_BY_ID = gql`
       password
       phoneNumber
       profileImage
+      gender
       profileThumbnailImage
       isActive
-      phoneNumber
       createdAt
       caregiver {
         address1
@@ -142,7 +151,7 @@ export const GET_CAREGIVER_BY_ID = gql`
         mobileNumber
         countryId
         stateId
-        postalCode
+        zipCode
         employed
         comments
         companyName
@@ -151,12 +160,12 @@ export const GET_CAREGIVER_BY_ID = gql`
         registrationNumber
         driversLicense
         driverLicenseNumber
+        dateOfBirth
         city
         street
         title
         taxNumber
         belongTo
-        bankName
         legalForm
         nightAllowance
         weekendAllowance
@@ -165,6 +174,7 @@ export const GET_CAREGIVER_BY_ID = gql`
         fee
         holiday
         invoiceInterval
+        attributes
       }
       qualifications {
         id

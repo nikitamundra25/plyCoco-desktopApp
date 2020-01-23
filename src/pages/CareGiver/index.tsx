@@ -221,11 +221,7 @@ const CareGiver: FunctionComponent = () => {
   };
 
   const onPageChanged = (currentPage: number) => {
-    console.log("currentpge in opc", currentPage);
-
     const query = qs.parse(search);
-    console.log("query", query);
-
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
       "?"
     );
@@ -293,8 +289,6 @@ const CareGiver: FunctionComponent = () => {
     isActive,
     sortBy
   };
-  console.log("current page", currentPage);
-
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
     <Row className="m-0">
@@ -373,7 +367,7 @@ const CareGiver: FunctionComponent = () => {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td className={"table-loader"} colSpan={7}>
+                    <td className={"table-loader"} colSpan={8}>
                       <Loader />
                     </td>
                   </tr>
@@ -456,15 +450,15 @@ const CareGiver: FunctionComponent = () => {
                           <td>
                             <div className="description-column  ml-0">
                               {careGiverData &&
-                              careGiverData.caregiverDetails &&
-                              careGiverData.caregiverDetails.workZones ? (
-                                careGiverData.caregiverDetails.workZones.map(
-                                  (wZ: string) => (
+                              careGiverData.regions &&
+                              careGiverData.regions.length ? (
+                                careGiverData.regions.map(
+                                  (wZ: any) => (
                                     <p className="description-text ">
                                       <span className="text-label mr-1">
                                         <i className="fa fa-angle-right"></i>
                                       </span>
-                                      <span className="align-middle">{wZ}</span>
+                                      <span className="align-middle">{wZ.regionName}</span>
                                     </p>
                                   )
                                 )
@@ -548,7 +542,7 @@ const CareGiver: FunctionComponent = () => {
                   )
                 ) : (
                   <tr className={"text-center no-hover-row"}>
-                    <td colSpan={7} className={"pt-5 pb-5"}>
+                    <td colSpan={8} className={"pt-5 pb-5"}>
                       {isFilterApplied ? (
                         <NoSearchFound />
                       ) : (
@@ -557,7 +551,7 @@ const CareGiver: FunctionComponent = () => {
                             <i className="icon-ban" />
                           </div>
                           <h4 className="mb-1">
-                            Currently there are no care giver Added.{" "}
+                            Currently there are no care giver added.{" "}
                           </h4>
                           <p>Please click above button to add new. </p>
                         </div>

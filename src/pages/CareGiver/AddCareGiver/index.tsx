@@ -106,7 +106,6 @@ export const CareGiverForm: FunctionComponent = () => {
       age,
       street,
       city,
-      postalCode,
       address1,
       address2,
       country,
@@ -130,6 +129,7 @@ export const CareGiverForm: FunctionComponent = () => {
       executiveDirector,
       legalFormValue,
       qualifications,
+      attributeId,
       remarks,
       regionId,
       comments,
@@ -140,9 +140,8 @@ export const CareGiverForm: FunctionComponent = () => {
       weekendAllowance,
       night,
       holiday,
+      postalCode,
     } = values;
-
-    console.log('valuess', values);
 
     try {
       let careGiverInput: any = {
@@ -156,7 +155,7 @@ export const CareGiverForm: FunctionComponent = () => {
         stateId: state && state.value ? state.value : undefined,
         countryId: country && country.value ? country.value : undefined,
         regionId: regionId ? `{${regionId.value}}` : undefined,
-        postalCode,
+        zipCode: postalCode,
         email,
         IBAN,
         employed,
@@ -176,9 +175,13 @@ export const CareGiverForm: FunctionComponent = () => {
                 )
                 .join(', ')}}`
             : null,
+        attributes:
+          attributeId && attributeId.length
+            ? attributeId.map(({ label }: IReactSelectInterface) => label)
+            : [],
         driverLicenseNumber,
-        driversLicense,
-        vehicleAvailable,
+        driversLicense: driversLicense ? true : false,
+        vehicleAvailable: vehicleAvailable ? true : false,
         legalForm: legalForm && legalForm.value ? legalForm.value : '',
         companyName,
         registrationNumber,
@@ -241,8 +244,8 @@ export const CareGiverForm: FunctionComponent = () => {
         .replace('GraphQL error: ', '');
       // setFieldError('email', message);
       toast.error(message);
-      setSubmitting(false);
     }
+    setSubmitting(false);
   };
   const [activeTab, setactiveTab] = useState(0);
 
@@ -265,8 +268,8 @@ export const CareGiverForm: FunctionComponent = () => {
     userName = '',
     qualifications = [],
     driverLicenseNumber = '',
-    driversLicense = false,
-    vehicleAvailable = false,
+    driversLicense = undefined,
+    vehicleAvailable = undefined,
     legalForm = undefined,
     companyName = '',
     registrationNumber = '',

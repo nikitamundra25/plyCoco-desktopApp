@@ -94,7 +94,6 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
 
   useEffect(() => {
     if (data) {
-      console.log('In use Effect');
       const Data: any = data;
       history.push(
         AppRoutes.CARE_INSTITUION_VIEW.replace(
@@ -109,6 +108,12 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
   ) => {
     //to set submit state to false after successful signup
+    let AttributeData: string[] = [];
+    if (values.attributeId && values.attributeId.length) {
+      values.attributeId.map((attribute: IReactSelectInterface) =>
+        AttributeData.push(attribute.label),
+      );
+    }
     try {
       const dataSubmit: any = {
         gender: values && values.gender ? values.gender.value : '',
@@ -121,8 +126,9 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         anonymousName2: values.anonymousName2,
         street: values.street,
         zipCode: values.zipCode,
-        countryId: values && values.country ? values.country.value : null,
-        stateId: values && values.state ? values.state.value : null,
+        countryId:
+          values && values.country ? parseInt(values.country.value) : null,
+        stateId: values && values.state ? parseInt(values.state.value) : null,
         remarks: values.remarks,
         website: values.website,
         email: values.email,
@@ -149,12 +155,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
                 )
                 .join(', ')}}`
             : null,
-        attributes:
-          values.attributeId && values.attributeId.length
-            ? `{${values.attributeId
-                .map((attribute: IReactSelectInterface) => attribute.value)
-                .join(', ')}}`
-            : null,
+        attributes: AttributeData,
       };
 
       await addCareInstitution({

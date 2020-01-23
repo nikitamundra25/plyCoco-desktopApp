@@ -74,9 +74,9 @@ export interface CareGiverValues {
   taxNumber?: String;
   bankName?: String;
   IBAN?: String;
-  driversLicense?: Boolean;
+  driversLicense?: string | undefined;
   driverLicenseNumber?: String;
-  vehicleAvailable?: Boolean;
+  vehicleAvailable?: string | undefined;
   socialSecurityContribution?: Boolean;
   workZones?: JSON;
   status?: String;
@@ -89,6 +89,7 @@ export interface CareGiverValues {
   legalForm?: IReactSelectInterface;
   legalFormValue?: IReactSelectInterface;
   qualifications?: IReactSelectInterface[];
+  attributeId?: IReactSelectInterface[];
   remarks?: JSON;
   comments?: String;
   nightAllowance?: IReactSelectInterface;
@@ -105,6 +106,10 @@ export interface ICareGiverValidationInterface {
   phoneNumber?: string;
   mobileNumber?: string;
   userName?: string;
+  fee?: string;
+  night?: string;
+  weekendAllowance?: string;
+  holiday?: string;
 }
 
 export interface IEmailMenus<
@@ -194,14 +199,14 @@ export interface ICareGiverValues {
   taxNumber?: String;
   bankName?: String;
   IBAN?: String;
-  driversLicense?: Boolean;
+  driversLicense?: string | undefined;
   driverLicenseNumber?: String;
-  vehicleAvailable?: Boolean;
+  vehicleAvailable?: string | undefined;
   socialSecurityContribution?: Boolean;
   workZones?: JSON;
   status?: String;
   belongTo?: IReactSelectInterface;
-  employed?: Boolean;
+  employed?: boolean | undefined;
   companyName?: String;
   registrationNumber?: String;
   registerCourt?: String;
@@ -210,6 +215,7 @@ export interface ICareGiverValues {
   legalForm?: IReactSelectInterface;
   legalFormValue?: IReactSelectInterface;
   qualifications?: IReactSelectInterface[];
+  attributeId?: IReactSelectInterface[];
   remarks?: ICareInstitutionRemarks[];
   comments?: String;
   invoiceInterval?: IReactSelectInterface;

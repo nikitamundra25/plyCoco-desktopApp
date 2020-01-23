@@ -453,7 +453,7 @@ body {
   .brand-logo {
     min-width: 170px;
     img {
-      width: 100%;
+      width: 150px;
       height: auto;
     }
   }
@@ -942,6 +942,9 @@ body {
       font-size: $font_10;
       color: $red;
       line-height: 11px;
+      &.left {
+        left: 0px;
+      }
     }
 
     .form-control {
@@ -1379,6 +1382,10 @@ body {
       position: relative;
       display: flex;
       align-items: center;
+      justify-content: center;
+      img {
+        max-height: 100%;
+      }
     }
     .description-column {
       letter-spacing: 0px;
@@ -1642,6 +1649,17 @@ body {
     padding: 15px;
     align-items: center;
     border: 1px solid #ccc;
+    .region-list {
+      .region-text {
+        margin-bottom: 2px;
+        font-size: $font_12;
+        color: $black;
+
+        font-weight: 600;
+        word-break: break-word;
+        margin-bottom: 0px;
+      }
+    }
   }
 }
 .custom-tabs {

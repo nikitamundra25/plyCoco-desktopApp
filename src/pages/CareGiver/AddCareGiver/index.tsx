@@ -194,6 +194,10 @@ export const CareGiverForm: FunctionComponent = () => {
         weekendAllowance: weekendAllowance ? parseInt(weekendAllowance) : null,
         holiday: holiday ? parseInt(holiday) : null,
         night: night ? parseInt(night) : null,
+        invoiceInterval:
+          invoiceInterval && invoiceInterval.value
+            ? invoiceInterval.value
+            : null,
         // remarks: remarks && remarks.length ? remarks : [],
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],

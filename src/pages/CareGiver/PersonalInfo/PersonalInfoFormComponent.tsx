@@ -454,7 +454,7 @@ const PersonalInfoFormComponent: any = (
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={'postCode'}
+                    name={'postalCode'}
                     placeholder='Postal Code'
                     className=' width-common'
                   />

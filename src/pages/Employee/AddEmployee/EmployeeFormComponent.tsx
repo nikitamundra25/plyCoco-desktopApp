@@ -192,7 +192,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     value={firstName}
                                     className={
                                       errors.firstName && touched.firstName
-                                        ? 'text-input error '
+                                        ? 'text-input error text-capitalize'
                                         : 'text-input text-capitalize'
                                     }
                                   />
@@ -231,7 +231,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     value={lastName}
                                     className={
                                       errors.lastName && touched.lastName
-                                        ? 'text-input error'
+                                        ? 'text-input error text-capitalize'
                                         : 'text-input text-capitalize'
                                     }
                                   />

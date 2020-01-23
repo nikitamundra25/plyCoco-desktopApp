@@ -169,6 +169,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               <div className='common-topheader d-flex align-items-center '>
                 <div className='user-select'>
                   <Select
+                  classNamePrefix="react-select"
                     defaultValue={selectUser}
                     placeholder='Select Caregiver'
                     value={selectUser}

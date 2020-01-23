@@ -444,8 +444,8 @@ const Employee: FunctionComponent = () => {
                         </div>
                       </td>
                       <td>
-                        <div className="description-column one-line-text  ml-0 text-capitalize">
-                          {regions.length
+                        <div className="description-column region-column one-line-text  ml-0 text-capitalize">
+                          {regions
                             ? regions.map((region: any, index: number) => {
                                 return (
                                   <p className="description-text" key={index}>

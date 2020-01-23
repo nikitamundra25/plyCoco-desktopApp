@@ -155,7 +155,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       nightAllowance,
       weekendAllowance,
       night,
-      holiday
+      holiday,
+      leasingPricingList,
+      invoiceInterval
     } = values;
     try {
       let careGiverInput: any = {
@@ -170,9 +172,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         address1,
         address2,
         driversLicense: driversLicense === "true" ? true : false,
-        vehicleAvailable: vehicleAvailable === "true" ? true : false,
         driverLicenseNumber,
         IBAN: values.IBAN,
+        vehicleAvailable: vehicleAvailable === "true" ? true : false,
         qualificationId:
           qualifications && qualifications.length
             ? `{${qualifications
@@ -199,7 +201,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         bankName,
         password,
         // belongTo,
-        legalForm: legalForm,
+        legalForm: legalForm && legalForm.value ? legalForm.label : null,
         companyName,
         registerCourt,
         registrationNumber,
@@ -210,11 +212,19 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         remarks,
         fee: fee ? parseInt(fee) : null,
         nightAllowance:
-          nightAllowance && nightAllowance.value ? nightAllowance.value : null,
+          nightAllowance && nightAllowance.value ? nightAllowance.label : null,
         weekendAllowance: weekendAllowance ? parseInt(weekendAllowance) : null,
         holiday: holiday ? parseInt(holiday) : null,
         night: night ? parseInt(night) : null,
-        regionId: regionId && regionId.value ? `{${regionId.value}}` : null
+        regionId: regionId && regionId.value ? `{${regionId.value}}` : null,
+        invoiceInterval:
+          invoiceInterval && invoiceInterval.value
+            ? invoiceInterval.label
+            : null,
+        leasingPricingList:
+          leasingPricingList && leasingPricingList.value
+            ? leasingPricingList.label
+            : null
       };
       // Edit employee details
       if (id) {
@@ -253,10 +263,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     belongTo = "",
     legalForm = "",
     status = "active",
-    invoiceInterval = "",
     qualifications = [],
     caregiver = {}
   } = props.getCaregiver ? props.getCaregiver : {};
+
+  const { nightAllowance, leasingPricingList, invoiceInterval } = caregiver;
   const qualificationsData: IReactSelectInterface[] | undefined = [];
   if (qualifications) {
     qualifications.forEach(({ attributeName, id }: any) => {
@@ -437,7 +448,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.remarks
         : [],
-    invoiceInterval,
+    invoiceInterval: invoiceInterval
+      ? { label: invoiceInterval, value: invoiceInterval }
+      : undefined,
     qualifications: qualificationsData,
     fee:
       props.getCaregiver &&
@@ -445,12 +458,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       props.getCaregiver.caregiver.fee
         ? props.getCaregiver.caregiver.fee
         : null,
-    nightAllowance:
-      props.getCaregiver &&
-      props.getCaregiver.caregiver &&
-      props.getCaregiver.caregiver.nightAllowance
-        ? props.getCaregiver.caregiver.nightAllowance
-        : null,
+    nightAllowance: nightAllowance
+      ? { label: nightAllowance, value: nightAllowance }
+      : undefined,
+    leasingPricingList: leasingPricingList
+      ? { label: leasingPricingList, value: leasingPricingList }
+      : undefined,
     weekendAllowance:
       props.getCaregiver &&
       props.getCaregiver.caregiver &&

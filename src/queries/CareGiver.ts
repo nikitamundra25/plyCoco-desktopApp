@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
@@ -50,7 +50,9 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       phoneNumber
       fee
       holiday
-      invoiceInterval
+      invoiceInterval,
+      leasingPricingList
+      night
     }
     regions{
       id
@@ -117,9 +119,9 @@ export const GET_CAREGIVERS = gql`
           street
           title
         }
-        regions{
+        regions {
           id
-         regionName
+          regionName
         }
       }
       totalCount
@@ -175,6 +177,8 @@ export const GET_CAREGIVER_BY_ID = gql`
         holiday
         invoiceInterval
         attributes
+        night
+        leasingPricingList
       }
       qualifications {
         id

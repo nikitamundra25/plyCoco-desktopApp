@@ -1,11 +1,17 @@
 import * as Yup from "yup";
-import { CareGiverValues, IDateResponse, IRemark, ICareGiverValidationInterface } from "../interfaces";
+import {
+  CareGiverValues,
+  IDateResponse,
+  IRemark,
+  ICareGiverValidationInterface
+} from "../interfaces";
 import { languageTranslation, dateValidator } from "../helpers";
-import { nameRegExp, telephoneReqExp } from "../config";
+import { nameRegExp, telephoneReqExp, telMin, telMax } from "../config";
 
-export const CareGiverValidationSchema: Yup.ObjectSchema<
-  Yup.Shape<object, ICareGiverValidationInterface>
-> = Yup.object().shape<ICareGiverValidationInterface>({
+export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
+  object,
+  ICareGiverValidationInterface
+>> = Yup.object().shape<ICareGiverValidationInterface>({
   firstName: Yup.string()
     .trim()
     .matches(nameRegExp, languageTranslation("FIRSTNAME_SPECIALCHARACTER"))
@@ -22,19 +28,26 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<
     .required(languageTranslation("REQUIRED_EMAIL")),
   dateOfBirth: Yup.mixed().test({
     name: "validate-date",
-    test: function (val) {
+    test: function(val) {
       const { path, createError } = this;
       const { isValid, message }: IDateResponse = dateValidator(val);
       return !val || isValid || createError({ path, message });
     }
   }),
-  phoneNumber: Yup.string()
-    .min(10)
-    .max(13),
-  mobileNumber: Yup.string()
-    .min(10)
-    .max(13),
+  phoneNumber: Yup.mixed()
+    .test(
+      "check-num",
+      languageTranslation("PHONE_NUMERROR"),
+      value => !value || (value && !isNaN(value))
+    )
+    .test(
+      "num-length",
+      languageTranslation("PHONE_NUM_ERROR"),
+      value =>
+        !value || (value && value.length >= telMin && value.length <= telMax)
+    ),
+  mobileNumber: Yup.string().min(10, languageTranslation("MOBILE_NUM_ERROR")),
   userName: Yup.string()
     .trim()
-    .required(languageTranslation("USERNAME_REQUIRED")),
+    .required(languageTranslation("USERNAME_REQUIRED"))
 });

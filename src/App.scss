@@ -938,6 +938,9 @@ body {
       font-size: $font_10;
       color: $red;
       line-height: 11px;
+      &.left {
+        left: 0px;
+      }
     }
 
     .form-control {

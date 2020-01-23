@@ -64,12 +64,12 @@ export default {
     {
       name: languageTranslation("MENU_DOCUMENT_UPLOADS"),
       icon: "icon-upload",
-      url: AppRoutes.HOME,
+      url: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
       children: [
         {
           name: languageTranslation("MENU_DOCUMENT_WORKING_PROOF"),
           icon: "icon-working-list",
-          url: AppRoutes.HOME
+          url: AppRoutes.DOCUMENT_TEMPLATE_WORKING
         },
         {
           name: languageTranslation("MENU_DOCUMENT_STICK_NOTES"),

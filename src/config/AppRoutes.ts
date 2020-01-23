@@ -39,5 +39,6 @@ export const AppRoutes: IAppRoutes = {
   CARE_INSTITUTION: "/care-institution",
   CARE_INSTITUION_VIEW: "/care-institution/view/:id",
   CAREGIVER_TODO: "/caregiver-todo",
-  CARE_INSTITUTION_TODO: "/care-institution-todo"
+  CARE_INSTITUTION_TODO: "/care-institution-todo",
+  DOCUMENT_TEMPLATE_WORKING: "/working-proof"
 };

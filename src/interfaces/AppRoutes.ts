@@ -38,5 +38,6 @@ export interface IAppRoutes {
   CARE_INSTITUION_VIEW: string;
   CAREGIVER_TODO: string;
   CARE_INSTITUTION_TODO: string;
+  DOCUMENT_TEMPLATE_WORKING: string;
   // CAREGIVER_TODO: string;
 }

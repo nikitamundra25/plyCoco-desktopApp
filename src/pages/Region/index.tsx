@@ -208,7 +208,9 @@ export const Region: FunctionComponent = () => {
               <th className="text-center">
                 {languageTranslation("CURRENT_ONGOING_APPOINTMENTS_COUNTER")}
               </th>
-              <th>{languageTranslation("CREATED_DATE")}</th>
+              <th className="date-th-column">
+                {languageTranslation("CREATED_DATE")}
+              </th>
               {/* <th className="text-center">Action</th> */}
             </tr>
           </thead>

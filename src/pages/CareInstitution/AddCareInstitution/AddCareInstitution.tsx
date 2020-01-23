@@ -1,4 +1,4 @@
-import React, { Component, useEffect, FunctionComponent } from 'react';
+import React, { Component, useEffect, FunctionComponent } from "react";
 import {
   Button,
   FormGroup,
@@ -8,14 +8,14 @@ import {
   CardBody,
   Input,
   Col,
-  Row,
-} from 'reactstrap';
-import Select from 'react-select';
-import { AppBreadcrumb } from '@coreui/react';
-import routes from '../../../routes/routes';
-import { FormikProps, Field, Form, Formik, FormikHelpers } from 'formik';
-import { languageTranslation, logger } from '../../../helpers';
-import { State, Region, Salutation, Country, Gender } from '../../../config';
+  Row
+} from "reactstrap";
+import Select from "react-select";
+import { AppBreadcrumb } from "@coreui/react";
+import routes from "../../../routes/routes";
+import { FormikProps, Field, Form, Formik, FormikHelpers } from "formik";
+import { languageTranslation, logger } from "../../../helpers";
+import { State, Region, Salutation, Country, Gender } from "../../../config";
 import {
   ICareInstitutionFormValues,
   ICountries,
@@ -23,17 +23,17 @@ import {
   ICountry,
   IStates,
   IState,
-  IRegion,
-} from '../../../interfaces';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+  IRegion
+} from "../../../interfaces";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 // import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
-import { CountryQueries, CareInstitutionQueries } from '../../../queries';
-import CommissionFormData from '../PersonalInfo/PersonalInfoForm/CommissionFormData';
-import InvoiceFormData from '../PersonalInfo/PersonalInfoForm/InvoiceFormData';
-import QuallificationAttribute from '../PersonalInfo/PersonalInfoForm/QuallificationAttribute';
-import RemarkFormData from '../PersonalInfo/PersonalInfoForm/RemarkFormData';
-import { RegionQueries } from '../../../queries/Region';
-import '../careinstitution.scss';
+import { CountryQueries, CareInstitutionQueries } from "../../../queries";
+import CommissionFormData from "../PersonalInfo/PersonalInfoForm/CommissionFormData";
+import InvoiceFormData from "../PersonalInfo/PersonalInfoForm/InvoiceFormData";
+import QuallificationAttribute from "../PersonalInfo/PersonalInfoForm/QuallificationAttribute";
+import RemarkFormData from "../PersonalInfo/PersonalInfoForm/RemarkFormData";
+import { RegionQueries } from "../../../queries/Region";
+import "../careinstitution.scss";
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -45,39 +45,39 @@ const AddCareInstitution: FunctionComponent<FormikProps<
 }> = (
   props: FormikProps<ICareInstitutionFormValues> & {
     qualificationList: IReactSelectInterface[] | undefined;
-  },
+  }
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
+    logger(selectOption, "value");
     setFieldValue(name, selectOption);
-    if (name === 'country') {
+    if (name === "country") {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
+      logger(statesData, "sdsdsdsd");
     }
   };
   // Region Data
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
   //Region List Data
   const regionOptions: IReactSelectInterface[] | undefined = [];
@@ -85,8 +85,8 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
   const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
@@ -98,8 +98,8 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3,
-      },
+        sortBy: 3
+      }
     });
     fetchCareInstitutionList({
       variables: {
@@ -107,8 +107,8 @@ const AddCareInstitution: FunctionComponent<FormikProps<
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: '',
-      },
+        isActive: ""
+      }
     });
   }, []);
   let CareInstitutionList: Object[] = [];
@@ -117,8 +117,8 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     const { careInstitutionData } = getCareInstitutions;
     careInstitutionData.map((data: any, index: any) => {
       CareInstitutionList.push({
-        label: `${data.firstName}${' '}${data.lastName}`,
-        value: data.id,
+        label: `${data.firstName}${" "}${data.lastName}`,
+        value: data.id
       });
       return true;
     });
@@ -150,7 +150,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
       anonymousName,
       id,
       regionId,
-      createdAt,
+      createdAt
     },
     touched,
     errors,
@@ -159,40 +159,40 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched,
+    setFieldTouched
   } = props;
-  console.log('props.err', props);
+  console.log("props.err", props);
 
   return (
-    <Row className=' '>
+    <Row className=" ">
       <Button
         disabled={isSubmitting}
-        id={'caregiver-add-btn'}
+        id={"caregiver-add-btn"}
         onClick={handleSubmit}
-        color={'primary'}
-        className={'save-button'}
+        color={"primary"}
+        className={"save-button"}
       >
-        {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
-        {languageTranslation('SAVE_BUTTON')}
+        {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+        {languageTranslation("SAVE_BUTTON")}
       </Button>
-      <Col lg={'4'}>
-        <div className='form-card h-100'>
+      <Col lg={"4"}>
+        <div className="form-card h-100">
           <Row>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REGION')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REGION")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Select
-                        placeholder={languageTranslation('REGION', 'STATE')}
+                        placeholder={languageTranslation("REGION", "STATE")}
                         value={regionId ? regionId : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'regionId')
+                          handleSelect(value, "regionId")
                         }
                         options={regionOptions}
                       />
@@ -201,46 +201,46 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
-                <Row className=''>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('GENDER')}
+                <Row className="">
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("GENDER")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <Row className='custom-col inner-no-padding-col'>
-                      <Col sm='5'>
+                  <Col sm="8">
+                    <Row className="custom-col inner-no-padding-col">
+                      <Col sm="5">
                         <div>
                           <Select
-                            placeholder={languageTranslation('GENDER')}
+                            placeholder={languageTranslation("GENDER")}
                             value={gender ? gender : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'gender')
+                              handleSelect(value, "gender")
                             }
                             options={Gender}
                           />
                         </div>
                       </Col>
-                      <Col sm='7'>
+                      <Col sm="7">
                         <FormGroup>
-                          <Row className='custom-col inner-no-padding-col d-flex'>
-                            <Col sm='6'>
-                              <Label className='form-label col-form-label inner-label'>
-                                {languageTranslation('TITLE')}
+                          <Row className="custom-col inner-no-padding-col d-flex">
+                            <Col sm="6">
+                              <Label className="form-label col-form-label inner-label">
+                                {languageTranslation("TITLE")}
                               </Label>
                             </Col>
-                            <Col sm='6'>
+                            <Col sm="6">
                               <div>
                                 <Input
-                                  type='text'
-                                  name={'title'}
+                                  type="text"
+                                  name={"title"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={title}
-                                  placeholder={languageTranslation('TITLE')}
-                                  className='width-common'
+                                  placeholder={languageTranslation("TITLE")}
+                                  className="width-common"
                                 />
                               </div>
                             </Col>
@@ -252,21 +252,21 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('SALUTATION')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("SALUTATION")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Select
-                        placeholder={languageTranslation('SALUTATION')}
+                        placeholder={languageTranslation("SALUTATION")}
                         value={salutation ? salutation : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'salutation')
+                          handleSelect(value, "salutation")
                         }
                         options={Salutation}
                       />
@@ -275,160 +275,160 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('FIRST_NAME')}
-                      <span className='required'>*</span>
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("FIRST_NAME")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'firstName'}
+                        type="text"
+                        name={"firstName"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={firstName}
-                        placeholder={languageTranslation('FIRST_NAME')}
+                        placeholder={languageTranslation("FIRST_NAME")}
                         className={
                           errors.firstName && touched.firstName
-                            ? 'text-input error text-capitalize'
-                            : 'text-input text-capitalize'
+                            ? "text-input error text-capitalize"
+                            : "text-input text-capitalize"
                         }
                       />
                       {errors.firstName && touched.firstName && (
-                        <div className='required-error'>{errors.firstName}</div>
+                        <div className="required-error">{errors.firstName}</div>
                       )}
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('SURNAME')}
-                      <span className='required'>*</span>
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("SURNAME")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'lastName'}
+                        type="text"
+                        name={"lastName"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={lastName}
-                        placeholder={languageTranslation('SURNAME')}
+                        placeholder={languageTranslation("SURNAME")}
                         className={
                           errors.lastName && touched.lastName
-                            ? 'text-input error text-capitalize'
-                            : 'text-input text-capitalize'
+                            ? "text-input error text-capitalize"
+                            : "text-input text-capitalize"
                         }
                       />
                       {errors.lastName && touched.lastName && (
-                        <div className='required-error'>{errors.lastName}</div>
+                        <div className="required-error">{errors.lastName}</div>
                       )}
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('SHORT_NAME')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("SHORT_NAME")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'shortName'}
+                        type="text"
+                        name={"shortName"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={shortName}
-                        placeholder={languageTranslation('SHORT_NAME')}
-                        className='width-common'
+                        placeholder={languageTranslation("SHORT_NAME")}
+                        className="width-common"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('COMPANY_NAME')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("COMPANY_NAME")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'companyName'}
+                        type="text"
+                        name={"companyName"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={companyName}
-                        placeholder={languageTranslation('COMPANY_NAME')}
-                        className='width-common'
+                        placeholder={languageTranslation("COMPANY_NAME")}
+                        className="width-common"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('ANONYMOUS_NAME')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("ANONYMOUS_NAME")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'anonymousName'}
+                        type="text"
+                        name={"anonymousName"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={anonymousName}
-                        placeholder={languageTranslation('ANONYMOUS_NAME')}
-                        className='width-common'
+                        placeholder={languageTranslation("ANONYMOUS_NAME")}
+                        className="width-common"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('ANONYMOUS_NAME2')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("ANONYMOUS_NAME2")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'anonymousName2'}
+                        type="text"
+                        name={"anonymousName2"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={anonymousName2}
-                        placeholder={languageTranslation('ANONYMOUS_NAME2')}
-                        className='width-common'
+                        placeholder={languageTranslation("ANONYMOUS_NAME2")}
+                        className="width-common"
                       />
                     </div>
                   </Col>
@@ -436,94 +436,94 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               </FormGroup>
             </Col>
 
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('STREET')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("STREET")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'street'}
+                        type="text"
+                        name={"street"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={street}
-                        placeholder={languageTranslation('STREET')}
-                        className=' width-common'
+                        placeholder={languageTranslation("STREET")}
+                        className=" width-common"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('CITY')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("CITY")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'city'}
+                        type="text"
+                        name={"city"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={city}
-                        placeholder={languageTranslation('CITY')}
-                        className=' width-common'
+                        placeholder={languageTranslation("CITY")}
+                        className=" width-common"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('ZIP')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("ZIP")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'zipCode'}
+                        type="text"
+                        name={"zipCode"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={zipCode}
-                        placeholder={languageTranslation('ZIP')}
-                        className=' width-common'
+                        placeholder={languageTranslation("ZIP")}
+                        className=" width-common"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('COUNTRY')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("COUNTRY")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Select
-                        placeholder={languageTranslation('COUNTRY')}
+                        placeholder={languageTranslation("COUNTRY")}
                         options={countriesOpt}
                         value={country ? country : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'country')
+                          handleSelect(value, "country")
                         }
                       />
                     </div>
@@ -531,23 +531,23 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('STATE')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("STATE")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Select
-                        placeholder={languageTranslation('STATE')}
+                        placeholder={languageTranslation("STATE")}
                         options={statesOpt}
                         value={state ? state : undefined}
-                        onChange={(value: any) => handleSelect(value, 'state')}
+                        onChange={(value: any) => handleSelect(value, "state")}
                         noOptionsMessage={() => {
-                          return 'Select a country first';
+                          return "Select a country first";
                         }}
                       />
                     </div>
@@ -555,32 +555,32 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('PHONE')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("PHONE")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'phoneNumber'}
+                        type="text"
+                        name={"phoneNumber"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={phoneNumber}
-                        placeholder={languageTranslation('PHONE')}
+                        placeholder={languageTranslation("PHONE")}
                         // className="width-common"
                         className={
                           errors.mobileNumber && touched.mobileNumber
-                            ? 'width-common text-input error'
-                            : 'width-common text-input'
+                            ? "width-common text-input error"
+                            : "width-common text-input"
                         }
                       />
                       {errors.phoneNumber && touched.phoneNumber && (
-                        <div className='required-error'>
+                        <div className="required-error">
                           {errors.phoneNumber}
                         </div>
                       )}
@@ -590,55 +590,55 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               </FormGroup>
             </Col>
 
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('FAX')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("FAX")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'fax'}
+                        type="text"
+                        name={"fax"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={fax}
-                        placeholder={languageTranslation('FAX')}
-                        className='width-common'
+                        placeholder={languageTranslation("FAX")}
+                        className="width-common"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('MOBILE')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("MOBILE")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'mobileNumber'}
+                        type="text"
+                        name={"mobileNumber"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={mobileNumber}
-                        placeholder={languageTranslation('MOBILE')}
+                        placeholder={languageTranslation("MOBILE")}
                         className={
                           errors.mobileNumber && touched.mobileNumber
-                            ? 'text-input error'
-                            : 'text-input'
+                            ? "text-input error"
+                            : "text-input"
                         }
                       />
                       {errors.mobileNumber && touched.mobileNumber && (
-                        <div className='required-error'>
+                        <div className="required-error">
                           {errors.mobileNumber}
                         </div>
                       )}
@@ -647,103 +647,103 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('EMAIL')}
-                      <span className='required'>*</span>
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("EMAIL")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'email'}
+                        type="text"
+                        name={"email"}
                         onChange={handleChange}
                         value={email}
                         onBlur={(e: any) => {
                           //get string before a @ to set username
                           const username = email
-                            ? email.substring(0, email.indexOf('@'))
-                            : '';
+                            ? email.substring(0, email.indexOf("@"))
+                            : "";
 
-                          setFieldValue('userName', username);
+                          setFieldValue("userName", username);
                           handleBlur(e);
                         }}
-                        placeholder={languageTranslation('EMAIL')}
+                        placeholder={languageTranslation("EMAIL")}
                         className={
                           errors.email && touched.email
-                            ? 'text-input error'
-                            : 'text-input'
+                            ? "text-input error"
+                            : "text-input"
                         }
                       />
                       {errors.email && touched.email && (
-                        <div className='required-error'>{errors.email}</div>
+                        <div className="required-error">{errors.email}</div>
                       )}
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('USERNAME')}
-                      <span className='required'>*</span>
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("USERNAME")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'userName'}
+                        type="text"
+                        name={"userName"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={userName}
-                        placeholder={languageTranslation('USERNAME')}
+                        placeholder={languageTranslation("USERNAME")}
                         className={
                           errors.userName && touched.userName
-                            ? 'text-input error'
-                            : 'text-input'
+                            ? "text-input error"
+                            : "text-input"
                         }
                       />
                       {errors.userName && touched.userName && (
-                        <div className='required-error'>{errors.userName}</div>
+                        <div className="required-error">{errors.userName}</div>
                       )}
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('WEBSITE')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("WEBSITE")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'website'}
+                        type="text"
+                        name={"website"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={website}
-                        placeholder={languageTranslation('WEBSITE')}
+                        placeholder={languageTranslation("WEBSITE")}
                         className={
                           errors.website && touched.website
-                            ? 'text-input error'
-                            : 'text-input'
+                            ? "text-input error"
+                            : "text-input"
                         }
                       />
                       {errors.website && touched.website && (
-                        <div className='required-error'>{errors.website}</div>
+                        <div className="required-error">{errors.website}</div>
                       )}
                     </div>
                   </Col>
@@ -751,18 +751,18 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               </FormGroup>
             </Col>
 
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('LIKED_TO')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("LIKED_TO")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Select
-                        placeholder={languageTranslation('LIKED_TO')}
+                        placeholder={languageTranslation("LIKED_TO")}
                         options={CareInstitutionList}
                       />
                     </div>
@@ -770,26 +770,26 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARKS')} (
-                      {languageTranslation('FOR_CANSTITUTION_VIEWBLE')})
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REMARKS")} (
+                      {languageTranslation("FOR_CANSTITUTION_VIEWBLE")})
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='textarea'
-                        name={'remarksViewable'}
+                        type="textarea"
+                        name={"remarksViewable"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={remarksViewable}
-                        placeholder={languageTranslation('REMARKS')}
-                        className='textarea-custom'
-                        rows='4'
+                        placeholder={languageTranslation("REMARKS")}
+                        className="textarea-custom"
+                        rows="4"
                       />
                     </div>
                   </Col>
@@ -799,8 +799,8 @@ const AddCareInstitution: FunctionComponent<FormikProps<
           </Row>
         </div>
       </Col>
-      <Col lg={'4'}>
-        <div className='common-col'>
+      <Col lg={"4"} className="px-lg-0">
+        <div className="common-col">
           <CommissionFormData {...props} handleSelect={handleSelect} />
           <InvoiceFormData {...props} handleSelect={handleSelect} />
           <QuallificationAttribute

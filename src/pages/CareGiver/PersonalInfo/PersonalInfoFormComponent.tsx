@@ -292,7 +292,7 @@ const PersonalInfoFormComponent: any = (
                     component={FormikTextField}
                     name={"firstName"}
                     placeholder={languageTranslation("FIRST_NAME")}
-                    className="width-common text-capitalize"
+                    className="width-common  "
                   />
                 </div>
                 {/* <Button  className="alfabate-btn btn">N</Button> */}

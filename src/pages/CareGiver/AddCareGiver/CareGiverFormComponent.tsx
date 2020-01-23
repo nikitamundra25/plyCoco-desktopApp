@@ -94,7 +94,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
         <Col lg={"4"}>
           <PersonalInfoFormComponent {...props} />
         </Col>
-        <Col lg={"4"}>
+        <Col lg={"4"} className="px-lg-0">
           <div className="common-col">
             <BillingSettingsFormComponent {...props} />
             <div className="quality-attribute-section d-flex flex-column">

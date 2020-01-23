@@ -355,9 +355,7 @@ const CareGiver: FunctionComponent = () => {
                   <th className="qualifications-th-column">
                     {languageTranslation("TABEL_HEAD_CG_QUALIFICATION")}
                   </th>
-                  <th className="region-th-column">
-                    {languageTranslation("TABEL_HEAD_CG_REGION")}
-                  </th>
+                  <th>{languageTranslation("TABEL_HEAD_CG_REGION")}</th>
                   <th className="applying-th-column">
                     {languageTranslation("TABEL_HEAD_CG_APPLYING_AS")}
                   </th>

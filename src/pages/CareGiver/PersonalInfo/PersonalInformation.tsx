@@ -145,7 +145,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       leasingPricingList,
       invoiceInterval
     } = values;
- 
+
     try {
       let careGiverInput: any = {
         userName,
@@ -533,7 +533,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                   CareInstitutionList={usersList}
                 />
               </Col>
-              <Col lg={"4"}>
+              <Col lg={"4"} className="px-lg-0">
                 <div className="common-col">
                   <BillingSettingsFormComponent {...props} />
                   <div className="quality-attribute-section d-flex flex-column">

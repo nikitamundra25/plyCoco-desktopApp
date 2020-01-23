@@ -25,6 +25,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       mobileNumber
       countryId
       stateId
+      zipCode
       employed
       salutation
       dateOfBirth
@@ -104,6 +105,7 @@ export const GET_CAREGIVERS = gql`
           mobileNumber
           countryId
           stateId
+          zipCode
           legalForm
           employed
           comments

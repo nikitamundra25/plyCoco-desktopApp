@@ -30,7 +30,7 @@ import {
 import { RouteComponentProps } from 'react-router';
 import PaginationComponent from '../../common/Pagination';
 import * as qs from 'query-string';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 import Search from '../../common/SearchFilter';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { languageTranslation, logger } from '../../helpers';
@@ -249,30 +249,6 @@ const CareInstitution = (props: RouteComponentProps) => {
         toast.success(
           languageTranslation('CARE_INSTITUTION_DELETE_SUCCESS_MSG'),
         );
-        // const data = await client.readQuery({
-        //   query: GET_CARE_INSTITUTION_LIST,
-        //   variables: queryVariables,
-        // });
-        // logger(data, 'data');
-        // const newData = data.getCareInstitutions.careInstitutionData.filter(
-        //   (user: any) => user.id !== id,
-        // );
-        // logger(newData, 'newData');
-
-        // const updatedData = {
-        //   ...data,
-        //   getCareInstitutions: {
-        //     ...data.getCareInstitutions,
-        //     careInstitutionData: newData,
-        //     totalCount: newData.length,
-        //   },
-        // };
-
-        // client.writeQuery({
-        //   query: GET_CARE_INSTITUTION_LIST,
-        //   variables: queryVariables,
-        //   data: updatedData,
-        // });
       } catch (error) {
         console.log(error, 'errorerrorerror');
 

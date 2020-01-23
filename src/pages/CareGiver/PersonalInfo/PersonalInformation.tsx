@@ -170,6 +170,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         address2,
         driversLicense,
         driverLicenseNumber,
+        IBAN: values.IBAN,
         vehicleAvailable,
         qualificationId:
           qualifications && qualifications.length
@@ -298,15 +299,20 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     }
   }
 
-  let selectedAttributes: IReactSelectInterface[] = []
-    if (props.getCaregiver && props.getCaregiver.caregiver && props.getCaregiver.caregiver.attributes && props.getCaregiver.caregiver.attributes .length) {
-      props.getCaregiver.caregiver.attributes .map((attData: string) => {
-        selectedAttributes.push({
-          label: attData,
-          value: attData
-        })
-      })
-    }
+  let selectedAttributes: IReactSelectInterface[] = [];
+  if (
+    props.getCaregiver &&
+    props.getCaregiver.caregiver &&
+    props.getCaregiver.caregiver.attributes &&
+    props.getCaregiver.caregiver.attributes.length
+  ) {
+    props.getCaregiver.caregiver.attributes.map((attData: string) => {
+      selectedAttributes.push({
+        label: attData,
+        value: attData
+      });
+    });
+  }
 
   const initialValues: ICareGiverValues = {
     id,
@@ -318,10 +324,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : null,
     firstName,
     lastName,
-    phoneNumber: props.getCaregiver ? props.getCaregiver.phoneNumber:"",
-    dateOfBirth: props.getCaregiver && props.getCaregiver.caregiver
-    ? props.getCaregiver.caregiver.dateOfBirth
-    : null,
+    phoneNumber: props.getCaregiver ? props.getCaregiver.phoneNumber : "",
+    dateOfBirth:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.dateOfBirth
+        : null,
     age:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.age
@@ -481,12 +488,17 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         return (
           <Form className="form-section forms-main-section">
             <Button
-              disabled={false}
+              disabled={props.isSubmitting}
               id={"caregiver-add-btn"}
               onClick={props.handleSubmit}
               color={"primary"}
               className={"save-button"}
             >
+              {props.isSubmitting ? (
+                <i className="fa fa-spinner fa-spin loader" />
+              ) : (
+                ""
+              )}
               {languageTranslation("SAVE_BUTTON")}
             </Button>
             <Row>

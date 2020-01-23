@@ -117,6 +117,10 @@ export const GET_CAREGIVERS = gql`
           street
           title
         }
+        regions{
+          id
+         regionName
+        }
       }
       totalCount
     }

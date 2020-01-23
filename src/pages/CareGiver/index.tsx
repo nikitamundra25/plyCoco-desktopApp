@@ -450,15 +450,15 @@ const CareGiver: FunctionComponent = () => {
                           <td>
                             <div className="description-column  ml-0">
                               {careGiverData &&
-                              careGiverData.caregiverDetails &&
-                              careGiverData.caregiverDetails.workZones ? (
-                                careGiverData.caregiverDetails.workZones.map(
-                                  (wZ: string) => (
+                              careGiverData.regions &&
+                              careGiverData.regions.length ? (
+                                careGiverData.regions.map(
+                                  (wZ: any) => (
                                     <p className="description-text ">
                                       <span className="text-label mr-1">
                                         <i className="fa fa-angle-right"></i>
                                       </span>
-                                      <span className="align-middle">{wZ}</span>
+                                      <span className="align-middle">{wZ.regionName}</span>
                                     </p>
                                   )
                                 )

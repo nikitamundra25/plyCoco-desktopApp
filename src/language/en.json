@@ -463,7 +463,7 @@
   "ENTER_VALID_WEB_URL": "Enter proper website url with http://",
   "REGION_SPECIALCHAR": "Special characters are not allowed in region name",
   "SEARCH_CARE_INSTI_PLACEHOLDER": "By care institution name or email",
-  "TABEL_HEAD_CG_INFO": "CareGiver Information",
+  "TABEL_HEAD_CG_INFO": "Care Giver Information",
   "TABEL_HEAD_CG_QUALIFICATION": "Qualifications",
   "TABEL_HEAD_CG_REGION": "Regions",
   "TABEL_HEAD_CG_APPLYING_AS": "Applying as",
@@ -472,5 +472,5 @@
   "TABEL_HEAD_CG_ACTION": "Action",
   "CAREGIVER_ADD_SUCCESS_MSG": "Care Giver added sucessfully",
   "CARE_GIVER_UPDATED_SUCCESS": "Care Giver updated sucessfully",
-  "CARE_GIVER_LEASING_UPDATE_SUCCESS": "Leasing info saved successfully"
+  "CARE_GIVER_LEASING_UPDATE_SUCCESS": "Leasing Personal Data saved successfully"
 }

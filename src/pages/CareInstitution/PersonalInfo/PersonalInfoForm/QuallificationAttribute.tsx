@@ -16,100 +16,105 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
   IHandleSelectInterface & {
     qualificationList: IReactSelectInterface[] | undefined;
   }> = (
-  props: FormikProps<ICareInstitutionFormValues> &
-    IHandleSelectInterface & {
-      qualificationList: IReactSelectInterface[] | undefined;
-    },
-) => {
-  const {
-    values: { qualificationId, attributeId },
-    touched,
-    errors,
-    isSubmitting,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    setFieldValue,
-    setFieldTouched,
-    handleSelect,
-    qualificationList,
-  } = props;
-  return (
-    <div className='quality-attribute-section d-flex flex-column'>
-      <div className='common-list-card'>
-        <h5 className='content-title'>
-          {languageTranslation('QUALIFICATIONS')}
-        </h5>
-        <div className='common-list-wrap'>
-          <div className='common-list-header d-flex align-items-cente justify-content-between'>
-            <div className='common-list-title align-middle'>
-              {' '}
-              {languageTranslation('QUALIFICATION')}
+    props: FormikProps<ICareInstitutionFormValues> &
+      IHandleSelectInterface & {
+        qualificationList: IReactSelectInterface[] | undefined;
+      },
+  ) => {
+    const {
+      values: { qualificationId, attributeId },
+      touched,
+      errors,
+      isSubmitting,
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      setFieldValue,
+      setFieldTouched,
+      handleSelect,
+      qualificationList,
+    } = props;
+    return (
+      <div className='quality-attribute-section d-flex flex-column'>
+        <div className='common-list-card'>
+          <h5 className='content-title'>
+            {languageTranslation('QUALIFICATIONS')}
+          </h5>
+          <div className='common-list-wrap'>
+            <div className='common-list-header d-flex align-items-cente justify-content-between'>
+              <div className='common-list-title align-middle'>
+                {' '}
+                {languageTranslation('QUALIFICATION')}
+              </div>
+              <div className=' align-middle toggle-icon'>
+                <i className='fa fa-angle-down'></i>
+              </div>
             </div>
-            <div className=' align-middle toggle-icon'>
-              <i className='fa fa-angle-down'></i>
+            <div className='common-list-body'>
+              {qualificationId && qualificationId.length ? (
+                <ul className='common-list list-unstyled'>
+                  {qualificationId.map((qualification: IReactSelectInterface) => {
+                    return <li>{qualification.label}</li>;
+                  })}
+                </ul>
+              ) : null}
+            </div>
+            <div className='common-list-footer form-section '>
+              <FormGroup className='mb-0'>
+                <Select
+                  placeholder={'Qualifications'}
+                  name={'qualificationId'}
+                  value={qualificationId ? qualificationId : undefined}
+                  onChange={(value: any) =>
+                    handleSelect(value, 'qualificationId')
+                  }
+                  isMulti
+                  options={qualificationList}
+                  menuPlacement={'top'}
+                />
+              </FormGroup>
             </div>
           </div>
-          <div className='common-list-body'>
-            {qualificationId && qualificationId.length ? (
+        </div>
+        <div className='common-list-card'>
+          <h5 className='content-title'>{languageTranslation('ATTRIBUTES')}</h5>
+          <div className='common-list-wrap'>
+            <div className='common-list-header d-flex align-items-cente justify-content-between'>
+              <div className='common-list-title align-middle'>
+                {' '}
+                {languageTranslation('ATTRIBUTES')}
+              </div>
+              <div className=' align-middle toggle-icon'>
+                <i className='fa fa-angle-down'></i>
+              </div>
+            </div>
+            <div className='common-list-body'>
               <ul className='common-list list-unstyled'>
-                {qualificationId.map((qualification: IReactSelectInterface) => {
-                  return <li>{qualification.label}</li>;
-                })}
-              </ul>
-            ) : null}
-          </div>
-          <div className='common-list-footer form-section '>
-            <FormGroup className='mb-0'>
-              <Select
-                placeholder={'Qualifications'}
-                name={'qualificationId'}
-                value={qualificationId ? qualificationId : undefined}
-                onChange={(value: any) =>
-                  handleSelect(value, 'qualificationId')
+                {
+                  attributeId && attributeId.length ?
+                    attributeId.map((attData: IReactSelectInterface) => {
+                      return (
+                        <li>{attData.label} </li>
+                      )
+                    }) : null
                 }
-                isMulti
-                options={qualificationList}
-                menuPlacement={'top'}
-              />
-            </FormGroup>
+              </ul>
+            </div>
+            <div className='common-list-footer form-section '>
+              <FormGroup className='mb-0'>
+                <Select
+                  placeholder={'Attributes'}
+                  value={attributeId ? attributeId : undefined}
+                  onChange={(value: any) => handleSelect(value, 'attributeId')}
+                  isMulti
+                  options={CareInstitutionAttr}
+                  menuPlacement={'top'}
+                />
+              </FormGroup>
+            </div>
           </div>
         </div>
       </div>
-      <div className='common-list-card'>
-        <h5 className='content-title'>{languageTranslation('ATTRIBUTES')}</h5>
-        <div className='common-list-wrap'>
-          <div className='common-list-header d-flex align-items-cente justify-content-between'>
-            <div className='common-list-title align-middle'>
-              {' '}
-              {languageTranslation('ATTRIBUTES')}
-            </div>
-            <div className=' align-middle toggle-icon'>
-              <i className='fa fa-angle-down'></i>
-            </div>
-          </div>
-          <div className='common-list-body'>
-            <ul className='common-list list-unstyled'>
-              <li>Dialysis </li>
-              <li>Home Management</li>
-              <li>Nurse/carer</li>
-            </ul>
-          </div>
-          <div className='common-list-footer form-section '>
-            <FormGroup className='mb-0'>
-              <Select
-                placeholder={'Attributes'}
-                value={attributeId ? attributeId : undefined}
-                onChange={(value: any) => handleSelect(value, 'attributeId')}
-                isMulti
-                options={CareInstitutionAttr}
-                menuPlacement={'top'}
-              />
-            </FormGroup>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+    );
+  };
 export default QuallificationAttribute;

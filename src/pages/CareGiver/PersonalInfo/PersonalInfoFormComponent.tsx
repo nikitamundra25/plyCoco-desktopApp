@@ -127,6 +127,7 @@ const PersonalInfoFormComponent: any = (
       driverLicenseNumber,
       IBAN,
       state,
+      employed,
     },
     handleChange,
     handleBlur,
@@ -896,7 +897,19 @@ const PersonalInfoFormComponent: any = (
                    
                   </div> */}
                   <div className=' checkbox-custom mb-0'>
-                    <input type='checkbox' id='check' className='' />
+                    <input
+                      type='checkbox'
+                      id='check'
+                      className=''
+                      name={'employed'}
+                      checked={employed}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const {
+                          target: { checked },
+                        } = e;
+                        setFieldValue('employed', checked);
+                      }}
+                    />
                     <Label for='check'></Label>
                   </div>
                 </div>

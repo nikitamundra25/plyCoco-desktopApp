@@ -719,7 +719,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>

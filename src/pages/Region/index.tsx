@@ -48,7 +48,12 @@ export const Region: FunctionComponent = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   // To get emplyee list from db
-  const [fetchRegionList, { data, loading }] = useLazyQuery<any>(GET_REGIONS);
+  const [fetchRegionList, { data, loading, refetch }] = useLazyQuery<any>(
+    GET_REGIONS,
+    {
+      fetchPolicy: 'no-cache',
+    },
+  );
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -175,7 +180,7 @@ export const Region: FunctionComponent = () => {
       </CardHeader>
       <CardBody>
         <Collapse isOpen={isOpen} className='region-input-section'>
-          <AddRegion toggle={toggle} />
+          <AddRegion toggle={toggle} refetch={refetch} />
         </Collapse>
         <div>
           <Formik

@@ -17,9 +17,10 @@ import { AppRoutes } from '../../../config';
 const [ADD_REGION, GET_REGIONS] = RegionQueries;
 let toastId: any = null;
 
-export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
+export const AddRegion: FunctionComponent<{
   toggle: () => void;
-}) => {
+  refetch: any;
+}> = (props: { toggle: () => void; refetch: any }) => {
   // get id from params
   let { id } = useParams();
   let history = useHistory();
@@ -51,6 +52,7 @@ export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
         toastId = toast.success('Region Added Successfully.');
       }
       props.toggle();
+      props.refetch();
       history.push(AppRoutes.REGION);
     } catch (error) {
       const message = error.message

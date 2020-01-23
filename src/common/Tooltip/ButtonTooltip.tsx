@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 
 const ButtonTooltip = (props: ITooltipProps) => {
   return (
-    <Link to={props.redirectUrl}>
-      <span id={props.id} className='btn-icon mr-2'>
+    <Link to={props.redirectUrl} className='btn-icon mr-2'>
+      <span id={props.id}>
         <UncontrolledTooltip
           placement={props.position ? props.position : 'top'}
           target={props.id}

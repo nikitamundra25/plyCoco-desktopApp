@@ -205,7 +205,7 @@ export const CareGiverForm: FunctionComponent = () => {
           leasingPricingList && leasingPricingList.value
             ? leasingPricingList.value
             : null,
-        // remarks: remarks && remarks.length ? remarks : [],
+        remarks: remarks && remarks.length ? remarks : [],
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],
         status

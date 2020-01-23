@@ -352,11 +352,19 @@ const CareGiver: FunctionComponent = () => {
                     {languageTranslation("S_NO")}
                   </th>
                   <th>{languageTranslation("TABEL_HEAD_CG_INFO")}</th>
-                  <th className="qualifications-th-column">{languageTranslation("TABEL_HEAD_CG_QUALIFICATION")}</th>
-                  <th className="region-th-column">{languageTranslation("TABEL_HEAD_CG_REGION")}</th>
-                  <th className="applying-th-column">{languageTranslation("TABEL_HEAD_CG_APPLYING_AS")}</th>
-                  <th className="date-th-column">{languageTranslation("CREATED_DATE")}</th>
-                  <th className={"text-center"}>
+                  <th className="qualifications-th-column">
+                    {languageTranslation("TABEL_HEAD_CG_QUALIFICATION")}
+                  </th>
+                  <th className="region-th-column">
+                    {languageTranslation("TABEL_HEAD_CG_REGION")}
+                  </th>
+                  <th className="applying-th-column">
+                    {languageTranslation("TABEL_HEAD_CG_APPLYING_AS")}
+                  </th>
+                  <th className="date-th-column">
+                    {languageTranslation("CREATED_DATE")}
+                  </th>
+                  <th className={"text-center status-column"}>
                     {languageTranslation("TABEL_HEAD_CG_STATUS")}
                   </th>
                   <th className={"text-center"}>
@@ -423,44 +431,36 @@ const CareGiver: FunctionComponent = () => {
                               </div>
                             </div>
                           </td>
-                          <td >
-                            <div className="description-column region-column   ml-0 text-capitalize">
+                          <td>
+                            <div className="region-list  text-capitalize">
                               {careGiverData.qualifications &&
-                              careGiverData.qualifications.length
-                                ? careGiverData.qualifications.map(
-                                    (qualification: any, index: number) => {
-                                      return (
-                                        <p
-                                          className="description-text"
-                                          key={index}
-                                        >
-                                          <span className="text-label mr-1">
-                                            <i className="fa fa-angle-right"></i>
-                                          </span>
-                                          <span className="align-middle">
-                                            {qualification.attributeName}
-                                          </span>
-                                        </p>
-                                      );
-                                    }
-                                  )
-                                : "-"}
+                              careGiverData.qualifications.length ? (
+                                careGiverData.qualifications.map(
+                                  (qualification: any, index: number) => {
+                                    return (
+                                      <span
+                                        className="region-label"
+                                        key={index}
+                                      >
+                                        {qualification.attributeName}
+                                      </span>
+                                    );
+                                  }
+                                )
+                              ) : (
+                                <div className="text-center">-</div>
+                              )}
                             </div>
                           </td>
                           <td>
-                            <div className="description-column region-column ml-0">
+                            <div className=" text-capitalize">
                               {careGiverData &&
                               careGiverData.regions &&
                               careGiverData.regions.length ? (
                                 careGiverData.regions.map((wZ: any) => (
-                                  <p className="description-text ">
-                                    <span className="text-label mr-1">
-                                      <i className="fa fa-angle-right"></i>
-                                    </span>
-                                    <span className="align-middle">
-                                      {wZ.regionName}
-                                    </span>
-                                  </p>
+                                  <span >
+                                    {wZ.regionName}
+                                  </span>
                                 ))
                               ) : (
                                 <div className="text-center">-</div>

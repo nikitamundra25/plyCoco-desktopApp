@@ -341,13 +341,17 @@ const Employee: FunctionComponent = () => {
             <tr>
               <th className={"text-center"}>{languageTranslation("S_NO")}</th>
               <th>{languageTranslation("TABLE_HEAD_EMP_INFO")}</th>
-              <th className="region-th-column">{languageTranslation("REGION")}</th>
+              <th className="region-th-column">
+                {languageTranslation("REGION")}
+              </th>
               <th className="text-center">
                 {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
               </th>
-              <th className="date-th-column">{languageTranslation("CREATED_DATE")}</th>
+              <th className="date-th-column">
+                {languageTranslation("CREATED_DATE")}
+              </th>
 
-              <th className="text-center" style={{ width: "100px" }}>
+              <th className="text-center status-column">
                 {languageTranslation("STATUS")}
               </th>
               <th className="text-center">
@@ -443,29 +447,26 @@ const Employee: FunctionComponent = () => {
                           </div>
                         </div>
                       </td>
-                      <td >
-                        <div className="description-column region-column ml-0 text-capitalize">
-                          {regions
-                            ? regions.map((region: any, index: number) => {
-                                return (
-                                  <p className="description-text" key={index}>
-                                    <span className="text-label mr-1">
-                                      <i className="fa fa-angle-right"></i>
-                                    </span>
-                                    <span className="align-middle">
-                                      {region ? region.regionName : "-"}
-                                    </span>
-                                  </p>
-                                );
-                              })
-                            : "-"}
+                      <td>
+                        <div className="region-list text-capitalize">
+                          {regions ? (
+                            regions.map((region: any, index: number) => {
+                              return (
+                                <span className="region-label" key={index}>
+                                  {region ? region.regionName : "-"}
+                                </span>
+                              );
+                            })
+                          ) : (
+                            <div className="text-center">-</div>
+                          )}
                         </div>
                       </td>
                       <td className="text-center">
                         <div>{0}</div>
                       </td>
                       <td>
-                        <div className="description-column table-date-column ml-0 ">
+                        <div>
                           {createdAt ? moment(createdAt).format("LLL") : ""}
                         </div>
                       </td>

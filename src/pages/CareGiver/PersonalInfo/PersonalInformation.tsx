@@ -41,14 +41,16 @@ import {
   ICareGiverInput,
   IReactSelectInterface,
   ICountries,
-  IStates,
-} from '../../../interfaces';
-import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
-import { toast } from 'react-toastify';
-import { AppRoutes, Country } from '../../../config';
-import '../caregiver.scss';
-import { GET_QUALIFICATION_ATTRIBUTES, CountryQueries } from '../../../queries';
-import { IQualifications } from '../../../interfaces/qualification';
+  IStates
+} from "../../../interfaces";
+import { CareGiverValidationSchema } from "../../../validations/CareGiverValidationSchema";
+
+import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { toast } from "react-toastify";
+import { AppRoutes, Country } from "../../../config";
+import "../caregiver.scss";
+import { GET_QUALIFICATION_ATTRIBUTES, CountryQueries } from "../../../queries";
+import { IQualifications } from "../../../interfaces/qualification";
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
@@ -83,9 +85,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
   //To get country details
-  const { data: countries, loading:countryLoading } = useQuery<ICountries>(GET_COUNTRIES);
+  const { data: countries, loading: countryLoading } = useQuery<ICountries>(
+    GET_COUNTRIES
+  );
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
 
   const handleSubmit = async (
@@ -242,29 +246,27 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       qualificationsData.push({ label: attributeName, value: id });
     });
   }
-  let countryData: Number
+  let countryData: Number;
 
-if (props.getCaregiver && props.getCaregiver.caregiver) {
-  countryData = props.getCaregiver.caregiver.countryId  
-}
-
+  if (props.getCaregiver && props.getCaregiver.caregiver) {
+    countryData = props.getCaregiver.caregiver.countryId;
+  }
 
   let userSelectedCountry: any = {};
-  
+
   if (countries && countries.countries) {
-    
     const userCountry = countries.countries.filter(
-      (x: any) => (
-        x.id === countryData));
+      (x: any) => x.id === countryData
+    );
 
     if (userCountry && userCountry.length) {
       userSelectedCountry = {
         label: userCountry[0].name,
-        value: userCountry[0].id,
+        value: userCountry[0].id
       };
     }
   }
-  
+
   // const stateData = getCareInstitution.canstitution
   //     ? getCareInstitution.canstitution.stateId
   //     : '';
@@ -285,14 +287,16 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
     id,
     userName,
     stateId,
-    title: props.getCaregiver && props.getCaregiver.caregiver
-    ? props.getCaregiver.caregiver.title
-    : null,
+    title:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.title
+        : null,
     firstName,
     lastName,
-    dateOfBirth: props.getCaregiver && props.getCaregiver.caregiver
-    ? props.getCaregiver.caregiver.dateOfBirth
-    : null,
+    dateOfBirth:
+      props.getCaregiver && props.getCaregiver.caregiver
+        ? props.getCaregiver.caregiver.dateOfBirth
+        : null,
     age:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.age
@@ -330,7 +334,7 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
     postalCode:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.zipCode
-        : '',
+        : "",
     countryId,
     regionId:
       props.getCaregiver &&
@@ -450,6 +454,7 @@ if (props.getCaregiver && props.getCaregiver.caregiver) {
       initialValues={initialValues}
       onSubmit={handleSubmit}
       enableReinitialize={true}
+      validationSchema={CareGiverValidationSchema}
       render={(props: FormikProps<ICareGiverValues>) => {
         return (
           <Form className="form-section forms-main-section">

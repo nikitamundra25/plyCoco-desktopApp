@@ -2,10 +2,10 @@ import React, {
   useState,
   ChangeEvent,
   FunctionComponent,
-  useEffect
-} from "react";
-import { useLazyQuery } from "@apollo/react-hooks";
-import { AppBreadcrumb } from "@coreui/react";
+  useEffect,
+} from 'react';
+import { useLazyQuery } from '@apollo/react-hooks';
+import { AppBreadcrumb } from '@coreui/react';
 import {
   Button,
   FormGroup,
@@ -15,21 +15,21 @@ import {
   CardBody,
   Input,
   Col,
-  Row
-} from "reactstrap";
-import Select from "react-select";
-import MaskedInput from "react-text-mask";
-import { FormikProps, Form } from "formik";
-import { IBANRegex, DateMask, AppConfig, PAGE_LIMIT } from "../../../config";
-import routes from "../../../routes/routes";
+  Row,
+} from 'reactstrap';
+import Select from 'react-select';
+import MaskedInput from 'react-text-mask';
+import { FormikProps, Form } from 'formik';
+import { IBANRegex, DateMask, AppConfig, PAGE_LIMIT } from '../../../config';
+import routes from '../../../routes/routes';
 import {
   IEmployeeFormValues,
   IReactSelectInterface,
-  IRegion
-} from "../../../interfaces";
-import { logger, languageTranslation } from "../../../helpers";
-import InputFieldTooltip from "../../../common/Tooltip/InputFieldTooltip";
-import { RegionQueries } from "../../../queries/Region";
+  IRegion,
+} from '../../../interfaces';
+import { logger, languageTranslation } from '../../../helpers';
+import InputFieldTooltip from '../../../common/Tooltip/InputFieldTooltip';
+import { RegionQueries } from '../../../queries/Region';
 
 const [, GET_REGIONS] = RegionQueries;
 
@@ -46,7 +46,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     countriesOpt: IReactSelectInterface[];
     statesOpt: IReactSelectInterface[];
     getStatesByCountry: any;
-  }
+  },
 ) => {
   const {
     values: {
@@ -68,7 +68,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       city,
       zip,
       joiningDate,
-      image
+      image,
     },
     touched,
     errors,
@@ -82,20 +82,20 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     countriesOpt,
     statesOpt,
     getStatesByCountry,
-    setFieldError
+    setFieldError,
   } = props;
 
-  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS
+    GET_REGIONS,
   );
   const regionOptions: IReactSelectInterface[] | undefined = [];
   if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id
-      })
+        value: id,
+      }),
     );
   }
   useEffect(() => {
@@ -106,9 +106,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
   // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setFieldTouched("image", true);
+    setFieldTouched('image', true);
     const {
-      target: { files }
+      target: { files },
     } = e;
     let reader = new FileReader();
     let file: File | null = null;
@@ -120,7 +120,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
         setUrl(reader.result);
       };
       reader.readAsDataURL(file);
-      setFieldValue("image", file);
+      setFieldValue('image', file);
     }
   };
   useEffect(() => {
@@ -128,20 +128,20 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3
-      }
+        sortBy: 3,
+      },
     });
   }, []);
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, "selectOptionvalue");
+    logger(selectOption, 'selectOptionvalue');
     setFieldValue(name, selectOption);
-    if (name === "country") {
-      setFieldValue("state", { label: "", value: "" });
+    if (name === 'country') {
+      setFieldValue('state', { label: '', value: '' });
       getStatesByCountry({
         variables: {
-          countryid: selectOption ? selectOption.value : "82"
-        } // default code is for germany
+          countryid: selectOption ? selectOption.value : '82',
+        }, // default code is for germany
       });
     }
   };
@@ -150,41 +150,41 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     <div>
       <Card>
         <CardHeader>
-          <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+          <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
           <Button
-            color={"primary"}
+            color={'primary'}
             disabled={isSubmitting}
-            className={"btn-add"}
+            className={'btn-add'}
             onClick={handleSubmit}
           >
-            {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
-            {languageTranslation("SAVE_BUTTON")}
+            {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
+            {languageTranslation('SAVE_BUTTON')}
           </Button>
         </CardHeader>
         <CardBody>
           <Row>
-            <Col xs={"12"} lg={"12"}>
-              <Form onSubmit={handleSubmit} className="form-section">
+            <Col xs={'12'} lg={'12'}>
+              <Form onSubmit={handleSubmit} className='form-section'>
                 <Row>
-                  <Col lg={"6"}>
-                    <div className="form-card minheight-auto">
+                  <Col lg={'6'}>
+                    <div className='form-card minheight-auto'>
                       <Row>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("FIRST_NAME")}
-                                  <span className="required">*</span>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('FIRST_NAME')}
+                                  <span className='required'>*</span>
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    type="text"
-                                    name={"firstName"}
+                                    type='text'
+                                    name={'firstName'}
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_FIRST_NAME_PLACEHOLDER"
+                                      'EMPLOYEE_FIRST_NAME_PLACEHOLDER',
                                     )}
                                     // maxLength='20'
                                     onChange={handleChange}
@@ -192,12 +192,12 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     value={firstName}
                                     className={
                                       errors.firstName && touched.firstName
-                                        ? "text-input error "
-                                        : "text-input text-capitalize"
+                                        ? 'text-input error '
+                                        : 'text-input text-capitalize'
                                     }
                                   />
                                   {errors.firstName && touched.firstName && (
-                                    <div className="required-error">
+                                    <div className='required-error'>
                                       {errors.firstName}
                                     </div>
                                   )}
@@ -206,24 +206,24 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "EMPLOYEE_SURNAME_LABEL"
+                                    'EMPLOYEE_SURNAME_LABEL',
                                   )}
-                                  <span className="required">*</span>
+                                  <span className='required'>*</span>
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    type="text"
-                                    name={"lastName"}
+                                    type='text'
+                                    name={'lastName'}
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_SURNAME_PLACEHOLDER"
+                                      'EMPLOYEE_SURNAME_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
                                     // maxLength='20'
@@ -231,12 +231,12 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     value={lastName}
                                     className={
                                       errors.lastName && touched.lastName
-                                        ? "text-input error"
-                                        : "text-input text-capitalize"
+                                        ? 'text-input error'
+                                        : 'text-input text-capitalize'
                                     }
                                   />
                                   {errors.lastName && touched.lastName && (
-                                    <div className="required-error">
+                                    <div className='required-error'>
                                       {errors.lastName}
                                     </div>
                                   )}
@@ -245,44 +245,44 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label ">
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label '>
                                   {languageTranslation(
-                                    "EMPLOYEE_EMAIL_ADDRESS_LABEL"
+                                    'EMPLOYEE_EMAIL_ADDRESS_LABEL',
                                   )}
-                                  <span className="required">*</span>
+                                  <span className='required'>*</span>
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    type="text"
-                                    name={"email"}
+                                    type='text'
+                                    name={'email'}
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_EMAIL_ADDRESS_PLACEHOLDER"
+                                      'EMPLOYEE_EMAIL_ADDRESS_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
                                     onBlur={(e: any) => {
                                       //get string before a @ to set username
                                       const username = email
-                                        ? email.substring(0, email.indexOf("@"))
-                                        : "";
-                                      setFieldError("userName", " ");
-                                      setFieldValue("userName", username);
+                                        ? email.substring(0, email.indexOf('@'))
+                                        : '';
+                                      setFieldError('userName', ' ');
+                                      setFieldValue('userName', username);
                                       handleBlur(e);
                                     }}
                                     value={email}
                                     className={
                                       errors.email && touched.email
-                                        ? "text-input error"
-                                        : "text-input"
+                                        ? 'text-input error'
+                                        : 'text-input'
                                     }
                                   />
                                   {errors.email && touched.email && (
-                                    <div className="required-error">
+                                    <div className='required-error'>
                                       {errors.email}
                                     </div>
                                   )}
@@ -291,36 +291,36 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label ">
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label '>
                                   {languageTranslation(
-                                    "EMPLOYEE_USER_NAME_LABEL"
+                                    'EMPLOYEE_USER_NAME_LABEL',
                                   )}
-                                  <span className="required">*</span>
+                                  <span className='required'>*</span>
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    type="text"
-                                    name={"userName"}
+                                    type='text'
+                                    name={'userName'}
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_USER_NAME_PLACEHOLDER"
+                                      'EMPLOYEE_USER_NAME_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={userName}
                                     className={
                                       errors.userName && touched.userName
-                                        ? "text-input error"
-                                        : "text-input"
+                                        ? 'text-input error'
+                                        : 'text-input'
                                     }
                                   />
                                   {errors.userName && touched.userName && (
-                                    <div className="required-error">
+                                    <div className='required-error'>
                                       {errors.userName}
                                     </div>
                                   )}
@@ -329,22 +329,22 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label ">
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label '>
                                   {languageTranslation(
-                                    "EMPLOYEE_TELEPHONE_NUMBER_LABEL"
+                                    'EMPLOYEE_TELEPHONE_NUMBER_LABEL',
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    name={"telephoneNumber"}
+                                    name={'telephoneNumber'}
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_TELEPHONE_NUMBER_PLACEHOLDER"
+                                      'EMPLOYEE_TELEPHONE_NUMBER_PLACEHOLDER',
                                     )}
                                     // mask="999-999-9999"
                                     onChange={handleChange}
@@ -353,13 +353,13 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     className={`form-control ${
                                       errors.telephoneNumber &&
                                       touched.telephoneNumber
-                                        ? "text-input error"
-                                        : "text-input"
+                                        ? 'text-input error'
+                                        : 'text-input'
                                     }`}
                                   />
                                   {errors.telephoneNumber &&
                                     touched.telephoneNumber && (
-                                      <div className="required-error">
+                                      <div className='required-error'>
                                         {errors.telephoneNumber}
                                       </div>
                                     )}
@@ -369,23 +369,23 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                           </FormGroup>
                         </Col>
 
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "EMPLOYEE_ADDRESS1_LABEL"
+                                    'EMPLOYEE_ADDRESS1_LABEL',
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    type="text"
-                                    name={"address1"}
+                                    type='text'
+                                    name={'address1'}
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_ADDRESS1_PLACEHOLDER"
+                                      'EMPLOYEE_ADDRESS1_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
                                     value={address1}
@@ -395,24 +395,24 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "EMPLOYEE_ADDRESS2_LABEL"
+                                    'EMPLOYEE_ADDRESS2_LABEL',
                                   )}
                                 </Label>
                               </Col>
 
-                              <Col sm="8">
-                                <div className="custom-radio-block">
+                              <Col sm='8'>
+                                <div className='custom-radio-block'>
                                   <Input
-                                    type="text"
-                                    name={"address2"}
+                                    type='text'
+                                    name={'address2'}
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_ADDRESS2_PLACEHOLDER"
+                                      'EMPLOYEE_ADDRESS2_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
                                     value={address2}
@@ -423,24 +423,24 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                           </FormGroup>
                         </Col>
 
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("COUNTRY")}
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('COUNTRY')}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Select
                                     placeholder={languageTranslation(
-                                      "COUNTRY_PLACEHOLDER"
+                                      'COUNTRY_PLACEHOLDER',
                                     )}
                                     options={countriesOpt}
                                     value={country ? country : undefined}
                                     onChange={(value: any) =>
-                                      handleSelect(value, "country")
+                                      handleSelect(value, 'country')
                                     }
                                   />
                                 </div>
@@ -448,29 +448,29 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("EMPLOYEE_STATE_LABEL")}
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('EMPLOYEE_STATE_LABEL')}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Select
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_STATE_PLACEHOLDER"
+                                      'EMPLOYEE_STATE_PLACEHOLDER',
                                     )}
                                     options={statesOpt}
                                     value={
-                                      state && state.value !== "" ? state : null
+                                      state && state.value !== '' ? state : null
                                     }
                                     onChange={(value: any) =>
-                                      handleSelect(value, "state")
+                                      handleSelect(value, 'state')
                                     }
                                     noOptionsMessage={() => {
-                                      return "Select a country first";
+                                      return 'Select a country first';
                                     }}
                                   />
                                 </div>
@@ -478,29 +478,29 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("EMPLOYEE_CITY_LABEL")}
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('EMPLOYEE_CITY_LABEL')}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    name={"city"}
+                                    name={'city'}
                                     onChange={handleChange}
                                     // className="form-control"
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_CITY_PLACEHOLDER"
+                                      'EMPLOYEE_CITY_PLACEHOLDER',
                                     )}
                                     value={city}
                                     onBlur={handleBlur}
                                     className={
                                       errors.city && touched.city
-                                        ? "text-input error"
-                                        : "text-input"
+                                        ? 'text-input error'
+                                        : 'text-input'
                                     }
                                   />
                                 </div>
@@ -508,33 +508,33 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("EMPLOYEE_ZIP_LABEL")}
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('EMPLOYEE_ZIP_LABEL')}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    name={"zip"}
+                                    name={'zip'}
                                     onChange={handleChange}
                                     // className="form-control"
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_ZIP_PLACEHOLDER"
+                                      'EMPLOYEE_ZIP_PLACEHOLDER',
                                     )}
                                     value={zip}
                                     onBlur={handleBlur}
                                     className={
                                       errors.zip && touched.zip
-                                        ? "text-input error"
-                                        : "text-input"
+                                        ? 'text-input error'
+                                        : 'text-input'
                                     }
                                   />
                                   {errors.zip && touched.zip && (
-                                    <div className="required-error">
+                                    <div className='required-error'>
                                       {errors.zip}
                                     </div>
                                   )}
@@ -544,24 +544,24 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                           </FormGroup>
                         </Col>
 
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("REGION")}
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('REGION')}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Select
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_REGION_PLACEHOLDER"
+                                      'EMPLOYEE_REGION_PLACEHOLDER',
                                     )}
                                     isMulti
                                     options={regionOptions}
                                     onChange={(value: any) =>
-                                      handleSelect(value, "region")
+                                      handleSelect(value, 'region')
                                     }
                                     value={region ? region : undefined}
                                   />
@@ -570,24 +570,24 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "EMPLOYEE_JOINING_DATE_LABEL"
+                                    'EMPLOYEE_JOINING_DATE_LABEL',
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Row>
                                     <Col>
                                       <MaskedInput
-                                        name={"joiningDate"}
+                                        name={'joiningDate'}
                                         placeholder={languageTranslation(
-                                          "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
+                                          'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
                                         )}
                                         mask={DateMask}
                                         onChange={handleChange}
@@ -596,13 +596,13 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         className={`form-control ${
                                           errors.joiningDate &&
                                           touched.joiningDate
-                                            ? "text-input error"
-                                            : "text-input"
+                                            ? 'text-input error'
+                                            : 'text-input'
                                         }`}
                                       />
                                       {errors.joiningDate &&
                                         touched.joiningDate && (
-                                          <div className="required-error">
+                                          <div className='required-error'>
                                             {errors.joiningDate}
                                           </div>
                                         )}
@@ -617,87 +617,87 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                     </div>
                   </Col>
 
-                  <Col lg={"6"}>
-                    <h5 className="main-title ">
-                      {languageTranslation("EMPLOYEE_ADD_PROFILE_IMAGE_LABEL")}
+                  <Col lg={'6'}>
+                    <h5 className='main-title '>
+                      {languageTranslation('EMPLOYEE_ADD_PROFILE_IMAGE_LABEL')}
                     </h5>
-                    <div className=" file-preview-section p-0">
-                      <div className="fileinput-preview d-flex align-items-center justify-content-center">
-                        <div className="file-upload">
+                    <div className=' file-preview-section p-0'>
+                      <div className='fileinput-preview d-flex align-items-center justify-content-center'>
+                        <div className='file-upload'>
                           <label
-                            htmlFor="gallery-photo-add"
-                            className="file-upload-label"
+                            htmlFor='gallery-photo-add'
+                            className='file-upload-label'
                           >
                             {!errors.image &&
                             imagePreviewUrl &&
-                            typeof imagePreviewUrl === "string" ? (
+                            typeof imagePreviewUrl === 'string' ? (
                               <img
                                 src={imagePreviewUrl}
-                                className={"img-preview"}
+                                className={'img-preview'}
                               />
                             ) : (
                               <>
-                                <div className="icon-upload">
-                                  <i className="cui-cloud-upload"></i>
+                                <div className='icon-upload'>
+                                  <i className='cui-cloud-upload'></i>
                                 </div>
-                                <div className="icon-text">
+                                <div className='icon-text'>
                                   {!image || errors.image
-                                    ? languageTranslation("CHOOSE_IMAGE")
-                                    : ""}
+                                    ? languageTranslation('CHOOSE_IMAGE')
+                                    : ''}
                                 </div>
                               </>
                             )}
                           </label>
                           <input
-                            className="file-upload-input"
-                            type="file"
-                            accept="image/*"
-                            id="gallery-photo-add"
+                            className='file-upload-input'
+                            type='file'
+                            accept='image/*'
+                            id='gallery-photo-add'
                             placeholder={languageTranslation(
-                              "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL"
+                              'EMPLOYEE_ADD_PROFILE_IMAGE_LABEL',
                             )}
                             onChange={handleImageChange}
                           />
                         </div>
                       </div>
                       {errors.image && touched.image && (
-                        <div className="file-error-text">{errors.image}</div>
+                        <div className='file-error-text'>{errors.image}</div>
                       )}
                     </div>
-                    <h5 className="main-title ">
-                      {languageTranslation("BANK_ACCOUNT_INFORMATION")}
+                    <h5 className='main-title '>
+                      {languageTranslation('BANK_ACCOUNT_INFORMATION')}
                     </h5>
-                    <div className="form-card minheight-auto">
+                    <div className='form-card minheight-auto'>
                       <Row>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label ">
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label '>
                                   {languageTranslation(
-                                    "EMPLOYEE_BANK_NAME_LABEL"
+                                    'EMPLOYEE_BANK_NAME_LABEL',
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    type="text"
-                                    name={"bankName"}
+                                    type='text'
+                                    name={'bankName'}
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_BANK_NAME_PLACEHOLDER"
+                                      'EMPLOYEE_BANK_NAME_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={bankName}
                                     className={`width-common ${
                                       errors.bankName && touched.bankName
-                                        ? "text-input error"
-                                        : "text-input"
+                                        ? 'text-input error'
+                                        : 'text-input'
                                     }`}
                                   />
                                   {errors.bankName && touched.bankName && (
-                                    <div className="required-error">
+                                    <div className='required-error'>
                                       {errors.bankName}
                                     </div>
                                   )}
@@ -706,24 +706,24 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "BANK_ACCOUNT_HOLDER_NAME_LABEL"
+                                    'BANK_ACCOUNT_HOLDER_NAME_LABEL',
                                   )}
                                   {/* Account Holder Name */}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    type="text"
-                                    name={"accountHolderName"}
+                                    type='text'
+                                    name={'accountHolderName'}
                                     placeholder={languageTranslation(
-                                      "BANK_ACCOUNT_HOLDER_NAME_PLACEHOLDER"
+                                      'BANK_ACCOUNT_HOLDER_NAME_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -731,13 +731,13 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     className={`width-common ${
                                       errors.accountHolderName &&
                                       touched.accountHolderName
-                                        ? "text-input error"
-                                        : "text-input"
+                                        ? 'text-input error'
+                                        : 'text-input'
                                     }`}
                                   />
                                   {errors.accountHolderName &&
                                     touched.accountHolderName && (
-                                      <div className="required-error">
+                                      <div className='required-error'>
                                         {errors.accountHolderName}
                                       </div>
                                     )}
@@ -746,34 +746,34 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label ">
-                                  {languageTranslation("BANK_IBAN_LABEL")}
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label '>
+                                  {languageTranslation('BANK_IBAN_LABEL')}
                                   {/* IBAN */}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <MaskedInput
-                                    name={"IBAN"}
+                                    name={'IBAN'}
                                     value={IBAN}
                                     placeholder={languageTranslation(
-                                      "BANK_IBAN_PLACEHOLDER"
+                                      'BANK_IBAN_PLACEHOLDER',
                                     )}
                                     mask={IBANRegex}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     className={`form-control ${
                                       errors.IBAN && touched.IBAN
-                                        ? "text-input error"
-                                        : "text-input"
+                                        ? 'text-input error'
+                                        : 'text-input'
                                     }`}
                                   />
                                   {errors.IBAN && touched.IBAN && (
-                                    <div className="required-error">
+                                    <div className='required-error'>
                                       {errors.IBAN}
                                     </div>
                                   )}
@@ -782,34 +782,34 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label ">
-                                  {languageTranslation("BANK_BIC_LABEL")}
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label '>
+                                  {languageTranslation('BANK_BIC_LABEL')}
                                   {/* BIC */}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    type="text"
-                                    name={"BIC"}
+                                    type='text'
+                                    name={'BIC'}
                                     placeholder={languageTranslation(
-                                      "BANK_BIC_PLACEHOLDER"
+                                      'BANK_BIC_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={BIC}
                                     className={
                                       errors.BIC && touched.BIC
-                                        ? "text-input error"
-                                        : "text-input"
+                                        ? 'text-input error'
+                                        : 'text-input'
                                     }
                                   />
                                   {errors.BIC && touched.BIC && (
-                                    <div className="required-error">
+                                    <div className='required-error'>
                                       {errors.BIC}
                                     </div>
                                   )}
@@ -818,12 +818,12 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label ">
-                                  {languageTranslation("ADDITIONAL_TEXT_LABEL")}
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label '>
+                                  {languageTranslation('ADDITIONAL_TEXT_LABEL')}
                                   &nbsp;
                                   {/* <InputFieldTooltip
                                   id='ADDITIONAL_TEXT'
@@ -833,16 +833,16 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 /> */}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm='8'>
                                 <div>
                                   <Input
-                                    type="textarea"
-                                    name={"additionalText"}
-                                    className="textarea-custom"
+                                    type='textarea'
+                                    name={'additionalText'}
+                                    className='textarea-custom'
                                     placeholder={languageTranslation(
-                                      "ADDITIONAL_TEXT_PLACEHOLDER"
+                                      'ADDITIONAL_TEXT_PLACEHOLDER',
                                     )}
-                                    rows="4"
+                                    rows='4'
                                     maxLength={255}
                                     onChange={handleChange}
                                     value={additionalText}
@@ -857,9 +857,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                   </Col>
                 </Row>
 
-                <div className="d-flex align-items-center justify-content-between">
-                  <div className="mandatory-text">
-                    {languageTranslation("REQUIRED_FIELDS")}
+                <div className='d-flex align-items-center justify-content-between'>
+                  <div className='mandatory-text'>
+                    {languageTranslation('REQUIRED_FIELDS')}
                   </div>
                 </div>
               </Form>

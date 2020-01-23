@@ -126,15 +126,6 @@ body {
       line-height: normal;
     }
   }
-  .min-height650 {
-    min-height: 650px;
-  }
-  .height17 {
-    min-height: 17px;
-  }
-  .footer {
-    background: #f1f1f1;
-  }
 
   .card {
     border: 0px solid $card_border;
@@ -155,7 +146,6 @@ body {
         font-weight: 600;
       }
       .btn {
-        //padding: 0.2rem 0.75rem;
         padding: 4px 30px;
         font-weight: 600;
         font-size: $font_12;
@@ -205,37 +195,6 @@ body {
     }
   }
 
-  // .table-checkbox-wrap {
-  //   position: relative;
-  //   width: 100%;
-  //   height: 100%;
-  // }
-  // .table .checkboxli {
-  //   width: 30px;
-  //   position: relative;
-  //   z-index: 9;
-  //   padding-right: 0;
-  //   left: 0;
-  //   top: 0px;
-  // }
-  // .table-checkbox-wrap select.commonstatus {
-  //   height: 28px;
-  //   top: -4px;
-  //   border-radius: 0px;
-  //   left: 0;
-  //   padding-right: 0;
-  //   position: absolute;
-  //   text-indent: 10px;
-  //   border: 0;
-  //   background: #fdfdfd;
-  //   font-size: 13px;
-  //   line-height: 13px;
-  //   padding: 0;
-  //   padding-left: 10px;
-  // }
-  // .coloum-checkbox {
-  //   left: 0px;
-  // }
   /* Form - Custom Checkbox */
   .checkbox-custom {
     position: relative;
@@ -415,7 +374,7 @@ body {
       }
       .input-group-prepend {
         border: 1px solid $light_gray;
-        //  border-color: $light_gray;
+
         background: $white;
         margin-left: 1px;
         border-right: 0;
@@ -540,7 +499,7 @@ body {
 }
 .sidebar {
   background: $theme_color;
-  // height: 100vh !important;
+
   .sidebar-logo {
     width: 180px;
     margin: 8px auto;
@@ -787,6 +746,9 @@ body {
 }
 .app-body {
   overflow: inherit;
+  @media only screen and (max-width: 991px) {
+    margin-top: 35px;
+  }
   .main {
     background: $card_header_bg;
     .container-fluid {
@@ -794,6 +756,18 @@ body {
     }
   }
 }
+.sidebar-fixed {
+  .app-header {
+    & + .app-body {
+      .sidebar {
+        @media only screen and (min-width: 992px) {
+        height: calc(100vh - 35px);
+        }
+      }
+    }
+  }
+}
+
 
 .filter-form {
   margin-top: -5px;
@@ -1481,12 +1455,12 @@ body {
     box-shadow: none !important;
   }
 }
-.password-btn2 {
+.password-btn {
   height: 25px;
   padding: 0px 0px;
   min-width: 225px;
 }
-.password-btn1 {
+.generate-password {
   height: 25px;
   padding: 0px 0px;
   min-width: 225px;
@@ -1878,6 +1852,9 @@ body {
                 $common_inner_tab_bg 0%,
                 $white 100%
               );
+            }
+            @media only screen and (max-width: 991px) {
+              padding: 0px 8px;
             }
           }
           &:hover {

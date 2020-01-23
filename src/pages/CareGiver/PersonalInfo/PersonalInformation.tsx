@@ -39,14 +39,16 @@ import {
   IPersonalObject,
   IBillingSettingsValues,
   ICareGiverInput,
-  IReactSelectInterface
-} from "../../../interfaces";
-import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { toast } from "react-toastify";
-import { AppRoutes, Country } from "../../../config";
-import "../caregiver.scss";
-import { GET_QUALIFICATION_ATTRIBUTES } from "../../../queries";
-import { IQualifications } from "../../../interfaces/qualification";
+  IReactSelectInterface,
+  ICountries,
+  IStates,
+} from '../../../interfaces';
+import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { toast } from 'react-toastify';
+import { AppRoutes, Country } from '../../../config';
+import '../caregiver.scss';
+import { GET_QUALIFICATION_ATTRIBUTES, CountryQueries } from '../../../queries';
+import { IQualifications } from '../../../interfaces/qualification';
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
@@ -77,6 +79,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       });
     });
   }
+
+  const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+
+  //To get country details
+  const { data: countries, loading:countryLoading } = useQuery<ICountries>(GET_COUNTRIES);
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY,
+  );
 
   const handleSubmit = async (
     values: ICareGiverValues,
@@ -156,7 +166,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
             : null,
         street,
         city,
-        postalCode,
+        zipCode: postalCode,
         phoneNumber,
         fax,
         mobileNumber,
@@ -232,16 +242,57 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       qualificationsData.push({ label: attributeName, value: id });
     });
   }
-  console.log(props.getCaregiver, "props.getCaregiver");
+  let countryData: Number
+
+if (props.getCaregiver && props.getCaregiver.caregiver) {
+  countryData = props.getCaregiver.caregiver.countryId  
+}
+
+
+  let userSelectedCountry: any = {};
+  
+  if (countries && countries.countries) {
+    
+    const userCountry = countries.countries.filter(
+      (x: any) => (
+        x.id === countryData));
+
+    if (userCountry && userCountry.length) {
+      userSelectedCountry = {
+        label: userCountry[0].name,
+        value: userCountry[0].id,
+      };
+    }
+  }
+  
+  // const stateData = getCareInstitution.canstitution
+  //     ? getCareInstitution.canstitution.stateId
+  //     : '';
+  //   let userSelectedState: any = {};
+  //   if (statesData && statesData.states) {
+  //     const userState = statesData.states.filter(
+  //       (x: any) => parseInt(x.id) === stateData,
+  //     );
+  //     if (userState && userState.length) {
+  //       userSelectedState = {
+  //         label: userState[0].name,
+  //         value: userState[0].id,
+  //       };
+  //     }
+  //   }
 
   const initialValues: ICareGiverValues = {
     id,
     userName,
     stateId,
-    title,
+    title: props.getCaregiver && props.getCaregiver.caregiver
+    ? props.getCaregiver.caregiver.title
+    : null,
     firstName,
     lastName,
-    dateOfBirth,
+    dateOfBirth: props.getCaregiver && props.getCaregiver.caregiver
+    ? props.getCaregiver.caregiver.dateOfBirth
+    : null,
     age:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.age
@@ -262,6 +313,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.driverLicenseNumber
         : "",
+
+    country: userSelectedCountry,
     vehicleAvailable:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.vehicleAvailable
@@ -276,8 +329,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : "",
     postalCode:
       props.getCaregiver && props.getCaregiver.caregiver
-        ? props.getCaregiver.caregiver.postalCode
-        : "",
+        ? props.getCaregiver.caregiver.zipCode
+        : '',
     countryId,
     regionId:
       props.getCaregiver &&

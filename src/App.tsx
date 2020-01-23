@@ -22,7 +22,7 @@ const DefaultLayout = React.lazy(() =>
 );
 
 // Create browser history
-const history = createBrowserHistory();
+const history = createBrowserHistory({basename: "/superadmin"});
 // Configure store
 const store: Store = configureStore(history);
 

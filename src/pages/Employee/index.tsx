@@ -57,6 +57,9 @@ const Employee: FunctionComponent = () => {
   // To get employee list from db
   const [fetchEmployeeList, { data, loading, refetch }] = useLazyQuery<any>(
     GET_EMPLOYEES,
+    {
+      fetchPolicy: 'no-cache',
+    },
   );
 
   // Mutation to delete employee
@@ -73,6 +76,7 @@ const Employee: FunctionComponent = () => {
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
+    console.log('fetch detailss');
     const query = qs.parse(search);
     let searchBy: string = '';
     let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
@@ -224,28 +228,28 @@ const Employee: FunctionComponent = () => {
             id,
           },
         });
+        refetch();
+        // const data = await client.readQuery({
+        //   query: GET_EMPLOYEES,
+        //   variables: queryVariables,
+        // });
+        // const newEmployees = data.getEmployees.employeeData.filter(
+        //   (employee: any) => employee.id !== id,
+        // );
 
-        const data = await client.readQuery({
-          query: GET_EMPLOYEES,
-          variables: queryVariables,
-        });
-        const newEmployees = data.getEmployees.employeeData.filter(
-          (employee: any) => employee.id !== id,
-        );
-
-        const updatedData = {
-          ...data,
-          getEmployees: {
-            ...data.getEmployees,
-            employeeData: newEmployees,
-            totalCount: newEmployees.length,
-          },
-        };
-        client.writeQuery({
-          query: GET_EMPLOYEES,
-          variables: queryVariables,
-          data: updatedData,
-        });
+        // const updatedData = {
+        //   ...data,
+        //   getEmployees: {
+        //     ...data.getEmployees,
+        //     employeeData: newEmployees,
+        //     totalCount: newEmployees.length,
+        //   },
+        // };
+        // client.writeQuery({
+        //   query: GET_EMPLOYEES,
+        //   variables: queryVariables,
+        //   data: updatedData,
+        // });
         if (!toast.isActive(toastId)) {
           toastId = toast.success('Employee deleted successfully.');
         }
@@ -282,6 +286,7 @@ const Employee: FunctionComponent = () => {
             isActive: status,
           },
         });
+        refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
             languageTranslation('EMPLOYEE_STATUS_UPDATE_MSG'),
@@ -443,7 +448,7 @@ const Employee: FunctionComponent = () => {
                           {regions
                             ? regions.map((region: any, index: number) => {
                                 return (
-                                  <p className='description-text '>
+                                  <p className='description-text' key={index}>
                                     <span className='text-label mr-1'>
                                       <i className='fa fa-angle-right'></i>
                                     </span>

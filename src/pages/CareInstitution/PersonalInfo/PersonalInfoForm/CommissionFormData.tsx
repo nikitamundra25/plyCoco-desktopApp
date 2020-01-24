@@ -7,7 +7,7 @@ import {
   ICareInstitutionFormValues,
   IHandleSelectInterface
 } from "../../../../interfaces";
-import { Region, LeasingPriceList } from "../../../../config";
+import { Region, LeasingPriceList, CareInstLeasingPriceList } from "../../../../config";
 
 const CommissionFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -115,7 +115,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
                     onChange={(value: any) =>
                       handleSelect(value, "leasingPriceListId")
                     }
-                    options={LeasingPriceList}
+                    options={CareInstLeasingPriceList}
                   />
                 </div>
               </Col>

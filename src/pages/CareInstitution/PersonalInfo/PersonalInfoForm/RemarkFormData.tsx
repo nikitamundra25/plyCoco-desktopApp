@@ -50,7 +50,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                   render={arrayHelpers => (
                     <div>
                       <div>
-                        <div className="activity-block py-2 px-3">
+                        <div className="activity-block py-2 ">
                           <div>
                             <div className="remark-section">
                               <Input
@@ -119,7 +119,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
               <>
                 {remarks.reverse().map((remark: ICareInstitutionRemarks) => {
                   return (
-                    <div className="activity-block py-2 px-3">
+                    <div className="activity-block py-2 ">
                       <div>
                         <div className="remark-section">{remark.data}</div>
                       </div>
@@ -153,14 +153,14 @@ const RemarkFormData: FunctionComponent<FormikProps<
               ? remarks
                   .reverse()
                   .map((remarkData: ICareInstitutionRemarks, index: number) => {
-                    <div className="activity-block py-2 px-3">
-                      <div className="pr-3 text-left">
+                    <div className="activity-block py-2">
+                      <div>
                         <span className="text-capitalize">
                           {remarkData.data}
                           <span className="view-more-link">View More</span>
                         </span>
                       </div>
-                      <div className="text-left activity-date">
+                      <div className=" activity-date  position-relative">
                         <span>
                           <i className="fa fa-clock-o mr-2"></i>
                           {remarkData.createdAt}

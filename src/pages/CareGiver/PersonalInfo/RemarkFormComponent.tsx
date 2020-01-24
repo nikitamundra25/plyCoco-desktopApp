@@ -46,7 +46,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                     <div>
                       <div>
                         <div className="activity-block py-2 px-3">
-                          <div className="pr-3 text-left">
+                          <div className=" text-left">
                             <div className="remark-section">
                               <Input
                                 type="textarea"
@@ -113,10 +113,10 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                 {remarks.reverse().map((remark: ICareInstitutionRemarks) => {
                   return (
                     <div className="activity-block py-2 px-3">
-                      <div className="pr-3 text-left">
+                      <div className="text-left">
                         <div className="remark-section">{remark.data}</div>
                       </div>
-                      <div className="text-left activity-date">
+                      <div className="text-left activity-date position-relative">
                         <span>
                           <i className="fa fa-clock-o mr-2"></i>
                           {remark.createdAt}
@@ -124,6 +124,14 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                         <span>
                           <i className="fa fa-user mr-2"></i>Mark Smith
                         </span>
+                        <div className="remark-action-btn">
+                          <span className="edit-btn">
+                            <i className="icon-note"></i>
+                          </span>
+                          <span className="delete-btn">
+                            <i className="icon-trash"></i>
+                          </span>
+                        </div>
                       </div>
                       <span className="activity-icon activity-set"></span>
                     </div>
@@ -133,32 +141,6 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
             ) : (
               ""
             )}
-
-            {remarks && remarks.length
-              ? remarks
-                  .reverse()
-                  .map((remarkData: ICareInstitutionRemarks, index: number) => {
-                    <div className="activity-block py-2 px-3">
-                      <div className="pr-3 text-left">
-                        <span className="text-capitalize">
-                          {remarkData.data}
-                          <span className="view-more-link">View More</span>
-                        </span>
-                      </div>
-                      <div className="text-left activity-date">
-                        <span>
-                          <i className="fa fa-clock-o mr-2"></i>
-                          {remarkData.createdAt}
-                        </span>
-                        <span>
-                          <i className="fa fa-user mr-2"></i>
-                          {remarkData.createdBy}
-                        </span>
-                      </div>
-                      <span className="activity-icon activity-set"></span>
-                    </div>;
-                  })
-              : null}
           </div>
         </div>
       </div>

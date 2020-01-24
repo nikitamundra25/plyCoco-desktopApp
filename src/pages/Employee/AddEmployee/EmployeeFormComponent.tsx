@@ -502,7 +502,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       "COUNTRY_PLACEHOLDER"
                                     )}
                                     options={countriesOpt}
-                                    value={country ? country : undefined}
+                                    value={country  && country.value ? country : undefined}
                                     onChange={(value: any) =>
                                       handleSelect(value, "country")
                                     }

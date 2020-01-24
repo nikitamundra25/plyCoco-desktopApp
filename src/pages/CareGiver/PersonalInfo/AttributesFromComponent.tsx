@@ -43,7 +43,7 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
           <div className="common-list-footer form-section ">
             <FormGroup className="mb-0">
               <Select
-                placeholder={"Please Select Qualification from the dropdown"}
+                placeholder={"Please Select Attribute from the dropdown"}
                 value={attributeId ? attributeId : undefined}
                 onChange={(value: any) => handleSelect(value, "attributeId")}
                 isMulti

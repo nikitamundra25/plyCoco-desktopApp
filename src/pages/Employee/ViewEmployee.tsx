@@ -276,6 +276,17 @@ const ViewEmployee: FunctionComponent = () => {
                             : "N/A"}
                         </span>
                       </div>
+                      <div className="user-item">
+                        <span className="text-label">
+                          {languageTranslation("ZIP")}
+                        </span>
+                        <span className="text-value one-line-text">
+                          :&nbsp;&nbsp;
+                          {employee.employee.zipCode
+                            ? employee.employee.zipCode
+                            : "N/A"}
+                        </span>
+                      </div>
 
                       <div className="user-item">
                         <span className="text-label">
@@ -309,18 +320,6 @@ const ViewEmployee: FunctionComponent = () => {
                           :&nbsp;&nbsp;
                           {employee.employee.state
                             ? employee.employee.state
-                            : "N/A"}
-                        </span>
-                      </div>
-
-                      <div className="user-item">
-                        <span className="text-label">
-                          {languageTranslation("ZIP")}
-                        </span>
-                        <span className="text-value one-line-text">
-                          :&nbsp;&nbsp;
-                          {employee.employee.zipCode
-                            ? employee.employee.zipCode
                             : "N/A"}
                         </span>
                       </div>

@@ -197,7 +197,11 @@ const PersonalInformation: any = (props: any) => {
                 )
                 .join(", ")}}`
             : null,
-        attributes: AttributeData
+        attributes: AttributeData,
+        leasingPriceListId:
+          values.leasingPriceListId && values.leasingPriceListId.value
+            ? values.leasingPriceListId.value
+            : null
       };
       // setSubmitting(false);
       toast.success(languageTranslation("CARE_INSTI_UPDATE_SUCCESS"));

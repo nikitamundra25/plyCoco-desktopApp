@@ -215,7 +215,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         <div>
                           <Select
                             placeholder={languageTranslation("GENDER")}
-                            value={gender ? gender : undefined}
+                            value={gender && gender.value ? gender : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "gender")
                             }
@@ -264,7 +264,11 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation("SALUTATION")}
-                        value={salutation ? salutation : undefined}
+                        value={
+                          salutation && salutation.value
+                            ? salutation
+                            : undefined
+                        }
                         onChange={(value: any) =>
                           handleSelect(value, "salutation")
                         }
@@ -521,7 +525,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                       <Select
                         placeholder={languageTranslation("COUNTRY")}
                         options={countriesOpt}
-                        value={country ? country : undefined}
+                        value={country && country.value ? country : undefined}
                         onChange={(value: any) =>
                           handleSelect(value, "country")
                         }
@@ -607,8 +611,15 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={fax}
                         placeholder={languageTranslation("FAX")}
-                        className="width-common"
+                        className={
+                          errors.fax && touched.fax
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.fax && touched.fax && (
+                        <div className="required-error">{errors.fax}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>

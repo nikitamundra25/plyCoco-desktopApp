@@ -56,6 +56,7 @@ export interface ICareInstitutionValidationSchema {
   phoneNumber?: number;
   careGiverCommission?: string;
   doctorCommission?: string;
+  fax?: number;
 }
 
 export interface ICareInstitutionContactValidationSchema {

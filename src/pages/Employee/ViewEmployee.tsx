@@ -134,12 +134,15 @@ const ViewEmployee: FunctionComponent = () => {
                             //   })`
                             // }}
                           >
-                            <img src={
+                            <img
+                              src={
                                 employee && employee.profileImage
                                   ? AppConfig.FILES_ENDPOINT +
                                     employee.profileImage
                                   : defaultProfile
-                              } alt=""/>
+                              }
+                              alt=""
+                            />
                           </div>
                         </div>
                       </div>

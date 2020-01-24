@@ -603,9 +603,11 @@ const CotactFormComponent: any = (
                 <div className="common-list-body">
                   <ul className="common-list list-unstyled">
                     {attributeId && attributeId.length
-                      ? attributeId.map((data: IReactSelectInterface) => {
-                          return <li>{data.label}</li>;
-                        })
+                      ? attributeId.map(
+                          (data: IReactSelectInterface, index: number) => {
+                            return <li key={index}>{data.label}</li>;
+                          }
+                        )
                       : null}
                   </ul>
                 </div>

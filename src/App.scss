@@ -875,10 +875,10 @@ body {
     justify-content: flex-start;
 
     .btn-filter {
-      font-size: $font_14;
-      padding: 0px 0px;
+      font-size: $font_13;
+      padding: 0px 10px;
       font-weight: 700;
-      width: 25px;
+      width: auto;
       height: 25px;
       border-radius: 4px;
       display: flex;
@@ -1058,6 +1058,11 @@ body {
   .btn-contact-save {
     font-size: $font_13;
     top: -44px;
+  }
+  .btn-department{
+    padding: 4px 12px;
+    font-weight: 600;
+    font-size: $font_11;
   }
 
   .file-preview-section {
@@ -1731,7 +1736,7 @@ body {
         .header-nav-text {
           vertical-align: middle;
         }
-        &:hover {
+        &:hover, &.active {
           color: $light_black;
           background: $common_tab_hoverbg;
         }
@@ -2914,8 +2919,11 @@ body {
     }
     .DayPicker{
     display:block;
-    border: 1px solid;
+   background: #f1f0f0;
     font-size: 11px;
+}
+.DayPicker-Day.DayPicker-Day--selected.DayPicker-Day--today {
+    background: #d99119;
 }
 }
 .custom-pagination {

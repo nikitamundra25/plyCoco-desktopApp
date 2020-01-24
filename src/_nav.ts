@@ -91,7 +91,7 @@ export default {
         {
           name: languageTranslation("MENU_FURTHER_EMAIL_TEMPLATES"),
           icon: "icon-email-templates",
-          url: AppRoutes.HOME
+          url: AppRoutes.EMAIL_TEMPLATE_MANAGEMENT
         },
         {
           name: languageTranslation("MENU_FURTHER_EMPLOYEE"),

@@ -124,269 +124,338 @@ const CareGiverTodoLayout = React.lazy(() =>
 const CareInstitutionTodoLayout = React.lazy(() =>
   import('../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout'),
 );
+const CareInstitutionTodoHideDone = React.lazy(() =>
+  import('../pages/CareInstitutionTodo/hideDone'));
 
+  const CareInstitutionTodoHideFuture = React.lazy(() =>
+    import("../pages/CareInstitutionTodo/hideFuture")
+  );
+
+   const CareInstitutionTodoRequirement = React.lazy(() =>
+     import("../pages/CareInstitutionTodo/requirement")
+   );
+
+   const CareGiverTodoHideDone = React.lazy(() =>
+     import("../pages/CareGiverTodo/hideDone")
+   );
+    const CareGiverTodoHideFuture = React.lazy(() =>
+      import("../pages/CareGiverTodo/hideFuture")
+    );
+
+     const EmailTemplateManagement = React.lazy(() =>
+       import("../pages/EmailTemplateManagement")
+     );
+   
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
-    name: 'Add Care Giver',
+    name: "Add Care Giver",
     component: AddCareGiver,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.ADD_CARE_INSTITUTION,
-    name: 'Add Care Institution',
+    name: "Add Care Institution",
     component: AddCareInstitution,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.ADD_DEPARTMENT,
-    name: 'Add Department',
+    name: "Add Department",
     component: AddDepartment,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.ADD_EMPLOYEE,
-    name: 'Add Employee',
+    name: "Add Employee",
     component: AddEmployee,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.ADD_REGION,
-    name: 'Add Region',
+    name: "Add Region",
     component: AddRegion,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.BILLING_SETTING,
-    name: 'Billing',
+    name: "Billing",
     component: BillingSetting,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
-    exact: true,
+    layoutName: "CareGiver",
+    exact: true
   },
   {
     path: AppRoutes.CARE_GIVER,
-    name: 'Care Giver',
+    name: "Care Giver",
     component: CareGiver,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.CARE_LOGIN,
-    name: 'Care Login',
+    name: "Care Login",
     component: care_login,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.CHANGE_PASSWORD,
-    name: 'Change Password',
+    name: "Change Password",
     component: ChangePassword,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.CARE_INSTITUTION,
-    name: 'Care Institution',
+    name: "Care Institution",
     component: Constitution,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.MAIN,
     exact: true,
-    name: 'Dashboard',
+    name: "Dashboard"
   },
   {
     path: AppRoutes.CARE_INSTITUION_VIEW,
-    name: 'Care Institution View',
+    name: "Care Institution View",
     component: ViewCareInstitution,
-    exact: true,
+    exact: true
     // layout: ConstitutionLayout,
     // layoutName: 'Constitution',
   },
   {
     path: AppRoutes.HOME,
-    name: 'Dashboard',
+    name: "Dashboard",
     component: Dashboard,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.DEPARTMENT,
-    name: 'Department',
+    name: "Department",
     component: Department,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.DOCUMENTS_UPLOAD,
-    name: 'Document Upload',
+    name: "Document Upload",
     component: DocumentUpload,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.EDIT_CARE_GIVER,
-    name: 'Edit Care Giver',
+    name: "Edit Care Giver",
     component: EditCareGiver,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.EDIT_EMPLOYEE,
-    name: 'Edit Employee',
+    name: "Edit Employee",
     component: AddEmployee,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.EMAIL_SETTINGS,
-    name: 'Email Settings',
+    name: "Email Settings",
     component: EmailSettings,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.EVENT,
-    name: 'Event',
+    name: "Event",
     component: Event,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.EMPLOYEE,
-    name: 'Employee',
+    name: "Employee",
     component: Employee,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.EVENT,
-    name: 'Event',
+    name: "Event",
     component: Event,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.INBOX,
-    name: 'Inbox Email',
+    name: "Inbox Email",
     component: InboxEmail,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.INVOCES,
-    name: 'Invoices',
+    name: "Invoices",
     component: Invoices,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.LEASING_PERSONALDATA,
-    name: 'Leasing Personal Data',
+    name: "Leasing Personal Data",
     component: LeasingPersonalData,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.LOGIN,
-    name: 'Login',
+    name: "Login",
     component: Login,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.NEW_EMAIL,
-    name: 'New Email',
+    name: "New Email",
     component: NewEmail,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.OFFER,
-    name: 'Offer',
+    name: "Offer",
     component: Offer,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.PERSONAL_INFORMATION,
-    name: 'Personal Information',
+    name: "Personal Information",
     component: PersonalInformation,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.MY_PROFILE,
-    name: 'Profile',
+    name: "Profile",
     component: MyProfile,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.QUALIFICATION_ATTRIBUTE,
-    name: 'Qualification Attribute',
+    name: "Qualification Attribute",
     component: QualificationAttribute,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.REGION,
-    name: 'Region',
+    name: "Region",
     component: Region,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.SENT_EMAIL,
-    name: 'Sent Email',
+    name: "Sent Email",
     component: SentEmail,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.SIGNATURE,
-    name: 'Signature',
+    name: "Signature",
     component: Signature,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.TODO,
-    name: 'Todos',
+    name: "Todos",
     component: Todos,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: 'CareGiver',
+    layoutName: "CareGiver"
   },
   {
     path: AppRoutes.VIEW_EMPLOYEE,
-    name: 'View Employee',
+    name: "View Employee",
     component: ViewEmployee,
-    exact: true,
+    exact: true
   },
   {
     path: AppRoutes.CAREGIVER_TODO,
-    name: 'Care Giver Todo',
+    name: "Care Giver Todo",
     component: CareGiverTodo,
     exact: true,
     layout: CareGiverTodoLayout,
-    layoutName: 'CareGiverTodoLayout',
+    layoutName: "CareGiverTodoLayout"
   },
   {
     path: AppRoutes.CARE_INSTITUTION_TODO,
-    name: 'Care Institution Todo',
+    name: "Care Institution Todo",
     component: CareInstitutionTodo,
     exact: true,
     layout: CareInstitutionTodoLayout,
-    layoutName: 'CareInstitutionTodoLayout',
+    layoutName: "CareInstitutionTodoLayout"
   },
+  {
+    path: AppRoutes.CARE_INSTITUTION_TODO_HIDE_DONE,
+    name: "Care Institution Todo Hide Done",
+    component: CareInstitutionTodoHideDone,
+    exact: true,
+    layout: CareInstitutionTodoLayout,
+    layoutName: "CareInstitutionTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_TODO_HIDE_FUTURE,
+    name: "Care Institution Todo Hide Future",
+    component: CareInstitutionTodoHideFuture,
+    exact: true,
+    layout: CareInstitutionTodoLayout,
+    layoutName: "CareInstitutionTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_TODO_REQUIREMENT,
+    name: "Care Institution Todo Requirement",
+    component: CareInstitutionTodoRequirement,
+    exact: true,
+    layout: CareInstitutionTodoLayout,
+    layoutName: "CareInstitutionTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_GIVER_HIDE_DONE,
+    name: "Care Giver Todo Hide Done",
+    component: CareGiverTodoHideDone,
+    exact: true,
+    layout: CareGiverTodoLayout,
+    layoutName: "CareGiverTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_GIVER_HIDE_FUTURE,
+    name: "Care Giver Todo Hide Future",
+    component: CareGiverTodoHideFuture,
+    exact: true,
+    layout: CareGiverTodoLayout,
+    layoutName: "CareGiverTodoLayout"
+  },
+
+  {
+    path: AppRoutes.EMAIL_TEMPLATE_MANAGEMENT,
+    name: "Email Template Management",
+    component: EmailTemplateManagement,
+    exact: true,
+   
+  }
 ];
 
 export default routes;

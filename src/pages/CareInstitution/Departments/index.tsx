@@ -7,6 +7,7 @@ import {
   Col,
   Row,
   Form,
+  Button,
   Table,
   Jumbotron,
   UncontrolledButtonDropdown,
@@ -49,15 +50,51 @@ class Departments extends Component<RouteComponentProps, any> {
                 </h5>
               </div>
 
-              <div className="form-card ">
+              <div className="form-card p-0">
                 <FormGroup>
                   <Row>
-                    <Col sm="12">
-                      <div>
+                    <Col lg={"6"}>
+                      {" "}
+                      <div className="p-2">
                         <Select
-                          placeholder={languageTranslation("BLOCKED")}
+                          placeholder={languageTranslation("LOCKED")}
                           // options={State}
                         />
+                      </div>
+                    </Col>
+                    <Col sm="12">
+                      <div className="common-list-card border-0">
+                        <div className="d-flex align-items-center justify-content-between px-2">
+                          <h6 className="common-list-title  ">
+                            {languageTranslation("NAME")}
+                          </h6>{" "}
+                          <Button
+                            color={"primary"}
+                            className={"btn-department mb-2"}
+                            id={"add-new-pm-tooltip"}
+                          >
+                            <i className={"fa fa-plus"} />
+                            &nbsp; Add New Departments
+                          </Button>
+                        </div>
+
+                        <div className="common-list-wrap">
+                          <div className="common-list-header d-flex align-items-cente justify-content-between">
+                            <div className="common-list-title align-middle">
+                              {" "}
+                              {languageTranslation("LOCKED")}
+                            </div>
+                            <div className=" align-middle toggle-icon">
+                              <i className="fa fa-angle-down"></i>
+                            </div>
+                          </div>
+                          <div className="common-list-body border-0">
+                            <ul className="common-list list-unstyled">
+                              <li>Section 1 </li>
+                              <li>Section 2</li>
+                            </ul>
+                          </div>
+                        </div>
                       </div>
                     </Col>
                   </Row>
@@ -97,7 +134,7 @@ class Departments extends Component<RouteComponentProps, any> {
                               </div>
                             </Col>
                             <Col sm="8">
-                              <div className="edit-remark ml-2">
+                              <div className="edit-remark ml-2 text-center">
                                 {languageTranslation("COPY_FORM_PROFILES")}
                               </div>
                             </Col>
@@ -244,7 +281,7 @@ class Departments extends Component<RouteComponentProps, any> {
                         <Col sm="4">
                           <Label className="form-label col-form-label">
                             {languageTranslation("FAX")}
-                            {/*  <span className="required">*</span> */}
+                            <span className="required">*</span>
                           </Label>
                         </Col>
                         <Col sm="8">
@@ -265,7 +302,9 @@ class Departments extends Component<RouteComponentProps, any> {
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            {languageTranslation("EMAIL")}
+                            {languageTranslation(
+                              "EMPLOYEE_EMAIL_ADDRESS_LABEL"
+                            )}
                             {/*  <span className="required">*</span> */}
                           </Label>
                         </Col>
@@ -289,7 +328,7 @@ class Departments extends Component<RouteComponentProps, any> {
                         <Col sm="4">
                           <Label className="form-label col-form-label">
                             {languageTranslation(
-                              "REMARKS_VISIBLE_TO_SPECIALIST"
+                              "COMMENTS_VISIBLE_FOE_CARE-GIVER"
                             )}
                             {/* <span className="required">*</span> */}
                           </Label>
@@ -356,6 +395,35 @@ class Departments extends Component<RouteComponentProps, any> {
                       </Row>
                     </FormGroup>
                   </Col>
+                  <Col lg={"12"}>
+                    <FormGroup>
+                      <Row>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label">
+                            {languageTranslation("BLOCKED")}
+                            {/* <span className="required">*</span> */}
+                          </Label>
+                        </Col>
+                        <Col sm="8">
+                          <div>
+                            <div className=" checkbox-custom mb-0">
+                              <input type="checkbox" id="check" className="" />
+                              <Label for="check"></Label>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                  <Col lg={"12"}>
+                    <Button
+                      color={"primary"}
+                      className={"btn-department px-4 pull-right"}
+                    >
+                      <i className={"fa fa-floppy-o"} />
+                      &nbsp; Save
+                    </Button>
+                  </Col>
                 </Row>
               </div>
             </Col>
@@ -369,9 +437,9 @@ class Departments extends Component<RouteComponentProps, any> {
               <Table bordered hover responsive>
                 <thead className="thead-bg">
                   <tr>
-                    <th>{languageTranslation("BEGINNING")}</th>
-                    <th>{languageTranslation("THE_END")}</th>
-                    <th>{languageTranslation("REMARKS")}</th>
+                    <th>{languageTranslation("BEGIN")}</th>
+                    <th>{languageTranslation("END")}</th>
+                    <th>{languageTranslation("COMMENTS")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -393,7 +461,7 @@ class Departments extends Component<RouteComponentProps, any> {
                   </tr>
                 </tbody>
               </Table>
-              <div className="common-col">
+              <div>
                 <div className="form-card minheight-auto">
                   <Row>
                     <Col lg={"12"}>
@@ -425,7 +493,7 @@ class Departments extends Component<RouteComponentProps, any> {
                           <Col lg={"12"}></Col>
                           <Col sm="2">
                             <Label className="form-label col-form-label">
-                              {languageTranslation("BEGINNING")}
+                              {languageTranslation("BEGIN")}
                               {/* <span className="required">*</span> */}
                             </Label>
                           </Col>
@@ -530,7 +598,11 @@ class Departments extends Component<RouteComponentProps, any> {
                     </Col>
                     <Col lg={"12"}>
                       <div className="edit-remark ml-2 text-center">
-                        {languageTranslation("STORAGE_PANEL")}
+                        <span>
+                          {" "}
+                          <i className="fa fa-floppy-o"></i>
+                        </span>{" "}
+                        {languageTranslation("SAVE_BUTTON")}
                       </div>
                     </Col>
                   </Row>
@@ -539,13 +611,13 @@ class Departments extends Component<RouteComponentProps, any> {
                 <div className="quality-attribute-section d-flex flex-column">
                   <div className="common-list-card">
                     <h5 className="content-title">
-                      {languageTranslation("QUALIFICATIONS")}
+                      {languageTranslation("ATTRIBUTES_FILTER_FOR_OFFERS")}
                     </h5>
                     <div className="common-list-wrap">
                       <div className="common-list-header d-flex align-items-cente justify-content-between">
                         <div className="common-list-title align-middle">
                           {" "}
-                          {languageTranslation("QUALIFICATION")}
+                          {languageTranslation("ATTRIBUTES")}
                         </div>
                         <div className=" align-middle toggle-icon">
                           <i className="fa fa-angle-down"></i>
@@ -553,9 +625,9 @@ class Departments extends Component<RouteComponentProps, any> {
                       </div>
                       <div className="common-list-body">
                         <ul className="common-list list-unstyled">
-                          <li>Dialysis </li>
+                          {/* <li>Dialysis </li>
                           <li>Home Management</li>
-                          <li>Nurse/carer</li>
+                          <li>Nurse/carer</li> */}
                         </ul>
                       </div>
                       <div className="common-list-footer form-section ">
@@ -571,13 +643,13 @@ class Departments extends Component<RouteComponentProps, any> {
                   </div>
                   <div className="common-list-card">
                     <h5 className="content-title">
-                      {languageTranslation("ATTRIBUTES")}
+                      {languageTranslation("QUALIFICATION_FILTER_FOR_OFFERS")}
                     </h5>
                     <div className="common-list-wrap">
                       <div className="common-list-header d-flex align-items-cente justify-content-between">
                         <div className="common-list-title align-middle">
                           {" "}
-                          {languageTranslation("ATTRIBUTES")}
+                          {languageTranslation("QUALIFICATIONS")}
                         </div>
                         <div className=" align-middle toggle-icon">
                           <i className="fa fa-angle-down"></i>
@@ -585,9 +657,9 @@ class Departments extends Component<RouteComponentProps, any> {
                       </div>
                       <div className="common-list-body">
                         <ul className="common-list list-unstyled">
-                          <li>Dialysis </li>
-                          <li>Home Management</li>
-                          <li>Nurse/carer</li>
+                          <li>Elderly care giver </li>
+                          {/* <li>Home Management</li>
+                          <li>Nurse/carer</li> */}
                         </ul>
                       </div>
                       <div className="common-list-footer form-section ">

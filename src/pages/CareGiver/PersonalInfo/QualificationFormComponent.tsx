@@ -64,7 +64,7 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
                 menuPlacement={"top"}
                 value={qualifications}
                 name={"selectedQualification"}
-                placeholder={"Type to add qualification"}
+                placeholder={"Please Select Qualification from the dropdown"}
                 options={qualificationList}
                 onChange={handleQualification}
                 className="w-100"

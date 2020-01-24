@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { Col, Row, Button } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,7 +12,11 @@ import {
   IState,
   ICareGiverValues
 } from "../../../interfaces";
-import { CountryQueries, GET_QUALIFICATION_ATTRIBUTES } from "../../../queries";
+import {
+  CountryQueries,
+  GET_QUALIFICATION_ATTRIBUTES,
+  GET_CAREGIVERS
+} from "../../../queries";
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { languageTranslation } from "../../../helpers";
 import PersonalInfoFormComponent from "../PersonalInfo/PersonalInfoFormComponent";
@@ -36,6 +40,11 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
     };
     props.setFieldValue("remarks", [value]);
   };
+  // To fetch the list of all caregiver
+  const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
+    GET_CAREGIVERS
+  );
+
   // To fetch the list of countries
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
@@ -73,6 +82,35 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
       });
     });
   }
+  useEffect(() => {
+    // Fetch list of caregivers
+    fetchCareGivers({
+      variables: {
+        searchBy: "",
+        sortBy: 3,
+        limit: 200,
+        page: 1,
+        isActive: ""
+      }
+    });
+  }, []);
+  //Fetch careInstitutionList
+  const careGiverOpt: IReactSelectInterface[] | undefined = [];
+  if (
+    careGivers &&
+    careGivers.getCaregivers &&
+    careGivers.getCaregivers.result
+  ) {
+    careGivers.getCaregivers.result.forEach(
+      ({ id, firstName, lastName }: any) =>
+        careGiverOpt.push({
+          label: `${firstName}${" "}${lastName}`,
+          value: id
+        })
+    );
+  }
+  console.log("careGiverOpt", careGiverOpt);
+
   return (
     <Form className="form-section forms-main-section">
       <Button
@@ -92,7 +130,10 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
       </Button>
       <Row className={"m-0"}>
         <Col lg={"4"}>
-          <PersonalInfoFormComponent {...props} />
+          <PersonalInfoFormComponent
+            {...props}
+            CareInstitutionList={careGiverOpt}
+          />
         </Col>
         <Col lg={"4"} className="px-lg-0">
           <div className="common-col">

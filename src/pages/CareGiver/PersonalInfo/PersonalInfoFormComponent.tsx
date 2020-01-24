@@ -224,7 +224,7 @@ const PersonalInfoFormComponent: any = (
                       <Select
                         placeholder={languageTranslation("GENDER")}
                         options={Gender}
-                        value={gender ? gender : null}
+                        value={gender && gender.value ? gender : null}
                         onChange={(value: any) => handleSelect(value, "gender")}
                       />
                     </div>
@@ -268,7 +268,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("SALUTATION")}
                     options={Salutation}
-                    value={salutation ? salutation : null}
+                    value={salutation  && salutation.value ? salutation : null}
                     onChange={(value: any) => handleSelect(value, "salutation")}
                   />
                 </div>
@@ -407,25 +407,6 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm="4">
-                <Label className="form-label col-form-label ">City</Label>
-              </Col>
-              <Col sm="8">
-                <div>
-                  <Field
-                    component={FormikTextField}
-                    name={"city"}
-                    placeholder="City"
-                    className=" width-common"
-                  />
-                </div>
-              </Col>
-            </Row>
-          </FormGroup>
-        </Col>
-        <Col lg={"12"}>
-          <FormGroup>
-            <Row>
-              <Col sm="4">
                 <Label className="form-label col-form-label ">
                   Postal Code
                 </Label>
@@ -443,6 +424,27 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
+
+        <Col lg={"12"}>
+          <FormGroup>
+            <Row>
+              <Col sm="4">
+                <Label className="form-label col-form-label ">City</Label>
+              </Col>
+              <Col sm="8">
+                <div>
+                  <Field
+                    component={FormikTextField}
+                    name={"city"}
+                    placeholder="City"
+                    className=" width-common"
+                  />
+                </div>
+              </Col>
+            </Row>
+          </FormGroup>
+        </Col>
+
         <Col lg={"12"}>
           <FormGroup>
             <Row>
@@ -454,7 +456,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("COUNTRY")}
                     options={countriesOpt}
-                    value={country ? country : undefined}
+                    value={country && country.value ? country : undefined}
                     onChange={(value: any) => handleSelect(value, "country")}
                   />
                 </div>

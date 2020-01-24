@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { IEmployeeFormValues, IDateResponse } from "../interfaces";
 import {
-  nameRegExp,
+
   fileSize,
   SupportedFormats,
   telephoneReqExp,
@@ -24,13 +24,11 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .trim()
     .min(3, languageTranslation("NAME_MINLENGTH"))
     .max(20, languageTranslation("FIRSTNAME_MAXLENGTH"))
-    .matches(nameRegExp, languageTranslation("FIRSTNAME_SPECIALCHARACTER"))
     .required(languageTranslation("FIRSTNAME_REQUIRED")),
   lastName: Yup.string()
     .trim()
     .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
     .min(3, languageTranslation("NAME_MINLENGTH"))
-    .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .required(languageTranslation("LASTNAME_REQUIRED")),
   userName: Yup.string()
     .trim()

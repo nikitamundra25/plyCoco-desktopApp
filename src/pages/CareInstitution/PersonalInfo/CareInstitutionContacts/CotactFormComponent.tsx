@@ -209,7 +209,7 @@ const CotactFormComponent: any = (
                         <div>
                           <Select
                             placeholder={languageTranslation("GENDER")}
-                            value={gender ? gender : undefined}
+                            value={gender && gender.value ? gender : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "gender")
                             }
@@ -255,7 +255,11 @@ const CotactFormComponent: any = (
                         <div>
                           <Select
                             placeholder={languageTranslation("SALUTATION")}
-                            value={salutation ? salutation : undefined}
+                            value={
+                              salutation && salutation.value
+                                ? salutation
+                                : undefined
+                            }
                             onChange={(value: any) =>
                               handleSelect(value, "salutation")
                             }
@@ -350,7 +354,11 @@ const CotactFormComponent: any = (
                         <div>
                           <Select
                             placeholder={languageTranslation("CONTACT_TYPE")}
-                            value={contactType ? contactType : undefined}
+                            value={
+                              contactType && contactType.value
+                                ? contactType
+                                : undefined
+                            }
                             onChange={(value: any) =>
                               handleSelect(value, "contactType")
                             }
@@ -447,7 +455,9 @@ const CotactFormComponent: any = (
                           <Select
                             placeholder={languageTranslation("COUNTRY")}
                             options={countriesOpt}
-                            value={country ? country : undefined}
+                            value={
+                              country && country.value ? country : undefined
+                            }
                             onChange={(value: any) =>
                               handleSelect(value, "country")
                             }
@@ -527,8 +537,17 @@ const CotactFormComponent: any = (
                             onBlur={handleBlur}
                             value={faxNumber}
                             placeholder={languageTranslation("FAX")}
-                            className="width-common"
+                            className={
+                              errors.faxNumber && touched.faxNumber
+                                ? "text-input error"
+                                : "text-input"
+                            }
                           />
+                          {errors.faxNumber && touched.faxNumber && (
+                            <div className="required-error">
+                              {errors.faxNumber}
+                            </div>
+                          )}
                         </div>
                       </Col>
                     </Row>

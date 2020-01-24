@@ -106,6 +106,9 @@ body {
       color: $theme_color_hover;
     }
   }
+  .cursor-pointer {
+    cursor: pointer;
+  }
   button {
     &:focus {
       outline: none;
@@ -1398,7 +1401,7 @@ html:not([dir="rtl"]) {
         width: 250px;
         min-width: 250px;
       }
-      &.company-th-column{
+      &.company-th-column {
         min-width: 150px;
       }
       &.date-th-column {
@@ -2497,15 +2500,7 @@ html:not([dir="rtl"]) {
 .gray-color {
   color: $gray_color;
 }
-.alfabate-btn {
-  padding: 0px;
-  border-radius: 0px;
-  position: absolute;
-  top: 0px;
-  height: 25px;
-  width: 25px;
-  right: -22px;
-}
+
 .forms-main-section {
   .inner-no-padding-col {
     margin: 0px;
@@ -2559,36 +2554,23 @@ html:not([dir="rtl"]) {
 
     .remark-section {
       position: relative;
-      word-wrap:break-word;
+      word-wrap: break-word;
       textarea {
         height: 70px;
         border-radius: 0px;
         resize: none;
         overflow-y: auto;
       }
-      .add-remark-btn {
-        padding: 4px 8px;
-        background: $theme_color;
-        cursor: pointer;
-        width: 100px;
-        color: $white;
-        border-radius: 4px;
-        position: absolute;
-        bottom: -31px;
-        right: 0px;
-        text-align: center;
-        &:hover {
-          background: $theme_color_hover;
-        }
-      }
+      
     }
 
     .activity-block {
       position: relative;
       border-left: 2px solid $light_gray;
-      margin-left: 1rem;
-      padding-left: 2rem;
-      padding-bottom: 2rem;
+      padding-left: 18px;
+      padding-right: 8px;
+      padding-bottom: 10px;
+      margin-left: 8px;
       font-size: $font_12;
       color: $light_black;
       .activity-date {
@@ -2598,6 +2580,52 @@ html:not([dir="rtl"]) {
         font-weight: 600;
         color: $light_black;
         margin-top: 6px;
+        padding-right: 105px;
+      }
+      .remark-action-btn {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        span {
+          width: 25px;
+          height: 25px;
+          text-align: center;
+          font-size: $font_12;
+          margin: 0 3px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
+          &.edit-btn {
+            background: $profile_bg;
+            border: 1px solid $profile_bg;
+            color: $black;
+            &:hover {
+              background: $profile_bg_hover;
+            }
+          }
+          &.delete-btn {
+            background: $toaster_error;
+            color: $white;
+            border: 1px solid $toaster_error;
+            &:hover {
+              background: $btn_error_hover;
+              color: $white;
+            }
+          }
+        }
+        .add-remark-btn {
+          padding: 4px 8px;
+          background: $theme_color;
+          cursor: pointer;
+        
+          color: $white;
+          border-radius: 4px;
+          text-align: center;
+          &:hover {
+            background: $theme_color_hover;
+          }
+        }
       }
       .activity-set {
         background: $theme_color;

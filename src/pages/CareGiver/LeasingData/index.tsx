@@ -46,7 +46,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
 
   // Fetch leasing data on mount & user update
   useEffect(() => {
-    // Fetch details by care giver id
+    // Fetch details by caregiver id
     if (id) {
       getLeasingInformation({
         variables: { userId: parseInt(id) },

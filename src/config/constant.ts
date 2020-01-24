@@ -349,7 +349,7 @@ export const LegalForm: IReactSelectInterface[] = [
 ];
 
 export const QualificationAttributes: IReactSelectInterface[] = [
-  { value: "Care Giver", label: "Care giver" },
+  { value: "Caregiver", label: "Caregiver" },
   { value: "Anesthesia Assistance", label: "Anesthesia Assistance" },
   {
     value: "Doctor Attention commission",

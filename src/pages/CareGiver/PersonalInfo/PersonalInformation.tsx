@@ -44,7 +44,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let history = useHistory();
   const [careGiverData, setCareGiverData] = useState<ICareGiverValues | null>();
 
-  // To update care giver details into db
+  // To update caregiver details into db
   const [updateCaregiver] = useMutation<
     { updateCaregiver: ICareGiverValues },
     { id: number; careGiverInput: IPersonalObject }

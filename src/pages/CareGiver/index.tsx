@@ -68,7 +68,7 @@ const CareGiver: FunctionComponent = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFilterApplied, setIsFilter] = useState<boolean>(false);
 
-  // To get care giver list from db
+  // To get caregiver list from db
   const [fetchCareGiverList, { data, loading, refetch }] = useLazyQuery<
     any,
     any
@@ -76,7 +76,7 @@ const CareGiver: FunctionComponent = () => {
     fetchPolicy: "no-cache"
   });
 
-  // Mutation to update care giver status
+  // Mutation to update caregiver status
   const [updateEmployeeStatus] = useMutation<
     { updateCareGiverStatus: any },
     { id: string; isActive: boolean }
@@ -156,7 +156,7 @@ const CareGiver: FunctionComponent = () => {
     isActive = undefined
   } = searchValues ? searchValues : {};
 
-  // Mutation to delete care giver
+  // Mutation to delete caregiver
   const [deleteCaregiver, { error }] = useMutation<
     { deleteCaregiver: any },
     { id: number }
@@ -245,7 +245,7 @@ const CareGiver: FunctionComponent = () => {
         }
       });
       if (!toast.isActive(toastId)) {
-        toastId = toast.success("Care giver deleted successfully.");
+        toastId = toast.success("Caregiver deleted successfully.");
       }
     }
   };
@@ -307,7 +307,7 @@ const CareGiver: FunctionComponent = () => {
               onClick={() => history.push(AppRoutes.ADD_CARE_GIVER)}
             >
               <i className={"fa fa-plus"} />
-              &nbsp; Add New Care Giver
+              &nbsp; Add New Caregiver
             </Button>
           </CardHeader>
           <CardBody>
@@ -549,7 +549,7 @@ const CareGiver: FunctionComponent = () => {
                             <i className="icon-ban" />
                           </div>
                           <h4 className="mb-1">
-                            Currently there are no care giver added.{" "}
+                            Currently there are no caregiver added.{" "}
                           </h4>
                           <p>Please click above button to add new. </p>
                         </div>

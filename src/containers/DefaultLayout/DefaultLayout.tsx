@@ -49,7 +49,7 @@ const CareInstitutionSidebar = React.lazy(() =>
   )
 );
 
-// Care giver Sidebar
+// Caregiver Sidebar
 const CareGiverLayout = ({ component: Component, ...rest }: any) => {
   const [state, setState] = useState({
     show: false
@@ -246,7 +246,7 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
   );
 };
 
-//Care Giver Todo Layout
+//Caregiver Todo Layout
 const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
   return (
     <Route

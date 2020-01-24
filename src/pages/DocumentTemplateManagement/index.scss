@@ -23,3 +23,20 @@
     width: 75px;
   }
 }
+.document-preview {
+  color: $btn_hover_gray;
+  line-height: 3;
+  font-size: $font_17;
+  .block-page {
+    color: $faq_bg;
+    font-size: $font_16;
+    .img-responsive {
+      width: 65px;
+      height: 65px;
+    }
+  }
+}
+.working-height {
+  height: calc(100vh - 135px);
+  background-color: $white;
+}

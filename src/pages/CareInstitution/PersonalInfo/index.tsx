@@ -50,7 +50,7 @@ const PersonalInformation: any = (props: any) => {
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
 
   const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-
+  const [remarksDetail, setRemarksDetail] = useState<any>([]);
   //To get country details
   const { data: countries, loading } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
@@ -172,7 +172,7 @@ const PersonalInformation: any = (props: any) => {
         countryId:
           values && values.country ? parseInt(values.country.value) : null,
         stateId: values && values.state ? parseInt(values.state.value) : null,
-        remarks: values.remarks,
+        remarks: remarksDetail,
         linkedTo:
           values.linkedTo && values.linkedTo.value
             ? values.linkedTo.value
@@ -227,6 +227,15 @@ const PersonalInformation: any = (props: any) => {
   let countryData: Number;
   let regionId: String;
   let linkedToId: String;
+
+  useEffect(() => {
+    if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
+      const { getCareInstitution } = careInstituionDetails;
+      const { canstitution } = getCareInstitution;
+      const { remarks } = canstitution;
+      setRemarksDetail(remarks);
+    }
+  }, [careInstituionDetails]);
 
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
@@ -359,9 +368,9 @@ const PersonalInformation: any = (props: any) => {
       stateId: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.stateId
         : "",
-      remarks: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.remarks
-        : "",
+      // remarks: getCareInstitution.canstitution
+      //   ? getCareInstitution.canstitution.remarks
+      //   : "",
       title: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.title
         : "",
@@ -432,7 +441,8 @@ const PersonalInformation: any = (props: any) => {
         ? getCareInstitution.canstitution.website
         : "",
       linkedTo: UserSelectedLinkedTo ? UserSelectedLinkedTo : null,
-      attributeId: selectedAttributes
+      attributeId: selectedAttributes,
+      remarkData: ""
     };
     const qualificationsData: IReactSelectInterface[] | undefined = [];
     const attributeData: IReactSelectInterface[] = [];
@@ -462,7 +472,8 @@ const PersonalInformation: any = (props: any) => {
       shortName: "",
       companyName: "",
       street: "",
-      city: ""
+      city: "",
+      remarkData: ""
     };
   }
 
@@ -494,6 +505,8 @@ const PersonalInformation: any = (props: any) => {
             CareInstitutionList={CareInstitutionLinkedTo}
             {...props}
             qualificationList={qualificationList}
+            setRemarksDetail={setRemarksDetail}
+            remarksDetail={remarksDetail}
           />
         )}
         validationSchema={CareInstituionValidationSchema}

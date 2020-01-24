@@ -68,8 +68,8 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   ),
   website: Yup.string().matches(
     webRegExp,
-    languageTranslation("ENTER_VALID_WEB_URL")
-  )
+    { message: languageTranslation("ENTER_VALID_WEB_URL"), excludeEmptyString: true }
+  ).nullable()
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<

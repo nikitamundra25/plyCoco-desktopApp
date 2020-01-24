@@ -69,7 +69,6 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
 
   useEffect(() => {
     if (leasingDetails) {
-      console.log(leasingDetails, 'leasingDetails');
       const { getLeasingInformation } = leasingDetails;
       if (getLeasingInformation) {
         setleasingData({
@@ -174,6 +173,8 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     setSubmitting(false);
   };
 
+  console.log(leasingData, 'leasingDataaaaaaaaaaaa');
+
   const {
     placeOfBirth = '',
     birthName = '',
@@ -192,20 +193,20 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     status = undefined,
   } = leasingData ? leasingData : {};
   const initialValues: ILeasingValues = {
-    placeOfBirth,
-    birthName,
+    placeOfBirth: placeOfBirth ? placeOfBirth : '',
+    birthName: birthName ? birthName : '',
     nationality,
     maritalStatus,
     children: children ? children : 0,
     factorChildAllowance: factorChildAllowance ? factorChildAllowance : 0,
     healthInsuranceType,
     healthInsuranceProvider,
-    socialSecurityNumber,
+    socialSecurityNumber: socialSecurityNumber ? socialSecurityNumber : '',
     religion,
-    controlId,
-    taxBracket,
+    controlId: controlId ? controlId : '',
+    taxBracket: taxBracket ? taxBracket : '',
     preoccupation,
-    payrollIBAN,
+    payrollIBAN: payrollIBAN ? payrollIBAN : '',
     status,
   };
 

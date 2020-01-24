@@ -107,7 +107,11 @@ const CommissionFormData: FunctionComponent<FormikProps<
                 <div>
                   <Select
                     placeholder={languageTranslation("LEASING_PRICE_LIST")}
-                    value={leasingPriceListId ? leasingPriceListId : undefined}
+                    value={
+                      leasingPriceListId && leasingPriceListId.value
+                        ? leasingPriceListId
+                        : undefined
+                    }
                     onChange={(value: any) =>
                       handleSelect(value, "leasingPriceListId")
                     }

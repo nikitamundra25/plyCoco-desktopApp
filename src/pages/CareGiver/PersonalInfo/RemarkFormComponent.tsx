@@ -120,20 +120,11 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                       ) : (
                         <>
                           <div
-                            className={`add-remark-btn ${
-                              !remarkData ? 'disabled-div' : ' '
-                            }`}
+                            className={'add-remark-btn'}
                             onClick={e => {
                               if (remarkData) {
                                 const temp = remarksDetail ? remarksDetail : [];
                                 temp[activeRemark].data = remarkData;
-                                // temp.push({
-                                //   data: remarkData,
-                                //   createdAt: moment().format(
-                                //     'MMMM Do YYYY, h:mm a',
-                                //   ),
-                                //   createdBy: 'john doe',
-                                // });
                                 if (setRemarksDetail) {
                                   setRemarksDetail(temp);
                                   setFieldValue('remarkData', '');

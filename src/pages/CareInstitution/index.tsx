@@ -1,28 +1,18 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
-  FormGroup,
   Card,
   CardHeader,
-  Label,
   CardBody,
-  Input,
-  Col,
-  Row,
   Table,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   UncontrolledTooltip
 } from "reactstrap";
-import { AppRoutes, PAGE_LIMIT, client } from "../../config";
+import { AppRoutes, PAGE_LIMIT } from "../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import { CareInstitutionQueries } from "../../queries";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import {
-  ICareInstitutionFormValues,
   ICareInstitutionListDataInterface,
   ISearchValues,
   IReactSelectInterface

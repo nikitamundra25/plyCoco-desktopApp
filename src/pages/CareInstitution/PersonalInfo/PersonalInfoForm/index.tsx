@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { FormGroup, Label, Input, Col, Row, Button } from "reactstrap";
 import Select from "react-select";
 import { Formik, FormikProps, FormikHelpers } from "formik";
@@ -847,7 +847,11 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
           />
         </div>
       </Col>
-      <RemarkFormData {...props} />
+      <RemarkFormData
+        {...props}
+        setRemarksDetail={props.setRemarksDetail}
+        remarksDetail={props.remarksDetail}
+      />
     </Row>
   );
 };

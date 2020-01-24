@@ -42,9 +42,13 @@ const AddCareInstitution: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 > & {
   qualificationList: IReactSelectInterface[] | undefined;
+  setRemarksDetail: any;
+  remarksDetail: any;
 }> = (
   props: FormikProps<ICareInstitutionFormValues> & {
     qualificationList: IReactSelectInterface[] | undefined;
+    setRemarksDetail: any;
+    remarksDetail: any;
   }
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
@@ -159,7 +163,9 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched
+    setFieldTouched,
+    setRemarksDetail,
+    remarksDetail
   } = props;
   return (
     <Row className=" ">
@@ -820,7 +826,11 @@ const AddCareInstitution: FunctionComponent<FormikProps<
           />
         </div>
       </Col>
-      <RemarkFormData {...props} />
+      <RemarkFormData
+        {...props}
+        setRemarksDetail={setRemarksDetail}
+        remarksDetail={remarksDetail}
+      />
     </Row>
   );
 };

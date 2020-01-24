@@ -556,7 +556,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                       <Select
                         placeholder={languageTranslation("COUNTRY")}
                         options={countriesOpt}
-                        value={country  && country.value ? country : undefined}
+                        value={country && country.value ? country : undefined}
                         onChange={(value: any) =>
                           handleSelect(value, "country")
                         }
@@ -632,8 +632,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={fax}
                         placeholder={languageTranslation("FAX")}
-                        className="width-common"
+                        className={
+                          errors.fax && touched.fax
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.fax && touched.fax && (
+                        <div className="required-error">{errors.fax}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>

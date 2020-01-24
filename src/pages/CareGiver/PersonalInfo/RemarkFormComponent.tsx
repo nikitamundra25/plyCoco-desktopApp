@@ -17,7 +17,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
 
   let [isEditRemark, setisEditRemark] = useState(false)
   let [remarkIndex, setisRemarkIndex] = useState(-1)
-
+  let [isRemoveRemark, setRemoveRemark] = useState(false)
 
   const {
     values: { remarks },
@@ -30,9 +30,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
     setFieldValue,
     setFieldTouched
   } = props;
-  console.log("remarkIndex", remarkIndex);
-
-
+  
   return (
     <Col lg={4}>
       <div className="remark-details">
@@ -133,6 +131,11 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                                     </span>
                                   </div>
                               }
+                              {/* {
+                                isRemoveRemark?
+                                arrayHelpers.remove(remarkIndex):
+                                null
+                              } */}
                             </div>
                           </div>
                           <div className="text-left activity-date">
@@ -188,7 +191,11 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                             <i className="icon-note"></i>
                           </span>
                           <span
-                            // onClick={arrayHelpers.remove(remarkIndex)}
+                            onClick={() => {
+                              setRemoveRemark(isRemoveRemark = true);
+                              setisRemarkIndex(remarkIndex = index)
+                            }
+                            }
                             className="delete-btn">
                             <i className="icon-trash"></i>
                           </span>

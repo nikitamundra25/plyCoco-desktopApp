@@ -76,7 +76,6 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
 
   useEffect(() => {
     if (data) {
-      console.log('In use Effect');
       const Data: any = data;
       history.push(
         AppRoutes.CARE_GIVER_VIEW.replace(

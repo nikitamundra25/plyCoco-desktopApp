@@ -581,7 +581,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                       <Select
                         placeholder={languageTranslation("STATE")}
                         options={statesOpt}
-                        value={state ? state : undefined}
+                        value={state && state.value ? state : undefined}
                         onChange={(value: any) => handleSelect(value, "state")}
                         noOptionsMessage={() => {
                           return "Select a country first";
@@ -643,8 +643,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={fax}
                         placeholder={languageTranslation("FAX")}
-                        className="width-common"
+                        className={
+                          errors.fax && touched.fax
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.fax && touched.fax && (
+                        <div className="required-error">{errors.fax}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -790,7 +797,9 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation("LIKED_TO")}
-                        value={linkedTo}
+                        value={
+                          linkedTo && linkedTo.value ? linkedTo : undefined
+                        }
                         onChange={(e: any) => handleLinkedToSelect(e)}
                         options={CareInstitutionList}
                       />

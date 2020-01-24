@@ -27,7 +27,6 @@ class BillingFaq extends Component<any, any> {
         <h4 className="content-title">Billing FAQ</h4>
         <div>
           {cards.map((item: any, index: any) => {
-            console.log("cards", index);
             return (
               <div className="faq-item " key={index}>
                 <div

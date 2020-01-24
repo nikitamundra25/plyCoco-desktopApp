@@ -35,8 +35,6 @@ class Billing extends Component<RouteComponentProps, any> {
   };
   onToggle = (tab: any) => {
     const { activeTab } = this.state;
-    console.log("activeTab value", activeTab);
-    console.log("tab value is", tab);
     if (activeTab !== tab) {
       this.setState({
         activeTab: tab.toString()
@@ -45,7 +43,6 @@ class Billing extends Component<RouteComponentProps, any> {
   };
   render() {
     const { activeTab } = this.state;
-    console.log("active tab in render is", activeTab);
     return (
       <div>
         <div className="caregiver-form-section">

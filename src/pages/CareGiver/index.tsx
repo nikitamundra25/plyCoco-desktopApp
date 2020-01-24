@@ -160,46 +160,7 @@ const CareGiver: FunctionComponent = () => {
   const [deleteCaregiver, { error }] = useMutation<
     { deleteCaregiver: any },
     { id: number }
-  >(DELETE_CAREGIVER, {
-    update(cache, { data: { deleteCareGiver } }: any) {
-      let caregiverData: any = cache.readQuery({
-        query: GET_CAREGIVERS,
-        variables: {
-          page: currentPage,
-          isActive: isActive ? isActive.value : "",
-          sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
-          searchBy: searchValue ? searchValue : "",
-          limit: PAGE_LIMIT
-        }
-      });
-      const id: any = deleteCareGiver ? deleteCareGiver.id : "";
-
-      const newCareGiver = caregiverData.getCaregivers.result.filter(
-        (caregiver: any) => caregiver.id !== id
-      );
-
-      const updatedData = {
-        ...caregiverData,
-        getCaregivers: {
-          ...caregiverData.getCaregivers,
-          result: newCareGiver,
-          totalCount: newCareGiver.length
-        }
-      };
-
-      cache.writeQuery({
-        query: GET_CAREGIVERS,
-        variables: {
-          page: currentPage,
-          isActive: isActive ? isActive.value : "",
-          sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
-          searchBy: searchValue ? searchValue : "",
-          limit: PAGE_LIMIT
-        },
-        data: updatedData
-      });
-    }
-  });
+  >(DELETE_CAREGIVER);
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
@@ -243,6 +204,7 @@ const CareGiver: FunctionComponent = () => {
           id: parseInt(id)
         }
       });
+      refetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success("Caregiver deleted successfully.");
       }

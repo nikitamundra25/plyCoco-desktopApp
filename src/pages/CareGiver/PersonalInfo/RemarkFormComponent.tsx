@@ -87,17 +87,19 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                             !remarkData ? 'disabled-div' : ' '
                           }`}
                           onClick={e => {
-                            const temp = remarksDetail ? remarksDetail : [];
-                            temp.unshift({
-                              data: remarkData,
-                              createdAt: moment().format(
-                                'MMMM Do YYYY, h:mm a',
-                              ),
-                              createdBy: 'john doe',
-                            });
-                            if (setRemarksDetail) {
-                              setRemarksDetail(temp);
-                              setFieldValue('remarkData', '');
+                            if (remarkData) {
+                              const temp = remarksDetail ? remarksDetail : [];
+                              temp.unshift({
+                                data: remarkData,
+                                createdAt: moment().format(
+                                  'MMMM Do YYYY, h:mm a',
+                                ),
+                                createdBy: 'john doe',
+                              });
+                              if (setRemarksDetail) {
+                                setRemarksDetail(temp);
+                                setFieldValue('remarkData', '');
+                              }
                             }
                             // changeRemark && changeRemark.data
                             //   ? arrayHelpers.push(changeRemark)
@@ -118,21 +120,25 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                       ) : (
                         <>
                           <div
-                            className={'add-remark-btn'}
+                            className={`add-remark-btn ${
+                              !remarkData ? 'disabled-div' : ' '
+                            }`}
                             onClick={e => {
-                              const temp = remarksDetail ? remarksDetail : [];
-                              temp[activeRemark].data = remarkData;
-                              // temp.push({
-                              //   data: remarkData,
-                              //   createdAt: moment().format(
-                              //     'MMMM Do YYYY, h:mm a',
-                              //   ),
-                              //   createdBy: 'john doe',
-                              // });
-                              if (setRemarksDetail) {
-                                setRemarksDetail(temp);
-                                setFieldValue('remarkData', '');
-                                setisEditRemark(false);
+                              if (remarkData) {
+                                const temp = remarksDetail ? remarksDetail : [];
+                                temp[activeRemark].data = remarkData;
+                                // temp.push({
+                                //   data: remarkData,
+                                //   createdAt: moment().format(
+                                //     'MMMM Do YYYY, h:mm a',
+                                //   ),
+                                //   createdBy: 'john doe',
+                                // });
+                                if (setRemarksDetail) {
+                                  setRemarksDetail(temp);
+                                  setFieldValue('remarkData', '');
+                                  setisEditRemark(false);
+                                }
                               }
                             }}
                           >

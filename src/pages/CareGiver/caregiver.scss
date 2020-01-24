@@ -1,4 +1,4 @@
-@import "../../scss/variables";
+@import '../../scss/variables';
 .common-col {
   height: 100%;
   .form-card {
@@ -21,7 +21,7 @@
         .common-list-body {
           height: calc(100% - 22px);
           min-height: 120px;
-          max-height: 250px;
+          max-height: 500px;
         }
       }
     }

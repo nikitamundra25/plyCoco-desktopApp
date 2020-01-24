@@ -66,10 +66,10 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     languageTranslation("INVALID_NUMBER"),
     value => !value || (value && !isNaN(value))
   ),
-  // website:Yup.string().matches(
-  //   webRegExp
-
-  // )
+  website: Yup.string().matches(
+    webRegExp,
+    languageTranslation("ENTER_VALID_WEB_URL")
+  )
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<

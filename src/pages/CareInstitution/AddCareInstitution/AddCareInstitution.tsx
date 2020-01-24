@@ -469,30 +469,6 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                 <Row>
                   <Col sm="4">
                     <Label className="form-label col-form-label ">
-                      {languageTranslation("CITY")}
-                    </Label>
-                  </Col>
-                  <Col sm="8">
-                    <div>
-                      <Input
-                        type="text"
-                        name={"city"}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={city}
-                        placeholder={languageTranslation("CITY")}
-                        className=" width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"12"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label ">
                       {languageTranslation("ZIP")}
                     </Label>
                   </Col>
@@ -512,6 +488,31 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
+            <Col lg={"12"}>
+              <FormGroup>
+                <Row>
+                  <Col sm="4">
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("CITY")}
+                    </Label>
+                  </Col>
+                  <Col sm="8">
+                    <div>
+                      <Input
+                        type="text"
+                        name={"city"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={city}
+                        placeholder={languageTranslation("CITY")}
+                        className=" width-common"
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
+
             <Col lg={"12"}>
               <FormGroup>
                 <Row>

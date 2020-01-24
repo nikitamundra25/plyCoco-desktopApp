@@ -54,7 +54,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
           <div className="common-list-footer form-section ">
             <FormGroup className="mb-0">
               <Select
-                placeholder={"Type to add qualifications"}
+                placeholder={"Please Select Qualification from the dropdown"}
                 name={"qualificationId"}
                 value={qualificationId ? qualificationId : undefined}
                 onChange={(value: any) =>
@@ -92,7 +92,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
           <div className="common-list-footer form-section ">
             <FormGroup className="mb-0">
               <Select
-                placeholder={"Type to add attributes"}
+                placeholder={" Please Select Attribute from the dropdown"}
                 value={attributeId ? attributeId : undefined}
                 onChange={(value: any) => handleSelect(value, "attributeId")}
                 isMulti

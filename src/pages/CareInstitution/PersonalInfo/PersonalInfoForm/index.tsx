@@ -149,11 +149,13 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     <Row className=" ">
       <Button
         color={"primary"}
+        disabled={isSubmitting}
         className={"save-button"}
         onClick={handleSubmit}
         id={"caregiver-save-btn"}
       >
-        Save
+        {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+        {languageTranslation("SAVE_BUTTON")}
       </Button>
       <Col lg={"4"}>
         <div className="form-card h-100">

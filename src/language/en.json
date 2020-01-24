@@ -30,7 +30,7 @@
   "PASSWORD_LABEL": "Enter Password",
   "PASSWORD": "Password",
   "FIRSTNAME_SPECIALCHARACTER": "First name must contain alphabets only",
-  "EMAIL_MAXLENGTH": "Email must be less than 30 characters",
+  "EMAIL_MAXLENGTH": "Email must be less than 50 characters",
   "USERNAME_MAXLENGTH": "Username must be less than 50 characters",
   "FIRSTNAME_MAXLENGTH": "First name must be less than 20 characters",
   "FIRSTNAME_REQUIRED": "First Name is required",

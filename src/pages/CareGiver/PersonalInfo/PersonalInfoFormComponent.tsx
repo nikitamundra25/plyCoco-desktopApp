@@ -674,7 +674,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder="Belongs to"
                     options={props.CareInstitutionList}
-                    value={belongTo ? belongTo : undefined}
+                    value={belongTo && belongTo.value ? belongTo : undefined}
                     onChange={(value: any) => handleSelect(value, "belongTo")}
                   />
                 </div>

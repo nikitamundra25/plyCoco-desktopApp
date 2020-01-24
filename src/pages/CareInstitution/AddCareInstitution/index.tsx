@@ -3,52 +3,47 @@ import React, {
   useEffect,
   Suspense,
   useState,
-  FunctionComponent,
-} from 'react';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { CareInstituionValidationSchema } from '../../../validations';
+  FunctionComponent
+} from "react";
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import { CareInstituionValidationSchema } from "../../../validations";
 import {
   ICareInstitutionFormValues,
   IHandleSubmitInterface,
-  IReactSelectInterface,
-} from '../../../interfaces';
-import AddCareInstitution from './AddCareInstitution';
+  IReactSelectInterface
+} from "../../../interfaces";
+import AddCareInstitution from "./AddCareInstitution";
 import {
   CareInstitutionQueries,
-  GET_QUALIFICATION_ATTRIBUTES,
-} from '../../../queries';
-import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
-import { logger, languageTranslation } from '../../../helpers';
-import { toast } from 'react-toastify';
-import { useHistory, RouteComponentProps } from 'react-router';
-import { AppRoutes } from '../../../config';
-import { careInstitutionRoutes } from '../Sidebar/SidebarRoutes/ConstitutionRoutes';
-import add from '../../../assets/img/add.svg';
-import reminder from '../../../assets/img/reminder.svg';
-import password from '../../../assets/img/password.svg';
-import appointment from '../../../assets/img/appointment.svg';
-import clear from '../../../assets/img/clear.svg';
-import { IQualifications } from '../../../interfaces/qualification';
+  GET_QUALIFICATION_ATTRIBUTES
+} from "../../../queries";
+import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { logger, languageTranslation } from "../../../helpers";
+import { toast } from "react-toastify";
+import { useHistory, RouteComponentProps } from "react-router";
+import { AppRoutes } from "../../../config";
+import { careInstitutionRoutes } from "../Sidebar/SidebarRoutes/ConstitutionRoutes";
+import add from "../../../assets/img/add.svg";
+import reminder from "../../../assets/img/reminder.svg";
+import password from "../../../assets/img/password.svg";
+import appointment from "../../../assets/img/appointment.svg";
+import clear from "../../../assets/img/clear.svg";
+import { IQualifications } from "../../../interfaces/qualification";
 
 const CareInstitutionSidebar = React.lazy(() =>
-  import('../Sidebar/SidebarLayout/CareInstitutionLayout'),
+  import("../Sidebar/SidebarLayout/CareInstitutionLayout")
 );
 
 const CareInstitutionTabs = careInstitutionRoutes;
 
-const [
-  GET_CARE_INSTITUTION_LIST,
-  DELETE_CARE_INSTITUTION,
-  UPDATE_CARE_INSTITUTION,
-  ADD_CARE_INSTITUTION,
-] = CareInstitutionQueries;
+const [, , , ADD_CARE_INSTITUTION] = CareInstitutionQueries;
 
 export const CareInstitutionForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 > &
   RouteComponentProps &
   IHandleSubmitInterface> = (
-  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps,
+  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
 ) => {
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
 
@@ -58,7 +53,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
 
   // To fecth qualification attributes list
   const { data: qualificationData } = useQuery<IQualifications>(
-    GET_QUALIFICATION_ATTRIBUTES,
+    GET_QUALIFICATION_ATTRIBUTES
   );
 
   const qualificationList: IReactSelectInterface[] | undefined = [];
@@ -66,7 +61,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
     qualificationData.getQualificationAttributes.forEach((quali: any) => {
       qualificationList.push({
         label: quali.attributeName,
-        value: quali.id,
+        value: quali.id
       });
     });
   }
@@ -74,22 +69,22 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   let history = useHistory();
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn',
+      "caregiver-add-btn"
     );
     if (buttonDiv) {
       if (scrollPositionY >= 18) {
-        buttonDiv.classList.add('sticky-save-btn');
+        buttonDiv.classList.add("sticky-save-btn");
       } else {
-        buttonDiv.classList.remove('sticky-save-btn');
+        buttonDiv.classList.remove("sticky-save-btn");
       }
     }
   };
@@ -99,28 +94,30 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
       const Data: any = data;
       history.push(
         AppRoutes.CARE_INSTITUION_VIEW.replace(
-          ':id',
-          Data.addCareInstitution ? Data.addCareInstitution.id : 'null',
-        ),
+          ":id",
+          Data.addCareInstitution ? Data.addCareInstitution.id : "null"
+        )
       );
     }
   }, [data]);
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
-    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
   ) => {
     //to set submit state to false after successful signup
+    console.log("values in add care", values);
+
     let AttributeData: string[] = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>
-        AttributeData.push(attribute.label),
+        AttributeData.push(attribute.label)
       );
     }
 
     try {
       const dataSubmit: any = {
-        gender: values && values.gender ? values.gender.value : '',
-        salutation: values && values.salutation ? values.salutation.value : '',
+        gender: values && values.gender ? values.gender.value : "",
+        salutation: values && values.salutation ? values.salutation.value : "",
         firstName: values.firstName,
         lastName: values.lastName,
         shortName: values.shortName,
@@ -141,44 +138,44 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         careGiverCommission: values.careGiverCommission,
         doctorCommission: values.doctorCommission,
         invoiceType:
-          values && values.invoiceType ? values.invoiceType.value : '',
-        interval: values && values.interval ? values.interval.value : '',
+          values && values.invoiceType ? values.invoiceType.value : "",
+        interval: values && values.interval ? values.interval.value : "",
         emailInvoice: values.emailInvoice,
         addressInvoice: values.addressInvoice,
         regionId:
           values && values.regionId ? `{${values.regionId.value}}` : null,
         city: values && values.city,
         fax: values && values.fax,
-        linkedTo: values && values.linkedTo ? values.linkedTo.value : '',
+        linkedTo: values && values.linkedTo ? values.linkedTo.value : "",
         phoneNumber: values && values.phoneNumber,
         mobileNumber: values.mobileNumber,
         qualificationId:
           values.qualificationId && values.qualificationId.length
             ? `{${values.qualificationId
                 .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
+                  (qualification: IReactSelectInterface) => qualification.value
                 )
-                .join(', ')}}`
+                .join(", ")}}`
             : null,
         attributes: AttributeData,
         leasingPriceListId:
           values.leasingPriceListId && values.leasingPriceListId.value
             ? values.leasingPriceListId.value
             : null,
-        remarksViewable: values.remarksViewable,
+        remarksViewable: values.remarksViewable
       };
 
       await addCareInstitution({
         variables: {
-          careInstitutionInput: dataSubmit,
-        },
+          careInstitutionInput: dataSubmit
+        }
       });
-      toast.success(languageTranslation('CARE_INSTITUTION_ADD_SUCCESS_MSG'));
+      toast.success(languageTranslation("CARE_INSTITUTION_ADD_SUCCESS_MSG"));
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       toast.error(message);
       logger(error);
     }
@@ -190,30 +187,30 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   // const { data, loading, error, refetch } = useQuery(GET_USERS);
   // console.log(data, 'dataaaaa');
   const values: ICareInstitutionFormValues = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    userName: '',
-    fax: '',
-    shortName: '',
-    companyName: '',
-    street: '',
-    city: '',
-    isArchive: false,
+    email: "",
+    firstName: "",
+    lastName: "",
+    userName: "",
+    fax: "",
+    shortName: "",
+    companyName: "",
+    street: "",
+    city: "",
+    isArchive: false
   };
   return (
-    <div className='common-detail-page'>
-      <div className='common-detail-section'>
-        <Suspense fallback={'Loading..'}>
-          <div className='sticky-common-header'>
-            <div className='common-topheader d-flex align-items-center '>
-              <div className='common-title'>Add Care Institution</div>
-              <div className='header-nav-item'>
-                <span className='header-nav-icon'>
-                  <img src={reminder} alt='' />
+    <div className="common-detail-page">
+      <div className="common-detail-section">
+        <Suspense fallback={"Loading.."}>
+          <div className="sticky-common-header">
+            <div className="common-topheader d-flex align-items-center ">
+              <div className="common-title">Add Care Institution</div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={reminder} alt="" />
                 </span>
                 <span
-                  className='header-nav-text'
+                  className="header-nav-text"
                   // onClick={() => {
                   //   this.setState({ show: true });
                   // }}
@@ -221,41 +218,41 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
                   Create Todo/Reminder
                 </span>
               </div>
-              <div className='header-nav-item'>
-                <span className='header-nav-icon'>
-                  <img src={password} alt='' />
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={password} alt="" />
                 </span>
-                <span className='header-nav-text'>New Password</span>
+                <span className="header-nav-text">New Password</span>
               </div>
-              <div className='header-nav-item'>
-                <span className='header-nav-icon'>
-                  <img src={appointment} alt='' />
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={appointment} alt="" />
                 </span>
-                <span className='header-nav-text'>Display Appointments</span>
+                <span className="header-nav-text">Display Appointments</span>
               </div>
-              <div className='header-nav-item'>
-                <span className='header-nav-icon'>
-                  <img src={clear} alt='' />
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={clear} alt="" />
                 </span>
-                <span className='header-nav-text'>Clear</span>
+                <span className="header-nav-text">Clear</span>
               </div>
             </div>
             <CareInstitutionSidebar
               tabs={CareInstitutionTabs}
               activeTab={activeTab}
-              onTabChange={''}
+              onTabChange={""}
             />
           </div>
         </Suspense>
-        <Suspense fallback={''}>
-          <div className='common-content flex-grow-1'>
+        <Suspense fallback={""}>
+          <div className="common-content flex-grow-1">
             {activeTab === 0 ? (
-              <div className={'form-section forms-main-section'}>
+              <div className={"form-section forms-main-section"}>
                 <Formik
                   initialValues={values}
                   onSubmit={handleSubmit}
                   children={(
-                    props: FormikProps<ICareInstitutionFormValues>,
+                    props: FormikProps<ICareInstitutionFormValues>
                   ) => (
                     <AddCareInstitution
                       {...props}

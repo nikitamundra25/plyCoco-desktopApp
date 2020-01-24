@@ -145,58 +145,6 @@ const CotactFormComponent: any = (
                     </FormGroup>
                   </Col>
                 ) : null}
-                {/* <Col lg={"12"}>
-                <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                        {languageTranslation("GENDER")}
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                      <Row className="custom-col inner-no-padding-col">
-                        <Col sm="4">
-                          <div>
-                            <Select
-                              placeholder={languageTranslation("GENDER")}
-                              value={gender ? gender : undefined}
-                              onChange={(value: any) =>
-                                handleSelect(value, "gender")
-                              }
-                              options={Gender}
-                            />
-                          </div>
-                        </Col>
-                        <Col sm="8">
-                          <FormGroup>
-                            <Row className="custom-col inner-no-padding-col">
-                              <Col sm="6">
-                                <Label className="form-label col-form-label inner-label">
-                                  {languageTranslation("TITLE")}
-                                </Label>
-                              </Col>
-                              <Col sm="6">
-                                <div>
-                                  <Input
-                                    type="text"
-                                    name={"title"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={title}
-                                    placeholder={languageTranslation("TITLE")}
-                                    className="width-common"
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col> */}
-
                 <Col lg={"12"}>
                   <FormGroup>
                     <Row>
@@ -209,7 +157,7 @@ const CotactFormComponent: any = (
                         <div>
                           <Select
                             placeholder={languageTranslation("GENDER")}
-                            value={gender && gender.value ? gender : undefined}
+                            value={gender ? gender : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "gender")
                             }
@@ -255,11 +203,7 @@ const CotactFormComponent: any = (
                         <div>
                           <Select
                             placeholder={languageTranslation("SALUTATION")}
-                            value={
-                              salutation && salutation.value
-                                ? salutation
-                                : undefined
-                            }
+                            value={salutation ? salutation : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "salutation")
                             }
@@ -354,11 +298,7 @@ const CotactFormComponent: any = (
                         <div>
                           <Select
                             placeholder={languageTranslation("CONTACT_TYPE")}
-                            value={
-                              contactType && contactType.value
-                                ? contactType
-                                : undefined
-                            }
+                            value={contactType ? contactType : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "contactType")
                             }
@@ -455,9 +395,7 @@ const CotactFormComponent: any = (
                           <Select
                             placeholder={languageTranslation("COUNTRY")}
                             options={countriesOpt}
-                            value={
-                              country && country.value ? country : undefined
-                            }
+                            value={country ? country : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "country")
                             }
@@ -674,7 +612,7 @@ const CotactFormComponent: any = (
                 <div className="common-list-footer form-section ">
                   <FormGroup className="mb-0">
                     <Select
-                      placeholder={"Type to add attributes"}
+                      placeholder={"Please Select Attribute from the dropdown"}
                       options={CareInstitutionContactAttribute}
                       value={attributeId ? attributeId : undefined}
                       onChange={(value: any) =>

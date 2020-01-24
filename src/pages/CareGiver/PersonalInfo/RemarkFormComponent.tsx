@@ -15,6 +15,10 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
     createdBy: ""
   });
 
+  let [isEditRemark, setisEditRemark] = useState(false)
+  let [remarkIndex, setisRemarkIndex] = useState(-1)
+
+
   const {
     values: { remarks },
     touched,
@@ -26,6 +30,8 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
     setFieldValue,
     setFieldTouched
   } = props;
+  console.log("remarkIndex", remarkIndex);
+
 
   return (
     <Col lg={4}>
@@ -66,29 +72,67 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                                 value={changeRemark.data}
                                 className="height-textarea "
                               />
-                              <div
-                                className={`add-remark-btn ${
-                                  !changeRemark.data ? "disabled-div" : " "
-                                }`}
-                                onClick={e => {
-                                  changeRemark && changeRemark.data
-                                    ? arrayHelpers.push(changeRemark)
-                                    : null;
-                                  setchangeRemark(
-                                    (changeRemark = {
-                                      data: "",
-                                      createdAt: "",
-                                      createdBy: ""
-                                    })
-                                  );
-                                  null;
-                                }}
-                              >
-                                 <i className={"fa fa-plus"} />
-                                  &nbsp; Add More
-                                
-                                
-                              </div>
+                              {
+                                !isEditRemark ?
+                                  <div
+                                    className={`add-remark-btn ${
+                                      !changeRemark.data ? "disabled-div" : " "
+                                      }`}
+                                    onClick={e => {
+                                      changeRemark && changeRemark.data
+                                        ? arrayHelpers.push(changeRemark)
+                                        : null;
+                                      setchangeRemark(
+                                        (changeRemark = {
+                                          data: "",
+                                          createdAt: "",
+                                          createdBy: ""
+                                        })
+                                      );
+                                      null;
+                                    }}
+                                  >
+                                    <i className={"fa fa-plus"} />
+                                    &nbsp; Add More
+                                </div> :
+                                  <div>
+                                    <span
+                                      className={"btn"}
+                                      onClick={e => {
+                                        changeRemark && changeRemark.data
+                                          ? arrayHelpers.push(changeRemark)
+                                          : null;
+                                        setchangeRemark(
+                                          (changeRemark = {
+                                            data: "",
+                                            createdAt: "",
+                                            createdBy: ""
+                                          })
+                                        );
+                                        arrayHelpers.remove(remarkIndex)
+                                        null;
+                                      }}
+                                    >
+                                      update
+                                    </span>
+                                    <span
+                                      className={"btn"}
+                                      onClick={() => {
+                                        setisEditRemark(isEditRemark = false)
+                                        setchangeRemark(
+                                          (changeRemark = {
+                                            data: "",
+                                            createdAt: "",
+                                            createdBy: ""
+                                          })
+                                        );
+                                        null;
+                                      }}
+                                    >
+                                      cancel
+                                    </span>
+                                  </div>
+                              }
                             </div>
                           </div>
                           <div className="text-left activity-date">
@@ -110,7 +154,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
             ) : null}
             {remarks && remarks.length ? (
               <>
-                {remarks.reverse().map((remark: ICareInstitutionRemarks) => {
+                {remarks.reverse().map((remark: ICareInstitutionRemarks, index: number) => {
                   return (
                     <div className="activity-block py-2 px-3">
                       <div className="text-left">
@@ -125,10 +169,27 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                           <i className="fa fa-user mr-2"></i>Mark Smith
                         </span>
                         <div className="remark-action-btn">
-                          <span className="edit-btn">
+                          <span
+                            onClick={() => {
+                              setchangeRemark(
+                                (changeRemark = {
+                                  data: remark.data,
+                                  createdAt: moment(remark.createdAt).format(
+                                    "MMMM Do YYYY, h:mm a"
+                                  ),
+                                  createdBy: "john doe"
+                                })
+                              );
+                              setisEditRemark(isEditRemark = true);
+                              setisRemarkIndex(remarkIndex = index)
+                            }
+                            }
+                            className="edit-btn">
                             <i className="icon-note"></i>
                           </span>
-                          <span className="delete-btn">
+                          <span
+                            // onClick={arrayHelpers.remove(remarkIndex)}
+                            className="delete-btn">
                             <i className="icon-trash"></i>
                           </span>
                         </div>
@@ -139,8 +200,35 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues>> = (
                 })}
               </>
             ) : (
-              ""
-            )}
+                ""
+              )}
+
+            {remarks && remarks.length
+              ? remarks
+                .reverse()
+                .map((remarkData: ICareInstitutionRemarks, index: number) => {
+                  <div className="activity-block py-2 px-3">
+                    <div className="pr-3 text-left">
+                      <span className="text-capitalize">
+                        {remarkData.data}
+                        <span className="view-more-link">View More</span>
+                      </span>
+                    </div>
+                    <div className="text-left activity-date">
+                      <span>
+                        <i className="fa fa-clock-o mr-2"></i>
+                        {remarkData.createdAt}
+                      </span>
+                      <span>
+                        <i className="fa fa-user mr-2"></i>
+                        {remarkData.createdBy}
+                      </span>
+                    </div>
+                    <span className="activity-icon activity-set"></span>
+                  </div>;
+                })
+              : null}
+
           </div>
         </div>
       </div>

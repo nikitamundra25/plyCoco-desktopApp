@@ -798,9 +798,42 @@ body {
 }
 
 @media (max-width: 991.98px) {
-  html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .main {
-    margin-left: 0px !important;
-    position: relative;
+  html:not([dir="rtl"]) {
+    .sidebar-lg-show {
+      &.sidebar-fixed {
+        .main {
+          margin-left: 0px !important;
+          position: relative;
+        }
+      }
+    }
+  }
+}
+html:not([dir="rtl"]) {
+  .sidebar-lg-show {
+    &.sidebar-fixed {
+      .main {
+        @media (max-width: 1080px) and (min-width: 992px) {
+          .user-select,
+          .region-select {
+            width: 150px;
+          }
+          .common-detail-page {
+            .common-detail-section {
+              .common-topheader {
+                .header-nav-item {
+                  padding: 4px 5px;
+                  font-size: $font_11;
+                  .header-nav-icon {
+                    padding-right: 5px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -830,6 +863,12 @@ body {
   border: 1px solid $table_border;
   .region-input {
     width: 400px;
+    @media (max-width: 767px) and (min-width: 576px) {
+      width: 200px;
+    }
+    @media (max-width: 575px) {
+      width: auto;
+    }
   }
   .required-error {
     left: 0px !important;
@@ -888,10 +927,10 @@ body {
     justify-content: flex-start;
 
     .btn-filter {
-      font-size: $font_14;
-      padding: 0px 0px;
+      font-size: $font_12;
+      padding: 0px 6px;
       font-weight: 700;
-      width: 25px;
+
       height: 25px;
       border-radius: 4px;
       display: flex;
@@ -906,6 +945,10 @@ body {
         color: $light_black;
         background-color: $btn_hover_gray;
         border-color: $btn_hover_gray;
+      }
+      .search-text {
+        font-size: $font_12;
+        margin-left: 4px;
       }
     }
   }
@@ -1038,10 +1081,13 @@ body {
     .css-1hwfws3 {
       max-height: 68px;
       overflow-y: auto;
- 
     }
     .css-1rhbuit-multiValue {
       line-height: normal;
+    }
+    .css-12jo7m5 {
+      font-size: 12px;
+      padding: 2px 3px;
     }
     .css-tlfecz-indicatorContainer,
     .css-1gtu0rj-indicatorContainer {
@@ -1081,6 +1127,7 @@ body {
     font-size: $font_13;
     top: 0px;
     z-index: unset;
+    position: absolute;
   }
 
   .file-preview-section {
@@ -1322,6 +1369,15 @@ body {
       border: 1px solid $table_border;
     }
   }
+  &.table-hover {
+    tbody {
+      tr {
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.06);
+        }
+      }
+    }
+  }
 
   .no-hover-row {
     &:hover {
@@ -1338,22 +1394,28 @@ body {
       border-bottom-width: 1px !important;
       font-weight: 700;
       vertical-align: middle;
-      &.region-th-column{
-        width: 150px;
+      &.region-th-column {
+        width: 250px;
+        min-width: 250px;
+      }
+      &.company-th-column{
         min-width: 150px;
-            }
-      &.date-th-column{
+      }
+      &.date-th-column {
         width: 180px;
         min-width: 180px;
-            }
-      &.qualifications-th-column{
-        width: 180px;
-        min-width: 180px;
-            }
-      &.applying-th-column{
+      }
+      &.qualifications-th-column {
+        width: 250px;
+        min-width: 250px;
+      }
+      &.applying-th-column {
         width: 140px;
         min-width: 140px;
-            }
+      }
+      &.status-column {
+        width: 100px;
+      }
     }
   }
 
@@ -1392,7 +1454,6 @@ body {
     }
   }
   td {
-   
     .date-title {
       font-weight: 700;
       font-size: $font_12;
@@ -1419,6 +1480,7 @@ body {
         max-height: 100%;
       }
     }
+
     .description-column {
       letter-spacing: 0px;
       width: 230px;
@@ -1427,9 +1489,7 @@ body {
       &.region-column {
         width: 100%;
       }
-      &.table-date-column{
-        width: 141px;
-      }
+
       .info-title {
         font-size: $font_12;
         color: $black;
@@ -1453,6 +1513,29 @@ body {
           color: $black;
           font-weight: 600;
         }
+      }
+    }
+    .company-column {
+      .company-text {
+        margin-bottom: 2px;
+        font-size: $font_12;
+        color: $black;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        word-break: break-word;
+      }
+    }
+    .region-list {
+      width: 250px;
+      .region-label {
+        background: $region_label_bg;
+        padding: 2px 4px;
+        margin-right: 4px;
+        margin-bottom: 4px;
+        border-radius: 4px;
+        display: inline-block;
+        border: 1px solid $table_border;
       }
     }
     .status-btn {
@@ -1640,16 +1723,16 @@ body {
     .profile-text {
       flex: 1 1 50%;
       max-width: 50%;
-      padding:0 10px;
+      padding: 0 10px;
     }
     .profile-wrap {
       position: absolute;
-    left: 0px;
-    margin: 0;
-    width: 125px;
+      left: 15px;
+      margin: 0;
+      width: 125px;
       .emloyee-profile-img {
-        width: 120px;
-        height: 120px;
+        width: 100%;
+        height: 100%;
         border-radius: 3px;
         margin: auto;
         overflow: hidden;
@@ -1664,6 +1747,14 @@ body {
         background-position: center center;
         width: 100%;
         height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          margin: auto;
+        }
       }
       .changeProfile {
         position: absolute;
@@ -1691,6 +1782,9 @@ body {
     border: 1px solid #ccc;
     padding-left: 140px;
     position: relative;
+    &.other-detail-card {
+      padding: 15px;
+    }
     .region-list {
       .region-text {
         margin-bottom: 2px;
@@ -1760,6 +1854,9 @@ body {
     .common-topheader {
       background: $white;
       padding-top: 4px;
+      .user-select {
+        text-transform: capitalize;
+      }
       .common-title {
         color: $black;
         font-size: $font_14;
@@ -1869,9 +1966,7 @@ body {
         padding: 0px;
         list-style: none;
         font-family: FrutigerNeueLTPro-Medium;
-        @media only screen and (max-width: 767px) {
-          padding-right: 105px;
-        }
+        padding-right: 105px;
 
         .nav-item {
           @media only screen and (max-width: 767px) {
@@ -2464,6 +2559,7 @@ body {
 
     .remark-section {
       position: relative;
+      word-wrap:break-word;
       textarea {
         height: 70px;
         border-radius: 0px;
@@ -2700,6 +2796,7 @@ body {
   border: 0px;
   .nav-item {
     .nav-link {
+      text-transform: capitalize;
       cursor: pointer;
       border-radius: 4px;
       padding: 4px 12px;
@@ -2953,75 +3050,74 @@ body {
 }
 
 @media only screen and (max-width: 991px) {
-    .employee-details{
-
-      .emloyee-detail-card{
-        flex-wrap: wrap;
-        padding: 15px;
-          .text-label{
-            flex: 0 0 110px;
-          }
-      .profile-wrap{
-          flex: 1 1 100%;
-          position: relative;
-      margin: 0px;
+  .employee-details {
+    .emloyee-detail-card {
+      flex-wrap: wrap;
+      padding: 15px;
+      .text-label {
+        flex: 0 0 110px;
+      }
+      .profile-wrap {
+        flex: 1 1 100%;
+        position: relative;
+        margin: 0px;
       }
 
-  .profile-text{
-    flex: 1 1 50%;
-    padding: 20px 0px;
-   margin-top: 10px;
-    &:nth-child(2){
-      border-right: 1px solid #Ccc;
-    padding-right: 15px;
-    } 
-    &:nth-child(3){
-      padding-left: 15px;
+      .profile-text {
+        flex: 1 1 50%;
+        padding: 20px 0px;
+        margin-top: 10px;
+        &:nth-child(2) {
+          border-right: 1px solid #ccc;
+          padding-right: 15px;
+        }
+        &:nth-child(3) {
+          padding-left: 15px;
+        }
+      }
     }
-   }
-  }}
+  }
 }
 @media only screen and (max-width: 767px) {
   .form-section {
-    .label-height{
+    .label-height {
       display: none;
     }
-    .filter-btn-wrap{
+    .filter-btn-wrap {
       margin-bottom: 20px;
     }
   }
-  .employee-details{
-    .emloyee-detail-card{
-      .profile-wrap{ .emloyee-profile-img{
-        margin: 0;
-      }}
-      &.emloyee-other-info{
-        margin-top:15px;
+  .employee-details {
+    .emloyee-detail-card {
+      .profile-wrap {
+        .emloyee-profile-img {
+          margin: 0;
+        }
+      }
+      &.emloyee-other-info {
+        margin-top: 15px;
         height: auto;
       }
-        .text-label{
-          flex: 0 0 110px;
-        }
-    .profile-wrap{
+      .text-label {
+        flex: 0 0 110px;
+      }
+      .profile-wrap {
         flex: 1 1 100%;
-   
+      }
+
+      .profile-text {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: 0px;
+        margin-top: 10px;
+        &:nth-child(2) {
+          border-right: none;
+          padding-right: 0px;
+        }
+        &:nth-child(3) {
+          padding-left: 0px;
+        }
+      }
     }
-
-.profile-text{
-  flex: 1 1 100%;
-  max-width: 100%;
-  padding: 0px;
- margin-top: 10px;
-  &:nth-child(2){
-    border-right: none;
-  padding-right: 0px;
-  } 
-  &:nth-child(3){
-    padding-left: 0px;
   }
-
- }
-}
-
-}
 }

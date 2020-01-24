@@ -1,73 +1,73 @@
-import React, { useState, FunctionComponent } from 'react';
-import { FormGroup } from 'reactstrap';
-import 'react-datepicker/dist/react-datepicker.css';
-import 'react-datepicker/dist/react-datepicker.css';
-import { FormikProps } from 'formik';
-import { IReactSelectInterface, ICareGiverValues } from '../../../interfaces';
-import { languageTranslation } from '../../../helpers';
-import Select from 'react-select';
+import React, { useState, FunctionComponent } from "react";
+import { FormGroup } from "reactstrap";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker.css";
+import { FormikProps } from "formik";
+import { IReactSelectInterface, ICareGiverValues } from "../../../interfaces";
+import { languageTranslation } from "../../../helpers";
+import Select from "react-select";
 
 const QualificationFormComponent: FunctionComponent<FormikProps<
   ICareGiverValues
 > & { qualificationList: IReactSelectInterface[] | undefined }> = (
   props: FormikProps<ICareGiverValues> & {
     qualificationList: IReactSelectInterface[] | undefined;
-  },
+  }
 ) => {
   const { values, initialValues, qualificationList } = props;
   let [selectedQualification, setselectedQualification] = useState<
     IReactSelectInterface
   >({
-    label: '',
-    value: '',
+    label: "",
+    value: ""
   });
 
   const { qualifications } = values;
   const handleQualification = (value: any) => {
     setselectedQualification((selectedQualification = value));
     let qualificationValue: any = initialValues.qualifications;
-    props.setFieldValue('qualifications', value);
+    props.setFieldValue("qualifications", value);
   };
 
   // props.setFieldValue("qualifications", []);
   return (
     <>
-      <div className='common-list-card'>
-        <h5 className='content-title'>
-          {languageTranslation('QUALIFICATIONS')}
+      <div className="common-list-card">
+        <h5 className="content-title">
+          {languageTranslation("QUALIFICATIONS")}
         </h5>
-        <div className='common-list-wrap'>
-          <div className='common-list-header d-flex align-items-cente justify-content-between'>
-            <div className='common-list-title align-middle'>
-              {' '}
-              {languageTranslation('QUALIFICATION')}
+        <div className="common-list-wrap">
+          <div className="common-list-header d-flex align-items-cente justify-content-between">
+            <div className="common-list-title align-middle">
+              {" "}
+              {languageTranslation("QUALIFICATION")}
             </div>
-            <div className=' align-middle toggle-icon'>
-              <i className='fa fa-angle-down'></i>
+            <div className=" align-middle toggle-icon">
+              <i className="fa fa-angle-down"></i>
             </div>
           </div>
-          <div className='common-list-body'>
+          <div className="common-list-body">
             {qualifications && qualifications.length ? (
-              <ul className='common-list list-unstyled'>
+              <ul className="common-list list-unstyled">
                 {qualifications.map(
                   (qualification: IReactSelectInterface, index: number) => {
                     return <li key={index}>{qualification.label}</li>;
-                  },
+                  }
                 )}
               </ul>
             ) : null}
           </div>
-          <div className='common-list-footer form-section '>
-            <FormGroup className='mb-0'>
+          <div className="common-list-footer form-section ">
+            <FormGroup className="mb-0">
               <Select
                 isMulti
-                menuPlacement={'top'}
+                menuPlacement={"top"}
                 value={qualifications}
-                name={'selectedQualification'}
-                placeholder={'Add Qualification'}
+                name={"selectedQualification"}
+                placeholder={"Type to add qualification"}
                 options={qualificationList}
                 onChange={handleQualification}
-                className='w-100'
+                className="w-100"
               />
             </FormGroup>
           </div>

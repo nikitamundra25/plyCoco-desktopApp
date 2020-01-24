@@ -56,9 +56,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   >(UPDATE_BILLING_SETTINGS);
 
   // To fecth qualification attributes list
-  const { data, loading, error, refetch } = useQuery<IQualifications>(
-    GET_QUALIFICATION_ATTRIBUTES
-  );
+  const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTES);
   const qualificationList: IReactSelectInterface[] | undefined = [];
   if (data && data.getQualificationAttributes) {
     data.getQualificationAttributes.forEach((quali: any) => {
@@ -145,7 +143,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       leasingPricingList,
       invoiceInterval
     } = values;
- 
+
     try {
       let careGiverInput: any = {
         userName,
@@ -254,7 +252,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     caregiver = {}
   } = props.getCaregiver ? props.getCaregiver : {};
 
-  const { nightAllowance, leasingPricingList, invoiceInterval } = caregiver;
+  const {
+    nightAllowance = undefined,
+    leasingPricingList = undefined,
+    invoiceInterval = undefined
+  } = caregiver ? caregiver : {};
   const qualificationsData: IReactSelectInterface[] | undefined = [];
   if (qualifications) {
     qualifications.forEach(({ attributeName, id }: any) => {
@@ -359,7 +361,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     driversLicense:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.driversLicense
-        : false,
+        : "",
     driverLicenseNumber:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.driverLicenseNumber
@@ -369,7 +371,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     vehicleAvailable:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.vehicleAvailable
-        : false,
+        : "",
     street:
       props.getCaregiver && props.getCaregiver.caregiver
         ? props.getCaregiver.caregiver.street
@@ -416,39 +418,55 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         : "",
     belongTo: UserSelectedBelongsTo ? UserSelectedBelongsTo : null,
     legalForm:
-      props.getCaregiver && props.getCaregiver.caregiver.legalForm
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.legalForm
         ? {
             label: props.getCaregiver.caregiver.legalForm,
             value: props.getCaregiver.caregiver.legalForm
           }
         : undefined,
     companyName:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.companyName
         ? props.getCaregiver.caregiver.companyName
         : "",
     registerCourt:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.registerCourt
         ? props.getCaregiver.caregiver.registerCourt
         : "",
     registrationNumber:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.registrationNumber
         ? props.getCaregiver.caregiver.registrationNumber
         : "",
     executiveDirector:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.executiveDirector
         ? props.getCaregiver.caregiver.executiveDirector
         : "",
     employed:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.employed
         ? props.getCaregiver.caregiver.employed
         : false,
     comments:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.comments
         ? props.getCaregiver.caregiver.comments
         : "",
     status,
     remarks:
-      props.getCaregiver && props.getCaregiver.caregiver
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.remarks
         ? props.getCaregiver.caregiver.remarks
         : [],
     invoiceInterval: invoiceInterval
@@ -533,7 +551,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                   CareInstitutionList={usersList}
                 />
               </Col>
-              <Col lg={"4"}>
+              <Col lg={"4"} className="px-lg-0">
                 <div className="common-col">
                   <BillingSettingsFormComponent {...props} />
                   <div className="quality-attribute-section d-flex flex-column">

@@ -63,7 +63,9 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   const [
     fetchCareInstitutionList,
     { data: careInstituition, loading, refetch },
-  ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST);
+  ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
+    fetchPolicy: 'no-cache',
+  });
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: '',
@@ -182,6 +184,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
               <div className='common-topheader d-flex align-items-center '>
                 <div className='user-select'>
                   <Select
+                  classNamePrefix="react-select"
                     defaultValue={selectUser}
                     placeholder='Select Caregiver'
                     value={selectUser}

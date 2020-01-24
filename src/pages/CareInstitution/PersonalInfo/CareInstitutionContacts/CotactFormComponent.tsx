@@ -113,18 +113,15 @@ const CotactFormComponent: any = (
         {}
       </Button>
       <div className={"form-section position-relative"}>
-
         <div className="form-flex-section mt-3 form-card minheight-auto">
           {/* <h5 className="main-title">Add New contact </h5> */}
 
           <div className="form-flex-block">
             <div className="form-flex-tile">
-
               <Row>
                 {id ? (
                   <Col lg={"12"}>
                     <FormGroup>
-
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
@@ -145,7 +142,6 @@ const CotactFormComponent: any = (
                           </div>
                         </Col>
                       </Row>
-
                     </FormGroup>
                   </Col>
                 ) : null}
@@ -290,8 +286,8 @@ const CotactFormComponent: any = (
                             value={firstName}
                             className={
                               errors.firstName && touched.firstName
-                                ? "text-input error"
-                                : "text-input"
+                                ? "text-input error text-capitalize"
+                                : "text-input text-capitalize"
                             }
                           />
                           {errors.firstName && touched.firstName && (
@@ -324,8 +320,8 @@ const CotactFormComponent: any = (
                             value={lastName}
                             className={
                               errors.lastName && touched.lastName
-                                ? "text-input error"
-                                : "text-input"
+                                ? "text-input error text-capitalize"
+                                : "text-input text-capitalize"
                             }
                           />
                           {errors.lastName && touched.lastName && (
@@ -649,21 +645,17 @@ const CotactFormComponent: any = (
                 </div>
                 <div className="common-list-body">
                   <ul className="common-list list-unstyled">
-                    {
-                      attributeId && attributeId.length ?
-                        attributeId.map((data: IReactSelectInterface) => {
-                          return (
-                            <li>{data.label}</li>
-                          )
-                        }) :
-                        null
-                    }
+                    {attributeId && attributeId.length
+                      ? attributeId.map((data: IReactSelectInterface) => {
+                          return <li>{data.label}</li>;
+                        })
+                      : null}
                   </ul>
                 </div>
                 <div className="common-list-footer form-section ">
                   <FormGroup className="mb-0">
                     <Select
-                      placeholder={"Attributes"}
+                      placeholder={"Type to add attributes"}
                       options={CareInstitutionContactAttribute}
                       value={attributeId ? attributeId : undefined}
                       onChange={(value: any) =>

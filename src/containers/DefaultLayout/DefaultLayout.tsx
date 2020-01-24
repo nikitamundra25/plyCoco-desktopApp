@@ -302,7 +302,6 @@ class DefaultLayout extends Component<any, any> {
 
   handleScroll = () => {
     const scrollPositionY = window.scrollY;
-    // console.log(scrollPositionY, "scrollPositionY");
     const header: HTMLElement | null = document.getElementById("sidebar");
     if (header) {
       if (scrollPositionY >= 18) {

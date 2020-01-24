@@ -69,7 +69,6 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
 
   useEffect(() => {
     if (leasingDetails) {
-      console.log(leasingDetails, 'leasingDetails');
       const { getLeasingInformation } = leasingDetails;
       if (getLeasingInformation) {
         setleasingData({

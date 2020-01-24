@@ -86,7 +86,6 @@ const PersonalInfoFormComponent: any = (
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
     if (name === "country") {
-      console.log("selectOption", selectOption);
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
@@ -197,7 +196,6 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col sm="8">
                 <div className="field-class">
-                  {console.log("regionIdregionId", regionId)}
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     onChange={(value: any) => handleSelect(value, "regionId")}
@@ -692,7 +690,6 @@ const PersonalInfoFormComponent: any = (
                   Driver's license
                 </Label>
               </Col>
-              {console.log("driversLicenseValue", driversLicense)}
               <Col sm="8">
                 <div className="custom-radio-block">
                   <FormGroup check inline>

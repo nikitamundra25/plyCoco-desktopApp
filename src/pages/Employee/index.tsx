@@ -77,7 +77,6 @@ const Employee: FunctionComponent = () => {
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
-    console.log("fetch detailss");
     const query = qs.parse(search);
     let searchBy: string = "";
     let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };

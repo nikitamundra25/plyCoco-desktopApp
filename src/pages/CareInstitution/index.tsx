@@ -251,8 +251,6 @@ const CareInstitution = (props: RouteComponentProps) => {
           languageTranslation("CARE_INSTITUTION_DELETE_SUCCESS_MSG")
         );
       } catch (error) {
-        console.log(error, "errorerrorerror");
-
         const message = error.message
           .replace("SequelizeValidationError: ", "")
           .replace("Validation error: ", "")

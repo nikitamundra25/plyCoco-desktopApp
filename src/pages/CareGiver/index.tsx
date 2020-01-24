@@ -162,7 +162,6 @@ const CareGiver: FunctionComponent = () => {
     { id: number }
   >(DELETE_CAREGIVER, {
     update(cache, { data: { deleteCareGiver } }: any) {
-      console.log(data, "data");
       let caregiverData: any = cache.readQuery({
         query: GET_CAREGIVERS,
         variables: {

@@ -161,8 +161,6 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     setFieldValue,
     setFieldTouched
   } = props;
-  console.log("props.err", props);
-
   return (
     <Row className=" ">
       <Button

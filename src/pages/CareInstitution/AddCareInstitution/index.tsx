@@ -114,8 +114,6 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         AttributeData.push(attribute.label)
       );
     }
-    console.log("valuesss", values);
-
     try {
       const dataSubmit: any = {
         gender: values && values.gender ? values.gender.value : "",
@@ -183,8 +181,6 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
 
   const [activeTab, setactiveTab] = useState(0);
 
-  // const { data, loading, error, refetch } = useQuery(GET_USERS);
-  // console.log(data, 'dataaaaa');
   const values: ICareInstitutionFormValues = {
     email: "",
     firstName: "",

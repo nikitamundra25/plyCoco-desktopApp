@@ -43,7 +43,6 @@ const BillingSettingsFormComponent: any = (
   props: FormikProps<IBillingSettingsValues>
 ) => {
   const { values } = props;
-  console.log("errorrrrrssssssssss==========>", props.errors)
   return (
     <div>
     <Form className="form-section">

@@ -122,17 +122,9 @@ const ViewEmployee: FunctionComponent = () => {
                     <div className="profile-wrap">
                       <div className="profile-img-tile">
                         <div className="emloyee-profile-img">
-                          {/* {console.log(employee.profileImage)} */}
                           <div
                             className="user-back-img-wrap"
-                            // style={{
-                            //   backgroundImage: `url(${
-                            //     employee && employee.profileImage
-                            //       ? AppConfig.FILES_ENDPOINT +
-                            //         employee.profileImage
-                            //       : defaultProfile
-                            //   })`
-                            // }}
+                            
                           >
                             <img
                               src={

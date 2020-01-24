@@ -407,25 +407,6 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row>
               <Col sm="4">
-                <Label className="form-label col-form-label ">City</Label>
-              </Col>
-              <Col sm="8">
-                <div>
-                  <Field
-                    component={FormikTextField}
-                    name={"city"}
-                    placeholder="City"
-                    className=" width-common"
-                  />
-                </div>
-              </Col>
-            </Row>
-          </FormGroup>
-        </Col>
-        <Col lg={"12"}>
-          <FormGroup>
-            <Row>
-              <Col sm="4">
                 <Label className="form-label col-form-label ">
                   Postal Code
                 </Label>
@@ -443,6 +424,27 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
+
+        <Col lg={"12"}>
+          <FormGroup>
+            <Row>
+              <Col sm="4">
+                <Label className="form-label col-form-label ">City</Label>
+              </Col>
+              <Col sm="8">
+                <div>
+                  <Field
+                    component={FormikTextField}
+                    name={"city"}
+                    placeholder="City"
+                    className=" width-common"
+                  />
+                </div>
+              </Col>
+            </Row>
+          </FormGroup>
+        </Col>
+
         <Col lg={"12"}>
           <FormGroup>
             <Row>

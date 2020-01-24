@@ -345,9 +345,6 @@ const Employee: FunctionComponent = () => {
               <th className="region-th-column">
                 {languageTranslation("REGION")}
               </th>
-              <th className="text-center">
-                {languageTranslation("TABLE_HEAD_ASSIGNED_CANSTITUTION")}
-              </th>
               <th className="date-th-column">
                 {languageTranslation("CREATED_DATE")}
               </th>
@@ -462,9 +459,6 @@ const Employee: FunctionComponent = () => {
                             <div className="text-center">-</div>
                           )}
                         </div>
-                      </td>
-                      <td className="text-center">
-                        <div>{0}</div>
                       </td>
                       <td>
                         <div>

@@ -21,6 +21,7 @@
         .common-list-body {
           height: calc(100% - 22px);
           min-height: 120px;
+          max-height: 250px;
         }
       }
     }

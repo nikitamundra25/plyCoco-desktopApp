@@ -2598,6 +2598,40 @@ html:not([dir="rtl"]) {
         font-weight: 600;
         color: $light_black;
         margin-top: 6px;
+        padding-right:50px;
+      }
+      .remark-action-btn{
+        position: absolute;
+        right:0px;
+        top:0px;
+        .edit-btn{
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          text-align: center;
+          font-size: $font_12;
+          color: #232323;
+          background: #dcdcdc;
+          margin: 0 3px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
+        }
+        .delete-btn{
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          text-align: center;
+          font-size: $font_12;
+          color: #232323;
+          background: red;
+          margin: 0 3px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
+        }
       }
       .activity-set {
         background: $theme_color;

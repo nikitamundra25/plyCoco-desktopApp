@@ -266,7 +266,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("SALUTATION")}
                     options={Salutation}
-                    value={salutation  && salutation.value ? salutation : null}
+                    value={salutation && salutation.value ? salutation : null}
                     onChange={(value: any) => handleSelect(value, "salutation")}
                   />
                 </div>
@@ -474,7 +474,7 @@ const PersonalInfoFormComponent: any = (
                     placeholder={languageTranslation("STATE")}
                     // placeholder="Bavaria"
                     options={statesOpt}
-                    value={state ? state : undefined}
+                    value={state && state.value ? state : undefined}
                     onChange={(value: any) => handleSelect(value, "state")}
                     noOptionsMessage={() => {
                       return "Select a country first";

@@ -547,7 +547,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                       <Select
                         placeholder={languageTranslation("STATE")}
                         options={statesOpt}
-                        value={state ? state : undefined}
+                        value={state && state.value ? state : undefined}
                         onChange={(value: any) => handleSelect(value, "state")}
                         noOptionsMessage={() => {
                           return "Select a country first";

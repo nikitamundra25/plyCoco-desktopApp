@@ -100,6 +100,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldTouched,
     CareInstitutionList
   } = props;
+  console.log("errors", errors);
+
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
 
@@ -579,7 +581,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                       <Select
                         placeholder={languageTranslation("STATE")}
                         options={statesOpt}
-                        value={state ? state : undefined}
+                        value={state && state.value ? state : undefined}
                         onChange={(value: any) => handleSelect(value, "state")}
                         noOptionsMessage={() => {
                           return "Select a country first";
@@ -607,8 +609,17 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={phoneNumber}
                         placeholder={languageTranslation("PHONE")}
-                        className="width-common"
+                        className={
+                          errors.mobileNumber && touched.mobileNumber
+                            ? "width-common text-input error"
+                            : "width-common text-input"
+                        }
                       />
+                      {errors.phoneNumber && touched.phoneNumber && (
+                        <div className="required-error">
+                          {errors.phoneNumber}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -760,8 +771,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={website}
                         placeholder={languageTranslation("WEBSITE")}
-                        className="width-common"
+                        className={
+                          errors.website && touched.website
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.website && touched.website && (
+                        <div className="required-error">{errors.website}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -779,7 +797,9 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation("LIKED_TO")}
-                        value={linkedTo}
+                        value={
+                          linkedTo && linkedTo.value ? linkedTo : undefined
+                        }
                         onChange={(e: any) => handleLinkedToSelect(e)}
                         options={CareInstitutionList}
                       />

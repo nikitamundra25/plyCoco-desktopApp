@@ -132,6 +132,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
           stateId: values && values.state ? parseInt(values.state.value) : null,
           remarks: values.remarks,
           website: values.website,
+          title: values.title,
           email: values.email,
           userName: values.userName,
           careGiverCommission: values.careGiverCommission,

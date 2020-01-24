@@ -682,6 +682,9 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
+        {
+          console.log("driversLicense", driversLicense)
+        }
         <Col lg={"12"}>
           <FormGroup>
             <Row>
@@ -695,11 +698,11 @@ const PersonalInfoFormComponent: any = (
                   <FormGroup check inline>
                     <CustomInput
                       type="radio"
-                      id="yes_v"
+                      id="driversLicense-1"
                       name="driversLicense"
                       label="Yes"
                       checked={
-                        driversLicense === "yes" || driversLicense
+                        driversLicense === "yes"
                           ? true
                           : false
                       }
@@ -710,11 +713,11 @@ const PersonalInfoFormComponent: any = (
                   <FormGroup check inline>
                     <CustomInput
                       type="radio"
-                      id="no_v"
+                      id="driversLicense-2"
                       name="driversLicense"
                       label="No"
                       checked={
-                        driversLicense === "no" || !driversLicense
+                        driversLicense === "no"
                           ? true
                           : false
                       }
@@ -749,6 +752,9 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
+        {
+          console.log("vehicleAvailable", vehicleAvailable)
+        }
         <Col lg={"12"}>
           <FormGroup>
             <Row>
@@ -762,7 +768,7 @@ const PersonalInfoFormComponent: any = (
                   <FormGroup check inline>
                     <CustomInput
                       type="radio"
-                      id="yes"
+                      id="vehicleAvailable-1"
                       name="vehicleAvailable"
                       label="Yes"
                       checked={vehicleAvailable === "yes" ? true : false}
@@ -773,7 +779,7 @@ const PersonalInfoFormComponent: any = (
                   <FormGroup check inline>
                     <CustomInput
                       type="radio"
-                      id="no"
+                      id="vehicleAvailable-2"
                       name="vehicleAvailable"
                       label="No"
                       checked={vehicleAvailable === "no" ? true : false}

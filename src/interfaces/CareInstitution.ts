@@ -38,7 +38,7 @@ export interface ICareInstitutionFormValues {
   anonymousName2?: string;
   careGiverCommission?: string;
   doctorCommission?: string;
-  leasingPriceListId?: IReactSelectInterface;
+  leasingPriceListId?: IReactSelectInterface | undefined;
   invoiceType?: IReactSelectInterface;
   interval?: IReactSelectInterface;
   emailInvoice?: string;
@@ -91,7 +91,7 @@ export interface ICareInstitutionContact {
   groupAttributes?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  attributeId?: IReactSelectInterface[]
+  attributeId?: IReactSelectInterface[];
 }
 
 export interface ICareInstitutionListDataInterface {

@@ -86,7 +86,6 @@ const PersonalInfoFormComponent: any = (
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
     if (name === "country") {
-      console.log("selectOption", selectOption);
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
@@ -197,7 +196,6 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col sm="8">
                 <div className="field-class">
-                  {console.log("regionIdregionId", regionId)}
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     onChange={(value: any) => handleSelect(value, "regionId")}
@@ -268,7 +266,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("SALUTATION")}
                     options={Salutation}
-                    value={salutation  && salutation.value ? salutation : null}
+                    value={salutation && salutation.value ? salutation : null}
                     onChange={(value: any) => handleSelect(value, "salutation")}
                   />
                 </div>
@@ -476,7 +474,7 @@ const PersonalInfoFormComponent: any = (
                     placeholder={languageTranslation("STATE")}
                     // placeholder="Bavaria"
                     options={statesOpt}
-                    value={state ? state : undefined}
+                    value={state && state.value ? state : undefined}
                     onChange={(value: any) => handleSelect(value, "state")}
                     noOptionsMessage={() => {
                       return "Select a country first";
@@ -676,7 +674,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder="Belongs to"
                     options={props.CareInstitutionList}
-                    value={belongTo ? belongTo : undefined}
+                    value={belongTo && belongTo.value ? belongTo : undefined}
                     onChange={(value: any) => handleSelect(value, "belongTo")}
                   />
                 </div>
@@ -692,7 +690,6 @@ const PersonalInfoFormComponent: any = (
                   Driver's license
                 </Label>
               </Col>
-              {console.log("driversLicenseValue", driversLicense)}
               <Col sm="8">
                 <div className="custom-radio-block">
                   <FormGroup check inline>

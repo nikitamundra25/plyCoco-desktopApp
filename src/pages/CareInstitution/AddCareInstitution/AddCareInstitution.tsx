@@ -42,9 +42,13 @@ const AddCareInstitution: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 > & {
   qualificationList: IReactSelectInterface[] | undefined;
+  setRemarksDetail: any;
+  remarksDetail: any;
 }> = (
   props: FormikProps<ICareInstitutionFormValues> & {
     qualificationList: IReactSelectInterface[] | undefined;
+    setRemarksDetail: any;
+    remarksDetail: any;
   }
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
@@ -159,10 +163,10 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched
+    setFieldTouched,
+    setRemarksDetail,
+    remarksDetail
   } = props;
-  console.log("props.err", props);
-
   return (
     <Row className=" ">
       <Button
@@ -549,7 +553,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                       <Select
                         placeholder={languageTranslation("STATE")}
                         options={statesOpt}
-                        value={state ? state : undefined}
+                        value={state && state.value ? state : undefined}
                         onChange={(value: any) => handleSelect(value, "state")}
                         noOptionsMessage={() => {
                           return "Select a country first";
@@ -822,7 +826,11 @@ const AddCareInstitution: FunctionComponent<FormikProps<
           />
         </div>
       </Col>
-      <RemarkFormData {...props} />
+      <RemarkFormData
+        {...props}
+        setRemarksDetail={setRemarksDetail}
+        remarksDetail={remarksDetail}
+      />
     </Row>
   );
 };

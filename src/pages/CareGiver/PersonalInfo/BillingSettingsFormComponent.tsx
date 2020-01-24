@@ -183,6 +183,7 @@ const BillingSettingsFormComponent: any = (
                       handleSelect(value, "leasingPricingList")
                     }
                     value={leasingPricingList}
+                    // value={leasingPriceListId ? leasingPriceListId : undefined}
                   />
                 </div>
               </Col>

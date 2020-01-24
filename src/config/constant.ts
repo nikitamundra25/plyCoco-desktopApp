@@ -370,14 +370,7 @@ export const Supplements: IReactSelectInterface[] = [
   { value: "Exclusive", label: "Exclusive" },
   { value: "Cumulative", label: "Cumulative" }
 ];
-export const Nationality: IReactSelectInterface[] = [
-  { value: "Germans", label: "Germans" },
-  { value: "Hungarians", label: "Hungarians" },
-  { value: "Russians", label: "Russians" },
-  { value: "Basques", label: "Basques" },
-  { value: "Albanien", label: "Albanien" },
-  { value: "Dänemark", label: "Dänemark" }
-];
+
 export const MaritalStatus: IReactSelectInterface[] = [
   { value: "Divorced", label: "Divorced" },
   { value: "Single", label: "Single" },
@@ -1495,4 +1488,66 @@ export const LeasingPriceList: IReactSelectInterface[] = [
     label: "Salaried 26,00",
     value: "Salaried 26,00"
   }
+];
+
+export const Nationality: IReactSelectInterface[] = [
+  { value: "Albanien", label: "Albanien" },
+  { value: "Belgien", label: "Belgien" },
+  { value: "Bosnien und Herzegowina", label: "Bosnien und Herzegowina" },
+  { value: "Bulgarien", label: "Bulgarien" },
+  { value: "Dänemark", label: "Dänemark" },
+  { value: "Deutschland", label: "Deutschland" },
+  { value: "Estland", label: "Estland" },
+  { value: "Finnland", label: "Finnland" },
+  { value: "Frankreich", label: "Frankreich" },
+  { value: "Ghana", label: "Ghana" },
+  { value: "Griechenland", label: "Griechenland" },
+  { value: "Großbritannien", label: "Großbritannien" },
+  { value: "Guinea", label: "Guinea" },
+  { value: "Irland", label: "Irland" },
+  { value: "Island", label: "Island" },
+  { value: "Israel", label: "Israel" },
+  { value: "Italien", label: "Italien" },
+  { value: "Kamerun", label: "Kamerun" },
+  { value: "Kasachstan", label: "Kasachstan" },
+  { value: "Kenia", label: "Kenia" },
+  { value: "Kroatien", label: "Kroatien" },
+  { value: "Kuba", label: "Kuba" },
+  { value: "Lettland", label: "Lettland" },
+  { value: "Liechtenstein", label: "Liechtenstein" },
+  { value: "Litauen", label: "Litauen" },
+  { value: "Luxemburg", label: "Luxemburg" },
+  { value: "Malta", label: "Malta" },
+  { value: "Mazedonien", label: "Mazedonien" },
+  { value: "Moldawien", label: "Moldawien" },
+  { value: "Monaco", label: "Monaco" },
+  { value: "Montenegro", label: "Montenegro" },
+  { value: "Mosambik", label: "Mosambik" },
+  { value: "Niederlande", label: "Niederlande" },
+  { value: "Nigeria", label: "Nigeria" },
+  { value: "Norwegen", label: "Norwegen" },
+  { value: "Österreich", label: "Österreich" },
+  { value: "Papua-Neuguinea", label: "Papua-Neuguinea" },
+  { value: "Peru", label: "Peru" },
+  { value: "Philippinen", label: "Philippinen" },
+  { value: "Polen", label: "Polen" },
+  { value: "Portugal", label: "Portugal" },
+  { value: "Rumänien", label: "Rumänien" },
+  { value: "Rußland", label: "Rußland" },
+  { value: "Russland", label: "Russland" },
+  { value: "San Marino", label: "San Marino" },
+  { value: "Schweden", label: "Schweden" },
+  { value: "Schweiz", label: "Schweiz" },
+  { value: "Serbien", label: "Serbien" },
+  { value: "Slowakei", label: "Slowakei" },
+  { value: "Slowenien", label: "Slowenien" },
+  { value: "Spanien", label: "Spanien" },
+  { value: "Sri Lanka", label: "Sri Lanka" },
+  { value: "Syrien", label: "Syrien" },
+  { value: "Tschechien", label: "Tschechien" },
+  { value: "Türkei", label: "Türkei" },
+  { value: "Ukraine", label: "Ukraine" },
+  { value: "Ungarn", label: "Ungarn" },
+  { value: "ungeklärt/staatenlos", label: "ungeklärt/staatenlos" },
+  { value: "USA", label: "USA" }
 ];

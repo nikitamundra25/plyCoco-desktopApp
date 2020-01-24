@@ -48,225 +48,225 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
 > &
   RouteComponentProps &
   IHandleSubmitInterface> = (
-  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
-) => {
-  const [addCareInstitution, { error, data }] = useMutation<{
-    addCareInstitution: ICareInstitutionFormValues;
-  }>(ADD_CARE_INSTITUTION);
-
-  // To fecth qualification attributes list
-  const { data: qualificationData } = useQuery<IQualifications>(
-    GET_QUALIFICATION_ATTRIBUTES
-  );
-
-  const qualificationList: IReactSelectInterface[] | undefined = [];
-  if (qualificationData && qualificationData.getQualificationAttributes) {
-    qualificationData.getQualificationAttributes.forEach((quali: any) => {
-      qualificationList.push({
-        label: quali.attributeName,
-        value: quali.id
-      });
-    });
-  }
-
-  let history = useHistory();
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const handleScroll = () => {
-    const scrollPositionY = window.scrollY;
-    const buttonDiv: HTMLElement | null = document.getElementById(
-      "caregiver-add-btn"
-    );
-    if (buttonDiv) {
-      if (scrollPositionY >= 18) {
-        buttonDiv.classList.add("sticky-save-btn");
-      } else {
-        buttonDiv.classList.remove("sticky-save-btn");
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (data) {
-      const Data: any = data;
-      history.push(
-        AppRoutes.CARE_INSTITUION_VIEW.replace(
-          ":id",
-          Data.addCareInstitution ? Data.addCareInstitution.id : "null"
-        )
-      );
-    }
-  }, [data]);
-  const handleSubmit = async (
-    values: ICareInstitutionFormValues,
-    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
+    props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
   ) => {
-    //to set submit state to false after successful signup
-    let AttributeData: string[] = [];
-    if (values.attributeId && values.attributeId.length) {
-      values.attributeId.map((attribute: IReactSelectInterface) =>
-        AttributeData.push(attribute.label)
-      );
-    }
-    console.log("valuesss", values);
+    const [addCareInstitution, { error, data }] = useMutation<{
+      addCareInstitution: ICareInstitutionFormValues;
+    }>(ADD_CARE_INSTITUTION);
 
-    try {
-      const dataSubmit: any = {
-        gender: values && values.gender ? values.gender.value : "",
-        salutation: values && values.salutation ? values.salutation.value : "",
-        firstName: values.firstName,
-        lastName: values.lastName,
-        shortName: values.shortName,
-        companyName: values.companyName,
-        anonymousName: values.anonymousName,
-        anonymousName2: values.anonymousName2,
-        street: values.street,
-        zipCode: values.zipCode,
-        countryId:
-          values && values.country ? parseInt(values.country.value) : null,
-        stateId: values && values.state ? parseInt(values.state.value) : null,
-        remarks: values.remarks,
-        website: values.website,
-        email: values.email,
-        userName: values.userName,
-        careGiverCommission: values.careGiverCommission,
-        doctorCommission: values.doctorCommission,
-        invoiceType:
-          values && values.invoiceType ? values.invoiceType.value : "",
-        interval: values && values.interval ? values.interval.value : "",
-        emailInvoice: values.emailInvoice,
-        addressInvoice: values.addressInvoice,
-        regionId:
-          values && values.regionId ? `{${values.regionId.value}}` : null,
-        city: values && values.city,
-        fax: values && values.fax,
-        linkedTo: values && values.linkedTo,
-        phoneNumber: values && values.phoneNumber,
-        mobileNumber: values.mobileNumber,
-        qualificationId:
-          values.qualificationId && values.qualificationId.length
-            ? `{${values.qualificationId
+    // To fecth qualification attributes list
+    const { data: qualificationData } = useQuery<IQualifications>(
+      GET_QUALIFICATION_ATTRIBUTES
+    );
+
+    const qualificationList: IReactSelectInterface[] | undefined = [];
+    if (qualificationData && qualificationData.getQualificationAttributes) {
+      qualificationData.getQualificationAttributes.forEach((quali: any) => {
+        qualificationList.push({
+          label: quali.attributeName,
+          value: quali.id
+        });
+      });
+    }
+
+    let history = useHistory();
+
+    useEffect(() => {
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }, []);
+
+    const handleScroll = () => {
+      const scrollPositionY = window.scrollY;
+      const buttonDiv: HTMLElement | null = document.getElementById(
+        "caregiver-add-btn"
+      );
+      if (buttonDiv) {
+        if (scrollPositionY >= 18) {
+          buttonDiv.classList.add("sticky-save-btn");
+        } else {
+          buttonDiv.classList.remove("sticky-save-btn");
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (data) {
+        const Data: any = data;
+        history.push(
+          AppRoutes.CARE_INSTITUION_VIEW.replace(
+            ":id",
+            Data.addCareInstitution ? Data.addCareInstitution.id : "null"
+          )
+        );
+      }
+    }, [data]);
+    const handleSubmit = async (
+      values: ICareInstitutionFormValues,
+      { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
+    ) => {
+      //to set submit state to false after successful signup
+      let AttributeData: string[] = [];
+      if (values.attributeId && values.attributeId.length) {
+        values.attributeId.map((attribute: IReactSelectInterface) =>
+          AttributeData.push(attribute.label)
+        );
+      }
+
+      try {
+        const dataSubmit: any = {
+          gender: values && values.gender ? values.gender.value : "",
+          salutation: values && values.salutation ? values.salutation.value : "",
+          firstName: values.firstName,
+          lastName: values.lastName,
+          shortName: values.shortName,
+          companyName: values.companyName,
+          anonymousName: values.anonymousName,
+          anonymousName2: values.anonymousName2,
+          street: values.street,
+          zipCode: values.zipCode,
+          countryId:
+            values && values.country ? parseInt(values.country.value) : null,
+          stateId: values && values.state ? parseInt(values.state.value) : null,
+          remarks: values.remarks,
+          website: values.website,
+          email: values.email,
+          userName: values.userName,
+          careGiverCommission: values.careGiverCommission,
+          doctorCommission: values.doctorCommission,
+          invoiceType:
+            values && values.invoiceType ? values.invoiceType.value : "",
+          interval: values && values.interval ? values.interval.value : "",
+          emailInvoice: values.emailInvoice,
+          addressInvoice: values.addressInvoice,
+          regionId:
+            values && values.regionId ? `{${values.regionId.value}}` : null,
+          city: values && values.city,
+          fax: values && values.fax,
+          linkedTo: values && values.linkedTo ? values.linkedTo.value : "",
+          phoneNumber: values && values.phoneNumber,
+          mobileNumber: values.mobileNumber,
+          qualificationId:
+            values.qualificationId && values.qualificationId.length
+              ? `{${values.qualificationId
                 .map(
                   (qualification: IReactSelectInterface) => qualification.value
                 )
                 .join(", ")}}`
-            : null,
-        attributes: AttributeData,
-        leasingPriceListId:
-          values.leasingPriceListId && values.leasingPriceListId.value
-            ? values.leasingPriceListId.value
-            : null
-      };
+              : null,
+          attributes: AttributeData,
+          leasingPriceListId:
+            values.leasingPriceListId && values.leasingPriceListId.value
+              ? values.leasingPriceListId.value
+              : null,
+          remarksViewable: values.remarksViewable,
+        };
 
-      await addCareInstitution({
-        variables: {
-          careInstitutionInput: dataSubmit
-        }
-      });
-      toast.success(languageTranslation("CARE_INSTITUTION_ADD_SUCCESS_MSG"));
-    } catch (error) {
-      const message = error.message
-        .replace("SequelizeValidationError: ", "")
-        .replace("Validation error: ", "")
-        .replace("GraphQL error: ", "");
-      toast.error(message);
-      logger(error);
-    }
-    setSubmitting(false);
-  };
+        await addCareInstitution({
+          variables: {
+            careInstitutionInput: dataSubmit
+          }
+        });
+        toast.success(languageTranslation("CARE_INSTITUTION_ADD_SUCCESS_MSG"));
+      } catch (error) {
+        const message = error.message
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
+        toast.error(message);
+        logger(error);
+      }
+      setSubmitting(false);
+    };
 
-  const [activeTab, setactiveTab] = useState(0);
+    const [activeTab, setactiveTab] = useState(0);
 
-  // const { data, loading, error, refetch } = useQuery(GET_USERS);
-  // console.log(data, 'dataaaaa');
-  const values: ICareInstitutionFormValues = {
-    email: "",
-    firstName: "",
-    lastName: "",
-    userName: "",
-    fax: "",
-    shortName: "",
-    companyName: "",
-    street: "",
-    city: "",
-    isArchive: false
-  };
-  return (
-    <div className="common-detail-page">
-      <div className="common-detail-section">
-        <Suspense fallback={"Loading.."}>
-          <div className="sticky-common-header">
-            <div className="common-topheader d-flex align-items-center ">
-              <div className="common-title">Add Care Institution</div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={reminder} alt="" />
-                </span>
-                <span
-                  className="header-nav-text"
+    // const { data, loading, error, refetch } = useQuery(GET_USERS);
+    // console.log(data, 'dataaaaa');
+    const values: ICareInstitutionFormValues = {
+      email: "",
+      firstName: "",
+      lastName: "",
+      userName: "",
+      fax: "",
+      shortName: "",
+      companyName: "",
+      street: "",
+      city: "",
+      isArchive: false
+    };
+    return (
+      <div className="common-detail-page">
+        <div className="common-detail-section">
+          <Suspense fallback={"Loading.."}>
+            <div className="sticky-common-header">
+              <div className="common-topheader d-flex align-items-center ">
+                <div className="common-title">Add Care Institution</div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={reminder} alt="" />
+                  </span>
+                  <span
+                    className="header-nav-text"
                   // onClick={() => {
                   //   this.setState({ show: true });
                   // }}
-                >
-                  Create Todo/Reminder
+                  >
+                    Create Todo/Reminder
                 </span>
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={password} alt="" />
+                  </span>
+                  <span className="header-nav-text">New Password</span>
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={appointment} alt="" />
+                  </span>
+                  <span className="header-nav-text">Display Appointments</span>
+                </div>
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={clear} alt="" />
+                  </span>
+                  <span className="header-nav-text">Clear</span>
+                </div>
               </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={password} alt="" />
-                </span>
-                <span className="header-nav-text">New Password</span>
-              </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={appointment} alt="" />
-                </span>
-                <span className="header-nav-text">Display Appointments</span>
-              </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={clear} alt="" />
-                </span>
-                <span className="header-nav-text">Clear</span>
-              </div>
+              <CareInstitutionSidebar
+                tabs={CareInstitutionTabs}
+                activeTab={activeTab}
+                onTabChange={""}
+              />
             </div>
-            <CareInstitutionSidebar
-              tabs={CareInstitutionTabs}
-              activeTab={activeTab}
-              onTabChange={""}
-            />
-          </div>
-        </Suspense>
-        <Suspense fallback={""}>
-          <div className="common-content flex-grow-1">
-            {activeTab === 0 ? (
-              <div className={"form-section forms-main-section"}>
-                <Formik
-                  initialValues={values}
-                  onSubmit={handleSubmit}
-                  children={(
-                    props: FormikProps<ICareInstitutionFormValues>
-                  ) => (
-                    <AddCareInstitution
-                      {...props}
-                      qualificationList={qualificationList}
-                    />
-                  )}
-                  validationSchema={CareInstituionValidationSchema}
-                />
-              </div>
-            ) : null}
-          </div>
-        </Suspense>
+          </Suspense>
+          <Suspense fallback={""}>
+            <div className="common-content flex-grow-1">
+              {activeTab === 0 ? (
+                <div className={"form-section forms-main-section"}>
+                  <Formik
+                    initialValues={values}
+                    onSubmit={handleSubmit}
+                    children={(
+                      props: FormikProps<ICareInstitutionFormValues>
+                    ) => (
+                        <AddCareInstitution
+                          {...props}
+                          qualificationList={qualificationList}
+                        />
+                      )}
+                    validationSchema={CareInstituionValidationSchema}
+                  />
+                </div>
+              ) : null}
+            </div>
+          </Suspense>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default CareInstitutionForm;

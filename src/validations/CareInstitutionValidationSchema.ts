@@ -60,6 +60,11 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     "check-num",
     languageTranslation("INVALID_NUM"),
     value => !value || (value && !isNaN(value))
+  ),
+  fax: Yup.mixed().test(
+    "check-num",
+    languageTranslation("INVALID_NUMBER"),
+    value => !value || (value && !isNaN(value))
   )
 });
 

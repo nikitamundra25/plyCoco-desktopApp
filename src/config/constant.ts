@@ -178,36 +178,80 @@ export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
 
 export const CareGiveAttributes: IReactSelectInterface[] = [
   {
-    label: "Offers → Blass Rosé",
-    value: "Offers → Blass Rosé"
+    label: "Offers",
+    value: "Offers"
   },
   {
-    label: "Single-book button → pale turquoise",
-    value: "Single-book button → pale turquoise"
+    label: "Single-book button",
+    value: "Single-book button"
   },
   {
     label: "Leasing is not possible",
     value: "Leasing is not possible"
   },
   {
-    label: "Unlocked → pale turquoise",
-    value: "Unlocked → pale turquoise"
+    label: "Unlocked",
+    value: "Unlocked"
   },
   {
-    label: "Permanent employment → Purple",
-    value: "Permanent employment → Purple"
+    label: "Permanent employment",
+    value: "Permanent employment"
   },
   {
-    label: "entry certificate of good conduct → fire red",
-    value: "entry certificate of good conduct → fire red"
+    label: "entry certificate of good conduct",
+    value: "entry certificate of good conduct"
   },
   {
-    label: "TIMyoCY → Pink / Fuchsia",
-    value: "TIMyoCY → Pink / Fuchsia"
+    label: "TIMyoCY",
+    value: "TIMyoCY"
   },
   {
-    label: "Login possible → pale turquoise",
-    value: "Login possible → pale turquoise"
+    label: "Login possible",
+    value: "Login possible"
+  },
+  {
+    label:
+      "Signed TIMyoCY (automatically starts when the framework contract is signed)",
+    value:
+      "Signed TIMyoCY (automatically starts when the framework contract is signed)"
+  },
+  {
+    label: "Car available",
+    value: "Car available"
+  },
+  {
+    label: "Man",
+    value: "Man"
+  },
+  {
+    label: "Woman",
+    value: "Woman"
+  },
+  {
+    label: "Driver's license available",
+    value: "Driver's license available"
+  },
+  {
+    label: "Nationwide",
+    value: "Nationwide"
+  },
+  {
+    label:
+      "Nursing assistant (former household manager) / Care professional (formerly nurse) / doctor",
+    value:
+      "Nursing assistant (former household manager) / Care professional (formerly nurse) / doctor"
+  },
+  {
+    label: "Woman (is set automatically after registration)",
+    value: "Woman (is set automatically after registration)"
+  },
+  {
+    label: "Man (is set automatically after registration)",
+    value: "Man (is set automatically after registration)"
+  },
+  {
+    label: "Car available",
+    value: "Car available"
   }
 ];
 

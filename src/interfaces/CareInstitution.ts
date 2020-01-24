@@ -56,6 +56,7 @@ export interface ICareInstitutionValidationSchema {
   phoneNumber?: number;
   careGiverCommission?: string;
   doctorCommission?: string;
+  fax?: number;
 }
 
 export interface ICareInstitutionContactValidationSchema {
@@ -91,7 +92,7 @@ export interface ICareInstitutionContact {
   groupAttributes?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  attributeId?: IReactSelectInterface[]
+  attributeId?: IReactSelectInterface[];
 }
 
 export interface ICareInstitutionListDataInterface {

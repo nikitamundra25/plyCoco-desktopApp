@@ -1,7 +1,7 @@
-import { Location } from "history";
-import * as H from "history";
-import { IReactSelectInterface } from "./Constant";
-import { ICareInstitutionRemarks } from "./CareInstitution";
+import { Location } from 'history';
+import * as H from 'history';
+import { IReactSelectInterface } from './Constant';
+import { ICareInstitutionRemarks } from './CareInstitution';
 
 export interface ICareGiverInput {
   id?: string;
@@ -217,6 +217,7 @@ export interface ICareGiverValues {
   qualifications?: IReactSelectInterface[];
   attributeId?: IReactSelectInterface[];
   remarks?: ICareInstitutionRemarks[];
+  remarkData?: string;
   comments?: String;
   invoiceInterval?: IReactSelectInterface;
   leasingPricingList?: IReactSelectInterface;

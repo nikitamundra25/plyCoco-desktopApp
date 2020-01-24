@@ -43,6 +43,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
   let history = useHistory();
   const [careGiverData, setCareGiverData] = useState<ICareGiverValues | null>();
+  const [remarksDetail, setRemarksDetail] = useState<any>([]);
 
   // To update care giver details into db
   const [updateCaregiver] = useMutation<
@@ -76,6 +77,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
   );
+
+  useEffect(() => {
+    const { caregiver = {} } = props.getCaregiver ? props.getCaregiver : {};
+    const { remarks } = caregiver;
+    setRemarksDetail(remarks);
+  }, [props.getCaregiver]);
 
   useEffect(() => {
     if (props.getCaregiver && props.getCaregiver.caregiver) {
@@ -194,7 +201,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         employed,
         comments,
         status,
-        remarks,
+        remarks: remarksDetail,
         fee: fee ? parseInt(fee) : null,
         nightAllowance:
           nightAllowance && nightAllowance.value ? nightAllowance.label : null,
@@ -407,7 +414,17 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     employed,
     comments,
     status,
-    remarks,
+    remarks:
+      remarks & remarks.length
+        ? remarks
+        : [
+            {
+              data: '',
+              createdAt: '',
+              createdBy: '',
+            },
+          ],
+    remarkData: '',
     invoiceInterval: invoiceInterval
       ? { label: invoiceInterval, value: invoiceInterval }
       : undefined,
@@ -482,7 +499,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                   </div>
                 </div>
               </Col>
-              <RemarkFormComponent {...props} />
+              <RemarkFormComponent
+                {...props}
+                setRemarksDetail={setRemarksDetail}
+                remarksDetail={remarksDetail}
+              />
             </Row>
           </Form>
         );

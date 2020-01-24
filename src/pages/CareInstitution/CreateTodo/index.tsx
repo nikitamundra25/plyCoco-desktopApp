@@ -44,8 +44,6 @@ const CreateTodo = (props: any) => {
 
   return (
     <div>
-      {console.log("inside create todo", show)}
-
       <Modal isOpen={show} className="reminder-modal" size="lg" centered>
         <ModalHeader>Create Todo/Reminder for John Doe </ModalHeader>
         <ModalBody>

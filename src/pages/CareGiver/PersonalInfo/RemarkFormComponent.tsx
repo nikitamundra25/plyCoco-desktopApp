@@ -120,7 +120,9 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                       ) : (
                         <>
                           <div
-                            className={'add-remark-btn'}
+                            className={`add-remark-btn ${
+                              !remarkData ? 'disabled-div' : ' '
+                            }`}
                             onClick={e => {
                               if (remarkData) {
                                 const temp = remarksDetail ? remarksDetail : [];

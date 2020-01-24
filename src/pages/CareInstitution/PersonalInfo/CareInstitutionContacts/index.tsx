@@ -102,8 +102,6 @@ const CareInstitutionContacts: any = (props: any) => {
     values: ICareInstitutionContact,
     { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
   ) => {
-    console.log(values, 'values');
-
     let AttributeData: string[] = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>

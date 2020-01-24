@@ -114,8 +114,6 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
         }),
     );
   }
-  console.log('careGiverOpt', careGiverOpt);
-
   return (
     <Form className='form-section forms-main-section'>
       <Button

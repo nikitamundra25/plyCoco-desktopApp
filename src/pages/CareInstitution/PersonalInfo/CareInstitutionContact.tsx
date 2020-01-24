@@ -156,7 +156,7 @@ const CareInstitutionConstForm: any = (
                           <div>
                             <Select
                               placeholder={languageTranslation("GENDER")}
-                              value={gender ? gender : undefined}
+                              value={gender && gender.value ? gender : undefined}
                               onChange={(value: any) =>
                                 handleSelect(value, "gender")
                               }
@@ -202,7 +202,7 @@ const CareInstitutionConstForm: any = (
                       <div>
                         <Select
                           placeholder={languageTranslation("SALUTATION")}
-                          value={salutation ? salutation : undefined}
+                          value={salutation  && salutation.value ? salutation : undefined}
                           onChange={(value: any) =>
                             handleSelect(value, "salutation")
                           }
@@ -297,7 +297,7 @@ const CareInstitutionConstForm: any = (
                       <div>
                         <Select
                           placeholder={languageTranslation("CONTACT_TYPE")}
-                          value={contactType ? contactType : undefined}
+                          value={contactType && contactType.value ? contactType : undefined}
                           onChange={(value: any) =>
                             handleSelect(value, "contactType")
                           }
@@ -393,7 +393,7 @@ const CareInstitutionConstForm: any = (
                         <Select
                           placeholder={languageTranslation("COUNTRY")}
                           options={countriesOpt}
-                          value={country ? country : undefined}
+                          value={country  && country.value ? country : undefined}
                           onChange={(value: any) =>
                             handleSelect(value, "country")
                           }

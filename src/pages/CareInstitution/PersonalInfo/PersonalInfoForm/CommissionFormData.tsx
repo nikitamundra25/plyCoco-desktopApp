@@ -7,7 +7,7 @@ import {
   ICareInstitutionFormValues,
   IHandleSelectInterface
 } from "../../../../interfaces";
-import { Region } from "../../../../config";
+import { Region, LeasingPriceList } from "../../../../config";
 
 const CommissionFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -107,12 +107,11 @@ const CommissionFormData: FunctionComponent<FormikProps<
                 <div>
                   <Select
                     placeholder={languageTranslation("LEASING_PRICE_LIST")}
-                    isMulti
                     value={leasingPriceListId ? leasingPriceListId : undefined}
                     onChange={(value: any) =>
-                      handleSelect(value, "leasingPriceList")
+                      handleSelect(value, "leasingPriceListId")
                     }
-                    options={Region}
+                    options={LeasingPriceList}
                   />
                 </div>
               </Col>

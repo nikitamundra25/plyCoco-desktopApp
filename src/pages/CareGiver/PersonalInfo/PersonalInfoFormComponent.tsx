@@ -224,7 +224,7 @@ const PersonalInfoFormComponent: any = (
                       <Select
                         placeholder={languageTranslation("GENDER")}
                         options={Gender}
-                        value={gender ? gender : null}
+                        value={gender && gender.value ? gender : null}
                         onChange={(value: any) => handleSelect(value, "gender")}
                       />
                     </div>
@@ -268,7 +268,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("SALUTATION")}
                     options={Salutation}
-                    value={salutation ? salutation : null}
+                    value={salutation  && salutation.value ? salutation : null}
                     onChange={(value: any) => handleSelect(value, "salutation")}
                   />
                 </div>
@@ -456,7 +456,7 @@ const PersonalInfoFormComponent: any = (
                   <Select
                     placeholder={languageTranslation("COUNTRY")}
                     options={countriesOpt}
-                    value={country ? country : undefined}
+                    value={country && country.value ? country : undefined}
                     onChange={(value: any) => handleSelect(value, "country")}
                   />
                 </div>

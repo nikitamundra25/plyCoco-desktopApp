@@ -252,21 +252,57 @@ export const CareGiveAttributes: IReactSelectInterface[] = [
   {
     label: "Car available",
     value: "Car available"
+  },
+  {
+    label: "Factoring blocked",
+    value: "Factoring blocked"
+  },
+  {
+    label: "Factoring unlocked ",
+    value: "Factoring unlocked "
+  },
+  {
+    label: "invoice with VAT",
+    value: "invoice with VAT "
+  },
+  {
+    label: "Invoice excluding VAT ",
+    value: "Invoice excluding VAT "
+  },
+  {
+    label: "Do not create an invoice ",
+    value: "Do not create an invoice "
+  },
+  {
+    label: "Do not send the invoice ",
+    value: "Do not send the invoice "
+  },
+  {
+    label: "Supplements exclusive ",
+    value: "Supplements exclusive "
+  },
+  {
+    label: "Cumulative surcharges ",
+    value: "Cumulative surcharges "
+  },
+  {
+    label: "small business regulation",
+    value: "small business regulation"
   }
 ];
 
 export const CareInstitutionAttr: IReactSelectInterface[] = [
   {
-    label: "Single-book button → pale turquoise",
-    value: "Single-book button → pale turquoise"
+    label: "Single-book button",
+    value: "Single-book button"
   },
   {
-    label: "Unlocked → pale turquoise",
-    value: "Unlocked → pale turquoise"
+    label: "Unlocked",
+    value: "Unlocked"
   },
   {
-    label: "Login possible → pale turquoise",
-    value: "Login possible → pale turquoise"
+    label: "Login possible",
+    value: "Login possible"
   },
   {
     label: "Currently no appointment requirements",
@@ -283,6 +319,67 @@ export const CareInstitutionAttr: IReactSelectInterface[] = [
   {
     label: "TIM by post",
     value: "TIM by post"
+  },
+  {
+    label:
+      "no status e-mails (when we search, the institution does not receive an email that we search or are still searching)",
+    value:
+      "no status e-mails (when we search, the institution does not receive an email that we search or are still searching) "
+  },
+  {
+    value: " Hospital (should be set automatically when registering)",
+    label: " Hospital (should be set automatically when registering)"
+  },
+  {
+    value: " doctor's office (should automatically register when registering)",
+    label: " doctor's office (should automatically register when registering)"
+  },
+  {
+    value:
+      " Rehabilitation clinic (should be set automatically when registering)",
+    label:
+      " Rehabilitation clinic (should be set automatically when registering)"
+  },
+  {
+    value:
+      " Dormitories and shared apartments (should be set automatically when registering)",
+    label:
+      " Dormitories and shared apartments (should be set automatically when registering)"
+  },
+  {
+    value: " Setup (settles automatically when registering)",
+    label: " Setup (settles automatically when registering)"
+  },
+  {
+    value: " Private household (settles automatically when registering)",
+    label: " Private household (settles automatically when registering)"
+  },
+  {
+    value: " Inactive (settles automatically after 2 months of inactivity)",
+    label: " Inactive (settles automatically after 2 months of inactivity)"
+  },
+  {
+    value: " Settle the department separately",
+    label: " Settle the department separately"
+  },
+  { value: " Factoring blocked", label: " Factoring blocked" },
+  { value: " Factoring unlocked", label: " Factoring unlocked" },
+  {
+    value: " kilometer money billing not possible",
+    label: " kilometer money billing not possible"
+  },
+  {
+    value: " Leasing to bill each specialist separately",
+    label: " Leasing to bill each specialist separately"
+  },
+  { value: " Leasing externally", label: " Leasing externally" },
+  {
+    value: " Forward invoices factoring only with DLN",
+    label: " Forward invoices factoring only with DLN"
+  },
+  {
+    value: " Expense billing not possible",
+    label: " Expense billing not possible"
   }
 ];
 
@@ -349,7 +446,7 @@ export const LegalForm: IReactSelectInterface[] = [
 ];
 
 export const QualificationAttributes: IReactSelectInterface[] = [
-  { value: "Care Giver", label: "Care giver" },
+  { value: "Caregiver", label: "Caregiver" },
   { value: "Anesthesia Assistance", label: "Anesthesia Assistance" },
   {
     value: "Doctor Attention commission",

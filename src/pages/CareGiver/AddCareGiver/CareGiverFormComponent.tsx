@@ -40,7 +40,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
     };
     props.setFieldValue("remarks", [value]);
   };
-  // To fetch the list of all care giver
+  // To fetch the list of all caregiver
   const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
     GET_CAREGIVERS
   );
@@ -83,7 +83,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
     });
   }
   useEffect(() => {
-    // Fetch list of care givers
+    // Fetch list of caregivers
     fetchCareGivers({
       variables: {
         searchBy: "",

@@ -24,6 +24,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
 
   let [isEditRemark, setisEditRemark] = useState(false);
   let [remarkIndex, setisRemarkIndex] = useState(-1);
+  let [isRemoveRemark, setRemoveRemark] = useState(false);
 
   const {
     values: { remarks, remarkData },
@@ -32,7 +33,6 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
     remarksDetail,
     handleChange,
   } = props;
-  console.log('remarkIndex', remarksDetail, props.values);
 
   return (
     <Col lg={4}>
@@ -211,7 +211,8 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                   setisEditRemark(false);
                                 }
                               }}
-                              className='delete-btn'
+                              className='delete-btn cursor-pointer'
+                              id={`delete${index}`}
                             >
                               <i className='icon-trash'></i>
                             </span>

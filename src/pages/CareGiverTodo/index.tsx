@@ -5,7 +5,7 @@ class CareGiverTodo extends Component {
     return (
       <Col>
         <Form className="form-section">
-          <h5 className="main-title mb-3">Care Giver Todo</h5>
+          <h5 className="main-title mb-3">Caregiver Todo</h5>
         </Form>
       </Col>
     );

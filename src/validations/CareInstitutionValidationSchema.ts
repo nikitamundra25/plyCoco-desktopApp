@@ -65,7 +65,11 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     "check-num",
     languageTranslation("INVALID_NUMBER"),
     value => !value || (value && !isNaN(value))
-  )
+  ),
+  // website:Yup.string().matches(
+  //   webRegExp
+
+  // )
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<

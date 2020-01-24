@@ -307,7 +307,10 @@ export const LegalForm: IReactSelectInterface[] = [
 export const QualificationAttributes: IReactSelectInterface[] = [
   { value: "Care Giver", label: "Care giver" },
   { value: "Anesthesia Assistance", label: "Anesthesia Assistance" },
-  { value: "Doctor Attention commission", label: "Doctor Attention commission" },
+  {
+    value: "Doctor Attention commission",
+    label: "Doctor Attention commission"
+  },
   { value: "Medical Assistance", label: "Medical Assistance" },
   { value: "Dialysis", label: "Dialysis" },
   { value: "Individual", label: "Individual" },
@@ -328,7 +331,10 @@ export const QualificationAttributes: IReactSelectInterface[] = [
   { value: "IMC (Intermediate care)", label: "IMC (Intermediate care)" },
   { value: "Children Intensive", label: "Children intensive" },
   { value: "Nurse/carer", label: "Nurse/carer" },
-  { value: "MTRA (Medical – technical radiology assistant)", label: "MTRA (Medical – technical radiology assistant)" },
+  {
+    value: "MTRA (Medical – technical radiology assistant)",
+    label: "MTRA (Medical – technical radiology assistant)"
+  },
   { value: "Neonatology", label: "Neonatology" },
   { value: "OP", label: "OP" },
   { value: "OTA", label: "OTA" },
@@ -362,18 +368,28 @@ export const Supplements: IReactSelectInterface[] = [
   { value: "Cumulative", label: "Cumulative" }
 ];
 export const Nationality: IReactSelectInterface[] = [
-  { value: "Germans", label: "Germans" },
-  { value: "Hungarians", label: "Hungarians" },
-  { value: "Russians", label: "Russians" },
-  { value: "Basques", label: "Basques" },
-  { value: "Albanien", label: "Albanien" },
-  { value: "Dänemark", label: "Dänemark" }
+  { value: "Albania", label: "Albania" },
+  { value: "Belgium", label: "Belgium" },
+  { value: "Bosnia and Herzegovina", label: "Bosnia and Herzegovina" },
+  { value: "Bulgaria", label: "Bulgaria" },
+  { value: "Denmark", label: "Denmark" },
+  { value: "Germany", label: "Germany" },
+  { value: "Estonia", label: "Estonia" },
+  { value: "Finland", label: "Finland" },
+  { value: "France", label: "France" },
+  { value: "Ghana", label: "Ghana" },
+  { value: "Greece", label: "Greece" },
+  { value: "Great Britain", label: "Great Britain" },
+  { value: "Guinea", label: "Guinea" }
 ];
 export const MaritalStatus: IReactSelectInterface[] = [
   { value: "Divorced", label: "Divorced" },
   { value: "Single", label: "Single" },
   { value: "Married", label: "Married" },
-  { value: "Married, Permanently separated", label: "Married, Permanently separated" },
+  {
+    value: "Married, Permanently separated",
+    label: "Married, Permanently separated"
+  },
   { value: "Widowed", label: "Widowed" }
 ];
 export const HealthInsuranceType: IReactSelectInterface[] = [

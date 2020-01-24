@@ -408,9 +408,11 @@ const CareGiver: FunctionComponent = () => {
                               {careGiverData &&
                               careGiverData.regions &&
                               careGiverData.regions.length ? (
-                                careGiverData.regions.map((wZ: any) => (
-                                  <span>{wZ.regionName}</span>
-                                ))
+                                careGiverData.regions.map(
+                                  (wZ: any, index: number) => (
+                                    <span key={index}>{wZ.regionName}</span>
+                                  ),
+                                )
                               ) : (
                                 <div>-</div>
                               )}

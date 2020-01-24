@@ -51,7 +51,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                     <div>
                       <div>
                         <div className="activity-block py-2 px-3">
-                          <div className="pr-3 text-left">
+                          <div>
                             <div className="remark-section">
                               <Input
                                 type="textarea"
@@ -71,10 +71,21 @@ const RemarkFormData: FunctionComponent<FormikProps<
                                 value={changeRemark.data}
                                 className="height-textarea "
                               />
+                            </div>
+                          </div>
+                          <div className=" activity-date position-relative">
+                            <span>
+                              <i className="fa fa-clock-o mr-2"></i>
+                              {moment().format("MMMM Do YYYY, h:mm a")}
+                            </span>
+                            <span>
+                              <i className="fa fa-user mr-2"></i>Mark Smith
+                            </span>
+                            <div className="remark-action-btn">
                               <div
                                 className={`add-remark-btn ${
                                   !changeRemark.data ? "disabled-div" : " "
-                                  }`}
+                                }`}
                                 // {changeRemark.data !== "add-remark-btn"? "add-remark-btn disabled" }
                                 onClick={e => {
                                   changeRemark && changeRemark.data
@@ -96,15 +107,6 @@ const RemarkFormData: FunctionComponent<FormikProps<
                               </div>
                             </div>
                           </div>
-                          <div className="text-left activity-date">
-                            <span>
-                              <i className="fa fa-clock-o mr-2"></i>
-                              {moment().format("MMMM Do YYYY, h:mm a")}
-                            </span>
-                            <span>
-                              <i className="fa fa-user mr-2"></i>Mark Smith
-                            </span>
-                          </div>
                           <span className="activity-icon activity-set"></span>
                         </div>
                       </div>
@@ -118,10 +120,10 @@ const RemarkFormData: FunctionComponent<FormikProps<
                 {remarks.reverse().map((remark: ICareInstitutionRemarks) => {
                   return (
                     <div className="activity-block py-2 px-3">
-                      <div className="pr-3 text-left">
+                      <div>
                         <div className="remark-section">{remark.data}</div>
                       </div>
-                      <div className="text-left activity-date">
+                      <div className=" activity-date position-relative">
                         <span>
                           <i className="fa fa-clock-o mr-2"></i>
                           {remark.createdAt}
@@ -129,6 +131,14 @@ const RemarkFormData: FunctionComponent<FormikProps<
                         <span>
                           <i className="fa fa-user mr-2"></i>Mark Smith
                         </span>
+                        <div className="remark-action-btn">
+                          <span className="edit-btn cursor-pointer">
+                            <i className="icon-pencil"></i>
+                          </span>
+                          <span className="delete-btn cursor-pointer">
+                            <i className="icon-trash"></i>
+                          </span>
+                        </div>
                       </div>
                       <span className="activity-icon activity-set"></span>
                     </div>
@@ -136,33 +146,33 @@ const RemarkFormData: FunctionComponent<FormikProps<
                 })}
               </>
             ) : (
-                ""
-              )}
+              ""
+            )}
 
             {remarks && remarks.length
               ? remarks
-                .reverse()
-                .map((remarkData: ICareInstitutionRemarks, index: number) => {
-                  <div className="activity-block py-2 px-3">
-                    <div className="pr-3 text-left">
-                      <span className="text-capitalize">
-                        {remarkData.data}
-                        <span className="view-more-link">View More</span>
-                      </span>
-                    </div>
-                    <div className="text-left activity-date">
-                      <span>
-                        <i className="fa fa-clock-o mr-2"></i>
-                        {remarkData.createdAt}
-                      </span>
-                      <span>
-                        <i className="fa fa-user mr-2"></i>
-                        {remarkData.createdBy}
-                      </span>
-                    </div>
-                    <span className="activity-icon activity-set"></span>
-                  </div>;
-                })
+                  .reverse()
+                  .map((remarkData: ICareInstitutionRemarks, index: number) => {
+                    <div className="activity-block py-2 px-3">
+                      <div className="pr-3 text-left">
+                        <span className="text-capitalize">
+                          {remarkData.data}
+                          <span className="view-more-link">View More</span>
+                        </span>
+                      </div>
+                      <div className="text-left activity-date">
+                        <span>
+                          <i className="fa fa-clock-o mr-2"></i>
+                          {remarkData.createdAt}
+                        </span>
+                        <span>
+                          <i className="fa fa-user mr-2"></i>
+                          {remarkData.createdBy}
+                        </span>
+                      </div>
+                      <span className="activity-icon activity-set"></span>
+                    </div>;
+                  })
               : null}
           </div>
         </div>

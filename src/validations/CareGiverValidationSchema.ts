@@ -6,7 +6,7 @@ import {
   ICareGiverValidationInterface
 } from "../interfaces";
 import { languageTranslation, dateValidator } from "../helpers";
-import { nameRegExp, telephoneReqExp, telMin, telMax } from "../config";
+import { telephoneReqExp, telMin, telMax } from "../config";
 
 export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -14,12 +14,10 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
 >> = Yup.object().shape<ICareGiverValidationInterface>({
   firstName: Yup.string()
     .trim()
-    .matches(nameRegExp, languageTranslation("FIRSTNAME_SPECIALCHARACTER"))
     .max(20, languageTranslation("FIRSTNAME_MAXLENGTH"))
     .required(languageTranslation("FIRSTNAME_REQUIRED")),
   lastName: Yup.string()
     .trim()
-    .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
     .required(languageTranslation("LASTNAME_REQUIRED")),
   email: Yup.string()

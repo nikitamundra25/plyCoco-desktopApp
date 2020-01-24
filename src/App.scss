@@ -1278,6 +1278,7 @@ html:not([dir='rtl']) {
     .custom-control-label {
       font-family: $font_Frutiger_Bold;
       font-size: $font_12;
+      cursor:pointer;
       &:after,
       &:before {
         top: 1px;

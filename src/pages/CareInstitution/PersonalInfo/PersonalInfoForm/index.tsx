@@ -40,7 +40,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
     GET_REGIONS
   );
-
   const regionOptions: IReactSelectInterface[] | undefined = [];
   if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
@@ -146,8 +145,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       // }
     }
   };
-  console.log("props.remarksDetail", props.remarksDetail);
-
   return (
     <Row className=" ">
       <Button
@@ -612,8 +609,17 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={phoneNumber}
                         placeholder={languageTranslation("PHONE")}
-                        className="width-common"
+                        className={
+                          errors.mobileNumber && touched.mobileNumber
+                            ? "width-common text-input error"
+                            : "width-common text-input"
+                        }
                       />
+                      {errors.phoneNumber && touched.phoneNumber && (
+                        <div className="required-error">
+                          {errors.phoneNumber}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -758,8 +764,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={website}
                         placeholder={languageTranslation("WEBSITE")}
-                        className="width-common"
+                        className={
+                          errors.website && touched.website
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.website && touched.website && (
+                        <div className="required-error">{errors.website}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>

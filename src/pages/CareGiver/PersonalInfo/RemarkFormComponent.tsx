@@ -165,7 +165,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                 {remarksDetail.map(
                   (remark: ICareInstitutionRemarks, index: number) => {
                     return (
-                      <div className='activity-block py-2 '>
+                      <div className='activity-block py-2' key={index}>
                         <div>
                           <div className='remark-section'>{remark.data}</div>
                         </div>

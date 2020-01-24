@@ -323,7 +323,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
             <Suspense fallback={"Loading.."}>
               <div className="sticky-common-header">
                 <div className="common-topheader d-flex align-items-center ">
-                  <div className="common-title">Add New Care Giver</div>
+                  <div className="common-title">Add New Caregiver</div>
 
                   <div className="header-nav-item">
                     <span className="header-nav-icon">

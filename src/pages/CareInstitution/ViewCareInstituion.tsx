@@ -102,7 +102,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
         isActive: '',
       },
     });
-  }, [careInstituition]);
+  }, []);
 
   let CareInstitutionList: Object[] = [];
   if (careInstituition && careInstituition.getCareInstitutions) {

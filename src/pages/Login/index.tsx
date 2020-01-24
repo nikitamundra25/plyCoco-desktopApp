@@ -1,33 +1,48 @@
-import React, { Component, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { LoginValidationSchema } from '../../validations/LoginValidationSchema';
-import { ILoginState, ILoginFormValues } from '../../interfaces';
+import { ILoginFormValues } from '../../interfaces';
 import LoginFormComponent from './LoginFormComponent';
 import { useHistory } from 'react-router';
 import { LOGIN } from '../../queries';
 import { useMutation } from '@apollo/react-hooks';
-
+import { toast } from 'react-toastify';
 
 export const Login: FunctionComponent = () => {
   let history = useHistory();
-  const [doLogin, { error, data }] = useMutation<
+  // Login mutation
+  const [doLogin] = useMutation<
     { doLogin: any },
-    { email: String, password: String }
+    { email: String; password: String }
   >(LOGIN);
-  const handleSubmit = (
+
+  // on login
+  const handleSubmit = async (
     values: ILoginFormValues,
     { setSubmitting }: FormikHelpers<ILoginFormValues>,
   ) => {
-    //to set submit state to false after successful login
-    const {
-      email, password
-    } = values
+    const { email, password } = values;
 
     let loginInput: ILoginFormValues = {
-      email, password
+      email,
+      password,
+    };
+    const loginResp = await doLogin({ variables: { ...loginInput } });
+    if (
+      loginResp.data &&
+      loginResp.data.doLogin &&
+      loginResp.data.doLogin.message
+    ) {
+      if (loginResp.data.doLogin.status === 'success') {
+        localStorage.setItem('token', loginResp.data.doLogin.token);
+        toast.success(loginResp.data.doLogin.message);
+        history.push('/dashboard');
+      } else {
+        toast.error(loginResp.data.doLogin.message);
+      }
     }
-    doLogin({ variables: { ...loginInput } })
-    history.push('/dashboard')
+    //to set submit state to false after successful login
+
     setSubmitting(false);
   };
 
@@ -42,8 +57,6 @@ export const Login: FunctionComponent = () => {
       validationSchema={LoginValidationSchema}
     />
   );
-
-}
-
+};
 
 export default Login;

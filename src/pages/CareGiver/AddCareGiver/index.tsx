@@ -211,8 +211,6 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],
         status
       };
-      console.log("careGiverInput", careGiverInput);
-
       await addCaregiver({
         variables: {
           careGiverInput

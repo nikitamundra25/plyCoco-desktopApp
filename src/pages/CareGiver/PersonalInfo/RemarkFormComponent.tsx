@@ -70,6 +70,17 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                         value={remarkData}
                         className='height-textarea '
                       />
+                    </div>
+                  </div>
+                  <div className='activity-date position-relative'>
+                    <span>
+                      <i className='fa fa-clock-o mr-2'></i>
+                      {moment().format('MMMM Do YYYY, h:mm a')}
+                    </span>
+                    <span>
+                      <i className='fa fa-user mr-2'></i>Mark Smith
+                    </span>
+                    <div className='remark-action-btn'>
                       {!isEditRemark ? (
                         <div
                           className={`add-remark-btn ${
@@ -105,9 +116,9 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                           &nbsp; Add More
                         </div>
                       ) : (
-                        <div>
-                          <span
-                            className={'btn'}
+                        <>
+                          <div
+                            className={'add-remark-btn'}
                             onClick={e => {
                               const temp = remarksDetail ? remarksDetail : [];
                               temp[activeRemark].data = remarkData;
@@ -125,10 +136,10 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                               }
                             }}
                           >
-                            update
-                          </span>
-                          <span
-                            className={'btn'}
+                            Update
+                          </div>
+                          {/* <span
+                            className={'delete-btn cursor-pointer'}
                             onClick={() => {
                               setisEditRemark((isEditRemark = false));
                               setchangeRemark(
@@ -141,20 +152,11 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                               null;
                             }}
                           >
-                            cancel
-                          </span>
-                        </div>
+                            <i className='fa fa-times'></i>
+                          </span> */}
+                        </>
                       )}
                     </div>
-                  </div>
-                  <div className='text-left activity-date'>
-                    <span>
-                      <i className='fa fa-clock-o mr-2'></i>
-                      {moment().format('MMMM Do YYYY, h:mm a')}
-                    </span>
-                    <span>
-                      <i className='fa fa-user mr-2'></i>Mark Smith
-                    </span>
                   </div>
                   <span className='activity-icon activity-set'></span>
                 </div>
@@ -166,11 +168,11 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                 {remarksDetail.map(
                   (remark: ICareInstitutionRemarks, index: number) => {
                     return (
-                      <div className='activity-block py-2 px-3'>
-                        <div className='text-left'>
+                      <div className='activity-block py-2 '>
+                        <div>
                           <div className='remark-section'>{remark.data}</div>
                         </div>
-                        <div className='text-left activity-date position-relative'>
+                        <div className=' activity-date position-relative'>
                           <span>
                             <i className='fa fa-clock-o mr-2'></i>
                             {remark.createdAt}
@@ -195,7 +197,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                 // );
                                 // setisRemarkIndex((remarkIndex = index));
                               }}
-                              className='edit-btn'
+                              className='edit-btn cursor-pointer'
                             >
                               <i className='icon-note'></i>
                             </span>

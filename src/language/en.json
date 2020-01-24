@@ -12,6 +12,7 @@
   "EMP_EDIT": "Click here to edit Employee",
   "EMP_DELETE": "Click here to delete Employee",
   "REGION_DELETE": "Click here to delete Region",
+  "CAREGIVER_EDIT": "Click here to edit Caregiver",
   "CAREGIVER_VIEW": "Click here to view Caregiver",
   "CAREGIVER_DELETE": "Click here to delete Caregiver",
   "ADDITIONAL_TEXT": "This text appears below the bank details  on the invoice. In the case of ceded invoices (factoring), the cession can be added here.",

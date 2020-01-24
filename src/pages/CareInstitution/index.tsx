@@ -333,6 +333,16 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <td>
                   <div className="action-btn">
                     <ButtonTooltip
+                      id={`edit${index}`}
+                      message={"Click here to edit Care Institution"}
+                      redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
+                        ":id",
+                        user.id.toString()
+                      )}
+                    >
+                      <i className="fa fa-pencil"></i>
+                    </ButtonTooltip>
+                    <ButtonTooltip
                       id={`view${index}`}
                       message={"Click here to view Care Institution"}
                       redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(

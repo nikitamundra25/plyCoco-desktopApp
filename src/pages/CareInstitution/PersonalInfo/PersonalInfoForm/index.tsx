@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { FormGroup, Label, Input, Col, Row, Button } from "reactstrap";
 import Select from "react-select";
 import { Formik, FormikProps, FormikHelpers } from "formik";
@@ -40,6 +40,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
     GET_REGIONS
   );
+
   const regionOptions: IReactSelectInterface[] | undefined = [];
   if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
@@ -145,6 +146,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       // }
     }
   };
+  console.log("props.remarksDetail", props.remarksDetail);
+
   return (
     <Row className=" ">
       <Button
@@ -558,7 +561,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                       <Select
                         placeholder={languageTranslation("COUNTRY")}
                         options={countriesOpt}
-                        value={country  && country.value ? country : undefined}
+                        value={country && country.value ? country : undefined}
                         onChange={(value: any) =>
                           handleSelect(value, "country")
                         }
@@ -822,7 +825,11 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
           />
         </div>
       </Col>
-      <RemarkFormData {...props} />
+      <RemarkFormData
+        {...props}
+        setRemarksDetail={props.setRemarksDetail}
+        remarksDetail={props.remarksDetail}
+      />
     </Row>
   );
 };

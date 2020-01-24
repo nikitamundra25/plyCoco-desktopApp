@@ -44,6 +44,7 @@ export interface ICareInstitutionFormValues {
   emailInvoice?: string;
   addressInvoice?: string;
   isArchive?: Boolean;
+  remarkData?: string;
   // CareInstitutionList?:IReactSelectInterface
 }
 
@@ -57,7 +58,7 @@ export interface ICareInstitutionValidationSchema {
   careGiverCommission?: string;
   doctorCommission?: string;
   fax?: number;
-  website?:string;
+  website?: string;
 }
 
 export interface ICareInstitutionContactValidationSchema {

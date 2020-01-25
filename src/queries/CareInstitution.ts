@@ -144,10 +144,12 @@ const UPDATE_CARE_INSTITUTION = gql`
   mutation updateCareInstitution(
     $id: Int!
     $careInstitutionInput: CareInstitutionInput!
+    $isRemarkAdded: Boolean
   ) {
     updateCareInstitution(
       id: $id
       careInstitutionInput: $careInstitutionInput
+      isRemarkAdded: $isRemarkAdded
     ) {
       firstName
       lastName

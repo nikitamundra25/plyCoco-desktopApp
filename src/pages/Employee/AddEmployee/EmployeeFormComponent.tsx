@@ -264,9 +264,13 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     onChange={handleChange}
                                     onBlur={(e: any) => {
                                       //get string before a @ to set username
-                                      const username = email
+                                      const setUsername = email
                                         ? email.substring(0, email.indexOf("@"))
                                         : "";
+                                      const username = setUsername.replace(
+                                        /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi,
+                                        ""
+                                      );
                                       setFieldError("userName", " ");
                                       setFieldValue("userName", username);
                                       handleBlur(e);
@@ -502,7 +506,11 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       "COUNTRY_PLACEHOLDER"
                                     )}
                                     options={countriesOpt}
-                                    value={country  && country.value ? country : undefined}
+                                    value={
+                                      country && country.value
+                                        ? country
+                                        : undefined
+                                    }
                                     onChange={(value: any) =>
                                       handleSelect(value, "country")
                                     }
@@ -824,12 +832,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 <Label className="form-label col-form-label ">
                                   {languageTranslation("ADDITIONAL_TEXT_LABEL")}
                                   &nbsp;
-                                  {/* <InputFieldTooltip
-                                  id='ADDITIONAL_TEXT'
-                                  message={languageTranslation(
-                                    "ADDITIONAL_TEXT"
-                                  )}
-                                /> */}
                                 </Label>
                               </Col>
                               <Col sm="8">
@@ -837,7 +839,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   <Input
                                     type="textarea"
                                     name={"additionalText"}
-                                    className="textarea-custom"
+                                    // className="textarea-custom"
                                     placeholder={languageTranslation(
                                       "ADDITIONAL_TEXT_PLACEHOLDER"
                                     )}
@@ -845,7 +847,19 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     maxLength={255}
                                     onChange={handleChange}
                                     value={additionalText}
+                                    className={`textarea-custom ${
+                                      errors.additionalText &&
+                                      touched.additionalText
+                                        ? "text-input error"
+                                        : "text-input"
+                                    }`}
                                   />
+                                  {errors.additionalText &&
+                                    touched.additionalText && (
+                                      <div className="required-error">
+                                        {errors.additionalText}
+                                      </div>
+                                    )}
                                 </div>
                               </Col>
                             </Row>

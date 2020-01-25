@@ -1,11 +1,11 @@
 import { IReactSelectInterface } from "../interfaces";
 import { languageTranslation } from "../helpers";
 import { maskArray } from "react-text-mask";
-
+export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi;
 export const PAGE_LIMIT: number = 10;
 export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
-// /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+export const emailRegex: RegExp = /^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 export const IBANReplaceRegex: RegExp = /[^A-Z0-9]/gi;
 export const IBANlength: number = 22;
 export const telMin: number = 9;
@@ -173,151 +173,147 @@ export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
   {
     label: "Would info by email → yellow",
     value: "Would info by email → yellow"
-  },
+  }
 ];
 
 export const CareGiveAttributes: IReactSelectInterface[] = [
-  { label: 'Car available', value: 'Car available' },
-  { label: 'Cumulative surcharges ', value: 'Cumulative surcharges ' },
+  { label: "Car available", value: "Car available" },
+  { label: "Cumulative surcharges ", value: "Cumulative surcharges " },
   {
-    label: 'Do not create an invoice ',
-    value: 'Do not create an invoice ',
+    label: "Do not create an invoice ",
+    value: "Do not create an invoice "
   },
   {
-    label: 'Do not send the invoice ',
-    value: 'Do not send the invoice ',
+    label: "Do not send the invoice ",
+    value: "Do not send the invoice "
   },
   {
     label: "Driver's license available",
-    value: "Driver's license available",
+    value: "Driver's license available"
   },
   {
-    label: 'Entry certificate of good conduct',
-    value: 'Entry certificate of good conduct',
+    label: "Entry certificate of good conduct",
+    value: "Entry certificate of good conduct"
   },
-  { label: 'Factoring blocked', value: 'Factoring blocked' },
-  { label: 'Factoring unlocked ', value: 'Factoring unlocked ' },
-  { label: 'Invoice excluding VAT ', value: 'Invoice excluding VAT ' },
-  { label: 'Invoice with VAT', value: 'Invoice with VAT ' },
-  { label: 'Leasing is not possible', value: 'Leasing is not possible' },
-  { label: 'Login possible', value: 'Login possible' },
-  { label: 'Man', value: 'Man' },
+  { label: "Factoring blocked", value: "Factoring blocked" },
+  { label: "Factoring unlocked ", value: "Factoring unlocked " },
+  { label: "Invoice excluding VAT ", value: "Invoice excluding VAT " },
+  { label: "Invoice with VAT", value: "Invoice with VAT " },
+  { label: "Leasing is not possible", value: "Leasing is not possible" },
+  { label: "Login possible", value: "Login possible" },
+  { label: "Man", value: "Man" },
   {
-    label: 'Man (is set automatically after registration)',
-    value: 'Man (is set automatically after registration)',
+    label: "Man (is set automatically after registration)",
+    value: "Man (is set automatically after registration)"
   },
-  { label: 'Nationwide', value: 'Nationwide' },
-  {
-    label:
-      'Nursing assistant (former household manager) / Care professional (formerly nurse) / doctor',
-    value:
-      'Nursing assistant (former household manager) / Care professional (formerly nurse) / doctor',
-  },
-  { label: 'Offers', value: 'Offers' },
-  { label: 'Permanent employment', value: 'Permanent employment' },
+  { label: "Nationwide", value: "Nationwide" },
   {
     label:
-      'Signed TIMyoCY (automatically starts when the framework contract is signed)',
+      "Nursing assistant (former household manager) / Care professional (formerly nurse) / doctor",
     value:
-      'Signed TIMyoCY (automatically starts when the framework contract is signed)',
+      "Nursing assistant (former household manager) / Care professional (formerly nurse) / doctor"
   },
-  { label: 'Single-book button', value: 'Single-book button' },
+  { label: "Offers", value: "Offers" },
+  { label: "Permanent employment", value: "Permanent employment" },
   {
-    label: 'Small business regulation',
-    value: 'Small business regulation',
+    label:
+      "Signed TIMyoCY (automatically starts when the framework contract is signed)",
+    value:
+      "Signed TIMyoCY (automatically starts when the framework contract is signed)"
   },
-  { label: 'Supplements exclusive ', value: 'Supplements exclusive ' },
-  { label: 'TIMyoCY', value: 'TIMyoCY' },
-  { label: 'Unlocked', value: 'Unlocked' },
-  { label: 'Woman', value: 'Woman' },
+  { label: "Single-book button", value: "Single-book button" },
   {
-    label: 'Woman (is set automatically after registration)',
-    value: 'Woman (is set automatically after registration)',
+    label: "Small business regulation",
+    value: "Small business regulation"
   },
+  { label: "Supplements exclusive ", value: "Supplements exclusive " },
+  { label: "TIMyoCY", value: "TIMyoCY" },
+  { label: "Unlocked", value: "Unlocked" },
+  { label: "Woman", value: "Woman" },
+  {
+    label: "Woman (is set automatically after registration)",
+    value: "Woman (is set automatically after registration)"
+  }
 ];
 export const CareInstitutionAttr: IReactSelectInterface[] = [
-         {
-           value:
-             "doctor's office (should automatically register when registering)",
-           label:
-             "doctor's office (should automatically register when registering)",
-         },
-         {
-           value:
-             'Dormitories and shared apartments (should be set automatically when registering)',
-           label:
-             'Dormitories and shared apartments (should be set automatically when registering)',
-         },
-         {
-           value: 'Expense billing not possible',
-           label: 'Expense billing not possible',
-         },
-         { value: 'Factoring blocked', label: 'Factoring blocked' },
-         { value: 'Factoring unlocked', label: 'Factoring unlocked' },
-         {
-           value: 'Forward invoices factoring only with DLN',
-           label: 'Forward invoices factoring only with DLN',
-         },
-         {
-           value: 'Hospital (should be set automatically when registering)',
-           label: 'Hospital (should be set automatically when registering)',
-         },
-         {
-           value:
-             'Inactive (settles automatically after 2 months of inactivity)',
-           label:
-             'Inactive (settles automatically after 2 months of inactivity)',
-         },
-         {
-           value: 'kilometer money billing not possible',
-           label: 'kilometer money billing not possible',
-         },
-         { value: 'Leasing externally', label: 'Leasing externally' },
-         {
-           value: 'Leasing to bill each specialist separately',
-           label: 'Leasing to bill each specialist separately',
-         },
-         {
-           value: 'Private household (settles automatically when registering)',
-           label: 'Private household (settles automatically when registering)',
-         },
-         {
-           value:
-             'Rehabilitation clinic (should be set automatically when registering)',
-           label:
-             'Rehabilitation clinic (should be set automatically when registering)',
-         },
-         {
-           value: 'Settle the department separately',
-           label: 'Settle the department separately',
-         },
-         {
-           value: 'Setup (settles automatically when registering)',
-           label: 'Setup (settles automatically when registering)',
-         },
-         {
-           label: 'Currently no appointment requirements',
-           value: 'Currently no appointment requirements',
-         },
-         { label: 'Login possible', value: 'Login possible' },
-         {
-           label:
-             'no status e-mails (when we search, the institution…e an email that we search or are still searching)',
-           value:
-             'no status e-mails (when we search, the institution… an email that we search or are still searching) ',
-         },
-         {
-           label: 'Plycoco → Orange as from the logo',
-           value: 'Plycoco → Orange as from the logo',
-         },
-         { label: 'Single-book button', value: 'Single-book button' },
-         { label: 'TIM by post', value: 'TIM by post' },
-         {
-           label: 'TIMyoCY → Pink / Fuchsia',
-           value: 'TIMyoCY → Pink / Fuchsia',
-         },
-         { label: 'Unlocked', value: 'Unlocked' },
-       ];
+  {
+    value: "doctor's office (should automatically register when registering)",
+    label: "doctor's office (should automatically register when registering)"
+  },
+  {
+    value:
+      "Dormitories and shared apartments (should be set automatically when registering)",
+    label:
+      "Dormitories and shared apartments (should be set automatically when registering)"
+  },
+  {
+    value: "Expense billing not possible",
+    label: "Expense billing not possible"
+  },
+  { value: "Factoring blocked", label: "Factoring blocked" },
+  { value: "Factoring unlocked", label: "Factoring unlocked" },
+  {
+    value: "Forward invoices factoring only with DLN",
+    label: "Forward invoices factoring only with DLN"
+  },
+  {
+    value: "Hospital (should be set automatically when registering)",
+    label: "Hospital (should be set automatically when registering)"
+  },
+  {
+    value: "Inactive (settles automatically after 2 months of inactivity)",
+    label: "Inactive (settles automatically after 2 months of inactivity)"
+  },
+  {
+    value: "kilometer money billing not possible",
+    label: "kilometer money billing not possible"
+  },
+  { value: "Leasing externally", label: "Leasing externally" },
+  {
+    value: "Leasing to bill each specialist separately",
+    label: "Leasing to bill each specialist separately"
+  },
+  {
+    value: "Private household (settles automatically when registering)",
+    label: "Private household (settles automatically when registering)"
+  },
+  {
+    value:
+      "Rehabilitation clinic (should be set automatically when registering)",
+    label:
+      "Rehabilitation clinic (should be set automatically when registering)"
+  },
+  {
+    value: "Settle the department separately",
+    label: "Settle the department separately"
+  },
+  {
+    value: "Setup (settles automatically when registering)",
+    label: "Setup (settles automatically when registering)"
+  },
+  {
+    label: "Currently no appointment requirements",
+    value: "Currently no appointment requirements"
+  },
+  { label: "Login possible", value: "Login possible" },
+  {
+    label:
+      "no status e-mails (when we search, the institution…e an email that we search or are still searching)",
+    value:
+      "no status e-mails (when we search, the institution… an email that we search or are still searching) "
+  },
+  {
+    label: "Plycoco → Orange as from the logo",
+    value: "Plycoco → Orange as from the logo"
+  },
+  { label: "Single-book button", value: "Single-book button" },
+  { label: "TIM by post", value: "TIM by post" },
+  {
+    label: "TIMyoCY → Pink / Fuchsia",
+    value: "TIMyoCY → Pink / Fuchsia"
+  },
+  { label: "Unlocked", value: "Unlocked" }
+];
 
 export const InvoiceInterval: IReactSelectInterface[] = [
   { value: "Monthly for the 1st", label: "Monthly for the 1st" },
@@ -1198,7 +1194,7 @@ export const LeasingPriceList: IReactSelectInterface[] = [
   {
     label: "Salaried 27,0",
     value: "Salaried 27,0"
-  },
+  }
 ];
 
 export const CareInstLeasingPriceList: IReactSelectInterface[] = [
@@ -1213,9 +1209,8 @@ export const CareInstLeasingPriceList: IReactSelectInterface[] = [
   {
     label: "Facility 25,5",
     value: "Facility 25,5"
-  },
+  }
 ];
-
 
 export const Nationality: IReactSelectInterface[] = [
   { value: "Albanien", label: "Albanien" },

@@ -88,9 +88,10 @@ const RemarkFormData: FunctionComponent<FormikProps<
                         type='textarea'
                         name={'remarkData'}
                         onChange={handleChange}
-                        placeholder='Remarks'
+                        placeholder='Enter your remark'
                         value={remarkData}
-                        className='height-textarea '
+                        className='height-textarea'
+                        maxLength={1000}
                       />
                     </div>
                   </div>

@@ -827,6 +827,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         rows='4'
                         value={remarksViewable}
                         onChange={handleChange}
+                        maxLength={255}
                       />
                     </div>
                   </Col>

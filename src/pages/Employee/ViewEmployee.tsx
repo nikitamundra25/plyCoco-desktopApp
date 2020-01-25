@@ -118,7 +118,7 @@ const ViewEmployee: FunctionComponent = () => {
                   {/* <div className="employee-title">
                       {languageTranslation("PERSONAL_INFORMATION")}
                     </div> */}
-                  <div className="user-item emloyee-detail-card">
+                  <div className="user-item emloyee-detail-card personal-info-card">
                     <div className="profile-wrap">
                       <div className="profile-img-tile">
                         <div className="emloyee-profile-img">
@@ -152,7 +152,7 @@ const ViewEmployee: FunctionComponent = () => {
                             <>{languageTranslation("NAME")}</>
                           )}
                         </span>
-                        <span className="text-value one-line-text d-flex align-items-center">
+                        <span className="text-value  d-flex align-items-center">
                           :&nbsp;&nbsp;
                           <span className="text-capitalize">
                             {employee && employee.firstName
@@ -171,7 +171,7 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation("EMPLOYEE_USER_NAME_LABEL")}
                         </span>
 
-                        <span className="text-value one-line-text">
+                        <span className="text-value ">
                           :&nbsp;&nbsp;
                           {employee && employee.userName
                             ? employee.userName
@@ -183,7 +183,7 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation("EMPLOYEE_EMAIL_ADDRESS_LABEL")}
                         </span>
 
-                        <span className="text-value one-line-text">
+                        <span className="text-value ">
                           :&nbsp;&nbsp;
                           {employee && employee.email ? employee.email : "N/A"}
                         </span>
@@ -195,7 +195,7 @@ const ViewEmployee: FunctionComponent = () => {
                             "EMPLOYEE_TELEPHONE_NUMBER_LABEL"
                           )}
                         </div>
-                        <span className="text-value one-line-text">
+                        <span className="text-value ">
                           :&nbsp;&nbsp;
                           {employee && employee.phoneNumber
                             ? employee.phoneNumber
@@ -207,7 +207,7 @@ const ViewEmployee: FunctionComponent = () => {
                         <span className="text-label">
                           {languageTranslation("STATUS")}
                         </span>
-                        <span className="text-value one-line-text">
+                        <span className="text-value ">
                           :&nbsp;&nbsp;
                           {/* <span
                       className={`status-btn ${
@@ -244,7 +244,7 @@ const ViewEmployee: FunctionComponent = () => {
                         <span className="text-label">
                           {languageTranslation("ADRESS")}
                         </span>
-                        <span className="text-value one-line-text">
+                        <span className="text-value ">
                           :&nbsp;&nbsp;
                           {employee &&
                           employee.employee &&
@@ -258,7 +258,7 @@ const ViewEmployee: FunctionComponent = () => {
                         <span className="text-label">
                           {languageTranslation("ADDRESS2")}
                         </span>
-                        <span className="text-value one-line-text">
+                        <span className="text-value ">
                           :&nbsp;&nbsp;
                           {employee.employee.address2
                             ? employee.employee.address2
@@ -269,7 +269,7 @@ const ViewEmployee: FunctionComponent = () => {
                         <span className="text-label">
                           {languageTranslation("ZIP")}
                         </span>
-                        <span className="text-value one-line-text">
+                        <span className="text-value ">
                           :&nbsp;&nbsp;
                           {employee.employee.zipCode
                             ? employee.employee.zipCode
@@ -281,7 +281,7 @@ const ViewEmployee: FunctionComponent = () => {
                         <span className="text-label">
                           {languageTranslation("CITY")}
                         </span>
-                        <span className="text-value one-line-text">
+                        <span className="text-value ">
                           :&nbsp;&nbsp;
                           {employee.employee.city
                             ? employee.employee.city
@@ -293,7 +293,7 @@ const ViewEmployee: FunctionComponent = () => {
                         <span className="text-label">
                           {languageTranslation("COUNTRY")}
                         </span>
-                        <span className="text-value one-line-text">
+                        <span className="text-value ">
                           :&nbsp;&nbsp;
                           {employee.employee.country
                             ? employee.employee.country
@@ -305,7 +305,7 @@ const ViewEmployee: FunctionComponent = () => {
                         <span className="text-label">
                           {languageTranslation("STATE")}
                         </span>
-                        <span className="text-value one-line-text">
+                        <span className="text-value ">
                           :&nbsp;&nbsp;
                           {employee.employee.state
                             ? employee.employee.state
@@ -326,7 +326,7 @@ const ViewEmployee: FunctionComponent = () => {
                       <span className="text-label">
                         {languageTranslation("EMPLOYEE_BANK_NAME_LABEL")}
                       </span>
-                      <span className="text-value one-line-text">
+                      <span className="text-value ">
                         :&nbsp;&nbsp;
                         {employee &&
                         employee.bankDetails &&
@@ -339,7 +339,7 @@ const ViewEmployee: FunctionComponent = () => {
                       <span className="text-label">
                         {languageTranslation("BANK_ACCOUNT_HOLDER_NAME_LABEL")}
                       </span>
-                      <span className="text-value one-line-text">
+                      <span className="text-value ">
                         :&nbsp;&nbsp;
                         {employee &&
                         employee.bankDetails &&
@@ -353,7 +353,7 @@ const ViewEmployee: FunctionComponent = () => {
                       <span className="text-label">
                         {languageTranslation("BANK_IBAN_LABEL")}
                       </span>
-                      <span className="text-value one-line-text">
+                      <span className="text-value ">
                         :&nbsp;&nbsp;
                         {employee &&
                         employee.bankDetails &&
@@ -367,7 +367,7 @@ const ViewEmployee: FunctionComponent = () => {
                       <span className="text-label">
                         {languageTranslation("BANK_BIC_LABEL")}
                       </span>
-                      <span className="text-value one-line-text">
+                      <span className="text-value ">
                         :&nbsp;&nbsp;
                         {employee &&
                         employee.bankDetails &&
@@ -402,7 +402,7 @@ const ViewEmployee: FunctionComponent = () => {
                       <span className="text-label">
                         {languageTranslation("EMPLOYEE_JOINING_DATE_LABEL")}
                       </span>
-                      <span className="text-value one-line-text">
+                      <span className="text-value ">
                         :&nbsp;&nbsp;
                         {employee &&
                         employee.employee &&
@@ -418,7 +418,7 @@ const ViewEmployee: FunctionComponent = () => {
                       <span className="text-label">
                         {languageTranslation("REGION")}
                       </span>
-                      <span className="text-value one-line-text text-capitalize">
+                      <span className="text-value  text-capitalize">
                         :&nbsp;&nbsp;
                         {employee.length && employee.regions
                           ? employee.regions

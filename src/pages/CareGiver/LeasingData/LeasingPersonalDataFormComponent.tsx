@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { FormGroup, Label, Col, Row, Input, Button, Form } from 'reactstrap';
+import React, { FunctionComponent } from 'react';
+import { FormGroup, Label, Col, Row, Button, Form } from 'reactstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
   Status,
@@ -21,9 +21,9 @@ import { languageTranslation } from '../../../helpers';
 import MaskedInput from 'react-text-mask';
 import '../caregiver.scss';
 
-const LeasingPersonalDataFormComponent: any = (
-  props: FormikProps<ILeasingValues>,
-) => {
+const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
+  ILeasingValues
+>> = (props: FormikProps<ILeasingValues>) => {
   const {
     values: {
       payrollIBAN,
@@ -41,6 +41,10 @@ const LeasingPersonalDataFormComponent: any = (
       taxBracket,
       preoccupation,
       status,
+      firstDay,
+      lastDay,
+      monthlyWorkingHrs,
+      weeklyWorkingHrs,
     },
     isSubmitting,
     handleSubmit,
@@ -52,37 +56,44 @@ const LeasingPersonalDataFormComponent: any = (
   return (
     <div>
       <Form className='form-section'>
-        <Button
-          // disabled={isSubmitting}
-          id={'caregiver-add-btn'}
-          onClick={handleSubmit}
-          color={'primary'}
-          className={'save-button'}
-          disabled={
-            isSubmitting ||
-            (!placeOfBirth &&
-              !birthName &&
-              !nationality &&
-              !maritalStatus &&
-              !children &&
-              !factorChildAllowance &&
-              !healthInsuranceType &&
-              !healthInsuranceProvider &&
-              !socialSecurityNumber &&
-              !religion &&
-              !controlId &&
-              !taxBracket &&
-              !preoccupation &&
-              !payrollIBAN &&
-              !status)
-          }
-        >
-          {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
-          {languageTranslation('SAVE_BUTTON')}
-        </Button>
+        <div id={'caregiver-add-btn'}>
+          <Button
+            id={'caregiver-add-btn'}
+            onClick={handleSubmit}
+            color={'primary'}
+            className={'save-button'}
+            disabled={
+              isSubmitting ||
+              (!placeOfBirth &&
+                !birthName &&
+                !nationality &&
+                !maritalStatus &&
+                !children &&
+                !factorChildAllowance &&
+                !healthInsuranceType &&
+                !healthInsuranceProvider &&
+                !socialSecurityNumber &&
+                !religion &&
+                !controlId &&
+                !taxBracket &&
+                !preoccupation &&
+                !payrollIBAN &&
+                !status &&
+                !firstDay &&
+                !lastDay &&
+                !monthlyWorkingHrs &&
+                !weeklyWorkingHrs)
+            }
+          >
+            {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
+            {languageTranslation('SAVE_BUTTON')}
+          </Button>
+        </div>
         <Row>
           <Col lg={'12'}>
-            <h5 className='main-title '>Leasing Personal Data</h5>
+            <h5 className='main-title '>
+              {languageTranslation('LEASING_PERSONAL_DATA_HEADING')}
+            </h5>
             <div className='form-card'>
               <Row>
                 <Col lg={'6'}>
@@ -358,27 +369,6 @@ const LeasingPersonalDataFormComponent: any = (
                   <FormGroup>
                     <Row>
                       <Col sm='4'>
-                        <Label className='form-label col-form-label '>
-                          Control Id
-                          {/* <span className='required'>*</span> */}
-                        </Label>
-                      </Col>
-                      <Col sm='8'>
-                        <div>
-                          <Field
-                            component={FormikTextField}
-                            name={'controlId'}
-                            placeholder='Control Id'
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-                <Col lg={'6'}>
-                  <FormGroup>
-                    <Row>
-                      <Col sm='4'>
                         <Label className='form-label col-form-label'>
                           Preoccupation
                           {/* <span className='required'>*</span> */}
@@ -440,6 +430,110 @@ const LeasingPersonalDataFormComponent: any = (
             </div>
           </Col>
 
+          <Col lg={'12'}>
+            <h5 className='main-title '>
+              {languageTranslation('LEASING_CONTRACT_DATA_HEADING')}
+            </h5>
+            <div className='form-card'>
+              <Row>
+                <Col lg={'6'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label '>
+                          {languageTranslation('LEASING_CONTRACT_FIRST_DAY')}
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div>
+                          <Field
+                            component={FormikTextField}
+                            name={'firstDay'}
+                            placeholder={languageTranslation(
+                              'LEASING_CONTRACT_FIRST_DAY',
+                            )}
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={'6'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('LEASING_CONTRACT_LAST_DAY')}
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div>
+                          <Field
+                            component={FormikTextField}
+                            name={'lastDay'}
+                            placeholder={languageTranslation(
+                              'LEASING_CONTRACT_LAST_DAY',
+                            )}
+                            className='width-common'
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={'6'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label '>
+                          {languageTranslation(
+                            'LEASING_CONTRACT_MONTHLY_WORKING_HRS',
+                          )}
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div>
+                          <Field
+                            component={FormikTextField}
+                            name={'monthlyWorkingHrs'}
+                            placeholder={languageTranslation(
+                              'LEASING_CONTRACT_MONTHLY_WORKING_HRS',
+                            )}
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={'6'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation(
+                            'LEASING_CONTRACT_WEEKLY_WORKING_HRS',
+                          )}
+                          <br />
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div>
+                          <Field
+                            component={FormikTextField}
+                            name={'weeklyWorkingHrs'}
+                            placeholder={languageTranslation(
+                              'LEASING_CONTRACT_WEEKLY_WORKING_HRS',
+                            )}
+                            className='width-common'
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+              </Row>
+            </div>
+          </Col>
           <Col lg={'12'}>
             <div className='d-flex align-items-center justify-content-between'>
               <div className='mandatory-text'>* Required Fields</div>

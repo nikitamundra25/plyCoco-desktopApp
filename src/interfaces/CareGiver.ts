@@ -219,6 +219,7 @@ export interface ICareGiverValues {
   attributeId?: IReactSelectInterface[];
   remarks?: ICareInstitutionRemarks[];
   remarkData?: string;
+  remarkValue?: string; // for edit
   comments?: String;
   invoiceInterval?: IReactSelectInterface;
   leasingPricingList?: IReactSelectInterface;

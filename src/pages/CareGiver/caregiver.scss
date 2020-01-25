@@ -1,4 +1,4 @@
-@import '../../scss/variables';
+@import "../../scss/variables";
 .common-col {
   height: 100%;
   .form-card {
@@ -141,17 +141,23 @@
     position: fixed;
     top: 76px;
   }
-  &.sticky-save-btn {
+}
+.sticky-save-btn {
+  position: fixed;
+  top: 34px;
+  right: 8px;
+  z-index: 10;
+  @media only screen and (max-width: 991px) {
+    top: 72px;
+  }
+  @media only screen and (max-width: 767px) {
     position: fixed;
-    top: 34px;
-    right: 8px;
-    @media only screen and (max-width: 991px) {
-      top: 72px;
-    }
-    @media only screen and (max-width: 767px) {
-      position: fixed;
-      top: 76px;
-    }
+    top: 76px;
+  }
+  .save-button {
+    position: relative;
+    top: unset;
+    right: unset;
   }
 }
 .disabled-div {

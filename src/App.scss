@@ -1278,6 +1278,7 @@ html:not([dir="rtl"]) {
     .custom-control-label {
       font-family: $font_Frutiger_Bold;
       font-size: $font_12;
+      cursor: pointer;
       &:after,
       &:before {
         top: 1px;
@@ -1397,28 +1398,7 @@ html:not([dir="rtl"]) {
       border-bottom-width: 1px !important;
       font-weight: 700;
       vertical-align: middle;
-      &.region-th-column {
-        width: 250px;
-        min-width: 250px;
-      }
-      &.company-th-column {
-        min-width: 150px;
-      }
-      &.date-th-column {
-        width: 180px;
-        min-width: 180px;
-      }
-      &.qualifications-th-column {
-        width: 250px;
-        min-width: 250px;
-      }
-      &.applying-th-column {
-        width: 140px;
-        min-width: 140px;
-      }
-      &.status-column {
-        width: 100px;
-      }
+      
     }
   }
 
@@ -1427,6 +1407,31 @@ html:not([dir="rtl"]) {
     padding: 4px;
     vertical-align: middle;
     font-size: $font_12;
+    &.region-th-column {
+      width: 250px;
+      min-width: 250px;
+    }
+    &.company-th-column {
+      min-width: 150px;
+    }
+    &.date-th-column {
+      width: 180px;
+      min-width: 180px;
+      @media only screen and (max-width: 991px) {
+        display:none;
+      }
+    }
+    &.qualifications-th-column {
+      width: 250px;
+      min-width: 250px;
+    }
+    &.applying-th-column {
+      width: 140px;
+      min-width: 140px;
+    }
+    &.status-column {
+      width: 100px;
+    }
     .table-checkbox-wrap {
       position: relative;
       width: 30px;
@@ -1541,6 +1546,8 @@ html:not([dir="rtl"]) {
         border: 1px solid $table_border;
       }
     }
+    
+    
     .status-btn {
       padding: 3px 10px;
       font-size: $font_12;
@@ -1710,7 +1717,7 @@ html:not([dir="rtl"]) {
       font-size: $font_13;
       color: $dark_gray;
       display: inline-block;
-      flex: 0 0 170px;
+      flex: 0 0 150px;
     }
     .text-value {
       font-weight: 600;
@@ -1733,47 +1740,32 @@ html:not([dir="rtl"]) {
       left: 15px;
       margin: 0;
       width: 125px;
-      .emloyee-profile-img {
-        width: 100%;
-        height: 100%;
-        border-radius: 3px;
-        margin: auto;
-        overflow: hidden;
-        position: relative;
-        background-size: cover;
-        background-position: 50%;
-        // box-shadow: 0 0 0 1px #b5b5b5;
-      }
-
-      .user-back-img-wrap {
-        background-size: cover;
-        background-position: center center;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        img {
-          max-width: 100%;
-          max-height: 100%;
+      .profile-img-tile {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+        .emloyee-profile-img {
+          width: 100%;
+          height: 100%;
+          border-radius: 3px;
           margin: auto;
+          overflow: hidden;
+          position: relative;
+          background-size: cover;
+          background-position: 50%;
         }
-      }
-      .changeProfile {
-        position: absolute;
-        cursor: pointer;
-        left: 0;
-        bottom: -3px;
-        background: rgba(0, 0, 0, 0.75);
-        left: 50%;
-        -webkit-transform: translateX(-50%);
-        transform: translateX(-50%);
-        width: 100%;
-        color: #fff;
-        text-align: center;
-        font-size: 12px;
-        height: 30px;
-        padding-top: 1px;
+        .user-back-img-wrap {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          img {
+            max-width: 100%;
+            max-height: 100%;
+            margin: auto;
+          }
+        }
       }
     }
   }
@@ -3082,28 +3074,15 @@ html:not([dir="rtl"]) {
 @media only screen and (max-width: 991px) {
   .employee-details {
     .emloyee-detail-card {
-      flex-wrap: wrap;
-      padding: 15px;
-      .text-label {
-        flex: 0 0 110px;
+      &.personal-info-card {
+        align-items: flex-start;
+        height: auto;
+        flex-direction: column;
       }
-      .profile-wrap {
-        flex: 1 1 100%;
-        position: relative;
-        margin: 0px;
-      }
-
       .profile-text {
-        flex: 1 1 50%;
-        padding: 20px 0px;
-        margin-top: 10px;
-        &:nth-child(2) {
-          border-right: 1px solid #ccc;
-          padding-right: 15px;
-        }
-        &:nth-child(3) {
-          padding-left: 15px;
-        }
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
       }
     }
   }
@@ -3119,34 +3098,27 @@ html:not([dir="rtl"]) {
   }
   .employee-details {
     .emloyee-detail-card {
-      .profile-wrap {
-        .emloyee-profile-img {
-          margin: 0;
-        }
-      }
-      &.emloyee-other-info {
-        margin-top: 15px;
-        height: auto;
-      }
-      .text-label {
-        flex: 0 0 110px;
-      }
-      .profile-wrap {
-        flex: 1 1 100%;
-      }
+      height: auto;
+      margin-bottom: 16px;
+    }
+  }
+}
 
+@media only screen and (max-width: 575px) {
+  .employee-details {
+    .emloyee-detail-card {
+      &.personal-info-card {
+        padding-left: 15px;
+      }
+      .profile-wrap {
+        position: relative;
+        left: 0px;
+        margin: 0 auto 13px;
+      }
       .profile-text {
-        flex: 1 1 100%;
+        width: 100%;
+        flex: 0 0 100%;
         max-width: 100%;
-        padding: 0px;
-        margin-top: 10px;
-        &:nth-child(2) {
-          border-right: none;
-          padding-right: 0px;
-        }
-        &:nth-child(3) {
-          padding-left: 0px;
-        }
       }
     }
   }

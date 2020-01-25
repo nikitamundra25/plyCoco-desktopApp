@@ -315,10 +315,8 @@ const CareInstitution = (props: RouteComponentProps) => {
                     </p>
                   </div>
                 </td>
-                <td>
-                  <div className=" ">
-                    {user.createdAt ? moment(user.createdAt).format("lll") : ""}
-                  </div>
+                <td className="date-th-column ">
+                  {user.createdAt ? moment(user.createdAt).format("lll") : ""}
                 </td>
                 <td className="text-center">
                   <span
@@ -332,6 +330,16 @@ const CareInstitution = (props: RouteComponentProps) => {
                 </td>
                 <td>
                   <div className="action-btn">
+                    <ButtonTooltip
+                      id={`edit${index}`}
+                      message={"Click here to edit Care Institution"}
+                      redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
+                        ":id",
+                        user.id.toString()
+                      )}
+                    >
+                      <i className="fa fa-pencil"></i>
+                    </ButtonTooltip>
                     <ButtonTooltip
                       id={`view${index}`}
                       message={"Click here to view Care Institution"}

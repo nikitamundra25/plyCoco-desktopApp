@@ -172,16 +172,18 @@ const AddCareInstitution: FunctionComponent<FormikProps<
 
   return (
     <Row className=" ">
-      <Button
-        disabled={isSubmitting}
-        id={"caregiver-add-btn"}
-        onClick={handleSubmit}
-        color={"primary"}
-        className={"save-button"}
-      >
-        {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
-        {languageTranslation("SAVE_BUTTON")}
-      </Button>
+      <div id={"caregiver-add-btn"}>
+        <Button
+          disabled={isSubmitting}
+          // id={"caregiver-add-btn"}
+          onClick={handleSubmit}
+          color={"primary"}
+          className={"save-button"}
+        >
+          {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+          {languageTranslation("SAVE_BUTTON")}
+        </Button>
+      </div>
       <Col lg={"4"}>
         <div className="form-card h-100">
           <Row>

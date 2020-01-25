@@ -29,6 +29,7 @@ import password from "../../../assets/img/password.svg";
 import appointment from "../../../assets/img/appointment.svg";
 import clear from "../../../assets/img/clear.svg";
 import { IQualifications } from "../../../interfaces/qualification";
+import Loader from "../../../containers/Loader/Loader";
 
 const CareInstitutionSidebar = React.lazy(() =>
   import("../Sidebar/SidebarLayout/CareInstitutionLayout")
@@ -36,7 +37,12 @@ const CareInstitutionSidebar = React.lazy(() =>
 
 const CareInstitutionTabs = careInstitutionRoutes;
 
-const [, , , ADD_CARE_INSTITUTION] = CareInstitutionQueries;
+const [
+  GET_CARE_INSTITUTION_LIST,
+  DELETE_CARE_INSTITUTION,
+  UPDATE_CARE_INSTITUTION,
+  ADD_CARE_INSTITUTION
+] = CareInstitutionQueries;
 
 export const CareInstitutionForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -201,7 +207,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   return (
     <div className="common-detail-page">
       <div className="common-detail-section">
-        <Suspense fallback={"Loading.."}>
+        <Suspense fallback={<Loader />}>
           <div className="sticky-common-header">
             <div className="common-topheader d-flex align-items-center ">
               <div className="common-title">Add Care Institution</div>

@@ -72,7 +72,7 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
       excludeEmptyString: true
     })
     .nullable(),
-  remarksViewable: Yup.string().max(250, languageTranslation(""))
+  remarksViewable: Yup.string().max(255, languageTranslation(""))
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<

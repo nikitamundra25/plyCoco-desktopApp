@@ -8,6 +8,7 @@ import {
 } from '../../../../interfaces';
 import moment from 'moment';
 import { ConfirmBox } from '../../../../common/ConfirmBox';
+import { toast } from 'react-toastify';
 
 const RemarkFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -50,6 +51,8 @@ const RemarkFormData: FunctionComponent<FormikProps<
         setisEditRemark(false);
         if (props.saveRemark) {
           props.saveRemark(languageTranslation('REMARK_DELETE_SUCCESS'), temp);
+        } else {
+          toast.success(languageTranslation('REMARK_DELETE_SUCCESS'));
         }
       }
     }
@@ -104,59 +107,40 @@ const RemarkFormData: FunctionComponent<FormikProps<
                       <i className='fa fa-user mr-2'></i>Mark Smith
                     </span>
                     <div className='remark-action-btn'>
-                      {!isEditRemark ? (
-                        <div
-                          className={`add-remark-btn ${
-                            !remarkData ? 'disabled-div' : ' '
-                          }`}
-                          onClick={e => {
-                            if (remarkData) {
-                              const temp = remarksDetail ? remarksDetail : [];
-                              temp.unshift({
-                                data: remarkData,
-                                createdAt: moment().format(
-                                  'MMMM Do YYYY, h:mm a',
-                                ),
-                                createdBy: 'john doe',
-                              });
-                              if (setRemarksDetail) {
-                                setRemarksDetail(temp);
-                                setFieldValue('remarkData', '');
-                              }
-                              if (props.saveRemark) {
-                                props.saveRemark(
-                                  languageTranslation('REMARK_ADDED_SUCCESS'),
-                                  undefined,
-                                );
-                              }
+                      <div
+                        className={`add-remark-btn ${
+                          !remarkData ? 'disabled-div' : ' '
+                        }`}
+                        onClick={e => {
+                          if (remarkData) {
+                            const temp = remarksDetail ? remarksDetail : [];
+                            temp.unshift({
+                              data: remarkData,
+                              createdAt: moment().format(
+                                'MMMM Do YYYY, h:mm a',
+                              ),
+                              createdBy: 'john doe',
+                            });
+                            if (setRemarksDetail) {
+                              setRemarksDetail(temp);
+                              setFieldValue('remarkData', '');
                             }
-                          }}
-                        >
-                          <i className={'fa fa-plus'} />
-                          &nbsp; Add More
-                        </div>
-                      ) : (
-                        <>
-                          <div
-                            className={`add-remark-btn ${
-                              !remarkData ? 'disabled-div' : ' '
-                            }`}
-                            onClick={e => {
-                              if (remarkData) {
-                                const temp = remarksDetail ? remarksDetail : [];
-                                temp[activeRemark].data = remarkData;
-                                if (setRemarksDetail) {
-                                  setRemarksDetail(temp);
-                                  setFieldValue('remarkData', '');
-                                  setisEditRemark(false);
-                                }
-                              }
-                            }}
-                          >
-                            Update
-                          </div>
-                        </>
-                      )}
+                            if (props.saveRemark) {
+                              props.saveRemark(
+                                languageTranslation('REMARK_ADDED_SUCCESS'),
+                                undefined,
+                              );
+                            } else {
+                              toast.success(
+                                languageTranslation('REMARK_ADDED_SUCCESS'),
+                              );
+                            }
+                          }
+                        }}
+                      >
+                        <i className={'fa fa-plus'} />
+                        &nbsp; Add More
+                      </div>
                     </div>
                   </div>
                   <span className='activity-icon activity-set'></span>
@@ -216,6 +200,12 @@ const RemarkFormData: FunctionComponent<FormikProps<
                                           'REMARK_UPDATE_SUCCESS',
                                         ),
                                         undefined,
+                                      );
+                                    } else {
+                                      toast.success(
+                                        languageTranslation(
+                                          'REMARK_UPDATE_SUCCESS',
+                                        ),
                                       );
                                     }
                                   }

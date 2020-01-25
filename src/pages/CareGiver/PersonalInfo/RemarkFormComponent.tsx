@@ -1,10 +1,11 @@
-import React, { FunctionComponent, useState } from "react";
-import { Input, Col, UncontrolledTooltip } from "reactstrap";
-import { FormikProps } from "formik";
-import { languageTranslation } from "../../../helpers";
-import { ICareInstitutionRemarks, ICareGiverValues } from "../../../interfaces";
-import moment from "moment";
-import { ConfirmBox } from "../../../common/ConfirmBox";
+import React, { FunctionComponent, useState } from 'react';
+import { Input, Col, UncontrolledTooltip } from 'reactstrap';
+import { FormikProps } from 'formik';
+import { languageTranslation } from '../../../helpers';
+import { ICareInstitutionRemarks, ICareGiverValues } from '../../../interfaces';
+import moment from 'moment';
+import { ConfirmBox } from '../../../common/ConfirmBox';
+import { toast } from 'react-toastify';
 // import { handleChange } from '../../../common/forms/FormikFields/utils';
 
 const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
@@ -16,13 +17,13 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
     setRemarksDetail?: any;
     remarksDetail?: any;
     saveRemark?: (message: string, remarksData: any) => void;
-  }
+  },
 ) => {
   const [activeRemark, setActiveRemark] = useState(0);
   let [changeRemark, setchangeRemark] = useState({
-    data: "",
-    createdAt: "",
-    createdBy: ""
+    data: '',
+    createdAt: '',
+    createdBy: '',
   });
 
   let [isEditRemark, setisEditRemark] = useState(false);
@@ -32,8 +33,8 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
   // Function to remove remark
   const onDelete = async (index: number) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation("REMARK_DELETE_CONFIRMATION")
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('REMARK_DELETE_CONFIRMATION'),
     });
     if (!value) {
       return;
@@ -42,10 +43,12 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
       temp = temp.filter((remark: any, i: number) => i !== index);
       if (setRemarksDetail) {
         await setRemarksDetail(temp);
-        setFieldValue("remarkData", "");
+        setFieldValue('remarkData', '');
         setisEditRemark(false);
         if (props.saveRemark) {
-          props.saveRemark(languageTranslation("REMARK_DELETE_SUCCESS"), temp);
+          props.saveRemark(languageTranslation('REMARK_DELETE_SUCCESS'), temp);
+        } else {
+          toast.success(languageTranslation('REMARK_DELETE_SUCCESS'));
         }
       }
     }
@@ -56,49 +59,49 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
     setFieldValue,
     setRemarksDetail,
     remarksDetail,
-    handleChange
+    handleChange,
   } = props;
-  console.log(remarksDetail, "remarksDetailremarksDetail");
+  console.log(remarksDetail, 'remarksDetailremarksDetail');
 
   return (
     <Col lg={4}>
-      <div className="remark-details">
-        <div className="remark-header d-flex align-items-center justify-content-between">
-          <h5 className="my-2 text-left activity-title">
-            {" "}
-            {languageTranslation("REMARKS")}
+      <div className='remark-details'>
+        <div className='remark-header d-flex align-items-center justify-content-between'>
+          <h5 className='my-2 text-left activity-title'>
+            {' '}
+            {languageTranslation('REMARKS')}
           </h5>
         </div>
-        <div className="remark-body remark-body-max-height ">
-          <div className="activity-logs ">
+        <div className='remark-body remark-body-max-height '>
+          <div className='activity-logs '>
             <div>
               <div>
-                <div className="activity-block py-2 px-3">
-                  <div className=" text-left">
-                    <div className="remark-section">
+                <div className='activity-block py-2 px-3'>
+                  <div className=' text-left'>
+                    <div className='remark-section'>
                       <Input
-                        type="textarea"
-                        name={"remarkData"}
+                        type='textarea'
+                        name={'remarkData'}
                         onChange={handleChange}
-                        placeholder="Enter your remark"
+                        placeholder='Enter your remark'
                         value={remarkData}
-                        className="height-textarea "
+                        className='height-textarea '
                         maxLength={1000}
                       />
                     </div>
                   </div>
-                  <div className="activity-date position-relative">
+                  <div className='activity-date position-relative'>
                     <span>
-                      <i className="fa fa-clock-o mr-2"></i>
-                      {moment().format("MMMM Do YYYY, h:mm a")}
+                      <i className='fa fa-clock-o mr-2'></i>
+                      {moment().format('MMMM Do YYYY, h:mm a')}
                     </span>
                     <span>
-                      <i className="fa fa-user mr-2"></i>Mark Smith
+                      <i className='fa fa-user mr-2'></i>Mark Smith
                     </span>
-                    <div className="remark-action-btn">
+                    <div className='remark-action-btn'>
                       <div
                         className={`add-remark-btn ${
-                          !remarkData ? "disabled-div" : " "
+                          !remarkData ? 'disabled-div' : ' '
                         }`}
                         onClick={e => {
                           if (remarkData) {
@@ -106,29 +109,33 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                             temp.unshift({
                               data: remarkData,
                               createdAt: moment().format(
-                                "MMMM Do YYYY, h:mm a"
+                                'MMMM Do YYYY, h:mm a',
                               ),
-                              createdBy: "john doe"
+                              createdBy: 'john doe',
                             });
                             if (setRemarksDetail) {
                               setRemarksDetail(temp);
-                              setFieldValue("remarkData", "");
+                              setFieldValue('remarkData', '');
                             }
                             if (props.saveRemark) {
                               props.saveRemark(
-                                languageTranslation("REMARK_ADDED_SUCCESS"),
-                                undefined
+                                languageTranslation('REMARK_ADDED_SUCCESS'),
+                                undefined,
+                              );
+                            } else {
+                              toast.success(
+                                languageTranslation('REMARK_ADDED_SUCCESS'),
                               );
                             }
                           }
                         }}
                       >
-                        <i className={"fa fa-plus"} />
+                        <i className={'fa fa-plus'} />
                         &nbsp; Add More
                       </div>
                     </div>
                   </div>
-                  <span className="activity-icon activity-set"></span>
+                  <span className='activity-icon activity-set'></span>
                 </div>
               </div>
             </div>
@@ -137,17 +144,17 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                 {remarksDetail.map(
                   (remark: ICareInstitutionRemarks, index: number) => {
                     return (
-                      <div className="activity-block py-2" key={index}>
+                      <div className='activity-block py-2' key={index}>
                         <div>
-                          <div className="remark-section">
+                          <div className='remark-section'>
                             {activeRemark === index && isEditRemark ? (
                               <Input
-                                type="textarea"
-                                name={"remarkValue"}
+                                type='textarea'
+                                name={'remarkValue'}
                                 onChange={handleChange}
-                                placeholder="Remarks"
+                                placeholder='Remarks'
                                 value={remarkValue}
-                                className="height-textarea "
+                                className='height-textarea '
                                 maxLength={1000}
                               />
                             ) : (
@@ -155,15 +162,15 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                             )}
                           </div>
                         </div>
-                        <div className=" activity-date position-relative">
+                        <div className=' activity-date position-relative'>
                           <span>
-                            <i className="fa fa-clock-o mr-2"></i>
+                            <i className='fa fa-clock-o mr-2'></i>
                             {remark.createdAt}
                           </span>
                           <span>
-                            <i className="fa fa-user mr-2"></i>Mark Smith
+                            <i className='fa fa-user mr-2'></i>Mark Smith
                           </span>
-                          <div className="remark-action-btn">
+                          <div className='remark-action-btn'>
                             <span
                               id={`edit${index}`}
                               onClick={() => {
@@ -176,15 +183,21 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                     temp[activeRemark].data = remarkValue;
                                     if (setRemarksDetail) {
                                       setRemarksDetail(temp);
-                                      setFieldValue("remarkValue", "");
+                                      setFieldValue('remarkValue', '');
                                       setisEditRemark(false);
                                     }
                                     if (props.saveRemark) {
                                       props.saveRemark(
                                         languageTranslation(
-                                          "REMARK_UPDATE_SUCCESS"
+                                          'REMARK_UPDATE_SUCCESS',
                                         ),
-                                        undefined
+                                        undefined,
+                                      );
+                                    } else {
+                                      toast.success(
+                                        languageTranslation(
+                                          'REMARK_UPDATE_SUCCESS',
+                                        ),
                                       );
                                     }
                                   }
@@ -193,48 +206,48 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                 else {
                                   setisEditRemark(true);
                                   setActiveRemark(index);
-                                  setFieldValue("remarkValue", remark.data);
+                                  setFieldValue('remarkValue', remark.data);
                                 }
                               }}
-                              className="edit-btn cursor-pointer"
+                              className='edit-btn cursor-pointer'
                             >
                               {activeRemark === index && isEditRemark ? (
-                                <i className="fa fa-check"></i>
+                                <i className='fa fa-check'></i>
                               ) : (
-                                <i className="icon-note"></i>
+                                <i className='icon-note'></i>
                               )}
                               <UncontrolledTooltip
-                                placement="top"
+                                placement='top'
                                 target={`edit${index}`}
                               >
                                 {activeRemark === index && isEditRemark
-                                  ? languageTranslation("REMARK_UPDATE")
-                                  : languageTranslation("REMARK_EDIT")}
+                                  ? languageTranslation('REMARK_UPDATE')
+                                  : languageTranslation('REMARK_EDIT')}
                               </UncontrolledTooltip>
                             </span>
                             <span
                               onClick={() => onDelete(index)}
-                              className="delete-btn cursor-pointer"
+                              className='delete-btn cursor-pointer'
                               id={`delete${index}`}
                             >
                               <UncontrolledTooltip
-                                placement="top"
+                                placement='top'
                                 target={`delete${index}`}
                               >
-                                {languageTranslation("REMARK_DELETE")}
+                                {languageTranslation('REMARK_DELETE')}
                               </UncontrolledTooltip>
-                              <i className="icon-trash"></i>
+                              <i className='icon-trash'></i>
                             </span>
                           </div>
                         </div>
-                        <span className="activity-icon activity-set"></span>
+                        <span className='activity-icon activity-set'></span>
                       </div>
                     );
-                  }
+                  },
                 )}
               </>
             ) : (
-              ""
+              ''
             )}
           </div>
         </div>

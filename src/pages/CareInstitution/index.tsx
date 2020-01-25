@@ -36,7 +36,10 @@ const [
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION,
   GET_CARE_INSTITUION_BY_ID,
-  UPDATE_CARE_INSTITUTION_STATUS
+  UPDATE_CARE_INSTITUTION_STATUS,
+  ADD_NEW_CONTACT_CARE_INSTITUTION,
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
+  ADD_NEW_CARE_INTITUTION
 ] = CareInstitutionQueries;
 
 const sortFilter: any = {
@@ -71,6 +74,10 @@ const CareInstitution = (props: RouteComponentProps) => {
     { id: string }
   >(DELETE_CARE_INSTITUTION);
 
+  const [addUser,{error: addUserError, data: CareIntitutionId,loading: Loading}] = useMutation<
+    {addUser: any}
+  >(ADD_NEW_CARE_INTITUTION)
+
   // Similar to componentDidMount and componentDidUpdate: updateStatus
   useEffect(() => {
     const query = qs.parse(search);
@@ -85,6 +92,8 @@ const CareInstitution = (props: RouteComponentProps) => {
         (key: string) => sortFilter[key] === query.sortBy
       );
     }
+
+
     logger(sortByValue);
     if (sortByValue === "3") {
       sortBy.label = "A-Z";
@@ -137,9 +146,6 @@ const CareInstitution = (props: RouteComponentProps) => {
     });
   }, [search]); // It will run when the search value gets changed
 
-  const handleViewCareInstitution = (id: any) => {
-    props.history.push(AppRoutes.CARE_INSTITUION_VIEW.replace(":id", id));
-  };
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
@@ -249,6 +255,23 @@ const CareInstitution = (props: RouteComponentProps) => {
     }
   };
 
+  useEffect(() => {
+    if (CareIntitutionId) {
+      const {addUser} = CareIntitutionId
+      props.history.push(AppRoutes.ADD_CARE_INSTITUTION.replace(":id",addUser.id))
+    }
+  }, [CareIntitutionId])
+
+  const handleAddNewCareInstitution = () =>{
+    addUser({
+      variables: {
+        careInstInput:{
+          firstName: ""
+        }
+      }
+    })
+  }
+
   if (data && data.getCareInstitutions) {
     userData = data.getCareInstitutions.careInstitutionData;
   }
@@ -315,10 +338,8 @@ const CareInstitution = (props: RouteComponentProps) => {
                     </p>
                   </div>
                 </td>
-                <td>
-                  <div className=" ">
-                    {user.createdAt ? moment(user.createdAt).format("lll") : ""}
-                  </div>
+                <td className="date-th-column ">
+                  {user.createdAt ? moment(user.createdAt).format("lll") : ""}
                 </td>
                 <td className="text-center">
                   <span
@@ -425,10 +446,12 @@ const CareInstitution = (props: RouteComponentProps) => {
         <Button
           color={"primary"}
           className={"btn-add"}
+          disabled={Loading}
           id={"add-new-pm-tooltip"}
-          onClick={() => props.history.push(AppRoutes.ADD_CARE_INSTITUTION)}
+          onClick={() => handleAddNewCareInstitution()}
         >
-          <i className={"fa fa-plus"} />
+          
+          {Loading ? <i className="fa fa-spinner fa-spin loader" /> :  <i className={"fa fa-plus"} />}
           &nbsp; Add New Care Institution
         </Button>
       </CardHeader>

@@ -1,21 +1,25 @@
 import React, { FunctionComponent, useState } from 'react';
-import { FormGroup, Label, Input, Col, Row, Form } from 'reactstrap';
-import Select from 'react-select';
-import { Formik, FormikProps, FormikHelpers, FieldArray } from 'formik';
-import { languageTranslation, logger } from '../../../../helpers';
+import { Input, Col, UncontrolledTooltip } from 'reactstrap';
+import { FormikProps } from 'formik';
+import { languageTranslation } from '../../../../helpers';
 import {
   ICareInstitutionFormValues,
   ICareInstitutionRemarks,
 } from '../../../../interfaces';
-import { State } from '../../../../config';
 import moment from 'moment';
+import { ConfirmBox } from '../../../../common/ConfirmBox';
 
 const RemarkFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
-> & { setRemarksDetail: any; remarksDetail: any }> = (
+> & {
+  setRemarksDetail: any;
+  remarksDetail: any;
+  saveRemark?: (message: string, remarksData: any) => void;
+}> = (
   props: FormikProps<ICareInstitutionFormValues> & {
     setRemarksDetail?: any;
     remarksDetail?: any;
+    saveRemark?: (message: string, remarksData: any) => void;
   },
 ) => {
   const [activeRemark, setActiveRemark] = useState(0);
@@ -29,8 +33,30 @@ const RemarkFormData: FunctionComponent<FormikProps<
   let [remarkIndex, setisRemarkIndex] = useState(-1);
   let [isRemoveRemark, setRemoveRemark] = useState(false);
 
+  // Function to remove remark
+  const onDelete = async (index: number) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('REMARK_DELETE_CONFIRMATION'),
+    });
+    if (!value) {
+      return;
+    } else {
+      let temp = remarksDetail ? remarksDetail : [];
+      temp = temp.filter((remark: any, i: number) => i !== index);
+      if (setRemarksDetail) {
+        await setRemarksDetail(temp);
+        setFieldValue('remarkData', '');
+        setisEditRemark(false);
+        if (props.saveRemark) {
+          props.saveRemark(languageTranslation('REMARK_DELETE_SUCCESS'), temp);
+        }
+      }
+    }
+  };
+
   const {
-    values: { remarks, remarkData },
+    values: { remarkValue, remarkData },
     touched,
     errors,
     isSubmitting,
@@ -61,22 +87,11 @@ const RemarkFormData: FunctionComponent<FormikProps<
                       <Input
                         type='textarea'
                         name={'remarkData'}
-                        onChange={
-                          handleChange
-                          // (e: any) =>
-                          // setchangeRemark(
-                          //   (changeRemark = {
-                          //     data: e.target.value.trimStart(),
-                          //     createdAt: moment().format(
-                          //       'MMMM Do YYYY, h:mm a',
-                          //     ),
-                          //     createdBy: 'john doe',
-                          //   }),
-                          // )
-                        }
-                        placeholder='Remarks'
+                        onChange={handleChange}
+                        placeholder='Enter your remark'
                         value={remarkData}
-                        className='height-textarea '
+                        className='height-textarea'
+                        maxLength={1000}
                       />
                     </div>
                   </div>
@@ -108,18 +123,13 @@ const RemarkFormData: FunctionComponent<FormikProps<
                                 setRemarksDetail(temp);
                                 setFieldValue('remarkData', '');
                               }
+                              if (props.saveRemark) {
+                                props.saveRemark(
+                                  languageTranslation('REMARK_ADDED_SUCCESS'),
+                                  undefined,
+                                );
+                              }
                             }
-                            // changeRemark && changeRemark.data
-                            //   ? arrayHelpers.push(changeRemark)
-                            //   : null;
-                            // setchangeRemark(
-                            //   (changeRemark = {
-                            //     data: '',
-                            //     createdAt: '',
-                            //     createdBy: '',
-                            //   }),
-                            // );
-                            // null;
                           }}
                         >
                           <i className={'fa fa-plus'} />
@@ -135,13 +145,6 @@ const RemarkFormData: FunctionComponent<FormikProps<
                               if (remarkData) {
                                 const temp = remarksDetail ? remarksDetail : [];
                                 temp[activeRemark].data = remarkData;
-                                // temp.push({
-                                //   data: remarkData,
-                                //   createdAt: moment().format(
-                                //     'MMMM Do YYYY, h:mm a',
-                                //   ),
-                                //   createdBy: 'john doe',
-                                // });
                                 if (setRemarksDetail) {
                                   setRemarksDetail(temp);
                                   setFieldValue('remarkData', '');
@@ -152,22 +155,6 @@ const RemarkFormData: FunctionComponent<FormikProps<
                           >
                             Update
                           </div>
-                          {/* <span
-                            className={'delete-btn cursor-pointer'}
-                            onClick={() => {
-                              setisEditRemark((isEditRemark = false));
-                              setchangeRemark(
-                                (changeRemark = {
-                                  data: '',
-                                  createdAt: '',
-                                  createdBy: '',
-                                }),
-                              );
-                              null;
-                            }}
-                          >
-                            <i className='fa fa-times'></i>
-                          </span> */}
                         </>
                       )}
                     </div>
@@ -184,7 +171,20 @@ const RemarkFormData: FunctionComponent<FormikProps<
                     return (
                       <div className='activity-block py-2' key={index}>
                         <div>
-                          <div className='remark-section'>{remark.data}</div>
+                          <div className='remark-section'>
+                            {activeRemark === index && isEditRemark ? (
+                              <Input
+                                type='textarea'
+                                name={'remarkValue'}
+                                onChange={handleChange}
+                                placeholder='Remarks'
+                                value={remarkValue}
+                                className='height-textarea '
+                              />
+                            ) : (
+                              remark.data
+                            )}
+                          </div>
                         </div>
                         <div className=' activity-date position-relative'>
                           <span>
@@ -196,40 +196,64 @@ const RemarkFormData: FunctionComponent<FormikProps<
                           </span>
                           <div className='remark-action-btn'>
                             <span
+                              id={`edit${index}`}
                               onClick={() => {
-                                setisEditRemark(true);
-                                setActiveRemark(index);
-                                setFieldValue('remarkData', remark.data);
-                                // setchangeRemark(
-                                //   (changeRemark = {
-                                //     data: remark.data,
-                                //     createdAt: moment(remark.createdAt).format(
-                                //       'MMMM Do YYYY, h:mm a',
-                                //     ),
-                                //     createdBy: 'john doe',
-                                //   }),
-                                // );
-                                // setisRemarkIndex((remarkIndex = index));
+                                // To update the remark
+                                if (isEditRemark) {
+                                  if (remarkValue) {
+                                    const temp = remarksDetail
+                                      ? remarksDetail
+                                      : [];
+                                    temp[activeRemark].data = remarkValue;
+                                    if (setRemarksDetail) {
+                                      setRemarksDetail(temp);
+                                      setFieldValue('remarkValue', '');
+                                      setisEditRemark(false);
+                                    }
+                                    if (props.saveRemark) {
+                                      props.saveRemark(
+                                        languageTranslation(
+                                          'REMARK_UPDATE_SUCCESS',
+                                        ),
+                                        undefined,
+                                      );
+                                    }
+                                  }
+                                }
+                                // To convert into text field on edit
+                                else {
+                                  setisEditRemark(true);
+                                  setActiveRemark(index);
+                                  setFieldValue('remarkValue', remark.data);
+                                }
                               }}
                               className='edit-btn cursor-pointer'
                             >
-                              <i className='icon-note'></i>
+                              {activeRemark === index && isEditRemark ? (
+                                <i className='fa fa-check'></i>
+                              ) : (
+                                <i className='icon-note'></i>
+                              )}
+                              <UncontrolledTooltip
+                                placement='top'
+                                target={`edit${index}`}
+                              >
+                                {activeRemark === index && isEditRemark
+                                  ? languageTranslation('REMARK_UPDATE')
+                                  : languageTranslation('REMARK_EDIT')}
+                              </UncontrolledTooltip>
                             </span>
                             <span
-                              onClick={() => {
-                                let temp = remarksDetail ? remarksDetail : [];
-                                temp = temp.filter(
-                                  (remark: any, i: number) => i !== index,
-                                );
-                                if (setRemarksDetail) {
-                                  setRemarksDetail(temp);
-                                  setFieldValue('remarkData', '');
-                                  setisEditRemark(false);
-                                }
-                              }}
+                              onClick={() => onDelete(index)}
                               className='delete-btn cursor-pointer'
                               id={`delete${index}`}
                             >
+                              <UncontrolledTooltip
+                                placement='top'
+                                target={`delete${index}`}
+                              >
+                                {languageTranslation('REMARK_DELETE')}
+                              </UncontrolledTooltip>
                               <i className='icon-trash'></i>
                             </span>
                           </div>

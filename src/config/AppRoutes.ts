@@ -40,5 +40,5 @@ export const AppRoutes: IAppRoutes = {
   INVOCES: "/caregiver/invoice/:id/:userName",
   TODO: "/caregiver/todo/:id/:userName",
   CARE_LOGIN: "/caregiver/loginlist/:id/:userName",
-  ADD_CARE_INSTITUTION: "/care-institution/add"
+  ADD_CARE_INSTITUTION: "/care-institution/add/:id"
 };

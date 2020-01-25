@@ -682,9 +682,7 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        {
-          console.log("driversLicense", driversLicense)
-        }
+        {console.log("driversLicense", driversLicense)}
         <Col lg={"12"}>
           <FormGroup>
             <Row>
@@ -701,11 +699,7 @@ const PersonalInfoFormComponent: any = (
                       id="driversLicense-1"
                       name="driversLicense"
                       label="Yes"
-                      checked={
-                        driversLicense === "yes"
-                          ? true
-                          : false
-                      }
+                      checked={driversLicense === "yes" ? true : false}
                       value={"yes"}
                       onChange={handleChange}
                     />
@@ -716,11 +710,7 @@ const PersonalInfoFormComponent: any = (
                       id="driversLicense-2"
                       name="driversLicense"
                       label="No"
-                      checked={
-                        driversLicense === "no"
-                          ? true
-                          : false
-                      }
+                      checked={driversLicense === "no" ? true : false}
                       value={"no"}
                       onChange={handleChange}
                     />
@@ -752,9 +742,7 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        {
-          console.log("vehicleAvailable", vehicleAvailable)
-        }
+        {console.log("vehicleAvailable", vehicleAvailable)}
         <Col lg={"12"}>
           <FormGroup>
             <Row>
@@ -950,6 +938,7 @@ const PersonalInfoFormComponent: any = (
                     rows="4"
                     value={comments ? comments : undefined}
                     onChange={handleChange}
+                    maxLength={255}
                   />
                 </div>
               </Col>

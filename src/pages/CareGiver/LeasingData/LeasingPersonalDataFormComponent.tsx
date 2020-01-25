@@ -1,5 +1,5 @@
-import React, { Component, FunctionComponent } from 'react';
-import { FormGroup, Label, Col, Row, Input, Button, Form } from 'reactstrap';
+import React, { FunctionComponent } from 'react';
+import { FormGroup, Label, Col, Row, Button, Form } from 'reactstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
   Status,
@@ -56,38 +56,39 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
   return (
     <div>
       <Form className='form-section'>
-        <Button
-          // disabled={isSubmitting}
-          id={'caregiver-add-btn'}
-          onClick={handleSubmit}
-          color={'primary'}
-          className={'save-button'}
-          disabled={
-            isSubmitting ||
-            (!placeOfBirth &&
-              !birthName &&
-              !nationality &&
-              !maritalStatus &&
-              !children &&
-              !factorChildAllowance &&
-              !healthInsuranceType &&
-              !healthInsuranceProvider &&
-              !socialSecurityNumber &&
-              !religion &&
-              !controlId &&
-              !taxBracket &&
-              !preoccupation &&
-              !payrollIBAN &&
-              !status &&
-              !firstDay &&
-              !lastDay &&
-              !monthlyWorkingHrs &&
-              !weeklyWorkingHrs)
-          }
-        >
-          {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
-          {languageTranslation('SAVE_BUTTON')}
-        </Button>
+        <div id={'caregiver-add-btn'}>
+          <Button
+            id={'caregiver-add-btn'}
+            onClick={handleSubmit}
+            color={'primary'}
+            className={'save-button'}
+            disabled={
+              isSubmitting ||
+              (!placeOfBirth &&
+                !birthName &&
+                !nationality &&
+                !maritalStatus &&
+                !children &&
+                !factorChildAllowance &&
+                !healthInsuranceType &&
+                !healthInsuranceProvider &&
+                !socialSecurityNumber &&
+                !religion &&
+                !controlId &&
+                !taxBracket &&
+                !preoccupation &&
+                !payrollIBAN &&
+                !status &&
+                !firstDay &&
+                !lastDay &&
+                !monthlyWorkingHrs &&
+                !weeklyWorkingHrs)
+            }
+          >
+            {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
+            {languageTranslation('SAVE_BUTTON')}
+          </Button>
+        </div>
         <Row>
           <Col lg={'12'}>
             <h5 className='main-title '>

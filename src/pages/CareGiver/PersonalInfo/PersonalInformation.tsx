@@ -38,6 +38,7 @@ import '../caregiver.scss';
 import { GET_QUALIFICATION_ATTRIBUTES, CountryQueries } from '../../../queries';
 import { IQualifications } from '../../../interfaces/qualification';
 import Loader from '../../../containers/Loader/Loader';
+let toastId: any;
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
@@ -229,7 +230,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
             careGiverInput,
           },
         });
-        toast.success(languageTranslation('CARE_GIVER_UPDATED_SUCCESS'));
+        if (!toast.isActive(toastId)) {
+          toast.success(languageTranslation('CARE_GIVER_UPDATED_SUCCESS'));
+        }
       }
     } catch (error) {
       const message = error.message
@@ -255,7 +258,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
             isRemarkAdded: true,
           },
         });
-        toast.success(message);
+        if (!toast.isActive(toastId)) {
+          toast.success(message);
+        }
       } catch (error) {
         const message = error.message
           .replace('SequelizeValidationError: ', '')

@@ -153,7 +153,6 @@ const ViewEmployee: FunctionComponent = () => {
                           )}
                         </span>
                         <span className='text-value  d-flex align-items-center'>
-                          :&nbsp;&nbsp;
                           <span className='text-capitalize'>
                             {employee && employee.firstName
                               ? employee.firstName
@@ -172,7 +171,6 @@ const ViewEmployee: FunctionComponent = () => {
                         </span>
 
                         <span className='text-value '>
-                          :&nbsp;&nbsp;
                           {employee && employee.userName
                             ? employee.userName
                             : 'N/A'}
@@ -184,7 +182,6 @@ const ViewEmployee: FunctionComponent = () => {
                         </span>
 
                         <span className='text-value '>
-                          :&nbsp;&nbsp;
                           {employee && employee.email ? employee.email : 'N/A'}
                         </span>
                       </div>
@@ -196,7 +193,6 @@ const ViewEmployee: FunctionComponent = () => {
                           )}
                         </div>
                         <span className='text-value '>
-                          :&nbsp;&nbsp;
                           {employee && employee.phoneNumber
                             ? employee.phoneNumber
                             : 'N/A'}
@@ -208,7 +204,6 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('STATUS')}
                         </span>
                         <span className='text-value '>
-                          :&nbsp;&nbsp;
                           {/* <span
                       className={`status-btn ${
                         employee && employee.isActive ? "active" : "inactive"
@@ -245,7 +240,6 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('ADRESS')}
                         </span>
                         <span className='text-value '>
-                          :&nbsp;&nbsp;
                           {employee &&
                           employee.employee &&
                           employee.employee.address1
@@ -259,7 +253,6 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('ADDRESS2')}
                         </span>
                         <span className='text-value '>
-                          :&nbsp;&nbsp;
                           {employee.employee.address2
                             ? employee.employee.address2
                             : 'N/A'}
@@ -270,7 +263,6 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('ZIP')}
                         </span>
                         <span className='text-value '>
-                          :&nbsp;&nbsp;
                           {employee.employee.zipCode
                             ? employee.employee.zipCode
                             : 'N/A'}
@@ -282,7 +274,6 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('CITY')}
                         </span>
                         <span className='text-value '>
-                          :&nbsp;&nbsp;
                           {employee.employee.city
                             ? employee.employee.city
                             : 'N/A'}
@@ -294,7 +285,6 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('COUNTRY')}
                         </span>
                         <span className='text-value '>
-                          :&nbsp;&nbsp;
                           {employee.employee.country
                             ? employee.employee.country
                             : 'N/A'}
@@ -306,7 +296,6 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('STATE')}
                         </span>
                         <span className='text-value '>
-                          :&nbsp;&nbsp;
                           {employee.employee.state
                             ? employee.employee.state
                             : 'N/A'}
@@ -327,7 +316,6 @@ const ViewEmployee: FunctionComponent = () => {
                         {languageTranslation('EMPLOYEE_BANK_NAME_LABEL')}
                       </span>
                       <span className='text-value '>
-                        :&nbsp;&nbsp;
                         {employee &&
                         employee.bankDetails &&
                         employee.bankDetails.bankName
@@ -340,7 +328,6 @@ const ViewEmployee: FunctionComponent = () => {
                         {languageTranslation('BANK_ACCOUNT_HOLDER_NAME_LABEL')}
                       </span>
                       <span className='text-value '>
-                        :&nbsp;&nbsp;
                         {employee &&
                         employee.bankDetails &&
                         employee.bankDetails.accountHolder
@@ -354,7 +341,6 @@ const ViewEmployee: FunctionComponent = () => {
                         {languageTranslation('BANK_IBAN_LABEL')}
                       </span>
                       <span className='text-value '>
-                        :&nbsp;&nbsp;
                         {employee &&
                         employee.bankDetails &&
                         employee.bankDetails.IBAN
@@ -368,7 +354,6 @@ const ViewEmployee: FunctionComponent = () => {
                         {languageTranslation('BANK_BIC_LABEL')}
                       </span>
                       <span className='text-value '>
-                        :&nbsp;&nbsp;
                         {employee &&
                         employee.bankDetails &&
                         employee.bankDetails.BIC
@@ -382,7 +367,6 @@ const ViewEmployee: FunctionComponent = () => {
                         {languageTranslation('ADDITIONAL_TEXT_LABEL')}
                       </span>
                       <span className='text-value '>
-                        :&nbsp;&nbsp;
                         {employee &&
                         employee.bankDetails &&
                         employee.bankDetails.additionalText
@@ -403,7 +387,6 @@ const ViewEmployee: FunctionComponent = () => {
                         {languageTranslation('EMPLOYEE_JOINING_DATE_LABEL')}
                       </span>
                       <span className='text-value '>
-                        :&nbsp;&nbsp;
                         {employee &&
                         employee.employee &&
                         employee.employee.joiningDate
@@ -419,7 +402,6 @@ const ViewEmployee: FunctionComponent = () => {
                         {languageTranslation('REGION')}
                       </span>
                       <span className='text-value  text-capitalize'>
-                        :&nbsp;&nbsp;
                         {employee && employee.regions && employee.regions.length
                           ? employee.regions
                               .map((region: any) => region.regionName)

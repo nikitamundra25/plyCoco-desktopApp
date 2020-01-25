@@ -19,6 +19,8 @@ import { logger, languageTranslation } from '../../../helpers';
 import CareInstitutionContacts from './CareInstitutionContacts';
 import { RegionQueries } from '../../../queries/Region';
 
+let toastId: any;
+
 const [, GET_REGIONS] = RegionQueries;
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -188,10 +190,10 @@ const PersonalInformation: any = (props: any) => {
         qualificationId:
           values.qualificationId && values.qualificationId.length
             ? `{${values.qualificationId
-                .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
-                )
-                .join(', ')}}`
+              .map(
+                (qualification: IReactSelectInterface) => qualification.value,
+              )
+              .join(', ')}}`
             : null,
         attributes: AttributeData,
         leasingPriceListId:
@@ -246,7 +248,9 @@ const PersonalInformation: any = (props: any) => {
             isRemarkAdded: true,
           },
         });
-        toast.success(message);
+        if (!toast.isActive(toastId)) {
+          toast.success(message);
+        }
       } catch (error) {
         const message = error.message
           .replace('SequelizeValidationError: ', '')
@@ -354,9 +358,9 @@ const PersonalInformation: any = (props: any) => {
       lastName: getCareInstitution.lastName,
       gender: getCareInstitution.gender
         ? {
-            label: getCareInstitution ? getCareInstitution.gender : '',
-            value: getCareInstitution ? getCareInstitution.gender : null,
-          }
+          label: getCareInstitution ? getCareInstitution.gender : '',
+          value: getCareInstitution ? getCareInstitution.gender : null,
+        }
         : undefined,
       userName: getCareInstitution.userName,
       phoneNumber: getCareInstitution.phoneNumber,
@@ -379,9 +383,9 @@ const PersonalInformation: any = (props: any) => {
         : '',
       country: userSelectedCountry.value
         ? {
-            label: userSelectedCountry.value ? userSelectedCountry.label : null,
-            value: userSelectedCountry.value ? userSelectedCountry.value : null,
-          }
+          label: userSelectedCountry.value ? userSelectedCountry.label : null,
+          value: userSelectedCountry.value ? userSelectedCountry.value : null,
+        }
         : undefined,
       state: userSelectedState.value
         ? { label: userSelectedState.label, value: userSelectedState.value }
@@ -409,13 +413,13 @@ const PersonalInformation: any = (props: any) => {
         : '',
       invoiceType: getCareInstitution.canstitution.invoiceType
         ? {
-            label: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.invoiceType
-              : '',
-            value: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.invoiceType
-              : '',
-          }
+          label: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.invoiceType
+            : '',
+          value: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.invoiceType
+            : '',
+        }
         : undefined,
       emailInvoice: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.emailInvoice
@@ -425,22 +429,22 @@ const PersonalInformation: any = (props: any) => {
         : '',
       interval: getCareInstitution.canstitution.interval
         ? {
-            label: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.interval
-              : '',
-            value: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.interval
-              : '',
-          }
+          label: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.interval
+            : '',
+          value: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.interval
+            : '',
+        }
         : undefined,
       doctorCommission: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.doctorCommission
         : '',
       leasingPriceListId: getCareInstitution.canstitution
         ? {
-            label: getCareInstitution.canstitution.leasingPriceListId,
-            value: getCareInstitution.canstitution.leasingPriceListId,
-          }
+          label: getCareInstitution.canstitution.leasingPriceListId,
+          value: getCareInstitution.canstitution.leasingPriceListId,
+        }
         : undefined,
       isArchive: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.isArchive
@@ -479,7 +483,7 @@ const PersonalInformation: any = (props: any) => {
     Data = {
       label: `${getCareInstitution.firstName} ${''} ${
         getCareInstitution.lastName
-      }`,
+        }`,
       value: Id,
     };
   } else {

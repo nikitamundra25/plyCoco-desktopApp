@@ -1,5 +1,5 @@
 {
-  "REMARK_LIMIT":"Text should be minimum of 255 characters",
+  "REMARK_LIMIT": "Text should be minimum of 255 characters",
   "REQUIRED_REGION": "Please enter the name of Region",
   "DELETE": "Delete",
   "ACTIVE": "Active",
@@ -50,6 +50,7 @@
   "TELEPHONE_REQUIRED": "Telephone number is not valid",
   "USERNAME_REQUIRED": "Username is required",
   "INVALID_NUMBER": "Please enter valid number",
+  "INVALID_HRS": "Please enter valid hours",
   "INVALID_NUM": "Numbers only",
   "PERSONAL_DATA": "Personal Data",
   "SEARCH_LABEL": "Search",

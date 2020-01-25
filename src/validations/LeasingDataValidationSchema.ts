@@ -35,12 +35,12 @@ export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
   lastDay: Yup.mixed(),
   monthlyWorkingHrs: Yup.mixed().test(
     'check-num',
-    languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value)),
+    languageTranslation('INVALID_HRS'),
+    value => !value || (value && !isNaN(value) && value && value.length < 4),
   ),
   weeklyWorkingHrs: Yup.mixed().test(
     'check-num',
-    languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value)),
+    languageTranslation('INVALID_HRS'),
+    value => !value || (value && !isNaN(value) && value && value.length < 4),
   ),
 });

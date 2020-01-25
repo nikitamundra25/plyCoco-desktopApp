@@ -2,6 +2,9 @@ import React, { FunctionComponent, useState, Suspense, useEffect } from 'react';
 import { RouteComponentProps, useLocation, useParams } from 'react-router';
 import Select from 'react-select';
 import { CareGiver, AppRoutes, PAGE_LIMIT } from '../../config';
+import {
+  Button,
+ } from "reactstrap";
 import add from '../../assets/img/add.svg';
 import save from '../../assets/img/save.svg';
 import reminder from '../../assets/img/reminder.svg';
@@ -28,7 +31,7 @@ import {
   CareInstitutionQueries,
   GET_QUALIFICATION_ATTRIBUTES,
 } from '../../queries';
-import { useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
 import { IQualifications } from '../../interfaces/qualification';
 
 const [
@@ -37,6 +40,10 @@ const [
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION,
   GET_CARE_INSTITUION_BY_ID,
+  UPDATE_CARE_INSTITUTION_STATUS,
+  ADD_NEW_CONTACT_CARE_INSTITUTION,
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
+  ADD_NEW_CARE_INTITUTION
 ] = CareInstitutionQueries;
 
 const CareInstitutionSidebar = React.lazy(() =>
@@ -60,6 +67,11 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     label: '3',
     value: 'Sort by A-Z',
   };
+
+  const [addUser,{error: addUserError, data: CareIntitutionId, loading: Loading}] = useMutation<
+    {addUser: any}
+  >(ADD_NEW_CARE_INTITUTION)
+
   const [
     fetchCareInstitutionList,
     { data: careInstituition, loading, refetch },
@@ -171,8 +183,21 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     }
   };
 
+  useEffect(() => {
+    if (CareIntitutionId) {
+      const {addUser} = CareIntitutionId
+      props.history.push(AppRoutes.ADD_CARE_INSTITUTION.replace(":id",addUser.id))
+    }
+  }, [CareIntitutionId])
+
   const handleAddNewCareInstitution = () => {
-    props.history.push(AppRoutes.ADD_CARE_INSTITUTION);
+    addUser({
+      variables: {
+        careInstInput:{
+          firstName: ""
+        }
+      }
+    })
   };
 
   return (
@@ -192,15 +217,20 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     options={CareInstitutionList}
                   />
                 </div>
-                <div
+                <Button
                   onClick={handleAddNewCareInstitution}
+                  disabled={Loading}
                   className='header-nav-item'
                 >
+                  {Loading ? 
+                  <span className='header-nav-icon'>
+                    <i className="fa fa-spinner fa-spin loader" />  
+                  </span>:
                   <span className='header-nav-icon'>
                     <img src={add} alt='' />
-                  </span>
+                  </span>}
                   <span className='header-nav-text'>New Care Institution</span>
-                </div>
+                </Button>
                 <div className='header-nav-item'>
                   <span className='header-nav-icon'>
                     <img src={reminder} alt='' />

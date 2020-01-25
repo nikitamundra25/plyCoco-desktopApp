@@ -206,8 +206,8 @@ export const ADD_CAREGIVER = gql`
 `;
 
 export const UPDATE_CAREGIVER = gql`
-  mutation updateCareGiver($id: Int!, $careGiverInput: CareGiverInput!) {
-    updateCareGiver(id: $id, careGiverInput: $careGiverInput)
+  mutation updateCareGiver($id: Int!, $careGiverInput: CareGiverInput!, $isRemarkAdded:Boolean) {
+    updateCareGiver(id: $id, careGiverInput: $careGiverInput,isRemarkAdded:$isRemarkAdded)
     ${CAREGIVER_PERSONAL_INFO_FIELDS}
   }
 `;

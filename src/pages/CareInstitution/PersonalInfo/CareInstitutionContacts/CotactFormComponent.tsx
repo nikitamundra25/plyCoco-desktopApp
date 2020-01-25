@@ -182,6 +182,9 @@ const CotactFormComponent: any = (
                           <Input
                             type="text"
                             name={"title"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={title}
                             placeholder={languageTranslation("TITLE")}
                             className="width-common"
                           />
@@ -632,7 +635,7 @@ const CotactFormComponent: any = (
                 <div className="common-list-footer form-section ">
                   <FormGroup className="mb-0">
                     <Select
-                      placeholder={"Please Select Attribute from the dropdown"}
+                      placeholder={"Select Attribute from the dropdown"}
                       options={CareInstitutionContactAttribute}
                       value={attributeId ? attributeId : undefined}
                       onChange={(value: any) =>

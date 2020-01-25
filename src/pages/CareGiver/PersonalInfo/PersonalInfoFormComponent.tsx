@@ -128,7 +128,6 @@ const PersonalInfoFormComponent: any = (
     touched
   } = props;
 
-  console.log("errors", errors);
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();

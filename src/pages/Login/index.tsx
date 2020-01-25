@@ -17,22 +17,6 @@ export const Login: FunctionComponent = () => {
     { email: String; password: String }
   >(LOGIN);
 
-  function compare(a: any, b: any) {
-    // Use toUpperCase() to ignore character casing
-    const bandA = a.label.toUpperCase();
-    const bandB = b.label.toUpperCase();
-
-    let comparison = 0;
-    if (bandA > bandB) {
-      comparison = 1;
-    } else if (bandA < bandB) {
-      comparison = -1;
-    }
-    return comparison;
-  }
-
-  console.log(CareInstitutionAttr.sort(compare));
-
   // on login
   const handleSubmit = async (
     values: ILoginFormValues,

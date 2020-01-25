@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
@@ -291,6 +291,10 @@ export const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
       preOccupation
       payrollIBAN
       status
+      firstDay
+      lastDay
+      monthlyWorkingHrs
+      weeklyWorkingHrs
     }
   }
 `;
@@ -314,6 +318,10 @@ export const GET_LEASING_INFO = gql`
       healthInsuranceProvider
       controlId
       taxBracket
+      firstDay
+      lastDay
+      monthlyWorkingHrs
+      weeklyWorkingHrs
     }
   }
 `;

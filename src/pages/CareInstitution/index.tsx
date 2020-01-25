@@ -315,10 +315,8 @@ const CareInstitution = (props: RouteComponentProps) => {
                     </p>
                   </div>
                 </td>
-                <td>
-                  <div className=" ">
-                    {user.createdAt ? moment(user.createdAt).format("lll") : ""}
-                  </div>
+                <td className="date-th-column ">
+                  {user.createdAt ? moment(user.createdAt).format("lll") : ""}
                 </td>
                 <td className="text-center">
                   <span

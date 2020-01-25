@@ -459,10 +459,8 @@ const Employee: FunctionComponent = () => {
                           )}
                         </div>
                       </td>
-                      <td>
-                        <div>
-                          {createdAt ? moment(createdAt).format("lll") : ""}
-                        </div>
+                      <td className="date-th-column ">
+                        {createdAt ? moment(createdAt).format("lll") : ""}
                       </td>
                       <td className="text-center">
                         {isActive}

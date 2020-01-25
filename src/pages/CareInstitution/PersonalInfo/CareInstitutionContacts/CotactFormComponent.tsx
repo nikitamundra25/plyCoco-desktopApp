@@ -427,8 +427,17 @@ const CotactFormComponent: any = (
                             onBlur={handleBlur}
                             value={phoneNumber}
                             placeholder={languageTranslation("PHONE")}
-                            className="width-common"
+                            className={
+                              errors.phoneNumber && touched.phoneNumber
+                                ? "text-input error text-capitalize"
+                                : "text-input text-capitalize"
+                            }
                           />
+                          {errors.phoneNumber && touched.phoneNumber && (
+                            <div className="required-error">
+                              {errors.phoneNumber}
+                            </div>
+                          )}
                         </div>
                       </Col>
                     </Row>
@@ -451,8 +460,17 @@ const CotactFormComponent: any = (
                             onBlur={handleBlur}
                             value={phoneNumber2}
                             placeholder={languageTranslation("PHONE2")}
-                            className="width-common"
+                            className={
+                              errors.phoneNumber2 && touched.phoneNumber2
+                                ? "text-input error text-capitalize"
+                                : "text-input text-capitalize"
+                            }
                           />
+                          {errors.phoneNumber2 && touched.phoneNumber2 && (
+                            <div className="required-error">
+                              {errors.phoneNumber2}
+                            </div>
+                          )}
                         </div>
                       </Col>
                     </Row>

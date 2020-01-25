@@ -815,6 +815,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         placeholder={languageTranslation("REMARKS")}
                         className="textarea-custom"
                         rows="4"
+                        maxLength={255}
                       />
                     </div>
                   </Col>

@@ -122,10 +122,7 @@ const ViewEmployee: FunctionComponent = () => {
                     <div className="profile-wrap">
                       <div className="profile-img-tile">
                         <div className="emloyee-profile-img">
-                          <div
-                            className="user-back-img-wrap"
-                            
-                          >
+                          <div className="user-back-img-wrap">
                             <img
                               src={
                                 employee && employee.profileImage
@@ -423,7 +420,7 @@ const ViewEmployee: FunctionComponent = () => {
                       </span>
                       <span className="text-value one-line-text text-capitalize">
                         :&nbsp;&nbsp;
-                        {employee && employee.regions
+                        {employee.length && employee.regions
                           ? employee.regions
                               .map((region: any) => region.regionName)
                               .join(", ")

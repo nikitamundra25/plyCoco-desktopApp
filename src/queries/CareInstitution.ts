@@ -164,6 +164,7 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
       firstName
       surName
       contactType
+      salutation
       gender
       title
       street
@@ -176,6 +177,7 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
       mobileNumber
       email
       remark
+      attributes
     }
   }
 `;

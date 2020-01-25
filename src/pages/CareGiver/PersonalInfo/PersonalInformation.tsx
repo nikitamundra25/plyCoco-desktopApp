@@ -448,7 +448,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     comments,
     status,
     remarks:
-      remarks & remarks.length
+      remarks && remarks.length
         ? remarks
         : [
             {

@@ -787,9 +787,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         onChange={(value: any) =>
                           handleSelect(value, "linkedTo")
                         }
-                        value={
-                          linkedTo && linkedTo.value ? linkedTo : undefined
-                        }
+                        value={linkedTo}
                         options={CareInstitutionList}
                       />
                     </div>

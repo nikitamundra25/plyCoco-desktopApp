@@ -44,7 +44,8 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .trim()
     .min(3, languageTranslation("NAME_MINLENGTH")),
   BIC: Yup.string(),
-  additionalText: Yup.string().max(255, languageTranslation("REMARK_LIMIT")),
+  additionalText: Yup.string(),
+  // .max(255, languageTranslation("REMARK_LIMIT")),
   address1: Yup.string(),
   address2: Yup.string(),
   zip: Yup.string(),

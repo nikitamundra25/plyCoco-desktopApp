@@ -71,8 +71,7 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
       message: languageTranslation("ENTER_VALID_WEB_URL"),
       excludeEmptyString: true
     })
-    .nullable(),
-  remarksViewable: Yup.string().max(255, languageTranslation(""))
+    .nullable()
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<

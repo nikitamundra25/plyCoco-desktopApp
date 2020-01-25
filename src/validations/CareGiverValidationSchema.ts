@@ -79,6 +79,5 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     "check-num",
     languageTranslation("INVALID_NUM"),
     value => !value || (value && !isNaN(value))
-  ),
-  comments: Yup.string().min(255, languageTranslation("REMARK_LIMIT"))
+  ) // comments: Yup.string().min(255, languageTranslation("REMARK_LIMIT"))
 });

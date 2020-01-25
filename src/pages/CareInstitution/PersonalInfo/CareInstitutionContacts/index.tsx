@@ -33,7 +33,7 @@ const [
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const CareInstitutionContacts: any = (props: any) => {
-  const { contacts, careInstId } = props;
+  const { contacts, careInstId, ContactFromAdd } = props;
   const [activeContact, setActiveContact] = useState<number>(0);
 
   // To set new empty contact
@@ -88,16 +88,6 @@ const CareInstitutionContacts: any = (props: any) => {
     );
   }
 
-  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
-    // setFieldValue(name, selectOption);
-    if (name === 'country') {
-      getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
-      });
-      logger(statesData, 'sdsdsdsd');
-    }
-  };
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
     { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
@@ -272,8 +262,10 @@ const CareInstitutionContacts: any = (props: any) => {
         enableReinitialize={true}
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}
-        children={(props: FormikProps<ICareInstitutionContact>) => (
-          <CotactFormComponent {...props} />
+        children={(props: FormikProps<ICareInstitutionContact> & any) => (
+          <CotactFormComponent {...props}
+            ContactFromAdd={ContactFromAdd}
+          />
         )}
         validationSchema={CareInstituionContactValidationSchema}
       />

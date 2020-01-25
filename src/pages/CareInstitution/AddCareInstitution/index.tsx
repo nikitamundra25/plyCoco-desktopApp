@@ -20,7 +20,7 @@ import {
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { logger, languageTranslation } from '../../../helpers';
 import { toast } from 'react-toastify';
-import { useHistory, RouteComponentProps } from 'react-router';
+import { useHistory, RouteComponentProps, useParams } from 'react-router';
 import { AppRoutes } from '../../../config';
 import { careInstitutionRoutes } from '../Sidebar/SidebarRoutes/ConstitutionRoutes';
 import add from '../../../assets/img/add.svg';
@@ -29,6 +29,7 @@ import password from '../../../assets/img/password.svg';
 import appointment from '../../../assets/img/appointment.svg';
 import clear from '../../../assets/img/clear.svg';
 import { IQualifications } from '../../../interfaces/qualification';
+import CareInstitutionContacts from '../PersonalInfo/CareInstitutionContacts';
 import Loader from '../../../containers/Loader/Loader';
 
 const CareInstitutionSidebar = React.lazy(() =>
@@ -42,6 +43,11 @@ const [
   DELETE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION,
+  GET_CARE_INSTITUION_BY_ID,
+  UPDATE_CARE_INSTITUTION_STATUS,
+  ADD_NEW_CONTACT_CARE_INSTITUTION,
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
+  ADD_NEW_CARE_INTITUTION,
 ] = CareInstitutionQueries;
 
 export const CareInstitutionForm: FunctionComponent<FormikProps<
@@ -52,10 +58,15 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps,
 ) => {
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
+  //contact info
+  let [contacts, setContacts] = useState<any>([]);
 
-  const [addCareInstitution, { error, data }] = useMutation<{
-    addCareInstitution: ICareInstitutionFormValues;
-  }>(ADD_CARE_INSTITUTION);
+  const [updateCareInstitution, { error, data }] = useMutation<{
+    updateCareInstitution: ICareInstitutionFormValues;
+  }>(UPDATE_CARE_INSTITUTION);
+
+  let { id } = useParams();
+  const Id: any | undefined = id;
 
   // To fecth qualification attributes list
   const { data: qualificationData } = useQuery<IQualifications>(
@@ -71,6 +82,21 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
       });
     });
   }
+  useEffect(() => {
+    const contactsData: any[] = [];
+    contactsData.push({
+      email: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
+      phoneNumber: '',
+      mobileNumber: '',
+      faxNumber: '',
+      comments: '',
+      groupAttributes: '',
+    });
+    setContacts(contactsData);
+  }, []);
 
   let history = useHistory();
 
@@ -97,29 +123,25 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
 
   useEffect(() => {
     if (data) {
-      const Data: any = data;
+      const { updateCareInstitution } = data;
+      const Data: any = updateCareInstitution;
       history.push(
-        AppRoutes.CARE_INSTITUION_VIEW.replace(
-          ':id',
-          Data.addCareInstitution ? Data.addCareInstitution.id : 'null',
-        ),
+        AppRoutes.CARE_INSTITUION_VIEW.replace(':id', Data ? Data.id : 'null'),
       );
     }
   }, [data]);
+
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
   ) => {
     //to set submit state to false after successful signup
-    console.log('values in add care', values);
-
     let AttributeData: string[] = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>
         AttributeData.push(attribute.label),
       );
     }
-
     try {
       const dataSubmit: any = {
         gender: values && values.gender ? values.gender.value : '',
@@ -171,8 +193,9 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         remarksViewable: values.remarksViewable,
       };
 
-      await addCareInstitution({
+      await updateCareInstitution({
         variables: {
+          id: parseInt(Id),
           careInstitutionInput: dataSubmit,
         },
       });
@@ -275,6 +298,17 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
                   )}
                   validationSchema={CareInstituionValidationSchema}
                 />
+                <div className='position-relative'>
+                  <CareInstitutionContacts
+                    contacts={contacts}
+                    careInstId={Id}
+                    ContactFromAdd={true}
+                    setContacts={(contacts: any) => {
+                      setContacts((contacts = contacts));
+                    }}
+                    {...props}
+                  />
+                </div>
               </div>
             ) : null}
           </div>

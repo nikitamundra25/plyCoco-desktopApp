@@ -1725,6 +1725,7 @@ html:not([dir="rtl"]) {
       color: $black;
       display: inline-block;
       flex: 1;
+      word-break: break-word;
     }
     .profile-img {
       width: 180px;

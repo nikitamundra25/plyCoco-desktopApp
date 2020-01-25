@@ -1,23 +1,26 @@
-import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
-import { RouteComponentProps, useLocation, useParams } from "react-router";
-import Select from "react-select";
-import { CareGiver, AppRoutes, PAGE_LIMIT } from "../../config";
-import add from "../../assets/img/add.svg";
-import save from "../../assets/img/save.svg";
-import reminder from "../../assets/img/reminder.svg";
-import password from "../../assets/img/password.svg";
-import appointment from "../../assets/img/appointment.svg";
-import clear from "../../assets/img/clear.svg";
-import { careInstitutionRoutes } from "./Sidebar/SidebarRoutes/ConstitutionRoutes";
-import PersonalInformation from "./PersonalInfo";
-import Offers from "./Offers";
-import Login from "./Login";
-import InvoiceMenu from "./invoiceMenu";
-import Documents from "./Documents";
-import Departments from "./Departments";
-import Emails from "./Emails";
-import Reminders from "./Reminders";
-import qs from "query-string";
+import React, { FunctionComponent, useState, Suspense, useEffect } from 'react';
+import { RouteComponentProps, useLocation, useParams } from 'react-router';
+import Select from 'react-select';
+import { CareGiver, AppRoutes, PAGE_LIMIT } from '../../config';
+import {
+  Button,
+ } from "reactstrap";
+import add from '../../assets/img/add.svg';
+import save from '../../assets/img/save.svg';
+import reminder from '../../assets/img/reminder.svg';
+import password from '../../assets/img/password.svg';
+import appointment from '../../assets/img/appointment.svg';
+import clear from '../../assets/img/clear.svg';
+import { careInstitutionRoutes } from './Sidebar/SidebarRoutes/ConstitutionRoutes';
+import PersonalInformation from './PersonalInfo';
+import Offers from './Offers';
+import Login from './Login';
+import InvoiceMenu from './invoiceMenu';
+import Documents from './Documents';
+import Departments from './Departments';
+import Emails from './Emails';
+import Reminders from './Reminders';
+import qs from 'query-string';
 import {
   ICareInstitutionFormValues,
   IHandleSubmitInterface,
@@ -26,18 +29,22 @@ import {
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import {
   CareInstitutionQueries,
-  GET_QUALIFICATION_ATTRIBUTES
-} from "../../queries";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { IQualifications } from "../../interfaces/qualification";
-import Loader from "../../containers/Loader/Loader";
+  GET_QUALIFICATION_ATTRIBUTES,
+} from '../../queries';
+import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
+import { IQualifications } from '../../interfaces/qualification';
+import Loader from '../../containers/Loader/Loader';
 
 const [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION,
-  GET_CARE_INSTITUION_BY_ID
+  GET_CARE_INSTITUION_BY_ID,
+  UPDATE_CARE_INSTITUTION_STATUS,
+  ADD_NEW_CONTACT_CARE_INSTITUTION,
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
+  ADD_NEW_CARE_INTITUTION
 ] = CareInstitutionQueries;
 
 const CareInstitutionSidebar = React.lazy(() =>
@@ -61,6 +68,11 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     label: "3",
     value: "Sort by A-Z"
   };
+
+  const [addUser,{error: addUserError, data: CareIntitutionId, loading: Loading}] = useMutation<
+    {addUser: any}
+  >(ADD_NEW_CARE_INTITUTION)
+
   const [
     fetchCareInstitutionList,
     { data: careInstituition, loading, refetch }
@@ -172,8 +184,21 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     }
   };
 
+  useEffect(() => {
+    if (CareIntitutionId) {
+      const {addUser} = CareIntitutionId
+      props.history.push(AppRoutes.ADD_CARE_INSTITUTION.replace(":id",addUser.id))
+    }
+  }, [CareIntitutionId])
+
   const handleAddNewCareInstitution = () => {
-    props.history.push(AppRoutes.ADD_CARE_INSTITUTION);
+    addUser({
+      variables: {
+        careInstInput:{
+          firstName: ""
+        }
+      }
+    })
   };
 
   return (
@@ -193,18 +218,23 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     options={CareInstitutionList}
                   />
                 </div>
-                <div
+                <Button
                   onClick={handleAddNewCareInstitution}
-                  className="header-nav-item"
+                  disabled={Loading}
+                  className='header-nav-item'
                 >
-                  <span className="header-nav-icon">
-                    <img src={add} alt="" />
-                  </span>
-                  <span className="header-nav-text">New Care Institution</span>
-                </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={reminder} alt="" />
+                  {Loading ? 
+                  <span className='header-nav-icon'>
+                    <i className="fa fa-spinner fa-spin loader" />  
+                  </span>:
+                  <span className='header-nav-icon'>
+                    <img src={add} alt='' />
+                  </span>}
+                  <span className='header-nav-text'>New Care Institution</span>
+                </Button>
+                <div className='header-nav-item'>
+                  <span className='header-nav-icon'>
+                    <img src={reminder} alt='' />
                   </span>
                   <span
                     className="header-nav-text"

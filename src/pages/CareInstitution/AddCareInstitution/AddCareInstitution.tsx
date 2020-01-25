@@ -167,6 +167,9 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     setRemarksDetail,
     remarksDetail
   } = props;
+  console.log("propsssss", props.values);
+  console.log("values");
+
   return (
     <Row className=" ">
       <div id={"caregiver-add-btn"}>
@@ -781,6 +784,12 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation("LIKED_TO")}
+                        onChange={(value: any) =>
+                          handleSelect(value, "linkedTo")
+                        }
+                        value={
+                          linkedTo && linkedTo.value ? linkedTo : undefined
+                        }
                         options={CareInstitutionList}
                       />
                     </div>
@@ -808,6 +817,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         placeholder={languageTranslation("REMARKS")}
                         className="textarea-custom"
                         rows="4"
+                        maxLength={255}
                       />
                     </div>
                   </Col>

@@ -48,7 +48,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   // To update caregiver details into db
   const [updateCaregiver] = useMutation<
     { updateCaregiver: ICareGiverValues },
-    { id: number; careGiverInput: IPersonalObject }
+    {
+      id: number;
+      careGiverInput: IPersonalObject | { remarks: any };
+      isRemarkAdded?: Boolean;
+    }
   >(UPDATE_CAREGIVER);
 
   const [updateBillingSettings] = useMutation<
@@ -100,7 +104,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     values: ICareGiverValues,
     { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
-    // to set submit state to false after successful signup
     const {
       userName,
       stateId,
@@ -237,6 +240,31 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       toast.error(message);
     }
     setSubmitting(false);
+  };
+
+  // Save remarks into DB
+  const saveRemark = async (message: string, remarksData: any) => {
+    if (id) {
+      try {
+        await updateCaregiver({
+          variables: {
+            id: parseInt(id),
+            careGiverInput: {
+              remarks: remarksData ? remarksData : remarksDetail, // send remarksData in case of delete
+            },
+            isRemarkAdded: true,
+          },
+        });
+        toast.success(message);
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        // setFieldError('email', message);
+        toast.error(message);
+      }
+    }
   };
 
   const {
@@ -505,6 +533,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 {...props}
                 setRemarksDetail={setRemarksDetail}
                 remarksDetail={remarksDetail}
+                saveRemark={saveRemark}
               />
             </Row>
           </Form>

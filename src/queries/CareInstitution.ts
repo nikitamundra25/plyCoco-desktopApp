@@ -144,13 +144,16 @@ const UPDATE_CARE_INSTITUTION = gql`
   mutation updateCareInstitution(
     $id: Int!
     $careInstitutionInput: CareInstitutionInput!
+    $isRemarkAdded: Boolean
   ) {
     updateCareInstitution(
       id: $id
       careInstitutionInput: $careInstitutionInput
+      isRemarkAdded: $isRemarkAdded
     ) {
       firstName
       lastName
+      id
     }
   }
 `;
@@ -161,6 +164,7 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
       firstName
       surName
       contactType
+      salutation
       gender
       title
       street
@@ -173,6 +177,7 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
       mobileNumber
       email
       remark
+      attributes
     }
   }
 `;
@@ -198,6 +203,17 @@ const UPDATE_NEW_CONTACT_CARE_INSTITUTION = gql`
     }
   }
 `;
+
+
+const ADD_NEW_CARE_INTITUTION = gql`
+mutation addUser($careInstInput : UserInput) {
+  addUser(careInstInput : $careInstInput) {
+    id
+  }
+}`;
+
+
+
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
@@ -207,4 +223,5 @@ export const CareInstitutionQueries = [
   UPDATE_CARE_INSTITUTION_STATUS,
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   UPDATE_NEW_CONTACT_CARE_INSTITUTION,
+  ADD_NEW_CARE_INTITUTION
 ];

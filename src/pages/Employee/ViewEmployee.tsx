@@ -420,7 +420,7 @@ const ViewEmployee: FunctionComponent = () => {
                       </span>
                       <span className="text-value  text-capitalize">
                         :&nbsp;&nbsp;
-                        {employee && employee.regions
+                        {employee.length && employee.regions
                           ? employee.regions
                               .map((region: any) => region.regionName)
                               .join(", ")

@@ -315,6 +315,12 @@ export const EmployeeForm: FunctionComponent = () => {
         .replace('GraphQL error: ', '');
       // setFieldError('email', message);
       toast.error(message);
+      if (
+        message ===
+        "Employee added successfully but due to some network issue email couldn't be sent out"
+      ) {
+        history.push(AppRoutes.EMPLOYEE);
+      }
     }
     setSubmitting(false);
   };

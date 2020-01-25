@@ -1,39 +1,53 @@
-import React, { Component } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  FunctionComponent,
+  useEffect
+} from "react";
 import { Nav, NavItem, NavLink } from "reactstrap";
 import Select from "react-select";
-import { Region } from "../../config";
+import { RegionQueries } from "../../queries/Region";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { IReactSelectInterface, IRegion } from "../../interfaces";
+import { languageTranslation } from "../../helpers";
+const [, GET_REGIONS] = RegionQueries;
 
-class DefaultFooter extends Component {
-  render() {
-    return (
-      <React.Fragment>
-        <div className="d-flex align-items-center justify-content-end w-100">
-          {/* <div className="footer-nav">
-            <Nav>
-              <NavItem>
-                <NavLink href='#'>Attribute: Login Possible</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href='#'>Unlocked</NavLink>
-              </NavItem>
-            </Nav>
-          </div> */}
-          <div className="region-select footer-select">
-            <Select
-              defaultValue={{
-                label: "Central Germany",
-                value: "0"
-              }}
-              className={"menu-outer-top"}
-              placeholder="Select Region"
-              options={Region}
-              menuPlacement={"top"}
-            />
-          </div>
-        </div>
-      </React.Fragment>
+const DefaultFooter: FunctionComponent = () => {
+  const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
+    GET_REGIONS
+  );
+  const regionOptions: IReactSelectInterface[] | undefined = [];
+  if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
+    RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
+      regionOptions.push({
+        label: regionName,
+        value: id
+      })
     );
   }
-}
+  useEffect(() => {
+    // call query
+    fetchRegionList({
+      variables: {
+        limit: 25,
+        sortBy: 3
+      }
+    });
+  }, []);
+  return (
+    <React.Fragment>
+      <div className="d-flex align-items-center justify-content-end w-100">
+        <div className="region-select footer-select">
+          <Select
+            placeholder={languageTranslation("EMPLOYEE_REGION_PLACEHOLDER")}
+            options={regionOptions}
+            className={"menu-outer-top"}
+            menuPlacement={"top"}
+          />
+        </div>
+      </div>
+    </React.Fragment>
+  );
+};
 
 export default DefaultFooter;

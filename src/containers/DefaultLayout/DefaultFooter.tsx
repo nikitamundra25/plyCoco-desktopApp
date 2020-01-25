@@ -18,7 +18,7 @@ class DefaultFooter extends Component {
               </NavItem>
             </Nav>
           </div> */}
-          <div className="region-select">
+          <div className="region-select footer-select">
             <Select
               defaultValue={{
                 label: "Central Germany",

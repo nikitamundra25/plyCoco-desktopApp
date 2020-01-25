@@ -148,6 +148,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                 placeholder="Remarks"
                                 value={remarkValue}
                                 className="height-textarea "
+                                maxLength={1000}
                               />
                             ) : (
                               remark.data

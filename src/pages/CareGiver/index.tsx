@@ -411,7 +411,7 @@ const CareGiver: FunctionComponent = () => {
                                 careGiverData.regions.map(
                                   (wZ: any, index: number) => (
                                     <span key={index}>{wZ.regionName}</span>
-                                  ),
+                                  )
                                 )
                               ) : (
                                 <div>-</div>
@@ -430,12 +430,10 @@ const CareGiver: FunctionComponent = () => {
                             </div>
                           </td>
 
-                          <td>
-                            <div>
-                              {careGiverData.createdAt
-                                ? moment(careGiverData.createdAt).format("lll")
-                                : "-"}
-                            </div>
+                          <td className="date-th-column ">
+                            {careGiverData.createdAt
+                              ? moment(careGiverData.createdAt).format("lll")
+                              : "-"}
                           </td>
 
                           <td className="text-center">

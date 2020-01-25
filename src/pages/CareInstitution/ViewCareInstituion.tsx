@@ -24,15 +24,16 @@ import qs from 'query-string';
 import {
   ICareInstitutionFormValues,
   IHandleSubmitInterface,
-  IReactSelectInterface,
-} from '../../interfaces';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+  IReactSelectInterface
+} from "../../interfaces";
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import {
   CareInstitutionQueries,
   GET_QUALIFICATION_ATTRIBUTES,
 } from '../../queries';
 import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
 import { IQualifications } from '../../interfaces/qualification';
+import Loader from '../../containers/Loader/Loader';
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -48,8 +49,8 @@ const [
 
 const CareInstitutionSidebar = React.lazy(() =>
   import(
-    '../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout'
-  ),
+    "../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout"
+  )
 );
 
 const CareInstitutionTabs = careInstitutionRoutes;
@@ -59,13 +60,13 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 > &
   RouteComponentProps &
   IHandleSubmitInterface> = (
-  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps,
+  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
 ) => {
   let { id } = useParams();
   const Id: any | undefined = id;
   let sortBy: IReactSelectInterface | undefined = {
-    label: '3',
-    value: 'Sort by A-Z',
+    label: "3",
+    value: "Sort by A-Z"
   };
 
   const [addUser,{error: addUserError, data: CareIntitutionId, loading: Loading}] = useMutation<
@@ -74,32 +75,32 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 
   const [
     fetchCareInstitutionList,
-    { data: careInstituition, loading, refetch },
+    { data: careInstituition, loading, refetch }
   ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache"
   });
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
-    label: '',
-    value: '',
+    label: "",
+    value: ""
   });
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-save-btn',
+      "caregiver-save-btn"
     );
     if (buttonDiv) {
       if (scrollPositionY >= 18) {
-        buttonDiv.classList.add('sticky-save-btn');
+        buttonDiv.classList.add("sticky-save-btn");
       } else {
-        buttonDiv.classList.remove('sticky-save-btn');
+        buttonDiv.classList.remove("sticky-save-btn");
       }
     }
   };
@@ -111,8 +112,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: '',
-      },
+        isActive: ""
+      }
     });
   }, []);
 
@@ -122,8 +123,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     const { careInstitutionData } = getCareInstitutions;
     careInstitutionData.map((data: any, index: any) => {
       CareInstitutionList.push({
-        label: `${data.firstName}${' '}${data.lastName}`,
-        value: data.id,
+        label: `${data.firstName}${" "}${data.lastName}`,
+        value: data.id
       });
       return true;
     });
@@ -136,7 +137,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     data.getQualificationAttributes.forEach((quali: any) => {
       qualificationList.push({
         label: quali.attributeName,
-        value: quali.id,
+        value: quali.id
       });
     });
   }
@@ -149,18 +150,18 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     setactiveTab(
       query.tab
         ? CareInstitutionTabs.findIndex(
-            d => d.name === decodeURIComponent(query.tab),
+            d => d.name === decodeURIComponent(query.tab)
           )
-        : 0,
+        : 0
     );
   }, [search]);
 
   const onTabChange = (activeTab: number) => {
     props.history.push(
       `${AppRoutes.CARE_INSTITUION_VIEW.replace(
-        ':id',
-        Id,
-      )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`,
+        ":id",
+        Id
+      )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
     );
   };
   let [isUserChange, setisUserChange] = useState(false);
@@ -168,15 +169,15 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     if (e && e.value) {
       const data: IReactSelectInterface = {
         label: e.label,
-        value: e.value,
+        value: e.value
       };
       setselectUser((selectUser = data));
       if (e.value !== Id) {
         props.history.push(
           `${AppRoutes.CARE_INSTITUION_VIEW.replace(
-            ':id',
-            e.value,
-          )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`,
+            ":id",
+            e.value
+          )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
         );
         setisUserChange((isUserChange = true));
       }
@@ -202,16 +203,16 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 
   return (
     <div>
-      <div className='common-detail-page'>
-        <div className='common-detail-section'>
-          <Suspense fallback={'Loading..'}>
-            <div className='sticky-common-header'>
-              <div className='common-topheader d-flex align-items-center '>
-                <div className='user-select'>
+      <div className="common-detail-page">
+        <div className="common-detail-section">
+          <Suspense fallback={<Loader />}>
+            <div className="sticky-common-header">
+              <div className="common-topheader d-flex align-items-center ">
+                <div className="user-select">
                   <Select
-                  classNamePrefix="react-select"
+                    classNamePrefix="react-select"
                     defaultValue={selectUser}
-                    placeholder='Select Caregiver'
+                    placeholder="Select Caregiver"
                     value={selectUser}
                     onChange={(e: any) => handleSelect(e)}
                     options={CareInstitutionList}
@@ -236,7 +237,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     <img src={reminder} alt='' />
                   </span>
                   <span
-                    className='header-nav-text'
+                    className="header-nav-text"
                     // onClick={() => {
                     //   this.setState({ show: true });
                     // }}
@@ -244,23 +245,23 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     Create Todo/Reminder
                   </span>
                 </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={password} alt='' />
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={password} alt="" />
                   </span>
-                  <span className='header-nav-text'>New Password</span>
+                  <span className="header-nav-text">New Password</span>
                 </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={appointment} alt='' />
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={appointment} alt="" />
                   </span>
-                  <span className='header-nav-text'>Display Appointments</span>
+                  <span className="header-nav-text">Display Appointments</span>
                 </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={clear} alt='' />
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={clear} alt="" />
                   </span>
-                  <span className='header-nav-text'>Clear</span>
+                  <span className="header-nav-text">Clear</span>
                 </div>
               </div>
               <CareInstitutionSidebar
@@ -270,8 +271,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
               />
             </div>
           </Suspense>
-          <Suspense fallback={''}>
-            <div className='common-content flex-grow-1'>
+          <Suspense fallback={""}>
+            <div className="common-content flex-grow-1">
               {activeTab === 0 ? (
                 <PersonalInformation
                   CareInstitutionList={CareInstitutionList}

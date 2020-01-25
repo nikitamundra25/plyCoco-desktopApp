@@ -124,6 +124,10 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
       preoccupation,
       payrollIBAN,
       status,
+      firstDay,
+      lastDay,
+      monthlyWorkingHrs,
+      weeklyWorkingHrs,
     } = values;
     try {
       let leasingInput: ILeasingInput = {
@@ -152,6 +156,14 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
           preoccupation && preoccupation.value ? preoccupation.value : '',
         payrollIBAN,
         status: status && status.value ? status.value : '',
+        firstDay,
+        lastDay,
+        monthlyWorkingHrs: monthlyWorkingHrs
+          ? parseInt(monthlyWorkingHrs.toString())
+          : null,
+        weeklyWorkingHrs: weeklyWorkingHrs
+          ? parseInt(weeklyWorkingHrs.toString())
+          : null,
       };
       if (id) {
         await addUpdateLeasingInformation({
@@ -191,6 +203,10 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     preoccupation = undefined,
     payrollIBAN = '',
     status = undefined,
+    firstDay = '',
+    lastDay = '',
+    monthlyWorkingHrs = null,
+    weeklyWorkingHrs = null,
   } = leasingData ? leasingData : {};
   const initialValues: ILeasingValues = {
     placeOfBirth: placeOfBirth ? placeOfBirth : '',
@@ -208,6 +224,10 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     preoccupation,
     payrollIBAN: payrollIBAN ? payrollIBAN : '',
     status,
+    firstDay,
+    lastDay,
+    monthlyWorkingHrs,
+    weeklyWorkingHrs,
   };
 
   return (

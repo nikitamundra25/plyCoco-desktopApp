@@ -31,4 +31,16 @@ export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
   preoccupation: Yup.mixed(),
   payrollIBAN: Yup.string(),
   status: Yup.mixed(),
+  firstDay: Yup.mixed(),
+  lastDay: Yup.mixed(),
+  monthlyWorkingHrs: Yup.mixed().test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || (value && !isNaN(value)),
+  ),
+  weeklyWorkingHrs: Yup.mixed().test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || (value && !isNaN(value)),
+  ),
 });

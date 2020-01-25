@@ -16,6 +16,10 @@ export interface ILeasingValues {
   preoccupation?: IReactSelectInterface;
   payrollIBAN: string;
   status?: IReactSelectInterface;
+  firstDay: string;
+  lastDay: string;
+  monthlyWorkingHrs: number | null;
+  weeklyWorkingHrs: number | null;
 }
 
 export interface IAddLeasingRes {
@@ -38,4 +42,8 @@ export interface ILeasingInput {
   preOccupation: string;
   payrollIBAN: string;
   status: string;
+  firstDay: string;
+  lastDay: string;
+  monthlyWorkingHrs: number | null;
+  weeklyWorkingHrs: number | null;
 }

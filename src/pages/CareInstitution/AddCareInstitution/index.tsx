@@ -3,16 +3,16 @@ import React, {
   useEffect,
   Suspense,
   useState,
-  FunctionComponent,
-} from 'react';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { CareInstituionValidationSchema } from '../../../validations';
+  FunctionComponent
+} from "react";
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import { CareInstituionValidationSchema } from "../../../validations";
 import {
   ICareInstitutionFormValues,
   IHandleSubmitInterface,
-  IReactSelectInterface,
-} from '../../../interfaces';
-import AddCareInstitution from './AddCareInstitution';
+  IReactSelectInterface
+} from "../../../interfaces";
+import AddCareInstitution from "./AddCareInstitution";
 import {
   CareInstitutionQueries,
   GET_QUALIFICATION_ATTRIBUTES,
@@ -30,9 +30,10 @@ import appointment from '../../../assets/img/appointment.svg';
 import clear from '../../../assets/img/clear.svg';
 import { IQualifications } from '../../../interfaces/qualification';
 import CareInstitutionContacts from '../PersonalInfo/CareInstitutionContacts';
+import Loader from "../../../containers/Loader/Loader";
 
 const CareInstitutionSidebar = React.lazy(() =>
-  import('../Sidebar/SidebarLayout/CareInstitutionLayout'),
+  import("../Sidebar/SidebarLayout/CareInstitutionLayout")
 );
 
 const CareInstitutionTabs = careInstitutionRoutes;
@@ -183,7 +184,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
             values.qualificationId && values.qualificationId.length
               ? `{${values.qualificationId
                 .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
+                  (qualification: IReactSelectInterface) => qualification.value
                 )
                 .join(', ')}}`
               : null,
@@ -232,7 +233,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
     return (
       <div className='common-detail-page'>
         <div className='common-detail-section'>
-          <Suspense fallback={'Loading..'}>
+          <Suspense fallback={<Loader />}>
             <div className='sticky-common-header'>
               <div className='common-topheader d-flex align-items-center '>
                 <div className='common-title'>Add Care Institution</div>

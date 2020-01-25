@@ -23,6 +23,7 @@ import InboxEmail from "./Emails/InboxEmail";
 import ToDo from "./ToDos/ToDos";
 import LeasingPersonalData from "./LeasingData";
 import QualificationAttribute from "./QualificationAttributes/QualificationAttribute";
+import Loader from "../../containers/Loader/Loader";
 
 const CareGiverSidebar = React.lazy(() =>
   import("../../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout")
@@ -164,7 +165,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     <div>
       <div className="common-detail-page">
         <div className="common-detail-section">
-          <Suspense fallback={"Loading.."}>
+          <Suspense fallback={<Loader />}>
             <div className="sticky-common-header">
               <div className="common-topheader d-flex align-items-center ">
                 <div className="user-select">

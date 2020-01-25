@@ -318,7 +318,7 @@
   "CITY": "City",
   "ZIP": "Postal Code",
   "COUNTRY": "Country",
-  "PHONE_NUMBER": "Phone number",
+  "PHONE_NUMBER": "Phone",
   "PHONE": "Phone",
   "PHONE2": "Phone 2",
   "FAX": "Fax",
@@ -424,7 +424,7 @@
   "PHONE_NUMERROR": "That doesn't look like a phone number",
   "MOB_MAXLENGTH": "Mobile number must be between 9 to 14 numbers",
   "MOB_MINLENGTH": "Mobile number must be between 9 to 14 numbers",
-  "PHONE_MAXLENGTH": "Phone number must be between 9 to 14 numbers",
+  "PHONE_MAXLENGTH": "Phone must be between 9 to 14 numbers",
   "MIN_TEXT": "This field must contain atleast 5 characters",
   "IBAN_INVALID": "Please enter valid IBAN number",
   "UNSUPPORTED_FORMAT": "Unsupported File Format",
@@ -498,7 +498,7 @@
   "LEASING_CONTRACT_MONTHLY_WORKING_HRS": "Monthly Working Hours",
   "LEASING_CONTRACT_WEEKLY_WORKING_HRS": "Weekly Working Hours",
   "CARE_GIVER_LEASING_UPDATE_SUCCESS": "Leasing Personal Data saved successfully",
-  "PHONE_NUM_ERROR": "Phone Number must be at least 10 characters",
+  "PHONE_NUM_ERROR": "Phone must be at least 10 characters",
   "MOBILE_NUM_ERROR": "Mobile Number must be at least 10 characters",
   "EMPLOYEE_REGION_PLACEHOLDER": "Select Region"
 }

@@ -497,7 +497,7 @@ const PersonalInfoFormComponent: any = (
                   <Field
                     component={FormikTextField}
                     name={"phoneNumber"}
-                    placeholder=" Phone Number"
+                    placeholder=" Phone"
                     className="width-common"
                   />
                 </div>

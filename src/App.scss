@@ -2643,6 +2643,9 @@ html:not([dir="rtl"]) {
 .region-select {
   width: 180px;
   margin: 0px 8px;
+  &.footer-select {
+    width: 300px;
+  }
   .css-yk16xz-control {
     border-radius: 0px;
     color: $light_black;

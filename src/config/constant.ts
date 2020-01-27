@@ -8,6 +8,7 @@ export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
 export const emailRegex: RegExp = /^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 export const IBANReplaceRegex: RegExp = /[^A-Z0-9]/gi;
 export const IBANlength: number = 22;
+export const workingHours: number = 4;
 export const telMin: number = 9;
 export const telMax: number = 14;
 export const mobMin: number = 9;

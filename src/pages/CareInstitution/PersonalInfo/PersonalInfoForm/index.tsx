@@ -98,7 +98,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     handleSubmit,
     setFieldValue,
     setFieldTouched,
-    CareInstitutionList
+    CareInstitutionList,
+    setFieldError
   } = props;
   console.log("errors", errors);
 
@@ -705,7 +706,19 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         type="text"
                         name={"email"}
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        onBlur={(e: any) => {
+                          //get string before a @ to set username
+                          const setUsername = email
+                            ? email.substring(0, email.indexOf("@"))
+                            : "";
+                          const username = setUsername.replace(
+                            /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi,
+                            ""
+                          );
+                          setFieldError("userName", " ");
+                          setFieldValue("userName", username);
+                          handleBlur(e);
+                        }}
                         value={email}
                         placeholder={languageTranslation("EMAIL")}
                         className={
@@ -746,7 +759,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                             : "text-input"
                         }
                       />
-                      {errors.userName && touched.userName && (
+                      {errors.userName && !userName && touched.userName && (
                         <div className="required-error">{errors.userName}</div>
                       )}
                     </div>
@@ -825,11 +838,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         placeholder={languageTranslation("REMARKS")}
                         className="textarea-custom "
                         rows="4"
-                        value={
-                          remarksViewable && remarksViewable.value
-                            ? remarksViewable.value
-                            : undefined
-                        }
+                        value={remarksViewable ? remarksViewable : undefined}
                         onChange={handleChange}
                         maxLength={255}
                       />

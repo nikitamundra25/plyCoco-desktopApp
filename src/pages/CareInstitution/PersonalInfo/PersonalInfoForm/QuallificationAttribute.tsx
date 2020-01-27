@@ -51,7 +51,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               </ul>
             ) : null}
           </div>
-          <div className="common-list-footer form-section ">
+          <div className="common-list-footer ">
             <FormGroup className="mb-0">
               <Select
                 placeholder={"Please Select Qualification from the dropdown"}
@@ -63,6 +63,8 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
                 isMulti
                 options={qualificationList}
                 menuPlacement={"top"}
+                className="attribute-select"
+                classNamePrefix="attribute-inner-select"
               />
             </FormGroup>
           </div>
@@ -89,7 +91,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
                 : null}
             </ul>
           </div>
-          <div className="common-list-footer form-section ">
+          <div className="common-list-footer  ">
             <FormGroup className="mb-0">
               <Select
                 placeholder={" Please Select Attribute from the dropdown"}
@@ -98,6 +100,8 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
                 isMulti
                 options={CareInstitutionAttr}
                 menuPlacement={"top"}
+                className="attribute-select"
+                classNamePrefix="attribute-inner-select"
               />
             </FormGroup>
           </div>

@@ -48,7 +48,7 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
           </div>
           <div className="common-list-body">
             {qualifications && qualifications.length ? (
-              <ul className="common-list list-unstyled">
+              <ul className="common-list list-unstyled mb-0">
                 {qualifications.map(
                   (qualification: IReactSelectInterface, index: number) => {
                     return <li key={index}>{qualification.label}</li>;
@@ -57,7 +57,7 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
               </ul>
             ) : null}
           </div>
-          <div className="common-list-footer form-section ">
+          <div className="common-list-footer ">
             <FormGroup className="mb-0">
               <Select
                 isMulti
@@ -67,7 +67,8 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
                 placeholder={"Please Select Qualification from the dropdown"}
                 options={qualificationList}
                 onChange={handleQualification}
-                className="w-100"
+                className="attribute-select"
+                classNamePrefix="attribute-inner-select"
               />
             </FormGroup>
           </div>

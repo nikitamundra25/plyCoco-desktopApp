@@ -29,6 +29,9 @@ class Email extends Component<RouteComponentProps, any> {
                                 name={"text"}
                                 placeholder="text"
                                 rows="5"
+                                maxLength={250}
+
+
                               />
                             </div>
                           </Col>

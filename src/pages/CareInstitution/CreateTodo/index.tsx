@@ -154,6 +154,8 @@ const CreateTodo = (props: any) => {
                             className="textarea-custom"
                             placeholder={languageTranslation("COMMENT")}
                             rows="4"
+                            maxLength={250}
+
                           />
                         </div>
                       </Col>

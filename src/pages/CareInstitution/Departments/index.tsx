@@ -344,6 +344,8 @@ class Departments extends Component<RouteComponentProps, any> {
                               placeholder={languageTranslation("")}
                               className="textarea-custom"
                               rows="4"
+                              maxLength={250}
+
                             />
                           </div>
                         </Col>
@@ -366,7 +368,8 @@ class Departments extends Component<RouteComponentProps, any> {
                               name={"additionalText "}
                               placeholder={languageTranslation("")}
                               className="textarea-custom"
-                              rows="4"
+                            maxLength={250}
+                            rows="4"
                             />
                           </div>
                         </Col>
@@ -392,7 +395,8 @@ class Departments extends Component<RouteComponentProps, any> {
                               placeholder={languageTranslation("")}
                               className="textarea-custom"
                               rows="4"
-                            />
+                              maxLength={250}
+                              />
                           </div>
                         </Col>
                       </Row>

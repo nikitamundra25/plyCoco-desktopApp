@@ -1001,7 +1001,7 @@ html:not([dir="rtl"]) {
   }
 
   .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 24px;
     .col-form-label {
       font-size: $font_12;
       font-weight: 400;
@@ -1017,10 +1017,10 @@ html:not([dir="rtl"]) {
     .required-error {
       position: absolute;
       left: 15px;
-      top: 27px;
+      top: 25px;
       font-size: $font_10;
       color: $red;
-      line-height: 11px;
+      line-height: 10px;
       &.left {
         left: 0px;
       }
@@ -1591,6 +1591,22 @@ html:not([dir="rtl"]) {
       }
     }
 
+    .status-btn {
+      padding: 3px 10px;
+      font-size: $font_12;
+      border-radius: 4px;
+      display: inline-block;
+      cursor: pointer;
+      min-width: 65px;
+      &.active {
+        background: $active_green;
+        color: $white;
+      }
+      &.inactive {
+        background: $red;
+        color: $white;
+      }
+    }
     .action-btn {
       display: flex;
       align-items: center;
@@ -2728,7 +2744,7 @@ html:not([dir="rtl"]) {
       }
       .remark-div {
         margin-right: 15px;
-        min-width: 200px;
+        min-width: 150px;
         @media only screen and (max-width: 767px) {
           margin-right: 0px;
           width: 100%;

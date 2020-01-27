@@ -406,7 +406,6 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             <div>
                               <MaskedInput
                                 {...field}
-                                className={"form-control"}
                                 value={payrollIBAN}
                                 placeholder={languageTranslation(
                                   "BANK_IBAN_PLACEHOLDER"
@@ -414,6 +413,11 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                                 mask={IBANRegex}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
+                                className={`form-control ${
+                                  errors.payrollIBAN && touched.payrollIBAN
+                                    ? "text-input error"
+                                    : "text-input"
+                                }`}
                               />
                               {errors.payrollIBAN && touched.payrollIBAN && (
                                 <div className="required-error">

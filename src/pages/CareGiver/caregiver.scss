@@ -129,6 +129,40 @@
     margin-bottom: 0;
   }
 }
+
+.payslip-table {
+  th {
+    border: 1px solid $table_border;
+  }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-payslip-table {
+    margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+  .sno-col {
+    width: 50px;
+  }
+  .date-col {
+    width: 80px;
+  }
+
+  .type-col {
+    width: 130px;
+  }
+  .amount-col {
+    width: 100px;
+  }
+  .paid-col {
+    width: 100px;
+  }
+}
+
 .save-button {
   // position: absolute;
   // top: -31px;

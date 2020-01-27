@@ -24,8 +24,6 @@ import clear from "../../assets/img/clear.svg";
 import newEmail from "../../assets/img/new-email.svg";
 import EmailSeparator from "../../assets/img/mail.svg";
 
-
-
 class EmailTemplateManagement extends Component<RouteComponentProps, any> {
   constructor(props: any) {
     super(props);
@@ -45,7 +43,7 @@ class EmailTemplateManagement extends Component<RouteComponentProps, any> {
   };
 
   render() {
-     const { editorState } = this.state;
+    const { editorState } = this.state;
     return (
       <>
         <div className="common-detail-page">
@@ -56,11 +54,7 @@ class EmailTemplateManagement extends Component<RouteComponentProps, any> {
                   {languageTranslation("TEMPLATE_TYPE")}
                 </div>
                 <div className="user-select">
-                  <Select
-                   
-                    placeholder="Select Template"
-                    options={CareGiver}
-                  />
+                  <Select placeholder="Select Template" options={CareGiver} />
                 </div>
                 <div className="header-nav-item">
                   <span className="header-nav-icon">

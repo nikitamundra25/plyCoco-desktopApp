@@ -1,6 +1,10 @@
-import React, { Component } from 'react';
-import { Nav, NavItem, NavLink } from 'reactstrap';
-import { CareInstitutionTodoRoutes } from '../SidebarRoutes/CareInstitutionTodoRoutes';
+import React, { Component } from "react";
+import { Nav, NavItem, NavLink } from "reactstrap";
+import { CareInstitutionTodoRoutes } from "../SidebarRoutes/CareInstitutionTodoRoutes";
+import { languageTranslation } from "../../../../helpers";
+import reminder_on from "../../../../assets/img/reminder-on.svg";
+import reminder_off from "../../../../assets/img/reminder-off.svg";
+import requirement from "../../../../assets/img/requirement.svg";
 
 class CareInstitutionTodoLayout extends Component<any, any> {
   constructor(props: any) {
@@ -24,21 +28,31 @@ class CareInstitutionTodoLayout extends Component<any, any> {
       location: { pathname },
     } = this.props;
     return (
-      <div className='common-sidnav'>
-        <Nav className='common-ul' tabs>
-          {CareInstitutionTodoRoutes.map((route: any, index: number) => {
-            return route.path ? (
-              <NavItem>
-                <NavLink
-                  className={pathname === route.path ? 'active' : null}
-                  onClick={() => this.props.history.push(route.path)}
-                >
-                  <span className='nav-text'>{route.name}</span>
-                </NavLink>
-              </NavItem>
-            ) : null;
-          })}
-        </Nav>
+      <div className="common-topheader d-flex align-items-center pb-2 px-2">
+        <div className="header-nav-item active">
+          <span className="header-nav-icon">
+            <img src={reminder_off} alt="" />
+          </span>
+          <span className="header-nav-text">
+            {languageTranslation("HIDE_DONE")}
+          </span>
+        </div>
+        <div className="header-nav-item">
+          <span className="header-nav-icon">
+            <img src={reminder_on} alt="" />
+          </span>
+          <span className="header-nav-text">
+            {languageTranslation("HIDE_FUTURE_ONES")}
+          </span>
+        </div>
+        <div className="header-nav-item">
+          <span className="header-nav-icon">
+            <img src={requirement} alt="" />
+          </span>
+          <span className="header-nav-text">
+            {languageTranslation("REQUIREMENT")}
+          </span>
+        </div>
       </div>
     );
   }

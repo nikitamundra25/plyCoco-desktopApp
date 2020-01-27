@@ -25,35 +25,50 @@ const CreateTodo = (props: any) => {
   const modifiers = {
     sundays: { daysOfWeek: [0] },
     saturdays: { daysOfWeek: [6] },
-    birthday: new Date(2018, 9, 30)
+   
   };
   const modifiersStyles = {
-    birthday: {
-      color: "white",
-      backgroundColor: "#ffc107"
-    },
     sundays: {
-      color: "#ffc107",
-      backgroundColor: "#fffdee"
+      color: "#ff2d2d",
+      backgroundColor: "transparent"
     },
     saturdays: {
-      color: "#ffc107",
-      backgroundColor: "#fffdee"
-    }
+      color: "#ff2d2d",
+      backgroundColor: "transparent"
+    },
+    outside: { backgroundColor: "transparent" }
   };
 
   return (
     <div>
       <Modal isOpen={show} className="reminder-modal" size="lg" centered>
-        <ModalHeader>Create Todo/Reminder for John Doe </ModalHeader>
+        <ModalHeader> Create Todo/Reminder for John Doe </ModalHeader>
         <ModalBody>
           <div className="">
-            <div className="calender-wrapper">
+            <div className="calender-wrapper mb-4">
               <Row>
                 <Col lg={"4"}>
                   <div>
                     <DayPicker
                       selectedDays={new Date()}
+                      modifiers={modifiers}
+                      modifiersStyles={modifiersStyles}
+                    />
+                  </div>
+                </Col>
+                <Col lg={"4"}>
+                  <div>
+                    <DayPicker
+                      initialMonth={new Date(2020, 1)}
+                      modifiers={modifiers}
+                      modifiersStyles={modifiersStyles}
+                    />
+                  </div>
+                </Col>
+                <Col lg={"4"}>
+                  <div>
+                    <DayPicker
+                      initialMonth={new Date(2020, 2)}
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
                     />
@@ -122,6 +137,28 @@ const CreateTodo = (props: any) => {
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
+                          {languageTranslation("CONTACT")}
+                          <span className="required">*</span>
+                        </Label>
+                      </Col>
+                      <Col sm="8">
+                        <div>
+                          <Input
+                            type="number"
+                            name={"firstName"}
+                            // placeholder={languageTranslation("TIME_OF_DAY")}
+                            className="width-common"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={"6"}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
                           {languageTranslation("PRIORITY")}
                           <span className="required">*</span>
                         </Label>
@@ -137,16 +174,16 @@ const CreateTodo = (props: any) => {
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={"6"}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm="4">
+                      <Col sm="2">
                         <Label className="form-label col-form-label">
                           {languageTranslation("COMMENT")}{" "}
                           <span className="required">*</span>
                         </Label>
                       </Col>
-                      <Col sm="8">
+                      <Col sm="10">
                         <div>
                           <Input
                             type="textarea"

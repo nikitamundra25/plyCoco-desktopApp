@@ -201,8 +201,6 @@ const PersonalInformation: any = (props: any) => {
             ? values.leasingPriceListId.value
             : null
       };
-      console.log("remarksViewable1111", values && values.remarksViewable);
-
       toast.success(languageTranslation("CARE_INSTI_UPDATE_SUCCESS"));
       await updateCareInstitution({
         variables: {

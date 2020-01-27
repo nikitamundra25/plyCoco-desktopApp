@@ -1,91 +1,91 @@
 // Styles
 // CoreUI Icons Set
-@import "~@coreui/icons/css/coreui-icons.css";
+@import '~@coreui/icons/css/coreui-icons.css';
 // Import Flag Icons Set
-@import "~flag-icon-css/css/flag-icon.min.css";
+@import '~flag-icon-css/css/flag-icon.min.css';
 // Import Font Awesome Icons Set
-@import "~font-awesome/css/font-awesome.min.css";
+@import '~font-awesome/css/font-awesome.min.css';
 // Import Simple Line Icons Set
-@import "~simple-line-icons/css/simple-line-icons.css";
+@import '~simple-line-icons/css/simple-line-icons.css';
 // Import Main styles for this application
-@import "./scss/style.scss";
+@import './scss/style.scss';
 
-@import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap');
 
 @font-face {
   font-family: TechniqueBRKNormal;
-  src: url("./assets/fonts/techniqu-webfont.eot");
-  src: url("./assets/fonts/techniqu-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("./assets/fonts/techniqu-webfont.woff") format("woff"),
-    url("./assets/fonts/techniqu-webfont.ttf") format("truetype"),
-    url("./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal") format("svg");
+  src: url('./assets/fonts/techniqu-webfont.eot');
+  src: url('./assets/fonts/techniqu-webfont.eot?#iefix')
+      format('embedded-opentype'),
+    url('./assets/fonts/techniqu-webfont.woff') format('woff'),
+    url('./assets/fonts/techniqu-webfont.ttf') format('truetype'),
+    url('./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal') format('svg');
 
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Regular";
-  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
-    format("truetype");
-  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
-      format("woff2"),
-    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
-      format("woff");
+  font-family: 'FrutigerNeueLTPro-Regular';
+  src: url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf')
+    format('truetype');
+  src: url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix')
+      format('embedded-opentype'),
+    url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2')
+      format('woff2'),
+    url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff')
+      format('woff');
   //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Medium";
-  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
-      format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
-      format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
-      format("truetype");
+  font-family: 'FrutigerNeueLTPro-Medium';
+  src: url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot');
+  src: url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix')
+      format('embedded-opentype'),
+    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2')
+      format('woff2'),
+    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff')
+      format('woff'),
+    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf')
+      format('truetype');
   // url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Bold";
-  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
-      format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
-      format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
-      format("truetype");
+  font-family: 'FrutigerNeueLTPro-Bold';
+  src: url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot');
+  src: url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix')
+      format('embedded-opentype'),
+    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2')
+      format('woff2'),
+    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff')
+      format('woff'),
+    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf')
+      format('truetype');
   // url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Light";
-  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
-      format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
-      format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
-      format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
-      format("truetype");
+  font-family: 'FrutigerNeueLTPro-Light';
+  src: url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot');
+  src: url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix')
+      format('embedded-opentype'),
+    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2')
+      format('woff2'),
+    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff')
+      format('woff'),
+    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf')
+      format('truetype');
   //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -94,7 +94,7 @@ body {
   background: $white;
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
   a {
@@ -261,7 +261,7 @@ body {
     margin-bottom: 0;
   }
 
-  .checkbox-custom input[type="checkbox"] {
+  .checkbox-custom input[type='checkbox'] {
     opacity: 0;
     position: absolute;
     top: 50%;
@@ -271,12 +271,12 @@ body {
     cursor: pointer;
   }
 
-  .checkbox-custom input[type="checkbox"]:checked + label:after {
+  .checkbox-custom input[type='checkbox']:checked + label:after {
     position: absolute;
     display: inline-block;
-    font-family: "FontAwesome";
+    font-family: 'FontAwesome';
     font-weight: 400;
-    content: "\F00C";
+    content: '\F00C';
     top: 50%;
     left: 4px;
     margin-top: -5px;
@@ -287,19 +287,19 @@ body {
     color: #333;
   }
 
-  .checkbox-custom input[type="checkbox"]:disabled {
+  .checkbox-custom input[type='checkbox']:disabled {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type="checkbox"]:disabled:checked + label:after {
+  .checkbox-custom input[type='checkbox']:disabled:checked + label:after {
     color: #999;
   }
 
-  .checkbox-custom input[type="checkbox"]:disabled + label {
+  .checkbox-custom input[type='checkbox']:disabled + label {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type="checkbox"]:disabled + label:before {
+  .checkbox-custom input[type='checkbox']:disabled + label:before {
     background-color: #eee;
   }
 
@@ -313,7 +313,7 @@ body {
   }
 
   .checkbox-custom label:before {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     left: 0;
@@ -488,7 +488,7 @@ body {
         border-bottom: 7px solid #ccc;
         border-left: 7px solid transparent;
         border-bottom-color: #c8ced3;
-        content: "";
+        content: '';
       }
 
       &:after {
@@ -499,7 +499,7 @@ body {
         border-right: 6px solid transparent;
         border-bottom: 6px solid #ffffff;
         border-left: 6px solid transparent;
-        content: "";
+        content: '';
       }
     }
   }
@@ -829,7 +829,7 @@ body {
         z-index: 1018;
         width: 100%;
         height: 100%;
-        content: "";
+        content: '';
         background: rgba(0, 0, 0, 0.7);
         -webkit-animation: opacity 0.25s;
         animation: opacity 0.25s;
@@ -839,7 +839,7 @@ body {
 }
 
 @media (max-width: 991.98px) {
-  html:not([dir="rtl"]) {
+  html:not([dir='rtl']) {
     .sidebar-lg-show {
       &.sidebar-fixed {
         .main {
@@ -850,7 +850,7 @@ body {
     }
   }
 }
-html:not([dir="rtl"]) {
+html:not([dir='rtl']) {
   .sidebar-lg-show {
     &.sidebar-fixed {
       .main {
@@ -990,7 +990,7 @@ html:not([dir="rtl"]) {
     margin-bottom: 10px;
     font-family: $font_Frutiger_Medium;
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       height: 2px;
       width: 55px;
@@ -1001,7 +1001,7 @@ html:not([dir="rtl"]) {
   }
 
   .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 24px;
     .col-form-label {
       font-size: $font_12;
       font-weight: 400;
@@ -1017,10 +1017,10 @@ html:not([dir="rtl"]) {
     .required-error {
       position: absolute;
       left: 15px;
-      top: 27px;
+      top: 25px;
       font-size: $font_10;
       color: $red;
-      line-height: 11px;
+      line-height: 10px;
       &.left {
         left: 0px;
       }
@@ -1645,7 +1645,7 @@ html:not([dir="rtl"]) {
     font-weight: 600;
     margin-bottom: 10px;
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       height: 2px;
       width: 55px;
@@ -1676,7 +1676,7 @@ html:not([dir="rtl"]) {
       position: relative;
       padding-left: 12px;
       &::before {
-        content: ":";
+        content: ':';
         position: absolute;
         left: 0px;
       }
@@ -1813,7 +1813,7 @@ html:not([dir="rtl"]) {
         font-weight: 400;
         font-family: $font_Frutiger_Medium;
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           height: 2px;
           width: 55px;
@@ -2054,7 +2054,7 @@ html:not([dir="rtl"]) {
         font-family: $font_Frutiger_Medium;
         margin-bottom: 15px;
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           height: 2px;
           width: 55px;
@@ -2229,7 +2229,7 @@ html:not([dir="rtl"]) {
 .custom-col {
   margin-left: -7.5px;
   margin-right: -7.5px;
-  [class*="col-"] {
+  [class*='col-'] {
     padding: 0 7.5px;
   }
 }
@@ -2256,7 +2256,7 @@ html:not([dir="rtl"]) {
         display: inline-block;
         margin-left: 0.255em;
         vertical-align: 0.255em;
-        content: "";
+        content: '';
         border-top: 0.3em solid;
         border-right: 0.3em solid transparent;
         border-bottom: 0;
@@ -2363,7 +2363,7 @@ html:not([dir="rtl"]) {
     display: inline-block;
     margin-left: 0.255em;
     vertical-align: 0.255em;
-    content: "";
+    content: '';
     border-top: 0.3em solid;
     border-right: 0.3em solid transparent;
     border-bottom: 0;
@@ -2452,7 +2452,7 @@ html:not([dir="rtl"]) {
     .form-group {
       margin-bottom: 0px;
     }
-    [class*="col-"] {
+    [class*='col-'] {
       padding: 0px;
       label {
         padding-left: 7px;
@@ -2679,7 +2679,7 @@ html:not([dir="rtl"]) {
       }
       .remark-div {
         margin-right: 15px;
-        min-width: 200px;
+        min-width: 150px;
         @media only screen and (max-width: 767px) {
           margin-right: 0px;
           width: 100%;
@@ -2764,9 +2764,9 @@ html:not([dir="rtl"]) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          background-image: url("assets/img/success-toaster.svg");
+          background-image: url('assets/img/success-toaster.svg');
           position: absolute;
-          content: "";
+          content: '';
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
@@ -2792,10 +2792,10 @@ html:not([dir="rtl"]) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          background: url("assets/img/error-toaster.svg") no-repeat;
+          background: url('assets/img/error-toaster.svg') no-repeat;
           background-size: 35px;
           position: absolute;
-          content: "";
+          content: '';
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
@@ -2820,8 +2820,8 @@ html:not([dir="rtl"]) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          content: "";
-          background: url("assets/img/warning-toaster.svg") no-repeat;
+          content: '';
+          background: url('assets/img/warning-toaster.svg') no-repeat;
           background-size: 35px;
           position: absolute;
           top: 50%;
@@ -2843,8 +2843,8 @@ html:not([dir="rtl"]) {
     width: 10px;
     height: 10px;
     &::after {
-      content: "";
-      background: url("assets/img/close-toaster.svg") no-repeat;
+      content: '';
+      background: url('assets/img/close-toaster.svg') no-repeat;
       background-size: 10px;
       position: absolute;
       top: 50%;

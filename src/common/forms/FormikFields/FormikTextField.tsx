@@ -26,8 +26,6 @@ export const FormikTextField = (props: IFormikTextField) => {
   const showError = getIn(touched, name) && !!fieldError;
   const shrink = field.value !== null && toLower(field.value).length > 0;
   let newLabel = label;
-  console.log("fprm", form.touched);
-
   return (
     <>
       <Input

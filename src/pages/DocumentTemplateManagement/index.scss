@@ -39,4 +39,5 @@
 .working-height {
   height: calc(100vh - 135px);
   background-color: $white;
+  border: 1px solid $table_border;
 }

@@ -41,6 +41,5 @@ export const AppRoutes: IAppRoutes = {
   TODO: "/caregiver/todo/:id/:userName",
   CARE_LOGIN: "/caregiver/loginlist/:id/:userName",
   ADD_CARE_INSTITUTION: "/care-institution/add/:id",
-
   DOCUMENT_TEMPLATE_WORKING: "/working-proof"
 };

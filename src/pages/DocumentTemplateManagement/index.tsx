@@ -61,7 +61,7 @@ class WorkingProof extends Component {
                       <div>
                         <h5 className="content-title">New Work Proofs</h5>
                         <div className="working-height">
-                          <div className="form-section pt-2">
+                          <div className="form-section pt-2 px-3">
                             <FormGroup>
                               <Row>
                                 <Col sm="4">
@@ -184,7 +184,7 @@ class WorkingProof extends Component {
                       <div>
                         <h5 className="content-title">Performed Work</h5>
                         <div className="working-height">
-                          <div className="form-card border-0">
+                          <div className="document-form py-2 px-3">
                             <Row>
                               <Col lg={"12"}>
                                 <FormGroup>
@@ -229,86 +229,86 @@ class WorkingProof extends Component {
                                 </FormGroup>
                               </Col>
                             </Row>
-                            <Table bordered hover responsive>
-                              <thead className="thead-bg">
-                                <tr>
-                                  <td>Begin</td>
-                                  <td>Facility</td>
-                                  <td>Department</td>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>
-                                    <div className="d-flex align-items-center">
-                                      <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                                        <input
-                                          type="checkbox"
-                                          id="checkAll"
-                                          className=""
-                                        />
-                                        <label className=""></label>
-                                      </span>
-                                      <div>20.08.2019</div>
-                                    </div>
-                                  </td>
-                                  <td>Nursing</td>
-                                  <td>central department</td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="d-flex align-items-center">
-                                      <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                                        <input
-                                          type="checkbox"
-                                          id="checkAll"
-                                          className=""
-                                        />
-                                        <label className=""></label>
-                                      </span>
-                                      <div>20.08.2019</div>
-                                    </div>
-                                  </td>
-                                  <td>Nursing</td>
-                                  <td>central department</td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="d-flex align-items-center">
-                                      <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                                        <input
-                                          type="checkbox"
-                                          id="checkAll"
-                                          className=""
-                                        />
-                                        <label className=""></label>
-                                      </span>
-                                      <div>20.08.2019</div>
-                                    </div>
-                                  </td>
-                                  <td>Nursing</td>
-                                  <td>central department</td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="d-flex align-items-center">
-                                      <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                                        <input
-                                          type="checkbox"
-                                          id="checkAll"
-                                          className=""
-                                        />
-                                        <label className=""></label>
-                                      </span>
-                                      <div>20.08.2019</div>
-                                    </div>
-                                  </td>
-                                  <td>Nursing</td>
-                                  <td>central department</td>
-                                </tr>
-                              </tbody>
-                            </Table>
                           </div>
+                          <Table bordered hover responsive>
+                            <thead className="thead-bg">
+                              <tr>
+                                <td>Begin</td>
+                                <td>Facility</td>
+                                <td>Department</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <div className="d-flex align-items-center">
+                                    <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                      <input
+                                        type="checkbox"
+                                        id="checkAll"
+                                        className=""
+                                      />
+                                      <label className=""></label>
+                                    </span>
+                                    <div>20.08.2019</div>
+                                  </div>
+                                </td>
+                                <td>Nursing</td>
+                                <td>central department</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div className="d-flex align-items-center">
+                                    <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                      <input
+                                        type="checkbox"
+                                        id="checkAll"
+                                        className=""
+                                      />
+                                      <label className=""></label>
+                                    </span>
+                                    <div>20.08.2019</div>
+                                  </div>
+                                </td>
+                                <td>Nursing</td>
+                                <td>central department</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div className="d-flex align-items-center">
+                                    <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                      <input
+                                        type="checkbox"
+                                        id="checkAll"
+                                        className=""
+                                      />
+                                      <label className=""></label>
+                                    </span>
+                                    <div>20.08.2019</div>
+                                  </div>
+                                </td>
+                                <td>Nursing</td>
+                                <td>central department</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div className="d-flex align-items-center">
+                                    <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                      <input
+                                        type="checkbox"
+                                        id="checkAll"
+                                        className=""
+                                      />
+                                      <label className=""></label>
+                                    </span>
+                                    <div>20.08.2019</div>
+                                  </div>
+                                </td>
+                                <td>Nursing</td>
+                                <td>central department</td>
+                              </tr>
+                            </tbody>
+                          </Table>
                         </div>
                       </div>
                     </Col>

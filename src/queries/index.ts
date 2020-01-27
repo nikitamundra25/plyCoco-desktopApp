@@ -5,4 +5,5 @@ export * from './CareGiver';
 export * from './LeasingQueries';
 export * from './commonQueries';
 export * from './Login';
-export * from "./CareInstitution";
+export * from './CareInstitution';
+export * from './EmailTemplates';

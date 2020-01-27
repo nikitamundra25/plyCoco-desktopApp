@@ -346,8 +346,8 @@
   "CONTACT_TYPE": "Contact Type",
   "LOGIN_HISTORY": "Login History",
   "S_NO": "S.No",
-  "SIZE":"Size",
-  "TEMPLATE_TYPE":"Template Type",
+  "SIZE": "Size",
+  "TEMPLATE_TYPE": "Template Type",
   "IP_ADDRESS": "IP Address",
   "BROWSER": "Browser",
   "INVOICES": "Invoices",
@@ -443,7 +443,7 @@
   "INTERNALLY": "Internally",
   "PRIORITY": "Priority",
   "LOW": "Low",
-  "MENU_ENTRY":"Menu Entry",
+  "MENU_ENTRY": "Menu Entry",
   "HIGH": "High",
   "NORMAL": "Normal",
   "COMMENT": "Comment",
@@ -515,5 +515,11 @@
   "CARE_GIVER_LEASING_UPDATE_SUCCESS": "Leasing Personal Data saved successfully",
   "PHONE_NUM_ERROR": "Phone must be at least 10 characters",
   "MOBILE_NUM_ERROR": "Mobile Number must be at least 10 characters",
-  "EMPLOYEE_REGION_PLACEHOLDER": "Select Region"
+  "EMPLOYEE_REGION_PLACEHOLDER": "Select Region",
+
+  "NEW_EMAIL_TEMPLATE": "New E-Mail Template",
+  "REQUIRED_TYPE": "Type is required",
+  "REQUIRED_MENU_ENTEY": "Menu Entry is required",
+  "REQUIRED_SUBJECT": "Subject is required",
+  "REQUIRED_BODY": "Content Body is required"
 }

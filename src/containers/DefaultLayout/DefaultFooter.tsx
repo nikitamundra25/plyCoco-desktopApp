@@ -37,7 +37,7 @@ const DefaultFooter: FunctionComponent = () => {
   return (
     <React.Fragment>
       <div className="d-flex align-items-center justify-content-end w-100">
-        <div className="region-select footer-select">
+        <div className="region-select footer-select text-capitalize">
           <Select
             placeholder={languageTranslation("EMPLOYEE_REGION_PLACEHOLDER")}
             options={regionOptions}

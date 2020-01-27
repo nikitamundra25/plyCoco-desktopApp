@@ -218,9 +218,6 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   };
 
   const [activeTab, setactiveTab] = useState(0);
-
-  // const { data, loading, error, refetch } = useQuery(GET_USERS);
-  // console.log(data, 'dataaaaa');
   const values: ICareInstitutionFormValues = {
     email: '',
     firstName: '',

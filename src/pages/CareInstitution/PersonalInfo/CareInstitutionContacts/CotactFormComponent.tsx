@@ -599,7 +599,8 @@ const CotactFormComponent: any = (
                               placeholder={languageTranslation("REMARKS")}
                               className="textarea-care-institution"
                               rows="4"
-                            />
+                              maxLength={250}
+                              />
                           </div>
                         </Col>
                       </Row>

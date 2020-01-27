@@ -81,6 +81,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     getStatesByCountry,
     setFieldError
   } = props;
+  console.log("touched", touched);
 
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
@@ -320,11 +321,13 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         : "text-input"
                                     }
                                   />
-                                  {errors.userName && touched.userName && (
-                                    <div className="required-error">
-                                      {errors.userName}
-                                    </div>
-                                  )}
+                                  {errors.userName &&
+                                    !userName &&
+                                    touched.userName && (
+                                      <div className="required-error">
+                                        {errors.userName}
+                                      </div>
+                                    )}
                                 </div>
                               </Col>
                             </Row>

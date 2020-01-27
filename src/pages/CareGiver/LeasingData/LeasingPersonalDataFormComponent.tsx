@@ -10,6 +10,7 @@ import {
   Religion,
   Preoccupation,
   IBANRegex,
+  DateMask,
 } from '../../../config';
 import { FormikProps, Field } from 'formik';
 import { ILeasingValues } from '../../../interfaces';
@@ -446,13 +447,29 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                       </Col>
                       <Col sm='8'>
                         <div>
-                          <Field
-                            component={FormikTextField}
-                            name={'firstDay'}
-                            placeholder={languageTranslation(
-                              'LEASING_CONTRACT_FIRST_DAY',
+                          <Field name='payrollIBAN'>
+                            {({ field }: any) => (
+                              <div>
+                                <MaskedInput
+                                  {...field}
+                                  className={'form-control'}
+                                  placeholder={languageTranslation(
+                                    'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
+                                  )}
+                                  mask={DateMask}
+                                  name={'firstDay'}
+                                  value={firstDay}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                />
+                                {errors.firstDay && touched.firstDay && (
+                                  <div className='required-error'>
+                                    {errors.firstDay}
+                                  </div>
+                                )}
+                              </div>
                             )}
-                          />
+                          </Field>
                         </div>
                       </Col>
                     </Row>
@@ -468,14 +485,29 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                       </Col>
                       <Col sm='8'>
                         <div>
-                          <Field
-                            component={FormikTextField}
-                            name={'lastDay'}
-                            placeholder={languageTranslation(
-                              'LEASING_CONTRACT_LAST_DAY',
+                          <Field name='payrollIBAN'>
+                            {({ field }: any) => (
+                              <div>
+                                <MaskedInput
+                                  {...field}
+                                  className={'form-control'}
+                                  placeholder={languageTranslation(
+                                    'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
+                                  )}
+                                  mask={DateMask}
+                                  name={'lastDay'}
+                                  value={lastDay}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                />
+                                {errors.lastDay && touched.lastDay && (
+                                  <div className='required-error'>
+                                    {errors.lastDay}
+                                  </div>
+                                )}
+                              </div>
                             )}
-                            className='width-common'
-                          />
+                          </Field>
                         </div>
                       </Col>
                     </Row>

@@ -7,6 +7,7 @@ import moment from 'moment';
 import { ConfirmBox } from '../../../common/ConfirmBox';
 import { toast } from 'react-toastify';
 // import { handleChange } from '../../../common/forms/FormikFields/utils';
+let toastId: any;
 
 const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
   setRemarksDetail?: any;
@@ -48,7 +49,9 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
         if (props.saveRemark) {
           props.saveRemark(languageTranslation('REMARK_DELETE_SUCCESS'), temp);
         } else {
-          toast.success(languageTranslation('REMARK_DELETE_SUCCESS'));
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(languageTranslation('REMARK_DELETE_SUCCESS'));
+          }
         }
       }
     }

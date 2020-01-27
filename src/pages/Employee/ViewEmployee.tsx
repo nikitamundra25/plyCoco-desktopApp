@@ -131,6 +131,12 @@ const ViewEmployee: FunctionComponent = () => {
                                   : defaultProfile
                               }
                               alt=''
+                              onError={(
+                                e: React.ChangeEvent<HTMLImageElement>,
+                              ) => {
+                                e.target.onerror = null;
+                                e.target.src = defaultProfile;
+                              }}
                             />
                           </div>
                         </div>

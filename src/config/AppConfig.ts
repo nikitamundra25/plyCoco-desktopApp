@@ -1,6 +1,6 @@
 export const EnviornmentType: any = {
-  DEV: "development",
-  PROD: "production"
+  DEV: 'development',
+  PROD: 'production'
 };
 
 export const env: any = process.env.NODE_ENV || EnviornmentType.DEV;

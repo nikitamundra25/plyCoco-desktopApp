@@ -259,7 +259,9 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('ADDRESS2')}
                         </span>
                         <span className='text-value '>
-                          {employee.employee.address2
+                          {employee &&
+                          employee.employee &&
+                          employee.employee.address2
                             ? employee.employee.address2
                             : 'N/A'}
                         </span>
@@ -269,7 +271,9 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('ZIP')}
                         </span>
                         <span className='text-value '>
-                          {employee.employee.zipCode
+                          {employee &&
+                          employee.employee &&
+                          employee.employee.zipCode
                             ? employee.employee.zipCode
                             : 'N/A'}
                         </span>
@@ -280,7 +284,9 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('CITY')}
                         </span>
                         <span className='text-value '>
-                          {employee.employee.city
+                          {employee &&
+                          employee.employee &&
+                          employee.employee.city
                             ? employee.employee.city
                             : 'N/A'}
                         </span>
@@ -291,7 +297,9 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('COUNTRY')}
                         </span>
                         <span className='text-value '>
-                          {employee.employee.country
+                          {employee &&
+                          employee.employee &&
+                          employee.employee.country
                             ? employee.employee.country
                             : 'N/A'}
                         </span>
@@ -302,7 +310,9 @@ const ViewEmployee: FunctionComponent = () => {
                           {languageTranslation('STATE')}
                         </span>
                         <span className='text-value '>
-                          {employee.employee.state
+                          {employee &&
+                          employee.employee &&
+                          employee.employee.state
                             ? employee.employee.state
                             : 'N/A'}
                         </span>

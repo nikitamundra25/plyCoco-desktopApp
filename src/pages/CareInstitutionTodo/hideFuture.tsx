@@ -41,7 +41,7 @@ class CareGiverTodo extends Component<RouteComponentProps, any> {
     return (
       <>
         <h5 className="content-title">
-          {languageTranslation("CARE_INSTITUTION")}
+          {languageTranslation("HIDE_FUTURE_ONES")}
         </h5>
         <Row>
           <Col lg={"12"}>
@@ -63,13 +63,13 @@ class CareGiverTodo extends Component<RouteComponentProps, any> {
                       <UncontrolledTooltip placement="top" target="search1">
                         {languageTranslation("SEARCH_LABEL")}
                       </UncontrolledTooltip>
-                      {languageTranslation("SEARCH_LABEL")}
+                      <i className="fa fa-search"></i>
                     </span>
                     <span className="btn-filter mr-2" id="reset">
                       <UncontrolledTooltip placement="top" target="reset">
                         {languageTranslation("RESET_LABEL")}
                       </UncontrolledTooltip>
-                      {languageTranslation("RESET_LABEL")}
+                      <i className="fa fa-refresh "></i>
                     </span>
                   </div>
                 </Col>

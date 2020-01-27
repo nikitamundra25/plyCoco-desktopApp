@@ -40,5 +40,12 @@ export const AppRoutes: IAppRoutes = {
   INVOCES: "/caregiver/invoice/:id/:userName",
   TODO: "/caregiver/todo/:id/:userName",
   CARE_LOGIN: "/caregiver/loginlist/:id/:userName",
-  ADD_CARE_INSTITUTION: "/care-institution/add/:id"
+  ADD_CARE_INSTITUTION: "/care-institution/add/:id",
+  CARE_INSTITUTION_TODO_HIDE_DONE: "/care-institution-todo/hide-done",
+  CARE_INSTITUTION_TODO_HIDE_FUTURE: "/care-institution-todo/hide-future",
+  CARE_INSTITUTION_TODO_REQUIREMENT: "/care-institution-todo/requirement",
+  CARE_GIVER_HIDE_DONE: "/caregiver-todo/hide-done",
+  CARE_GIVER_HIDE_FUTURE: "/caregiver-todo/hide-future",
+  EMAIL_TEMPLATE_MANAGEMENT: "/email-template-management",
+  DOCUMENT_TEMPLATE_WORKING: "/working-proof"
 };

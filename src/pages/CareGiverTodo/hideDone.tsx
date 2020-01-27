@@ -40,14 +40,9 @@ class CareGiverTodo extends Component<RouteComponentProps, any> {
   render() {
    return (
      <>
-       <div className="email-content">
-         <h5 className="content-title">
-           {languageTranslation("CARE_GIVER_TODO")}
-         </h5>
-
+         <h5 className="content-title">{languageTranslation("HIDE_DONE")}</h5>
          <Row>
            <Col lg={"12"}>
-             <div className="email-inbox-section">
                <div className="filter-form form-section">
                  <Row>
                    <Col lg={"3"}>
@@ -66,13 +61,13 @@ class CareGiverTodo extends Component<RouteComponentProps, any> {
                          <UncontrolledTooltip placement="top" target="search1">
                            {languageTranslation("SEARCH_LABEL")}
                          </UncontrolledTooltip>
-                         {languageTranslation("SEARCH_LABEL")}
+                         <i className="fa fa-search"></i>
                        </span>
                        <span className="btn-filter mr-2" id="reset">
                          <UncontrolledTooltip placement="top" target="reset">
                            {languageTranslation("RESET_LABEL")}
                          </UncontrolledTooltip>
-                         {languageTranslation("RESET_LABEL")}
+                         <i className="fa fa-refresh "></i>
                        </span>
                      </div>
                    </Col>
@@ -135,7 +130,7 @@ class CareGiverTodo extends Component<RouteComponentProps, any> {
                                  </span>
                                </td>
                              </tr>
-                             <tr>
+                             <tr className="table-danger">
                                <td className="date-col">26.08.2015 00:00</td>
                                <td className="name-col">
                                  Generator, Origins and Meaning
@@ -223,10 +218,10 @@ class CareGiverTodo extends Component<RouteComponentProps, any> {
                    </tr>
                  </tbody>
                </Table>
-             </div>
+           
            </Col>
          </Row>
-       </div>
+      
      </>
    );
   }

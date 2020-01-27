@@ -26,6 +26,7 @@ import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { CountryQueries } from "../../../queries";
 import { useLocation } from "react-router";
 import { RegionQueries } from "../../../queries/Region";
+import moment from "moment";
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -130,8 +131,8 @@ const PersonalInfoFormComponent: any = (
 
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
-  const RegYear: Date | undefined = CreatedAt.getFullYear();
-
+  const RegYear: Date | undefined | any = moment(CreatedAt).format("YYYY-MM-DD") 
+  
   return (
     <div className="form-card h-100">
       <Row>

@@ -167,10 +167,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     setRemarksDetail,
     remarksDetail
   } = props;
-  console.log("propsssss", props.values);
-  console.log("values");
-
-  return (
+    return (
     <Row className=" ">
       <div id={"caregiver-add-btn"}>
         <Button
@@ -196,7 +193,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="text-capitalize">
                       <Select
                         placeholder={languageTranslation("REGION", "STATE")}
                         value={regionId ? regionId : undefined}
@@ -732,7 +729,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                             : "text-input"
                         }
                       />
-                      {errors.userName && touched.userName && (
+                      {errors.userName && !userName && touched.userName && (
                         <div className="required-error">{errors.userName}</div>
                       )}
                     </div>

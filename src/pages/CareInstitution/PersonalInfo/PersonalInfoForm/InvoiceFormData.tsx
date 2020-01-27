@@ -119,7 +119,8 @@ const InvoiceFormData: FunctionComponent<FormikProps<
                     )}
                     className="textarea-custom"
                     rows="4"
-                  />
+                    maxLength={250}
+                    />
                 </div>
               </Col>
             </Row>

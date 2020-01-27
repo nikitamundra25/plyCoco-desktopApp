@@ -62,20 +62,23 @@ class Departments extends Component<RouteComponentProps, any> {
                         />
                       </div>
                     </Col>
+                    <Col lg={"6"}>
+                      <Button
+                        color={"primary"}
+                        className={"btn-department mb-2 pull-right mt-2 mr-2"}
+                        id={"add-new-pm-tooltip"}
+                      >
+                        <i className={"fa fa-plus"} />
+                        &nbsp; Add New Departments
+                      </Button>
+                    </Col>
+
                     <Col sm="12">
                       <div className="common-list-card border-0">
                         <div className="d-flex align-items-center justify-content-between px-2">
                           <h6 className="common-list-title  ">
                             {languageTranslation("NAME")}
                           </h6>{" "}
-                          <Button
-                            color={"primary"}
-                            className={"btn-department mb-2"}
-                            id={"add-new-pm-tooltip"}
-                          >
-                            <i className={"fa fa-plus"} />
-                            &nbsp; Add New Departments
-                          </Button>
                         </div>
 
                         <div className="common-list-wrap">

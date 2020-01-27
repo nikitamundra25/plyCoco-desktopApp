@@ -160,7 +160,7 @@ export const Region: FunctionComponent = () => {
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-        <div className="add-region-wrap">
+        <div>
           <Button
             color={!isOpen ? "primary" : "danger"}
             className={"btn-add"}

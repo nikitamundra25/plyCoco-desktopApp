@@ -122,6 +122,7 @@ body {
     display: inline-block;
     cursor: pointer;
     min-width: 65px;
+    font-weight: 600;
     &.active {
       background: $active_green;
       color: $white;
@@ -129,6 +130,77 @@ body {
     &.inactive {
       background: $red;
       color: $white;
+    }
+  }
+  .btn-primary {
+    background: $theme_color;
+    border-color: $theme_color;
+    &:focus,
+    &:hover,
+    &:active,
+    &:disabled {
+      background: $theme_color_hover;
+      border-color: $theme_color_hover;
+      box-shadow: none !important;
+    }
+    &:not(:disabled):not(.disabled):active {
+      background: $theme_color_hover;
+      border-color: $theme_color_hover;
+      box-shadow: none !important;
+    }
+  }
+  .password-btn {
+    height: 25px;
+    padding: 0px 0px;
+    min-width: 225px;
+  }
+  .generate-password {
+    height: 25px;
+    padding: 0px 0px;
+    min-width: 225px;
+    color: $theme_color;
+    background: $white;
+    border-color: $table_border;
+    &:hover {
+      color: $white;
+      background: $theme_color;
+      border-color: $theme_color;
+    }
+  }
+  .edit-remark {
+    cursor: pointer;
+    background: $profile_bg;
+    padding: 3px 6px;
+    color: $light_black;
+    border-radius: 2px;
+    &:hover {
+      background: $profile_bg_hover;
+    }
+  }
+  .view-more-link {
+    color: $light_black;
+    font-weight: 700;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .custom-dropdown {
+    .dropdown-menu {
+      min-width: auto;
+      border-color: $table_border;
+
+      .dropdown-item {
+        padding: 4px 15px;
+        color: $light_black;
+        font-size: $font_12;
+        transition: all 0.3s ease;
+        border-color: $table_border;
+        &:hover {
+          background: $btn_gray;
+          color: $light_black;
+        }
+      }
     }
   }
 
@@ -164,7 +236,6 @@ body {
       padding: 15px;
       background: $card_header_bg;
     }
-   
   }
 
   /* Form - Custom Checkbox */
@@ -282,7 +353,6 @@ body {
     }
   }
 }
-
 
 // new css
 .auth-page {
@@ -825,8 +895,7 @@ html:not([dir="rtl"]) {
   background: $white;
   margin-bottom: 12px;
   border: 1px solid $table_border;
-  
- 
+
   .form-section {
     padding: 15px 12px;
     max-width: 675px;
@@ -865,7 +934,6 @@ html:not([dir="rtl"]) {
   padding: 0px 10px;
   max-height: 200px;
 }
-
 
 .mandatory-text {
   font-weight: 600;
@@ -931,7 +999,7 @@ html:not([dir="rtl"]) {
       bottom: 0px;
     }
   }
-  
+
   .form-group {
     margin-bottom: 18px;
     .col-form-label {
@@ -984,7 +1052,7 @@ html:not([dir="rtl"]) {
         resize: none;
       }
       &.textarea-care-institution {
-        height: 181px;
+        height: 194px;
         overflow-y: auto;
         resize: none;
       }
@@ -1286,7 +1354,7 @@ html:not([dir="rtl"]) {
   .common-list-body {
     background: $white;
     border: 1px solid $table_border;
-    height: 153px;
+    height: 155px;
     overflow-y: auto;
     .common-list {
       li {
@@ -1523,22 +1591,6 @@ html:not([dir="rtl"]) {
       }
     }
 
-    .status-btn {
-      padding: 3px 10px;
-      font-size: $font_12;
-      border-radius: 4px;
-      display: inline-block;
-      cursor: pointer;
-      min-width: 65px;
-      &.active {
-        background: $active_green;
-        color: $white;
-      }
-      &.inactive {
-        background: $red;
-        color: $white;
-      }
-    }
     .action-btn {
       display: flex;
       align-items: center;
@@ -1567,77 +1619,7 @@ html:not([dir="rtl"]) {
     }
   }
 }
-.btn-primary {
-  background: $theme_color;
-  border-color: $theme_color;
-  &:focus,
-  &:hover,
-  &:active,
-  &:disabled {
-    background: $theme_color_hover;
-    border-color: $theme_color_hover;
-    box-shadow: none !important;
-  }
-  &:not(:disabled):not(.disabled):active {
-    background: $theme_color_hover;
-    border-color: $theme_color_hover;
-    box-shadow: none !important;
-  }
-}
-.password-btn {
-  height: 25px;
-  padding: 0px 0px;
-  min-width: 225px;
-}
-.generate-password {
-  height: 25px;
-  padding: 0px 0px;
-  min-width: 225px;
-  color: $theme_color;
-  background: $white;
-  border-color: $table_border;
-  &:hover {
-    color: $white;
-    background: $theme_color;
-    border-color: $theme_color;
-  }
-}
-.edit-remark {
-  cursor: pointer;
-  background: $profile_bg;
-  padding: 3px 6px;
-  color: $light_black;
-  border-radius: 2px;
-  &:hover {
-    background: $profile_bg_hover;
-  }
-}
-.view-more-link {
-  color: $light_black;
-  font-weight: 700;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-}
-.custom-dropdown {
-  .dropdown-menu {
-    min-width: auto;
-    border-color: $table_border;
 
-    .dropdown-item {
-      padding: 4px 15px;
-      color: $light_black;
-      font-size: $font_12;
-      transition: all 0.3s ease;
-      border-color: $table_border;
-      &:hover {
-        background: $btn_gray;
-        color: $light_black;
-      }
-    }
-  }
-}
 .employee-details {
   .employee-title {
     color: $black;
@@ -1656,15 +1638,7 @@ html:not([dir="rtl"]) {
       bottom: 0px;
     }
   }
-  .status-btn {
-    background: $active_green;
-    color: $white;
-    padding: 2px 10px;
-    font-size: $font_12;
-    border-radius: 4px;
-    display: inline-block;
-    font-weight: 600;
-  }
+
   .user-item {
     margin-bottom: 6px;
     display: flex;
@@ -2565,7 +2539,6 @@ html:not([dir="rtl"]) {
           padding: 4px 8px;
           background: $theme_color;
           cursor: pointer;
-
           color: $white;
           border-radius: 4px;
           text-align: center;
@@ -2661,79 +2634,11 @@ html:not([dir="rtl"]) {
   }
 }
 
-//
-.form-inner-list-section {
-  &.fix-height-section {
-    height: 380px;
-    padding-left: 0px;
-    padding-right: 0px;
-    .custom-col {
-      height: calc(100% - 30px);
-    }
-  }
-  height: 100%;
-  background: #f3f3f3;
-  padding: 0px;
-  .custom-col {
-    height: calc(100% - 60px);
-  }
-  .card {
-    height: 100%;
-    position: relative;
-    .custom-select-wrap {
-      position: absolute;
-      bottom: 0px;
-      width: 100%;
-      select {
-        height: 30px;
-        font-size: 13px;
-        font-weight: bold;
-        color: #808080;
-        padding: 0px 10px;
-        border: 1px solid #ccc;
-      }
-    }
-  }
-  .form-inner-list-wrap {
-    .heading {
-      font-size: $font_13;
-      padding: 0px 5px;
-      margin: 5px 0px 0px 0px;
-    }
-    .form-inner-list-content-wrap {
-      ul {
-        border: 1px solid #ccc;
-        padding: 0px 0px 0px 0px;
-        list-style: none;
-        margin: 5px 0px 0px 0px;
-        li {
-          padding: 3px 5px;
-          font-size: $font_12;
-          &:not(:first-child) {
-            border-top: 1px solid #ccc;
-          }
-          &.ative {
-            background: #d1dfed;
-          }
-          &.dective {
-            background: #d3d3d3;
-          }
-          &.pending {
-            background: #ffde82;
-          }
-          &:hover {
-            background: #ededed;
-          }
-        }
-      }
-    }
-  }
-}
-
 // form-flex-block
 .form-flex-block {
   margin: 0 -7.5px;
   display: flex;
+  flex-wrap: wrap;
   @media only screen and (max-width: 991px) {
     flex-flow: column;
   }
@@ -2742,6 +2647,26 @@ html:not([dir="rtl"]) {
     flex: 1 1 20%;
     @media only screen and (max-width: 991px) {
       flex: 1 1 100%;
+    }
+    &.form-attribute-remark-section {
+      flex: 1 1 40%;
+      display: flex;
+      @media only screen and (max-width: 767px) {
+        flex-wrap: wrap;
+      }
+      .remark-div {
+        margin-right: 15px;
+        min-width: 200px;
+        @media only screen and (max-width: 767px) {
+          margin-right: 0px;
+          width: 100%;
+          margin-bottom: 18px;
+        }
+      }
+      .attribute-div {
+        flex: 1;
+        min-width: 290px;
+      }
     }
     .col-form-label {
       white-space: nowrap;
@@ -2970,18 +2895,6 @@ html:not([dir="rtl"]) {
     margin-bottom: 0px;
   }
 }
-.add-region-wrap {
-  position: relative;
-  .region-input {
-    position: absolute;
-    right: 0px;
-    top: 130%;
-    width: 360px;
-    padding: 20px;
-    background: $white;
-    border: 1px solid #ccc;
-  }
-}
 
 // sweet alert  css
 .swal2-popup {
@@ -2995,7 +2908,7 @@ html:not([dir="rtl"]) {
     font-size: 25px;
   }
   .swal2-content {
-    color: #757575;
+    color: $swal_text;
     font-size: $font_15;
   }
   .swal2-actions {
@@ -3004,7 +2917,7 @@ html:not([dir="rtl"]) {
   .swal2-styled.swal2-confirm {
     box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
       0 7px 10px -5px rgba(206, 210, 214, 0.18);
-    background: #d4d4d4 !important;
+    background: $swal_confirm_btn !important;
     color: $black;
     padding: 8px 30px;
     font-size: $font_14;
@@ -3014,7 +2927,7 @@ html:not([dir="rtl"]) {
       outline: none;
       box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
         0 7px 10px -5px rgba(206, 210, 214, 0.18);
-      background: #cbccce !important;
+      background: $swal_confirm_btn_hover !important;
       color: $black;
     }
   }

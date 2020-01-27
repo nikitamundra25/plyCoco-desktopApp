@@ -30,7 +30,7 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
             </div>
           </div>
           <div className="common-list-body">
-            <ul className="common-list list-unstyled">
+            <ul className="common-list list-unstyled mb-0">
               {attributeId
                 ? attributeId.map(
                     ({ label }: IReactSelectInterface, index: number) => {
@@ -40,7 +40,7 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
                 : null}
             </ul>
           </div>
-          <div className="common-list-footer form-section ">
+          <div className="common-list-footer  ">
             <FormGroup className="mb-0">
               <Select
                 placeholder={"Please Select Attribute from the dropdown"}
@@ -49,6 +49,8 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
                 isMulti
                 options={CareGiveAttributes}
                 menuPlacement={"top"}
+                className="attribute-select"
+                classNamePrefix="attribute-inner-select"
               />
             </FormGroup>
           </div>

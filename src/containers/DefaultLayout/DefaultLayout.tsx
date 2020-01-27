@@ -48,8 +48,11 @@ const CareInstitutionSidebar = React.lazy(() =>
     "../../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout"
   )
 );
-
-// Caregiver Sidebar
+const CareGiverTodoLayoutComponent = React.lazy(() =>
+  import(
+    "../../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout"
+  ));
+// Care giver Sidebar
 const CareGiverLayout = ({ component: Component, ...rest }: any) => {
   const [state, setState] = useState({
     show: false
@@ -255,7 +258,7 @@ const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
         <div className="common-detail-page">
           <div className="common-detail-section">
             <div className="sticky-common-header">
-              <CareInstitutionTodoLayoutComponent {...props} />
+              <CareGiverTodoLayoutComponent {...props} />
             </div>
             <div className="common-content flex-grow-1">
               <Component {...props} />

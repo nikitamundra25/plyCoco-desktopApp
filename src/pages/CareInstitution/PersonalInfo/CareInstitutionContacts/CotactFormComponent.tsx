@@ -579,72 +579,74 @@ const CotactFormComponent: any = (
                 </Col>
               </Row>
             </div>
-
-            <div className="form-flex-tile">
-              <div className="d-flex align-items-center justify-content-between">
+            <div className="form-flex-tile form-attribute-remark-section">
+              <div className="remark-div">
                 <div className="font-weight-bold mb-2">
                   {languageTranslation("ADD_REMARKS")}{" "}
                 </div>
+                <Row>
+                  <Col lg={"12"}>
+                    <FormGroup className="mb-0">
+                      <Row>
+                        <Col sm="12">
+                          <div>
+                            <Input
+                              type="textarea"
+                              name={"remark"}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={remark}
+                              placeholder={languageTranslation("REMARKS")}
+                              className="textarea-care-institution"
+                              rows="4"
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
+                  </Col>
+                </Row>
               </div>
-
-              <Row>
-                <Col lg={"12"}>
-                  <FormGroup>
-                    <Row>
-                      <Col sm="12">
-                        <div>
-                          <Input
-                            type="textarea"
-                            name={"remark"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={remark}
-                            placeholder={languageTranslation("REMARKS")}
-                            className="textarea-care-institution"
-                            rows="4"
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </div>
-            <div className="form-flex-tile">
-              <div className="common-list-wrap">
-                <div className="common-list-header d-flex align-items-cente justify-content-between">
-                  <div className="common-list-title align-middle">
-                    {" "}
-                    {languageTranslation("ATTRIBUTES")}
+              <div className="attribute-div">
+                <div className="common-list-wrap">
+                  <div className="common-list-header d-flex align-items-cente justify-content-between">
+                    <div className="common-list-title align-middle">
+                      {" "}
+                      {languageTranslation("ATTRIBUTES")}
+                    </div>
+                    <div className=" align-middle toggle-icon">
+                      <i className="fa fa-angle-down"></i>
+                    </div>
                   </div>
-                  <div className=" align-middle toggle-icon">
-                    <i className="fa fa-angle-down"></i>
+                  <div className="common-list-body">
+                    <ul className="common-list list-unstyled mb-0">
+                      {attributeId && attributeId.length
+                        ? attributeId.map(
+                            (data: IReactSelectInterface, index: number) => {
+                              return <li key={index}>{data.label}</li>;
+                            }
+                          )
+                        : null}
+                    </ul>
                   </div>
-                </div>
-                <div className="common-list-body">
-                  <ul className="common-list list-unstyled">
-                    {attributeId && attributeId.length
-                      ? attributeId.map(
-                          (data: IReactSelectInterface, index: number) => {
-                            return <li key={index}>{data.label}</li>;
-                          }
-                        )
-                      : null}
-                  </ul>
-                </div>
-                <div className="common-list-footer form-section ">
-                  <FormGroup className="mb-0">
-                    <Select
-                      placeholder={"Select Attribute from the dropdown"}
-                      options={CareInstitutionContactAttribute}
-                      value={attributeId ? attributeId : undefined}
-                      onChange={(value: any) =>
-                        handleSelect(value, "attributeId")
-                      }
-                      isMulti
-                      menuPlacement={"top"}
-                    />
-                  </FormGroup>
+                  <div className="common-list-footer form-section ">
+                    <FormGroup className="mb-0">
+                      <Select
+                        placeholder={
+                          "Please Select Attribute from the dropdown"
+                        }
+                        options={CareInstitutionContactAttribute}
+                        value={attributeId ? attributeId : undefined}
+                        onChange={(value: any) =>
+                          handleSelect(value, "attributeId")
+                        }
+                        isMulti
+                        menuPlacement={"top"}
+                        className="attribute-select"
+                        classNamePrefix="attribute-inner-select"
+                      />
+                    </FormGroup>
+                  </div>
                 </div>
               </div>
             </div>

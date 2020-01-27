@@ -53,6 +53,8 @@ class Offer extends Component {
                     placeholder={languageTranslation("REGION", "STATE")}
                     options={State}
                     menuPlacement={"top"}
+                    className="attribute-select"
+                    classNamePrefix="attribute-inner-select"
                   />
                 </FormGroup>
               </div>
@@ -85,6 +87,8 @@ class Offer extends Component {
                     placeholder={languageTranslation("REGION", "STATE")}
                     options={State}
                     menuPlacement={"top"}
+                    className="attribute-select"
+                    classNamePrefix="attribute-inner-select"
                   />
                 </FormGroup>
               </div>
@@ -114,6 +118,8 @@ class Offer extends Component {
                     placeholder={languageTranslation("REGION", "STATE")}
                     options={State}
                     menuPlacement={"top"}
+                    className="attribute-select"
+                    classNamePrefix="attribute-inner-select"
                   />
                 </FormGroup>
               </div>

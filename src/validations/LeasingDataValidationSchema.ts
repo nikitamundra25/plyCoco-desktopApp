@@ -1,6 +1,6 @@
 import * as Yup from "yup";
-import { ILeasingValues } from "../interfaces";
-import { languageTranslation } from "../helpers";
+import { ILeasingValues, IDateResponse } from "../interfaces";
+import { languageTranslation, dateValidator } from "../helpers";
 import { IBANReplaceRegex, IBANlength, workingHours } from "../config";
 
 export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -39,8 +39,22 @@ export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
       (value && value.replace(IBANReplaceRegex, "").length === IBANlength)
   ),
   status: Yup.mixed(),
-  firstDay: Yup.mixed(),
-  lastDay: Yup.mixed(),
+  firstDay: Yup.mixed().test({
+    name: "validate-date",
+    test: function(val) {
+      const { path, createError } = this;
+      const { isValid, message }: IDateResponse = dateValidator(val, "leasing");
+      return !val || isValid || createError({ path, message });
+    }
+  }),
+  lastDay: Yup.mixed().test({
+    name: "validate-date",
+    test: function(val) {
+      const { path, createError } = this;
+      const { isValid, message }: IDateResponse = dateValidator(val, "leasing");
+      return !val || isValid || createError({ path, message });
+    }
+  }),
   monthlyWorkingHrs: Yup.mixed().test(
     "check-num",
     languageTranslation("INVALID_HRS"),

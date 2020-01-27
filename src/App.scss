@@ -1398,7 +1398,6 @@ html:not([dir="rtl"]) {
       border-bottom-width: 1px !important;
       font-weight: 700;
       vertical-align: middle;
-      
     }
   }
 
@@ -1418,7 +1417,7 @@ html:not([dir="rtl"]) {
       width: 180px;
       min-width: 180px;
       @media only screen and (max-width: 991px) {
-        display:none;
+        display: none;
       }
     }
     &.qualifications-th-column {
@@ -1546,8 +1545,7 @@ html:not([dir="rtl"]) {
         border: 1px solid $table_border;
       }
     }
-    
-    
+
     .status-btn {
       padding: 3px 10px;
       font-size: $font_12;
@@ -1726,6 +1724,13 @@ html:not([dir="rtl"]) {
       display: inline-block;
       flex: 1;
       word-break: break-word;
+      position: relative;
+      padding-left: 12px;
+      &::before {
+        content: ":";
+        position: absolute;
+        left: 0px;
+      }
     }
     .profile-img {
       width: 180px;

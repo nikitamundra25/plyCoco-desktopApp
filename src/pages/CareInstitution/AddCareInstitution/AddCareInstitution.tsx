@@ -732,7 +732,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                             : "text-input"
                         }
                       />
-                      {errors.userName && touched.userName && (
+                      {errors.userName && !userName && touched.userName && (
                         <div className="required-error">{errors.userName}</div>
                       )}
                     </div>

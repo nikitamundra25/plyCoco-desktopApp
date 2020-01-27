@@ -1,6 +1,7 @@
-import * as Yup from 'yup';
-import { ILeasingValues } from '../interfaces';
-import { languageTranslation } from '../helpers';
+import * as Yup from "yup";
+import { ILeasingValues } from "../interfaces";
+import { languageTranslation } from "../helpers";
+import { IBANReplaceRegex, IBANlength, workingHours } from "../config";
 
 export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -9,18 +10,18 @@ export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
   placeOfBirth: Yup.string(),
   birthName: Yup.string()
     .trim()
-    .max(20, languageTranslation('FIRSTNAME_MAXLENGTH')),
+    .max(20, languageTranslation("FIRSTNAME_MAXLENGTH")),
   nationality: Yup.mixed(),
   maritalStatus: Yup.mixed(),
   children: Yup.mixed().test(
-    'check-num',
-    languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value)),
+    "check-num",
+    languageTranslation("INVALID_NUMBER"),
+    value => !value || (value && !isNaN(value))
   ),
   factorChildAllowance: Yup.mixed().test(
-    'check-num',
-    languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value)),
+    "check-num",
+    languageTranslation("INVALID_NUMBER"),
+    value => !value || (value && !isNaN(value))
   ),
   healthInsuranceType: Yup.mixed(),
   healthInsuranceProvider: Yup.mixed(),
@@ -29,18 +30,29 @@ export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
   controlId: Yup.string(),
   taxBracket: Yup.string(),
   preoccupation: Yup.mixed(),
-  payrollIBAN: Yup.string(),
+  payrollIBAN: Yup.mixed().test(
+    "len",
+    languageTranslation("IBAN_INVALID"),
+    value =>
+      !value ||
+      !value.replace(IBANReplaceRegex, "") ||
+      (value && value.replace(IBANReplaceRegex, "").length === IBANlength)
+  ),
   status: Yup.mixed(),
   firstDay: Yup.mixed(),
   lastDay: Yup.mixed(),
   monthlyWorkingHrs: Yup.mixed().test(
-    'check-num',
-    languageTranslation('INVALID_HRS'),
-    value => !value || (value && !isNaN(value) && value && value.length < 4),
+    "check-num",
+    languageTranslation("INVALID_HRS"),
+    value =>
+      !value ||
+      (value && !isNaN(value) && value.toString().length < workingHours)
   ),
   weeklyWorkingHrs: Yup.mixed().test(
-    'check-num',
-    languageTranslation('INVALID_HRS'),
-    value => !value || (value && !isNaN(value) && value && value.length < 4),
-  ),
+    "check-num",
+    languageTranslation("INVALID_HRS"),
+    value =>
+      !value ||
+      (value && !isNaN(value) && value.toString().length < workingHours)
+  )
 });

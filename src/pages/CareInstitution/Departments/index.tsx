@@ -419,10 +419,7 @@ class Departments extends Component<RouteComponentProps, any> {
                     </FormGroup>
                   </Col>
                   <Col lg={"12"}>
-                    <Button
-                      color={"primary"}
-                      className={"btn-department px-4 pull-right"}
-                    >
+                    <Button color={"primary"} className={"btn-department px-5"}>
                       <i className={"fa fa-floppy-o"} />
                       &nbsp; Save
                     </Button>
@@ -633,12 +630,14 @@ class Departments extends Component<RouteComponentProps, any> {
                           <li>Nurse/carer</li> */}
                         </ul>
                       </div>
-                      <div className="common-list-footer form-section ">
+                      <div className="common-list-footer ">
                         <FormGroup className="mb-0">
                           <Select
                             placeholder={languageTranslation("REGION", "STATE")}
                             options={State}
                             menuPlacement={"top"}
+                            className="attribute-select"
+                            classNamePrefix="attribute-inner-select"
                           />
                         </FormGroup>
                       </div>
@@ -665,12 +664,14 @@ class Departments extends Component<RouteComponentProps, any> {
                           <li>Nurse/carer</li> */}
                         </ul>
                       </div>
-                      <div className="common-list-footer form-section ">
+                      <div className="common-list-footer">
                         <FormGroup className="mb-0">
                           <Select
                             placeholder={languageTranslation("REGION", "STATE")}
                             options={State}
                             menuPlacement={"top"}
+                            className="attribute-select"
+                            classNamePrefix="attribute-inner-select"
                           />
                         </FormGroup>
                       </div>

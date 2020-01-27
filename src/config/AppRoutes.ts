@@ -44,7 +44,6 @@ export const AppRoutes: IAppRoutes = {
   CARE_INSTITUTION_TODO_HIDE_DONE: "/care-institution-todo/hide-done",
   CARE_INSTITUTION_TODO_HIDE_FUTURE: "/care-institution-todo/hide-future",
   CARE_INSTITUTION_TODO_REQUIREMENT: "/care-institution-todo/requirement",
-
   CARE_GIVER_HIDE_DONE: "/caregiver-todo/hide-done",
   CARE_GIVER_HIDE_FUTURE: "/caregiver-todo/hide-future",
   EMAIL_TEMPLATE_MANAGEMENT: "/email-template-management",

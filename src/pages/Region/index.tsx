@@ -1,33 +1,35 @@
-import React, { useEffect, useState, FunctionComponent } from 'react';
+import React, { useEffect, useState, FunctionComponent } from "react";
 import {
   Button,
   Card,
   CardHeader,
   CardBody,
   Table,
-  Collapse,
-} from 'reactstrap';
-import { useHistory, useLocation } from 'react-router';
-import { AppBreadcrumb } from '@coreui/react';
-import routes from '../../routes/routes';
-import Search from '../../common/SearchFilter';
-import { languageTranslation, logger } from '../../helpers';
-import { RegionQueries } from '../../queries/Region';
-import { ISearchValues } from '../../interfaces';
-import { useLazyQuery } from '@apollo/react-hooks';
-import * as qs from 'query-string';
-import { FormikHelpers, FormikProps, Formik } from 'formik';
-import PaginationComponent from '../../common/Pagination';
-import { NoSearchFound } from '../../common/SearchFilter/NoSearchFound';
-import AddRegion from './AddRegion';
+  Collapse
+} from "reactstrap";
+import { useHistory, useLocation } from "react-router";
+import { AppBreadcrumb } from "@coreui/react";
+import routes from "../../routes/routes";
+import Search from "../../common/SearchFilter";
+import { languageTranslation, logger } from "../../helpers";
+import { RegionQueries } from "../../queries/Region";
+import { ISearchValues } from "../../interfaces";
+import { useLazyQuery } from "@apollo/react-hooks";
+import * as qs from "query-string";
+import { FormikHelpers, FormikProps, Formik } from "formik";
+import PaginationComponent from "../../common/Pagination";
+import { NoSearchFound } from "../../common/SearchFilter/NoSearchFound";
+import AddRegion from "./AddRegion";
+import moment from "moment";
+import Loader from "../../containers/Loader/Loader";
 
 const [, GET_REGIONS] = RegionQueries;
 
 const sortFilter: any = {
-  3: 'name',
-  4: 'name-desc',
-  2: 'oldest',
-  1: 'newest',
+  3: "name",
+  4: "name-desc",
+  2: "oldest",
+  1: "newest"
 };
 
 const pageLimit: number = 25;
@@ -36,8 +38,8 @@ export const Region: FunctionComponent = () => {
   let history = useHistory();
   const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>({
-    searchValue: '',
-    sortBy: { label: 'Newest', value: '1' },
+    searchValue: "",
+    sortBy: { label: "Newest", value: "1" }
   });
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFilterApplied, setIsFilter] = useState<boolean>(false);
@@ -46,48 +48,55 @@ export const Region: FunctionComponent = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   // To get emplyee list from db
-  const [fetchRegionList, { data, loading }] = useLazyQuery<any>(GET_REGIONS);
+  const [fetchRegionList, { data, loading, refetch }] = useLazyQuery<any>(
+    GET_REGIONS,
+    {
+      fetchPolicy: "no-cache"
+    }
+  );
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     const query = qs.parse(search);
-    let searchBy: string = '';
-    let sortBy: any = { label: '', value: '' };
+    let searchBy: string = "";
+    let sortBy: any = { label: "", value: "" };
     // To handle display and query param text
     let sortByValue: any = Object.keys(sortFilter).find(
-      (key: any) => sortFilter[key] === query.sortBy,
+      (key: any) => sortFilter[key] === query.sortBy
     );
     logger(sortByValue);
     logger(typeof sortByValue);
-    if (sortByValue === '3') {
-      sortBy.label = 'A-Z';
+    if (sortByValue === "3") {
+      sortBy.label = "A-Z";
     }
-    if (sortByValue === '4') {
-      sortBy.label = 'Z-A';
+    if (sortByValue === "4") {
+      sortBy.label = "Z-A";
     }
-    if (sortByValue === '2') {
-      sortBy.label = 'Oldest';
+    if (sortByValue === "2") {
+      sortBy.label = "Oldest";
     }
-    if (sortByValue === '1') {
-      sortBy.label = 'Newest';
+    if (sortByValue === "1") {
+      sortBy.label = "Newest";
     }
     if (query) {
-      searchBy = query.search ? (query.search as string) : '';
+      searchBy = query.search ? (query.search as string) : "";
       sortBy = sortByValue
         ? {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy,
-              ) || '',
+                (key: any) => sortFilter[key] === query.sortBy
+              ) || ""
           }
-        : { label: 'Newest', value: '1' };
+        : { label: "Newest", value: "1" };
       setSearchValues({
         searchValue: searchBy,
-        sortBy,
+        sortBy
       });
       setIsFilter(
-        searchBy !== '' || isActive !== undefined || sortBy !== undefined,
+        searchBy !== "" ||
+          query.status !== undefined ||
+          query.sortBy !== undefined
       );
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -99,17 +108,17 @@ export const Region: FunctionComponent = () => {
         limit: pageLimit,
         page: query.page ? parseInt(query.page as string) : 1,
         isActive: query.status
-          ? query.status === 'active'
-            ? { label: 'Active', value: 'true' }
-            : { label: 'Deactive', value: 'false' }
-          : '',
-      },
+          ? query.status === "active"
+            ? { label: "Active", value: "true" }
+            : { label: "Deactive", value: "false" }
+          : ""
+      }
     });
   }, [search]); // It will run when the search value gets changed
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>,
+    { setSubmitting }: FormikHelpers<ISearchValues>
   ) => {
     let params: {
       [key: string]: any;
@@ -118,63 +127,60 @@ export const Region: FunctionComponent = () => {
     if (searchValue) {
       params.search = searchValue;
     }
-    // if (isActive && isActive.value !== '') {
-    //   params.status = isActive.value === 'true' ? 'active' : 'deactive';
-    // }
-    if (sortBy && sortBy.value !== '') {
-      params.sortBy = sortBy.value !== '' ? sortFilter[sortBy.value] : '';
+    if (sortBy && sortBy.value !== "") {
+      params.sortBy = sortBy.value !== "" ? sortFilter[sortBy.value] : "";
     }
-    const path = [pathname, qs.stringify(params)].join('?');
+    const path = [pathname, qs.stringify(params)].join("?");
     history.push(path);
-    logger('path', path);
+    logger("path", path);
   };
 
   const onPageChanged = (currentPage: number) => {
-    logger('onPageChanged', currentPage);
+    logger("onPageChanged", currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?',
+      "?"
     );
     history.push(path);
   };
 
   const {
-    searchValue = '',
+    searchValue = "",
     sortBy = undefined,
-    isActive = undefined,
+    isActive = undefined
   } = searchValues ? searchValues : {};
 
   const values: ISearchValues = {
     searchValue,
     isActive,
-    sortBy,
+    sortBy
   };
   let count = (currentPage - 1) * pageLimit + 1;
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
-        <div className='add-region-wrap'>
+        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+        <div>
           <Button
-            color={!isOpen ? 'primary' : 'danger'}
-            className={'btn-add'}
-            id={'add-new-pm-tooltip'}
+            color={!isOpen ? "primary" : "danger"}
+            className={"btn-add"}
+            id={"add-new-pm-tooltip"}
             onClick={toggle}
           >
             {!isOpen ? (
               <>
-                <i className={'fa fa-plus'} />
-                &nbsp; {languageTranslation('ADD_NEW_REGION_BUTTON')}
+                <i className={"fa fa-plus"} />
+                &nbsp; {languageTranslation("ADD_NEW_REGION_BUTTON")}
               </>
             ) : (
-              languageTranslation('CANCEL')
+              languageTranslation("CANCEL")
             )}
           </Button>
         </div>
       </CardHeader>
       <CardBody>
-        <Collapse isOpen={isOpen} className='region-input-section'>
-          <AddRegion toggle={toggle} />
+        <Collapse isOpen={isOpen} className="region-input-section">
+          <AddRegion toggle={toggle} refetch={refetch} />
         </Collapse>
         <div>
           <Formik
@@ -182,31 +188,39 @@ export const Region: FunctionComponent = () => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} label={'region'} />
+              <Search {...props} label={"region"} />
             )}
           />
-          {/* <Search /> */}
         </div>
         <Table bordered hover responsive>
-          <thead className='thead-bg'>
+          <thead className="thead-bg">
             <tr>
-              <th className={'text-center'}>{languageTranslation('S_NO')}</th>
-              <th>{languageTranslation('REGION_NAME')}</th>
-              <th className='text-center'>
-                {languageTranslation('NUMBER_OF_CANSTITUTION')}
+              <th className={"text-center"}>{languageTranslation("S_NO")}</th>
+              <th className="region-th-column">
+                {languageTranslation("REGION_NAME")}
               </th>
-              <th className='text-center'>
-                {languageTranslation('NUMBER_OF_CARE_GIVERS')}
+              <th className="text-center">
+                {languageTranslation("NUMBER_OF_CANSTITUTION")}
               </th>
-              <th className='text-center'>
-                {languageTranslation('CURRENT_ONGOING_APPOINTMENTS_COUNTER')}
+              <th className="text-center">
+                {languageTranslation("NUMBER_OF_CARE_GIVERS")}
+              </th>
+              <th className="text-center">
+                {languageTranslation("CURRENT_ONGOING_APPOINTMENTS_COUNTER")}
+              </th>
+              <th className="date-th-column">
+                {languageTranslation("CREATED_DATE")}
               </th>
               {/* <th className="text-center">Action</th> */}
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <p>Loading ...</p>
+              <tr>
+                <td className={"table-loader"} colSpan={6}>
+                  <Loader />
+                </td>
+              </tr>
             ) : data &&
               data.getRegions &&
               data.getRegions.regionData &&
@@ -214,38 +228,33 @@ export const Region: FunctionComponent = () => {
               data.getRegions.regionData.map((region: any, index: number) => {
                 return (
                   <tr key={index}>
-                    <td className={'text-center'}>{count++}</td>
-                    <td className={'text-capitalize'}>{region.regionName}</td>
-                    <td className='text-center'>0</td>
-                    <td className='text-center'>0</td>
-                    <td className='text-center'>0</td>
-                    {/* <td>
-                    <div className="action-btn">
-                      <ButtonTooltip
-                        id={`careGiverDelete${index}`}
-                        message={languageTranslation("REGION_DELETE")}
-                      >
-                        <i className="fa fa-trash"></i>
-                      </ButtonTooltip>
-                    </div>
-                  </td> */}
+                    <td className={"text-center"}>{count++}</td>
+                    <td className="text-capitalize">{region.regionName}</td>
+                    <td className="text-center">0</td>
+                    <td className="text-center">0</td>
+                    <td className="text-center">0</td>
+                    <td className="date-th-column ">
+                      {region && region.createdAt
+                        ? moment(region.createdAt).format("lll")
+                        : ""}
+                    </td>
                   </tr>
                 );
               })
             ) : (
-              <tr className={'text-center no-hover-row'}>
-                <td colSpan={5} className={'pt-5 pb-5'}>
+              <tr className={"text-center no-hover-row"}>
+                <td colSpan={6} className={"pt-5 pb-5"}>
                   {isFilterApplied ? (
                     <NoSearchFound />
                   ) : (
-                    <div className='no-data-section'>
-                      <div className='no-data-icon'>
-                        <i className='icon-ban' />
+                    <div className="no-data-section">
+                      <div className="no-data-icon">
+                        <i className="icon-ban" />
                       </div>
-                      <h4 className='mb-1'>
-                        Currently there are no employee Added.{' '}
+                      <h4 className="mb-1">
+                        Currently there are no regions added.{" "}
                       </h4>
-                      <p>Please click above button to add new. </p>
+                      <p>Please click above button to add new.</p>
                     </div>
                   )}
                 </td>

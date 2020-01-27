@@ -23,7 +23,7 @@ const ADD_EMPLOYEE = gql`
         address2
         regionId
       }
-      region {
+      regions {
         regionName
         id
       }
@@ -54,7 +54,7 @@ const GET_EMPLOYEE_BY_ID = gql`
         zipCode
         joiningDate
       }
-      region {
+      regions {
         regionName
         id
       }
@@ -75,6 +75,7 @@ const UPDATE_EMPLOYEE = gql`
       id
       firstName
       lastName
+      userName
       email
       phoneNumber
       profileThumbnailImage
@@ -89,7 +90,7 @@ const UPDATE_EMPLOYEE = gql`
         address1
         address2
       }
-      region {
+      regions {
         regionName
         id
       }
@@ -141,7 +142,7 @@ const GET_EMPLOYEES = gql`
           address2
           regionId
         }
-        region {
+        regions {
           regionName
           id
         }

@@ -13,7 +13,7 @@ export interface IEmployeeFormValues {
   additionalText: string;
   address1: string;
   address2: string;
-  country?: IReactSelectInterface;
+  country?: IReactSelectInterface | undefined;
   state?: IReactSelectInterface;
   region?: IReactSelectInterface[];
   zip: string;
@@ -64,4 +64,6 @@ export interface IEmployee {
   isActive: boolean;
   profileThumbnailImage: string;
   createdAt: string;
+  regions: string[];
+  lastName: string;
 }

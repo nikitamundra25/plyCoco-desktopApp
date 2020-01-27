@@ -38,6 +38,7 @@ export interface IAppRoutes {
   CARE_INSTITUION_VIEW: string;
   CAREGIVER_TODO: string;
   CARE_INSTITUTION_TODO: string;
+  DOCUMENT_TEMPLATE_WORKING: string;
   // CAREGIVER_TODO: string;
   CARE_INSTITUTION_TODO_HIDE_DONE: string;
   CARE_INSTITUTION_TODO_HIDE_FUTURE: string;
@@ -45,4 +46,5 @@ export interface IAppRoutes {
   CARE_GIVER_HIDE_DONE: string;
   CARE_GIVER_HIDE_FUTURE: string;
   EMAIL_TEMPLATE_MANAGEMENT:string;
+  CARE_GIVER_VIEW: string;
 }

@@ -15,10 +15,12 @@ import { toast } from 'react-toastify';
 import { AppRoutes } from '../../../config';
 
 const [ADD_REGION, GET_REGIONS] = RegionQueries;
+let toastId: any = null;
 
-export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
+export const AddRegion: FunctionComponent<{
   toggle: () => void;
-}) => {
+  refetch: any;
+}> = (props: { toggle: () => void; refetch: any }) => {
   // get id from params
   let { id } = useParams();
   let history = useHistory();
@@ -33,28 +35,42 @@ export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
 
   const handleSubmit = async (
     values: IRegionFormValue,
-    { setSubmitting }: FormikHelpers<IRegionFormValue>,
+    {
+      setSubmitting,
+      setFieldValue,
+      setFieldTouched,
+    }: FormikHelpers<IRegionFormValue>,
   ) => {
     const { regionName } = values;
     try {
       let regionInput: IRegionFormValue = {
         regionName,
       };
+      toast.dismiss();
       await addRegion({
         variables: {
           regionInput,
         },
       });
-      toast.success('Region Added Successfully');
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success('Region Added Successfully.');
+      }
       props.toggle();
+      props.refetch();
       history.push(AppRoutes.REGION);
+      setTimeout(() => {
+        setFieldValue('regionName', '');
+        setFieldTouched('regionName', false);
+      }, 2000);
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
         .replace('Validation error: ', '')
         .replace('GraphQL error: ', '');
       // setFieldError('email', message);
-      toast.error(message);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
     }
 
     setSubmitting(false);
@@ -64,6 +80,7 @@ export const AddRegion: FunctionComponent<{ toggle: () => void }> = (props: {
   return (
     <Formik
       initialValues={values}
+      enableReinitialize={true}
       onSubmit={handleSubmit}
       children={(props: FormikProps<IRegionFormValue>) => (
         <RegionFormComponent {...props} />

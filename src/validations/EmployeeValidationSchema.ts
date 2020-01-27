@@ -1,14 +1,15 @@
 import * as Yup from "yup";
 import { IEmployeeFormValues, IDateResponse } from "../interfaces";
 import {
-  nameRegExp,
   fileSize,
   SupportedFormats,
   telephoneReqExp,
   IBANlength,
   telMin,
   telMax,
-  IBANReplaceRegex
+  IBANReplaceRegex,
+  userNameReplaceRegex,
+  emailRegex
 } from "../config";
 import { languageTranslation, logger, dateValidator } from "../helpers";
 export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -17,23 +18,25 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
 >> = Yup.object().shape<IEmployeeFormValues>({
   email: Yup.string()
     .trim()
+    // .matches(emailRegex, "Email invalidddddddd")
+    .max(50, languageTranslation("EMAIL_MAXLENGTH"))
     .email(languageTranslation("VALID_EMAIL"))
     .required(languageTranslation("REQUIRED_EMAIL")),
   firstName: Yup.string()
     .trim()
     .min(3, languageTranslation("NAME_MINLENGTH"))
     .max(20, languageTranslation("FIRSTNAME_MAXLENGTH"))
-    .matches(nameRegExp, languageTranslation("FIRSTNAME_SPECIALCHARACTER"))
     .required(languageTranslation("FIRSTNAME_REQUIRED")),
   lastName: Yup.string()
     .trim()
     .max(20, languageTranslation("LASTNAME_MAXLENGTH"))
     .min(3, languageTranslation("NAME_MINLENGTH"))
-    .matches(nameRegExp, languageTranslation("LASTNAME_SPECIALCHARACTER"))
     .required(languageTranslation("LASTNAME_REQUIRED")),
   userName: Yup.string()
     .trim()
+    .max(50, languageTranslation("USERNAME_MAXLENGTH"))
     .required(languageTranslation("USERNAME_REQUIRED")),
+  // .matches(userNameReplaceRegex, "Invalid username"),
   accountHolderName: Yup.string()
     .trim()
     .min(3, languageTranslation("NAME_MINLENGTH")),
@@ -42,6 +45,7 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .min(3, languageTranslation("NAME_MINLENGTH")),
   BIC: Yup.string(),
   additionalText: Yup.string(),
+  // .max(255, languageTranslation("REMARK_LIMIT")),
   address1: Yup.string(),
   address2: Yup.string(),
   zip: Yup.string(),

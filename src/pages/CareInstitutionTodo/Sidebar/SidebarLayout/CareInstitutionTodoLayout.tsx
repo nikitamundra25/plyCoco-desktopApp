@@ -10,22 +10,22 @@ class CareInstitutionTodoLayout extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      activeTab: "1",
-      error: false
+      activeTab: '1',
+      error: false,
     };
   }
   onToggle = (tab: any) => {
     const { activeTab } = this.state;
     if (activeTab !== tab) {
       this.setState({
-        activeTab: tab.toString()
+        activeTab: tab.toString(),
       });
     }
   };
 
   render() {
     const {
-      location: { pathname }
+      location: { pathname },
     } = this.props;
     return (
       <div className="common-topheader d-flex align-items-center pb-2 px-2">

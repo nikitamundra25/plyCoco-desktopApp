@@ -64,12 +64,12 @@ export default {
     {
       name: languageTranslation("MENU_DOCUMENT_UPLOADS"),
       icon: "icon-upload",
-      url: AppRoutes.HOME,
+      url: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
       children: [
         {
           name: languageTranslation("MENU_DOCUMENT_WORKING_PROOF"),
           icon: "icon-working-list",
-          url: AppRoutes.HOME
+          url: AppRoutes.DOCUMENT_TEMPLATE_WORKING
         },
         {
           name: languageTranslation("MENU_DOCUMENT_STICK_NOTES"),
@@ -83,11 +83,11 @@ export default {
       icon: "icon-cms",
       url: AppRoutes.HOME,
       children: [
-        {
-          name: languageTranslation("MENU_FURTHER_BULK_EMAIL_CANSTITUTION"),
-          icon: "icon-bulk-email",
-          url: AppRoutes.HOME
-        },
+        // {
+        //   name: languageTranslation("MENU_FURTHER_BULK_EMAIL_CANSTITUTION"),
+        //   icon: "icon-bulk-email",
+        //   url: AppRoutes.HOME
+        // },
         {
           name: languageTranslation("MENU_FURTHER_EMAIL_TEMPLATES"),
           icon: "icon-email-templates",

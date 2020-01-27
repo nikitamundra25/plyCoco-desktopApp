@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from './Constant';
+import { IReactSelectInterface } from "./Constant";
 
 export interface ICareInstitutionFormValues {
   salutation?: IReactSelectInterface;
@@ -24,26 +24,29 @@ export interface ICareInstitutionFormValues {
   id?: number;
   salt?: String;
   userRole?: String;
-  qualificationId?: IReactSelectInterface;
-  attributeId?: IReactSelectInterface;
+  qualificationId?: IReactSelectInterface[];
+  attributeId?: IReactSelectInterface[] | undefined | any;
   isActive?: Boolean;
   isDeleted?: Boolean;
   zipCode?: string;
   countryId?: string;
   stateId?: string;
-  regionId?: number;
+  regionId?: IReactSelectInterface;
   remarks?: [ICareInstitutionRemarks] | undefined | any;
-  linkedTo?: string;
+  linkedTo?: IReactSelectInterface;
   anonymousName?: string;
   anonymousName2?: string;
   careGiverCommission?: string;
   doctorCommission?: string;
-  leasingPriceListId?: IReactSelectInterface;
+  leasingPriceListId?: IReactSelectInterface | undefined;
   invoiceType?: IReactSelectInterface;
   interval?: IReactSelectInterface;
   emailInvoice?: string;
   addressInvoice?: string;
   isArchive?: Boolean;
+  remarkData?: string;
+  remarkValue?: string;
+  // CareInstitutionList?:IReactSelectInterface
 }
 
 export interface ICareInstitutionValidationSchema {
@@ -52,7 +55,12 @@ export interface ICareInstitutionValidationSchema {
   lastName: string;
   userName: string;
   mobileNumber: number;
-  website: string;
+  phoneNumber?: number;
+  careGiverCommission?: string;
+  doctorCommission?: string;
+  fax?: number;
+  website?: string | null;
+  remarksViewable?: string | null;
 }
 
 export interface ICareInstitutionContactValidationSchema {
@@ -60,6 +68,9 @@ export interface ICareInstitutionContactValidationSchema {
   firstName: string;
   lastName: string;
   mobileNumber: number;
+  phoneNumber: number;
+  phoneNumber2: number;
+  faxNumber: number;
 }
 
 export interface ICareInstitutionContact {
@@ -88,6 +99,7 @@ export interface ICareInstitutionContact {
   groupAttributes?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  attributeId?: IReactSelectInterface[];
 }
 
 export interface ICareInstitutionListDataInterface {
@@ -98,6 +110,7 @@ export interface ICareInstitutionListDataInterface {
   userName: string;
   phoneNumber: string;
   isActive: boolean;
+  createdAt: string;
   canstitution: ICareInstitutionObjectInterface;
 }
 

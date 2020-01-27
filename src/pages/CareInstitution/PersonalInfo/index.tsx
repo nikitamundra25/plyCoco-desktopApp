@@ -10,18 +10,18 @@ import {
   ICountries,
   IStates,
 } from '../../../interfaces';
-import {
-  CareInstituionValidationSchema,
-  CareInstituionContactValidationSchema,
-} from '../../../validations';
+import { CareInstituionValidationSchema } from '../../../validations';
 import { useParams } from 'react-router';
 import { CareInstitutionQueries, CountryQueries } from '../../../queries';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
 import { logger, languageTranslation } from '../../../helpers';
-import { async } from 'rxjs/internal/scheduler/async';
 import CareInstitutionContacts from './CareInstitutionContacts';
+import { RegionQueries } from '../../../queries/Region';
 
+let toastId: any;
+
+const [, GET_REGIONS] = RegionQueries;
 const [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
@@ -48,12 +48,24 @@ const PersonalInformation: any = (props: any) => {
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
 
   const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-
+  const [remarksDetail, setRemarksDetail] = useState<any>([]);
   //To get country details
   const { data: countries, loading } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
   );
+  // To get region list
+  const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
+    GET_REGIONS,
+  );
+  useEffect(() => {
+    // call query
+    fetchRegionList({
+      variables: {
+        limit: 25,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     if (props.isUserChange) {
@@ -82,17 +94,31 @@ const PersonalInformation: any = (props: any) => {
       );
       const contactsData: any[] =
         careInstituionDetails.getCareInstitution.contact;
-      contactsData.push({
-        email: '',
-        firstName: '',
-        lastName: '',
-        userName: '',
-        phoneNumber: '',
-        mobileNumber: '',
-        faxNumber: '',
-        comments: '',
-        groupAttributes: '',
-      });
+      if (contactsData && !contactsData.length) {
+        contactsData.push({
+          email: '',
+          firstName: '',
+          lastName: '',
+          userName: '',
+          phoneNumber: '',
+          mobileNumber: '',
+          faxNumber: '',
+          comments: '',
+          groupAttributes: '',
+        });
+      } else if (contactsData && contactsData[contactsData.length - 1].id) {
+        contactsData.push({
+          email: '',
+          firstName: '',
+          lastName: '',
+          userName: '',
+          phoneNumber: '',
+          mobileNumber: '',
+          faxNumber: '',
+          comments: '',
+          groupAttributes: '',
+        });
+      }
       setContacts(contactsData);
     }
   }, [careInstituionDetails]);
@@ -111,71 +137,17 @@ const PersonalInformation: any = (props: any) => {
     }
   }, [careInstituionDetails]);
 
-  const [addContact, { error: contactError, data: contactData }] = useMutation<{
-    addContact: ICareInstitutionFormValues;
-  }>(ADD_NEW_CONTACT_CARE_INSTITUTION);
-
-  const handleContactSubmit = async (
-    values: ICareInstitutionContact,
-    { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
-  ) => {
-    try {
-      //to set submit state to false after successful signup
-      setSubmitting(false);
-      const contactInput: any = {
-        userId: parseInt(Id),
-        gender: values && values.gender ? values.gender.value : '',
-        title: values.title,
-        salutation: values && values.salutation ? values.salutation.value : '',
-        firstName: values.firstName,
-        surName: values.lastName,
-        contactType:
-          values && values.contactType ? values.contactType.value : '',
-        street: values.street,
-        city: values.city,
-        zip: values.zipCode,
-        countryId: values && values.country ? values.country.value : '',
-        phoneNumber: values.phoneNumber,
-        phoneNumber2: values.phoneNumber,
-        fax: values.faxNumber,
-        mobileNumber: values.mobileNumber,
-        email: values.email,
-        remark: values.remark,
-      };
-      await addContact({
-        variables: {
-          contactInput: contactInput,
-        },
-      });
-      toast.success(languageTranslation('NEW_CONTACT_ADD_CARE_INSTITUTION'));
-    } catch (error) {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      // setFieldError('email', message);
-      toast.error(message);
-      logger(error);
-    }
-  };
-
-  const contactFormValues: ICareInstitutionContact = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    userName: '',
-    phoneNumber: '',
-    mobileNumber: '',
-    faxNumber: '',
-    comments: '',
-    groupAttributes: '',
-  };
-
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
   ) => {
     //to set submit state to false after successful signup
+    let AttributeData: string[] = [];
+    if (values.attributeId && values.attributeId.length) {
+      values.attributeId.map((attribute: IReactSelectInterface) =>
+        AttributeData.push(attribute.label),
+      );
+    }
 
     try {
       const careInstitutionInput: any = {
@@ -190,12 +162,21 @@ const PersonalInformation: any = (props: any) => {
         anonymousName: values.anonymousName,
         anonymousName2: values.anonymousName2,
         remarksViewable: values.remarksViewable,
+        fax: values.fax,
         street: values.street,
         zipCode: values.zipCode,
         title: values.title,
-        countryId: values && values.country ? values.country.value : '',
-        stateId: values && values.state ? values.state.value : '',
-        remarks: values.remarks,
+        city: values.city,
+        countryId:
+          values && values.country ? parseInt(values.country.value) : null,
+        stateId: values && values.state ? parseInt(values.state.value) : null,
+        remarks: remarksDetail,
+        linkedTo:
+          values.linkedTo && values.linkedTo.value
+            ? values.linkedTo.value
+            : null,
+        regionId:
+          values && values.regionId ? `{${values.regionId.value}}` : null,
         website: values.website,
         email: values.email,
         userName: values.userName,
@@ -206,8 +187,21 @@ const PersonalInformation: any = (props: any) => {
         interval: values && values.interval ? values.interval.value : '',
         emailInvoice: values.emailInvoice,
         addressInvoice: values.addressInvoice,
+        qualificationId:
+          values.qualificationId && values.qualificationId.length
+            ? `{${values.qualificationId
+              .map(
+                (qualification: IReactSelectInterface) => qualification.value,
+              )
+              .join(', ')}}`
+            : null,
+        attributes: AttributeData,
+        leasingPriceListId:
+          values.leasingPriceListId && values.leasingPriceListId.value
+            ? values.leasingPriceListId.value
+            : null,
       };
-      setSubmitting(false);
+      // setSubmitting(false);
       toast.success(languageTranslation('CARE_INSTI_UPDATE_SUCCESS'));
       await updateCareInstitution({
         variables: {
@@ -229,16 +223,64 @@ const PersonalInformation: any = (props: any) => {
   let Data: IReactSelectInterface;
   let values: ICareInstitutionFormValues;
   let countryData: Number;
+  let regionId: String;
+  let linkedToId: String;
+
+  useEffect(() => {
+    if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
+      const { getCareInstitution } = careInstituionDetails;
+      const { canstitution } = getCareInstitution;
+      const { remarks } = canstitution;
+      setRemarksDetail(remarks);
+    }
+  }, [careInstituionDetails]);
+
+  // Save remarks into DB
+  const saveRemark = async (message: string, remarksData: any) => {
+    if (id) {
+      try {
+        await updateCareInstitution({
+          variables: {
+            id: parseInt(Id),
+            careInstitutionInput: {
+              remarks: remarksData ? remarksData : remarksDetail, // send remarksData in case of delete
+            },
+            isRemarkAdded: true,
+          },
+        });
+        if (!toast.isActive(toastId)) {
+          toast.success(message);
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        // setFieldError('email', message);
+        toast.error(message);
+      }
+    }
+  };
+
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
 
     countryData = getCareInstitution.canstitution
       ? getCareInstitution.canstitution.countryId
       : '';
+    regionId =
+      getCareInstitution.regions && getCareInstitution.regions.length
+        ? getCareInstitution.regions[0].id
+        : '';
+
+    linkedToId = getCareInstitution.canstitution
+      ? getCareInstitution.canstitution.linkedTo
+      : '';
+
     let userSelectedCountry: any = {};
     if (countries && countries.countries) {
       const userCountry = countries.countries.filter(
-        (x: any) => x.id === countryData,
+        (x: any) => parseInt(x.id) === countryData,
       );
 
       if (userCountry && userCountry.length) {
@@ -249,16 +291,44 @@ const PersonalInformation: any = (props: any) => {
       }
     }
 
+    let userSelectedRegion: any = {};
+
+    if (
+      RegionData &&
+      RegionData.getRegions &&
+      RegionData.getRegions.regionData.length
+    ) {
+      const userRegion = RegionData.getRegions.regionData.filter(
+        (x: any) => x.id === regionId,
+      );
+
+      if (userRegion && userRegion.length) {
+        userSelectedRegion = {
+          label: userRegion[0].regionName,
+          value: userRegion[0].id,
+        };
+      }
+    }
+
+    let UserSelectedLinkedTo: any = {};
+
+    if (props.CareInstitutionList) {
+      const userSelectedLinkedTo = props.CareInstitutionList.filter(
+        (x: any) => x.value === linkedToId,
+      );
+      if (userSelectedLinkedTo && userSelectedLinkedTo.length) {
+        UserSelectedLinkedTo = userSelectedLinkedTo[0];
+      }
+    }
+
     const stateData = getCareInstitution.canstitution
       ? getCareInstitution.canstitution.stateId
       : '';
     let userSelectedState: any = {};
-    console.log('statesData.states', stateData);
     if (statesData && statesData.states) {
       const userState = statesData.states.filter(
-        (x: any) => x.id === stateData,
+        (x: any) => parseInt(x.id) === stateData,
       );
-      console.log('userState', userState);
       if (userState && userState.length) {
         userSelectedState = {
           label: userState[0].name,
@@ -266,16 +336,32 @@ const PersonalInformation: any = (props: any) => {
         };
       }
     }
+    let selectedAttributes: IReactSelectInterface[] = [];
+    if (
+      getCareInstitution &&
+      getCareInstitution.canstitution &&
+      getCareInstitution.canstitution.attributes &&
+      getCareInstitution.canstitution.attributes.length
+    ) {
+      getCareInstitution.canstitution.attributes.map((attData: string) => {
+        selectedAttributes.push({
+          label: attData,
+          value: attData,
+        });
+      });
+    }
 
     values = {
       id: Id,
       email: getCareInstitution.email,
       firstName: getCareInstitution.firstName,
       lastName: getCareInstitution.lastName,
-      gender: {
-        label: getCareInstitution ? getCareInstitution.gender : '',
-        value: getCareInstitution ? getCareInstitution.gender : '',
-      },
+      gender: getCareInstitution.gender
+        ? {
+          label: getCareInstitution ? getCareInstitution.gender : '',
+          value: getCareInstitution ? getCareInstitution.gender : null,
+        }
+        : undefined,
       userName: getCareInstitution.userName,
       phoneNumber: getCareInstitution.phoneNumber,
       careGiverCommission: getCareInstitution.canstitution
@@ -295,17 +381,21 @@ const PersonalInformation: any = (props: any) => {
       zipCode: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.zipCode
         : '',
-      country: {
-        label: userSelectedCountry.label,
-        value: userSelectedCountry.value,
-      },
-      state: { label: userSelectedState.label, value: userSelectedState.value },
+      country: userSelectedCountry.value
+        ? {
+          label: userSelectedCountry.value ? userSelectedCountry.label : null,
+          value: userSelectedCountry.value ? userSelectedCountry.value : null,
+        }
+        : undefined,
+      state: userSelectedState.value
+        ? { label: userSelectedState.label, value: userSelectedState.value }
+        : undefined,
       stateId: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.stateId
         : '',
-      remarks: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.remarks
-        : '',
+      // remarks: getCareInstitution.canstitution
+      //   ? getCareInstitution.canstitution.remarks
+      //   : "",
       title: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.title
         : '',
@@ -321,27 +411,41 @@ const PersonalInformation: any = (props: any) => {
       remarksViewable: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.remarksViewable
         : '',
-      invoiceType: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.invoiceType
-        : '',
+      invoiceType: getCareInstitution.canstitution.invoiceType
+        ? {
+          label: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.invoiceType
+            : '',
+          value: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.invoiceType
+            : '',
+        }
+        : undefined,
       emailInvoice: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.emailInvoice
         : '',
       addressInvoice: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.addressInvoice
         : '',
-      interval: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.interval
-        : '',
-      linkedTo: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.linkedTo
-        : '',
+      interval: getCareInstitution.canstitution.interval
+        ? {
+          label: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.interval
+            : '',
+          value: getCareInstitution.canstitution
+            ? getCareInstitution.canstitution.interval
+            : '',
+        }
+        : undefined,
       doctorCommission: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.doctorCommission
         : '',
       leasingPriceListId: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.leasingPriceListId
-        : '',
+        ? {
+          label: getCareInstitution.canstitution.leasingPriceListId,
+          value: getCareInstitution.canstitution.leasingPriceListId,
+        }
+        : undefined,
       isArchive: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.isArchive
         : '',
@@ -354,14 +458,32 @@ const PersonalInformation: any = (props: any) => {
       street: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.street
         : '',
+      regionId: userSelectedRegion.value ? userSelectedRegion : undefined,
       city: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.city
         : '',
+      website: getCareInstitution.canstitution
+        ? getCareInstitution.canstitution.website
+        : '',
+      linkedTo: UserSelectedLinkedTo ? UserSelectedLinkedTo : null,
+      attributeId: selectedAttributes,
+      remarkData: '',
     };
+    const qualificationsData: IReactSelectInterface[] | undefined = [];
+    const attributeData: IReactSelectInterface[] = [];
+    if (getCareInstitution.qualifications) {
+      getCareInstitution.qualifications.forEach(
+        ({ attributeName, id }: any) => {
+          qualificationsData.push({ label: attributeName, value: id });
+        },
+      );
+    }
+    values.qualificationId = qualificationsData;
+
     Data = {
       label: `${getCareInstitution.firstName} ${''} ${
         getCareInstitution.lastName
-      }`,
+        }`,
       value: Id,
     };
   } else {
@@ -376,6 +498,7 @@ const PersonalInformation: any = (props: any) => {
       companyName: '',
       street: '',
       city: '',
+      remarkData: '',
     };
   }
 
@@ -394,7 +517,8 @@ const PersonalInformation: any = (props: any) => {
     }
   }, []);
 
-  logger(contacts, 'contact');
+  const { qualificationList } = props;
+  const CareInstitutionLinkedTo = props.CareInstitutionList;
   return (
     <Form className='form-section forms-main-section'>
       <Formik
@@ -402,17 +526,26 @@ const PersonalInformation: any = (props: any) => {
         enableReinitialize={true}
         onSubmit={handleSubmit}
         children={(props: FormikProps<ICareInstitutionFormValues>) => (
-          <PersonalInfoForm {...props} />
+          <PersonalInfoForm
+            CareInstitutionList={CareInstitutionLinkedTo}
+            {...props}
+            qualificationList={qualificationList}
+            setRemarksDetail={setRemarksDetail}
+            remarksDetail={remarksDetail}
+            saveRemark={saveRemark}
+          />
         )}
         validationSchema={CareInstituionValidationSchema}
       />
-      <CareInstitutionContacts
-        contacts={contacts}
-        careInstId={id}
-        setContacts={(contacts: any) => {
-          setContacts((contacts = contacts));
-        }}
-      />
+      <div className='position-relative'>
+        <CareInstitutionContacts
+          contacts={contacts}
+          careInstId={id}
+          setContacts={(contacts: any) => {
+            setContacts((contacts = contacts));
+          }}
+        />
+      </div>
       {/* <Formik
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}

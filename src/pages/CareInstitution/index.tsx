@@ -1,50 +1,45 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
-  FormGroup,
   Card,
   CardHeader,
-  Label,
   CardBody,
-  Input,
-  Col,
-  Row,
   Table,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   UncontrolledTooltip
 } from "reactstrap";
-import { AppRoutes, PAGE_LIMIT, client } from "../../config";
+import { AppRoutes, PAGE_LIMIT } from "../../config";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../routes/routes";
 import { CareInstitutionQueries } from "../../queries";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import {
-  ICareInstitutionFormValues,
   ICareInstitutionListDataInterface,
   ISearchValues,
   IReactSelectInterface
 } from "../../interfaces";
 import { RouteComponentProps } from "react-router";
 import PaginationComponent from "../../common/Pagination";
-import logger from "redux-logger";
 import * as qs from "query-string";
 import { useHistory, useLocation } from "react-router-dom";
 import Search from "../../common/SearchFilter";
 import { Formik, FormikProps, FormikHelpers } from "formik";
-import { languageTranslation } from "../../helpers";
+import { languageTranslation, logger } from "../../helpers";
 import { ConfirmBox } from "../../common/ConfirmBox";
 import { toast } from "react-toastify";
-
+import moment from "moment";
+import Loader from "../../containers/Loader/Loader";
+import ButtonTooltip from "../../common/Tooltip/ButtonTooltip";
+let toastId: any = null;
 const [
   GET_CARE_INSTITUTION_LIST,
   DELETE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION,
   ADD_CARE_INSTITUTION,
   GET_CARE_INSTITUION_BY_ID,
-  UPDATE_CARE_INSTITUTION_STATUS
+  UPDATE_CARE_INSTITUTION_STATUS,
+  ADD_NEW_CONTACT_CARE_INSTITUTION,
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
+  ADD_NEW_CARE_INTITUTION
 ] = CareInstitutionQueries;
 
 const sortFilter: any = {
@@ -57,8 +52,9 @@ const sortFilter: any = {
 const CareInstitution = (props: RouteComponentProps) => {
   const [fetchCareInstitutionList, { data, loading, refetch }] = useLazyQuery<
     any
-  >(GET_CARE_INSTITUTION_LIST);
-  console.log("This is required Data", data);
+  >(GET_CARE_INSTITUTION_LIST, {
+    fetchPolicy: "no-cache"
+  });
 
   let userData: [Object] | any;
   let history = useHistory();
@@ -78,6 +74,10 @@ const CareInstitution = (props: RouteComponentProps) => {
     { id: string }
   >(DELETE_CARE_INSTITUTION);
 
+  const [addUser,{error: addUserError, data: CareIntitutionId,loading: Loading}] = useMutation<
+    {addUser: any}
+  >(ADD_NEW_CARE_INTITUTION)
+
   // Similar to componentDidMount and componentDidUpdate: updateStatus
   useEffect(() => {
     const query = qs.parse(search);
@@ -86,21 +86,26 @@ const CareInstitution = (props: RouteComponentProps) => {
     let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
     let isActive: IReactSelectInterface | undefined = { label: "", value: "" };
     // To handle display and query param text
-    let sortByValue: any = Object.keys(sortFilter).find(
-      (key: any) => sortFilter[key] === query.sortBy
-    );
+    let sortByValue: string | undefined = "1";
+    if (query.sortBy) {
+      sortByValue = Object.keys(sortFilter).find(
+        (key: string) => sortFilter[key] === query.sortBy
+      );
+    }
+
+
     logger(sortByValue);
     if (sortByValue === "3") {
-      sortBy.label = "Sort by A-Z";
+      sortBy.label = "A-Z";
     }
     if (sortByValue === "4") {
-      sortBy.label = "Sort by Z-A";
+      sortBy.label = "Z-A";
     }
     if (sortByValue === "2") {
-      sortBy.label = "Sort by Oldest";
+      sortBy.label = "Oldest";
     }
     if (sortByValue === "1") {
-      sortBy.label = "Sort by Newest";
+      sortBy.label = "Newest";
     }
     if (query) {
       searchBy = query.search ? (query.search as string) : "";
@@ -110,9 +115,9 @@ const CareInstitution = (props: RouteComponentProps) => {
             value:
               Object.keys(sortFilter).find(
                 (key: any) => sortFilter[key] === query.sortBy
-              ) || ""
+              ) || "1"
           }
-        : undefined;
+        : { label: "Newest", value: "1" };
       isActive = query.status
         ? query.status === "active"
           ? { label: languageTranslation("ACTIVE"), value: "true" }
@@ -141,9 +146,6 @@ const CareInstitution = (props: RouteComponentProps) => {
     });
   }, [search]); // It will run when the search value gets changed
 
-  const handleViewCareInstitution = (id: any) => {
-    props.history.push(AppRoutes.CARE_INSTITUION_VIEW.replace(":id", id));
-  };
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
@@ -187,21 +189,27 @@ const CareInstitution = (props: RouteComponentProps) => {
       return;
     } else {
       try {
+        toast.dismiss();
         await updateStatus({
           variables: {
             id,
             isActive: !status
           }
         });
-        toast.success(
-          languageTranslation("CARE_INSTITUTION_STATUS_UPDATE_MSG")
-        );
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toast.success(
+            languageTranslation("CARE_INSTITUTION_STATUS_UPDATE_MSG")
+          );
+        }
       } catch (error) {
         const message = error.message
           .replace("SequelizeValidationError: ", "")
           .replace("Validation error: ", "")
           .replace("GraphQL error: ", "");
-        toast.error(message);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
       }
     }
   };
@@ -215,7 +223,7 @@ const CareInstitution = (props: RouteComponentProps) => {
   const queryVariables = {
     page: currentPage,
     isActive: isActive ? isActive.value : "",
-    sortBy: sortBy ? sortBy.value : 0,
+    sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
     searchBy: searchValue ? searchValue : "",
     limit: PAGE_LIMIT
   };
@@ -234,44 +242,35 @@ const CareInstitution = (props: RouteComponentProps) => {
             id
           }
         });
-
+        refetch();
         toast.success(
           languageTranslation("CARE_INSTITUTION_DELETE_SUCCESS_MSG")
         );
-
-        const data = await client.readQuery({
-          query: GET_CARE_INSTITUTION_LIST,
-          variables: queryVariables
-        });
-
-        const newData = data.getCareInstitutions.careInstitutionData.filter(
-          (user: any) => user.id !== id
-        );
-
-        const updatedData = {
-          ...data,
-          getCareInstitutions: {
-            ...data.getCareInstitutions,
-            careInstitutionData: newData,
-            totalCount: newData.length
-          }
-        };
-
-        client.writeQuery({
-          query: GET_CARE_INSTITUTION_LIST,
-          variables: queryVariables,
-          data: updatedData
-        });
       } catch (error) {
         const message = error.message
           .replace("SequelizeValidationError: ", "")
           .replace("Validation error: ", "")
           .replace("GraphQL error: ", "");
-        // toast.error(message);
-        // logger(error.message, "error");
       }
     }
   };
+
+  useEffect(() => {
+    if (CareIntitutionId) {
+      const {addUser} = CareIntitutionId
+      props.history.push(AppRoutes.ADD_CARE_INSTITUTION.replace(":id",addUser.id))
+    }
+  }, [CareIntitutionId])
+
+  const handleAddNewCareInstitution = () =>{
+    addUser({
+      variables: {
+        careInstInput:{
+          firstName: ""
+        }
+      }
+    })
+  }
 
   if (data && data.getCareInstitutions) {
     userData = data.getCareInstitutions.careInstitutionData;
@@ -285,15 +284,9 @@ const CareInstitution = (props: RouteComponentProps) => {
           (user: ICareInstitutionListDataInterface, index: number) => {
             return tableData.push(
               <tr>
-                <td>
+                <td className={"text-center"}>
                   <div className="table-checkbox-wrap">
                     <div className="btn-group btn-check-action-wrap">
-                      <span className="btn">
-                        <span className="checkboxli checkbox-custom checkbox-default">
-                          <input type="checkbox" id="checkAll" className="" />
-                          <label className=""></label>
-                        </span>
-                      </span>
                       <span className="checkbox-no">{index + 1}</span>
                     </div>
                   </div>
@@ -301,8 +294,8 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <td>
                   <div className="info-column">
                     <div className="description-column">
-                      <div className="info-title">
-                        {`${user.firstName}  ${user.lastName}`}
+                      <div className="info-title text-capitalize">
+                        {`${user.firstName} ${user.lastName}`}
                       </div>
                       <p className="description-text">
                         <i className="fa fa-envelope mr-2"></i>
@@ -318,25 +311,35 @@ const CareInstitution = (props: RouteComponentProps) => {
                   </div>
                 </td>
                 <td>
-                  <div className="description-column">
-                    <div className="info-title">
-                      {user.canstitution && user.canstitution.companyName
-                        ? user.canstitution.companyName
-                        : "N/A"}
-                    </div>
-                    <p className="description-text">
+                  <div className="company-column text-capitalize">
+                    <div className="company-text">
+                      <i className="fa fa-building mr-2"></i>
                       <span className="align-middle">
+                        {" "}
+                        {user.canstitution && user.canstitution.companyName
+                          ? user.canstitution.companyName
+                          : "N/A"}
+                      </span>
+                    </div>
+                    <p className="company-text">
+                      <i className="fa fa-id-card mr-2"></i>
+                      <span className="align-middle">
+                        {" "}
                         {user.canstitution && user.canstitution.shortName
                           ? user.canstitution.shortName
                           : "N/A"}
                       </span>
                     </p>
-                    <p className="description-text">
+                    <p className="company-text">
+                      <i className="fa fa-user mr-2"></i>
                       <span className="align-middle">
                         {user.userName ? user.userName : "N/A"}
                       </span>
                     </p>
                   </div>
+                </td>
+                <td className="date-th-column ">
+                  {user.createdAt ? moment(user.createdAt).format("lll") : ""}
                 </td>
                 <td className="text-center">
                   <span
@@ -350,19 +353,26 @@ const CareInstitution = (props: RouteComponentProps) => {
                 </td>
                 <td>
                   <div className="action-btn">
-                    <span
-                      className="btn-icon mr-2"
-                      id={`view${index}`}
-                      onClick={() => handleViewCareInstitution(user.id)}
+                    <ButtonTooltip
+                      id={`edit${index}`}
+                      message={"Click here to edit Care Institution"}
+                      redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
+                        ":id",
+                        user.id.toString()
+                      )}
                     >
-                      <UncontrolledTooltip
-                        placement="top"
-                        target={`view${index}`}
-                      >
-                        Click here to view care institution
-                      </UncontrolledTooltip>
+                      <i className="fa fa-pencil"></i>
+                    </ButtonTooltip>
+                    <ButtonTooltip
+                      id={`view${index}`}
+                      message={"Click here to view Care Institution"}
+                      redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
+                        ":id",
+                        user.id.toString()
+                      )}
+                    >
                       <i className="fa fa-eye"></i>
-                    </span>
+                    </ButtonTooltip>
                     <span
                       className="btn-icon "
                       id={`delete${index}`}
@@ -384,14 +394,14 @@ const CareInstitution = (props: RouteComponentProps) => {
         )
       : tableData.push(
           <tr className={"text-center no-hover-row"}>
-            <td colSpan={5} className={"pt-5 pb-5"}>
+            <td colSpan={6} className={"pt-5 pb-5"}>
               {!query.page ? (
                 <div className="no-data-section">
                   <div className="no-data-icon">
                     <i className="icon-ban" />
                   </div>
                   <h4 className="mb-1">
-                    Currently there are No care institution Added.{" "}
+                    Currently there are no care institution added.{" "}
                   </h4>
                   <p>Please click above button to add new. </p>
                 </div>
@@ -423,11 +433,7 @@ const CareInstitution = (props: RouteComponentProps) => {
           </tr>
         )}
   </>;
-  // const {
-  //   searchValue = "",
-  //   sortBy = undefined,
-  //   isActive = undefined
-  // } = searchValues ? searchValues : {};
+
   const values: ISearchValues = {
     searchValue,
     isActive,
@@ -440,10 +446,12 @@ const CareInstitution = (props: RouteComponentProps) => {
         <Button
           color={"primary"}
           className={"btn-add"}
+          disabled={Loading}
           id={"add-new-pm-tooltip"}
-          onClick={() => props.history.push(AppRoutes.ADD_CARE_INSTITUTION)}
+          onClick={() => handleAddNewCareInstitution()}
         >
-          <i className={"fa fa-plus"} />
+          
+          {Loading ? <i className="fa fa-spinner fa-spin loader" /> :  <i className={"fa fa-plus"} />}
           &nbsp; Add New Care Institution
         </Button>
       </CardHeader>
@@ -454,110 +462,46 @@ const CareInstitution = (props: RouteComponentProps) => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} />
+              <Search {...props} label={"care institution"} />
             )}
           />
         </div>
-        {/* <div className="filter-form form-section">
-          <Row>
-            <Col lg={"2"}>
-              <FormGroup>
-                <Label for="search" className="col-form-label">
-                  Search:
-                </Label>
-                <Input
-                  type="text"
-                  name="search"
-                  id="search"
-                  placeholder="Search.."
-                />
-              </FormGroup>
-            </Col>
-            <Col lg={"2"}>
-              <FormGroup>
-                <Label for="Selectregion" className="col-form-label">
-                  Region:
-                </Label>
-                <Input type="select" name="region" id="Selectregion">
-                  <option>Western India</option>
-                  <option>East India</option>
-                  <option>South India</option>
-                  <option>Northeast India</option>
-                  <option>Central India</option>
-                </Input>
-              </FormGroup>
-            </Col>
-            <Col lg={"2"}>
-              <FormGroup>
-                <Label for="Selectregion" className="col-form-label">
-                  Sort By:
-                </Label>
-                <Input type="select" name="region" id="Selectregion">
-                  <option>Popularity</option>
-                  <option>A-Z</option>
-                  <option>Z-A</option>
-                </Input>
-              </FormGroup>
-            </Col>
-            <Col lg={"2"}>
-              <div className="label-height"></div>
-              <div className="filter-btn-wrap">
-                <span className="btn-filter mr-2" id="search1">
-                  <UncontrolledTooltip placement="top" target="search1">
-                    Search
-                  </UncontrolledTooltip>
-                  <i className="fa fa-search"></i>
-                </span>
-                <span className="btn-filter mr-2" id="reset">
-                  <UncontrolledTooltip placement="top" target="reset">
-                    Reset
-                  </UncontrolledTooltip>
-                  <i className="fa fa-refresh "></i>
-                </span>
-              </div>
-            </Col>
-          </Row>
-        </div> */}
         <Table bordered hover responsive>
           <thead className="thead-bg">
             <tr>
-              <th>
-                <div className="table-checkbox-wrap">
-                  <div className="btn-group btn-check-action-wrap">
-                    <span className="btn">
-                      <span className="checkboxli checkbox-custom checkbox-default">
-                        <input type="checkbox" id="checkAll" className="" />
-                        <label className=""></label>
-                      </span>
-                    </span>
-                    <UncontrolledDropdown className="custom-dropdown">
-                      <DropdownToggle caret color="link" />
-                      <DropdownMenu>
-                        <DropdownItem>Delete</DropdownItem>
-                        <DropdownItem>Active</DropdownItem>
-                        <DropdownItem>Disable</DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
-                  </div>
-                </div>
-              </th>
+              <th className={"text-center"}>{languageTranslation("S_NO")}</th>
               <th>Care Institution Information</th>
-              <th>Company Details</th>
-              <th className="text-center">Status</th>
+              <th className="company-th-column">Company Details</th>
+              <th className="date-th-column">
+                {languageTranslation("CREATED_DATE")}
+              </th>
+              <th className="text-center status-column">Status</th>
               <th className="text-center">Action</th>
             </tr>
           </thead>
-          <tbody>{tableData}</tbody>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td className={"table-loader"} colSpan={7}>
+                  <Loader />
+                </td>
+              </tr>
+            ) : (
+              tableData
+            )}
+          </tbody>
         </Table>
         {data &&
-          data.getCareInstitutions &&
-          data.getCareInstitutions.totalCount && (
-            <PaginationComponent
-              totalRecords={data.getCareInstitutions.totalCount}
-              currentPage={currentPage}
-              onPageChanged={onPageChanged}
-            />
-          )}
+        userData &&
+        userData.length &&
+        data.getCareInstitutions &&
+        data.getCareInstitutions.totalCount ? (
+          <PaginationComponent
+            totalRecords={data.getCareInstitutions.totalCount}
+            currentPage={currentPage}
+            onPageChanged={onPageChanged}
+          />
+        ) : null}
       </CardBody>
     </Card>
   );

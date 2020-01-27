@@ -75,6 +75,7 @@ const CareGiverLayout = ({ component: Component, ...rest }: any) => {
                       label: "John Doe",
                       value: "0"
                     }}
+                    classNamePrefix="react-select"
                     placeholder="Select Caregiver"
                     options={CareGiver}
                   />
@@ -185,6 +186,7 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
                       label: "John Doe",
                       value: "0"
                     }}
+                    classNamePrefix="react-select"
                     placeholder="Select Caregiver"
                     options={CareGiver}
                   />
@@ -247,7 +249,7 @@ const CareInstitutionLayout = ({ component: Component, ...rest }: any) => {
   );
 };
 
-//Care Giver Todo Layout
+//Caregiver Todo Layout
 const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
   return (
     <Route
@@ -303,10 +305,9 @@ class DefaultLayout extends Component<any, any> {
 
   handleScroll = () => {
     const scrollPositionY = window.scrollY;
-    // console.log(scrollPositionY, "scrollPositionY");
     const header: HTMLElement | null = document.getElementById("sidebar");
     if (header) {
-      if (scrollPositionY >= 35) {
+      if (scrollPositionY >= 18) {
         header.classList.add("sidebar-sticky");
       } else {
         header.classList.remove("sidebar-sticky");

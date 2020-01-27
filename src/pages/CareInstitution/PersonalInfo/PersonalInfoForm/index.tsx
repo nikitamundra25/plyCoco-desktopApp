@@ -146,16 +146,18 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   };
   return (
     <Row className=" ">
-      <Button
-        color={"primary"}
-        disabled={isSubmitting}
-        className={"save-button"}
-        onClick={handleSubmit}
-        id={"caregiver-save-btn"}
-      >
-        {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
-        {languageTranslation("SAVE_BUTTON")}
-      </Button>
+      <div id={"caregiver-add-btn"}>
+        <Button
+          color={"primary"}
+          disabled={isSubmitting}
+          className={"save-button"}
+          onClick={handleSubmit}
+          // id={"caregiver-save-btn"}
+        >
+          {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+          {languageTranslation("SAVE_BUTTON")}
+        </Button>
+      </div>
       <Col lg={"4"}>
         <div className="form-card h-100">
           <Row>

@@ -81,8 +81,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     getStatesByCountry,
     setFieldError
   } = props;
-  console.log("touched", touched);
-
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
     GET_REGIONS
@@ -563,7 +561,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="text-capitalize">
                                   <Select
                                     placeholder={languageTranslation(
                                       "EMPLOYEE_REGION_PLACEHOLDER"

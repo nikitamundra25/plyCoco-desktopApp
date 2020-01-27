@@ -101,8 +101,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     CareInstitutionList,
     setFieldError
   } = props;
-  console.log("errors", errors);
-
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
 
@@ -221,7 +219,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="text-capitalize">
                       <Select
                         placeholder={languageTranslation("REGION", "STATE")}
                         options={regionOptions}

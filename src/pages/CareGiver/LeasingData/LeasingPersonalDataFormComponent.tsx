@@ -54,8 +54,6 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
     errors,
     touched
   } = props;
-  console.log("touched in leasing", touched);
-
   return (
     <div>
       <Form className="form-section">

@@ -128,7 +128,6 @@ const PersonalInfoFormComponent: any = (
     touched
   } = props;
 
-
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined = CreatedAt.getFullYear();
 
@@ -196,7 +195,7 @@ const PersonalInfoFormComponent: any = (
                 <Label className="form-label col-form-label">{"Region"}</Label>
               </Col>
               <Col sm="8">
-                <div className="field-class">
+                <div className="field-class text-capitalize">
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     onChange={(value: any) => handleSelect(value, "regionId")}
@@ -683,7 +682,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        {console.log("driversLicense", driversLicense)}
         <Col lg={"12"}>
           <FormGroup>
             <Row>
@@ -743,7 +741,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        {console.log("vehicleAvailable", vehicleAvailable)}
         <Col lg={"12"}>
           <FormGroup>
             <Row>

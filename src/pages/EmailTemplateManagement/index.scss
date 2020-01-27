@@ -1,0 +1,29 @@
+@import "../../scss/variables";
+.template-lable {
+  font-size: $font_12;
+  color: $black;
+  padding-left: 8px;
+  font-weight: bold;
+}
+.common-col {
+  height: 100%;
+  .quality-attribute-section {
+    height: calc(100% - 359px);
+    .common-list-card {
+      height: 100%;
+      margin-bottom: 12px;
+      .common-list-wrap {
+        height: calc(100% - 35px);
+        margin-bottom: 0px;
+        .common-list-body {
+          height: calc(100% - 22px);
+        }
+      }
+    }
+  }
+}
+.mail-table {
+  .size-col {
+    width: 60px;
+  }
+}

@@ -1,21 +1,22 @@
-import React, { useState, FunctionComponent, useEffect } from 'react';
+import React, { useState, FunctionComponent, useEffect } from "react";
 import {
   ILeasingValues,
   IAddLeasingRes,
   ILeasingInput,
-  IReactSelectInterface,
-} from '../../../interfaces';
-import { FormikHelpers, Formik, FormikProps } from 'formik';
-import LeasingPersonalDataFormComponent from './LeasingPersonalDataFormComponent';
-import { LeasingDataValidationSchema } from '../../../validations/LeasingDataValidationSchema';
-import { useParams, RouteComponentProps } from 'react-router';
-import { useMutation, useLazyQuery } from '@apollo/react-hooks';
-import { languageTranslation } from '../../../helpers';
-import { toast } from 'react-toastify';
+  IReactSelectInterface
+} from "../../../interfaces";
+import { FormikHelpers, Formik, FormikProps } from "formik";
+import LeasingPersonalDataFormComponent from "./LeasingPersonalDataFormComponent";
+import LeasingPaySlipComponent from "./PaySlip";
+import { LeasingDataValidationSchema } from "../../../validations/LeasingDataValidationSchema";
+import { useParams, RouteComponentProps } from "react-router";
+import { useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { languageTranslation } from "../../../helpers";
+import { toast } from "react-toastify";
 import {
   GET_LEASING_INFO,
-  ADD_UPDATE_CARE_GIVER_LEASING_INFO,
-} from '../../../queries';
+  ADD_UPDATE_CARE_GIVER_LEASING_INFO
+} from "../../../queries";
 import {
   Nationality,
   MaritalStatus,
@@ -23,11 +24,11 @@ import {
   Preoccupation,
   HealthInsuranceProvider,
   HealthInsuranceType,
-  StatusOptions,
-} from '../../../config';
+  StatusOptions
+} from "../../../config";
 
 export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
-  props: RouteComponentProps,
+  props: RouteComponentProps
 ) => {
   let { id } = useParams();
   const [leasingData, setleasingData] = useState<ILeasingValues | null>();
@@ -41,7 +42,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
   // To get the employee details by id
   const [
     getLeasingInformation,
-    { data: leasingDetails, error: detailsError, refetch },
+    { data: leasingDetails, error: detailsError, refetch }
   ] = useLazyQuery<any>(GET_LEASING_INFO);
 
   // Fetch leasing data on mount & user update
@@ -49,18 +50,18 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     // Fetch details by caregiver id
     if (id) {
       getLeasingInformation({
-        variables: { userId: parseInt(id) },
+        variables: { userId: parseInt(id) }
       });
     }
   }, [id]);
 
   const setLabelValue = (
     value: string,
-    fieldOptions: IReactSelectInterface[],
+    fieldOptions: IReactSelectInterface[]
   ) => {
     if (value) {
       return fieldOptions.filter(
-        (item: IReactSelectInterface) => item.value === value,
+        (item: IReactSelectInterface) => item.value === value
       )[0];
     } else {
       return undefined;
@@ -75,26 +76,26 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
           ...getLeasingInformation,
           nationality: setLabelValue(
             getLeasingInformation.nationality,
-            Nationality,
+            Nationality
           ),
           maritalStatus: setLabelValue(
             getLeasingInformation.maritalStatus,
-            MaritalStatus,
+            MaritalStatus
           ),
           status: setLabelValue(getLeasingInformation.status, StatusOptions),
           religion: setLabelValue(getLeasingInformation.religion, Religion),
           preoccupation: setLabelValue(
             getLeasingInformation.preOccupation,
-            Preoccupation,
+            Preoccupation
           ),
           healthInsuranceProvider: setLabelValue(
             getLeasingInformation.healthInsuranceProvider,
-            HealthInsuranceProvider,
+            HealthInsuranceProvider
           ),
           healthInsuranceType: setLabelValue(
             getLeasingInformation.healthInsuranceType,
-            HealthInsuranceType,
-          ),
+            HealthInsuranceType
+          )
         });
       } else {
         setleasingData(null);
@@ -105,7 +106,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
   // function to add/edit employee information
   const handleSubmit = async (
     values: ILeasingValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ILeasingValues>,
+    { setSubmitting, setFieldError }: FormikHelpers<ILeasingValues>
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -127,35 +128,35 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
       firstDay,
       lastDay,
       monthlyWorkingHrs,
-      weeklyWorkingHrs,
+      weeklyWorkingHrs
     } = values;
     try {
       let leasingInput: ILeasingInput = {
         placeOfBirth,
         birthName,
-        nationality: nationality && nationality.value ? nationality.value : '',
+        nationality: nationality && nationality.value ? nationality.value : "",
         maritalStatus:
-          maritalStatus && maritalStatus.value ? maritalStatus.value : '',
-        children: children ? children.toString() : '',
+          maritalStatus && maritalStatus.value ? maritalStatus.value : "",
+        children: children ? children.toString() : "",
         factorChildAllowance: factorChildAllowance
           ? factorChildAllowance.toString()
-          : '',
+          : "",
         healthInsuranceType:
           healthInsuranceType && healthInsuranceType.value
             ? healthInsuranceType.value
-            : '',
+            : "",
         healthInsuranceProvider:
           healthInsuranceProvider && healthInsuranceProvider.value
             ? healthInsuranceProvider.value
-            : '',
+            : "",
         socialSecurityNumber,
-        religion: religion && religion.value ? religion.value : '',
+        religion: religion && religion.value ? religion.value : "",
         controlId,
         taxBracket,
         preOccupation:
-          preoccupation && preoccupation.value ? preoccupation.value : '',
+          preoccupation && preoccupation.value ? preoccupation.value : "",
         payrollIBAN,
-        status: status && status.value ? status.value : '',
+        status: status && status.value ? status.value : "",
         firstDay,
         lastDay,
         monthlyWorkingHrs: monthlyWorkingHrs
@@ -163,80 +164,83 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
           : null,
         weeklyWorkingHrs: weeklyWorkingHrs
           ? parseInt(weeklyWorkingHrs.toString())
-          : null,
+          : null
       };
       if (id) {
         await addUpdateLeasingInformation({
           variables: {
             userId: parseInt(id),
-            leasingInformationInput: leasingInput,
-          },
+            leasingInformationInput: leasingInput
+          }
         });
-        toast.success(languageTranslation('CARE_GIVER_LEASING_UPDATE_SUCCESS'));
+        toast.success(languageTranslation("CARE_GIVER_LEASING_UPDATE_SUCCESS"));
       }
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       // setFieldError('email', message);
       toast.error(message);
     }
     setSubmitting(false);
   };
   const {
-    placeOfBirth = '',
-    birthName = '',
+    placeOfBirth = "",
+    birthName = "",
     nationality = undefined,
     maritalStatus = undefined,
     children = 0,
     factorChildAllowance = 0,
     healthInsuranceType = undefined,
     healthInsuranceProvider = undefined,
-    socialSecurityNumber = '',
+    socialSecurityNumber = "",
     religion = undefined,
-    controlId = '',
-    taxBracket = '',
+    controlId = "",
+    taxBracket = "",
     preoccupation = undefined,
-    payrollIBAN = '',
+    payrollIBAN = "",
     status = undefined,
-    firstDay = '',
-    lastDay = '',
+    firstDay = "",
+    lastDay = "",
     monthlyWorkingHrs = null,
-    weeklyWorkingHrs = null,
+    weeklyWorkingHrs = null
   } = leasingData ? leasingData : {};
   const initialValues: ILeasingValues = {
-    placeOfBirth: placeOfBirth ? placeOfBirth : '',
-    birthName: birthName ? birthName : '',
+    placeOfBirth: placeOfBirth ? placeOfBirth : "",
+    birthName: birthName ? birthName : "",
     nationality,
     maritalStatus,
     children: children ? children : 0,
     factorChildAllowance: factorChildAllowance ? factorChildAllowance : 0,
     healthInsuranceType,
     healthInsuranceProvider,
-    socialSecurityNumber: socialSecurityNumber ? socialSecurityNumber : '',
+    socialSecurityNumber: socialSecurityNumber ? socialSecurityNumber : "",
     religion,
-    controlId: controlId ? controlId : '',
-    taxBracket: taxBracket ? taxBracket : '',
+    controlId: controlId ? controlId : "",
+    taxBracket: taxBracket ? taxBracket : "",
     preoccupation,
-    payrollIBAN: payrollIBAN ? payrollIBAN : '',
+    payrollIBAN: payrollIBAN ? payrollIBAN : "",
     status,
     firstDay,
     lastDay,
     monthlyWorkingHrs,
-    weeklyWorkingHrs,
+    weeklyWorkingHrs
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      enableReinitialize={true}
-      onSubmit={handleSubmit}
-      validationSchema={LeasingDataValidationSchema}
-      render={(props: FormikProps<ILeasingValues>) => {
-        return <LeasingPersonalDataFormComponent {...props} />;
-      }}
-    />
+    <>
+      <Formik
+        initialValues={initialValues}
+        enableReinitialize={true}
+        onSubmit={handleSubmit}
+        validationSchema={LeasingDataValidationSchema}
+        render={(props: FormikProps<ILeasingValues>) => {
+          return <LeasingPersonalDataFormComponent {...props} />;
+        }}
+      />
+      <LeasingPaySlipComponent {...props} />
+    </>
   );
 };
 

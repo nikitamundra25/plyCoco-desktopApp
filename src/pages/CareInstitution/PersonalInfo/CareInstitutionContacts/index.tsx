@@ -17,7 +17,7 @@ import { CareInstituionContactValidationSchema } from '../../../../validations';
 import CotactFormComponent from './CotactFormComponent';
 import { toast } from 'react-toastify';
 
-let toastId: any
+let toastId: any;
 
 const [
   ,
@@ -33,7 +33,7 @@ const [
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const CareInstitutionContacts: any = (props: any) => {
-  const { contacts, careInstId } = props;
+  const { contacts, careInstId, ContactFromAdd } = props;
   const [activeContact, setActiveContact] = useState<number>(0);
 
   // To set new empty contact
@@ -44,18 +44,18 @@ const CareInstitutionContacts: any = (props: any) => {
   const addContacts = (cache: any, data: any) => {
     let newContacts = contacts;
     const ResctData: any = {
-      email: "",
-      firstName: "",
-      lastName: "",
-      userName: "",
-      phoneNumber: "",
-      mobileNumber: "",
-      faxNumber: "",
-      comments: "",
-      groupAttributes: ""
-    }
-    newContacts[newContacts.length - 1] = (data.data.addContact);
-    newContacts.push(ResctData)
+      email: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
+      phoneNumber: '',
+      mobileNumber: '',
+      faxNumber: '',
+      comments: '',
+      groupAttributes: '',
+    };
+    newContacts[newContacts.length - 1] = data.data.addContact;
+    newContacts.push(ResctData);
     props.setContacts(newContacts);
   };
   // Mutation to add new contact
@@ -88,21 +88,17 @@ const CareInstitutionContacts: any = (props: any) => {
     );
   }
 
-  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
-    // setFieldValue(name, selectOption);
-    if (name === 'country') {
-      getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
-      });
-      logger(statesData, 'sdsdsdsd');
-    }
-  };
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
     { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
   ) => {
-    console.log(values, 'values');
+    let AttributeData: string[] = [];
+    if (values.attributeId && values.attributeId.length) {
+      values.attributeId.map((attribute: IReactSelectInterface) =>
+        AttributeData.push(attribute.label),
+      );
+    }
+
     try {
       //to set submit state to false after successful signup
       setSubmitting(false);
@@ -125,6 +121,7 @@ const CareInstitutionContacts: any = (props: any) => {
         mobileNumber: values.mobileNumber,
         email: values.email,
         remark: values.remark,
+        attributes: AttributeData,
       };
       if (id) {
         await updateContact({
@@ -134,7 +131,9 @@ const CareInstitutionContacts: any = (props: any) => {
           },
         });
         if (!toast.isActive(toastId)) {
-          toastId = toast.success(languageTranslation("CONTACT_UPDATE_CARE_INSTITUTION"))
+          toastId = toast.success(
+            languageTranslation('CONTACT_UPDATE_CARE_INSTITUTION'),
+          );
         }
       } else {
         await addContact({
@@ -150,7 +149,7 @@ const CareInstitutionContacts: any = (props: any) => {
         .replace('SequelizeValidationError: ', '')
         .replace('Validation error: ', '')
         .replace('GraphQL error: ', '');
-      // setFieldError('email', message);
+
       toast.error(message);
       logger(error);
     }
@@ -173,10 +172,11 @@ const CareInstitutionContacts: any = (props: any) => {
     city = '',
     zip = '',
     title = '',
-    contactType = '',
-    gender = '',
+    contactType = undefined,
+    gender = undefined,
+    attributes = [],
     salutation = '',
-    countryId = '',
+    countryId = undefined,
   } = contacts[activeContact] ? contacts[activeContact] : {};
 
   let countryData: Number;
@@ -191,6 +191,16 @@ const CareInstitutionContacts: any = (props: any) => {
         value: userCountry[0].id,
       };
     }
+  }
+
+  let selectedAttributes: IReactSelectInterface[] = [];
+  if (attributes && attributes.length) {
+    attributes.map((attData: string) => {
+      selectedAttributes.push({
+        label: attData,
+        value: attData,
+      });
+    });
   }
 
   const contactFormValues: ICareInstitutionContact = {
@@ -223,16 +233,17 @@ const CareInstitutionContacts: any = (props: any) => {
     id,
     country: userSelectedCountry,
     remark,
+    attributeId: selectedAttributes,
   };
 
   return (
     <>
-      <div className={'form-section position-relative'}>
+      <div className={'form-section position-relative flex-grow-1'}>
         <div className='d-flex align-items-center justify-content-between my-3'>
           <Nav tabs className='contact-tabs'>
             {contacts.map((contact: any, index: number) => {
               return (
-                <NavItem>
+                <NavItem className='text-capitalize' key={index}>
                   <NavLink
                     className={`${index === activeContact ? 'active' : ''}`}
                     onClick={() => setActiveContact(index)}
@@ -251,8 +262,10 @@ const CareInstitutionContacts: any = (props: any) => {
         enableReinitialize={true}
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}
-        children={(props: FormikProps<ICareInstitutionContact>) => (
-          <CotactFormComponent {...props} />
+        children={(props: FormikProps<ICareInstitutionContact> & any) => (
+          <CotactFormComponent {...props}
+            ContactFromAdd={ContactFromAdd}
+          />
         )}
         validationSchema={CareInstituionContactValidationSchema}
       />

@@ -2,7 +2,10 @@ import { IDateResponse } from '../interfaces';
 import moment from 'moment';
 import { logger } from './Logger';
 
-export const dateValidator = (dateString: string): IDateResponse => {
+export const dateValidator = (
+  dateString: string,
+  label?: string,
+): IDateResponse => {
   const date = dateString ? dateString.replace(/\D+/g, '') : '';
   // First check for the pattern
   if (date !== '') {
@@ -26,15 +29,18 @@ export const dateValidator = (dateString: string): IDateResponse => {
       message: 'Please enter a valid month',
     };
   }
-  if (moment(new Date(dateString)) > moment(new Date())) {
+  if (
+    label !== 'leasing' &&
+    moment(new Date(dateString)) > moment(new Date())
+  ) {
     return {
       isValid: false,
-      message: 'Joining  Date cannot be in the future',
+      message: 'Date cannot be in the future',
     };
   }
   logger(moment(new Date(dateString)) > moment(new Date()));
 
-  if (year < getDifference || year > getCurrentYear)
+  if (year < getDifference || (label !== 'leasing' && year > getCurrentYear))
     return {
       isValid: false,
       message: 'Please enter a valid year',

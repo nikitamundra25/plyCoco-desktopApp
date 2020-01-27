@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, FunctionComponent } from "react";
 import {
   Button,
   FormGroup,
@@ -22,21 +22,34 @@ import {
   IReactSelectInterface,
   ICountry,
   IStates,
-  IState
+  IState,
+  IRegion
 } from "../../../interfaces";
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 // import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
-import { CountryQueries } from "../../../queries";
+import { CountryQueries, CareInstitutionQueries } from "../../../queries";
 import CommissionFormData from "../PersonalInfo/PersonalInfoForm/CommissionFormData";
 import InvoiceFormData from "../PersonalInfo/PersonalInfoForm/InvoiceFormData";
 import QuallificationAttribute from "../PersonalInfo/PersonalInfoForm/QuallificationAttribute";
 import RemarkFormData from "../PersonalInfo/PersonalInfoForm/RemarkFormData";
+import { RegionQueries } from "../../../queries/Region";
 import "../careinstitution.scss";
 
+const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-
-const AddCareInstitution: any = (
-  props: FormikProps<ICareInstitutionFormValues>
+const [GET_CARE_INSTITUTION_LIST] = CareInstitutionQueries;
+const AddCareInstitution: FunctionComponent<FormikProps<
+  ICareInstitutionFormValues
+> & {
+  qualificationList: IReactSelectInterface[] | undefined;
+  setRemarksDetail: any;
+  remarksDetail: any;
+}> = (
+  props: FormikProps<ICareInstitutionFormValues> & {
+    qualificationList: IReactSelectInterface[] | undefined;
+    setRemarksDetail: any;
+    remarksDetail: any;
+  }
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
@@ -66,6 +79,54 @@ const AddCareInstitution: any = (
       logger(statesData, "sdsdsdsd");
     }
   };
+  // Region Data
+  const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
+    GET_REGIONS
+  );
+  //Region List Data
+  const regionOptions: IReactSelectInterface[] | undefined = [];
+  if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
+    RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
+      regionOptions.push({
+        label: regionName,
+        value: id
+      })
+    );
+  }
+  const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
+    any
+  >(GET_CARE_INSTITUTION_LIST);
+
+  useEffect(() => {
+    // call query
+    fetchRegionList({
+      variables: {
+        limit: 25,
+        sortBy: 3
+      }
+    });
+    fetchCareInstitutionList({
+      variables: {
+        searchBy: null,
+        sortBy: 3,
+        limit: 200,
+        page: 1,
+        isActive: ""
+      }
+    });
+  }, []);
+  let CareInstitutionList: Object[] = [];
+  if (careInstituition && careInstituition.getCareInstitutions) {
+    const { getCareInstitutions } = careInstituition;
+    const { careInstitutionData } = getCareInstitutions;
+    careInstitutionData.map((data: any, index: any) => {
+      CareInstitutionList.push({
+        label: `${data.firstName}${" "}${data.lastName}`,
+        value: data.id
+      });
+      return true;
+    });
+  }
 
   const {
     values: {
@@ -102,21 +163,27 @@ const AddCareInstitution: any = (
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched
+    setFieldTouched,
+    setRemarksDetail,
+    remarksDetail
   } = props;
+  console.log("propsssss", props.values);
+  console.log("values");
 
   return (
     <Row className=" ">
-      <Button
-        disabled={isSubmitting}
-        id={"caregiver-add-btn"}
-        onClick={handleSubmit}
-        color={"primary"}
-        className={"save-button"}
-      >
-        {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
-        {languageTranslation("SAVE_BUTTON")}
-      </Button>
+      <div id={"caregiver-add-btn"}>
+        <Button
+          disabled={isSubmitting}
+          // id={"caregiver-add-btn"}
+          onClick={handleSubmit}
+          color={"primary"}
+          className={"save-button"}
+        >
+          {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+          {languageTranslation("SAVE_BUTTON")}
+        </Button>
+      </div>
       <Col lg={"4"}>
         <div className="form-card h-100">
           <Row>
@@ -132,7 +199,11 @@ const AddCareInstitution: any = (
                     <div>
                       <Select
                         placeholder={languageTranslation("REGION", "STATE")}
-                        options={State}
+                        value={regionId ? regionId : undefined}
+                        onChange={(value: any) =>
+                          handleSelect(value, "regionId")
+                        }
+                        options={regionOptions}
                       />
                     </div>
                   </Col>
@@ -153,7 +224,7 @@ const AddCareInstitution: any = (
                         <div>
                           <Select
                             placeholder={languageTranslation("GENDER")}
-                            value={gender ? gender : undefined}
+                            value={gender && gender.value ? gender : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "gender")
                             }
@@ -163,7 +234,7 @@ const AddCareInstitution: any = (
                       </Col>
                       <Col sm="7">
                         <FormGroup>
-                          <Row className="custom-col inner-no-padding-col d-flex align-items-center">
+                          <Row className="custom-col inner-no-padding-col d-flex">
                             <Col sm="6">
                               <Label className="form-label col-form-label inner-label">
                                 {languageTranslation("TITLE")}
@@ -202,7 +273,11 @@ const AddCareInstitution: any = (
                     <div>
                       <Select
                         placeholder={languageTranslation("SALUTATION")}
-                        value={salutation ? salutation : undefined}
+                        value={
+                          salutation && salutation.value
+                            ? salutation
+                            : undefined
+                        }
                         onChange={(value: any) =>
                           handleSelect(value, "salutation")
                         }
@@ -233,8 +308,8 @@ const AddCareInstitution: any = (
                         placeholder={languageTranslation("FIRST_NAME")}
                         className={
                           errors.firstName && touched.firstName
-                            ? "text-input error"
-                            : "text-input"
+                            ? "text-input error text-capitalize"
+                            : "text-input text-capitalize"
                         }
                       />
                       {errors.firstName && touched.firstName && (
@@ -265,8 +340,8 @@ const AddCareInstitution: any = (
                         placeholder={languageTranslation("SURNAME")}
                         className={
                           errors.lastName && touched.lastName
-                            ? "text-input error"
-                            : "text-input"
+                            ? "text-input error text-capitalize"
+                            : "text-input text-capitalize"
                         }
                       />
                       {errors.lastName && touched.lastName && (
@@ -403,30 +478,6 @@ const AddCareInstitution: any = (
                 <Row>
                   <Col sm="4">
                     <Label className="form-label col-form-label ">
-                      {languageTranslation("CITY")}
-                    </Label>
-                  </Col>
-                  <Col sm="8">
-                    <div>
-                      <Input
-                        type="text"
-                        name={"city"}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={city}
-                        placeholder={languageTranslation("CITY")}
-                        className=" width-common"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={"12"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label ">
                       {languageTranslation("ZIP")}
                     </Label>
                   </Col>
@@ -451,6 +502,31 @@ const AddCareInstitution: any = (
                 <Row>
                   <Col sm="4">
                     <Label className="form-label col-form-label ">
+                      {languageTranslation("CITY")}
+                    </Label>
+                  </Col>
+                  <Col sm="8">
+                    <div>
+                      <Input
+                        type="text"
+                        name={"city"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={city}
+                        placeholder={languageTranslation("CITY")}
+                        className=" width-common"
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
+
+            <Col lg={"12"}>
+              <FormGroup>
+                <Row>
+                  <Col sm="4">
+                    <Label className="form-label col-form-label ">
                       {languageTranslation("COUNTRY")}
                     </Label>
                   </Col>
@@ -459,7 +535,7 @@ const AddCareInstitution: any = (
                       <Select
                         placeholder={languageTranslation("COUNTRY")}
                         options={countriesOpt}
-                        value={country ? country : undefined}
+                        value={country && country.value ? country : undefined}
                         onChange={(value: any) =>
                           handleSelect(value, "country")
                         }
@@ -482,7 +558,7 @@ const AddCareInstitution: any = (
                       <Select
                         placeholder={languageTranslation("STATE")}
                         options={statesOpt}
-                        value={state ? state : undefined}
+                        value={state && state.value ? state : undefined}
                         onChange={(value: any) => handleSelect(value, "state")}
                         noOptionsMessage={() => {
                           return "Select a country first";
@@ -510,8 +586,18 @@ const AddCareInstitution: any = (
                         onBlur={handleBlur}
                         value={phoneNumber}
                         placeholder={languageTranslation("PHONE")}
-                        className="width-common"
+                        // className="width-common"
+                        className={
+                          errors.mobileNumber && touched.mobileNumber
+                            ? "width-common text-input error"
+                            : "width-common text-input"
+                        }
                       />
+                      {errors.phoneNumber && touched.phoneNumber && (
+                        <div className="required-error">
+                          {errors.phoneNumber}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -535,8 +621,15 @@ const AddCareInstitution: any = (
                         onBlur={handleBlur}
                         value={fax}
                         placeholder={languageTranslation("FAX")}
-                        className="width-common"
+                        className={
+                          errors.fax && touched.fax
+                            ? "text-input error"
+                            : "text-input"
+                        }
                       />
+                      {errors.fax && touched.fax && (
+                        <div className="required-error">{errors.fax}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -647,30 +740,6 @@ const AddCareInstitution: any = (
                 </Row>
               </FormGroup>
             </Col>
-
-            <Col lg={"12"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("DEFAULT_QAULIFICATION")}
-                    </Label>
-                  </Col>
-                  <Col sm="8">
-                    <div>
-                      <Select
-                        placeholder={languageTranslation(
-                          "DEFAULT_QAULIFICATION"
-                        )}
-                        value={state ? state : undefined}
-                        onChange={(value: any) => handleSelect(value, "state")}
-                        options={State}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
@@ -715,9 +784,11 @@ const AddCareInstitution: any = (
                     <div>
                       <Select
                         placeholder={languageTranslation("LIKED_TO")}
-                        value={state ? state : undefined}
-                        onChange={(value: any) => handleSelect(value, "state")}
-                        options={State}
+                        onChange={(value: any) =>
+                          handleSelect(value, "linkedTo")
+                        }
+                        value={linkedTo}
+                        options={CareInstitutionList}
                       />
                     </div>
                   </Col>
@@ -744,6 +815,7 @@ const AddCareInstitution: any = (
                         placeholder={languageTranslation("REMARKS")}
                         className="textarea-custom"
                         rows="4"
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -753,14 +825,22 @@ const AddCareInstitution: any = (
           </Row>
         </div>
       </Col>
-      <Col lg={"4"}>
+      <Col lg={"4"} className="px-lg-0">
         <div className="common-col">
           <CommissionFormData {...props} handleSelect={handleSelect} />
           <InvoiceFormData {...props} handleSelect={handleSelect} />
-          <QuallificationAttribute {...props} handleSelect={handleSelect} />
+          <QuallificationAttribute
+            {...props}
+            handleSelect={handleSelect}
+            qualificationList={props.qualificationList}
+          />
         </div>
       </Col>
-      <RemarkFormData {...props} />
+      <RemarkFormData
+        {...props}
+        setRemarksDetail={setRemarksDetail}
+        remarksDetail={remarksDetail}
+      />
     </Row>
   );
 };

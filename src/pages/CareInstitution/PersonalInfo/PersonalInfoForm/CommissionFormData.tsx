@@ -7,7 +7,7 @@ import {
   ICareInstitutionFormValues,
   IHandleSelectInterface
 } from "../../../../interfaces";
-import { Region } from "../../../../config";
+import { Region, LeasingPriceList, CareInstLeasingPriceList } from "../../../../config";
 
 const CommissionFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -52,6 +52,12 @@ const CommissionFormData: FunctionComponent<FormikProps<
                         placeholder={languageTranslation("HEALTH_CARE_FEE")}
                         className="width-common"
                       />
+                      {errors.careGiverCommission &&
+                        touched.careGiverCommission && (
+                          <div className="required-error left">
+                            {errors.careGiverCommission}
+                          </div>
+                        )}
                     </div>
                   </Col>
                   <Col sm="8">
@@ -73,6 +79,12 @@ const CommissionFormData: FunctionComponent<FormikProps<
                               placeholder={languageTranslation("DOCTOR_FEE")}
                               className="width-common"
                             />
+                            {errors.doctorCommission &&
+                              touched.doctorCommission && (
+                                <div className="required-error left">
+                                  {errors.doctorCommission}
+                                </div>
+                              )}
                           </div>
                         </Col>
                       </Row>
@@ -95,12 +107,15 @@ const CommissionFormData: FunctionComponent<FormikProps<
                 <div>
                   <Select
                     placeholder={languageTranslation("LEASING_PRICE_LIST")}
-                    isMulti
-                    value={leasingPriceListId ? leasingPriceListId : undefined}
-                    onChange={(value: any) =>
-                      handleSelect(value, "leasingPriceList")
+                    value={
+                      leasingPriceListId && leasingPriceListId.value
+                        ? leasingPriceListId
+                        : undefined
                     }
-                    options={Region}
+                    onChange={(value: any) =>
+                      handleSelect(value, "leasingPriceListId")
+                    }
+                    options={CareInstLeasingPriceList}
                   />
                 </div>
               </Col>

@@ -29,7 +29,8 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
     label,
     handleSubmit,
     handleChange,
-    setFieldValue
+    setFieldValue,
+    searchPlacholderText
   } = props;
 
   // Custom function to handle react select fields
@@ -41,7 +42,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
     <div className="filter-form form-section">
       <Form onSubmit={handleSubmit}>
         <Row>
-          <Col lg={"2"}>
+          <Col lg={"3"} md={"3"}>
             <FormGroup>
               <Label for="search" className="col-form-label">
                 {languageTranslation("SEARCH_LABEL")} :
@@ -53,14 +54,18 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                 value={searchValue}
                 onChange={handleChange}
                 placeholder={
-                  label === "employee"
+                  searchPlacholderText
+                    ? searchPlacholderText
+                    : label === "employee"
                     ? languageTranslation("SEARCH_EMPLOYEE_PLACEHOLDER")
+                    : label === "care institution"
+                    ? languageTranslation("SEARCH_CARE_INSTI_PLACEHOLDER")
                     : languageTranslation("SEARCH_REGION_PLACEHOLDER")
                 }
               />
             </FormGroup>
           </Col>
-          <Col lg={"2"}>
+          <Col lg={"2"} md={"3"}>
             <FormGroup>
               <Label for="Selectregion" className="col-form-label">
                 {languageTranslation("SORTBY_LABEL")} :
@@ -68,14 +73,15 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
               <Select
                 placeholder={languageTranslation("SORTBY_PLACEHOLDER")}
                 options={SortOptions}
+                isSearchable={false}
                 isClearable={true}
                 value={sortBy && sortBy.value !== "" ? sortBy : null}
                 onChange={(value: any) => handleSelect(value, "sortBy")}
               />
             </FormGroup>
           </Col>
-          {label === "employee" ? (
-            <Col lg={"2"}>
+          {label !== "region" ? (
+            <Col lg={"2"} md={"3"}>
               <FormGroup>
                 <Label for="Selectregion" className="col-form-label">
                   {languageTranslation("STATUS_LABEL")} :
@@ -84,13 +90,14 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                   placeholder={languageTranslation("STATUS_PLACEHOLDER")}
                   options={StatusOptions}
                   isClearable={true}
+                  isSearchable={false}
                   value={isActive && isActive.value !== "" ? isActive : null}
                   onChange={(value: any) => handleSelect(value, "isActive")}
                 />
               </FormGroup>
             </Col>
           ) : null}
-          <Col lg={"2"}>
+          <Col lg={"2"} md={"3"}>
             <div className="label-height"></div>
             <div className="filter-btn-wrap">
               <Button
@@ -105,6 +112,9 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                   {languageTranslation("SEARCH_LABEL")}
                 </UncontrolledTooltip>
                 <i className="fa fa-search"></i>
+                <span className="search-text">{languageTranslation("SEARCH_LABEL")}</span>
+                
+                
               </Button>
               <Button
                 className="btn-filter mr-2"
@@ -117,6 +127,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                   {languageTranslation("RESET_LABEL")}
                 </UncontrolledTooltip>
                 <i className="fa fa-refresh "></i>
+                <span className="search-text">{languageTranslation("RESET_LABEL")}</span>
               </Button>
             </div>
           </Col>

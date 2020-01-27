@@ -171,6 +171,31 @@ export const EmployeeForm: FunctionComponent = () => {
   }, [employeeDetails]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
 
   useEffect(() => {
+    if (employeeDetails) {
+      const { viewEmployee } = employeeDetails;
+      let index: number = -1;
+      if (viewEmployee.employee.country) {
+        index = countriesOpt.findIndex(
+          ({ label }: IReactSelectInterface) =>
+            label === viewEmployee.employee.country,
+        );
+        getStatesByCountry({
+          variables: {
+            countryid:
+              countriesOpt && index > -1 ? countriesOpt[index].value : '82',
+          }, // default code is for germany
+        });
+      }
+      if (employeeData) {
+        setEmployeeData({
+          ...employeeData,
+          country: index > -1 ? countriesOpt[index] : undefined,
+        });
+      }
+    }
+  }, [countriesData]);
+
+  useEffect(() => {
     if (statesData && statesData.states) {
       let stateList: IReactSelectInterface[] = [];
       statesData.states.forEach(({ id, name }: IState) =>
@@ -290,10 +315,15 @@ export const EmployeeForm: FunctionComponent = () => {
         .replace('GraphQL error: ', '');
       // setFieldError('email', message);
       toast.error(message);
+      if (
+        message ===
+        "Employee added successfully but due to some network issue email couldn't be sent out"
+      ) {
+        history.push(AppRoutes.EMPLOYEE);
+      }
     }
     setSubmitting(false);
   };
-
   // Fetch values in case of edit by default it will be null or undefined
   const {
     email = '',

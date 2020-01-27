@@ -40,7 +40,7 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
             <div xs={"12"} lg={"8"} className="mx-auto"> */}
       <Form onSubmit={handleSubmit} className="form-section">
         <FormGroup>
-          <div className="d-flex align-items-center justify-content-center">
+          <div className="d-flex align-items-sm-center flex-column flex-sm-row justify-content-center">
             <div className="mr-3 position-relative ">
               <Label className="form-label col-form-label ">
                 {languageTranslation("REGION_NAME_OF_REGION_LABEL")}
@@ -60,8 +60,8 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
                 value={regionName}
                 className={
                   errors.regionName && touched.regionName
-                    ? "text-input error"
-                    : "text-input"
+                    ? "text-input error my-2 my-sm-0"
+                    : "text-input my-2 my-sm-0"
                 }
               />
               {errors.regionName && touched.regionName && (

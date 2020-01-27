@@ -1,33 +1,79 @@
 @import "../../scss/variables";
 .common-col {
   height: 100%;
+  .form-card {
+    @media only screen and (max-width: 991px) {
+      margin-top: 12px;
+      height: auto;
+    }
+  }
   .quality-attribute-section {
-    height: calc(100% - 359px);
+    // height: calc(100% - 359px);
+    @media only screen and (max-width: 991px) {
+      height: auto;
+    }
     .common-list-card {
-      height: 100%;
-      margin-bottom: 12px;
+      // height: 100%;
+      &:last-child {
+        margin-top: 12px;
+      }
       .common-list-wrap {
-        height: calc(100% - 35px);
+        // height: calc(100% - 40px);
         margin-bottom: 0px;
         .common-list-body {
-          height: calc(100% - 22px);
+          // height: calc(100% - 28px);
+          min-height: 244px;
+          max-height: 250px;
         }
       }
     }
   }
 }
 .save-button {
-  position: absolute;
-  top: -34px;
+  // position: absolute;
+  // top: -31px;
+  position: fixed;
+  top: 70px;
   right: 8px;
   padding: 4px 30px;
   font-weight: 600;
   font-size: 12px;
   z-index: 10;
+  @media only screen and (max-width: 767px) {
+    position: fixed;
+    top: 76px;
+  }
+
   &.sticky-save-btn {
     position: fixed;
     top: 34px;
     right: 8px;
+    @media only screen and (max-width: 991px) {
+      top: 72px;
+    }
+    @media only screen and (max-width: 767px) {
+      position: fixed;
+      top: 76px;
+    }
+  }
+}
+.sticky-save-btn {
+  position: fixed;
+  top: 34px;
+  right: 8px;
+  z-index: 10;
+
+  @media only screen and (max-width: 991px) {
+    top: 72px;
+  }
+  @media only screen and (max-width: 767px) {
+    position: fixed;
+    top: 76px;
+  }
+  .save-button {
+    position: relative;
+    top: unset;
+    right: unset;
   }
 }
 .common-offer-section {
@@ -36,7 +82,7 @@
     .common-list-wrap {
       height: 100%;
       .common-list-body {
-        height: calc(100% - 22px);
+        height: calc(100% - 57px);
       }
     }
   }
@@ -125,4 +171,8 @@
   .prio-col {
     width: 92px;
   }
+}
+.disabled-div {
+  cursor: not-allowed !important;
+  opacity: 0.7;
 }

@@ -64,8 +64,6 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
     remarksDetail,
     handleChange,
   } = props;
-  console.log(remarksDetail, 'remarksDetailremarksDetail');
-
   return (
     <Col lg={4}>
       <div className='remark-details'>

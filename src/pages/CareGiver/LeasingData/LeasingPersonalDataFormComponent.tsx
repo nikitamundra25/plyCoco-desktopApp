@@ -10,13 +10,13 @@ import {
   Religion,
   Preoccupation,
   IBANRegex,
-  DateMask,
+  DateMask
 } from '../../../config';
 import { FormikProps, Field } from 'formik';
 import { ILeasingValues } from '../../../interfaces';
 import {
   FormikTextField,
-  FormikSelectField,
+  FormikSelectField
 } from '../../../common/forms/FormikFields';
 import { languageTranslation } from '../../../helpers';
 import MaskedInput from 'react-text-mask';
@@ -45,14 +45,14 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
       firstDay,
       lastDay,
       monthlyWorkingHrs,
-      weeklyWorkingHrs,
+      weeklyWorkingHrs
     },
     isSubmitting,
     handleSubmit,
     handleBlur,
     handleChange,
     errors,
-    touched,
+    touched
   } = props;
   return (
     <div>
@@ -406,14 +406,18 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             <div>
                               <MaskedInput
                                 {...field}
-                                className={'form-control'}
                                 value={payrollIBAN}
                                 placeholder={languageTranslation(
-                                  'BANK_IBAN_PLACEHOLDER',
+                                  'BANK_IBAN_PLACEHOLDER'
                                 )}
                                 mask={IBANRegex}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
+                                className={`form-control ${
+                                  errors.payrollIBAN && touched.payrollIBAN
+                                    ? 'text-input error'
+                                    : 'text-input'
+                                }`}
                               />
                               {errors.payrollIBAN && touched.payrollIBAN && (
                                 <div className='required-error'>
@@ -454,7 +458,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                                   {...field}
                                   className={'form-control'}
                                   placeholder={languageTranslation(
-                                    'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
+                                    'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
                                   )}
                                   mask={DateMask}
                                   name={'firstDay'}
@@ -492,7 +496,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                                   {...field}
                                   className={'form-control'}
                                   placeholder={languageTranslation(
-                                    'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
+                                    'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
                                   )}
                                   mask={DateMask}
                                   name={'lastDay'}
@@ -519,7 +523,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                       <Col sm='4'>
                         <Label className='form-label col-form-label '>
                           {languageTranslation(
-                            'LEASING_CONTRACT_MONTHLY_WORKING_HRS',
+                            'LEASING_CONTRACT_MONTHLY_WORKING_HRS'
                           )}
                         </Label>
                       </Col>
@@ -529,7 +533,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             component={FormikTextField}
                             name={'monthlyWorkingHrs'}
                             placeholder={languageTranslation(
-                              'LEASING_CONTRACT_MONTHLY_WORKING_HRS',
+                              'LEASING_CONTRACT_MONTHLY_WORKING_HRS'
                             )}
                           />
                         </div>
@@ -543,7 +547,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
                           {languageTranslation(
-                            'LEASING_CONTRACT_WEEKLY_WORKING_HRS',
+                            'LEASING_CONTRACT_WEEKLY_WORKING_HRS'
                           )}
                           <br />
                         </Label>
@@ -554,7 +558,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             component={FormikTextField}
                             name={'weeklyWorkingHrs'}
                             placeholder={languageTranslation(
-                              'LEASING_CONTRACT_WEEKLY_WORKING_HRS',
+                              'LEASING_CONTRACT_WEEKLY_WORKING_HRS'
                             )}
                             className='width-common'
                           />

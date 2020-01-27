@@ -357,6 +357,9 @@ class BillingSettings extends Component {
                             placeholder="Additional text "
                             className="textarea-custom"
                             rows="4"
+                            maxLength={250}
+
+
                           />
                         </div>
                       </Col>

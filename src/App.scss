@@ -398,15 +398,11 @@ body {
         margin-bottom: 20px;
       }
       .form-group {
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         .form-control {
           height: 35px;
         }
-        .required-error {
-          left: 0px;
-          bottom: -16px;
-          top: unset;
-        }
+        
       }
       .input-group-prepend {
         border: 1px solid $light_gray;
@@ -1001,7 +997,7 @@ html:not([dir="rtl"]) {
   }
 
   .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 15px;
     .col-form-label {
       font-size: $font_12;
       font-weight: 400;
@@ -1013,6 +1009,31 @@ html:not([dir="rtl"]) {
     }
     .required {
       color: $red;
+    }
+    .required-tooltip{
+      width: auto;
+      background-color: $black;
+      color: $white;
+      text-align: center;
+      border-radius: 0px;
+      padding: 3px 10px;
+      position: absolute;
+      z-index: 1;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      display: none;
+      &:after{
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: $black $transparent $transparent $transparent;
+      }
     }
     .required-error {
       position: absolute;
@@ -1037,6 +1058,7 @@ html:not([dir="rtl"]) {
       display: flex;
       align-items: center;
       font-family: $font_Frutiger_Regular;
+      
       &:focus {
         box-shadow: none;
         outline: none;
@@ -1055,6 +1077,14 @@ html:not([dir="rtl"]) {
         height: 194px;
         overflow-y: auto;
         resize: none;
+      }
+      &.error{
+        border-color: $red;
+      }
+      &:hover ~ {
+        .required-tooltip {
+          display: block;
+        }
       }
     }
     .custom-input-width {

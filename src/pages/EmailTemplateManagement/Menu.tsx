@@ -1,14 +1,22 @@
 import React, { FunctionComponent } from 'react';
 import Select from 'react-select';
 import { languageTranslation } from '../../helpers';
-import { CareGiver } from '../../config';
 import save from '../../assets/img/save.svg';
 import clear from '../../assets/img/clear.svg';
 import newEmail from '../../assets/img/new-email.svg';
+import { IEmailTemplateMenu } from '../../interfaces';
 // import EmailSeparator from '../../assets/img/mail.svg';
 
-export const EmailTemplateMenu: FunctionComponent<any> = (props: any) => {
-  const { handleSubmit, onAddNewTemplate } = props;
+export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
+  props: IEmailTemplateMenu,
+) => {
+  const {
+    handleSubmit,
+    onAddNewTemplate,
+    typeListOptions,
+    templateType,
+    onTypeChange,
+  } = props;
   return (
     <div className='sticky-common-header'>
       <div className='common-topheader d-flex align-items-center mb-2 '>
@@ -16,7 +24,12 @@ export const EmailTemplateMenu: FunctionComponent<any> = (props: any) => {
           {languageTranslation('TEMPLATE_TYPE')}
         </div>
         <div className='user-select'>
-          <Select placeholder='Select Template' options={CareGiver} />
+          <Select
+            placeholder='Select Template'
+            options={typeListOptions}
+            value={templateType}
+            onChange={onTypeChange}
+          />
         </div>
         <div className='header-nav-item' onClick={onAddNewTemplate}>
           <span className='header-nav-icon'>

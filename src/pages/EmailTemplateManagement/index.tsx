@@ -1,12 +1,12 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Row } from 'reactstrap';
 import { FormikHelpers } from 'formik';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { toast } from 'react-toastify';
-import { IEmailTemplateValues } from '../../interfaces';
+import { IEmailTemplateValues, IReactSelectInterface } from '../../interfaces';
 import { EmailTemplateQueries } from '../../queries';
 import { EmailTemplateMenu } from './Menu';
 import { EmailTemplateList } from './List';
@@ -14,7 +14,11 @@ import { AddTemplate } from './AddTemplate';
 import './index.scss';
 import { logger, languageTranslation } from '../../helpers';
 
-const [ADD_EMAIL_TEMPLATE, UPDATE_EMAIL_TEMPLATE] = EmailTemplateQueries;
+const [
+  ADD_EMAIL_TEMPLATE,
+  UPDATE_EMAIL_TEMPLATE,
+  GET_EMAIL_TEMPLATE_TYEPS,
+] = EmailTemplateQueries;
 
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
@@ -22,8 +26,36 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   const [templateData, setTemplateData] = useState<IEmailTemplateValues | null>(
     null,
   );
+  const [
+    templateType,
+    setTemplateType,
+  ] = useState<IReactSelectInterface | null>(null);
   // To get all the types of email template
-
+  const { data: typeList, loading, refetch } = useQuery(
+    GET_EMAIL_TEMPLATE_TYEPS,
+  );
+  const typeListOptions: IReactSelectInterface[] | undefined = [];
+  // To convert types into react select compatible options
+  if (
+    !loading &&
+    typeList &&
+    typeList.getEmailtemplateTypes &&
+    typeList.getEmailtemplateTypes.length
+  ) {
+    const { getEmailtemplateTypes } = typeList;
+    getEmailtemplateTypes.forEach(({ type }: { type: string }) =>
+      typeListOptions.push({
+        label: type,
+        value: type,
+      }),
+    );
+  }
+  useEffect(() => {
+    if (!templateType) {
+      // To set default email type
+      setTemplateType(typeListOptions[0]);
+    }
+  }, [typeListOptions]);
   // To add email template into db
   const [addEmail] = useMutation<
     {
@@ -34,6 +66,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   >(ADD_EMAIL_TEMPLATE, {
     onCompleted({ addEmail }) {
+      refetch();
       toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
     },
   });
@@ -103,6 +136,11 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       });
     }
   };
+  // Function to change list according to type selected
+  const onTypeChange = (selectedType: IReactSelectInterface) => {
+    console.log(selectedType, 'type');
+    setTemplateType(selectedType);
+  };
   // To use formik submit form outside
   const bindSubmitForm = (submitForm: any) => {
     submitMyForm = submitForm;
@@ -118,6 +156,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
               submitMyForm();
             }}
             onAddNewTemplate={() => setTemplateData(null)}
+            typeListOptions={typeListOptions}
+            templateType={templateType}
+            onTypeChange={onTypeChange}
           />
           <div className='common-content flex-grow-1'>
             <div>

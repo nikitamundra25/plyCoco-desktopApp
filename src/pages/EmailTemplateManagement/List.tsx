@@ -14,15 +14,17 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
       <div className='common-list-wrap border-0'>
         <div className='common-list-body h-auto'>
           <ul className='common-list list-unstyled'>
-            <li onClick={() => onTemplateSelection('')}>
-              {data && data.getEmailtemplate ? (
-                data.getEmailtemplate.map((menu: any) => {
-                  return <span>{menu.menuEntry}</span>;
-                })
-              ) : (
-                <Loader />
-              )}
-            </li>
+            {data && data.getEmailtemplate ? (
+              data.getEmailtemplate.map((menu: any) => {
+                return (
+                  <li onClick={() => onTemplateSelection('')}>
+                    <span>{menu.menuEntry}</span>
+                  </li>
+                );
+              })
+            ) : (
+              <Loader />
+            )}
           </ul>
         </div>
       </div>

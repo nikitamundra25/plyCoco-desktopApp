@@ -523,5 +523,6 @@
   "TAX_MAXLENGTH": "Tax number must be less than or equal to 11 digits",
   "SOCIAL_SECURITY_SPCHAR_ERROR": "Special Characters are not allowed",
   "PAY_SLIPS": "Pay Slips",
-  "PAID": "Paid"
+  "PAID": "Paid",
+  "CONTACT_REQUIRED":"Contact is required"
 }

@@ -71,6 +71,7 @@ export interface ICareInstitutionContactValidationSchema {
   phoneNumber: number;
   phoneNumber2: number;
   faxNumber: number;
+  contactType: IReactSelectInterface;
 }
 
 export interface ICareInstitutionContact {

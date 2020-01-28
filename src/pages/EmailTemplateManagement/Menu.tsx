@@ -5,11 +5,10 @@ import { CareGiver } from '../../config';
 import save from '../../assets/img/save.svg';
 import clear from '../../assets/img/clear.svg';
 import newEmail from '../../assets/img/new-email.svg';
-import { IAddEmailTemplateProps } from '../../interfaces';
 // import EmailSeparator from '../../assets/img/mail.svg';
 
 export const EmailTemplateMenu: FunctionComponent<any> = (props: any) => {
-  const { handleSubmit } = props;
+  const { handleSubmit, onAddNewTemplate } = props;
   return (
     <div className='sticky-common-header'>
       <div className='common-topheader d-flex align-items-center mb-2 '>
@@ -19,7 +18,7 @@ export const EmailTemplateMenu: FunctionComponent<any> = (props: any) => {
         <div className='user-select'>
           <Select placeholder='Select Template' options={CareGiver} />
         </div>
-        <div className='header-nav-item'>
+        <div className='header-nav-item' onClick={onAddNewTemplate}>
           <span className='header-nav-icon'>
             <img src={newEmail} alt='' />
           </span>

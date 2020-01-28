@@ -4,18 +4,21 @@ import { FormikHelpers } from 'formik';
 import { useMutation } from '@apollo/react-hooks';
 import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import { toast } from 'react-toastify';
+import { IEmailTemplateValues } from '../../interfaces';
+import { EmailTemplateQueries } from '../../queries';
 import { EmailTemplateMenu } from './Menu';
 import { EmailTemplateList } from './List';
 import { AddTemplate } from './AddTemplate';
-import { IEmailTemplateValues } from '../../interfaces';
-import { EmailTemplateQueries } from '../../queries';
 import './index.scss';
-import htmlToDraft from 'html-to-draftjs';
+import { logger } from '../../helpers';
 
 const [ADD_EMAIL_TEMPLATE, UPDATE_EMAIL_TEMPLATE] = EmailTemplateQueries;
 
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
+  // To set email template data at the time of edit
   const [templateData, setTemplateData] = useState<IEmailTemplateValues | null>(
     null,
   );
@@ -40,37 +43,43 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   >(UPDATE_EMAIL_TEMPLATE);
   // Submit handler
   const handleSubmit = async (
-    { type, menuEntry, subject, body }: IEmailTemplateValues,
+    { type, menuEntry, subject, body, id }: IEmailTemplateValues,
     { resetForm }: FormikHelpers<IEmailTemplateValues>,
   ) => {
-    console.log(type, menuEntry, subject, body, 'values on handle submit');
+    const emailTemplateInput: IEmailTemplateValues = {
+      type,
+      menuEntry,
+      subject,
+      body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '',
+    };
     try {
-      addEmail({
-        variables: {
-          emailTemplateInput: {
-            type,
-            menuEntry,
-            subject,
-            body:
-              body && body.editorState
-                ? draftToHtml(
-                    convertToRaw(body.editorState.getCurrentContent()),
-                  )
-                : '',
+      if (id) {
+        updateEmailTemplate({
+          variables: {
+            id,
+            emailTemplateInput,
           },
-        },
-      });
-    } catch (error) {}
+        });
+      } else {
+        addEmail({
+          variables: {
+            emailTemplateInput,
+          },
+        });
+      }
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      toast.error(message);
+    }
     resetForm();
   };
   const onTemplateSelection = () => {
-    console.log('onTemplateSelection');
-    let text: any = 'Test1';
-    const contentBlock =
-      text && text.editorState ? htmlToDraft(text.editorState) : '';
+    let text: any = '<p>asasa</p>';
+    const contentBlock = text ? htmlToDraft(text) : '';
     if (contentBlock) {
-      console.log('in iff');
-
       const contentState = ContentState.createFromBlockArray(
         contentBlock.contentBlocks,
       );
@@ -88,7 +97,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   const bindSubmitForm = (submitForm: any) => {
     submitMyForm = submitForm;
   };
-  console.log('templateData', templateData);
+  logger('templateData', templateData);
 
   return (
     <>
@@ -96,9 +105,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         <div className='common-detail-section'>
           <EmailTemplateMenu
             handleSubmit={() => {
-              console.log('dfkdslfjdsfkjdskfjskfjdsk');
               submitMyForm();
             }}
+            onAddNewTemplate={() => setTemplateData(null)}
           />
           <div className='common-content flex-grow-1'>
             <div>

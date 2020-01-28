@@ -11,7 +11,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
 >> = (props: FormikProps<IEmailTemplateValues>) => {
   const {
-    values: { type, menuEntry, subject, body },
+    values: { type, menuEntry, subject, body, id },
     touched,
     errors,
     setFieldValue,
@@ -40,6 +40,8 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                           <Input
                             type='text'
                             name={'id'}
+                            value={id ? id : ''}
+                            disabled={true}
                             placeholder='ID'
                             className='width-common'
                           />

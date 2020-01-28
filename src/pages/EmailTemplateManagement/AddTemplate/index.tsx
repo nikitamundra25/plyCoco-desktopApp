@@ -13,14 +13,19 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
   const { handleSubmit, bindSubmitForm, templateData } = props;
   console.log(templateData, 'templateDatatemplateData');
 
-  const { type = '', menuEntry = '', subject = '', body = '' } = templateData
-    ? templateData
-    : {};
+  const {
+    type = '',
+    menuEntry = '',
+    subject = '',
+    body = '',
+    id = undefined,
+  } = templateData ? templateData : {};
   const values: IEmailTemplateValues = {
     type,
     menuEntry,
     subject,
     body,
+    id,
   };
   return (
     <Formik

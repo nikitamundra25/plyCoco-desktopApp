@@ -32,3 +32,9 @@ export interface ILoginFormValues {
   email: string;
   password: string;
 }
+
+export interface ILoginResponse {
+  token: string;
+  message: string;
+  status: string;
+}

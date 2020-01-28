@@ -1,324 +1,222 @@
-import React, { Component } from "react";
-import {
-  Col,
-  Row,
-  Collapse,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Table,
-  UncontrolledTooltip
-} from "reactstrap";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState } from "draft-js";
-import { RouteComponentProps } from "react-router-dom";
-import EmailMenus from "../CareGiver/Emails/EmailMenus";
-import { languageTranslation } from "../../helpers";
-import Select from "react-select";
-import { State, Region, CareGiver } from "../../config";
-import "./index.scss";
-import save from "../../assets/img/save.svg";
-import clear from "../../assets/img/clear.svg";
-import newEmail from "../../assets/img/new-email.svg";
-import EmailSeparator from "../../assets/img/mail.svg";
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { Row } from 'reactstrap';
+import { FormikHelpers } from 'formik';
+import { useMutation, useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { convertToRaw, ContentState, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import { toast } from 'react-toastify';
+import { IEmailTemplateValues, IReactSelectInterface } from '../../interfaces';
+import { EmailTemplateQueries } from '../../queries';
+import { EmailTemplateMenu } from './Menu';
+import { EmailTemplateList } from './List';
+import { AddTemplate } from './AddTemplate';
+import './index.scss';
+import { logger, languageTranslation } from '../../helpers';
 
-class EmailTemplateManagement extends Component<RouteComponentProps, any> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      editorState: EditorState.createEmpty()
-    };
+const [
+  ADD_EMAIL_TEMPLATE,
+  UPDATE_EMAIL_TEMPLATE,
+  GET_EMAIL_TEMPLATE_TYEPS,
+  GET_EMAIL_TEMPLATE,
+  GET_EMAIL_TEMPLATE_BY_ID
+] = EmailTemplateQueries;
+
+export const EmailTemplateManagement: FunctionComponent = () => {
+  let submitMyForm: any = null;
+
+  // To set email template data at the time of edit
+  const [templateData, setTemplateData] = useState<IEmailTemplateValues | null>(
+    null
+  );
+  const [
+    templateType,
+    setTemplateType
+  ] = useState<IReactSelectInterface | null>(null);
+  // To get all the types of email template
+  const { data: typeList, loading, refetch } = useQuery(
+    GET_EMAIL_TEMPLATE_TYEPS
+  );
+  const typeListOptions: IReactSelectInterface[] | undefined = [];
+  // To convert types into react select compatible options
+  if (
+    !loading &&
+    typeList &&
+    typeList.getEmailtemplateTypes &&
+    typeList.getEmailtemplateTypes.length
+  ) {
+    const { getEmailtemplateTypes } = typeList;
+    getEmailtemplateTypes.forEach(({ type }: { type: string }) =>
+      typeListOptions.push({
+        label: type,
+        value: type
+      })
+    );
   }
-  options = [
-    { value: "Denis", label: "Aaron, Hank" },
-    { value: "Denis", label: "Bergman, Ingmar" },
-    { value: "Beck, Glenn", label: "Berle, Milton" }
-  ];
-  onEditorStateChange = (editorState: any) => {
-    this.setState({
-      editorState
+  useEffect(() => {
+    if (!templateType) {
+      // To set default email type
+      setTemplateType(typeListOptions[0]);
+    }
+  }, [typeListOptions]);
+  // To add email template into db
+  const [addEmail] = useMutation<
+    {
+      addEmail: any;
+    },
+    {
+      emailTemplateInput: IEmailTemplateValues;
+    }
+  >(ADD_EMAIL_TEMPLATE, {
+    onCompleted({ addEmail }) {
+      refetch();
+      toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
+    }
+  });
+  // To update email template into db
+  const [updateEmailTemplate] = useMutation<
+    {
+      updateEmailTemplate: any;
+    },
+    {
+      id: number;
+      emailTemplateInput: IEmailTemplateValues;
+    }
+  >(UPDATE_EMAIL_TEMPLATE, {
+    onCompleted({ updateEmailTemplate }) {
+      toast.success(languageTranslation('EMAIL_UPDATION_SUCCESS'));
+    }
+  });
+  //To get email templates
+  const [fetchTemplateList, { data }] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
+  //To get email templates by id
+  const [
+    fetchTemplateById,
+    { data: emailTemplate, loading: emailTemplateLoading }
+  ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE_BY_ID);
+
+  useEffect(() => {
+    if (!emailTemplateLoading && emailTemplate) {
+      const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
+      const {
+        type = '',
+        menuEntry = '',
+        subject = '',
+        body = ''
+      } = viewEmailTemplate ? viewEmailTemplate : {};
+      const contentBlock = body ? htmlToDraft(body) : '';
+      if (contentBlock) {
+        const contentState = ContentState.createFromBlockArray(
+          contentBlock.contentBlocks
+        );
+        const editorState = EditorState.createWithContent(contentState);
+        console.log('viewEmailTemplate', viewEmailTemplate);
+        setTemplateData({
+          type: type,
+          menuEntry: menuEntry,
+          subject: subject,
+          body: editorState,
+          id: 1
+        });
+      }
+    }
+  }, [emailTemplate]);
+
+  useEffect(() => {
+    // call query
+    fetchTemplateList({
+      variables: {
+        type: 'Test1'
+      }
+    });
+  }, []);
+
+  // Submit handler
+  const handleSubmit = async (
+    { type, menuEntry, subject, body, id }: IEmailTemplateValues,
+    { resetForm }: FormikHelpers<IEmailTemplateValues>
+  ) => {
+    const emailTemplateInput: IEmailTemplateValues = {
+      type,
+      menuEntry,
+      subject,
+      body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : ''
+    };
+    try {
+      if (id) {
+        updateEmailTemplate({
+          variables: {
+            id,
+            emailTemplateInput
+          }
+        });
+      } else {
+        addEmail({
+          variables: {
+            emailTemplateInput
+          }
+        });
+      }
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      toast.error(message);
+    }
+    resetForm();
+  };
+  const onTemplateSelection = async () => {
+    await fetchTemplateById({
+      variables: {
+        id: 1
+      }
     });
   };
+  // Function to change list according to type selected
+  const onTypeChange = (selectedType: IReactSelectInterface) => {
+    console.log(selectedType, 'type');
+    setTemplateType(selectedType);
+  };
+  // To use formik submit form outside
+  const bindSubmitForm = (submitForm: any) => {
+    submitMyForm = submitForm;
+  };
+  logger('templateData', templateData);
+  console.log('emailTemplate111', emailTemplate);
 
-  render() {
-    const { editorState } = this.state;
-    return (
-      <>
-        <div className="common-detail-page">
-          <div className="common-detail-section">
-            <div className="sticky-common-header">
-              <div className="common-topheader d-flex align-items-center mb-2 ">
-                <div className="template-lable">
-                  {languageTranslation("TEMPLATE_TYPE")}
-                </div>
-                <div className="user-select">
-                  <Select placeholder="Select Template" options={CareGiver} />
-                </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={newEmail} alt="" />
-                  </span>
-                  <span className="header-nav-text">New Email</span>
-                </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={EmailSeparator} alt="" />
-                  </span>
-                  <span className="header-nav-text">New Email Separator</span>
-                </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={clear} alt="" />
-                  </span>
-                  <span className="header-nav-text">Clear</span>
-                </div>
-                <div className="header-nav-item">
-                  <span className="header-nav-icon">
-                    <img src={save} alt="" />
-                  </span>
-                  <span className="header-nav-text">Save</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="common-content flex-grow-1">
-              <div>
-                <Row>
-                  <Col lg={"7"}>
-                    <h5 className="content-title">
-                      {languageTranslation("MENU_ENTRY")}
-                    </h5>
-                    <div className="common-list-wrap border-0">
-                      <div className="common-list-body h-auto">
-                        <ul className="common-list list-unstyled">
-                          <li>Dialysis </li>
-                          <li>Home Management</li>
-                          <li>Nurse/carer</li>
-                          <li>Dialysis </li>
-                          <li>-----------------------------------------</li>
-                          <li>Nurse/carer</li>
-                          <li>Dialysis </li>
-                          <li>Home Management</li>
-                          <li>Nurse/carer</li>
-                          <li>Dialysis </li>
-                          <li>----------------------------------------</li>
-                          <li>Nurse/carer</li>
-                          <li>Dialysis </li>
-                          <li>Home Management</li>
-                          <li>Nurse/carer</li>
-                          <li>Dialysis </li>
-                          <li>Home Management</li>
-                          <li>-----------------------------------------</li>
-                          <li>Dialysis </li>
-                          <li>Home Management</li>
-                          <li>Nurse/carer</li>
-                          <li>Dialysis </li>
-                          <li>Dialysis </li>
-                          <li>Home Management</li>
-                          <li>Nurse/carer</li>
-                          <li>Dialysis </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </Col>
-
-                  <Col lg={"5"}>
-                    <h5 className="content-title">
-                      {languageTranslation("DETAILS")}
-                    </h5>
-
-                    <div className="form-section">
-                      <div className="form-card minheight-auto ">
-                        <Row>
-                          <Col lg={"12"}>
-                            <FormGroup>
-                              <Row>
-                                <Col sm="4">
-                                  <Label className="form-label col-form-label">
-                                    {languageTranslation("ID")}{" "}
-                                    <span className="required">*</span>
-                                  </Label>
-                                </Col>
-                                <Col sm="8">
-                                  <Row className="custom-col inner-no-padding-col">
-                                    <Col sm="4">
-                                      <div>
-                                        <Input
-                                          type="text"
-                                          name={"lastName"}
-                                          placeholder="ID"
-                                          className="width-common"
-                                        />
-                                      </div>
-                                    </Col>
-                                    <Col sm="8">
-                                      <Row className="custom-col inner-no-padding-col">
-                                        <Col sm="6">
-                                          <Label className="form-label col-form-label inner-label">
-                                            {languageTranslation("TYPE")}{" "}
-                                            <span className="required">*</span>
-                                          </Label>
-                                        </Col>
-                                        <Col sm="6">
-                                          <div>
-                                            <Input
-                                              type="text"
-                                              name={"lastName"}
-                                              placeholder="Type"
-                                              className="width-common"
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </Col>
-                                  </Row>
-                                </Col>
-                              </Row>
-                            </FormGroup>
-                          </Col>
-
-                          <Col lg={"12"}>
-                            <FormGroup>
-                              <Row>
-                                <Col sm="4">
-                                  <Label className="form-label col-form-label">
-                                    {languageTranslation("MENU_ENTRY")}{" "}
-                                  </Label>
-                                </Col>
-                                <Col sm="8">
-                                  <div>
-                                    <Input
-                                      type="text"
-                                      name={"lastName"}
-                                      placeholder="Menu Entry"
-                                      className="width-common"
-                                    />
-                                  </div>
-                                </Col>
-                              </Row>
-                            </FormGroup>
-                          </Col>
-                          <Col lg={"12"}>
-                            <FormGroup>
-                              <Row>
-                                <Col sm="4">
-                                  <Label className="form-label col-form-label">
-                                    {languageTranslation("SUBJECT")}{" "}
-                                  </Label>
-                                </Col>
-                                <Col sm="8">
-                                  <div>
-                                    <Input
-                                      type="text"
-                                      name={"lastName"}
-                                      placeholder="subject"
-                                      className="width-common"
-                                    />
-                                  </div>
-                                </Col>
-                              </Row>
-                            </FormGroup>
-                          </Col>
-                          <Col lg={"12"}>
-                            <FormGroup>
-                              <div>
-                                <Editor
-                                  editorState={editorState}
-                                  toolbarClassName="toolbarClassName"
-                                  wrapperClassName="wrapperClassName"
-                                  editorClassName="editorClassName"
-                                  onEditorStateChange={this.onEditorStateChange}
-                                  placeholder="Enter Email Here"
-                                  toolbar={{
-                                    options: [
-                                      "inline",
-                                      "blockType",
-                                      "fontSize",
-                                      "list",
-                                      "textAlign",
-                                      "link"
-                                    ],
-                                    inline: {
-                                      options: ["bold", "italic", "underline"]
-                                    },
-                                    fontSize: {
-                                      className: "bordered-option-classname"
-                                    },
-                                    fontFamily: {
-                                      className: "bordered-option-classname"
-                                    },
-                                    list: {
-                                      inDropdown: false,
-                                      options: ["unordered"]
-                                    },
-                                    link: {
-                                      options: ["link"]
-                                    }
-                                  }}
-                                />
-                              </div>
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                      </div>
-                    </div>
-                    <Table bordered hover responsive className="mail-table">
-                      <thead className="thead-bg">
-                        <tr>
-                          <th className="file-name">
-                            {languageTranslation("FILE_NAME")}
-                          </th>
-                          <th className="size-col">
-                            {languageTranslation("SIZE")}
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="file-name">pan card.PDF</td>
-                          <td className="size-col">1kb</td>
-                        </tr>
-                        <tr>
-                          <td className="file-name">voter id.pdf</td>
-                          <td className="size-col">2kb</td>
-                        </tr>
-
-                        <tr>
-                          <td className="file-name">pan card.PDF</td>
-                          <td className="size-col">5kb</td>
-                        </tr>
-                        <tr>
-                          <td className="file-name">voter id.pdf</td>
-                          <td className="size-col">1kb</td>
-                        </tr>
-                        <tr>
-                          <td className="file-name">pan card.PDF</td>
-                          <td className="size-col">1kb</td>
-                        </tr>
-                        <tr>
-                          <td className="file-name">voter id.pdf</td>
-                          <td className="size-col">1kb</td>
-                        </tr>
-                        <tr>
-                          <td className="file-name">adhar card.pdf</td>
-                          <td className="size-col">1kb</td>
-                        </tr>
-                        <tr>
-                          <td className="file-name">voter id.pdf</td>
-                          <td className="size-col">3kb</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </Col>
-                </Row>
-              </div>
+  return (
+    <>
+      <div className='common-detail-page'>
+        <div className='common-detail-section'>
+          <EmailTemplateMenu
+            handleSubmit={() => {
+              submitMyForm();
+            }}
+            onAddNewTemplate={() => setTemplateData(null)}
+            typeListOptions={typeListOptions}
+            templateType={templateType}
+            onTypeChange={onTypeChange}
+          />
+          <div className='common-content flex-grow-1'>
+            <div>
+              <Row>
+                <EmailTemplateList
+                  onTemplateSelection={onTemplateSelection}
+                  data={data}
+                />
+                <AddTemplate
+                  handleSubmit={handleSubmit}
+                  bindSubmitForm={bindSubmitForm}
+                  templateData={templateData}
+                />
+              </Row>
             </div>
           </div>
         </div>
-      </>
-    );
-  }
-}
+      </div>
+    </>
+  );
+};
+
 export default EmailTemplateManagement;

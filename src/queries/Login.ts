@@ -1,7 +1,11 @@
 import gql from 'graphql-tag';
 
 export const LOGIN = gql`
-mutation login($email: String, $password: String) {
-    doLogin(email: $email, password: $password)
-}
+  mutation adminLogin($authInput: AuthInput) {
+    adminLogin(authInput: $authInput) {
+      token
+      message
+      status
+    }
+  }
 `;

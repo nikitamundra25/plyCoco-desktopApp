@@ -143,7 +143,7 @@ const PersonalInfoFormComponent: any = (
                 <Col sm='8'>
                   <Row className='custom-col inner-no-padding-col'>
                     <Col sm='4'>
-                      <div>
+                      <div className="required-input">
                         <Input
                           type='text'
                           name={'id'}
@@ -281,7 +281,7 @@ const PersonalInfoFormComponent: any = (
                 </Label>
               </Col>
               <Col sm='8'>
-                <div>
+                <div className="required-input">
                   <Field
                     component={FormikTextField}
                     name={'firstName'}
@@ -304,7 +304,7 @@ const PersonalInfoFormComponent: any = (
                 </Label>
               </Col>
               <Col sm='8'>
-                <div>
+                <div className="required-input">
                   <Field
                     component={FormikTextField}
                     name={'lastName'}
@@ -327,7 +327,7 @@ const PersonalInfoFormComponent: any = (
               <Col sm='8'>
                 <Row className='custom-col inner-no-padding-col'>
                   <Col sm='7'>
-                    <div>
+                    <div className="required-input">
                       <Field
                         name={'dateOfBirth'}
                         render={({ field }: any) => (
@@ -345,7 +345,7 @@ const PersonalInfoFormComponent: any = (
                         )}
                       />
                       {errors.dateOfBirth && touched.dateOfBirth && (
-                        <div className='required-error left'>
+                        <div className='required-tooltip left'>
                           {errors.dateOfBirth}
                         </div>
                       )}
@@ -553,7 +553,7 @@ const PersonalInfoFormComponent: any = (
                 </Label>
               </Col>
               <Col sm='8'>
-                <div>
+                <div className="required-input">
                   <Field
                     component={FormikTextField}
                     name={'email'}
@@ -610,7 +610,7 @@ const PersonalInfoFormComponent: any = (
                 <Label className='form-label col-form-label'>IBAN</Label>
               </Col>
               <Col sm='8'>
-                <div>
+                <div className="required-input">
                   <Field name='payrollIBAN'>
                     {({ field }: any) => (
                       <div>
@@ -627,7 +627,7 @@ const PersonalInfoFormComponent: any = (
                           onBlur={handleBlur}
                         />
                         {errors.IBAN && touched.IBAN && (
-                          <div className='required-error'>{errors.IBAN}</div>
+                          <div className='required-tooltip'>{errors.IBAN}</div>
                         )}
                       </div>
                     )}
@@ -647,7 +647,7 @@ const PersonalInfoFormComponent: any = (
                 </Label>
               </Col>
               <Col sm='8'>
-                <div>
+                <div className="required-input">
                   <Field
                     component={FormikTextField}
                     name={'userName'}

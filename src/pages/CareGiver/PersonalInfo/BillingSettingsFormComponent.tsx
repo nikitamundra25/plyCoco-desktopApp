@@ -39,7 +39,7 @@ const BillingSettingsFormComponent: any = (
               <Col sm="8">
                 <Row className="custom-col inner-no-padding-col">
                   <Col sm="5">
-                    <div>
+                    <div className="required-input">
                       <Field
                         component={FormikTextField}
                         name={"fee"}
@@ -57,7 +57,7 @@ const BillingSettingsFormComponent: any = (
                           </Label>
                         </Col>
                         <Col sm="7">
-                          <div>
+                          <div className="required-input">
                             <Field
                               component={FormikTextField}
                               name={"night"}
@@ -83,7 +83,7 @@ const BillingSettingsFormComponent: any = (
               <Col sm="8">
                 <Row className="custom-col inner-no-padding-col">
                   <Col sm="5">
-                    <div>
+                    <div className="required-input">
                       <Field
                         component={FormikTextField}
                         name={"weekendAllowance"}
@@ -102,7 +102,7 @@ const BillingSettingsFormComponent: any = (
                           </Label>
                         </Col>
                         <Col sm="7">
-                          <div>
+                          <div className="required-input">
                             <Field
                               component={FormikTextField}
                               name={"holiday"}

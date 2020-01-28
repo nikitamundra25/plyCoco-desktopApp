@@ -12,7 +12,7 @@ import { EmailTemplateMenu } from './Menu';
 import { EmailTemplateList } from './List';
 import { AddTemplate } from './AddTemplate';
 import './index.scss';
-import { logger } from '../../helpers';
+import { logger, languageTranslation } from '../../helpers';
 
 const [ADD_EMAIL_TEMPLATE, UPDATE_EMAIL_TEMPLATE] = EmailTemplateQueries;
 
@@ -22,6 +22,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   const [templateData, setTemplateData] = useState<IEmailTemplateValues | null>(
     null,
   );
+  // To get all the types of email template
+
   // To add email template into db
   const [addEmail] = useMutation<
     {
@@ -30,7 +32,11 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     {
       emailTemplateInput: IEmailTemplateValues;
     }
-  >(ADD_EMAIL_TEMPLATE);
+  >(ADD_EMAIL_TEMPLATE, {
+    onCompleted({ addEmail }) {
+      toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
+    },
+  });
   // To update email template into db
   const [updateEmailTemplate] = useMutation<
     {
@@ -40,7 +46,11 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       id: number;
       emailTemplateInput: IEmailTemplateValues;
     }
-  >(UPDATE_EMAIL_TEMPLATE);
+  >(UPDATE_EMAIL_TEMPLATE, {
+    onCompleted({ updateEmailTemplate }) {
+      toast.success(languageTranslation('EMAIL_UPDATION_SUCCESS'));
+    },
+  });
   // Submit handler
   const handleSubmit = async (
     { type, menuEntry, subject, body, id }: IEmailTemplateValues,

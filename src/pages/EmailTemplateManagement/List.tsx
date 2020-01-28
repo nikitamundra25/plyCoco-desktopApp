@@ -2,9 +2,11 @@ import React, { FunctionComponent } from 'react';
 import { Col } from 'reactstrap';
 import { languageTranslation } from '../../helpers';
 import { IEmailTemplateList } from '../../interfaces';
+import Loader from '../../containers/Loader/Loader';
 
 export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   onTemplateSelection,
+  data
 }: IEmailTemplateList) => {
   return (
     <Col lg={'7'}>
@@ -12,7 +14,15 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
       <div className='common-list-wrap border-0'>
         <div className='common-list-body h-auto'>
           <ul className='common-list list-unstyled'>
-            <li onClick={() => onTemplateSelection('')}>Dialysis </li>
+            <li onClick={() => onTemplateSelection('')}>
+              {data && data.getEmailtemplate ? (
+                data.getEmailtemplate.map((menu: any) => {
+                  return <span>{menu.menuEntry}</span>;
+                })
+              ) : (
+                <Loader />
+              )}
+            </li>
             <li>Home Management</li>
             <li>Nurse/carer</li>
             <li>Dialysis </li>

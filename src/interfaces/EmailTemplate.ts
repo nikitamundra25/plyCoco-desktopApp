@@ -11,7 +11,7 @@ export interface IEmailTemplateValues {
 export interface IAddEmailTemplateProps {
   handleSubmit: (
     values: IEmailTemplateValues,
-    actions: FormikHelpers<IEmailTemplateValues>,
+    actions: FormikHelpers<IEmailTemplateValues>
   ) => void;
   bindSubmitForm: any;
   templateData: IEmailTemplateValues | null;
@@ -19,4 +19,5 @@ export interface IAddEmailTemplateProps {
 
 export interface IEmailTemplateList {
   onTemplateSelection: (data: any) => void;
+  data: any;
 }

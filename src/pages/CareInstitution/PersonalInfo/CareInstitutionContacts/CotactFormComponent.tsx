@@ -227,7 +227,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"firstName"}
@@ -242,7 +242,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.firstName && touched.firstName && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.firstName}
                             </div>
                           )}
@@ -261,7 +261,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"lastName"}
@@ -276,7 +276,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.lastName && touched.lastName && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.lastName}
                             </div>
                           )}
@@ -422,7 +422,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"phoneNumber"}
@@ -437,7 +437,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.phoneNumber && touched.phoneNumber && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.phoneNumber}
                             </div>
                           )}
@@ -455,7 +455,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"phoneNumber2"}
@@ -470,7 +470,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.phoneNumber2 && touched.phoneNumber2 && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.phoneNumber2}
                             </div>
                           )}
@@ -488,7 +488,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"faxNumber"}
@@ -503,7 +503,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.faxNumber && touched.faxNumber && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.faxNumber}
                             </div>
                           )}
@@ -521,7 +521,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"mobileNumber"}
@@ -536,7 +536,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.mobileNumber && touched.mobileNumber && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.mobileNumber}
                             </div>
                           )}
@@ -555,7 +555,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"email"}
@@ -570,7 +570,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.email && touched.email && (
-                            <div className="required-error">{errors.email}</div>
+                            <div className="required-tooltip">{errors.email}</div>
                           )}
                         </div>
                       </Col>

@@ -1,6 +1,9 @@
 import { IReactSelectInterface } from '../interfaces';
 import { languageTranslation } from '../helpers';
 import { maskArray } from 'react-text-mask';
+export const taxNumberLimit: number = 11;
+export const taxBracket: number = 100;
+export const ssn: number = 12;
 export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi;
 export const PAGE_LIMIT: number = 10;
 export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
@@ -11,9 +14,9 @@ export const IBANlength: number = 22;
 export const workingHours: number = 4;
 export const fee: number = 10000;
 export const telMin: number = 9;
-export const telMax: number = 14;
+export const telMax: number = 15;
 export const mobMin: number = 9;
-export const mobMax: number = 14;
+export const mobMax: number = 15;
 export const fileSize: number = 1 * 1024 * 1024;
 export const SupportedFormats: string[] = [
   'image/jpg',
@@ -1101,11 +1104,11 @@ export const Preoccupation: IReactSelectInterface[] = [
     label: 'Permanently employed TIMyoCE'
   },
   { value: 'Pensioner', label: 'Pensioner' },
-  { value: 'PupilStudent', label: 'Pupil student' },
+  { value: 'Pupil Student', label: 'Pupil student' },
   { value: 'Self-employed/Freelance', label: 'Self-employed/Freelance' },
   {
-    value: 'FullyEmployedInOtherCompany',
-    label: 'Fully employed in other company'
+    value: 'Fully Employed In Other Company',
+    label: 'Full time in another company'
   }
 ];
 

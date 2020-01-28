@@ -10,6 +10,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
 }: IEmailTemplateList) => {
   return (
     <Col lg={'7'}>
+      {console.log('data', data)}
       <h5 className='content-title'>{languageTranslation('MENU_ENTRY')}</h5>
       <div className='common-list-wrap border-0'>
         <div className='common-list-body h-auto'>
@@ -17,7 +18,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
             {data && data.getEmailtemplate ? (
               data.getEmailtemplate.map((menu: any) => {
                 return (
-                  <li onClick={() => onTemplateSelection('')}>
+                  <li onClick={() => onTemplateSelection(menu.id)}>
                     <span>{menu.menuEntry}</span>
                   </li>
                 );

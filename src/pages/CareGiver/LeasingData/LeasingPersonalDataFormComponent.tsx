@@ -570,11 +570,6 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
               </Row>
             </div>
           </Col>
-          <Col lg={'12'}>
-            <div className='d-flex align-items-center justify-content-between'>
-              <div className='mandatory-text'>* Required Fields</div>
-            </div>
-          </Col>
         </Row>
       </Form>
     </div>

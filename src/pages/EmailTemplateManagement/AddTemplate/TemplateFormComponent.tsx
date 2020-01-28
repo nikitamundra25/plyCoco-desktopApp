@@ -2,11 +2,10 @@ import React, { FunctionComponent } from 'react';
 import { Row, Col, FormGroup, Label, Input, Table } from 'reactstrap';
 import { FormikProps } from 'formik';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState } from 'draft-js';
 import { IEmailTemplateValues } from '../../../interfaces';
 import { languageTranslation } from '../../../helpers';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { ErroredFieldComponent } from '../../../common/ErroredFieldComponent';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
@@ -95,6 +94,10 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         className='width-common'
                       />
+                      <ErroredFieldComponent
+                        errors={errors.menuEntry}
+                        touched={touched.menuEntry}
+                      />
                     </div>
                   </Col>
                 </Row>
@@ -118,6 +121,10 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         className='width-common'
                         onChange={handleChange}
                       />
+                      <ErroredFieldComponent
+                        errors={errors.subject}
+                        touched={touched.subject}
+                      />
                     </div>
                   </Col>
                 </Row>
@@ -127,7 +134,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
               <FormGroup>
                 <div>
                   <Editor
-                    // editorState={editorState}
+                    editorState={body}
                     toolbarClassName='toolbarClassName'
                     wrapperClassName='wrapperClassName'
                     editorClassName='editorClassName'

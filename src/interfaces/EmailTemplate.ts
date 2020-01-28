@@ -1,10 +1,11 @@
 import { FormikHelpers } from 'formik';
 
 export interface IEmailTemplateValues {
+  id?: number;
   type: string;
   menuEntry: string;
   subject: string;
-  body: string;
+  body: any;
 }
 
 export interface IAddEmailTemplateProps {
@@ -12,4 +13,9 @@ export interface IAddEmailTemplateProps {
     values: IEmailTemplateValues,
     actions: FormikHelpers<IEmailTemplateValues>,
   ) => void;
+  bindSubmitForm: any;
+}
+
+export interface IEmailTemplateList {
+  onTemplateSelection: (data: any) => void;
 }

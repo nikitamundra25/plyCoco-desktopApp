@@ -10,7 +10,7 @@ import { EmailTemplateValidationSchema } from '../../../validations/EmailTemplat
 export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
   props: IAddEmailTemplateProps,
 ) => {
-  const { handleSubmit } = props;
+  const { handleSubmit, bindSubmitForm } = props;
   const values: IEmailTemplateValues = {
     type: '',
     menuEntry: '',
@@ -21,9 +21,11 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
     <Formik
       initialValues={values}
       onSubmit={handleSubmit}
-      children={(props: FormikProps<IEmailTemplateValues>) => (
-        <TemplateFormComponent {...props} />
-      )}
+      children={(props: FormikProps<IEmailTemplateValues>) => {
+        const { submitForm } = props;
+        bindSubmitForm(submitForm);
+        return <TemplateFormComponent {...props} />;
+      }}
       validationSchema={EmailTemplateValidationSchema}
     />
   );

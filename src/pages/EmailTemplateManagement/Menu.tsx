@@ -8,9 +8,7 @@ import newEmail from '../../assets/img/new-email.svg';
 import { IAddEmailTemplateProps } from '../../interfaces';
 // import EmailSeparator from '../../assets/img/mail.svg';
 
-export const EmailTemplateMenu: FunctionComponent<IAddEmailTemplateProps> = (
-  props: IAddEmailTemplateProps,
-) => {
+export const EmailTemplateMenu: FunctionComponent<any> = (props: any) => {
   const { handleSubmit } = props;
   return (
     <div className='sticky-common-header'>
@@ -43,7 +41,7 @@ export const EmailTemplateMenu: FunctionComponent<IAddEmailTemplateProps> = (
             {languageTranslation('CLEAR')}
           </span>
         </div>
-        <div className='header-nav-item'>
+        <div className='header-nav-item' onClick={handleSubmit}>
           <span className='header-nav-icon'>
             <img src={save} alt='' />
           </span>

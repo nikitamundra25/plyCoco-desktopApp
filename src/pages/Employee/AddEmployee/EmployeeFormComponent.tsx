@@ -175,7 +175,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <Input
                                     type="text"
                                     name={"firstName"}
@@ -193,7 +193,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     }
                                   />
                                   {errors.firstName && touched.firstName && (
-                                    <div className="required-error">
+                                    <div className="required-tooltip">
                                       {errors.firstName}
                                     </div>
                                   )}
@@ -214,7 +214,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <Input
                                     type="text"
                                     name={"lastName"}
@@ -232,7 +232,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     }
                                   />
                                   {errors.lastName && touched.lastName && (
-                                    <div className="required-error">
+                                    <div className="required-tooltip">
                                       {errors.lastName}
                                     </div>
                                   )}
@@ -253,7 +253,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <Input
                                     type="text"
                                     name={"email"}
@@ -282,7 +282,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     }
                                   />
                                   {errors.email && touched.email && (
-                                    <div className="required-error">
+                                    <div className="required-tooltip">
                                       {errors.email}
                                     </div>
                                   )}
@@ -303,7 +303,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <Input
                                     type="text"
                                     name={"userName"}
@@ -322,7 +322,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   {errors.userName &&
                                     !userName &&
                                     touched.userName && (
-                                      <div className="required-error">
+                                      <div className="required-tooltip">
                                         {errors.userName}
                                       </div>
                                     )}
@@ -342,7 +342,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <Input
                                     name={"telephoneNumber"}
                                     placeholder={languageTranslation(
@@ -361,7 +361,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   />
                                   {errors.telephoneNumber &&
                                     touched.telephoneNumber && (
-                                      <div className="required-error">
+                                      <div className="required-tooltip">
                                         {errors.telephoneNumber}
                                       </div>
                                     )}
@@ -434,7 +434,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <Input
                                     name={"zip"}
                                     onChange={handleChange}
@@ -451,7 +451,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     }
                                   />
                                   {errors.zip && touched.zip && (
-                                    <div className="required-error">
+                                    <div className="required-tooltip">
                                       {errors.zip}
                                     </div>
                                   )}
@@ -589,7 +589,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <Row>
                                     <Col>
                                       <MaskedInput
@@ -610,7 +610,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       />
                                       {errors.joiningDate &&
                                         touched.joiningDate && (
-                                          <div className="required-error">
+                                          <div className="required-tooltip">
                                             {errors.joiningDate}
                                           </div>
                                         )}
@@ -688,7 +688,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <Input
                                     type="text"
                                     name={"bankName"}
@@ -705,7 +705,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     }`}
                                   />
                                   {errors.bankName && touched.bankName && (
-                                    <div className="required-error">
+                                    <div className="required-tooltip">
                                       {errors.bankName}
                                     </div>
                                   )}
@@ -726,7 +726,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <Input
                                     type="text"
                                     name={"accountHolderName"}
@@ -745,7 +745,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   />
                                   {errors.accountHolderName &&
                                     touched.accountHolderName && (
-                                      <div className="required-error">
+                                      <div className="required-tooltip">
                                         {errors.accountHolderName}
                                       </div>
                                     )}
@@ -764,7 +764,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <MaskedInput
                                     name={"IBAN"}
                                     value={IBAN}
@@ -781,7 +781,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     }`}
                                   />
                                   {errors.IBAN && touched.IBAN && (
-                                    <div className="required-error">
+                                    <div className="required-tooltip">
                                       {errors.IBAN}
                                     </div>
                                   )}
@@ -800,7 +800,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <Input
                                     type="text"
                                     name={"BIC"}
@@ -817,7 +817,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     }
                                   />
                                   {errors.BIC && touched.BIC && (
-                                    <div className="required-error">
+                                    <div className="required-tooltip">
                                       {errors.BIC}
                                     </div>
                                   )}
@@ -836,7 +836,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 </Label>
                               </Col>
                               <Col sm="8">
-                                <div>
+                                <div className="required-input">
                                   <Input
                                     type="textarea"
                                     name={"additionalText"}
@@ -857,7 +857,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   />
                                   {errors.additionalText &&
                                     touched.additionalText && (
-                                      <div className="required-error">
+                                      <div className="required-tooltip">
                                         {errors.additionalText}
                                       </div>
                                     )}
@@ -868,7 +868,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                         </Col>
                       </Row>
                     </div>
-                  </Col> 
+                  </Col>
                 </Row>
 
                 <div className="d-flex align-items-center justify-content-between">

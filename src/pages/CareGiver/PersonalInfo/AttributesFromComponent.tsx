@@ -18,7 +18,6 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
   return (
     <>
       <div className="common-list-card">
-        <h5 className="content-title">{languageTranslation("ATTRIBUTES")}</h5>
         <div className="common-list-wrap">
           <div className="common-list-header d-flex align-items-cente justify-content-between">
             <div className="common-list-title align-middle">
@@ -29,7 +28,7 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
               <i className="fa fa-angle-down"></i>
             </div>
           </div>
-          <div className="common-list-body">
+          <div className="common-list-body custom-scrollbar">
             <ul className="common-list list-unstyled mb-0">
               {attributeId
                 ? attributeId.map(

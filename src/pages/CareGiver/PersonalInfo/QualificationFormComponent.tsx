@@ -33,9 +33,6 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
   return (
     <>
       <div className="common-list-card">
-        <h5 className="content-title">
-          {languageTranslation("QUALIFICATIONS")}
-        </h5>
         <div className="common-list-wrap">
           <div className="common-list-header d-flex align-items-cente justify-content-between">
             <div className="common-list-title align-middle">
@@ -46,7 +43,7 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
               <i className="fa fa-angle-down"></i>
             </div>
           </div>
-          <div className="common-list-body">
+          <div className="common-list-body custom-scrollbar">
             {qualifications && qualifications.length ? (
               <ul className="common-list list-unstyled mb-0">
                 {qualifications.map(

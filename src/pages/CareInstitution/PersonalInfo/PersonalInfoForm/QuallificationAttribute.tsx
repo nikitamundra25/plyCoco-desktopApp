@@ -29,9 +29,6 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
   return (
     <div className="quality-attribute-section d-flex flex-column">
       <div className="common-list-card">
-        <h5 className="content-title">
-          {languageTranslation("QUALIFICATIONS")}
-        </h5>
         <div className="common-list-wrap">
           <div className="common-list-header d-flex align-items-cente justify-content-between">
             <div className="common-list-title align-middle">
@@ -42,7 +39,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               <i className="fa fa-angle-down"></i>
             </div>
           </div>
-          <div className="common-list-body">
+          <div className="common-list-body custom-scrollbar">
             {qualificationId && qualificationId.length ? (
               <ul className="common-list list-unstyled">
                 {qualificationId.map((qualification: IReactSelectInterface) => {
@@ -71,7 +68,6 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
         </div>
       </div>
       <div className="common-list-card">
-        <h5 className="content-title">{languageTranslation("ATTRIBUTES")}</h5>
         <div className="common-list-wrap">
           <div className="common-list-header d-flex align-items-cente justify-content-between">
             <div className="common-list-title align-middle">
@@ -82,7 +78,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               <i className="fa fa-angle-down"></i>
             </div>
           </div>
-          <div className="common-list-body">
+          <div className="common-list-body custom-scrollbar">
             <ul className="common-list list-unstyled">
               {attributeId && attributeId.length
                 ? attributeId.map((attData: IReactSelectInterface) => {

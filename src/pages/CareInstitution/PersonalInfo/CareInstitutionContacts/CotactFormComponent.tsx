@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FormGroup,
   Label,
@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import { languageTranslation, logger } from '../../../../helpers';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import {
   State,
   Country,
@@ -54,6 +55,14 @@ const CotactFormComponent: any = (
       statesOpt.push({ label: name, value: id })
     );
   }
+  const [AttOpt, setAttOpt] = useState([]);
+  useEffect(() => {
+    const Data: any = CareInstitutionContactAttribute;
+    setAttOpt(Data);
+  }, []);
+
+  let [newAttributeValue, setnewAttributeValue] = useState({});
+  let [newValue, setnewValue] = useState({});
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     logger(selectOption, 'value');
@@ -66,6 +75,25 @@ const CotactFormComponent: any = (
     }
   };
 
+  const handleAttributeSelect = (value: any) => {
+    setnewValue(value);
+    const Data = {
+      label: newValue,
+      value: newValue
+    };
+    setnewAttributeValue((newAttributeValue = Data));
+  };
+
+  const handleAddNewAttributevalue = () => {
+    const AttributeID: any = attributeId;
+    AttributeID.push(newAttributeValue);
+    handleSelect(AttributeID, 'attributeId');
+    const FData: any = AttOpt;
+    FData.push(newAttributeValue);
+    setAttOpt(FData);
+  };
+  console.log("AttOpt",AttOpt);
+  
   const {
     values: {
       email,
@@ -99,7 +127,6 @@ const CotactFormComponent: any = (
     setFieldValue,
     setFieldTouched
   } = props;
-  console.log('Eroror', errors);
   const ContactError: any = errors.contactType;
   return (
     <>
@@ -646,20 +673,30 @@ const CotactFormComponent: any = (
                   </div>
                   <div className='common-list-footer form-section '>
                     <FormGroup className='mb-0'>
-                      <Select
-                        placeholder={
-                          'Please Select Attribute from the dropdown'
-                        }
-                        options={CareInstitutionContactAttribute}
-                        value={attributeId ? attributeId : undefined}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'attributeId')
-                        }
-                        isMulti
-                        menuPlacement={'top'}
-                        className='attribute-select'
-                        classNamePrefix='attribute-inner-select'
-                      />
+                      <Row>
+                        <Col md={10}>
+                          <Select
+                            placeholder={
+                              'Please Select Attribute from the dropdown'
+                            }
+                            options={AttOpt}
+                            value={attributeId ? attributeId : undefined}
+                            onChange={(value: any) =>
+                              handleSelect(value, 'attributeId')
+                            }
+                            onInputChange={handleAttributeSelect}
+                            isMulti
+                            menuPlacement={'top'}
+                            className='attribute-select'
+                            classNamePrefix='attribute-inner-select'
+                          />
+                        </Col>
+                        <Col md={2}>
+                          <Button onClick={() => handleAddNewAttributevalue()}>
+                            <i className={'fa fa-plus'} />
+                          </Button>
+                        </Col>
+                      </Row>
                     </FormGroup>
                   </div>
                 </div>

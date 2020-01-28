@@ -6,18 +6,18 @@ import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { toast } from 'react-toastify';
-import { IEmailTemplateValues } from '../../interfaces';
+import { IEmailTemplateValues, IReactSelectInterface } from '../../interfaces';
 import { EmailTemplateQueries } from '../../queries';
 import { EmailTemplateMenu } from './Menu';
 import { EmailTemplateList } from './List';
 import { AddTemplate } from './AddTemplate';
 import './index.scss';
-import { logger } from '../../helpers';
+import { logger, languageTranslation } from '../../helpers';
 
 const [
   ADD_EMAIL_TEMPLATE,
   UPDATE_EMAIL_TEMPLATE,
-  ,
+  GET_EMAIL_TEMPLATE_TYEPS,
   GET_EMAIL_TEMPLATE,
   GET_EMAIL_TEMPLATE_BY_ID
 ] = EmailTemplateQueries;
@@ -29,6 +29,36 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   const [templateData, setTemplateData] = useState<IEmailTemplateValues | null>(
     null
   );
+  const [
+    templateType,
+    setTemplateType
+  ] = useState<IReactSelectInterface | null>(null);
+  // To get all the types of email template
+  const { data: typeList, loading, refetch } = useQuery(
+    GET_EMAIL_TEMPLATE_TYEPS
+  );
+  const typeListOptions: IReactSelectInterface[] | undefined = [];
+  // To convert types into react select compatible options
+  if (
+    !loading &&
+    typeList &&
+    typeList.getEmailtemplateTypes &&
+    typeList.getEmailtemplateTypes.length
+  ) {
+    const { getEmailtemplateTypes } = typeList;
+    getEmailtemplateTypes.forEach(({ type }: { type: string }) =>
+      typeListOptions.push({
+        label: type,
+        value: type
+      })
+    );
+  }
+  useEffect(() => {
+    if (!templateType) {
+      // To set default email type
+      setTemplateType(typeListOptions[0]);
+    }
+  }, [typeListOptions]);
   // To add email template into db
   const [addEmail] = useMutation<
     {
@@ -37,7 +67,12 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     {
       emailTemplateInput: IEmailTemplateValues;
     }
-  >(ADD_EMAIL_TEMPLATE);
+  >(ADD_EMAIL_TEMPLATE, {
+    onCompleted({ addEmail }) {
+      refetch();
+      toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
+    }
+  });
   // To update email template into db
   const [updateEmailTemplate] = useMutation<
     {
@@ -47,16 +82,21 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       id: number;
       emailTemplateInput: IEmailTemplateValues;
     }
-  >(UPDATE_EMAIL_TEMPLATE);
+  >(UPDATE_EMAIL_TEMPLATE, {
+    onCompleted({ updateEmailTemplate }) {
+      toast.success(languageTranslation('EMAIL_UPDATION_SUCCESS'));
+    }
+  });
   //To get email templates
   const [fetchTemplateList, { data }] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
   //To get email templates by id
-  const [fetchTemplateById, { data: emailTemplate, loading }] = useLazyQuery<
-    any
-  >(GET_EMAIL_TEMPLATE_BY_ID);
+  const [
+    fetchTemplateById,
+    { data: emailTemplate, loading: emailTemplateLoading }
+  ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE_BY_ID);
 
   useEffect(() => {
-    if (loading === false) {
+    if (!emailTemplateLoading && emailTemplate) {
       const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
       const {
         type = '',
@@ -133,6 +173,11 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       }
     });
   };
+  // Function to change list according to type selected
+  const onTypeChange = (selectedType: IReactSelectInterface) => {
+    console.log(selectedType, 'type');
+    setTemplateType(selectedType);
+  };
   // To use formik submit form outside
   const bindSubmitForm = (submitForm: any) => {
     submitMyForm = submitForm;
@@ -149,6 +194,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
               submitMyForm();
             }}
             onAddNewTemplate={() => setTemplateData(null)}
+            typeListOptions={typeListOptions}
+            templateType={templateType}
+            onTypeChange={onTypeChange}
           />
           <div className='common-content flex-grow-1'>
             <div>

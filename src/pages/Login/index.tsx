@@ -19,7 +19,6 @@ export const Login: FunctionComponent = () => {
     { authInput: ILoginFormValues }
   >(LOGIN, {
     onCompleted({ adminLogin: { token, message, status } }) {
-      console.log(token, 'token');
       if (status === 'failed') {
         toast.error(message);
       } else {

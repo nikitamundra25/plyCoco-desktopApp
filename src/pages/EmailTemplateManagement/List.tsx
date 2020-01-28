@@ -23,31 +23,6 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
                 <Loader />
               )}
             </li>
-            <li>Home Management</li>
-            <li>Nurse/carer</li>
-            <li>Dialysis </li>
-            <li>-----------------------------------------</li>
-            <li>Nurse/carer</li>
-            <li>Dialysis </li>
-            <li>Home Management</li>
-            <li>Nurse/carer</li>
-            <li>Dialysis </li>
-            <li>----------------------------------------</li>
-            <li>Nurse/carer</li>
-            <li>Dialysis </li>
-            <li>Home Management</li>
-            <li>Nurse/carer</li>
-            <li>Dialysis </li>
-            <li>Home Management</li>
-            <li>-----------------------------------------</li>
-            <li>Dialysis </li>
-            <li>Home Management</li>
-            <li>Nurse/carer</li>
-            <li>Dialysis </li>
-            <li>Dialysis </li>
-            <li>Home Management</li>
-            <li>Nurse/carer</li>
-            <li>Dialysis </li>
           </ul>
         </div>
       </div>

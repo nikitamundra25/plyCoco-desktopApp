@@ -868,7 +868,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                         </Col>
                       </Row>
                     </div>
-                  </Col>
+                  </Col> 
                 </Row>
 
                 <div className="d-flex align-items-center justify-content-between">

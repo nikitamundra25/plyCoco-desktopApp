@@ -90,6 +90,31 @@ const CareInstitutionTodoLayout = React.lazy(() =>
   import("../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout")
 );
 
+const DocumentTemplateWorkingProof = React.lazy(() =>
+  import("../pages/DocumentTemplateManagement/index")
+);
+const CareInstitutionTodoHideDone = React.lazy(() =>
+  import('../pages/CareInstitutionTodo/hideDone'));
+
+  const CareInstitutionTodoHideFuture = React.lazy(() =>
+    import("../pages/CareInstitutionTodo/hideFuture")
+  );
+
+   const CareInstitutionTodoRequirement = React.lazy(() =>
+     import("../pages/CareInstitutionTodo/requirement")
+   );
+
+   const CareGiverTodoHideDone = React.lazy(() =>
+     import("../pages/CareGiverTodo/hideDone")
+   );
+    const CareGiverTodoHideFuture = React.lazy(() =>
+      import("../pages/CareGiverTodo/hideFuture")
+    );
+
+     const EmailTemplateManagement = React.lazy(() =>
+       import("../pages/EmailTemplateManagement")
+     );
+   
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -351,6 +376,60 @@ const routes = [
     exact: true,
     layout: CareInstitutionTodoLayout,
     layoutName: "CareInstitutionTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_TODO_HIDE_DONE,
+    name: "Care Institution Todo Hide Done",
+    component: CareInstitutionTodoHideDone,
+    exact: true,
+    layout: CareInstitutionTodoLayout,
+    layoutName: "CareInstitutionTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_TODO_HIDE_FUTURE,
+    name: "Care Institution Todo Hide Future",
+    component: CareInstitutionTodoHideFuture,
+    exact: true,
+    layout: CareInstitutionTodoLayout,
+    layoutName: "CareInstitutionTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_INSTITUTION_TODO_REQUIREMENT,
+    name: "Care Institution Todo Requirement",
+    component: CareInstitutionTodoRequirement,
+    exact: true,
+    layout: CareInstitutionTodoLayout,
+    layoutName: "CareInstitutionTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_GIVER_HIDE_DONE,
+    name: "Care Giver Todo Hide Done",
+    component: CareGiverTodoHideDone,
+    exact: true,
+    layout: CareGiverTodoLayout,
+    layoutName: "CareGiverTodoLayout"
+  },
+  {
+    path: AppRoutes.CARE_GIVER_HIDE_FUTURE,
+    name: "Care Giver Todo Hide Future",
+    component: CareGiverTodoHideFuture,
+    exact: true,
+    layout: CareGiverTodoLayout,
+    layoutName: "CareGiverTodoLayout"
+  },
+
+  {
+    path: AppRoutes.EMAIL_TEMPLATE_MANAGEMENT,
+    name: "Email Template Management",
+    component: EmailTemplateManagement,
+    exact: true,
+   
+  },
+  {
+    path: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
+    name: "Document Template Working Proof",
+    component: DocumentTemplateWorkingProof,
+    exact: true
   }
 ];
 

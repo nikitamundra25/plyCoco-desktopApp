@@ -402,7 +402,13 @@ body {
         .form-control {
           height: 35px;
         }
-        
+        .input-group {
+          &:hover ~ {
+            .required-tooltip {
+              display: block;
+            }
+          }
+        }
       }
       .input-group-prepend {
         border: 1px solid $light_gray;
@@ -997,7 +1003,7 @@ html:not([dir="rtl"]) {
   }
 
   .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 8px;
     .col-form-label {
       font-size: $font_12;
       font-weight: 400;
@@ -1010,7 +1016,7 @@ html:not([dir="rtl"]) {
     .required {
       color: $red;
     }
-    .required-tooltip{
+    .required-tooltip {
       width: auto;
       background-color: $black;
       color: $white;
@@ -1021,10 +1027,11 @@ html:not([dir="rtl"]) {
       z-index: 1;
       top: -30px;
       left: 50%;
+      // bottom: 120%;
       transform: translateX(-50%);
       font-size: 12px;
       display: none;
-      &:after{
+      &:after {
         content: "";
         position: absolute;
         top: 100%;
@@ -1058,7 +1065,7 @@ html:not([dir="rtl"]) {
       display: flex;
       align-items: center;
       font-family: $font_Frutiger_Regular;
-      
+
       &:focus {
         box-shadow: none;
         outline: none;
@@ -1078,7 +1085,7 @@ html:not([dir="rtl"]) {
         overflow-y: auto;
         resize: none;
       }
-      &.error{
+      &.error {
         border-color: $red;
       }
       &:hover ~ {

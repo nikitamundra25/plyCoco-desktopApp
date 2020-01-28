@@ -162,7 +162,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         </Button>
       </div>
       <Col lg={'4'}>
-        <div className='form-card h-100'>
+        <div className='form-card '>
           <Row>
             <Col lg={'12'}>
               <FormGroup>

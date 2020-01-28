@@ -203,6 +203,37 @@ body {
       }
     }
   }
+  .custom-careinstitution-height {
+    height: calc(100vh - 380px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    @media only screen and (max-width: 991px) {
+      height: auto;
+    }
+  }
+  .custom-caregiver-height {
+    height: calc(100vh - 157px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    @media only screen and (max-width: 991px) {
+      height: auto;
+    }
+  }
+  /* ==================== custom-scrollbar Css ================ */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    // border-radius: 7px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1;
+    // border-radius: 7px;
+  }
+  /* ==================== custom-scrollbar Css ================ */
 
   .card {
     border: 0px solid $card_border;
@@ -233,7 +264,7 @@ body {
     }
 
     .card-body {
-      padding: 15px;
+      padding: 10px 15px;
       background: $card_header_bg;
     }
   }
@@ -398,14 +429,16 @@ body {
         margin-bottom: 20px;
       }
       .form-group {
-        margin-bottom: 24px;
+        margin-bottom: 15px;
         .form-control {
           height: 35px;
         }
-        .required-error {
-          left: 0px;
-          bottom: -16px;
-          top: unset;
+        .input-group {
+          &:hover ~ {
+            .required-tooltip {
+              display: block;
+            }
+          }
         }
       }
       .input-group-prepend {
@@ -782,6 +815,7 @@ body {
 
     .sidebar-minimizer {
       background-color: $theme_color_hover;
+      height: 35px;
       &:before {
         background-image: url(assets/img/left-arrow.svg);
       }
@@ -881,7 +915,7 @@ html:not([dir="rtl"]) {
 .form-card {
   background: $white;
   padding: 8px 12px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   position: relative;
   height: calc(100% - 47px);
   border: 1px solid $table_border;
@@ -1001,7 +1035,7 @@ html:not([dir="rtl"]) {
   }
 
   .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 6px;
     .col-form-label {
       font-size: $font_12;
       font-weight: 400;
@@ -1013,6 +1047,41 @@ html:not([dir="rtl"]) {
     }
     .required {
       color: $red;
+    }
+    .required-tooltip {
+      width: 125px;
+      background-color: $theme_color;
+      color: $white;
+      text-align: center;
+      border-radius: 0px;
+      padding: 3px 10px;
+      position: absolute;
+      z-index: 1;
+      // top: -30px;
+      left: 50%;
+      bottom: 130%;
+      transform: translateX(-50%);
+      font-size: $font_11;
+      display: none;
+      // white-space: nowrap;
+      &.bottom-tooltip {
+        bottom: unset;
+        top: 30px;
+        &:after {
+          top: -10px;
+          border-color: $transparent $transparent $theme_color $transparent;
+        }
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: $theme_color $transparent $transparent $transparent;
+      }
     }
     .required-error {
       position: absolute;
@@ -1037,6 +1106,7 @@ html:not([dir="rtl"]) {
       display: flex;
       align-items: center;
       font-family: $font_Frutiger_Regular;
+
       &:focus {
         box-shadow: none;
         outline: none;
@@ -1052,9 +1122,17 @@ html:not([dir="rtl"]) {
         resize: none;
       }
       &.textarea-care-institution {
-        height: 194px;
+        height: 130px;
         overflow-y: auto;
         resize: none;
+      }
+      &.error {
+        border-color: $red;
+      }
+      &:hover ~ {
+        .required-tooltip {
+          display: block;
+        }
       }
     }
     .custom-input-width {
@@ -1138,6 +1216,51 @@ html:not([dir="rtl"]) {
         padding: 0px 0px;
       }
     }
+
+    .custom-reactselect {
+      .custom-inner-reactselect__control {
+        border-radius: 0px;
+        color: $light_black;
+        font-size: $font_12;
+        min-height: 25px;
+        padding: 0px 8px;
+        line-height: normal;
+        border: 1px solid $light_gray;
+        box-shadow: none;
+        font-family: $font_Frutiger_Regular;
+        .custom-inner-reactselect__multi-value {
+          line-height: normal;
+        }
+        .custom-inner-reactselect__value-container {
+          padding: 0px 0px;
+        }
+        .custom-inner-reactselect__value-container--is-multi {
+          max-height: 68px;
+          overflow-y: auto;
+        }
+      }
+      .custom-inner-reactselect__multi-value__label {
+        font-size: 12px;
+        padding: 2px 3px;
+      }
+      .custom-inner-reactselect__indicator {
+        padding: 3px;
+        svg {
+          height: 16px;
+          width: 16px;
+        }
+      }
+      &.error {
+        .custom-inner-reactselect__control {
+          border: 1px solid $red;
+        }
+        &:hover ~ {
+          .required-tooltip {
+            display: block;
+          }
+        }
+      }
+    }
   }
   .btn-sumbit {
     padding: 6px 30px;
@@ -1146,12 +1269,12 @@ html:not([dir="rtl"]) {
     min-width: 140px;
   }
   .btn-save {
-    padding: 4px 30px;
+    padding: 3px 30px;
     font-weight: 600;
     font-size: $font_13;
   }
   .btn-contact-save {
-    font-size: $font_13;
+    font-size: $font_12;
     top: 0px;
     z-index: unset;
     position: absolute;
@@ -1354,7 +1477,7 @@ html:not([dir="rtl"]) {
   .common-list-body {
     background: $white;
     border: 1px solid $table_border;
-    height: 155px;
+    height: 90px;
     overflow-y: auto;
     .common-list {
       li {
@@ -1374,7 +1497,7 @@ html:not([dir="rtl"]) {
         border-radius: 0px;
         color: $light_black;
         font-size: $font_12;
-        min-height: 35px;
+        min-height: 30px;
         padding: 0px 8px;
         line-height: normal;
         border: 1px solid $light_gray;
@@ -2042,9 +2165,9 @@ html:not([dir="rtl"]) {
     }
 
     .common-content {
-      padding: 15px;
+      padding: 10px 15px 0px;
       background: $card_header_bg;
-      min-height: calc(100vh - 145px);
+      // min-height: calc(100vh - 145px);
       position: relative;
       .content-title {
         color: $black;
@@ -2491,7 +2614,7 @@ html:not([dir="rtl"]) {
     padding: 4px 10px;
     font-size: $font_13;
     color: $black;
-    height: calc(100% - 41px);
+    height: calc(100% - 33px);
     overflow-x: hidden;
     overflow-y: auto;
     &.remark-body-max-height {
@@ -2707,7 +2830,7 @@ html:not([dir="rtl"]) {
 }
 
 .app-footer {
-  flex: 0 0 40px;
+  flex: 0 0 35px;
   .footer-nav {
     .nav .nav-item {
       border-right: 1px solid $footer_nav_text;
@@ -2759,9 +2882,6 @@ html:not([dir="rtl"]) {
     .col-form-label {
       white-space: nowrap;
     }
-    .form-group {
-      margin-bottom: 24px;
-    }
   }
 }
 
@@ -2790,8 +2910,8 @@ html:not([dir="rtl"]) {
       text-transform: capitalize;
       cursor: pointer;
       border-radius: 4px;
-      padding: 4px 12px;
-      font-size: 13px;
+      padding: 3px 12px;
+      font-size: $font_12;
       font-weight: 600;
       color: $light_black;
       border: 1px solid #dbdbdb;

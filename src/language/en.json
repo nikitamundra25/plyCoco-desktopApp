@@ -185,7 +185,8 @@
   "CAREGIVER_REMARKS": "remarks",
   "CAREGIVER_REMARKS_PLACEHOLDER": "Remarks",
   "CAREGIVER_QUALIFICATION_ATTRIBUTE_LABEL": "Qualification Attributes",
-  "CAREGIVER_QUALIFICATION_ATTRIBUTE_PLACEHOLDER": "Qualification Attributes",
+  "CAREGIVER_QUALIFICATION_ATTRIBUTE_PLACEHOLDER": "Please select Qualification from the dropdown",
+  "ATTRIBUTE_PLACEHOLDER": "Please select Attribute from the dropdown",
   "CAREGIVER_FEE_PER_HOUR_LABEL": "Feeper hour",
   "CAREGIVER_FEE_PER_HOUR": "feePerHour",
   "CAREGIVER_FEE_PER_HOUR_PLACEHOLDER": "Fee per hour",
@@ -516,6 +517,15 @@
   "PHONE_NUM_ERROR": "Phone must be at least 10 characters",
   "MOBILE_NUM_ERROR": "Mobile Number must be at least 10 characters",
   "EMPLOYEE_REGION_PLACEHOLDER": "Select Region",
+
+  "NEW_EMAIL_TEMPLATE": "New E-Mail Template",
+  "REQUIRED_TYPE": "Type is required",
+  "REQUIRED_MENU_ENTEY": "Menu Entry is required",
+  "REQUIRED_SUBJECT": "Subject is required",
+  "REQUIRED_BODY": "Content Body is required",
+  "EMAIL_ADDED_SUCCESS": "Email Template added successfully.",
+  "EMAIL_UPDATION_SUCCESS": "Email Template updated successfully.",
+
   "SOCIAL_SECURITY_NUM_ERROR": "Social Security must be a less than or equal to 12 digits",
   "TAX_BRACKET_NUM_ERROR": "Tax bracket must be a number",
   "TAX_BRACKET_LESS_ERROR": "Tax bracket must be less than or equal to 100",
@@ -523,5 +533,6 @@
   "TAX_MAXLENGTH": "Tax number must be less than or equal to 11 digits",
   "SOCIAL_SECURITY_SPCHAR_ERROR": "Special Characters are not allowed",
   "PAY_SLIPS": "Pay Slips",
-  "PAID": "Paid"
+  "PAID": "Paid",
+  "CONTACT_REQUIRED": "Contact is required"
 }

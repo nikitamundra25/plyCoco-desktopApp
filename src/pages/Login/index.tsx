@@ -1,59 +1,61 @@
 import React, { FunctionComponent } from 'react';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { LoginValidationSchema } from '../../validations/LoginValidationSchema';
-import { ILoginFormValues } from '../../interfaces';
-import LoginFormComponent from './LoginFormComponent';
 import { useHistory } from 'react-router';
-import { LOGIN } from '../../queries';
 import { useMutation } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
-import { CareGiveAttributes, CareInstitutionAttr } from '../../config';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { LoginValidationSchema } from '../../validations/LoginValidationSchema';
+import { ILoginFormValues, ILoginResponse } from '../../interfaces';
+import LoginFormComponent from './LoginFormComponent';
+import { LOGIN } from '../../queries';
+import { AppRoutes } from '../../config';
 
 export const Login: FunctionComponent = () => {
   let history = useHistory();
   // Login mutation
-  const [doLogin] = useMutation<
-    { doLogin: any },
-    { email: String; password: String }
-  >(LOGIN);
+  const [adminLogin, { loading }] = useMutation<
+    {
+      adminLogin: ILoginResponse;
+    },
+    { authInput: ILoginFormValues }
+  >(LOGIN, {
+    onCompleted({ adminLogin: { token, message, status } }) {
+      if (status === 'failed') {
+        toast.error(message);
+      } else {
+        localStorage.setItem('token', token);
+        history.push(AppRoutes.MAIN);
+      }
+    },
+  });
 
   // on login
   const handleSubmit = async (
-    values: ILoginFormValues,
+    { email, password }: ILoginFormValues,
     { setSubmitting }: FormikHelpers<ILoginFormValues>,
   ) => {
-    const { email, password } = values;
-
-    let loginInput: ILoginFormValues = {
-      email,
-      password,
-    };
-    const loginResp = await doLogin({ variables: { ...loginInput } });
-    if (
-      loginResp.data &&
-      loginResp.data.doLogin &&
-      loginResp.data.doLogin.message
-    ) {
-      if (loginResp.data.doLogin.status === 'success') {
-        localStorage.setItem('token', loginResp.data.doLogin.token);
-        toast.success(loginResp.data.doLogin.message);
-        history.push('/dashboard');
-      } else {
-        toast.error(loginResp.data.doLogin.message);
-      }
+    try {
+      await adminLogin({
+        variables: { authInput: { email, password } },
+      });
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      // setFieldError('email', message);
+      toast.error(message);
     }
-    //to set submit state to false after successful login
-
-    setSubmitting(false);
   };
 
   const values: ILoginFormValues = { email: '', password: '' };
+  console.log(loading, 'loading//////');
+
   return (
     <Formik
       initialValues={values}
       onSubmit={handleSubmit}
       children={(props: FormikProps<ILoginFormValues>) => (
-        <LoginFormComponent {...props} />
+        <LoginFormComponent {...props} loading={loading} />
       )}
       validationSchema={LoginValidationSchema}
     />

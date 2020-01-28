@@ -10,16 +10,22 @@ import { EmailTemplateValidationSchema } from '../../../validations/EmailTemplat
 export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
   props: IAddEmailTemplateProps,
 ) => {
-  const { handleSubmit, bindSubmitForm } = props;
+  const { handleSubmit, bindSubmitForm, templateData } = props;
+  console.log(templateData, 'templateDatatemplateData');
+
+  const { type = '', menuEntry = '', subject = '', body = '' } = templateData
+    ? templateData
+    : {};
   const values: IEmailTemplateValues = {
-    type: '',
-    menuEntry: '',
-    subject: '',
-    body: '',
+    type,
+    menuEntry,
+    subject,
+    body,
   };
   return (
     <Formik
       initialValues={values}
+      enableReinitialize={true}
       onSubmit={handleSubmit}
       children={(props: FormikProps<IEmailTemplateValues>) => {
         const { submitForm } = props;

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import { Row } from 'reactstrap';
 import { FormikHelpers } from 'formik';
 import { useMutation } from '@apollo/react-hooks';
-import { convertToRaw } from 'draft-js';
+import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { EmailTemplateMenu } from './Menu';
 import { EmailTemplateList } from './List';
@@ -10,6 +10,7 @@ import { AddTemplate } from './AddTemplate';
 import { IEmailTemplateValues } from '../../interfaces';
 import { EmailTemplateQueries } from '../../queries';
 import './index.scss';
+import htmlToDraft from 'html-to-draftjs';
 
 const [ADD_EMAIL_TEMPLATE, UPDATE_EMAIL_TEMPLATE] = EmailTemplateQueries;
 
@@ -63,18 +64,32 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     resetForm();
   };
   const onTemplateSelection = () => {
-    setTemplateData({
-      type: 'Test1',
-      menuEntry: 'Test1',
-      subject: 'Test1',
-      body: 'Test1',
-      id: 1,
-    });
+    console.log('onTemplateSelection');
+    let text: any = 'Test1';
+    const contentBlock =
+      text && text.editorState ? htmlToDraft(text.editorState) : '';
+    if (contentBlock) {
+      console.log('in iff');
+
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks,
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      setTemplateData({
+        type: 'Test1',
+        menuEntry: 'Test1',
+        subject: 'Test1',
+        body: editorState,
+        id: 1,
+      });
+    }
   };
   // To use formik submit form outside
   const bindSubmitForm = (submitForm: any) => {
     submitMyForm = submitForm;
   };
+  console.log('templateData', templateData);
+
   return (
     <>
       <div className='common-detail-page'>
@@ -92,6 +107,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                 <AddTemplate
                   handleSubmit={handleSubmit}
                   bindSubmitForm={bindSubmitForm}
+                  templateData={templateData}
                 />
               </Row>
             </div>

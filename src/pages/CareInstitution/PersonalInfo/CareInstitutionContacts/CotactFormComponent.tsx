@@ -99,7 +99,8 @@ const CotactFormComponent: any = (
     setFieldValue,
     setFieldTouched
   } = props;
-
+  console.log("Eroror", errors);
+  const ContactError: any = errors.contactType;
   return (
     <>
       <Button
@@ -113,7 +114,7 @@ const CotactFormComponent: any = (
         {}
       </Button>
       <div className={"form-section position-relative"}>
-        <div className="form-flex-section form-card minheight-auto">
+        <div className="form-flex-section form-card minheight-auto mb-2">
           {/* <h5 className="main-title">Add New contact </h5> */}
 
           <div className="form-flex-block">
@@ -295,19 +296,31 @@ const CotactFormComponent: any = (
                       <Col sm="4">
                         <Label className="form-label col-form-label">
                           {languageTranslation("CONTACT_TYPE")}
+                          <span className="required">*</span>
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Select
                             placeholder={languageTranslation("CONTACT_TYPE")}
                             value={contactType ? contactType : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "contactType")
                             }
+                            classNamePrefix="custom-inner-reactselect"
+                            className={
+                              errors.contactType && touched.contactType
+                                ? "error custom-reactselect"
+                                : "custom-reactselect"
+                            }
                             options={ContactType}
                             menuPlacement={"auto"}
                           />
+                          {errors.contactType && touched.contactType && (
+                            <div className="required-tooltip">
+                              {ContactError.value}
+                            </div>
+                          )}
                         </div>
                       </Col>
                     </Row>

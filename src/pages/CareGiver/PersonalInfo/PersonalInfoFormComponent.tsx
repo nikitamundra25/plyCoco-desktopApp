@@ -144,7 +144,7 @@ const PersonalInfoFormComponent: any = (
                 </Col>
                 <Col sm="8">
                   <Row className="custom-col inner-no-padding-col">
-                    <Col sm="4">
+                    <Col sm="3">
                       <div className="required-input">
                         <Input
                           type="text"
@@ -156,16 +156,16 @@ const PersonalInfoFormComponent: any = (
                         />
                       </div>
                     </Col>
-                    <Col sm="8">
+                    <Col sm="9">
                       <FormGroup>
                         <Row className="custom-col inner-no-padding-col">
-                          <Col sm="6">
+                          <Col sm="5">
                             <Label className="form-label col-form-label inner-label">
                               {languageTranslation("REG_SINCE")}
                               <span className="required">*</span>
                             </Label>
                           </Col>
-                          <Col sm="6">
+                          <Col sm="7">
                             <div>
                               <Input
                                 type="text"

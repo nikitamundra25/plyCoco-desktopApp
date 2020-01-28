@@ -18,7 +18,6 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
   return (
     <>
       <div className="common-list-card">
-        <h5 className="content-title">{languageTranslation("ATTRIBUTES")}</h5>
         <div className="common-list-wrap">
           <div className="common-list-header d-flex align-items-cente justify-content-between">
             <div className="common-list-title align-middle">

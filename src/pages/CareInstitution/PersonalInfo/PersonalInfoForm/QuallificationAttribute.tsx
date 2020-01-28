@@ -29,9 +29,6 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
   return (
     <div className="quality-attribute-section d-flex flex-column">
       <div className="common-list-card">
-        <h5 className="content-title">
-          {languageTranslation("QUALIFICATIONS")}
-        </h5>
         <div className="common-list-wrap">
           <div className="common-list-header d-flex align-items-cente justify-content-between">
             <div className="common-list-title align-middle">
@@ -71,7 +68,6 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
         </div>
       </div>
       <div className="common-list-card">
-        <h5 className="content-title">{languageTranslation("ATTRIBUTES")}</h5>
         <div className="common-list-wrap">
           <div className="common-list-header d-flex align-items-cente justify-content-between">
             <div className="common-list-title align-middle">

@@ -203,10 +203,21 @@ body {
       }
     }
   }
-  .custom-height {
-    height: 300px;
+  .custom-careinstitution-height {
+    height: calc(100vh - 395px);
     overflow-y: auto;
     overflow-x: hidden;
+    @media only screen and (max-width: 991px) {
+      height: auto;
+    }
+  }
+  .custom-caregiver-height {
+    height: calc(100vh - 135px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    @media only screen and (max-width: 991px) {
+      height: auto;
+    }
   }
   /* ==================== custom-scrollbar Css ================ */
   .custom-scrollbar::-webkit-scrollbar {
@@ -253,7 +264,7 @@ body {
     }
 
     .card-body {
-      padding: 15px;
+      padding: 10px 15px;
       background: $card_header_bg;
     }
   }
@@ -418,7 +429,7 @@ body {
         margin-bottom: 20px;
       }
       .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         .form-control {
           height: 35px;
         }
@@ -1037,20 +1048,21 @@ html:not([dir="rtl"]) {
       color: $red;
     }
     .required-tooltip {
-      width: auto;
-      background-color: $black;
+      width: 125px;
+      background-color: $theme_color;
       color: $white;
       text-align: center;
       border-radius: 0px;
       padding: 3px 10px;
       position: absolute;
       z-index: 1;
-      top: -30px;
+      // top: -30px;
       left: 50%;
-      // bottom: 120%;
+      bottom: 130%;
       transform: translateX(-50%);
-      font-size: 12px;
+      font-size: $font_11;
       display: none;
+      // white-space: nowrap;
       &:after {
         content: "";
         position: absolute;
@@ -1059,7 +1071,14 @@ html:not([dir="rtl"]) {
         margin-left: -5px;
         border-width: 5px;
         border-style: solid;
-        border-color: $black $transparent $transparent $transparent;
+        border-color: $theme_color $transparent $transparent $transparent;
+      }
+      &.top-tooltip {
+        bottom: -30px;
+        &:after {
+          top: -10px;
+          border-color: $transparent $transparent $theme_color $transparent;
+        }
       }
     }
     .required-error {
@@ -1101,7 +1120,7 @@ html:not([dir="rtl"]) {
         resize: none;
       }
       &.textarea-care-institution {
-        height: 194px;
+        height: 130px;
         overflow-y: auto;
         resize: none;
       }
@@ -1411,7 +1430,7 @@ html:not([dir="rtl"]) {
   .common-list-body {
     background: $white;
     border: 1px solid $table_border;
-    height: 155px;
+    height: 90px;
     overflow-y: auto;
     .common-list {
       li {
@@ -2099,7 +2118,7 @@ html:not([dir="rtl"]) {
     }
 
     .common-content {
-      padding: 15px;
+      padding: 10px 15px;
       background: $card_header_bg;
       min-height: calc(100vh - 145px);
       position: relative;
@@ -2815,9 +2834,6 @@ html:not([dir="rtl"]) {
     }
     .col-form-label {
       white-space: nowrap;
-    }
-    .form-group {
-      margin-bottom: 24px;
     }
   }
 }

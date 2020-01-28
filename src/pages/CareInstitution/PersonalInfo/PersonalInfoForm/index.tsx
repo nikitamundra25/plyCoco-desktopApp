@@ -162,7 +162,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         </Button>
       </div>
       <Col lg={"4"}>
-        <div className="form-card custom-height custom-scrollbar">
+        <div className="form-card custom-careinstitution-height custom-scrollbar">
           <Row>
             <Col lg={"12"}>
               <FormGroup>
@@ -175,7 +175,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                   </Col>
                   <Col sm="8">
                     <Row className="custom-col inner-no-padding-col">
-                      <Col sm="4">
+                      <Col sm="3">
                         <div>
                           <Input
                             type="text"
@@ -187,15 +187,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                           />
                         </div>
                       </Col>
-                      <Col sm="8">
+                      <Col sm="9">
                         <FormGroup>
                           <Row className="custom-col inner-no-padding-col">
-                            <Col sm="6">
+                            <Col sm="5">
                               <Label className="form-label col-form-label inner-label">
                                 {languageTranslation("REG_SINCE")}
                               </Label>
                             </Col>
-                            <Col sm="6">
+                            <Col sm="7">
                               <div>
                                 <Input
                                   type="text"
@@ -858,7 +858,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         </div>
       </Col>
       <Col lg={"4"} className="px-lg-0">
-        <div className="common-col custom-height custom-scrollbar">
+        <div className="common-col custom-careinstitution-height custom-scrollbar">
           <CommissionFormData {...props} handleSelect={handleSelect} />
           <InvoiceFormData {...props} handleSelect={handleSelect} />
           <QuallificationAttribute
@@ -869,7 +869,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         </div>
       </Col>
       <Col lg={4}>
-        <div className="custom-height custom-scrollbar">
+        <div className="custom-careinstitution-height custom-scrollbar">
           <RemarkFormData
             {...props}
             setRemarksDetail={props.setRemarksDetail}

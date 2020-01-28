@@ -29,7 +29,7 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
               <i className="fa fa-angle-down"></i>
             </div>
           </div>
-          <div className="common-list-body">
+          <div className="common-list-body custom-scrollbar">
             <ul className="common-list list-unstyled mb-0">
               {attributeId
                 ? attributeId.map(

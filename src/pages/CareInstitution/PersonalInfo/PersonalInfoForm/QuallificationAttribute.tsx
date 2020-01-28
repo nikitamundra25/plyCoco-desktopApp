@@ -42,7 +42,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               <i className="fa fa-angle-down"></i>
             </div>
           </div>
-          <div className="common-list-body">
+          <div className="common-list-body custom-scrollbar">
             {qualificationId && qualificationId.length ? (
               <ul className="common-list list-unstyled">
                 {qualificationId.map((qualification: IReactSelectInterface) => {
@@ -82,7 +82,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               <i className="fa fa-angle-down"></i>
             </div>
           </div>
-          <div className="common-list-body">
+          <div className="common-list-body custom-scrollbar">
             <ul className="common-list list-unstyled">
               {attributeId && attributeId.length
                 ? attributeId.map((attData: IReactSelectInterface) => {

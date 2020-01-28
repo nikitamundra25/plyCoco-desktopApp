@@ -182,7 +182,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
         </Button>
       </div>
       <Col lg={"4"}>
-        <div className="form-card custom-height custom-scrollbar">
+        <div className="form-card custom-careinstitution-height custom-scrollbar">
           <Row>
             <Col lg={"12"}>
               <FormGroup>
@@ -829,7 +829,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
         </div>
       </Col>
       <Col lg={"4"} className="px-lg-0">
-        <div className="common-col custom-height custom-scrollbar">
+        <div className="common-col custom-careinstitution-height custom-scrollbar">
           <CommissionFormData {...props} handleSelect={handleSelect} />
           <InvoiceFormData {...props} handleSelect={handleSelect} />
           <QuallificationAttribute
@@ -840,7 +840,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
         </div>
       </Col>
       <Col lg={4}>
-        <div className="custom-height custom-scrollbar">
+        <div className="custom-careinstitution-height custom-scrollbar">
           <RemarkFormData
             {...props}
             setRemarksDetail={setRemarksDetail}

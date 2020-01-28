@@ -239,7 +239,7 @@ const CareInstitutionContacts: any = (props: any) => {
   return (
     <>
       <div className={"form-section position-relative flex-grow-1"}>
-        <div className="d-flex align-items-center justify-content-between  mt-1 mb-3">
+        <div className="d-flex align-items-center justify-content-between  mb-2">
           <Nav tabs className="contact-tabs">
             {contacts.map((contact: any, index: number) => {
               return (

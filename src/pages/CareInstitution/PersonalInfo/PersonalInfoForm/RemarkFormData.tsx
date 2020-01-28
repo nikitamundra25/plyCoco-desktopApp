@@ -82,7 +82,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
           {languageTranslation("REMARKS")}
         </h5>
       </div>
-      <div className="remark-body remark-body-max-height ">
+      <div className="remark-body remark-body-max-height custom-scrollbar">
         <div className="activity-logs ">
           <div>
             <div>

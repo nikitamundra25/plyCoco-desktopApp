@@ -113,7 +113,7 @@ const CotactFormComponent: any = (
         {}
       </Button>
       <div className={"form-section position-relative"}>
-        <div className="form-flex-section mt-3 form-card minheight-auto">
+        <div className="form-flex-section form-card minheight-auto">
           {/* <h5 className="main-title">Add New contact </h5> */}
 
           <div className="form-flex-block">
@@ -570,7 +570,9 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.email && touched.email && (
-                            <div className="required-tooltip">{errors.email}</div>
+                            <div className="required-tooltip">
+                              {errors.email}
+                            </div>
                           )}
                         </div>
                       </Col>
@@ -600,7 +602,7 @@ const CotactFormComponent: any = (
                               className="textarea-care-institution"
                               rows="4"
                               maxLength={250}
-                              />
+                            />
                           </div>
                         </Col>
                       </Row>
@@ -619,7 +621,7 @@ const CotactFormComponent: any = (
                       <i className="fa fa-angle-down"></i>
                     </div>
                   </div>
-                  <div className="common-list-body">
+                  <div className="common-list-body custom-scrollbar">
                     <ul className="common-list list-unstyled mb-0">
                       {attributeId && attributeId.length
                         ? attributeId.map(

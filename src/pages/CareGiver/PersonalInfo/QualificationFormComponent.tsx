@@ -46,7 +46,7 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
               <i className="fa fa-angle-down"></i>
             </div>
           </div>
-          <div className="common-list-body">
+          <div className="common-list-body custom-scrollbar">
             {qualifications && qualifications.length ? (
               <ul className="common-list list-unstyled mb-0">
                 {qualifications.map(

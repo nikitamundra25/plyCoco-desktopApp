@@ -141,7 +141,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
           />
         </Col>
         <Col lg={"4"} className="px-lg-0">
-          <div className="common-col">
+          <div className="common-col custom-caregiver-height custom-scrollbar">
             <BillingSettingsFormComponent {...props} />
             <div className="quality-attribute-section d-flex flex-column">
               <QualificationFormComponent

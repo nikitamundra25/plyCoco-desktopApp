@@ -403,7 +403,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                       <Col sm="8">
                         <Field name="payrollIBAN">
                           {({ field }: any) => (
-                            <div>
+                            <div className={"required-input"}>
                               <MaskedInput
                                 {...field}
                                 value={payrollIBAN}
@@ -420,7 +420,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                                 }`}
                               />
                               {errors.payrollIBAN && touched.payrollIBAN && (
-                                <div className="required-error">
+                                <div className="required-tooltip">
                                   {errors.payrollIBAN}
                                 </div>
                               )}
@@ -453,7 +453,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                         <div>
                           <Field name="payrollIBAN">
                             {({ field }: any) => (
-                              <div>
+                              <div className={"required-input"}>
                                 <MaskedInput
                                   {...field}
                                   className={"form-control"}
@@ -467,7 +467,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                                   onBlur={handleBlur}
                                 />
                                 {errors.firstDay && touched.firstDay && (
-                                  <div className="required-error">
+                                  <div className="required-tooltip">
                                     {errors.firstDay}
                                   </div>
                                 )}
@@ -491,7 +491,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                         <div>
                           <Field name="payrollIBAN">
                             {({ field }: any) => (
-                              <div>
+                              <div className={"required-input"}>
                                 <MaskedInput
                                   {...field}
                                   className={"form-control"}
@@ -505,7 +505,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                                   onBlur={handleBlur}
                                 />
                                 {errors.lastDay && touched.lastDay && (
-                                  <div className="required-error">
+                                  <div className="required-tooltip">
                                     {errors.lastDay}
                                   </div>
                                 )}

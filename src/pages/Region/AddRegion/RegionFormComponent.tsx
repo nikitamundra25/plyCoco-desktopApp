@@ -47,7 +47,7 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
                 <span className="required">*</span>
               </Label>
             </div>
-            <div className="mr-3 region-input  position-relative">
+            <div className="mr-3 region-input required-input  position-relative">
               <Input
                 type="text"
                 name={"regionName"}
@@ -65,7 +65,7 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
                 }
               />
               {errors.regionName && touched.regionName && (
-                <div className="required-error">{errors.regionName}</div>
+                <div className="required-tooltip">{errors.regionName}</div>
               )}
             </div>
             <div className="mr-3">

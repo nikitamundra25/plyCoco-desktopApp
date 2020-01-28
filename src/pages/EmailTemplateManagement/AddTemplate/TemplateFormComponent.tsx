@@ -61,7 +61,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                                 type='text'
                                 name={'type'}
                                 value={type}
-                                placeholder='Type'
+                                placeholder={languageTranslation('TYPE')}
                                 onChange={handleChange}
                                 className='width-common'
                               />
@@ -92,7 +92,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         type='text'
                         name={'menuEntry'}
                         value={menuEntry}
-                        placeholder='Menu Entry'
+                        placeholder={languageTranslation('MENU_ENTRY')}
                         onChange={handleChange}
                         className='width-common'
                       />
@@ -119,7 +119,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         type='text'
                         name={'subject'}
                         value={subject}
-                        placeholder='subject'
+                        placeholder={languageTranslation('SUBJECT')}
                         className='width-common'
                         onChange={handleChange}
                       />

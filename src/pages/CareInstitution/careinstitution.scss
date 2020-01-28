@@ -8,22 +8,14 @@
     }
   }
   .quality-attribute-section {
-    // height: calc(100% - 359px);
-    @media only screen and (max-width: 991px) {
-      height: auto;
-    }
     .common-list-card {
-      // height: 100%;
       &:last-child {
         margin-top: 12px;
       }
       .common-list-wrap {
-        // height: calc(100% - 40px);
         margin-bottom: 0px;
         .common-list-body {
-          // height: calc(100% - 28px);
-          min-height: 244px;
-          max-height: 250px;
+          max-height: 160px;
         }
       }
     }

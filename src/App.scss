@@ -203,6 +203,26 @@ body {
       }
     }
   }
+  .custom-height {
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  /* ==================== custom-scrollbar Css ================ */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    // border-radius: 7px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1;
+    // border-radius: 7px;
+  }
+  /* ==================== custom-scrollbar Css ================ */
 
   .card {
     border: 0px solid $card_border;
@@ -2528,7 +2548,7 @@ html:not([dir="rtl"]) {
     padding: 4px 10px;
     font-size: $font_13;
     color: $black;
-    height: calc(100% - 41px);
+    height: calc(100% - 33px);
     overflow-x: hidden;
     overflow-y: auto;
     &.remark-body-max-height {

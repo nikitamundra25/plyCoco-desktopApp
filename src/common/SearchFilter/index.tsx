@@ -39,7 +39,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
     setFieldValue(name, selectOption);
   };
   return (
-    <div className="filter-form form-section">
+    <div className="filter-form form-section mb-2">
       <Form onSubmit={handleSubmit}>
         <Row>
           <Col lg={"3"} md={"3"}>
@@ -112,9 +112,9 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                   {languageTranslation("SEARCH_LABEL")}
                 </UncontrolledTooltip>
                 <i className="fa fa-search"></i>
-                <span className="search-text">{languageTranslation("SEARCH_LABEL")}</span>
-                
-                
+                <span className="search-text">
+                  {languageTranslation("SEARCH_LABEL")}
+                </span>
               </Button>
               <Button
                 className="btn-filter mr-2"
@@ -127,7 +127,9 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                   {languageTranslation("RESET_LABEL")}
                 </UncontrolledTooltip>
                 <i className="fa fa-refresh "></i>
-                <span className="search-text">{languageTranslation("RESET_LABEL")}</span>
+                <span className="search-text">
+                  {languageTranslation("RESET_LABEL")}
+                </span>
               </Button>
             </div>
           </Col>

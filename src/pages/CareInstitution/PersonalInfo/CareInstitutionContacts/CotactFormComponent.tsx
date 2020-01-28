@@ -99,7 +99,8 @@ const CotactFormComponent: any = (
     setFieldValue,
     setFieldTouched
   } = props;
-
+  console.log("Eroror", errors);
+  const ContactError: any = errors.contactType;
   return (
     <>
       <Button
@@ -113,7 +114,7 @@ const CotactFormComponent: any = (
         {}
       </Button>
       <div className={"form-section position-relative"}>
-        <div className="form-flex-section mt-3 form-card minheight-auto">
+        <div className="form-flex-section form-card minheight-auto mb-2">
           {/* <h5 className="main-title">Add New contact </h5> */}
 
           <div className="form-flex-block">
@@ -227,7 +228,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"firstName"}
@@ -242,7 +243,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.firstName && touched.firstName && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.firstName}
                             </div>
                           )}
@@ -261,7 +262,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"lastName"}
@@ -276,7 +277,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.lastName && touched.lastName && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.lastName}
                             </div>
                           )}
@@ -295,19 +296,31 @@ const CotactFormComponent: any = (
                       <Col sm="4">
                         <Label className="form-label col-form-label">
                           {languageTranslation("CONTACT_TYPE")}
+                          <span className="required">*</span>
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Select
                             placeholder={languageTranslation("CONTACT_TYPE")}
                             value={contactType ? contactType : undefined}
                             onChange={(value: any) =>
                               handleSelect(value, "contactType")
                             }
+                            classNamePrefix="custom-inner-reactselect"
+                            className={
+                              errors.contactType && touched.contactType
+                                ? "error custom-reactselect"
+                                : "custom-reactselect"
+                            }
                             options={ContactType}
                             menuPlacement={"auto"}
                           />
+                          {errors.contactType && touched.contactType && (
+                            <div className="required-tooltip">
+                              {ContactError.value}
+                            </div>
+                          )}
                         </div>
                       </Col>
                     </Row>
@@ -422,7 +435,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"phoneNumber"}
@@ -437,7 +450,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.phoneNumber && touched.phoneNumber && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.phoneNumber}
                             </div>
                           )}
@@ -455,7 +468,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"phoneNumber2"}
@@ -470,7 +483,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.phoneNumber2 && touched.phoneNumber2 && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.phoneNumber2}
                             </div>
                           )}
@@ -488,7 +501,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"faxNumber"}
@@ -503,7 +516,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.faxNumber && touched.faxNumber && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.faxNumber}
                             </div>
                           )}
@@ -521,7 +534,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"mobileNumber"}
@@ -536,7 +549,7 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.mobileNumber && touched.mobileNumber && (
-                            <div className="required-error">
+                            <div className="required-tooltip">
                               {errors.mobileNumber}
                             </div>
                           )}
@@ -555,7 +568,7 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col sm="8">
-                        <div>
+                        <div className="required-input">
                           <Input
                             type="text"
                             name={"email"}
@@ -570,7 +583,9 @@ const CotactFormComponent: any = (
                             }
                           />
                           {errors.email && touched.email && (
-                            <div className="required-error">{errors.email}</div>
+                            <div className="required-tooltip">
+                              {errors.email}
+                            </div>
                           )}
                         </div>
                       </Col>
@@ -600,7 +615,7 @@ const CotactFormComponent: any = (
                               className="textarea-care-institution"
                               rows="4"
                               maxLength={250}
-                              />
+                            />
                           </div>
                         </Col>
                       </Row>
@@ -619,7 +634,7 @@ const CotactFormComponent: any = (
                       <i className="fa fa-angle-down"></i>
                     </div>
                   </div>
-                  <div className="common-list-body">
+                  <div className="common-list-body custom-scrollbar">
                     <ul className="common-list list-unstyled mb-0">
                       {attributeId && attributeId.length
                         ? attributeId.map(

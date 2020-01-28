@@ -5,6 +5,7 @@ import {
   ICareInstitutionValidationSchema,
   ICareInstitutionContactValidationSchema
 } from '../interfaces';
+import { yupToFormErrors } from 'formik';
 
 export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -129,5 +130,9 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
     'check-num',
     languageTranslation('INVALID_NUMBER'),
     value => !value || (value && !isNaN(value))
-  )
+  ),
+  contactType: Yup.object().shape({
+    value: Yup.string().required(languageTranslation('CONTACT_REQUIRED')),
+    label: Yup.string().required(languageTranslation('CONTACT_REQUIRED'))
+  })
 });

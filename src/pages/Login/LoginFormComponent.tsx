@@ -78,7 +78,7 @@ const LoginFormComponent: FunctionComponent<FormikProps<ILoginFormValues> & {
                         />
                       </InputGroup>
                       {errors.email && touched.email && (
-                        <div className='required-error'>{errors.email}</div>
+                        <div className='required-tooltip'>{errors.email}</div>
                       )}
                     </FormGroup>
 
@@ -106,7 +106,9 @@ const LoginFormComponent: FunctionComponent<FormikProps<ILoginFormValues> & {
                         />
                       </InputGroup>
                       {errors.password && touched.password && (
-                        <div className='required-error'>{errors.password}</div>
+                        <div className='required-tooltip'>
+                          {errors.password}
+                        </div>
                       )}
                     </FormGroup>
                     <Row>

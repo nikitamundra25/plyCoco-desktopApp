@@ -17,8 +17,6 @@ import CareGiverFormComponent from './CareGiverFormComponent';
 import { CareGiverValidationSchema } from '../../../validations/CareGiverValidationSchema';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { ADD_CAREGIVER, GET_CAREGIVERS } from '../../../queries/CareGiver';
-import { GET_QUALIFICATION_ATTRIBUTE } from '../../../queries/qualification';
-import { Mutation } from '@apollo/react-components';
 import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { languageTranslation } from '../../../helpers';

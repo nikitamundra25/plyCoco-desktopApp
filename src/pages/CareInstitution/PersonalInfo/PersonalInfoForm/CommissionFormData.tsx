@@ -46,18 +46,23 @@ const CommissionFormData: FunctionComponent<FormikProps<
               <Col sm='8'>
                 <Row className='custom-col inner-no-padding-col'>
                   <Col sm='4'>
-                    <div>
+                    <div className='required-input'>
                       <Input
                         type='text'
                         name={'careGiverCommission'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={careGiverCommission}
-                        className='width-common'
+                        className={
+                          errors.careGiverCommission &&
+                          touched.careGiverCommission
+                            ? 'width-common error'
+                            : 'width-common'
+                        }
                       />
                       {errors.careGiverCommission &&
                         touched.careGiverCommission && (
-                          <div className='required-error left'>
+                          <div className='required-tooltip'>
                             {errors.careGiverCommission}
                           </div>
                         )}
@@ -72,18 +77,23 @@ const CommissionFormData: FunctionComponent<FormikProps<
                           </Label>
                         </Col>
                         <Col sm='6'>
-                          <div>
+                          <div className='required-input'>
                             <Input
                               type='text'
                               name={'doctorCommission'}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={doctorCommission}
-                              className='width-common'
+                              className={
+                                errors.doctorCommission &&
+                                touched.doctorCommission
+                                  ? 'width-common error'
+                                  : 'width-common'
+                              }
                             />
                             {errors.doctorCommission &&
                               touched.doctorCommission && (
-                                <div className='required-error left'>
+                                <div className='required-tooltip'>
                                   {errors.doctorCommission}
                                 </div>
                               )}

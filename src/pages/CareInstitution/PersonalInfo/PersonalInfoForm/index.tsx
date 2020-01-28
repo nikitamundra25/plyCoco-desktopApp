@@ -326,7 +326,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='8'>
-                    <div>
+                    <div className="required-input">
                       <Input
                         type='text'
                         name={'firstName'}
@@ -341,7 +341,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.firstName && touched.firstName && (
-                        <div className='required-error'>{errors.firstName}</div>
+                        <div className='required-tooltip'>{errors.firstName}</div>
                       )}
                     </div>
                   </Col>
@@ -358,7 +358,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='8'>
-                    <div>
+                    <div className="required-input">
                       <Input
                         type='text'
                         name={'lastName'}
@@ -373,7 +373,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.lastName && touched.lastName && (
-                        <div className='required-error'>{errors.lastName}</div>
+                        <div className='required-tooltip'>{errors.lastName}</div>
                       )}
                     </div>
                   </Col>
@@ -605,7 +605,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='8'>
-                    <div>
+                    <div className="required-input">
                       <Input
                         type='text'
                         name={'phoneNumber'}
@@ -614,13 +614,13 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         value={phoneNumber}
                         placeholder={languageTranslation('PHONE')}
                         className={
-                          errors.mobileNumber && touched.mobileNumber
+                          errors.phoneNumber && touched.phoneNumber
                             ? 'width-common text-input error'
                             : 'width-common text-input'
                         }
                       />
                       {errors.phoneNumber && touched.phoneNumber && (
-                        <div className='required-error'>
+                        <div className='required-tooltip'>
                           {errors.phoneNumber}
                         </div>
                       )}
@@ -670,7 +670,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='8'>
-                    <div>
+                    <div className="required-input">
                       <Input
                         type='text'
                         name={'mobileNumber'}
@@ -685,7 +685,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.mobileNumber && touched.mobileNumber && (
-                        <div className='required-error'>
+                        <div className='required-tooltip'>
                           {errors.mobileNumber}
                         </div>
                       )}

@@ -1,16 +1,16 @@
-import React from "react";
-import { getIn } from "formik";
-import { Input } from "reactstrap";
-import { toLower } from "lodash";
-import { getHelperText, handleChange, handleBlur } from "./utils";
-import { IFormikTextField } from "../../../interfaces/FormikTextField";
+import React from 'react';
+import { getIn } from 'formik';
+import { Input } from 'reactstrap';
+import { toLower } from 'lodash';
+import { getHelperText, handleChange, handleBlur } from './utils';
+import { IFormikTextField } from '../../../interfaces/FormikTextField';
 
 export const FormikTextField = (props: IFormikTextField) => {
   const {
     field,
     form,
     type,
-    variant = "standard",
+    variant = 'standard',
     disabled = false,
     inputStyle,
     classes,
@@ -26,6 +26,8 @@ export const FormikTextField = (props: IFormikTextField) => {
   const showError = getIn(touched, name) && !!fieldError;
   const shrink = field.value !== null && toLower(field.value).length > 0;
   let newLabel = label;
+  console.log('errors .value', showError);
+
   return (
     <>
       <Input
@@ -33,20 +35,20 @@ export const FormikTextField = (props: IFormikTextField) => {
         {...field}
         type={type}
         label={newLabel}
-        className={errors.value ? `text-input error left` : `text-input`}
-        value={value !== "" ? value : ""}
+        className={showError ? `error` : ``}
+        value={value !== '' ? value : ''}
         onChange={handleChange(props)}
         onClick={rest.onClick || null}
         onBlur={
-          name !== "email"
+          name !== 'email'
             ? handleBlur(value, props)
             : (e: any) => {
                 //get string before a @ to set username
                 const username = value
-                  ? value.substring(0, value.indexOf("@"))
-                  : "";
+                  ? value.substring(0, value.indexOf('@'))
+                  : '';
 
-                setFieldValue("userName", username);
+                setFieldValue('userName', username);
                 handleBlur(value, props);
               }
         }
@@ -54,14 +56,9 @@ export const FormikTextField = (props: IFormikTextField) => {
         variant={variant}
         // fullwidth={true}
       />
-      {name === "fee" ||
-      name === "night" ||
-      name === "weekendAllowance" ||
-      name === "holiday" ? (
-        <div className="required-error left">{showError && fieldError}</div>
-      ) : (
-        <div className="required-error ">{showError && fieldError}</div>
-      )}
+      {showError ? (
+        <div className='required-tooltip'>{showError && fieldError}</div>
+      ) : null}
     </>
   );
 };

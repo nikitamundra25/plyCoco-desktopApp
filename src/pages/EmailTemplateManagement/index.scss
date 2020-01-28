@@ -1,7 +1,7 @@
 @import "../../scss/variables";
-.template-lable{
-  font-size:$font_12;
-  color:$black;
+.template-lable {
+  font-size: $font_12;
+  color: $black;
   padding-left: 8px;
   font-weight: bold;
 }
@@ -22,9 +22,8 @@
     }
   }
 }
-.mail-table{
- 
-.size-col {
+.mail-table {
+  .size-col {
     width: 60px;
-}
+  }
 }

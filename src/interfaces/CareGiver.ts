@@ -1,7 +1,7 @@
-import { Location } from "history";
-import * as H from "history";
-import { IReactSelectInterface } from "./Constant";
-import { ICareInstitutionRemarks } from "./CareInstitution";
+import { Location } from 'history';
+import * as H from 'history';
+import { IReactSelectInterface } from './Constant';
+import { ICareInstitutionRemarks } from './CareInstitution';
 
 export interface ICareGiverInput {
   id?: string;
@@ -106,11 +106,14 @@ export interface ICareGiverValidationInterface {
   phoneNumber?: string;
   mobileNumber?: string;
   userName?: string;
-  fee?: string;
-  night?: string;
-  weekendAllowance?: string;
-  holiday?: string;
+  fee?: number | null;
+  night?: number | null;
+  weekendAllowance?: number | null;
+  holiday?: number | null;
   comments?: string;
+  taxNumber?: string;
+  age?: number | null;
+  fax?: string;
 }
 
 export interface IEmailMenus<

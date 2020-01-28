@@ -422,8 +422,8 @@ class Departments extends Component<RouteComponentProps, any> {
                       </Row>
                     </FormGroup>
                   </Col>
-                  <Col lg={"12"}>
-                    <Button color={"primary"} className={"btn-department px-5"}>
+                  <Col lg={"12"} className="text-right">
+                    <Button color={"primary"} className={"btn-save"}>
                       <i className={"fa fa-floppy-o"} />
                       &nbsp; Save
                     </Button>

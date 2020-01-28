@@ -17,4 +17,17 @@ const UPDATE_EMAIL_TEMPLATE = gql`
     }
   }
 `;
-export const EmailTemplateQueries = [ADD_EMAIL_TEMPLATE, UPDATE_EMAIL_TEMPLATE];
+
+const GET_EMAIL_TEMPLATE_TYEPS = gql`
+  query GetEmailtemplateTypes {
+    getEmailtemplateTypes {
+      type
+    }
+  }
+`;
+
+export const EmailTemplateQueries = [
+  ADD_EMAIL_TEMPLATE,
+  UPDATE_EMAIL_TEMPLATE,
+  GET_EMAIL_TEMPLATE_TYEPS,
+];

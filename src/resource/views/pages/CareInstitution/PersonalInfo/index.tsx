@@ -11,12 +11,15 @@ import {
 } from '../../../../../interfaces';
 import { CareInstituionValidationSchema } from '../../../../validations';
 import { useParams } from 'react-router';
-import { CareInstitutionQueries, CountryQueries } from '../../../../../queries';
+import {
+  CareInstitutionQueries,
+  CountryQueries,
+} from '../../../../../graphql/queries';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
 import { logger, languageTranslation } from '../../../../../helpers';
 import CareInstitutionContacts from './CareInstitutionContacts';
-import { RegionQueries } from '../../../../../queries/Region';
+import { RegionQueries } from '../../../../../graphql/queries/Region';
 
 let toastId: any;
 

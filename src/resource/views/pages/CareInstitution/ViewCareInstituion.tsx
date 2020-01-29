@@ -21,7 +21,7 @@ import { FormikProps } from 'formik';
 import {
   CareInstitutionQueries,
   GET_QUALIFICATION_ATTRIBUTES,
-} from '../../../../queries';
+} from '../../../../graphql/queries';
 import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
 import { IQualifications } from '../../../../interfaces/qualification';
 import Loader from '../../containers/Loader/Loader';

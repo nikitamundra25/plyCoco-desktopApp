@@ -1,26 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import {
-  FormGroup,
-  Label,
-  Input,
-  Col,
-  Row,
-  Nav,
-  NavItem,
-  NavLink,
-  Button,
-} from 'reactstrap';
+import { FormGroup, Label, Input, Col, Row, Button } from 'reactstrap';
 import { languageTranslation, logger } from '../../../../../../helpers';
 import Select from 'react-select';
 import {
-  State,
-  Country,
   Gender,
   Salutation,
   ContactType,
   CareInstitutionContactAttribute,
 } from '../../../../../../config';
-import { FormikProps, Field, Form } from 'formik';
+import { FormikProps } from 'formik';
 import {
   ICareInstitutionContact,
   IReactSelectInterface,
@@ -29,7 +17,7 @@ import {
   ICountry,
   IState,
 } from '../../../../../../interfaces';
-import { CountryQueries } from '../../../../../../queries';
+import { CountryQueries } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;

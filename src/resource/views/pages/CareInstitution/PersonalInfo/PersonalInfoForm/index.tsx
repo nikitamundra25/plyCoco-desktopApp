@@ -13,13 +13,13 @@ import {
   IState,
   IRegion,
 } from '../../../../../../interfaces';
-import { CountryQueries } from '../../../../../../queries';
+import { CountryQueries } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import CommissionFormData from './CommissionFormData';
 import InvoiceFormData from './InvoiceFormData';
 import QuallificationAttribute from './QuallificationAttribute';
 import RemarkFormData from './RemarkFormData';
-import { RegionQueries } from '../../../../../../queries/Region';
+import { RegionQueries } from '../../../../../../graphql/queries/Region';
 import moment from 'moment';
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;

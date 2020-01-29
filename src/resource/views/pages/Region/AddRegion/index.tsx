@@ -3,7 +3,7 @@ import { IRegionFormValue, IRegionInput } from '../../../../../interfaces';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import RegionFormComponent from './RegionFormComponent';
 import { RegionValidationSchema } from '../../../../validations/RegionValidationSchema';
-import { RegionQueries } from '../../../../../queries/Region';
+import { RegionQueries } from '../../../../../graphql/queries/Region';
 import { useParams, useHistory } from 'react-router';
 import { logger } from '../../../../../helpers';
 import { useMutation } from '@apollo/react-hooks';

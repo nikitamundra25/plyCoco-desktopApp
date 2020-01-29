@@ -16,11 +16,9 @@ import RemarkFormComponent from './RemarkFormComponent';
 import { Formik, FormikHelpers, Form, FormikProps } from 'formik';
 import { Query } from '@apollo/react-components';
 import {
-  UPDATE_CAREGIVER,
   GET_CAREGIVER_BY_ID,
-  UPDATE_BILLING_SETTINGS,
   GET_BILLING_SETTINGS,
-} from '../../../../../queries/CareGiver';
+} from '../../../../../graphql/queries/CareGiver';
 import {
   ICareGiverValues,
   IPersonalObject,
@@ -37,11 +35,13 @@ import '../caregiver.scss';
 import {
   GET_QUALIFICATION_ATTRIBUTES,
   CountryQueries,
-} from '../../../../../queries';
+} from '../../../../../graphql/queries';
 import { IQualifications } from '../../../../../interfaces/qualification';
 import Loader from '../../../containers/Loader/Loader';
+import { CareGiverMutations } from '../../../../../graphql/Mutations';
 let toastId: any;
 
+const [, UPDATE_CAREGIVER, , , , UPDATE_BILLING_SETTINGS] = CareGiverMutations;
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
   let history = useHistory();

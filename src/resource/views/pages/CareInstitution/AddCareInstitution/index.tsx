@@ -10,7 +10,7 @@ import AddCareInstitution from './AddCareInstitution';
 import {
   CareInstitutionQueries,
   GET_QUALIFICATION_ATTRIBUTES,
-} from '../../../../../queries';
+} from '../../../../../graphql/queries';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { logger, languageTranslation } from '../../../../../helpers';
 import { toast } from 'react-toastify';

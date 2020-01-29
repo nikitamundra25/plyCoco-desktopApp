@@ -12,7 +12,7 @@ import { AppBreadcrumb } from '@coreui/react';
 import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
 import { languageTranslation, logger } from '../../../../helpers';
-import { RegionQueries } from '../../../../queries/Region';
+import { RegionQueries } from '../../../../graphql/queries/Region';
 import { ISearchValues } from '../../../../interfaces';
 import { useLazyQuery } from '@apollo/react-hooks';
 import * as qs from 'query-string';

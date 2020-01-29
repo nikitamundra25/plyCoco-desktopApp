@@ -23,9 +23,9 @@ import { FormikTextField } from '../../../components/forms/FormikFields';
 import { languageTranslation } from '../../../../../helpers';
 import MaskedInput from 'react-text-mask';
 import { useLazyQuery, useQuery } from '@apollo/react-hooks';
-import { CountryQueries } from '../../../../../queries';
+import { CountryQueries } from '../../../../../graphql/queries';
 import { useLocation } from 'react-router';
-import { RegionQueries } from '../../../../../queries/Region';
+import { RegionQueries } from '../../../../../graphql/queries/Region';
 import moment from 'moment';
 
 const [, GET_REGIONS] = RegionQueries;

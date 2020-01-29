@@ -25,11 +25,11 @@ import {
   AddDepartmentValidationSchema,
   AddTimeValidationSchema,
 } from '../../../../validations';
-import { CareInstitutionQueries } from '../../../../../queries';
+import { CareInstitutionQueries } from '../../../../../graphql/queries';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { IQualifications } from '../../../../../interfaces/qualification';
 
-import { GET_QUALIFICATION_ATTRIBUTES } from '../../../../../queries';
+import { GET_QUALIFICATION_ATTRIBUTES } from '../../../../../graphql/queries';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 
 const [

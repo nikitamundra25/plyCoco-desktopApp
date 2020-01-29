@@ -6,7 +6,7 @@ import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { LoginValidationSchema } from '../../../validations/LoginValidationSchema';
 import { ILoginFormValues, ILoginResponse } from '../../../../interfaces';
 import LoginFormComponent from './LoginFormComponent';
-import { LOGIN } from '../../../../queries';
+import { LOGIN } from '../../../../graphql/queries';
 import { AppRoutes } from '../../../../config';
 
 export const Login: FunctionComponent = () => {

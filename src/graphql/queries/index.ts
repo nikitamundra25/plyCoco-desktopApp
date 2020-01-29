@@ -4,7 +4,7 @@ export * from './Employee';
 export * from './CareGiver';
 export * from './LeasingQueries';
 export * from './commonQueries';
-export * from './Auth';
+export * from '../Mutations/Auth';
 export * from './CareInstitution';
 export * from './EmailTemplates';
 export * from './Profile';

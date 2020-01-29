@@ -10,7 +10,7 @@ import {
   IEmailTemplateValues,
   IReactSelectInterface,
 } from '../../../../interfaces';
-import { EmailTemplateQueries } from '../../../../queries';
+import { EmailTemplateQueries } from '../../../../graphql/queries';
 import { EmailTemplateMenu } from './Menu';
 import { EmailTemplateList } from './List';
 import { AddTemplate } from './AddTemplate';

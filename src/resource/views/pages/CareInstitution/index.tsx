@@ -10,7 +10,7 @@ import {
 import { AppRoutes, PAGE_LIMIT } from '../../../../config';
 import { AppBreadcrumb } from '@coreui/react';
 import routes from '../../../../routes/routes';
-import { CareInstitutionQueries } from '../../../../queries';
+import { CareInstitutionQueries } from '../../../../graphql/queries';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import {
   ICareInstitutionListDataInterface,

@@ -10,7 +10,7 @@ import { languageTranslation } from '../../../../../helpers';
 import { ErroredFieldComponent } from '../../../components/ErroredFieldComponent';
 import CreatableSelect from 'react-select/creatable';
 import { useQuery } from '@apollo/react-hooks';
-import { EmailTemplateQueries } from '../../../../../queries';
+import { EmailTemplateQueries } from '../../../../../graphql/queries';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const [, , GET_EMAIL_TEMPLATE_TYEPS] = EmailTemplateQueries;

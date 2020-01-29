@@ -1,15 +1,10 @@
-import React, {
-  useState,
-  ChangeEvent,
-  FunctionComponent,
-  useEffect,
-} from 'react';
-import { Nav, NavItem, NavLink } from 'reactstrap';
+import React, { FunctionComponent, useEffect } from 'react';
 import Select from 'react-select';
-import { RegionQueries } from '../../../../queries/Region';
+import { RegionQueries } from '../../../../graphql/queries/Region';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { IReactSelectInterface, IRegion } from '../../../../interfaces';
 import { languageTranslation } from '../../../../helpers';
+
 const [, GET_REGIONS] = RegionQueries;
 
 const DefaultFooter: FunctionComponent = () => {

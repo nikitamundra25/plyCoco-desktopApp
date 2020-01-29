@@ -14,7 +14,7 @@ import {
 import {
   CountryQueries,
   CareInstitutionQueries,
-} from '../../../../../../queries';
+} from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { CareInstituionContactValidationSchema } from '../../../../../validations';
 import CotactFormComponent from './CotactFormComponent';

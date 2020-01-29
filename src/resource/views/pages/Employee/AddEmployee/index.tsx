@@ -16,16 +16,16 @@ import {
   IState,
 } from '../../../../../interfaces';
 import EmployeeFormComponent from './EmployeeFormComponent';
-import { EmployeeQueries, CountryQueries } from '../../../../../queries';
+import {
+  EmployeeQueries,
+  CountryQueries,
+} from '../../../../../graphql/queries';
 import { logger, languageTranslation } from '../../../../../helpers';
 import { AppRoutes } from '../../../../../config';
+import { EmployeeMutations } from '../../../../../graphql/Mutations';
 
-const [
-  ADD_EMPLOYEE,
-  GET_EMPLOYEE_BY_ID,
-  GET_EMPLOYEES,
-  UPDATE_EMPLOYEE,
-] = EmployeeQueries;
+const [GET_EMPLOYEE_BY_ID, GET_EMPLOYEES] = EmployeeQueries;
+const [ADD_EMPLOYEE, UPDATE_EMPLOYEE] = EmployeeMutations;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 export const EmployeeForm: FunctionComponent = () => {

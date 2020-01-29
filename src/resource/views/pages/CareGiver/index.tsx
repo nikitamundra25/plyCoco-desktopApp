@@ -10,31 +10,30 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap';
 import * as qs from 'query-string';
-import { AppRoutes, PAGE_LIMIT } from '../../../../config';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 import { useLocation, useHistory } from 'react-router';
 import { AppBreadcrumb } from '@coreui/react';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { AppRoutes, PAGE_LIMIT } from '../../../../config';
 import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
 import ButtonTooltip from '../../components/Tooltip/ButtonTooltip';
 import { languageTranslation } from '../../../../helpers';
-import {
-  GET_CAREGIVERS,
-  DELETE_CAREGIVER,
-  UPDATE_CARE_GIVER_STATUS,
-} from '../../../../queries/CareGiver';
+import { GET_CAREGIVERS } from '../../../../graphql/queries/CareGiver';
 import {
   ISearchValues,
   IReactSelectInterface,
   IObjectType,
 } from '../../../../interfaces';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { CareGiverMutations } from '../../../../graphql/Mutations';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import PaginationComponent from '../../components/Pagination';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
-import { toast } from 'react-toastify';
-import moment from 'moment';
+
+const [, , UPDATE_CARE_GIVER_STATUS, DELETE_CAREGIVER] = CareGiverMutations;
 
 const sortFilter: IObjectType = {
   3: 'name',

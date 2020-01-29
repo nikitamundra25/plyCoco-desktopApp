@@ -23,7 +23,7 @@ import {
 } from '@coreui/react';
 import { useLazyQuery } from '@apollo/react-hooks';
 import Loader from '../Loader/Loader';
-import { ProfileQueries } from '../../../../queries';
+import { ProfileQueries } from '../../../../graphql/queries';
 import logo from '../../../assets/img/plycoco-white.png';
 
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));

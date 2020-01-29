@@ -14,7 +14,7 @@ import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
 import { languageTranslation, logger } from '../../../../helpers';
 import ButtonTooltip from '../../components/Tooltip/ButtonTooltip';
-import { EmployeeQueries } from '../../../../queries';
+import { EmployeeQueries } from '../../../../graphql/queries';
 import PaginationComponent from '../../components/Pagination';
 import {
   ISearchValues,
@@ -27,17 +27,13 @@ import { ConfirmBox } from '../../components/ConfirmBox';
 import defaultProfile from '../../../assets/avatars/default-profile.png';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
+import { EmployeeMutations } from '../../../../graphql/Mutations';
 
 let toastId: any = null;
 
-const [
-  ,
-  ,
-  GET_EMPLOYEES,
-  ,
-  UPDATE_EMPLOYEE_STATUS,
-  DELETE_EMPLOYEE,
-] = EmployeeQueries;
+const [, GET_EMPLOYEES] = EmployeeQueries;
+
+const [, , UPDATE_EMPLOYEE_STATUS, DELETE_EMPLOYEE] = EmployeeMutations;
 
 const sortFilter: IObjectType = {
   3: 'name',

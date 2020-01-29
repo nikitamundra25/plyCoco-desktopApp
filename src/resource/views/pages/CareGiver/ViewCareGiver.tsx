@@ -6,7 +6,7 @@ import { useLazyQuery } from '@apollo/react-hooks';
 import { AppRoutes } from '../../../../config';
 import { careGiverRoutes } from './Sidebar/SidebarRoutes/CareGiverRoutes';
 import { IReactSelectInterface } from '../../../../interfaces';
-import { GET_CAREGIVERS } from '../../../../queries';
+import { GET_CAREGIVERS } from '../../../../graphql/queries';
 import Invoices from './Invoices/Invoices';
 import PersonalInformation from './PersonalInfo/PersonalInformation';
 import DocumentsUpload from './Documents/DocumentsUpload';

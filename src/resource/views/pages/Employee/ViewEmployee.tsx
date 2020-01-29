@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import routes from '../../../../routes/routes';
-import { EmployeeQueries } from '../../../../queries';
+import { EmployeeQueries } from '../../../../graphql/queries';
 import { AppConfig, AppRoutes } from '../../../../config';
 import { IReplaceObjectInterface } from '../../../../interfaces';
 import { languageTranslation } from '../../../../helpers';

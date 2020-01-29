@@ -15,12 +15,15 @@ import {
 } from '../../../../../interfaces';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 // import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
-import { CountryQueries, CareInstitutionQueries } from '../../../../../queries';
+import {
+  CountryQueries,
+  CareInstitutionQueries,
+} from '../../../../../graphql/queries';
 import CommissionFormData from '../PersonalInfo/PersonalInfoForm/CommissionFormData';
 import InvoiceFormData from '../PersonalInfo/PersonalInfoForm/InvoiceFormData';
 import QuallificationAttribute from '../PersonalInfo/PersonalInfoForm/QuallificationAttribute';
 import RemarkFormData from '../PersonalInfo/PersonalInfoForm/RemarkFormData';
-import { RegionQueries } from '../../../../../queries/Region';
+import { RegionQueries } from '../../../../../graphql/queries/Region';
 import '../careinstitution.scss';
 
 const [, GET_REGIONS] = RegionQueries;

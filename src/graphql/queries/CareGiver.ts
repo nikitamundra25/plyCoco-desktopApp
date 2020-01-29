@@ -197,51 +197,6 @@ export const GET_CAREGIVER_BY_ID = gql`
   }
 `;
 
-export const ADD_CAREGIVER = gql`
-  mutation addCareGiver($careGiverInput: CareGiverInput!) {
-    addCareGiver(careGiverInput: $careGiverInput) {
-      id
-    }
-  }
-`;
-
-export const UPDATE_CAREGIVER = gql`
-  mutation updateCareGiver($id: Int!, $careGiverInput: CareGiverInput!, $isRemarkAdded:Boolean) {
-    updateCareGiver(id: $id, careGiverInput: $careGiverInput,isRemarkAdded:$isRemarkAdded)
-    ${CAREGIVER_PERSONAL_INFO_FIELDS}
-  }
-`;
-
-export const DELETE_CAREGIVER = gql`
-  mutation deleteCareGiver($id: Int!) {
-    deleteCareGiver(id: $id) {
-      id
-    }
-  }
-`;
-
-export const UPDATE_BILLING_SETTINGS = gql`
-  mutation addUpdateBillingSettings(
-    $userId: Int
-    $billingSettingInput: BillingSettingsInput!
-  ) {
-    addUpdateBillingSettings(
-      userId: $userId
-      billingSettingInput: $billingSettingInput
-    ) {
-      id
-      userId
-      feePerHour
-      nightAllowancePerHour
-      weekendAllowancePerHour
-      holidayAllowancePerHourFee
-      nextInvoiceNumber
-      statementsMaturity
-      additionalText
-    }
-  }
-`;
-
 export const GET_BILLING_SETTINGS = gql`
   query getBillingSettings($userId: Int!) {
     getBillingSettings(userId: $userId) {
@@ -253,48 +208,6 @@ export const GET_BILLING_SETTINGS = gql`
       holidayAllowancePerHourFee
       nextInvoiceNumber
       additionalText
-    }
-  }
-`;
-
-export const UPDATE_CARE_GIVER_STATUS = gql`
-  mutation changeStatusCareGiver($id: ID!, $isActive: Boolean) {
-    changeStatusCareGiver(id: $id, isActive: $isActive) {
-      id
-      isActive
-    }
-  }
-`;
-
-export const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
-  mutation addUpdateLeasingInformation(
-    $userId: Int!
-    $leasingInformationInput: LeasingInformationInput!
-  ) {
-    addUpdateLeasingInformation(
-      userId: $userId
-      leasingInformationInput: $leasingInformationInput
-    ) {
-      id
-      placeOfBirth
-      birthName
-      nationality
-      maritalStatus
-      children
-      factorChildAllowance
-      healthInsuranceType
-      healthInsuranceProvider
-      socialSecurityNumber
-      religion
-      controlId
-      taxBracket
-      preOccupation
-      payrollIBAN
-      status
-      firstDay
-      lastDay
-      monthlyWorkingHrs
-      weeklyWorkingHrs
     }
   }
 `;
@@ -325,3 +238,5 @@ export const GET_LEASING_INFO = gql`
     }
   }
 `;
+
+export const CareGiverQueries = [];

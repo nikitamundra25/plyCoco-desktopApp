@@ -33,7 +33,7 @@ import {
   IRegion,
 } from '../../../../../interfaces';
 import { logger, languageTranslation } from '../../../../../helpers';
-import { RegionQueries } from '../../../../../queries/Region';
+import { RegionQueries } from '../../../../../graphql/queries/Region';
 const [, GET_REGIONS] = RegionQueries;
 const EmployeeFormComponent: FunctionComponent<FormikProps<
   IEmployeeFormValues

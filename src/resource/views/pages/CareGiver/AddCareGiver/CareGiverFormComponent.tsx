@@ -15,7 +15,7 @@ import {
   CountryQueries,
   GET_QUALIFICATION_ATTRIBUTES,
   GET_CAREGIVERS,
-} from '../../../../../queries';
+} from '../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import { languageTranslation } from '../../../../../helpers';
 import PersonalInfoFormComponent from '../PersonalInfo/PersonalInfoFormComponent';

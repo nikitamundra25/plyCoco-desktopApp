@@ -240,6 +240,7 @@ const PersonalInfoFormComponent: any = (
                               name={"title"}
                               placeholder={languageTranslation("TITLE")}
                               className="width-common"
+                              maxLength={50}
                             />
                           </div>
                         </Col>
@@ -393,6 +394,7 @@ const PersonalInfoFormComponent: any = (
                     name={"street"}
                     placeholder="Street"
                     className=" width-common"
+                    maxLength={100}
                   />
                 </div>
               </Col>
@@ -414,6 +416,7 @@ const PersonalInfoFormComponent: any = (
                     name={"postalCode"}
                     placeholder="Postal Code"
                     className=" width-common"
+                    maxLength={30}
                   />
                 </div>
               </Col>
@@ -434,6 +437,7 @@ const PersonalInfoFormComponent: any = (
                     name={"city"}
                     placeholder="City"
                     className=" width-common"
+                    maxLength={30}
                   />
                 </div>
               </Col>
@@ -517,6 +521,7 @@ const PersonalInfoFormComponent: any = (
                     name={"fax"}
                     placeholder=" Fax"
                     className="width-common"
+                    maxLength={30}
                   />
                 </div>
               </Col>
@@ -561,6 +566,7 @@ const PersonalInfoFormComponent: any = (
                     name={"email"}
                     placeholder=" Email"
                     className="width-common"
+                    maxLength={50}
                   />
                 </div>
               </Col>
@@ -580,6 +586,7 @@ const PersonalInfoFormComponent: any = (
                     name={"taxNumber"}
                     placeholder="Tax Number"
                     className="width-common"
+                    maxLength={30}
                   />
                 </div>
               </Col>
@@ -599,6 +606,8 @@ const PersonalInfoFormComponent: any = (
                     name={"bankName"}
                     placeholder="Bank"
                     className="width-common"
+                    maxLength={30}
+
                   />
                 </div>
               </Col>
@@ -627,6 +636,7 @@ const PersonalInfoFormComponent: any = (
                           mask={IBANRegex}
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          
                         />
                         {errors.IBAN && touched.IBAN && (
                           <div className="required-tooltip">{errors.IBAN}</div>
@@ -733,6 +743,8 @@ const PersonalInfoFormComponent: any = (
                     placeholder="Driver's License Number"
                     className="width-common"
                     value={driverLicenseNumber}
+                    maxLength={30}
+
                   />
                 </div>
               </Col>
@@ -810,6 +822,8 @@ const PersonalInfoFormComponent: any = (
                     name={"companyName"}
                     placeholder="Company Name"
                     className="width-common"
+                    maxLength={50}
+
                   />
                 </div>
               </Col>
@@ -831,6 +845,8 @@ const PersonalInfoFormComponent: any = (
                     name={"registerCourt"}
                     placeholder="Register Court"
                     className="width-common"
+                    maxLength={50}
+
                   />
                 </div>
               </Col>
@@ -852,6 +868,8 @@ const PersonalInfoFormComponent: any = (
                     name={"registrationNumber"}
                     placeholder="Registration Number"
                     className="width-common"
+                    maxLength={30}
+
                   />
                 </div>
               </Col>
@@ -873,6 +891,8 @@ const PersonalInfoFormComponent: any = (
                     name={"executiveDirector"}
                     placeholder="Executive Director"
                     className="width-common"
+                    maxLength={50}
+
                   />
                 </div>
               </Col>

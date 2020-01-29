@@ -77,19 +77,19 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation('USERNAME_REQUIRED')),
   fee: Yup.number()
     .nullable()
-    .typeError('Fee must be a number')
+    .typeError('Fee must be number')
     .max(10000, "Fee can't be greater than 10000"),
   night: Yup.number()
     .nullable()
-    .typeError('Fee must be a number')
+    .typeError('Fee must be number')
     .max(10000, "Fee can't be greater than 10000"),
   weekendAllowance: Yup.number()
     .nullable()
-    .typeError('Fee must be a number')
+    .typeError('Fee must be number')
     .max(10000, "Fee can't be greater than 10000"),
   holiday: Yup.number()
     .nullable()
-    .typeError('Fee must be a number')
+    .typeError('Fee must be number')
     .max(10000, "Fee can't be greater than 10000"),
   age: Yup.number()
     .nullable()

@@ -21,6 +21,7 @@ const UPDATE_EMAIL_TEMPLATE = gql`
 const GET_EMAIL_TEMPLATE_TYEPS = gql`
   query GetEmailtemplateTypes {
     getEmailtemplateTypes {
+      id
       type
     }
   }
@@ -44,6 +45,16 @@ const GET_EMAIL_TEMPLATE_BY_ID = gql`
     }
   }
 `;
+// const ADD_EMAIL_TEMPLATE_TYPE = gql`
+//   mutation AddEmailType($emailTemplateInput: EmailTemplateInput!) {
+//     addEmailType(emailTemplateInput: $emailTemplateInput) {
+//       type
+//       menuEntry
+//       subject
+//       body
+//     }
+//   }
+// `;
 
 export const EmailTemplateQueries = [
   ADD_EMAIL_TEMPLATE,
@@ -51,4 +62,5 @@ export const EmailTemplateQueries = [
   GET_EMAIL_TEMPLATE_TYEPS,
   GET_EMAIL_TEMPLATE,
   GET_EMAIL_TEMPLATE_BY_ID
+  // ADD_EMAIL_TEMPLATE_TYPE
 ];

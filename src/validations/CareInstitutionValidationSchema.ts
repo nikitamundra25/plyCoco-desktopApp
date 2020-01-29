@@ -54,11 +54,11 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     ),
   careGiverCommission: Yup.number()
     .nullable()
-    .typeError('Fee must be a number')
+    .typeError('Fee must be number')
     .max(10000, "Fee can't be greater than 10000"),
   doctorCommission: Yup.number()
     .nullable()
-    .typeError('Fee must be a number')
+    .typeError('Fee must be number')
     .max(10000, "Fee can't be greater than 10000"),
   fax: Yup.mixed().test(
     'check-num',
@@ -84,6 +84,7 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
   firstName: Yup.string()
     .trim()
     .max(20, languageTranslation('FIRSTNAME_MAXLENGTH'))
+    .min(3, languageTranslation('NAME_MINLENGTH'))
     .required(languageTranslation('FIRSTNAME_REQUIRED')),
   lastName: Yup.string()
     .trim()

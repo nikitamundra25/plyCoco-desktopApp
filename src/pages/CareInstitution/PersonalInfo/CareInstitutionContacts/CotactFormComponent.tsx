@@ -62,7 +62,6 @@ const CotactFormComponent: any = (
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
-      logger(statesData, "sdsdsdsd");
     }
   };
 
@@ -188,6 +187,8 @@ const CotactFormComponent: any = (
                             value={title}
                             placeholder={languageTranslation("TITLE")}
                             className="width-common"
+                            maxLength={30}
+
                           />
                         </div>
                       </Col>

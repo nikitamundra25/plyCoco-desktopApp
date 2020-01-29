@@ -11,13 +11,13 @@ import {
   ICountry,
   IStates,
   IState,
-  IRegion,
+  IRegion
 } from '../../../../../interfaces';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 // import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
 import {
   CountryQueries,
-  CareInstitutionQueries,
+  CareInstitutionQueries
 } from '../../../../../graphql/queries';
 import CommissionFormData from '../PersonalInfo/PersonalInfoForm/CommissionFormData';
 import InvoiceFormData from '../PersonalInfo/PersonalInfoForm/InvoiceFormData';
@@ -28,7 +28,12 @@ import '../careinstitution.scss';
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-const [GET_CARE_INSTITUTION_LIST] = CareInstitutionQueries;
+const [
+  GET_CARE_INSTITUTION_LIST,
+  GET_CARE_INSTITUION_BY_ID,
+  GET_DEPARTMENT_LIST
+] = CareInstitutionQueries;
+
 const AddCareInstitution: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 > & {
@@ -40,22 +45,22 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     qualificationList: IReactSelectInterface[] | undefined;
     setRemarksDetail: any;
     remarksDetail: any;
-  },
+  }
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
@@ -65,14 +70,14 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     setFieldValue(name, selectOption);
     if (name === 'country') {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
     }
   };
   // Region Data
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
   //Region List Data
   const regionOptions: IReactSelectInterface[] | undefined = [];
@@ -80,8 +85,8 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
   const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
@@ -93,8 +98,8 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3,
-      },
+        sortBy: 3
+      }
     });
     fetchCareInstitutionList({
       variables: {
@@ -102,8 +107,8 @@ const AddCareInstitution: FunctionComponent<FormikProps<
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: '',
-      },
+        isActive: ''
+      }
     });
   }, []);
   let CareInstitutionList: Object[] = [];
@@ -113,7 +118,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     careInstitutionData.map((data: any, index: any) => {
       CareInstitutionList.push({
         label: `${data.firstName}${' '}${data.lastName}`,
-        value: data.id,
+        value: data.id
       });
       return true;
     });
@@ -145,7 +150,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
       anonymousName,
       id,
       regionId,
-      createdAt,
+      createdAt
     },
     touched,
     errors,
@@ -156,7 +161,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     setFieldValue,
     setFieldTouched,
     setRemarksDetail,
-    remarksDetail,
+    remarksDetail
   } = props;
   return (
     <Row className=' '>

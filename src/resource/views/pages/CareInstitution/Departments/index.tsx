@@ -31,22 +31,26 @@ import { IQualifications } from '../../../../../interfaces/qualification';
 
 import { GET_QUALIFICATION_ATTRIBUTES } from '../../../../../graphql/queries';
 import { ConfirmBox } from '../../../components/ConfirmBox';
+import { CareInstitutionMutation } from '../../../../../graphql/Mutations';
 
 const [
-  ,
-  ,
-  ,
-  ,
-  ,
-  ,
-  ,
-  ,
-  ,
-  ADD_DEPARTMENT_CARE_INSTITUTION,
-  UPDATE_DEPARTMENT_CARE_INSTITUTION,
-  GET_DEPARTMENT_LIST,
-  DELETE_DEPARTMENT,
+  GET_CARE_INSTITUTION_LIST,
+  GET_CARE_INSTITUION_BY_ID,
+  GET_DEPARTMENT_LIST
 ] = CareInstitutionQueries;
+
+const [
+  UPDATE_CARE_INSTITUTION,
+  UPDATE_CARE_INSTITUTION_STATUS,
+  UPDATE_DEPARTMENT_CARE_INSTITUTION,
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
+  DELETE_CARE_INSTITUTION,
+  ADD_CARE_INSTITUTION,
+  ADD_NEW_CONTACT_CARE_INSTITUTION,
+  ADD_NEW_CARE_INTITUTION,
+  ADD_DEPARTMENT_CARE_INSTITUTION,
+  DELETE_DEPARTMENT
+] = CareInstitutionMutation;
 
 let toastId: any = '';
 

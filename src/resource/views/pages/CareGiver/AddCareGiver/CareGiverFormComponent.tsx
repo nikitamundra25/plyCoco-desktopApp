@@ -13,8 +13,8 @@ import {
 } from '../../../../../interfaces';
 import {
   CountryQueries,
-  GET_QUALIFICATION_ATTRIBUTES,
-  GET_CAREGIVERS,
+  GET_QUALIFICATION_ATTRIBUTE,
+  CareGiverQueries,
 } from '../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import { languageTranslation } from '../../../../../helpers';
@@ -27,6 +27,7 @@ import { IQualifications } from '../../../../../interfaces/qualification';
 import '../caregiver.scss';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+const [GET_CAREGIVERS] = CareGiverQueries;
 
 const CareGiverFormComponent: FunctionComponent<FormikProps<
   ICareGiverValues
@@ -75,7 +76,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
   }
   // To fecth qualification attributes list
   const { data: qualificationData } = useQuery<IQualifications>(
-    GET_QUALIFICATION_ATTRIBUTES,
+    GET_QUALIFICATION_ATTRIBUTE,
   );
   const qualificationList: IReactSelectInterface[] | undefined = [];
   if (qualificationData && qualificationData.getQualificationAttributes) {

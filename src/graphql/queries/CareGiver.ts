@@ -68,7 +68,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     }
 }`;
 
-export const GET_CAREGIVERS = gql`
+const GET_CAREGIVERS = gql`
   query getCaregivers(
     $searchBy: String
     $sortBy: Int
@@ -129,7 +129,7 @@ export const GET_CAREGIVERS = gql`
   }
 `;
 
-export const GET_CAREGIVER_BY_ID = gql`
+const GET_CAREGIVER_BY_ID = gql`
   query getCaregiver($id: Int!) {
     getCaregiver(id: $id) {
       firstName
@@ -197,22 +197,7 @@ export const GET_CAREGIVER_BY_ID = gql`
   }
 `;
 
-export const GET_BILLING_SETTINGS = gql`
-  query getBillingSettings($userId: Int!) {
-    getBillingSettings(userId: $userId) {
-      id
-      userId
-      feePerHour
-      nightAllowancePerHour
-      weekendAllowancePerHour
-      holidayAllowancePerHourFee
-      nextInvoiceNumber
-      additionalText
-    }
-  }
-`;
-
-export const GET_LEASING_INFO = gql`
+const GET_LEASING_INFO = gql`
   query getLeasingInformation($userId: Int!) {
     getLeasingInformation(userId: $userId) {
       id
@@ -239,4 +224,8 @@ export const GET_LEASING_INFO = gql`
   }
 `;
 
-export const CareGiverQueries = [];
+export const CareGiverQueries = [
+  GET_CAREGIVERS,
+  GET_CAREGIVER_BY_ID,
+  GET_LEASING_INFO,
+];

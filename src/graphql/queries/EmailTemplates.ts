@@ -1,23 +1,5 @@
 import gql from 'graphql-tag';
 
-const ADD_EMAIL_TEMPLATE = gql`
-  mutation AddEmail($emailTemplateInput: EmailTemplateInput!) {
-    addEmail(emailTemplateInput: $emailTemplateInput) {
-      type
-    }
-  }
-`;
-const UPDATE_EMAIL_TEMPLATE = gql`
-  mutation UpdateEmailTemplate(
-    $id: Int!
-    $emailTemplateInput: EmailTemplateInput!
-  ) {
-    updateEmailTemplate(id: $id, emailTemplateInput: $emailTemplateInput) {
-      type
-    }
-  }
-`;
-
 const GET_EMAIL_TEMPLATE_TYEPS = gql`
   query GetEmailtemplateTypes {
     getEmailtemplateTypes {
@@ -45,22 +27,9 @@ const GET_EMAIL_TEMPLATE_BY_ID = gql`
     }
   }
 `;
-// const ADD_EMAIL_TEMPLATE_TYPE = gql`
-//   mutation AddEmailType($emailTemplateInput: EmailTemplateInput!) {
-//     addEmailType(emailTemplateInput: $emailTemplateInput) {
-//       type
-//       menuEntry
-//       subject
-//       body
-//     }
-//   }
-// `;
 
 export const EmailTemplateQueries = [
-  ADD_EMAIL_TEMPLATE,
-  UPDATE_EMAIL_TEMPLATE,
   GET_EMAIL_TEMPLATE_TYEPS,
   GET_EMAIL_TEMPLATE,
-  GET_EMAIL_TEMPLATE_BY_ID
-  // ADD_EMAIL_TEMPLATE_TYPE
+  GET_EMAIL_TEMPLATE_BY_ID,
 ];

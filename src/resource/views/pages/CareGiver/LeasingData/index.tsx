@@ -13,7 +13,6 @@ import { useParams, RouteComponentProps } from 'react-router';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { languageTranslation } from '../../../../../helpers';
 import { toast } from 'react-toastify';
-import { GET_LEASING_INFO } from '../../../../../graphql/queries';
 import {
   Nationality,
   MaritalStatus,
@@ -24,8 +23,10 @@ import {
   StatusOptions,
 } from '../../../../../config';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
+import { CareGiverQueries } from '../../../../../graphql/queries';
 
-const [ADD_UPDATE_CARE_GIVER_LEASING_INFO] = CareGiverMutations;
+const [, , GET_LEASING_INFO] = CareGiverQueries;
+const [, , , , ADD_UPDATE_CARE_GIVER_LEASING_INFO] = CareGiverMutations;
 
 export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps,

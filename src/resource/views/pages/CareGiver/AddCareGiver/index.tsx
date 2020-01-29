@@ -10,7 +10,6 @@ import { FormikHelpers, Formik, FormikProps } from 'formik';
 import CareGiverFormComponent from './CareGiverFormComponent';
 import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
 import { useMutation } from '@apollo/react-hooks';
-import { GET_CAREGIVERS } from '../../../../../graphql/queries/CareGiver';
 import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { languageTranslation } from '../../../../../helpers';
@@ -23,9 +22,10 @@ import password from '../../../../assets/img/password.svg';
 import appointment from '../../../../assets/img/appointment.svg';
 import clear from '../../../../assets/img/clear.svg';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
+import { CareGiverQueries } from '../../../../../graphql/queries';
 
 const CareGiverRoutesTabs = careGiverRoutes;
-
+const [GET_CAREGIVERS] = CareGiverQueries;
 const [ADD_CAREGIVER] = CareGiverMutations;
 
 export const CareGiverForm: FunctionComponent = (props: any) => {

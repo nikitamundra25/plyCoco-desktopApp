@@ -20,7 +20,6 @@ import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
 import ButtonTooltip from '../../components/Tooltip/ButtonTooltip';
 import { languageTranslation } from '../../../../helpers';
-import { GET_CAREGIVERS } from '../../../../graphql/queries/CareGiver';
 import {
   ISearchValues,
   IReactSelectInterface,
@@ -32,7 +31,9 @@ import { ConfirmBox } from '../../components/ConfirmBox';
 import PaginationComponent from '../../components/Pagination';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
+import { CareGiverQueries } from '../../../../graphql/queries';
 
+const [GET_CAREGIVERS] = CareGiverQueries;
 const [, , UPDATE_CARE_GIVER_STATUS, DELETE_CAREGIVER] = CareGiverMutations;
 
 const sortFilter: IObjectType = {

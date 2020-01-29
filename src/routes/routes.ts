@@ -40,7 +40,7 @@ const LeasingPersonalData = React.lazy(() =>
 const ChangePassword = React.lazy(() =>
   import("../pages/CareGiver/ChangePassword/ChangePassword")
 );
-const Email = React.lazy(() => import("../pages/CareGiver/Emails/EmailMenus"));
+// const Email = React.lazy(() => import("../pages/CareGiver/Emails/EmailMenus"));
 const InboxEmail = React.lazy(() =>
   import("../pages/CareGiver/Emails/InboxEmail")
 );
@@ -430,15 +430,15 @@ const routes = [
     exact: true
   },
   {
-    path: AppRoutes.BULK_EMAIL_CAREGIVER,
-    name: "Bulk Email Caregiver",
-    component: BulkEmailCaregiver,
-    exact: true
-  },
-  {
     path: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
     name: "Document Template Working Proof",
     component: DocumentTemplateWorkingProof,
+    exact: true
+  },
+  {
+    path: AppRoutes.BULK_EMAIL_CAREGIVER,
+    name: "Bulk Email Caregiver",
+    component: BulkEmailCaregiver,
     exact: true
   }
 ];

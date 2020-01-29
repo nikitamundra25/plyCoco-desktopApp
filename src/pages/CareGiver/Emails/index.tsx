@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { EmailMenus } from './EmailMenus';
 import InboxEmail from './InboxEmail';
 import SentEmail from './SentEmail';
 import NewEmail from './NewEmail';
-import { EmailMenus } from './EmailMenus';
 
 const Email = () => {
   const [activeTab, setactiveTab] = useState<number>(0);

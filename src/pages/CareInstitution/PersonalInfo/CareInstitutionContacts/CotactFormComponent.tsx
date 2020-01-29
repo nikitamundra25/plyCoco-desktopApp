@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormGroup,
   Label,
@@ -54,6 +54,15 @@ const CotactFormComponent: any = (
       statesOpt.push({ label: name, value: id })
     );
   }
+  const [AttOpt, setAttOpt] = useState<any>([]);
+
+  useEffect(() => {
+    const Data: any = CareInstitutionContactAttribute;
+    setAttOpt(Data);
+  }, []);
+
+  let [newAttributeValue, setnewAttributeValue] = useState({});
+  let [newValue, setnewValue] = useState({});
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     logger(selectOption, "value");
@@ -64,6 +73,25 @@ const CotactFormComponent: any = (
       });
       logger(statesData, "sdsdsdsd");
     }
+  };
+
+  const handleAttributeSelect = (value: any) => {
+    setnewValue(value);
+    const Data = {
+      label: newValue,
+      value: newValue
+    };
+    setnewAttributeValue((newAttributeValue = Data));
+  };
+
+  const handleAddNewAttributevalue = () => {
+    const AttributeID: any = attributeId;
+    AttributeID.push(newAttributeValue);
+    // const FData: any = AttOpt;
+    AttOpt.push(newAttributeValue);
+    setAttOpt(AttOpt);
+    handleSelect(AttributeID, "attributeId");
+    setnewAttributeValue("");
   };
 
   const {
@@ -99,8 +127,8 @@ const CotactFormComponent: any = (
     setFieldValue,
     setFieldTouched
   } = props;
-  console.log("Eroror", errors);
   const ContactError: any = errors.contactType;
+
   return (
     <>
       <Button
@@ -646,22 +674,32 @@ const CotactFormComponent: any = (
                     </ul>
                   </div>
                   <div className="common-list-footer form-section ">
-                    <FormGroup className="mb-0">
-                      <Select
-                        placeholder={
-                          "Please Select Attribute from the dropdown"
-                        }
-                        options={CareInstitutionContactAttribute}
-                        value={attributeId ? attributeId : undefined}
-                        onChange={(value: any) =>
-                          handleSelect(value, "attributeId")
-                        }
-                        isMulti
-                        menuPlacement={"top"}
-                        className="attribute-select"
-                        classNamePrefix="attribute-inner-select"
-                      />
-                    </FormGroup>
+                    <div>
+                      <FormGroup className="mb-0">
+                        <Select
+                          placeholder={
+                            "Please select Attribute from the dropdown"
+                          }
+                          options={AttOpt}
+                          value={attributeId ? attributeId : undefined}
+                          onChange={(value: any) =>
+                            handleSelect(value, "attributeId")
+                          }
+                          onInputChange={handleAttributeSelect}
+                          isMulti
+                          menuPlacement={"top"}
+                          className="attribute-select"
+                          classNamePrefix="attribute-inner-select"
+                        />
+
+                        {/* <span
+                          onClick={() => handleAddNewAttributevalue()}
+                          className="add-attribute-btn d-flex align-items-center justify-content-center"
+                        >
+                          <i className={"fa fa-plus"} />
+                        </span> */}
+                      </FormGroup>
+                    </div>
                   </div>
                 </div>
               </div>

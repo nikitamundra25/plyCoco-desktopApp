@@ -13,3 +13,4 @@ export * from './CareInstitution';
 export * from './Region';
 export * from './Leasing';
 export * from './EmailTemplate';
+export * from './Email';

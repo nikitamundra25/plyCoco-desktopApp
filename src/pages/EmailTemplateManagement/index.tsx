@@ -13,7 +13,6 @@ import { EmailTemplateList } from './List';
 import { AddTemplate } from './AddTemplate';
 import './index.scss';
 import { logger, languageTranslation } from '../../helpers';
-
 const [
   ADD_EMAIL_TEMPLATE,
   UPDATE_EMAIL_TEMPLATE,
@@ -88,7 +87,10 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   });
   //To get email templates
-  const [fetchTemplateList, { data }] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
+  const [
+    fetchTemplateList,
+    { data, loading: fetchTemplateListLoading }
+  ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
   //To get email templates by id
   const [
     fetchTemplateById,
@@ -98,6 +100,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   useEffect(() => {
     if (!emailTemplateLoading && emailTemplate) {
       const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
+      console.log('emailTemplate', emailTemplate);
       const {
         type = '',
         menuEntry = '',
@@ -126,7 +129,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     // call query
     fetchTemplateList({
       variables: {
-        type: 'Test1'
+        type: templateType && templateType.label ? templateType.label : ''
       }
     });
   }, []);
@@ -166,24 +169,32 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
     resetForm();
   };
-  const onTemplateSelection = async () => {
+  const onTemplateSelection = async (id: string) => {
     await fetchTemplateById({
       variables: {
-        id: 1
+        id
       }
     });
   };
   // Function to change list according to type selected
-  const onTypeChange = (selectedType: IReactSelectInterface) => {
-    console.log(selectedType, 'type');
+  const onTypeChange = (
+    selectedType: IReactSelectInterface /* , id: string */
+  ) => {
+    if (!fetchTemplateListLoading && data) {
+      fetchTemplateList({
+        variables: {
+          type: templateType && templateType.label ? templateType.label : ''
+        }
+      });
+    }
+    console.log('selectedType', selectedType);
     setTemplateType(selectedType);
   };
   // To use formik submit form outside
   const bindSubmitForm = (submitForm: any) => {
     submitMyForm = submitForm;
   };
-  logger('templateData', templateData);
-  console.log('emailTemplate111', emailTemplate);
+  // console.log('emailTemplate111', emailTemplate);
 
   return (
     <>

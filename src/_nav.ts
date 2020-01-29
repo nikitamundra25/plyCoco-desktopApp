@@ -53,7 +53,7 @@ export default {
     {
       name: languageTranslation("MENU_BULK_EMAIL"),
       icon: "icon-bulk-email",
-      url: AppRoutes.HOME
+      url: AppRoutes.BULK_EMAIL_CAREGIVER
     },
     {
       name: languageTranslation("MENU_INVOICES"),

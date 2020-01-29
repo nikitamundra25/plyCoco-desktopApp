@@ -1,68 +1,34 @@
-import React, { Component } from "react";
-import { Nav, NavItem, NavLink } from "reactstrap";
-// import { AppRoutes } from "../../../config";
-import { IEmailMenus } from "../../../interfaces/CareGiver";
-class EmailMenus extends Component<IEmailMenus, any> {
-  render() {
-    const {
-      location: { pathname }
-    } = this.props;
+import React, { FunctionComponent } from 'react';
+import { Nav, NavItem, NavLink } from 'reactstrap';
+import { EmailMenusTab } from '../../../config';
+import { IEMailMenuProps } from '../../../interfaces';
 
-    return (
-      <>
-        <Nav tabs className="custom-tabs">
-          <NavItem>
-            <NavLink
-              className={
-                pathname === "/care-institution/email/inbox" ? "active" : null
-              }
-              // onClick={() =>
-              //   this.props.history.push(AppRoutes.CARE_INSTITUTION_INBOX_EMAIL)
-              // }
-            >
-              <span className="icon">
-                <i className="fa fa-inbox"></i>
-              </span>
-              <span>Inbox</span>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={
-                pathname === "/care-institution/email/sent-email"
-                  ? "active"
-                  : null
-              }
-              // onClick={() =>
-              //   this.props.history.push(AppRoutes.CARE_INSTITUTION_SENT_EMAIL)
-              // }
-            >
-              <span className="icon">
-                <i className="fa fa-send"></i>
-              </span>
-              <span>Sent Email</span>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={
-                pathname === "/care-institution/email/new-email"
-                  ? "active"
-                  : null
-              }
-              // onClick={() =>
-              //   this.props.history.push(AppRoutes.CARE_INSTITUTION_NEW_EMAIL)
-              // }
-            >
-              <span className="icon">
-                <i className="fa fa-edit"></i>
-              </span>
-              <span>New Email</span>
-            </NavLink>
-          </NavItem>
-        </Nav>
-      </>
-    );
-  }
-}
-export default EmailMenus;
+export const EmailMenus: FunctionComponent<IEMailMenuProps> = (
+  props: IEMailMenuProps,
+) => {
+  return (
+    <Nav className='custom-tabs' tabs>
+      {EmailMenusTab
+        ? EmailMenusTab.map((tab: any, index: number) => {
+            return (
+              <NavItem key={index}>
+                <NavLink
+                  // className={pathname === route.path ? "active" : null}
+                  active={index === props.activeTab}
+                  onClick={(e: any) => {
+                    e.preventDefault();
+                    if (props.onTabChange) props.onTabChange(index);
+                  }}
+                >
+                  <span className='icon'>
+                    <i className={tab.icon}></i>
+                  </span>
+                  <span className='nav-text text-capitalize'>{tab.name}</span>
+                </NavLink>
+              </NavItem>
+            );
+          })
+        : null}
+    </Nav>
+  );
+};

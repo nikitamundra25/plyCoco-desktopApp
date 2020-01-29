@@ -93,6 +93,7 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .max(10000, "Fee can't be greater than 10000"),
   age: Yup.number()
     .nullable()
+    .integer('Age must be a valid integer')
     .typeError('Age must be a number')
     .min(18, 'You must have 18 years of age')
     .max(100, "Age can't be greater than 100 years"),

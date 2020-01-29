@@ -20,6 +20,7 @@
     "@coreui/react": "^2.5.4",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
+    "apollo-link-context": "^1.0.19",
     "apollo-upload-client": "^12.1.0",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",

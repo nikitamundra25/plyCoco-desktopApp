@@ -29,18 +29,27 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 import Loader from '../../containers/Loader/Loader';
 import ButtonTooltip from '../../components/Tooltip/ButtonTooltip';
+import { CareInstitutionMutation } from '../../../../graphql/Mutations';
 let toastId: any = null;
 const [
   GET_CARE_INSTITUTION_LIST,
-  DELETE_CARE_INSTITUTION,
-  UPDATE_CARE_INSTITUTION,
-  ADD_CARE_INSTITUTION,
   GET_CARE_INSTITUION_BY_ID,
-  UPDATE_CARE_INSTITUTION_STATUS,
-  ADD_NEW_CONTACT_CARE_INSTITUTION,
-  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
-  ADD_NEW_CARE_INTITUTION,
+  GET_DEPARTMENT_LIST,
 ] = CareInstitutionQueries;
+
+const [
+  UPDATE_CARE_INSTITUTION,
+  UPDATE_CARE_INSTITUTION_STATUS,
+  UPDATE_DEPARTMENT_CARE_INSTITUTION,
+  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
+  DELETE_CARE_INSTITUTION,
+  ADD_CARE_INSTITUTION,
+  ADD_NEW_CONTACT_CARE_INSTITUTION,
+  ADD_NEW_CARE_INTITUTION,
+  ADD_DEPARTMENT_CARE_INSTITUTION,
+  DELETE_DEPARTMENT,
+] = CareInstitutionMutation;
+
 
 const sortFilter: any = {
   3: 'name',

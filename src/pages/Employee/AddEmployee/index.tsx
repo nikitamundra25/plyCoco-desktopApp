@@ -152,14 +152,6 @@ export const EmployeeForm: FunctionComponent = () => {
             : '',
         telephoneNumber: viewEmployee.phoneNumber || '',
         region: regionData,
-        // viewEmployee.region
-        //   ? [
-        //       {
-        //         label: viewEmployee.region.regionName,
-        //         value: viewEmployee.region.id,
-        //       },
-        //     ]
-        //   : null,
         profileThumbnailImage: viewEmployee.profileThumbnailImage,
         profileImage: viewEmployee.profileImage,
         zip:
@@ -247,10 +239,10 @@ export const EmployeeForm: FunctionComponent = () => {
     logger(region, 'regionnnn');
     try {
       let employeeInput: IEmployeeInput = {
-        firstName,
-        lastName,
-        userName,
-        email,
+        firstName: firstName ? firstName.trim() : '',
+        lastName: lastName ? lastName.trim() : '',
+        userName: userName ? userName.trim() : '',
+        email: email ? email.trim() : '',
         phoneNumber: telephoneNumber ? telephoneNumber.toString() : '',
         joiningDate: joiningDate
           ? moment(joiningDate).format('YYYY/MM/DD')

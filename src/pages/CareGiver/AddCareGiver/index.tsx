@@ -3,22 +3,20 @@ import React, {
   useState,
   FunctionComponent,
   Suspense,
-  useEffect,
+  useEffect
 } from 'react';
 import {
   CareGiverValues,
   ICareGiverInput,
   IAddCargiverRes,
   IReactSelectInterface,
-  ICareGiverValues,
+  ICareGiverValues
 } from '../../../interfaces';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import CareGiverFormComponent from './CareGiverFormComponent';
 import { CareGiverValidationSchema } from '../../../validations/CareGiverValidationSchema';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { ADD_CAREGIVER, GET_CAREGIVERS } from '../../../queries/CareGiver';
-import { GET_QUALIFICATION_ATTRIBUTE } from '../../../queries/qualification';
-import { Mutation } from '@apollo/react-components';
 import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { languageTranslation } from '../../../helpers';
@@ -47,7 +45,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn',
+      'caregiver-add-btn'
     );
     if (buttonDiv) {
       if (scrollPositionY >= 18) {
@@ -81,8 +79,8 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       history.push(
         AppRoutes.CARE_GIVER_VIEW.replace(
           ':id',
-          Data.addCareGiver ? Data.addCareGiver.id : 'null',
-        ),
+          Data.addCareGiver ? Data.addCareGiver.id : 'null'
+        )
       );
     }
   }, [data]);
@@ -90,7 +88,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   // function to add/edit employee information
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -141,7 +139,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       weekendAllowance,
       night,
       holiday,
-      postalCode,
+      postalCode
     } = values;
 
     try {
@@ -172,7 +170,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
           qualifications && qualifications.length
             ? `{${qualifications
                 .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
+                  (qualification: IReactSelectInterface) => qualification.value
                 )
                 .join(', ')}}`
             : null,
@@ -193,12 +191,14 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         executiveDirector,
         socialSecurityContribution,
         taxNumber,
-        fee: fee ? parseInt(fee) : null,
+        fee: fee ? parseFloat(fee) : null,
         nightAllowance:
           nightAllowance && nightAllowance.value ? nightAllowance.value : null,
-        weekendAllowance: weekendAllowance ? parseInt(weekendAllowance) : null,
-        holiday: holiday ? parseInt(holiday) : null,
-        night: night ? parseInt(night) : null,
+        weekendAllowance: weekendAllowance
+          ? parseFloat(weekendAllowance)
+          : null,
+        holiday: holiday ? parseFloat(holiday) : null,
+        night: night ? parseFloat(night) : null,
         invoiceInterval:
           invoiceInterval && invoiceInterval.value
             ? invoiceInterval.value
@@ -211,11 +211,11 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         // remarks && remarks.length ? remarks : [],
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],
-        status,
+        status
       };
       await addCaregiver({
         variables: {
-          careGiverInput,
+          careGiverInput
         },
         update: (cache, { data: { addCaregiver } }: any) => {
           const data: any = cache.readQuery({
@@ -225,17 +225,17 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
               sortBy: 0,
               limit: PAGE_LIMIT,
               page: 0,
-              isActive: undefined,
-            },
+              isActive: undefined
+            }
           });
           cache.writeQuery({
             query: GET_CAREGIVERS,
             data: {
               getCaregiversCount: data.getCaregiversCount + 1,
-              getCaregivers: data.getCaregivers.concat([addCaregiver]),
-            },
+              getCaregivers: data.getCaregivers.concat([addCaregiver])
+            }
           });
-        },
+        }
       });
       toast.success(languageTranslation('CAREGIVER_ADD_SUCCESS_MSG'));
 
@@ -289,7 +289,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     socialSecurityContribution = false,
     taxNumber = '',
     workZones = undefined,
-    status = '',
+    status = ''
   } = caregiverData ? caregiverData : {};
 
   const initialValues: ICareGiverValues = {
@@ -320,7 +320,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     taxNumber,
     workZones,
     status,
-    qualifications,
+    qualifications
   };
 
   return (

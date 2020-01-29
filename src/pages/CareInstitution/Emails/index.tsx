@@ -1,39 +1,36 @@
-import React, { Component } from "react";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState } from "draft-js";
-import { Button, Col, Row, Form, FormGroup, Label, Input } from "reactstrap";
-import EmailMenus from "./EmailMenus";
-import { RouteComponentProps } from "react-router";
-import Select from "react-select";
-import { languageTranslation } from "../../../helpers";
+import React, { useState } from 'react';
+import InboxEmail from './InboxEmail';
+import SentEmail from './SentEmail';
+import NewEmail from './NewEmail';
+import { EmailMenus } from './EmailMenus';
 
-class Emails extends Component<RouteComponentProps, any> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      editorState: EditorState.createEmpty()
-    };
-  }
-  options = [
-    { value: "Denis", label: "Aaron, Hank" },
-    { value: "Denis", label: "Bergman, Ingmar" },
-    { value: "Beck, Glenn", label: "Berle, Milton" }
-  ];
-  onEditorStateChange = (editorState: any) => {
-    this.setState({
-      editorState
-    });
+const Email = () => {
+  const [activeTab, setactiveTab] = useState<number>(0);
+
+  const onTabChange = (activeTab: number) => {
+    setactiveTab(activeTab);
   };
 
-  render() {
-    const { editorState } = this.state;
+  // render component according to selected tab
+  const renderComponent = () => {
+    switch (activeTab) {
+      case 0:
+        return <InboxEmail />;
+      case 1:
+        return <SentEmail />;
+      case 2:
+        return <NewEmail />;
 
-    return (
-      <div className="email-section">
-        emails Main
-      </div>
-    );
-  }
-}
-export default Emails;
+      default:
+        break;
+    }
+  };
+  return (
+    <div className='email-section'>
+      <EmailMenus activeTab={activeTab} onTabChange={onTabChange} />
+      {renderComponent()}
+    </div>
+  );
+};
+
+export default Email;

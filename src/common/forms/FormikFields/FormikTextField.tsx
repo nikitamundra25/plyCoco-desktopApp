@@ -26,6 +26,8 @@ export const FormikTextField = (props: IFormikTextField) => {
   const showError = getIn(touched, name) && !!fieldError;
   const shrink = field.value !== null && toLower(field.value).length > 0;
   let newLabel = label;
+  console.log("errors .value", showError);
+
   return (
     <>
       <Input
@@ -33,7 +35,7 @@ export const FormikTextField = (props: IFormikTextField) => {
         {...field}
         type={type}
         label={newLabel}
-        className={errors.value ? `text-input error left` : `text-input`}
+        className={showError ? `error` : ``}
         value={value !== "" ? value : ""}
         onChange={handleChange(props)}
         onClick={rest.onClick || null}
@@ -54,14 +56,15 @@ export const FormikTextField = (props: IFormikTextField) => {
         variant={variant}
         // fullwidth={true}
       />
-      {name === "fee" ||
-      name === "night" ||
-      name === "weekendAllowance" ||
-      name === "holiday" ? (
-        <div className="required-error left">{showError && fieldError}</div>
-      ) : (
-        <div className="required-error ">{showError && fieldError}</div>
-      )}
+      {showError ? (
+        name === "fee" || name === "night" ? (
+          <div className="required-tooltip bottom-tooltip">
+            {showError && fieldError}
+          </div>
+        ) : (
+          <div className="required-tooltip">{showError && fieldError}</div>
+        )
+      ) : null}
     </>
   );
 };

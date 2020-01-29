@@ -46,7 +46,7 @@ const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
         <div className='common-detail-page'>
           <div className='common-detail-section'>
             <div className='sticky-common-header'>
-              <CareGiverTodoLayoutComponent {...props} />
+              <CareGiverTodoLayoutComponent />
             </div>
             <div className='common-content flex-grow-1'>
               <Component {...props} />
@@ -65,7 +65,7 @@ const CareInstitutionTodoLayout = ({ component: Component, ...rest }: any) => {
         <div className='common-detail-page'>
           <div className='common-detail-section'>
             <div className='sticky-common-header'>
-              <CareInstitutionTodoLayoutComponent {...props} />
+              <CareInstitutionTodoLayoutComponent />
             </div>
             <div className='common-content flex-grow-1'>
               <Component {...props} />

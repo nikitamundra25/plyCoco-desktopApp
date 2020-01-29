@@ -15,7 +15,7 @@ import qs from 'query-string';
 import {
   ICareInstitutionFormValues,
   IHandleSubmitInterface,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../interfaces';
 import { FormikProps } from 'formik';
 import {
@@ -36,7 +36,7 @@ import { CareInstitutionMutation } from '../../../../graphql/Mutations';
 const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
-  GET_DEPARTMENT_LIST
+  GET_DEPARTMENT_LIST,
 ] = CareInstitutionQueries;
 
 const [
@@ -49,11 +49,11 @@ const [
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   ADD_NEW_CARE_INTITUTION,
   ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT
+  DELETE_DEPARTMENT,
 ] = CareInstitutionMutation;
 
 const CareInstitutionSidebar = React.lazy(() =>
-  import('./Sidebar/SidebarLayout/CareInstitutionLayout')
+  import('./Sidebar/SidebarLayout/CareInstitutionLayout'),
 );
 
 const CareInstitutionTabs = careInstitutionRoutes;
@@ -63,30 +63,30 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 > &
   RouteComponentProps &
   IHandleSubmitInterface> = (
-  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
+  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps,
 ) => {
   let { id } = useParams();
   const Id: any | undefined = id;
   let sortBy: IReactSelectInterface | undefined = {
     label: '3',
-    value: 'Sort by A-Z'
+    value: 'Sort by A-Z',
   };
 
   const [
     addUser,
-    { error: addUserError, data: CareIntitutionId, loading: Loading }
+    { error: addUserError, data: CareIntitutionId, loading: Loading },
   ] = useMutation<{ addUser: any }>(ADD_NEW_CARE_INTITUTION);
 
   const [
     fetchCareInstitutionList,
-    { data: careInstituition, loading, refetch }
+    { data: careInstituition, loading, refetch },
   ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: '',
-    value: ''
+    value: '',
   });
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -98,7 +98,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn'
+      'caregiver-add-btn',
     );
     if (buttonDiv) {
       if (scrollPositionY >= 18) {
@@ -116,8 +116,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: ''
-      }
+        isActive: '',
+      },
     });
   }, []);
 
@@ -128,7 +128,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     careInstitutionData.map((data: any, index: any) => {
       CareInstitutionList.push({
         label: `${data.firstName}${' '}${data.lastName}`,
-        value: data.id
+        value: data.id,
       });
       return true;
     });
@@ -141,7 +141,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     data.getQualificationAttributes.forEach((quali: any) => {
       qualificationList.push({
         label: quali.attributeName,
-        value: quali.id
+        value: quali.id,
       });
     });
   }
@@ -154,9 +154,9 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     setactiveTab(
       query.tab
         ? CareInstitutionTabs.findIndex(
-            d => d.name === decodeURIComponent(query.tab)
+            d => d.name === decodeURIComponent(query.tab),
           )
-        : 0
+        : 0,
     );
   }, [search]);
 
@@ -164,8 +164,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     props.history.push(
       `${AppRoutes.CARE_INSTITUION_VIEW.replace(
         ':id',
-        Id
-      )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
+        Id,
+      )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`,
     );
   };
   let [isUserChange, setisUserChange] = useState(false);
@@ -173,15 +173,15 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     if (e && e.value) {
       const data: IReactSelectInterface = {
         label: e.label,
-        value: e.value
+        value: e.value,
       };
       setselectUser((selectUser = data));
       if (e.value !== Id) {
         props.history.push(
           `${AppRoutes.CARE_INSTITUION_VIEW.replace(
             ':id',
-            e.value
-          )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
+            e.value,
+          )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`,
         );
         setisUserChange((isUserChange = true));
       }
@@ -192,7 +192,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     if (CareIntitutionId) {
       const { addUser } = CareIntitutionId;
       props.history.push(
-        AppRoutes.ADD_CARE_INSTITUTION.replace(':id', addUser.id)
+        AppRoutes.ADD_CARE_INSTITUTION.replace(':id', addUser.id),
       );
     }
   }, [CareIntitutionId]);
@@ -201,9 +201,9 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     addUser({
       variables: {
         careInstInput: {
-          firstName: ''
-        }
-      }
+          firstName: '',
+        },
+      },
     });
   };
 
@@ -297,8 +297,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
               ) : null}
               {activeTab === 1 ? <Offers {...props} /> : null}
               {activeTab === 2 ? <Login /> : null}
-              {activeTab === 3 ? <InvoiceMenu {...props} /> : null}
-              {activeTab === 4 ? <Documents {...props} /> : null}
+              {activeTab === 3 ? <InvoiceMenu /> : null}
+              {activeTab === 4 ? <Documents /> : null}
               {activeTab === 5 ? <Departments {...props} /> : null}
               {activeTab === 6 ? <Email /> : null}
               {activeTab === 7 ? <Reminders /> : null}

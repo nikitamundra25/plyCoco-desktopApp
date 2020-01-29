@@ -1,5 +1,5 @@
-import englishLanguage from '../language/en.json';
-import germanLanguage from '../language/de.json';
+import englishLanguage from '../resource/language/en.json';
+import germanLanguage from '../resource/language/de.json';
 
 const Languages: any = {
   en: englishLanguage,

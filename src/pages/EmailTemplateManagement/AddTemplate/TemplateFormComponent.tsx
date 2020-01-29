@@ -2,10 +2,19 @@ import React, { FunctionComponent } from 'react';
 import { Row, Col, FormGroup, Label, Input, Table } from 'reactstrap';
 import { FormikProps } from 'formik';
 import { Editor } from 'react-draft-wysiwyg';
-import { IEmailTemplateValues } from '../../../interfaces';
+import {
+  IEmailTemplateValues,
+  IReactSelectInterface
+} from '../../../interfaces';
 import { languageTranslation } from '../../../helpers';
 import { ErroredFieldComponent } from '../../../common/ErroredFieldComponent';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import CreatableSelect from 'react-select/creatable';
+import { Status } from '../../../config';
+import { useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { EmailTemplateQueries } from '../../../queries';
+
+const [, , GET_EMAIL_TEMPLATE_TYEPS] = EmailTemplateQueries;
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
@@ -15,8 +24,44 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     touched,
     errors,
     setFieldValue,
-    handleChange,
+    handleChange
   } = props;
+  const { data: typeList, loading, refetch } = useQuery(
+    GET_EMAIL_TEMPLATE_TYEPS
+  );
+  const typeListOptions: IReactSelectInterface[] | undefined = [];
+  if (
+    !loading &&
+    typeList &&
+    typeList.getEmailtemplateTypes &&
+    typeList.getEmailtemplateTypes.length
+  ) {
+    const { getEmailtemplateTypes } = typeList;
+    getEmailtemplateTypes.forEach(({ type }: { type: string }) =>
+      typeListOptions.push({
+        label: type,
+        value: type
+      })
+    );
+  }
+  // const [addType] = useMutation<
+  //   {
+  //     addType: any;
+  //   },
+  //   {
+  //     emailTemplateInput: IEmailTemplateValues;
+  //   }
+  // >(ADD_EMAIL_TEMPLATE_TYPES)
+
+ 
+  const handleChangeSelect = (newValue: any) => {
+    console.log(newValue);
+    // console.log(`action: ${actionMeta.action}`);
+  };
+  const handleInputChange = (inputValue: any) => {
+    console.log(inputValue);
+    // console.log(`action: ${actionMeta.action}`);
+  };
   return (
     <Col lg={'5'}>
       <h5 className='content-title'>{languageTranslation('DETAILS')}</h5>
@@ -34,56 +79,61 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='8'>
-                    <Row className='custom-col inner-no-padding-col'>
-                      <Col sm='4'>
-                        <div>
-                          <Input
-                            type='text'
-                            name={'id'}
-                            value={id ? id : ''}
-                            disabled={true}
-                            placeholder='ID'
-                            className='width-common'
-                          />
-                        </div>
-                      </Col>
-                      <Col sm='8'>
-                        <Row className='custom-col inner-no-padding-col'>
-                          <Col sm='6'>
-                            <Label className='form-label col-form-label inner-label'>
-                              {languageTranslation('TYPE')}{' '}
-                              <span className='required'>*</span>
-                            </Label>
-                          </Col>
-                          <Col sm='6'>
-                            <div>
-                              <Input
-                                type='text'
-                                name={'type'}
-                                value={type}
-                                placeholder={languageTranslation('TYPE')}
-                                onChange={handleChange}
-                                className='width-common'
-                              />
-                              <ErroredFieldComponent
-                                errors={errors.type}
-                                touched={touched.type}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
+                    <div>
+                      <Input
+                        type='text'
+                        name={'menuEntry'}
+                        value={menuEntry}
+                        placeholder={languageTranslation('ID')}
+                        onChange={handleChange}
+                        className='width-common'
+                      />
+                      <ErroredFieldComponent
+                        errors={errors.menuEntry}
+                        touched={touched.menuEntry}
+                      />
+                    </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
+
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
-                      {languageTranslation('MENU_ENTRY')}{' '}
+                      <Label className='form-label col-form-label inner-label'>
+                        {languageTranslation('TYPE')}
+                        <span className='required'>*</span>
+                      </Label>
+                    </Label>
+                  </Col>
+                  <Col sm='8'>
+                    <div>
+                      <CreatableSelect
+                        isClearable
+                        onChange={handleChangeSelect}
+                        onInputChange={handleInputChange}
+                        placeholder={'Select Type'}
+                        options={typeListOptions}
+                      />
+                      <ErroredFieldComponent
+                        errors={errors.type}
+                        touched={touched.type}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
+
+            <Col lg={'12'}>
+              <FormGroup>
+                <Row>
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('MENU_ENTRY')}
                     </Label>
                   </Col>
                   <Col sm='8'>
@@ -151,24 +201,24 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         'fontSize',
                         'list',
                         'textAlign',
-                        'link',
+                        'link'
                       ],
                       inline: {
-                        options: ['bold', 'italic', 'underline'],
+                        options: ['bold', 'italic', 'underline']
                       },
                       fontSize: {
-                        className: 'bordered-option-classname',
+                        className: 'bordered-option-classname'
                       },
                       fontFamily: {
-                        className: 'bordered-option-classname',
+                        className: 'bordered-option-classname'
                       },
                       list: {
                         inDropdown: false,
-                        options: ['unordered'],
+                        options: ['unordered']
                       },
                       link: {
-                        options: ['link'],
-                      },
+                        options: ['link']
+                      }
                     }}
                   />
                 </div>

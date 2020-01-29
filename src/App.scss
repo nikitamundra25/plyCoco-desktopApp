@@ -957,17 +957,23 @@ html:not([dir="rtl"]) {
     }
   }
 }
-.rdw-editor-toolbar {
-  margin-bottom: 0px;
+
+.wrapperClassName {
+  .toolbarClassName{
+    margin-bottom: 0px ;
+    border: 1px solid $table_border;
+  }
+  .editorClassName {
+    border: 1px solid $table_border;
+    border-top: 0px;
+    background: $white;
+    min-height: 200px;
+    padding: 0px 10px;
+    max-height: 200px;
+  }
 }
-.rdw-editor-main {
-  border: 1px solid #f1f1f1;
-  border-top: 0px;
-  background: $white;
-  min-height: 200px;
-  padding: 0px 10px;
-  max-height: 200px;
-}
+
+
 
 .mandatory-text {
   font-weight: 600;
@@ -1492,6 +1498,25 @@ html:not([dir="rtl"]) {
   }
   .common-list-footer {
     margin-top: 4px;
+    .contact-attribute{
+      padding-right: 35px;
+      position: relative;
+    }
+    .add-attribute-btn{
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      cursor: pointer;
+      background: $profile_bg;
+      color: $black;
+      width: 30px;
+      height: 30px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+   &:hover{
+    background: $profile_bg_hover
+   }
+    }
     .attribute-select {
       .attribute-inner-select__control {
         border-radius: 0px;
@@ -2449,7 +2474,7 @@ html:not([dir="rtl"]) {
     }
     &.email-attributes-wrap {
       font-size: 13px;
-      padding: 5px 0px;
+      padding: 5px 0px 10px;
       font-weight: bold;
       .email-attributes-seprator {
         padding: 0px 8px;
@@ -2463,9 +2488,7 @@ html:not([dir="rtl"]) {
         justify-content: center;
         &.input-wrap {
           flex: 1 1 100%;
-          input {
-            height: 30px;
-          }
+         
         }
       }
       .email-text-wrap {

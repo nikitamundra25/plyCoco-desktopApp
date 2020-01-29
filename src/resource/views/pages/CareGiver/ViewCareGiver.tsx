@@ -6,7 +6,6 @@ import { useLazyQuery } from '@apollo/react-hooks';
 import { AppRoutes } from '../../../../config';
 import { careGiverRoutes } from './Sidebar/SidebarRoutes/CareGiverRoutes';
 import { IReactSelectInterface } from '../../../../interfaces';
-import { GET_CAREGIVERS } from '../../../../graphql/queries';
 import Invoices from './Invoices/Invoices';
 import PersonalInformation from './PersonalInfo/PersonalInformation';
 import DocumentsUpload from './Documents/DocumentsUpload';
@@ -22,11 +21,13 @@ import reminder from '../../../assets/img/reminder.svg';
 import password from '../../../assets/img/password.svg';
 import appointment from '../../../assets/img/appointment.svg';
 import clear from '../../../assets/img/clear.svg';
+import { CareGiverQueries } from '../../../../graphql/queries';
 
 const CareGiverSidebar = React.lazy(() =>
   import('./Sidebar/SidebarLayout/CareGiverLayout'),
 );
 
+const [GET_CAREGIVERS] = CareGiverQueries;
 const CareGiverRoutesTabs = careGiverRoutes;
 
 const ViewCareGiver: FunctionComponent<RouteComponentProps> = (

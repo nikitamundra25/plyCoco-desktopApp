@@ -15,10 +15,7 @@ import AttributeFormComponent from './AttributesFromComponent';
 import RemarkFormComponent from './RemarkFormComponent';
 import { Formik, FormikHelpers, Form, FormikProps } from 'formik';
 import { Query } from '@apollo/react-components';
-import {
-  GET_CAREGIVER_BY_ID,
-  GET_BILLING_SETTINGS,
-} from '../../../../../graphql/queries/CareGiver';
+import { CareGiverQueries } from '../../../../../graphql/queries/CareGiver';
 import {
   ICareGiverValues,
   IPersonalObject,
@@ -41,7 +38,9 @@ import Loader from '../../../containers/Loader/Loader';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
 let toastId: any;
 
+const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
 const [, UPDATE_CAREGIVER, , , , UPDATE_BILLING_SETTINGS] = CareGiverMutations;
+
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
   let history = useHistory();

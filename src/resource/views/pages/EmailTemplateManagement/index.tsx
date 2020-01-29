@@ -16,14 +16,14 @@ import { EmailTemplateList } from './List';
 import { AddTemplate } from './AddTemplate';
 import { languageTranslation } from '../../../../helpers';
 import './index.scss';
+import { EmailTemplateMutations } from '../../../../graphql/Mutations';
 
 const [
-  ADD_EMAIL_TEMPLATE,
-  UPDATE_EMAIL_TEMPLATE,
   GET_EMAIL_TEMPLATE_TYEPS,
   GET_EMAIL_TEMPLATE,
   GET_EMAIL_TEMPLATE_BY_ID,
 ] = EmailTemplateQueries;
+const [ADD_EMAIL_TEMPLATE, UPDATE_EMAIL_TEMPLATE] = EmailTemplateMutations;
 
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;

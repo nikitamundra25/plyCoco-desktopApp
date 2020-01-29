@@ -20,7 +20,7 @@ import {
 import { FormikProps } from 'formik';
 import {
   CareInstitutionQueries,
-  GET_QUALIFICATION_ATTRIBUTES,
+  GET_QUALIFICATION_ATTRIBUTE,
 } from '../../../../graphql/queries';
 import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
 import { IQualifications } from '../../../../interfaces/qualification';
@@ -127,7 +127,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   }
 
   // To fecth qualification attributes list
-  const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTES);
+  const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
   const qualificationList: IReactSelectInterface[] | undefined = [];
   if (data && data.getQualificationAttributes) {
     data.getQualificationAttributes.forEach((quali: any) => {

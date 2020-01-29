@@ -9,7 +9,7 @@ import {
 import AddCareInstitution from './AddCareInstitution';
 import {
   CareInstitutionQueries,
-  GET_QUALIFICATION_ATTRIBUTES,
+  GET_QUALIFICATION_ATTRIBUTE,
 } from '../../../../../graphql/queries';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { logger, languageTranslation } from '../../../../../helpers';
@@ -63,7 +63,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
 
   // To fecth qualification attributes list
   const { data: qualificationData } = useQuery<IQualifications>(
-    GET_QUALIFICATION_ATTRIBUTES,
+    GET_QUALIFICATION_ATTRIBUTE,
   );
 
   const qualificationList: IReactSelectInterface[] | undefined = [];

@@ -29,7 +29,7 @@ import { CareInstitutionQueries } from '../../../../../graphql/queries';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { IQualifications } from '../../../../../interfaces/qualification';
 
-import { GET_QUALIFICATION_ATTRIBUTES } from '../../../../../graphql/queries';
+import { GET_QUALIFICATION_ATTRIBUTE } from '../../../../../graphql/queries';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 
 const [
@@ -81,7 +81,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   // To fecth qualification attributes list
   const { data: qualificationData } = useQuery<IQualifications>(
-    GET_QUALIFICATION_ATTRIBUTES,
+    GET_QUALIFICATION_ATTRIBUTE,
   );
   const qualificationList: IReactSelectInterface[] | undefined = [];
   if (qualificationData && qualificationData.getQualificationAttributes) {

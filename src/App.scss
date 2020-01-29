@@ -1365,6 +1365,9 @@ html:not([dir='rtl']) {
         &:last-child {
           border-bottom: 0px;
         }
+        &.active{
+          background: $table_border;
+        }
       }
     }
   }

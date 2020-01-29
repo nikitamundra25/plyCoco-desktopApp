@@ -212,7 +212,85 @@ mutation addUser($careInstInput : UserInput) {
   }
 }`;
 
+const ADD_DEPARTMENT_CARE_INSTITUTION = gql`
+  mutation addDivision($divisionInput: DivisionInput!) {
+    addDivision(divisionInput: $divisionInput) {
+      id
+      userId
+      name
+      anonymousName
+      anonymousName2
+      address
+      contactPerson
+      phoneNumber
+      faxNumber
+      email
+      commentsOffer
+      commentsCareGiver
+      commentsVisibleInternally
+      locked
+      times
+      qualifications
+      attributes
+    }
+  }`;
 
+const UPDATE_DEPARTMENT_CARE_INSTITUTION = gql`
+  mutation updateDivision($id: Int!, $divisionInput: DivisionInput!) {
+    updateDivision(id: $id, divisionInput: $divisionInput) {
+      id
+      userId
+      name
+      anonymousName
+      anonymousName2
+      address
+      contactPerson
+      phoneNumber
+      faxNumber
+      email
+      commentsOffer
+      commentsCareGiver
+      commentsVisibleInternally
+      locked
+      times
+      qualifications
+      attributes
+    }
+  }`;
+
+const GET_DEPARTMENT_LIST = gql`
+  query($userId: Int!) {
+    getDivision(
+      userId: $userId
+    ) {
+      id
+      userId
+      name
+      anonymousName
+      anonymousName2
+      address
+      contactPerson
+      phoneNumber
+      faxNumber
+      email
+      commentsOffer
+      commentsCareGiver
+      commentsVisibleInternally
+      locked
+      times
+      qualifications
+      attributes
+    }
+  }
+`;
+
+const DELETE_DEPARTMENT = gql`
+  mutation DeleteDivision($id: ID!) {
+    deleteDivision(id: $id) {
+      id
+    }
+  }
+`;
 
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
@@ -223,5 +301,9 @@ export const CareInstitutionQueries = [
   UPDATE_CARE_INSTITUTION_STATUS,
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   UPDATE_NEW_CONTACT_CARE_INSTITUTION,
-  ADD_NEW_CARE_INTITUTION
+  ADD_NEW_CARE_INTITUTION,
+  ADD_DEPARTMENT_CARE_INSTITUTION,
+  UPDATE_DEPARTMENT_CARE_INSTITUTION,
+  GET_DEPARTMENT_LIST,
+  DELETE_DEPARTMENT
 ];

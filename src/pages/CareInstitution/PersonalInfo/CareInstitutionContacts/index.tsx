@@ -248,8 +248,8 @@ const CareInstitutionContacts: any = (props: any) => {
                     className={`${index === activeContact ? "active" : ""}`}
                     onClick={() => setActiveContact(index)}
                   >
-                    {contact && contact.firstName
-                      ? contact.firstName
+                    {contact && contact.contactType
+                      ? contact.contactType
                       : "New contact"}{" "}
                   </NavLink>
                 </NavItem>

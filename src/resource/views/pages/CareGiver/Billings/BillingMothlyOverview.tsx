@@ -1,8 +1,6 @@
-import React, { Component } from "react";
+import React, { FunctionComponent } from 'react';
 
-class BillingMothlyOverview extends Component {
-  render() {
-    return <div>Billing Monthly Overview</div>;
-  }
-}
+const BillingMothlyOverview: FunctionComponent = () => {
+  return <div>Billing Monthly Overview</div>;
+};
 export default BillingMothlyOverview;

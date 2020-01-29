@@ -243,7 +243,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
           return <LeasingPersonalDataFormComponent {...props} />;
         }}
       />
-      <LeasingPaySlipComponent {...props} />
+      <LeasingPaySlipComponent />
     </>
   );
 };

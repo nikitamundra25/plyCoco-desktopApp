@@ -288,12 +288,12 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                 />
               ) : null}
               {activeTab === 1 ? <Offers {...props} /> : null}
-              {activeTab === 2 ? <Login {...props} /> : null}
+              {activeTab === 2 ? <Login /> : null}
               {activeTab === 3 ? <InvoiceMenu {...props} /> : null}
               {activeTab === 4 ? <Documents {...props} /> : null}
               {activeTab === 5 ? <Departments {...props} /> : null}
               {activeTab === 6 ? <Email /> : null}
-              {activeTab === 7 ? <Reminders {...props} /> : null}
+              {activeTab === 7 ? <Reminders /> : null}
             </div>
           </Suspense>
         </div>

@@ -241,14 +241,14 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                   {...props}
                 />
               ) : null}
-              {activeTab === 1 ? <Offer {...props} /> : null}
-              {activeTab === 2 ? <LoginLogs {...props} /> : null}
-              {activeTab === 3 ? <Invoices {...props} /> : null}
-              {activeTab === 4 ? <DocumentsUpload {...props} /> : null}
+              {activeTab === 1 ? <Offer /> : null}
+              {activeTab === 2 ? <LoginLogs /> : null}
+              {activeTab === 3 ? <Invoices /> : null}
+              {activeTab === 4 ? <DocumentsUpload /> : null}
               {activeTab === 5 ? <Email /> : null}
-              {activeTab === 6 ? <ToDo {...props} /> : null}
+              {activeTab === 6 ? <ToDo /> : null}
               {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}
-              {activeTab === 8 ? <QualificationAttribute {...props} /> : null}
+              {activeTab === 8 ? <QualificationAttribute /> : null}
             </div>
           </Suspense>
         </div>

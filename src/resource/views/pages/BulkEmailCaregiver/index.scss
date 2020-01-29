@@ -1,0 +1,7 @@
+@import '../../../assets/scss/variables';
+.common-column {
+  background: $white;
+  margin-bottom: 8px;
+  position: relative;
+  min-height: calc(100vh - 125px);
+}

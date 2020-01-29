@@ -181,4 +181,4 @@ export interface IAddTimeFormValidationSchema {
   comment?: string;
 }
 
-export interface IQuallificationAttribute { }
+export interface IQuallificationAttribute {}

@@ -1,0 +1,43 @@
+@import '../../../assets/scss/variables';
+.documenttemplate-page {
+  min-height: calc(100vh - 135px);
+}
+
+.documentlist-table {
+  th {
+    border: 1px solid $table_border;
+  }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-documentlist-table {
+    margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+
+  .date-col {
+    width: 75px;
+  }
+}
+.document-preview {
+  color: $btn_hover_gray;
+  line-height: 3;
+  font-size: $font_17;
+  .block-page {
+    color: $faq_bg;
+    font-size: $font_16;
+    .img-responsive {
+      width: 65px;
+      height: 65px;
+    }
+  }
+}
+.working-height {
+  height: calc(100vh - 135px);
+  background-color: $white;
+  border: 1px solid $table_border;
+}

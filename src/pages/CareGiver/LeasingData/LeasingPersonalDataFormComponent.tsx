@@ -95,7 +95,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
             <h5 className='main-title '>
               {languageTranslation('LEASING_PERSONAL_DATA_HEADING')}
             </h5>
-            <div className='form-card'>
+            <div className='form-card minheight-auto'>
               <Row>
                 <Col lg={'6'}>
                   <FormGroup>
@@ -329,7 +329,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                         <Label className='form-label col-form-label '>
                           Social Security Number
                           <br />
-                          <small>(example: 65170839J003)</small>
+                          {/* <small>(example: 65170839J003)</small> */}
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -338,7 +338,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           <Field
                             component={FormikTextField}
                             name={'socialSecurityNumber'}
-                            placeholder=' Social Security Number'
+                            placeholder='Ex: 65170839J003'
                           />
                         </div>
                       </Col>
@@ -403,10 +403,9 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                       <Col sm='8'>
                         <Field name='payrollIBAN'>
                           {({ field }: any) => (
-                            <div>
+                            <div className={'required-input'}>
                               <MaskedInput
                                 {...field}
-                                className={'form-control'}
                                 value={payrollIBAN}
                                 placeholder={languageTranslation(
                                   'BANK_IBAN_PLACEHOLDER',
@@ -414,9 +413,14 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                                 mask={IBANRegex}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
+                                className={`form-control ${
+                                  errors.payrollIBAN && touched.payrollIBAN
+                                    ? 'text-input error'
+                                    : 'text-input'
+                                }`}
                               />
                               {errors.payrollIBAN && touched.payrollIBAN && (
-                                <div className='required-error'>
+                                <div className='required-tooltip'>
                                   {errors.payrollIBAN}
                                 </div>
                               )}
@@ -435,7 +439,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
             <h5 className='main-title '>
               {languageTranslation('LEASING_CONTRACT_DATA_HEADING')}
             </h5>
-            <div className='form-card'>
+            <div className='form-card minheight-auto'>
               <Row>
                 <Col lg={'6'}>
                   <FormGroup>
@@ -449,10 +453,14 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                         <div>
                           <Field name='payrollIBAN'>
                             {({ field }: any) => (
-                              <div>
+                              <div className={'required-input'}>
                                 <MaskedInput
                                   {...field}
-                                  className={'form-control'}
+                                  className={`form-control ${
+                                    errors.firstDay && touched.firstDay
+                                      ? 'text-input error'
+                                      : 'text-input'
+                                  }`}
                                   placeholder={languageTranslation(
                                     'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
                                   )}
@@ -463,7 +471,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                                   onBlur={handleBlur}
                                 />
                                 {errors.firstDay && touched.firstDay && (
-                                  <div className='required-error'>
+                                  <div className='required-tooltip'>
                                     {errors.firstDay}
                                   </div>
                                 )}
@@ -487,10 +495,14 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                         <div>
                           <Field name='payrollIBAN'>
                             {({ field }: any) => (
-                              <div>
+                              <div className={'required-input'}>
                                 <MaskedInput
                                   {...field}
-                                  className={'form-control'}
+                                  className={`form-control ${
+                                    errors.lastDay && touched.lastDay
+                                      ? 'text-input error'
+                                      : 'text-input'
+                                  }`}
                                   placeholder={languageTranslation(
                                     'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
                                   )}
@@ -501,7 +513,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                                   onBlur={handleBlur}
                                 />
                                 {errors.lastDay && touched.lastDay && (
-                                  <div className='required-error'>
+                                  <div className='required-tooltip'>
                                     {errors.lastDay}
                                   </div>
                                 )}
@@ -564,11 +576,6 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                   </FormGroup>
                 </Col>
               </Row>
-            </div>
-          </Col>
-          <Col lg={'12'}>
-            <div className='d-flex align-items-center justify-content-between'>
-              <div className='mandatory-text'>* Required Fields</div>
             </div>
           </Col>
         </Row>

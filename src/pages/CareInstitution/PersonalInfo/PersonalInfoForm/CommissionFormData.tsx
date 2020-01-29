@@ -7,7 +7,11 @@ import {
   ICareInstitutionFormValues,
   IHandleSelectInterface
 } from "../../../../interfaces";
-import { Region, LeasingPriceList, CareInstLeasingPriceList } from "../../../../config";
+import {
+  Region,
+  LeasingPriceList,
+  CareInstLeasingPriceList
+} from "../../../../config";
 
 const CommissionFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -29,7 +33,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
   } = props;
 
   return (
-    <div className="form-card minheight-auto">
+    <div className="form-card minheight-auto mb-2">
       <Row>
         <Col lg={"12"}>
           <FormGroup>
@@ -42,19 +46,23 @@ const CommissionFormData: FunctionComponent<FormikProps<
               <Col sm="8">
                 <Row className="custom-col inner-no-padding-col">
                   <Col sm="4">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"careGiverCommission"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={careGiverCommission}
-                        placeholder={languageTranslation("HEALTH_CARE_FEE")}
-                        className="width-common"
+                        className={
+                          errors.careGiverCommission &&
+                          touched.careGiverCommission
+                            ? "width-common error"
+                            : "width-common"
+                        }
                       />
                       {errors.careGiverCommission &&
                         touched.careGiverCommission && (
-                          <div className="required-error left">
+                          <div className="required-tooltip bottom-tooltip">
                             {errors.careGiverCommission}
                           </div>
                         )}
@@ -69,19 +77,23 @@ const CommissionFormData: FunctionComponent<FormikProps<
                           </Label>
                         </Col>
                         <Col sm="6">
-                          <div>
+                          <div className="required-input">
                             <Input
                               type="text"
                               name={"doctorCommission"}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={doctorCommission}
-                              placeholder={languageTranslation("DOCTOR_FEE")}
-                              className="width-common"
+                              className={
+                                errors.doctorCommission &&
+                                touched.doctorCommission
+                                  ? "width-common error"
+                                  : "width-common"
+                              }
                             />
                             {errors.doctorCommission &&
                               touched.doctorCommission && (
-                                <div className="required-error left">
+                                <div className="required-tooltip bottom-tooltip">
                                   {errors.doctorCommission}
                                 </div>
                               )}
@@ -96,7 +108,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
           </FormGroup>
         </Col>
         <Col lg={"12"}>
-          <FormGroup>
+          <FormGroup className="mb-0">
             <Row>
               <Col sm="4">
                 <Label className="form-label col-form-label">

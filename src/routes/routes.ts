@@ -40,7 +40,7 @@ const LeasingPersonalData = React.lazy(() =>
 const ChangePassword = React.lazy(() =>
   import("../pages/CareGiver/ChangePassword/ChangePassword")
 );
-const Email = React.lazy(() => import("../pages/CareGiver/Emails/EmailMenus"));
+// const Email = React.lazy(() => import("../pages/CareGiver/Emails/EmailMenus"));
 const InboxEmail = React.lazy(() =>
   import("../pages/CareGiver/Emails/InboxEmail")
 );
@@ -94,27 +94,32 @@ const DocumentTemplateWorkingProof = React.lazy(() =>
   import("../pages/DocumentTemplateManagement/index")
 );
 const CareInstitutionTodoHideDone = React.lazy(() =>
-  import('../pages/CareInstitutionTodo/hideDone'));
+  import("../pages/CareInstitutionTodo/hideDone")
+);
 
-  const CareInstitutionTodoHideFuture = React.lazy(() =>
-    import("../pages/CareInstitutionTodo/hideFuture")
-  );
+const CareInstitutionTodoHideFuture = React.lazy(() =>
+  import("../pages/CareInstitutionTodo/hideFuture")
+);
 
-   const CareInstitutionTodoRequirement = React.lazy(() =>
-     import("../pages/CareInstitutionTodo/requirement")
-   );
+const CareInstitutionTodoRequirement = React.lazy(() =>
+  import("../pages/CareInstitutionTodo/requirement")
+);
 
-   const CareGiverTodoHideDone = React.lazy(() =>
-     import("../pages/CareGiverTodo/hideDone")
-   );
-    const CareGiverTodoHideFuture = React.lazy(() =>
-      import("../pages/CareGiverTodo/hideFuture")
-    );
+const CareGiverTodoHideDone = React.lazy(() =>
+  import("../pages/CareGiverTodo/hideDone")
+);
+const CareGiverTodoHideFuture = React.lazy(() =>
+  import("../pages/CareGiverTodo/hideFuture")
+);
 
-     const EmailTemplateManagement = React.lazy(() =>
-       import("../pages/EmailTemplateManagement")
-     );
-   
+const EmailTemplateManagement = React.lazy(() =>
+  import("../pages/EmailTemplateManagement")
+);
+
+const BulkEmailCaregiver = React.lazy(() =>
+  import("../pages/BulkEmailCaregiver")
+);
+
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -422,13 +427,18 @@ const routes = [
     path: AppRoutes.EMAIL_TEMPLATE_MANAGEMENT,
     name: "Email Template Management",
     component: EmailTemplateManagement,
-    exact: true,
-   
+    exact: true
   },
   {
     path: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
     name: "Document Template Working Proof",
     component: DocumentTemplateWorkingProof,
+    exact: true
+  },
+  {
+    path: AppRoutes.BULK_EMAIL_CAREGIVER,
+    name: "Bulk Email Caregiver",
+    component: BulkEmailCaregiver,
     exact: true
   }
 ];

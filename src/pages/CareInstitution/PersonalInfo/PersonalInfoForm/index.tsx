@@ -27,6 +27,7 @@ import InvoiceFormData from "./InvoiceFormData";
 import QuallificationAttribute from "./QuallificationAttribute";
 import RemarkFormData from "./RemarkFormData";
 import { RegionQueries } from "../../../../queries/Region";
+import moment from "moment";
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 const PersonalInformationForm: FunctionComponent<FormikProps<
@@ -98,12 +99,13 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     handleSubmit,
     setFieldValue,
     setFieldTouched,
-    CareInstitutionList
+    CareInstitutionList,
+    setFieldError
   } = props;
-  console.log("errors", errors);
-
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
-  const RegYear: Date | undefined = CreatedAt.getFullYear();
+  const RegYear: Date | undefined | any = moment(CreatedAt).format(
+    "YYYY-MM-DD"
+  );
 
   useEffect(() => {
     // call query
@@ -147,18 +149,20 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   };
   return (
     <Row className=" ">
-      <Button
-        color={"primary"}
-        disabled={isSubmitting}
-        className={"save-button"}
-        onClick={handleSubmit}
-        id={"caregiver-save-btn"}
-      >
-        {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
-        {languageTranslation("SAVE_BUTTON")}
-      </Button>
+      <div id={"caregiver-add-btn"}>
+        <Button
+          color={"primary"}
+          disabled={isSubmitting}
+          className={"save-button"}
+          onClick={handleSubmit}
+          // id={"caregiver-save-btn"}
+        >
+          {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+          {languageTranslation("SAVE_BUTTON")}
+        </Button>
+      </div>
       <Col lg={"4"}>
-        <div className="form-card h-100">
+        <div className="form-card custom-careinstitution-height custom-scrollbar">
           <Row>
             <Col lg={"12"}>
               <FormGroup>
@@ -171,7 +175,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                   </Col>
                   <Col sm="8">
                     <Row className="custom-col inner-no-padding-col">
-                      <Col sm="4">
+                      <Col sm="3">
                         <div>
                           <Input
                             type="text"
@@ -183,15 +187,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                           />
                         </div>
                       </Col>
-                      <Col sm="8">
+                      <Col sm="9">
                         <FormGroup>
                           <Row className="custom-col inner-no-padding-col">
-                            <Col sm="6">
+                            <Col sm="5">
                               <Label className="form-label col-form-label inner-label">
                                 {languageTranslation("REG_SINCE")}
                               </Label>
                             </Col>
-                            <Col sm="6">
+                            <Col sm="7">
                               <div>
                                 <Input
                                   type="text"
@@ -220,7 +224,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="text-capitalize">
                       <Select
                         placeholder={languageTranslation("REGION", "STATE")}
                         options={regionOptions}
@@ -322,7 +326,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"firstName"}
@@ -337,7 +341,9 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.firstName && touched.firstName && (
-                        <div className="required-error">{errors.firstName}</div>
+                        <div className="required-tooltip">
+                          {errors.firstName}
+                        </div>
                       )}
                     </div>
                   </Col>
@@ -354,7 +360,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"lastName"}
@@ -369,7 +375,9 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.lastName && touched.lastName && (
-                        <div className="required-error">{errors.lastName}</div>
+                        <div className="required-tooltip">
+                          {errors.lastName}
+                        </div>
                       )}
                     </div>
                   </Col>
@@ -601,7 +609,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"phoneNumber"}
@@ -610,13 +618,13 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         value={phoneNumber}
                         placeholder={languageTranslation("PHONE")}
                         className={
-                          errors.mobileNumber && touched.mobileNumber
+                          errors.phoneNumber && touched.phoneNumber
                             ? "width-common text-input error"
                             : "width-common text-input"
                         }
                       />
                       {errors.phoneNumber && touched.phoneNumber && (
-                        <div className="required-error">
+                        <div className="required-tooltip">
                           {errors.phoneNumber}
                         </div>
                       )}
@@ -666,7 +674,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"mobileNumber"}
@@ -681,7 +689,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.mobileNumber && touched.mobileNumber && (
-                        <div className="required-error">
+                        <div className="required-tooltip">
                           {errors.mobileNumber}
                         </div>
                       )}
@@ -705,7 +713,19 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         type="text"
                         name={"email"}
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        onBlur={(e: any) => {
+                          //get string before a @ to set username
+                          const setUsername = email
+                            ? email.substring(0, email.indexOf("@"))
+                            : "";
+                          const username = setUsername.replace(
+                            /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi,
+                            ""
+                          );
+                          setFieldError("userName", " ");
+                          setFieldValue("userName", username);
+                          handleBlur(e);
+                        }}
                         value={email}
                         placeholder={languageTranslation("EMAIL")}
                         className={
@@ -746,7 +766,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                             : "text-input"
                         }
                       />
-                      {errors.userName && touched.userName && (
+                      {errors.userName && !userName && touched.userName && (
                         <div className="required-error">{errors.userName}</div>
                       )}
                     </div>
@@ -825,11 +845,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         placeholder={languageTranslation("REMARKS")}
                         className="textarea-custom "
                         rows="4"
-                        value={
-                          remarksViewable && remarksViewable.value
-                            ? remarksViewable.value
-                            : undefined
-                        }
+                        value={remarksViewable ? remarksViewable : undefined}
                         onChange={handleChange}
                         maxLength={255}
                       />
@@ -842,7 +858,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         </div>
       </Col>
       <Col lg={"4"} className="px-lg-0">
-        <div className="common-col">
+        <div className="common-col custom-careinstitution-height custom-scrollbar">
           <CommissionFormData {...props} handleSelect={handleSelect} />
           <InvoiceFormData {...props} handleSelect={handleSelect} />
           <QuallificationAttribute
@@ -852,12 +868,16 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
           />
         </div>
       </Col>
-      <RemarkFormData
-        {...props}
-        setRemarksDetail={props.setRemarksDetail}
-        remarksDetail={props.remarksDetail}
-        saveRemark={props.saveRemark}
-      />
+      <Col lg={4}>
+        <div className="custom-careinstitution-height custom-scrollbar">
+          <RemarkFormData
+            {...props}
+            setRemarksDetail={props.setRemarksDetail}
+            remarksDetail={props.remarksDetail}
+            saveRemark={props.saveRemark}
+          />
+        </div>
+      </Col>
     </Row>
   );
 };

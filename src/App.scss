@@ -1,91 +1,91 @@
 // Styles
 // CoreUI Icons Set
-@import '~@coreui/icons/css/coreui-icons.css';
+@import "~@coreui/icons/css/coreui-icons.css";
 // Import Flag Icons Set
-@import '~flag-icon-css/css/flag-icon.min.css';
+@import "~flag-icon-css/css/flag-icon.min.css";
 // Import Font Awesome Icons Set
-@import '~font-awesome/css/font-awesome.min.css';
+@import "~font-awesome/css/font-awesome.min.css";
 // Import Simple Line Icons Set
-@import '~simple-line-icons/css/simple-line-icons.css';
+@import "~simple-line-icons/css/simple-line-icons.css";
 // Import Main styles for this application
-@import './scss/style.scss';
+@import "./scss/style.scss";
 
-@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap");
 
 @font-face {
   font-family: TechniqueBRKNormal;
-  src: url('./assets/fonts/techniqu-webfont.eot');
-  src: url('./assets/fonts/techniqu-webfont.eot?#iefix')
-      format('embedded-opentype'),
-    url('./assets/fonts/techniqu-webfont.woff') format('woff'),
-    url('./assets/fonts/techniqu-webfont.ttf') format('truetype'),
-    url('./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal') format('svg');
+  src: url("./assets/fonts/techniqu-webfont.eot");
+  src: url("./assets/fonts/techniqu-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    url("./assets/fonts/techniqu-webfont.woff") format("woff"),
+    url("./assets/fonts/techniqu-webfont.ttf") format("truetype"),
+    url("./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal") format("svg");
 
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Regular';
-  src: url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf')
-    format('truetype');
-  src: url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2')
-      format('woff2'),
-    url('assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff')
-      format('woff');
+  font-family: "FrutigerNeueLTPro-Regular";
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
+    format("truetype");
+  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
+      format("woff2"),
+    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
+      format("woff");
   //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Medium';
-  src: url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot');
-  src: url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2')
-      format('woff2'),
-    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff')
-      format('woff'),
-    url('assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Medium";
+  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
+      format("truetype");
   // url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Bold';
-  src: url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot');
-  src: url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2')
-      format('woff2'),
-    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff')
-      format('woff'),
-    url('assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Bold";
+  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
+      format("truetype");
   // url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Light';
-  src: url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot');
-  src: url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix')
-      format('embedded-opentype'),
-    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2')
-      format('woff2'),
-    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff')
-      format('woff'),
-    url('assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Light";
+  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
+  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
+      format("woff2"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
+      format("woff"),
+    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
+      format("truetype");
   //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -94,7 +94,7 @@ body {
   background: $white;
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
   }
   a {
@@ -203,6 +203,37 @@ body {
       }
     }
   }
+  .custom-careinstitution-height {
+    height: calc(100vh - 380px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    @media only screen and (max-width: 991px) {
+      height: auto;
+    }
+  }
+  .custom-caregiver-height {
+    height: calc(100vh - 157px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    @media only screen and (max-width: 991px) {
+      height: auto;
+    }
+  }
+  /* ==================== custom-scrollbar Css ================ */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    // border-radius: 7px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1;
+    // border-radius: 7px;
+  }
+  /* ==================== custom-scrollbar Css ================ */
 
   .card {
     border: 0px solid $card_border;
@@ -233,7 +264,7 @@ body {
     }
 
     .card-body {
-      padding: 15px;
+      padding: 10px 15px;
       background: $card_header_bg;
     }
   }
@@ -261,7 +292,7 @@ body {
     margin-bottom: 0;
   }
 
-  .checkbox-custom input[type='checkbox'] {
+  .checkbox-custom input[type="checkbox"] {
     opacity: 0;
     position: absolute;
     top: 50%;
@@ -271,12 +302,12 @@ body {
     cursor: pointer;
   }
 
-  .checkbox-custom input[type='checkbox']:checked + label:after {
+  .checkbox-custom input[type="checkbox"]:checked + label:after {
     position: absolute;
     display: inline-block;
-    font-family: 'FontAwesome';
+    font-family: "FontAwesome";
     font-weight: 400;
-    content: '\F00C';
+    content: "\F00C";
     top: 50%;
     left: 4px;
     margin-top: -5px;
@@ -287,19 +318,19 @@ body {
     color: #333;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled {
+  .checkbox-custom input[type="checkbox"]:disabled {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled:checked + label:after {
+  .checkbox-custom input[type="checkbox"]:disabled:checked + label:after {
     color: #999;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled + label {
+  .checkbox-custom input[type="checkbox"]:disabled + label {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled + label:before {
+  .checkbox-custom input[type="checkbox"]:disabled + label:before {
     background-color: #eee;
   }
 
@@ -313,7 +344,7 @@ body {
   }
 
   .checkbox-custom label:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 0;
@@ -398,14 +429,16 @@ body {
         margin-bottom: 20px;
       }
       .form-group {
-        margin-bottom: 24px;
+        margin-bottom: 15px;
         .form-control {
           height: 35px;
         }
-        .required-error {
-          left: 0px;
-          bottom: -16px;
-          top: unset;
+        .input-group {
+          &:hover ~ {
+            .required-tooltip {
+              display: block;
+            }
+          }
         }
       }
       .input-group-prepend {
@@ -488,7 +521,7 @@ body {
         border-bottom: 7px solid #ccc;
         border-left: 7px solid transparent;
         border-bottom-color: #c8ced3;
-        content: '';
+        content: "";
       }
 
       &:after {
@@ -499,7 +532,7 @@ body {
         border-right: 6px solid transparent;
         border-bottom: 6px solid #ffffff;
         border-left: 6px solid transparent;
-        content: '';
+        content: "";
       }
     }
   }
@@ -782,6 +815,7 @@ body {
 
     .sidebar-minimizer {
       background-color: $theme_color_hover;
+      height: 35px;
       &:before {
         background-image: url(assets/img/left-arrow.svg);
       }
@@ -829,7 +863,7 @@ body {
         z-index: 1018;
         width: 100%;
         height: 100%;
-        content: '';
+        content: "";
         background: rgba(0, 0, 0, 0.7);
         -webkit-animation: opacity 0.25s;
         animation: opacity 0.25s;
@@ -839,7 +873,7 @@ body {
 }
 
 @media (max-width: 991.98px) {
-  html:not([dir='rtl']) {
+  html:not([dir="rtl"]) {
     .sidebar-lg-show {
       &.sidebar-fixed {
         .main {
@@ -850,7 +884,7 @@ body {
     }
   }
 }
-html:not([dir='rtl']) {
+html:not([dir="rtl"]) {
   .sidebar-lg-show {
     &.sidebar-fixed {
       .main {
@@ -881,7 +915,7 @@ html:not([dir='rtl']) {
 .form-card {
   background: $white;
   padding: 8px 12px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   position: relative;
   height: calc(100% - 47px);
   border: 1px solid $table_border;
@@ -923,17 +957,23 @@ html:not([dir='rtl']) {
     }
   }
 }
-.rdw-editor-toolbar {
-  margin-bottom: 0px;
+
+.wrapperClassName {
+  .toolbarClassName{
+    margin-bottom: 0px ;
+    border: 1px solid $table_border;
+  }
+  .editorClassName {
+    border: 1px solid $table_border;
+    border-top: 0px;
+    background: $white;
+    min-height: 200px;
+    padding: 0px 10px;
+    max-height: 200px;
+  }
 }
-.rdw-editor-main {
-  border: 1px solid #f1f1f1;
-  border-top: 0px;
-  background: $white;
-  min-height: 200px;
-  padding: 0px 10px;
-  max-height: 200px;
-}
+
+
 
 .mandatory-text {
   font-weight: 600;
@@ -990,7 +1030,7 @@ html:not([dir='rtl']) {
     margin-bottom: 10px;
     font-family: $font_Frutiger_Medium;
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       height: 2px;
       width: 55px;
@@ -1001,7 +1041,7 @@ html:not([dir='rtl']) {
   }
 
   .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 6px;
     .col-form-label {
       font-size: $font_12;
       font-weight: 400;
@@ -1014,13 +1054,48 @@ html:not([dir='rtl']) {
     .required {
       color: $red;
     }
+    .required-tooltip {
+      width: 125px;
+      background-color: $theme_color;
+      color: $white;
+      text-align: center;
+      border-radius: 0px;
+      padding: 3px 10px;
+      position: absolute;
+      z-index: 1;
+      // top: -30px;
+      left: 50%;
+      bottom: 130%;
+      transform: translateX(-50%);
+      font-size: $font_11;
+      display: none;
+      // white-space: nowrap;
+      &.bottom-tooltip {
+        bottom: unset;
+        top: 30px;
+        &:after {
+          top: -10px;
+          border-color: $transparent $transparent $theme_color $transparent;
+        }
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: $theme_color $transparent $transparent $transparent;
+      }
+    }
     .required-error {
       position: absolute;
       left: 15px;
-      top: 27px;
+      top: 25px;
       font-size: $font_10;
       color: $red;
-      line-height: 11px;
+      line-height: 10px;
       &.left {
         left: 0px;
       }
@@ -1037,6 +1112,7 @@ html:not([dir='rtl']) {
       display: flex;
       align-items: center;
       font-family: $font_Frutiger_Regular;
+
       &:focus {
         box-shadow: none;
         outline: none;
@@ -1052,9 +1128,17 @@ html:not([dir='rtl']) {
         resize: none;
       }
       &.textarea-care-institution {
-        height: 194px;
+        height: 130px;
         overflow-y: auto;
         resize: none;
+      }
+      &.error {
+        border-color: $red;
+      }
+      &:hover ~ {
+        .required-tooltip {
+          display: block;
+        }
       }
     }
     .custom-input-width {
@@ -1138,6 +1222,51 @@ html:not([dir='rtl']) {
         padding: 0px 0px;
       }
     }
+
+    .custom-reactselect {
+      .custom-inner-reactselect__control {
+        border-radius: 0px;
+        color: $light_black;
+        font-size: $font_12;
+        min-height: 25px;
+        padding: 0px 8px;
+        line-height: normal;
+        border: 1px solid $light_gray;
+        box-shadow: none;
+        font-family: $font_Frutiger_Regular;
+        .custom-inner-reactselect__multi-value {
+          line-height: normal;
+        }
+        .custom-inner-reactselect__value-container {
+          padding: 0px 0px;
+        }
+        .custom-inner-reactselect__value-container--is-multi {
+          max-height: 68px;
+          overflow-y: auto;
+        }
+      }
+      .custom-inner-reactselect__multi-value__label {
+        font-size: 12px;
+        padding: 2px 3px;
+      }
+      .custom-inner-reactselect__indicator {
+        padding: 3px;
+        svg {
+          height: 16px;
+          width: 16px;
+        }
+      }
+      &.error {
+        .custom-inner-reactselect__control {
+          border: 1px solid $red;
+        }
+        &:hover ~ {
+          .required-tooltip {
+            display: block;
+          }
+        }
+      }
+    }
   }
   .btn-sumbit {
     padding: 6px 30px;
@@ -1146,17 +1275,16 @@ html:not([dir='rtl']) {
     min-width: 140px;
   }
   .btn-save {
-    padding: 4px 30px;
+    padding: 3px 30px;
     font-weight: 600;
     font-size: $font_13;
   }
   .btn-contact-save {
-    font-size: $font_13;
+    font-size: $font_12;
     top: 0px;
     z-index: unset;
     position: absolute;
   }
- 
 
   .file-preview-section {
     position: relative;
@@ -1355,7 +1483,7 @@ html:not([dir='rtl']) {
   .common-list-body {
     background: $white;
     border: 1px solid $table_border;
-    height: 155px;
+    height: 90px;
     overflow-y: auto;
     .common-list {
       li {
@@ -1373,12 +1501,31 @@ html:not([dir='rtl']) {
   }
   .common-list-footer {
     margin-top: 4px;
+    .contact-attribute{
+      padding-right: 35px;
+      position: relative;
+    }
+    .add-attribute-btn{
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      cursor: pointer;
+      background: $profile_bg;
+      color: $black;
+      width: 30px;
+      height: 30px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+   &:hover{
+    background: $profile_bg_hover
+   }
+    }
     .attribute-select {
       .attribute-inner-select__control {
         border-radius: 0px;
         color: $light_black;
         font-size: $font_12;
-        min-height: 35px;
+        min-height: 30px;
         padding: 0px 8px;
         line-height: normal;
         border: 1px solid $light_gray;
@@ -1595,6 +1742,22 @@ html:not([dir='rtl']) {
       }
     }
 
+    .status-btn {
+      padding: 3px 10px;
+      font-size: $font_12;
+      border-radius: 4px;
+      display: inline-block;
+      cursor: pointer;
+      min-width: 65px;
+      &.active {
+        background: $active_green;
+        color: $white;
+      }
+      &.inactive {
+        background: $red;
+        color: $white;
+      }
+    }
     .action-btn {
       display: flex;
       align-items: center;
@@ -1633,7 +1796,7 @@ html:not([dir='rtl']) {
     font-weight: 600;
     margin-bottom: 10px;
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       height: 2px;
       width: 55px;
@@ -1664,7 +1827,7 @@ html:not([dir='rtl']) {
       position: relative;
       padding-left: 12px;
       &::before {
-        content: ':';
+        content: ":";
         position: absolute;
         left: 0px;
       }
@@ -1801,7 +1964,7 @@ html:not([dir='rtl']) {
         font-weight: 400;
         font-family: $font_Frutiger_Medium;
         &:before {
-          content: '';
+          content: "";
           position: absolute;
           height: 2px;
           width: 55px;
@@ -1843,7 +2006,8 @@ html:not([dir='rtl']) {
             display: none;
           }
         }
-        &:hover, &.active {
+        &:hover,
+        &.active {
           color: $light_black;
           background: $common_tab_hoverbg;
         }
@@ -2029,9 +2193,9 @@ html:not([dir='rtl']) {
     }
 
     .common-content {
-      padding: 15px;
+      padding: 10px 15px 0px;
       background: $card_header_bg;
-      min-height: calc(100vh - 145px);
+      // min-height: calc(100vh - 145px);
       position: relative;
       .content-title {
         color: $black;
@@ -2042,7 +2206,7 @@ html:not([dir='rtl']) {
         font-family: $font_Frutiger_Medium;
         margin-bottom: 15px;
         &:before {
-          content: '';
+          content: "";
           position: absolute;
           height: 2px;
           width: 55px;
@@ -2217,7 +2381,7 @@ html:not([dir='rtl']) {
 .custom-col {
   margin-left: -7.5px;
   margin-right: -7.5px;
-  [class*='col-'] {
+  [class*="col-"] {
     padding: 0 7.5px;
   }
 }
@@ -2244,7 +2408,7 @@ html:not([dir='rtl']) {
         display: inline-block;
         margin-left: 0.255em;
         vertical-align: 0.255em;
-        content: '';
+        content: "";
         border-top: 0.3em solid;
         border-right: 0.3em solid transparent;
         border-bottom: 0;
@@ -2313,7 +2477,7 @@ html:not([dir='rtl']) {
     }
     &.email-attributes-wrap {
       font-size: 13px;
-      padding: 5px 0px;
+      padding: 5px 0px 10px;
       font-weight: bold;
       .email-attributes-seprator {
         padding: 0px 8px;
@@ -2327,9 +2491,7 @@ html:not([dir='rtl']) {
         justify-content: center;
         &.input-wrap {
           flex: 1 1 100%;
-          input {
-            height: 30px;
-          }
+         
         }
       }
       .email-text-wrap {
@@ -2351,7 +2513,7 @@ html:not([dir='rtl']) {
     display: inline-block;
     margin-left: 0.255em;
     vertical-align: 0.255em;
-    content: '';
+    content: "";
     border-top: 0.3em solid;
     border-right: 0.3em solid transparent;
     border-bottom: 0;
@@ -2440,7 +2602,7 @@ html:not([dir='rtl']) {
     .form-group {
       margin-bottom: 0px;
     }
-    [class*='col-'] {
+    [class*="col-"] {
       padding: 0px;
       label {
         padding-left: 7px;
@@ -2478,7 +2640,7 @@ html:not([dir='rtl']) {
     padding: 4px 10px;
     font-size: $font_13;
     color: $black;
-    height: calc(100% - 41px);
+    height: calc(100% - 33px);
     overflow-x: hidden;
     overflow-y: auto;
     &.remark-body-max-height {
@@ -2629,8 +2791,72 @@ html:not([dir='rtl']) {
     }
   }
 }
+
+.custom-menu {
+  padding: 4px 10px;
+  font-size: $font_12;
+  color: $black;
+  cursor: pointer;
+  line-height: normal;
+  transition: all 0.3s ease;
+  border: 1px solid $common_tab_border;
+  margin: 0 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: FrutigerNeueLTPro-Medium;
+  border-radius: 2px;
+  background: $common_tab_bg;
+  .custom-menu-icon {
+    padding-right: 8px;
+    vertical-align: middle;
+    img {
+      width: 15px;
+      height: 15px;
+    }
+  }
+  .custom-menu-icon {
+    vertical-align: middle;
+  }
+  &:hover,
+  &.active {
+    color: $light_black;
+    background: $common_tab_hoverbg;
+  }
+}
+
+.custom-switch-block {
+  .custom-control-label {
+    font-family: $font_Frutiger_Bold;
+    font-size: $font_12;
+    cursor: pointer;
+  }
+  .custom-control-input {
+    &:checked {
+      & ~ {
+        .custom-control-label {
+          &:before {
+            color: $white;
+            border-color: $theme_color;
+            background-color: $theme_color;
+          }
+        }
+      }
+    }
+    &:focus {
+      & ~ {
+        .custom-control-label {
+          &:before {
+            box-shadow: 0 0 0 0.2rem rgba(255, 108, 0, 0.25);
+          }
+        }
+      }
+    }
+  }
+}
+
 .app-footer {
-  flex: 0 0 40px;
+  flex: 0 0 35px;
   .footer-nav {
     .nav .nav-item {
       border-right: 1px solid $footer_nav_text;
@@ -2667,7 +2893,7 @@ html:not([dir='rtl']) {
       }
       .remark-div {
         margin-right: 15px;
-        min-width: 200px;
+        min-width: 150px;
         @media only screen and (max-width: 767px) {
           margin-right: 0px;
           width: 100%;
@@ -2681,9 +2907,6 @@ html:not([dir='rtl']) {
     }
     .col-form-label {
       white-space: nowrap;
-    }
-    .form-group {
-      margin-bottom: 24px;
     }
   }
 }
@@ -2713,8 +2936,8 @@ html:not([dir='rtl']) {
       text-transform: capitalize;
       cursor: pointer;
       border-radius: 4px;
-      padding: 4px 12px;
-      font-size: 13px;
+      padding: 3px 12px;
+      font-size: $font_12;
       font-weight: 600;
       color: $light_black;
       border: 1px solid #dbdbdb;
@@ -2752,9 +2975,9 @@ html:not([dir='rtl']) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          background-image: url('assets/img/success-toaster.svg');
+          background-image: url("assets/img/success-toaster.svg");
           position: absolute;
-          content: '';
+          content: "";
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
@@ -2780,10 +3003,10 @@ html:not([dir='rtl']) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          background: url('assets/img/error-toaster.svg') no-repeat;
+          background: url("assets/img/error-toaster.svg") no-repeat;
           background-size: 35px;
           position: absolute;
-          content: '';
+          content: "";
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
@@ -2808,8 +3031,8 @@ html:not([dir='rtl']) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          content: '';
-          background: url('assets/img/warning-toaster.svg') no-repeat;
+          content: "";
+          background: url("assets/img/warning-toaster.svg") no-repeat;
           background-size: 35px;
           position: absolute;
           top: 50%;
@@ -2831,8 +3054,8 @@ html:not([dir='rtl']) {
     width: 10px;
     height: 10px;
     &::after {
-      content: '';
-      background: url('assets/img/close-toaster.svg') no-repeat;
+      content: "";
+      background: url("assets/img/close-toaster.svg") no-repeat;
       background-size: 10px;
       position: absolute;
       top: 50%;
@@ -2853,12 +3076,10 @@ html:not([dir='rtl']) {
     background-color: #323232;
     padding: 12px 16px;
     color: #fff;
-    
 
-.DayPicker-Day {
-    font-size: 12px;
-}
-
+    .DayPicker-Day {
+      font-size: 12px;
+    }
   }
   .modal-body {
     background-color: #f9f9f9;
@@ -2868,18 +3089,18 @@ html:not([dir='rtl']) {
     border-top: 1px solid #ebedf2;
   }
   .modal-title {
-      line-height: normal;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    .DayPicker{
-    display:block;
-   background: #f1f0f0;
+    line-height: normal;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .DayPicker {
+    display: block;
+    background: #f1f0f0;
     font-size: 11px;
-}
-.DayPicker-Day.DayPicker-Day--selected.DayPicker-Day--today {
+  }
+  .DayPicker-Day.DayPicker-Day--selected.DayPicker-Day--today {
     background: #d99119;
-}
+  }
 }
 .custom-pagination {
   .pagination {
@@ -2985,7 +3206,7 @@ html:not([dir='rtl']) {
 
 // CARE GIVE TO DO LIST
 
-.care-giver-todo{
+.care-giver-todo {
   th {
     border: 1px solid $table_border;
   }
@@ -2993,29 +3214,29 @@ html:not([dir='rtl']) {
     padding: 0px;
     border-top: 0px;
   }
-  .inner-care-giver-todo{
-     margin-bottom: 0px;
+  .inner-care-giver-todo {
+    margin-bottom: 0px;
     th,
     td {
       padding: 4px;
     }
   }
-.date-col {
+  .date-col {
     width: 125px;
-}
+  }
 
-.external-col {
+  .external-col {
     width: 68px;
-}
-.name-col {
+  }
+  .name-col {
     width: 342px;
-}
-.remarks-col {
+  }
+  .remarks-col {
     width: 300px;
-}
-.comment-col {
+  }
+  .comment-col {
     width: 362px;
-}
+  }
 }
 
 @media only screen and (max-width: 991px) {

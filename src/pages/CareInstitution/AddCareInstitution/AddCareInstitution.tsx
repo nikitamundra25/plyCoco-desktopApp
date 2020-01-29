@@ -167,9 +167,6 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     setRemarksDetail,
     remarksDetail
   } = props;
-  console.log("propsssss", props.values);
-  console.log("values");
-
   return (
     <Row className=" ">
       <div id={"caregiver-add-btn"}>
@@ -185,7 +182,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
         </Button>
       </div>
       <Col lg={"4"}>
-        <div className="form-card h-100">
+        <div className="form-card custom-careinstitution-height custom-scrollbar">
           <Row>
             <Col lg={"12"}>
               <FormGroup>
@@ -196,7 +193,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="text-capitalize">
                       <Select
                         placeholder={languageTranslation("REGION", "STATE")}
                         value={regionId ? regionId : undefined}
@@ -298,7 +295,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"firstName"}
@@ -313,7 +310,9 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.firstName && touched.firstName && (
-                        <div className="required-error">{errors.firstName}</div>
+                        <div className="required-tooltip">
+                          {errors.firstName}
+                        </div>
                       )}
                     </div>
                   </Col>
@@ -330,7 +329,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"lastName"}
@@ -345,7 +344,9 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.lastName && touched.lastName && (
-                        <div className="required-error">{errors.lastName}</div>
+                        <div className="required-tooltip">
+                          {errors.lastName}
+                        </div>
                       )}
                     </div>
                   </Col>
@@ -578,7 +579,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"phoneNumber"}
@@ -586,15 +587,15 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={phoneNumber}
                         placeholder={languageTranslation("PHONE")}
-                        // className="width-common"
+                        // className="width-common"`
                         className={
-                          errors.mobileNumber && touched.mobileNumber
+                          errors.phoneNumber && touched.phoneNumber
                             ? "width-common text-input error"
                             : "width-common text-input"
                         }
                       />
                       {errors.phoneNumber && touched.phoneNumber && (
-                        <div className="required-error">
+                        <div className="required-tooltip">
                           {errors.phoneNumber}
                         </div>
                       )}
@@ -613,7 +614,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"fax"}
@@ -628,7 +629,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.fax && touched.fax && (
-                        <div className="required-error">{errors.fax}</div>
+                        <div className="required-tooltip">{errors.fax}</div>
                       )}
                     </div>
                   </Col>
@@ -644,7 +645,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"mobileNumber"}
@@ -659,7 +660,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.mobileNumber && touched.mobileNumber && (
-                        <div className="required-error">
+                        <div className="required-tooltip">
                           {errors.mobileNumber}
                         </div>
                       )}
@@ -678,7 +679,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"email"}
@@ -701,7 +702,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.email && touched.email && (
-                        <div className="required-error">{errors.email}</div>
+                        <div className="required-tooltip">{errors.email}</div>
                       )}
                     </div>
                   </Col>
@@ -718,7 +719,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"userName"}
@@ -732,8 +733,10 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                             : "text-input"
                         }
                       />
-                      {errors.userName && touched.userName && (
-                        <div className="required-error">{errors.userName}</div>
+                      {errors.userName && !userName && touched.userName && (
+                        <div className="required-tooltip">
+                          {errors.userName}
+                        </div>
                       )}
                     </div>
                   </Col>
@@ -749,7 +752,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div>
+                    <div className="required-input">
                       <Input
                         type="text"
                         name={"website"}
@@ -764,7 +767,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.website && touched.website && (
-                        <div className="required-error">{errors.website}</div>
+                        <div className="required-tooltip">{errors.website}</div>
                       )}
                     </div>
                   </Col>
@@ -826,7 +829,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
         </div>
       </Col>
       <Col lg={"4"} className="px-lg-0">
-        <div className="common-col">
+        <div className="common-col custom-careinstitution-height custom-scrollbar">
           <CommissionFormData {...props} handleSelect={handleSelect} />
           <InvoiceFormData {...props} handleSelect={handleSelect} />
           <QuallificationAttribute
@@ -836,11 +839,15 @@ const AddCareInstitution: FunctionComponent<FormikProps<
           />
         </div>
       </Col>
-      <RemarkFormData
-        {...props}
-        setRemarksDetail={setRemarksDetail}
-        remarksDetail={remarksDetail}
-      />
+      <Col lg={4}>
+        <div className="custom-careinstitution-height custom-scrollbar">
+          <RemarkFormData
+            {...props}
+            setRemarksDetail={setRemarksDetail}
+            remarksDetail={remarksDetail}
+          />
+        </div>
+      </Col>
     </Row>
   );
 };

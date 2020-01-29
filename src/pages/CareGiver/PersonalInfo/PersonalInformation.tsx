@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import { Button, Col, Row } from 'reactstrap';
 import { assignIn } from 'lodash';
-import 'react-datepicker/dist/react-datepicker.css';
 import { useParams, useHistory } from 'react-router';
 import { languageTranslation } from '../../../helpers';
 import PersonalInfoFormComponent from './PersonalInfoFormComponent';
@@ -206,12 +205,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         comments,
         status,
         remarks: remarksDetail,
-        fee: fee ? parseInt(fee) : null,
+        fee: fee ? parseFloat(fee) : null,
         nightAllowance:
           nightAllowance && nightAllowance.value ? nightAllowance.label : null,
-        weekendAllowance: weekendAllowance ? parseInt(weekendAllowance) : null,
-        holiday: holiday ? parseInt(holiday) : null,
-        night: night ? parseInt(night) : null,
+        weekendAllowance: weekendAllowance
+          ? parseFloat(weekendAllowance)
+          : null,
+        holiday: holiday ? parseFloat(holiday) : null,
+        night: night ? parseFloat(night) : null,
         regionId: regionId && regionId.value ? `{${regionId.value}}` : null,
         invoiceInterval:
           invoiceInterval && invoiceInterval.value
@@ -523,7 +524,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 />
               </Col>
               <Col lg={'4'} className='px-lg-0'>
-                <div className='common-col'>
+                <div className='common-col custom-caregiver-height  custom-scrollbar'>
                   <BillingSettingsFormComponent {...props} />
                   <div className='quality-attribute-section d-flex flex-column'>
                     <QualificationFormComponent

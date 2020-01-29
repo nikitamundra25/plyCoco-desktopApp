@@ -8,22 +8,15 @@
     }
   }
   .quality-attribute-section {
-    // height: calc(100% - 233px);
-    @media only screen and (max-width: 991px) {
-      height: auto;
-    }
     .common-list-card {
-      // height: 100%;
       &:last-child {
-        margin-top: 12px;
+        margin-top: 8px;
       }
       .common-list-wrap {
-        // height: calc(100% - 35px);
         margin-bottom: 0px;
         .common-list-body {
-          // height: calc(100% - 22px);
-          min-height: 477px;
-          max-height: 500px;
+          height: 90px;
+          max-height: 90px;
         }
       }
     }
@@ -129,6 +122,40 @@
     margin-bottom: 0;
   }
 }
+
+.payslip-table {
+  th {
+    border: 1px solid $table_border;
+  }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-payslip-table {
+    margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+  .sno-col {
+    width: 50px;
+  }
+  .date-col {
+    width: 80px;
+  }
+
+  .type-col {
+    width: 130px;
+  }
+  .amount-col {
+    width: 100px;
+  }
+  .paid-col {
+    width: 100px;
+  }
+}
+
 .save-button {
   // position: absolute;
   // top: -31px;

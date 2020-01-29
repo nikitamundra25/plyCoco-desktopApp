@@ -26,6 +26,7 @@ import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { CountryQueries } from "../../../queries";
 import { useLocation } from "react-router";
 import { RegionQueries } from "../../../queries/Region";
+import moment from "moment";
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -48,11 +49,6 @@ const PersonalInfoFormComponent: any = (
         label: name,
         value: id
       })
-    );
-  }
-  if (statesData && statesData.states) {
-    statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id })
     );
   }
 
@@ -128,12 +124,13 @@ const PersonalInfoFormComponent: any = (
     touched
   } = props;
 
-
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
-  const RegYear: Date | undefined = CreatedAt.getFullYear();
+  const RegYear: Date | undefined | any = moment(CreatedAt).format(
+    "YYYY-MM-DD"
+  );
 
   return (
-    <div className="form-card h-100">
+    <div className="form-card custom-caregiver-height custom-scrollbar">
       <Row>
         {PathArray && PathArray[2] !== "add" ? (
           <Col lg={"12"}>
@@ -147,8 +144,8 @@ const PersonalInfoFormComponent: any = (
                 </Col>
                 <Col sm="8">
                   <Row className="custom-col inner-no-padding-col">
-                    <Col sm="4">
-                      <div>
+                    <Col sm="3">
+                      <div className="required-input">
                         <Input
                           type="text"
                           name={"id"}
@@ -159,16 +156,16 @@ const PersonalInfoFormComponent: any = (
                         />
                       </div>
                     </Col>
-                    <Col sm="8">
+                    <Col sm="9">
                       <FormGroup>
                         <Row className="custom-col inner-no-padding-col">
-                          <Col sm="6">
+                          <Col sm="5">
                             <Label className="form-label col-form-label inner-label">
                               {languageTranslation("REG_SINCE")}
                               <span className="required">*</span>
                             </Label>
                           </Col>
-                          <Col sm="6">
+                          <Col sm="7">
                             <div>
                               <Input
                                 type="text"
@@ -196,7 +193,7 @@ const PersonalInfoFormComponent: any = (
                 <Label className="form-label col-form-label">{"Region"}</Label>
               </Col>
               <Col sm="8">
-                <div className="field-class">
+                <div className="field-class text-capitalize">
                   <Select
                     placeholder={languageTranslation("REGION", "STATE")}
                     onChange={(value: any) => handleSelect(value, "regionId")}
@@ -286,7 +283,7 @@ const PersonalInfoFormComponent: any = (
                 </Label>
               </Col>
               <Col sm="8">
-                <div>
+                <div className="required-input">
                   <Field
                     component={FormikTextField}
                     name={"firstName"}
@@ -309,7 +306,7 @@ const PersonalInfoFormComponent: any = (
                 </Label>
               </Col>
               <Col sm="8">
-                <div>
+                <div className="required-input">
                   <Field
                     component={FormikTextField}
                     name={"lastName"}
@@ -332,7 +329,7 @@ const PersonalInfoFormComponent: any = (
               <Col sm="8">
                 <Row className="custom-col inner-no-padding-col">
                   <Col sm="7">
-                    <div>
+                    <div className="required-input">
                       <Field
                         name={"dateOfBirth"}
                         render={({ field }: any) => (
@@ -350,7 +347,7 @@ const PersonalInfoFormComponent: any = (
                         )}
                       />
                       {errors.dateOfBirth && touched.dateOfBirth && (
-                        <div className="required-error left">
+                        <div className="required-tooltip left">
                           {errors.dateOfBirth}
                         </div>
                       )}
@@ -558,7 +555,7 @@ const PersonalInfoFormComponent: any = (
                 </Label>
               </Col>
               <Col sm="8">
-                <div>
+                <div className="required-input">
                   <Field
                     component={FormikTextField}
                     name={"email"}
@@ -615,7 +612,7 @@ const PersonalInfoFormComponent: any = (
                 <Label className="form-label col-form-label">IBAN</Label>
               </Col>
               <Col sm="8">
-                <div>
+                <div className="required-input">
                   <Field name="payrollIBAN">
                     {({ field }: any) => (
                       <div>
@@ -632,7 +629,7 @@ const PersonalInfoFormComponent: any = (
                           onBlur={handleBlur}
                         />
                         {errors.IBAN && touched.IBAN && (
-                          <div className="required-error">{errors.IBAN}</div>
+                          <div className="required-tooltip">{errors.IBAN}</div>
                         )}
                       </div>
                     )}
@@ -652,7 +649,7 @@ const PersonalInfoFormComponent: any = (
                 </Label>
               </Col>
               <Col sm="8">
-                <div>
+                <div className="required-input">
                   <Field
                     component={FormikTextField}
                     name={"userName"}
@@ -683,7 +680,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        {console.log("driversLicense", driversLicense)}
         <Col lg={"12"}>
           <FormGroup>
             <Row>
@@ -743,7 +739,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        {console.log("vehicleAvailable", vehicleAvailable)}
         <Col lg={"12"}>
           <FormGroup>
             <Row>

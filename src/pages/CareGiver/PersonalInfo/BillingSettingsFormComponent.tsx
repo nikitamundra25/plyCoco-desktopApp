@@ -28,7 +28,7 @@ const BillingSettingsFormComponent: any = (
     setFieldValue(name, selectOption);
   };
   return (
-    <div className="form-card minheight-auto">
+    <div className="form-card minheight-auto mb-2">
       <Row>
         <Col lg={"12"}>
           <FormGroup>
@@ -39,11 +39,10 @@ const BillingSettingsFormComponent: any = (
               <Col sm="8">
                 <Row className="custom-col inner-no-padding-col">
                   <Col sm="5">
-                    <div>
+                    <div className="required-input">
                       <Field
                         component={FormikTextField}
                         name={"fee"}
-                        placeholder="Fee"
                         className="width-common"
                       />
                     </div>
@@ -57,11 +56,10 @@ const BillingSettingsFormComponent: any = (
                           </Label>
                         </Col>
                         <Col sm="7">
-                          <div>
+                          <div className="required-input">
                             <Field
                               component={FormikTextField}
                               name={"night"}
-                              placeholder="Night"
                               className="width-common"
                             />
                           </div>
@@ -83,11 +81,10 @@ const BillingSettingsFormComponent: any = (
               <Col sm="8">
                 <Row className="custom-col inner-no-padding-col">
                   <Col sm="5">
-                    <div>
+                    <div className="required-input">
                       <Field
                         component={FormikTextField}
                         name={"weekendAllowance"}
-                        placeholder="Weekend"
                         className="width-common"
                       />
                     </div>
@@ -102,11 +99,10 @@ const BillingSettingsFormComponent: any = (
                           </Label>
                         </Col>
                         <Col sm="7">
-                          <div>
+                          <div className="required-input">
                             <Field
                               component={FormikTextField}
                               name={"holiday"}
-                              placeholder="Holiday"
                               className="width-common"
                             />
                           </div>
@@ -167,7 +163,7 @@ const BillingSettingsFormComponent: any = (
           </FormGroup>
         </Col>
         <Col lg={"12"}>
-          <FormGroup>
+          <FormGroup className="mb-0">
             <Row>
               <Col sm="4">
                 <Label className="form-label col-form-label">

@@ -1,21 +1,22 @@
 import React, { FunctionComponent } from "react";
 import { FormGroup, Label, Input, Col, Row, Form } from "reactstrap";
 import Select from "react-select";
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import { languageTranslation, logger } from "../../../../helpers";
-import { ICareInstitutionFormValues, IHandleSelectInterface } from "../../../../interfaces";
+import {
+  ICareInstitutionFormValues,
+  IHandleSelectInterface
+} from "../../../../interfaces";
 import { Region, InvoiceType, InvoiceInterval } from "../../../../config";
 
 const InvoiceFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
-> & IHandleSelectInterface> = (props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface) => {
+> &
+  IHandleSelectInterface> = (
+  props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface
+) => {
   const {
-    values: {
-      invoiceType,
-      interval,
-      emailInvoice,
-      addressInvoice
-    },
+    values: { invoiceType, interval, emailInvoice, addressInvoice },
     touched,
     errors,
     isSubmitting,
@@ -28,7 +29,7 @@ const InvoiceFormData: FunctionComponent<FormikProps<
   } = props;
 
   return (
-    <div className="form-card minheight-auto">
+    <div className="form-card minheight-auto mb-2">
       <Row>
         <Col lg={"12"}>
           <FormGroup>
@@ -44,7 +45,7 @@ const InvoiceFormData: FunctionComponent<FormikProps<
                     placeholder={languageTranslation("INVOICE_TYPE")}
                     value={invoiceType ? invoiceType : undefined}
                     onChange={(value: any) =>
-                      handleSelect(value, 'invoiceType')
+                      handleSelect(value, "invoiceType")
                     }
                     options={InvoiceType}
                   />
@@ -66,9 +67,7 @@ const InvoiceFormData: FunctionComponent<FormikProps<
                   <Select
                     placeholder={languageTranslation("Interval")}
                     value={interval ? interval : undefined}
-                    onChange={(value: any) =>
-                      handleSelect(value, 'interval')
-                    }
+                    onChange={(value: any) => handleSelect(value, "interval")}
                     options={InvoiceInterval}
                   />
                 </div>
@@ -99,7 +98,7 @@ const InvoiceFormData: FunctionComponent<FormikProps<
           </FormGroup>
         </Col>
         <Col lg={"12"}>
-          <FormGroup>
+          <FormGroup className="mb-0">
             <Row>
               <Col sm="4">
                 <Label className="form-label col-form-label">
@@ -114,11 +113,10 @@ const InvoiceFormData: FunctionComponent<FormikProps<
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={addressInvoice}
-                    placeholder={languageTranslation(
-                      "ADRESS_INVOICE"
-                    )}
+                    placeholder={languageTranslation("ADRESS_INVOICE")}
                     className="textarea-custom"
                     rows="4"
+                    maxLength={250}
                   />
                 </div>
               </Col>
@@ -127,6 +125,6 @@ const InvoiceFormData: FunctionComponent<FormikProps<
         </Col>
       </Row>
     </div>
-  )
-}
-export default InvoiceFormData
+  );
+};
+export default InvoiceFormData;

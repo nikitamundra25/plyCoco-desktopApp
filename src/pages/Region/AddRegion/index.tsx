@@ -39,6 +39,7 @@ export const AddRegion: FunctionComponent<{
       setSubmitting,
       setFieldValue,
       setFieldTouched,
+      resetForm,
     }: FormikHelpers<IRegionFormValue>,
   ) => {
     const { regionName } = values;

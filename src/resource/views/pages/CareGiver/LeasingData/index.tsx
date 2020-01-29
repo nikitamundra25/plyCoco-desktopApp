@@ -26,7 +26,7 @@ import { CareGiverMutations } from '../../../../../graphql/Mutations';
 import { CareGiverQueries } from '../../../../../graphql/queries';
 
 const [, , GET_LEASING_INFO] = CareGiverQueries;
-const [ADD_UPDATE_CARE_GIVER_LEASING_INFO] = CareGiverMutations;
+const [, , , , ADD_UPDATE_CARE_GIVER_LEASING_INFO] = CareGiverMutations;
 
 export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps,

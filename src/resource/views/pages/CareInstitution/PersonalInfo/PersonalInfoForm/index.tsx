@@ -660,7 +660,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.fax && touched.fax && (
-                        <div className='required-error'>{errors.fax}</div>
+                        <div className='required-tooltip'>{errors.fax}</div>
                       )}
                     </div>
                   </Col>
@@ -738,7 +738,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.email && touched.email && (
-                        <div className='required-error'>{errors.email}</div>
+                        <div className='required-tooltip'>{errors.email}</div>
                       )}
                     </div>
                   </Col>
@@ -771,7 +771,9 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.userName && !userName && touched.userName && (
-                        <div className='required-error'>{errors.userName}</div>
+                        <div className='required-tooltip'>
+                          {errors.userName}
+                        </div>
                       )}
                     </div>
                   </Col>
@@ -803,7 +805,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.website && touched.website && (
-                        <div className='required-error'>{errors.website}</div>
+                        <div className='required-tooltip'>{errors.website}</div>
                       )}
                     </div>
                   </Col>

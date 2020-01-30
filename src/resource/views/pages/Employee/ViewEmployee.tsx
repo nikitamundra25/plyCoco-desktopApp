@@ -13,8 +13,10 @@ import { IReplaceObjectInterface } from '../../../../interfaces';
 import { languageTranslation } from '../../../../helpers';
 import defaultProfile from '../../../assets/avatars/default-profile.png';
 import { ConfirmBox } from '../../components/ConfirmBox';
+import { EmployeeMutations } from '../../../../graphql/Mutations';
 
-const [, GET_EMPLOYEE_BY_ID, , , UPDATE_EMPLOYEE_STATUS] = EmployeeQueries;
+const [GET_EMPLOYEE_BY_ID] = EmployeeQueries;
+const [, , UPDATE_EMPLOYEE_STATUS] = EmployeeMutations;
 let employee: any;
 
 const ViewEmployee: FunctionComponent = () => {

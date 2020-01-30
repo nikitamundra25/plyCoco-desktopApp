@@ -359,7 +359,7 @@ const PersonalInfoFormComponent: any = (
                       <Row className='custom-col inner-no-padding-col d-flex '>
                         <Col sm='6'>
                           <Label className='form-label col-form-label inner-label'>
-                            Age
+                          {languageTranslation('AGE')}
                           </Label>
                         </Col>
                         <Col sm='6'>
@@ -367,7 +367,7 @@ const PersonalInfoFormComponent: any = (
                             <Field
                               component={FormikTextField}
                               name={'age'}
-                              placeholder='Age'
+                              placeholder={languageTranslation('AGE')}
                               className='width-common'
                             />
                           </div>

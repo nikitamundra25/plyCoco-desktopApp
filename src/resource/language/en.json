@@ -308,6 +308,7 @@
   "REG_SINCE": "Reg Since",
   "STATE": "State",
   "GENDER": "Gender",
+  "AGE": "Age",
   "TITLE": "Title",
   "SALUTATION": "Salutation",
   "FIRST_NAME": "First Name",
@@ -539,5 +540,7 @@
   "SOCIAL_SECURITY_SPCHAR_ERROR": "Special Characters are not allowed",
   "PAY_SLIPS": "Pay Slips",
   "PAID": "Paid",
-  "CONTACT_REQUIRED": "Contact is required"
+  "CONTACT_REQUIRED": "Contact is required",
+  "TEXT_EMAIL": "Text Email (Title is inserted automatically)",
+  "SELECT_TEMPLATE": "Select Template"
 }

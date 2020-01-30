@@ -47,5 +47,6 @@ export const AppRoutes: IAppRoutes = {
   CARE_GIVER_HIDE_DONE: "/caregiver-todo/hide-done",
   CARE_GIVER_HIDE_FUTURE: "/caregiver-todo/hide-future",
   EMAIL_TEMPLATE_MANAGEMENT: "/email-template-management",
-  DOCUMENT_TEMPLATE_WORKING: "/working-proof"
+  DOCUMENT_TEMPLATE_WORKING: "/working-proof",
+  BULK_EMAIL_CAREGIVER: "/bulk-email-caregiver"
 };

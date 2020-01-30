@@ -9,13 +9,13 @@ import { ToastContainer, Slide } from 'react-toastify';
 import { AppRoutes } from './config';
 import { client } from './config';
 import configureStore from './store';
-import FullPageLoader from './containers/Loader/FullPageLoader';
+import FullPageLoader from './resource/views/containers/Loader/FullPageLoader';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 
-import { Login } from './pages';
+import { Login } from './resource/views/pages';
 const DefaultLayout = React.lazy(() =>
-  import('./containers/DefaultLayout/DefaultLayout'),
+  import('./resource/views/containers/DefaultLayout/DefaultLayout'),
 );
 
 // Create browser history

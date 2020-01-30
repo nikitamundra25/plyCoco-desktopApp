@@ -1,121 +1,155 @@
 import React from 'react';
 import { AppRoutes } from '../config';
-import ToDo from '../pages/CareGiver/ToDos/ToDos';
+import ToDo from '../resource/views/pages/CareGiver/ToDos/ToDos';
 
-const Dashboard = React.lazy(() => import('../pages/Dashboard'));
-const Login = React.lazy(() => import('../pages/Login'));
-const MyProfile = React.lazy(() => import('../pages/MyProfile'));
-const Employee = React.lazy(() => import('../pages/Employee'));
-const AddEmployee = React.lazy(() => import('../pages/Employee/AddEmployee'));
-const ViewEmployee = React.lazy(() => import('../pages/Employee/ViewEmployee'));
-const Department = React.lazy(() => import('../pages/Department'));
-const AddDepartment = React.lazy(() =>
-  import('../pages/Department/AddDepartment'),
+const Dashboard = React.lazy(() => import('../resource/views/pages/Dashboard'));
+const Login = React.lazy(() => import('../resource/views/pages/Login'));
+const MyProfile = React.lazy(() => import('../resource/views/pages/MyProfile'));
+const Employee = React.lazy(() => import('../resource/views/pages/Employee'));
+const AddEmployee = React.lazy(() =>
+  import('../resource/views/pages/Employee/AddEmployee'),
 );
-const Region = React.lazy(() => import('../pages/Region'));
-const AddRegion = React.lazy(() => import('../pages/Region/AddRegion'));
-const CareGiver = React.lazy(() => import('../pages/CareGiver'));
+const ViewEmployee = React.lazy(() =>
+  import('../resource/views/pages/Employee/ViewEmployee'),
+);
+const Department = React.lazy(() =>
+  import('../resource/views/pages/Department'),
+);
+const AddDepartment = React.lazy(() =>
+  import('../resource/views/pages/Department/AddDepartment'),
+);
+const Region = React.lazy(() => import('../resource/views/pages/Region'));
+const AddRegion = React.lazy(() =>
+  import('../resource/views/pages/Region/AddRegion'),
+);
+const CareGiver = React.lazy(() => import('../resource/views/pages/CareGiver'));
 const AddCareGiver = React.lazy(() =>
-  import('../pages/CareGiver/AddCareGiver/index'),
+  import('../resource/views/pages/CareGiver/AddCareGiver/index'),
 );
 const CareGiverLayout = React.lazy(() =>
-  import('../pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout'),
+  import(
+    '../resource/views/pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout'
+  ),
 );
 const ConstitutionLayout = React.lazy(() =>
   import(
-    '../pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout'
+    '../resource/views/pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout'
   ),
 );
 const PersonalInformation = React.lazy(() =>
-  import('../pages/CareGiver/PersonalInfo/PersonalInformation'),
+  import('../resource/views/pages/CareGiver/PersonalInfo/PersonalInformation'),
 );
 const QualificationAttribute = React.lazy(() =>
-  import('../pages/CareGiver/QualificationAttributes/QualificationAttribute'),
+  import(
+    '../resource/views/pages/CareGiver/QualificationAttributes/QualificationAttribute'
+  ),
 );
 const BillingSetting = React.lazy(() =>
-  import('../pages/CareGiver/Billings/BillingSettings'),
+  import('../resource/views/pages/CareGiver/Billings/BillingSettings'),
 );
-const Billing = React.lazy(() => import('../pages/CareGiver/Billings'));
+const Billing = React.lazy(() =>
+  import('../resource/views/pages/CareGiver/Billings'),
+);
 const LeasingPersonalData = React.lazy(() =>
-  import('../pages/CareGiver/LeasingData'),
+  import('../resource/views/pages/CareGiver/LeasingData'),
 );
 const ChangePassword = React.lazy(() =>
-  import('../pages/CareGiver/ChangePassword/ChangePassword'),
+  import('../resource/views/pages/CareGiver/ChangePassword/ChangePassword'),
 );
 // const Email = React.lazy(() => import("../pages/CareGiver/Emails/EmailMenus"));
 const InboxEmail = React.lazy(() =>
-  import('../pages/CareGiver/Emails/InboxEmail'),
+  import('../resource/views/pages/CareGiver/Emails/InboxEmail'),
 );
 const SentEmail = React.lazy(() =>
-  import('../pages/CareGiver/Emails/SentEmail'),
+  import('../resource/views/pages/CareGiver/Emails/SentEmail'),
 );
-const NewEmail = React.lazy(() => import('../pages/CareGiver/Emails/NewEmail'));
+const NewEmail = React.lazy(() =>
+  import('../resource/views/pages/CareGiver/Emails/NewEmail'),
+);
 const EmailSettings = React.lazy(() =>
-  import('../pages/CareGiver/Emails/EmailSettings'),
+  import('../resource/views/pages/CareGiver/Emails/EmailSettings'),
 );
-const Event = React.lazy(() => import('../pages/CareGiver/Events/Event'));
-const Offer = React.lazy(() => import('../pages/CareGiver/Offers/Offer'));
+const Event = React.lazy(() =>
+  import('../resource/views/pages/CareGiver/Events/Event'),
+);
+const Offer = React.lazy(() =>
+  import('../resource/views/pages/CareGiver/Offers/Offer'),
+);
 const Invoices = React.lazy(() =>
-  import('../pages/CareGiver/Invoices/Invoices'),
+  import('../resource/views/pages/CareGiver/Invoices/Invoices'),
 );
 const care_login = React.lazy(() =>
-  import('../pages/CareGiver/Logins/CareLogin'),
+  import('../resource/views/pages/CareGiver/Logins/CareLogin'),
 );
-const Todos = React.lazy(() => import('../pages/CareGiver/ToDos/ToDos'));
+const Todos = React.lazy(() =>
+  import('../resource/views/pages/CareGiver/ToDos/ToDos'),
+);
 const Signature = React.lazy(() =>
-  import('../pages/CareGiver/Signature/Signature'),
+  import('../resource/views/pages/CareGiver/Signature/Signature'),
 );
 const DocumentUpload = React.lazy(() =>
-  import('../pages/CareGiver/Documents/DocumentsUpload'),
+  import('../resource/views/pages/CareGiver/Documents/DocumentsUpload'),
 );
 const AddCareInstitution = React.lazy(() =>
-  import('../pages/CareInstitution/AddCareInstitution'),
+  import('../resource/views/pages/CareInstitution/AddCareInstitution'),
 );
-const Constitution = React.lazy(() => import('../pages/CareInstitution'));
+const Constitution = React.lazy(() =>
+  import('../resource/views/pages/CareInstitution'),
+);
 
 const ViewCareInstitution = React.lazy(() =>
-  import('../pages/CareInstitution/ViewCareInstituion'),
+  import('../resource/views/pages/CareInstitution/ViewCareInstituion'),
 );
 const ViewCareGiver = React.lazy(() =>
-  import('../pages/CareGiver/ViewCareGiver'),
+  import('../resource/views/pages/CareGiver/ViewCareGiver'),
 );
 
-const CareGiverTodo = React.lazy(() => import('../pages/CareGiverTodo'));
+const CareGiverTodo = React.lazy(() =>
+  import('../resource/views/pages/CareGiverTodo'),
+);
 const CareInstitutionTodo = React.lazy(() =>
-  import('../pages/CareInstitutionTodo'),
+  import('../resource/views/pages/CareInstitutionTodo'),
 );
 const CareGiverTodoLayout = React.lazy(() =>
-  import('../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout'),
+  import(
+    '../resource/views/pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout'
+  ),
 );
 
 const CareInstitutionTodoLayout = React.lazy(() =>
-  import('../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout'),
+  import(
+    '../resource/views/pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout'
+  ),
 );
 
 const DocumentTemplateWorkingProof = React.lazy(() =>
-  import('../pages/DocumentTemplateManagement/index'),
+  import('../resource/views/pages/DocumentTemplateManagement/index'),
 );
 const CareInstitutionTodoHideDone = React.lazy(() =>
-  import('../pages/CareInstitutionTodo/hideDone'),
+  import('../resource/views/pages/CareInstitutionTodo/hideDone'),
 );
 
 const CareInstitutionTodoHideFuture = React.lazy(() =>
-  import('../pages/CareInstitutionTodo/hideFuture'),
+  import('../resource/views/pages/CareInstitutionTodo/hideFuture'),
 );
 
 const CareInstitutionTodoRequirement = React.lazy(() =>
-  import('../pages/CareInstitutionTodo/requirement'),
+  import('../resource/views/pages/CareInstitutionTodo/requirement'),
 );
 
 const CareGiverTodoHideDone = React.lazy(() =>
-  import('../pages/CareGiverTodo/hideDone'),
+  import('../resource/views/pages/CareGiverTodo/hideDone'),
 );
 const CareGiverTodoHideFuture = React.lazy(() =>
-  import('../pages/CareGiverTodo/hideFuture'),
+  import('../resource/views/pages/CareGiverTodo/hideFuture'),
 );
 
 const EmailTemplateManagement = React.lazy(() =>
-  import('../pages/EmailTemplateManagement'),
+  import('../resource/views/pages/EmailTemplateManagement'),
+);
+
+const BulkEmailCaregiver = React.lazy(() =>
+  import('../resource/views/pages/BulkEmailCaregiver'),
 );
 
 const routes = [
@@ -431,6 +465,12 @@ const routes = [
     path: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
     name: 'Document Template Working Proof',
     component: DocumentTemplateWorkingProof,
+    exact: true,
+  },
+  {
+    path: AppRoutes.BULK_EMAIL_CAREGIVER,
+    name: 'Bulk Email Caregiver',
+    component: BulkEmailCaregiver,
     exact: true,
   },
 ];

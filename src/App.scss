@@ -943,9 +943,7 @@ html:not([dir="rtl"]) {
         width: auto;
       }
     }
-    .required-error {
-      left: 0px !important;
-    }
+    
     .btn-region {
       padding: 0px 30px;
       display: flex;
@@ -1089,17 +1087,6 @@ html:not([dir="rtl"]) {
         border-color: $theme_color $transparent $transparent $transparent;
       }
     }
-    .required-error {
-      position: absolute;
-      left: 15px;
-      top: 25px;
-      font-size: $font_10;
-      color: $red;
-      line-height: 10px;
-      &.left {
-        left: 0px;
-      }
-    }
 
     .form-control {
       border-radius: 0px;
@@ -1222,48 +1209,47 @@ html:not([dir="rtl"]) {
         padding: 0px 0px;
       }
     }
-
-    .custom-reactselect {
-      .custom-inner-reactselect__control {
-        border-radius: 0px;
-        color: $light_black;
-        font-size: $font_12;
-        min-height: 25px;
-        padding: 0px 8px;
+  }
+  .custom-reactselect {
+    .custom-inner-reactselect__control {
+      border-radius: 0px;
+      color: $light_black;
+      font-size: $font_12;
+      min-height: 25px;
+      padding: 0px 8px;
+      line-height: normal;
+      border: 1px solid $light_gray;
+      box-shadow: none;
+      font-family: $font_Frutiger_Regular;
+      .custom-inner-reactselect__multi-value {
         line-height: normal;
-        border: 1px solid $light_gray;
-        box-shadow: none;
-        font-family: $font_Frutiger_Regular;
-        .custom-inner-reactselect__multi-value {
-          line-height: normal;
-        }
-        .custom-inner-reactselect__value-container {
-          padding: 0px 0px;
-        }
-        .custom-inner-reactselect__value-container--is-multi {
-          max-height: 68px;
-          overflow-y: auto;
-        }
       }
-      .custom-inner-reactselect__multi-value__label {
-        font-size: 12px;
-        padding: 2px 3px;
+      .custom-inner-reactselect__value-container {
+        padding: 0px 0px;
       }
-      .custom-inner-reactselect__indicator {
-        padding: 3px;
-        svg {
-          height: 16px;
-          width: 16px;
-        }
+      .custom-inner-reactselect__value-container--is-multi {
+        max-height: 68px;
+        overflow-y: auto;
       }
-      &.error {
-        .custom-inner-reactselect__control {
-          border: 1px solid $red;
-        }
-        &:hover ~ {
-          .required-tooltip {
-            display: block;
-          }
+    }
+    .custom-inner-reactselect__multi-value__label {
+      font-size: 12px;
+      padding: 2px 3px;
+    }
+    .custom-inner-reactselect__indicator {
+      padding: 3px;
+      svg {
+        height: 16px;
+        width: 16px;
+      }
+    }
+    &.error {
+      .custom-inner-reactselect__control {
+        border: 1px solid $red;
+      }
+      &:hover ~ {
+        .required-tooltip {
+          display: block;
         }
       }
     }
@@ -1612,6 +1598,9 @@ html:not([dir="rtl"]) {
       @media only screen and (max-width: 991px) {
         display: none;
       }
+    }
+    &.checkbox-th-column{
+      width: 40px;
     }
     &.qualifications-th-column {
       width: 250px;

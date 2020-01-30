@@ -9,6 +9,8 @@ import {
   Form,
   Table
 } from "reactstrap";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Select from "react-select";
 import filter from "../../assets/img/filter.svg";
 import refresh from "../../assets/img/refresh.svg";
@@ -53,11 +55,11 @@ class BulkEmailCaregiver extends Component {
               <div className="bulk-email-section">
                 <Row>
                   <Col lg={"7"}>
-                    <div className="common-column">
+                    <div className="caregiver-list custom-scroll">
                       <Table bordered hover responsive>
                         <thead className="thead-bg">
                           <tr>
-                            <th className="checkbox-col"></th>
+                            <th className="checkbox-th-column"></th>
                             <th>{languageTranslation("NAME")}</th>
                             <th>{languageTranslation("EMAIL")}</th>
                           </tr>
@@ -88,8 +90,8 @@ class BulkEmailCaregiver extends Component {
                                 <label className=""></label>
                               </span>
                             </td>
-                            <td>Akan Nicole</td>
-                            <td>kontact@pfleglisoft.de</td>
+                            <td>John Doe</td>
+                            <td>kontact@johndoe.de</td>
                           </tr>
                           <tr>
                             <td>
@@ -102,8 +104,8 @@ class BulkEmailCaregiver extends Component {
                                 <label className=""></label>
                               </span>
                             </td>
-                            <td>Akan Nicole</td>
-                            <td>kontact@pfleglisoft.de</td>
+                            <td>Justina</td>
+                            <td>kontact@justina.de</td>
                           </tr>
                           <tr>
                             <td>
@@ -116,8 +118,8 @@ class BulkEmailCaregiver extends Component {
                                 <label className=""></label>
                               </span>
                             </td>
-                            <td>Akan Nicole</td>
-                            <td>kontact@pfleglisoft.de</td>
+                            <td>Mark Smith</td>
+                            <td>kontact@smith.com</td>
                           </tr>
                           <tr>
                             <td>
@@ -139,62 +141,106 @@ class BulkEmailCaregiver extends Component {
                   </Col>
 
                   <Col lg={"5"}>
-                    <div className="common-column">
-                      <div className="form-section py-2 px-3">
-                        <div className="d-flex align-items-center justify-content-between">
-                          <Label>{languageTranslation("ID")}</Label>
-                          <div className="select box">
-                            {/* <Select
+                    <div className="">
+                      <div className="form-section py-2 px-3 bulk-email-form">
+                        <div className="d-flex align-items-end justify-content-between bulk-email-header">
+                          <Label className="bulk-email-label">
+                            {languageTranslation("SUBJECT")}{" "}
+                            {languageTranslation("EMAIL")}
+                          </Label>
+                          <div className="select-box mb-2">
+                            <Select
                               placeholder="Select Template"
                               options={Region}
-                              classNamePrefix="custom-reactselect"
+                              classNamePrefix="custom-inner-reactselect"
                               className="custom-reactselect"
-                            /> */}
+                            />
                           </div>
                         </div>
                         <Row>
                           <Col lg={"12"}>
                             <FormGroup>
-                              <Row>
-                                <Col sm="4">
-                                  <Label className="form-label col-form-label">
-                                    {languageTranslation("ID")}
-                                  </Label>
-                                </Col>
-                                <Col sm="8">
-                                  <div>
-                                    <Input
-                                      type="text"
-                                      name={"lastName"}
-                                      placeholder={languageTranslation("ID")}
-                                      className="width-common"
-                                    />
-                                  </div>
-                                </Col>
-                              </Row>
+                              <div>
+                                <Input
+                                  type="text"
+                                  name={"lastName"}
+                                  className="width-common"
+                                />
+                              </div>
                             </FormGroup>
                           </Col>
                           <Col lg={"12"}>
                             <FormGroup>
-                              <Row>
-                                <Col sm="4">
-                                  <Label className="form-label col-form-label">
-                                    Caregiver
-                                  </Label>
-                                </Col>
-                                <Col sm="8">
-                                  <div>
-                                    <Select
-                                      placeholder="REGION"
-                                      options={State}
-                                    />
-                                  </div>
-                                </Col>
-                              </Row>
+                              <Label className="form-label col-form-label mb-2">
+                                {languageTranslation("TEXT_EMAIL")}
+                              </Label>
+
+                              <div>
+                                <Editor
+                                  // editorState={editorState}
+                                  toolbarClassName="toolbarClassName"
+                                  wrapperClassName="wrapperClassName"
+                                  editorClassName="editorClassName"
+                                  placeholder="Enter Email Here"
+                                  toolbar={{
+                                    options: [
+                                      "inline",
+                                      "blockType",
+                                      "fontSize",
+                                      "list",
+                                      "textAlign",
+                                      "link"
+                                    ],
+                                    inline: {
+                                      options: ["bold", "italic", "underline"]
+                                    },
+                                    fontSize: {
+                                      className: "bordered-option-classname"
+                                    },
+                                    fontFamily: {
+                                      className: "bordered-option-classname"
+                                    },
+                                    list: {
+                                      inDropdown: false,
+                                      options: ["unordered"]
+                                    },
+                                    link: {
+                                      options: ["link"]
+                                    }
+                                  }}
+                                />
+                              </div>
                             </FormGroup>
                           </Col>
                         </Row>
                       </div>
+                      <Table bordered hover responsive className="mail-table">
+                        <thead className="thead-bg">
+                          <tr>
+                            <th className="file-name">
+                              {languageTranslation("FILE_NAME")}
+                            </th>
+                            <th className="size-col">
+                              {languageTranslation("SIZE")}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="file-name ">Pan Card.PDF</td>
+                            <td className="size-col">1kb</td>
+                          </tr>
+                          <tr>
+                            <td className="file-name">VoterID.pdf</td>
+                            <td className="size-col">2kb</td>
+                          </tr>
+
+                          <tr>
+                            <td className="file-name">Pan Card.PDF</td>
+                            <td className="size-col">5kb</td>
+                          </tr>
+                        </tbody>
+                      </Table>
                     </div>
                   </Col>
                 </Row>

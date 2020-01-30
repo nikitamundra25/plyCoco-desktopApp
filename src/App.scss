@@ -1240,6 +1240,9 @@ html:not([dir="rtl"]) {
         overflow-y: auto;
       }
     }
+    .custom-inner-reactselect__menu{
+      z-index:9;
+    }
     .custom-inner-reactselect__multi-value__label {
       font-size: 12px;
       padding: 2px 3px;

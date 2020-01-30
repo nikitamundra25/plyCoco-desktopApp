@@ -188,7 +188,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_FIRST_NAME_PLACEHOLDER',
                                     )}
-                                    // maxLength='20'
+                                    maxLength={30}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={firstName}
@@ -228,7 +228,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       'EMPLOYEE_SURNAME_PLACEHOLDER',
                                     )}
                                     onChange={handleChange}
-                                    // maxLength='20'
+                                    maxLength={30}
                                     onBlur={handleBlur}
                                     value={lastName}
                                     className={
@@ -392,6 +392,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   <Input
                                     type='text'
                                     name={'address1'}
+                                    maxLength={150}
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_ADDRESS1_PLACEHOLDER',
                                     )}
@@ -419,6 +420,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   <Input
                                     type='text'
                                     name={'address2'}
+                                    maxLength={150}
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_ADDRESS2_PLACEHOLDER',
                                     )}
@@ -484,6 +486,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     placeholder={languageTranslation(
                                       'EMPLOYEE_CITY_PLACEHOLDER',
                                     )}
+                                    maxLength={100}
                                     value={city}
                                     onBlur={handleBlur}
                                     className={
@@ -704,6 +707,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={bankName}
+                                    maxLength={100}
                                     className={`width-common ${
                                       errors.bankName && touched.bankName
                                         ? 'text-input error'
@@ -742,6 +746,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={accountHolderName}
+                                    maxLength={50}
                                     className={`width-common ${
                                       errors.accountHolderName &&
                                       touched.accountHolderName

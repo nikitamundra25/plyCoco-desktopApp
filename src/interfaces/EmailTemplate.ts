@@ -3,12 +3,21 @@ import { IReactSelectInterface } from './Constant';
 
 export interface IEmailTemplateValues {
   id?: number;
+  type: IReactSelectInterface | undefined;
+  typeValue?: string;
+  menuEntry: string;
+  subject: string;
+  body: any;
+  typeId?: any;
+  typeListOptions?: IReactSelectInterface[] | undefined;
+}
+export interface IEmailTemplateSubmitValues {
   type: string;
+  typeId: any;
   menuEntry: string;
   subject: string;
   body: any;
 }
-
 export interface IAddEmailTemplateProps {
   handleSubmit: (
     values: IEmailTemplateValues,
@@ -16,6 +25,7 @@ export interface IAddEmailTemplateProps {
   ) => void;
   bindSubmitForm: any;
   templateData: IEmailTemplateValues | null;
+  typeListOptions: IReactSelectInterface[] | undefined;
 }
 
 export interface IEmailTemplateList {

@@ -6,7 +6,11 @@ import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { toast } from 'react-toastify';
-import { IEmailTemplateValues, IReactSelectInterface } from '../../interfaces';
+import {
+  IEmailTemplateValues,
+  IReactSelectInterface,
+  IEmailTemplateSubmitValues
+} from '../../interfaces';
 import { EmailTemplateQueries } from '../../queries';
 import { EmailTemplateMenu } from './Menu';
 import { EmailTemplateList } from './List';
@@ -64,7 +68,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       addEmail: any;
     },
     {
-      emailTemplateInput: IEmailTemplateValues;
+      emailTemplateInput: IEmailTemplateSubmitValues;
     }
   >(ADD_EMAIL_TEMPLATE, {
     onCompleted({ addEmail }) {
@@ -79,7 +83,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     },
     {
       id: number;
-      emailTemplateInput: IEmailTemplateValues;
+      emailTemplateInput: IEmailTemplateSubmitValues;
     }
   >(UPDATE_EMAIL_TEMPLATE, {
     onCompleted({ updateEmailTemplate }) {
@@ -136,16 +140,19 @@ export const EmailTemplateManagement: FunctionComponent = () => {
 
   // Submit handler
   const handleSubmit = async (
-    { type, menuEntry, subject, body, id }: IEmailTemplateValues,
+    { type, menuEntry, subject, body, id, typeId }: IEmailTemplateValues,
     { resetForm }: FormikHelpers<IEmailTemplateValues>
   ) => {
-    const emailTemplateInput: IEmailTemplateValues = {
-      type,
+    const emailTemplateInput: IEmailTemplateSubmitValues = {
+      type: type && type.value ? type.value : '',
+      typeId,
       menuEntry,
       subject,
       body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : ''
     };
     try {
+      console.log(type, 'type');
+
       if (id) {
         updateEmailTemplate({
           variables: {
@@ -220,6 +227,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   handleSubmit={handleSubmit}
                   bindSubmitForm={bindSubmitForm}
                   templateData={templateData}
+                  typeListOptions={typeListOptions}
                 />
               </Row>
             </div>

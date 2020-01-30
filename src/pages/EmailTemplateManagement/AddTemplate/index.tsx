@@ -3,29 +3,27 @@ import { Formik, FormikProps } from 'formik';
 import { TemplateFormComponent } from './TemplateFormComponent';
 import {
   IEmailTemplateValues,
-  IAddEmailTemplateProps,
+  IAddEmailTemplateProps
 } from '../../../interfaces';
 import { EmailTemplateValidationSchema } from '../../../validations/EmailTemplateValidationSchema';
 
 export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
-  props: IAddEmailTemplateProps,
+  props: IAddEmailTemplateProps
 ) => {
-  const { handleSubmit, bindSubmitForm, templateData } = props;
-  console.log(templateData, 'templateDatatemplateData');
-
+  const { handleSubmit, bindSubmitForm, templateData, typeListOptions } = props;
   const {
-    type = '',
+    type = undefined,
     menuEntry = '',
     subject = '',
     body = '',
-    id = undefined,
+    id = undefined
   } = templateData ? templateData : {};
   const values: IEmailTemplateValues = {
     type,
     menuEntry,
     subject,
     body,
-    id,
+    id
   };
   return (
     <Formik
@@ -35,7 +33,9 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
       children={(props: FormikProps<IEmailTemplateValues>) => {
         const { submitForm } = props;
         bindSubmitForm(submitForm);
-        return <TemplateFormComponent {...props} />;
+        return (
+          <TemplateFormComponent {...props} typeListOptions={typeListOptions} />
+        );
       }}
       validationSchema={EmailTemplateValidationSchema}
     />

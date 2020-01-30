@@ -11,57 +11,39 @@ import { ErroredFieldComponent } from '../../../common/ErroredFieldComponent';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import CreatableSelect from 'react-select/creatable';
 import { Status } from '../../../config';
-import { useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
 import { EmailTemplateQueries } from '../../../queries';
-
-const [, , GET_EMAIL_TEMPLATE_TYEPS] = EmailTemplateQueries;
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
->> = (props: FormikProps<IEmailTemplateValues>) => {
+> & {
+  typeListOptions?: any;
+}> = (
+  props: FormikProps<IEmailTemplateValues> & {
+    typeListOptions?: any;
+  }
+) => {
   const {
     values: { type, menuEntry, subject, body, id },
     touched,
     errors,
     setFieldValue,
-    handleChange
+    handleChange,
+    typeListOptions
   } = props;
-  const { data: typeList, loading, refetch } = useQuery(
-    GET_EMAIL_TEMPLATE_TYEPS
-  );
-  const typeListOptions: IReactSelectInterface[] | undefined = [];
-  if (
-    !loading &&
-    typeList &&
-    typeList.getEmailtemplateTypes &&
-    typeList.getEmailtemplateTypes.length
-  ) {
-    const { getEmailtemplateTypes } = typeList;
-    getEmailtemplateTypes.forEach(({ type }: { type: string }) =>
-      typeListOptions.push({
-        label: type,
-        value: type
-      })
-    );
-  }
-  // const [addType] = useMutation<
-  //   {
-  //     addType: any;
-  //   },
-  //   {
-  //     emailTemplateInput: IEmailTemplateValues;
-  //   }
-  // >(ADD_EMAIL_TEMPLATE_TYPES)
 
- 
-  const handleChangeSelect = (newValue: any) => {
+  const handleTypeSelect = (newValue: any, actionMeta: any) => {
     console.log(newValue);
-    // console.log(`action: ${actionMeta.action}`);
+    setFieldValue('type', newValue);
+    if (actionMeta.action === 'create-option') {
+      console.log('yguyu', actionMeta.action);
+    }
   };
-  const handleInputChange = (inputValue: any) => {
-    console.log(inputValue);
-    // console.log(`action: ${actionMeta.action}`);
-  };
+  // const handleInputChange = (inputValue: any) => {
+  //   console.log(inputValue);
+  // };
+  // console.log('typeListOptions', typeListOptions);
+
   return (
     <Col lg={'5'}>
       <h5 className='content-title'>{languageTranslation('DETAILS')}</h5>
@@ -82,15 +64,11 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                     <div>
                       <Input
                         type='text'
-                        name={'menuEntry'}
-                        value={menuEntry}
-                        placeholder={languageTranslation('ID')}
-                        onChange={handleChange}
+                        name={'id'}
+                        value={id ? id : ''}
+                        disabled={true}
+                        placeholder='ID'
                         className='width-common'
-                      />
-                      <ErroredFieldComponent
-                        errors={errors.menuEntry}
-                        touched={touched.menuEntry}
                       />
                     </div>
                   </Col>
@@ -111,13 +89,23 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                   </Col>
                   <Col sm='8'>
                     <div>
-                      <CreatableSelect
+                      {/* <CreatableSelect
                         isClearable
-                        onChange={handleChangeSelect}
+                        onChange={handleTypeSelect}
                         onInputChange={handleInputChange}
                         placeholder={'Select Type'}
                         options={typeListOptions}
+                        value={type}
+                      /> */}
+
+                      <CreatableSelect
+                        classNamePrefix='react_select'
+                        onChange={handleTypeSelect}
+                        value={type}
+                        options={typeListOptions}
+                        // options={colourOptions}
                       />
+
                       <ErroredFieldComponent
                         errors={errors.type}
                         touched={touched.type}

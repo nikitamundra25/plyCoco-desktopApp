@@ -39,14 +39,15 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
         <tbody>
           {timesData && timesData.length
             ? timesData.map((item: any, index: number) => {
-                return (
-                  <tr key={index}>
-                    <td>{item.begin}</td>
-                    <td>{item.end}</td>
-                    <td>{item.comment}</td>
-                    <td className='text-center'>
+              return (
+                <tr key={index}>
+                  <td>{item.begin}</td>
+                  <td>{item.end}</td>
+                  <td>{item.comment}</td>
+                  <td className='text-center'>
+                    <div className='action-btn'>
                       <span
-                        className='cursor-pointer'
+                        className='btn-icon '
                         onClick={() => {
                           const filteredTimes = timesData.filter(
                             (t: any, i: number) => i !== index,
@@ -54,12 +55,13 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                           setTimesData(filteredTimes);
                         }}
                       >
-                        &times;
+                        <i className='fa fa-trash'></i>
                       </span>
-                    </td>
-                  </tr>
-                );
-              })
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
             : null}
         </tbody>
       </Table>

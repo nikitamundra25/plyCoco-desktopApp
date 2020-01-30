@@ -1495,6 +1495,22 @@ html:not([dir='rtl']) {
         &.active {
           background: $table_border;
         }
+        &.list-item{
+          padding-right: 35px;
+          position: relative;
+          
+          .list-item-icon{
+            font-size: $font_14;
+            cursor: pointer;
+            transition: all 0.3 ease;
+            position: absolute;
+            right: 10px;
+            color:gray_color;
+            &:hover{
+              color:$light_black;
+            }
+          }
+        }
       }
     }
   }

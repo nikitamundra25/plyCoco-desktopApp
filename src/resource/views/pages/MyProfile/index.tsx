@@ -1,108 +1,143 @@
-import React, { Component } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Row, Card, CardHeader, CardBody, Button } from 'reactstrap';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { AppBreadcrumb } from '@coreui/react';
+import { ProfileFormComponent } from './ProfileFormComponent';
+import { AdminProfileMutations } from '../../../../graphql/Mutations';
+import { ChangePwdFormComponent } from './ChangePwdFormComponent';
+import { languageTranslation } from '../../../../helpers';
+import routes from '../../../../routes/routes';
 import {
-  Button,
-  FormGroup,
-  Card,
-  Col,
-  Row,
-  Form,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-} from 'reactstrap';
-import { ILoginState } from '../../../../interfaces';
+  ProfileValidationSchema,
+  ChangePasswordValidationSchema,
+} from '../../../validations';
+import { ProfileQueries } from '../../../../graphql/queries';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { IProfileValues, IChangePasswordValues } from '../../../../interfaces';
+import { toast } from 'react-toastify';
+import { ApolloError } from 'apollo-client';
 
-class MyProfile extends Component<any, ILoginState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      errors: {
-        email: '',
-        password: '',
-      },
-    };
-  }
+const [UPDATE_ADMIN_PROFILE, CHANGE_PASSWORD] = AdminProfileMutations;
+const [VIEW_PROFILE] = ProfileQueries;
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    this.setState({
-      ...this.state,
-      [name]: value,
-      errors: {
-        ...this.state.errors,
-        [name]: '',
-      },
-    });
-  };
-
-  handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+const MyProfile: FunctionComponent = () => {
+  const [profileValues, setProfileValues] = useState<IProfileValues | null>(
+    null,
+  );
+  // update profile mutation
+  const [updateAdminProfile, { loading }] = useMutation<
+    {
+      updateAdminProfile: any;
+    },
+    { userInput: IProfileValues }
+  >(UPDATE_ADMIN_PROFILE, {
+    onCompleted() {
+      toast.success('Profile updated successfully.');
+    },
+  });
+  // Change password
+  const [adminChangePassword, { loading: changePwdLoading }] = useMutation<
+    {
+      adminChangePassword: any;
+    },
+    { password: string; oldPassword: string }
+  >(CHANGE_PASSWORD, {
+    onCompleted() {
+      toast.success('Password updated successfully.');
+    },
+    onError: (error: ApolloError) => {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      toast.error(message);
+    },
+  });
+  const { data: profileData } = useQuery(VIEW_PROFILE);
+  useEffect(() => {
+    if (profileData) {
+      const {
+        viewAdminProfile: { firstName, lastName, email },
+      } = profileData;
+      setProfileValues({ firstName, lastName, email });
+    }
+  }, [profileData]);
+  // Function to update profile
+  const handleSubmit = async (
+    values: IProfileValues,
+    { setSubmitting }: FormikHelpers<IProfileValues>,
+  ) => {
     try {
-    } catch (error) {}
+      updateAdminProfile({ variables: { userInput: { ...values } } });
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      toast.error(message);
+    }
   };
-  render() {
-    return (
-      <div className='cr-page px-3 min-height650'>
+  // Function to update password into db
+  const onChangePassword = async (
+    { oldPassword, password }: IChangePasswordValues,
+    { setSubmitting, resetForm }: FormikHelpers<IChangePasswordValues>,
+  ) => {
+    try {
+      await adminChangePassword({ variables: { oldPassword, password } });
+      resetForm();
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      toast.error(message);
+    }
+  };
+  const { firstName = '', lastName = '', email = '' } = profileValues
+    ? profileValues
+    : {};
+  const values = {
+    firstName,
+    lastName,
+    email,
+  };
+  const ChangePasswordValues = {
+    oldPassword: '',
+    password: '',
+    confirmPassword: '',
+  };
+  return (
+    <Card>
+      <CardHeader>
+        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+      </CardHeader>
+      <CardBody>
         <Row>
-          <Col xs='6' sm='6' lg='6'>
-            <Card>
-              <Card.Body>
-                <h4>
-                  <i className='fa fa-edit' />
-                  &nbsp;My Profile
-                </h4>
-                <Form>
-                  <FormGroup className='position-relative mb-4'>
-                    <InputGroup>
-                      <InputGroupAddon addonType='prepend'>
-                        <InputGroupText>
-                          <i className='icon-user' />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <input
-                        type={'text'}
-                        name={'email'}
-                        className={'form-control'}
-                        placeholder={'Enter email'}
-                        onChange={this.handleChange}
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                  <FormGroup className='position-relative mb-4'>
-                    <InputGroup>
-                      <InputGroupAddon addonType='prepend'>
-                        <InputGroupText>
-                          <i className='icon-lock' />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <input
-                        type={'password'}
-                        name={'password'}
-                        className={'form-control'}
-                        placeholder={'Enter Password'}
-                        onChange={this.handleChange}
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                  <Col sm={2}>
-                    <Button
-                      type='submit'
-                      color={'primary'}
-                      className={'pull-right'}
-                    >
-                      Update Profile
-                    </Button>
-                  </Col>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
+          <Formik
+            initialValues={values}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}
+            children={(props: FormikProps<any>) => (
+              <ProfileFormComponent {...props} loading={loading} />
+            )}
+            validationSchema={ProfileValidationSchema}
+          />
+          <Formik
+            initialValues={ChangePasswordValues}
+            enableReinitialize={true}
+            onSubmit={onChangePassword}
+            children={(props: FormikProps<IChangePasswordValues>) => (
+              <ChangePwdFormComponent
+                {...props}
+                changePwdLoading={changePwdLoading}
+              />
+            )}
+            validationSchema={ChangePasswordValidationSchema}
+          />
         </Row>
-      </div>
-    );
-  }
-}
+      </CardBody>
+    </Card>
+  );
+};
 
 export default MyProfile;

@@ -1075,6 +1075,15 @@ html:not([dir='rtl']) {
           border-color: $transparent $transparent $theme_color $transparent;
         }
       }
+      &.align-right-tooltip{
+        right: 0px;
+        left: unset;
+        transform: none;
+        &:after {
+          left:70%;
+          
+        }
+      }
       &:after {
         content: '';
         position: absolute;
@@ -2941,6 +2950,8 @@ html:not([dir='rtl']) {
     }
   }
 }
+
+
 
 // custom-toaster
 .custom-toaster {

@@ -1,4 +1,4 @@
-@import '../../../assets/scss/variables';
+@import "../../../assets/scss/variables";
 .documenttemplate-page {
   min-height: calc(100vh - 135px);
 }
@@ -37,7 +37,7 @@
   }
 }
 .working-height {
-  height: calc(100vh - 135px);
+  height: calc(100vh - 160px);
   background-color: $white;
   border: 1px solid $table_border;
 }

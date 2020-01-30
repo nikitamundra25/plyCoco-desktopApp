@@ -44,7 +44,7 @@ const DefaultHeader: FunctionComponent = () => {
                 <p className='mb-0'>superadmin@plycoco.com</p>
               </div>
             </DropdownItem>
-            <DropdownItem>
+            <DropdownItem onClick={() => history.push(AppRoutes.MY_PROFILE)}>
               <i className='fa fa-user' /> Profile
             </DropdownItem>
             <DropdownItem

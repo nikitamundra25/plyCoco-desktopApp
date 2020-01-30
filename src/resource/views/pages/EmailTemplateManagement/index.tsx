@@ -24,10 +24,12 @@ const [
   GET_EMAIL_TEMPLATE,
   GET_EMAIL_TEMPLATE_BY_ID
 ] = EmailTemplateQueries;
+
 const [ADD_EMAIL_TEMPLATE, UPDATE_EMAIL_TEMPLATE] = EmailTemplateMutations;
 
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
+  const [typeId, setTypeId] = useState<number | null>(null);
 
   // To set email template data at the time of edit
   const [templateData, setTemplateData] = useState<IEmailTemplateValues | null>(
@@ -50,11 +52,12 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     typeList.getEmailtemplateTypes.length
   ) {
     const { getEmailtemplateTypes } = typeList;
-    getEmailtemplateTypes.forEach(({ type }: { type: string }) =>
-      typeListOptions.push({
-        label: type,
-        value: type
-      })
+    getEmailtemplateTypes.forEach(
+      ({ type, id }: { type: string; id: number }) =>
+        typeListOptions.push({
+          label: type,
+          value: id.toString()
+        })
     );
   }
   useEffect(() => {
@@ -92,39 +95,52 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   });
   //To get email templates
-  const [
-    fetchTemplateList,
-    { data, loading: fetchTemplateListLoading }
-  ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
+  const [fetchTemplateList, { data }] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
+
   //To get email templates by id
   const [
     fetchTemplateById,
     { data: emailTemplate, loading: emailTemplateLoading }
   ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE_BY_ID);
 
+  //view a particular template by clicking on its menu entry
   useEffect(() => {
     if (!emailTemplateLoading && emailTemplate) {
       const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
-      console.log('emailTemplate', emailTemplate);
+      // const { email_template_type = {} } = viewEmailTemplate
+      // ? viewEmailTemplate
+      // : {};
       const {
-        type = '',
+        id = null,
         menuEntry = '',
         subject = '',
-        body = ''
+        body = '',
+        email_template_type = {}
       } = viewEmailTemplate ? viewEmailTemplate : {};
+      const { type = '' } = email_template_type ? email_template_type : {};
       const contentBlock = body ? htmlToDraft(body) : '';
       if (contentBlock) {
         const contentState = ContentState.createFromBlockArray(
           contentBlock.contentBlocks
         );
         const editorState = EditorState.createWithContent(contentState);
-        console.log('viewEmailTemplate', viewEmailTemplate);
+        console.log('type', type);
+        const typeIdIndex: number = typeListOptions.findIndex(
+          (item: IReactSelectInterface) => item.label === type
+        );
+        const replaceType: any = {
+          label: type,
+          value: type
+        };
+        if (typeIdIndex > -1) {
+          setTypeId(parseInt(typeListOptions[typeIdIndex].value));
+        }
         setTemplateData({
-          type: type,
+          type: replaceType,
           menuEntry: menuEntry,
           subject: subject,
           body: editorState,
-          id: 1
+          id: parseInt(id)
         });
       }
     }
@@ -132,28 +148,38 @@ export const EmailTemplateManagement: FunctionComponent = () => {
 
   useEffect(() => {
     // call query
-    fetchTemplateList({
-      variables: {
-        type: templateType && templateType.label ? templateType.label : ''
-      }
-    });
-  }, []);
+    //when template type changes it will be called
+    if (templateType) {
+      fetchTemplateList({
+        variables: {
+          type: templateType && templateType.label ? templateType.label : ''
+        }
+      });
+    }
+  }, [templateType]);
 
   // Submit handler
   const handleSubmit = async (
-    { type, menuEntry, subject, body, id, typeId }: IEmailTemplateValues,
+    {
+      type,
+      menuEntry,
+      subject,
+      body,
+      id,
+      typeId: templateTypeId
+    }: IEmailTemplateValues,
     { resetForm }: FormikHelpers<IEmailTemplateValues>
   ) => {
+    console.log(typeId, 'dshkjfjdshfjdshf');
+
     const emailTemplateInput: IEmailTemplateSubmitValues = {
-      type: type && type.value ? type.value : '',
+      type: type && type.label ? type.label : '',
       typeId,
       menuEntry,
       subject,
       body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : ''
     };
     try {
-      console.log(type, 'type');
-
       if (id) {
         updateEmailTemplate({
           variables: {
@@ -178,6 +204,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     resetForm();
   };
   const onTemplateSelection = async (id: string) => {
+    console.log('id in template', id);
+
     await fetchTemplateById({
       variables: {
         id
@@ -188,22 +216,13 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   const onTypeChange = (
     selectedType: IReactSelectInterface /* , id: string */
   ) => {
-    if (!fetchTemplateListLoading && data) {
-      fetchTemplateList({
-        variables: {
-          type: templateType && templateType.label ? templateType.label : ''
-        }
-      });
-    }
-    console.log('selectedType', selectedType);
     setTemplateType(selectedType);
   };
+
   // To use formik submit form outside
   const bindSubmitForm = (submitForm: any) => {
     submitMyForm = submitForm;
   };
-  // console.log('emailTemplate111', emailTemplate);
-
   return (
     <>
       <div className='common-detail-page'>
@@ -229,6 +248,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   bindSubmitForm={bindSubmitForm}
                   templateData={templateData}
                   typeListOptions={typeListOptions}
+                  setTypeId={setTypeId}
                 />
               </Row>
             </div>

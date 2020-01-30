@@ -25,6 +25,7 @@ import QuallificationAttribute from '../PersonalInfo/PersonalInfoForm/Quallifica
 import RemarkFormData from '../PersonalInfo/PersonalInfoForm/RemarkFormData';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
 import '../careinstitution.scss';
+import { valueContainerCSS } from 'react-select/src/components/containers';
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -827,6 +828,10 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         rows='4'
                         maxLength={255}
                       />
+                      {remarksViewable && remarksViewable.length
+                        ? remarksViewable.length
+                        : 0}
+                      /255
                     </div>
                   </Col>
                 </Row>

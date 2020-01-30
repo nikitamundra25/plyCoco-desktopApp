@@ -14,4 +14,5 @@ const GET_LOGIN_HISTORY = gql`
     }
   }
 `;
+
 export const LoginHistoryQuery = [GET_LOGIN_HISTORY];

@@ -6,20 +6,27 @@ import Loader from '../../containers/Loader/Loader';
 
 export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   onTemplateSelection,
-  data,
+  data
 }: IEmailTemplateList) => {
+  const id =
+    data && data.getEmailtemplate && data.getEmailtemplate.id
+      ? data.getEmailtemplate.id
+      : '';
   return (
     <Col lg={'7'}>
-      {console.log('data', data)}
       <h5 className='content-title'>{languageTranslation('MENU_ENTRY')}</h5>
       <div className='common-list-wrap border-0'>
         <div className='common-list-body h-auto'>
           <ul className='common-list list-unstyled'>
-            {data && data.getEmailtemplate ? (
-              data.getEmailtemplate.map((menu: any) => {
+            {data &&
+            data.getEmailtemplate &&
+            data.getEmailtemplate.email_templates ? (
+              data.getEmailtemplate.email_templates.map((menu: any) => {
                 return (
                   <li onClick={() => onTemplateSelection(menu.id)}>
-                    <span>{menu.menuEntry}</span>
+                    <span>
+                      {menu.menuEntry ? menu.menuEntry : 'No Template Added'}
+                    </span>
                   </li>
                 );
               })

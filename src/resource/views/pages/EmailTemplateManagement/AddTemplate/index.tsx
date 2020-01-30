@@ -10,7 +10,13 @@ import { EmailTemplateValidationSchema } from '../../../../validations/EmailTemp
 export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
   props: IAddEmailTemplateProps
 ) => {
-  const { handleSubmit, bindSubmitForm, templateData, typeListOptions } = props;
+  const {
+    handleSubmit,
+    bindSubmitForm,
+    templateData,
+    typeListOptions,
+    setTypeId
+  } = props;
   const {
     type = undefined,
     menuEntry = '',
@@ -34,7 +40,11 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
         const { submitForm } = props;
         bindSubmitForm(submitForm);
         return (
-          <TemplateFormComponent {...props} typeListOptions={typeListOptions} />
+          <TemplateFormComponent
+            {...props}
+            typeListOptions={typeListOptions}
+            setTypeId={setTypeId}
+          />
         );
       }}
       validationSchema={EmailTemplateValidationSchema}

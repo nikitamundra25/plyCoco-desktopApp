@@ -1,7 +1,31 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { Table } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
+import { LoginHistoryQuery } from '../../../../../graphql/queries/LoginHistory';
+import { useLazyQuery } from '@apollo/react-hooks';
+import { useLocation } from 'react-router-dom';
+import moment from 'moment';
+const [GET_LOGIN_HISTORY] = LoginHistoryQuery;
 const LoginLogs: FunctionComponent = () => {
+  const [fetchLoginList, { data, loading, refetch }] = useLazyQuery<any>(
+    GET_LOGIN_HISTORY,
+    {
+      fetchPolicy: 'no-cache'
+    }
+  );
+  const path = useLocation();
+
+  useEffect(() => {
+    const queryPath = path.pathname;
+    const res = queryPath.split('/');
+    const id = parseInt(res[3]);
+    fetchLoginList({
+      variables: {
+        userId: id ? id : ''
+      }
+    });
+  }, []);
+  console.log('login data', data);
   return (
     <>
       <div className='login-section'>
@@ -18,81 +42,45 @@ const LoginLogs: FunctionComponent = () => {
                 <th>{languageTranslation('BROWSER')}</th>
               </tr>
             </thead>
-            <tbody>
-              <tr className='table-success'>
-                <td>1</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-              <tr className='table-success'>
-                <td>2</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-
-              <tr className='table-success'>
-                <td>3</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-              <tr className='table-danger'>
-                <td>4</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-              <tr className='table-success'>
-                <td>5</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-              <tr className='table-danger'>
-                <td>6</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-              <tr className='table-success'>
-                <td>7</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-              <tr className='table-success'>
-                <td>8</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-              <tr className='table-danger'>
-                <td>9</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-              <tr className='table-success'>
-                <td>10</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-              <tr className='table-success'>
-                <td>11</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-              <tr className='table-danger'>
-                <td>13</td>
-                <td>20.08.2019 12:08:20</td>
-                <td>94.138.88.227</td>
-                <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
-              </tr>
-            </tbody>
+            {data && data.getLoginHistory
+              ? data.getLoginHistory.map((loginDetails: any, index: number) => {
+                  console.log(loginDetails, 'loginDetails');
+                  return (
+                    <tbody>
+                      <tr
+                        className={
+                          loginDetails.loginAttempt === 'success'
+                            ? 'table-success'
+                            : 'table-danger'
+                        }
+                      >
+                        <td>{index + 1}</td>
+                        <td>
+                          {loginDetails.lastLogin
+                            ? moment(loginDetails.lastLogin).format('lll')
+                            : '-'}
+                        </td>
+                        <td>
+                          {loginDetails.loggedInIP
+                            ? loginDetails.loggedInIP
+                            : '-'}
+                        </td>
+                        <td>
+                          {loginDetails.userAgent
+                            ? loginDetails.userAgent
+                            : '-'}
+                        </td>
+                      </tr>
+                      {/* <tr className='table-danger'>
+                      <td>2</td>
+                      <td>20.08.2019 12:08:20</td>
+                      <td>94.138.88.227</td>
+                      <td>Mozila/5.0 (Windows NT 10.0; Win64; X64; rv68.0)</td>
+                    </tr> */}
+                    </tbody>
+                  );
+                })
+              : null}
           </Table>
         </div>
       </div>

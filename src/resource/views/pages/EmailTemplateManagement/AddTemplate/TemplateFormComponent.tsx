@@ -2,24 +2,21 @@ import React, { FunctionComponent } from 'react';
 import { Row, Col, FormGroup, Label, Input, Table } from 'reactstrap';
 import { FormikProps } from 'formik';
 import { Editor } from 'react-draft-wysiwyg';
-import {
-  IEmailTemplateValues,
-  IReactSelectInterface
-} from '../../../../../interfaces';
+import { IEmailTemplateValues } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
 import { ErroredFieldComponent } from '../../../components/ErroredFieldComponent';
 import CreatableSelect from 'react-select/creatable';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
-import { EmailTemplateQueries } from '../../../../../graphql/queries';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
 > & {
   typeListOptions?: any;
+  setTypeId?: any;
 }> = (
   props: FormikProps<IEmailTemplateValues> & {
     typeListOptions?: any;
+    setTypeId?: any;
   }
 ) => {
   const {
@@ -28,25 +25,22 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     errors,
     setFieldValue,
     handleChange,
-    typeListOptions
+    typeListOptions,
+    setTypeId
   } = props;
-
   const handleTypeSelect = (newValue: any, actionMeta: any) => {
-    console.log(newValue);
+    console.log('value', newValue);
     setFieldValue('type', newValue);
+    setTypeId(parseInt(newValue.value));
+    // setFieldValue('setTypeId',newValue.value)
+    //typeId
     if (actionMeta.action === 'create-option') {
-      console.log('yguyu', actionMeta.action);
+      console.log('new value addded', actionMeta.action);
     }
   };
-  // const handleInputChange = (inputValue: any) => {
-  //   console.log(inputValue);
-  // };
-  // console.log('typeListOptions', typeListOptions);
-
   return (
     <Col lg={'5'}>
       <h5 className='content-title'>{languageTranslation('DETAILS')}</h5>
-
       <div className='form-section'>
         <div className='form-card minheight-auto '>
           <Row>
@@ -88,23 +82,13 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                   </Col>
                   <Col sm='8'>
                     <div>
-                      {/* <CreatableSelect
-                        isClearable
-                        onChange={handleTypeSelect}
-                        onInputChange={handleInputChange}
-                        placeholder={'Select Type'}
-                        options={typeListOptions}
-                        value={type}
-                      /> */}
-
                       <CreatableSelect
-                        classNamePrefix='react_select'
+                        classNamePrefix='custom-inner-reactselect'
+                        className={'custom-reactselect'}
                         onChange={handleTypeSelect}
-                        value={type}
+                        value={type ? type : undefined}
                         options={typeListOptions}
-                        // options={colourOptions}
                       />
-
                       <ErroredFieldComponent
                         errors={errors.type}
                         touched={touched.type}

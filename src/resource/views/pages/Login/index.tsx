@@ -29,12 +29,12 @@ export const Login: FunctionComponent = () => {
   });
 
   // on login
-  const handleSubmit = async (
+  const handleSubmit = (
     { email, password }: ILoginFormValues,
     { setSubmitting }: FormikHelpers<ILoginFormValues>,
   ) => {
     try {
-      await adminLogin({
+      adminLogin({
         variables: { authInput: { email, password } },
       });
     } catch (error) {
@@ -42,13 +42,11 @@ export const Login: FunctionComponent = () => {
         .replace('SequelizeValidationError: ', '')
         .replace('Validation error: ', '')
         .replace('GraphQL error: ', '');
-      // setFieldError('email', message);
       toast.error(message);
     }
   };
 
   const values: ILoginFormValues = { email: '', password: '' };
-  console.log(loading, 'loading//////');
 
   return (
     <Formik

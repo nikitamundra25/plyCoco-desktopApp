@@ -16,7 +16,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
     <Col lg={'7'}>
       <h5 className='content-title'>{languageTranslation('MENU_ENTRY')}</h5>
       <div className='common-list-wrap border-0'>
-        <div className='common-list-body h-auto'>
+        <div className='common-list-body'>
           <ul className='common-list list-unstyled'>
             {data &&
             data.getEmailtemplate &&
@@ -24,9 +24,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
               data.getEmailtemplate.email_templates.map((menu: any) => {
                 return (
                   <li onClick={() => onTemplateSelection(menu.id)}>
-                    <span>
-                      {menu.menuEntry ? menu.menuEntry : 'No Template Added'}
-                    </span>
+                    {menu.menuEntry}
                   </li>
                 );
               })

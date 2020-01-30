@@ -3,9 +3,9 @@ import { routerMiddleware } from 'react-router-redux';
 import { History } from 'history';
 import { IRootState } from '../interfaces';
 import logger from 'redux-logger';
-import RootReducer from '../reducer';
+import RootReducer from './reducer';
 import { createLogicMiddleware } from 'redux-logic';
-import { AllLogics } from '../logic';
+import { AllLogics } from './logic';
 
 export default function configureStore(
   history: History,

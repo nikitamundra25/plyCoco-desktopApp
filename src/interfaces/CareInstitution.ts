@@ -124,3 +124,61 @@ export interface ICareInstitutionRemarks {
   createdAt: Date;
   createdBy: string;
 }
+
+export interface IAddDepartmentFormValues {
+  id?: number;
+  userId?: number;
+  name: string;
+  anonymousName: string;
+  anonymousName2: string;
+  address: string;
+  contactPerson: string;
+  phoneNumber: string;
+  faxNumber: string;
+  email: string;
+  commentsOffer: string;
+  commentsCareGiver: string;
+  commentsVisibleInternally: string;
+  locked?: boolean;
+  times?: IAddTimeFormValues[];
+  qualifications?: any[];
+  attributes?: any[];
+}
+
+export interface IAddDepartmentFormValidationSchema {
+  id?: number;
+  userId?: number;
+  name: string;
+  anonymousName: string;
+  anonymousName2: string;
+  address: string;
+  contactPerson: string;
+  phoneNumber: string;
+  faxNumber: string;
+  email: string;
+  commentsOffer: string;
+  commentsCareGiver: string;
+  commentsVisibleInternally: string;
+  locked?: boolean;
+  times?: IAddTimeFormValues[];
+  qualifications?: any[];
+  attributes?: any[];
+}
+
+export interface IAddTimeFormValues {
+  id?: number;
+  userId?: number;
+  begin: string;
+  end: string;
+  comment?: string;
+}
+
+export interface IAddTimeFormValidationSchema {
+  id?: number;
+  userId?: number;
+  begin: string;
+  end: string;
+  comment?: string;
+}
+
+export interface IQuallificationAttribute {}

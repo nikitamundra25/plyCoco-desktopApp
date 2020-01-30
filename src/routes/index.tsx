@@ -34,10 +34,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router';
 import { AppRoutes } from '../config';
 
-const DefaultLayout = React.lazy(() =>
-  import('../containers/DefaultLayout/DefaultLayout'),
-);
-const Login = React.lazy(() => import('../pages/Login'));
+const Login = React.lazy(() => import('../resource/views/pages/Login'));
 
 class AppRoutesComponent extends Component<any, any> {
   constructor(props: any) {

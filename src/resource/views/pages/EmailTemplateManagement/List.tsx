@@ -7,22 +7,33 @@ import Loader from '../../containers/Loader/Loader';
 export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   onTemplateSelection,
   data,
+  loading
 }: IEmailTemplateList) => {
+  const id =
+    data && data.getEmailtemplate && data.getEmailtemplate.id
+      ? data.getEmailtemplate.id
+      : '';
   return (
     <Col lg={'7'}>
-      {console.log('data', data)}
       <h5 className='content-title'>{languageTranslation('MENU_ENTRY')}</h5>
       <div className='common-list-wrap border-0'>
-        <div className='common-list-body h-auto'>
+        <div className='common-list-body'>
           <ul className='common-list list-unstyled'>
-            {data && data.getEmailtemplate ? (
-              data.getEmailtemplate.map((menu: any) => {
-                return (
-                  <li onClick={() => onTemplateSelection(menu.id)}>
-                    <span>{menu.menuEntry}</span>
-                  </li>
-                );
-              })
+            {!loading ? (
+              data &&
+              data.getEmailtemplate &&
+              data.getEmailtemplate.email_templates &&
+              data.getEmailtemplate.email_templates.length ? (
+                data.getEmailtemplate.email_templates.map((menu: any) => {
+                  return (
+                    <li onClick={() => onTemplateSelection(menu.id)}>
+                      {menu.menuEntry}
+                    </li>
+                  );
+                })
+              ) : (
+                'No Menu Entry Added'
+              )
             ) : (
               <Loader />
             )}

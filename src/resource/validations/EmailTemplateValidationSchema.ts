@@ -6,8 +6,12 @@ export const EmailTemplateValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
   IEmailTemplateValues
 >> = Yup.object().shape<IEmailTemplateValues>({
-  type: Yup.string().required(languageTranslation('REQUIRED_TYPE')),
+  type: Yup.object().shape({
+    value: Yup.string().required(languageTranslation('Type is required')),
+    label: Yup.string().required(languageTranslation('Type is required'))
+  }),
+  // .required(languageTranslation('REQUIRED_TYPE'))
   menuEntry: Yup.string().required(languageTranslation('REQUIRED_MENU_ENTEY')),
   subject: Yup.string().required(languageTranslation('REQUIRED_SUBJECT')),
-  body: Yup.string().required(languageTranslation('REQUIRED_BODY')),
+  body: Yup.string().required(languageTranslation('REQUIRED_BODY'))
 });

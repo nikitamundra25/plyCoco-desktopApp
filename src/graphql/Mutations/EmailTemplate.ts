@@ -13,12 +13,18 @@ const UPDATE_EMAIL_TEMPLATE = gql`
     $emailTemplateInput: EmailTemplateInput!
   ) {
     updateEmailTemplate(id: $id, emailTemplateInput: $emailTemplateInput) {
-      type
+      menuEntry
+      subject
+      body
+      id
+      email_template_type {
+        type
+      }
     }
   }
 `;
 
 export const EmailTemplateMutations = [
   ADD_EMAIL_TEMPLATE,
-  UPDATE_EMAIL_TEMPLATE,
+  UPDATE_EMAIL_TEMPLATE
 ];

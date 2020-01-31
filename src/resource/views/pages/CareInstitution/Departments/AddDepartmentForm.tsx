@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
-import { FormGroup, Label, Input, Col, Row, Button } from 'reactstrap';
-import { FormikProps } from 'formik';
-import { languageTranslation } from '../../../../../helpers';
-import { IAddDepartmentFormValues } from '../../../../../interfaces';
+import React, { FunctionComponent } from "react";
+import { FormGroup, Label, Input, Col, Row, Button } from "reactstrap";
+import { FormikProps } from "formik";
+import { languageTranslation } from "../../../../../helpers";
+import { IAddDepartmentFormValues } from "../../../../../interfaces";
 
 const AddDepartmentForm: FunctionComponent<FormikProps<
   IAddDepartmentFormValues
@@ -22,7 +22,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
       commentsCareGiver,
       commentsOffer,
       commentsVisibleInternally,
-      locked,
+      locked
     },
     touched,
     errors,
@@ -30,37 +30,37 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
     handleChange,
     handleBlur,
     handleSubmit,
-    setFieldValue,
+    setFieldValue
   } = props;
 
   return (
     <>
       <div>
-        <h5 className='content-title'> {languageTranslation('DETAILS')}</h5>
+        <h5 className="content-title"> {languageTranslation("DETAILS")}</h5>
       </div>
 
-      <div className='form-card '>
+      <div className="form-card ">
         <Row>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('ID')}
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("ID")}
                     {/* <span className="required">*</span> */}
                   </Label>
                 </Col>
-                <Col sm='8'>
-                  <Row className='custom-col inner-no-padding-col'>
-                    <Col sm='4'>
+                <Col sm="8">
+                  <Row className="custom-col inner-no-padding-col">
+                    <Col sm="4">
                       <div>
                         <Input
-                          type='text'
-                          name={'userId'}
+                          type="text"
+                          name={"userId"}
                           disabled
                           value={userId}
-                          placeholder={languageTranslation('ID')}
-                          className='width-common'
+                          placeholder={languageTranslation("ID")}
+                          className="width-common"
                         />
                       </div>
                     </Col>
@@ -74,228 +74,230 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('NAME')}
-                    <span className='required'>*</span>
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("NAME")}
+                    <span className="required">*</span>
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
                     <Input
-                      type='text'
-                      name={'name'}
+                      type="text"
+                      name={"name"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={name}
-                      placeholder={languageTranslation('')}
+                      placeholder={languageTranslation("")}
                       className={
                         errors.name && touched.name
-                          ? 'text-input error text-capitalize'
-                          : 'text-input text-capitalize'
+                          ? "text-input error text-capitalize"
+                          : "text-input text-capitalize"
                       }
                     />
                     {errors.name && touched.name && (
-                      <div className='required-error'>{errors.name}</div>
+                      <div className="required-tooltip">{errors.name}</div>
                     )}
                   </div>
                 </Col>
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('ANONYMNAME')}
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("ANONYMOUS_NAME")}
                     {/*  <span className="required">*</span> */}
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
                     <Input
-                      type='text'
-                      name={'anonymousName'}
+                      type="text"
+                      name={"anonymousName"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={anonymousName}
-                      placeholder={languageTranslation('')}
-                      className='width-common'
+                      placeholder={languageTranslation("")}
+                      className="width-common"
                     />
                   </div>
                 </Col>
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('ANONYMNAME_2')}
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("ANONYMOUS_NAME2")}
                     {/*  <span className="required">*</span> */}
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
                     <Input
-                      type='text'
-                      name={'anonymousName2'}
+                      type="text"
+                      name={"anonymousName2"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={anonymousName2}
-                      placeholder={languageTranslation('')}
-                      className='width-common'
+                      placeholder={languageTranslation("")}
+                      className="width-common"
                     />
                   </div>
                 </Col>
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('ADDRESS')}
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("ADDRESS")}
                     {/*  <span className="required">*</span> */}
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
                     <Input
-                      type='text'
-                      name={'address'}
+                      type="text"
+                      name={"address"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={address}
-                      placeholder={languageTranslation('')}
-                      className='width-common'
+                      placeholder={languageTranslation("")}
+                      className="width-common"
                     />
                   </div>
                 </Col>
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('CONTACT_PERSON')}
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("CONTACT_PERSON")}
                     {/*  <span className="required">*</span> */}
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
                     <Input
-                      type='text'
-                      name={'contactPerson'}
+                      type="text"
+                      name={"contactPerson"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={contactPerson}
-                      placeholder={languageTranslation('')}
-                      className='width-common'
+                      placeholder={languageTranslation("")}
+                      className="width-common"
                     />
                   </div>
                 </Col>
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('PHONE')}
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("PHONE")}
                     {/* <span className="required">*</span> */}
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
                     <Input
-                      type='text'
-                      name={'phoneNumber'}
+                      type="text"
+                      name={"phoneNumber"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={phoneNumber}
-                      placeholder={languageTranslation('')}
+                      placeholder={languageTranslation("")}
                       className={
                         errors.phoneNumber && touched.phoneNumber
-                          ? 'text-input error text-capitalize'
-                          : 'text-input text-capitalize'
+                          ? "text-input error text-capitalize"
+                          : "text-input text-capitalize"
                       }
                     />
                     {errors.phoneNumber && touched.phoneNumber && (
-                      <div className='required-error'>{errors.phoneNumber}</div>
+                      <div className="required-tooltip">
+                        {errors.phoneNumber}
+                      </div>
                     )}
                   </div>
                 </Col>
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('FAX')}
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("FAX")}
                     {/* <span className="required">*</span> */}
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
                     <Input
-                      type='text'
-                      name={'faxNumber'}
+                      type="text"
+                      name={"faxNumber"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={faxNumber}
-                      placeholder={languageTranslation('')}
+                      placeholder={languageTranslation("")}
                       className={
                         errors.faxNumber && touched.faxNumber
-                          ? 'text-input error text-capitalize'
-                          : 'text-input text-capitalize'
+                          ? "text-input error text-capitalize"
+                          : "text-input text-capitalize"
                       }
                     />
                     {errors.faxNumber && touched.faxNumber && (
-                      <div className='required-error'>{errors.faxNumber}</div>
+                      <div className="required-tooltip">{errors.faxNumber}</div>
                     )}
                   </div>
                 </Col>
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('EMPLOYEE_EMAIL_ADDRESS_LABEL')}
-                    <span className='required'>*</span>
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("EMPLOYEE_EMAIL_ADDRESS_LABEL")}
+                    <span className="required">*</span>
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
                     <Input
-                      type='text'
-                      name={'email'}
+                      type="text"
+                      name={"email"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={email}
-                      placeholder={languageTranslation('')}
+                      placeholder={languageTranslation("")}
                       className={
                         errors.email && touched.email
-                          ? 'text-input error text-capitalize'
-                          : 'text-input text-capitalize'
+                          ? "text-input error text-capitalize"
+                          : "text-input text-capitalize"
                       }
                     />
                     {errors.email && touched.email && (
-                      <div className='required-error'>{errors.email}</div>
+                      <div className="required-tooltip">{errors.email}</div>
                     )}
                   </div>
                 </Col>
@@ -303,131 +305,131 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
             </FormGroup>
           </Col>
 
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('COMMENTS_VISIBLE_FOE_CARE-GIVER')}
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("COMMENTS_VISIBLE_FOE_CARE-GIVER")}
                     {/* <span className="required">*</span> */}
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
                     <Input
-                      type='textarea'
-                      name={'commentsCareGiver'}
+                      type="textarea"
+                      name={"commentsCareGiver"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={commentsCareGiver}
-                      placeholder={languageTranslation('')}
-                      className='textarea-custom'
-                      rows='4'
+                      placeholder={languageTranslation("")}
+                      className="textarea-custom"
+                      rows="4"
                     />
                   </div>
                 </Col>
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('COMMENTS_OFFER')}
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("COMMENTS_OFFER")}
                     {/* <span className="required">*</span> */}
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
                     <Input
-                      type='textarea'
-                      name={'commentsOffer'}
+                      type="textarea"
+                      name={"commentsOffer"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={commentsOffer}
-                      placeholder={languageTranslation('')}
-                      className='textarea-custom'
-                      rows='4'
+                      placeholder={languageTranslation("")}
+                      className="textarea-custom"
+                      rows="4"
                     />
                   </div>
                 </Col>
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('COMMENT_ONLY_VISIBLE_INTERNALLY')}
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("COMMENT_ONLY_VISIBLE_INTERNALLY")}
                     {/* <span className="required">*</span> */}
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
                     <Input
-                      type='textarea'
-                      name={'commentsVisibleInternally'}
+                      type="textarea"
+                      name={"commentsVisibleInternally"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={commentsVisibleInternally}
-                      placeholder={languageTranslation('')}
-                      className='textarea-custom'
-                      rows='4'
+                      placeholder={languageTranslation("")}
+                      className="textarea-custom"
+                      rows="4"
                     />
                   </div>
                 </Col>
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <FormGroup>
               <Row>
-                <Col sm='4'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('LOCKED')}
+                <Col sm="4">
+                  <Label className="form-label col-form-label">
+                    {languageTranslation("LOCKED")}
                     {/* <span className="required">*</span> */}
                   </Label>
                 </Col>
-                <Col sm='8'>
+                <Col sm="8">
                   <div>
-                    <div className=' checkbox-custom mb-0'>
+                    <div className=" checkbox-custom mb-0">
                       <input
-                        type='checkbox'
-                        id='check'
-                        className=''
-                        name={'locked'}
+                        type="checkbox"
+                        id="check"
+                        className=""
+                        name={"locked"}
                         checked={locked}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           const {
-                            target: { checked },
+                            target: { checked }
                           } = e;
-                          setFieldValue('locked', checked);
+                          setFieldValue("locked", checked);
                         }}
                       />
-                      <Label for='check'></Label>
+                      <Label for="check"></Label>
                     </div>
                   </div>
                 </Col>
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={'12'} className='text-right'>
+          <Col lg={"12"} className="text-right">
             <Button
-              color={'primary'}
+              color={"primary"}
               disabled={isSubmitting}
-              className={'btn-save'}
+              className={"btn-save"}
               onClick={handleSubmit}
-              id={'department-save-btn'}
+              id={"department-save-btn"}
             >
               {isSubmitting ? (
-                <i className='fa fa-spinner fa-spin loader' />
+                <i className="fa fa-spinner fa-spin loader" />
               ) : (
-                ''
+                ""
               )}
-              <i className={'fa fa-floppy-o'} />
-              &nbsp;{languageTranslation('SAVE_BUTTON')}
+              <i className={"fa fa-floppy-o"} />
+              &nbsp;{languageTranslation("SAVE_BUTTON")}
             </Button>
           </Col>
         </Row>

@@ -2,68 +2,51 @@ import React, { FunctionComponent } from 'react';
 import { Row, Col, FormGroup, Label, Input, Table } from 'reactstrap';
 import { FormikProps } from 'formik';
 import { Editor } from 'react-draft-wysiwyg';
-import {
-  IEmailTemplateValues,
-  IReactSelectInterface,
-} from '../../../../../interfaces';
+import { IEmailTemplateValues } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
 import { ErroredFieldComponent } from '../../../components/ErroredFieldComponent';
 import CreatableSelect from 'react-select/creatable';
-import { useQuery } from '@apollo/react-hooks';
-import { EmailTemplateQueries } from '../../../../../graphql/queries';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-
-const [, , GET_EMAIL_TEMPLATE_TYEPS] = EmailTemplateQueries;
+import { printSchema } from 'graphql';
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
->> = (props: FormikProps<IEmailTemplateValues>) => {
+> & {
+  typeListOptions?: any;
+  setTypeId?: any;
+}> = (
+  props: FormikProps<IEmailTemplateValues> & {
+    typeListOptions?: any;
+    setTypeId?: any;
+  }
+) => {
   const {
     values: { type, menuEntry, subject, body, id },
     touched,
     errors,
     setFieldValue,
     handleChange,
+    typeListOptions,
+    setTypeId
   } = props;
-  const { data: typeList, loading, refetch } = useQuery(
-    GET_EMAIL_TEMPLATE_TYEPS,
-  );
-  const typeListOptions: IReactSelectInterface[] | undefined = [];
-  if (
-    !loading &&
-    typeList &&
-    typeList.getEmailtemplateTypes &&
-    typeList.getEmailtemplateTypes.length
-  ) {
-    const { getEmailtemplateTypes } = typeList;
-    getEmailtemplateTypes.forEach(({ type }: { type: string }) =>
-      typeListOptions.push({
-        label: type,
-        value: type,
-      }),
-    );
-  }
-  // const [addType] = useMutation<
-  //   {
-  //     addType: any;
-  //   },
-  //   {
-  //     emailTemplateInput: IEmailTemplateValues;
-  //   }
-  // >(ADD_EMAIL_TEMPLATE_TYPES)
+  const typeError: any = errors.type;
+  const handleTypeSelect = (newValue: any, actionMeta: any) => {
+    console.log('value', newValue);
+    setFieldValue('type', newValue);
+    setTypeId(parseInt(newValue.value));
+    // setFieldValue('setTypeId',newValue.value)
+    //typeId
+    if (actionMeta.action === 'create-option') {
+      console.log('new value addded', actionMeta.action);
+    }
+  };
+  console.log('errors.type', errors.type);
 
-  const handleChangeSelect = (newValue: any) => {
-    console.log(newValue);
-    // console.log(`action: ${actionMeta.action}`);
-  };
-  const handleInputChange = (inputValue: any) => {
-    console.log(inputValue);
-    // console.log(`action: ${actionMeta.action}`);
-  };
+  console.log('tpe.label', type && type.label);
+
   return (
     <Col lg={'5'}>
       <h5 className='content-title'>{languageTranslation('DETAILS')}</h5>
-
       <div className='form-section'>
         <div className='form-card minheight-auto '>
           <Row>
@@ -80,15 +63,11 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                     <div>
                       <Input
                         type='text'
-                        name={'menuEntry'}
-                        value={menuEntry}
-                        placeholder={languageTranslation('ID')}
-                        onChange={handleChange}
+                        name={'id'}
+                        value={id ? id : ''}
+                        disabled={true}
+                        placeholder='ID'
                         className='width-common'
-                      />
-                      <ErroredFieldComponent
-                        errors={errors.menuEntry}
-                        touched={touched.menuEntry}
                       />
                     </div>
                   </Col>
@@ -110,14 +89,14 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                   <Col sm='8'>
                     <div>
                       <CreatableSelect
-                        isClearable
-                        onChange={handleChangeSelect}
-                        onInputChange={handleInputChange}
-                        placeholder={'Select Type'}
+                        classNamePrefix='custom-inner-reactselect'
+                        className={'custom-reactselect'}
+                        onChange={handleTypeSelect}
+                        value={type && type.label !== '' ? type : null}
                         options={typeListOptions}
                       />
                       <ErroredFieldComponent
-                        errors={errors.type}
+                        errors={typeError ? typeError.value : ''}
                         touched={touched.type}
                       />
                     </div>
@@ -199,24 +178,24 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         'fontSize',
                         'list',
                         'textAlign',
-                        'link',
+                        'link'
                       ],
                       inline: {
-                        options: ['bold', 'italic', 'underline'],
+                        options: ['bold', 'italic', 'underline']
                       },
                       fontSize: {
-                        className: 'bordered-option-classname',
+                        className: 'bordered-option-classname'
                       },
                       fontFamily: {
-                        className: 'bordered-option-classname',
+                        className: 'bordered-option-classname'
                       },
                       list: {
                         inDropdown: false,
-                        options: ['unordered'],
+                        options: ['unordered']
                       },
                       link: {
-                        options: ['link'],
-                      },
+                        options: ['link']
+                      }
                     }}
                   />
                 </div>

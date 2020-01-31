@@ -121,11 +121,11 @@ const WorkingProof: FunctionComponent = () => {
                                 : null}
                               {/* <tr>
                                 <td colSpan={2}>
-                                  <div className='date-title'>
-                                    <span className='align-middle mr-2'>
-                                      <i className='icon-arrow-down' />
+                                  <div className="date-title">
+                                    <span className="align-middle mr-2">
+                                      <i className="icon-arrow-down" />
                                     </span>
-                                    <span className='align-middle '>
+                                    <span className="align-middle ">
                                       Type: file Type1
                                     </span>
                                   </div>
@@ -134,22 +134,22 @@ const WorkingProof: FunctionComponent = () => {
                                       bordered
                                       hover
                                       responsive
-                                      className='inner-documentlist-table'
+                                      className="inner-documentlist-table"
                                     >
                                       <tbody>
                                         <tr>
-                                          <td className='date-col'>
-                                            29.04.2019{' '}
+                                          <td className="date-col">
+                                            29.04.2019{" "}
                                           </td>
-                                          <td className='file-col'>
+                                          <td className="file-col">
                                             license document.pdf
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td className='date-col'>
-                                            29.04.2019{' '}
+                                          <td className="date-col">
+                                            29.04.2019{" "}
                                           </td>
-                                          <td className='file-col'>
+                                          <td className="file-col">
                                             invoice document.pdf
                                           </td>
                                         </tr>
@@ -160,11 +160,11 @@ const WorkingProof: FunctionComponent = () => {
                               </tr>
                               <tr>
                                 <td colSpan={2}>
-                                  <div className='date-title'>
-                                    <span className='align-middle mr-2'>
-                                      <i className='icon-arrow-down' />
+                                  <div className="date-title">
+                                    <span className="align-middle mr-2">
+                                      <i className="icon-arrow-down" />
                                     </span>
-                                    <span className='align-middle '>
+                                    <span className="align-middle ">
                                       Type: file Type2
                                     </span>
                                   </div>
@@ -173,22 +173,22 @@ const WorkingProof: FunctionComponent = () => {
                                       bordered
                                       hover
                                       responsive
-                                      className='inner-documentlist-table'
+                                      className="inner-documentlist-table"
                                     >
                                       <tbody>
                                         <tr>
-                                          <td className='date-col'>
-                                            29.04.2019{' '}
+                                          <td className="date-col">
+                                            29.04.2019{" "}
                                           </td>
-                                          <td className='file-col'>
+                                          <td className="file-col">
                                             license document.pdf
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td className='date-col'>
-                                            29.04.2019{' '}
+                                          <td className="date-col">
+                                            29.04.2019{" "}
                                           </td>
-                                          <td className='file-col'>
+                                          <td className="file-col">
                                             invoice document.pdf
                                           </td>
                                         </tr>
@@ -254,7 +254,7 @@ const WorkingProof: FunctionComponent = () => {
                                   <Col sm='8'>
                                     <div>
                                       <Select
-                                        placeholder='REGION'
+                                        placeholder='Select Caregiver'
                                         options={State}
                                       />
                                     </div>

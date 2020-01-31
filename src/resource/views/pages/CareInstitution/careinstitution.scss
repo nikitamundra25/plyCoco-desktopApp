@@ -1,4 +1,4 @@
-@import '../../../assets/scss/variables';
+@import "../../../assets/scss/variables";
 .common-col {
   height: 100%;
   .form-card {
@@ -168,4 +168,10 @@
 .disabled-div {
   cursor: not-allowed !important;
   opacity: 0.7;
+}
+.btn-department {
+  height: 25px;
+  padding: 0px 20px;
+  display: flex;
+  align-items: center;
 }

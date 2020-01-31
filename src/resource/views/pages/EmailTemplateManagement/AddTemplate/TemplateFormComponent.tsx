@@ -90,7 +90,13 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                     <div>
                       <CreatableSelect
                         classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
+                        className={
+                          typeError
+                            ? typeError.value
+                            : '' && touched.type
+                            ? 'error custom-reactselect'
+                            : 'custom-reactselect'
+                        }
                         onChange={handleTypeSelect}
                         value={type && type.label !== '' ? type : null}
                         options={typeListOptions}
@@ -121,7 +127,11 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         value={menuEntry}
                         placeholder={languageTranslation('MENU_ENTRY')}
                         onChange={handleChange}
-                        className='width-common'
+                        className={
+                          errors.menuEntry && touched.menuEntry
+                            ? 'text-input error text-capitalize'
+                            : 'text-input text-capitalize'
+                        }
                       />
                       <ErroredFieldComponent
                         errors={errors.menuEntry}
@@ -147,7 +157,11 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         name={'subject'}
                         value={subject}
                         placeholder={languageTranslation('SUBJECT')}
-                        className='width-common'
+                        className={
+                          errors.subject && touched.subject
+                            ? 'text-input error text-capitalize'
+                            : 'text-input text-capitalize'
+                        }
                         onChange={handleChange}
                       />
                       <ErroredFieldComponent

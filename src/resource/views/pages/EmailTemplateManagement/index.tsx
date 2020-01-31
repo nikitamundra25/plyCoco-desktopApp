@@ -77,11 +77,12 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   >(ADD_EMAIL_TEMPLATE, {
     onCompleted({ addEmail }) {
       refetch();
+
       toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
     }
   });
   // To update email template into db
-  const [updateEmailTemplate] = useMutation<
+  const [updateEmailTemplate, { loading: updateLoading }] = useMutation<
     {
       updateEmailTemplate: any;
     },
@@ -95,7 +96,10 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   });
   //To get email templates
-  const [fetchTemplateList, { data }] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
+  const [
+    fetchTemplateList,
+    { data, loading: fetchTemplateListLoading }
+  ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
 
   //To get email templates by id
   const [
@@ -107,9 +111,6 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   useEffect(() => {
     if (!emailTemplateLoading && emailTemplate) {
       const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
-      // const { email_template_type = {} } = viewEmailTemplate
-      // ? viewEmailTemplate
-      // : {};
       const {
         id = null,
         menuEntry = '',
@@ -135,6 +136,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         if (typeIdIndex > -1) {
           setTypeId(parseInt(typeListOptions[typeIdIndex].value));
         }
+        console.log('before settemp datta');
         setTemplateData({
           type: replaceType,
           menuEntry: menuEntry,
@@ -242,6 +244,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                 <EmailTemplateList
                   onTemplateSelection={onTemplateSelection}
                   data={data}
+                  loading={fetchTemplateListLoading}
                 />
                 <AddTemplate
                   handleSubmit={handleSubmit}

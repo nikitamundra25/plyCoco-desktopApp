@@ -7,6 +7,7 @@ import { languageTranslation } from '../../../../../helpers';
 import { ErroredFieldComponent } from '../../../components/ErroredFieldComponent';
 import CreatableSelect from 'react-select/creatable';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { printSchema } from 'graphql';
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
@@ -28,6 +29,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     typeListOptions,
     setTypeId
   } = props;
+  const typeError: any = errors.type;
   const handleTypeSelect = (newValue: any, actionMeta: any) => {
     console.log('value', newValue);
     setFieldValue('type', newValue);
@@ -38,6 +40,10 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
       console.log('new value addded', actionMeta.action);
     }
   };
+  console.log('errors.type', errors.type);
+
+  console.log('tpe.label', type && type.label);
+
   return (
     <Col lg={'5'}>
       <h5 className='content-title'>{languageTranslation('DETAILS')}</h5>
@@ -86,11 +92,11 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                         onChange={handleTypeSelect}
-                        value={type ? type : undefined}
+                        value={type && type.label !== '' ? type : null}
                         options={typeListOptions}
                       />
                       <ErroredFieldComponent
-                        errors={errors.type}
+                        errors={typeError ? typeError.value : ''}
                         touched={touched.type}
                       />
                     </div>

@@ -18,7 +18,7 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
     setTypeId
   } = props;
   const {
-    type = undefined,
+    type = { label: '', value: '' },
     menuEntry = '',
     subject = '',
     body = '',
@@ -31,6 +31,10 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
     body,
     id
   };
+  console.log('values', values);
+
+  console.log('temp data', templateData);
+
   return (
     <Formik
       initialValues={values}

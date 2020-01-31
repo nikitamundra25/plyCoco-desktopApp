@@ -8,11 +8,17 @@ import {
   DropdownItem,
 } from 'reactstrap';
 import { useHistory } from 'react-router';
-import { AppRoutes } from '../../../../config';
+import { useQuery } from '@apollo/react-hooks';
+import { AppRoutes, client } from '../../../../config';
 import logo from '../../../assets/img/plycoco-orange.png';
+import { ProfileQueries } from '../../../../graphql/queries';
+
+const [VIEW_PROFILE] = ProfileQueries;
 
 const DefaultHeader: FunctionComponent = () => {
   const history = useHistory();
+  const { data } = useQuery(VIEW_PROFILE);
+
   return (
     <React.Fragment>
       <AppSidebarToggler className='d-lg-none' display='md' mobile />
@@ -39,7 +45,14 @@ const DefaultHeader: FunctionComponent = () => {
             <DropdownItem className='user-box'>
               <div className='user-text'>
                 <h6>
-                  <b>Super Admin</b>
+                  <b>
+                    {data && data.viewAdminProfile
+                      ? [
+                          data.viewAdminProfile.firstName,
+                          data.viewAdminProfile.lastName,
+                        ].join(' ')
+                      : ''}
+                  </b>
                 </h6>
                 <p className='mb-0'>superadmin@plycoco.com</p>
               </div>

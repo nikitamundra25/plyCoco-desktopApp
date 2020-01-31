@@ -6,6 +6,7 @@ const UPDATE_ADMIN_PROFILE = gql`
       firstName
       lastName
       email
+      id
     }
   }
 `;

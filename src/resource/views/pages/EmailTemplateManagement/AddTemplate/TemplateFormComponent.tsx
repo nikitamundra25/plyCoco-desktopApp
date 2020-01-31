@@ -30,6 +30,9 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     setTypeId
   } = props;
   const typeError: any = errors.type;
+  console.log('type erroe', typeError);
+  console.log('touched', touched);
+
   const handleTypeSelect = (newValue: any, actionMeta: any) => {
     console.log('value', newValue);
     setFieldValue('type', newValue);
@@ -37,12 +40,8 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     // setFieldValue('setTypeId',newValue.value)
     //typeId
     if (actionMeta.action === 'create-option') {
-      console.log('new value addded', actionMeta.action);
     }
   };
-  console.log('errors.type', errors.type);
-
-  console.log('tpe.label', type && type.label);
 
   return (
     <Col lg={'5'}>
@@ -90,7 +89,11 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                     <div>
                       <CreatableSelect
                         classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
+                        className={
+                          typeError && typeError.value && touched.type
+                            ? 'error custom-reactselect'
+                            : 'custom-reactselect text-capitalize'
+                        }
                         onChange={handleTypeSelect}
                         value={type && type.label !== '' ? type : null}
                         options={typeListOptions}
@@ -121,7 +124,11 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         value={menuEntry}
                         placeholder={languageTranslation('MENU_ENTRY')}
                         onChange={handleChange}
-                        className='width-common'
+                        className={
+                          errors.menuEntry && touched.menuEntry
+                            ? 'text-input error text-capitalize'
+                            : 'text-input text-capitalize'
+                        }
                       />
                       <ErroredFieldComponent
                         errors={errors.menuEntry}
@@ -147,7 +154,11 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         name={'subject'}
                         value={subject}
                         placeholder={languageTranslation('SUBJECT')}
-                        className='width-common'
+                        className={
+                          errors.subject && touched.subject
+                            ? 'text-input error text-capitalize'
+                            : 'text-input text-capitalize'
+                        }
                         onChange={handleChange}
                       />
                       <ErroredFieldComponent

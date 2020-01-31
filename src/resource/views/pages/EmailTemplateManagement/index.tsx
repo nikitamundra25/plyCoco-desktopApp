@@ -77,6 +77,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   >(ADD_EMAIL_TEMPLATE, {
     onCompleted({ addEmail }) {
+      setTemplateData(null);
       refetch();
       listRefetch();
       toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
@@ -233,6 +234,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     selectedType: IReactSelectInterface /* , id: string */
   ) => {
     setTemplateType(selectedType);
+    setTemplateData(null);
   };
 
   // To use formik submit form outside
@@ -267,6 +269,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   templateData={templateData}
                   typeListOptions={typeListOptions}
                   setTypeId={setTypeId}
+                  setTemplateData={setTemplateData}
                 />
               </Row>
             </div>

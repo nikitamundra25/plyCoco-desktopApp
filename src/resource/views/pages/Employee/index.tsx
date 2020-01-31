@@ -21,7 +21,7 @@ import {
   IEmployee,
   IReactSelectInterface,
   IObjectType,
-  IReplaceObjectInterface,
+  IReplaceObjectInterface
 } from '../../../../interfaces';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import defaultProfile from '../../../assets/avatars/default-profile.png';
@@ -39,7 +39,7 @@ const sortFilter: IObjectType = {
   3: 'name',
   4: 'name-desc',
   2: 'oldest',
-  1: 'newest',
+  1: 'newest'
 };
 
 const Employee: FunctionComponent = () => {
@@ -55,8 +55,8 @@ const Employee: FunctionComponent = () => {
   const [fetchEmployeeList, { data, loading, refetch }] = useLazyQuery<any>(
     GET_EMPLOYEES,
     {
-      fetchPolicy: 'no-cache',
-    },
+      fetchPolicy: 'no-cache'
+    }
   );
 
   // Mutation to delete employee
@@ -81,7 +81,7 @@ const Employee: FunctionComponent = () => {
     let sortByValue: string | undefined = '1';
     if (query.sortBy) {
       sortByValue = Object.keys(sortFilter).find(
-        (key: string) => sortFilter[key] === query.sortBy,
+        (key: string) => sortFilter[key] === query.sortBy
       );
     }
     logger(sortByValue);
@@ -105,8 +105,8 @@ const Employee: FunctionComponent = () => {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy,
-              ) || '1',
+                (key: any) => sortFilter[key] === query.sortBy
+              ) || '1'
           }
         : { label: 'Newest', value: '1' };
       isActive = query.status
@@ -117,13 +117,13 @@ const Employee: FunctionComponent = () => {
       setSearchValues({
         searchValue: searchBy,
         sortBy,
-        isActive,
+        isActive
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       setIsFilter(
         searchBy !== '' ||
           query.status !== undefined ||
-          query.sortBy !== undefined,
+          query.sortBy !== undefined
       );
     }
     // call query
@@ -137,8 +137,8 @@ const Employee: FunctionComponent = () => {
           ? query.status === 'active'
             ? 'true'
             : 'false'
-          : '',
-      },
+          : ''
+      }
     });
   }, [search]); // It will run when the search value gets changed
 
@@ -172,12 +172,12 @@ const Employee: FunctionComponent = () => {
   const {
     searchValue = '',
     sortBy = undefined,
-    isActive = undefined,
+    isActive = undefined
   } = searchValues ? searchValues : {};
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>,
+    { setSubmitting }: FormikHelpers<ISearchValues>
   ) => {
     let params: IObjectType = {};
     params.page = 1;
@@ -199,7 +199,7 @@ const Employee: FunctionComponent = () => {
     logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?',
+      '?'
     );
     history.push(path);
   };
@@ -208,12 +208,12 @@ const Employee: FunctionComponent = () => {
     isActive: isActive ? isActive.value : '',
     sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
     searchBy: searchValue ? searchValue : '',
-    limit: PAGE_LIMIT,
+    limit: PAGE_LIMIT
   };
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG'),
+      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG')
     });
     if (!value) {
       return;
@@ -221,8 +221,8 @@ const Employee: FunctionComponent = () => {
       try {
         await deleteEmployee({
           variables: {
-            id,
-          },
+            id
+          }
         });
         refetch();
         // const data = await client.readQuery({
@@ -268,8 +268,8 @@ const Employee: FunctionComponent = () => {
       text: languageTranslation(
         status
           ? 'CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG'
-          : 'CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG',
-      ),
+          : 'CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG'
+      )
     });
     if (!value) {
       return;
@@ -279,13 +279,13 @@ const Employee: FunctionComponent = () => {
         await updateEmployeeStatus({
           variables: {
             id,
-            isActive: status,
-          },
+            isActive: status
+          }
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('EMPLOYEE_STATUS_UPDATE_MSG'),
+            languageTranslation('EMPLOYEE_STATUS_UPDATE_MSG')
           );
         }
       } catch (error) {
@@ -299,11 +299,12 @@ const Employee: FunctionComponent = () => {
       }
     }
   };
+  console.log('search vakues', searchValues);
 
   const values: ISearchValues = {
     searchValue,
     isActive,
-    sortBy,
+    sortBy
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
@@ -327,7 +328,11 @@ const Employee: FunctionComponent = () => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} label={'employee'} />
+              <Search
+                {...props}
+                label={'employee'}
+                setSearchValues={setSearchValues}
+              />
             )}
           />
           {/* <Search /> */}
@@ -376,13 +381,13 @@ const Employee: FunctionComponent = () => {
                     regions,
                     isActive,
                     profileThumbnailImage,
-                    createdAt,
+                    createdAt
                   }: IEmployee,
-                  index: number,
+                  index: number
                 ) => {
                   const replaceObj: IReplaceObjectInterface = {
                     ':id': id,
-                    ':userName': userName,
+                    ':userName': userName
                   };
                   var elements = [firstName, lastName];
                   return (
@@ -404,7 +409,7 @@ const Employee: FunctionComponent = () => {
                                   : defaultProfile
                               }`}
                               onError={(
-                                e: React.ChangeEvent<HTMLImageElement>,
+                                e: React.ChangeEvent<HTMLImageElement>
                               ) => {
                                 e.target.onerror = null;
                                 e.target.src = defaultProfile;
@@ -422,8 +427,8 @@ const Employee: FunctionComponent = () => {
                                     /:id|:userName/gi,
                                     function(matched: string) {
                                       return replaceObj[matched];
-                                    },
-                                  ),
+                                    }
+                                  )
                                 )
                               }
                             >
@@ -494,7 +499,7 @@ const Employee: FunctionComponent = () => {
                               /:id|:userName/gi,
                               function(matched) {
                                 return replaceObj[matched];
-                              },
+                              }
                             )}
                             // onBtnClick={() =>
                             //   history.push(
@@ -518,7 +523,7 @@ const Employee: FunctionComponent = () => {
                               /:id|:userName/gi,
                               function(matched) {
                                 return replaceObj[matched];
-                              },
+                              }
                             )}
                             // onBtnClick={() =>
                             //   history.push(
@@ -551,7 +556,7 @@ const Employee: FunctionComponent = () => {
                       </td>
                     </tr>
                   );
-                },
+                }
               )
             ) : (
               <tr className={'text-center no-hover-row'}>

@@ -7,7 +7,7 @@ import {
   Col,
   Row,
   UncontrolledTooltip,
-  Button,
+  Button
 } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { SortOptions, StatusOptions } from '../../../../config';
@@ -16,11 +16,11 @@ import { FormikProps, Form } from 'formik';
 import {
   ISearchValues,
   IReactSelectInterface,
-  ISearchProps,
+  ISearchProps
 } from '../../../../interfaces';
 
 const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
-  props: FormikProps<ISearchValues> & ISearchProps,
+  props: FormikProps<ISearchValues> & ISearchProps
 ) => {
   let history = useHistory();
   let { pathname } = useLocation();
@@ -31,6 +31,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
     handleChange,
     setFieldValue,
     searchPlacholderText,
+    setSearchValues
   } = props;
 
   // Custom function to handle react select fields
@@ -120,6 +121,8 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                 className='btn-filter mr-2'
                 id='reset'
                 onClick={() => {
+                  console.log('in reset');
+                  setSearchValues({ searchValues: {} });
                   history.push(pathname);
                 }}
               >

@@ -32,6 +32,7 @@ export interface IAddEmailTemplateProps {
 export interface IEmailTemplateList {
   onTemplateSelection: (data: any) => void;
   data: any;
+  loading: any;
 }
 
 export interface IEmailTemplateMenu {

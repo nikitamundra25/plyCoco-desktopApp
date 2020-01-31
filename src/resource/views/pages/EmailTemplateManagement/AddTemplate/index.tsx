@@ -3,38 +3,34 @@ import { Formik, FormikProps } from 'formik';
 import { TemplateFormComponent } from './TemplateFormComponent';
 import {
   IEmailTemplateValues,
-  IAddEmailTemplateProps
+  IAddEmailTemplateProps,
 } from '../../../../../interfaces';
 import { EmailTemplateValidationSchema } from '../../../../validations/EmailTemplateValidationSchema';
 
 export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
-  props: IAddEmailTemplateProps
+  props: IAddEmailTemplateProps,
 ) => {
   const {
     handleSubmit,
     bindSubmitForm,
     templateData,
     typeListOptions,
-    setTypeId
+    setTypeId,
   } = props;
   const {
     type = { label: '', value: '' },
     menuEntry = '',
     subject = '',
     body = '',
-    id = undefined
+    id = undefined,
   } = templateData ? templateData : {};
   const values: IEmailTemplateValues = {
     type,
     menuEntry,
     subject,
     body,
-    id
+    id,
   };
-  console.log('values', values);
-
-  console.log('temp data', templateData);
-
   return (
     <Formik
       initialValues={values}

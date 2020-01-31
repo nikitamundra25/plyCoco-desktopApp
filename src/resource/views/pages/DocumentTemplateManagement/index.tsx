@@ -2,20 +2,20 @@ import React, {
   Component,
   FunctionComponent,
   useCallback,
-  useState
-} from "react";
-import { FormGroup, Label, Input, Col, Row, Form, Table } from "reactstrap";
-import moment from "moment";
-import Dropzone, { useDropzone } from "react-dropzone";
-import Select from "react-select";
-import { languageTranslation } from "../../../../helpers";
-import { State } from "../../../../config";
-import { IDocumentUrls } from "../../../../interfaces";
-import { ConfirmBox } from "../../components/ConfirmBox";
-import displaydoc from "../../../assets/img/display-doc.svg";
-import upload from "../../../assets/img/upload.svg";
-import visit from "../../../assets/img/visit.svg";
-import "./index.scss";
+  useState,
+} from 'react';
+import { FormGroup, Label, Input, Col, Row, Form, Table } from 'reactstrap';
+import moment from 'moment';
+import Dropzone, { useDropzone } from 'react-dropzone';
+import Select from 'react-select';
+import { languageTranslation } from '../../../../helpers';
+import { State } from '../../../../config';
+import { IDocumentUrls } from '../../../../interfaces';
+import { ConfirmBox } from '../../components/ConfirmBox';
+import displaydoc from '../../../assets/img/display-doc.svg';
+import upload from '../../../assets/img/upload.svg';
+import visit from '../../../assets/img/visit.svg';
+import './index.scss';
 
 const WorkingProof: FunctionComponent = () => {
   const [documentUrls, setDocumentUrl] = useState<IDocumentUrls[] | null>(null);
@@ -48,41 +48,41 @@ const WorkingProof: FunctionComponent = () => {
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
   return (
     <>
-      <div className="common-detail-page">
-        <div className="common-detail-section">
-          <div className="sticky-common-header">
-            <div className="common-topheader d-flex align-items-center px-2 mb-1">
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={upload} alt="" />
+      <div className='common-detail-page'>
+        <div className='common-detail-section'>
+          <div className='sticky-common-header'>
+            <div className='common-topheader d-flex align-items-center px-2 mb-1'>
+              <div className='header-nav-item'>
+                <span className='header-nav-icon'>
+                  <img src={upload} alt='' />
                 </span>
-                <span className="header-nav-text">
+                <span className='header-nav-text'>
                   Retrieve new work proofs
                 </span>
               </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={displaydoc} alt="" />
+              <div className='header-nav-item'>
+                <span className='header-nav-icon'>
+                  <img src={displaydoc} alt='' />
                 </span>
-                <span className="header-nav-text">Display different</span>
+                <span className='header-nav-text'>Display different</span>
               </div>
-              <div className="header-nav-item">
-                <span className="header-nav-text">Hide mapped</span>
+              <div className='header-nav-item'>
+                <span className='header-nav-text'>Hide mapped</span>
               </div>
-              <div className="header-nav-item">
-                <span className="header-nav-text">Hide Locked caregiver</span>
+              <div className='header-nav-item'>
+                <span className='header-nav-text'>Hide Locked caregiver</span>
               </div>
-              <div className="header-nav-item">
-                <span className="header-nav-text">Hide old files</span>
+              <div className='header-nav-item'>
+                <span className='header-nav-text'>Hide old files</span>
               </div>
             </div>
           </div>
 
-          <div className="common-content flex-grow-1">
+          <div className='common-content flex-grow-1'>
             <div>
-              <Form className="form-section ">
+              <Form className='form-section '>
                 <Row>
-                  <Col lg={"4"}>
+                  <Col lg={'4'}>
                     <div>
                       <h5 className="content-title">New Work Proofs</h5>
                       <div className="working-height">
@@ -107,8 +107,8 @@ const WorkingProof: FunctionComponent = () => {
                           >
                             <thead className="thead-bg">
                               <tr>
-                                <th className="date-col">Date</th>
-                                <th className="file-col">File Name</th>
+                                <th className='date-col'>Date</th>
+                                <th className='file-col'>File Name</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -212,57 +212,57 @@ const WorkingProof: FunctionComponent = () => {
                       </div>
                     </div>
                   </Col>
-                  <Col lg={"4"}>
-                    <h5 className="content-title">Preview</h5>
+                  <Col lg={'4'}>
+                    <h5 className='content-title'>Preview</h5>
 
-                    <div className="document-preview d-flex justify-content-center working-height">
-                      <div className="align-self-center">
-                        <span className="d-block text-center block-page">
-                          <img className="img-responsive" src={visit} alt="" />
+                    <div className='document-preview d-flex justify-content-center working-height'>
+                      <div className='align-self-center'>
+                        <span className='d-block text-center block-page'>
+                          <img className='img-responsive' src={visit} alt='' />
                         </span>
                         The Document Does Not Contain Any Pages
                       </div>
                     </div>
                   </Col>
-                  <Col lg={"4"}>
+                  <Col lg={'4'}>
                     <div>
-                      <h5 className="content-title">Performed Work</h5>
-                      <div className="working-height">
-                        <div className="document-form py-2 px-3">
+                      <h5 className='content-title'>Performed Work</h5>
+                      <div className='working-height'>
+                        <div className='document-form py-2 px-3'>
                           <Row>
-                            <Col lg={"12"}>
+                            <Col lg={'12'}>
                               <FormGroup>
                                 <Row>
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label">
-                                      {languageTranslation("ID")}
+                                  <Col sm='4'>
+                                    <Label className='form-label col-form-label'>
+                                      {languageTranslation('ID')}
                                     </Label>
                                   </Col>
-                                  <Col sm="8">
+                                  <Col sm='8'>
                                     <div>
                                       <Input
-                                        type="text"
-                                        name={"lastName"}
-                                        placeholder={languageTranslation("ID")}
-                                        className="width-common"
+                                        type='text'
+                                        name={'lastName'}
+                                        placeholder={languageTranslation('ID')}
+                                        className='width-common'
                                       />
                                     </div>
                                   </Col>
                                 </Row>
                               </FormGroup>
                             </Col>
-                            <Col lg={"12"}>
+                            <Col lg={'12'}>
                               <FormGroup>
                                 <Row>
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label">
+                                  <Col sm='4'>
+                                    <Label className='form-label col-form-label'>
                                       Caregiver
                                     </Label>
                                   </Col>
-                                  <Col sm="8">
+                                  <Col sm='8'>
                                     <div>
                                       <Select
-                                        placeholder="Select Caregiver"
+                                        placeholder='Select Caregiver'
                                         options={State}
                                       />
                                     </div>
@@ -273,7 +273,7 @@ const WorkingProof: FunctionComponent = () => {
                           </Row>
                         </div>
                         <Table bordered hover responsive>
-                          <thead className="thead-bg">
+                          <thead className='thead-bg'>
                             <tr>
                               <td>Begin</td>
                               <td>Facility</td>
@@ -283,14 +283,14 @@ const WorkingProof: FunctionComponent = () => {
                           <tbody>
                             <tr>
                               <td>
-                                <div className="d-flex align-items-center">
-                                  <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                <div className='d-flex align-items-center'>
+                                  <span className='checkboxli checkbox-custom checkbox-default mr-2'>
                                     <input
-                                      type="checkbox"
-                                      id="checkAll"
-                                      className=""
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
                                     />
-                                    <label className=""></label>
+                                    <label className=''></label>
                                   </span>
                                   <div>20.08.2019</div>
                                 </div>
@@ -300,14 +300,14 @@ const WorkingProof: FunctionComponent = () => {
                             </tr>
                             <tr>
                               <td>
-                                <div className="d-flex align-items-center">
-                                  <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                <div className='d-flex align-items-center'>
+                                  <span className='checkboxli checkbox-custom checkbox-default mr-2'>
                                     <input
-                                      type="checkbox"
-                                      id="checkAll"
-                                      className=""
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
                                     />
-                                    <label className=""></label>
+                                    <label className=''></label>
                                   </span>
                                   <div>20.08.2019</div>
                                 </div>
@@ -317,14 +317,14 @@ const WorkingProof: FunctionComponent = () => {
                             </tr>
                             <tr>
                               <td>
-                                <div className="d-flex align-items-center">
-                                  <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                <div className='d-flex align-items-center'>
+                                  <span className='checkboxli checkbox-custom checkbox-default mr-2'>
                                     <input
-                                      type="checkbox"
-                                      id="checkAll"
-                                      className=""
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
                                     />
-                                    <label className=""></label>
+                                    <label className=''></label>
                                   </span>
                                   <div>20.08.2019</div>
                                 </div>
@@ -334,14 +334,14 @@ const WorkingProof: FunctionComponent = () => {
                             </tr>
                             <tr>
                               <td>
-                                <div className="d-flex align-items-center">
-                                  <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                <div className='d-flex align-items-center'>
+                                  <span className='checkboxli checkbox-custom checkbox-default mr-2'>
                                     <input
-                                      type="checkbox"
-                                      id="checkAll"
-                                      className=""
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
                                     />
-                                    <label className=""></label>
+                                    <label className=''></label>
                                   </span>
                                   <div>20.08.2019</div>
                                 </div>

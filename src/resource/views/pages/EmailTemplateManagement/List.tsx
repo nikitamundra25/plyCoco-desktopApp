@@ -8,7 +8,8 @@ import nodata from "../../../assets/img/nodata.png";
 export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   onTemplateSelection,
   data,
-  loading
+  loading,
+  activeTemplate
 }: IEmailTemplateList) => {
   const id =
     data && data.getEmailtemplate && data.getEmailtemplate.id
@@ -25,13 +26,21 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
               data.getEmailtemplate &&
               data.getEmailtemplate.email_templates &&
               data.getEmailtemplate.email_templates.length ? (
-                data.getEmailtemplate.email_templates.map((menu: any) => {
-                  return (
-                    <li onClick={() => onTemplateSelection(menu.id)}>
-                      {menu.menuEntry}
-                    </li>
-                  );
-                })
+                data.getEmailtemplate.email_templates.map(
+                  (menu: any, index: number) => {
+                    return (
+                      <li
+                        key={index}
+                        className={`cursor-pointer text-capitalize' ${
+                          activeTemplate === menu.id ? 'active' : ''
+                        }`}
+                        onClick={() => onTemplateSelection(menu.id)}
+                      >
+                        {menu.menuEntry}
+                      </li>
+                    );
+                  }
+                )
               ) : (
                 <div className="no-list-section d-flex align-items-center justify-content-center flex-column py-5 my-3">
                   <img src={nodata} alt="" className="no-img" />

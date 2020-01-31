@@ -7,7 +7,8 @@ import Loader from '../../containers/Loader/Loader';
 export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   onTemplateSelection,
   data,
-  loading
+  loading,
+  activeTemplate
 }: IEmailTemplateList) => {
   const id =
     data && data.getEmailtemplate && data.getEmailtemplate.id
@@ -29,10 +30,9 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
                     return (
                       <li
                         key={index}
-                        className={
-                          'cursor-pointer text-capitalize'
-                          // +    (isActive === index ? ' active' : '')
-                        }
+                        className={`cursor-pointer text-capitalize' ${
+                          activeTemplate === menu.id ? 'active' : ''
+                        }`}
                         onClick={() => onTemplateSelection(menu.id)}
                       >
                         {menu.menuEntry}

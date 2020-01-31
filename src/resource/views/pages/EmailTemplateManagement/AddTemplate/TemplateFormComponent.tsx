@@ -18,7 +18,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
   props: FormikProps<IEmailTemplateValues> & {
     typeListOptions?: any;
     setTypeId?: any;
-  },
+  }
 ) => {
   const {
     values: { type, menuEntry, subject, body, id },
@@ -27,9 +27,12 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     setFieldValue,
     handleChange,
     typeListOptions,
-    setTypeId,
+    setTypeId
   } = props;
   const typeError: any = errors.type;
+  console.log('type erroe', typeError);
+  console.log('touched', touched);
+
   const handleTypeSelect = (newValue: any, actionMeta: any) => {
     console.log('value', newValue);
     setFieldValue('type', newValue);
@@ -87,11 +90,9 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                       <CreatableSelect
                         classNamePrefix='custom-inner-reactselect'
                         className={
-                          typeError
-                            ? typeError.value
-                            : '' && touched.type
+                          typeError && typeError.value && touched.type
                             ? 'error custom-reactselect'
-                            : 'custom-reactselect'
+                            : 'custom-reactselect text-capitalize'
                         }
                         onChange={handleTypeSelect}
                         value={type && type.label !== '' ? type : null}
@@ -188,24 +189,24 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         'fontSize',
                         'list',
                         'textAlign',
-                        'link',
+                        'link'
                       ],
                       inline: {
-                        options: ['bold', 'italic', 'underline'],
+                        options: ['bold', 'italic', 'underline']
                       },
                       fontSize: {
-                        className: 'bordered-option-classname',
+                        className: 'bordered-option-classname'
                       },
                       fontFamily: {
-                        className: 'bordered-option-classname',
+                        className: 'bordered-option-classname'
                       },
                       list: {
                         inDropdown: false,
-                        options: ['unordered'],
+                        options: ['unordered']
                       },
                       link: {
-                        options: ['link'],
-                      },
+                        options: ['link']
+                      }
                     }}
                   />
                 </div>

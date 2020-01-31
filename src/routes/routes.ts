@@ -473,6 +473,12 @@ const routes = [
     component: BulkEmailCaregiver,
     exact: true,
   },
+  {
+    path: AppRoutes.ATTRIBUTE_MANAGEMENT,
+    name: 'Attribute management',
+    component: BulkEmailCaregiver,
+    exact: true,
+  },
 ];
 
 export default routes;

@@ -137,11 +137,11 @@ const PersonalInfoFormComponent: any = (
     }
   };
   // After submission of form
-  useEffect(() => {
-    setTimeout(() => {
-      handleScroll();
-    }, 200);
-  }, [submitCount]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     handleScroll();
+  //   }, 200);
+  // }, [submitCount]);
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined | any = moment(CreatedAt).format(

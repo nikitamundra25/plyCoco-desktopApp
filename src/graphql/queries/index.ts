@@ -7,3 +7,4 @@ export * from './CareInstitution';
 export * from './EmailTemplates';
 export * from './Profile';
 export * from './qualification';
+export * from './Attribute';

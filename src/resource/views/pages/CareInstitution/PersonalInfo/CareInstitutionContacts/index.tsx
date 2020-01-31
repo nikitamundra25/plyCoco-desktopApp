@@ -24,7 +24,6 @@ import { CareInstitutionMutation } from '../../../../../../graphql/Mutations';
 let toastId: any;
 
 const [
-  ,
   UPDATE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION_STATUS,
   UPDATE_DEPARTMENT_CARE_INSTITUTION,

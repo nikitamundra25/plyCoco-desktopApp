@@ -121,9 +121,11 @@ const CotactFormComponent: any = (
     <>
       <Button
         onClick={handleSubmit}
+        disabled={isSubmitting}
         color={'primary'}
         className={'btn-contact-save save-button'}
       >
+        {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
         {id
           ? languageTranslation('UPDATE_BUTTON')
           : languageTranslation('SAVE_BUTTON')}

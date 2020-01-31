@@ -128,16 +128,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         value: e.value
       };
       setFieldValue('linkedTo', data);
-      // setselectUser((selectUser = data));
-      // if (e.value !== Id) {
-      //   props.history.push(
-      //     `${AppRoutes.CARE_INSTITUION_VIEW.replace(
-      //       ":id",
-      //       e.value
-      //     )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
-      //   );
-      //   setisUserChange((isUserChange = true));
-      // }
     }
   };
   return (

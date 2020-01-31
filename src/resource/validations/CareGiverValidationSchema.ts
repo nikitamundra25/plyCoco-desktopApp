@@ -19,10 +19,12 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
 >> = Yup.object().shape<ICareGiverValidationInterface>({
   firstName: Yup.string()
     .trim()
+    .min(3, languageTranslation('NAME_MINLENGTH'))
     .max(20, languageTranslation('FIRSTNAME_MAXLENGTH'))
     .required(languageTranslation('FIRSTNAME_REQUIRED')),
   lastName: Yup.string()
     .trim()
+    .min(3, languageTranslation('NAME_MINLENGTH'))
     .max(20, languageTranslation('LASTNAME_MAXLENGTH'))
     .required(languageTranslation('LASTNAME_REQUIRED')),
   email: Yup.string()

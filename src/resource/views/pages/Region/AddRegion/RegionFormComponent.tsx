@@ -50,9 +50,7 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
               <Input
                 type='text'
                 name={'regionName'}
-                placeholder={languageTranslation(
-                  'REGION_NAME_OF_REGION_PLACEHOLDER',
-                )}
+                placeholder={languageTranslation('REGION_NAME_OF_REGION_LABEL')}
                 onChange={handleChange}
                 maxLength='30'
                 onBlur={handleBlur}

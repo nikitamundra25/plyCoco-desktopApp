@@ -3,6 +3,7 @@ import { FormGroup, Label, Input, Col, Row, Button } from "reactstrap";
 import { FormikProps } from "formik";
 import { languageTranslation } from "../../../../../helpers";
 import { IAddDepartmentFormValues } from "../../../../../interfaces";
+import Loader from "../../../containers/Loader/Loader";
 
 const AddDepartmentForm: FunctionComponent<FormikProps<
   IAddDepartmentFormValues
@@ -24,6 +25,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
       commentsVisibleInternally,
       locked
     },
+    isLoading,
     touched,
     errors,
     isSubmitting,
@@ -53,6 +55,11 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
       </div>
 
       <div className="form-card department-card-height">
+        {isLoading ? (
+          <div>
+            <Loader />
+          </div>
+        ) : null}
         <Row>
           <Col lg={"12"}>
             <FormGroup>

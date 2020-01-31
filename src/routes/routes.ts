@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppRoutes } from '../config';
 import ToDo from '../resource/views/pages/CareGiver/ToDos/ToDos';
+import AttributeManageMent from '../resource/views/pages/AttributeManageMent';
 
 const Dashboard = React.lazy(() => import('../resource/views/pages/Dashboard'));
 const Login = React.lazy(() => import('../resource/views/pages/Login'));
@@ -471,6 +472,12 @@ const routes = [
     path: AppRoutes.BULK_EMAIL_CAREGIVER,
     name: 'Bulk Email Caregiver',
     component: BulkEmailCaregiver,
+    exact: true,
+  },
+  {
+    path: AppRoutes.ATTRIBUTE_MANAGEMENT,
+    name: 'Attribute management',
+    component: AttributeManageMent,
     exact: true,
   },
 ];

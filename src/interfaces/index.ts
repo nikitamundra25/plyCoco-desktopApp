@@ -15,3 +15,4 @@ export * from './Leasing';
 export * from './EmailTemplate';
 export * from './Email';
 export * from './Profile';
+export * from './DocumentTemplate';

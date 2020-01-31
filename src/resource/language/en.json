@@ -38,6 +38,8 @@
   "MIN_LENGTH_PASSOWRD": "Password field must be at least 6 characters in length",
   "MAX_LENGTH_PASSOWRD": "Password field cannot be more than 18 characters in length",
   "UNMATCH_PASSOWRD": "Passwords didn't match",
+  "UPDATE_PASSWORD_SUCCESS": "Password updated successfully.",
+  "UPDATE_PROFILE_SUCCESS": "Profile updated successfully.",
   "SIGNIN": "Sign In",
   "TOYOURACCOUNT": "to your account",
   "EMAIL_ADDRESS_PLACEHOLDER": "Enter Email Address",

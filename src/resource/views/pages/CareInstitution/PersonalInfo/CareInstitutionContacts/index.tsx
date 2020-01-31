@@ -24,15 +24,16 @@ import { CareInstitutionMutation } from '../../../../../../graphql/Mutations';
 let toastId: any;
 
 const [
-  ,
-  ,
-  ,
+  UPDATE_CARE_INSTITUTION,
+  UPDATE_CARE_INSTITUTION_STATUS,
+  UPDATE_DEPARTMENT_CARE_INSTITUTION,
   UPDATE_NEW_CONTACT_CARE_INSTITUTION,
-  ,
-  ,
+  DELETE_CARE_INSTITUTION,
+  ADD_CARE_INSTITUTION,
   ADD_NEW_CONTACT_CARE_INSTITUTION,
-  ,
-  ,
+  ADD_NEW_CARE_INTITUTION,
+  ADD_DEPARTMENT_CARE_INSTITUTION,
+  DELETE_DEPARTMENT
 ] = CareInstitutionMutation;
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -40,10 +41,11 @@ const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 const CareInstitutionContacts: any = (props: any) => {
   const { contacts, careInstId, ContactFromAdd } = props;
   const [activeContact, setActiveContact] = useState<number>(0);
-
   // To set new empty contact
   useEffect(() => {
-    setActiveContact(contacts.length - 1);
+    if (contacts && contacts.length) {
+      setActiveContact(contacts.length - 1);
+    }
   }, [contacts]);
 
   const addContacts = (cache: any, data: any) => {
@@ -59,6 +61,7 @@ const CareInstitutionContacts: any = (props: any) => {
       comments: '',
       groupAttributes: ''
     };
+
     newContacts[newContacts.length - 1] = data.data.addContact;
     newContacts.push(ResctData);
     props.setContacts(newContacts);
@@ -103,7 +106,6 @@ const CareInstitutionContacts: any = (props: any) => {
         AttributeData.push(attribute.label)
       );
     }
-
     try {
       //to set submit state to false after successful signup
       setSubmitting(false);
@@ -146,7 +148,6 @@ const CareInstitutionContacts: any = (props: any) => {
             contactInput: contactInput
           }
         });
-
         toast.success(languageTranslation('NEW_CONTACT_ADD_CARE_INSTITUTION'));
       }
     } catch (error) {
@@ -182,7 +183,7 @@ const CareInstitutionContacts: any = (props: any) => {
     attributes = [],
     salutation = '',
     countryId = undefined
-  } = contacts[activeContact] ? contacts[activeContact] : {};
+  } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
 
   let countryData: Number;
   countryData = countryId ? countryId : '';
@@ -246,20 +247,22 @@ const CareInstitutionContacts: any = (props: any) => {
       <div className={'form-section position-relative flex-grow-1'}>
         <div className='d-flex align-items-center justify-content-between  mb-2'>
           <Nav tabs className='contact-tabs'>
-            {contacts.map((contact: any, index: number) => {
-              return (
-                <NavItem className='text-capitalize' key={index}>
-                  <NavLink
-                    className={`${index === activeContact ? 'active' : ''}`}
-                    onClick={() => setActiveContact(index)}
-                  >
-                    {contact && contact.contactType
-                      ? contact.contactType
-                      : 'New contact'}{' '}
-                  </NavLink>
-                </NavItem>
-              );
-            })}
+            {contacts && contacts.length
+              ? contacts.map((contact: any, index: number) => {
+                  return (
+                    <NavItem className='text-capitalize' key={index}>
+                      <NavLink
+                        className={`${index === activeContact ? 'active' : ''}`}
+                        onClick={() => setActiveContact(index)}
+                      >
+                        {contact && contact.contactType
+                          ? contact.contactType
+                          : 'New contact'}{' '}
+                      </NavLink>
+                    </NavItem>
+                  );
+                })
+              : null}
           </Nav>
         </div>
       </div>

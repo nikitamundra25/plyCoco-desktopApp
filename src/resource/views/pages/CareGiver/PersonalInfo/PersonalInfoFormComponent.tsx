@@ -20,7 +20,7 @@ import {
   ICareGiverValues,
 } from '../../../../../interfaces';
 import { FormikTextField } from '../../../components/forms/FormikFields';
-import { languageTranslation } from '../../../../../helpers';
+import { languageTranslation, logger } from '../../../../../helpers';
 import MaskedInput from 'react-text-mask';
 import { useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { CountryQueries } from '../../../../../graphql/queries';
@@ -117,6 +117,7 @@ const PersonalInfoFormComponent: any = (
       comments,
       belongTo,
     },
+    submitCount,
     handleChange,
     handleBlur,
     errors,
@@ -124,14 +125,35 @@ const PersonalInfoFormComponent: any = (
     touched,
   } = props;
 
+  // scroll to the errored field
+  const handleScroll = () => {
+    logger('in handle scroll');
+    const scr: any = document.getElementsByClassName('error')[0];
+    logger(scr, 'scr');
+    const height: any = scr ? scr.getBoundingClientRect() : 0;
+    const mainSection: any = document.getElementById('care-profile');
+    if (mainSection && height) {
+      mainSection.scrollTop = height.top - 20 - 68 - 35;
+    }
+  };
+  // After submission of form
+  useEffect(() => {
+    setTimeout(() => {
+      handleScroll();
+    }, 200);
+  }, [submitCount]);
+
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined | any = moment(CreatedAt).format(
     'YYYY-MM-DD',
   );
 
   return (
-    <div className='form-card custom-caregiver-height custom-scrollbar'>
-      <Row>
+    <div
+      className='form-card custom-caregiver-height custom-scrollbar'
+      id={'care-profile'}
+    >
+      <Row className={'caregiver-form'}>
         {PathArray && PathArray[2] !== 'add' ? (
           <Col lg={'12'}>
             <FormGroup>
@@ -359,7 +381,7 @@ const PersonalInfoFormComponent: any = (
                       <Row className='custom-col inner-no-padding-col d-flex '>
                         <Col sm='6'>
                           <Label className='form-label col-form-label inner-label'>
-                          {languageTranslation('AGE')}
+                            {languageTranslation('AGE')}
                           </Label>
                         </Col>
                         <Col sm='6'>

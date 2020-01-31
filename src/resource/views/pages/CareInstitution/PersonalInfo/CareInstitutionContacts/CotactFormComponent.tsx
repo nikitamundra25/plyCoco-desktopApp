@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { FormGroup, Label, Input, Col, Row, Button } from 'reactstrap';
+import {
+  FormGroup,
+  Label,
+  Input,
+  Col,
+  Row,
+  Button,
+  UncontrolledTooltip
+} from 'reactstrap';
 import { languageTranslation, logger } from '../../../../../../helpers';
 import Select from 'react-select';
 import {
   Gender,
   Salutation,
   ContactType,
-  CareInstitutionContactAttribute,
+  CareInstitutionContactAttribute
 } from '../../../../../../config';
 import { FormikProps } from 'formik';
 import {
@@ -15,7 +23,7 @@ import {
   ICountries,
   IStates,
   ICountry,
-  IState,
+  IState
 } from '../../../../../../interfaces';
 import { CountryQueries } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
@@ -23,23 +31,23 @@ import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const CotactFormComponent: any = (
-  props: FormikProps<ICareInstitutionContact>,
+  props: FormikProps<ICareInstitutionContact>
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
   const [AttOpt, setAttOpt] = useState<any>([]);
@@ -49,7 +57,7 @@ const CotactFormComponent: any = (
     setAttOpt(Data);
   }, []);
 
-  let [newAttributeValue, setnewAttributeValue] = useState({});
+  let [newAttributeValue, setnewAttributeValue] = useState();
   let [newValue, setnewValue] = useState({});
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -57,29 +65,59 @@ const CotactFormComponent: any = (
     setFieldValue(name, selectOption);
     if (name === 'country') {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
     }
+  };
+
+  const handleAttributeSelectContarct = (
+    selectOption: IReactSelectInterface,
+    name: string
+  ) => {
+    const data: IReactSelectInterface[] = [];
+    if (props.values && props.values.attributeId) {
+      data.push(...props.values.attributeId, selectOption);
+    } else {
+      data.push(selectOption);
+    }
+    setnewAttributeValue(null);
+    setFieldValue(name, data);
   };
 
   const handleAttributeSelect = (value: any) => {
     setnewValue(value);
     const Data = {
       label: newValue,
-      value: newValue,
+      value: newValue
     };
     setnewAttributeValue((newAttributeValue = Data));
   };
-
+  /*
+  /*  
+  */
+  let contactAttribute: any[] | undefined | any = props.values.attributeId;
   const handleAddNewAttributevalue = () => {
-    const AttributeID: any = attributeId;
-    AttributeID.push(newAttributeValue);
-    // const FData: any = AttOpt;
-    AttOpt.push(newAttributeValue);
-    setAttOpt(AttOpt);
-    handleSelect(AttributeID, 'attributeId');
-    setnewAttributeValue('');
+    console.log('newAttributeValue', newAttributeValue);
+
+    if (newAttributeValue && newAttributeValue.value) {
+      const AttributeID: any = attributeId;
+      AttributeID.push(newAttributeValue);
+      // const FData: any = AttOpt;
+      AttOpt.push(newAttributeValue);
+      setAttOpt(AttOpt);
+      handleSelect(AttributeID, 'attributeId');
+      setnewAttributeValue('');
+    }
+  };
+
+  const handleRemoveAttribute = (index: any) => {
+    let newAttributeList: IReactSelectInterface[];
+    if (props.values && props.values.attributeId) {
+      newAttributeList = props.values.attributeId;
+      newAttributeList.splice(index, 1);
+      setFieldValue('attributeId', newAttributeList);
+    }
   };
 
   const {
@@ -104,7 +142,7 @@ const CotactFormComponent: any = (
       faxNumber,
       id,
       createdAt,
-      attributeId,
+      attributeId
     },
     touched,
     errors,
@@ -113,7 +151,7 @@ const CotactFormComponent: any = (
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched,
+    setFieldTouched
   } = props;
   const ContactError: any = errors.contactType;
 
@@ -658,38 +696,74 @@ const CotactFormComponent: any = (
                       {attributeId && attributeId.length
                         ? attributeId.map(
                             (data: IReactSelectInterface, index: number) => {
-                              return <li key={index}>{data.label}</li>;
-                            },
+                              return (
+                                <li
+                                  className={
+                                    'cursor-pointer list-item text-capitalize'
+                                  }
+                                  key={index}
+                                >
+                                  <>
+                                    <span className='list-item-text'>
+                                      {data.label}
+                                    </span>
+                                    <span
+                                      id='delete0'
+                                      onClick={() =>
+                                        handleRemoveAttribute(index)
+                                      }
+                                      className='list-item-icon'
+                                    >
+                                      <i className='fa fa-trash'></i>
+                                    </span>
+                                  </>
+                                </li>
+                              );
+                            }
                           )
                         : null}
                     </ul>
                   </div>
                   <div className='common-list-footer form-section '>
-                    <div>
+                    <div className='contact-attribute '>
                       <FormGroup className='mb-0'>
                         <Select
                           placeholder={
-                            'Please select Attribute from the dropdown'
+                            'Please select Attribute or type to add new'
                           }
                           options={AttOpt}
-                          value={attributeId ? attributeId : undefined}
-                          onChange={(value: any) =>
-                            handleSelect(value, 'attributeId')
+                          value={
+                            contactAttribute
+                              ? {
+                                  label:
+                                    'Please select Attribute or type to add new',
+                                  value: ''
+                                }
+                              : undefined
                           }
+                          onChange={(value: any) => {
+                            handleAttributeSelectContarct(value, 'attributeId');
+                          }}
                           onInputChange={handleAttributeSelect}
-                          isMulti
                           menuPlacement={'top'}
                           className='attribute-select'
                           classNamePrefix='attribute-inner-select'
                         />
-
-                        {/* <span
-                          onClick={() => handleAddNewAttributevalue()}
-                          className="add-attribute-btn d-flex align-items-center justify-content-center"
-                        >
-                          <i className={"fa fa-plus"} />
-                        </span> */}
                       </FormGroup>
+                      <Button
+                        onClick={() => handleAddNewAttributevalue()}
+                        id={'addAttribute'}
+                        disabled={!newAttributeValue ? true : false}
+                        className='add-attribute-btn  d-flex align-items-center justify-content-center'
+                      >
+                        <i className={'fa fa-plus'} />
+                      </Button>
+                      <UncontrolledTooltip
+                        placement='top'
+                        target='addAttribute'
+                      >
+                        Click To Add New Attribute
+                      </UncontrolledTooltip>
                     </div>
                   </div>
                 </div>

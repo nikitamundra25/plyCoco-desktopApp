@@ -4,7 +4,7 @@ import { FormikProps } from 'formik';
 import { languageTranslation } from '../../../../../helpers';
 import {
   ICareInstitutionRemarks,
-  ICareGiverValues,
+  ICareGiverValues
 } from '../../../../../interfaces';
 import moment from 'moment';
 import { ConfirmBox } from '../../../components/ConfirmBox';
@@ -21,13 +21,13 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
     setRemarksDetail?: any;
     remarksDetail?: any;
     saveRemark?: (message: string, remarksData: any) => void;
-  },
+  }
 ) => {
   const [activeRemark, setActiveRemark] = useState(0);
   let [changeRemark, setchangeRemark] = useState({
     data: '',
     createdAt: '',
-    createdBy: '',
+    createdBy: ''
   });
 
   let [isEditRemark, setisEditRemark] = useState(false);
@@ -38,7 +38,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
   const onDelete = async (index: number) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('REMARK_DELETE_CONFIRMATION'),
+      text: languageTranslation('REMARK_DELETE_CONFIRMATION')
     });
     if (!value) {
       return;
@@ -54,7 +54,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
         } else {
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
-              languageTranslation('REMARK_DELETE_SUCCESS'),
+              languageTranslation('REMARK_DELETE_SUCCESS')
             );
           }
         }
@@ -67,7 +67,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
     setFieldValue,
     setRemarksDetail,
     remarksDetail,
-    handleChange,
+    handleChange
   } = props;
   return (
     <Col lg={4}>
@@ -116,9 +116,9 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                               temp.unshift({
                                 data: remarkData,
                                 createdAt: moment().format(
-                                  'MMMM Do YYYY, h:mm a',
+                                  'MMMM Do YYYY, h:mm a'
                                 ),
-                                createdBy: 'john doe',
+                                createdBy: 'john doe'
                               });
                               if (setRemarksDetail) {
                                 setRemarksDetail(temp);
@@ -127,12 +127,14 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                               if (props.saveRemark) {
                                 props.saveRemark(
                                   languageTranslation('REMARK_ADDED_SUCCESS'),
-                                  undefined,
+                                  undefined
                                 );
                               } else {
-                                toast.success(
-                                  languageTranslation('REMARK_ADDED_SUCCESS'),
-                                );
+                                if (!toast.isActive(toastId)) {
+                                  toastId = toast.success(
+                                    languageTranslation('REMARK_ADDED_SUCCESS')
+                                  );
+                                }
                               }
                             }
                           }}
@@ -159,7 +161,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                   type='textarea'
                                   name={'remarkValue'}
                                   onChange={handleChange}
-                                  placeholder='Remarks'
+                                  placeholder='Enter your remark'
                                   value={remarkValue}
                                   className='height-textarea '
                                   maxLength={1000}
@@ -196,16 +198,18 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                       if (props.saveRemark) {
                                         props.saveRemark(
                                           languageTranslation(
-                                            'REMARK_UPDATE_SUCCESS',
+                                            'REMARK_UPDATE_SUCCESS'
                                           ),
-                                          undefined,
+                                          undefined
                                         );
                                       } else {
-                                        toast.success(
-                                          languageTranslation(
-                                            'REMARK_UPDATE_SUCCESS',
-                                          ),
-                                        );
+                                        if (!toast.isActive(toastId)) {
+                                          toastId =  toast.success(
+                                            languageTranslation(
+                                              'REMARK_UPDATE_SUCCESS'
+                                            )
+                                          );
+                                        }
                                       }
                                     }
                                   }
@@ -250,7 +254,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                           <span className='activity-icon activity-set'></span>
                         </div>
                       );
-                    },
+                    }
                   )}
                 </>
               ) : (

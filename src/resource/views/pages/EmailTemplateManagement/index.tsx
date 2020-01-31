@@ -26,7 +26,7 @@ const [
 ] = EmailTemplateQueries;
 
 const [ADD_EMAIL_TEMPLATE, UPDATE_EMAIL_TEMPLATE] = EmailTemplateMutations;
-
+let toastId: any = '';
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
   const [typeId, setTypeId] = useState<number | null>(null);
@@ -77,9 +77,12 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   >(ADD_EMAIL_TEMPLATE, {
     onCompleted({ addEmail }) {
+      setTemplateData(null);
       refetch();
       listRefetch();
-      toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
+      }
     }
   });
   // To update email template into db
@@ -93,7 +96,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   >(UPDATE_EMAIL_TEMPLATE, {
     onCompleted({ updateEmailTemplate }) {
-      toast.success(languageTranslation('EMAIL_UPDATION_SUCCESS'));
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation('EMAIL_UPDATION_SUCCESS'));
+      }
     }
   });
   //To get email templates by type
@@ -222,6 +227,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   };
   const onTemplateSelection = async (id: string) => {
     setActiveTemplate(id);
+    toast.dismiss();
     await fetchTemplateById({
       variables: {
         id
@@ -233,6 +239,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     selectedType: IReactSelectInterface /* , id: string */
   ) => {
     setTemplateType(selectedType);
+    setTemplateData(null);
   };
 
   // To use formik submit form outside
@@ -247,7 +254,18 @@ export const EmailTemplateManagement: FunctionComponent = () => {
             handleSubmit={() => {
               submitMyForm();
             }}
-            onAddNewTemplate={() => setTemplateData(null)}
+            onAddNewTemplate={() => {
+              if (templateType && templateType.value) {
+                setTypeId(parseInt(templateType.value));
+              }
+              setTemplateData({
+                type: templateType ? templateType : undefined,
+                menuEntry: '',
+                subject: '',
+                body: '',
+                id: undefined
+              });
+            }}
             typeListOptions={typeListOptions}
             templateType={templateType}
             onTypeChange={onTypeChange}
@@ -267,6 +285,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   templateData={templateData}
                   typeListOptions={typeListOptions}
                   setTypeId={setTypeId}
+                  setTemplateData={setTemplateData}
                 />
               </Row>
             </div>

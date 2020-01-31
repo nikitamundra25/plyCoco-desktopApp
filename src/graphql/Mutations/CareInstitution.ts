@@ -153,6 +153,7 @@ const UPDATE_NEW_CONTACT_CARE_INSTITUTION = gql`
       mobileNumber
       email
       remark
+      attributes
     }
   }
 `;

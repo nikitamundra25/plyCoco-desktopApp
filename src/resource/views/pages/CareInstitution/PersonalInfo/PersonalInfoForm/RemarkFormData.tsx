@@ -4,7 +4,7 @@ import { FormikProps } from 'formik';
 import { languageTranslation } from '../../../../../../helpers';
 import {
   ICareInstitutionFormValues,
-  ICareInstitutionRemarks,
+  ICareInstitutionRemarks
 } from '../../../../../../interfaces';
 import moment from 'moment';
 import { ConfirmBox } from '../../../../components/ConfirmBox';
@@ -22,13 +22,13 @@ const RemarkFormData: FunctionComponent<FormikProps<
     setRemarksDetail?: any;
     remarksDetail?: any;
     saveRemark?: (message: string, remarksData: any) => void;
-  },
+  }
 ) => {
   const [activeRemark, setActiveRemark] = useState(0);
   let [changeRemark, setchangeRemark] = useState({
     data: '',
     createdAt: '',
-    createdBy: '',
+    createdBy: ''
   });
 
   let [isEditRemark, setisEditRemark] = useState(false);
@@ -39,11 +39,12 @@ const RemarkFormData: FunctionComponent<FormikProps<
   const onDelete = async (index: number) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('REMARK_DELETE_CONFIRMATION'),
+      text: languageTranslation('REMARK_DELETE_CONFIRMATION')
     });
     if (!value) {
       return;
     } else {
+      toast.dismiss();
       let temp = remarksDetail ? remarksDetail : [];
       temp = temp.filter((remark: any, i: number) => i !== index);
       if (setRemarksDetail) {
@@ -54,7 +55,9 @@ const RemarkFormData: FunctionComponent<FormikProps<
           props.saveRemark(languageTranslation('REMARK_DELETE_SUCCESS'), temp);
         } else {
           if (!toast.isActive(toastId)) {
-            toast.success(languageTranslation('REMARK_DELETE_SUCCESS'));
+            toastId = toast.success(
+              languageTranslation('REMARK_DELETE_SUCCESS')
+            );
           }
         }
       }
@@ -71,7 +74,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
     handleSubmit,
     setFieldValue,
     setRemarksDetail,
-    remarksDetail,
+    remarksDetail
   } = props;
 
   return (
@@ -119,7 +122,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                           temp.unshift({
                             data: remarkData,
                             createdAt: moment().format('MMMM Do YYYY, h:mm a'),
-                            createdBy: 'john doe',
+                            createdBy: 'john doe'
                           });
                           if (setRemarksDetail) {
                             setRemarksDetail(temp);
@@ -128,12 +131,12 @@ const RemarkFormData: FunctionComponent<FormikProps<
                           if (props.saveRemark) {
                             props.saveRemark(
                               languageTranslation('REMARK_ADDED_SUCCESS'),
-                              undefined,
+                              undefined
                             );
                           } else {
                             if (!toast.isActive(toastId)) {
-                              toast.success(
-                                languageTranslation('REMARK_ADDED_SUCCESS'),
+                              toastId = toast.success(
+                                languageTranslation('REMARK_ADDED_SUCCESS')
                               );
                             }
                           }
@@ -163,7 +166,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                               type='textarea'
                               name={'remarkValue'}
                               onChange={handleChange}
-                              placeholder='Remarks'
+                              placeholder='Enter your remark'
                               value={remarkValue}
                               maxLength={1000}
                               className='height-textarea '
@@ -200,15 +203,15 @@ const RemarkFormData: FunctionComponent<FormikProps<
                                   if (props.saveRemark) {
                                     props.saveRemark(
                                       languageTranslation(
-                                        'REMARK_UPDATE_SUCCESS',
+                                        'REMARK_UPDATE_SUCCESS'
                                       ),
-                                      undefined,
+                                      undefined
                                     );
                                   } else {
                                     toast.success(
                                       languageTranslation(
-                                        'REMARK_UPDATE_SUCCESS',
-                                      ),
+                                        'REMARK_UPDATE_SUCCESS'
+                                      )
                                     );
                                   }
                                 }
@@ -254,7 +257,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                       <span className='activity-icon activity-set'></span>
                     </div>
                   );
-                },
+                }
               )}
             </>
           ) : (

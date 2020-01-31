@@ -13,23 +13,29 @@ const GET_EMAIL_TEMPLATE = gql`
     getEmailtemplate(type: $type, sortBy: $sortBy, limit: $limit, page: $page) {
       id
       type
-      menuEntry
+      email_templates {
+        id
+        emailTemplateTypeId
+        menuEntry
+      }
     }
   }
 `;
 const GET_EMAIL_TEMPLATE_BY_ID = gql`
   query ViewEmailTemplate($id: ID) {
     viewEmailTemplate(id: $id) {
-      type
+      email_template_type {
+        type
+      }
       menuEntry
       subject
       body
+      id
     }
   }
 `;
-
 export const EmailTemplateQueries = [
   GET_EMAIL_TEMPLATE_TYEPS,
   GET_EMAIL_TEMPLATE,
-  GET_EMAIL_TEMPLATE_BY_ID,
+  GET_EMAIL_TEMPLATE_BY_ID
 ];

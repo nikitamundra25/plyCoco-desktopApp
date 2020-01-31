@@ -11,7 +11,7 @@ import {
   IStates,
   ICountry,
   IState,
-  IRegion,
+  IRegion
 } from '../../../../../../interfaces';
 import { CountryQueries } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
@@ -29,30 +29,30 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   any> = (props: FormikProps<ICareInstitutionFormValues> & any) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
   const regionOptions: IReactSelectInterface[] | undefined = [];
   if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
@@ -82,7 +82,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       id,
       regionId,
       createdAt,
-      remarksViewable,
+      remarksViewable
     },
     touched,
     errors,
@@ -93,11 +93,11 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldValue,
     setFieldTouched,
     CareInstitutionList,
-    setFieldError,
+    setFieldError
   } = props;
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    'YYYY-MM-DD',
+    'YYYY-MM-DD'
   );
 
   useEffect(() => {
@@ -105,8 +105,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3,
-      },
+        sortBy: 3
+      }
     });
   }, []);
   // Custom function to handle react select fields
@@ -115,7 +115,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldValue(name, selectOption);
     if (name === 'country') {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
     }
@@ -125,7 +125,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     if (e && e.value) {
       const data: IReactSelectInterface = {
         label: e.label,
-        value: e.value,
+        value: e.value
       };
       setFieldValue('linkedTo', data);
       // setselectUser((selectUser = data));
@@ -722,7 +722,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                             : '';
                           const username = setUsername.replace(
                             /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi,
-                            '',
+                            ''
                           );
                           setFieldError('userName', ' ');
                           setFieldValue('userName', username);
@@ -856,6 +856,10 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         maxLength={255}
                       />
+                      {remarksViewable && remarksViewable.length
+                        ? remarksViewable.length
+                        : 0}
+                      /255
                     </div>
                   </Col>
                 </Row>

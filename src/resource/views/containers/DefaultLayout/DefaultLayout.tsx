@@ -25,6 +25,8 @@ import { useLazyQuery } from '@apollo/react-hooks';
 import Loader from '../Loader/Loader';
 import { ProfileQueries } from '../../../../graphql/queries';
 import logo from '../../../assets/img/plycoco-white.png';
+import { toast } from 'react-toastify';
+import { ApolloError } from 'apollo-client';
 
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
@@ -84,21 +86,36 @@ const DefaultLayout = (props: RouteComponentProps) => {
   let { pathname } = useLocation();
   const [viewAdminProfile, { data }] = useLazyQuery(VIEW_PROFILE, {
     fetchPolicy: 'no-cache',
+    onError: (error: ApolloError) => {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      toast.error(message);
+      history.push(AppRoutes.LOGIN);
+    },
   });
+  // To add scroll event listener
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
+  // Token verification on route change
   useEffect(() => {
     try {
       viewAdminProfile();
     } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      toast.error(message);
       history.push(AppRoutes.LOGIN);
     }
   }, [pathname]);
+  // To add sticky class into header
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const header: HTMLElement | null = document.getElementById('sidebar');

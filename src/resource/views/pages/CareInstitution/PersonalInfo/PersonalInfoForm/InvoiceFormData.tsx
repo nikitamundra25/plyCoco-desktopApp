@@ -5,7 +5,7 @@ import { FormikProps } from 'formik';
 import { languageTranslation } from '../../../../../../helpers';
 import {
   ICareInstitutionFormValues,
-  IHandleSelectInterface,
+  IHandleSelectInterface
 } from '../../../../../../interfaces';
 import { InvoiceType, InvoiceInterval } from '../../../../../../config';
 
@@ -13,7 +13,7 @@ const InvoiceFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 > &
   IHandleSelectInterface> = (
-  props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface,
+  props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface
 ) => {
   const {
     values: { invoiceType, interval, emailInvoice, addressInvoice },
@@ -25,7 +25,7 @@ const InvoiceFormData: FunctionComponent<FormikProps<
     handleSubmit,
     setFieldValue,
     setFieldTouched,
-    handleSelect,
+    handleSelect
   } = props;
 
   return (
@@ -102,7 +102,8 @@ const InvoiceFormData: FunctionComponent<FormikProps<
             <Row>
               <Col sm='4'>
                 <Label className='form-label col-form-label'>
-                  {languageTranslation('ADRESS_INVOICE')}
+                  {languageTranslation('ADRESS_INVOICE')} &nbsp;
+                  {/* <small>You can enter upto 255 characters</small> */}
                 </Label>
               </Col>
               <Col sm='8'>
@@ -116,7 +117,7 @@ const InvoiceFormData: FunctionComponent<FormikProps<
                     placeholder={languageTranslation('ADRESS_INVOICE')}
                     className='textarea-custom'
                     rows='4'
-                    maxLength={250}
+                    maxLength={255}
                   />
                 </div>
               </Col>

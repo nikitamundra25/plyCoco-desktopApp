@@ -272,8 +272,10 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi,
                                         '',
                                       );
-                                      setFieldError('userName', ' ');
                                       setFieldValue('userName', username);
+                                      setTimeout(() => {
+                                        setFieldError('userName', '');
+                                      }, 100);
                                       handleBlur(e);
                                     }}
                                     value={email}
@@ -321,13 +323,11 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         : 'text-input'
                                     }
                                   />
-                                  {errors.userName &&
-                                    !userName &&
-                                    touched.userName && (
-                                      <div className='required-tooltip'>
-                                        {errors.userName}
-                                      </div>
-                                    )}
+                                  {errors.userName && touched.userName && (
+                                    <div className='required-tooltip'>
+                                      {errors.userName}
+                                    </div>
+                                  )}
                                 </div>
                               </Col>
                             </Row>

@@ -1,30 +1,30 @@
-import React, { FunctionComponent, useState, Suspense, useEffect } from 'react';
-import { RouteComponentProps, useLocation, useParams } from 'react-router';
-import Select from 'react-select';
-import qs from 'query-string';
-import { useLazyQuery } from '@apollo/react-hooks';
-import { AppRoutes } from '../../../../config';
-import { careGiverRoutes } from './Sidebar/SidebarRoutes/CareGiverRoutes';
-import { IReactSelectInterface } from '../../../../interfaces';
-import Invoices from './Invoices/Invoices';
-import PersonalInformation from './PersonalInfo/PersonalInformation';
-import DocumentsUpload from './Documents/DocumentsUpload';
-import Offer from './Offers/Offer';
-import InboxEmail from './Emails/InboxEmail';
-import ToDo from './ToDos/ToDos';
-import LeasingPersonalData from './LeasingData';
-import QualificationAttribute from './QualificationAttributes/QualificationAttribute';
-import Loader from '../../containers/Loader/Loader';
-import Email from './Emails';
-import add from '../../../assets/img/add.svg';
-import reminder from '../../../assets/img/reminder.svg';
-import password from '../../../assets/img/password.svg';
-import appointment from '../../../assets/img/appointment.svg';
-import clear from '../../../assets/img/clear.svg';
-import { CareGiverQueries } from '../../../../graphql/queries';
-import LoginLogs from './Logins/CareLogin';
+import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
+import { RouteComponentProps, useLocation, useParams } from "react-router";
+import Select from "react-select";
+import qs from "query-string";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { AppRoutes } from "../../../../config";
+import { careGiverRoutes } from "./Sidebar/SidebarRoutes/CareGiverRoutes";
+import { IReactSelectInterface } from "../../../../interfaces";
+import Invoices from "./Invoices/Invoices";
+import PersonalInformation from "./PersonalInfo/PersonalInformation";
+import DocumentsUpload from "./Documents/DocumentsUpload";
+import Offer from "./Offers/Offer";
+import InboxEmail from "./Emails/InboxEmail";
+import ToDo from "./ToDos/ToDos";
+import LeasingPersonalData from "./LeasingData";
+import QualificationAttribute from "./QualificationAttributes/QualificationAttribute";
+import Loader from "../../containers/Loader/Loader";
+import Email from "./Emails";
+import add from "../../../assets/img/add.svg";
+import reminder from "../../../assets/img/reminder.svg";
+import password from "../../../assets/img/password.svg";
+import appointment from "../../../assets/img/appointment.svg";
+import clear from "../../../assets/img/clear.svg";
+import { CareGiverQueries } from "../../../../graphql/queries";
+import LoginLogs from "./Logins/CareLogin";
 const CareGiverSidebar = React.lazy(() =>
-  import('./Sidebar/SidebarLayout/CareGiverLayout')
+  import("./Sidebar/SidebarLayout/CareGiverLayout")
 );
 
 const [GET_CAREGIVERS] = CareGiverQueries;
@@ -37,15 +37,15 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   const Id: any | undefined = id;
 
   let sortBy: IReactSelectInterface | undefined = {
-    label: '3',
-    value: 'Sort by A-Z'
+    label: "3",
+    value: "Sort by A-Z"
   };
   // To fetch the list of all caregiver
   const [
     fetchCareGivers,
     { data: careGivers, loading, refetch }
   ] = useLazyQuery<any>(GET_CAREGIVERS, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: "no-cache"
   });
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface | null>(
@@ -65,32 +65,32 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   const { search, pathname } = useLocation();
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     // Fetch list of caregivers
     fetchCareGivers({
       variables: {
-        searchBy: '',
+        searchBy: "",
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: ''
+        isActive: ""
       }
     });
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn'
+      "caregiver-add-btn"
     );
     if (buttonDiv) {
-      if (scrollPositionY >= 18) {
-        buttonDiv.classList.add('sticky-save-btn');
+      if (scrollPositionY >= 12) {
+        buttonDiv.classList.add("sticky-save-btn");
       } else {
-        buttonDiv.classList.remove('sticky-save-btn');
+        buttonDiv.classList.remove("sticky-save-btn");
       }
     }
   };
@@ -104,7 +104,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     careGivers.getCaregivers.result.forEach(
       ({ id, firstName, lastName }: any) =>
         careGiverOpt.push({
-          label: `${firstName}${' '}${lastName}`,
+          label: `${firstName}${" "}${lastName}`,
           value: id
         })
     );
@@ -131,7 +131,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 
   const onTabChange = (activeTab: number) => {
     props.history.push(
-      `${AppRoutes.CARE_GIVER_VIEW.replace(':id', Id)}?tab=${encodeURIComponent(
+      `${AppRoutes.CARE_GIVER_VIEW.replace(":id", Id)}?tab=${encodeURIComponent(
         careGiverRoutes[activeTab].name
       )}`
     );
@@ -147,7 +147,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       if (e.value !== Id) {
         props.history.push(
           `${AppRoutes.CARE_GIVER_VIEW.replace(
-            ':id',
+            ":id",
             e.value
           )}?tab=${encodeURIComponent(careGiverRoutes[activeTab].name)}`
         );
@@ -162,16 +162,16 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 
   return (
     <div>
-      <div className='common-detail-page'>
-        <div className='common-detail-section'>
+      <div className="common-detail-page">
+        <div className="common-detail-section">
           <Suspense fallback={<Loader />}>
-            <div className='sticky-common-header'>
-              <div className='common-topheader d-flex align-items-center '>
-                <div className='user-select'>
+            <div className="sticky-common-header">
+              <div className="common-topheader d-flex align-items-center ">
+                <div className="user-select">
                   <Select
-                    classNamePrefix='react-select'
+                    classNamePrefix="react-select"
                     defaultValue={selectUser}
-                    placeholder='Select Caregiver'
+                    placeholder="Select Caregiver"
                     value={selectUser}
                     onChange={(e: any) => handleSelect(e)}
                     options={careGiverOpt}
@@ -179,19 +179,19 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                 </div>
                 <div
                   onClick={handleAddNewCareGiver}
-                  className='header-nav-item'
+                  className="header-nav-item"
                 >
-                  <span className='header-nav-icon'>
-                    <img src={add} alt='' />
+                  <span className="header-nav-icon">
+                    <img src={add} alt="" />
                   </span>
-                  <span className='header-nav-text'>New Caregiver</span>
+                  <span className="header-nav-text">New Caregiver</span>
                 </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={reminder} alt='' />
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={reminder} alt="" />
                   </span>
                   <span
-                    className='header-nav-text'
+                    className="header-nav-text"
                     // onClick={() => {
                     //   this.setState({ show: true });
                     // }}
@@ -199,23 +199,23 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                     Create Todo/Reminder
                   </span>
                 </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={password} alt='' />
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={password} alt="" />
                   </span>
-                  <span className='header-nav-text'>New Password</span>
+                  <span className="header-nav-text">New Password</span>
                 </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={appointment} alt='' />
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={appointment} alt="" />
                   </span>
-                  <span className='header-nav-text'>Display Appointments</span>
+                  <span className="header-nav-text">Display Appointments</span>
                 </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={clear} alt='' />
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={clear} alt="" />
                   </span>
-                  <span className='header-nav-text'>Clear</span>
+                  <span className="header-nav-text">Clear</span>
                 </div>
               </div>
               <CareGiverSidebar
@@ -225,8 +225,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               />
             </div>
           </Suspense>
-          <Suspense fallback={''}>
-            <div className='common-content flex-grow-1'>
+          <Suspense fallback={""}>
+            <div className="common-content flex-grow-1">
               {activeTab === 0 ? (
                 <PersonalInformation
                   currentSelectuser={(Data: IReactSelectInterface) => {

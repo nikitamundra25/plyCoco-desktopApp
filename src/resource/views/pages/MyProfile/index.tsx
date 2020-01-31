@@ -32,18 +32,25 @@ const MyProfile: FunctionComponent = () => {
     { userInput: IProfileValues }
   >(UPDATE_ADMIN_PROFILE, {
     onCompleted() {
-      toast.success('Profile updated successfully.');
+      toast.success(languageTranslation('UPDATE_PROFILE_SUCCESS'));
+    },
+    onError: (error: ApolloError) => {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      toast.error(message);
     },
   });
   // Change password
-  const [adminChangePassword, { loading: changePwdLoading }] = useMutation<
+  const [changePassword, { loading: changePwdLoading, error }] = useMutation<
     {
-      adminChangePassword: any;
+      changePassword: any;
     },
     { password: string; oldPassword: string }
   >(CHANGE_PASSWORD, {
     onCompleted() {
-      toast.success('Password updated successfully.');
+      toast.success(languageTranslation('UPDATE_PASSWORD_SUCCESS'));
     },
     onError: (error: ApolloError) => {
       const message = error.message
@@ -80,10 +87,10 @@ const MyProfile: FunctionComponent = () => {
   // Function to update password into db
   const onChangePassword = async (
     { oldPassword, password }: IChangePasswordValues,
-    { setSubmitting, resetForm }: FormikHelpers<IChangePasswordValues>,
+    { resetForm }: FormikHelpers<IChangePasswordValues>,
   ) => {
     try {
-      await adminChangePassword({ variables: { oldPassword, password } });
+      await changePassword({ variables: { oldPassword, password } });
       resetForm();
     } catch (error) {
       const message = error.message

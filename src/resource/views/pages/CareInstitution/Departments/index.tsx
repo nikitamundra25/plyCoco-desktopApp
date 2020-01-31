@@ -1,37 +1,37 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
+import React, { FunctionComponent, useState, useEffect } from "react";
+import { RouteComponentProps } from "react-router";
 import {
   FormGroup,
   Col,
   Row,
   Form,
   Button,
-  UncontrolledTooltip,
-} from 'reactstrap';
-import Select from 'react-select';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { languageTranslation, logger } from '../../../../../helpers';
-import AddDepartmentForm from './AddDepartmentForm';
-import QuallificationAttribute from './QuallificationAttribute';
-import TimesForm from './TimesForm';
-import { useParams } from 'react-router-dom';
+  UncontrolledTooltip
+} from "reactstrap";
+import Select from "react-select";
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import { languageTranslation, logger } from "../../../../../helpers";
+import AddDepartmentForm from "./AddDepartmentForm";
+import QuallificationAttribute from "./QuallificationAttribute";
+import TimesForm from "./TimesForm";
+import { useParams } from "react-router-dom";
 import {
   IAddDepartmentFormValues,
   IReactSelectInterface,
-  IAddTimeFormValues,
-} from '../../../../../interfaces';
-import { toast } from 'react-toastify';
+  IAddTimeFormValues
+} from "../../../../../interfaces";
+import { toast } from "react-toastify";
 import {
   AddDepartmentValidationSchema,
-  AddTimeValidationSchema,
-} from '../../../../validations';
-import { CareInstitutionQueries } from '../../../../../graphql/queries';
-import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
-import { IQualifications } from '../../../../../interfaces/qualification';
+  AddTimeValidationSchema
+} from "../../../../validations";
+import { CareInstitutionQueries } from "../../../../../graphql/queries";
+import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { IQualifications } from "../../../../../interfaces/qualification";
 
-import { GET_QUALIFICATION_ATTRIBUTE } from '../../../../../graphql/queries';
-import { ConfirmBox } from '../../../components/ConfirmBox';
-import { CareInstitutionMutation } from '../../../../../graphql/Mutations';
+import { GET_QUALIFICATION_ATTRIBUTE } from "../../../../../graphql/queries";
+import { ConfirmBox } from "../../../components/ConfirmBox";
+import { CareInstitutionMutation } from "../../../../../graphql/Mutations";
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -52,7 +52,7 @@ const [
   DELETE_DEPARTMENT
 ] = CareInstitutionMutation;
 
-let toastId: any = '';
+let toastId: any = "";
 
 const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   let [timesData, setTimesData] = useState<any>([]);
@@ -72,7 +72,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   // Mutation to delete caregiver
   const [deleteDivision] = useMutation<{ deleteDivision: any }, { id: number }>(
-    DELETE_DEPARTMENT,
+    DELETE_DEPARTMENT
   );
 
   // To get caregiver list from db
@@ -85,14 +85,14 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   // To fecth qualification attributes list
   const { data: qualificationData } = useQuery<IQualifications>(
-    GET_QUALIFICATION_ATTRIBUTE,
+    GET_QUALIFICATION_ATTRIBUTE
   );
   const qualificationList: IReactSelectInterface[] | undefined = [];
   if (qualificationData && qualificationData.getQualificationAttributes) {
     qualificationData.getQualificationAttributes.forEach((quali: any) => {
       qualificationList.push({
         label: quali.attributeName,
-        value: quali.id,
+        value: quali.id
       });
     });
   }
@@ -101,14 +101,14 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     // call query
     getDepartmentList({
       variables: {
-        userId: parseInt(Id),
-      },
+        userId: parseInt(Id)
+      }
     });
   }, [departmentList]);
 
   const handleSubmit = async (
     values: IAddDepartmentFormValues,
-    { setSubmitting, resetForm }: FormikHelpers<IAddDepartmentFormValues>,
+    { setSubmitting, resetForm }: FormikHelpers<IAddDepartmentFormValues>
   ) => {
     try {
       const departmentInput: any = {
@@ -128,7 +128,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         locked: values.locked,
         times: timesData,
         qualifications: qualifications,
-        attributes: attributes,
+        attributes: attributes
       };
 
       setSubmitting(false);
@@ -136,30 +136,30 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         await updateDivision({
           variables: {
             id: parseInt(departmentDetails.id),
-            divisionInput: departmentInput,
-          },
+            divisionInput: departmentInput
+          }
         });
         toast.success(
-          languageTranslation('UPDATE_DEPARTMENT_CARE_INSTITUTION'),
+          languageTranslation("UPDATE_DEPARTMENT_CARE_INSTITUTION")
         );
       } else {
         await addDivision({
           variables: {
             id: parseInt(Id),
-            divisionInput: departmentInput,
-          },
+            divisionInput: departmentInput
+          }
         });
         toast.success(
-          languageTranslation('ADD_NEW_DEPARTMENT_CARE_INSTITUTION'),
+          languageTranslation("ADD_NEW_DEPARTMENT_CARE_INSTITUTION")
         );
       }
       refetch();
       resetForm();
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       toast.error(message);
       logger(error);
     }
@@ -186,39 +186,39 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       locked: departmentDetails.locked,
       times: departmentDetails.times,
       qualifications: departmentDetails.qualifications,
-      attributes: departmentDetails.attributes,
+      attributes: departmentDetails.attributes
     };
   } else {
     values = {
       userId: parseInt(Id),
-      name: '',
-      anonymousName: '',
-      anonymousName2: '',
-      address: '',
-      contactPerson: '',
-      phoneNumber: '',
-      faxNumber: '',
-      email: '',
-      commentsOffer: '',
-      commentsCareGiver: '',
-      commentsVisibleInternally: '',
+      name: "",
+      anonymousName: "",
+      anonymousName2: "",
+      address: "",
+      contactPerson: "",
+      phoneNumber: "",
+      faxNumber: "",
+      email: "",
+      commentsOffer: "",
+      commentsCareGiver: "",
+      commentsVisibleInternally: "",
       locked: false,
       times: [],
       qualifications: [],
-      attributes: [],
+      attributes: []
     };
   }
 
   const handleAddTime = async (
     TimeValues: IAddTimeFormValues,
-    { setSubmitting, resetForm }: FormikHelpers<IAddTimeFormValues>,
+    { setSubmitting, resetForm }: FormikHelpers<IAddTimeFormValues>
   ) => {
     try {
       let timesInput: any = {
         userId: values.userId,
         begin: TimeValues.begin,
         end: TimeValues.end,
-        comment: TimeValues.comment,
+        comment: TimeValues.comment
       };
       let temp: any = [];
       temp = [...timesData];
@@ -235,28 +235,28 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   TimeValues = {
     userId: parseInt(Id),
-    begin: '',
-    end: '',
-    comment: '',
+    begin: "",
+    end: "",
+    comment: ""
   };
 
   const addNewDepartment = async () => {
     setDepartmentDetails({
-      id: '',
+      id: "",
       userId: parseInt(Id),
-      name: '',
-      anonymousName: '',
-      anonymousName2: '',
-      address: '',
-      contactPerson: '',
-      phoneNumber: '',
-      faxNumber: '',
-      email: '',
-      commentsOffer: '',
-      commentsCareGiver: '',
-      commentsVisibleInternally: '',
+      name: "",
+      anonymousName: "",
+      anonymousName2: "",
+      address: "",
+      contactPerson: "",
+      phoneNumber: "",
+      faxNumber: "",
+      email: "",
+      commentsOffer: "",
+      commentsCareGiver: "",
+      commentsVisibleInternally: "",
       locked: false,
-      times: [],
+      times: []
     });
     setTimesData([]);
     setQualifications([]);
@@ -266,21 +266,21 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_DEPARTMENT_DELETE_MSG'),
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_DEPARTMENT_DELETE_MSG")
     });
     if (!value) {
       return;
     } else {
       await deleteDivision({
         variables: {
-          id: parseInt(id),
-        },
+          id: parseInt(id)
+        }
       });
       refetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('DEPARTMENT_DELETE_SUCCESS_MSG'),
+          languageTranslation("DEPARTMENT_DELETE_SUCCESS_MSG")
         );
       }
     }
@@ -288,96 +288,98 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   return (
     <>
-      <Form className='form-section forms-main-section'>
-        <Row className=''>
-          <Col lg={'4'}>
+      <Form className="form-section forms-main-section">
+        <Row className="">
+          <Col lg={"4"}>
             <div>
-              <h5 className='content-title'>
-                {languageTranslation('DEPARTMENT')}
+              <h5 className="content-title">
+                {languageTranslation("DEPARTMENT")}
               </h5>
             </div>
 
-            <div className='form-card p-0'>
+            <div className="form-card p-0">
               <FormGroup>
                 <Row>
-                  <Col lg={'6'}>
-                    {' '}
-                    <div className='p-2'>
-                      <Select placeholder={languageTranslation('LOCKED')} />
+                  <Col lg={"6"}>
+                    {" "}
+                    <div className="p-2">
+                      <Select placeholder={languageTranslation("LOCKED")} />
                     </div>
                   </Col>
-                  <Col lg={'6'}>
+                  <Col lg={"6"}>
                     <Button
-                      color={'primary'}
-                      className={'btn-department mb-2 pull-right mt-2 mr-2'}
-                      id={'add-new-pm-tooltip'}
+                      color={"primary"}
+                      className={"btn-department mb-2 pull-right mt-2 mr-2"}
+                      id={"add-new-pm-tooltip"}
                       onClick={addNewDepartment}
                     >
-                      <i className={'fa fa-plus'} />
+                      <i className={"fa fa-plus"} />
                       &nbsp; Add New Departments
                     </Button>
                   </Col>
 
-                  <Col sm='12'>
-                    <div className='common-list-card border-0'>
-                      <div className='d-flex align-items-center justify-content-between px-2'>
-                        <h6 className='common-list-title  '>
-                          {languageTranslation('NAME')}
-                        </h6>{' '}
+                  <Col sm="12">
+                    <div className="common-list-card border-0">
+                      <div className="d-flex align-items-center justify-content-between px-2">
+                        <h6 className="common-list-title  ">
+                          {languageTranslation("NAME")}
+                        </h6>{" "}
                       </div>
 
-                      <div className='common-list-wrap'>
-                        <div className='common-list-header d-flex align-items-cente justify-content-between'>
-                          <div className='common-list-title align-middle'>
-                            {' '}
-                            {languageTranslation('LOCKED')}
+                      <div className="common-list-wrap">
+                        <div className="common-list-header d-flex align-items-cente justify-content-between">
+                          <div className="common-list-title align-middle">
+                            {" "}
+                            {languageTranslation("LOCKED")}
                           </div>
-                          <div className=' align-middle toggle-icon'>
-                            <i className='fa fa-angle-down'></i>
+                          <div className=" align-middle toggle-icon">
+                            <i className="fa fa-angle-down"></i>
                           </div>
                         </div>
-                        <div className='common-list-body border-0'>
-                          <ul className='common-list list-unstyled'>
+                        <div className="common-list-body border-0">
+                          <ul className="common-list list-unstyled">
                             {departmentList && departmentList.getDivision.length
                               ? departmentList.getDivision.map(
-                                (item: any, index: number) => {
-                                  return (
-                                    <li
-                                      key={index}
-                                      className={
-                                        'cursor-pointer list-item text-capitalize' +
-                                        (isActive === index ? ' active' : '')
-                                      }
-                                      onClick={() => {
-                                        setDepartmentDetails(item);
-                                        setTimesData(item.times);
-                                        setQualifications(
-                                          item.qualifications,
-                                        );
-                                        setAttributes(item.attributes);
-                                        setIsActive(index);
-                                      }}
-                                    >
-                                      <span className="list-item-text">{item.name}</span>{' '}
-                                      <span
-                                        id={`delete${index}`}
-                                        className='list-item-icon'
-                                        onClick={() => onDelete(item.id)}
+                                  (item: any, index: number) => {
+                                    return (
+                                      <li
+                                        key={index}
+                                        className={
+                                          "cursor-pointer list-item text-capitalize" +
+                                          (isActive === index ? " active" : "")
+                                        }
+                                        onClick={() => {
+                                          setDepartmentDetails(item);
+                                          setTimesData(item.times);
+                                          setQualifications(
+                                            item.qualifications
+                                          );
+                                          setAttributes(item.attributes);
+                                          setIsActive(index);
+                                        }}
                                       >
-                                        <UncontrolledTooltip
-                                          placement={'top'}
-                                          target={`delete${index}`}
+                                        <span className="list-item-text">
+                                          {item.name}
+                                        </span>{" "}
+                                        <span
+                                          id={`delete${index}`}
+                                          className="list-item-icon"
+                                          onClick={() => onDelete(item.id)}
                                         >
-                                          {languageTranslation(
-                                            'DEPARTMENT_DELETE',
-                                          )}
-                                        </UncontrolledTooltip>
-                                        <i className='fa fa-trash'></i>
-                                      </span>
-                                    </li>
-                                  );
-                                },
-                              )
+                                          <UncontrolledTooltip
+                                            placement={"top"}
+                                            target={`delete${index}`}
+                                          >
+                                            {languageTranslation(
+                                              "DEPARTMENT_DELETE"
+                                            )}
+                                          </UncontrolledTooltip>
+                                          <i className="fa fa-trash"></i>
+                                        </span>
+                                      </li>
+                                    );
+                                  }
+                                )
                               : null}
                           </ul>
                         </div>
@@ -388,7 +390,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
               </FormGroup>
             </div>
           </Col>
-          <Col lg={'4'}>
+          <Col lg={"4"}>
             <Formik
               initialValues={values}
               enableReinitialize={true}

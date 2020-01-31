@@ -198,9 +198,10 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
           </Col>
           <Col lg={"12"}>
             <Button
-              className="edit-remark text-center"
+              className="btn-submit text-center"
               onClick={handleSubmit}
               block
+              color={"primary"}
               disabled={!(begin && end)}
             >
               <span>

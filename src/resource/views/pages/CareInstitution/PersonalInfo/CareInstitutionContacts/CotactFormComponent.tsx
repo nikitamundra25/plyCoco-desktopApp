@@ -81,7 +81,7 @@ const CotactFormComponent: any = (
     } else {
       data.push(selectOption);
     }
-    setnewAttributeValue('');
+    setnewAttributeValue(null);
     setFieldValue(name, data);
   };
 
@@ -98,13 +98,17 @@ const CotactFormComponent: any = (
   */
   let contactAttribute: any[] | undefined | any = props.values.attributeId;
   const handleAddNewAttributevalue = () => {
-    const AttributeID: any = attributeId;
-    AttributeID.push(newAttributeValue);
-    // const FData: any = AttOpt;
-    AttOpt.push(newAttributeValue);
-    setAttOpt(AttOpt);
-    handleSelect(AttributeID, 'attributeId');
-    setnewAttributeValue('');
+    console.log('newAttributeValue', newAttributeValue);
+
+    if (newAttributeValue && newAttributeValue.value) {
+      const AttributeID: any = attributeId;
+      AttributeID.push(newAttributeValue);
+      // const FData: any = AttOpt;
+      AttOpt.push(newAttributeValue);
+      setAttOpt(AttOpt);
+      handleSelect(AttributeID, 'attributeId');
+      setnewAttributeValue('');
+    }
   };
 
   const handleRemoveAttribute = (index: any) => {
@@ -749,11 +753,7 @@ const CotactFormComponent: any = (
                       <Button
                         onClick={() => handleAddNewAttributevalue()}
                         id={'addAttribute'}
-                        disabled={
-                          !newAttributeValue || newAttributeValue === ''
-                            ? true
-                            : false
-                        }
+                        disabled={!newAttributeValue ? true : false}
                         className='add-attribute-btn  d-flex align-items-center justify-content-center'
                       >
                         <i className={'fa fa-plus'} />

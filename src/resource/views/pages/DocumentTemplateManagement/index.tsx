@@ -1,14 +1,51 @@
-import React, { Component, FunctionComponent } from 'react';
+import React, {
+  Component,
+  FunctionComponent,
+  useCallback,
+  useState,
+} from 'react';
 import { FormGroup, Label, Input, Col, Row, Form, Table } from 'reactstrap';
+import moment from 'moment';
+import Dropzone, { useDropzone } from 'react-dropzone';
 import Select from 'react-select';
 import { languageTranslation } from '../../../../helpers';
 import { State } from '../../../../config';
+import { IDocumentUrls } from '../../../../interfaces';
+import { ConfirmBox } from '../../components/ConfirmBox';
 import displaydoc from '../../../assets/img/display-doc.svg';
 import upload from '../../../assets/img/upload.svg';
 import visit from '../../../assets/img/visit.svg';
 import './index.scss';
 
 const WorkingProof: FunctionComponent = () => {
+  const [documentUrls, setDocumentUrl] = useState<IDocumentUrls[] | null>(null);
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const temp: any = documentUrls ? documentUrls : [];
+    acceptedFiles.forEach((file: File) => {
+      console.log(file, 'fvgfgfgfgfgfg');
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onabort = () => console.log('file reading was aborted');
+        reader.onerror = () => console.log('file reading has failed');
+        reader.onloadend = () => {
+          console.log(reader.result, 'reader.resultreader.result');
+          if (reader.result) {
+            temp.push({
+              path: reader.result,
+              name: file.name,
+              date: moment().format('DD.MM.YYYY'),
+            });
+            setDocumentUrl(temp);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }, []);
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
   return (
     <>
       <div className='common-detail-page'>
@@ -50,14 +87,13 @@ const WorkingProof: FunctionComponent = () => {
                       <h5 className='content-title'>New Work Proofs</h5>
                       <div className='working-height'>
                         <div className='form-section pt-2 px-3'>
-                          <FormGroup>
-                            <Row>
-                              <Col sm='4'>
-                                <Select placeholder='Name' options={State} />
-                              </Col>
-                              <Col sm='8'></Col>
-                            </Row>
-                          </FormGroup>
+                          <div {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            <p>
+                              Drag 'n' drop some files here, or click to select
+                              files
+                            </p>
+                          </div>
                         </div>
                         <div className='document-list'>
                           <Table responsive className='documentlist-table'>
@@ -68,7 +104,22 @@ const WorkingProof: FunctionComponent = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
+                              {documentUrls && documentUrls.length
+                                ? documentUrls.map(
+                                    (
+                                      { name, date }: IDocumentUrls,
+                                      index: number,
+                                    ) => {
+                                      return (
+                                        <tr key={index}>
+                                          <td className='date-col'>{date} </td>
+                                          <td className='file-col'>{name}</td>
+                                        </tr>
+                                      );
+                                    },
+                                  )
+                                : null}
+                              {/* <tr>
                                 <td colSpan={2}>
                                   <div className='date-title'>
                                     <span className='align-middle mr-2'>
@@ -146,6 +197,7 @@ const WorkingProof: FunctionComponent = () => {
                                   </div>
                                 </td>
                               </tr>
+                             */}
                             </tbody>
                           </Table>
                         </div>

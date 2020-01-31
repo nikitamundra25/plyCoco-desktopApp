@@ -336,7 +336,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                             <i className="fa fa-angle-down"></i>
                           </div>
                         </div>
-                        <div className="common-list-body border-0">
+                        <div className="common-list-body border-0 department-list">
                           <ul className="common-list list-unstyled">
                             {departmentList && departmentList.getDivision.length
                               ? departmentList.getDivision.map(

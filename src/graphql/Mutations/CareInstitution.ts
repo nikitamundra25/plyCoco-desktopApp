@@ -40,9 +40,73 @@ const UPDATE_CARE_INSTITUTION = gql`
       careInstitutionInput: $careInstitutionInput
       isRemarkAdded: $isRemarkAdded
     ) {
-      firstName
+       firstName
       lastName
+      salutation
+      email
+      userName
+      phoneNumber
       id
+      gender
+      canstitution {
+        city
+        zipCode
+        companyName
+        shortName
+        street
+        countryId
+        stateId
+        remarks
+        title
+        fax
+        linkedTo
+        doctorCommission
+        leasingPriceListId
+        isArchive
+        careGiverCommission
+        anonymousName
+        anonymousName2
+        mobileNumber
+        remarksViewable
+        defaultQualification
+        invoiceType
+        emailInvoice
+        addressInvoice
+        interval
+        website
+        attributes
+      }
+      qualifications {
+        id
+        attributeName
+      }
+      regions {
+        id
+        regionName
+      }
+      contact {
+        salutation
+        firstName
+        surName
+        gender
+        title
+        salutation
+        firstName
+        surName
+        countryId
+        street
+        city
+        contactType
+        phoneNumber
+        zip
+        phoneNumber2
+        fax
+        mobileNumber
+        email
+        remark
+        id
+        attributes
+      }
     }
   }
 `;

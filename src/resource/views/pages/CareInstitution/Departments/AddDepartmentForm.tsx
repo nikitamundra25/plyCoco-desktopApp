@@ -3,6 +3,7 @@ import { FormGroup, Label, Input, Col, Row, Button } from "reactstrap";
 import { FormikProps } from "formik";
 import { languageTranslation } from "../../../../../helpers";
 import { IAddDepartmentFormValues } from "../../../../../interfaces";
+import Loader from "../../../containers/Loader/Loader";
 
 const AddDepartmentForm: FunctionComponent<FormikProps<
   IAddDepartmentFormValues
@@ -24,6 +25,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
       commentsVisibleInternally,
       locked
     },
+    isLoading,
     touched,
     errors,
     isSubmitting,
@@ -35,11 +37,29 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
 
   return (
     <>
+      <div id={"caregiver-add-btn"}>
+        <Button
+          color={"primary"}
+          disabled={isSubmitting}
+          className={"save-button"}
+          onClick={handleSubmit}
+          id={"department-save-btn"}
+        >
+          {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+
+          {languageTranslation("SAVE_BUTTON")}
+        </Button>
+      </div>
       <div>
         <h5 className="content-title"> {languageTranslation("DETAILS")}</h5>
       </div>
 
-      <div className="form-card ">
+      <div className="form-card department-card-height">
+        {isLoading ? (
+          <div>
+            <Loader />
+          </div>
+        ) : null}
         <Row>
           <Col lg={"12"}>
             <FormGroup>
@@ -226,8 +246,8 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                       placeholder={languageTranslation("")}
                       className={
                         errors.phoneNumber && touched.phoneNumber
-                          ? "text-input error text-capitalize"
-                          : "text-input text-capitalize"
+                          ? "text-input error "
+                          : "text-input "
                       }
                     />
                     {errors.phoneNumber && touched.phoneNumber && (
@@ -260,8 +280,8 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                       placeholder={languageTranslation("")}
                       className={
                         errors.faxNumber && touched.faxNumber
-                          ? "text-input error text-capitalize"
-                          : "text-input text-capitalize"
+                          ? "text-input error "
+                          : "text-input "
                       }
                     />
                     {errors.faxNumber && touched.faxNumber && (
@@ -292,8 +312,8 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                       placeholder={languageTranslation("")}
                       className={
                         errors.email && touched.email
-                          ? "text-input error text-capitalize"
-                          : "text-input text-capitalize"
+                          ? "text-input error "
+                          : "text-input "
                       }
                     />
                     {errors.email && touched.email && (
@@ -415,7 +435,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={"12"} className="text-right">
+          {/* <Col lg={"12"} className="text-right">
             <Button
               color={"primary"}
               disabled={isSubmitting}
@@ -431,7 +451,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
               <i className={"fa fa-floppy-o"} />
               &nbsp;{languageTranslation("SAVE_BUTTON")}
             </Button>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </>

@@ -23,19 +23,19 @@ const WorkingProof: FunctionComponent = () => {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const temp: any = documentUrls ? documentUrls : [];
     acceptedFiles.forEach((file: File) => {
-      console.log(file, 'fvgfgfgfgfgfg');
+      console.log(file, "fvgfgfgfgfgfg");
 
       if (file) {
         const reader = new FileReader();
-        reader.onabort = () => console.log('file reading was aborted');
-        reader.onerror = () => console.log('file reading has failed');
+        reader.onabort = () => console.log("file reading was aborted");
+        reader.onerror = () => console.log("file reading has failed");
         reader.onloadend = () => {
-          console.log(reader.result, 'reader.resultreader.result');
+          console.log(reader.result, "reader.resultreader.result");
           if (reader.result) {
             temp.push({
               path: reader.result,
               name: file.name,
-              date: moment().format('DD.MM.YYYY'),
+              date: moment().format("DD.MM.YYYY")
             });
             setDocumentUrl(temp);
           }
@@ -84,20 +84,28 @@ const WorkingProof: FunctionComponent = () => {
                 <Row>
                   <Col lg={'4'}>
                     <div>
-                      <h5 className='content-title'>New Work Proofs</h5>
-                      <div className='working-height'>
-                        <div className='form-section pt-2 px-3'>
-                          <div {...getRootProps()}>
-                            <input {...getInputProps()} />
-                            <p>
+                      <h5 className="content-title">New Work Proofs</h5>
+                      <div className="working-height">
+                        <div className="form-section pt-2 px-3">
+                          <div {...getRootProps()} className="dropzone-preview">
+                            <input
+                              {...getInputProps()}
+                              className="dropzone-input-preview"
+                            />
+                            <span>
                               Drag 'n' drop some files here, or click to select
                               files
-                            </p>
+                            </span>
                           </div>
                         </div>
-                        <div className='document-list'>
-                          <Table responsive className='documentlist-table'>
-                            <thead className='thead-bg'>
+                        <div className="document-list">
+                          <Table
+                            bordered
+                            hover
+                            responsive
+                            className="documentlist-table"
+                          >
+                            <thead className="thead-bg">
                               <tr>
                                 <th className='date-col'>Date</th>
                                 <th className='file-col'>File Name</th>
@@ -108,15 +116,15 @@ const WorkingProof: FunctionComponent = () => {
                                 ? documentUrls.map(
                                     (
                                       { name, date }: IDocumentUrls,
-                                      index: number,
+                                      index: number
                                     ) => {
                                       return (
                                         <tr key={index}>
-                                          <td className='date-col'>{date} </td>
-                                          <td className='file-col'>{name}</td>
+                                          <td className="date-col">{date} </td>
+                                          <td className="file-col">{name}</td>
                                         </tr>
                                       );
-                                    },
+                                    }
                                   )
                                 : null}
                               {/* <tr>

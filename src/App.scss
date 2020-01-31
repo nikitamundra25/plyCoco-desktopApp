@@ -536,6 +536,12 @@ body {
         border-left: 6px solid transparent;
         content: "";
       }
+      .dropdown-item {
+        &:active,
+        &:active {
+          background: $theme_color;
+        }
+      }
     }
   }
 
@@ -1490,9 +1496,7 @@ html:not([dir="rtl"]) {
         &:last-child {
           border-bottom: 0px;
         }
-        &.active {
-          background: $table_border;
-        }
+        
         &.list-item {
           padding: 5px 5px;
           padding-right: 35px;
@@ -1508,6 +1512,16 @@ html:not([dir="rtl"]) {
             color: $gray_color;
             &:hover {
               color: $light_black;
+            }
+          }
+        }
+        &.active {
+          background: $theme_color;
+          color:$white;
+          .list-item-icon {
+            color:$white;
+            &:hover{
+              color:$white; 
             }
           }
         }
@@ -3333,7 +3347,7 @@ html:not([dir="rtl"]) {
 .no-list-section {
   .no-img {
     width: 116px;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
   }
   .no-text {
     font-size: 15px;

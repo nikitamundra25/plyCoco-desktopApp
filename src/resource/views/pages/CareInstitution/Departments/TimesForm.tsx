@@ -25,46 +25,48 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
       <div>
         <h5 className="content-title"> {languageTranslation("TIMES")}</h5>
       </div>
-      <Table bordered hover responsive>
-        <thead className="thead-bg">
-          <tr>
-            <th>{languageTranslation("BEGIN")}</th>
-            <th>{languageTranslation("END")}</th>
-            <th>{languageTranslation("COMMENTS")}</th>
-            <th className="text-center">
-              {languageTranslation("TABEL_HEAD_CG_ACTION")}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {timesData && timesData.length
-            ? timesData.map((item: any, index: number) => {
-                return (
-                  <tr key={index}>
-                    <td>{item.begin}</td>
-                    <td>{item.end}</td>
-                    <td>{item.comment}</td>
-                    <td className="text-center">
-                      <div className="action-btn">
-                        <span
-                          className="btn-icon "
-                          onClick={() => {
-                            const filteredTimes = timesData.filter(
-                              (t: any, i: number) => i !== index
-                            );
-                            setTimesData(filteredTimes);
-                          }}
-                        >
-                          <i className="fa fa-trash"></i>
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
-            : null}
-        </tbody>
-      </Table>
+      {timesData && timesData.length ? (
+        <Table bordered hover responsive>
+          <thead className="thead-bg">
+            <tr>
+              <th>{languageTranslation("BEGIN")}</th>
+              <th>{languageTranslation("END")}</th>
+              <th>{languageTranslation("COMMENTS")}</th>
+              <th className="text-center">
+                {languageTranslation("TABEL_HEAD_CG_ACTION")}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {timesData && timesData.length
+              ? timesData.map((item: any, index: number) => {
+                  return (
+                    <tr key={index}>
+                      <td>{item.begin}</td>
+                      <td>{item.end}</td>
+                      <td>{item.comment}</td>
+                      <td className="text-center">
+                        <div className="action-btn">
+                          <span
+                            className="btn-icon "
+                            onClick={() => {
+                              const filteredTimes = timesData.filter(
+                                (t: any, i: number) => i !== index
+                              );
+                              setTimesData(filteredTimes);
+                            }}
+                          >
+                            <i className="fa fa-trash"></i>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </Table>
+      ) : null}
       <div className="form-card minheight-auto">
         <Row>
           <Col lg={"12"}>

@@ -56,6 +56,7 @@ let toastId: any = "";
 
 const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   let [timesData, setTimesData] = useState<any>([]);
+  let [isLoading, setIsLoading] = useState<any>(false);
   let [qualifications, setQualifications] = useState<any>([]);
   let [attributes, setAttributes] = useState<any>([]);
 
@@ -241,6 +242,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   };
 
   const addNewDepartment = async () => {
+    setIsLoading(true);
     setDepartmentDetails({
       id: "",
       userId: parseInt(Id),
@@ -262,6 +264,9 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     setQualifications([]);
     setAttributes([]);
     setIsActive(-1);
+    setInterval(function() {
+      setIsLoading(false);
+    }, 1000);
   };
 
   const onDelete = async (id: string) => {
@@ -387,7 +392,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
               enableReinitialize={true}
               onSubmit={handleSubmit}
               children={(props: FormikProps<IAddDepartmentFormValues>) => (
-                <AddDepartmentForm {...props} />
+                <AddDepartmentForm {...props} isLoading={isLoading} />
               )}
               validationSchema={AddDepartmentValidationSchema}
             />

@@ -32,6 +32,8 @@ export interface IAddEmailTemplateProps {
 export interface IEmailTemplateList {
   onTemplateSelection: (data: any) => void;
   data: any;
+  loading: any;
+  activeTemplate: string | null;
 }
 
 export interface IEmailTemplateMenu {

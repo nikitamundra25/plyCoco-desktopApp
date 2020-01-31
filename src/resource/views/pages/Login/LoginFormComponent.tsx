@@ -26,7 +26,6 @@ const LoginFormComponent: FunctionComponent<FormikProps<ILoginFormValues> & {
     values: { email, password },
     touched,
     errors,
-    isSubmitting,
     handleChange,
     handleBlur,
     handleSubmit,
@@ -115,7 +114,7 @@ const LoginFormComponent: FunctionComponent<FormikProps<ILoginFormValues> & {
                     <Row>
                       <Col md='8' className='mx-auto mb-3'>
                         <Button
-                          disabled={isSubmitting}
+                          disabled={loading}
                           type={'submit'}
                           color='link'
                           block

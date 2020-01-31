@@ -43,6 +43,7 @@ export const ChangePwdFormComponent: FunctionComponent<FormikProps<
                           name={'oldPassword'}
                           value={oldPassword}
                           onChange={handleChange}
+                          autoComplete={'current-password'}
                           placeholder={languageTranslation('OLD_PASSWORD')}
                           className={
                             errors.oldPassword && touched.oldPassword
@@ -75,6 +76,7 @@ export const ChangePwdFormComponent: FunctionComponent<FormikProps<
                           name={'password'}
                           value={password}
                           onChange={handleChange}
+                          autoComplete={'new-password'}
                           placeholder={languageTranslation(
                             'CG_MENU_NEW_PASSWORD',
                           )}
@@ -109,6 +111,7 @@ export const ChangePwdFormComponent: FunctionComponent<FormikProps<
                           name={'confirmPassword'}
                           value={confirmPassword}
                           onChange={handleChange}
+                          autoComplete={'new-password'}
                           placeholder={languageTranslation('CONFIRM_PASSWORD')}
                           className={
                             errors.confirmPassword && touched.confirmPassword

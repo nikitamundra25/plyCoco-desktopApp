@@ -47,7 +47,6 @@ export const Login: FunctionComponent = () => {
   };
 
   const values: ILoginFormValues = { email: '', password: '' };
-
   return (
     <Formik
       initialValues={values}

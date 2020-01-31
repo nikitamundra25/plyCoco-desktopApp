@@ -11,8 +11,8 @@ const UPDATE_ADMIN_PROFILE = gql`
 `;
 
 const CHANGE_PASSWORD = gql`
-  mutation AdminChangePassword($oldPassword: String, $password: String) {
-    adminChangePassword(oldPassword: $oldPassword, password: $password) {
+  mutation ChangePassword($oldPassword: String, $password: String) {
+    changePassword(oldPassword: $oldPassword, password: $password) {
       firstName
       lastName
       email

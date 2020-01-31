@@ -112,7 +112,11 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                             "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
                           )}
                           mask={DateMask}
-                          className={"form-control"}
+                          className={
+                            errors.begin && touched.begin
+                              ? "text-input error form-control"
+                              : "text-input form-control"
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={begin}
@@ -120,7 +124,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                       )}
                     />
                     {errors.begin && touched.begin && (
-                      <div className="required-error left">{errors.begin}</div>
+                      <div className="required-tooltip">{errors.begin}</div>
                     )}
                   </div>
                 </Col>
@@ -148,7 +152,11 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                             "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
                           )}
                           mask={DateMask}
-                          className={"form-control"}
+                          className={
+                            errors.end && touched.end
+                              ? "text-input error form-control"
+                              : "text-input form-control"
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={end}
@@ -156,7 +164,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                       )}
                     />
                     {errors.end && touched.end && (
-                      <div className="required-error left">{errors.end}</div>
+                      <div className="required-tooltip">{errors.end}</div>
                     )}
                   </div>
                 </Col>

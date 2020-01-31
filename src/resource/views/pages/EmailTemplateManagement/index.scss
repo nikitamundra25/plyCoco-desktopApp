@@ -1,9 +1,16 @@
-@import '../../../assets/scss/variables';
+@import "../../../assets/scss/variables";
 .template-lable {
   font-size: $font_12;
   color: $black;
   padding-left: 8px;
   font-weight: bold;
+}
+.email-template-list {
+  height: calc(100% - 55px);
+  .common-list-body {
+    height: 100%;
+    max-height: 500px;
+  }
 }
 .common-col {
   height: 100%;

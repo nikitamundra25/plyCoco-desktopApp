@@ -52,7 +52,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
         <h5 className="content-title"> {languageTranslation("DETAILS")}</h5>
       </div>
 
-      <div className="form-card ">
+      <div className="form-card department-card-height">
         <Row>
           <Col lg={"12"}>
             <FormGroup>

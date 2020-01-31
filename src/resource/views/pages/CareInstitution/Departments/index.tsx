@@ -297,97 +297,88 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
               </h5>
             </div>
 
-            <div className="form-card p-0">
-              <FormGroup>
-                <Row>
-                  <Col lg={"6"}>
-                    {" "}
-                    <div className="p-2">
-                      <Select placeholder={languageTranslation("LOCKED")} />
+            <div className="form-card p-0 department-card-height">
+              <div className="d-flex align-items-end justify-content-between department-list-header pt-2 px-2">
+                <div className="select-box mb-2">
+                  <Select
+                    placeholder={languageTranslation("LOCKED")}
+                    classNamePrefix="custom-inner-reactselect"
+                    className="custom-reactselect"
+                  />
+                </div>
+                <Button
+                  color={"primary"}
+                  className={"btn-department mb-2 "}
+                  id={"add-new-pm-tooltip"}
+                  onClick={addNewDepartment}
+                >
+                  <i className={"fa fa-plus"} />
+                  &nbsp; Add New Departments
+                </Button>
+              </div>
+
+              <div className="common-list-card border-0">
+                <div className="d-flex align-items-center justify-content-between px-2">
+                  <h6 className="common-list-title  ">
+                    {languageTranslation("NAME")}
+                  </h6>{" "}
+                </div>
+
+                <div className="common-list-wrap mb-0">
+                  <div className="common-list-header d-flex align-items-cente justify-content-between">
+                    <div className="common-list-title align-middle">
+                      {" "}
+                      {languageTranslation("LOCKED")}
                     </div>
-                  </Col>
-                  <Col lg={"6"}>
-                    <Button
-                      color={"primary"}
-                      className={"btn-department mb-2 pull-right mt-2 mr-2"}
-                      id={"add-new-pm-tooltip"}
-                      onClick={addNewDepartment}
-                    >
-                      <i className={"fa fa-plus"} />
-                      &nbsp; Add New Departments
-                    </Button>
-                  </Col>
-
-                  <Col sm="12">
-                    <div className="common-list-card border-0">
-                      <div className="d-flex align-items-center justify-content-between px-2">
-                        <h6 className="common-list-title  ">
-                          {languageTranslation("NAME")}
-                        </h6>{" "}
-                      </div>
-
-                      <div className="common-list-wrap">
-                        <div className="common-list-header d-flex align-items-cente justify-content-between">
-                          <div className="common-list-title align-middle">
-                            {" "}
-                            {languageTranslation("LOCKED")}
-                          </div>
-                          <div className=" align-middle toggle-icon">
-                            <i className="fa fa-angle-down"></i>
-                          </div>
-                        </div>
-                        <div className="common-list-body border-0 department-list">
-                          <ul className="common-list list-unstyled">
-                            {departmentList && departmentList.getDivision.length
-                              ? departmentList.getDivision.map(
-                                  (item: any, index: number) => {
-                                    return (
-                                      <li
-                                        key={index}
-                                        className={
-                                          "cursor-pointer list-item text-capitalize" +
-                                          (isActive === index ? " active" : "")
-                                        }
-                                        onClick={() => {
-                                          setDepartmentDetails(item);
-                                          setTimesData(item.times);
-                                          setQualifications(
-                                            item.qualifications
-                                          );
-                                          setAttributes(item.attributes);
-                                          setIsActive(index);
-                                        }}
-                                      >
-                                        <span className="list-item-text">
-                                          {item.name}
-                                        </span>{" "}
-                                        <span
-                                          id={`delete${index}`}
-                                          className="list-item-icon"
-                                          onClick={() => onDelete(item.id)}
-                                        >
-                                          <UncontrolledTooltip
-                                            placement={"top"}
-                                            target={`delete${index}`}
-                                          >
-                                            {languageTranslation(
-                                              "DEPARTMENT_DELETE"
-                                            )}
-                                          </UncontrolledTooltip>
-                                          <i className="fa fa-trash"></i>
-                                        </span>
-                                      </li>
-                                    );
+                    <div className=" align-middle toggle-icon">
+                      <i className="fa fa-angle-down"></i>
+                    </div>
+                  </div>
+                  <div className="common-list-body border-0 department-list">
+                    <ul className="common-list list-unstyled mb-0">
+                      {departmentList && departmentList.getDivision.length
+                        ? departmentList.getDivision.map(
+                            (item: any, index: number) => {
+                              return (
+                                <li
+                                  key={index}
+                                  className={
+                                    "cursor-pointer list-item text-capitalize" +
+                                    (isActive === index ? " active" : "")
                                   }
-                                )
-                              : null}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
+                                  onClick={() => {
+                                    setDepartmentDetails(item);
+                                    setTimesData(item.times);
+                                    setQualifications(item.qualifications);
+                                    setAttributes(item.attributes);
+                                    setIsActive(index);
+                                  }}
+                                >
+                                  <span className="list-item-text">
+                                    {item.name}
+                                  </span>{" "}
+                                  <span
+                                    id={`delete${index}`}
+                                    className="list-item-icon"
+                                    onClick={() => onDelete(item.id)}
+                                  >
+                                    <UncontrolledTooltip
+                                      placement={"top"}
+                                      target={`delete${index}`}
+                                    >
+                                      {languageTranslation("DEPARTMENT_DELETE")}
+                                    </UncontrolledTooltip>
+                                    <i className="fa fa-trash"></i>
+                                  </span>
+                                </li>
+                              );
+                            }
+                          )
+                        : null}
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </Col>
           <Col lg={"4"}>

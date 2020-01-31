@@ -1240,8 +1240,8 @@ html:not([dir="rtl"]) {
         overflow-y: auto;
       }
     }
-    .custom-inner-reactselect__menu{
-      z-index:9;
+    .custom-inner-reactselect__menu {
+      z-index: 9;
     }
     .custom-inner-reactselect__multi-value__label {
       font-size: 12px;
@@ -3307,4 +3307,25 @@ html:not([dir="rtl"]) {
       }
     }
   }
+}
+
+// dropzone design
+.dropzone-preview {
+  border: 1px dotted $light_gray;
+  padding: 30px 20px;
+  width: 100%;
+  height: 130px;
+  position: relative;
+  text-align: center;
+  background-color: $white;
+  color: #b4b0b0;
+  outline: none;
+  transition: border 0.24s ease-in-out;
+  margin-bottom: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: $font_13;
 }

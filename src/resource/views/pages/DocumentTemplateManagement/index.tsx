@@ -87,16 +87,24 @@ const WorkingProof: FunctionComponent = () => {
                       <h5 className="content-title">New Work Proofs</h5>
                       <div className="working-height">
                         <div className="form-section pt-2 px-3">
-                          <div {...getRootProps()}>
-                            <input {...getInputProps()} />
-                            <p>
+                          <div {...getRootProps()} className="dropzone-preview">
+                            <input
+                              {...getInputProps()}
+                              className="dropzone-input-preview"
+                            />
+                            <span>
                               Drag 'n' drop some files here, or click to select
                               files
-                            </p>
+                            </span>
                           </div>
                         </div>
                         <div className="document-list">
-                          <Table responsive className="documentlist-table">
+                          <Table
+                            bordered
+                            hover
+                            responsive
+                            className="documentlist-table"
+                          >
                             <thead className="thead-bg">
                               <tr>
                                 <th className="date-col">Date</th>

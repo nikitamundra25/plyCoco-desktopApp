@@ -3,17 +3,19 @@ import { Row, Col, FormGroup, Label, Input, Table } from 'reactstrap';
 import { FormikProps } from 'formik';
 import { Editor } from 'react-draft-wysiwyg';
 import { IEmailTemplateValues } from '../../../../../interfaces';
-import { languageTranslation } from '../../../../../helpers';
+import { languageTranslation, stripHtml } from '../../../../../helpers';
 import { ErroredFieldComponent } from '../../../components/ErroredFieldComponent';
 import CreatableSelect from 'react-select/creatable';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { printSchema } from 'graphql';
+import draftToHtml from 'draftjs-to-html';
+import { convertToRaw } from 'draft-js';
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
 > & {
   typeListOptions?: any;
   setTypeId?: any;
+  setTemplateData?: any;
 }> = (
   props: FormikProps<IEmailTemplateValues> & {
     typeListOptions?: any;
@@ -30,19 +32,18 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     setTypeId
   } = props;
   const typeError: any = errors.type;
-  console.log('type erroe', typeError);
+  console.log('errors', errors);
   console.log('touched', touched);
 
   const handleTypeSelect = (newValue: any, actionMeta: any) => {
     console.log('value', newValue);
     setFieldValue('type', newValue);
     setTypeId(parseInt(newValue.value));
-    // setFieldValue('setTypeId',newValue.value)
-    //typeId
     if (actionMeta.action === 'create-option') {
     }
   };
-
+  let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '';
+  const result = stripHtml(content);
   return (
     <Col lg={'5'}>
       <h5 className='content-title'>{languageTranslation('DETAILS')}</h5>
@@ -54,7 +55,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                 <Row>
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
-                      {languageTranslation('ID')}{' '}
+                      {languageTranslation('ID')}
                       <span className='required'>*</span>
                     </Label>
                   </Col>
@@ -92,11 +93,12 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         className={
                           typeError && typeError.value && touched.type
                             ? 'error custom-reactselect'
-                            : 'custom-reactselect text-capitalize'
+                            : 'custom-reactselect'
                         }
                         onChange={handleTypeSelect}
                         value={type && type.label !== '' ? type : null}
                         options={typeListOptions}
+                        placeholder={'Create and select type'}
                       />
                       <ErroredFieldComponent
                         errors={typeError ? typeError.value : ''}
@@ -209,6 +211,12 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                       }
                     }}
                   />
+                  {touched.body &&
+                  (errors.body || !result || (result && result.length < 2)) ? (
+                    <div className='required-error'>
+                      {errors.body || languageTranslation('REQUIRED_BODY')}
+                    </div>
+                  ) : null}
                 </div>
               </FormGroup>
             </Col>

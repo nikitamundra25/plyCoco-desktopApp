@@ -27,6 +27,8 @@ export interface IAddEmailTemplateProps {
   templateData: IEmailTemplateValues | null;
   typeListOptions: IReactSelectInterface[] | undefined;
   setTypeId: any;
+  setTemplateData: any;
+  
 }
 
 export interface IEmailTemplateList {

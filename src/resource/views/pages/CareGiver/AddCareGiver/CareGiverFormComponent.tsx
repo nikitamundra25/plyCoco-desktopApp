@@ -17,7 +17,7 @@ import {
   CareGiverQueries,
 } from '../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
-import { languageTranslation } from '../../../../../helpers';
+import { languageTranslation, logger } from '../../../../../helpers';
 import PersonalInfoFormComponent from '../PersonalInfo/PersonalInfoFormComponent';
 import BillingSettingsFormComponent from '../PersonalInfo/BillingSettingsFormComponent';
 import QualificationFormComponent from '../PersonalInfo/QualificationFormComponent';

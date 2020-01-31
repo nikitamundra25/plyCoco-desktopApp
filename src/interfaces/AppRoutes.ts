@@ -48,4 +48,5 @@ export interface IAppRoutes {
   EMAIL_TEMPLATE_MANAGEMENT: string;
   CARE_GIVER_VIEW: string;
   BULK_EMAIL_CAREGIVER: string;
+  ATTRIBUTE_MANAGEMENT: string;
 }

@@ -4,7 +4,7 @@ import {
   ICareGiverInput,
   IAddCargiverRes,
   IReactSelectInterface,
-  ICareGiverValues,
+  ICareGiverValues
 } from '../../../../../interfaces';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import CareGiverFormComponent from './CareGiverFormComponent';
@@ -42,10 +42,10 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn',
+      'caregiver-add-btn'
     );
     if (buttonDiv) {
-      if (scrollPositionY >= 18) {
+      if (scrollPositionY >= 12) {
         buttonDiv.classList.add('sticky-save-btn');
       } else {
         buttonDiv.classList.remove('sticky-save-btn');
@@ -76,8 +76,8 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       history.push(
         AppRoutes.CARE_GIVER_VIEW.replace(
           ':id',
-          Data.addCareGiver ? Data.addCareGiver.id : 'null',
-        ),
+          Data.addCareGiver ? Data.addCareGiver.id : 'null'
+        )
       );
     }
   }, [data]);
@@ -85,7 +85,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   // function to add/edit employee information
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -136,14 +136,14 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       weekendAllowance,
       night,
       holiday,
-      postalCode,
+      postalCode
     } = values;
 
     try {
       let careGiverInput: any = {
         salutation: salutation && salutation.label ? salutation.label : '',
-        firstName,
-        lastName,
+        firstName: firstName ? firstName.trim() : '',
+        lastName: lastName ? lastName.trim() : '',
         address1,
         address2,
         street,
@@ -152,7 +152,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         countryId: country && country.value ? country.value : undefined,
         regionId: regionId ? `{${regionId.value}}` : undefined,
         zipCode: postalCode,
-        email,
+        email: email ? email.trim() : '',
         IBAN,
         employed,
         dateOfBirth,
@@ -162,12 +162,12 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         fax,
         comments,
         mobileNumber,
-        userName,
+        userName: userName ? userName.trim() : '',
         qualificationId:
           qualifications && qualifications.length
             ? `{${qualifications
                 .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
+                  (qualification: IReactSelectInterface) => qualification.value
                 )
                 .join(', ')}}`
             : null,
@@ -208,11 +208,11 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         // remarks && remarks.length ? remarks : [],
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],
-        status,
+        status
       };
       await addCaregiver({
         variables: {
-          careGiverInput,
+          careGiverInput
         },
         update: (cache, { data: { addCaregiver } }: any) => {
           const data: any = cache.readQuery({
@@ -222,17 +222,17 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
               sortBy: 0,
               limit: PAGE_LIMIT,
               page: 0,
-              isActive: undefined,
-            },
+              isActive: undefined
+            }
           });
           cache.writeQuery({
             query: GET_CAREGIVERS,
             data: {
               getCaregiversCount: data.getCaregiversCount + 1,
-              getCaregivers: data.getCaregivers.concat([addCaregiver]),
-            },
+              getCaregivers: data.getCaregivers.concat([addCaregiver])
+            }
           });
-        },
+        }
       });
       toast.success(languageTranslation('CAREGIVER_ADD_SUCCESS_MSG'));
 
@@ -286,7 +286,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     socialSecurityContribution = false,
     taxNumber = '',
     workZones = undefined,
-    status = '',
+    status = ''
   } = caregiverData ? caregiverData : {};
 
   const initialValues: ICareGiverValues = {
@@ -317,7 +317,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     taxNumber,
     workZones,
     status,
-    qualifications,
+    qualifications
   };
 
   return (

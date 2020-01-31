@@ -1,4 +1,4 @@
-@import '../../../assets/scss/variables';
+@import "../../../assets/scss/variables";
 .template-lable {
   font-size: $font_12;
   color: $black;
@@ -33,4 +33,7 @@
   .size-col {
     width: 60px;
   }
+}
+.required-error {
+  color: red;
 }

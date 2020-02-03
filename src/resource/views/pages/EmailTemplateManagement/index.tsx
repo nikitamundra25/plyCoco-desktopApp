@@ -221,7 +221,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         .replace('SequelizeValidationError: ', '')
         .replace('Validation error: ', '')
         .replace('GraphQL error: ', '');
-      toast.error(message);
+      toastId = toast.error(message);
     }
     resetForm();
   };

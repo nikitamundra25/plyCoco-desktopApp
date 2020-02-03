@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardBody,
   Table,
-  Collapse,
+  Collapse
 } from 'reactstrap';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { AppBreadcrumb } from '@coreui/react';
@@ -28,7 +28,7 @@ const AttributeManageMent = () => {
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [newAttribute, setNewAttribute] = useState<string>('');
   const [activeAttributeMenu, setActiveAttrMenu] = useState<number | null>(
-    null,
+    null
   );
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -37,13 +37,17 @@ const AttributeManageMent = () => {
   };
   // To get attributes types
   const [getAtrributeHeading, { data, loading, refetch }] = useLazyQuery<any>(
-    GET_ATTRIBUTES_TYPE,
+    GET_ATTRIBUTES_TYPE
   );
+  console.log('getAtrributeHeading', data);
+
   // To get attributes of selected types
   const [
     getAttributesName,
-    { data: attributeList, loading: listLoading },
+    { data: attributeList, loading: listLoading }
   ] = useLazyQuery<any>(GET_ATTRIBUTES_BY_TYPE);
+  console.log('attributeList', attributeList);
+
   // To add attributes into db
   const [addAttribute] = useMutation<
     {
@@ -55,7 +59,7 @@ const AttributeManageMent = () => {
   >(ADD_ATTRIBUTE, {
     onCompleted() {
       toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
-    },
+    }
   });
   useEffect(() => {
     getAtrributeHeading();
@@ -75,14 +79,14 @@ const AttributeManageMent = () => {
     getAttributesName({
       variables: {
         id: activeAttributeMenu,
-        sortBy: 2,
-      },
+        sortBy: 2
+      }
     });
   }, [activeAttributeMenu]);
   // On attribute change
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { value },
+      target: { value }
     } = e;
     setNewAttribute(value);
   };
@@ -94,9 +98,9 @@ const AttributeManageMent = () => {
         variables: {
           attributeInput: {
             id: activeAttributeMenu ? activeAttributeMenu : 0,
-            name: newAttribute,
-          },
-        },
+            name: newAttribute
+          }
+        }
       });
     }
   };
@@ -174,7 +178,7 @@ const AttributeManageMent = () => {
                       <td className='text-capitalize'>{attribute.name}</td>
                     </tr>
                   );
-                },
+                }
               )
             ) : (
               <tr className={'text-center no-hover-row'}>

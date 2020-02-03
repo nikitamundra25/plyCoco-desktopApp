@@ -4,6 +4,7 @@ const ADD_ATTRIBUTE = gql`
   mutation addAttribute($attributeInput: AttributeInput!) {
     addAttribute(attributeInput: $attributeInput) {
       id
+      name
     }
   }
 `;

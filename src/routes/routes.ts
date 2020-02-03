@@ -120,6 +120,16 @@ const BulkEmailCaregiver = React.lazy(() =>
   import("../pages/BulkEmailCaregiver")
 );
 
+const EmailInbox = React.lazy(() =>
+  import("../pages/Email/InboxEmail")
+);
+
+const EmailSent = React.lazy(() =>
+  import("../pages/Email/SentEmail")
+);
+const EmailOutbox = React.lazy(() => import("../pages/Email/OutboxEmail"));
+const EmailQueue = React.lazy(() => import("../pages/Email/MailQueueEmail"));
+
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -439,6 +449,30 @@ const routes = [
     path: AppRoutes.BULK_EMAIL_CAREGIVER,
     name: "Bulk Email Caregiver",
     component: BulkEmailCaregiver,
+    exact: true
+  },
+  {
+    path: AppRoutes.EMAIL_INBOX,
+    name: "Email Inbox",
+    component: EmailInbox,
+    exact: true
+  },
+  {
+    path: AppRoutes.EMAIL_SENT,
+    name: "Email Sent",
+    component: EmailSent,
+    exact: true
+  },
+  {
+    path: AppRoutes.EMAIL_OUTBOX,
+    name: "Email outbox",
+    component: EmailOutbox,
+    exact: true
+  },
+  {
+    path: AppRoutes.EMAIL_QUEUE,
+    name: "Email Queue",
+    component: EmailQueue,
     exact: true
   }
 ];

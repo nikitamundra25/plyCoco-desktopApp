@@ -48,4 +48,9 @@ export interface IAppRoutes {
   EMAIL_TEMPLATE_MANAGEMENT: string;
   CARE_GIVER_VIEW: string;
   BULK_EMAIL_CAREGIVER: string;
+  EMAIL_INBOX: string;
+  EMAIL_SENT: string;
+  EMAIL_OUTBOX: string;
+  EMAIL_QUEUE: string;
+  
 }

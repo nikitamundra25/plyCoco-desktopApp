@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { FormikProps } from 'formik';
-import { IRegionFormValue } from '../../../../../interfaces';
 import { FormGroup, Form, Button, Label, Input } from 'reactstrap';
+import { IRegionFormValue } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
+
 const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
   props: FormikProps<IRegionFormValue>,
 ) => {

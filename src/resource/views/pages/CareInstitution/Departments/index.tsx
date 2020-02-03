@@ -315,22 +315,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   return (
     <>
       <Form className="form-section forms-main-section">
-        <div id={"caregiver-add-btn"}>
-          <Button
-            color={"primary"}
-            // disabled={isSubmitting}
-            className={"save-button"}
-            onClick={handleSubmit}
-            id={"department-save-btn"}
-          >
-            {/* {isSubmitting ? (
-              <i className="fa fa-spinner fa-spin loader mr-1" />
-            ) : (
-              ""
-            )} */}
-            {languageTranslation("SAVE_BUTTON")}
-          </Button>
-        </div>
         <Row className="">
           <Col lg={"4"}>
             <div>

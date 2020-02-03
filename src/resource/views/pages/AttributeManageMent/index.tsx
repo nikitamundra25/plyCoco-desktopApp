@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -6,19 +6,19 @@ import {
   CardBody,
   Table,
   Collapse
-} from 'reactstrap';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
-import { AppBreadcrumb } from '@coreui/react';
-import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
-import { languageTranslation } from '../../../../helpers';
-import { AttributeQueries } from '../../../../graphql/queries';
-import Loader from '../../containers/Loader/Loader';
-import AttributeMenus from './AttributeMenus';
-import routes from '../../../../routes/routes';
-import AddAttribute from './AddAttribute';
-import { AttributeMutations } from '../../../../graphql/Mutations';
-import { IAttributeInput } from '../../../../interfaces';
-import { toast } from 'react-toastify';
+} from "reactstrap";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { AppBreadcrumb } from "@coreui/react";
+import { NoSearchFound } from "../../components/SearchFilter/NoSearchFound";
+import { languageTranslation } from "../../../../helpers";
+import { AttributeQueries } from "../../../../graphql/queries";
+import Loader from "../../containers/Loader/Loader";
+import AttributeMenus from "./AttributeMenus";
+import routes from "../../../../routes/routes";
+import AddAttribute from "./AddAttribute";
+import { AttributeMutations } from "../../../../graphql/Mutations";
+import { IAttributeInput } from "../../../../interfaces";
+import { toast } from "react-toastify";
 
 const [GET_ATTRIBUTES_TYPE, GET_ATTRIBUTES_BY_TYPE] = AttributeQueries;
 const [ADD_ATTRIBUTE] = AttributeMutations;
@@ -26,27 +26,27 @@ const [ADD_ATTRIBUTE] = AttributeMutations;
 const AttributeManageMent = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const [newAttribute, setNewAttribute] = useState<string>('');
+  const [newAttribute, setNewAttribute] = useState<string>("");
   const [activeAttributeMenu, setActiveAttrMenu] = useState<number | null>(
     null
   );
   const toggle = () => {
     setIsOpen(!isOpen);
-    setNewAttribute('');
+    setNewAttribute("");
     setIsSubmit(false);
   };
   // To get attributes types
   const [getAtrributeHeading, { data, loading, refetch }] = useLazyQuery<any>(
     GET_ATTRIBUTES_TYPE
   );
-  console.log('getAtrributeHeading', data);
+  console.log("getAtrributeHeading", data);
 
   // To get attributes of selected types
   const [
     getAttributesName,
     { data: attributeList, loading: listLoading, refetch: attributeListRefetch }
   ] = useLazyQuery<any>(GET_ATTRIBUTES_BY_TYPE);
-  console.log('attributeList', attributeList);
+  console.log("attributeList", attributeList);
 
   // To add attributes into db
   const [addAttribute] = useMutation<
@@ -59,7 +59,7 @@ const AttributeManageMent = () => {
   >(ADD_ATTRIBUTE, {
     onCompleted() {
       attributeListRefetch();
-      toast.success(languageTranslation('ADD_ATTRIBUTE_SUCCESS'));
+      toast.success(languageTranslation("ADD_ATTRIBUTE_SUCCESS"));
     }
   });
   useEffect(() => {
@@ -93,7 +93,7 @@ const AttributeManageMent = () => {
   };
   const handleSubmit = async () => {
     setIsSubmit(true);
-    console.log('in handleSubmit');
+    console.log("in handleSubmit");
     if (activeAttributeMenu) {
       try {
         if (newAttribute) {
@@ -109,9 +109,9 @@ const AttributeManageMent = () => {
       } catch (error) {
         if (newAttribute) {
           const message = error.message
-            .replace('SequelizeValidationError: ', '')
-            .replace('Validation error: ', '')
-            .replace('GraphQL error: ', '');
+            .replace("SequelizeValidationError: ", "")
+            .replace("Validation error: ", "")
+            .replace("GraphQL error: ", "");
           toast.error(message);
         }
       }
@@ -123,27 +123,27 @@ const AttributeManageMent = () => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
         <div>
           <Button
-            color={!isOpen ? 'primary' : 'danger'}
-            className={'btn-add'}
-            id={'add-new-pm-tooltip'}
+            color={!isOpen ? "primary" : "danger"}
+            className={"btn-add"}
+            id={"add-new-pm-tooltip"}
             onClick={toggle}
           >
             {!isOpen ? (
               <>
-                <i className={'fa fa-plus'} />
-                &nbsp; {languageTranslation('ADD_NEW_ATTRIBUTE_BUTTON')}
+                <i className={"fa fa-plus"} />
+                &nbsp; {languageTranslation("ADD_NEW_ATTRIBUTE_BUTTON")}
               </>
             ) : (
-              languageTranslation('CANCEL')
+              languageTranslation("CANCEL")
             )}
           </Button>
         </div>
       </CardHeader>
       <CardBody>
-        <Collapse isOpen={isOpen} className='region-input-section'>
+        <Collapse isOpen={isOpen} className="region-input-section">
           <AddAttribute
             handleSubmit={handleSubmit}
             onChange={onChange}
@@ -151,10 +151,8 @@ const AttributeManageMent = () => {
             isSubmit={isSubmit}
           />
         </Collapse>
-        <div></div>
-      </CardBody>
-      <div>
-        <div className='d-flex align-items-center justify-content-between  mb-2'>
+
+        <div className="d-flex align-items-center justify-content-between  mb-2">
           {data &&
           data.getAtrributeCategories &&
           data.getAtrributeCategories.length ? (
@@ -166,16 +164,18 @@ const AttributeManageMent = () => {
           ) : null}
         </div>
         <Table bordered hover responsive>
-          <thead className='thead-bg'>
+          <thead className="thead-bg">
             <tr>
-              <th className={'text-center'}>{languageTranslation('S_NO')}</th>
-              <th>{languageTranslation('ATTRIBUTE_NAME')}</th>
+              <th className={"text-center sno-th-column"}>
+                {languageTranslation("S_NO")}
+              </th>
+              <th>{languageTranslation("ATTRIBUTE_NAME")}</th>
             </tr>
           </thead>
           <tbody>
             {listLoading ? (
               <tr>
-                <td className={'table-loader'} colSpan={6}>
+                <td className={"table-loader"} colSpan={6}>
                   <Loader />
                 </td>
               </tr>
@@ -186,24 +186,24 @@ const AttributeManageMent = () => {
                 (attribute: any, index: number) => {
                   return (
                     <tr key={index}>
-                      <td className={'text-center'}>{index + 1}</td>
-                      <td className='text-capitalize'>{attribute.name}</td>
+                      <td className={"text-center"}>{index + 1}</td>
+                      <td className="text-capitalize">{attribute.name}</td>
                     </tr>
                   );
                 }
               )
             ) : (
-              <tr className={'text-center no-hover-row'}>
-                <td colSpan={6} className={'pt-5 pb-5'}>
+              <tr className={"text-center no-hover-row"}>
+                <td colSpan={6} className={"pt-5 pb-5"}>
                   {false ? (
                     <NoSearchFound />
                   ) : (
-                    <div className='no-data-section'>
-                      <div className='no-data-icon'>
-                        <i className='icon-ban' />
+                    <div className="no-data-section">
+                      <div className="no-data-icon">
+                        <i className="icon-ban" />
                       </div>
-                      <h4 className='mb-1'>
-                        Currently there are no attribute added.{' '}
+                      <h4 className="mb-1">
+                        Currently there are no attribute added.{" "}
                       </h4>
                       <p>Please click above button to add new.</p>
                     </div>
@@ -213,7 +213,7 @@ const AttributeManageMent = () => {
             )}
           </tbody>
         </Table>
-      </div>
+      </CardBody>
     </Card>
   );
 };

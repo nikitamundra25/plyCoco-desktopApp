@@ -37,20 +37,22 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
 
   return (
     <>
-      {/* <div id={"caregiver-add-btn"}>
-          <Button
-            color={"primary"}
-            disabled={isSubmitting}
-            className={"save-button"}
-            onClick={handleSubmit}
-            id={"department-save-btn"}
-          >
-            {isSubmitting ? (
-              <i className='fa fa-spinner fa-spin loader mr-1' />
-            ) : ('')}
-            {languageTranslation("SAVE_BUTTON")}
-          </Button>
-        </div> */}
+      <div id={"caregiver-add-btn"}>
+        <Button
+          color={"primary"}
+          disabled={isSubmitting}
+          className={"save-button"}
+          onClick={handleSubmit}
+          id={"department-save-btn"}
+        >
+          {isSubmitting ? (
+            <i className="fa fa-spinner fa-spin loader mr-1" />
+          ) : (
+            ""
+          )}
+          {languageTranslation("SAVE_BUTTON")}
+        </Button>
+      </div>
       <div>
         <h5 className="content-title"> {languageTranslation("DETAILS")}</h5>
       </div>

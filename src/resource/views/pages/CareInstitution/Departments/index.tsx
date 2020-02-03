@@ -156,6 +156,9 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       setSubmitting(false);
       refetch();
       resetForm();
+      setTimesData([]);
+      setQualifications([]);
+      setAttributes([]);
     } catch (error) {
       const message = error.message
         .replace("SequelizeValidationError: ", "")
@@ -372,15 +375,15 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                                   "cursor-pointer list-item text-capitalize" +
                                   (isActive === index ? " active" : "")
                                 }
-                                onClick={() => {
+                              >
+                                <span onClick={() => {
                                   setDepartmentDetails(item);
                                   setTimesData(item.times);
                                   setQualifications(item.qualifications);
                                   setAttributes(item.attributes);
                                   setIsActive(index);
                                 }}
-                              >
-                                <span className="list-item-text">
+                                  className="list-item-text">
                                   {item.name}
                                 </span>{" "}
                                 <span

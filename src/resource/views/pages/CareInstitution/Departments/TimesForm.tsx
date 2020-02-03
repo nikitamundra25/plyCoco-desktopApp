@@ -191,6 +191,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                       onBlur={handleBlur}
                       value={comment}
                       rows="3"
+                      placeholder={languageTranslation("COMMENT")}
                       className="textarea-custom"
                     />
                   </div>

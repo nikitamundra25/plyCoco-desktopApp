@@ -264,7 +264,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     setQualifications([]);
     setAttributes([]);
     setIsActive(-1);
-    setInterval(function () {
+    setInterval(function() {
       setIsLoading(false);
     }, 1000);
   };
@@ -315,6 +315,22 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   return (
     <>
       <Form className="form-section forms-main-section">
+        <div id={"caregiver-add-btn"}>
+          <Button
+            color={"primary"}
+            // disabled={isSubmitting}
+            className={"save-button"}
+            onClick={handleSubmit}
+            id={"department-save-btn"}
+          >
+            {/* {isSubmitting ? (
+              <i className="fa fa-spinner fa-spin loader mr-1" />
+            ) : (
+              ""
+            )} */}
+            {languageTranslation("SAVE_BUTTON")}
+          </Button>
+        </div>
         <Row className="">
           <Col lg={"4"}>
             <div>
@@ -364,42 +380,42 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                     <ul className="common-list list-unstyled mb-0">
                       {departmentList && departmentList.getDivision.length
                         ? departmentList.getDivision.map(
-                          (item: any, index: number) => {
-                            return (
-                              <li
-                                key={index}
-                                className={
-                                  "cursor-pointer list-item text-capitalize" +
-                                  (isActive === index ? " active" : "")
-                                }
-                                onClick={() => {
-                                  setDepartmentDetails(item);
-                                  setTimesData(item.times);
-                                  setQualifications(item.qualifications);
-                                  setAttributes(item.attributes);
-                                  setIsActive(index);
-                                }}
-                              >
-                                <span className="list-item-text">
-                                  {item.name}
-                                </span>{" "}
-                                <span
-                                  id={`delete${index}`}
-                                  className="list-item-icon"
-                                  onClick={() => onDelete(item.id)}
+                            (item: any, index: number) => {
+                              return (
+                                <li
+                                  key={index}
+                                  className={
+                                    "cursor-pointer list-item text-capitalize" +
+                                    (isActive === index ? " active" : "")
+                                  }
+                                  onClick={() => {
+                                    setDepartmentDetails(item);
+                                    setTimesData(item.times);
+                                    setQualifications(item.qualifications);
+                                    setAttributes(item.attributes);
+                                    setIsActive(index);
+                                  }}
                                 >
-                                  <UncontrolledTooltip
-                                    placement={"top"}
-                                    target={`delete${index}`}
+                                  <span className="list-item-text">
+                                    {item.name}
+                                  </span>{" "}
+                                  <span
+                                    id={`delete${index}`}
+                                    className="list-item-icon"
+                                    onClick={() => onDelete(item.id)}
                                   >
-                                    {languageTranslation("DEPARTMENT_DELETE")}
-                                  </UncontrolledTooltip>
-                                  <i className="fa fa-trash"></i>
-                                </span>
-                              </li>
-                            );
-                          }
-                        )
+                                    <UncontrolledTooltip
+                                      placement={"top"}
+                                      target={`delete${index}`}
+                                    >
+                                      {languageTranslation("DEPARTMENT_DELETE")}
+                                    </UncontrolledTooltip>
+                                    <i className="fa fa-trash"></i>
+                                  </span>
+                                </li>
+                              );
+                            }
+                          )
                         : null}
                     </ul>
                   </div>

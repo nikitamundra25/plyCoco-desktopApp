@@ -154,14 +154,14 @@ const BulkEmailCaregiver = React.lazy(() =>
 );
 
 const EmailInbox = React.lazy(() =>
-  import("../pages/Email/InboxEmail")
+  import("../resource/views/pages/Email/InboxEmail")
 );
 
 const EmailSent = React.lazy(() =>
-  import("../pages/Email/SentEmail")
+  import("../resource/views/pages/Email/SentEmail")
 );
-const EmailOutbox = React.lazy(() => import("../pages/Email/OutboxEmail"));
-const EmailQueue = React.lazy(() => import("../pages/Email/MailQueueEmail"));
+const EmailOutbox = React.lazy(() => import("../resource/views/pages/Email/OutboxEmail"));
+const EmailQueue = React.lazy(() => import("../resource/views/pages/Email/MailQueueEmail"));
 
 const routes = [
   {

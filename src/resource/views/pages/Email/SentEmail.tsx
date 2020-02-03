@@ -16,22 +16,22 @@ import {
   InputGroupAddon
 } from "reactstrap";
 import Select from "react-select";
-import inbox from "../../assets/img/inbox.svg";
-import send from "../../assets/img/send.svg";
-import reminder from "../../assets/img/reminder.svg";
-import relode from "../../assets/img/relode.svg";
+import inbox from "../../../assets/img/inbox.svg";
+import send from "../../../assets/img/send.svg";
+import reminder from "../../../assets/img/reminder.svg";
+import relode from "../../../assets/img/relode.svg";
 import delete_appointment from "../../assets/img/delete-appointment.svg";
-import clear from "../../assets/img/clear.svg";
-import employee from "../../assets/img/employee.svg";
-import mail from "../../assets/img/mail.svg";
+import clear from "../../../assets/img/clear.svg";
+import employee from "../../../assets/img/employee.svg";
+import mail from "../../../assets/img/mail.svg";
 
 const options = [
   { label: "one", value: 1 },
   { label: "two", value: 2 }
 ];
-import { languageTranslation } from "../../helpers";
+import { languageTranslation } from "../../../../helpers";
 
-import { State, Region, AppRoutes } from "../../config";
+import { State, Region, AppRoutes } from "../../../../config";
 import "./index.scss";
 
 class InboxEmail extends Component {
@@ -90,7 +90,7 @@ class InboxEmail extends Component {
 
           <div className="common-content flex-grow-1">
             <h5 className="content-title mb-0">
-              {languageTranslation("OUTBOX")}
+              {languageTranslation("SENT")}
             </h5>
             <div className="email-section">
               <div className="email-content pt-1">
@@ -153,7 +153,7 @@ class InboxEmail extends Component {
                         <thead className="thead-bg">
                           <tr>
                             <th className="posted-col">
-                              {languageTranslation("POSTED")}
+                              {languageTranslation("DATE")}
                             </th>
                             <th className="of-col">
                               {" "}

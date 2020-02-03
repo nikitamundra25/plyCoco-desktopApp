@@ -16,23 +16,23 @@ import {
   InputGroupAddon
 } from "reactstrap";
 import Select from "react-select";
-import inbox from "../../assets/img/inbox.svg";
-import send from "../../assets/img/send.svg";
-import reminder from "../../assets/img/reminder.svg";
-import relode from "../../assets/img/relode.svg";
-import delete_appointment from "../../assets/img/delete-appointment.svg";
-import clear from "../../assets/img/clear.svg";
-import employee from "../../assets/img/employee.svg";
-import mail from "../../assets/img/mail.svg";
-import time from "../../assets/img/time.svg";
+import inbox from "../../../assets/img/inbox.svg";
+import send from "../../../assets/img/send.svg";
+import reminder from "../../../assets/img/reminder.svg";
+import relode from "../../../assets/img/relode.svg";
+import delete_appointment from "../../../assets/img/delete-appointment.svg";
+import clear from "../../../assets/img/clear.svg";
+import employee from "../../../assets/img/employee.svg";
+import mail from "../../../assets/img/mail.svg";
+import time from "../../../assets/img/time.svg";
 
 const options = [
   { label: "one", value: 1 },
   { label: "two", value: 2 }
 ];
-import { languageTranslation } from "../../helpers";
+import { languageTranslation } from "../../../../helpers";
 
-import { State, Region, AppRoutes } from "../../config";
+import { State, Region, AppRoutes } from "../../../../config";
 import "./index.scss";
 
 class InboxEmail extends Component {

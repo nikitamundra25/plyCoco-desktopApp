@@ -44,7 +44,7 @@ const AttributeManageMent = () => {
   // To get attributes of selected types
   const [
     getAttributesName,
-    { data: attributeList, loading: listLoading }
+    { data: attributeList, loading: listLoading, refetch: attributeListRefetch }
   ] = useLazyQuery<any>(GET_ATTRIBUTES_BY_TYPE);
   console.log('attributeList', attributeList);
 
@@ -58,7 +58,8 @@ const AttributeManageMent = () => {
     }
   >(ADD_ATTRIBUTE, {
     onCompleted() {
-      toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
+      attributeListRefetch();
+      toast.success(languageTranslation('ADD_ATTRIBUTE_SUCCESS'));
     }
   });
   useEffect(() => {
@@ -90,21 +91,32 @@ const AttributeManageMent = () => {
     } = e;
     setNewAttribute(value);
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsSubmit(true);
     console.log('in handleSubmit');
     if (activeAttributeMenu) {
-      addAttribute({
-        variables: {
-          attributeInput: {
-            id: activeAttributeMenu ? activeAttributeMenu : 0,
-            name: newAttribute
-          }
+      try {
+        if (newAttribute) {
+          await addAttribute({
+            variables: {
+              attributeInput: {
+                id: activeAttributeMenu ? activeAttributeMenu : 0,
+                name: newAttribute
+              }
+            }
+          });
         }
-      });
+      } catch (error) {
+        if (newAttribute) {
+          const message = error.message
+            .replace('SequelizeValidationError: ', '')
+            .replace('Validation error: ', '')
+            .replace('GraphQL error: ', '');
+          toast.error(message);
+        }
+      }
     }
   };
-  console.log(data, 'dataaaaa', attributeList, listLoading);
   const onAttributeChange = (id: number) => {
     setActiveAttrMenu(id);
   };

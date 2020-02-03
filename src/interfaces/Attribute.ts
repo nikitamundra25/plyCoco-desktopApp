@@ -9,3 +9,7 @@ export interface IAttributeInput {
   id: number;
   name: string;
 }
+export interface IAttributeFormValues{
+  newAttribute: string;
+
+}

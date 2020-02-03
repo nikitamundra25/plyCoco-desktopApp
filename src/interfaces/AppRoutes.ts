@@ -52,5 +52,5 @@ export interface IAppRoutes {
   EMAIL_SENT: string;
   EMAIL_OUTBOX: string;
   EMAIL_QUEUE: string;
-  
+  ATTRIBUTE_MANAGEMENT: string;
 }

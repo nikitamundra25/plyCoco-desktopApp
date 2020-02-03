@@ -8,19 +8,20 @@
 // Import Simple Line Icons Set
 @import "~simple-line-icons/css/simple-line-icons.css";
 // Import Main styles for this application
-@import "./scss/style.scss";
+@import "./resource/assets/scss/style.scss";
 
 @import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap");
 
 @font-face {
   font-family: TechniqueBRKNormal;
-  src: url("./assets/fonts/techniqu-webfont.eot");
-  src: url("./assets/fonts/techniqu-webfont.eot?#iefix")
+  src: url("./resource/assets/fonts/techniqu-webfont.eot");
+  src: url("./resource/assets/fonts/techniqu-webfont.eot?#iefix")
       format("embedded-opentype"),
-    url("./assets/fonts/techniqu-webfont.woff") format("woff"),
-    url("./assets/fonts/techniqu-webfont.ttf") format("truetype"),
-    url("./assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal") format("svg");
+    url("./resource/assets/fonts/techniqu-webfont.woff") format("woff"),
+    url("./resource/assets/fonts/techniqu-webfont.ttf") format("truetype"),
+    url("./resource/assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal")
+      format("svg");
 
   font-weight: normal;
   font-style: normal;
@@ -28,55 +29,55 @@
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Regular";
-  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
+  src: url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
     format("truetype");
-  src: url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
+  src: url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
       format("embedded-opentype"),
-    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
+    url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
       format("woff2"),
-    url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
+    url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
       format("woff");
   //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
 }
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Medium";
-  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
       format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
       format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
       format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
       format("truetype");
-  // url("assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
+  // url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
 }
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Bold";
-  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
       format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
       format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
       format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
       format("truetype");
-  // url("assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
+  // url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
 }
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Light";
-  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
-  src: url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
       format("embedded-opentype"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
       format("woff2"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
       format("woff"),
-    url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
       format("truetype");
   //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
@@ -173,6 +174,7 @@ body {
     padding: 3px 6px;
     color: $light_black;
     border-radius: 2px;
+    font-weight: 600;
     &:hover {
       background: $profile_bg_hover;
     }
@@ -534,6 +536,12 @@ body {
         border-left: 6px solid transparent;
         content: "";
       }
+      .dropdown-item {
+        &:active,
+        &:active {
+          background: $theme_color;
+        }
+      }
     }
   }
 
@@ -608,128 +616,128 @@ body {
         margin: 0px 10px 0px 0px;
         &.icon-dash {
           width: 18px;
-          background-image: url(assets/img/sidebar/home.svg);
+          background-image: url(./resource/assets/img/sidebar/home.svg);
         }
         &.icon-emp {
           width: 18px;
-          background-image: url(assets/img/sidebar/user.png);
+          background-image: url(./resource/assets/img/sidebar/user.png);
         }
         &.icon-reg {
           width: 18px;
-          background-image: url(assets/img/sidebar/region.svg);
+          background-image: url(./resource/assets/img/sidebar/region.svg);
         }
         &.icon-care {
           width: 18px;
-          background-image: url(assets/img/sidebar/caregiver.svg);
+          background-image: url(./resource/assets/img/sidebar/caregiver.svg);
         }
         &.icon-build {
           width: 18px;
-          background-image: url(assets/img/sidebar/institution.svg);
+          background-image: url(./resource/assets/img/sidebar/institution.svg);
         }
         &.icon-appointment {
           width: 18px;
-          background-image: url(assets/img/sidebar/calendar.png);
+          background-image: url(./resource/assets/img/sidebar/calendar.png);
         }
         &.icon-email-temp {
           width: 18px;
-          background-image: url(assets/img/sidebar/email.png);
+          background-image: url(./resource/assets/img/sidebar/email.png);
         }
         &.icon-document {
           width: 18px;
-          background-image: url(assets/img/sidebar/document.png);
+          background-image: url(./resource/assets/img/sidebar/document.png);
         }
         &.icon-invoice {
           width: 18px;
-          background-image: url(assets/img/sidebar/invoices.png);
+          background-image: url(./resource/assets/img/sidebar/invoices.png);
         }
         &.icon-todo-care {
           width: 18px;
-          background-image: url(assets/img/sidebar/calendar-to-do.png);
+          background-image: url(./resource/assets/img/sidebar/calendar-to-do.png);
         }
         &.icon-todo-inst {
           width: 18px;
-          background-image: url(assets/img/sidebar/calendar-to-do-list.png);
+          background-image: url(./resource/assets/img/sidebar/calendar-to-do-list.png);
         }
         &.icon-attribute {
           width: 18px;
-          background-image: url(assets/img/sidebar/attribute-management.png);
+          background-image: url(./resource/assets/img/sidebar/attribute-management.png);
         }
         &.icon-call {
           width: 18px;
-          background-image: url(assets/img/sidebar/support.svg);
+          background-image: url(./resource/assets/img/sidebar/support.svg);
         }
         &.icon-cms {
           width: 18px;
-          background-image: url(assets/img/sidebar/cms.svg);
+          background-image: url(./resource/assets/img/sidebar/cms.svg);
         }
         &.icon-bulk-email {
           width: 18px;
-          background-image: url(assets/img/sidebar/bulk-email.svg);
+          background-image: url(./resource/assets/img/sidebar/bulk-email.svg);
         }
         &.icon-email-templates {
           width: 18px;
-          background-image: url(assets/img/sidebar/email-templates.svg);
+          background-image: url(./resource/assets/img/sidebar/email-templates.svg);
         }
         &.icon-employees {
           width: 18px;
-          background-image: url(assets/img/sidebar/employees.svg);
+          background-image: url(./resource/assets/img/sidebar/employees.svg);
         }
         &.icon-permission {
           width: 18px;
-          background-image: url(assets/img/sidebar/permission.svg);
+          background-image: url(./resource/assets/img/sidebar/permission.svg);
         }
         &.icon-price-list {
           width: 18px;
-          background-image: url(assets/img/sidebar/price-list.svg);
+          background-image: url(./resource/assets/img/sidebar/price-list.svg);
         }
         &.icon-scheduler {
           width: 18px;
-          background-image: url(assets/img/sidebar/scheduler.svg);
+          background-image: url(./resource/assets/img/sidebar/scheduler.svg);
         }
         &.icon-acquisition {
           width: 18px;
-          background-image: url(assets/img/sidebar/acquisition.svg);
+          background-image: url(./resource/assets/img/sidebar/acquisition.svg);
         }
         &.icon-care-Institution {
           width: 18px;
-          background-image: url(assets/img/sidebar/care-Institution.svg);
+          background-image: url(./resource/assets/img/sidebar/care-Institution.svg);
         }
         &.icon-caretakers {
           width: 18px;
-          background-image: url(assets/img/sidebar/caretakers.svg);
+          background-image: url(./resource/assets/img/sidebar/caretakers.svg);
         }
         &.icon-turnover {
           width: 18px;
-          background-image: url(assets/img/sidebar/turnover.svg);
+          background-image: url(./resource/assets/img/sidebar/turnover.svg);
         }
         &.icon-activity {
           width: 18px;
-          background-image: url(assets/img/sidebar/Employee-activities.svg);
+          background-image: url(./resource/assets/img/sidebar/Employee-activities.svg);
         }
         &.icon-holidays {
           width: 18px;
-          background-image: url(assets/img/sidebar/Holidays.svg);
+          background-image: url(./resource/assets/img/sidebar/Holidays.svg);
         }
         &.icon-turnover-caretakers {
           width: 18px;
-          background-image: url(assets/img/sidebar/turnover-caretaker.svg);
+          background-image: url(./resource/assets/img/sidebar/turnover-caretaker.svg);
         }
         &.icon-upload {
           width: 18px;
-          background-image: url(assets/img/sidebar/file-upload.svg);
+          background-image: url(./resource/assets/img/sidebar/file-upload.svg);
         }
         &.icon-working-list {
           width: 18px;
-          background-image: url(assets/img/sidebar/working-list.svg);
+          background-image: url(./resource/assets/img/sidebar/working-list.svg);
         }
         &.icon-inactive-caretakers {
           width: 18px;
-          background-image: url(assets/img/sidebar/Inactive-caretakers.svg);
+          background-image: url(./resource/assets/img/sidebar/Inactive-caretakers.svg);
         }
 
         &.icon-user {
           width: 18px;
-          background-image: url(assets/img/sidebar/user.svg);
+          background-image: url(./resource/assets/img/sidebar/user.svg);
         }
       }
       &.active {
@@ -751,7 +759,7 @@ body {
   .sidebar-minimizer {
     // background-color: #046fc1;
     &:before {
-      background-image: url(assets/img/left-arrow.svg);
+      background-image: url(./resource/assets/img/left-arrow.svg);
     }
     &:hover {
       background-color: rgba(0, 0, 0, 0.3);
@@ -817,7 +825,7 @@ body {
       background-color: $theme_color_hover;
       height: 35px;
       &:before {
-        background-image: url(assets/img/left-arrow.svg);
+        background-image: url(./resource/assets/img/left-arrow.svg);
       }
       &:hover {
         background-color: rgba(0, 0, 0, 0.3);
@@ -943,9 +951,7 @@ html:not([dir="rtl"]) {
         width: auto;
       }
     }
-    .required-error {
-      left: 0px !important;
-    }
+
     .btn-region {
       padding: 0px 30px;
       display: flex;
@@ -959,8 +965,8 @@ html:not([dir="rtl"]) {
 }
 
 .wrapperClassName {
-  .toolbarClassName{
-    margin-bottom: 0px ;
+  .toolbarClassName {
+    margin-bottom: 0px;
     border: 1px solid $table_border;
   }
   .editorClassName {
@@ -972,8 +978,6 @@ html:not([dir="rtl"]) {
     max-height: 200px;
   }
 }
-
-
 
 .mandatory-text {
   font-weight: 600;
@@ -1078,6 +1082,14 @@ html:not([dir="rtl"]) {
           border-color: $transparent $transparent $theme_color $transparent;
         }
       }
+      &.align-right-tooltip {
+        right: 0px;
+        left: unset;
+        transform: none;
+        &:after {
+          left: 70%;
+        }
+      }
       &:after {
         content: "";
         position: absolute;
@@ -1087,17 +1099,6 @@ html:not([dir="rtl"]) {
         border-width: 5px;
         border-style: solid;
         border-color: $theme_color $transparent $transparent $transparent;
-      }
-    }
-    .required-error {
-      position: absolute;
-      left: 15px;
-      top: 25px;
-      font-size: $font_10;
-      color: $red;
-      line-height: 10px;
-      &.left {
-        left: 0px;
       }
     }
 
@@ -1222,48 +1223,50 @@ html:not([dir="rtl"]) {
         padding: 0px 0px;
       }
     }
-
-    .custom-reactselect {
-      .custom-inner-reactselect__control {
-        border-radius: 0px;
-        color: $light_black;
-        font-size: $font_12;
-        min-height: 25px;
-        padding: 0px 8px;
+  }
+  .custom-reactselect {
+    .custom-inner-reactselect__control {
+      border-radius: 0px;
+      color: $light_black;
+      font-size: $font_12;
+      min-height: 25px;
+      padding: 0px 8px;
+      line-height: normal;
+      border: 1px solid $light_gray;
+      box-shadow: none;
+      font-family: $font_Frutiger_Regular;
+      .custom-inner-reactselect__multi-value {
         line-height: normal;
-        border: 1px solid $light_gray;
-        box-shadow: none;
-        font-family: $font_Frutiger_Regular;
-        .custom-inner-reactselect__multi-value {
-          line-height: normal;
-        }
-        .custom-inner-reactselect__value-container {
-          padding: 0px 0px;
-        }
-        .custom-inner-reactselect__value-container--is-multi {
-          max-height: 68px;
-          overflow-y: auto;
-        }
       }
-      .custom-inner-reactselect__multi-value__label {
-        font-size: 12px;
-        padding: 2px 3px;
+      .custom-inner-reactselect__value-container {
+        padding: 0px 0px;
       }
-      .custom-inner-reactselect__indicator {
-        padding: 3px;
-        svg {
-          height: 16px;
-          width: 16px;
-        }
+      .custom-inner-reactselect__value-container--is-multi {
+        max-height: 68px;
+        overflow-y: auto;
       }
-      &.error {
-        .custom-inner-reactselect__control {
-          border: 1px solid $red;
-        }
-        &:hover ~ {
-          .required-tooltip {
-            display: block;
-          }
+    }
+    .custom-inner-reactselect__menu {
+      z-index: 9;
+    }
+    .custom-inner-reactselect__multi-value__label {
+      font-size: 12px;
+      padding: 2px 3px;
+    }
+    .custom-inner-reactselect__indicator {
+      padding: 3px;
+      svg {
+        height: 16px;
+        width: 16px;
+      }
+    }
+    &.error {
+      .custom-inner-reactselect__control {
+        border: 1px solid $red;
+      }
+      &:hover ~ {
+        .required-tooltip {
+          display: block;
         }
       }
     }
@@ -1493,16 +1496,45 @@ html:not([dir="rtl"]) {
         &:last-child {
           border-bottom: 0px;
         }
+        
+        &.list-item {
+          padding: 5px 5px;
+          padding-right: 35px;
+          position: relative;
+          .list-item-icon {
+            font-size: $font_14;
+            cursor: pointer;
+            transition: all 0.3 ease;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $gray_color;
+            &:hover {
+              color: $light_black;
+            }
+          }
+        }
+        &.active {
+          background: $theme_color;
+          color:$white;
+          .list-item-icon {
+            color:$white;
+            &:hover{
+              color:$white; 
+            }
+          }
+        }
       }
     }
   }
   .common-list-footer {
     margin-top: 4px;
-    .contact-attribute{
+    .contact-attribute {
       padding-right: 35px;
       position: relative;
     }
-    .add-attribute-btn{
+    .add-attribute-btn {
       position: absolute;
       top: 0px;
       right: 0px;
@@ -1513,9 +1545,9 @@ html:not([dir="rtl"]) {
       height: 30px;
       border-radius: 4px;
       transition: all 0.3s ease;
-   &:hover{
-    background: $profile_bg_hover
-   }
+      &:hover {
+        background: $profile_bg_hover;
+      }
     }
     .attribute-select {
       .attribute-inner-select__control {
@@ -1612,6 +1644,9 @@ html:not([dir="rtl"]) {
       @media only screen and (max-width: 991px) {
         display: none;
       }
+    }
+    &.checkbox-th-column {
+      width: 40px;
     }
     &.qualifications-th-column {
       width: 250px;
@@ -2019,7 +2054,7 @@ html:not([dir="rtl"]) {
           background: $common_tab_bg;
           &:after {
             border: 0px;
-            background-image: url(assets/img/more.svg);
+            background-image: url(./resource/assets/img/more.svg);
             background-size: 8px;
             background-repeat: no-repeat;
             width: 8px;
@@ -2488,7 +2523,6 @@ html:not([dir="rtl"]) {
         justify-content: center;
         &.input-wrap {
           flex: 1 1 100%;
-         
         }
       }
       .email-text-wrap {
@@ -2972,7 +3006,7 @@ html:not([dir="rtl"]) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          background-image: url("assets/img/success-toaster.svg");
+          background-image: url("./resource/assets/img/success-toaster.svg");
           position: absolute;
           content: "";
           top: 50%;
@@ -3000,7 +3034,7 @@ html:not([dir="rtl"]) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          background: url("assets/img/error-toaster.svg") no-repeat;
+          background: url("./resource/assets/img/error-toaster.svg") no-repeat;
           background-size: 35px;
           position: absolute;
           content: "";
@@ -3029,7 +3063,7 @@ html:not([dir="rtl"]) {
         font-family: $font_open_sans;
         &::before {
           content: "";
-          background: url("assets/img/warning-toaster.svg") no-repeat;
+          background: url("./resource/assets/img/warning-toaster.svg") no-repeat;
           background-size: 35px;
           position: absolute;
           top: 50%;
@@ -3052,7 +3086,7 @@ html:not([dir="rtl"]) {
     height: 10px;
     &::after {
       content: "";
-      background: url("assets/img/close-toaster.svg") no-repeat;
+      background: url("./resource/assets/img/close-toaster.svg") no-repeat;
       background-size: 10px;
       position: absolute;
       top: 50%;
@@ -3286,5 +3320,37 @@ html:not([dir="rtl"]) {
         max-width: 100%;
       }
     }
+  }
+}
+
+// dropzone design
+.dropzone-preview {
+  border: 1px dotted $light_gray;
+  padding: 30px 20px;
+  width: 100%;
+  height: 130px;
+  position: relative;
+  text-align: center;
+  background-color: $white;
+  color: #b4b0b0;
+  outline: none;
+  transition: border 0.24s ease-in-out;
+  margin-bottom: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: $font_13;
+}
+
+.no-list-section {
+  .no-img {
+    width: 116px;
+    margin-bottom: 10px;
+  }
+  .no-text {
+    font-size: 15px;
+    color: $no_search_text_color;
   }
 }

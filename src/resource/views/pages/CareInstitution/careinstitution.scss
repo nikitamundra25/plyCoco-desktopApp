@@ -1,0 +1,190 @@
+@import "../../../assets/scss/variables";
+.common-col {
+  height: 100%;
+  .form-card {
+    @media only screen and (max-width: 991px) {
+      margin-top: 12px;
+      height: auto;
+    }
+  }
+  .quality-attribute-section {
+    .common-list-card {
+      &:last-child {
+        margin-top: 8px;
+      }
+      .common-list-wrap {
+        margin-bottom: 0px;
+        .common-list-body {
+          height: 90px;
+          max-height: 90px;
+        }
+      }
+    }
+  }
+}
+.save-button {
+  // position: absolute;
+  // top: -31px;
+  position: fixed;
+  top: 70px;
+  right: 8px;
+  padding: 4px 30px;
+  font-weight: 600;
+  font-size: 12px;
+  z-index: 10;
+  @media only screen and (max-width: 767px) {
+    position: fixed;
+    top: 76px;
+  }
+
+  &.sticky-save-btn {
+    position: fixed;
+    top: 34px;
+    right: 8px;
+    @media only screen and (max-width: 991px) {
+      top: 72px;
+    }
+    @media only screen and (max-width: 767px) {
+      position: fixed;
+      top: 76px;
+    }
+  }
+}
+.sticky-save-btn {
+  position: fixed;
+  top: 34px;
+  right: 8px;
+  z-index: 10;
+
+  @media only screen and (max-width: 991px) {
+    top: 72px;
+  }
+  @media only screen and (max-width: 767px) {
+    position: fixed;
+    top: 76px;
+  }
+  .save-button {
+    position: relative;
+    top: unset;
+    right: unset;
+  }
+}
+.common-offer-section {
+  .common-offer-row {
+    min-height: calc(100vh - 220px);
+    .common-list-wrap {
+      height: 100%;
+      .common-list-body {
+        height: calc(100% - 57px);
+      }
+    }
+  }
+}
+.invoice-table {
+  th {
+    border: 1px solid $table_border;
+  }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-invoice-table {
+    margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+  .sno-col {
+    width: 45px;
+  }
+  .invoice-number-col {
+    width: 110px;
+  }
+  .invoice-date-col {
+    width: 110px;
+  }
+  .caregiver-name-col {
+    width: 150px;
+  }
+  .amount-col {
+    width: 110px;
+  }
+  .due-date-col {
+    width: 110px;
+  }
+  .status-col {
+    width: 80px;
+  }
+  .supported-documents-col {
+    width: 200px;
+  }
+}
+
+.reminders-todo-table {
+  th {
+    border: 1px solid $table_border;
+  }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-reminders-todo-table {
+    margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+  .sno-col {
+    width: 45px;
+  }
+  .institution-col {
+    width: 100px;
+  }
+  .date-col {
+    width: 121px;
+  }
+
+  .contact-col {
+    width: 270px;
+  }
+
+  .done-col {
+    width: 60px;
+  }
+
+  .remarks-col {
+    width: 270px;
+  }
+
+  .external-col {
+    width: 60px;
+  }
+  .prio-col {
+    width: 92px;
+  }
+}
+.disabled-div {
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+
+.department-list-header {
+  .select-box {
+    width: 160px;
+  }
+  .btn-department {
+    height: 25px;
+    min-width: 185px;
+    padding: 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.department-list {
+  height: 545px !important;
+  overflow-y: auto;
+}

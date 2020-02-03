@@ -1,0 +1,47 @@
+@import "../../../assets/scss/variables";
+
+
+
+.email-inbox-table{
+   th {
+    border: 1px solid $table_border;
+  }
+  td {
+    padding: 0px;
+    border-top: 0px;
+  }
+  .inner-email-inbox-table{
+     margin-bottom: 0px;
+    th,
+    td {
+      padding: 4px;
+    }
+    .tr-active{
+        background-color:#0000000f;
+    }
+  }
+ 
+}
+.email-inbox-section{
+   .btn{
+    padding:3px 12px;
+  }
+  .posted-col {
+    width: 130px;
+}
+.of-col {
+    width: 130px;
+}
+.on-col {
+    width: 150px;
+}
+.key-col {
+    width: 534px;
+}
+}
+
+
+
+
+
+    

@@ -4,7 +4,7 @@ import { languageTranslation } from '../../../../helpers';
 import { IAddAttributeProps } from '../../../../interfaces';
 
 const AddAttribute: FunctionComponent<IAddAttributeProps> = (
-  props: IAddAttributeProps,
+  props: IAddAttributeProps
 ) => {
   const { handleSubmit, onChange, newAttribute, isSubmit } = props;
   console.log(newAttribute, 'newAttribute');
@@ -26,7 +26,7 @@ const AddAttribute: FunctionComponent<IAddAttributeProps> = (
               placeholder={languageTranslation('ATTRIBUTE_NAME')}
               onChange={onChange}
               maxLength='30'
-              value={newAttribute}
+              value={newAttribute.trimStart()}
               className={
                 isSubmit && !newAttribute
                   ? 'text-input error my-2 my-sm-0'
@@ -42,7 +42,6 @@ const AddAttribute: FunctionComponent<IAddAttributeProps> = (
           <div className='mr-3'>
             <Button
               color={'primary'}
-              // disabled={isSubmitting}
               className={'btn-region'}
               onClick={handleSubmit}
             >

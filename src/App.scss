@@ -1648,6 +1648,9 @@ html:not([dir="rtl"]) {
     &.checkbox-th-column {
       width: 40px;
     }
+    &.sno-th-column{
+      width: 50px;
+    }
     &.qualifications-th-column {
       width: 250px;
       min-width: 250px;

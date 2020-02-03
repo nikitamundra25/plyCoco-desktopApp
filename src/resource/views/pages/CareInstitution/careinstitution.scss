@@ -24,7 +24,7 @@
 }
 .save-button {
   // position: absolute;
-  // top: -31px;
+  // top: -34px;
   position: fixed;
   top: 70px;
   right: 8px;
@@ -36,28 +36,15 @@
     position: fixed;
     top: 76px;
   }
-
-  &.sticky-save-btn {
-    position: fixed;
-    top: 34px;
-    right: 8px;
-    @media only screen and (max-width: 991px) {
-      top: 72px;
-    }
-    @media only screen and (max-width: 767px) {
-      position: fixed;
-      top: 76px;
-    }
-  }
 }
 .sticky-save-btn {
   position: fixed;
-  top: 34px;
+  top: 35px;
   right: 8px;
   z-index: 10;
 
   @media only screen and (max-width: 991px) {
-    top: 72px;
+    top: 70px;
   }
   @media only screen and (max-width: 767px) {
     position: fixed;

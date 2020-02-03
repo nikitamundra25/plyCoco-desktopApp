@@ -37,7 +37,7 @@ export default {
     {
       name: languageTranslation("MENU_EMAIL"),
       icon: "icon-email-temp",
-      url: AppRoutes.HOME
+      url: AppRoutes.EMAIL_INBOX
     },
     {
       name: languageTranslation("MENU_TO_DO_CARE_GIVER"),

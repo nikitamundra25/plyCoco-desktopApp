@@ -45,8 +45,11 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
           onClick={handleSubmit}
           id={"department-save-btn"}
         >
-          {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
-
+          {isSubmitting ? (
+            <i className="fa fa-spinner fa-spin loader mr-1" />
+          ) : (
+            ""
+          )}
           {languageTranslation("SAVE_BUTTON")}
         </Button>
       </div>

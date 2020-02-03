@@ -11,7 +11,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
   any> = (props: FormikProps<IAddDepartmentFormValues> & any) => {
     const {
       values: {
-        userId,
+        id,
         name,
         anonymousName,
         anonymousName2,
@@ -77,9 +77,9 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         <div>
                           <Input
                             type="text"
-                            name={"userId"}
+                            name={"id"}
                             disabled
-                            value={userId}
+                            value={id}
                             placeholder={languageTranslation("ID")}
                             className="width-common"
                           />

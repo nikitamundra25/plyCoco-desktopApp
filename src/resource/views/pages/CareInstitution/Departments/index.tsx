@@ -25,7 +25,7 @@ import {
   AddDepartmentValidationSchema,
   AddTimeValidationSchema
 } from "../../../../validations";
-import { CareInstitutionQueries } from "../../../../../graphql/queries";
+import { CareInstitutionQueries, LOGIN } from "../../../../../graphql/queries";
 import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { IQualifications } from "../../../../../interfaces/qualification";
 
@@ -112,6 +112,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     { setSubmitting, resetForm }: FormikHelpers<IAddDepartmentFormValues>
   ) => {
     try {
+      console.log(values);
+
       const departmentInput: any = {
         id: values.id,
         userId: values.userId,
@@ -149,16 +151,20 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
             divisionInput: departmentInput
           }
         });
+        resetForm();
+        setTimesData([]);
+        setQualifications([]);
+        setAttributes([]);
         toast.success(
           languageTranslation("ADD_NEW_DEPARTMENT_CARE_INSTITUTION")
         );
       }
       setSubmitting(false);
       refetch();
-      resetForm();
-      setTimesData([]);
-      setQualifications([]);
-      setAttributes([]);
+      // resetForm();
+      // setTimesData([]);
+      // setQualifications([]);
+      // setAttributes([]);
     } catch (error) {
       const message = error.message
         .replace("SequelizeValidationError: ", "")
@@ -174,7 +180,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   if (departmentDetails) {
     values = {
-      id: parseInt(departmentDetails.id),
+      id: departmentDetails.id,
       userId: departmentDetails.userId,
       name: departmentDetails.name,
       anonymousName: departmentDetails.anonymousName,
@@ -194,6 +200,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     };
   } else {
     values = {
+      id: '',
       userId: parseInt(Id),
       name: "",
       anonymousName: "",
@@ -247,7 +254,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   const addNewDepartment = async () => {
     setIsLoading(true);
     setDepartmentDetails({
-      id: "",
+      id: '',
       userId: parseInt(Id),
       name: "",
       anonymousName: "",

@@ -545,6 +545,7 @@
   "REQUIRED_BODY": "Content Body is required",
   "EMAIL_ADDED_SUCCESS": "Email Template added successfully.",
   "EMAIL_UPDATION_SUCCESS": "Email Template updated successfully.",
+  "EMAIL_SENT_SUCCESS": "Email Sent successfully.",
   "SOCIAL_SECURITY_NUM_ERROR": "Social Security must be a less than or equal to 12 digits",
   "TAX_BRACKET_NUM_ERROR": "Tax bracket must be a number",
   "TAX_BRACKET_LESS_ERROR": "Tax bracket must be less than or equal to 100",

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const ADD_CAREGIVER = gql`
+const ADD_CAREGIVER = gql`
   mutation addCareGiver($careGiverInput: CareGiverInput!) {
     addCareGiver(careGiverInput: $careGiverInput) {
       id
@@ -8,7 +8,7 @@ export const ADD_CAREGIVER = gql`
   }
 `;
 
-export const UPDATE_CAREGIVER = gql`
+const UPDATE_CAREGIVER = gql`
   mutation updateCareGiver(
     $id: Int!
     $careGiverInput: CareGiverInput!
@@ -87,7 +87,7 @@ export const UPDATE_CAREGIVER = gql`
   }
 `;
 
-export const DELETE_CAREGIVER = gql`
+const DELETE_CAREGIVER = gql`
   mutation deleteCareGiver($id: Int!) {
     deleteCareGiver(id: $id) {
       id
@@ -95,7 +95,7 @@ export const DELETE_CAREGIVER = gql`
   }
 `;
 
-export const UPDATE_BILLING_SETTINGS = gql`
+const UPDATE_BILLING_SETTINGS = gql`
   mutation addUpdateBillingSettings(
     $userId: Int
     $billingSettingInput: BillingSettingsInput!
@@ -116,7 +116,7 @@ export const UPDATE_BILLING_SETTINGS = gql`
     }
   }
 `;
-export const UPDATE_CARE_GIVER_STATUS = gql`
+const UPDATE_CARE_GIVER_STATUS = gql`
   mutation changeStatusCareGiver($id: ID!, $isActive: Boolean) {
     changeStatusCareGiver(id: $id, isActive: $isActive) {
       id
@@ -125,7 +125,7 @@ export const UPDATE_CARE_GIVER_STATUS = gql`
   }
 `;
 
-export const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
+const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
   mutation addUpdateLeasingInformation(
     $userId: Int!
     $leasingInformationInput: LeasingInformationInput!
@@ -158,6 +158,14 @@ export const ADD_UPDATE_CARE_GIVER_LEASING_INFO = gql`
   }
 `;
 
+const NEW_EMAIL = gql`
+  mutation addNewEmail($emailInput: EmailInput!) {
+    addNewEmail(emailInput: $emailInput) {
+      id
+    }
+  }
+`;
+
 export const CareGiverMutations = [
   ADD_CAREGIVER,
   UPDATE_CAREGIVER,
@@ -165,4 +173,5 @@ export const CareGiverMutations = [
   DELETE_CAREGIVER,
   ADD_UPDATE_CARE_GIVER_LEASING_INFO,
   UPDATE_BILLING_SETTINGS,
+  NEW_EMAIL,
 ];

@@ -9,20 +9,20 @@ import { toast } from 'react-toastify';
 import {
   IEmailTemplateValues,
   IReactSelectInterface,
-  IEmailTemplateSubmitValues
+  IEmailTemplateSubmitValues,
 } from '../../../../interfaces';
 import { EmailTemplateQueries } from '../../../../graphql/queries';
 import { EmailTemplateMenu } from './Menu';
 import { EmailTemplateList } from './List';
 import { AddTemplate } from './AddTemplate';
 import { languageTranslation } from '../../../../helpers';
-import './index.scss';
 import { EmailTemplateMutations } from '../../../../graphql/Mutations';
+import './index.scss';
 
 const [
   GET_EMAIL_TEMPLATE_TYEPS,
   GET_EMAIL_TEMPLATE,
-  GET_EMAIL_TEMPLATE_BY_ID
+  GET_EMAIL_TEMPLATE_BY_ID,
 ] = EmailTemplateQueries;
 
 const [ADD_EMAIL_TEMPLATE, UPDATE_EMAIL_TEMPLATE] = EmailTemplateMutations;
@@ -33,16 +33,16 @@ export const EmailTemplateManagement: FunctionComponent = () => {
 
   // To set email template data at the time of edit
   const [templateData, setTemplateData] = useState<IEmailTemplateValues | null>(
-    null
+    null,
   );
   const [activeTemplate, setActiveTemplate] = useState<string | null>(null);
   const [
     templateType,
-    setTemplateType
+    setTemplateType,
   ] = useState<IReactSelectInterface | null>(null);
   // To get all the types of email template
   const { data: typeList, loading, refetch } = useQuery(
-    GET_EMAIL_TEMPLATE_TYEPS
+    GET_EMAIL_TEMPLATE_TYEPS,
   );
   const typeListOptions: IReactSelectInterface[] | undefined = [];
   // To convert types into react select compatible options
@@ -57,8 +57,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       ({ type, id }: { type: string; id: number }) =>
         typeListOptions.push({
           label: type,
-          value: id.toString()
-        })
+          value: id.toString(),
+        }),
     );
   }
   useEffect(() => {
@@ -83,7 +83,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
       }
-    }
+    },
   });
   // To update email template into db
   const [updateEmailTemplate, { loading: updateLoading }] = useMutation<
@@ -99,18 +99,18 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_UPDATION_SUCCESS'));
       }
-    }
+    },
   });
   //To get email templates by type
   const [
     fetchTemplateList,
-    { data, loading: fetchTemplateListLoading, refetch: listRefetch }
+    { data, loading: fetchTemplateListLoading, refetch: listRefetch },
   ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
 
   //To get email templates by id
   const [
     fetchTemplateById,
-    { data: emailTemplate, loading: emailTemplateLoading }
+    { data: emailTemplate, loading: emailTemplateLoading },
   ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE_BY_ID);
 
   //view a particular template by clicking on its menu entry
@@ -122,21 +122,21 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         menuEntry = '',
         subject = '',
         body = '',
-        email_template_type = {}
+        email_template_type = {},
       } = viewEmailTemplate ? viewEmailTemplate : {};
       const { type = '' } = email_template_type ? email_template_type : {};
       const contentBlock = body ? htmlToDraft(body) : '';
       if (contentBlock) {
         const contentState = ContentState.createFromBlockArray(
-          contentBlock.contentBlocks
+          contentBlock.contentBlocks,
         );
         const editorState = EditorState.createWithContent(contentState);
         const typeIdIndex: number = typeListOptions.findIndex(
-          (item: IReactSelectInterface) => item.label === type
+          (item: IReactSelectInterface) => item.label === type,
         );
         const replaceType: any = {
           label: type,
-          value: type
+          value: type,
         };
         if (typeIdIndex > -1) {
           setTypeId(parseInt(typeListOptions[typeIdIndex].value));
@@ -146,7 +146,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
           menuEntry: menuEntry,
           subject: subject,
           body: editorState,
-          id: parseInt(id)
+          id: parseInt(id),
         });
       }
     }
@@ -158,8 +158,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     if (templateType) {
       fetchTemplateList({
         variables: {
-          type: templateType && templateType.label ? templateType.label : ''
-        }
+          type: templateType && templateType.label ? templateType.label : '',
+        },
       });
     }
   }, [templateType]);
@@ -172,18 +172,20 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       subject,
       body,
       id,
-      typeId: templateTypeId
+      typeId: templateTypeId,
     }: IEmailTemplateValues,
-    { resetForm, setSubmitting }: FormikHelpers<IEmailTemplateValues>
+    { resetForm, setSubmitting }: FormikHelpers<IEmailTemplateValues>,
   ) => {
     setSubmitting(true);
+    // It convert into raw before send it out
     const text = body
       ? draftToHtml(convertToRaw(body.getCurrentContent()))
       : '';
+    // To set template data
     const contentBlock = text ? htmlToDraft(text) : '';
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(
-        contentBlock.contentBlocks
+        contentBlock.contentBlocks,
       );
       const editorState = EditorState.createWithContent(contentState);
       setTemplateData({
@@ -191,7 +193,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         menuEntry,
         subject,
         body: editorState,
-        id
+        id,
       });
     }
     const emailTemplateInput: IEmailTemplateSubmitValues = {
@@ -199,21 +201,21 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       typeId,
       menuEntry,
       subject,
-      body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : ''
+      body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '',
     };
     try {
       if (id) {
         updateEmailTemplate({
           variables: {
             id,
-            emailTemplateInput
-          }
+            emailTemplateInput,
+          },
         });
       } else {
         addEmail({
           variables: {
-            emailTemplateInput
-          }
+            emailTemplateInput,
+          },
         });
       }
     } catch (error) {
@@ -230,13 +232,13 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     toast.dismiss();
     await fetchTemplateById({
       variables: {
-        id
-      }
+        id,
+      },
     });
   };
   // Function to change list according to type selected
   const onTypeChange = (
-    selectedType: IReactSelectInterface /* , id: string */
+    selectedType: IReactSelectInterface /* , id: string */,
   ) => {
     setTemplateType(selectedType);
     setTemplateData(null);
@@ -263,7 +265,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                 menuEntry: '',
                 subject: '',
                 body: '',
-                id: undefined
+                id: undefined,
               });
             }}
             typeListOptions={typeListOptions}

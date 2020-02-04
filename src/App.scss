@@ -983,6 +983,47 @@ html:not([dir="rtl"]) {
     padding: 0px 10px;
     max-height: 200px;
   }
+
+  .rdw-link-modal {
+    width: 300px;
+    height: auto;
+    right: 0px;
+    left: auto;
+  }
+  .rdw-link-modal-input,
+  .rdw-image-modal-url-input {
+    border-radius: 0px;
+    color: $light_black;
+    font-size: $font_12;
+    height: 25px;
+    border-color: $light_gray;
+    padding: 0px 8px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    font-family: $font_Frutiger_Regular;
+  }
+
+  .rdw-link-modal-buttonsection {
+    .rdw-link-modal-btn {
+      background: #365196;
+      border-color: #365196;
+      color: #fff;
+      &:hover {
+        background: #294da8;
+        box-shadow: none;
+      }
+      &:last-child {
+        background-color: #dc3545;
+        border: 1px solid #dc3545;
+        color: #fff;
+        &:hover {
+          background-color: #cf1729;
+          box-shadow: none;
+        }
+      }
+    }
+  }
 }
 
 .mandatory-text {
@@ -1502,12 +1543,12 @@ html:not([dir="rtl"]) {
         &:last-child {
           border-bottom: 0px;
         }
-        
+
         &.list-item {
           padding: 5px 5px;
           padding-right: 35px;
           position: relative;
-          .list-item-text{
+          .list-item-text {
             width: 100%;
             display: block;
           }
@@ -1527,11 +1568,11 @@ html:not([dir="rtl"]) {
         }
         &.active {
           background: $theme_color;
-          color:$white;
+          color: $white;
           .list-item-icon {
-            color:$white;
-            &:hover{
-              color:$white; 
+            color: $white;
+            &:hover {
+              color: $white;
             }
           }
         }
@@ -1658,7 +1699,7 @@ html:not([dir="rtl"]) {
     &.checkbox-th-column {
       width: 40px;
     }
-    &.sno-th-column{
+    &.sno-th-column {
       width: 50px;
     }
     &.qualifications-th-column {
@@ -1672,16 +1713,16 @@ html:not([dir="rtl"]) {
     &.status-column {
       width: 100px;
     }
-    &.action-th-column{
+    &.action-th-column {
       width: 100px;
     }
-    &.file-th-column{
+    &.file-th-column {
       width: 180px;
     }
-    &.filetype-th-column{
+    &.filetype-th-column {
       width: 400px;
     }
-    &.filesize-th-column{
+    &.filesize-th-column {
       width: 80px;
     }
     .table-checkbox-wrap {
@@ -2349,7 +2390,7 @@ html:not([dir="rtl"]) {
   &:focus {
     border-color: $theme_color;
   }
-  
+
   .file-text {
     font-size: $font_12;
     margin-bottom: 0px;
@@ -3133,6 +3174,32 @@ html:not([dir="rtl"]) {
     background-color: #323232;
     padding: 12px 16px;
     color: #fff;
+    .modal-close {
+      opacity: 1;
+      box-shadow: none;
+      img {
+        width: 14px;
+      }
+      .main-img {
+        opacity: 1;
+        display: inline-block;
+      }
+      .hover-img {
+        opacity: 0;
+        display: none;
+      }
+      &:hover {
+        opacity: 1;
+        .main-img {
+          opacity: 0;
+          display: none;
+        }
+        .hover-img {
+          opacity: 1;
+          display: inline-block;
+        }
+      }
+    }
 
     .DayPicker-Day {
       font-size: 12px;
@@ -3369,10 +3436,10 @@ html:not([dir="rtl"]) {
   justify-content: center;
   font-size: $font_13;
   cursor: pointer;
-  .icon-upload{
+  .icon-upload {
     font-size: 35px;
     img {
-      width:40px;
+      width: 40px;
     }
   }
 }

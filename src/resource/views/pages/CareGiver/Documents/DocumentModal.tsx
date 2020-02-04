@@ -3,6 +3,7 @@ import {
   Button,
   Modal,
   ModalHeader,
+  ModalTitle,
   ModalBody,
   ModalFooter,
   FormGroup,
@@ -29,6 +30,9 @@ import { useLocation } from "react-router-dom";
 import png from "../../../../assets/img/png.svg";
 import jpg from "../../../../assets/img/jpg.svg";
 import pdf from "../../../../assets/img/pdf.svg";
+import close from "../../../../assets/img/cancel.svg";
+import closehover from "../../../../assets/img/cancel-hover.svg";
+
 const [ADD_DOCUMENT] = DocumentMutations;
 let toastId: any = "";
 
@@ -95,11 +99,18 @@ const DocumentUploadModal = (props: any) => {
     }
   };
   console.log("documentUrls", documentUrls);
-
+  const externalCloseBtn = (
+    <button className="close modal-close" onClick={() => handleClose()}>
+      <img src={close} alt="close" className="main-img" />
+      <img src={closehover} alt="close" className="hover-img" />
+    </button>
+  );
   return (
     <div>
       <Modal isOpen={show} className="reminder-modal" size="lg" centered>
-        <ModalHeader> {languageTranslation("ADD_DOCUMENT")} </ModalHeader>
+        <ModalHeader close={externalCloseBtn}>
+          {languageTranslation("ADD_DOCUMENT")}
+        </ModalHeader>
         <ModalBody>
           <div className="">
             <Form className="form-section forms-main-section">
@@ -109,7 +120,7 @@ const DocumentUploadModal = (props: any) => {
                     <Row>
                       <Col sm="2">
                         <Label className="form-label col-form-label">
-                          File
+                          {languageTranslation("FILE")}
                         </Label>
                       </Col>
                       <Col sm="10">
@@ -145,7 +156,7 @@ const DocumentUploadModal = (props: any) => {
                     <Row>
                       <Col sm="2">
                         <Label className="form-label col-form-label">
-                          Type
+                          {languageTranslation("TYPE")}
                           <span className="required">*</span>
                         </Label>
                       </Col>
@@ -163,7 +174,7 @@ const DocumentUploadModal = (props: any) => {
                     <Row>
                       <Col sm="2">
                         <Label className="form-label col-form-label">
-                          Remarks
+                          {languageTranslation("REMARKS")}
                           <span className="required">*</span>
                         </Label>
                       </Col>
@@ -172,7 +183,7 @@ const DocumentUploadModal = (props: any) => {
                           <Input
                             type="textarea"
                             name={"remarks"}
-                            placeholder="Remarks"
+                            placeholder={languageTranslation("REMARKS")}
                             className="textarea-custom"
                             rows="4"
                           />
@@ -186,7 +197,7 @@ const DocumentUploadModal = (props: any) => {
                     <Row>
                       <Col sm="2">
                         <Label className="form-label col-form-label">
-                          Checked
+                          {languageTranslation("CHECKED")}
                         </Label>
                       </Col>
                       <Col sm="10">
@@ -198,7 +209,7 @@ const DocumentUploadModal = (props: any) => {
                             name={"employed"}
                           />
                           <Label for="check" className="pl-3">
-                            ( Checked files cannot be punched by the user)
+                            ( {languageTranslation("DOCUMENT_STATUS_LABEL")} )
                           </Label>
                         </div>
                       </Col>
@@ -210,7 +221,7 @@ const DocumentUploadModal = (props: any) => {
                     <Row>
                       <Col sm="2">
                         <Label className="form-label col-form-label">
-                          Optimize
+                          {languageTranslation("OPTIMIZE")}
                         </Label>
                       </Col>
                       <Col sm="10">
@@ -222,7 +233,7 @@ const DocumentUploadModal = (props: any) => {
                             name={"employed"}
                           />
                           <Label for="check" className="pl-3">
-                            ( convert to PDF and resize)
+                            ( {languageTranslation("DOCUMENT_OPTIMIZE_LABEL")} )
                           </Label>
                         </div>
                       </Col>
@@ -235,7 +246,7 @@ const DocumentUploadModal = (props: any) => {
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={handleSaveDocument}>
-            Save
+            {languageTranslation("SAVE_BUTTON")}
           </Button>
           <Button color="secondary" onClick={handleClose}>
             {languageTranslation("CANCEL")}

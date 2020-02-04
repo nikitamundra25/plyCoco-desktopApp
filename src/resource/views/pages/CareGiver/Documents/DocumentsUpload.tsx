@@ -70,7 +70,7 @@ const DocumentsUpload: FunctionComponent = () => {
               </th>
               <th>{languageTranslation("REMARKS")}</th>
               <th className="checkbox-th-column ">
-                {languageTranslation("STATUS")}
+                {languageTranslation("CHECKED")}
               </th>
               <th className="filesize-th-column">
                 {languageTranslation("FILE_SIZE")}

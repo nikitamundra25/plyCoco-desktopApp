@@ -5,7 +5,7 @@ import { IRegionFormValue } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
 
 const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
-  props: FormikProps<IRegionFormValue>,
+  props: FormikProps<IRegionFormValue>
 ) => {
   const {
     values: { regionName },
@@ -14,7 +14,7 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
     isSubmitting,
     handleChange,
     handleBlur,
-    handleSubmit,
+    handleSubmit
   } = props;
   return (
     <>
@@ -53,7 +53,7 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
                 name={'regionName'}
                 placeholder={languageTranslation('REGION_NAME_OF_REGION_LABEL')}
                 onChange={handleChange}
-                maxLength='30'
+                maxLength='100'
                 onBlur={handleBlur}
                 value={regionName}
                 className={

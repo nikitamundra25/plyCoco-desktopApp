@@ -85,7 +85,7 @@ const DocumentUploadModal = (props: any) => {
         variables: {
           documentInput: {
             userId: id ? id : '',
-            document: documentUrls ? documentUrls.name : null
+            document: documentUrls ? documentUrls : null
           }
         }
       });

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from "react";
 import {
   Button,
   Modal,
@@ -12,24 +12,25 @@ import {
   Row,
   Form,
   CustomInput
-} from 'reactstrap';
-import Select from 'react-select';
-import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
-import { languageTranslation } from '../../../../../helpers';
-import { DocumentTypes } from '../../../../../config';
-import { useDropzone } from 'react-dropzone';
+} from "reactstrap";
+import Select from "react-select";
+import { languageTranslation } from "../../../../../helpers";
+import { DocumentTypes } from "../../../../../config";
+import { useDropzone } from "react-dropzone";
 import {
   IDocumentUrls,
   IDocumentSubmitValues
-} from '../../../../../interfaces';
-import moment from 'moment';
-import { DocumentMutations } from '../../../../../graphql/Mutations';
-import { useMutation } from '@apollo/react-hooks';
-import { toast } from 'react-toastify';
-import { useLocation } from 'react-router-dom';
+} from "../../../../../interfaces";
+import moment from "moment";
+import { DocumentMutations } from "../../../../../graphql/Mutations";
+import { useMutation } from "@apollo/react-hooks";
+import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+import png from "../../../../assets/img/png.svg";
+import jpg from "../../../../assets/img/jpg.svg";
+import pdf from "../../../../assets/img/pdf.svg";
 const [ADD_DOCUMENT] = DocumentMutations;
-let toastId: any = '';
+let toastId: any = "";
 
 const DocumentUploadModal = (props: any) => {
   const path = useLocation();
@@ -41,7 +42,7 @@ const DocumentUploadModal = (props: any) => {
   const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
     onCompleted({ addDocument }) {
       if (!toast.isActive(toastId)) {
-        toastId = toast.success('DOCUMENT_ADDED_SUCCESS');
+        toastId = toast.success("DOCUMENT_ADDED_SUCCESS");
       }
     }
   });
@@ -50,17 +51,17 @@ const DocumentUploadModal = (props: any) => {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     let temp: any = documentUrls ? documentUrls : {};
     acceptedFiles.forEach((file: File) => {
-      console.log(file, 'file details');
+      console.log(file, "file details");
       if (file) {
         const reader = new FileReader();
-        reader.onabort = () => console.log('file reading was aborted');
-        reader.onerror = () => console.log('file reading has failed');
+        reader.onabort = () => console.log("file reading was aborted");
+        reader.onerror = () => console.log("file reading has failed");
         reader.onloadend = () => {
           if (reader.result) {
             temp = {
               path: reader.result,
               name: file.name,
-              date: moment().format('DD.MM.YYYY')
+              date: moment().format("DD.MM.YYYY")
             };
             setDocumentUrl(temp);
           }
@@ -69,7 +70,7 @@ const DocumentUploadModal = (props: any) => {
       }
     });
   }, []);
-  console.log('documentUrls', documentUrls);
+  console.log("documentUrls", documentUrls);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -78,125 +79,151 @@ const DocumentUploadModal = (props: any) => {
 
   const handleSaveDocument = () => {
     const queryPath = path.pathname;
-    const res = queryPath.split('/');
+    const res = queryPath.split("/");
     const id = parseInt(res[3]);
-    console.log(id, 'id');
+    console.log(id, "id");
 
     if (id) {
       addDocument({
         variables: {
           documentInput: {
-            userId: id ? id : '',
+            userId: id ? id : "",
             document: documentUrls ? documentUrls : null
           }
         }
       });
     }
   };
-  console.log('documentUrls', documentUrls);
+  console.log("documentUrls", documentUrls);
 
   return (
     <div>
-      <Modal isOpen={show} className='reminder-modal' size='lg' centered>
-        <ModalHeader> Add Document </ModalHeader>
+      <Modal isOpen={show} className="reminder-modal" size="lg" centered>
+        <ModalHeader> {languageTranslation("ADD_DOCUMENT")} </ModalHeader>
         <ModalBody>
-          <div className=''>
-            <div className='calender-wrapper mb-4'></div>
-            <Form className='form-section forms-main-section'>
+          <div className="">
+            <Form className="form-section forms-main-section">
               <Row>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='8'>
-                        <div>
-                          <div {...getRootProps()}>
-                            <input
-                              {...getInputProps()}
-                              className='dropzone-input-preview'
-                            />
-                            {console.log('documentUrls', documentUrls)}
-                            <span>
-                              Drag 'n' drop some files here, or click to select
-                              files
-                            </span>
+                      <Col sm="2">
+                        <Label className="form-label col-form-label">
+                          File
+                        </Label>
+                      </Col>
+                      <Col sm="10">
+                        <div
+                          {...getRootProps()}
+                          className="dropzone-preview mb-0"
+                        >
+                          <input
+                            {...getInputProps()}
+                            className="dropzone-input-preview"
+                          />
+                          {console.log("documentUrls", documentUrls)}
+                          <div className="icon-upload">
+                            <i className="cui-cloud-upload"></i>
+                            <img src={png} alt="" className="mb-2" />
+                            <img src={jpg} alt="" className="mb-2" />
+                            <img src={pdf} alt="" className="mb-2" />
                           </div>
+                          <span>
+                            {documentUrls
+                              ? documentUrls.name
+                              : "Drag 'n' drop files here, or click here to upload files"}
+                          </span>
                         </div>
-                        {documentUrls ? documentUrls.name : null}
+
+                        {/* {documentUrls ? documentUrls.name : null} */}
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='2'>
-                        <Label className='form-label col-form-label'>
+                      <Col sm="2">
+                        <Label className="form-label col-form-label">
                           Type
-                          <span className='required'>*</span>
+                          <span className="required">*</span>
                         </Label>
                       </Col>
-                      <Col sm='10'>
+                      <Col sm="10">
                         <Select
                           options={DocumentTypes}
-                          placeholder={'Select type'}
+                          placeholder={"Select type"}
                         />
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='2'>
-                        <Label className='form-label col-form-label'>
+                      <Col sm="2">
+                        <Label className="form-label col-form-label">
                           Remarks
-                          <span className='required'>*</span>
+                          <span className="required">*</span>
                         </Label>
                       </Col>
-                      <Col sm='10'>
+                      <Col sm="10">
                         <div>
                           <Input
-                            type='text'
-                            name={'remarks'}
-                            placeholder='Remarks'
-                            className='width-common'
+                            type="textarea"
+                            name={"remarks"}
+                            placeholder="Remarks"
+                            className="textarea-custom"
+                            rows="4"
                           />
                         </div>
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='2'>
-                        <Label className='form-label col-form-label'>
+                      <Col sm="2">
+                        <Label className="form-label col-form-label">
                           Checked
                         </Label>
                       </Col>
-                      <Col sm='10'>
-                        <div>
-                          <Input type='checkbox' />
-                          <span>
+                      <Col sm="10">
+                        <div className=" checkbox-custom mb-0">
+                          <input
+                            type="checkbox"
+                            id="check"
+                            className=""
+                            name={"employed"}
+                          />
+                          <Label for="check" className="pl-3">
                             ( Checked files cannot be punched by the user)
-                          </span>
+                          </Label>
                         </div>
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='2'>
-                        <Label className='form-label col-form-label'>
+                      <Col sm="2">
+                        <Label className="form-label col-form-label">
                           Optimize
                         </Label>
                       </Col>
-                      <Col sm='10'>
-                        <div>
-                          <Input type='checkbox' />
-                          <span>( convert to PDF and resize)</span>
+                      <Col sm="10">
+                        <div className=" checkbox-custom mb-0">
+                          <input
+                            type="checkbox"
+                            id="check"
+                            className=""
+                            name={"employed"}
+                          />
+                          <Label for="check" className="pl-3">
+                            ( convert to PDF and resize)
+                          </Label>
                         </div>
                       </Col>
                     </Row>
@@ -207,11 +234,11 @@ const DocumentUploadModal = (props: any) => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color='primary' onClick={handleSaveDocument}>
+          <Button color="primary" onClick={handleSaveDocument}>
             Save
           </Button>
-          <Button color='secondary' onClick={handleClose}>
-            {languageTranslation('CANCEL')}
+          <Button color="secondary" onClick={handleClose}>
+            {languageTranslation("CANCEL")}
           </Button>
         </ModalFooter>
       </Modal>

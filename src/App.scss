@@ -150,6 +150,12 @@ body {
       box-shadow: none !important;
     }
   }
+  .btn-common {
+    padding: 6px 30px;
+    font-weight: 600;
+    font-size: $font_13;
+    min-width: 140px;
+  }
   .password-btn {
     height: 25px;
     padding: 0px 0px;
@@ -1643,8 +1649,8 @@ html:not([dir="rtl"]) {
       min-width: 150px;
     }
     &.date-th-column {
-      width: 180px;
-      min-width: 180px;
+      width: 160px;
+      min-width: 160px;
       @media only screen and (max-width: 991px) {
         display: none;
       }
@@ -1665,6 +1671,18 @@ html:not([dir="rtl"]) {
     }
     &.status-column {
       width: 100px;
+    }
+    &.action-th-column{
+      width: 100px;
+    }
+    &.file-th-column{
+      width: 180px;
+    }
+    &.filetype-th-column{
+      width: 400px;
+    }
+    &.filesize-th-column{
+      width: 80px;
     }
     .table-checkbox-wrap {
       position: relative;
@@ -2331,6 +2349,7 @@ html:not([dir="rtl"]) {
   &:focus {
     border-color: $theme_color;
   }
+  
   .file-text {
     font-size: $font_12;
     margin-bottom: 0px;
@@ -3339,7 +3358,7 @@ html:not([dir="rtl"]) {
   position: relative;
   text-align: center;
   background-color: $white;
-  color: #b4b0b0;
+  color: $btn_hover_gray;
   outline: none;
   transition: border 0.24s ease-in-out;
   margin-bottom: 15px;
@@ -3349,6 +3368,13 @@ html:not([dir="rtl"]) {
   align-items: center;
   justify-content: center;
   font-size: $font_13;
+  cursor: pointer;
+  .icon-upload{
+    font-size: 35px;
+    img {
+      width:40px;
+    }
+  }
 }
 
 .no-list-section {

@@ -570,5 +570,9 @@
   "TEXT_EMAIL": "Text Email (Title is inserted automatically)",
   "SELECT_TEMPLATE": "Select Template",
   "MY_PROFILE": "My Profile",
-  "ADD_ATTRIBUTE_SUCCESS": "Atrribute added succesfully"
+  "ADD_ATTRIBUTE_SUCCESS": "Atrribute added succesfully",
+  "DOCUMENT_EDIT": "Click here to edit Document",
+  "DOCUMENT_DELETE": "Click here to delete Document",
+  "ADD_DOCUMENT": " Add Document",
+  "UPLOAD_DOCUMENT": " Upload Document"
 }

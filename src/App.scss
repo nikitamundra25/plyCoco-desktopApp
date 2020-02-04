@@ -1501,6 +1501,10 @@ html:not([dir="rtl"]) {
           padding: 5px 5px;
           padding-right: 35px;
           position: relative;
+          .list-item-text{
+            width: 100%;
+            display: block;
+          }
           .list-item-icon {
             font-size: $font_14;
             cursor: pointer;
@@ -1647,6 +1651,9 @@ html:not([dir="rtl"]) {
     }
     &.checkbox-th-column {
       width: 40px;
+    }
+    &.sno-th-column{
+      width: 50px;
     }
     &.qualifications-th-column {
       width: 250px;

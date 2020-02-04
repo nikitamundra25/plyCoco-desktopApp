@@ -11,7 +11,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
   any> = (props: FormikProps<IAddDepartmentFormValues> & any) => {
     const {
       values: {
-        userId,
+        id,
         name,
         anonymousName,
         anonymousName2,
@@ -35,25 +35,27 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
       setFieldValue
     } = props;
 
-    return (
-      <>
-        <div id={"caregiver-add-btn"}>
-          <Button
-            color={"primary"}
-            disabled={isSubmitting}
-            className={"save-button"}
-            onClick={handleSubmit}
-            id={"department-save-btn"}
-          >
-            {isSubmitting ? (
-              <i className='fa fa-spinner fa-spin loader mr-1' />
-            ) : ('')}
-            {languageTranslation("SAVE_BUTTON")}
-          </Button>
-        </div>
-        <div>
-          <h5 className="content-title"> {languageTranslation("DETAILS")}</h5>
-        </div>
+  return (
+    <>
+      <div id={"caregiver-add-btn"}>
+        <Button
+          color={"primary"}
+          disabled={isSubmitting}
+          className={"save-button"}
+          onClick={handleSubmit}
+          id={"department-save-btn"}
+        >
+          {isSubmitting ? (
+            <i className="fa fa-spinner fa-spin loader mr-1" />
+          ) : (
+            ""
+          )}
+          {languageTranslation("SAVE_BUTTON")}
+        </Button>
+      </div>
+      <div>
+        <h5 className="content-title"> {languageTranslation("DETAILS")}</h5>
+      </div>
 
         <div className="form-card department-card-height">
           {isLoading ? (
@@ -77,9 +79,9 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         <div>
                           <Input
                             type="text"
-                            name={"userId"}
+                            name={"id"}
                             disabled
-                            value={userId}
+                            value={id}
                             placeholder={languageTranslation("ID")}
                             className="width-common"
                           />
@@ -112,7 +114,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={name}
-                        placeholder={languageTranslation("")}
+                        placeholder={languageTranslation("NAME")}
                         className={
                           errors.name && touched.name
                             ? "text-input error text-capitalize"
@@ -144,7 +146,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={anonymousName}
-                        placeholder={languageTranslation("")}
+                        placeholder={languageTranslation("ANONYMOUS_NAME")}
                         className="width-common"
                       />
                     </div>
@@ -169,7 +171,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={anonymousName2}
-                        placeholder={languageTranslation("")}
+                        placeholder={languageTranslation("ANONYMOUS_NAME2")}
                         className="width-common"
                       />
                     </div>
@@ -194,7 +196,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={address}
-                        placeholder={languageTranslation("")}
+                        placeholder={languageTranslation("ADDRESS")}
                         className="width-common"
                       />
                     </div>
@@ -219,7 +221,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={contactPerson}
-                        placeholder={languageTranslation("")}
+                        placeholder={languageTranslation("CONTACT_PERSON")}
                         className="width-common"
                       />
                     </div>
@@ -244,7 +246,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={phoneNumber}
-                        placeholder={languageTranslation("")}
+                        placeholder={languageTranslation("PHONE")}
                         className={
                           errors.phoneNumber && touched.phoneNumber
                             ? "text-input error "
@@ -278,7 +280,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={faxNumber}
-                        placeholder={languageTranslation("")}
+                        placeholder={languageTranslation("FAX")}
                         className={
                           errors.faxNumber && touched.faxNumber
                             ? "text-input error "
@@ -310,7 +312,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={email}
-                        placeholder={languageTranslation("")}
+                        placeholder={languageTranslation("EMPLOYEE_EMAIL_ADDRESS_LABEL")}
                         className={
                           errors.email && touched.email
                             ? "text-input error "
@@ -343,10 +345,11 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={commentsCareGiver}
-                        placeholder={languageTranslation("")}
+                        placeholder={languageTranslation("COMMENTS_VISIBLE_FOE_CARE-GIVER")}
                         className="textarea-custom"
                         rows="4"
                       />
+                      <Label for="check"></Label>
                     </div>
                   </Col>
                 </Row>
@@ -369,7 +372,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={commentsOffer}
-                        placeholder={languageTranslation("")}
+                        placeholder={languageTranslation("COMMENTS_OFFER")}
                         className="textarea-custom"
                         rows="4"
                       />
@@ -395,7 +398,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={commentsVisibleInternally}
-                        placeholder={languageTranslation("")}
+                        placeholder={languageTranslation("COMMENT_ONLY_VISIBLE_INTERNALLY")}
                         className="textarea-custom"
                         rows="4"
                       />
@@ -453,10 +456,10 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
               &nbsp;{languageTranslation("SAVE_BUTTON")}
             </Button>
           </Col> */}
-          </Row>
-        </div>
-      </>
-    );
-    // }
-  };
+        </Row>
+      </div>
+    </>
+  );
+  // }
+};
 export default AddDepartmentForm;

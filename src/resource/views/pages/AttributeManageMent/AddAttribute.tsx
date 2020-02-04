@@ -25,7 +25,7 @@ const AddAttribute: FunctionComponent<IAddAttributeProps> = (
               name={'newAttribute'}
               placeholder={languageTranslation('ATTRIBUTE_NAME')}
               onChange={onChange}
-              maxLength='30'
+              maxLength='250'
               value={newAttribute.trimStart()}
               className={
                 isSubmit && !newAttribute

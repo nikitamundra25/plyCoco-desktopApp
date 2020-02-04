@@ -10,6 +10,6 @@ export const RegionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   regionName: Yup.string()
     .trim()
     .required(languageTranslation('REQUIRED_REGION'))
-    .max(30, languageTranslation('REGION_MAXLENGTH'))
-    .matches(alphaNumeric, languageTranslation('REGION_SPECIALCHAR')),
+    .max(100, languageTranslation('REGION_MAXLENGTH'))
+  // .matches(alphaNumeric, languageTranslation('REGION_SPECIALCHAR')),
 });

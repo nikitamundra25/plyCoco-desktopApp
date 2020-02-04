@@ -24,7 +24,7 @@ import send from '../../../assets/img/send.svg';
 import employee from '../../../assets/img/employee.svg';
 import mail from '../../../assets/img/mail.svg';
 import InboxEmail from './InboxEmail';
-import SentEmail from '../CareInstitution/Emails/SentEmail';
+import SentEmail from './SentEmail';
 import OutboxEmail from './OutboxEmail';
 import MailQueue from './MailQueueEmail';
 

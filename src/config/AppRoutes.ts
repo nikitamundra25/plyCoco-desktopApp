@@ -50,8 +50,9 @@ export const AppRoutes: IAppRoutes = {
   DOCUMENT_TEMPLATE_WORKING: '/working-proof',
   BULK_EMAIL_CAREGIVER: '/bulk-email-caregiver',
   ATTRIBUTE_MANAGEMENT: '/attribute',
-  EMAIL_INBOX: "/inbox-email",
-  EMAIL_SENT: "/sent-email",
-  EMAIL_OUTBOX: "/outbox-email",
-  EMAIL_QUEUE: "/email-queue"
+  EMAIL_INBOX: '/inbox-email',
+  EMAIL_SENT: '/sent-email',
+  EMAIL_OUTBOX: '/outbox-email',
+  EMAIL_QUEUE: '/email-queue',
+  ALL_EMAILS: '/email'
 };

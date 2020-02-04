@@ -33,11 +33,11 @@ let toastId: any = '';
 
 const DocumentUploadModal = (props: any) => {
   const path = useLocation();
-  useEffect(() => {
-    const queryPath = path.pathname;
-    const res = queryPath.split('/');
-    const id = parseInt(res[3]);
-  }, []);
+  // useEffect(() => {
+  //   const queryPath = path.pathname;
+  //   const res = queryPath.split('/');
+  //   const id = parseInt(res[3]);
+  // }, []);
   const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
     onCompleted({ addDocument }) {
       if (!toast.isActive(toastId)) {
@@ -69,11 +69,13 @@ const DocumentUploadModal = (props: any) => {
       }
     });
   }, []);
+  console.log('documentUrls', documentUrls);
+
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     multiple: false
   });
-  console.log('documentUrls', documentUrls);
+
   const handleSaveDocument = () => {
     const queryPath = path.pathname;
     const res = queryPath.split('/');
@@ -91,6 +93,8 @@ const DocumentUploadModal = (props: any) => {
       });
     }
   };
+  console.log('documentUrls', documentUrls);
+
   return (
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
@@ -110,6 +114,7 @@ const DocumentUploadModal = (props: any) => {
                               {...getInputProps()}
                               className='dropzone-input-preview'
                             />
+                            {console.log('documentUrls', documentUrls)}
                             <span>
                               Drag 'n' drop some files here, or click to select
                               files

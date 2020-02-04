@@ -8,8 +8,11 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
+import { IEmailListProps } from '../../../../../interfaces';
 
-const SentEmail: FunctionComponent = () => {
+const SentEmail: FunctionComponent<IEmailListProps> = (
+  props: IEmailListProps,
+) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [opened, setIsOpened] = useState<boolean>(true);
 

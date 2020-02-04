@@ -132,7 +132,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         attributes: attributes
       };
 
-      setSubmitting(false);
       if (isActive > -1) {
         await updateDivision({
           variables: {
@@ -154,6 +153,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
           languageTranslation("ADD_NEW_DEPARTMENT_CARE_INSTITUTION")
         );
       }
+      setSubmitting(false);
       refetch();
       resetForm();
     } catch (error) {
@@ -283,6 +283,27 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         }
       });
       refetch();
+      setDepartmentDetails({
+        id: "",
+        userId: parseInt(Id),
+        name: "",
+        anonymousName: "",
+        anonymousName2: "",
+        address: "",
+        contactPerson: "",
+        phoneNumber: "",
+        faxNumber: "",
+        email: "",
+        commentsOffer: "",
+        commentsCareGiver: "",
+        commentsVisibleInternally: "",
+        locked: false,
+        times: []
+      });
+      setTimesData([]);
+      setQualifications([]);
+      setAttributes([]);
+      setIsActive(-1);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
           languageTranslation("DEPARTMENT_DELETE_SUCCESS_MSG")

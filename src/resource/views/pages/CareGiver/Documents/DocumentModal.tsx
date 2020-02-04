@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Modal,
@@ -10,91 +10,29 @@ import {
   Input,
   Col,
   Row,
-  Form,
-  CustomInput
+  Form
 } from 'reactstrap';
 import Select from 'react-select';
-import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { languageTranslation } from '../../../../../helpers';
 import { DocumentTypes } from '../../../../../config';
 import { useDropzone } from 'react-dropzone';
-import {
-  IDocumentUrls,
-  IDocumentSubmitValues
-} from '../../../../../interfaces';
-import moment from 'moment';
-import { DocumentMutations } from '../../../../../graphql/Mutations';
-import { useMutation } from '@apollo/react-hooks';
-import { toast } from 'react-toastify';
-import { useLocation } from 'react-router-dom';
-const [ADD_DOCUMENT] = DocumentMutations;
-let toastId: any = '';
-
 const DocumentUploadModal = (props: any) => {
-  const path = useLocation();
-  // useEffect(() => {
-  //   const queryPath = path.pathname;
-  //   const res = queryPath.split('/');
-  //   const id = parseInt(res[3]);
-  // }, []);
-  const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
-    onCompleted({ addDocument }) {
-      if (!toast.isActive(toastId)) {
-        toastId = toast.success('DOCUMENT_ADDED_SUCCESS');
-      }
-    }
-  });
-  const [documentUrls, setDocumentUrl] = useState<IDocumentUrls | null>(null);
+  // const [statusValue, setStatusValue] = useState<boolean>(true);
+  // const [remarkValue, setRemarkValue] = useState<any>(null);
+  // const [documentType, setDocumentType] = useState<any>(null);
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.name === 'check') {
+  //     setStatusValue(e.target.checked);
+  //   } /*  (e.target.name === 'remarks') */ else {
+  //     setRemarkValue(e.target.value);
+  //   }
+  // };
   const { show, handleClose } = props;
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    let temp: any = documentUrls ? documentUrls : {};
-    acceptedFiles.forEach((file: File) => {
-      console.log(file, 'file details');
-      if (file) {
-        const reader = new FileReader();
-        reader.onabort = () => console.log('file reading was aborted');
-        reader.onerror = () => console.log('file reading has failed');
-        reader.onloadend = () => {
-          if (reader.result) {
-            temp = {
-              path: reader.result,
-              name: file.name,
-              date: moment().format('DD.MM.YYYY')
-            };
-            setDocumentUrl(temp);
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  }, []);
-  console.log('documentUrls', documentUrls);
-
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
+    onDrop: props.onDrop,
     multiple: false
   });
-
-  const handleSaveDocument = () => {
-    const queryPath = path.pathname;
-    const res = queryPath.split('/');
-    const id = parseInt(res[3]);
-    console.log(id, 'id');
-
-    if (id) {
-      addDocument({
-        variables: {
-          documentInput: {
-            userId: id ? id : '',
-            document: documentUrls ? documentUrls : null
-          }
-        }
-      });
-    }
-  };
-  console.log('documentUrls', documentUrls);
-
   return (
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
@@ -114,14 +52,15 @@ const DocumentUploadModal = (props: any) => {
                               {...getInputProps()}
                               className='dropzone-input-preview'
                             />
-                            {console.log('documentUrls', documentUrls)}
                             <span>
                               Drag 'n' drop some files here, or click to select
                               files
                             </span>
                           </div>
                         </div>
-                        {documentUrls ? documentUrls.name : null}
+                        {props && props.documentUrls
+                          ? props.documentUrls.name
+                          : null}
                       </Col>
                     </Row>
                   </FormGroup>
@@ -132,13 +71,16 @@ const DocumentUploadModal = (props: any) => {
                       <Col sm='2'>
                         <Label className='form-label col-form-label'>
                           Type
-                          <span className='required'>*</span>
                         </Label>
                       </Col>
                       <Col sm='10'>
                         <Select
+                          name='type'
                           options={DocumentTypes}
                           placeholder={'Select type'}
+                          onChange={(type: any) => {
+                            props.setDocumentType(type);
+                          }}
                         />
                       </Col>
                     </Row>
@@ -150,7 +92,6 @@ const DocumentUploadModal = (props: any) => {
                       <Col sm='2'>
                         <Label className='form-label col-form-label'>
                           Remarks
-                          <span className='required'>*</span>
                         </Label>
                       </Col>
                       <Col sm='10'>
@@ -160,6 +101,8 @@ const DocumentUploadModal = (props: any) => {
                             name={'remarks'}
                             placeholder='Remarks'
                             className='width-common'
+                            value={props.remarkValue}
+                            onChange={props.handleChange}
                           />
                         </div>
                       </Col>
@@ -176,16 +119,21 @@ const DocumentUploadModal = (props: any) => {
                       </Col>
                       <Col sm='10'>
                         <div>
-                          <Input type='checkbox' />
+                          <Input
+                            type='checkbox'
+                            name='check'
+                            checked={props.statusValue}
+                            onChange={props.handleChange}
+                          />
                           <span>
-                            ( Checked files cannot be punched by the user)
+                            (checked files cannot be punched by the user)
                           </span>
                         </div>
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                {/* <Col lg={'12'}>
                   <FormGroup>
                     <Row>
                       <Col sm='2'>
@@ -196,18 +144,18 @@ const DocumentUploadModal = (props: any) => {
                       <Col sm='10'>
                         <div>
                           <Input type='checkbox' />
-                          <span>( convert to PDF and resize)</span>
+                          <span>(Convert to PDF and resize)</span>
                         </div>
                       </Col>
                     </Row>
                   </FormGroup>
-                </Col>
+                </Col> */}
               </Row>
             </Form>
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color='primary' onClick={handleSaveDocument}>
+          <Button color='primary' onClick={props.handleSaveDocument}>
             Save
           </Button>
           <Button color='secondary' onClick={handleClose}>

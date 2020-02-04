@@ -6,21 +6,10 @@ const ADD_DOCUMENT = gql`
       document
       remarks
       documentType
+      status
     }
   }
 `;
 
 export const DocumentMutations = [ADD_DOCUMENT];
 
-// mutation{
-//     addUserDocuments(documentInput:{
-//      userId: 789
-//      documentPath: ""
-//      documentType: "s"
-//      remarks: "Remarks"
-//     }){
-//      documentPath,
-//      remarks,
-//      documentType
-//     }
-//     }

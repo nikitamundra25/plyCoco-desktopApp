@@ -69,13 +69,12 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
       ) : null}
       <div className="form-card minheight-auto">
         <Row>
-          <Col lg={"12"}>
+          {/* <Col lg={"12"}>
             <FormGroup>
               <Row>
                 <Col sm="3">
                   <Label className="form-label col-form-label">
                     {languageTranslation("ID")}
-                    {/* <span className="required">*</span> */}
                   </Label>
                 </Col>
                 <Col sm="9">
@@ -92,7 +91,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                 </Col>
               </Row>
             </FormGroup>
-          </Col>
+          </Col> */}
           <Col lg={"12"}>
             <FormGroup>
               <Row>
@@ -191,6 +190,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                       onBlur={handleBlur}
                       value={comment}
                       rows="3"
+                      placeholder={languageTranslation("COMMENT")}
                       className="textarea-custom"
                     />
                   </div>

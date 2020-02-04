@@ -368,14 +368,6 @@ const routes = [
     exact: true,
   },
   {
-    path: AppRoutes.QUALIFICATION_ATTRIBUTE,
-    name: 'Qualification Attribute',
-    component: QualificationAttribute,
-    exact: true,
-    layout: CareGiverLayout,
-    layoutName: 'CareGiver',
-  },
-  {
     path: AppRoutes.REGION,
     name: 'Region',
     component: Region,
@@ -487,7 +479,7 @@ const routes = [
     exact: true,
   },
   {
-    path: AppRoutes.EMAIL_INBOX,
+    path: AppRoutes.ALL_EMAILS,
     name: 'Email Inbox',
     component: EmailInbox,
     exact: true,

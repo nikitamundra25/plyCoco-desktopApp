@@ -11,10 +11,6 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   loading,
   activeTemplate
 }: IEmailTemplateList) => {
-  const id =
-    data && data.getEmailtemplate && data.getEmailtemplate.id
-      ? data.getEmailtemplate.id
-      : '';
   return (
     <Col lg={'7'}>
       <h5 className='content-title'>{languageTranslation('MENU_ENTRY')}</h5>

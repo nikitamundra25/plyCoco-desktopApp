@@ -259,6 +259,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
             onAddNewTemplate={() => {
               if (templateType && templateType.value) {
                 setTypeId(parseInt(templateType.value));
+                setActiveTemplate('');
               }
               setTemplateData({
                 type: templateType ? templateType : undefined,

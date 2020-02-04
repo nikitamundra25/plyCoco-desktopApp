@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import {
   Col,
   Row,
@@ -7,11 +7,32 @@ import {
   Input,
   UncontrolledTooltip,
 } from 'reactstrap';
+import { useLazyQuery } from '@apollo/react-hooks';
 import { languageTranslation } from '../../../../../helpers';
+import { CareGiverQueries } from '../../../../../graphql/queries';
+import { useParams } from 'react-router';
+import { IEmailListProps } from '../../../../../interfaces';
 
-const InboxEmail: FunctionComponent = () => {
+const [, , , GET_EMAILS] = CareGiverQueries;
+
+const InboxEmail: FunctionComponent<IEmailListProps> = (
+  props: IEmailListProps,
+) => {
+  let { id } = useParams();
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [opened, setIsOpened] = useState<boolean>(true);
+  const [fetchEmails, { data: emailList }] = useLazyQuery(GET_EMAILS);
+
+  useEffect(() => {
+    fetchEmails({
+      variables: {
+        userId: id ? parseInt(id) : 0,
+        from: 'caregiver',
+      },
+    });
+  }, []);
+
+  console.log(emailList, 'emailListemailList');
 
   const toggle = () => {
     setIsOpen(!isOpen);

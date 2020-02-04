@@ -1,17 +1,83 @@
-import React, { FunctionComponent } from 'react';
-import { Editor } from 'react-draft-wysiwyg';
-import { Button, Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
+import React, { FunctionComponent, useState } from 'react';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
 import Select from 'react-select';
+import { useParams } from 'react-router';
+import draftToHtml from 'draftjs-to-html';
+import { convertToRaw } from 'draft-js';
 import { languageTranslation } from '../../../../../helpers';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EmailTemplateQueries } from '../../../../../graphql/queries';
+import {
+  IReactSelectInterface,
+  IAddEmailVariables,
+} from '../../../../../interfaces';
+import { EmailFormComponent } from './EmailFormComponent';
+import { CareGiverMutations } from '../../../../../graphql/Mutations';
+import { toast } from 'react-toastify';
 
-const options = [
-  { value: 'Denis', label: 'Aaron, Hank' },
-  { value: 'Denis', label: 'Bergman, Ingmar' },
-  { value: 'Beck, Glenn', label: 'Berle, Milton' },
-];
+const [GET_EMAIL_TEMPLATE] = EmailTemplateQueries;
+const [, , , , , , NEW_EMAIL] = CareGiverMutations;
+let toastId: any = null;
 
 const NewEmail: FunctionComponent = () => {
+  let { id } = useParams();
+  const [subject, setSubject] = useState<string>('');
+  const [body, setBody] = useState<any>(undefined);
+  //To get all email templates of care giver addded in system
+  const {
+    data,
+    loading: fetchTemplateListLoading,
+    refetch: listRefetch,
+  } = useQuery<any>(GET_EMAIL_TEMPLATE, {
+    variables: {},
+  });
+
+  const [addNewEmail] = useMutation<
+    {
+      addNewEmail: any;
+    },
+    {
+      emailInput: IAddEmailVariables;
+    }
+  >(NEW_EMAIL, {
+    onCompleted() {
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
+      }
+    },
+  });
+  const templateOptions: IReactSelectInterface[] | undefined = [];
+  if (data) {
+    console.log(data, 'data*****');
+  }
+
+  // Function to send new email
+  const sendEmail = () => {
+    console.log('in sebd emauk');
+
+    try {
+      const emailInput: IAddEmailVariables = {
+        userId: id ? parseInt(id) : 0,
+        to: 'caregiver',
+        from: 'plycoco',
+        subject,
+        body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '',
+        parentId: null,
+        status: 'new',
+      };
+      addNewEmail({ variables: { emailInput } });
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      toast.error(message);
+    }
+  };
+
+  const onEditorStateChange: any = (editorState: any): void => {
+    setBody(editorState);
+  };
   return (
     <div className='email-section'>
       {/* <EmailMenus {...this.props} /> */}
@@ -26,7 +92,7 @@ const NewEmail: FunctionComponent = () => {
                     <span> {languageTranslation('NEW_EMAIL')}</span>
                   </div>
                   <span className='email-attributes-seprator'>|</span>
-                  <div className='email-attributes-content'>
+                  <div className='email-attributes-content' onClick={sendEmail}>
                     <i
                       className='fa fa-paper-plane mr-1'
                       aria-hidden='true'
@@ -43,6 +109,9 @@ const NewEmail: FunctionComponent = () => {
                         type='text'
                         placeholder={languageTranslation('SUBJECT')}
                         className=' width-common'
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setSubject(e.target.value)
+                        }
                       />
                     </FormGroup>
                   </div>
@@ -51,7 +120,7 @@ const NewEmail: FunctionComponent = () => {
                       <FormGroup className='mb-0 '>
                         <Select
                           placeholder='Select Template'
-                          options={options}
+                          options={templateOptions}
                           classNamePrefix='react-select'
                           className='new-email-select'
                         />
@@ -60,82 +129,12 @@ const NewEmail: FunctionComponent = () => {
                   </div>
                 </div>
               </div>
-
-              <div className='form-card'>
-                <Row>
-                  <Col lg={'12'}>
-                    <FormGroup className='mb-3'>
-                      <Row>
-                        <Col sm='12'>
-                          <div>
-                            <Input
-                              type='text'
-                              name={'subject'}
-                              placeholder='Subject'
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={'12'}>
-                    <FormGroup>
-                      <Row>
-                        <Col sm='12'>
-                          <div>
-                            <Editor
-                              // editorState={editorState}
-                              toolbarClassName='toolbarClassName'
-                              wrapperClassName='wrapperClassName'
-                              editorClassName='editorClassName'
-                              placeholder='Enter Email Here'
-                              toolbar={{
-                                options: [
-                                  'inline',
-                                  'blockType',
-                                  'fontSize',
-                                  'list',
-                                  'textAlign',
-                                  'link',
-                                ],
-                                inline: {
-                                  options: ['bold', 'italic', 'underline'],
-                                },
-                                fontSize: {
-                                  className: 'bordered-option-classname',
-                                },
-                                fontFamily: {
-                                  className: 'bordered-option-classname',
-                                },
-                                list: {
-                                  inDropdown: false,
-                                  options: ['unordered'],
-                                },
-                                link: {
-                                  options: ['link'],
-                                },
-                              }}
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
-                  <Col lg={'12'}>
-                    <div className='d-flex align-items-center justify-content-end'>
-                      <div>
-                        <Button
-                          color='primary'
-                          type='submit'
-                          className='btn-sumbit'
-                        >
-                          {languageTranslation('SEND')}
-                        </Button>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
+              <EmailFormComponent
+                subject={subject}
+                body={body}
+                onEditorStateChange={onEditorStateChange}
+                sendEmail={sendEmail}
+              />
             </Col>
           </Row>
         </Form>

@@ -100,30 +100,7 @@ const DocumentUploadModal = (props: any) => {
             <div className='calender-wrapper mb-4'></div>
             <Form className='form-section forms-main-section'>
               <Row>
-                <Col lg={'6'}>
-                  <FormGroup>
-                    <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          File
-                          <span className='required'>*</span>
-                        </Label>
-                      </Col>
-                      <Col sm='8'>
-                        <div>
-                          <Input
-                            type='text'
-                            name={'file'}
-                            placeholder='File'
-                            className='width-common'
-                            value={documentUrls ? documentUrls.name : null}
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-                <Col lg={'6'}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
                       <Col sm='8'>
@@ -133,9 +110,13 @@ const DocumentUploadModal = (props: any) => {
                               {...getInputProps()}
                               className='dropzone-input-preview'
                             />
-                            <span className='btn btn-primary'>Select File</span>
+                            <span>
+                              Drag 'n' drop some files here, or click to select
+                              files
+                            </span>
                           </div>
                         </div>
+                        {documentUrls ? documentUrls.name : null}
                       </Col>
                     </Row>
                   </FormGroup>
@@ -143,13 +124,13 @@ const DocumentUploadModal = (props: any) => {
                 <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
+                      <Col sm='2'>
                         <Label className='form-label col-form-label'>
                           Type
                           <span className='required'>*</span>
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col sm='10'>
                         <Select
                           options={DocumentTypes}
                           placeholder={'Select type'}
@@ -158,16 +139,16 @@ const DocumentUploadModal = (props: any) => {
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'6'}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
+                      <Col sm='2'>
                         <Label className='form-label col-form-label'>
                           Remarks
                           <span className='required'>*</span>
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col sm='10'>
                         <div>
                           <Input
                             type='text'
@@ -180,15 +161,15 @@ const DocumentUploadModal = (props: any) => {
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'6'}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
+                      <Col sm='2'>
                         <Label className='form-label col-form-label'>
                           Checked
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col sm='10'>
                         <div>
                           <Input type='checkbox' />
                           <span>
@@ -202,12 +183,12 @@ const DocumentUploadModal = (props: any) => {
                 <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
+                      <Col sm='2'>
                         <Label className='form-label col-form-label'>
                           Optimize
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col sm='10'>
                         <div>
                           <Input type='checkbox' />
                           <span>( convert to PDF and resize)</span>

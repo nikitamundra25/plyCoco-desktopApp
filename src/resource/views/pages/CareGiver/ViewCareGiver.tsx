@@ -94,8 +94,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     careGivers.getCaregivers.result
   ) {
     // careGiverOpt.push({
-    //   label: `${firstName}${' '}${lastName}`,
-    //   value: id,
+    //   label: `Name`,
+    //   value: `Id`,
     // });
     careGivers.getCaregivers.result.forEach(
       ({ id, firstName, lastName }: any) =>
@@ -171,7 +171,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                     value={selectUser}
                     onChange={(e: any) => handleSelect(e)}
                     options={careGiverOpt}
-                    components={{ Option: CustomOption }}
+                    // components={{ Option: CustomOption }}
                   />
                 </div>
                 <div

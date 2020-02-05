@@ -1,53 +1,53 @@
-import React, { FunctionComponent } from 'react';
-import { Button, Col, Row, FormGroup } from 'reactstrap';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { languageTranslation } from '../../../../../helpers';
-import { IEmailFormComponentPorps } from '../../../../../interfaces';
+import React, { FunctionComponent } from "react";
+import { Button, Col, Row, FormGroup } from "reactstrap";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { languageTranslation } from "../../../../../helpers";
+import { IEmailFormComponentPorps } from "../../../../../interfaces";
 
 export const EmailFormComponent: FunctionComponent<IEmailFormComponentPorps> = (
-  props: IEmailFormComponentPorps,
+  props: IEmailFormComponentPorps
 ) => {
   const { body, onEditorStateChange, sendEmail } = props;
   return (
-    <div className='form-card'>
+    <div className="form-card">
       <Row>
-        <Col lg={'12'}>
+        <Col lg={"12"}>
           <FormGroup>
             <Row>
-              <Col sm='12'>
+              <Col sm="12">
                 <div>
                   <Editor
                     editorState={body}
-                    toolbarClassName='toolbarClassName'
-                    wrapperClassName='wrapperClassName'
-                    editorClassName='editorClassName'
-                    placeholder='Enter Email Here'
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClassName"
+                    placeholder="Enter Email Here"
                     toolbar={{
                       options: [
-                        'inline',
-                        'blockType',
-                        'fontSize',
-                        'list',
-                        'textAlign',
-                        'link',
+                        "inline",
+                        "blockType",
+                        "fontSize",
+                        "list",
+                        "textAlign",
+                        "link"
                       ],
                       inline: {
-                        options: ['bold', 'italic', 'underline'],
+                        options: ["bold", "italic", "underline"]
                       },
                       fontSize: {
-                        className: 'bordered-option-classname',
+                        className: "bordered-option-classname"
                       },
                       fontFamily: {
-                        className: 'bordered-option-classname',
+                        className: "bordered-option-classname"
                       },
                       list: {
                         inDropdown: false,
-                        options: ['unordered'],
+                        options: ["unordered"]
                       },
                       link: {
-                        options: ['link'],
-                      },
+                        options: ["link"]
+                      }
                     }}
                     onEditorStateChange={onEditorStateChange}
                   />
@@ -62,7 +62,7 @@ export const EmailFormComponent: FunctionComponent<IEmailFormComponentPorps> = (
               <Button
                 color='primary'
                 type='submit'
-                className='btn-sumbit'
+                className='btn-submit'
                 onClick={sendEmail}
               >
                 {languageTranslation('SEND')}

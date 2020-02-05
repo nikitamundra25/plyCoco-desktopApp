@@ -1,23 +1,23 @@
-import React, { FunctionComponent, useEffect } from 'react';
-import Select from 'react-select';
-import { RegionQueries } from '../../../../graphql/queries/Region';
-import { useLazyQuery } from '@apollo/react-hooks';
-import { IReactSelectInterface, IRegion } from '../../../../interfaces';
-import { languageTranslation } from '../../../../helpers';
+import React, { FunctionComponent, useEffect } from "react";
+import Select from "react-select";
+import { RegionQueries } from "../../../../graphql/queries/Region";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { IReactSelectInterface, IRegion } from "../../../../interfaces";
+import { languageTranslation } from "../../../../helpers";
 
 const [, GET_REGIONS] = RegionQueries;
 
 const DefaultFooter: FunctionComponent = () => {
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
   const regionOptions: IReactSelectInterface[] | undefined = [];
   if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
   useEffect(() => {
@@ -25,19 +25,21 @@ const DefaultFooter: FunctionComponent = () => {
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3,
-      },
+        sortBy: 3
+      }
     });
   }, []);
   return (
     <React.Fragment>
-      <div className='d-flex align-items-center justify-content-end w-100'>
-        <div className='region-select footer-select text-capitalize'>
+      <div className="d-flex align-items-center justify-content-end w-100">
+        <div className="region-select footer-select text-capitalize">
           <Select
-            placeholder={languageTranslation('EMPLOYEE_REGION_PLACEHOLDER')}
+            placeholder={languageTranslation("EMPLOYEE_REGION_PLACEHOLDER")}
             options={regionOptions}
-            className={'menu-outer-top'}
-            menuPlacement={'top'}
+            // className={'menu-outer-top'}
+            classNamePrefix="custom-inner-reactselect"
+            className={"custom-reactselect"}
+            menuPlacement={"top"}
           />
         </div>
       </div>

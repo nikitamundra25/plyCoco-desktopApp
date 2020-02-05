@@ -31,6 +31,8 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
             options={typeListOptions}
             value={templateType}
             onChange={onTypeChange}
+            classNamePrefix='custom-inner-reactselect'
+            className={'custom-reactselect'}
           />
         </div>
         <div className='header-nav-item' onClick={onAddNewTemplate}>

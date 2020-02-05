@@ -44,8 +44,10 @@ export const FormikSelectField = (props: IFormikSelectField) => {
         onChange={rest.onChange || handleChange}
         isMulti={rest.isMulti || false}
         error={showError}
-        className={className}
-        id={key ? key : 'react-select-single'}
+        classNamePrefix="custom-inner-reactselect"
+        className={"custom-reactselect"}
+        // className={className}
+        id={key ? key : "react-select-single"}
         options={options ? options : []}
         value={rest.value || value}
         placeholder={props.placeholder}

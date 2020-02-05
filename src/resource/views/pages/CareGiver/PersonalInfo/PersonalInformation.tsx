@@ -501,34 +501,34 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       validationSchema={CareGiverValidationSchema}
       render={(props: FormikProps<ICareGiverValues>) => {
         return (
-          <Form className='form-section forms-main-section'>
-            <div id={'caregiver-add-btn'}>
+          <Form className="form-section forms-main-section">
+            <div id={"caregiver-add-btn"}>
               <Button
                 disabled={props.isSubmitting}
                 onClick={props.handleSubmit}
-                color={'primary'}
+                color={"primary"}
                 className={`save-button`}
               >
                 {props.isSubmitting ? (
-                  <i className='fa fa-spinner fa-spin loader' />
+                  <i className="fa fa-spinner fa-spin loader" />
                 ) : (
-                  ''
+                  ""
                 )}
-                {languageTranslation('SAVE_BUTTON')}
+                {languageTranslation("SAVE_BUTTON")}
               </Button>
             </div>
 
             <Row>
-              <Col lg={'4'}>
+              <Col lg={4} md={"12"} sm={"12"}>
                 <PersonalInfoFormComponent
                   {...props}
                   CareInstitutionList={usersList}
                 />
               </Col>
-              <Col lg={'4'} className='px-lg-0'>
-                <div className='common-col custom-caregiver-height  custom-scrollbar'>
+              <Col lg={4} md={"12"} sm={"12"} className="px-lg-0">
+                <div className="common-col custom-caregiver-height  custom-scrollbar">
                   <BillingSettingsFormComponent {...props} />
-                  <div className='quality-attribute-section d-flex flex-column'>
+                  <div className="quality-attribute-section d-flex flex-column">
                     <QualificationFormComponent
                       {...props}
                       qualificationList={qualificationList}

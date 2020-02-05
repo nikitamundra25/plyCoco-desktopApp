@@ -160,41 +160,41 @@ const CotactFormComponent: any = (
       <Button
         onClick={handleSubmit}
         disabled={isSubmitting}
-        color={'primary'}
-        className={'btn-contact-save save-button'}
+        color={"primary"}
+        className={"btn-contact-save save-button"}
       >
-        {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
+        {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
         {id
-          ? languageTranslation('UPDATE_BUTTON')
-          : languageTranslation('SAVE_BUTTON')}
+          ? languageTranslation("UPDATE_BUTTON")
+          : languageTranslation("SAVE_BUTTON")}
         {}
       </Button>
-      <div className={'form-section position-relative'}>
-        <div className='form-flex-section form-card minheight-auto mb-2'>
+      <div className={"form-section position-relative"}>
+        <div className="form-flex-section form-card minheight-auto mb-2">
           {/* <h5 className="main-title">Add New contact </h5> */}
 
-          <div className='form-flex-block'>
-            <div className='form-flex-tile'>
+          <div className="form-flex-block">
+            <div className="form-flex-tile">
               <Row>
                 {id ? (
-                  <Col lg={'12'}>
+                  <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                     <FormGroup>
                       <Row>
-                        <Col sm='4'>
-                          <Label className='form-label col-form-label'>
-                            {languageTranslation('ID')}
-                            <span className='required'>*</span>
+                        <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                          <Label className="form-label col-form-label">
+                            {languageTranslation("ID")}
+                            <span className="required">*</span>
                           </Label>
                         </Col>
-                        <Col sm='8'>
+                        <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                           <div>
                             <Input
-                              type='text'
+                              type="text"
                               disable
                               disabled
                               value={id}
-                              placeholder={languageTranslation('ID')}
-                              className='width-common'
+                              placeholder={languageTranslation("ID")}
+                              className="width-common"
                             />
                           </div>
                         </Col>
@@ -202,23 +202,25 @@ const CotactFormComponent: any = (
                     </FormGroup>
                   </Col>
                 ) : null}
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('GENDER')}
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("GENDER")}
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Select
-                            placeholder={languageTranslation('GENDER')}
+                            placeholder={languageTranslation("GENDER")}
                             value={gender ? gender : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'gender')
+                              handleSelect(value, "gender")
                             }
                             options={Gender}
+                            classNamePrefix="custom-inner-reactselect"
+                            className={"custom-reactselect"}
                           />
                         </div>
                       </Col>
@@ -226,24 +228,24 @@ const CotactFormComponent: any = (
                   </FormGroup>
                 </Col>
 
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('TITLE')}
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("TITLE")}
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Input
-                            type='text'
-                            name={'title'}
+                            type="text"
+                            name={"title"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={title}
-                            placeholder={languageTranslation('TITLE')}
-                            className='width-common'
+                            placeholder={languageTranslation("TITLE")}
+                            className="width-common"
                             maxLength={30}
                           />
                         </div>
@@ -252,55 +254,57 @@ const CotactFormComponent: any = (
                   </FormGroup>
                 </Col>
 
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('SALUTATION')}
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("SALUTATION")}
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Select
-                            placeholder={languageTranslation('SALUTATION')}
+                            placeholder={languageTranslation("SALUTATION")}
                             value={salutation ? salutation : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'salutation')
+                              handleSelect(value, "salutation")
                             }
                             options={Salutation}
+                            classNamePrefix="custom-inner-reactselect"
+                            className={"custom-reactselect"}
                           />
                         </div>
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('FIRST_NAME')}
-                          <span className='required'>*</span>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("FIRST_NAME")}
+                          <span className="required">*</span>
                         </Label>
                       </Col>
-                      <Col sm='8'>
-                        <div className='required-input'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                        <div className="required-input">
                           <Input
-                            type='text'
-                            name={'firstName'}
-                            placeholder={languageTranslation('FIRST_NAME')}
+                            type="text"
+                            name={"firstName"}
+                            placeholder={languageTranslation("FIRST_NAME")}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={firstName}
                             className={
                               errors.firstName && touched.firstName
-                                ? 'text-input error text-capitalize'
-                                : 'text-input text-capitalize'
+                                ? "text-input error text-capitalize"
+                                : "text-input text-capitalize"
                             }
                           />
                           {errors.firstName && touched.firstName && (
-                            <div className='required-tooltip'>
+                            <div className="required-tooltip">
                               {errors.firstName}
                             </div>
                           )}
@@ -309,32 +313,32 @@ const CotactFormComponent: any = (
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('SURNAME')}
-                          <span className='required'>*</span>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("SURNAME")}
+                          <span className="required">*</span>
                         </Label>
                       </Col>
-                      <Col sm='8'>
-                        <div className='required-input'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                        <div className="required-input">
                           <Input
-                            type='text'
-                            name={'lastName'}
-                            placeholder={languageTranslation('SURNAME')}
+                            type="text"
+                            name={"lastName"}
+                            placeholder={languageTranslation("SURNAME")}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={lastName}
                             className={
                               errors.lastName && touched.lastName
-                                ? 'text-input error text-capitalize'
-                                : 'text-input text-capitalize'
+                                ? "text-input error text-capitalize"
+                                : "text-input text-capitalize"
                             }
                           />
                           {errors.lastName && touched.lastName && (
-                            <div className='required-tooltip'>
+                            <div className="required-tooltip">
                               {errors.lastName}
                             </div>
                           )}
@@ -345,36 +349,36 @@ const CotactFormComponent: any = (
                 </Col>
               </Row>
             </div>
-            <div className='form-flex-tile'>
+            <div className="form-flex-tile">
               <Row>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('CONTACT_TYPE')}
-                          <span className='required'>*</span>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("CONTACT_TYPE")}
+                          <span className="required">*</span>
                         </Label>
                       </Col>
-                      <Col sm='8'>
-                        <div className='required-input'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                        <div className="required-input">
                           <Select
-                            placeholder={languageTranslation('CONTACT_TYPE')}
+                            placeholder={languageTranslation("CONTACT_TYPE")}
                             value={contactType ? contactType : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'contactType')
+                              handleSelect(value, "contactType")
                             }
-                            classNamePrefix='custom-inner-reactselect'
+                            classNamePrefix="custom-inner-reactselect"
                             className={
                               errors.contactType && touched.contactType
-                                ? 'error custom-reactselect'
-                                : 'custom-reactselect'
+                                ? "error custom-reactselect"
+                                : "custom-reactselect"
                             }
                             options={ContactType}
-                            menuPlacement={'auto'}
+                            menuPlacement={"auto"}
                           />
                           {errors.contactType && touched.contactType && (
-                            <div className='required-tooltip'>
+                            <div className="required-tooltip">
                               {ContactError.value}
                             </div>
                           )}
@@ -383,96 +387,98 @@ const CotactFormComponent: any = (
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('STREET')}
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("STREET")}
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Input
-                            type='text'
-                            name={'street'}
+                            type="text"
+                            name={"street"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={street}
-                            placeholder={languageTranslation('STREET')}
-                            className='width-common'
+                            placeholder={languageTranslation("STREET")}
+                            className="width-common"
                           />
                         </div>
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('CITY')}
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("CITY")}
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Input
-                            type='text'
-                            name={'city'}
+                            type="text"
+                            name={"city"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={city}
-                            placeholder={languageTranslation('CITY')}
-                            className='width-common'
+                            placeholder={languageTranslation("CITY")}
+                            className="width-common"
                           />
                         </div>
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('ZIP')}
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("ZIP")}
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Input
-                            type='text'
-                            name={'zipCode'}
+                            type="text"
+                            name={"zipCode"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={zipCode}
-                            placeholder={languageTranslation('ZIP')}
-                            className='width-common'
+                            placeholder={languageTranslation("ZIP")}
+                            className="width-common"
                           />
                         </div>
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('COUNTRY')}
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("COUNTRY")}
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Select
-                            placeholder={languageTranslation('COUNTRY')}
+                            placeholder={languageTranslation("COUNTRY")}
                             options={countriesOpt}
                             value={country ? country : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'country')
+                              handleSelect(value, "country")
                             }
-                            menuPlacement={'top'}
+                            menuPlacement={"top"}
+                            classNamePrefix="custom-inner-reactselect"
+                            className={"custom-reactselect"}
                           />
                         </div>
                       </Col>
@@ -481,33 +487,33 @@ const CotactFormComponent: any = (
                 </Col>
               </Row>
             </div>
-            <div className='form-flex-tile'>
+            <div className="form-flex-tile">
               <Row>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('PHONE')}
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("PHONE")}
                         </Label>
                       </Col>
-                      <Col sm='8'>
-                        <div className='required-input'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                        <div className="required-input">
                           <Input
-                            type='text'
-                            name={'phoneNumber'}
+                            type="text"
+                            name={"phoneNumber"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={phoneNumber}
-                            placeholder={languageTranslation('PHONE')}
+                            placeholder={languageTranslation("PHONE")}
                             className={
                               errors.phoneNumber && touched.phoneNumber
-                                ? 'text-input error text-capitalize'
-                                : 'text-input text-capitalize'
+                                ? "text-input error text-capitalize"
+                                : "text-input text-capitalize"
                             }
                           />
                           {errors.phoneNumber && touched.phoneNumber && (
-                            <div className='required-tooltip'>
+                            <div className="required-tooltip">
                               {errors.phoneNumber}
                             </div>
                           )}
@@ -516,31 +522,31 @@ const CotactFormComponent: any = (
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('PHONE2')}
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("PHONE2")}
                         </Label>
                       </Col>
-                      <Col sm='8'>
-                        <div className='required-input'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                        <div className="required-input">
                           <Input
-                            type='text'
-                            name={'phoneNumber2'}
+                            type="text"
+                            name={"phoneNumber2"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={phoneNumber2}
-                            placeholder={languageTranslation('PHONE2')}
+                            placeholder={languageTranslation("PHONE2")}
                             className={
                               errors.phoneNumber2 && touched.phoneNumber2
-                                ? 'text-input error text-capitalize'
-                                : 'text-input text-capitalize'
+                                ? "text-input error text-capitalize"
+                                : "text-input text-capitalize"
                             }
                           />
                           {errors.phoneNumber2 && touched.phoneNumber2 && (
-                            <div className='required-tooltip'>
+                            <div className="required-tooltip">
                               {errors.phoneNumber2}
                             </div>
                           )}
@@ -549,31 +555,31 @@ const CotactFormComponent: any = (
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('FAX')}
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("FAX")}
                         </Label>
                       </Col>
-                      <Col sm='8'>
-                        <div className='required-input'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                        <div className="required-input">
                           <Input
-                            type='text'
-                            name={'faxNumber'}
+                            type="text"
+                            name={"faxNumber"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={faxNumber}
-                            placeholder={languageTranslation('FAX')}
+                            placeholder={languageTranslation("FAX")}
                             className={
                               errors.faxNumber && touched.faxNumber
-                                ? 'text-input error'
-                                : 'text-input'
+                                ? "text-input error"
+                                : "text-input"
                             }
                           />
                           {errors.faxNumber && touched.faxNumber && (
-                            <div className='required-tooltip'>
+                            <div className="required-tooltip">
                               {errors.faxNumber}
                             </div>
                           )}
@@ -582,31 +588,31 @@ const CotactFormComponent: any = (
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('MOBILE')}
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("MOBILE")}
                         </Label>
                       </Col>
-                      <Col sm='8'>
-                        <div className='required-input'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                        <div className="required-input">
                           <Input
-                            type='text'
-                            name={'mobileNumber'}
+                            type="text"
+                            name={"mobileNumber"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={mobileNumber}
-                            placeholder={languageTranslation('MOBILE')}
+                            placeholder={languageTranslation("MOBILE")}
                             className={
                               errors.mobileNumber && touched.mobileNumber
-                                ? 'text-input error'
-                                : 'text-input'
+                                ? "text-input error"
+                                : "text-input"
                             }
                           />
                           {errors.mobileNumber && touched.mobileNumber && (
-                            <div className='required-tooltip'>
+                            <div className="required-tooltip">
                               {errors.mobileNumber}
                             </div>
                           )}
@@ -615,32 +621,32 @@ const CotactFormComponent: any = (
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('EMAIL')}
-                          <span className='required'>*</span>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("EMAIL")}
+                          <span className="required">*</span>
                         </Label>
                       </Col>
-                      <Col sm='8'>
-                        <div className='required-input'>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                        <div className="required-input">
                           <Input
-                            type='text'
-                            name={'email'}
+                            type="text"
+                            name={"email"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={email}
-                            placeholder={languageTranslation('EMAIL')}
+                            placeholder={languageTranslation("EMAIL")}
                             className={
                               errors.email && touched.email
-                                ? 'text-input error'
-                                : 'text-input'
+                                ? "text-input error"
+                                : "text-input"
                             }
                           />
                           {errors.email && touched.email && (
-                            <div className='required-tooltip'>
+                            <div className="required-tooltip">
                               {errors.email}
                             </div>
                           )}
@@ -651,26 +657,26 @@ const CotactFormComponent: any = (
                 </Col>
               </Row>
             </div>
-            <div className='form-flex-tile form-attribute-remark-section'>
-              <div className='remark-div'>
-                <div className='font-weight-bold mb-2'>
-                  {languageTranslation('ADD_REMARKS')}{' '}
+            <div className="form-flex-tile form-attribute-remark-section">
+              <div className="remark-div">
+                <div className="font-weight-bold mb-2">
+                  {languageTranslation("ADD_REMARKS")}{" "}
                 </div>
                 <Row>
-                  <Col lg={'12'}>
-                    <FormGroup className='mb-0'>
+                  <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+                    <FormGroup className="mb-0">
                       <Row>
-                        <Col sm='12'>
+                        <Col sm="12">
                           <div>
                             <Input
-                              type='textarea'
-                              name={'remark'}
+                              type="textarea"
+                              name={"remark"}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={remark}
-                              placeholder={languageTranslation('REMARKS')}
-                              className='textarea-care-institution'
-                              rows='4'
+                              placeholder={languageTranslation("REMARKS")}
+                              className="textarea-care-institution"
+                              rows="4"
                               maxLength={250}
                             />
                           </div>
@@ -680,41 +686,41 @@ const CotactFormComponent: any = (
                   </Col>
                 </Row>
               </div>
-              <div className='attribute-div'>
-                <div className='common-list-wrap'>
-                  <div className='common-list-header d-flex align-items-cente justify-content-between'>
-                    <div className='common-list-title align-middle'>
-                      {' '}
-                      {languageTranslation('ATTRIBUTES')}
+              <div className="attribute-div">
+                <div className="common-list-wrap">
+                  <div className="common-list-header d-flex align-items-cente justify-content-between">
+                    <div className="common-list-title align-middle">
+                      {" "}
+                      {languageTranslation("ATTRIBUTES")}
                     </div>
-                    <div className=' align-middle toggle-icon'>
-                      <i className='fa fa-angle-down'></i>
+                    <div className=" align-middle toggle-icon">
+                      <i className="fa fa-angle-down"></i>
                     </div>
                   </div>
-                  <div className='common-list-body custom-scrollbar'>
-                    <ul className='common-list list-unstyled mb-0'>
+                  <div className="common-list-body custom-scrollbar">
+                    <ul className="common-list list-unstyled mb-0">
                       {attributeId && attributeId.length
                         ? attributeId.map(
                             (data: IReactSelectInterface, index: number) => {
                               return (
                                 <li
                                   className={
-                                    'cursor-pointer list-item text-capitalize'
+                                    "cursor-pointer list-item text-capitalize"
                                   }
                                   key={index}
                                 >
                                   <>
-                                    <span className='list-item-text'>
+                                    <span className="list-item-text">
                                       {data.label}
                                     </span>
                                     <span
-                                      id='delete0'
+                                      id="delete0"
                                       onClick={() =>
                                         handleRemoveAttribute(index)
                                       }
-                                      className='list-item-icon'
+                                      className="list-item-icon"
                                     >
-                                      <i className='fa fa-trash'></i>
+                                      <i className="fa fa-trash"></i>
                                     </span>
                                   </>
                                 </li>
@@ -724,43 +730,43 @@ const CotactFormComponent: any = (
                         : null}
                     </ul>
                   </div>
-                  <div className='common-list-footer form-section '>
-                    <div className='contact-attribute '>
-                      <FormGroup className='mb-0'>
+                  <div className="common-list-footer form-section ">
+                    <div className="contact-attribute ">
+                      <FormGroup className="mb-0">
                         <Select
                           placeholder={
-                            'Please select Attribute or type to add new'
+                            "Please select Attribute or type to add new"
                           }
                           options={AttOpt}
                           value={
                             contactAttribute
                               ? {
                                   label:
-                                    'Please select Attribute or type to add new',
-                                  value: ''
+                                    "Please select Attribute or type to add new",
+                                  value: ""
                                 }
                               : undefined
                           }
                           onChange={(value: any) => {
-                            handleAttributeSelectContarct(value, 'attributeId');
+                            handleAttributeSelectContarct(value, "attributeId");
                           }}
                           onInputChange={handleAttributeSelect}
-                          menuPlacement={'top'}
-                          className='attribute-select'
-                          classNamePrefix='attribute-inner-select'
+                          menuPlacement={"top"}
+                          className="attribute-select"
+                          classNamePrefix="attribute-inner-select"
                         />
                       </FormGroup>
                       <Button
                         onClick={() => handleAddNewAttributevalue()}
-                        id={'addAttribute'}
+                        id={"addAttribute"}
                         disabled={!newAttributeValue ? true : false}
-                        className='add-attribute-btn  d-flex align-items-center justify-content-center'
+                        className="add-attribute-btn  d-flex align-items-center justify-content-center"
                       >
-                        <i className={'fa fa-plus'} />
+                        <i className={"fa fa-plus"} />
                       </Button>
                       <UncontrolledTooltip
-                        placement='top'
-                        target='addAttribute'
+                        placement="top"
+                        target="addAttribute"
                       >
                         Click To Add New Attribute
                       </UncontrolledTooltip>

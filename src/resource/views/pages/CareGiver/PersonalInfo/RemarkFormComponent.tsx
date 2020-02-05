@@ -70,7 +70,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
     handleChange
   } = props;
   return (
-    <Col lg={4}>
+    <Col lg={4} md={"12"} sm={"12"} >
       <div className='custom-caregiver-height custom-scrollbar'>
         <div className='remark-details'>
           <div className='remark-header d-flex align-items-center justify-content-between'>

@@ -29,94 +29,98 @@ const InvoiceFormData: FunctionComponent<FormikProps<
   } = props;
 
   return (
-    <div className='form-card minheight-auto mb-2'>
+    <div className="form-card minheight-auto mb-2">
       <Row>
-        <Col lg={'12'}>
+         <Col xs={"12"}>
           <FormGroup>
             <Row>
-              <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  {languageTranslation('INVOICE_TYPE')}
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("INVOICE_TYPE")}
                 </Label>
               </Col>
-              <Col sm='8'>
+               <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                 <div>
                   <Select
-                    placeholder={languageTranslation('INVOICE_TYPE')}
+                    placeholder={languageTranslation("INVOICE_TYPE")}
                     value={invoiceType ? invoiceType : undefined}
                     onChange={(value: any) =>
-                      handleSelect(value, 'invoiceType')
+                      handleSelect(value, "invoiceType")
                     }
                     options={InvoiceType}
+                    classNamePrefix="custom-inner-reactselect"
+                    className={"custom-reactselect"}
                   />
                 </div>
               </Col>
             </Row>
           </FormGroup>
         </Col>
-        <Col lg={'12'}>
+         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup>
             <Row>
-              <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  {languageTranslation('Interval')}
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("Interval")}
                 </Label>
               </Col>
-              <Col sm='8'>
+               <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                 <div>
                   <Select
-                    placeholder={languageTranslation('Interval')}
+                    placeholder={languageTranslation("Interval")}
                     value={interval ? interval : undefined}
-                    onChange={(value: any) => handleSelect(value, 'interval')}
+                    onChange={(value: any) => handleSelect(value, "interval")}
                     options={InvoiceInterval}
+                    classNamePrefix="custom-inner-reactselect"
+                    className={"custom-reactselect"}
                   />
                 </div>
               </Col>
             </Row>
           </FormGroup>
         </Col>
-        <Col lg={'12'}>
+         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup>
             <Row>
-              <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  {'Email Invoice'}
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {"Email Invoice"}
                 </Label>
               </Col>
-              <Col sm='8'>
+               <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                 <div>
                   <Input
-                    name={'emailInvoice'}
+                    name={"emailInvoice"}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={emailInvoice}
-                    placeholder={'Email Invoice'}
+                    placeholder={"Email Invoice"}
                   />
                 </div>
               </Col>
             </Row>
           </FormGroup>
         </Col>
-        <Col lg={'12'}>
-          <FormGroup className='mb-0'>
+         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+          <FormGroup className="mb-0">
             <Row>
-              <Col sm='4'>
-                <Label className='form-label col-form-label'>
-                  {languageTranslation('ADRESS_INVOICE')} &nbsp;
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("ADRESS_INVOICE")} &nbsp;
                   {/* <small>You can enter upto 255 characters</small> */}
                 </Label>
               </Col>
-              <Col sm='8'>
+               <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                 <div>
                   <Input
-                    type='textarea'
-                    name={'addressInvoice'}
+                    type="textarea"
+                    name={"addressInvoice"}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={addressInvoice}
-                    placeholder={languageTranslation('ADRESS_INVOICE')}
-                    className='textarea-custom'
-                    rows='4'
+                    placeholder={languageTranslation("ADRESS_INVOICE")}
+                    className="textarea-custom"
+                    rows="4"
                     maxLength={255}
                   />
                 </div>

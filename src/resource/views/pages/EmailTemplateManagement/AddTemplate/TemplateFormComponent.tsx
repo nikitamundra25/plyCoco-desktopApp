@@ -56,7 +56,6 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('ID')}
-                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col sm='8'>
@@ -116,6 +115,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('MENU_ENTRY')}
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col sm='8'>
@@ -147,6 +147,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('SUBJECT')}{' '}
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col sm='8'>

@@ -6,21 +6,50 @@ const ADD_DOCUMENT = gql`
       document
       remarks
       documentType
+      status
+    }
+  }
+`;
+const UPDATE_DOCUMENT_STATUS = gql`
+  mutation DocumentStatus($id: Int!, $status: String) {
+    documentStatus(id: $id, status: $status) {
+      id
+      status
+    }
+  }
+`;
+// documentStatus(id:Int!, status: String): Document
+// mutation{
+//  documentStatus(id:5, status: "decline"){
+//    id
+//  }
+// }
+
+const UPDATE_DOCUMENT = gql`
+  mutation UpdateUserDocuments($documentInput: DocumentInput!) {
+    updateUserDocuments(documentInput: $documentInput) {
+      id
+      fileName
+      status
     }
   }
 `;
 
-export const DocumentMutations = [ADD_DOCUMENT];
-
 // mutation{
-//     addUserDocuments(documentInput:{
-//      userId: 789
-//      documentPath: ""
-//      documentType: "s"
-//      remarks: "Remarks"
-//     }){
-//      documentPath,
-//      remarks,
-//      documentType
-//     }
-//     }
+//   updateUserDocuments(id:46, documentInput: {
+//     fileName: "output-onlinepngtoolls.png",
+//     documentType: "fdg",
+//     remarks: "asd",
+//     status: "approve"
+//   }){
+//     id,
+//     fileName,
+//     status
+//   }
+//  }
+
+export const DocumentMutations = [
+  ADD_DOCUMENT,
+  UPDATE_DOCUMENT_STATUS,
+  UPDATE_DOCUMENT
+];

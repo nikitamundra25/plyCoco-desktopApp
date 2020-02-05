@@ -75,7 +75,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   }, [typeListOptions]);
   // To add email template into db
-  const [addEmail] = useMutation<
+  const [addEmail, { loading: addEmailLoading }] = useMutation<
     {
       addEmail: any;
     },
@@ -308,6 +308,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
             handleSubmit={() => {
               submitMyForm();
             }}
+            addEmailLoading={addEmailLoading}
             onAddNewTemplate={() => {
               if (templateType && templateType.value) {
                 setTypeId(parseInt(templateType.value));

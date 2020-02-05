@@ -220,6 +220,7 @@ export const CareGiveAttributes: IReactSelectInterface[] = [
   },
   { label: 'Offers', value: 'Offers' },
   { label: 'Permanent employment', value: 'Permanent employment' },
+  { label: 'Prepayment Leasing', value: 'Prepayment Leasing' },
   {
     label:
       'Signed TIMyoCY (automatically starts when the framework contract is signed)',
@@ -1283,4 +1284,56 @@ export const EmailMenusTab: Array<{ name: string; icon: string }> = [
   { name: 'Inbox', icon: 'fa fa-inbox' },
   { name: 'Sent Email', icon: 'fa fa-send' },
   { name: 'New Email', icon: 'fa fa-edit' },
+];
+export const DocumentTypes: IReactSelectInterface[] = [
+  {
+    value: 'Registration professional association',
+    label: 'Registration professional association',
+  },
+  { value: 'Registration health office', label: 'Registration health office' },
+  {
+    value: 'Medical certificate / health certificate',
+    label: 'Medical certificate / health certificate',
+  },
+  {
+    value: 'Exemption from pension insurance',
+    label: 'Exemption from pension insurance',
+  },
+  {
+    value: 'Professional liability insurance (no application)',
+    label: 'Professional liability insurance (no application)',
+  },
+  { value: 'Various documents', label: 'Various documents' },
+  { value: 'First-aid pass', label: 'First-aid pass' },
+  { value: 'Driving license car', label: 'Driving license car' },
+  { value: 'Business registration', label: 'Business registration' },
+  { value: 'CV / Vita', label: 'CV / Vita' },
+  {
+    value: 'Proof of employees subject to social security contributions',
+    label: 'Proof of employees subject to social security contributions',
+  },
+  {
+    value: 'User agreement (all 5 pages)',
+    label: 'User agreement (all 5 pages)',
+  },
+  {
+    value: 'Criminal record certificate',
+    label: 'Criminal record certificate',
+  },
+  {
+    value: 'Police certificate of good conduct, expanded',
+    label: 'Police certificate of good conduct, expanded',
+  },
+  {
+    value:
+      'Framework contract for fixed-term contracts - Solona Personalservice',
+    label:
+      'Framework contract for fixed-term contracts - Solona Personalservice',
+  },
+  { value: 'Governance agreement', label: 'Governance agreement' },
+  { value: 'Pension Insurance', label: 'Pension Insurance' },
+  {
+    value: 'Certificate / diploma / exam',
+    label: 'Certificate / diploma / exam',
+  },
 ];

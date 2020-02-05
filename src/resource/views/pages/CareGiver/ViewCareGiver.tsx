@@ -12,7 +12,7 @@ import DocumentsUpload from './Documents/DocumentsUpload';
 import Offer from './Offers/Offer';
 import ToDo from './ToDos/ToDos';
 import LeasingPersonalData from './LeasingData';
-import QualificationAttribute from './QualificationAttributes/QualificationAttribute';
+import QualificationAttribute from './GroupedBelow';
 import Loader from '../../containers/Loader/Loader';
 import Email from './Emails';
 import add from '../../../assets/img/add.svg';
@@ -23,6 +23,7 @@ import clear from '../../../assets/img/clear.svg';
 import { CareGiverQueries } from '../../../../graphql/queries';
 import LoginLogs from './Logins/CareLogin';
 import CreateTodo from '../../components/CreateTodo';
+import CustomOption from '../../components/CustomOptions';
 const CareGiverSidebar = React.lazy(() =>
   import('./Sidebar/SidebarLayout/CareGiverLayout'),
 );
@@ -92,6 +93,10 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     careGivers.getCaregivers &&
     careGivers.getCaregivers.result
   ) {
+    // careGiverOpt.push({
+    //   label: `Name`,
+    //   value: `Id`,
+    // });
     careGivers.getCaregivers.result.forEach(
       ({ id, firstName, lastName }: any) =>
         careGiverOpt.push({
@@ -168,6 +173,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                     options={careGiverOpt}
                     classNamePrefix="custom-inner-reactselect"
                     className={"custom-reactselect"}
+                    // components={{ Option: CustomOption }}
                   />
                 </div>
                 <div
@@ -247,8 +253,10 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       <CreateTodo
         show={showToDo}
         handleClose={() => setShowToDo(false)}
-        name={selectUser ? selectUser.label : null}
-        userRole={"careGiver"}
+        name={
+          selectUser && selectUser.label ? selectUser.label.split('|')[1] : null
+        }
+        userRole={'careGiver'}
       />
     </div>
   );

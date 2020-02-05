@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { FormikProps } from 'formik';
-import { IRegionFormValue } from '../../../../../interfaces';
 import { FormGroup, Form, Button, Label, Input } from 'reactstrap';
+import { IRegionFormValue } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
+
 const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
-  props: FormikProps<IRegionFormValue>,
+  props: FormikProps<IRegionFormValue>
 ) => {
   const {
     values: { regionName },
@@ -13,7 +14,7 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
     isSubmitting,
     handleChange,
     handleBlur,
-    handleSubmit,
+    handleSubmit
   } = props;
   return (
     <>
@@ -52,7 +53,7 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
                 name={'regionName'}
                 placeholder={languageTranslation('REGION_NAME_OF_REGION_LABEL')}
                 onChange={handleChange}
-                maxLength='30'
+                maxLength='255'
                 onBlur={handleBlur}
                 value={regionName}
                 className={

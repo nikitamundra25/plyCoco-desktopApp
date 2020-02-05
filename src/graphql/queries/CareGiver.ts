@@ -224,8 +224,22 @@ const GET_LEASING_INFO = gql`
   }
 `;
 
+const GET_EMAILS = gql`
+  query getEmails($userId: Int!, $from: String) {
+    getEmails(userId: $userId, from: $from) {
+      id
+      userId
+      to
+      subject
+      body
+      createdAt
+    }
+  }
+`;
+
 export const CareGiverQueries = [
   GET_CAREGIVERS,
   GET_CAREGIVER_BY_ID,
   GET_LEASING_INFO,
+  GET_EMAILS,
 ];

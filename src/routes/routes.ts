@@ -41,9 +41,7 @@ const PersonalInformation = React.lazy(() =>
   import('../resource/views/pages/CareGiver/PersonalInfo/PersonalInformation'),
 );
 const QualificationAttribute = React.lazy(() =>
-  import(
-    '../resource/views/pages/CareGiver/QualificationAttributes/QualificationAttribute'
-  ),
+  import('../resource/views/pages/CareGiver/GroupedBelow'),
 );
 const BillingSetting = React.lazy(() =>
   import('../resource/views/pages/CareGiver/Billings/BillingSettings'),
@@ -154,14 +152,18 @@ const BulkEmailCaregiver = React.lazy(() =>
 );
 
 const EmailInbox = React.lazy(() =>
-  import("../resource/views/pages/Email/InboxEmail")
+  import('../resource/views/pages/Email/InboxEmail'),
 );
 
 const EmailSent = React.lazy(() =>
-  import("../resource/views/pages/Email/SentEmail")
+  import('../resource/views/pages/Email/SentEmail'),
 );
-const EmailOutbox = React.lazy(() => import("../resource/views/pages/Email/OutboxEmail"));
-const EmailQueue = React.lazy(() => import("../resource/views/pages/Email/MailQueueEmail"));
+const EmailOutbox = React.lazy(() =>
+  import('../resource/views/pages/Email/OutboxEmail'),
+);
+const EmailQueue = React.lazy(() =>
+  import('../resource/views/pages/Email/MailQueueEmail'),
+);
 
 const routes = [
   {
@@ -366,14 +368,6 @@ const routes = [
     exact: true,
   },
   {
-    path: AppRoutes.QUALIFICATION_ATTRIBUTE,
-    name: 'Qualification Attribute',
-    component: QualificationAttribute,
-    exact: true,
-    layout: CareGiverLayout,
-    layoutName: 'CareGiver',
-  },
-  {
     path: AppRoutes.REGION,
     name: 'Region',
     component: Region,
@@ -485,28 +479,28 @@ const routes = [
     exact: true,
   },
   {
-    path: AppRoutes.EMAIL_INBOX,
-    name: "Email Inbox",
+    path: AppRoutes.ALL_EMAILS,
+    name: 'Email Inbox',
     component: EmailInbox,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.EMAIL_SENT,
-    name: "Email Sent",
+    name: 'Email Sent',
     component: EmailSent,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.EMAIL_OUTBOX,
-    name: "Email outbox",
+    name: 'Email outbox',
     component: EmailOutbox,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.EMAIL_QUEUE,
-    name: "Email Queue",
+    name: 'Email Queue',
     component: EmailQueue,
-    exact: true
+    exact: true,
   },
   {
     path: AppRoutes.ATTRIBUTE_MANAGEMENT,

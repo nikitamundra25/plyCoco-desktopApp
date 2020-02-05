@@ -2,6 +2,7 @@ import { Location } from 'history';
 import * as H from 'history';
 import { IReactSelectInterface } from './Constant';
 import { ICareInstitutionRemarks } from './CareInstitution';
+import { number } from 'prop-types';
 
 export interface ICareGiverInput {
   id?: string;
@@ -306,4 +307,30 @@ export interface ICareGiver {
 
 export interface IAddCargiverRes {
   userId: string;
+}
+
+export interface IAddEmailVariables {
+  userId: number;
+  to: string;
+  from: string;
+  subject: string;
+  body: string;
+  parentId: number | null;
+  status: string;
+}
+
+export interface IEmailFormComponentPorps {
+  subject: string;
+  body: any;
+  onEditorStateChange: (editorState: any) => void;
+  sendEmail: (e: React.FormEvent<HTMLFormElement>) => void;
+}
+
+export interface IEmailQueryVar {
+  userId: number;
+  from: string;
+}
+
+export interface IEmailListProps {
+  emailList: any;
 }

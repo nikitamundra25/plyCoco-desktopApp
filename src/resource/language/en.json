@@ -475,7 +475,10 @@
   "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added successfully.",
   "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated successfully.",
   "ADD_NEW_REGION_BUTTON": "Add New Region",
+  "ADD_NEW_ATTRIBUTE_BUTTON": "Add New Attribute",
   "REGION_NAME": "Region Name",
+  "ATTRIBUTE_NAME": "Attribute Name",
+  "REQUIRED_ATTRIBUTE_NAME": "Attribute Name is required",
   "NUMBER_OF_CANSTITUTION": "Number of Care Institutions",
   "NUMBER_OF_CARE_GIVERS": "Number of Caregivers",
   "CURRENT_ONGOING_APPOINTMENTS_COUNTER": " Current Ongoing Appointments Counter",
@@ -542,6 +545,7 @@
   "REQUIRED_BODY": "Content Body is required",
   "EMAIL_ADDED_SUCCESS": "Email Template added successfully.",
   "EMAIL_UPDATION_SUCCESS": "Email Template updated successfully.",
+  "EMAIL_SENT_SUCCESS": "Email Sent successfully.",
   "SOCIAL_SECURITY_NUM_ERROR": "Social Security must be a less than or equal to 12 digits",
   "TAX_BRACKET_NUM_ERROR": "Tax bracket must be a number",
   "TAX_BRACKET_LESS_ERROR": "Tax bracket must be less than or equal to 100",
@@ -566,5 +570,6 @@
   "CONTACT_REQUIRED": "Contact is required",
   "TEXT_EMAIL": "Text Email (Title is inserted automatically)",
   "SELECT_TEMPLATE": "Select Template",
-  "MY_PROFILE": "My Profile"
+  "MY_PROFILE": "My Profile",
+  "ADD_ATTRIBUTE_SUCCESS": "Atrribute added succesfully"
 }

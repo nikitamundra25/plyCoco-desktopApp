@@ -29,7 +29,9 @@ const NewEmail: FunctionComponent = () => {
     loading: fetchTemplateListLoading,
     refetch: listRefetch,
   } = useQuery<any>(GET_EMAIL_TEMPLATE, {
-    variables: {},
+    variables: {
+      type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE'),
+    },
   });
 
   const [addNewEmail] = useMutation<

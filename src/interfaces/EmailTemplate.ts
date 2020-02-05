@@ -1,6 +1,5 @@
 import { FormikHelpers } from 'formik';
 import { IReactSelectInterface } from './Constant';
-import { Dispatch, SetStateAction } from 'react';
 
 export interface IEmailTemplateValues {
   id?: number;
@@ -21,14 +20,13 @@ export interface IEmailTemplateSubmitValues {
 export interface IAddEmailTemplateProps {
   handleSubmit: (
     values: IEmailTemplateValues,
-    actions: FormikHelpers<IEmailTemplateValues>
+    actions: FormikHelpers<IEmailTemplateValues>,
   ) => void;
   bindSubmitForm: any;
   templateData: IEmailTemplateValues | null;
   typeListOptions: IReactSelectInterface[] | undefined;
   setTypeId: any;
   setTemplateData: any;
-  
 }
 
 export interface IEmailTemplateList {
@@ -41,7 +39,9 @@ export interface IEmailTemplateList {
 export interface IEmailTemplateMenu {
   typeListOptions: IReactSelectInterface[] | undefined;
   templateType: IReactSelectInterface | null;
+  activeTemplate: string | null;
   handleSubmit: () => void;
   onAddNewTemplate: () => void;
   onTypeChange: (selectedType: any) => void;
+  onDeleteEmailTemplate: () => void;
 }

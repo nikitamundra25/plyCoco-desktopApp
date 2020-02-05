@@ -24,7 +24,16 @@ const UPDATE_EMAIL_TEMPLATE = gql`
   }
 `;
 
+const DELETE_EMAIL_TEMPLATE = gql`
+  mutation deleteEmailTemplate($id: Int) {
+    deleteEmailTemplate(id: $id) {
+      id
+    }
+  }
+`;
+
 export const EmailTemplateMutations = [
   ADD_EMAIL_TEMPLATE,
-  UPDATE_EMAIL_TEMPLATE
+  UPDATE_EMAIL_TEMPLATE,
+  DELETE_EMAIL_TEMPLATE,
 ];

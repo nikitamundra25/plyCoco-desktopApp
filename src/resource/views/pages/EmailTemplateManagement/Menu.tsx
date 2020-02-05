@@ -11,11 +11,13 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
   props: IEmailTemplateMenu,
 ) => {
   const {
-    handleSubmit,
-    onAddNewTemplate,
     typeListOptions,
     templateType,
+    activeTemplate,
+    handleSubmit,
+    onAddNewTemplate,
     onTypeChange,
+    onDeleteEmailTemplate,
   } = props;
   return (
     <div className='sticky-common-header'>
@@ -45,7 +47,10 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
           </span>
           <span className='header-nav-text'>New Email Separator</span>
         </div> */}
-        <div className='header-nav-item'>
+        <div
+          className={`header-nav-item ${!activeTemplate ? 'disable' : ''}`}
+          onClick={onDeleteEmailTemplate}
+        >
           <span className='header-nav-icon'>
             <img src={clear} alt='' />
           </span>

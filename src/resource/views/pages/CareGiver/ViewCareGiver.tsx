@@ -93,10 +93,10 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     careGivers.getCaregivers &&
     careGivers.getCaregivers.result
   ) {
-    // careGiverOpt.push({
-    //   label: `Name`,
-    //   value: `Id`,
-    // });
+    careGiverOpt.push({
+      label: `Name`,
+      value: `Id`
+    });
     careGivers.getCaregivers.result.forEach(
       ({ id, firstName, lastName }: any) =>
         careGiverOpt.push({
@@ -166,7 +166,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                 <div className="user-select">
                   <Select
                     classNamePrefix="custom-inner-reactselect"
-                    className={"custom-reactselect"}
+                    className={
+                      "custom-reactselect custom-reactselect-menu-width"
+                    }
                     defaultValue={selectUser}
                     placeholder="Select Caregiver"
                     value={selectUser}

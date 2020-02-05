@@ -126,7 +126,7 @@ export interface ICareInstitutionRemarks {
 }
 
 export interface IAddDepartmentFormValues {
-  id?: number;
+  id?: string;
   userId?: number;
   name: string;
   anonymousName: string;

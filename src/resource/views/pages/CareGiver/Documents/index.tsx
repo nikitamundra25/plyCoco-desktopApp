@@ -13,7 +13,12 @@ import DocumentUploadModal from './DocumentModal';
 import DocumentsList from './DocumentsList';
 import { DocumentQueries } from '../../../../../graphql/queries';
 import { languageTranslation } from '../../../../../helpers';
-const [ADD_DOCUMENT] = DocumentMutations;
+import { ConfirmBox } from '../../../components/ConfirmBox';
+const [
+  ADD_DOCUMENT,
+  UPDATE_DOCUMENT_STATUS,
+  UPDATE_DOCUMENT
+] = DocumentMutations;
 const [GET_DOCUMENT_LIST] = DocumentQueries;
 let toastId: any = '';
 
@@ -28,18 +33,52 @@ const Documents = () => {
   const [statusValue, setStatusValue] = useState<boolean>(true);
   const [remarkValue, setRemarkValue] = useState<any>(null);
   const [documentType, setDocumentType] = useState<any>(null);
-  const [fetchDocumentList, { data, loading }] = useLazyQuery<any>(
+  const [fetchDocumentList, { data, loading, refetch }] = useLazyQuery<any>(
     GET_DOCUMENT_LIST
   );
+  const [documentId, setDocumentId] = useState<{
+    id: string;
+    checked: boolean;
+  } | null>(null);
 
+  //add document
   const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
     onCompleted({ addDocument }) {
+      refetch();
       setShowDocumentPopup(false);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('DOCUMENT_ADDED_SUCCESS'));
       }
     }
   });
+
+  //update document status
+
+  const [updateDocumentStatus] = useMutation<any>(UPDATE_DOCUMENT_STATUS);
+  //   , {
+  //   onCompleted({ updateDocumentStatus }) {
+  //     refetch();
+  //     if (!toast.isActive(toastId)) {
+  //       toastId = toast.success(
+  //         languageTranslation('DOCUMENT_STATUS_UPDATED_SUCCESS')
+  //       );
+  //     }
+  //   }
+  // });
+
+  //update document
+  const [updateDocument] = useMutation<any>(UPDATE_DOCUMENT, {
+    onCompleted({ updateDocument }) {
+      refetch();
+      setShowDocumentPopup(false);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('DOCUMENT_UPDATED_SUCCESS')
+        );
+      }
+    }
+  });
+
   useEffect(() => {
     if (id) {
       fetchDocumentList({
@@ -50,10 +89,12 @@ const Documents = () => {
     }
   }, []);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.name === 'check') {
-      setStatusValue(e.target.checked);
+    const { target } = e;
+    const { checked, name, value } = target;
+    if (name === 'check') {
+      setStatusValue(checked);
     } else {
-      setRemarkValue(e.target.value);
+      setRemarkValue(value);
     }
   };
 
@@ -81,6 +122,54 @@ const Documents = () => {
     });
   }, []);
 
+  //approve disapprove checkbox
+  const handleCheckElement = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: string,
+    status: string
+  ) => {
+    const { target } = e;
+    const { checked } = target;
+    setDocumentId({ id, checked });
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation(
+        status === 'notrequested'
+          ? 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_APPROVE_MSG'
+          : 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_NOTREQUESTED_MSG'
+      )
+    });
+    if (!value) {
+      setDocumentId(null);
+      return;
+    } else {
+      try {
+        // toast.dismiss();
+        console.log('id in upd', id);
+        await updateDocumentStatus({
+          variables: {
+            id: id ? parseInt(id) : null,
+            status: checked === true ? 'approve' : 'decline'
+          }
+        });
+        setDocumentId(null);
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('DOCUMENT_STATUS_UPDATED_SUCCESS')
+          );
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
   //on save document detatils
   const handleSaveDocument = () => {
     const queryPath = path.pathname;
@@ -112,6 +201,8 @@ const Documents = () => {
           <DocumentsList
             setShowDocumentPopup={setShowDocumentPopup}
             documentListing={data}
+            handleCheckElement={handleCheckElement}
+            documentId={documentId}
           />
           <DocumentUploadModal
             show={showDocumentPopup}

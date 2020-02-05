@@ -3,11 +3,6 @@ import { Table, Button, Input } from 'reactstrap';
 import moment from 'moment';
 import { languageTranslation } from '../../../../../helpers';
 const DocumentsList: FunctionComponent<any> = (props: any) => {
-  // const [status, setStatus] = useState<boolean>(true);
-  // const onStatusUpdate=()=>
-  // {
-  //   setStatus(false)
-  // }
   return (
     <>
       <div className='document-upload-section mb-3'>
@@ -30,6 +25,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           {props && props.documentListing && props.documentListing.getDocuments
             ? props.documentListing.getDocuments.map(
                 (list: any, index: number) => {
+                  // props.setDocumentId(list.id)
                   return (
                     <tr
                       key={index}
@@ -51,10 +47,18 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       </td>
                       <td>{list && list.remarks ? list.remarks : '-'}</td>
                       <td>
-                        {/* dfjhfdfdf */}
                         <Input
                           type='checkbox'
-                          checked={list.status === 'approve' ? true : false}
+                          checked={
+                            props.documentId && props.documentId.id === list.id
+                              ? props.documentId.checked
+                              : list.status === 'approve'
+                              ? true
+                              : false
+                          }
+                          onChange={(e: any) => {
+                            props.handleCheckElement(e, list.id, list.status);
+                          }}
                         />
                       </td>
 

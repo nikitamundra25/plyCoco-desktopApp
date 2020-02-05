@@ -150,6 +150,12 @@ body {
       box-shadow: none !important;
     }
   }
+  .btn-common {
+    padding: 6px 30px;
+    font-weight: 600;
+    font-size: $font_13;
+    min-width: 140px;
+  }
   .password-btn {
     height: 25px;
     padding: 0px 0px;
@@ -1501,7 +1507,7 @@ html:not([dir='rtl']) {
           padding: 5px 5px;
           padding-right: 35px;
           position: relative;
-          .list-item-text{
+          .list-item-text {
             width: 100%;
             display: block;
           }
@@ -3119,6 +3125,32 @@ html:not([dir='rtl']) {
     background-color: #323232;
     padding: 12px 16px;
     color: #fff;
+    .modal-close {
+      opacity: 1;
+      box-shadow: none;
+      img {
+        width: 14px;
+      }
+      .main-img {
+        opacity: 1;
+        display: inline-block;
+      }
+      .hover-img {
+        opacity: 0;
+        display: none;
+      }
+      &:hover {
+        opacity: 1;
+        .main-img {
+          opacity: 0;
+          display: none;
+        }
+        .hover-img {
+          opacity: 1;
+          display: inline-block;
+        }
+      }
+    }
 
     .DayPicker-Day {
       font-size: 12px;
@@ -3354,6 +3386,13 @@ html:not([dir='rtl']) {
   align-items: center;
   justify-content: center;
   font-size: $font_13;
+  cursor: pointer;
+  .icon-upload {
+    font-size: 35px;
+    img {
+      width: 40px;
+    }
+  }
 }
 
 .no-list-section {

@@ -8,7 +8,7 @@ import { IEmailTemplateMenu } from '../../../../interfaces';
 // import EmailSeparator from '../../assets/img/mail.svg';
 
 export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
-  props: IEmailTemplateMenu,
+  props: IEmailTemplateMenu
 ) => {
   const {
     handleSubmit,
@@ -16,6 +16,7 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
     typeListOptions,
     templateType,
     onTypeChange,
+    addEmailLoading
   } = props;
   return (
     <div className='sticky-common-header'>
@@ -53,14 +54,19 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
             {languageTranslation('CLEAR')}
           </span>
         </div>
-        <div className='header-nav-item' onClick={handleSubmit}>
-          <span className='header-nav-icon'>
-            <img src={save} alt='' />
-          </span>
-          <span className='header-nav-text'>
-            {languageTranslation('SAVE_BUTTON')}
-          </span>
-        </div>
+
+        {addEmailLoading ? (
+          <i className='fa fa-spinner fa-spin loader' />
+        ) : (
+          <div className='header-nav-item' onClick={handleSubmit}>
+            <span className='header-nav-icon'>
+              <img src={save} alt='' />
+            </span>
+            <span className='header-nav-text'>
+              {languageTranslation('SAVE_BUTTON')}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

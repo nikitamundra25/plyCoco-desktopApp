@@ -575,5 +575,14 @@
   "CONFIRM_CAREGIVER_DOCUMENT_STATUS_APPROVE_MSG": "This document will be approved",
   "CONFIRM_CAREGIVER_DOCUMENT_STATUS_NOTREQUESTED_MSG": "This document will be declined",
   "DOCUMENT_UPDATED_SUCCESS": "Document Updated Successfully",
-  "DOCUMENT_STATUS_UPDATED_SUCCESS": "Document Status Updated Successfully"
+  "DOCUMENT_STATUS_UPDATED_SUCCESS": "Document Status Updated Successfully",
+  "DOCUMENT_EDIT": "Click here to edit Document",
+  "DOCUMENT_DELETE": "Click here to delete Document",
+  "ADD_DOCUMENT": "Add Document",
+  "UPLOAD_DOCUMENT": "Upload Document",
+  "FILE": "File",
+  "CHECKED": "Checked",
+  "OPTIMIZE": "Optimize",
+  "DOCUMENT_STATUS_LABEL": "Checked files cannot be punched by the user",
+  "DOCUMENT_OPTIMIZE_LABEL": "convert to PDF and resize"
 }

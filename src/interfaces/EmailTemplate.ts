@@ -28,7 +28,6 @@ export interface IAddEmailTemplateProps {
   typeListOptions: IReactSelectInterface[] | undefined;
   setTypeId: any;
   setTemplateData: any;
-  
 }
 
 export interface IEmailTemplateList {
@@ -44,4 +43,5 @@ export interface IEmailTemplateMenu {
   handleSubmit: () => void;
   onAddNewTemplate: () => void;
   onTypeChange: (selectedType: any) => void;
+  addEmailLoading: boolean;
 }

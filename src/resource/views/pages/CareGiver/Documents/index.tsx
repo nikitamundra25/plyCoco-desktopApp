@@ -192,32 +192,25 @@ const Documents = () => {
   console.log('fileObject in index', fileObject);
 
   return (
-    <Card>
-      <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
-      </CardHeader>
-      <CardBody>
-        <div>
-          <DocumentsList
-            setShowDocumentPopup={setShowDocumentPopup}
-            documentListing={data}
-            handleCheckElement={handleCheckElement}
-            documentId={documentId}
-          />
-          <DocumentUploadModal
-            show={showDocumentPopup}
-            handleClose={() => setShowDocumentPopup(false)}
-            handleSaveDocument={handleSaveDocument}
-            onDrop={onDrop}
-            documentUrls={documentUrls}
-            handleChange={handleChange}
-            setDocumentType={setDocumentType}
-            remarkValue={remarkValue}
-            statusValue={statusValue}
-          />
-        </div>
-      </CardBody>
-    </Card>
+    <div>
+      <DocumentsList
+        setShowDocumentPopup={setShowDocumentPopup}
+        documentListing={data}
+        handleCheckElement={handleCheckElement}
+        documentId={documentId}
+      />
+      <DocumentUploadModal
+        show={showDocumentPopup}
+        handleClose={() => setShowDocumentPopup(false)}
+        handleSaveDocument={handleSaveDocument}
+        onDrop={onDrop}
+        documentUrls={documentUrls}
+        handleChange={handleChange}
+        setDocumentType={setDocumentType}
+        remarkValue={remarkValue}
+        statusValue={statusValue}
+      />
+    </div>
   );
 };
 

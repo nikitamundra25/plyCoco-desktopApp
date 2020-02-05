@@ -212,65 +212,67 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 
   return (
     <div>
-      <div className='common-detail-page'>
-        <div className='common-detail-section'>
+      <div className="common-detail-page">
+        <div className="common-detail-section">
           <Suspense fallback={<Loader />}>
-            <div className='sticky-common-header'>
-              <div className='common-topheader d-flex align-items-center '>
-                <div className='user-select'>
+            <div className="sticky-common-header">
+              <div className="common-topheader d-flex align-items-center ">
+                <div className="user-select">
                   <Select
-                    classNamePrefix='react-select'
+                    // classNamePrefix="react-select"
                     defaultValue={selectUser}
-                    placeholder='Select Caregiver'
+                    placeholder="Select Caregiver"
                     value={selectUser}
                     onChange={(e: any) => handleSelect(e)}
                     options={CareInstitutionList}
+                    classNamePrefix="custom-inner-reactselect"
+                    className={"custom-reactselect"}
                   />
                 </div>
                 <Button
                   onClick={handleAddNewCareInstitution}
                   disabled={Loading}
-                  className='header-nav-item'
+                  className="header-nav-item"
                 >
                   {Loading ? (
-                    <span className='header-nav-icon'>
-                      <i className='fa fa-spinner fa-spin loader' />
+                    <span className="header-nav-icon">
+                      <i className="fa fa-spinner fa-spin loader" />
                     </span>
                   ) : (
-                    <span className='header-nav-icon'>
-                      <img src={add} alt='' />
+                    <span className="header-nav-icon">
+                      <img src={add} alt="" />
                     </span>
                   )}
-                  <span className='header-nav-text'>New Care Institution</span>
+                  <span className="header-nav-text">New Care Institution</span>
                 </Button>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={reminder} alt='' />
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={reminder} alt="" />
                   </span>
                   <span
-                    className='header-nav-text'
+                    className="header-nav-text"
                     onClick={() => setShowToDo(true)}
                   >
                     Create Todo/Reminder
                   </span>
                 </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={password} alt='' />
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={password} alt="" />
                   </span>
-                  <span className='header-nav-text'>New Password</span>
+                  <span className="header-nav-text">New Password</span>
                 </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={appointment} alt='' />
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={appointment} alt="" />
                   </span>
-                  <span className='header-nav-text'>Display Appointments</span>
+                  <span className="header-nav-text">Display Appointments</span>
                 </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={clear} alt='' />
+                <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                    <img src={clear} alt="" />
                   </span>
-                  <span className='header-nav-text'>Clear</span>
+                  <span className="header-nav-text">Clear</span>
                 </div>
               </div>
               <CareInstitutionSidebar
@@ -280,8 +282,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
               />
             </div>
           </Suspense>
-          <Suspense fallback={''}>
-            <div className='common-content flex-grow-1'>
+          <Suspense fallback={""}>
+            <div className="common-content flex-grow-1">
               {activeTab === 0 ? (
                 <PersonalInformation
                   CareInstitutionList={CareInstitutionList}
@@ -310,7 +312,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
           show={showToDo}
           handleClose={() => setShowToDo(false)}
           name={selectUser ? selectUser.label : null}
-          userRole={'careInstitution'}
+          userRole={"careInstitution"}
         />
       </div>
     </div>

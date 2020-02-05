@@ -31,13 +31,15 @@ const DefaultFooter: FunctionComponent = () => {
   }, []);
   return (
     <React.Fragment>
-      <div className='d-flex align-items-center justify-content-end w-100'>
-        <div className='region-select footer-select text-capitalize'>
+      <div className="d-flex align-items-center justify-content-end w-100">
+        <div className="region-select footer-select text-capitalize">
           <Select
-            placeholder={languageTranslation('EMPLOYEE_REGION_PLACEHOLDER')}
+            placeholder={languageTranslation("EMPLOYEE_REGION_PLACEHOLDER")}
             options={regionOptions}
-            className={'menu-outer-top'}
-            menuPlacement={'top'}
+            // className={"menu-outer-top"}
+            menuPlacement={"top"}
+            classNamePrefix="custom-inner-reactselect"
+            className={"custom-reactselect"}
           />
         </div>
       </div>

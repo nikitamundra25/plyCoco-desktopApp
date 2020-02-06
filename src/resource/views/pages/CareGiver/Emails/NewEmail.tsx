@@ -100,12 +100,6 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   // Function to send new email
   const sendEmail = () => {
     try {
-      console.log(
-        'body in dend email',
-        body,
-        // convertToRaw(body.getCurrentContent()),
-      );
-
       const emailInput: IAddEmailVariables = {
         userId: id ? parseInt(id) : 0,
         to: 'caregiver',
@@ -176,8 +170,8 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                         <Select
                           placeholder='Select Template'
                           options={templateOptions}
-                          classNamePrefix='react-select'
-                          className='new-email-select'
+                          classNamePrefix='custom-inner-reactselect'
+                          className={'custom-reactselect'}
                           onChange={onTemplateSelection}
                           value={template}
                         />

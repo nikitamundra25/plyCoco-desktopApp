@@ -8,7 +8,6 @@ import { careGiverRoutes } from './Sidebar/SidebarRoutes/CareGiverRoutes';
 import { IReactSelectInterface } from '../../../../interfaces';
 import Invoices from './Invoices/Invoices';
 import PersonalInformation from './PersonalInfo/PersonalInformation';
-import DocumentsUpload from './Documents/DocumentsUpload';
 import Offer from './Offers/Offer';
 import ToDo from './ToDos/ToDos';
 import LeasingPersonalData from './LeasingData';
@@ -25,6 +24,7 @@ import LoginLogs from './Logins/CareLogin';
 import CreateTodo from '../../components/CreateTodo';
 import CustomOption from '../../components/CustomOptions';
 import { languageTranslation } from '../../../../helpers';
+import Documents from './Documents';
 const CareGiverSidebar = React.lazy(() =>
   import('./Sidebar/SidebarLayout/CareGiverLayout'),
 );
@@ -244,7 +244,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               {activeTab === 1 ? <Offer /> : null}
               {activeTab === 2 ? <LoginLogs /> : null}
               {activeTab === 3 ? <Invoices /> : null}
-              {activeTab === 4 ? <DocumentsUpload /> : null}
+              {activeTab === 4 ? <Documents /> : null}
               {activeTab === 5 ? <Email /> : null}
               {activeTab === 6 ? <ToDo /> : null}
               {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}

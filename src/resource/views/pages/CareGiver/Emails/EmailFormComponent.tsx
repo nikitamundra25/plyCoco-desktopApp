@@ -61,7 +61,7 @@ export const EmailFormComponent: FunctionComponent<IEmailFormComponentPorps> = (
               <Button
                 color='primary'
                 type='submit'
-                className='btn-sumbit'
+                className='btn-submit'
                 onClick={sendEmail}
               >
                 {languageTranslation('SEND')}

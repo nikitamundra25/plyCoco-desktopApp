@@ -334,7 +334,8 @@ export interface IEmailData {
 
 export interface IEmailPreviewProps {
   emailData: IEmailData | null;
-  selectUser: IReactSelectInterface | null;
+  selectedUserName: string;
+  sendBy?: string;
 }
 
 export interface IEmailFormComponentPorps {
@@ -351,7 +352,7 @@ export interface IEmailQueryVar {
 
 export interface IEmailListProps {
   emailList: any;
-  selectUser: IReactSelectInterface | null;
+  selectedUserName: string;
 }
 
 export interface IBelongsToData {

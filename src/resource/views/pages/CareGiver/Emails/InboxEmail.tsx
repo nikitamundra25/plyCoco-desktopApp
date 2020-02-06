@@ -18,7 +18,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
 }> = ({
   emailList,
-  selectUser,
+  selectedUserName,
   onTabChange
 }: IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
@@ -152,7 +152,10 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
               )}
             </div>
           </Col>
-          <EmailPreview emailData={emailData} selectUser={selectUser} />
+          <EmailPreview
+            emailData={emailData}
+            selectedUserName={selectedUserName}
+          />
         </Row>
       </div>
     </div>

@@ -6,15 +6,12 @@ import InboxEmail from './InboxEmail';
 import SentEmail from './SentEmail';
 import NewEmail from './NewEmail';
 import { CareGiverQueries } from '../../../../../graphql/queries';
-import {
-  IEmailQueryVar,
-  IReactSelectInterface,
-} from '../../../../../interfaces';
+import { IEmailQueryVar } from '../../../../../interfaces';
 
 const [, , , GET_EMAILS] = CareGiverQueries;
 const Email: FunctionComponent<{
-  selectUser: IReactSelectInterface | null;
-}> = ({ selectUser }: { selectUser: IReactSelectInterface | null }) => {
+  selectedUserName: string;
+}> = ({ selectedUserName }: { selectedUserName: string }) => {
   let { id } = useParams();
   const [activeTab, setactiveTab] = useState<number>(0);
   const [emailData, setEmailData] = useState<any>('');
@@ -49,11 +46,16 @@ const Email: FunctionComponent<{
           <InboxEmail
             emailList={emailList}
             onTabChange={onTabChange}
-            selectUser={selectUser}
+            selectedUserName={selectedUserName}
           />
         );
       case 1:
-        return <SentEmail emailList={emailList} selectUser={selectUser} />;
+        return (
+          <SentEmail
+            emailList={emailList}
+            selectedUserName={selectedUserName}
+          />
+        );
       case 2:
         return <NewEmail emailData={emailData} />;
 

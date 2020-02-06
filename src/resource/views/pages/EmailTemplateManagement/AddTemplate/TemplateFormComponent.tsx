@@ -10,17 +10,21 @@ import { languageTranslation, stripHtml } from '../../../../../helpers';
 import { ErroredFieldComponent } from '../../../components/ErroredFieldComponent';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { AttachmentFormComponent } from './AttachmentFormComponent';
+import { AttachmentList } from './AttachmentList';
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
 > & {
   typeListOptions?: any;
   setTypeId?: any;
-  setTemplateData?: any;
+  attachment: any;
+  uploadDocument: any;
 }> = (
   props: FormikProps<IEmailTemplateValues> & {
     typeListOptions?: any;
     setTypeId?: any;
+    attachment: any;
+    uploadDocument: any;
   },
 ) => {
   const {
@@ -31,6 +35,8 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     handleChange,
     typeListOptions,
     setTypeId,
+    attachment,
+    uploadDocument,
   } = props;
   const typeError: any = errors.type;
 
@@ -42,6 +48,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
   };
   let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '';
   const result = stripHtml(content);
+
   return (
     <Col lg={'5'}>
       <h5 className='content-title'>{languageTranslation('DETAILS')}</h5>
@@ -122,6 +129,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         type='text'
                         name={'menuEntry'}
                         value={menuEntry}
+                        maxLength={255}
                         placeholder={languageTranslation('MENU_ENTRY')}
                         onChange={handleChange}
                         className={
@@ -154,6 +162,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         type='text'
                         name={'subject'}
                         value={subject}
+                        maxLength={255}
                         placeholder={languageTranslation('SUBJECT')}
                         className={
                           errors.subject && touched.subject
@@ -219,53 +228,16 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                 </div>
               </FormGroup>
             </Col>
-            {/* <AttachmentFormComponent /> */}
+            <AttachmentFormComponent
+              uploadDocument={uploadDocument}
+              attachment={attachment}
+            />
           </Row>
         </div>
       </div>
-      <Table bordered hover responsive className='mail-table'>
-        <thead className='thead-bg'>
-          <tr>
-            <th className='file-name'>{languageTranslation('FILE_NAME')}</th>
-            <th className='size-col'>{languageTranslation('SIZE')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className='file-name'>pan card.PDF</td>
-            <td className='size-col'>1kb</td>
-          </tr>
-          <tr>
-            <td className='file-name'>voter id.pdf</td>
-            <td className='size-col'>2kb</td>
-          </tr>
-
-          <tr>
-            <td className='file-name'>pan card.PDF</td>
-            <td className='size-col'>5kb</td>
-          </tr>
-          <tr>
-            <td className='file-name'>voter id.pdf</td>
-            <td className='size-col'>1kb</td>
-          </tr>
-          <tr>
-            <td className='file-name'>pan card.PDF</td>
-            <td className='size-col'>1kb</td>
-          </tr>
-          <tr>
-            <td className='file-name'>voter id.pdf</td>
-            <td className='size-col'>1kb</td>
-          </tr>
-          <tr>
-            <td className='file-name'>adhar card.pdf</td>
-            <td className='size-col'>1kb</td>
-          </tr>
-          <tr>
-            <td className='file-name'>voter id.pdf</td>
-            <td className='size-col'>3kb</td>
-          </tr>
-        </tbody>
-      </Table>
+      {attachment && attachment.length ? (
+        <AttachmentList attachment={attachment} />
+      ) : null}
     </Col>
   );
 };

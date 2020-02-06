@@ -62,18 +62,18 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
           </span>
         </div>
 
-        {addEmailLoading ? (
-          <i className="fa fa-spinner fa-spin loader" />
-        ) : (
-          <div className="header-nav-item" onClick={handleSubmit}>
-            <span className="header-nav-icon">
+        <div className="header-nav-item" onClick={handleSubmit}>
+          <span className="header-nav-icon">
+            {addEmailLoading ? (
+              <i className="fa fa-spinner fa-spin " />
+            ) : (
               <img src={save} alt="" />
-            </span>
-            <span className="header-nav-text">
-              {languageTranslation("SAVE_BUTTON")}
-            </span>
-          </div>
-        )}
+            )}
+          </span>
+          <span className="header-nav-text">
+            {languageTranslation("SAVE_BUTTON")}
+          </span>
+        </div>
       </div>
     </div>
   );

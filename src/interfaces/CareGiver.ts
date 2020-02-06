@@ -341,6 +341,7 @@ export interface IEmailPreviewProps {
 export interface IEmailFormComponentPorps {
   subject: string;
   body: any;
+  isSubmit: boolean;
   onEditorStateChange: (editorState: any) => void;
   sendEmail: (e: React.FormEvent<HTMLFormElement>) => void;
 }

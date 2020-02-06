@@ -107,7 +107,12 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                 <ul className="m-0 p-0 list-group">
                   {emailList.getEmails.map((email: any, index: number) => {
                     return (
-                      <li className={`email-wrap`} key={index}>
+                      <li
+                        className={`email-wrap ${
+                          emailData && emailData.id === email.id ? 'active' : ''
+                        }`}
+                        key={index}
+                      >
                         {/* <div
                           className={`email-date-block ${
                             opened ? 'opened' : 'closed'

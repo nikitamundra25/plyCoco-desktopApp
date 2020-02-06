@@ -1158,6 +1158,10 @@ html:not([dir='rtl']) {
         border-color: $theme_color $transparent $transparent $transparent;
       }
     }
+    .required-error{
+      color: $red;
+      font-size:$font_11;
+    }
 
     .form-control {
       border-radius: 0px;
@@ -2518,6 +2522,12 @@ html:not([dir='rtl']) {
     background: $white;
   }
   li {
+    &.email-wrap{
+      &.active{
+        background: $theme_color;
+        color: $white;
+      }
+    }
     .email-date-block {
       cursor: pointer;
       font-size: 12px;

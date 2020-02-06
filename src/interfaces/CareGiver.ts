@@ -334,12 +334,14 @@ export interface IEmailData {
 
 export interface IEmailPreviewProps {
   emailData: IEmailData | null;
-  selectUser: IReactSelectInterface | null;
+  selectedUserName: string;
+  sendBy?: string;
 }
 
 export interface IEmailFormComponentPorps {
   subject: string;
   body: any;
+  isSubmit: boolean;
   onEditorStateChange: (editorState: any) => void;
   sendEmail: (e: React.FormEvent<HTMLFormElement>) => void;
 }
@@ -351,7 +353,7 @@ export interface IEmailQueryVar {
 
 export interface IEmailListProps {
   emailList: any;
-  selectUser: IReactSelectInterface | null;
+  selectedUserName: string;
 }
 
 export interface IBelongsToData {

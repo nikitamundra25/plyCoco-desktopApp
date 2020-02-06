@@ -1,14 +1,15 @@
 import React, { FunctionComponent } from 'react';
 import { Row, Col, FormGroup, Label, Input, Table } from 'reactstrap';
 import { FormikProps } from 'formik';
+import CreatableSelect from 'react-select/creatable';
 import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import { convertToRaw } from 'draft-js';
 import { IEmailTemplateValues } from '../../../../../interfaces';
 import { languageTranslation, stripHtml } from '../../../../../helpers';
 import { ErroredFieldComponent } from '../../../components/ErroredFieldComponent';
-import CreatableSelect from 'react-select/creatable';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import draftToHtml from 'draftjs-to-html';
-import { convertToRaw } from 'draft-js';
+import { AttachmentFormComponent } from './AttachmentFormComponent';
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
@@ -218,6 +219,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                 </div>
               </FormGroup>
             </Col>
+            {/* <AttachmentFormComponent /> */}
           </Row>
         </div>
       </div>

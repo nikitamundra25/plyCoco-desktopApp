@@ -1158,6 +1158,10 @@ html:not([dir='rtl']) {
         border-color: $theme_color $transparent $transparent $transparent;
       }
     }
+    .required-error{
+      color: $red;
+      font-size:$font_11;
+    }
 
     .form-control {
       border-radius: 0px;

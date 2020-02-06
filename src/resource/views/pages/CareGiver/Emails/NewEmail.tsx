@@ -1,38 +1,46 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
 import Select from 'react-select';
 import { useParams } from 'react-router';
 import draftToHtml from 'draftjs-to-html';
 import { convertToRaw } from 'draft-js';
-import { languageTranslation } from '../../../../../helpers';
+import { toast } from 'react-toastify';
+import {
+  languageTranslation,
+  HtmlToDraftConverter,
+  logger,
+} from '../../../../../helpers';
 import { EmailTemplateQueries } from '../../../../../graphql/queries';
 import {
   IReactSelectInterface,
   IAddEmailVariables,
+  IEmailTemplateData,
+  INewEmailProps,
 } from '../../../../../interfaces';
 import { EmailFormComponent } from './EmailFormComponent';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
-import { toast } from 'react-toastify';
 
-const [GET_EMAIL_TEMPLATE] = EmailTemplateQueries;
+const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , NEW_EMAIL] = CareGiverMutations;
 let toastId: any = null;
 
-const NewEmail: FunctionComponent = () => {
+const NewEmail: FunctionComponent<INewEmailProps> = ({
+  emailData,
+}: INewEmailProps) => {
   let { id } = useParams();
   const [subject, setSubject] = useState<string>('');
-  const [body, setBody] = useState<any>(undefined);
+  const [body, setBody] = useState<any>('');
+  const [template, setTemplate] = useState<any>(undefined);
   //To get all email templates of care giver addded in system
-  const {
-    data,
-    loading: fetchTemplateListLoading,
-    refetch: listRefetch,
-  } = useQuery<any>(GET_EMAIL_TEMPLATE, {
-    variables: {
-      type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE'),
+  const { data, loading: fetchTemplateListLoading } = useQuery<any>(
+    GET_CAREGIVER_EMAIL_TEMPLATES,
+    {
+      variables: {
+        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE'),
+      },
     },
-  });
+  );
 
   const [addNewEmail] = useMutation<
     {
@@ -46,18 +54,58 @@ const NewEmail: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
       }
+      setSubject('');
+      setBody(undefined);
     },
   });
-  const templateOptions: IReactSelectInterface[] | undefined = [];
-  if (data) {
-    console.log(data, 'data*****');
-  }
 
+  const templateOptions: IReactSelectInterface[] | undefined = [];
+  if (data && data.getEmailtemplate) {
+    const {
+      getEmailtemplate: { email_templates },
+    } = data;
+    if (email_templates && email_templates.length) {
+      email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
+        templateOptions.push({
+          label: menuEntry,
+          value: id ? id.toString() : '',
+        });
+      });
+    }
+  }
+  // // To set subject & body on reply
+  // useEffect(() => {
+  //   let { subject = '', body = '' } = emailData ? emailData : {};
+  //   setSubject(subject);
+  //   // body = body + '<br></br>------------------------';
+  //   const editorState = body ? HtmlToDraftConverter(body) : '';
+  //   setBody(HtmlToDraftConverter(''));
+  // }, [emailData]);
+  // set subject & body on template selection
+  const onTemplateSelection = (selectedOption: any) => {
+    const {
+      getEmailtemplate: { email_templates },
+    } = data;
+    setTemplate(selectedOption);
+    const templateData = email_templates.filter(
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value),
+    )[0];
+    if (templateData) {
+      const { subject, body } = templateData;
+      const editorState = body ? HtmlToDraftConverter(body) : '';
+      setSubject(subject);
+      setBody(editorState);
+    }
+  };
   // Function to send new email
   const sendEmail = () => {
-    console.log('in sebd emauk');
-
     try {
+      console.log(
+        'body in dend email',
+        body,
+        // convertToRaw(body.getCurrentContent()),
+      );
+
       const emailInput: IAddEmailVariables = {
         userId: id ? parseInt(id) : 0,
         to: 'caregiver',
@@ -69,6 +117,8 @@ const NewEmail: FunctionComponent = () => {
       };
       addNewEmail({ variables: { emailInput } });
     } catch (error) {
+      console.log(error);
+
       const message = error.message
         .replace('SequelizeValidationError: ', '')
         .replace('Validation error: ', '')
@@ -78,6 +128,7 @@ const NewEmail: FunctionComponent = () => {
   };
 
   const onEditorStateChange: any = (editorState: any): void => {
+    logger(editorState, 'editorState');
     setBody(editorState);
   };
   return (
@@ -110,6 +161,8 @@ const NewEmail: FunctionComponent = () => {
                       <Input
                         type='text'
                         placeholder={languageTranslation('SUBJECT')}
+                        name={'subject'}
+                        value={subject}
                         className=' width-common'
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSubject(e.target.value)
@@ -125,6 +178,8 @@ const NewEmail: FunctionComponent = () => {
                           options={templateOptions}
                           classNamePrefix='react-select'
                           className='new-email-select'
+                          onChange={onTemplateSelection}
+                          value={template}
                         />
                       </FormGroup>
                     </div>

@@ -175,6 +175,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                     onChange={(e: any) => handleSelect(e)}
                     options={careGiverOpt}
                     components={{ Option: CustomOption }}
+                    isOptionDisabled={option => option.value === 'Id'}
                   />
                 </div>
                 <div

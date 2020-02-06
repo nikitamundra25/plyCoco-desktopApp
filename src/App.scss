@@ -1464,8 +1464,19 @@ html:not([dir='rtl']) {
     .custom-select-options {
       display: flex;
       align-items: center;
-
+      cursor: pointer;
       border-bottom: 1px solid $table_border;
+      &.custom-sticky-head {
+        position: -webkit-sticky;
+        position: sticky;
+        z-index: 1;
+        top: 0px;
+        background: $white;
+        &:hover {
+          cursor: default;
+          background: $white;
+        }
+      }
       .custom-name-option {
         flex: 1;
         padding: 2px 5px;
@@ -1479,6 +1490,9 @@ html:not([dir='rtl']) {
       .custom-head {
         text-align: left;
         font-family: $font_Frutiger_Bold;
+      }
+      &:hover {
+        background-color: #deebff;
       }
     }
   }

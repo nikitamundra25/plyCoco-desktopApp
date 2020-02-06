@@ -45,3 +45,10 @@ export interface IEmailTemplateMenu {
   onTypeChange: (selectedType: any) => void;
   onDeleteEmailTemplate: () => void;
 }
+
+export interface IEmailTemplateData {
+  id: number;
+  menuEntry: string;
+  subject: string;
+  body: any;
+}

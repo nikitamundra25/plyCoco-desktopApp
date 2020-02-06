@@ -12,6 +12,7 @@ const [, , , GET_EMAILS] = CareGiverQueries;
 const Email = () => {
   let { id } = useParams();
   const [activeTab, setactiveTab] = useState<number>(0);
+  const [emailData, setEmailData] = useState<any>('');
   const [fetchEmails, { data: emailList }] = useLazyQuery<
     { fetchEmails: any },
     IEmailQueryVar
@@ -30,19 +31,20 @@ const Email = () => {
     });
   }, [activeTab]);
 
-  const onTabChange = (activeTab: number) => {
+  const onTabChange = (activeTab: number, data?: any) => {
     setactiveTab(activeTab);
+    setEmailData(data);
   };
 
   // render component according to selected tab
   const renderComponent = () => {
     switch (activeTab) {
       case 0:
-        return <InboxEmail emailList={emailList} />;
+        return <InboxEmail emailList={emailList} onTabChange={onTabChange} />;
       case 1:
         return <SentEmail emailList={emailList} />;
       case 2:
-        return <NewEmail />;
+        return <NewEmail emailData={emailData} />;
 
       default:
         break;

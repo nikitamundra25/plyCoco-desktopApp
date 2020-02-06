@@ -1,14 +1,13 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Button, Col, Row, FormGroup } from 'reactstrap';
 import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { languageTranslation } from '../../../../../helpers';
 import { IEmailFormComponentPorps } from '../../../../../interfaces';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 export const EmailFormComponent: FunctionComponent<IEmailFormComponentPorps> = (
   props: IEmailFormComponentPorps,
 ) => {
-  const { body, onEditorStateChange, sendEmail } = props;
+  const { body, onEditorStateChange } = props;
   return (
     <div className='form-card'>
       <Row>

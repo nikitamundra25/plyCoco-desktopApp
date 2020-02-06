@@ -1337,3 +1337,15 @@ export const DocumentTypes: IReactSelectInterface[] = [
     label: 'Certificate / diploma / exam',
   },
 ];
+
+export const AcceptedDocumentFile = [
+  'image/jpg',
+  'image/JPG',
+  'image/png',
+  'image/PNG',
+  'image/jpeg',
+  'image/JPEG',
+  '.pdf',
+  'application/pdf',
+  'application/PDF',
+];

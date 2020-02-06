@@ -14,11 +14,19 @@ import DocumentsList from './DocumentsList';
 import { DocumentQueries } from '../../../../../graphql/queries';
 import { languageTranslation } from '../../../../../helpers';
 import { ConfirmBox } from '../../../components/ConfirmBox';
+import { CareGiverQueries } from '../../../../../graphql/queries';
+
 const [
   ADD_DOCUMENT,
   UPDATE_DOCUMENT_STATUS,
-  UPDATE_DOCUMENT
+  UPDATE_DOCUMENT,
+  DELETE_DOCUMENT,
+  APPROVE_DOCUMENT,
+  DISAPPROVE_DOCUMENT
 ] = DocumentMutations;
+
+const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
+
 const [GET_DOCUMENT_LIST] = DocumentQueries;
 let toastId: any = '';
 
@@ -33,13 +41,17 @@ const Documents = () => {
   const [statusValue, setStatusValue] = useState<boolean>(true);
   const [remarkValue, setRemarkValue] = useState<any>(null);
   const [documentType, setDocumentType] = useState<any>(null);
-  const [fetchDocumentList, { data, loading, refetch }] = useLazyQuery<any>(
-    GET_DOCUMENT_LIST
-  );
+  const [documentData, setDocumentData] = useState<any>(null);
+  const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
+  const [fileName, setFilename] = useState<any>(null);
   const [documentId, setDocumentId] = useState<{
     id: string;
     checked: boolean;
   } | null>(null);
+
+  const [fetchDocumentList, { data, loading, refetch }] = useLazyQuery<any>(
+    GET_DOCUMENT_LIST
+  );
 
   //add document
   const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
@@ -52,19 +64,14 @@ const Documents = () => {
     }
   });
 
-  //update document status
+  //approve document
+  const [approvedDocument] = useMutation<any>(APPROVE_DOCUMENT);
 
+  //update document status
   const [updateDocumentStatus] = useMutation<any>(UPDATE_DOCUMENT_STATUS);
-  //   , {
-  //   onCompleted({ updateDocumentStatus }) {
-  //     refetch();
-  //     if (!toast.isActive(toastId)) {
-  //       toastId = toast.success(
-  //         languageTranslation('DOCUMENT_STATUS_UPDATED_SUCCESS')
-  //       );
-  //     }
-  //   }
-  // });
+
+  //delete document
+  const [deleteDocument] = useMutation<any>(DELETE_DOCUMENT);
 
   //update document
   const [updateDocument] = useMutation<any>(UPDATE_DOCUMENT, {
@@ -79,6 +86,15 @@ const Documents = () => {
     }
   });
 
+  //set state data null
+  const setStateValueNull = () => {
+    setRemarkValue(null);
+    setDocumentType({ label: null, value: null });
+    setDocumentUrl(null);
+    setStatusValue(false);
+    setDocumentIdUpdate(null);
+  };
+
   useEffect(() => {
     if (id) {
       fetchDocumentList({
@@ -88,11 +104,34 @@ const Documents = () => {
       });
     }
   }, []);
+
+  //on update document
+  const onUpdateDocument = (data: any) => {
+    //set data in all states
+    setDocumentData(data);
+    setShowDocumentPopup(true);
+    setRemarkValue(data.remarks);
+    setDocumentType(
+      data.documentType
+        ? { label: data.documentType, value: data.documentType }
+        : undefined
+    );
+    setDocumentUrl({
+      url: data.document,
+      name: data.fileName,
+      date: data.createdAt
+    });
+    setFilename(data.fileName);
+    setDocumentIdUpdate(data.id);
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
     const { checked, name, value } = target;
     if (name === 'check') {
       setStatusValue(checked);
+    } else if (name === 'filename') {
+      setFilename(value);
     } else {
       setRemarkValue(value);
     }
@@ -110,7 +149,7 @@ const Documents = () => {
         reader.onloadend = () => {
           if (reader.result) {
             temp = {
-              path: reader.result,
+              url: reader.result,
               name: file.name,
               date: moment().format('DD.MM.YYYY')
             };
@@ -175,7 +214,19 @@ const Documents = () => {
     const queryPath = path.pathname;
     const res = queryPath.split('/');
     const id = parseInt(res[3]);
-    if (id) {
+    if (documentIdUpdate) {
+      console.log('inside update');
+      updateDocument({
+        variables: {
+          id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
+          documentInput: {
+            fileName: fileName ? fileName : '',
+            documentType: documentType ? documentType.value : '',
+            remarks: remarkValue ? remarkValue : ''
+          }
+        }
+      });
+    } else {
       addDocument({
         variables: {
           documentInput: {
@@ -188,27 +239,108 @@ const Documents = () => {
         }
       });
     }
+    console.log('documentIdUpdate', documentIdUpdate);
   };
-  console.log('fileObject in index', fileObject);
+
+  //on delete document
+  const onDeleteDocument = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: 'This document will be deleted'
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        await deleteDocument({
+          variables: {
+            id: id ? parseInt(id) : null
+          }
+        });
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success('Document deleted successfully');
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
+
+  const onApprove = async () => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: 'Document will be Approved'
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        await approvedDocument({
+          variables: {
+            userId: id ? id : '',
+            isApproved: true
+          }
+        });
+
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success('Document approved successfully');
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
+
+  // const bytesToSize=(bytes :number, seperator = "")=> {
+  //   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+  //   if (bytes == 0) return 'n/a'
+  //   const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10)
+  //   if (i === 0) return `${bytes}${seperator}${sizes[i]}`
+  //   return `${(bytes / (1024 ** i)).toFixed(1)}${seperator}${sizes[i]}`
+  // }
 
   return (
     <div>
       <DocumentsList
         setShowDocumentPopup={setShowDocumentPopup}
+        setDocumentData={setDocumentData}
         documentListing={data}
         handleCheckElement={handleCheckElement}
         documentId={documentId}
+        onDeleteDocument={onDeleteDocument}
+        onUpdateDocument={onUpdateDocument}
+        setStateValueNull={setStateValueNull}
+        onApprove={onApprove}
       />
       <DocumentUploadModal
+        documentIdUpdate={documentIdUpdate}
         show={showDocumentPopup}
         handleClose={() => setShowDocumentPopup(false)}
         handleSaveDocument={handleSaveDocument}
         onDrop={onDrop}
         documentUrls={documentUrls}
         handleChange={handleChange}
+        documentType={documentType}
         setDocumentType={setDocumentType}
         remarkValue={remarkValue}
         statusValue={statusValue}
+        setDocumentData={setDocumentData}
+        fileName={fileName}
+        onUpdateDocument={onUpdateDocument}
       />
     </div>
   );

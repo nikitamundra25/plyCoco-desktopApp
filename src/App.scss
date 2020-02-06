@@ -2518,6 +2518,12 @@ html:not([dir='rtl']) {
     background: $white;
   }
   li {
+    &.email-wrap{
+      &.active{
+        background: $theme_color;
+        color: $white;
+      }
+    }
     .email-date-block {
       cursor: pointer;
       font-size: 12px;

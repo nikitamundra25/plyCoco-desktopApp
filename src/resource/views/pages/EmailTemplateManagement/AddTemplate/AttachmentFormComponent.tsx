@@ -1,8 +1,31 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useCallback } from 'react';
 import { Col } from 'reactstrap';
 import { useDropzone } from 'react-dropzone';
 
 export const AttachmentFormComponent: FunctionComponent<any> = (props: any) => {
+  //convert document to binary format
+  // const onDrop = useCallback((acceptedFiles: File[]) => {
+  //   let temp: any = documentUrls ? documentUrls : {};
+  //   acceptedFiles.forEach((file: File) => {
+  //     // setFileObject(file);
+  //     if (file) {
+  //       const reader = new FileReader();
+  //       reader.onabort = () => console.log('file reading was aborted');
+  //       reader.onerror = () => console.log('file reading has failed');
+  //       reader.onloadend = () => {
+  //         if (reader.result) {
+  //           temp = {
+  //             path: reader.result,
+  //             name: file.name,
+  //             date: moment().format('DD.MM.YYYY'),
+  //           };
+  //           setDocumentUrl(temp);
+  //         }
+  //       };
+  //       reader.readAsDataURL(file);
+  //     }
+  //   });
+  // }, []);
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: props.onDrop,
     multiple: false,

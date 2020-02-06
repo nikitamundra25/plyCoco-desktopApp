@@ -60,6 +60,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       setSubject('');
       setBody(undefined);
       setParentId(null);
+      setIsSubmit(false);
     },
   });
 

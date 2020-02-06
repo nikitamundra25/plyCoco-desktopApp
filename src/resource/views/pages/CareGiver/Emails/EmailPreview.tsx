@@ -1,43 +1,45 @@
-import React, { FunctionComponent } from "react";
-import { Col } from "reactstrap";
-import moment from "moment";
-import { IEmailPreviewProps } from "../../../../../interfaces";
-import { languageTranslation } from "../../../../../helpers";
+import React, { FunctionComponent } from 'react';
+import { Col } from 'reactstrap';
+import moment from 'moment';
+import { IEmailPreviewProps } from '../../../../../interfaces';
+import { languageTranslation } from '../../../../../helpers';
 
 export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
   emailData,
   selectedUserName,
-  sendBy
+  sendBy,
 }: IEmailPreviewProps) => {
   return (
-    <Col lg={"7"}>
-      <div className="mail-details">
-        <div className="mail-body">
+    <Col lg={'7'}>
+      <div className='mail-details'>
+        <div className='mail-body'>
           {emailData ? (
             <div>
-              <h4 className="mb-3">{emailData.subject}</h4>
-              <h5 className="mb-2">{sendBy ? sendBy : selectedUserName}</h5>
+              <h4 className='mb-3 subject-title text-capitalize'>
+                {emailData.subject}
+              </h4>
+              <h5 className='mb-2'>{sendBy ? sendBy : selectedUserName}</h5>
               <div>
-                <span className="gray-color">Posted:</span>{" "}
+                <span className='gray-color'>Posted:</span>{' '}
                 <span>
-                  {moment(emailData.createdAt).format("DD.MM.YYYY HH:MM:SS")}
+                  {moment(emailData.createdAt).format('DD.MM.YYYY HH:MM:SS')}
                 </span>
               </div>
               {selectedUserName ? (
-                <div className="mb-3">
-                  <span className="gray-color">
-                    {languageTranslation("TO")}:
-                  </span>{" "}
+                <div className='mb-3'>
+                  <span className='gray-color'>
+                    {languageTranslation('TO')}:
+                  </span>{' '}
                   <span>{selectedUserName}</span>
                 </div>
               ) : null}
-              <p className="mb-1">
-                {" "}
+              <p className='mb-1'>
+                {' '}
                 -------------------------------------------------
               </p>
               <p
                 dangerouslySetInnerHTML={{
-                  __html: emailData.body
+                  __html: emailData.body,
                 }}
               />
             </div>

@@ -82,7 +82,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                   </div>
                 </div>
                 <div className='email-row-wrap email-heading-wrap '>
-                  <div className='email-date-time-block toggle-filter hover-short-select-section'>
+                  <div className='email-date-time-block'>
                     Date
                     {/* <Select
                       placeholder='Select Region'
@@ -91,7 +91,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                       className='hover-short-select'
                     /> */}
                   </div>
-                  <div className='email-subject-block toggle-filter`   hover-short-select-section'>
+                  <div className='email-subject-block'>
                     <span>{languageTranslation('OF')}</span>
                     {/* <Select
                       placeholder="Select Region"

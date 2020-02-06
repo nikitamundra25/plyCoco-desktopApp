@@ -219,7 +219,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                 </div>
               </FormGroup>
             </Col>
-            {/* <AttachmentFormComponent /> */}
+            <AttachmentFormComponent />
           </Row>
         </div>
       </div>

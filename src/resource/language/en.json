@@ -589,5 +589,7 @@
   "CHECKED": "Checked",
   "OPTIMIZE": "Optimize",
   "DOCUMENT_STATUS_LABEL": "Checked files cannot be punched by the user",
-  "DOCUMENT_OPTIMIZE_LABEL": "convert to PDF and resize"
+  "DOCUMENT_OPTIMIZE_LABEL": "convert to PDF and resize",
+  "SUBORDINATED_HEADING": "Grouped Below",
+  "NO_SUBORDINATED_MEG": "Currently there are no subordinated caregivers here."
 }

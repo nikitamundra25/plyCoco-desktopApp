@@ -87,7 +87,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                     /> */}
                 </div>
                 <div className='email-subject-block toggle-filter`   hover-short-select-section'>
-                  <span>{languageTranslation('TO')}</span>
+                  <span>{languageTranslation('OF')}</span>
                   {/* <Select
                       placeholder="Select Region"
                       options={this.options}
@@ -106,7 +106,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                   {emailList.getEmails.map((email: any, index: number) => {
                     return (
                       <li className={`email-wrap `}>
-                        <div
+                        {/* <div
                           className={`email-date-block ${
                             opened ? 'opened' : 'closed'
                           }`}
@@ -114,7 +114,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                         >
                           {' '}
                           {languageTranslation('DATE')}: january 2020
-                        </div>
+                        </div> */}
                         {/* <Collapse
                           isOpen={isOpen}
                           onEntered={onEntered}
@@ -125,12 +125,12 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                           onClick={() => onEmailSelection(email)}
                         >
                           <div className='email-date-time-block'>
-                            22.01.2020 20.33.33
+                            {moment(email.createdAt).format(
+                              'DD.MM.YYYY HH:MM:SS',
+                            )}
                           </div>
-                          <div className='email-subject-block'>
-                            Blalock, Jolene
-                          </div>
-                          <div className='email-text-wrap'>Blalock, Jolene</div>
+                          <div className='email-subject-block'>Super admin</div>
+                          <div className='email-text-wrap'>{email.subject}</div>
                         </div>
                         {/* </Collapse> */}
                       </li>

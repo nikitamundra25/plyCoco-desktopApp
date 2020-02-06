@@ -118,20 +118,24 @@ export const ProfileFormComponent: FunctionComponent<FormikProps<
                   </Row>
                 </FormGroup>
               </Col>
-              <Col lg={"4"}></Col>
-              <Col lg={"8"}>
+              <Col lg={"12"} className="mt-3">
                 <FormGroup>
-                  <Button
-                    color={"primary"}
-                    className={"btn-save"}
-                    onClick={handleSubmit}
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <i className="fa fa-spinner fa-spin loader" />
-                    ) : null}
-                    {languageTranslation("UPDATE_BUTTON")}
-                  </Button>
+                  <Row>
+                    <Col lg={"4"}></Col>
+                    <Col lg={"8"}>
+                      <Button
+                        color={"primary"}
+                        className={"btn-save"}
+                        onClick={handleSubmit}
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <i className="fa fa-spinner fa-spin loader" />
+                        ) : null}
+                        {languageTranslation("UPDATE_BUTTON")}
+                      </Button>
+                    </Col>
+                  </Row>
                 </FormGroup>
               </Col>
             </Row>

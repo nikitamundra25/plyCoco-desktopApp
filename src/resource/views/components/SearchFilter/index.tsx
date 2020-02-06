@@ -7,7 +7,7 @@ import {
   Col,
   Row,
   UncontrolledTooltip,
-  Button
+  Button,
 } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { SortOptions, StatusOptions } from '../../../../config';
@@ -16,11 +16,11 @@ import { FormikProps, Form } from 'formik';
 import {
   ISearchValues,
   IReactSelectInterface,
-  ISearchProps
+  ISearchProps,
 } from '../../../../interfaces';
 
 const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
-  props: FormikProps<ISearchValues> & ISearchProps
+  props: FormikProps<ISearchValues> & ISearchProps,
 ) => {
   let history = useHistory();
   let { pathname } = useLocation();
@@ -31,7 +31,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
     handleChange,
     setFieldValue,
     searchPlacholderText,
-    setSearchValues
+    setSearchValues,
   } = props;
 
   // Custom function to handle react select fields
@@ -40,102 +40,101 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
     setFieldValue(name, selectOption);
   };
   return (
-    <div className="filter-form form-section mb-2">
+    <div className='filter-form form-section mb-2'>
       <Form onSubmit={handleSubmit}>
         <Row>
-          <Col lg={"3"} md={"3"}>
+          <Col lg={'3'} md={'3'}>
             <FormGroup>
-              <Label for="search" className="col-form-label">
-                {languageTranslation("SEARCH_LABEL")} :
+              <Label for='search' className='col-form-label'>
+                {languageTranslation('SEARCH_LABEL')} :
               </Label>
               <Input
-                type="text"
-                name="searchValue"
-                id="search"
+                type='text'
+                name='searchValue'
+                id='search'
                 value={searchValue}
                 onChange={handleChange}
                 placeholder={
                   searchPlacholderText
                     ? searchPlacholderText
-                    : label === "employee"
-                    ? languageTranslation("SEARCH_EMPLOYEE_PLACEHOLDER")
-                    : label === "care institution"
-                    ? languageTranslation("SEARCH_CARE_INSTI_PLACEHOLDER")
-                    : languageTranslation("SEARCH_REGION_PLACEHOLDER")
+                    : label === 'employee'
+                    ? languageTranslation('SEARCH_EMPLOYEE_PLACEHOLDER')
+                    : label === 'care institution'
+                    ? languageTranslation('SEARCH_CARE_INSTI_PLACEHOLDER')
+                    : languageTranslation('SEARCH_REGION_PLACEHOLDER')
                 }
               />
             </FormGroup>
           </Col>
-          <Col lg={"2"} md={"3"}>
+          <Col lg={'2'} md={'3'}>
             <FormGroup>
-              <Label for="Selectregion" className="col-form-label">
-                {languageTranslation("SORTBY_LABEL")} :
+              <Label for='Selectregion' className='col-form-label'>
+                {languageTranslation('SORTBY_LABEL')} :
               </Label>
               <Select
-                placeholder={languageTranslation("SORTBY_PLACEHOLDER")}
+                placeholder={languageTranslation('SORTBY_PLACEHOLDER')}
                 options={SortOptions}
                 isSearchable={false}
                 isClearable={true}
-                value={sortBy && sortBy.value !== "" ? sortBy : null}
-                onChange={(value: any) => handleSelect(value, "sortBy")}
-                classNamePrefix="custom-inner-reactselect"
-                className={"custom-reactselect"}
+                value={sortBy && sortBy.value !== '' ? sortBy : null}
+                onChange={(value: any) => handleSelect(value, 'sortBy')}
+                classNamePrefix='custom-inner-reactselect'
+                className={'custom-reactselect'}
               />
             </FormGroup>
           </Col>
-          {label !== "region" ? (
-            <Col lg={"2"} md={"3"}>
+          {label !== 'region' ? (
+            <Col lg={'2'} md={'3'}>
               <FormGroup>
-                <Label for="Selectregion" className="col-form-label">
-                  {languageTranslation("STATUS_LABEL")} :
+                <Label for='Selectregion' className='col-form-label'>
+                  {languageTranslation('STATUS_LABEL')} :
                 </Label>
                 <Select
-                  placeholder={languageTranslation("STATUS_PLACEHOLDER")}
+                  placeholder={languageTranslation('STATUS_PLACEHOLDER')}
                   options={StatusOptions}
                   isClearable={true}
                   isSearchable={false}
-                  value={isActive && isActive.value !== "" ? isActive : null}
-                  onChange={(value: any) => handleSelect(value, "isActive")}
-                  classNamePrefix="custom-inner-reactselect"
-                  className={"custom-reactselect"}
+                  value={isActive && isActive.value !== '' ? isActive : null}
+                  onChange={(value: any) => handleSelect(value, 'isActive')}
+                  classNamePrefix='custom-inner-reactselect'
+                  className={'custom-reactselect'}
                 />
               </FormGroup>
             </Col>
           ) : null}
-          <Col lg={"2"} md={"3"}>
-            <div className="label-height"></div>
-            <div className="filter-btn-wrap">
+          <Col lg={'2'} md={'3'}>
+            <div className='label-height'></div>
+            <div className='filter-btn-wrap'>
               <Button
-                className="btn-filter mr-2"
-                type="submit"
-                id="search1"
+                className='btn-filter mr-2'
+                type='submit'
+                id='search1'
                 onClick={() => {
                   handleSubmit();
                 }}
               >
-                <UncontrolledTooltip placement="top" target="search1">
-                  {languageTranslation("SEARCH_LABEL")}
+                <UncontrolledTooltip placement='top' target='search1'>
+                  {languageTranslation('SEARCH_LABEL')}
                 </UncontrolledTooltip>
-                <i className="fa fa-search"></i>
-                <span className="search-text">
-                  {languageTranslation("SEARCH_LABEL")}
+                <i className='fa fa-search'></i>
+                <span className='search-text'>
+                  {languageTranslation('SEARCH_LABEL')}
                 </span>
               </Button>
               <Button
-                className="btn-filter mr-2"
-                id="reset"
+                className='btn-filter mr-2'
+                id='reset'
                 onClick={() => {
-                  console.log("in reset");
-                  setSearchValues({ searchValues: {} });
+                  // setSearchValues({ searchValues: {} });
                   history.push(pathname);
                 }}
               >
-                <UncontrolledTooltip placement="top" target="reset">
-                  {languageTranslation("RESET_LABEL")}
+                <UncontrolledTooltip placement='top' target='reset'>
+                  {languageTranslation('RESET_LABEL')}
                 </UncontrolledTooltip>
-                <i className="fa fa-refresh "></i>
-                <span className="search-text">
-                  {languageTranslation("RESET_LABEL")}
+                <i className='fa fa-refresh '></i>
+                <span className='search-text'>
+                  {languageTranslation('RESET_LABEL')}
                 </span>
               </Button>
             </div>

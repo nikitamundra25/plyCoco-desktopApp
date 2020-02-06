@@ -119,3 +119,8 @@
   position: relative;
   height: 150px;
 }
+
+.overview-loader {
+  position: relative;
+  min-height: calc(100vh - 170px);
+}

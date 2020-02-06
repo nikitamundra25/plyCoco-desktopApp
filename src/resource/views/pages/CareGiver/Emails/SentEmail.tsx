@@ -14,7 +14,7 @@ import { EmailPreview } from './EmailPreview';
 
 const SentEmail: FunctionComponent<IEmailListProps> = ({
   emailList,
-  selectUser,
+  selectedUserName,
 }: IEmailListProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [opened, setIsOpened] = useState<boolean>(true);
@@ -130,7 +130,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                               'DD.MM.YYYY HH:MM:SS',
                             )}
                           </div>
-                          <div className='email-subject-block'>Super admin</div>
+                          <div className='email-subject-block'>Super Admin</div>
                           <div className='email-text-wrap'>{email.subject}</div>
                         </div>
                         {/* </Collapse> */}
@@ -141,7 +141,11 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
               ) : null}
             </div>
           </Col>
-          <EmailPreview emailData={emailData} selectUser={selectUser} />
+          <EmailPreview
+            emailData={emailData}
+            selectedUserName={selectedUserName}
+            sendBy={'Super Admin'}
+          />
         </Row>
       </div>
     </div>

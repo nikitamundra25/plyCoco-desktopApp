@@ -6,7 +6,8 @@ import { languageTranslation } from '../../../../../helpers';
 
 export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
   emailData,
-  selectUser,
+  selectedUserName,
+  sendBy,
 }: IEmailPreviewProps) => {
   return (
     <Col lg={'7'}>
@@ -14,19 +15,20 @@ export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
         <div className='mail-body'>
           {emailData ? (
             <div>
-              <h5 className='mb-3'> {emailData.subject}</h5>
+              <h4 className='mb-3'>{emailData.subject}</h4>
+              <h5 className='mb-3'>{sendBy ? sendBy : selectedUserName}</h5>
               <div>
                 <span className='gray-color'>Posted:</span>{' '}
                 <span>
                   {moment(emailData.createdAt).format('DD.MM.YYYY HH:MM:SS')}
                 </span>
               </div>
-              {selectUser ? (
+              {selectedUserName ? (
                 <div className='mb-3'>
                   <span className='gray-color'>
                     {languageTranslation('TO')}:
                   </span>{' '}
-                  <span>{selectUser.label}</span>
+                  <span>{selectedUserName}</span>
                 </div>
               ) : null}
               <p className='mb-1'>

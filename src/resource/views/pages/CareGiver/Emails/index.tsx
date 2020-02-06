@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FunctionComponent } from 'react';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { useParams } from 'react-router';
 import { EmailMenus } from './EmailMenus';
@@ -6,10 +6,15 @@ import InboxEmail from './InboxEmail';
 import SentEmail from './SentEmail';
 import NewEmail from './NewEmail';
 import { CareGiverQueries } from '../../../../../graphql/queries';
-import { IEmailQueryVar } from '../../../../../interfaces';
+import {
+  IEmailQueryVar,
+  IReactSelectInterface,
+} from '../../../../../interfaces';
 
 const [, , , GET_EMAILS] = CareGiverQueries;
-const Email = () => {
+const Email: FunctionComponent<{
+  selectUser: IReactSelectInterface | null;
+}> = ({ selectUser }: { selectUser: IReactSelectInterface | null }) => {
   let { id } = useParams();
   const [activeTab, setactiveTab] = useState<number>(0);
   const [emailData, setEmailData] = useState<any>('');
@@ -40,9 +45,15 @@ const Email = () => {
   const renderComponent = () => {
     switch (activeTab) {
       case 0:
-        return <InboxEmail emailList={emailList} onTabChange={onTabChange} />;
+        return (
+          <InboxEmail
+            emailList={emailList}
+            onTabChange={onTabChange}
+            selectUser={selectUser}
+          />
+        );
       case 1:
-        return <SentEmail emailList={emailList} />;
+        return <SentEmail emailList={emailList} selectUser={selectUser} />;
       case 2:
         return <NewEmail emailData={emailData} />;
 

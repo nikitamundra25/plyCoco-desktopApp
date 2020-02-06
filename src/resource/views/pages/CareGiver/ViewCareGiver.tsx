@@ -245,7 +245,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               {activeTab === 2 ? <LoginLogs /> : null}
               {activeTab === 3 ? <Invoices /> : null}
               {activeTab === 4 ? <Documents /> : null}
-              {activeTab === 5 ? <Email /> : null}
+              {activeTab === 5 ? <Email selectUser={selectUser} /> : null}
               {activeTab === 6 ? <ToDo /> : null}
               {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}
               {activeTab === 8 ? <QualificationAttribute /> : null}
@@ -256,9 +256,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       <CreateTodo
         show={showToDo}
         handleClose={() => setShowToDo(false)}
-        name={
-          selectUser && selectUser.label ? selectUser.label.split('|')[1] : null
-        }
+        name={selectUser ? selectUser.label : null}
         userRole={'careGiver'}
       />
     </div>

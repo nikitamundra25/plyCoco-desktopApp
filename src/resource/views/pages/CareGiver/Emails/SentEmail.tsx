@@ -10,16 +10,17 @@ import {
 import moment from "moment";
 import { languageTranslation } from "../../../../../helpers";
 import { IEmailListProps } from "../../../../../interfaces";
+import { EmailPreview } from "./EmailPreview";
 import noemail from "../../../../assets/img/no-email.svg";
 
 const SentEmail: FunctionComponent<IEmailListProps> = ({
-  emailList
+  emailList,
+  selectUser
 }: IEmailListProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [opened, setIsOpened] = useState<boolean>(true);
 
   const [emailData, setEmailData] = useState<any>("");
-
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -106,7 +107,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                 <ul className="m-0 p-0 list-group">
                   {emailList.getEmails.map((email: any, index: number) => {
                     return (
-                      <li className={`email-wrap `}>
+                      <li className={`email-wrap`} key={index}>
                         {/* <div
                           className={`email-date-block ${
                             opened ? 'opened' : 'closed'
@@ -150,38 +151,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
               )}
             </div>
           </Col>
-          <Col lg={"7"}>
-            <div className="mail-details">
-              <div className="mail-body">
-                {emailData ? (
-                  <div>
-                    <h5 className="mb-3"> {emailData.subject}</h5>
-                    <div>
-                      <span className="gray-color">Posted:</span>{" "}
-                      <span>
-                        {moment(emailData.createdAt).format(
-                          "DD.MM.YYYY HH:MM:SS"
-                        )}
-                      </span>
-                    </div>
-                    <div className="mb-3">
-                      <span className="gray-color">To:</span>{" "}
-                      <span>Justina Achatoh</span>
-                    </div>
-                    <p className="mb-1">
-                      {" "}
-                      -------------------------------------------------
-                    </p>
-                    <p
-                      dangerouslySetInnerHTML={{
-                        __html: emailData.body
-                      }}
-                    />
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          </Col>
+          <EmailPreview emailData={emailData} selectUser={selectUser} />
         </Row>
       </div>
     </div>

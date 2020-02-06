@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from "react";
 import { Table, Col } from "reactstrap";
+import { useQuery } from "@apollo/react-hooks";
+import { useParams, useHistory } from "react-router";
 import { languageTranslation } from "../../../../../helpers";
 import Loader from "../../../containers/Loader/Loader";
 import { CareGiverQueries } from "../../../../../graphql/queries";
-import { useQuery } from "@apollo/react-hooks";
-import { useParams, useHistory } from "react-router";
 import { IBelongsToData } from "../../../../../interfaces";
 import { AppRoutes } from "../../../../../config";
 
@@ -23,12 +23,12 @@ const GroupedBelow: FunctionComponent = () => {
       userId: id ? parseInt(id) : 0
     }
   });
-  console.log(data, "datadata");
-
   return (
     <>
       <div className="form-section">
-        <h5 className="main-title mb-3">Grouped Below</h5>
+        <h5 className="main-title mb-3">
+          {languageTranslation("SUBORDINATED_HEADING")}
+        </h5>
       </div>
       <Table bordered hover responsive>
         <thead className="thead-bg">
@@ -76,7 +76,9 @@ const GroupedBelow: FunctionComponent = () => {
                   <div className="no-data-icon">
                     <i className="icon-ban" />
                   </div>
-                  <h4 className="mb-1">Currently there are no data Found. </h4>
+                  <h4 className="mb-1">
+                    {languageTranslation("NO_SUBORDINATED_MEG")}
+                  </h4>
                 </div>
               </td>
             </tr>

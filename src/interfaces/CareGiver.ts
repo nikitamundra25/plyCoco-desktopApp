@@ -354,6 +354,7 @@ export interface IEmailQueryVar {
 export interface IEmailListProps {
   emailList: any;
   selectedUserName: string;
+  loading: boolean;
 }
 
 export interface IBelongsToData {

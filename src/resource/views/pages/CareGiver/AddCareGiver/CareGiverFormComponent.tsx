@@ -106,6 +106,10 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
     careGivers.getCaregivers &&
     careGivers.getCaregivers.result
   ) {
+    careGiverOpt.push({
+      label: languageTranslation('NAME'),
+      value: languageTranslation('ID'),
+    });
     careGivers.getCaregivers.result.forEach(
       ({ id, firstName, lastName }: any) =>
         careGiverOpt.push({

@@ -15,7 +15,7 @@ const Email: FunctionComponent<{
   let { id } = useParams();
   const [activeTab, setactiveTab] = useState<number>(0);
   const [emailData, setEmailData] = useState<any>('');
-  const [fetchEmails, { data: emailList }] = useLazyQuery<
+  let [fetchEmails, { data: emailList, loading, refetch }] = useLazyQuery<
     { fetchEmails: any },
     IEmailQueryVar
   >(GET_EMAILS);
@@ -47,6 +47,7 @@ const Email: FunctionComponent<{
             emailList={emailList}
             onTabChange={onTabChange}
             selectedUserName={selectedUserName}
+            loading={loading}
           />
         );
       case 1:
@@ -54,6 +55,7 @@ const Email: FunctionComponent<{
           <SentEmail
             emailList={emailList}
             selectedUserName={selectedUserName}
+            loading={loading}
           />
         );
       case 2:
@@ -63,7 +65,6 @@ const Email: FunctionComponent<{
         break;
     }
   };
-
   return (
     <div className='email-section'>
       <EmailMenus activeTab={activeTab} onTabChange={onTabChange} />

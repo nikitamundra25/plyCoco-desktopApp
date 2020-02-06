@@ -8,7 +8,6 @@ import { careGiverRoutes } from './Sidebar/SidebarRoutes/CareGiverRoutes';
 import { IReactSelectInterface } from '../../../../interfaces';
 import Invoices from './Invoices/Invoices';
 import PersonalInformation from './PersonalInfo/PersonalInformation';
-import DocumentsUpload from './Documents/DocumentsUpload';
 import Offer from './Offers/Offer';
 import ToDo from './ToDos/ToDos';
 import LeasingPersonalData from './LeasingData';
@@ -24,6 +23,8 @@ import { CareGiverQueries } from '../../../../graphql/queries';
 import LoginLogs from './Logins/CareLogin';
 import CreateTodo from '../../components/CreateTodo';
 import CustomOption from '../../components/CustomOptions';
+import { languageTranslation } from '../../../../helpers';
+import Documents from './Documents';
 const CareGiverSidebar = React.lazy(() =>
   import('./Sidebar/SidebarLayout/CareGiverLayout'),
 );
@@ -93,10 +94,10 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     careGivers.getCaregivers &&
     careGivers.getCaregivers.result
   ) {
-    // careGiverOpt.push({
-    //   label: `Name`,
-    //   value: `Id`,
-    // });
+    careGiverOpt.push({
+      label: languageTranslation('NAME'),
+      value: languageTranslation('ID'),
+    });
     careGivers.getCaregivers.result.forEach(
       ({ id, firstName, lastName }: any) =>
         careGiverOpt.push({
@@ -165,13 +166,17 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               <div className='common-topheader d-flex align-items-center '>
                 <div className='user-select'>
                   <Select
-                    classNamePrefix='react-select'
+                    classNamePrefix='custom-inner-reactselect'
+                    className={
+                      'custom-reactselect custom-reactselect-menu-width'
+                    }
                     defaultValue={selectUser}
                     placeholder='Select Caregiver'
                     value={selectUser}
                     onChange={(e: any) => handleSelect(e)}
                     options={careGiverOpt}
-                    // components={{ Option: CustomOption }}
+                    components={{ Option: CustomOption }}
+                    isOptionDisabled={option => option.value === 'Id'}
                   />
                 </div>
                 <div
@@ -239,7 +244,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               {activeTab === 1 ? <Offer /> : null}
               {activeTab === 2 ? <LoginLogs /> : null}
               {activeTab === 3 ? <Invoices /> : null}
-              {activeTab === 4 ? <DocumentsUpload /> : null}
+              {activeTab === 4 ? <Documents /> : null}
               {activeTab === 5 ? <Email /> : null}
               {activeTab === 6 ? <ToDo /> : null}
               {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}

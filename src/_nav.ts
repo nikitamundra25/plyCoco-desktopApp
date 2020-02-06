@@ -94,6 +94,11 @@ export default {
           url: AppRoutes.EMAIL_TEMPLATE_MANAGEMENT
         },
         {
+          name: languageTranslation("MENU_ATTRIBUTES"),
+          icon: "icon-attribute",
+          url: AppRoutes.ATTRIBUTE_MANAGEMENT
+        },
+        {
           name: languageTranslation("MENU_FURTHER_EMPLOYEE"),
           icon: "icon-employees",
           url: AppRoutes.HOME

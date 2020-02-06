@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useMutation } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
@@ -28,6 +28,11 @@ export const Login: FunctionComponent = () => {
     },
   });
 
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      history.push(AppRoutes.HOME);
+    }
+  }, []);
   // on login
   const handleSubmit = (
     { email, password }: ILoginFormValues,

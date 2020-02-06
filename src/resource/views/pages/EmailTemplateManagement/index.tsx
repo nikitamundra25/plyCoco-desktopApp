@@ -18,6 +18,7 @@ import { AddTemplate } from './AddTemplate';
 import { languageTranslation } from '../../../../helpers';
 import { EmailTemplateMutations } from '../../../../graphql/Mutations';
 import './index.scss';
+import { ConfirmBox } from '../../components/ConfirmBox';
 
 const [
   GET_EMAIL_TEMPLATE_TYEPS,
@@ -25,8 +26,14 @@ const [
   GET_EMAIL_TEMPLATE_BY_ID,
 ] = EmailTemplateQueries;
 
-const [ADD_EMAIL_TEMPLATE, UPDATE_EMAIL_TEMPLATE] = EmailTemplateMutations;
+const [
+  ADD_EMAIL_TEMPLATE,
+  UPDATE_EMAIL_TEMPLATE,
+  DELETE_EMAIL_TEMPLATE,
+] = EmailTemplateMutations;
+
 let toastId: any = '';
+
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
   const [typeId, setTypeId] = useState<number | null>(null);
@@ -68,7 +75,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   }, [typeListOptions]);
   // To add email template into db
-  const [addEmail] = useMutation<
+  const [addEmail, { loading: addEmailLoading }] = useMutation<
     {
       addEmail: any;
     },
@@ -101,6 +108,23 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       }
     },
   });
+  // To delete email template from db
+  const [deleteEmailTemplate] = useMutation<
+    { deleteEmailTemplate: any },
+    { id: number }
+  >(DELETE_EMAIL_TEMPLATE, {
+    onCompleted() {
+      setTemplateData(null);
+      setActiveTemplate(null);
+      listRefetch();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('EMAIL_TEMPLATE_DELETION_SUCCESS'),
+        );
+      }
+    },
+  });
+
   //To get email templates by type
   const [
     fetchTemplateList,
@@ -248,14 +272,44 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   const bindSubmitForm = (submitForm: any) => {
     submitMyForm = submitForm;
   };
+  // Delete handler
+  const onDeleteEmailTemplate = async () => {
+    if (activeTemplate) {
+      const { value } = await ConfirmBox({
+        title: languageTranslation('CONFIRM_LABEL'),
+        text: languageTranslation('CONFIRM_EMAIL_TEMPLATE_DELETE_MSG'),
+      });
+      if (!value) {
+        return;
+      } else {
+        try {
+          deleteEmailTemplate({
+            variables: { id: parseInt(activeTemplate) },
+          });
+        } catch (error) {
+          const message = error.message
+            .replace('SequelizeValidationError: ', '')
+            .replace('Validation error: ', '')
+            .replace('GraphQL error: ', '');
+          if (!toast.isActive(toastId)) {
+            toastId = toast.error(message);
+          }
+        }
+      }
+    }
+  };
   return (
     <>
       <div className='common-detail-page'>
         <div className='common-detail-section'>
           <EmailTemplateMenu
+            typeListOptions={typeListOptions}
+            templateType={templateType}
+            activeTemplate={activeTemplate}
             handleSubmit={() => {
               submitMyForm();
             }}
+            addEmailLoading={addEmailLoading}
             onAddNewTemplate={() => {
               if (templateType && templateType.value) {
                 setTypeId(parseInt(templateType.value));
@@ -269,8 +323,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                 id: undefined,
               });
             }}
-            typeListOptions={typeListOptions}
-            templateType={templateType}
+            onDeleteEmailTemplate={onDeleteEmailTemplate}
             onTypeChange={onTypeChange}
           />
           <div className='common-content flex-grow-1'>

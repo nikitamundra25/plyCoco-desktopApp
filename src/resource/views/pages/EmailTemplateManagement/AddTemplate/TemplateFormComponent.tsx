@@ -20,7 +20,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
   props: FormikProps<IEmailTemplateValues> & {
     typeListOptions?: any;
     setTypeId?: any;
-  }
+  },
 ) => {
   const {
     values: { type, menuEntry, subject, body, id },
@@ -29,14 +29,11 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     setFieldValue,
     handleChange,
     typeListOptions,
-    setTypeId
+    setTypeId,
   } = props;
   const typeError: any = errors.type;
-  console.log('errors', errors);
-  console.log('touched', touched);
 
   const handleTypeSelect = (newValue: any, actionMeta: any) => {
-    console.log('value', newValue);
     setFieldValue('type', newValue);
     setTypeId(parseInt(newValue.value));
     if (actionMeta.action === 'create-option') {
@@ -56,7 +53,6 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('ID')}
-                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col sm='8'>
@@ -116,6 +112,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('MENU_ENTRY')}
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col sm='8'>
@@ -147,6 +144,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('SUBJECT')}{' '}
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col sm='8'>
@@ -191,24 +189,24 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         'fontSize',
                         'list',
                         'textAlign',
-                        'link'
+                        'link',
                       ],
                       inline: {
-                        options: ['bold', 'italic', 'underline']
+                        options: ['bold', 'italic', 'underline'],
                       },
                       fontSize: {
-                        className: 'bordered-option-classname'
+                        className: 'bordered-option-classname',
                       },
                       fontFamily: {
-                        className: 'bordered-option-classname'
+                        className: 'bordered-option-classname',
                       },
                       list: {
                         inDropdown: false,
-                        options: ['unordered']
+                        options: ['unordered'],
                       },
                       link: {
-                        options: ['link']
-                      }
+                        options: ['link'],
+                      },
                     }}
                   />
                   {touched.body &&

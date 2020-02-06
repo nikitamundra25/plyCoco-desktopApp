@@ -334,3 +334,9 @@ export interface IEmailQueryVar {
 export interface IEmailListProps {
   emailList: any;
 }
+
+export interface IBelongsToData {
+  id: number;
+  firstName: string;
+  lastName: string;
+}

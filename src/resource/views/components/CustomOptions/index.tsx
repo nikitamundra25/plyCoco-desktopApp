@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import { languageTranslation } from '../../../../helpers';
 
 const CustomOption: FunctionComponent = (props: any) => {
   const { data, innerProps } = props;
@@ -9,13 +10,13 @@ const CustomOption: FunctionComponent = (props: any) => {
     <div
       {...innerProps}
       className={`custom-select-options ${
-        data.value === 'Id' ? 'custom-sticky-head' : ''
+        data.value === languageTranslation('ID') ? 'custom-sticky-head' : ''
       }`}
     >
       <span
         style={style}
         className={`custom-name-option ${
-          data.value === 'Id' ? 'custom-head' : ''
+          data.value === languageTranslation('ID') ? 'custom-head' : ''
         }`}
       >
         {data.label}
@@ -23,7 +24,7 @@ const CustomOption: FunctionComponent = (props: any) => {
       <span
         style={style}
         className={`custom-id-option text-center ${
-          data.value === 'Id' ? 'custom-head' : ''
+          data.value === languageTranslation('ID') ? 'custom-head' : ''
         }`}
       >
         {data.value}

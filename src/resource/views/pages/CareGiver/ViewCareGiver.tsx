@@ -24,6 +24,7 @@ import { CareGiverQueries } from '../../../../graphql/queries';
 import LoginLogs from './Logins/CareLogin';
 import CreateTodo from '../../components/CreateTodo';
 import CustomOption from '../../components/CustomOptions';
+import { languageTranslation } from '../../../../helpers';
 const CareGiverSidebar = React.lazy(() =>
   import('./Sidebar/SidebarLayout/CareGiverLayout'),
 );
@@ -94,8 +95,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     careGivers.getCaregivers.result
   ) {
     careGiverOpt.push({
-      label: `Name`,
-      value: `Id`,
+      label: languageTranslation('NAME'),
+      value: languageTranslation('ID'),
     });
     careGivers.getCaregivers.result.forEach(
       ({ id, firstName, lastName }: any) =>

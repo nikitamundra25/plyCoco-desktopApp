@@ -15,8 +15,10 @@ export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
         <div className='mail-body'>
           {emailData ? (
             <div>
-              <h4 className='mb-3'>{emailData.subject}</h4>
-              <h5 className='mb-3'>{sendBy ? sendBy : selectedUserName}</h5>
+              <h4 className='mb-3 subject-title text-capitalize'>
+                {emailData.subject}
+              </h4>
+              <h5 className='mb-2'>{sendBy ? sendBy : selectedUserName}</h5>
               <div>
                 <span className='gray-color'>Posted:</span>{' '}
                 <span>

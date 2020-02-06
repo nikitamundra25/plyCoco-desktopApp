@@ -15,10 +15,19 @@ const Email: FunctionComponent<{
   let { id } = useParams();
   const [activeTab, setactiveTab] = useState<number>(0);
   const [emailData, setEmailData] = useState<any>('');
-  const [fetchEmails, { data: emailList }] = useLazyQuery<
+  let [fetchEmails, { data: emailList, loading, refetch }] = useLazyQuery<
     { fetchEmails: any },
     IEmailQueryVar
   >(GET_EMAILS);
+
+  useEffect(() => {
+    fetchEmails({
+      variables: {
+        userId: id ? parseInt(id) : 0,
+        from: 'caregiver',
+      },
+    });
+  }, []);
 
   useEffect(() => {
     let variables: IEmailQueryVar = {
@@ -28,14 +37,22 @@ const Email: FunctionComponent<{
     if (activeTab === 1) {
       variables = { ...variables, from: 'plycoco' };
     }
-    fetchEmails({
-      variables,
-    });
+    if (refetch) {
+      refetch(variables);
+    }
   }, [activeTab]);
 
   const onTabChange = (activeTab: number, data?: any) => {
     setactiveTab(activeTab);
     setEmailData(data);
+  };
+
+  const onRefresh = (from: string) => {
+    let variables: IEmailQueryVar = {
+      userId: id ? parseInt(id) : 0,
+      from,
+    };
+    refetch(variables);
   };
 
   // render component according to selected tab
@@ -47,6 +64,8 @@ const Email: FunctionComponent<{
             emailList={emailList}
             onTabChange={onTabChange}
             selectedUserName={selectedUserName}
+            loading={loading}
+            onRefresh={() => onRefresh('caregiver')}
           />
         );
       case 1:
@@ -54,6 +73,8 @@ const Email: FunctionComponent<{
           <SentEmail
             emailList={emailList}
             selectedUserName={selectedUserName}
+            loading={loading}
+            onRefresh={() => onRefresh('plycoco')}
           />
         );
       case 2:
@@ -63,7 +84,6 @@ const Email: FunctionComponent<{
         break;
     }
   };
-
   return (
     <div className='email-section'>
       <EmailMenus activeTab={activeTab} onTabChange={onTabChange} />

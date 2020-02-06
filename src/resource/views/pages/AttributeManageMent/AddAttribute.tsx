@@ -4,11 +4,9 @@ import { languageTranslation } from '../../../../helpers';
 import { IAddAttributeProps } from '../../../../interfaces';
 
 const AddAttribute: FunctionComponent<IAddAttributeProps> = (
-  props: IAddAttributeProps
+  props: IAddAttributeProps,
 ) => {
   const { handleSubmit, onChange, newAttribute, isSubmit } = props;
-  console.log(newAttribute, 'newAttribute');
-
   return (
     <Form onSubmit={handleSubmit} className='form-section'>
       <FormGroup>

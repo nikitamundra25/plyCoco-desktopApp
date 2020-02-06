@@ -31,6 +31,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   let { id } = useParams();
   const [subject, setSubject] = useState<string>('');
   const [body, setBody] = useState<any>('');
+  const [parentId, setParentId] = useState<number | null>(null);
   const [template, setTemplate] = useState<any>(undefined);
   //To get all email templates of care giver addded in system
   const { data, loading: fetchTemplateListLoading } = useQuery<any>(
@@ -56,6 +57,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       }
       setSubject('');
       setBody(undefined);
+      setParentId(null);
     },
   });
 
@@ -73,14 +75,15 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       });
     }
   }
-  // // To set subject & body on reply
-  // useEffect(() => {
-  //   let { subject = '', body = '' } = emailData ? emailData : {};
-  //   setSubject(subject);
-  //   // body = body + '<br></br>------------------------';
-  //   const editorState = body ? HtmlToDraftConverter(body) : '';
-  //   setBody(HtmlToDraftConverter(''));
-  // }, [emailData]);
+  // To set subject & body on reply
+  useEffect(() => {
+    let { id = '', subject = '' } = emailData ? emailData : {};
+    setParentId(id);
+    setSubject(`AW: ${subject}`);
+    // body = body + '<br></br>------------------------';
+    // const editorState = body ? HtmlToDraftConverter(body) : '';
+    // setBody(HtmlToDraftConverter(''));
+  }, [emailData]);
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
     const {
@@ -106,13 +109,11 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
         from: 'plycoco',
         subject,
         body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '',
-        parentId: null,
+        parentId,
         status: 'new',
       };
       addNewEmail({ variables: { emailInput } });
     } catch (error) {
-      console.log(error);
-
       const message = error.message
         .replace('SequelizeValidationError: ', '')
         .replace('Validation error: ', '')

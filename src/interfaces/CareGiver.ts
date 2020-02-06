@@ -319,6 +319,24 @@ export interface IAddEmailVariables {
   status: string;
 }
 
+export interface INewEmailProps {
+  emailData: any;
+}
+
+export interface IEmailData {
+  body: string;
+  createdAt: string;
+  id: number;
+  subject: string;
+  to: string;
+  userId: number;
+}
+
+export interface IEmailPreviewProps {
+  emailData: IEmailData | null;
+  selectUser: IReactSelectInterface | null;
+}
+
 export interface IEmailFormComponentPorps {
   subject: string;
   body: any;
@@ -333,6 +351,7 @@ export interface IEmailQueryVar {
 
 export interface IEmailListProps {
   emailList: any;
+  selectUser: IReactSelectInterface | null;
 }
 
 export interface IBelongsToData {

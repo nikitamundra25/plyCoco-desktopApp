@@ -10,12 +10,14 @@ import {
 import { useParams } from 'react-router';
 import moment from 'moment';
 import { languageTranslation } from '../../../../../helpers';
-import { IEmailListProps } from '../../../../../interfaces';
+import { IEmailListProps, IEmailData } from '../../../../../interfaces';
+import { EmailPreview } from './EmailPreview';
 
 const InboxEmail: FunctionComponent<IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
 }> = ({
   emailList,
+  selectUser,
   onTabChange,
 }: IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
@@ -23,7 +25,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
   let { id } = useParams();
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [opened, setIsOpened] = useState<boolean>(true);
-  const [emailData, setEmailData] = useState<any>('');
+  const [emailData, setEmailData] = useState<IEmailData | null>(null);
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -108,7 +110,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                     return (
                       <li
                         className={`email-wrap ${
-                          emailData.id === email.id ? 'active' : ''
+                          emailData && emailData.id === email.id ? 'active' : ''
                         }`}
                         key={index}
                         onClick={() => onEmailSelection(email)}
@@ -141,59 +143,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
               )}
             </div>
           </Col>
-
-          <Col lg={'7'}>
-            <div className='mail-details'>
-              <div className='mail-body'>
-                {emailData ? (
-                  <div>
-                    <h5 className='mb-3'> {emailData.subject}</h5>
-                    <div>
-                      <span className='gray-color'>Posted:</span>{' '}
-                      <span>
-                        {moment(emailData.createdAt).format(
-                          'DD.MM.YYYY HH:MM:SS',
-                        )}
-                      </span>
-                    </div>
-                    <div className='mb-3'>
-                      <span className='gray-color'>To:</span>{' '}
-                      <span>Justina Achatoh</span>
-                    </div>
-                    <p className='mb-1'>
-                      {' '}
-                      -------------------------------------------------
-                    </p>
-                    <p
-                      dangerouslySetInnerHTML={{
-                        __html: emailData.body,
-                      }}
-                    />
-                  </div>
-                ) : null}
-                {/* Hello Denis,
-                </p>
-
-                <p>we have the following offer for you: Searched for</p>
-
-                <p>qualification: Elderly care</p>
-
-                <p>
-                  01.01. ND 8.0h: old people's home near Bielefeld (code: Q9T3M)
-                  Services by arrangement. Accommodation is provided. Double
-                  services possible. Please let us know your availability by
-                  email ! Fee: freely negotiable Best regards Marc Erdtmann Tel:
-                  +49.30.644 99 444 Fax: +49.30.644 99 445 E-Mail:
-                  Kontakt@plycoco.de www.plycoco.de Plycoco GmbH Am Borsigturm 6
-                  13507 Berlin Entry in the commercial register: Register court
-                  : District court Berlin-Charlottenburg, registration number:
-                  HRB 150746, managing 
-                  </p>*/
-                /* <div className='mt-3  mb-1'>Thanks and Regards</div>
-                <div className='h6'>John die</div>*/}
-              </div>
-            </div>
-          </Col>
+          <EmailPreview emailData={emailData} selectUser={selectUser} />
         </Row>
       </div>
     </div>

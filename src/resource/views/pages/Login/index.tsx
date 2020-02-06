@@ -22,14 +22,14 @@ export const Login: FunctionComponent = () => {
       if (status === 'failed') {
         toast.error(message);
       } else {
-        localStorage.setItem('token', token);
+        localStorage.setItem('adminToken', token);
         history.push(AppRoutes.MAIN);
       }
     },
   });
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('adminToken')) {
       history.push(AppRoutes.HOME);
     }
   }, []);

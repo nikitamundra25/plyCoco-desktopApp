@@ -21,6 +21,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
   emailList,
   selectedUserName,
   onTabChange,
+  onRefresh,
   loading,
 }: IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
@@ -87,7 +88,10 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                 </div>
 
                 <div className='email-row-wrap align-items-center email-attributes-wrap'>
-                  <div className='email-attributes-content d-flex align-items-center'>
+                  <div
+                    className='email-attributes-content d-flex align-items-center'
+                    onClick={() => onRefresh('plycoco')}
+                  >
                     <i className='fa fa-refresh mr-1'></i>
                     <span>{languageTranslation('REFRESH')}</span>
                   </div>

@@ -47,6 +47,14 @@ const Email: FunctionComponent<{
     setEmailData(data);
   };
 
+  const onRefresh = (from: string) => {
+    let variables: IEmailQueryVar = {
+      userId: id ? parseInt(id) : 0,
+      from,
+    };
+    refetch(variables);
+  };
+
   // render component according to selected tab
   const renderComponent = () => {
     switch (activeTab) {
@@ -57,6 +65,7 @@ const Email: FunctionComponent<{
             onTabChange={onTabChange}
             selectedUserName={selectedUserName}
             loading={loading}
+            onRefresh={() => onRefresh('caregiver')}
           />
         );
       case 1:
@@ -65,6 +74,7 @@ const Email: FunctionComponent<{
             emailList={emailList}
             selectedUserName={selectedUserName}
             loading={loading}
+            onRefresh={() => onRefresh('plycoco')}
           />
         );
       case 2:

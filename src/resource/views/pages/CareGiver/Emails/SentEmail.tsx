@@ -18,6 +18,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
   emailList,
   selectedUserName,
   loading,
+  onRefresh,
 }: IEmailListProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [opened, setIsOpened] = useState<boolean>(true);
@@ -80,7 +81,10 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                   </Row>
                 </div>
                 <div className='email-row-wrap align-items-center email-attributes-wrap'>
-                  <div className='email-attributes-content d-flex align-items-center'>
+                  <div
+                    className='email-attributes-content d-flex align-items-center'
+                    onClick={() => onRefresh('plycoco')}
+                  >
                     <i className='fa fa-refresh mr-1'></i>
                     <span> {languageTranslation('REFRESH')}</span>
                   </div>

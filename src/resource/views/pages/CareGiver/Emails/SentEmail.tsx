@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import {
   Col,
   Row,
@@ -12,10 +12,12 @@ import { languageTranslation } from '../../../../../helpers';
 import { IEmailListProps } from '../../../../../interfaces';
 import { EmailPreview } from './EmailPreview';
 import noemail from '../../../../assets/img/no-email.svg';
+import Loader from '../../../containers/Loader/Loader';
 
 const SentEmail: FunctionComponent<IEmailListProps> = ({
   emailList,
   selectedUserName,
+  loading,
 }: IEmailListProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [opened, setIsOpened] = useState<boolean>(true);
@@ -24,6 +26,11 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+  useEffect(() => {
+    if (emailList && emailList.getEmails && emailList.getEmails.length) {
+      setEmailData(emailList.getEmails[0]);
+    }
+  }, [emailList]);
   const onEmailSelection = (email: any) => {
     setEmailData(email);
   };
@@ -34,7 +41,9 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
     <div className='email-section'>
       {/* <EmailMenus {...this.props} /> */}
       <div className='email-content'>
-        {emailList && emailList.getEmails && emailList.getEmails.length ? (
+        {loading ? (
+          <Loader />
+        ) : emailList && emailList.getEmails && emailList.getEmails.length ? (
           <Row className='custom-col'>
             <Col lg={'5'}>
               <div className='email-inbox-section'>

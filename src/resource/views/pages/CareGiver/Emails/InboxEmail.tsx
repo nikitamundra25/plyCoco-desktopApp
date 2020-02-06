@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import {
   Col,
   Row,
@@ -35,6 +35,11 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
   const onEmailSelection = (email: any) => {
     setEmailData(email);
   };
+  useEffect(() => {
+    if (emailList && emailList.getEmails && emailList.getEmails.length) {
+      setEmailData(emailList.getEmails[0]);
+    }
+  }, [emailList]);
   return (
     <div className='email-section'>
       {/* <EmailMenus

@@ -21,6 +21,15 @@ const Email: FunctionComponent<{
   >(GET_EMAILS);
 
   useEffect(() => {
+    fetchEmails({
+      variables: {
+        userId: id ? parseInt(id) : 0,
+        from: 'caregiver',
+      },
+    });
+  }, []);
+
+  useEffect(() => {
     let variables: IEmailQueryVar = {
       userId: id ? parseInt(id) : 0,
       from: 'caregiver',
@@ -28,9 +37,9 @@ const Email: FunctionComponent<{
     if (activeTab === 1) {
       variables = { ...variables, from: 'plycoco' };
     }
-    fetchEmails({
-      variables,
-    });
+    if (refetch) {
+      refetch(variables);
+    }
   }, [activeTab]);
 
   const onTabChange = (activeTab: number, data?: any) => {

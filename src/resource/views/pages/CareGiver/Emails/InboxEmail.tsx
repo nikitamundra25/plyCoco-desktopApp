@@ -90,7 +90,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                 </div>
               </div>
               <div className="email-row-wrap email-heading-wrap ">
-                <div className="email-date-time-block toggle-filter hover-short-select-section">
+                <div className="email-date-time-block ">
                   {languageTranslation("DATE")}
                   {/* <Select
                         placeholder="Select Region"
@@ -99,7 +99,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                         className="hover-short-select"
                       /> */}
                 </div>
-                <div className="email-text-wrap toggle-filter">
+                <div className="email-text-wrap ">
                   {languageTranslation("SUBJECT")}
                 </div>
               </div>

@@ -2494,10 +2494,15 @@ html:not([dir='rtl']) {
   }
   .mail-body {
     background: $white;
-    padding: 4px 10px;
+    padding: 8px 10px;
     font-size: $font_13;
     color: $black;
     height: 100%;
+    .subject-title{
+      font-size: $font_20;
+      color: $black;
+      font-weight:600;
+    }
   }
 }
 

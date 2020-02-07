@@ -14,7 +14,8 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     documentId,
     handleCheckElement,
     onUpdateDocument,
-    onDeleteDocument
+    onDeleteDocument,
+    setIsSubmit
   } = props;
   let allDocDisApp: boolean = true;
   if (
@@ -47,8 +48,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
             {languageTranslation('UPLOAD_DOCUMENT')}
           </Button>
         </div>
-        {console.log('allDocDisApp', allDocDisApp)}
-
         {isApproved ? (
           <Button
             onClick={() => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Modal,
@@ -24,9 +24,24 @@ import { useDropzone } from 'react-dropzone';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 const DocumentUploadModal = (props: any) => {
-  const { show, handleClose } = props;
+  const {
+    documentIdUpdate,
+    documentUrls,
+    fileName,
+    remarkValue,
+    handleChange,
+    documentType,
+    setDocumentType,
+    isSubmit,
+    statusValue,
+    handleSaveDocument,
+    onDrop,
+    show,
+    handleClose,
+    setShowDocumentPopup
+  } = props;
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop: props.onDrop,
+    onDrop: onDrop,
     multiple: false
   });
   const externalCloseBtn = (
@@ -35,7 +50,7 @@ const DocumentUploadModal = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-
+  // useEffect(() => {}, [setShowDocumentPopup(false)]);
   return (
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
@@ -51,12 +66,12 @@ const DocumentUploadModal = (props: any) => {
                     <Row>
                       <Col sm='2'>
                         <Label className='form-label col-form-label'>
-                          {!props.documentIdUpdate
+                          {!documentIdUpdate
                             ? languageTranslation('FILE')
                             : languageTranslation('FILE_NAME')}
                         </Label>
                       </Col>
-                      {!props.documentIdUpdate ? (
+                      {!documentIdUpdate ? (
                         <Col sm='8'>
                           <div
                             {...getRootProps()}
@@ -73,11 +88,22 @@ const DocumentUploadModal = (props: any) => {
                             <img src={jpg} alt='' className='mb-2' />
                             <img src={pdf} alt='' className='mb-2' /> */}
                             </div>
-                            <span>
-                              {props && props.documentUrls
-                                ? props.documentUrls.name
+                            <span
+                              className={
+                                isSubmit && documentUrls === null
+                                  ? 'text-input error my-2 my-sm-0'
+                                  : 'text-input my-2 my-sm-0'
+                              }
+                            >
+                              {documentUrls
+                                ? documentUrls.name
                                 : "Drag 'n' drop files here, or click here to upload files"}
                             </span>
+                            {isSubmit && documentUrls === null ? (
+                              <div className='required-error'>
+                                Document is required
+                              </div>
+                            ) : null}
                           </div>
                         </Col>
                       ) : (
@@ -86,15 +112,20 @@ const DocumentUploadModal = (props: any) => {
                             <Input
                               type='text'
                               name='filename'
-                              value={
-                                // props.documentUrls.name
-                                //   ? props.documentUrls.name
-                                //   :
-                                props.fileName
+                              value={fileName}
+                              onChange={handleChange}
+                              className={
+                                isSubmit && !fileName
+                                  ? 'text-input error my-2 my-sm-0'
+                                  : 'text-input my-2 my-sm-0'
                               }
-                              onChange={props.handleChange}
                             />
                           </div>
+                          {isSubmit && !fileName ? (
+                            <div className='required-error'>
+                              File name is required
+                            </div>
+                          ) : null}
                         </Col>
                       )}
                     </Row>
@@ -111,25 +142,26 @@ const DocumentUploadModal = (props: any) => {
                       <Col sm='10'>
                         <Select
                           name='type'
-                          value={props.documentType}
+                          value={documentType}
                           options={DocumentTypes}
                           // placeholder={'Select type'}
                           onChange={(type: any) => {
-                            props.setDocumentType(type);
+                            setDocumentType(type);
                           }}
                           classNamePrefix='custom-inner-reactselect'
                           // className={'custom-reactselect'}
-                          className={
-                            props.isSubmit && !props.documentType
-                              ? 'text-input error my-2 my-sm-0'
-                              : 'text-input my-2 my-sm-0'
-                          }
+                          // className={
+                          //   isSubmit && !documentType
+                          //     ? 'text-input error my-2 my-sm-0'
+                          //     : 'text-input my-2 my-sm-0'
+                          // }
                         />
-                        {props.isSubmit && !props.documentType ? (
-                          <div className='required-tooltip'>
-                            {'Document type is required'}
+                        {/* {console.log('isSubmit', isSubmit)}
+                        {isSubmit && !documentType ? (
+                          <div className='required-error'>
+                            Document type is required
                           </div>
-                        ) : null}
+                        ) : null} */}
                       </Col>
                     </Row>
                   </FormGroup>
@@ -150,15 +182,15 @@ const DocumentUploadModal = (props: any) => {
                             className='textarea-custom'
                             rows='4'
                             name={'remarks'}
-                            value={props.remarkValue}
-                            onChange={props.handleChange}
+                            value={remarkValue}
+                            onChange={handleChange}
                           />
                         </div>
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-                {!props.documentIdUpdate ? (
+                {!documentIdUpdate ? (
                   <Col lg={'12'}>
                     <FormGroup>
                       <Row>
@@ -173,8 +205,8 @@ const DocumentUploadModal = (props: any) => {
                               id='check'
                               type='checkbox'
                               name='check'
-                              checked={props.statusValue}
-                              onChange={props.handleChange}
+                              checked={statusValue}
+                              onChange={handleChange}
                             />
                             <Label for='check' className='pl-3'>
                               ( {languageTranslation('DOCUMENT_STATUS_LABEL')} )
@@ -218,7 +250,8 @@ const DocumentUploadModal = (props: any) => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color='primary' onClick={props.handleSaveDocument}>
+          {/* {isSubmit ? } */}
+          <Button color='primary' onClick={handleSaveDocument}>
             {languageTranslation('SAVE_BUTTON')}
           </Button>
 

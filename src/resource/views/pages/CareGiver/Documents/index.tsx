@@ -65,8 +65,8 @@ const Documents = () => {
   //add document
   const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
     onCompleted({ addDocument }) {
-      refetch();
       setIsSubmit(false);
+      refetch();
       setShowDocumentPopup(false);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('DOCUMENT_ADDED_SUCCESS'));
@@ -260,28 +260,32 @@ const Documents = () => {
     const res = queryPath.split('/');
     const id = parseInt(res[3]);
     if (documentIdUpdate) {
-      updateDocument({
-        variables: {
-          id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
-          documentInput: {
-            fileName: fileName ? fileName : '',
-            documentType: documentType ? documentType.value : '',
-            remarks: remarkValue ? remarkValue : ''
+      if (fileName) {
+        updateDocument({
+          variables: {
+            id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
+            documentInput: {
+              fileName: fileName ? fileName : '',
+              documentType: documentType ? documentType.value : '',
+              remarks: remarkValue ? remarkValue : ''
+            }
           }
-        }
-      });
+        });
+      }
     } else {
-      addDocument({
-        variables: {
-          documentInput: {
-            userId: id ? id : '',
-            document: fileObject ? fileObject : null,
-            remarks: remarkValue,
-            status: statusValue ? 'approve' : 'notrequested',
-            documentType: documentType ? documentType.value : ''
+      if (fileObject) {
+        addDocument({
+          variables: {
+            documentInput: {
+              userId: id ? id : '',
+              document: fileObject ? fileObject : null,
+              remarks: remarkValue,
+              status: statusValue ? 'approve' : 'notrequested',
+              documentType: documentType ? documentType.value : ''
+            }
           }
-        }
-      });
+        });
+      }
     }
     console.log('documentIdUpdate', documentIdUpdate);
   };
@@ -412,6 +416,8 @@ const Documents = () => {
         fileName={fileName}
         onUpdateDocument={onUpdateDocument}
         isSubmit={isSubmit}
+        setIsSubmit={setIsSubmit}
+        setShowDocumentPopup={setShowDocumentPopup}
       />
     </div>
   );

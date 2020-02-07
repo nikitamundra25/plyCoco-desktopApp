@@ -30,6 +30,7 @@ const AttributeManageMent = () => {
   const [activeAttributeMenu, setActiveAttrMenu] = useState<number | null>(
     null
   );
+  const [attributeName, setAttributeName] = useState<string | null>(null);
   const toggle = () => {
     setIsOpen(!isOpen);
     setNewAttribute('');
@@ -116,8 +117,9 @@ const AttributeManageMent = () => {
       }
     }
   };
-  const onAttributeChange = (id: number) => {
+  const onAttributeChange = (id: number, name: string) => {
     setActiveAttrMenu(id);
+    setAttributeName(name);
   };
   return (
     <Card>
@@ -148,6 +150,8 @@ const AttributeManageMent = () => {
             onChange={onChange}
             newAttribute={newAttribute}
             isSubmit={isSubmit}
+            data={data}
+            attributeName={attributeName}
           />
         </Collapse>
 
@@ -168,7 +172,11 @@ const AttributeManageMent = () => {
               <th className={'text-center sno-th-column'}>
                 {languageTranslation('S_NO')}
               </th>
-              <th>{languageTranslation('ATTRIBUTE_NAME')}</th>
+              <th>
+                {attributeName
+                  ? attributeName + ' ' + 'Name'
+                  : 'Acquisition Attribute Name'}
+              </th>
             </tr>
           </thead>
           <tbody>

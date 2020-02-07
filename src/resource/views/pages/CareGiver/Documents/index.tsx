@@ -133,8 +133,9 @@ const Documents = () => {
     setDocumentUrl(null);
     setStatusValue(false);
     setDocumentIdUpdate(null);
+    setFileObject(null);
+    setFilename(null);
   };
-
   useEffect(() => {
     if (id) {
       fetchDocumentList({

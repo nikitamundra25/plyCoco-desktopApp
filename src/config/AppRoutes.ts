@@ -46,13 +46,14 @@ export const AppRoutes: IAppRoutes = {
   CARE_INSTITUTION_TODO_REQUIREMENT: '/care-institution-todo/requirement',
   CARE_GIVER_HIDE_DONE: '/caregiver-todo/hide-done',
   CARE_GIVER_HIDE_FUTURE: '/caregiver-todo/hide-future',
-  EMAIL_TEMPLATE_MANAGEMENT: '/email-template-management',
+  EMAIL_TEMPLATE_MANAGEMENT: '/further/email-template-management',
   DOCUMENT_TEMPLATE_WORKING: '/working-proof',
   BULK_EMAIL_CAREGIVER: '/bulk-email-caregiver',
-  ATTRIBUTE_MANAGEMENT: '/attribute',
+  ATTRIBUTE_MANAGEMENT: '/further/attribute',
   EMAIL_INBOX: '/inbox-email',
   EMAIL_SENT: '/sent-email',
   EMAIL_OUTBOX: '/outbox-email',
   EMAIL_QUEUE: '/email-queue',
-  ALL_EMAILS: '/email'
+  ALL_EMAILS: '/email',
+  FURTHER: '/further',
 };

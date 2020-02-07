@@ -1,20 +1,20 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { Card, CardHeader, CardBody } from "reactstrap";
-import { useMutation, useLazyQuery } from "@apollo/react-hooks";
-import { AppBreadcrumb } from "@coreui/react";
+import React, { useState, useCallback, useEffect } from 'react';
+import { Card, CardHeader, CardBody } from 'reactstrap';
+import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { AppBreadcrumb } from '@coreui/react';
 
-import { toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
-import { DocumentMutations } from "../../../../../graphql/Mutations";
-import routes from "../../../../../routes/routes";
-import moment from "moment";
-import { IDocumentUrls } from "../../../../../interfaces";
-import DocumentUploadModal from "./DocumentModal";
-import DocumentsList from "./DocumentsList";
-import { DocumentQueries } from "../../../../../graphql/queries";
-import { languageTranslation } from "../../../../../helpers";
-import { ConfirmBox } from "../../../components/ConfirmBox";
-import { CareGiverQueries } from "../../../../../graphql/queries";
+import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
+import { DocumentMutations } from '../../../../../graphql/Mutations';
+import routes from '../../../../../routes/routes';
+import moment from 'moment';
+import { IDocumentUrls } from '../../../../../interfaces';
+import DocumentUploadModal from './DocumentModal';
+import DocumentsList from './DocumentsList';
+import { DocumentQueries } from '../../../../../graphql/queries';
+import { languageTranslation } from '../../../../../helpers';
+import { ConfirmBox } from '../../../components/ConfirmBox';
+import { CareGiverQueries } from '../../../../../graphql/queries';
 
 const [
   ADD_DOCUMENT,
@@ -26,12 +26,12 @@ const [
 ] = DocumentMutations;
 const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
 const [GET_DOCUMENT_LIST] = DocumentQueries;
-let toastId: any = "";
+let toastId: any = '';
 
 const Documents = () => {
   const path = useLocation();
   const queryPath = path.pathname;
-  const res = queryPath.split("/");
+  const res = queryPath.split('/');
   const id = parseInt(res[3]);
   const [showDocumentPopup, setShowDocumentPopup] = useState<boolean>(false);
   const [documentUrls, setDocumentUrl] = useState<IDocumentUrls | null>(null);
@@ -65,11 +65,11 @@ const Documents = () => {
   //add document
   const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
     onCompleted({ addDocument }) {
-      refetch();
       setIsSubmit(false);
+      refetch();
       setShowDocumentPopup(false);
       if (!toast.isActive(toastId)) {
-        toastId = toast.success(languageTranslation("DOCUMENT_ADDED_SUCCESS"));
+        toastId = toast.success(languageTranslation('DOCUMENT_ADDED_SUCCESS'));
       }
     }
   });
@@ -98,7 +98,7 @@ const Documents = () => {
       setShowDocumentPopup(false);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation("DOCUMENT_UPDATED_SUCCESS")
+          languageTranslation('DOCUMENT_UPDATED_SUCCESS')
         );
       }
     }
@@ -133,18 +133,19 @@ const Documents = () => {
     setDocumentUrl(null);
     setStatusValue(false);
     setDocumentIdUpdate(null);
+    setFileObject(null);
+    setFilename(null);
   };
-
   useEffect(() => {
     if (id) {
       fetchDocumentList({
         variables: {
-          userId: id ? id : ""
+          userId: id ? id : ''
         }
       });
       fetchCaregiverDetails({
         variables: {
-          id: id ? id : ""
+          id: id ? id : ''
         }
       });
     }
@@ -173,9 +174,9 @@ const Documents = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
     const { checked, name, value } = target;
-    if (name === "check") {
+    if (name === 'check') {
       setStatusValue(checked);
-    } else if (name === "filename") {
+    } else if (name === 'filename') {
       setFilename(value);
     } else {
       setRemarkValue(value);
@@ -189,14 +190,14 @@ const Documents = () => {
       setFileObject(file);
       if (file) {
         const reader = new FileReader();
-        reader.onabort = () => console.log("file reading was aborted");
-        reader.onerror = () => console.log("file reading has failed");
+        reader.onabort = () => console.log('file reading was aborted');
+        reader.onerror = () => console.log('file reading has failed');
         reader.onloadend = () => {
           if (reader.result) {
             temp = {
               url: reader.result,
               name: file.name,
-              date: moment().format("DD.MM.YYYY")
+              date: moment().format('DD.MM.YYYY')
             };
             setDocumentUrl(temp);
           }
@@ -216,11 +217,11 @@ const Documents = () => {
     const { checked } = target;
     setDocumentId({ id, checked });
     const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
+      title: languageTranslation('CONFIRM_LABEL'),
       text: languageTranslation(
-        status === "notrequested"
-          ? "CONFIRM_CAREGIVER_DOCUMENT_STATUS_APPROVE_MSG"
-          : "CONFIRM_CAREGIVER_DOCUMENT_STATUS_NOTREQUESTED_MSG"
+        status === 'notrequested'
+          ? 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_APPROVE_MSG'
+          : 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_NOTREQUESTED_MSG'
       )
     });
     if (!value) {
@@ -232,21 +233,21 @@ const Documents = () => {
         await updateDocumentStatus({
           variables: {
             id: id ? parseInt(id) : null,
-            status: checked === true ? "approve" : "decline"
+            status: checked === true ? 'approve' : 'decline'
           }
         });
         setDocumentId(null);
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation("DOCUMENT_STATUS_UPDATED_SUCCESS")
+            languageTranslation('DOCUMENT_STATUS_UPDATED_SUCCESS')
           );
         }
       } catch (error) {
         const message = error.message
-          .replace("SequelizeValidationError: ", "")
-          .replace("Validation error: ", "")
-          .replace("GraphQL error: ", "");
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -257,40 +258,44 @@ const Documents = () => {
   const handleSaveDocument = () => {
     setIsSubmit(true);
     const queryPath = path.pathname;
-    const res = queryPath.split("/");
+    const res = queryPath.split('/');
     const id = parseInt(res[3]);
     if (documentIdUpdate) {
-      updateDocument({
-        variables: {
-          id: documentIdUpdate ? parseInt(documentIdUpdate) : "",
-          documentInput: {
-            fileName: fileName ? fileName : "",
-            documentType: documentType ? documentType.value : "",
-            remarks: remarkValue ? remarkValue : ""
+      if (fileName) {
+        updateDocument({
+          variables: {
+            id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
+            documentInput: {
+              fileName: fileName ? fileName : '',
+              documentType: documentType ? documentType.value : '',
+              remarks: remarkValue ? remarkValue : ''
+            }
           }
-        }
-      });
+        });
+      }
     } else {
-      addDocument({
-        variables: {
-          documentInput: {
-            userId: id ? id : "",
-            document: fileObject ? fileObject : null,
-            remarks: remarkValue,
-            status: statusValue ? "approve" : "notrequested",
-            documentType: documentType ? documentType.value : ""
+      if (fileObject !== null) {
+        addDocument({
+          variables: {
+            documentInput: {
+              userId: id ? id : '',
+              document: fileObject ? fileObject : null,
+              remarks: remarkValue,
+              status: statusValue ? 'approve' : 'notrequested',
+              documentType: documentType ? documentType.value : ''
+            }
           }
-        }
-      });
+        });
+      }
     }
-    console.log("documentIdUpdate", documentIdUpdate);
+    console.log('documentIdUpdate', documentIdUpdate);
   };
 
   //on delete document
   const onDeleteDocument = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
-      text: "This document will be deleted"
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: 'This document will be deleted'
     });
     if (!value) {
       return;
@@ -303,13 +308,13 @@ const Documents = () => {
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success("Document deleted successfully");
+          toastId = toast.success('Document deleted successfully');
         }
       } catch (error) {
         const message = error.message
-          .replace("SequelizeValidationError: ", "")
-          .replace("Validation error: ", "")
-          .replace("GraphQL error: ", "");
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -320,8 +325,8 @@ const Documents = () => {
   //on approve document
   const onApprove = async () => {
     const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
-      text: "Document will be Approved"
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: 'Document will be Approved'
     });
     if (!value) {
       return;
@@ -329,19 +334,19 @@ const Documents = () => {
       try {
         await approvedDocument({
           variables: {
-            userId: id ? id : "",
+            userId: id ? id : '',
             isApproved: true
           }
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success("Document approved successfully");
+          toastId = toast.success('Document approved successfully');
         }
       } catch (error) {
         const message = error.message
-          .replace("SequelizeValidationError: ", "")
-          .replace("Validation error: ", "")
-          .replace("GraphQL error: ", "");
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -352,8 +357,8 @@ const Documents = () => {
   //on disapprove document
   const onDisapprove = async () => {
     const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
-      text: "Document will be Disapproved"
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: 'Document will be Disapproved'
     });
     if (!value) {
       return;
@@ -361,19 +366,19 @@ const Documents = () => {
       try {
         await disapprovedDocument({
           variables: {
-            userId: id ? id : "",
+            userId: id ? id : '',
             isApproved: false
           }
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success("Document disapproved successfully");
+          toastId = toast.success('Document disapproved successfully');
         }
       } catch (error) {
         const message = error.message
-          .replace("SequelizeValidationError: ", "")
-          .replace("Validation error: ", "")
-          .replace("GraphQL error: ", "");
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -412,6 +417,8 @@ const Documents = () => {
         fileName={fileName}
         onUpdateDocument={onUpdateDocument}
         isSubmit={isSubmit}
+        setIsSubmit={setIsSubmit}
+        setShowDocumentPopup={setShowDocumentPopup}
       />
     </div>
   );

@@ -43,6 +43,8 @@ const Documents = () => {
   const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
   const [fileName, setFilename] = useState<any>(null);
   const [userApproved, setUserApproved] = useState<string | null>(null);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+
   const [documentId, setDocumentId] = useState<{
     id: string;
     checked: boolean;
@@ -63,6 +65,7 @@ const Documents = () => {
   //add document
   const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
     onCompleted({ addDocument }) {
+      setIsSubmit(false);
       refetch();
       setShowDocumentPopup(false);
       if (!toast.isActive(toastId)) {
@@ -91,6 +94,7 @@ const Documents = () => {
   const [updateDocument] = useMutation<any>(UPDATE_DOCUMENT, {
     onCompleted({ updateDocument }) {
       refetch();
+      setIsSubmit(false);
       setShowDocumentPopup(false);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -129,8 +133,9 @@ const Documents = () => {
     setDocumentUrl(null);
     setStatusValue(false);
     setDocumentIdUpdate(null);
+    setFileObject(null);
+    setFilename(null);
   };
-
   useEffect(() => {
     if (id) {
       fetchDocumentList({
@@ -251,32 +256,37 @@ const Documents = () => {
   };
   //on save document detatils
   const handleSaveDocument = () => {
+    setIsSubmit(true);
     const queryPath = path.pathname;
     const res = queryPath.split('/');
     const id = parseInt(res[3]);
     if (documentIdUpdate) {
-      updateDocument({
-        variables: {
-          id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
-          documentInput: {
-            fileName: fileName ? fileName : '',
-            documentType: documentType ? documentType.value : '',
-            remarks: remarkValue ? remarkValue : ''
+      if (fileName) {
+        updateDocument({
+          variables: {
+            id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
+            documentInput: {
+              fileName: fileName ? fileName : '',
+              documentType: documentType ? documentType.value : '',
+              remarks: remarkValue ? remarkValue : ''
+            }
           }
-        }
-      });
+        });
+      }
     } else {
-      addDocument({
-        variables: {
-          documentInput: {
-            userId: id ? id : '',
-            document: fileObject ? fileObject : null,
-            remarks: remarkValue,
-            status: statusValue ? 'approve' : 'notrequested',
-            documentType: documentType ? documentType.value : ''
+      if (fileObject !== null) {
+        addDocument({
+          variables: {
+            documentInput: {
+              userId: id ? id : '',
+              document: fileObject ? fileObject : null,
+              remarks: remarkValue,
+              status: statusValue ? 'approve' : 'notrequested',
+              documentType: documentType ? documentType.value : ''
+            }
           }
-        }
-      });
+        });
+      }
     }
     console.log('documentIdUpdate', documentIdUpdate);
   };
@@ -406,6 +416,9 @@ const Documents = () => {
         setDocumentData={setDocumentData}
         fileName={fileName}
         onUpdateDocument={onUpdateDocument}
+        isSubmit={isSubmit}
+        setIsSubmit={setIsSubmit}
+        setShowDocumentPopup={setShowDocumentPopup}
       />
     </div>
   );

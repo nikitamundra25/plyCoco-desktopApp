@@ -2,9 +2,23 @@ import React, { FunctionComponent, useState } from 'react';
 import { Table, Button, Input, UncontrolledTooltip } from 'reactstrap';
 import moment from 'moment';
 import { languageTranslation } from '../../../../../helpers';
-import { AppConfig } from '../../../../../config';
+
 const DocumentsList: FunctionComponent<any> = (props: any) => {
   let baseUrl = 'http://192.168.2.45:8000';
+
+  let allDocDisApp: boolean = true;
+  if (
+    props.documentListing &&
+    props.documentListing.getDocuments &&
+    props.documentListing.getDocuments.length
+  ) {
+    props.documentListing.getDocuments.map((data: any, index: number) => {
+      if (data && data.status === 'approve') {
+        allDocDisApp = false;
+      }
+    });
+  }
+
   return (
     <>
       <div className='document-upload-section mb-3'>
@@ -23,21 +37,42 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
             {languageTranslation('UPLOAD_DOCUMENT')}
           </Button>
         </div>
-        {console.log(
-          props.documentId && props.documentId.checked,
-          'props.documentId.checked'
+        {console.log('allDocDisApp', allDocDisApp)}
+
+        {props.isApproved ? (
+          <Button
+            onClick={() => {
+              props.onApprove();
+            }}
+            disabled={
+              allDocDisApp ||
+              (props.documentListing &&
+                props.documentListing.getDocuments &&
+                !props.documentListing.getDocuments.length)
+            }
+            className='btn-common mb-3'
+            color='primary'
+          >
+            Disapprove
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              props.onApprove();
+            }}
+            disabled={
+              allDocDisApp ||
+              (props.documentListing &&
+                props.documentListing.getDocuments &&
+                !props.documentListing.getDocuments.length)
+            }
+            className='btn-common mb-3'
+            color='primary'
+          >
+            Approve
+          </Button>
         )}
-
-        <Button
-          onClick={() => {
-            props.onApprove();
-          }}
-          className='btn-common mb-3'
-          color='primary'
-        >
-          Approve
-        </Button>
-
+       
         <Table bordered hover responsive>
           <thead className='thead-bg'>
             <tr>

@@ -4,7 +4,6 @@ import { IReactSelectInterface } from './Constant';
 export interface IEmailTemplateValues {
   id?: number;
   type: IReactSelectInterface | undefined;
-  typeValue?: string;
   menuEntry: string;
   subject: string;
   body: any;
@@ -16,6 +15,7 @@ export interface IEmailTemplateSubmitValues {
   menuEntry: string;
   subject: string;
   body: any;
+  attachments: any;
 }
 export interface IAddEmailTemplateProps {
   handleSubmit: (
@@ -59,4 +59,5 @@ export interface IEmailAttachmentData {
   url: string | ArrayBuffer | null;
   fileName: string;
   size: number;
+  file: File;
 }

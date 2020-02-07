@@ -42,10 +42,11 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
 
   const handleTypeSelect = (newValue: any, actionMeta: any) => {
     setFieldValue('type', newValue);
-    setTypeId(parseInt(newValue.value));
-    if (actionMeta.action === 'create-option') {
+    if (actionMeta.action !== 'create-option') {
+      setTypeId(parseInt(newValue.value));
     }
   };
+
   let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '';
   const result = stripHtml(content);
 

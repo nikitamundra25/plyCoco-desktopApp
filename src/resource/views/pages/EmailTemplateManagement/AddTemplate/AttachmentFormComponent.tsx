@@ -20,6 +20,7 @@ export const AttachmentFormComponent: FunctionComponent<any> = ({
               url: reader.result,
               fileName: file.name,
               size: file.size,
+              file,
             });
           }
         };

@@ -1282,7 +1282,7 @@ export const Nationality: IReactSelectInterface[] = [
 
 export const EmailMenusTab: Array<{ name: string; icon: string }> = [
   { name: 'Inbox', icon: 'fa fa-inbox' },
-  { name: 'Sent Email', icon: 'fa fa-send' },
+  { name: 'Sent', icon: 'fa fa-send' },
   { name: 'New Email', icon: 'fa fa-edit' },
 ];
 export const DocumentTypes: IReactSelectInterface[] = [

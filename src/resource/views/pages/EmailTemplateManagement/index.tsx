@@ -21,6 +21,7 @@ import { EmailTemplateMutations } from '../../../../graphql/Mutations';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import './index.scss';
 import { ApolloError } from 'apollo-client';
+import { errorFormatter } from '../../../../helpers/ErrorFormatter';
 
 const [
   GET_EMAIL_TEMPLATE_TYEPS,
@@ -39,7 +40,7 @@ let toastId: any = '';
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
   const [typeId, setTypeId] = useState<number | null>(null);
-  const [attachment, setAttachment] = useState<IEmailAttachmentData[] | []>([]);
+  const [attachment, setAttachment] = useState<IEmailAttachmentData[]>([]);
   // To set email template data at the time of edit
   const [templateData, setTemplateData] = useState<IEmailTemplateValues | null>(
     null,
@@ -94,11 +95,10 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       }
     },
     onError: (error: ApolloError) => {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      toast.error(message);
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toast.error(message);
+      }
     },
   });
   // To update email template into db
@@ -116,6 +116,12 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         toastId = toast.success(languageTranslation('EMAIL_UPDATION_SUCCESS'));
       }
     },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toast.error(message);
+      }
+    },
   });
   // To delete email template from db
   const [deleteEmailTemplate] = useMutation<
@@ -130,6 +136,12 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         toastId = toast.success(
           languageTranslation('EMAIL_TEMPLATE_DELETION_SUCCESS'),
         );
+      }
+    },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toast.error(message);
       }
     },
   });
@@ -235,6 +247,10 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       menuEntry,
       subject,
       body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '',
+      attachments:
+        attachment && attachment.length
+          ? attachment.map((item: IEmailAttachmentData) => item.file)
+          : null,
     };
     try {
       if (id) {
@@ -252,10 +268,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         });
       }
     } catch (error) {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+      const message = errorFormatter(error);
       toastId = toast.error(message);
     }
     resetForm();
@@ -296,10 +309,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
             variables: { id: parseInt(activeTemplate) },
           });
         } catch (error) {
-          const message = error.message
-            .replace('SequelizeValidationError: ', '')
-            .replace('Validation error: ', '')
-            .replace('GraphQL error: ', '');
+          const message = errorFormatter(error);
           if (!toast.isActive(toastId)) {
             toastId = toast.error(message);
           }

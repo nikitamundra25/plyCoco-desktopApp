@@ -349,9 +349,10 @@ export interface IEmailFormComponentPorps {
 export interface IEmailQueryVar {
   userId: number;
   from: string;
+  searchBy: string;
 }
 
-export interface IEmailListProps {
+export interface IEmailListProps extends IEmailSearchFilterProps {
   emailList: any;
   selectedUserName: string;
   loading: boolean;
@@ -362,4 +363,11 @@ export interface IBelongsToData {
   id: number;
   firstName: string;
   lastName: string;
+}
+
+export interface IEmailSearchFilterProps {
+  searchBy: string;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onReset: () => void;
 }

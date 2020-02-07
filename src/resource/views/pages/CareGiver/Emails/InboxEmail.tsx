@@ -129,7 +129,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                           <div className='email-row-wrap inner-content-wrap'>
                             <div className='email-date-time-block'>
                               {moment(email.createdAt).format(
-                                'DD.MM.YYYY HH:MM:SS',
+                                'DD.MM.YYYY HH:mm:ss',
                               )}
                             </div>
                             <div className='email-text-wrap'>

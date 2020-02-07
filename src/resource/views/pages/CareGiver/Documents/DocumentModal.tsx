@@ -88,7 +88,6 @@ const DocumentUploadModal = (props: any) => {
                             <img src={jpg} alt='' className='mb-2' />
                             <img src={pdf} alt='' className='mb-2' /> */}
                             </div>
-                            {console.log('documentUrls', documentUrls)}
                             <span
                               className={
                                 isSubmit && documentUrls === null

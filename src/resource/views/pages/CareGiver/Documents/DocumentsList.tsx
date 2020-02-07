@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Table, Button, Input, UncontrolledTooltip } from 'reactstrap';
 import moment from 'moment';
-import { languageTranslation, FormatFileSize } from '../../../../../helpers';
+import { languageTranslation, formatFileSize } from '../../../../../helpers';
 import { AppConfig } from '../../../../../config';
 const DocumentsList: FunctionComponent<any> = (props: any) => {
   const {
@@ -112,7 +112,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           documentListing.getDocuments &&
           documentListing.getDocuments.length ? (
             documentListing.getDocuments.map((list: any, index: number) => {
-              const size = FormatFileSize(list.fileSize);
+              const size = formatFileSize(list.fileSize);
               return (
                 <tr
                   key={index}

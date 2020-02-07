@@ -265,6 +265,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         id,
       });
     }
+
     const emailTemplateInput: IEmailTemplateSubmitValues = {
       type: type && type.label ? type.label : '',
       typeId,
@@ -273,7 +274,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '',
       attachments:
         attachment && attachment.length
-          ? attachment.map((item: IEmailAttachmentData) => item.file)
+          ? attachment
+              .map((item: IEmailAttachmentData) => item.file)
+              .filter((file: File | null) => file)
           : null,
     };
     try {
@@ -312,6 +315,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   ) => {
     setTemplateType(selectedType);
     setTemplateData(null);
+    setActiveTemplate(null);
   };
 
   // To use formik submit form outside

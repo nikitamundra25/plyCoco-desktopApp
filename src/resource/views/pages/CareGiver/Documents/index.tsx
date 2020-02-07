@@ -25,7 +25,7 @@ const [
   DISAPPROVE_DOCUMENT
 ] = DocumentMutations;
 const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
-const [GET_DOCUMENT_LIST] = DocumentQueries;
+const [, GET_DOCUMENTS] = DocumentQueries;
 let toastId: any = '';
 
 const Documents = () => {
@@ -51,7 +51,7 @@ const Documents = () => {
   } | null>(null);
 
   const [fetchDocumentList, { data, loading, refetch }] = useLazyQuery<any>(
-    GET_DOCUMENT_LIST
+    GET_DOCUMENTS
   );
 
   const [

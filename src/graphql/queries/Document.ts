@@ -10,4 +10,19 @@ const GET_DOCUMENT_LIST = gql`
     }
   }
 `;
-export const DocumentQueries = [GET_DOCUMENT_LIST];
+
+const GET_DOCUMENTS = gql`
+  query GetDocuments($userId: Int!) {
+    getDocuments(userId: $userId) {
+      id
+      document
+      remarks
+      documentType
+      fileSize
+      fileName
+      status
+      createdAt
+    }
+  }
+`;
+export const DocumentQueries = [GET_DOCUMENT_LIST, GET_DOCUMENTS];

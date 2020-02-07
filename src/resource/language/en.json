@@ -585,6 +585,8 @@
   "DOCUMENT_DELETE": "Click here to delete Document",
   "ADD_DOCUMENT": "Add Document",
   "UPLOAD_DOCUMENT": "Upload Document",
+  "APPROVE": "Approve",
+  "DISAPPROVE": "Disapprove",
   "FILE": "File",
   "CHECKED": "Checked",
   "OPTIMIZE": "Optimize",

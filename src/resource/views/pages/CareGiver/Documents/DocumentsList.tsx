@@ -37,50 +37,53 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           <h5 className='content-title mb-3'>
             {languageTranslation('CG_SUB_MENU_DOCUMENTS')}
           </h5>
-          <Button
-            onClick={() => {
-              setStateValueNull();
-              setShowDocumentPopup(true);
-            }}
-            className='btn-common mb-3'
-            color='primary'
-          >
-            {languageTranslation('UPLOAD_DOCUMENT')}
-          </Button>
+          <div>
+            {isApproved ? (
+              <Button
+                onClick={() => {
+                  onDisapprove();
+                }}
+                disabled={
+                  allDocDisApp ||
+                  (documentListing &&
+                    documentListing.getDocuments &&
+                    !documentListing.getDocuments.length)
+                }
+                className='btn-common btn-inactive mb-3 mr-3'
+                color='link'
+              >
+                {languageTranslation('DISAPPROVE')}
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  onApprove();
+                }}
+                disabled={
+                  allDocDisApp ||
+                  (documentListing &&
+                    documentListing.getDocuments &&
+                    !documentListing.getDocuments.length)
+                }
+                className='btn-common btn-active mb-3 mr-3 '
+                color='link'
+              >
+                {languageTranslation('APPROVE')}
+              </Button>
+            )}
+            <Button
+              onClick={() => {
+                setStateValueNull();
+                setShowDocumentPopup(true);
+              }}
+              className='btn-common mb-3'
+              color='primary'
+            >
+              <i className={'fa fa-upload'} />
+              &nbsp;{languageTranslation('UPLOAD_DOCUMENT')}
+            </Button>
+          </div>
         </div>
-        {isApproved ? (
-          <Button
-            onClick={() => {
-              onDisapprove();
-            }}
-            disabled={
-              allDocDisApp ||
-              (documentListing &&
-                documentListing.getDocuments &&
-                !documentListing.getDocuments.length)
-            }
-            className='btn-common mb-3'
-            color='primary'
-          >
-            Disapprove
-          </Button>
-        ) : (
-          <Button
-            onClick={() => {
-              onApprove();
-            }}
-            disabled={
-              allDocDisApp ||
-              (documentListing &&
-                documentListing.getDocuments &&
-                !documentListing.getDocuments.length)
-            }
-            className='btn-common mb-3'
-            color='primary'
-          >
-            Approve
-          </Button>
-        )}
 
         <Table bordered hover responsive>
           <thead className='thead-bg'>
@@ -131,6 +134,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                           '_blank'
                         )
                       }
+                      className='view-more-link'
                     >
                       {list && list.fileName ? list.fileName : '-'}
                     </span>
@@ -163,7 +167,11 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
 
                   <td>{size}</td>
                   <td>
-                    <div className='action-btn'>
+                    <div
+                      className={`action-btn ${
+                        list.length ? 'margin-tooltip' : ''
+                      }`}
+                    >
                       <span
                         id={`edit${index}`}
                         className='btn-icon mr-2'

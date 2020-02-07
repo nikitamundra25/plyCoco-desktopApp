@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from "react";
 import {
   Button,
   Modal,
@@ -12,17 +12,17 @@ import {
   Col,
   Row,
   Form
-} from 'reactstrap';
-import Select from 'react-select';
-import 'react-day-picker/lib/style.css';
-import { languageTranslation } from '../../../../../helpers';
-import { DocumentTypes } from '../../../../../config';
-import { useDropzone } from 'react-dropzone';
+} from "reactstrap";
+import Select from "react-select";
+import "react-day-picker/lib/style.css";
+import { languageTranslation } from "../../../../../helpers";
+import { DocumentTypes } from "../../../../../config";
+import { useDropzone } from "react-dropzone";
 // import png from "../../../../assets/img/png.svg";
 // import jpg from "../../../../assets/img/jpg.svg";
 // import pdf from "../../../../assets/img/pdf.svg";
-import close from '../../../../assets/img/cancel.svg';
-import closehover from '../../../../assets/img/cancel-hover.svg';
+import close from "../../../../assets/img/cancel.svg";
+import closehover from "../../../../assets/img/cancel-hover.svg";
 const DocumentUploadModal = (props: any) => {
   const {
     documentIdUpdate,
@@ -45,23 +45,23 @@ const DocumentUploadModal = (props: any) => {
     multiple: false
   });
   const externalCloseBtn = (
-    <button className='close modal-close' onClick={() => handleClose()}>
-      <img src={close} alt='close' className='main-img' />
-      <img src={closehover} alt='close' className='hover-img' />
+    <button className="close modal-close" onClick={() => handleClose()}>
+      <img src={close} alt="close" className="main-img" />
+      <img src={closehover} alt="close" className="hover-img" />
     </button>
   );
   // useEffect(() => {}, [setShowDocumentPopup(false)]);
   return (
     <div>
-      <Modal isOpen={show} className='reminder-modal' size='lg' centered>
+      <Modal isOpen={show} className="reminder-modal" size="lg" centered>
         <ModalHeader close={externalCloseBtn}>
-          {languageTranslation('ADD_DOCUMENT')}
+          {languageTranslation("ADD_DOCUMENT")}
         </ModalHeader>
         <ModalBody>
-          <div className=''>
-            <Form className='form-section forms-main-section'>
+          <div className="">
+            <Form className="form-section forms-main-section">
               <Row>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
                       <Col sm='2'>
@@ -72,18 +72,18 @@ const DocumentUploadModal = (props: any) => {
                         </Label>
                       </Col>
                       {!documentIdUpdate ? (
-                        <Col sm='8'>
+                        <Col sm='10'>
                           <div
                             {...getRootProps()}
-                            className='dropzone-preview mb-0'
+                            className="dropzone-preview mb-0"
                           >
                             <input
                               {...getInputProps()}
-                              className='dropzone-input-preview'
+                              className="dropzone-input-preview"
                             />
 
-                            <div className='icon-upload'>
-                              <i className='cui-cloud-upload'></i>
+                            <div className="icon-upload">
+                              <i className="cui-cloud-upload"></i>
                               {/* <img src={png} alt='' className='mb-2' />
                             <img src={jpg} alt='' className='mb-2' />
                             <img src={pdf} alt='' className='mb-2' /> */}
@@ -107,7 +107,7 @@ const DocumentUploadModal = (props: any) => {
                           </div>
                         </Col>
                       ) : (
-                        <Col sm='10'>
+                        <Col sm="10">
                           <div>
                             <Input
                               type='text'
@@ -131,15 +131,15 @@ const DocumentUploadModal = (props: any) => {
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='2'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('TYPE')}
+                      <Col sm="2">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("TYPE")}
                         </Label>
                       </Col>
-                      <Col sm='10'>
+                      <Col sm="10">
                         <Select
                           name='type'
                           value={documentType}
@@ -148,8 +148,8 @@ const DocumentUploadModal = (props: any) => {
                           onChange={(type: any) => {
                             setDocumentType(type);
                           }}
-                          classNamePrefix='custom-inner-reactselect'
-                          // className={'custom-reactselect'}
+                          classNamePrefix="custom-inner-reactselect"
+                          className={'custom-reactselect'}
                           // className={
                           //   isSubmit && !documentType
                           //     ? 'text-input error my-2 my-sm-0'
@@ -166,18 +166,18 @@ const DocumentUploadModal = (props: any) => {
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm='2'>
-                        <Label className='form-label col-form-label'>
-                          {languageTranslation('REMARKS')}
+                      <Col sm="2">
+                        <Label className="form-label col-form-label">
+                          {languageTranslation("REMARKS")}
                         </Label>
                       </Col>
-                      <Col sm='10'>
+                      <Col sm="10">
                         <div>
                           <Input
-                            type='textarea'
+                            type="textarea"
                             // placeholder={languageTranslation('REMARKS')}
                             className='textarea-custom'
                             rows='4'
@@ -194,13 +194,13 @@ const DocumentUploadModal = (props: any) => {
                   <Col lg={'12'}>
                     <FormGroup>
                       <Row>
-                        <Col sm='2'>
-                          <Label className='form-label col-form-label'>
-                            {languageTranslation('CHECKED')}
+                        <Col sm="2">
+                          <Label className="form-label col-form-label">
+                            {languageTranslation("CHECKED")}
                           </Label>
                         </Col>
-                        <Col sm='10'>
-                          <div className=' checkbox-custom mb-0'>
+                        <Col sm="10">
+                          <div className=" checkbox-custom mb-0">
                             <input
                               id='check'
                               type='checkbox'
@@ -208,8 +208,8 @@ const DocumentUploadModal = (props: any) => {
                               checked={statusValue}
                               onChange={handleChange}
                             />
-                            <Label for='check' className='pl-3'>
-                              ( {languageTranslation('DOCUMENT_STATUS_LABEL')} )
+                            <Label for="check" className="pl-3">
+                              ( {languageTranslation("DOCUMENT_STATUS_LABEL")} )
                             </Label>
                           </div>
                         </Col>
@@ -217,7 +217,7 @@ const DocumentUploadModal = (props: any) => {
                     </FormGroup>
                   </Col>
                 ) : (
-                  ''
+                  ""
                 )}
                 {/* <Col lg={'12'}>
                   <FormGroup>
@@ -255,8 +255,8 @@ const DocumentUploadModal = (props: any) => {
             {languageTranslation('SAVE_BUTTON')}
           </Button>
 
-          <Button color='secondary' onClick={handleClose}>
-            {languageTranslation('CANCEL')}
+          <Button color="secondary" onClick={handleClose}>
+            {languageTranslation("CANCEL")}
           </Button>
         </ModalFooter>
       </Modal>

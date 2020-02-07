@@ -273,7 +273,7 @@ const Documents = () => {
         });
       }
     } else {
-      if (fileObject) {
+      if (fileObject !== null) {
         addDocument({
           variables: {
             documentInput: {

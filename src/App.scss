@@ -1676,8 +1676,13 @@ html:not([dir='rtl']) {
   &.table-hover {
     tbody {
       tr {
+        
         &:hover {
           background-color: rgba(0, 0, 0, 0.06);
+        }
+        &.active {
+          background: $theme_color;
+          color:$white;
         }
       }
     }
@@ -1747,6 +1752,9 @@ html:not([dir='rtl']) {
       width: 400px;
     }
     &.filesize-th-column {
+      width: 80px;
+    }
+    &.date-column {
       width: 80px;
     }
     .table-checkbox-wrap {

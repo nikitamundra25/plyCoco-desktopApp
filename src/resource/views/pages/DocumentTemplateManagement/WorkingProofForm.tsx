@@ -75,8 +75,10 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
 
   const [imageUrls, setImageUrl] = useState('');
   const [documentUrls, setDocumentUrl] = useState('');
+  const [rowIndex, setRowIndex] = useState(-1);
 
-  const handlePreview = async (document: string) => {
+  const handlePreview = async (document: string, index: number) => {
+    setRowIndex(index);
     let sampleFileUrl = process.env.REACT_APP_FILES_ENDPOINT + document;
     if (document.split('.').pop() === 'pdf') {
       setDocumentUrl(sampleFileUrl);
@@ -180,11 +182,11 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             bordered
                             hover
                             responsive
-                            className="documentlist-table"
+
                           >
                             <thead className="thead-bg">
                               <tr>
-                                <th className="date-col">Date</th>
+                                <th className="date-column ">Date</th>
                                 <th className="file-col">File Name</th>
                               </tr>
                             </thead>
@@ -192,9 +194,9 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                               {documentList.length > 0 ?
                                 documentList.map((item: any, index: number) => {
                                   return (
-                                    <tr key={index}>
-                                      <td className="date-col">{moment(item.createdAt).format('DD.MM.YYYY')} </td>
-                                      <td className="file-col cursor-pointer" onClick={() => { handlePreview(item.document) }}>{item.fileName}</td>
+                                    <tr key={index} className={rowIndex === index ? "active" : ""}>
+                                      <td className="date-column ">{moment(item.createdAt).format('DD.MM.YYYY')} </td>
+                                      <td className="file-col cursor-pointer" onClick={() => { handlePreview(item.document, index) }}>{item.fileName}</td>
                                     </tr>
                                   )
                                 }
@@ -209,24 +211,24 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                     <h5 className="content-title">Preview</h5>
                     <div className="document-preview d-flex justify-content-center working-height">
                       {documentUrls ?
-                        <div className="align-self-center">
-                          <span className="d-block text-center block-page">
-                            <embed src={documentUrls} type="application/pdf" width="100%" height="300px" />
-                          </span>
+                        <div className="d-flex align-items-center justify-content-center w-100 preview-section">
+
+                          <embed src={documentUrls} type="application/pdf" width="100%" height="100%" />
+
                         </div>
                         :
                         imageUrls ?
-                          <div className="align-self-center">
-                            <span className="d-block text-center block-page">
-                              <img className="img-responsive" src={imageUrls} alt="" />
-                            </span>
+                          <div className="d-flex align-items-center justify-content-center preview-section">
+
+                            <img className="img-fluid" src={imageUrls} alt="" />
+
                           </div>
                           :
-                          <div className="align-self-center">
-                            <span className="d-block text-center block-page">
-                              <img className="img-responsive" src={visit} alt="" />
+                          <div className="d-flex align-items-center justify-content-center flex-column nodocument-section">
+                            <span className="doc-icon mb-3">
+                              <img src={visit} alt="" className="img-fluid" />
                             </span>
-                            The Document Does Not Contain Any Pages
+                            <span>The Document Does Not Contain Any Pages</span>
                           </div>
                       }
                     </div>

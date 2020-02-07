@@ -1337,3 +1337,13 @@ export const DocumentTypes: IReactSelectInterface[] = [
     label: 'Certificate / diploma / exam',
   },
 ];
+
+export const AcceptedDocumentFile = [
+  'image/jpg',
+  'image/png',
+  'image/jpeg',
+  '.pdf',
+  'application/pdf',
+];
+
+export const maxFileSize1MB = 1048576;

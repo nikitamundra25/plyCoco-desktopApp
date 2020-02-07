@@ -28,6 +28,8 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
   useEffect(() => {
     if (emailList && emailList.getEmails && emailList.getEmails.length) {
       setEmailData(emailList.getEmails[0]);
+    } else {
+      setEmailData(null);
     }
   }, [emailList]);
   const onEmailSelection = (email: any) => {

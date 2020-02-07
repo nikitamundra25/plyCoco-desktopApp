@@ -168,6 +168,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         subject = '',
         body = '',
         email_template_type = {},
+        attachments = [],
       } = viewEmailTemplate ? viewEmailTemplate : {};
       const { type = '' } = email_template_type ? email_template_type : {};
       const contentBlock = body ? htmlToDraft(body) : '';
@@ -186,6 +187,28 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         if (typeIdIndex > -1) {
           setTypeId(parseInt(typeListOptions[typeIdIndex].value));
         }
+        let temp: IEmailAttachmentData[] = [];
+        if (attachments && attachments.length) {
+          attachments.forEach(
+            ({
+              path,
+              name,
+              size,
+            }: {
+              path: string;
+              name: string;
+              size: number;
+            }) => {
+              temp.push({
+                path,
+                fileName: name,
+                size,
+                file: null,
+                url: '',
+              });
+            },
+          );
+        }
         setTemplateData({
           type: replaceType,
           menuEntry: menuEntry,
@@ -193,6 +216,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
           body: editorState,
           id: parseInt(id),
         });
+        setAttachment(temp);
       }
     }
   }, [emailTemplate]);

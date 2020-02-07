@@ -46,3 +46,10 @@ export interface IEmailTemplateMenu {
   onDeleteEmailTemplate: () => void;
   addEmailLoading: boolean;
 }
+
+export interface IEmailTemplateData {
+  id: number;
+  menuEntry: string;
+  subject: string;
+  body: any;
+}

@@ -238,9 +238,20 @@ const GET_EMAILS = gql`
   }
 `;
 
+const GET_BELONGS_TO = gql`
+  query getBelongTo($userId: Int!) {
+    getBelongTo(userId: $userId) {
+      id
+      firstName
+      lastName
+    }
+  }
+`;
+
 export const CareGiverQueries = [
   GET_CAREGIVERS,
   GET_CAREGIVER_BY_ID,
   GET_LEASING_INFO,
-  GET_EMAILS
+  GET_EMAILS,
+  GET_BELONGS_TO
 ];

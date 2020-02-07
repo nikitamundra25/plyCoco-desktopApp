@@ -62,7 +62,7 @@ const DefaultHeader: FunctionComponent = () => {
             </DropdownItem>
             <DropdownItem
               onClick={() => {
-                localStorage.removeItem('token');
+                localStorage.removeItem('adminToken');
                 history.push(AppRoutes.LOGIN);
               }}
             >

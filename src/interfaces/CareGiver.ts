@@ -319,9 +319,29 @@ export interface IAddEmailVariables {
   status: string;
 }
 
+export interface INewEmailProps {
+  emailData: any;
+}
+
+export interface IEmailData {
+  body: string;
+  createdAt: string;
+  id: number;
+  subject: string;
+  to: string;
+  userId: number;
+}
+
+export interface IEmailPreviewProps {
+  emailData: IEmailData | null;
+  selectedUserName: string;
+  sendBy?: string;
+}
+
 export interface IEmailFormComponentPorps {
   subject: string;
   body: any;
+  isSubmit: boolean;
   onEditorStateChange: (editorState: any) => void;
   sendEmail: (e: React.FormEvent<HTMLFormElement>) => void;
 }
@@ -333,4 +353,13 @@ export interface IEmailQueryVar {
 
 export interface IEmailListProps {
   emailList: any;
+  selectedUserName: string;
+  loading: boolean;
+  onRefresh: (from: string) => void;
+}
+
+export interface IBelongsToData {
+  id: number;
+  firstName: string;
+  lastName: string;
 }

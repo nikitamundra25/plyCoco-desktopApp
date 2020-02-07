@@ -115,6 +115,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   >(DELETE_EMAIL_TEMPLATE, {
     onCompleted() {
       setTemplateData(null);
+      setActiveTemplate(null);
       listRefetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(

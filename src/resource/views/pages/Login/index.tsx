@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useMutation } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
@@ -22,12 +22,17 @@ export const Login: FunctionComponent = () => {
       if (status === 'failed') {
         toast.error(message);
       } else {
-        localStorage.setItem('token', token);
+        localStorage.setItem('adminToken', token);
         history.push(AppRoutes.MAIN);
       }
     },
   });
 
+  useEffect(() => {
+    if (localStorage.getItem('adminToken')) {
+      history.push(AppRoutes.HOME);
+    }
+  }, []);
   // on login
   const handleSubmit = (
     { email, password }: ILoginFormValues,

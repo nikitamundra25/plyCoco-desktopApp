@@ -590,5 +590,8 @@
   "OPTIMIZE": "Optimize",
   "DOCUMENT_STATUS_LABEL": "Checked files cannot be punched by the user",
   "DOCUMENT_OPTIMIZE_LABEL": "convert to PDF and resize",
-  "DOCUMENT_DELETED_SUCCESS": "Document deleted successfully"
+  "DOCUMENT_DELETED_SUCCESS": "Document deleted successfully",
+  "NO_EMAIL_MESSAGE": " Currently there are no emails Found.",
+  "SUBORDINATED_HEADING": "Grouped Below",
+  "NO_SUBORDINATED_MEG": "Currently, no subordinated caregiver available."
 }

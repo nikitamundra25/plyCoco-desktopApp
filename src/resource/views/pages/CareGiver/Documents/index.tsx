@@ -44,6 +44,7 @@ const Documents = () => {
   const [documentData, setDocumentData] = useState<any>(null);
   const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
   const [fileName, setFilename] = useState<any>(null);
+  const [userApproved, setUserApproved] = useState<string | null>(null);
   const [documentId, setDocumentId] = useState<{
     id: string;
     checked: boolean;
@@ -53,6 +54,10 @@ const Documents = () => {
     GET_DOCUMENT_LIST
   );
 
+  const [
+    fetchCaregiverDetails,
+    { data: caregiverData, loading: caregiverDataLoading }
+  ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
   //add document
   const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
     onCompleted({ addDocument }) {
@@ -100,6 +105,11 @@ const Documents = () => {
       fetchDocumentList({
         variables: {
           userId: id ? id : ''
+        }
+      });
+      fetchCaregiverDetails({
+        variables: {
+          id: id ? id : ''
         }
       });
     }
@@ -304,14 +314,13 @@ const Documents = () => {
       }
     }
   };
-
-  // const bytesToSize=(bytes :number, seperator = "")=> {
-  //   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
-  //   if (bytes == 0) return 'n/a'
-  //   const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10)
-  //   if (i === 0) return `${bytes}${seperator}${sizes[i]}`
-  //   return `${(bytes / (1024 ** i)).toFixed(1)}${seperator}${sizes[i]}`
-  // }
+  // console.log('getcaregiver data', caregiverData);
+  // if (
+  //   data && data.getCaregiver && data.getCaregiver.isApproved
+  //     ? setUserApproved(data.getCaregiver.isApproved)
+  //     : ''
+  // )
+  //   console.log('userApproved', userApproved);
 
   return (
     <div>

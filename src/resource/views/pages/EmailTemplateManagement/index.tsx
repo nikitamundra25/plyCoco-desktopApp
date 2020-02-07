@@ -10,6 +10,7 @@ import {
   IEmailTemplateValues,
   IReactSelectInterface,
   IEmailTemplateSubmitValues,
+  IEmailAttachmentData,
 } from '../../../../interfaces';
 import { EmailTemplateQueries } from '../../../../graphql/queries';
 import { EmailTemplateMenu } from './Menu';
@@ -17,8 +18,9 @@ import { EmailTemplateList } from './List';
 import { AddTemplate } from './AddTemplate';
 import { languageTranslation } from '../../../../helpers';
 import { EmailTemplateMutations } from '../../../../graphql/Mutations';
-import './index.scss';
 import { ConfirmBox } from '../../components/ConfirmBox';
+import './index.scss';
+import { ApolloError } from 'apollo-client';
 
 const [
   GET_EMAIL_TEMPLATE_TYEPS,
@@ -37,7 +39,7 @@ let toastId: any = '';
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
   const [typeId, setTypeId] = useState<number | null>(null);
-
+  const [attachment, setAttachment] = useState<IEmailAttachmentData[] | []>([]);
   // To set email template data at the time of edit
   const [templateData, setTemplateData] = useState<IEmailTemplateValues | null>(
     null,
@@ -90,6 +92,13 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
       }
+    },
+    onError: (error: ApolloError) => {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      toast.error(message);
     },
   });
   // To update email template into db
@@ -298,6 +307,11 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       }
     }
   };
+
+  const uploadDocument = (data: IEmailAttachmentData) => {
+    setAttachment((prevArray: any) => [...prevArray, data]);
+  };
+
   return (
     <>
       <div className='common-detail-page'>
@@ -341,7 +355,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   templateData={templateData}
                   typeListOptions={typeListOptions}
                   setTypeId={setTypeId}
-                  setTemplateData={setTemplateData}
+                  attachment={attachment}
+                  uploadDocument={uploadDocument}
                 />
               </Row>
             </div>

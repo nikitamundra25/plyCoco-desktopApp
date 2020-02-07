@@ -43,6 +43,8 @@ const Documents = () => {
   const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
   const [fileName, setFilename] = useState<any>(null);
   const [userApproved, setUserApproved] = useState<string | null>(null);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+
   const [documentId, setDocumentId] = useState<{
     id: string;
     checked: boolean;
@@ -60,6 +62,7 @@ const Documents = () => {
   const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
     onCompleted({ addDocument }) {
       refetch();
+      setIsSubmit(false);
       setShowDocumentPopup(false);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('DOCUMENT_ADDED_SUCCESS'));
@@ -83,6 +86,7 @@ const Documents = () => {
   const [updateDocument] = useMutation<any>(UPDATE_DOCUMENT, {
     onCompleted({ updateDocument }) {
       refetch();
+      setIsSubmit(false);
       setShowDocumentPopup(false);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -222,6 +226,7 @@ const Documents = () => {
   };
   //on save document detatils
   const handleSaveDocument = () => {
+    setIsSubmit(true);
     const queryPath = path.pathname;
     const res = queryPath.split('/');
     const id = parseInt(res[3]);
@@ -350,8 +355,6 @@ const Documents = () => {
     }
   };
 
-  console.log('userApproved', userApproved);
-
   return (
     <div>
       <DocumentsList
@@ -381,6 +384,7 @@ const Documents = () => {
         setDocumentData={setDocumentData}
         fileName={fileName}
         onUpdateDocument={onUpdateDocument}
+        isSubmit={isSubmit}
       />
     </div>
   );

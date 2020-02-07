@@ -113,13 +113,23 @@ const DocumentUploadModal = (props: any) => {
                           name='type'
                           value={props.documentType}
                           options={DocumentTypes}
-                          placeholder={'Select type'}
+                          // placeholder={'Select type'}
                           onChange={(type: any) => {
                             props.setDocumentType(type);
                           }}
                           classNamePrefix='custom-inner-reactselect'
-                          className={'custom-reactselect'}
+                          // className={'custom-reactselect'}
+                          className={
+                            props.isSubmit && !props.documentType
+                              ? 'text-input error my-2 my-sm-0'
+                              : 'text-input my-2 my-sm-0'
+                          }
                         />
+                        {props.isSubmit && !props.documentType ? (
+                          <div className='required-tooltip'>
+                            {'Document type is required'}
+                          </div>
+                        ) : null}
                       </Col>
                     </Row>
                   </FormGroup>

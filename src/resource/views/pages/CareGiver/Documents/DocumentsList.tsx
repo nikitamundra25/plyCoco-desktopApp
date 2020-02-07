@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Table, Button, Input, UncontrolledTooltip } from 'reactstrap';
 import moment from 'moment';
-import { languageTranslation } from '../../../../../helpers';
+import { languageTranslation, FormatFileSize } from '../../../../../helpers';
 import { AppConfig } from '../../../../../config';
 const DocumentsList: FunctionComponent<any> = (props: any) => {
   let baseUrl = 'http://192.168.2.45:8000';
@@ -67,6 +67,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           props.documentListing.getDocuments.length ? (
             props.documentListing.getDocuments.map(
               (list: any, index: number) => {
+                const size = FormatFileSize(list.fileSize);
                 return (
                   <tr
                     key={index}
@@ -115,11 +116,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       </span>
                     </td>
 
-                    <td>
-                      {list && list.fileSize
-                        ? list.fileSize + ' ' + 'bytes'
-                        : '-'}
-                    </td>
+                    <td>{size}</td>
                     <td>
                       <div className='action-btn'>
                         <span

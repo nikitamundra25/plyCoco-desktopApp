@@ -1340,12 +1340,10 @@ export const DocumentTypes: IReactSelectInterface[] = [
 
 export const AcceptedDocumentFile = [
   'image/jpg',
-  'image/JPG',
   'image/png',
-  'image/PNG',
   'image/jpeg',
-  'image/JPEG',
   '.pdf',
   'application/pdf',
-  'application/PDF',
 ];
+
+export const maxFileSize1MB = 1048576;

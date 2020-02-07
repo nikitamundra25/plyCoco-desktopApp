@@ -7,16 +7,16 @@ import moment from 'moment';
 import Dropzone from 'react-dropzone';
 import Select from 'react-select';
 import { languageTranslation, logger } from '../../../../helpers';
-import { State, AcceptedDocumentFile } from '../../../../config';
-import { IWorkingProofFormValues } from '../../../../interfaces';
+import { State, AcceptedDocumentFile, maxFileSize1MB } from '../../../../config';
+import { IWorkingProofFormValues, IDocumentInputInterface } from '../../../../interfaces';
 import displaydoc from '../../../assets/img/display-doc.svg';
 import upload from '../../../assets/img/upload.svg';
-import visit from '../../../assets/img/visit.svg';
 import './index.scss';
 import { FormikProps } from 'formik';
 import { useMutation } from '@apollo/react-hooks';
 import { DocumentUploadMutations } from '../../../../graphql/Mutations';
 import { toast } from 'react-toastify';
+import DocumentPreview from './DocumentPreview';
 const [ADD_DOCUMENT] = DocumentUploadMutations;
 
 let toastId: any;
@@ -30,12 +30,10 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
     refetch,
   } = props;
 
-  const maxSize = 1048576;
-
   // Mutation to upload document
   const [addUserDocuments] = useMutation<
-    { addUserDocuments: any },
-    { documentInput: any }
+    { addUserDocuments: IWorkingProofFormValues },
+    { documentInput: IDocumentInputInterface }
   >(ADD_DOCUMENT);
 
   const handleUpload = async (file: any) => {
@@ -73,13 +71,18 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
     }
   }
 
-  const [imageUrls, setImageUrl] = useState('');
-  const [documentUrls, setDocumentUrl] = useState('');
-  const [rowIndex, setRowIndex] = useState(-1);
+  const [imageUrls, setImageUrl] = useState<string>('');
+  const [documentUrls, setDocumentUrl] = useState<string>('');
+  const [rowIndex, setRowIndex] = useState<number>(-1);
 
   const handlePreview = async (document: string, index: number) => {
     setRowIndex(index);
-    let sampleFileUrl = process.env.REACT_APP_FILES_ENDPOINT + document;
+    let sampleFileUrl = '';
+    if (process.env.NODE_ENV === 'production') {
+      sampleFileUrl = document;
+    } else {
+      sampleFileUrl = process.env.REACT_APP_FILES_ENDPOINT + document;
+    }
     if (document.split('.').pop() === 'pdf') {
       setDocumentUrl(sampleFileUrl);
       setImageUrl('');
@@ -107,16 +110,16 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                 <span className="header-nav-icon">
                   <img src={displaydoc} alt="" />
                 </span>
-                <span className="header-nav-text">Display different</span>
+                <span className="header-nav-text">{languageTranslation("DISPLAY_DIFFRENT_HEADER")}</span>
               </div>
               <div className="header-nav-item">
-                <span className="header-nav-text">Hide mapped</span>
+                <span className="header-nav-text">{languageTranslation("HIDE_MAPPED_HEADER")}</span>
               </div>
               <div className="header-nav-item">
-                <span className="header-nav-text">Hide Locked caregiver</span>
+                <span className="header-nav-text">{languageTranslation("HIDE_LOCKED_CAREGIVER_HEADER")}</span>
               </div>
               <div className="header-nav-item">
-                <span className="header-nav-text">Hide old files</span>
+                <span className="header-nav-text">{languageTranslation("HIDE_OLD_FILES_HEADER")}</span>
               </div>
             </div>
           </div>
@@ -126,14 +129,13 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                 <Row>
                   <Col lg={"4"}>
                     <div>
-                      <h5 className="content-title">New Work Proofs</h5>
+                      <h5 className="content-title">{languageTranslation("NEW_WORK_PROOF_HEADER")}</h5>
                       <div className="working-height">
                         <div className="form-section pt-2 px-3">
-
                           <Dropzone onDrop={acceptedFiles => {
                             handleUpload(acceptedFiles);
                           }}
-                            maxSize={maxSize}
+                            maxSize={maxFileSize1MB}
                             accept={AcceptedDocumentFile.join()}
                           >
                             {({ getRootProps, getInputProps, isDragActive, isDragReject, rejectedFiles }) => {
@@ -142,7 +144,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                               if (rejectedFiles.length > 0) {
                                 isValidFile = AcceptedDocumentFile.includes(rejectedFiles[0].type);
                               }
-                              const isFileTooLarge = rejectedFiles.length > 0 && rejectedFiles[0].size > maxSize;
+                              const isFileTooLarge = rejectedFiles.length > 0 && rejectedFiles[0].size > maxFileSize1MB;
 
                               return (
                                 <section>
@@ -182,12 +184,11 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             bordered
                             hover
                             responsive
-
                           >
                             <thead className="thead-bg">
                               <tr>
-                                <th className="date-column ">Date</th>
-                                <th className="file-col">File Name</th>
+                                <th className="date-column ">{languageTranslation("DATE")}</th>
+                                <th className="file-col">{languageTranslation("FILE_NAME")}</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -208,34 +209,14 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                     </div>
                   </Col>
                   <Col lg={"4"}>
-                    <h5 className="content-title">Preview</h5>
-                    <div className="document-preview d-flex justify-content-center working-height">
-                      {documentUrls ?
-                        <div className="d-flex align-items-center justify-content-center w-100 preview-section">
-
-                          <embed src={documentUrls} type="application/pdf" width="100%" height="100%" />
-
-                        </div>
-                        :
-                        imageUrls ?
-                          <div className="d-flex align-items-center justify-content-center preview-section">
-
-                            <img className="img-fluid" src={imageUrls} alt="" />
-
-                          </div>
-                          :
-                          <div className="d-flex align-items-center justify-content-center flex-column nodocument-section">
-                            <span className="doc-icon mb-3">
-                              <img src={visit} alt="" className="img-fluid" />
-                            </span>
-                            <span>The Document Does Not Contain Any Pages</span>
-                          </div>
-                      }
-                    </div>
+                    <DocumentPreview
+                      documentUrls={documentUrls}
+                      imageUrls={imageUrls}
+                    />
                   </Col>
                   <Col lg={"4"}>
                     <div>
-                      <h5 className="content-title">Performed Work</h5>
+                      <h5 className="content-title">{languageTranslation("PERFORMED_WORK_HEADING")}</h5>
                       <div className="working-height">
                         <div className="document-form py-2 px-3">
                           <Row>

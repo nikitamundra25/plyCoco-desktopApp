@@ -4,7 +4,7 @@ import { Formik, FormikProps, FormikHelpers } from "formik";
 import { DocumentsUploadValidationSchema } from "../../../validations";
 import { DocumentQueries } from '../../../../graphql/queries';
 import { useLazyQuery } from "@apollo/react-hooks";
-import { IWorkingProofFormValues } from "../../../../interfaces";
+import { IWorkingProofFormValues, IDocumentInterface } from "../../../../interfaces";
 
 const [GET_DOCUMENTS] = DocumentQueries;
 
@@ -15,11 +15,10 @@ const WorkingProof: FunctionComponent = () => {
     any
   >(GET_DOCUMENTS);
 
-  const [documentList, setDocumentList] = useState([]);
+  const [documentList, setDocumentList] = useState<IDocumentInterface | []>([]);
 
   useEffect(() => {
-    // Fetch details by user id
-
+    // Fetch all document templates
     getDocumentTemplates({
       variables: { isDocumentTemplate: true }
     });

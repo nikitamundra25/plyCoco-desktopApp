@@ -24,9 +24,7 @@ const [
   APPROVE_DOCUMENT,
   DISAPPROVE_DOCUMENT
 ] = DocumentMutations;
-
 const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
-
 const [GET_DOCUMENT_LIST] = DocumentQueries;
 let toastId: any = '';
 
@@ -54,10 +52,10 @@ const Documents = () => {
     GET_DOCUMENT_LIST
   );
 
-  const [
-    fetchCaregiverDetails,
-    { data: caregiverData, loading: caregiverDataLoading }
-  ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
+  const [fetchCaregiverDetails, { data: caregiverData }] = useLazyQuery<any>(
+    GET_CAREGIVER_BY_ID
+  );
+
   //add document
   const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
     onCompleted({ addDocument }) {
@@ -68,6 +66,9 @@ const Documents = () => {
       }
     }
   });
+
+  //disapprove document
+  const [disapprovedDocument] = useMutation<any>(DISAPPROVE_DOCUMENT);
 
   //approve document
   const [approvedDocument] = useMutation<any>(APPROVE_DOCUMENT);
@@ -283,6 +284,7 @@ const Documents = () => {
     }
   };
 
+  //on approve document
   const onApprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
@@ -314,13 +316,41 @@ const Documents = () => {
       }
     }
   };
-  // console.log('getcaregiver data', caregiverData);
-  // if (
-  //   data && data.getCaregiver && data.getCaregiver.isApproved
-  //     ? setUserApproved(data.getCaregiver.isApproved)
-  //     : ''
-  // )
-  //   console.log('userApproved', userApproved);
+
+  //on disapprove document
+  const onDisapprove = async () => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: 'Document will be Disapproved'
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        await disapprovedDocument({
+          variables: {
+            userId: id ? id : '',
+            isApproved: false
+          }
+        });
+
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success('Document disapproved successfully');
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
+
+  console.log('userApproved', userApproved);
 
   return (
     <div>
@@ -334,6 +364,7 @@ const Documents = () => {
         onUpdateDocument={onUpdateDocument}
         setStateValueNull={setStateValueNull}
         onApprove={onApprove}
+        onDisapprove={onDisapprove}
       />
       <DocumentUploadModal
         documentIdUpdate={documentIdUpdate}

@@ -54,10 +54,14 @@ const Documents = () => {
     GET_DOCUMENT_LIST
   );
 
-  const [fetchCaregiverDetails, { data: caregiverData }] = useLazyQuery<any>(
-    GET_CAREGIVER_BY_ID
-  );
-
+  const [
+    fetchCaregiverDetails,
+    {
+      data: caregiverData,
+      loading: caregiverDataLoading,
+      refetch: careGiverDetailsRetch
+    }
+  ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
   //add document
   const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
     onCompleted({ addDocument }) {
@@ -71,10 +75,14 @@ const Documents = () => {
   });
 
   //disapprove document
-  const [disapprovedDocument] = useMutation<any>(DISAPPROVE_DOCUMENT);
+  const [disapprovedDocument, { data: disApprovedData }] = useMutation<any>(
+    DISAPPROVE_DOCUMENT
+  );
 
   //approve document
-  const [approvedDocument] = useMutation<any>(APPROVE_DOCUMENT);
+  const [approvedDocument, { data: ApprovedData }] = useMutation<any>(
+    APPROVE_DOCUMENT
+  );
 
   //update document status
   const [updateDocumentStatus] = useMutation<any>(UPDATE_DOCUMENT_STATUS);
@@ -95,6 +103,28 @@ const Documents = () => {
       }
     }
   });
+
+  useEffect(() => {
+    if (ApprovedData) {
+      careGiverDetailsRetch();
+    }
+  }, [ApprovedData]);
+
+  useEffect(() => {
+    if (disApprovedData) {
+      careGiverDetailsRetch();
+    }
+  }, [disApprovedData]);
+
+  // Get Care Giver Details
+  const [isApproved, setisApproved] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (caregiverData) {
+      const { getCaregiver } = caregiverData;
+      setisApproved(getCaregiver.isApproved);
+    }
+  }, [caregiverData]);
 
   //set state data null
   const setStateValueNull = () => {
@@ -199,7 +229,6 @@ const Documents = () => {
     } else {
       try {
         // toast.dismiss();
-        console.log('id in upd', id);
         await updateDocumentStatus({
           variables: {
             id: id ? parseInt(id) : null,
@@ -231,7 +260,6 @@ const Documents = () => {
     const res = queryPath.split('/');
     const id = parseInt(res[3]);
     if (documentIdUpdate) {
-      console.log('inside update');
       updateDocument({
         variables: {
           id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
@@ -305,7 +333,6 @@ const Documents = () => {
             isApproved: true
           }
         });
-
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success('Document approved successfully');
@@ -338,7 +365,6 @@ const Documents = () => {
             isApproved: false
           }
         });
-
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success('Document disapproved successfully');
@@ -367,6 +393,7 @@ const Documents = () => {
         onUpdateDocument={onUpdateDocument}
         setStateValueNull={setStateValueNull}
         onApprove={onApprove}
+        isApproved={isApproved}
         onDisapprove={onDisapprove}
       />
       <DocumentUploadModal

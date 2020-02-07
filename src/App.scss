@@ -155,7 +155,32 @@ body {
     font-weight: 600;
     font-size: $font_13;
     min-width: 140px;
+    &.disabled{
+      color: $white;
+      pointer-events: auto;
+      cursor: not-allowed;
+    }
   }
+  
+  .btn-active {
+    background: $active_green;
+    color: $white;
+    &:hover {
+      background:$active_green_hover;
+      color: $white;
+      text-decoration: none;
+    }
+  }
+  .btn-inactive {
+    background: $swal_cancel_btn;
+    color: $white;
+    &:hover{
+      background: $swal_cancel_btn_hover;
+      color: $white;
+      text-decoration: none;
+    }
+  }
+  
   .password-btn {
     height: 25px;
     padding: 0px 0px;
@@ -1885,6 +1910,9 @@ html:not([dir='rtl']) {
       align-items: center;
       justify-content: center;
       text-align: center;
+      .margin-tooltip{
+        margin:12px 0px;
+      }
       .btn-icon {
         width: 25px;
         height: 25px;

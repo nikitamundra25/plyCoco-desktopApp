@@ -2,7 +2,10 @@ import React, { FunctionComponent, useCallback } from 'react';
 import { Col } from 'reactstrap';
 import { useDropzone } from 'react-dropzone';
 
-export const AttachmentFormComponent: FunctionComponent<any> = (props: any) => {
+export const AttachmentFormComponent: FunctionComponent<any> = ({
+  attachment,
+  uploadDocument,
+}: any) => {
   // convert document to binary format
   const onDrop = useCallback((acceptedFiles: File[]) => {
     acceptedFiles.forEach((file: File) => {
@@ -13,6 +16,12 @@ export const AttachmentFormComponent: FunctionComponent<any> = (props: any) => {
         reader.onerror = () => console.log('file reading has failed');
         reader.onloadend = () => {
           if (reader.result) {
+            uploadDocument({
+              url: reader.result,
+              fileName: file.name,
+              size: file.size,
+              file,
+            });
           }
         };
         reader.readAsDataURL(file);
@@ -20,8 +29,8 @@ export const AttachmentFormComponent: FunctionComponent<any> = (props: any) => {
     });
   }, []);
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop: props.onDrop,
-    multiple: false,
+    onDrop,
+    multiple: true,
   });
   return (
     <Col lg={'12'}>
@@ -30,11 +39,7 @@ export const AttachmentFormComponent: FunctionComponent<any> = (props: any) => {
         <div className='icon-upload'>
           <i className='cui-cloud-upload'></i>
         </div>
-        <span>
-          {props && props.documentUrls
-            ? props.documentUrls.name
-            : "Drag 'n' drop files here, or click here to upload files"}
-        </span>
+        <span>Drag 'n' drop files here, or click here to upload files</span>
       </div>
     </Col>
   );

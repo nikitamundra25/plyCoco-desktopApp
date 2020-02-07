@@ -132,6 +132,7 @@ const GET_CAREGIVERS = gql`
 const GET_CAREGIVER_BY_ID = gql`
   query getCaregiver($id: Int!) {
     getCaregiver(id: $id) {
+      isApproved
       firstName
       lastName
       salutation
@@ -225,8 +226,8 @@ const GET_LEASING_INFO = gql`
 `;
 
 const GET_EMAILS = gql`
-  query getEmails($userId: Int!, $from: String) {
-    getEmails(userId: $userId, from: $from) {
+  query getEmails($userId: Int!, $from: String, $searchBy: String) {
+    getEmails(userId: $userId, from: $from, searchBy: $searchBy) {
       id
       userId
       to
@@ -252,5 +253,5 @@ export const CareGiverQueries = [
   GET_CAREGIVER_BY_ID,
   GET_LEASING_INFO,
   GET_EMAILS,
-  GET_BELONGS_TO,
+  GET_BELONGS_TO
 ];

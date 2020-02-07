@@ -59,5 +59,6 @@ export interface IEmailAttachmentData {
   url: string | ArrayBuffer | null;
   fileName: string;
   size: number;
-  file: File;
+  path: string;
+  file: File | null;
 }

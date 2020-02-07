@@ -155,7 +155,32 @@ body {
     font-weight: 600;
     font-size: $font_13;
     min-width: 140px;
+    &.disabled{
+      color: $white;
+      pointer-events: auto;
+      cursor: not-allowed;
+    }
   }
+  
+  .btn-active {
+    background: $active_green;
+    color: $white;
+    &:hover {
+      background:$active_green_hover;
+      color: $white;
+      text-decoration: none;
+    }
+  }
+  .btn-inactive {
+    background: $swal_cancel_btn;
+    color: $white;
+    &:hover{
+      background: $swal_cancel_btn_hover;
+      color: $white;
+      text-decoration: none;
+    }
+  }
+  
   .password-btn {
     height: 25px;
     padding: 0px 0px;
@@ -1197,6 +1222,7 @@ html:not([dir='rtl']) {
       &.error {
         border-color: $red;
       }
+      
       &:hover ~ {
         .required-tooltip {
           display: block;
@@ -1205,6 +1231,14 @@ html:not([dir='rtl']) {
     }
     .custom-input-width {
       width: 125px;
+    }
+    .text-count{
+      color: $swal_text;
+      position: absolute;
+      bottom: -15px;
+      font-weight: 600;
+      font-size: 11px;
+      right: 15px;
     }
     .react-datepicker-wrapper {
       display: block;
@@ -1445,6 +1479,9 @@ html:not([dir='rtl']) {
     border: 1px solid $light_gray;
     box-shadow: none;
     font-family: $font_Frutiger_Regular;
+    .custom-inner-reactselect__placeholder {
+      margin:0px;
+    }
     .custom-inner-reactselect__multi-value {
       line-height: normal;
     }
@@ -1885,6 +1922,9 @@ html:not([dir='rtl']) {
       align-items: center;
       justify-content: center;
       text-align: center;
+      .margin-tooltip{
+        margin:12px 0px;
+      }
       .btn-icon {
         width: 25px;
         height: 25px;

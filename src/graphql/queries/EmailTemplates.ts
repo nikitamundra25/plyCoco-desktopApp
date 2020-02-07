@@ -32,6 +32,7 @@ const GET_EMAIL_TEMPLATE_BY_ID = gql`
       subject
       body
       id
+      attachments
     }
   }
 `;

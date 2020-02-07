@@ -109,8 +109,6 @@ const Email: FunctionComponent<{
     ].join('?');
     history.push(path);
   };
-  console.log(loading, 'loading after refetch+++');
-
   // render component according to selected tab
   const renderComponent = () => {
     switch (activeTab) {

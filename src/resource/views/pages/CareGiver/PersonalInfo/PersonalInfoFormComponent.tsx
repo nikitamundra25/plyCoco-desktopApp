@@ -718,7 +718,9 @@ const PersonalInfoFormComponent: any = (
                     classNamePrefix='custom-inner-reactselect'
                     className={'custom-reactselect'}
                     components={{ Option: CustomOption }}
-                    isOptionDisabled={option => option.value === 'Id'}
+                    isOptionDisabled={option =>
+                      option.value === languageTranslation('ID')
+                    }
                   />
                 </div>
               </Col>

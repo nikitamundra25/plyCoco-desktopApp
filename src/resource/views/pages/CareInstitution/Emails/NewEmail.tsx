@@ -61,23 +61,8 @@ const NewEmail: FunctionComponent = () => {
                 </div>
               </div>
 
-              <div className="form-card">
+              <div>
                 <Row>
-                  <Col lg={"12"}>
-                    <FormGroup className="mb-3">
-                      <Row>
-                        <Col sm="12">
-                          <div>
-                            <Input
-                              type="text"
-                              name={"subject"}
-                              placeholder="Subject"
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                    </FormGroup>
-                  </Col>
                   <Col lg={"12"}>
                     <FormGroup>
                       <Row>
@@ -121,7 +106,7 @@ const NewEmail: FunctionComponent = () => {
                       </Row>
                     </FormGroup>
                   </Col>
-                  <Col lg={"12"}>
+                  {/* <Col lg={"12"}>
                     <div className="d-flex align-items-center justify-content-end">
                       <div>
                         <Button
@@ -133,7 +118,7 @@ const NewEmail: FunctionComponent = () => {
                         </Button>
                       </div>
                     </div>
-                  </Col>
+                  </Col> */}
                 </Row>
               </div>
             </Col>

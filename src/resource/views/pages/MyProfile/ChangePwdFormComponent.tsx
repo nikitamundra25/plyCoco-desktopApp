@@ -127,24 +127,22 @@ export const ChangePwdFormComponent: FunctionComponent<FormikProps<
                   </Row>
                 </FormGroup>
               </Col>
-              <Col lg={"12"}>
+              <Col lg={"12"} className="mt-3">
                 <FormGroup>
                   <Row>
                     <Col lg={"4"}></Col>
                     <Col lg={"8"}>
-                      <FormGroup>
-                        <Button
-                          color={"primary"}
-                          className={"btn-save"}
-                          onClick={handleSubmit}
-                          disabled={changePwdLoading}
-                        >
-                          {changePwdLoading ? (
-                            <i className="fa fa-spinner fa-spin loader" />
-                          ) : null}{" "}
-                          {languageTranslation("UPDATE_BUTTON")}
-                        </Button>
-                      </FormGroup>
+                      <Button
+                        color={"primary"}
+                        className={"btn-save"}
+                        onClick={handleSubmit}
+                        disabled={changePwdLoading}
+                      >
+                        {changePwdLoading ? (
+                          <i className="fa fa-spinner fa-spin loader" />
+                        ) : null}{" "}
+                        {languageTranslation("UPDATE_BUTTON")}
+                      </Button>
                     </Col>
                   </Row>
                 </FormGroup>

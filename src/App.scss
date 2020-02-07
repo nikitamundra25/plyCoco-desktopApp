@@ -115,6 +115,10 @@ body {
       outline: none;
     }
   }
+  .disbale {
+    cursor: not-allowed !important;
+    opacity: 0.8;
+  }
 
   .status-btn {
     padding: 3px 10px;
@@ -155,7 +159,34 @@ body {
     font-weight: 600;
     font-size: $font_13;
     min-width: 140px;
+    &.disabled {
+      pointer-events: auto;
+      cursor: not-allowed;
+    }
   }
+
+  .btn-active {
+    background: $transparent;
+    border: 1px solid $active_green;
+    color: $active_green !important;
+    &:hover {
+      background: $active_green_hover;
+      color: $white !important;
+      border: 1px solid $active_green;
+      text-decoration: none;
+    }
+  }
+  .btn-inactive {
+    background: $transparent;
+    border: 1px solid $swal_cancel_btn;
+    color: $swal_cancel_btn !important;
+    &:hover {
+      background: $swal_cancel_btn_hover;
+      color: $white !important;
+      text-decoration: none;
+    }
+  }
+
   .password-btn {
     height: 25px;
     padding: 0px 0px;
@@ -1158,9 +1189,9 @@ html:not([dir='rtl']) {
         border-color: $theme_color $transparent $transparent $transparent;
       }
     }
-    .required-error{
+    .required-error {
       color: $red;
-      font-size:$font_11;
+      font-size: $font_11;
     }
 
     .form-control {
@@ -1197,6 +1228,7 @@ html:not([dir='rtl']) {
       &.error {
         border-color: $red;
       }
+      
       &:hover ~ {
         .required-tooltip {
           display: block;
@@ -1205,6 +1237,14 @@ html:not([dir='rtl']) {
     }
     .custom-input-width {
       width: 125px;
+    }
+    .text-count{
+      color: $swal_text;
+      position: absolute;
+      bottom: -15px;
+      font-weight: 600;
+      font-size: 11px;
+      right: 15px;
     }
     .react-datepicker-wrapper {
       display: block;
@@ -1445,6 +1485,9 @@ html:not([dir='rtl']) {
     border: 1px solid $light_gray;
     box-shadow: none;
     font-family: $font_Frutiger_Regular;
+    .custom-inner-reactselect__placeholder {
+      margin:0px;
+    }
     .custom-inner-reactselect__multi-value {
       line-height: normal;
     }
@@ -1893,6 +1936,9 @@ html:not([dir='rtl']) {
       align-items: center;
       justify-content: center;
       text-align: center;
+      &.margin-tooltip {
+        margin: 12px 0px;
+      }
       .btn-icon {
         width: 25px;
         height: 25px;
@@ -2506,10 +2552,10 @@ html:not([dir='rtl']) {
     font-size: $font_13;
     color: $black;
     height: 100%;
-    .subject-title{
+    .subject-title {
       font-size: $font_20;
       color: $black;
-      font-weight:600;
+      font-weight: 600;
     }
   }
 }
@@ -2535,8 +2581,8 @@ html:not([dir='rtl']) {
     background: $white;
   }
   li {
-    &.email-wrap{
-      &.active{
+    &.email-wrap {
+      &.active {
         background: $theme_color;
         color: $white;
       }

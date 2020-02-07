@@ -11,7 +11,7 @@ import {
   Input,
   Col,
   Row,
-  Form,
+  Form
 } from 'reactstrap';
 import Select from 'react-select';
 import 'react-day-picker/lib/style.css';
@@ -38,11 +38,11 @@ const DocumentUploadModal = (props: any) => {
     onDrop,
     show,
     handleClose,
-    setShowDocumentPopup,
+    setShowDocumentPopup
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
-    multiple: false,
+    multiple: false
   });
   const externalCloseBtn = (
     <button className='close modal-close' onClick={() => handleClose()}>
@@ -151,9 +151,9 @@ const DocumentUploadModal = (props: any) => {
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
                           // className={
-                          //   props.isSubmit && !props.documentType
-                          //     ? "text-input error my-2 my-sm-0"
-                          //     : "text-input my-2 my-sm-0"
+                          //   isSubmit && !documentType
+                          //     ? 'text-input error my-2 my-sm-0'
+                          //     : 'text-input my-2 my-sm-0'
                           // }
                         />
                         {/* {console.log('isSubmit', isSubmit)}

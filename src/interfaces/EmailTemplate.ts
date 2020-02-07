@@ -1,10 +1,9 @@
-import { FormikHelpers } from "formik";
-import { IReactSelectInterface } from "./Constant";
+import { FormikHelpers } from 'formik';
+import { IReactSelectInterface } from './Constant';
 
 export interface IEmailTemplateValues {
   id?: number;
   type: IReactSelectInterface | undefined;
-  typeValue?: string;
   menuEntry: string;
   subject: string;
   body: any;
@@ -16,17 +15,19 @@ export interface IEmailTemplateSubmitValues {
   menuEntry: string;
   subject: string;
   body: any;
+  attachments: any;
 }
 export interface IAddEmailTemplateProps {
   handleSubmit: (
     values: IEmailTemplateValues,
-    actions: FormikHelpers<IEmailTemplateValues>
+    actions: FormikHelpers<IEmailTemplateValues>,
   ) => void;
   bindSubmitForm: any;
   templateData: IEmailTemplateValues | null;
   typeListOptions: IReactSelectInterface[] | undefined;
   setTypeId: any;
-  setTemplateData: any;
+  attachment: IEmailAttachmentData[] | [];
+  uploadDocument: any;
 }
 
 export interface IEmailTemplateList {
@@ -52,4 +53,12 @@ export interface IEmailTemplateData {
   menuEntry: string;
   subject: string;
   body: any;
+}
+
+export interface IEmailAttachmentData {
+  url: string | ArrayBuffer | null;
+  fileName: string;
+  size: number;
+  path: string;
+  file: File | null;
 }

@@ -98,7 +98,6 @@ const CotactFormComponent: any = (
   */
   let contactAttribute: any[] | undefined | any = props.values.attributeId;
   const handleAddNewAttributevalue = () => {
-    console.log('newAttributeValue', newAttributeValue);
 
     if (newAttributeValue && newAttributeValue.value) {
       const AttributeID: any = attributeId;

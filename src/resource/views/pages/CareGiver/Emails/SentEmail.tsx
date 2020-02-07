@@ -1,24 +1,22 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import {
-  Col,
-  Row,
-  Collapse,
-  FormGroup,
-  Input,
-  UncontrolledTooltip,
-} from 'reactstrap';
+import { Col, Row, Collapse } from 'reactstrap';
 import moment from 'moment';
 import { languageTranslation } from '../../../../../helpers';
 import { IEmailListProps } from '../../../../../interfaces';
 import { EmailPreview } from './EmailPreview';
 import noemail from '../../../../assets/img/no-email.svg';
 import Loader from '../../../containers/Loader/Loader';
+import { EmailSearchFilter } from './EmailSearchFilter';
 
 const SentEmail: FunctionComponent<IEmailListProps> = ({
   emailList,
   selectedUserName,
   loading,
   onRefresh,
+  searchBy,
+  handleChange,
+  handleSubmit,
+  onReset,
 }: IEmailListProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [opened, setIsOpened] = useState<boolean>(true);
@@ -30,6 +28,8 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
   useEffect(() => {
     if (emailList && emailList.getEmails && emailList.getEmails.length) {
       setEmailData(emailList.getEmails[0]);
+    } else {
+      setEmailData(null);
     }
   }, [emailList]);
   const onEmailSelection = (email: any) => {
@@ -43,43 +43,19 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
       {/* <EmailMenus {...this.props} /> */}
       <div className='email-content'>
         {loading ? (
-          <Loader />
+          <div className='overview-loader'>
+            <Loader />
+          </div>
         ) : emailList && emailList.getEmails && emailList.getEmails.length ? (
           <Row className='custom-col'>
             <Col lg={'5'}>
               <div className='email-inbox-section'>
-                <div className='filter-form form-section'>
-                  <Row>
-                    <Col lg={'9'}>
-                      <FormGroup className='mb-2'>
-                        <Input
-                          type='text'
-                          name='search'
-                          id='search'
-                          placeholder={languageTranslation(
-                            'SEARCH_PLACEHOLDER',
-                          )}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'3'}>
-                      <div className='filter-btn-wrap mb-2'>
-                        <span className='btn-filter mr-2' id='search1'>
-                          <UncontrolledTooltip placement='top' target='search1'>
-                            {languageTranslation('SEARCH_LABEL')}
-                          </UncontrolledTooltip>
-                          {languageTranslation('SEARCH_LABEL')}
-                        </span>
-                        <span className='btn-filter mr-2' id='reset'>
-                          <UncontrolledTooltip placement='top' target='reset'>
-                            {languageTranslation('RESET_LABEL')}
-                          </UncontrolledTooltip>
-                          {languageTranslation('RESET_LABEL')}
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-                </div>
+                <EmailSearchFilter
+                  searchBy={searchBy}
+                  handleChange={handleChange}
+                  handleSubmit={handleSubmit}
+                  onReset={onReset}
+                />
                 <div className='email-row-wrap align-items-center email-attributes-wrap'>
                   <div
                     className='email-attributes-content d-flex align-items-center'
@@ -151,7 +127,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                           >
                             <div className='email-date-time-block'>
                               {moment(email.createdAt).format(
-                                'DD.MM.YYYY HH:MM:SS',
+                                'DD.MM.YYYY HH:mm:ss',
                               )}
                             </div>
                             <div className='email-subject-block'>
@@ -168,7 +144,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                   </ul>
                 ) : (
                   <div className='no-data-section pt-5 pb-5 bg-white text-center'>
-                    <div className='no-data-icon'>
+                    <div className='no-data-icon mb-2'>
                       <img src={noemail} width='35px' />
                     </div>
                     <h4 className='mb-1'>
@@ -186,7 +162,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
           </Row>
         ) : (
           <div className='no-data-section pt-5 pb-5 bg-white text-center'>
-            <div className='no-data-icon'>
+            <div className='no-data-icon mb-2'>
               <img src={noemail} width='35px' />
             </div>
             <h4 className='mb-1'>{languageTranslation('NO_EMAIL_MESSAGE')}</h4>

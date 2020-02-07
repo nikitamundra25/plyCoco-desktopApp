@@ -596,6 +596,8 @@
   "DOCUMENT_DELETE": "Click here to delete Document",
   "ADD_DOCUMENT": "Add Document",
   "UPLOAD_DOCUMENT": "Upload Document",
+  "APPROVE": "Approve",
+  "DISAPPROVE": "Disapprove",
   "FILE": "File",
   "PREVIEW": "Preview",
   "EMPTY_DOCUMENT_TEMPLATE_MSG": "The Document Does Not Contain Any Pages",
@@ -604,6 +606,7 @@
   "OPTIMIZE": "Optimize",
   "DOCUMENT_STATUS_LABEL": "Checked files cannot be punched by the user",
   "DOCUMENT_OPTIMIZE_LABEL": "convert to PDF and resize",
+  "DOCUMENT_DELETED_SUCCESS": "Document deleted successfully",
   "NO_EMAIL_MESSAGE": " Currently there are no emails Found.",
   "SUBORDINATED_HEADING": "Grouped Below",
   "NO_SUBORDINATED_MEG": "Currently, no subordinated caregiver available."

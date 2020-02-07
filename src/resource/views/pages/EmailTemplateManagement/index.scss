@@ -6,10 +6,11 @@
   font-weight: bold;
 }
 .email-template-list {
-  height: calc(100% - 55px);
+  height: calc(100% - 43px);
+  margin-bottom: 8px;
   .common-list-body {
     height: 100%;
-    max-height: 500px;
+    max-height: 522px;
   }
 }
 .common-col {

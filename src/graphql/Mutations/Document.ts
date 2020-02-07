@@ -18,38 +18,42 @@ const UPDATE_DOCUMENT_STATUS = gql`
     }
   }
 `;
-// documentStatus(id:Int!, status: String): Document
-// mutation{
-//  documentStatus(id:5, status: "decline"){
-//    id
-//  }
-// }
-
 const UPDATE_DOCUMENT = gql`
-  mutation UpdateUserDocuments($documentInput: DocumentInput!) {
-    updateUserDocuments(documentInput: $documentInput) {
+  mutation UpdateUserDocuments($id: Int, $documentInput: DocumentInput) {
+    updateUserDocuments(id: $id, documentInput: $documentInput) {
       id
       fileName
-      status
+    }
+  }
+`;
+const DELETE_DOCUMENT = gql`
+  mutation DeleteDocument($id: Int!) {
+    deleteDocument(id: $id) {
+      id
+    }
+  }
+`;
+const APPROVE_DOCUMENT = gql`
+  mutation ApprovedDocument($userId: ID, $isApproved: Boolean) {
+    approvedDocument(userId: $userId, isApproved: $isApproved) {
+      isApproved
     }
   }
 `;
 
-// mutation{
-//   updateUserDocuments(id:46, documentInput: {
-//     fileName: "output-onlinepngtoolls.png",
-//     documentType: "fdg",
-//     remarks: "asd",
-//     status: "approve"
-//   }){
-//     id,
-//     fileName,
-//     status
-//   }
-//  }
+const DISAPPROVE_DOCUMENT = gql`
+  mutation DisapprovedDocument($userId: ID, $isApproved: Boolean) {
+    disapprovedDocument(userId: $userId, isApproved: $isApproved) {
+      isApproved
+    }
+  }
+`;
 
 export const DocumentMutations = [
   ADD_DOCUMENT,
   UPDATE_DOCUMENT_STATUS,
-  UPDATE_DOCUMENT
+  UPDATE_DOCUMENT,
+  DELETE_DOCUMENT,
+  APPROVE_DOCUMENT,
+  DISAPPROVE_DOCUMENT
 ];

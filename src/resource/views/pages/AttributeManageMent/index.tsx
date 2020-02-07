@@ -39,15 +39,11 @@ const AttributeManageMent = () => {
   const [getAtrributeHeading, { data, loading, refetch }] = useLazyQuery<any>(
     GET_ATTRIBUTES_TYPE
   );
-  console.log('getAtrributeHeading', data);
-
   // To get attributes of selected types
   const [
     getAttributesName,
     { data: attributeList, loading: listLoading, refetch: attributeListRefetch }
   ] = useLazyQuery<any>(GET_ATTRIBUTES_BY_TYPE);
-  console.log('attributeList', attributeList);
-
   // To add attributes into db
   const [addAttribute] = useMutation<
     {
@@ -97,7 +93,6 @@ const AttributeManageMent = () => {
   };
   const handleSubmit = async () => {
     setIsSubmit(true);
-    console.log('in handleSubmit');
     if (activeAttributeMenu) {
       try {
         if (newAttribute) {

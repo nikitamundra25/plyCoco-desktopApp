@@ -127,7 +127,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                           >
                             <div className='email-date-time-block'>
                               {moment(email.createdAt).format(
-                                'DD.MM.YYYY HH:MM:SS',
+                                'DD.MM.YYYY HH:mm:ss',
                               )}
                             </div>
                             <div className='email-subject-block'>
@@ -144,7 +144,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                   </ul>
                 ) : (
                   <div className='no-data-section pt-5 pb-5 bg-white text-center'>
-                    <div className='no-data-icon'>
+                    <div className='no-data-icon mb-2'>
                       <img src={noemail} width='35px' />
                     </div>
                     <h4 className='mb-1'>
@@ -162,7 +162,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
           </Row>
         ) : (
           <div className='no-data-section pt-5 pb-5 bg-white text-center'>
-            <div className='no-data-icon'>
+            <div className='no-data-icon mb-2'>
               <img src={noemail} width='35px' />
             </div>
             <h4 className='mb-1'>{languageTranslation('NO_EMAIL_MESSAGE')}</h4>

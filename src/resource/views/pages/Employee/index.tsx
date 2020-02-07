@@ -301,7 +301,6 @@ const Employee: FunctionComponent = () => {
       }
     }
   };
-  console.log('search vakues', searchValues);
 
   const values: ISearchValues = {
     searchValue,

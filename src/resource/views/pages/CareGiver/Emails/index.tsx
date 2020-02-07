@@ -26,17 +26,9 @@ const Email: FunctionComponent<{
   let [fetchEmails, { data: emailList, loading, refetch }] = useLazyQuery<
     { fetchEmails: any },
     IEmailQueryVar
-  >(GET_EMAILS);
-
-  // Did mount
-  // useEffect(() => {
-  //   let variables: IEmailQueryVar = {
-  //     userId: id ? parseInt(id) : 0,
-  //     from: 'caregiver',
-  //     searchBy,
-  //   };
-  //   fetchEmails({ variables });
-  // }, []);
+  >(GET_EMAILS, {
+    notifyOnNetworkStatusChange: true,
+  });
 
   useEffect(() => {
     const query = qs.parse(search);
@@ -66,19 +58,6 @@ const Email: FunctionComponent<{
       fetchEmails({ variables });
     }
   }, [search]);
-
-  // useEffect(() => {
-  //   let variables: IEmailQueryVar = {
-  //     userId: id ? parseInt(id) : 0,
-  //     from: 'caregiver',
-  //   };
-  //   if (activeTab === 1) {
-  //     variables = { ...variables, from: 'plycoco' };
-  //   }
-  //   // if (refetch) {
-  //   //   refetch(variables);
-  //   // }
-  // }, [activeTab]);
 
   const onTabChange = (activeTab: number, data?: any) => {
     setEmailData(data);

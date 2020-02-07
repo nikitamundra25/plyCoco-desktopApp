@@ -23,14 +23,12 @@ const WorkingProof: FunctionComponent = () => {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const temp: any = documentUrls ? documentUrls : [];
     acceptedFiles.forEach((file: File) => {
-      console.log(file, "fvgfgfgfgfgfg");
 
       if (file) {
         const reader = new FileReader();
         reader.onabort = () => console.log("file reading was aborted");
         reader.onerror = () => console.log("file reading has failed");
         reader.onloadend = () => {
-          console.log(reader.result, "reader.resultreader.result");
           if (reader.result) {
             temp.push({
               path: reader.result,

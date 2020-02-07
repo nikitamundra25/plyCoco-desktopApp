@@ -129,7 +129,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                           <div className='email-row-wrap inner-content-wrap'>
                             <div className='email-date-time-block'>
                               {moment(email.createdAt).format(
-                                'DD.MM.YYYY HH:MM:SS',
+                                'DD.MM.YYYY HH:mm:ss',
                               )}
                             </div>
                             <div className='email-text-wrap'>
@@ -144,7 +144,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                 ) : (
                   // <span >No email found</span>
                   <div className='no-data-section pt-5 pb-5 bg-white text-center'>
-                    <div className='no-data-icon'>
+                    <div className='no-data-icon mb-2'>
                       <img src={noemail} width='35px' />
                     </div>
                     <h4 className='mb-1'>
@@ -161,7 +161,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
           </Row>
         ) : (
           <div className='no-data-section pt-5 pb-5 bg-white text-center'>
-            <div className='no-data-icon'>
+            <div className='no-data-icon mb-2'>
               <img src={noemail} width='35px' />
             </div>
             <h4 className='mb-1'>{languageTranslation('NO_EMAIL_MESSAGE')}</h4>

@@ -184,6 +184,7 @@ const DocumentUploadModal = (props: any) => {
                             name={'remarks'}
                             value={remarkValue}
                             onChange={handleChange}
+                            maxLength={255}
                           />
                         </div>
                       </Col>
@@ -251,7 +252,11 @@ const DocumentUploadModal = (props: any) => {
         </ModalBody>
         <ModalFooter>
           {/* {isSubmit ? } */}
-          <Button color='primary' onClick={handleSaveDocument}>
+          <Button
+            color='primary'
+            onClick={handleSaveDocument}
+            disable={!isSubmit}
+          >
             {languageTranslation('SAVE_BUTTON')}
           </Button>
 

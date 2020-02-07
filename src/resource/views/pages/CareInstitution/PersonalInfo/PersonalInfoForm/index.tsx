@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useEffect } from 'react';
-import { FormGroup, Label, Input, Col, Row, Button } from 'reactstrap';
-import Select from 'react-select';
-import { FormikProps } from 'formik';
-import { Salutation, Gender } from '../../../../../../config';
-import { languageTranslation, logger } from '../../../../../../helpers';
+import React, { FunctionComponent, useEffect } from "react";
+import { FormGroup, Label, Input, Col, Row, Button } from "reactstrap";
+import Select from "react-select";
+import { FormikProps } from "formik";
+import { Salutation, Gender } from "../../../../../../config";
+import { languageTranslation, logger } from "../../../../../../helpers";
 import {
   ICareInstitutionFormValues,
   IReactSelectInterface,
@@ -12,15 +12,15 @@ import {
   ICountry,
   IState,
   IRegion
-} from '../../../../../../interfaces';
-import { CountryQueries } from '../../../../../../graphql/queries';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
-import CommissionFormData from './CommissionFormData';
-import InvoiceFormData from './InvoiceFormData';
-import QuallificationAttribute from './QuallificationAttribute';
-import RemarkFormData from './RemarkFormData';
-import { RegionQueries } from '../../../../../../graphql/queries/Region';
-import moment from 'moment';
+} from "../../../../../../interfaces";
+import { CountryQueries } from "../../../../../../graphql/queries";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import CommissionFormData from "./CommissionFormData";
+import InvoiceFormData from "./InvoiceFormData";
+import QuallificationAttribute from "./QuallificationAttribute";
+import RemarkFormData from "./RemarkFormData";
+import { RegionQueries } from "../../../../../../graphql/queries/Region";
+import moment from "moment";
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 const PersonalInformationForm: FunctionComponent<FormikProps<
@@ -97,7 +97,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   } = props;
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    'YYYY-MM-DD'
+    "YYYY-MM-DD"
   );
 
   useEffect(() => {
@@ -111,13 +111,13 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   }, []);
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
+    logger(selectOption, "value");
     setFieldValue(name, selectOption);
-    if (name === 'country') {
+    if (name === "country") {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
+      logger(statesData, "sdsdsdsd");
     }
   };
 
@@ -127,7 +127,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         label: e.label,
         value: e.value
       };
-      setFieldValue('linkedTo', data);
+      setFieldValue("linkedTo", data);
     }
   };
   return (
@@ -858,10 +858,13 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onChange={handleChange}
                         maxLength={255}
                       />
-                      {remarksViewable && remarksViewable.length
-                        ? remarksViewable.length
-                        : 0}
+                      <div className="text-count">
+                        {remarksViewable && remarksViewable.length
+                          ? remarksViewable.length
+                          : 0}
+                      
                       /255
+                      </div>
                     </div>
                   </Col>
                 </Row>

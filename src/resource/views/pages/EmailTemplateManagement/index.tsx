@@ -88,6 +88,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   >(ADD_EMAIL_TEMPLATE, {
     onCompleted({ addEmail }) {
       setTemplateData(null);
+      setAttachment([]);
       refetch();
       listRefetch();
       if (!toast.isActive(toastId)) {
@@ -131,6 +132,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     onCompleted() {
       setTemplateData(null);
       setActiveTemplate(null);
+      setAttachment([]);
       listRefetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -315,6 +317,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   ) => {
     setTemplateType(selectedType);
     setTemplateData(null);
+    setAttachment([]);
     setActiveTemplate(null);
   };
 
@@ -355,6 +358,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       <div className='common-detail-page'>
         <div className='common-detail-section'>
           <EmailTemplateMenu
+            id={templateData && templateData.id ? templateData.id : null}
             typeListOptions={typeListOptions}
             templateType={templateType}
             activeTemplate={activeTemplate}

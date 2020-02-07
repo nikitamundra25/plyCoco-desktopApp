@@ -46,6 +46,7 @@ export interface IEmailTemplateMenu {
   onTypeChange: (selectedType: any) => void;
   onDeleteEmailTemplate: () => void;
   addEmailLoading: boolean;
+  id: number | null;
 }
 
 export interface IEmailTemplateData {

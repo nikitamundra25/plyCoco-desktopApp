@@ -52,7 +52,9 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
 
   return (
     <Col lg={'5'}>
-      <h5 className='content-title'>{languageTranslation('DETAILS')}</h5>
+      <h5 className='content-title text-capitalize'>
+        {id ? menuEntry : languageTranslation('NEW_TEMPLATE')}
+      </h5>
       <div className='form-section'>
         <div className='form-card minheight-auto '>
           <Row>

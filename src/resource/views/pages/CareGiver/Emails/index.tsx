@@ -62,7 +62,7 @@ const Email: FunctionComponent<{
         fetchEmails({ variables });
       }
     } else {
-      emailData('');
+      setEmailData('');
       fetchEmails({ variables });
     }
   }, [search]);

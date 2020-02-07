@@ -41,7 +41,9 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
       {/* <EmailMenus {...this.props} /> */}
       <div className='email-content'>
         {loading ? (
-          <Loader />
+          <div className='overview-loader'>
+            <Loader />
+          </div>
         ) : emailList && emailList.getEmails && emailList.getEmails.length ? (
           <Row className='custom-col'>
             <Col lg={'5'}>

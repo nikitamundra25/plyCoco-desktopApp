@@ -54,7 +54,9 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
           /> */}
       <div className='email-content'>
         {loading ? (
-          <Loader />
+          <div className='overview-loader'>
+            <Loader />
+          </div>
         ) : (emailList && emailList.getEmails && emailList.getEmails.length) ||
           searchBy ? (
           <Row>

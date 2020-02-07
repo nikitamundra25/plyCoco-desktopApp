@@ -1,10 +1,34 @@
 import React, { FunctionComponent, useState } from "react";
 import { Table, Button, Input, UncontrolledTooltip } from "reactstrap";
 import moment from "moment";
-import { languageTranslation } from "../../../../../helpers";
+import { languageTranslation, FormatFileSize } from "../../../../../helpers";
 import { AppConfig } from "../../../../../config";
 const DocumentsList: FunctionComponent<any> = (props: any) => {
-  let baseUrl = "http://192.168.2.45:8000";
+  const {
+    documentListing,
+    setStateValueNull,
+    setShowDocumentPopup,
+    isApproved,
+    onDisapprove,
+    onApprove,
+    documentId,
+    handleCheckElement,
+    onUpdateDocument,
+    onDeleteDocument
+  } = props;
+  let allDocDisApp: boolean = true;
+  if (
+    documentListing &&
+    documentListing.getDocuments &&
+    documentListing.getDocuments.length
+  ) {
+    documentListing.getDocuments.map((data: any, index: number) => {
+      if (data && data.status === "approve") {
+        allDocDisApp = false;
+      }
+    });
+  }
+
   return (
     <>
       <div className="document-upload-section mb-3">
@@ -12,29 +36,52 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           <h5 className="content-title mb-3">
             {languageTranslation("CG_SUB_MENU_DOCUMENTS")}
           </h5>
-          <div>
-            <Button
-              onClick={() => {
-                props.onApprove();
-              }}
-              className="btn-common mb-3 mr-3"
-              color="primary"
-            >
-              Approve
-            </Button>
-            <Button
-              onClick={() => {
-                props.setStateValueNull();
-                props.setShowDocumentPopup(true);
-              }}
-              className="btn-common mb-3"
-              color="primary"
-            >
-              <i className={"fa fa-upload"} />
-              &nbsp; {languageTranslation("UPLOAD_DOCUMENT")}
-            </Button>
-          </div>
+          <Button
+            onClick={() => {
+              setStateValueNull();
+              setShowDocumentPopup(true);
+            }}
+            className="btn-common mb-3"
+            color="primary"
+          >
+            {languageTranslation("UPLOAD_DOCUMENT")}
+          </Button>
         </div>
+        {console.log("allDocDisApp", allDocDisApp)}
+
+        {isApproved ? (
+          <Button
+            onClick={() => {
+              onDisapprove();
+            }}
+            disabled={
+              allDocDisApp ||
+              (documentListing &&
+                documentListing.getDocuments &&
+                !documentListing.getDocuments.length)
+            }
+            className="btn-common mb-3"
+            color="primary"
+          >
+            Disapprove
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              onApprove();
+            }}
+            disabled={
+              allDocDisApp ||
+              (documentListing &&
+                documentListing.getDocuments &&
+                !documentListing.getDocuments.length)
+            }
+            className="btn-common mb-3"
+            color="primary"
+          >
+            Approve
+          </Button>
+        )}
 
         <Table bordered hover responsive>
           <thead className="thead-bg">
@@ -59,101 +106,98 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               </th>
             </tr>
           </thead>
-          {props &&
-          props.documentListing &&
-          props.documentListing.getDocuments &&
-          props.documentListing.getDocuments.length ? (
-            props.documentListing.getDocuments.map(
-              (list: any, index: number) => {
-                return (
-                  <tr
-                    key={index}
-                    className={
-                      list.status === "approve" ? "approve-bg" : "table-danger"
-                    }
-                  >
-                    <td>{index + 1}</td>
-                    <td>
-                      {list && list.createdAt
-                        ? moment(list.createdAt).format("lll")
-                        : "-"}
-                    </td>
-                    <td>
-                      <span
-                        onClick={() =>
-                          window.open(`${baseUrl}${list.document}`, "_blank")
+          {documentListing &&
+          documentListing.getDocuments &&
+          documentListing.getDocuments.length ? (
+            documentListing.getDocuments.map((list: any, index: number) => {
+              const size = FormatFileSize(list.fileSize);
+              return (
+                <tr
+                  key={index}
+                  className={
+                    list.status === "approve" ? "approve-bg" : "table-danger"
+                  }
+                >
+                  <td>{index + 1}</td>
+                  <td>
+                    {list && list.createdAt
+                      ? moment(list.createdAt).format("lll")
+                      : "-"}
+                  </td>
+                  <td>
+                    <span
+                      onClick={() =>
+                        window.open(
+                          `${AppConfig.FILES_ENDPOINT}${list.document}`,
+                          "_blank"
+                        )
+                      }
+                      className="view-more-link"
+                    >
+                      {list && list.fileName ? list.fileName : "-"}
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      {list && list.documentType ? list.documentType : "-"}
+                    </span>
+                  </td>
+                  <td>{list && list.remarks ? list.remarks : "-"}</td>
+                  <td className="text-center">
+                    <span className="checkboxli checkbox-custom checkbox-default">
+                      <input
+                        type="checkbox"
+                        checked={
+                          documentId && documentId.id === list.id
+                            ? documentId.checked
+                            : list.status === "approve"
+                            ? true
+                            : false
                         }
-                        className="view-more-link"
+                        onChange={(e: any) => {
+                          handleCheckElement(e, list.id, list.status);
+                        }}
+                        className=""
+                      />
+                      <label className=""></label>
+                    </span>
+                  </td>
+
+                  <td>{size}</td>
+                  <td>
+                    <div className="action-btn">
+                      <span
+                        id={`edit${index}`}
+                        className="btn-icon mr-2"
+                        onClick={() => onUpdateDocument(list)}
                       >
-                        {list && list.fileName ? list.fileName : "-"}
-                      </span>
-                    </td>
-                    <td>
-                      <span>
-                        {list && list.documentType ? list.documentType : "-"}
-                      </span>
-                    </td>
-                    <td>{list && list.remarks ? list.remarks : "-"}</td>
-                    <td className="text-center">
-                      <span className="checkboxli checkbox-custom checkbox-default">
-                        <input
-                          type="checkbox"
-                          checked={
-                            props.documentId && props.documentId.id === list.id
-                              ? props.documentId.checked
-                              : list.status === "approve"
-                              ? true
-                              : false
-                          }
-                          onChange={(e: any) => {
-                            props.handleCheckElement(e, list.id, list.status);
-                          }}
-                          className=""
-                        />
-                        <label className=""></label>
-                      </span>
-                    </td>
-
-                    <td>
-                      {list && list.fileSize
-                        ? list.fileSize + " " + "bytes"
-                        : "-"}
-                    </td>
-                    <td>
-                      <div className="action-btn">
-                        <span
-                          id={`edit${index}`}
-                          className="btn-icon mr-2"
-                          onClick={() => props.onUpdateDocument(list)}
+                        <UncontrolledTooltip
+                          placement={"top"}
+                          target={`edit${index}`}
                         >
-                          <UncontrolledTooltip
-                            placement={"top"}
-                            target={`edit${index}`}
-                          >
-                            {languageTranslation("DOCUMENT_EDIT")}
-                          </UncontrolledTooltip>
-                          <i className="fa fa-pencil"></i>
-                        </span>
+                          {languageTranslation("DOCUMENT_EDIT")}
+                        </UncontrolledTooltip>
+                        <i className="fa fa-pencil"></i>
+                      </span>
 
-                        <span
-                          id={`delete${index}`}
-                          className="btn-icon mr-2"
-                          onClick={() => props.onDeleteDocument(list.id)}
+                      <span
+                        id={`delete${index}`}
+                        className="btn-icon mr-2"
+                        onClick={() => onDeleteDocument(list.id)}
+                      >
+                        <UncontrolledTooltip
+                          placement={"top"}
+                          target={`delete${index}`}
                         >
-                          <UncontrolledTooltip
-                            placement={"top"}
-                            target={`delete${index}`}
-                          >
-                            {languageTranslation("DOCUMENT_DELETE")}
-                          </UncontrolledTooltip>
-                          <i className="fa fa-trash"></i>
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              }
-            )
+                          {languageTranslation("DOCUMENT_DELETE")}
+                        </UncontrolledTooltip>
+                        <i className="fa fa-trash"></i>
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
           ) : (
             <tr className={"text-center no-hover-row"}>
               <td colSpan={8} className={"pt-5 pb-5"}>

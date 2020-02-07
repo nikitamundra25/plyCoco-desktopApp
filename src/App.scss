@@ -1222,6 +1222,7 @@ html:not([dir='rtl']) {
       &.error {
         border-color: $red;
       }
+      
       &:hover ~ {
         .required-tooltip {
           display: block;
@@ -1230,6 +1231,14 @@ html:not([dir='rtl']) {
     }
     .custom-input-width {
       width: 125px;
+    }
+    .text-count{
+      color: $swal_text;
+      position: absolute;
+      bottom: -15px;
+      font-weight: 600;
+      font-size: 11px;
+      right: 15px;
     }
     .react-datepicker-wrapper {
       display: block;
@@ -1470,6 +1479,9 @@ html:not([dir='rtl']) {
     border: 1px solid $light_gray;
     box-shadow: none;
     font-family: $font_Frutiger_Regular;
+    .custom-inner-reactselect__placeholder {
+      margin:0px;
+    }
     .custom-inner-reactselect__multi-value {
       line-height: normal;
     }

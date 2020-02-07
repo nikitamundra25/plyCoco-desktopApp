@@ -225,8 +225,8 @@ const GET_LEASING_INFO = gql`
 `;
 
 const GET_EMAILS = gql`
-  query getEmails($userId: Int!, $from: String) {
-    getEmails(userId: $userId, from: $from) {
+  query getEmails($userId: Int!, $from: String, $searchBy: String) {
+    getEmails(userId: $userId, from: $from, searchBy: $searchBy) {
       id
       userId
       to

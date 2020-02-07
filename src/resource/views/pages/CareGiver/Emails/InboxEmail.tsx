@@ -14,6 +14,7 @@ import { IEmailListProps, IEmailData } from '../../../../../interfaces';
 import { EmailPreview } from './EmailPreview';
 import noemail from '../../../../assets/img/no-email.svg';
 import Loader from '../../../containers/Loader/Loader';
+import { EmailSearchFilter } from './EmailSearchFilter';
 
 const InboxEmail: FunctionComponent<IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
@@ -23,6 +24,10 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
   onTabChange,
   onRefresh,
   loading,
+  searchBy,
+  handleChange,
+  handleSubmit,
+  onReset,
 }: IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
 }) => {
@@ -50,43 +55,17 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
       <div className='email-content'>
         {loading ? (
           <Loader />
-        ) : emailList && emailList.getEmails && emailList.getEmails.length ? (
+        ) : (emailList && emailList.getEmails && emailList.getEmails.length) ||
+          searchBy ? (
           <Row>
             <Col lg={'5'}>
               <div className='email-inbox-section'>
-                <div className='filter-form form-section'>
-                  <Row>
-                    <Col lg={'9'}>
-                      <FormGroup className='mb-2'>
-                        <Input
-                          type='text'
-                          name='search'
-                          id='search'
-                          placeholder={languageTranslation(
-                            'SEARCH_PLACEHOLDER',
-                          )}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'3'}>
-                      <div className='filter-btn-wrap mb-2'>
-                        <span className='btn-filter mr-2' id='search1'>
-                          <UncontrolledTooltip placement='top' target='search1'>
-                            {languageTranslation('SEARCH_LABEL')}
-                          </UncontrolledTooltip>
-                          {languageTranslation('SEARCH_LABEL')}
-                        </span>
-                        <span className='btn-filter mr-2' id='reset'>
-                          <UncontrolledTooltip placement='top' target='reset'>
-                            {languageTranslation('RESET_LABEL')}
-                          </UncontrolledTooltip>
-                          {languageTranslation('RESET_LABEL')}
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-                </div>
-
+                <EmailSearchFilter
+                  searchBy={searchBy}
+                  handleChange={handleChange}
+                  handleSubmit={handleSubmit}
+                  onReset={onReset}
+                />
                 <div className='email-row-wrap align-items-center email-attributes-wrap'>
                   <div
                     className='email-attributes-content d-flex align-items-center'

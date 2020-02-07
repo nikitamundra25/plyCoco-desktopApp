@@ -26,19 +26,6 @@ const UPDATE_DOCUMENT = gql`
     }
   }
 `;
-// mutation{
-//   updateUserDocuments(id:46, documentInput: {
-//     fileName: "output-onlinepngtoolls.png",
-//     documentType: "fdg",
-//     remarks: "asd",
-//     status: "approve"
-//   }){
-//     id,
-//     fileName,
-//     status
-//   }
-//  }
-
 const DELETE_DOCUMENT = gql`
   mutation DeleteDocument($id: Int!) {
     deleteDocument(id: $id) {

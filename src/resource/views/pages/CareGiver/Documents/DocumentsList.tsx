@@ -42,7 +42,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
         {props.isApproved ? (
           <Button
             onClick={() => {
-              props.onApprove();
+              props.onDisapprove();
             }}
             disabled={
               allDocDisApp ||

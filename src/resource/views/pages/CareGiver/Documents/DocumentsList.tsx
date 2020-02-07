@@ -169,13 +169,14 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   <td>
                     <div
                       className={`action-btn ${
-                        list.length ? 'margin-tooltip' : ''
+                        index === 0 ? 'margin-tooltip' : ''
                       }`}
                     >
                       <span
                         id={`edit${index}`}
                         className='btn-icon mr-2'
                         onClick={() => onUpdateDocument(list)}
+                        // disable={list.status === 'approve'}
                       >
                         <UncontrolledTooltip
                           placement={'top'}
@@ -185,18 +186,27 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         </UncontrolledTooltip>
                         <i className='fa fa-pencil'></i>
                       </span>
-
                       <span
                         id={`delete${index}`}
-                        className='btn-icon mr-2'
-                        onClick={() => onDeleteDocument(list.id)}
+                        className={`btn-icon mr-2 ${
+                          list.status === 'approve' ? 'disbale' : ''
+                        }`}
+                        onClick={() =>
+                          list.status === 'approve'
+                            ? ''
+                            : onDeleteDocument(list.id)
+                        }
                       >
-                        <UncontrolledTooltip
-                          placement={'top'}
-                          target={`delete${index}`}
-                        >
-                          {languageTranslation('DOCUMENT_DELETE')}
-                        </UncontrolledTooltip>
+                        {list.status === 'approve' ? (
+                          ''
+                        ) : (
+                          <UncontrolledTooltip
+                            placement={'top'}
+                            target={`delete${index}`}
+                          >
+                            {languageTranslation('DOCUMENT_DELETE')}
+                          </UncontrolledTooltip>
+                        )}
                         <i className='fa fa-trash'></i>
                       </span>
                     </div>

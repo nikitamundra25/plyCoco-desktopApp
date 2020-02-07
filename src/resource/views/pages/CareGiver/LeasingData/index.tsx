@@ -186,9 +186,6 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     }
     setSubmitting(false);
   };
-
-  console.log(leasingData, 'leasingDataaaaaaaaaaaa');
-
   const {
     placeOfBirth = '',
     birthName = '',

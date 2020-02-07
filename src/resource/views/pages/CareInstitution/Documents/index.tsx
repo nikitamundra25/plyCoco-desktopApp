@@ -288,7 +288,6 @@ const Documents = () => {
         });
       }
     }
-    console.log('documentIdUpdate', documentIdUpdate);
   };
 
   //on delete document

@@ -226,6 +226,7 @@ body {
     font-weight: 700;
     cursor: pointer;
     &:hover {
+      color: $light_black;
       text-decoration: underline;
     }
   }
@@ -973,6 +974,9 @@ html:not([dir="rtl"]) {
   &.minheight-auto {
     min-height: auto;
     height: auto;
+  }
+  &.active-border {
+    border: 1px solid $theme_color;
   }
 }
 .region-input-section {

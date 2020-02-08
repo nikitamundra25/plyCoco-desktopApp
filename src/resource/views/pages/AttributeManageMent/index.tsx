@@ -146,11 +146,11 @@ const AttributeManageMent: FunctionComponent = () => {
           >
             {!isOpen ? (
               <>
-                <i className={'fa fa-plus'} />
-                &nbsp; {languageTranslation('ADD_NEW_ATTRIBUTE_BUTTON')}
+                <i className={"fa fa-plus"} />
+                &nbsp; {languageTranslation("ADD_NEW_ATTRIBUTE_BUTTON")}
               </>
             ) : (
-              languageTranslation('CANCEL')
+              languageTranslation("CANCEL")
             )}
           </Button> */}
         </div>

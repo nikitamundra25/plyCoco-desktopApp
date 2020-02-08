@@ -1,13 +1,13 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import WorkingProofForm from './WorkingProofForm';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { DocumentsUploadValidationSchema } from '../../../validations';
-import { DocumentQueries } from '../../../../graphql/queries';
-import { useLazyQuery } from '@apollo/react-hooks';
+import React, { FunctionComponent, useState, useEffect } from "react";
+import WorkingProofForm from "./WorkingProofForm";
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import { DocumentsUploadValidationSchema } from "../../../validations";
+import { DocumentQueries } from "../../../../graphql/queries";
+import { useLazyQuery } from "@apollo/react-hooks";
 import {
   IWorkingProofFormValues,
   IDocumentInterface
-} from '../../../../interfaces';
+} from "../../../../interfaces";
 
 const [GET_DOCUMENTS] = DocumentQueries;
 

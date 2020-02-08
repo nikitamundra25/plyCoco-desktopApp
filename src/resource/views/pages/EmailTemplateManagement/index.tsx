@@ -151,7 +151,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   //To get email templates by type
   const [
     fetchTemplateList,
-    { data, loading: fetchTemplateListLoading, refetch: listRefetch },
+    { data, loading: fetchTemplateListLoading, called, refetch: listRefetch },
   ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
 
   //To get email templates by id
@@ -388,7 +388,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                 <EmailTemplateList
                   onTemplateSelection={onTemplateSelection}
                   data={data}
-                  loading={fetchTemplateListLoading}
+                  loading={!called || fetchTemplateListLoading}
                   activeTemplate={activeTemplate}
                 />
                 <AddTemplate

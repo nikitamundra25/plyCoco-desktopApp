@@ -8,7 +8,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { AppConfig } from '../../../../config';
+import { AppConfig, sortFilter } from '../../../../config';
 import { AppRoutes, PAGE_LIMIT } from '../../../../config';
 import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
@@ -35,13 +35,6 @@ const [, GET_EMPLOYEES] = EmployeeQueries;
 
 const [, , UPDATE_EMPLOYEE_STATUS, DELETE_EMPLOYEE] = EmployeeMutations;
 
-const sortFilter: IObjectType = {
-  3: 'name',
-  4: 'name-desc',
-  2: 'oldest',
-  1: 'newest',
-};
-
 const Employee: FunctionComponent = () => {
   let history = useHistory();
 
@@ -52,12 +45,11 @@ const Employee: FunctionComponent = () => {
   const [isFilterApplied, setIsFilter] = useState<boolean>(false);
 
   // To get employee list from db
-  const [fetchEmployeeList, { data, loading, refetch }] = useLazyQuery<any>(
-    GET_EMPLOYEES,
-    {
-      fetchPolicy: 'no-cache',
-    },
-  );
+  const [fetchEmployeeList, { data, called, loading, refetch }] = useLazyQuery<
+    any
+  >(GET_EMPLOYEES, {
+    fetchPolicy: 'no-cache',
+  });
 
   // Mutation to delete employee
   const [deleteEmployee, { error }] = useMutation<
@@ -359,7 +351,7 @@ const Employee: FunctionComponent = () => {
             </tr>
           </thead>
           <tbody>
-            {loading ? (
+            {!called || loading ? (
               <tr>
                 <td className={'table-loader'} colSpan={7}>
                   <Loader />

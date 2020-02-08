@@ -27,6 +27,7 @@
   "ADDITIONAL_TEXT": "This text appears below the bank details  on the invoice. In the case of ceded invoices (factoring), the cession can be added here.",
   "OTHER_INFORMATION": " Other Information",
   "REQUIRED_FIELDS": "* Required Fields",
+  "REQUIRED_FIELD": "* Required Field",
   "BANK_ACCOUNT_INFORMATION": "Bank Account Information",
   "SAVE_BUTTON": "Save",
   "VALID_EMAIL": "Please enter a valid email address",
@@ -610,5 +611,6 @@
   "DOCUMENT_DELETED_SUCCESS": "Document deleted successfully",
   "NO_EMAIL_MESSAGE": " Currently there are no emails Found.",
   "SUBORDINATED_HEADING": "Grouped Below",
-  "NO_SUBORDINATED_MEG": "Currently, no subordinated caregiver available."
+  "NO_SUBORDINATED_MEG": "Currently, no subordinated caregiver available.",
+  "ADD_NEW_EMAIL_TEMPLATE": "Add New E-mail Template"
 }

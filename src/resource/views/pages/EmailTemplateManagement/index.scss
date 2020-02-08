@@ -6,30 +6,12 @@
   font-weight: bold;
 }
 .email-template-list {
-  height: calc(100% - 43px);
+  max-height: 522px;
+  overflow-y: auto;
+  overflow-x: hidden;
   margin-bottom: 8px;
-  .common-list-body {
-    height: 100%;
-    max-height: 522px;
-  }
 }
-.common-col {
-  height: 100%;
-  .quality-attribute-section {
-    height: calc(100% - 359px);
-    .common-list-card {
-      height: 100%;
-      margin-bottom: 12px;
-      .common-list-wrap {
-        height: calc(100% - 35px);
-        margin-bottom: 0px;
-        .common-list-body {
-          height: calc(100% - 22px);
-        }
-      }
-    }
-  }
-}
+
 .mail-table {
   .size-col {
     width: 60px;

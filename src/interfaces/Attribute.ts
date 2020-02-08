@@ -3,13 +3,14 @@ export interface IAddAttributeProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   newAttribute: string;
   isSubmit: boolean;
+  data: any;
+  attributeName: string | null;
 }
 
 export interface IAttributeInput {
   id: number;
   name: string;
 }
-export interface IAttributeFormValues{
+export interface IAttributeFormValues {
   newAttribute: string;
-
 }

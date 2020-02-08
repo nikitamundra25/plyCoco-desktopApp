@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from '../interfaces';
+import { IReactSelectInterface, IObjectType } from '../interfaces';
 import { languageTranslation } from '../helpers';
 import { maskArray } from 'react-text-mask';
 export const taxNumberLimit: number = 11;
@@ -1347,3 +1347,9 @@ export const AcceptedDocumentFile = [
 ];
 
 export const maxFileSize1MB = 1048576;
+export const sortFilter: IObjectType = {
+  3: 'name',
+  4: 'name-desc',
+  2: 'oldest',
+  1: 'newest',
+};

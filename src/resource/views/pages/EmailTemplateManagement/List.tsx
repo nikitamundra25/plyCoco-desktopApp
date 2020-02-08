@@ -9,7 +9,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   onTemplateSelection,
   data,
   loading,
-  activeTemplate
+  activeTemplate,
 }: IEmailTemplateList) => {
   return (
     <Col lg={'7'}>
@@ -17,34 +17,32 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
       <div className='common-list-wrap border-0 email-template-list'>
         <div className='common-list-body'>
           <ul className='common-list list-unstyled mb-0'>
-            {!loading ? (
-              data &&
+            {loading ? (
+              <Loader />
+            ) : data &&
               data.getEmailtemplate &&
               data.getEmailtemplate.email_templates &&
               data.getEmailtemplate.email_templates.length ? (
-                data.getEmailtemplate.email_templates.map(
-                  (menu: any, index: number) => {
-                    return (
-                      <li
-                        key={index}
-                        className={`cursor-pointer text-capitalize ${
-                          activeTemplate === menu.id ? 'active' : ''
-                        }`}
-                        onClick={() => onTemplateSelection(menu.id)}
-                      >
-                        {menu.menuEntry}
-                      </li>
-                    );
-                  }
-                )
-              ) : (
-                <div className='no-list-section d-flex align-items-center justify-content-center flex-column py-5 my-3'>
-                  <img src={nodata} alt='' className='no-img' />
-                  <span className='no-text'>No Menu Entry Added </span>
-                </div>
+              data.getEmailtemplate.email_templates.map(
+                (menu: any, index: number) => {
+                  return (
+                    <li
+                      key={index}
+                      className={`cursor-pointer text-capitalize ${
+                        activeTemplate === menu.id ? 'active' : ''
+                      }`}
+                      onClick={() => onTemplateSelection(menu.id)}
+                    >
+                      {menu.menuEntry}
+                    </li>
+                  );
+                },
               )
             ) : (
-              <Loader />
+              <div className='no-list-section d-flex align-items-center justify-content-center flex-column py-5 my-3'>
+                <img src={nodata} alt='' className='no-img' />
+                <span className='no-text'>No Menu Entry Added </span>
+              </div>
             )}
           </ul>
         </div>

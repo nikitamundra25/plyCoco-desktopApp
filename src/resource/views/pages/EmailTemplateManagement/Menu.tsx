@@ -8,7 +8,7 @@ import { IEmailTemplateMenu } from '../../../../interfaces';
 // import EmailSeparator from '../../assets/img/mail.svg';
 
 export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
-  props: IEmailTemplateMenu,
+  props: IEmailTemplateMenu
 ) => {
   const {
     typeListOptions,
@@ -20,6 +20,7 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
     onDeleteEmailTemplate,
     addEmailLoading,
     id,
+    updateLoading
   } = props;
   return (
     <div className='sticky-common-header'>
@@ -68,7 +69,7 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
 
         <div className='header-nav-item' onClick={handleSubmit}>
           <span className='header-nav-icon'>
-            {addEmailLoading ? (
+            {addEmailLoading || updateLoading ? (
               <i className='fa fa-spinner fa-spin ' />
             ) : (
               <img src={save} alt='' />

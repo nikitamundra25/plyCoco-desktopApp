@@ -57,7 +57,7 @@ const DocumentUploadModal = (props: any) => {
         <ModalHeader close={externalCloseBtn}>
           {!documentIdUpdate
             ? languageTranslation('ADD_DOCUMENT')
-            : 'Update Document'}
+            : languageTranslation('UPDATE_DOCUMENT')}
         </ModalHeader>
         <ModalBody>
           <div className=''>
@@ -153,9 +153,9 @@ const DocumentUploadModal = (props: any) => {
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
                           // className={
-                          //   isSubmit && !documentType
-                          //     ? 'text-input error my-2 my-sm-0'
-                          //     : 'text-input my-2 my-sm-0'
+                          //   props.isSubmit && !props.documentType
+                          //     ? "text-input error my-2 my-sm-0"
+                          //     : "text-input my-2 my-sm-0"
                           // }
                         />
                         {/* {console.log('isSubmit', isSubmit)}
@@ -257,9 +257,16 @@ const DocumentUploadModal = (props: any) => {
           <Button
             color='primary'
             onClick={handleSaveDocument}
-            disable={!isSubmit}
+            disabled={isSubmit}
           >
-            {languageTranslation('SAVE_BUTTON')}
+            {isSubmit ? (
+              <>
+                <i className='fa fa-spinner fa-spin ' />{' '}
+                {languageTranslation('SAVE_BUTTON')}
+              </>
+            ) : (
+              languageTranslation('SAVE_BUTTON')
+            )}
           </Button>
 
           <Button color='secondary' onClick={handleClose}>

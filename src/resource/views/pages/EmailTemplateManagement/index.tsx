@@ -421,6 +421,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
               submitMyForm();
             }}
             addEmailLoading={addEmailLoading}
+            updateLoading={updateLoading}
             onAddNewTemplate={() => {
               if (templateType && templateType.value) {
                 setTypeId(parseInt(templateType.value));

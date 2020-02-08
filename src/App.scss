@@ -116,6 +116,11 @@ body {
     }
   }
 
+.disbale{
+  cursor: not-allowed !important;
+  opacity: 0.8;
+}
+
   .status-btn {
     padding: 3px 10px;
     font-size: $font_12;
@@ -828,7 +833,7 @@ body {
         }
       }
       .nav-dropdown-items {
-        max-height: 200px !important;
+        max-height: 210px !important;
         overflow-y: auto;
         overflow-x: hidden;
         .nav-item {
@@ -1716,16 +1721,17 @@ html:not([dir='rtl']) {
         &:hover {
           background-color: rgba(0, 0, 0, 0.06);
         }
+        &.no-hover-row {
+          &:hover {
+            color: #23282c;
+            background-color: $transparent;
+          }
+        }
       }
     }
   }
 
-  .no-hover-row {
-    &:hover {
-      color: #23282c;
-      background-color: $transparent;
-    }
-  }
+ 
 
   thead {
     &.thead-bg {

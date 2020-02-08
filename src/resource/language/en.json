@@ -595,5 +595,6 @@
   "DOCUMENT_DELETED_SUCCESS": "Document deleted successfully",
   "NO_EMAIL_MESSAGE": " Currently there are no emails Found.",
   "SUBORDINATED_HEADING": "Grouped Below",
-  "NO_SUBORDINATED_MEG": "Currently, no subordinated caregiver available."
+  "NO_SUBORDINATED_MEG": "Currently, no subordinated caregiver available.",
+  "ADD_NEW_EMAIL_TEMPLATE": "Add New E-mail Template"
 }

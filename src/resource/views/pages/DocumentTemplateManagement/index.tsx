@@ -2,20 +2,20 @@ import React, {
   Component,
   FunctionComponent,
   useCallback,
-  useState,
-} from 'react';
-import { FormGroup, Label, Input, Col, Row, Form, Table } from 'reactstrap';
-import moment from 'moment';
-import Dropzone, { useDropzone } from 'react-dropzone';
-import Select from 'react-select';
-import { languageTranslation } from '../../../../helpers';
-import { State } from '../../../../config';
-import { IDocumentUrls } from '../../../../interfaces';
-import { ConfirmBox } from '../../components/ConfirmBox';
-import displaydoc from '../../../assets/img/display-doc.svg';
-import upload from '../../../assets/img/upload.svg';
-import visit from '../../../assets/img/visit.svg';
-import './index.scss';
+  useState
+} from "react";
+import { FormGroup, Label, Input, Col, Row, Form, Table } from "reactstrap";
+import moment from "moment";
+import Dropzone, { useDropzone } from "react-dropzone";
+import Select from "react-select";
+import { languageTranslation } from "../../../../helpers";
+import { State } from "../../../../config";
+import { IDocumentUrls } from "../../../../interfaces";
+import { ConfirmBox } from "../../components/ConfirmBox";
+import displaydoc from "../../../assets/img/display-doc.svg";
+import upload from "../../../assets/img/upload.svg";
+import visit from "../../../assets/img/visit.svg";
+import "./index.scss";
 
 const WorkingProof: FunctionComponent = () => {
   const [documentUrls, setDocumentUrl] = useState<IDocumentUrls[] | null>(null);
@@ -92,8 +92,11 @@ const WorkingProof: FunctionComponent = () => {
                               {...getInputProps()}
                               className="dropzone-input-preview"
                             />
+                            <div className="icon-upload">
+                              <i className="cui-cloud-upload"></i>
+                            </div>
                             <span>
-                              Drag 'n' drop some files here, or click to select
+                              Drag 'n' drop files here, or click here to upload
                               files
                             </span>
                           </div>
@@ -353,6 +356,9 @@ const WorkingProof: FunctionComponent = () => {
                             </tr>
                           </tbody>
                         </Table>
+                        <div className="document-preview d-flex justify-content-center ">
+                          Currently above data is static
+                        </div>
                       </div>
                     </div>
                   </Col>

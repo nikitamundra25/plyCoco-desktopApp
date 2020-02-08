@@ -1,16 +1,16 @@
-import React, { FunctionComponent } from 'react';
-import { Row, Col, FormGroup, Label, Input, Table } from 'reactstrap';
-import { FormikProps } from 'formik';
-import CreatableSelect from 'react-select/creatable';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-import { convertToRaw } from 'draft-js';
-import { IEmailTemplateValues } from '../../../../../interfaces';
-import { languageTranslation, stripHtml } from '../../../../../helpers';
-import { ErroredFieldComponent } from '../../../components/ErroredFieldComponent';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { AttachmentFormComponent } from './AttachmentFormComponent';
-import { AttachmentList } from './AttachmentList';
+import React, { FunctionComponent } from "react";
+import { Row, Col, FormGroup, Label, Input, Table } from "reactstrap";
+import { FormikProps } from "formik";
+import CreatableSelect from "react-select/creatable";
+import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
+import { convertToRaw } from "draft-js";
+import { IEmailTemplateValues } from "../../../../../interfaces";
+import { languageTranslation, stripHtml } from "../../../../../helpers";
+import { ErroredFieldComponent } from "../../../components/ErroredFieldComponent";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { AttachmentFormComponent } from "./AttachmentFormComponent";
+import { AttachmentList } from "./AttachmentList";
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
@@ -25,7 +25,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     setTypeId?: any;
     attachment: any;
     uploadDocument: any;
-  },
+  }
 ) => {
   const {
     values: { type, menuEntry, subject, body, id },
@@ -36,42 +36,44 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     typeListOptions,
     setTypeId,
     attachment,
-    uploadDocument,
+    uploadDocument
   } = props;
   const typeError: any = errors.type;
 
   const handleTypeSelect = (newValue: any, actionMeta: any) => {
-    setFieldValue('type', newValue);
+    setFieldValue("type", newValue);
     setTypeId(parseInt(newValue.value));
-    if (actionMeta.action === 'create-option') {
+    if (actionMeta.action === "create-option") {
     }
   };
-  let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '';
+  let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : "";
   const result = stripHtml(content);
 
   return (
-    <Col lg={'5'}>
-      <h5 className='content-title'>{languageTranslation('DETAILS')}</h5>
-      <div className='form-section'>
-        <div className='form-card minheight-auto '>
+    <Col lg={"7"}>
+      <h5 className="content-title">
+        {languageTranslation("ADD_NEW_EMAIL_TEMPLATE")}
+      </h5>
+      <div className="form-section">
+        <div className="form-card minheight-auto ">
           <Row>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('ID')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("ID")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'id'}
-                        value={id ? id : ''}
+                        type="text"
+                        name={"id"}
+                        value={id ? id : ""}
                         disabled={true}
-                        placeholder='ID'
-                        className='width-common'
+                        placeholder="ID"
+                        className="width-common"
                       />
                     </div>
                   </Col>
@@ -79,33 +81,33 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
               </FormGroup>
             </Col>
 
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      <Label className='form-label col-form-label inner-label'>
-                        {languageTranslation('TYPE')}
-                        <span className='required'>*</span>
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      <Label className="form-label col-form-label inner-label">
+                        {languageTranslation("TYPE")}
+                        <span className="required">*</span>
                       </Label>
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <CreatableSelect
-                        classNamePrefix='custom-inner-reactselect'
+                        classNamePrefix="custom-inner-reactselect"
                         className={
                           typeError && typeError.value && touched.type
-                            ? 'error custom-reactselect'
-                            : 'custom-reactselect'
+                            ? "error custom-reactselect"
+                            : "custom-reactselect"
                         }
                         onChange={handleTypeSelect}
-                        value={type && type.label !== '' ? type : null}
+                        value={type && type.label !== "" ? type : null}
                         options={typeListOptions}
-                        placeholder={'Create and select type'}
+                        placeholder={"Create and select type"}
                       />
                       <ErroredFieldComponent
-                        errors={typeError ? typeError.value : ''}
+                        errors={typeError ? typeError.value : ""}
                         touched={touched.type}
                       />
                     </div>
@@ -114,28 +116,28 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
               </FormGroup>
             </Col>
 
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('MENU_ENTRY')}
-                      <span className='required'>*</span>
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("MENU_ENTRY")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'menuEntry'}
+                        type="text"
+                        name={"menuEntry"}
                         value={menuEntry}
                         maxLength={255}
-                        placeholder={languageTranslation('MENU_ENTRY')}
+                        placeholder={languageTranslation("MENU_ENTRY")}
                         onChange={handleChange}
                         className={
                           errors.menuEntry && touched.menuEntry
-                            ? 'text-input error text-capitalize'
-                            : 'text-input text-capitalize'
+                            ? "text-input error text-capitalize"
+                            : "text-input text-capitalize"
                         }
                       />
                       <ErroredFieldComponent
@@ -147,27 +149,27 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('SUBJECT')}{' '}
-                      <span className='required'>*</span>
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("SUBJECT")}{" "}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col sm='8'>
+                  <Col sm="8">
                     <div>
                       <Input
-                        type='text'
-                        name={'subject'}
+                        type="text"
+                        name={"subject"}
                         value={subject}
                         maxLength={255}
-                        placeholder={languageTranslation('SUBJECT')}
+                        placeholder={languageTranslation("SUBJECT")}
                         className={
                           errors.subject && touched.subject
-                            ? 'text-input error text-capitalize'
-                            : 'text-input text-capitalize'
+                            ? "text-input error text-capitalize"
+                            : "text-input text-capitalize"
                         }
                         onChange={handleChange}
                       />
@@ -180,49 +182,49 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <div>
                   <Editor
                     editorState={body}
-                    toolbarClassName='toolbarClassName'
-                    wrapperClassName='wrapperClassName'
-                    editorClassName='editorClassName'
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClassName"
                     onEditorStateChange={editorState =>
-                      setFieldValue('body', editorState)
+                      setFieldValue("body", editorState)
                     }
-                    placeholder='Enter Email Here'
+                    placeholder="Enter Email Here"
                     toolbar={{
                       options: [
-                        'inline',
-                        'blockType',
-                        'fontSize',
-                        'list',
-                        'textAlign',
-                        'link',
+                        "inline",
+                        "blockType",
+                        "fontSize",
+                        "list",
+                        "textAlign",
+                        "link"
                       ],
                       inline: {
-                        options: ['bold', 'italic', 'underline'],
+                        options: ["bold", "italic", "underline"]
                       },
                       fontSize: {
-                        className: 'bordered-option-classname',
+                        className: "bordered-option-classname"
                       },
                       fontFamily: {
-                        className: 'bordered-option-classname',
+                        className: "bordered-option-classname"
                       },
                       list: {
                         inDropdown: false,
-                        options: ['unordered'],
+                        options: ["unordered"]
                       },
                       link: {
-                        options: ['link'],
-                      },
+                        options: ["link"]
+                      }
                     }}
                   />
                   {touched.body &&
                   (errors.body || !result || (result && result.length < 2)) ? (
-                    <div className='required-error'>
-                      {errors.body || languageTranslation('REQUIRED_BODY')}
+                    <div className="required-error">
+                      {errors.body || languageTranslation("REQUIRED_BODY")}
                     </div>
                   ) : null}
                 </div>

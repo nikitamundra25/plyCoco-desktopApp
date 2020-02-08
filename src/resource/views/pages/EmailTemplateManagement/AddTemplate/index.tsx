@@ -18,6 +18,8 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
     setTypeId,
     attachment,
     uploadDocument,
+    onDelteDocument,
+    emailTemplateLoading,
   } = props;
   const {
     type = { label: '', value: '' },
@@ -49,6 +51,8 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
             setTypeId={setTypeId}
             attachment={attachment}
             uploadDocument={uploadDocument}
+            onDelteDocument={onDelteDocument}
+            emailTemplateLoading={emailTemplateLoading}
           />
         );
       }}

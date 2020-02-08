@@ -561,7 +561,10 @@
   "EMAIL_ADDED_SUCCESS": "Email Template added successfully.",
   "EMAIL_UPDATION_SUCCESS": "Email Template updated successfully.",
   "CONFIRM_EMAIL_TEMPLATE_DELETE_MSG": "This email template will be deleted.",
+  "ATTACHMENT_DELETE_INFO_MSG": "Click here to delete attachment",
+  "CONFIRM_EMAIL_ATTACHMENT_DELETE_MSG": "This attachment will be deleted.",
   "EMAIL_TEMPLATE_DELETION_SUCCESS": "Email Template deleted successfully.",
+  "EMAIL_TEMPLATE_ATTACHMENT_DELETION_SUCCESS": "Attached document deleted successfully.",
   "EMAIL_SENT_SUCCESS": "Email Sent successfully.",
   "SOCIAL_SECURITY_NUM_ERROR": "Social Security must be a less than or equal to 12 digits",
   "TAX_BRACKET_NUM_ERROR": "Tax bracket must be a number",
@@ -612,5 +615,6 @@
   "NO_EMAIL_MESSAGE": " Currently there are no emails Found.",
   "SUBORDINATED_HEADING": "Grouped Below",
   "NO_SUBORDINATED_MEG": "Currently, no subordinated caregiver available.",
-  "ADD_NEW_EMAIL_TEMPLATE": "Add New E-mail Template"
+  "ADD_NEW_EMAIL_TEMPLATE": "Add New E-mail Template",
+  "UPDATE_DOCUMENT": "Update Document"
 }

@@ -33,6 +33,7 @@ const [
   ADD_EMAIL_TEMPLATE,
   UPDATE_EMAIL_TEMPLATE,
   DELETE_EMAIL_TEMPLATE,
+  DELETE_EMAIL_TEMPLATE_ATTACHMENT,
 ] = EmailTemplateMutations;
 
 let toastId: any = '';
@@ -148,6 +149,31 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     },
   });
 
+  // To delete email template attachments from db
+  const [deleteEmailAttachment] = useMutation<
+    { deleteEmailAttachment: any },
+    { id: number; attachmentId: string }
+  >(DELETE_EMAIL_TEMPLATE_ATTACHMENT, {
+    onCompleted({ deleteEmailAttachment }) {
+      console.log(deleteEmailAttachment, 'deleteEmailAttachment');
+      const { attachmentId } = deleteEmailAttachment;
+      setAttachment((prevArray: any) =>
+        prevArray.filter((item: any) => item.id !== attachmentId),
+      );
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('EMAIL_TEMPLATE_ATTACHMENT_DELETION_SUCCESS'),
+        );
+      }
+    },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toast.error(message);
+      }
+    },
+  });
+
   //To get email templates by type
   const [
     fetchTemplateList,
@@ -196,10 +222,12 @@ export const EmailTemplateManagement: FunctionComponent = () => {
               path,
               name,
               size,
+              id,
             }: {
               path: string;
               name: string;
               size: number;
+              id: string;
             }) => {
               temp.push({
                 path,
@@ -207,6 +235,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                 size,
                 file: null,
                 url: '',
+                id,
               });
             },
           );
@@ -350,7 +379,33 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   };
 
   const uploadDocument = (data: IEmailAttachmentData) => {
-    setAttachment((prevArray: any) => [...prevArray, data]);
+    setAttachment((prevArray: any) => [data, ...prevArray]);
+  };
+
+  const onDelteDocument = async (
+    attachmentId: string,
+    attachmentIndex?: number,
+  ) => {
+    if (attachmentId && activeTemplate) {
+      const { value } = await ConfirmBox({
+        title: languageTranslation('CONFIRM_LABEL'),
+        text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_DELETE_MSG'),
+      });
+      if (!value) {
+        return;
+      } else {
+        deleteEmailAttachment({
+          variables: {
+            id: parseInt(activeTemplate),
+            attachmentId,
+          },
+        });
+      }
+    } else {
+      setAttachment((prevArray: any) =>
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index),
+      );
+    }
   };
 
   return (
@@ -366,6 +421,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
               submitMyForm();
             }}
             addEmailLoading={addEmailLoading}
+            updateLoading={updateLoading}
             onAddNewTemplate={() => {
               if (templateType && templateType.value) {
                 setTypeId(parseInt(templateType.value));
@@ -399,6 +455,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   setTypeId={setTypeId}
                   attachment={attachment}
                   uploadDocument={uploadDocument}
+                  onDelteDocument={onDelteDocument}
+                  emailTemplateLoading={emailTemplateLoading}
                 />
               </Row>
             </div>

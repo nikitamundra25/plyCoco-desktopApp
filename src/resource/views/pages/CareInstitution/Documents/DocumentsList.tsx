@@ -37,7 +37,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
   return (
     <>
       <div className="document-upload-section mb-3">
-        <div className="d-flex align-items-center justify-content-between">
+        <div className="d-flex align-items-center justify-content-between flex-wrap">
           <h5 className="content-title mb-3">
             {languageTranslation("CG_SUB_MENU_DOCUMENTS")}
           </h5>

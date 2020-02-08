@@ -248,10 +248,21 @@ const GET_BELONGS_TO = gql`
   }
 `;
 
+const GET_CAREGIVER_ATTRIBUTES = gql`
+  query getCaregiverAtrribute {
+    getCaregiverAtrribute {
+      id
+      name
+      color
+    }
+  }
+`;
+
 export const CareGiverQueries = [
   GET_CAREGIVERS,
   GET_CAREGIVER_BY_ID,
   GET_LEASING_INFO,
   GET_EMAILS,
-  GET_BELONGS_TO
+  GET_BELONGS_TO,
+  GET_CAREGIVER_ATTRIBUTES,
 ];

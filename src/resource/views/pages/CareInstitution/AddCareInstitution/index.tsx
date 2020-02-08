@@ -5,6 +5,8 @@ import {
   ICareInstitutionFormValues,
   IHandleSubmitInterface,
   IReactSelectInterface,
+  IAttributeValues,
+  IAttributeOptions,
 } from '../../../../../interfaces';
 import AddCareInstitution from './AddCareInstitution';
 import {
@@ -45,6 +47,8 @@ const [
   DELETE_DEPARTMENT,
 ] = CareInstitutionMutation;
 
+const [, , , GET_CAREINSTITUTION_ATTRIBUTES] = CareInstitutionQueries;
+
 export const CareInstitutionForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 > &
@@ -55,6 +59,24 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
   //contact info
   let [contacts, setContacts] = useState<any>([]);
+  // Fetch attribute list from db
+  const { data: attributeData } = useQuery<{
+    getCareInstitutionAtrribute: IAttributeValues[];
+  }>(GET_CAREINSTITUTION_ATTRIBUTES);
+  // Push into attribute options
+  const careInstitutionAttrOpt: IAttributeOptions[] | undefined = [];
+  useEffect(() => {
+    if (attributeData && attributeData.getCareInstitutionAtrribute) {
+      attributeData.getCareInstitutionAtrribute.forEach(
+        ({ id, name, color }: IAttributeValues) =>
+          careInstitutionAttrOpt.push({
+            label: name,
+            value: id.toString(),
+            color,
+          }),
+      );
+    }
+  }, [attributeData]);
 
   const [updateCareInstitution, { error, data }] = useMutation<{
     updateCareInstitution: ICareInstitutionFormValues;
@@ -286,6 +308,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
                       qualificationList={qualificationList}
                       setRemarksDetail={setRemarksDetail}
                       remarksDetail={remarksDetail}
+                      careInstitutionAttrOpt={careInstitutionAttrOpt}
                     />
                   )}
                   validationSchema={CareInstituionValidationSchema}

@@ -11,7 +11,8 @@ import {
   ICountry,
   IStates,
   IState,
-  IRegion
+  IRegion,
+  IAttributeOptions
 } from "../../../../../interfaces";
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 // import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
@@ -41,11 +42,13 @@ const AddCareInstitution: FunctionComponent<FormikProps<
   qualificationList: IReactSelectInterface[] | undefined;
   setRemarksDetail: any;
   remarksDetail: any;
+  careInstitutionAttrOpt: IAttributeOptions[] | undefined;
 }> = (
   props: FormikProps<ICareInstitutionFormValues> & {
     qualificationList: IReactSelectInterface[] | undefined;
     setRemarksDetail: any;
     remarksDetail: any;
+    careInstitutionAttrOpt: IAttributeOptions[] | undefined;
   }
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
@@ -862,6 +865,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             {...props}
             handleSelect={handleSelect}
             qualificationList={props.qualificationList}
+            careInstitutionAttrOpt={props.careInstitutionAttrOpt}
           />
         </div>
       </Col>

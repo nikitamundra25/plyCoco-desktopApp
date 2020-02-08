@@ -558,6 +558,7 @@
   "REQUIRED_MENU_ENTEY": "Menu Entry is required",
   "REQUIRED_SUBJECT": "Subject is required",
   "REQUIRED_BODY": "Content Body is required",
+  "EMAIL_BODY_PLACEHOLDER": "Enter Email content here",
   "EMAIL_ADDED_SUCCESS": "Email Template added successfully.",
   "EMAIL_UPDATION_SUCCESS": "Email Template updated successfully.",
   "CONFIRM_EMAIL_TEMPLATE_DELETE_MSG": "This email template will be deleted.",

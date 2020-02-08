@@ -42,7 +42,9 @@ const Documents = () => {
   const [documentData, setDocumentData] = useState<any>(null);
   const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
   const [fileName, setFilename] = useState<any>(null);
-  const [userApproved, setUserApproved] = useState<string | null>(null);
+  // const [errorMsg, setErrorMsg] = useState<string | null>(
+  //   'Document is required'
+  // );
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const [documentId, setDocumentId] = useState<{
@@ -63,16 +65,21 @@ const Documents = () => {
     }
   ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
   //add document
-  const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
-    onCompleted({ addDocument }) {
-      setIsSubmit(false);
-      refetch();
-      setShowDocumentPopup(false);
-      if (!toast.isActive(toastId)) {
-        toastId = toast.success(languageTranslation('DOCUMENT_ADDED_SUCCESS'));
+  const [addDocument, { loading: addDocumentLoading }] = useMutation<any>(
+    ADD_DOCUMENT,
+    {
+      onCompleted({ addDocument }) {
+        setIsSubmit(false);
+        refetch();
+        setShowDocumentPopup(false);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('DOCUMENT_ADDED_SUCCESS')
+          );
+        }
       }
     }
-  });
+  );
 
   //disapprove document
   const [
@@ -93,18 +100,21 @@ const Documents = () => {
   const [deleteDocument] = useMutation<any>(DELETE_DOCUMENT);
 
   //update document
-  const [updateDocument] = useMutation<any>(UPDATE_DOCUMENT, {
-    onCompleted({ updateDocument }) {
-      refetch();
-      setIsSubmit(false);
-      setShowDocumentPopup(false);
-      if (!toast.isActive(toastId)) {
-        toastId = toast.success(
-          languageTranslation('DOCUMENT_UPDATED_SUCCESS')
-        );
+  const [updateDocument, { loading: updateDocumentLoading }] = useMutation<any>(
+    UPDATE_DOCUMENT,
+    {
+      onCompleted({ updateDocument }) {
+        refetch();
+        setIsSubmit(false);
+        setShowDocumentPopup(false);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('DOCUMENT_UPDATED_SUCCESS')
+          );
+        }
       }
     }
-  });
+  );
 
   useEffect(() => {
     if (ApprovedData) {
@@ -137,6 +147,7 @@ const Documents = () => {
     setDocumentIdUpdate(null);
     setFileObject(null);
     setFilename(null);
+    // setErrorMsg(null);
   };
   useEffect(() => {
     if (id) {
@@ -424,6 +435,10 @@ const Documents = () => {
         isSubmit={isSubmit}
         setIsSubmit={setIsSubmit}
         setShowDocumentPopup={setShowDocumentPopup}
+        addDocumentLoading={addDocumentLoading}
+        updateDocumentLoading={updateDocumentLoading}
+        // setErrorMsg={setErrorMsg}
+        // errorMsg={errorMsg}
       />
     </div>
   );

@@ -145,14 +145,14 @@ const AttributeManageMent = () => {
       </CardHeader>
       <CardBody>
         <Collapse isOpen={isOpen} className='region-input-section'>
-          <AddAttribute
+          {/* <AddAttribute
             handleSubmit={handleSubmit}
             onChange={onChange}
             newAttribute={newAttribute}
             isSubmit={isSubmit}
             data={data}
             attributeName={attributeName}
-          />
+          /> */}
         </Collapse>
 
         <div className='d-flex align-items-center justify-content-between  mb-2'>

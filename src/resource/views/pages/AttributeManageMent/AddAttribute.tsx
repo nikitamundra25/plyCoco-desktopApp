@@ -70,6 +70,7 @@ const AddAttribute: FunctionComponent<IAddAttributeProps> = (
         </div>
       </div>
     </Form>
+  
   );
 };
 

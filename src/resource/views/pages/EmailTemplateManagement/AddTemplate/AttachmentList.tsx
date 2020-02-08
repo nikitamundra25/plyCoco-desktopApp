@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Table, UncontrolledTooltip } from 'reactstrap';
 import { languageTranslation, formatFileSize } from '../../../../../helpers';
 import { IEmailAttachmentData } from '../../../../../interfaces';
+import { fileSize, AppConfig } from '../../../../../config';
 
 export const AttachmentList: FunctionComponent<{
   attachment: IEmailAttachmentData[];
@@ -13,25 +14,6 @@ export const AttachmentList: FunctionComponent<{
   attachment: IEmailAttachmentData[];
   onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
 }) => {
-  const showPdfInNewTab = (
-    base64Data: any,
-    fileName: string,
-    fileType: string,
-  ) => {
-    let pdfWindow: any = window.open('');
-    pdfWindow.document.body.style.margin = '0px';
-    pdfWindow.document.body.innerHTML = `<html><head><title>Order Invoice</title></head><body><embed width='100%' height='100%' name='plugin' data='pdf' type=${fileType} src=${base64Data}></embed></body></html>`;
-    // pdfWindow.document.write(
-    //   '<html<head><title>' +
-    //     fileName +
-    //     '</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>',
-    // );
-    // pdfWindow.document.write(
-    //   "<body><embed width='100%' height='100%' src='data:application/pdf;base64, " +
-    //     encodeURI(base64Data) +
-    //     "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>",
-    // );
-  };
   return (
     <Table bordered hover responsive className='mail-table'>
       <thead className='thead-bg'>
@@ -44,17 +26,23 @@ export const AttachmentList: FunctionComponent<{
         {attachment.map((item: IEmailAttachmentData, index: number) => {
           return (
             <tr key={index}>
-              <td
-                className='file-name'
-                // onClick={() =>
-                //   showPdfInNewTab(
-                //     item.url,
-                //     item.fileName,
-                //     item.file ? item.file.type : 'application/pdf',
-                //   )
-                // }
-              >
-                <span>{item.fileName}</span>
+              <td className='file-name'>
+                {typeof item.url === 'string' && item.url ? (
+                  <a href={item.url} target='_blank' download={item.fileName}>
+                    {item.fileName}
+                  </a>
+                ) : (
+                  <span
+                    onClick={() =>
+                      window.open(
+                        `${AppConfig.FILES_ENDPOINT}${item.path}`,
+                        '_blank',
+                      )
+                    }
+                  >
+                    {item.fileName}
+                  </span>
+                )}
                 <span
                   id={`delete${index}`}
                   className='list-item-icon'

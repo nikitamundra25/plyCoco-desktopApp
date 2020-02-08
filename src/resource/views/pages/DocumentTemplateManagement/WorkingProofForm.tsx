@@ -15,6 +15,9 @@ import {
 } from "../../../../interfaces";
 import displaydoc from "../../../assets/img/display-doc.svg";
 import upload from "../../../assets/img/upload.svg";
+import locked_caregiver from "../../../assets/img/block-caregiver.svg";
+import hideoldfile from "../../../assets/img/hide-old-file.svg";
+import hidemapped from "../../../assets/img/block-file.svg";
 import "./index.scss";
 import { FormikProps } from "formik";
 import { useMutation } from "@apollo/react-hooks";
@@ -113,16 +116,25 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                 </span>
               </div>
               <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={hidemapped} alt="" />
+                </span>
                 <span className="header-nav-text">
                   {languageTranslation("HIDE_MAPPED_HEADER")}
                 </span>
               </div>
               <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={locked_caregiver} alt="" />
+                </span>
                 <span className="header-nav-text">
                   {languageTranslation("HIDE_LOCKED_CAREGIVER_HEADER")}
                 </span>
               </div>
               <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={hideoldfile} alt="" />
+                </span>
                 <span className="header-nav-text">
                   {languageTranslation("HIDE_OLD_FILES_HEADER")}
                 </span>
@@ -213,8 +225,8 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             }}
                           </Dropzone>
                         </div>
-                        <div className="document-list">
-                          <Table bordered hover responsive>
+                        <div className="document-list custom-scrollbar">
+                          <Table bordered hover responsive className="mb-0">
                             <thead className="thead-bg">
                               <tr>
                                 <th className="date-column ">

@@ -63,7 +63,9 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
         {id ? menuEntry : languageTranslation('NEW_TEMPLATE')}
       </h5>
       <div className='form-section'>
-        <div className='form-card minheight-auto '>
+        <div
+          className={`form-card minheight-auto ${id ? 'active-border' : ''}`}
+        >
           {emailTemplateLoading ? (
             <div className='emailtemplate-loader'>
               <Loader />

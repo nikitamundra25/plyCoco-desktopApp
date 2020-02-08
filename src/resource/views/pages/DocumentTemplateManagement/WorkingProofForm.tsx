@@ -225,9 +225,9 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             }}
                           </Dropzone>
                         </div>
-                        <div className="document-list custom-scrollbar">
+                        <div className="document-list custom-scrollbar position-relative">
                           <Table bordered hover responsive className="mb-0">
-                            <thead className="thead-bg">
+                            <thead className="thead-bg thead-sticky">
                               <tr>
                                 <th className="date-column ">
                                   {languageTranslation("DATE")}
@@ -253,16 +253,18 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                               "DD.MM.YYYY"
                                             )}{" "}
                                           </td>
-                                          <td
-                                            className="file-col cursor-pointer"
-                                            onClick={() => {
-                                              handlePreview(
-                                                item.document,
-                                                index
-                                              );
-                                            }}
-                                          >
-                                            {item.fileName}
+                                          <td className="file-col ">
+                                            <div
+                                              className=" cursor-pointer one-line-text"
+                                              onClick={() => {
+                                                handlePreview(
+                                                  item.document,
+                                                  index
+                                                );
+                                              }}
+                                            >
+                                              {item.fileName}
+                                            </div>
                                           </td>
                                         </tr>
                                       );

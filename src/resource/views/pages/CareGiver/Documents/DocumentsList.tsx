@@ -131,7 +131,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           <tbody>
             {!called || loading ? (
               <tr>
-                <td className={"table-loader"} colSpan={6}>
+                <td className={"table-loader"} colSpan={8}>
                   <Loader />
                 </td>
               </tr>
@@ -140,8 +140,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               documentListing.getDocuments.length ? (
               documentListing.getDocuments.map((list: any, index: number) => {
                 const documentLength = documentListing.getDocuments.length;
-                console.log("documentLength", documentLength);
-
                 const size = formatFileSize(list.fileSize);
                 return (
                   <tr

@@ -131,7 +131,7 @@ const PersonalInfoFormComponent: any = (
     logger("in handle scroll");
     const scr: any = document.getElementsByClassName("error")[0];
     const scrtop = scr ? scr.offsetTop : 10;
-    console.log(scrtop, "scrtop");
+    // console.log(scrtop, "scrtop");
     logger(scr, "scr");
     const height: any = scr ? scr.getBoundingClientRect() : 0;
     const mainSection: any = document.getElementById("care-profile");
@@ -140,11 +140,11 @@ const PersonalInfoFormComponent: any = (
     }
   };
   //After submission of form
-  useEffect(() => {
-    setTimeout(() => {
-      handleScroll();
-    }, 200);
-  }, [submitCount]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     handleScroll();
+  //   }, 200);
+  // }, [submitCount]);
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined | any = moment(CreatedAt).format(

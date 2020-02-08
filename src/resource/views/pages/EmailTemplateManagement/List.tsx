@@ -18,7 +18,9 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
         <Table bordered hover responsive className="mb-0">
           <thead className="thead-bg">
             <tr>
-              <th className="sno-th-column">{languageTranslation("S_NO")}</th>
+              <th className="sno-th-column text-center">
+                {languageTranslation("S_NO")}
+              </th>
               <th>{languageTranslation("FILE_NAME")}</th>
             </tr>
           </thead>
@@ -43,7 +45,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
                       }`}
                       onClick={() => onTemplateSelection(menu.id)}
                     >
-                      <td className="sno-th-column">{index + 1}</td>
+                      <td className="sno-th-column text-center">{index + 1}</td>
                       <td>
                         <span className={`cursor-pointer text-capitalize`}>
                           {menu.menuEntry}

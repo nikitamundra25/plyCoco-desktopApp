@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import { FormGroup, Label, Col, Row, Button, Form } from 'reactstrap';
+import React, { FunctionComponent } from "react";
+import { FormGroup, Label, Col, Row, Button, Form } from "reactstrap";
 import {
   Status,
   Nationality,
@@ -9,17 +9,17 @@ import {
   Religion,
   Preoccupation,
   IBANRegex,
-  DateMask,
-} from '../../../../../config';
-import { FormikProps, Field } from 'formik';
-import { ILeasingValues } from '../../../../../interfaces';
+  DateMask
+} from "../../../../../config";
+import { FormikProps, Field } from "formik";
+import { ILeasingValues } from "../../../../../interfaces";
 import {
   FormikTextField,
-  FormikSelectField,
-} from '../../../components/forms/FormikFields';
-import { languageTranslation } from '../../../../../helpers';
-import MaskedInput from 'react-text-mask';
-import '../caregiver.scss';
+  FormikSelectField
+} from "../../../components/forms/FormikFields";
+import { languageTranslation } from "../../../../../helpers";
+import MaskedInput from "react-text-mask";
+import "../caregiver.scss";
 
 const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
   ILeasingValues
@@ -44,14 +44,14 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
       firstDay,
       lastDay,
       monthlyWorkingHrs,
-      weeklyWorkingHrs,
+      weeklyWorkingHrs
     },
     isSubmitting,
     handleSubmit,
     handleBlur,
     handleChange,
     errors,
-    touched,
+    touched
   } = props;
   return (
     <div>
@@ -99,13 +99,13 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
                           Place of Birth{" "}
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikTextField}
@@ -121,7 +121,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label">
                           Birth Name
                           <br />
@@ -129,7 +129,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikTextField}
@@ -146,12 +146,12 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label">
                           Nationality{/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             name={"nationality"}
@@ -159,7 +159,6 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             options={Nationality}
                             placeholder="Select Nationality"
                           />
-                          
                         </div>
                       </Col>
                     </Row>
@@ -168,13 +167,13 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg="6">
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
                           Marital Status
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikSelectField}
@@ -190,7 +189,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
                           Children
                           <br />
@@ -198,7 +197,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikTextField}
@@ -214,21 +213,21 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Factor Child allowance
+                          Child allowance factor
                           <br />
                           <small>(0 if none)</small>
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           {" "}
                           <Field
                             component={FormikTextField}
                             name={"factorChildAllowance"}
-                            placeholder="Factor Child allowance "
+                            placeholder=" Child allowance factor "
                             className="width-common"
                           />
                         </div>
@@ -239,13 +238,13 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
                           Status
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikSelectField}
@@ -261,13 +260,13 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
                           Tax Bracket
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikTextField}
@@ -283,13 +282,13 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label">
                           Health insurance type
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikSelectField}
@@ -305,13 +304,13 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
                           Health insurance provider
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikSelectField}
@@ -327,7 +326,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
                           Social Security Number
                           <br />
@@ -335,7 +334,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikTextField}
@@ -350,12 +349,12 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
                           Religion
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikSelectField}
@@ -371,13 +370,13 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label">
                           Preoccupation
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikSelectField}
@@ -393,7 +392,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
                           Payroll IBAN <br />
                           <small>
@@ -402,7 +401,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           </small>
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <Field name="payrollIBAN">
                           {({ field }: any) => (
                             <div className={"required-input"}>
@@ -446,12 +445,12 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
                           {languageTranslation("LEASING_CONTRACT_FIRST_DAY")}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field name="payrollIBAN">
                             {({ field }: any) => (
@@ -488,12 +487,12 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label">
                           {languageTranslation("LEASING_CONTRACT_LAST_DAY")}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field name="payrollIBAN">
                             {({ field }: any) => (
@@ -530,14 +529,14 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
                           {languageTranslation(
                             "LEASING_CONTRACT_MONTHLY_WORKING_HRS"
                           )}
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikTextField}
@@ -554,7 +553,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 <Col lg={"6"} md={"12"} sm={"12"}>
                   <FormGroup>
                     <Row>
-                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                      <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label">
                           {languageTranslation(
                             "LEASING_CONTRACT_WEEKLY_WORKING_HRS"
@@ -562,7 +561,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           <br />
                         </Label>
                       </Col>
-                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                      <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                         <div>
                           <Field
                             component={FormikTextField}

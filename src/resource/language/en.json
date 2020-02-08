@@ -511,7 +511,7 @@
   "CONTACT_UPDATE_CARE_INSTITUTION": "Care Institution contact updated successfully!",
   "ADD_NEW_DEPARTMENT_CARE_INSTITUTION": "Care Institution department added successfully.",
   "DOCUMENT_UPLOAD_SUCCESS": "Document uploaded successfully.",
-  "PERSONAL_DOCUMENTS_UPLOAD": "Drag 'n' drop some files here, or click to select",
+  "PERSONAL_DOCUMENTS_UPLOAD": "Drag 'n' drop files here, or click here to upload files",
   "PERSONAL_DOCUMENTS_DROP_HERE": "Drop here",
   "VALIDATE_DOCUMENT_TYPE": "File type not allowed. Only jpg, png and pdf files.",
   "VALIDATE_DOCUMENT_SIZE": "Please select document upto max 1MB in size",

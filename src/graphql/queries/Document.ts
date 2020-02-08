@@ -1,6 +1,17 @@
 import gql from 'graphql-tag';
 
 const GET_DOCUMENT_LIST = gql`
+  query getDocumentTemplates($isDocumentTemplate: Boolean!) {
+    getDocumentTemplates(isDocumentTemplate: $isDocumentTemplate) {
+      id
+      document
+      fileName
+      createdAt
+    }
+  }
+`;
+
+const GET_DOCUMENTS = gql`
   query GetDocuments($userId: Int!) {
     getDocuments(userId: $userId) {
       id
@@ -14,4 +25,4 @@ const GET_DOCUMENT_LIST = gql`
     }
   }
 `;
-export const DocumentQueries = [GET_DOCUMENT_LIST];
+export const DocumentQueries = [GET_DOCUMENT_LIST, GET_DOCUMENTS];

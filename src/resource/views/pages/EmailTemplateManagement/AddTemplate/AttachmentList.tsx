@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Table } from 'reactstrap';
-import { languageTranslation, FormatFileSize } from '../../../../../helpers';
+import { languageTranslation, formatFileSize } from '../../../../../helpers';
 import { IEmailAttachmentData } from '../../../../../interfaces';
 
 export const AttachmentList: FunctionComponent<{
@@ -19,7 +19,7 @@ export const AttachmentList: FunctionComponent<{
           return (
             <tr key={index}>
               <td className='file-name'>{item.fileName}</td>
-              <td className='size-col'>{FormatFileSize(item.size)}</td>
+              <td className='size-col'>{formatFileSize(item.size)}</td>
             </tr>
           );
         })}

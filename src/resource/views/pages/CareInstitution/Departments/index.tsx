@@ -112,8 +112,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     { setSubmitting, resetForm }: FormikHelpers<IAddDepartmentFormValues>
   ) => {
     try {
-      console.log(values);
-
       const departmentInput: any = {
         id: values.id,
         userId: values.userId,

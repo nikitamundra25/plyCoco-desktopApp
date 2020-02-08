@@ -42,17 +42,18 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
 
   const handleTypeSelect = (newValue: any, actionMeta: any) => {
     setFieldValue("type", newValue);
-    setTypeId(parseInt(newValue.value));
-    if (actionMeta.action === "create-option") {
+    if (actionMeta.action !== "create-option") {
+      setTypeId(parseInt(newValue.value));
     }
   };
+
   let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : "";
   const result = stripHtml(content);
 
   return (
     <Col lg={"7"}>
-      <h5 className="content-title">
-        {languageTranslation("ADD_NEW_EMAIL_TEMPLATE")}
+      <h5 className="content-title text-capitalize">
+        {id ? menuEntry : languageTranslation("NEW_TEMPLATE")}
       </h5>
       <div className="form-section">
         <div className="form-card minheight-auto ">

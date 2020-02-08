@@ -31,7 +31,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
     handleChange,
     setFieldValue,
     searchPlacholderText,
-    setSearchValues,
+    resetForm,
   } = props;
 
   // Custom function to handle react select fields
@@ -125,6 +125,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                 className='btn-filter mr-2'
                 id='reset'
                 onClick={() => {
+                  resetForm();
                   // setSearchValues({ searchValues: {} });
                   history.push(pathname);
                 }}

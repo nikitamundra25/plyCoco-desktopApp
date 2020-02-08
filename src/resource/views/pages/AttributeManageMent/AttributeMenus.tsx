@@ -3,11 +3,11 @@ import { Nav, NavItem, NavLink } from 'reactstrap';
 
 const AttributeMenus: FunctionComponent<{
   data: any;
-  onAttributeChange: (id: number) => void;
+  onAttributeChange: (id: number,name:string) => void;
   activeAttributeMenu: number | null;
 }> = (props: {
   data: any;
-  onAttributeChange: (id: number) => void;
+  onAttributeChange: (id: number,name:string) => void;
   activeAttributeMenu: number | null;
 }) => {
   const { data, onAttributeChange, activeAttributeMenu } = props;
@@ -21,7 +21,7 @@ const AttributeMenus: FunctionComponent<{
                   className={`${
                     activeAttributeMenu === attribute.id ? 'active' : ''
                   }`}
-                  onClick={() => onAttributeChange(attribute.id)}
+                  onClick={() => onAttributeChange(attribute.id,attribute.name)}
                 >
                   {attribute.name}{' '}
                 </NavLink>

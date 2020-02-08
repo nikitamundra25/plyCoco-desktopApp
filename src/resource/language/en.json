@@ -27,6 +27,7 @@
   "ADDITIONAL_TEXT": "This text appears below the bank details  on the invoice. In the case of ceded invoices (factoring), the cession can be added here.",
   "OTHER_INFORMATION": " Other Information",
   "REQUIRED_FIELDS": "* Required Fields",
+  "REQUIRED_FIELD": "* Required Field",
   "BANK_ACCOUNT_INFORMATION": "Bank Account Information",
   "SAVE_BUTTON": "Save",
   "VALID_EMAIL": "Please enter a valid email address",

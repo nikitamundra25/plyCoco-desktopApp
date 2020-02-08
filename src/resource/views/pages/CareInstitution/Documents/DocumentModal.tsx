@@ -55,7 +55,9 @@ const DocumentUploadModal = (props: any) => {
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
         <ModalHeader close={externalCloseBtn}>
-          {languageTranslation('ADD_DOCUMENT')}
+          {!documentIdUpdate
+            ? languageTranslation('ADD_DOCUMENT')
+            : 'Update Document'}
         </ModalHeader>
         <ModalBody>
           <div className=''>

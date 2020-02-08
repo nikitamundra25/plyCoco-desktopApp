@@ -4,16 +4,27 @@ import { languageTranslation } from '../../../../helpers';
 import { IAddAttributeProps } from '../../../../interfaces';
 
 const AddAttribute: FunctionComponent<IAddAttributeProps> = (
-  props: IAddAttributeProps,
+  props: IAddAttributeProps
 ) => {
-  const { handleSubmit, onChange, newAttribute, isSubmit } = props;
+  const {
+    handleSubmit,
+    onChange,
+    newAttribute,
+    isSubmit,
+    data,
+    attributeName
+  } = props;
+  console.log('attributeName', attributeName);
+
   return (
     <Form onSubmit={handleSubmit} className='form-section'>
       <FormGroup>
         <div className='d-flex align-items-sm-center flex-column flex-sm-row justify-content-center'>
           <div className='mr-3 position-relative '>
             <Label className='form-label col-form-label '>
-              {languageTranslation('ATTRIBUTE_NAME')}
+              {attributeName
+                ? 'Add' + ' ' + attributeName
+                : 'Add Acquisition Attributes'}
               <span className='required'>*</span>
             </Label>
           </div>
@@ -55,10 +66,11 @@ const AddAttribute: FunctionComponent<IAddAttributeProps> = (
       </FormGroup>
       <div className='d-flex align-items-center '>
         <div className='mandatory-text'>
-          {languageTranslation('REQUIRED_FIELDS')}
+          {languageTranslation('REQUIRED_FIELD')}
         </div>
       </div>
     </Form>
+  
   );
 };
 

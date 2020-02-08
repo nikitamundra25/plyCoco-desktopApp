@@ -20,7 +20,7 @@ export interface IEmailTemplateSubmitValues {
 export interface IAddEmailTemplateProps {
   handleSubmit: (
     values: IEmailTemplateValues,
-    actions: FormikHelpers<IEmailTemplateValues>,
+    actions: FormikHelpers<IEmailTemplateValues>
   ) => void;
   bindSubmitForm: any;
   templateData: IEmailTemplateValues | null;
@@ -47,6 +47,7 @@ export interface IEmailTemplateMenu {
   onDeleteEmailTemplate: () => void;
   addEmailLoading: boolean;
   id: number | null;
+  updateLoading: boolean;
 }
 
 export interface IEmailTemplateData {

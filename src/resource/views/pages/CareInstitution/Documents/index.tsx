@@ -25,7 +25,7 @@ const [
   DISAPPROVE_DOCUMENT
 ] = DocumentMutations;
 const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
-const [GET_DOCUMENT_LIST] = DocumentQueries;
+const [, GET_DOCUMENTS] = DocumentQueries;
 let toastId: any = '';
 
 const Documents = () => {
@@ -50,9 +50,9 @@ const Documents = () => {
     checked: boolean;
   } | null>(null);
 
-  const [fetchDocumentList, { data, loading, refetch }] = useLazyQuery<any>(
-    GET_DOCUMENT_LIST
-  );
+  const [fetchDocumentList, { data, loading, refetch, called }] = useLazyQuery<
+    any
+  >(GET_DOCUMENTS);
 
   const [
     fetchCaregiverDetails,
@@ -75,14 +75,16 @@ const Documents = () => {
   });
 
   //disapprove document
-  const [disapprovedDocument, { data: disApprovedData }] = useMutation<any>(
-    DISAPPROVE_DOCUMENT
-  );
+  const [
+    disapprovedDocument,
+    { data: disApprovedData, loading: disapproveLoading }
+  ] = useMutation<any>(DISAPPROVE_DOCUMENT);
 
   //approve document
-  const [approvedDocument, { data: ApprovedData }] = useMutation<any>(
-    APPROVE_DOCUMENT
-  );
+  const [
+    approvedDocument,
+    { data: ApprovedData, loading: approveLoading }
+  ] = useMutation<any>(APPROVE_DOCUMENT);
 
   //update document status
   const [updateDocumentStatus] = useMutation<any>(UPDATE_DOCUMENT_STATUS);
@@ -399,6 +401,10 @@ const Documents = () => {
         onApprove={onApprove}
         isApproved={isApproved}
         onDisapprove={onDisapprove}
+        loading={loading}
+        called={called}
+        approveLoading={approveLoading}
+        disapproveLoading={disapproveLoading}
       />
       <DocumentUploadModal
         documentIdUpdate={documentIdUpdate}

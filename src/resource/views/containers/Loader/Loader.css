@@ -124,3 +124,7 @@
   position: relative;
   min-height: calc(100vh - 170px);
 }
+.emailtemplate-loader {
+  position: relative;
+  min-height: 522px;
+}

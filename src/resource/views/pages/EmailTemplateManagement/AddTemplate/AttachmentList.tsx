@@ -1,14 +1,14 @@
-import React, { FunctionComponent } from 'react';
-import { Table, UncontrolledTooltip } from 'reactstrap';
-import { languageTranslation, formatFileSize } from '../../../../../helpers';
-import { IEmailAttachmentData } from '../../../../../interfaces';
+import React, { FunctionComponent } from "react";
+import { Table, UncontrolledTooltip } from "reactstrap";
+import { languageTranslation, formatFileSize } from "../../../../../helpers";
+import { IEmailAttachmentData } from "../../../../../interfaces";
 
 export const AttachmentList: FunctionComponent<{
   attachment: IEmailAttachmentData[];
   onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
 }> = ({
   attachment,
-  onDelteDocument,
+  onDelteDocument
 }: {
   attachment: IEmailAttachmentData[];
   onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
@@ -16,10 +16,10 @@ export const AttachmentList: FunctionComponent<{
   const showPdfInNewTab = (
     base64Data: any,
     fileName: string,
-    fileType: string,
+    fileType: string
   ) => {
-    let pdfWindow: any = window.open('');
-    pdfWindow.document.body.style.margin = '0px';
+    let pdfWindow: any = window.open("");
+    pdfWindow.document.body.style.margin = "0px";
     pdfWindow.document.body.innerHTML = `<html><head><title>Order Invoice</title></head><body><embed width='100%' height='100%' name='plugin' data='pdf' type=${fileType} src=${base64Data}></embed></body></html>`;
     // pdfWindow.document.write(
     //   '<html<head><title>' +
@@ -33,11 +33,11 @@ export const AttachmentList: FunctionComponent<{
     // );
   };
   return (
-    <Table bordered hover responsive className='mail-table'>
-      <thead className='thead-bg'>
+    <Table bordered hover responsive className="mail-table">
+      <thead className="thead-bg">
         <tr>
-          <th className='file-name'>{languageTranslation('FILE_NAME')}</th>
-          <th className='size-col'>{languageTranslation('SIZE')}</th>
+          <th className="file-name">{languageTranslation("FILE_NAME")}</th>
+          <th className="size-col">{languageTranslation("SIZE")}</th>
         </tr>
       </thead>
       <tbody>
@@ -45,7 +45,7 @@ export const AttachmentList: FunctionComponent<{
           return (
             <tr key={index}>
               <td
-                className='file-name'
+                className="file-name"
                 // onClick={() =>
                 //   showPdfInNewTab(
                 //     item.url,
@@ -54,22 +54,28 @@ export const AttachmentList: FunctionComponent<{
                 //   )
                 // }
               >
-                <span>{item.fileName}</span>
-                <span
-                  id={`delete${index}`}
-                  className='list-item-icon'
-                  onClick={() => onDelteDocument(item.id ? item.id : '', index)}
-                >
-                  <UncontrolledTooltip
-                    placement={'top'}
-                    target={`delete${index}`}
+                <div className="file-description">
+                  <div className="one-line-text view-more-link">
+                    {item.fileName}
+                  </div>
+                  <span
+                    id={`delete${index}`}
+                    className="trash-icon"
+                    onClick={() =>
+                      onDelteDocument(item.id ? item.id : "", index)
+                    }
                   >
-                    {languageTranslation('ATTACHMENT_DELETE_INFO_MSG')}
-                  </UncontrolledTooltip>
-                  <i className='fa fa-trash'></i>
-                </span>
+                    <UncontrolledTooltip
+                      placement={"top"}
+                      target={`delete${index}`}
+                    >
+                      {languageTranslation("ATTACHMENT_DELETE_INFO_MSG")}
+                    </UncontrolledTooltip>
+                    <i className="fa fa-trash"></i>
+                  </span>
+                </div>
               </td>
-              <td className='size-col'>{formatFileSize(item.size)}</td>
+              <td className="size-col">{formatFileSize(item.size)}</td>
             </tr>
           );
         })}

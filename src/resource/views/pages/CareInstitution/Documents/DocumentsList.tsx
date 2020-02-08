@@ -151,7 +151,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     }
                   >
                     <td className="sno-th-column text-center">{index + 1}</td>
-                    <td>
+                    <td className="date-th-column">
                       {list && list.createdAt
                         ? moment(list.createdAt).format("lll")
                         : "-"}
@@ -174,7 +174,9 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         {list && list.documentType ? list.documentType : "-"}
                       </span>
                     </td>
-                    <td>{list && list.remarks ? list.remarks : "-"}</td>
+                    <td className="remark-col">
+                      {list && list.remarks ? list.remarks : "-"}
+                    </td>
                     <td className="text-center">
                       <span className="checkboxli checkbox-custom checkbox-default">
                         <input

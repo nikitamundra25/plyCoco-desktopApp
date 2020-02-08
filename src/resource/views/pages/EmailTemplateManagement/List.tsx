@@ -21,7 +21,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
               <th className="sno-th-column text-center">
                 {languageTranslation("S_NO")}
               </th>
-              <th>{languageTranslation("FILE_NAME")}</th>
+              <th>{languageTranslation("MENU_ENTRY")}</th>
             </tr>
           </thead>
           <tbody>

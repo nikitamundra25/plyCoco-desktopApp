@@ -165,6 +165,10 @@ const EmailQueue = React.lazy(() =>
   import("../resource/views/pages/Email/MailQueueEmail")
 );
 
+const Appointment = React.lazy(() =>
+  import("../resource/views/pages/Appointment")
+);
+
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -507,7 +511,13 @@ const routes = [
     name: "Attribute management",
     component: AttributeManageMent,
     exact: true
-  }
+  },
+  {
+    path: AppRoutes.APPOINTMENT,
+    name: "Appointment",
+    component: Appointment,
+    exact: true
+  },
 ];
 
 export default routes;

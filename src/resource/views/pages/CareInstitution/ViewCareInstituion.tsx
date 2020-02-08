@@ -235,7 +235,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                 >
                   {Loading ? (
                     <span className="header-nav-icon">
-                      <i className="fa fa-spinner fa-spin loader" />
+                      <i className="fa fa-spinner fa-spin " />
                     </span>
                   ) : (
                     <span className="header-nav-icon">

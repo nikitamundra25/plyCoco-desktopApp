@@ -138,8 +138,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               documentListing.getDocuments.length ? (
               documentListing.getDocuments.map((list: any, index: number) => {
                 const documentLength = documentListing.getDocuments.length;
-                console.log('documentLength', documentLength);
-
                 const size = formatFileSize(list.fileSize);
                 return (
                   <tr

@@ -18,10 +18,14 @@ import 'react-day-picker/lib/style.css';
 import { languageTranslation } from '../../../../../helpers';
 import { DocumentTypes } from '../../../../../config';
 import { useDropzone } from 'react-dropzone';
-// import png from "../../../../assets/img/png.svg";
-// import jpg from "../../../../assets/img/jpg.svg";
-// import pdf from "../../../../assets/img/pdf.svg";
+import png from '../../../../assets/img/png.svg';
+import jpg from '../../../../assets/img/jpg.svg';
+import pdf from '../../../../assets/img/pdf.svg';
+import xls from '../../../../assets/img/xls.svg';
 import close from '../../../../assets/img/cancel.svg';
+import doc from '../../../../assets/img/doc.svg';
+import ppt from '../../../../assets/img/ppt.svg';
+import txt from '../../../../assets/img/txt.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 const DocumentUploadModal = (props: any) => {
   const {
@@ -52,6 +56,10 @@ const DocumentUploadModal = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
+  let splitName = documentUrls && documentUrls.name.split('.');
+  const extention = splitName && splitName[1];
+  console.log('extention', extention);
+
   return (
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
@@ -84,12 +92,24 @@ const DocumentUploadModal = (props: any) => {
                               {...getInputProps()}
                               className='dropzone-input-preview'
                             />
-
                             <div className='icon-upload'>
-                              <i className='cui-cloud-upload'></i>
-                              {/* <img src={png} alt='' className='mb-2' />
-                            <img src={jpg} alt='' className='mb-2' />
-                            <img src={pdf} alt='' className='mb-2' /> */}
+                              {extention === 'jpg' || extention === 'jpeg' ? (
+                                <img src={jpg} alt='' className='mb-2' />
+                              ) : extention === 'png' ? (
+                                <img src={png} alt='' className='mb-2' />
+                              ) : extention === 'pdf' ? (
+                                <img src={pdf} alt='' className='mb-2' />
+                              ) : extention === 'xlsx' ? (
+                                <img src={xls} alt='' className='mb-2' />
+                              ) : extention === 'doc' ? (
+                                <img src={doc} alt='' className='mb-2' />
+                              ) : extention === 'ppt' ? (
+                                <img src={ppt} alt='' className='mb-2' />
+                              ) : extention === 'txt' ? (
+                                <img src={txt} alt='' className='mb-2' />
+                              ) : (
+                                <i className='cui-cloud-upload'></i>
+                              )}
                             </div>
                             <span
                               className={
@@ -102,12 +122,12 @@ const DocumentUploadModal = (props: any) => {
                                 ? documentUrls.name
                                 : "Drag 'n' drop files here, or click here to upload files"}
                             </span>
-                            {isSubmit && documentUrls === null ? (
-                              <div className='required-error'>
-                                Document is required
-                              </div>
-                            ) : null}
                           </div>
+                          {isSubmit && documentUrls === null ? (
+                            <div className='required-error'>
+                              Document is required
+                            </div>
+                          ) : null}
                         </Col>
                       ) : (
                         <Col sm='10'>
@@ -257,7 +277,10 @@ const DocumentUploadModal = (props: any) => {
           {/* {isSubmit ? } */}
           <Button
             color='primary'
-            onClick={handleSaveDocument}
+            onClick={() => {
+              console.log('inside handle save');
+              handleSaveDocument();
+            }}
             disabled={addDocumentLoading || updateDocumentLoading}
           >
             {addDocumentLoading || updateDocumentLoading ? (

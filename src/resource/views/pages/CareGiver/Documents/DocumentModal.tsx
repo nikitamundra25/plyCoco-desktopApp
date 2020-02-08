@@ -38,7 +38,9 @@ const DocumentUploadModal = (props: any) => {
     onDrop,
     show,
     handleClose,
-    setShowDocumentPopup
+    setErrorMsg,
+    addDocumentLoading,
+    updateDocumentLoading
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
@@ -50,7 +52,6 @@ const DocumentUploadModal = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  // useEffect(() => {}, [setShowDocumentPopup(false)]);
   return (
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
@@ -257,9 +258,9 @@ const DocumentUploadModal = (props: any) => {
           <Button
             color='primary'
             onClick={handleSaveDocument}
-            disabled={isSubmit}
+            disabled={addDocumentLoading || updateDocumentLoading}
           >
-            {isSubmit ? (
+            {addDocumentLoading || updateDocumentLoading ? (
               <>
                 <i className='fa fa-spinner fa-spin ' />{' '}
                 {languageTranslation('SAVE_BUTTON')}

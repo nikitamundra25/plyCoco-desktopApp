@@ -177,6 +177,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setSubject(e.target.value)
                           }
+                          maxLength={255}
                         />
                         {isSubmit && !subject ? (
                           <div className='required-tooltip'>

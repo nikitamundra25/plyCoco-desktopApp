@@ -12,9 +12,9 @@ const CustomOption: FunctionComponent = (props: any) => {
       className={`custom-select-options ${
         data.value === languageTranslation('ID') ? 'custom-sticky-head' : ''
       }`}
+      style={style}
     >
       <span
-        style={style}
         className={`custom-name-option ${
           data.value === languageTranslation('ID') ? 'custom-head' : ''
         }`}
@@ -22,7 +22,6 @@ const CustomOption: FunctionComponent = (props: any) => {
         {data.label}
       </span>
       <span
-        style={style}
         className={`custom-id-option text-center ${
           data.value === languageTranslation('ID') ? 'custom-head' : ''
         }`}

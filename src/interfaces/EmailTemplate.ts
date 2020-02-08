@@ -23,11 +23,13 @@ export interface IAddEmailTemplateProps {
     actions: FormikHelpers<IEmailTemplateValues>
   ) => void;
   bindSubmitForm: any;
+  emailTemplateLoading: boolean;
   templateData: IEmailTemplateValues | null;
   typeListOptions: IReactSelectInterface[] | undefined;
   setTypeId: any;
   attachment: IEmailAttachmentData[] | [];
   uploadDocument: any;
+  onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
 }
 
 export interface IEmailTemplateList {
@@ -63,4 +65,5 @@ export interface IEmailAttachmentData {
   size: number;
   path: string;
   file: File | null;
+  id: string;
 }

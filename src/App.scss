@@ -1813,15 +1813,19 @@ html:not([dir="rtl"]) {
     }
     &.file-th-column {
       width: 180px;
+      min-width: 150px;
     }
     &.filetype-th-column {
       width: 400px;
+      min-width: 200px;
     }
     &.filesize-th-column {
       width: 80px;
+      min-width: 80px;
     }
     &.date-column {
       width: 80px;
+      min-width: 80px;
     }
     .table-checkbox-wrap {
       position: relative;

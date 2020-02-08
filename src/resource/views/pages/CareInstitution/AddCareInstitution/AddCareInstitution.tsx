@@ -1,9 +1,9 @@
-import React, { useEffect, FunctionComponent } from 'react';
-import { Button, FormGroup, Label, Input, Col, Row } from 'reactstrap';
-import Select from 'react-select';
-import { FormikProps } from 'formik';
-import { languageTranslation, logger } from '../../../../../helpers';
-import { Salutation, Gender } from '../../../../../config';
+import React, { useEffect, FunctionComponent } from "react";
+import { Button, FormGroup, Label, Input, Col, Row } from "reactstrap";
+import Select from "react-select";
+import { FormikProps } from "formik";
+import { languageTranslation, logger } from "../../../../../helpers";
+import { Salutation, Gender } from "../../../../../config";
 import {
   ICareInstitutionFormValues,
   ICountries,
@@ -12,20 +12,20 @@ import {
   IStates,
   IState,
   IRegion
-} from '../../../../../interfaces';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+} from "../../../../../interfaces";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 // import CareInstitutionContact from "../PersonalInfo/CareInstitutionContact";
 import {
   CountryQueries,
   CareInstitutionQueries
-} from '../../../../../graphql/queries';
-import CommissionFormData from '../PersonalInfo/PersonalInfoForm/CommissionFormData';
-import InvoiceFormData from '../PersonalInfo/PersonalInfoForm/InvoiceFormData';
-import QuallificationAttribute from '../PersonalInfo/PersonalInfoForm/QuallificationAttribute';
-import RemarkFormData from '../PersonalInfo/PersonalInfoForm/RemarkFormData';
-import { RegionQueries } from '../../../../../graphql/queries/Region';
-import '../careinstitution.scss';
-import { valueContainerCSS } from 'react-select/src/components/containers';
+} from "../../../../../graphql/queries";
+import CommissionFormData from "../PersonalInfo/PersonalInfoForm/CommissionFormData";
+import InvoiceFormData from "../PersonalInfo/PersonalInfoForm/InvoiceFormData";
+import QuallificationAttribute from "../PersonalInfo/PersonalInfoForm/QuallificationAttribute";
+import RemarkFormData from "../PersonalInfo/PersonalInfoForm/RemarkFormData";
+import { RegionQueries } from "../../../../../graphql/queries/Region";
+import "../careinstitution.scss";
+import { valueContainerCSS } from "react-select/src/components/containers";
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -67,13 +67,13 @@ const AddCareInstitution: FunctionComponent<FormikProps<
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
+    logger(selectOption, "value");
     setFieldValue(name, selectOption);
-    if (name === 'country') {
+    if (name === "country") {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
+      logger(statesData, "sdsdsdsd");
     }
   };
   // Region Data
@@ -108,7 +108,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: ''
+        isActive: ""
       }
     });
   }, []);
@@ -118,7 +118,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     const { careInstitutionData } = getCareInstitutions;
     careInstitutionData.map((data: any, index: any) => {
       CareInstitutionList.push({
-        label: `${data.firstName}${' '}${data.lastName}`,
+        label: `${data.firstName}${" "}${data.lastName}`,
         value: data.id
       });
       return true;
@@ -840,10 +840,12 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         rows="4"
                         maxLength={255}
                       />
-                      {remarksViewable && remarksViewable.length
-                        ? remarksViewable.length
-                        : 0}
-                      /255
+                      <div className="text-count">
+                        {remarksViewable && remarksViewable.length
+                          ? remarksViewable.length
+                          : 0}
+                        /255
+                      </div>
                     </div>
                   </Col>
                 </Row>

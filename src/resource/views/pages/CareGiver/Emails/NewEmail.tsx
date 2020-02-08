@@ -118,7 +118,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           userId: id ? parseInt(id) : 0,
           to: 'caregiver',
           from: 'plycoco',
-          subject: subject.replace(/AW:/g, ''),
+          subject: subject /* .replace(/AW:/g, '') */,
           body: body ? content : '',
           parentId,
           status: 'new',

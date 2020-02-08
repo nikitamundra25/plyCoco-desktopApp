@@ -128,14 +128,17 @@ const AttributeManageMent: FunctionComponent = () => {
     setActiveAttrMenu(id);
     setAttributeName(name);
   };
-  console.log(listLoading, 'listLoading', called);
+
+  const replace = attributeName ? attributeName.replace('Attributes', ' ') : '';
+  console.log('attributeName', attributeName);
+  console.log('replace', replace);
 
   return (
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
         <div>
-          <Button
+          {/* <Button
             color={!isOpen ? 'primary' : 'danger'}
             className={'btn-add'}
             id={'add-new-pm-tooltip'}
@@ -149,7 +152,7 @@ const AttributeManageMent: FunctionComponent = () => {
             ) : (
               languageTranslation('CANCEL')
             )}
-          </Button>
+          </Button> */}
         </div>
       </CardHeader>
       <CardBody>
@@ -182,10 +185,11 @@ const AttributeManageMent: FunctionComponent = () => {
                 {languageTranslation('S_NO')}
               </th>
               <th>
-                {attributeName
-                  ? attributeName + ' ' + 'Name'
-                  : 'Acquisition Attribute Name'}
+                {replace
+                  ? replace + ' ' + 'Attributes'
+                  : 'Acquisition Attributes'}
               </th>
+              {}
             </tr>
           </thead>
           <tbody>

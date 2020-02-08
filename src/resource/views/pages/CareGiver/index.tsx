@@ -339,11 +339,18 @@ const CareGiver: FunctionComponent = () => {
                               <div className="description-column ">
                                 <div className="info-title text-capitalize">{`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}</div>
                                 <p className="description-text">
+                                  <i className="fa fa-user mr-2"></i>
+                                  <span className="align-middle">
+                                    {careGiverData.userName}
+                                  </span>
+                                </p>
+                                <p className="description-text">
                                   <i className="fa fa-envelope mr-2"></i>
                                   <span className="align-middle">
                                     {careGiverData.email}
                                   </span>
                                 </p>
+
                                 {careGiverData.phoneNumber ? (
                                   <p className="description-text">
                                     <i className="fa fa-phone mr-2"></i>

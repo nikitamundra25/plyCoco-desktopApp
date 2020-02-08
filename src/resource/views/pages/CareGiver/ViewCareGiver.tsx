@@ -176,7 +176,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                     onChange={(e: any) => handleSelect(e)}
                     options={careGiverOpt}
                     components={{ Option: CustomOption }}
-                    isOptionDisabled={option => option.value === 'Id'}
+                    isOptionDisabled={option =>
+                      option.value === languageTranslation('ID')
+                    }
                   />
                 </div>
                 <div
@@ -245,7 +247,13 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               {activeTab === 2 ? <LoginLogs /> : null}
               {activeTab === 3 ? <Invoices /> : null}
               {activeTab === 4 ? <Documents /> : null}
-              {activeTab === 5 ? <Email selectUser={selectUser} /> : null}
+              {activeTab === 5 ? (
+                <Email
+                  selectedUserName={
+                    selectUser && selectUser.label ? selectUser.label : ''
+                  }
+                />
+              ) : null}
               {activeTab === 6 ? <ToDo /> : null}
               {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}
               {activeTab === 8 ? <QualificationAttribute /> : null}

@@ -25,7 +25,6 @@ const LoginLogs: FunctionComponent = () => {
       }
     });
   }, []);
-  console.log('login data', data);
   return (
     <>
       <div className='login-section'>
@@ -44,7 +43,6 @@ const LoginLogs: FunctionComponent = () => {
             </thead>
             {data && data.getLoginHistory
               ? data.getLoginHistory.map((loginDetails: any, index: number) => {
-                  console.log(loginDetails, 'loginDetails');
                   return (
                     <tbody>
                       <tr

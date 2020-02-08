@@ -10,6 +10,7 @@ import {
   languageTranslation,
   HtmlToDraftConverter,
   logger,
+  stripHtml,
 } from '../../../../../helpers';
 import { EmailTemplateQueries } from '../../../../../graphql/queries';
 import {
@@ -33,6 +34,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   const [body, setBody] = useState<any>('');
   const [parentId, setParentId] = useState<number | null>(null);
   const [template, setTemplate] = useState<any>(undefined);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
   //To get all email templates of care giver addded in system
   const { data, loading: fetchTemplateListLoading } = useQuery<any>(
     GET_CAREGIVER_EMAIL_TEMPLATES,
@@ -58,6 +60,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       setSubject('');
       setBody(undefined);
       setParentId(null);
+      setIsSubmit(false);
     },
   });
 
@@ -77,12 +80,14 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   }
   // To set subject & body on reply
   useEffect(() => {
-    let { id = '', subject = '' } = emailData ? emailData : {};
-    setParentId(id);
-    setSubject(`AW: ${subject}`);
-    // body = body + '<br></br>------------------------';
-    // const editorState = body ? HtmlToDraftConverter(body) : '';
-    // setBody(HtmlToDraftConverter(''));
+    if (emailData) {
+      let { id = null, subject = '' } = emailData ? emailData : {};
+      setParentId(id);
+      setSubject(`AW: ${subject}`);
+      // body = body + '<br></br>------------------------';
+      // const editorState = body ? HtmlToDraftConverter(body) : '';
+      // setBody(HtmlToDraftConverter(''));
+    }
   }, [emailData]);
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
@@ -102,17 +107,24 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   };
   // Function to send new email
   const sendEmail = () => {
+    let content = body
+      ? draftToHtml(convertToRaw(body.getCurrentContent()))
+      : '';
+    const result = stripHtml(content);
+    setIsSubmit(true);
     try {
-      const emailInput: IAddEmailVariables = {
-        userId: id ? parseInt(id) : 0,
-        to: 'caregiver',
-        from: 'plycoco',
-        subject,
-        body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '',
-        parentId,
-        status: 'new',
-      };
-      addNewEmail({ variables: { emailInput } });
+      if (subject && body && result && result.length >= 2) {
+        const emailInput: IAddEmailVariables = {
+          userId: id ? parseInt(id) : 0,
+          to: 'caregiver',
+          from: 'plycoco',
+          subject: subject.replace(/AW:/g, ''),
+          body: body ? content : '',
+          parentId,
+          status: 'new',
+        };
+        addNewEmail({ variables: { emailInput } });
+      }
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
@@ -153,16 +165,25 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                       <Label className='d-flex align-items-center m-0 mr-1'>
                         {languageTranslation('SUBJECT')}:{' '}
                       </Label>
-                      <Input
-                        type='text'
-                        placeholder={languageTranslation('SUBJECT')}
-                        name={'subject'}
-                        value={subject}
-                        className=' width-common'
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setSubject(e.target.value)
-                        }
-                      />
+                      <div className={'position-relative w-100'}>
+                        <Input
+                          type='text'
+                          placeholder={languageTranslation('SUBJECT')}
+                          name={'subject'}
+                          value={subject}
+                          className={`width-common ${
+                            isSubmit && !subject ? 'error' : ''
+                          }`}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setSubject(e.target.value)
+                          }
+                        />
+                        {isSubmit && !subject ? (
+                          <div className='required-tooltip'>
+                            {languageTranslation('REQUIRED_SUBJECT')}
+                          </div>
+                        ) : null}
+                      </div>
                     </FormGroup>
                   </div>
                   <div className='email-attributes-content new-email-select-wrap'>
@@ -184,6 +205,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
               <EmailFormComponent
                 subject={subject}
                 body={body}
+                isSubmit={isSubmit}
                 onEditorStateChange={onEditorStateChange}
                 sendEmail={sendEmail}
               />

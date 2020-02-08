@@ -10,6 +10,7 @@ import {
   IEmailTemplateValues,
   IReactSelectInterface,
   IEmailTemplateSubmitValues,
+  IEmailAttachmentData,
 } from '../../../../interfaces';
 import { EmailTemplateQueries } from '../../../../graphql/queries';
 import { EmailTemplateMenu } from './Menu';
@@ -17,8 +18,10 @@ import { EmailTemplateList } from './List';
 import { AddTemplate } from './AddTemplate';
 import { languageTranslation } from '../../../../helpers';
 import { EmailTemplateMutations } from '../../../../graphql/Mutations';
-import './index.scss';
 import { ConfirmBox } from '../../components/ConfirmBox';
+import './index.scss';
+import { ApolloError } from 'apollo-client';
+import { errorFormatter } from '../../../../helpers/ErrorFormatter';
 
 const [
   GET_EMAIL_TEMPLATE_TYEPS,
@@ -37,7 +40,7 @@ let toastId: any = '';
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
   const [typeId, setTypeId] = useState<number | null>(null);
-
+  const [attachment, setAttachment] = useState<IEmailAttachmentData[]>([]);
   // To set email template data at the time of edit
   const [templateData, setTemplateData] = useState<IEmailTemplateValues | null>(
     null,
@@ -85,10 +88,17 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   >(ADD_EMAIL_TEMPLATE, {
     onCompleted({ addEmail }) {
       setTemplateData(null);
+      setAttachment([]);
       refetch();
       listRefetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
+      }
+    },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toast.error(message);
       }
     },
   });
@@ -107,6 +117,12 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         toastId = toast.success(languageTranslation('EMAIL_UPDATION_SUCCESS'));
       }
     },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toast.error(message);
+      }
+    },
   });
   // To delete email template from db
   const [deleteEmailTemplate] = useMutation<
@@ -116,6 +132,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     onCompleted() {
       setTemplateData(null);
       setActiveTemplate(null);
+      setAttachment([]);
       listRefetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -123,12 +140,18 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         );
       }
     },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toast.error(message);
+      }
+    },
   });
 
   //To get email templates by type
   const [
     fetchTemplateList,
-    { data, loading: fetchTemplateListLoading, refetch: listRefetch },
+    { data, loading: fetchTemplateListLoading, called, refetch: listRefetch },
   ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
 
   //To get email templates by id
@@ -147,6 +170,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         subject = '',
         body = '',
         email_template_type = {},
+        attachments = [],
       } = viewEmailTemplate ? viewEmailTemplate : {};
       const { type = '' } = email_template_type ? email_template_type : {};
       const contentBlock = body ? htmlToDraft(body) : '';
@@ -165,6 +189,28 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         if (typeIdIndex > -1) {
           setTypeId(parseInt(typeListOptions[typeIdIndex].value));
         }
+        let temp: IEmailAttachmentData[] = [];
+        if (attachments && attachments.length) {
+          attachments.forEach(
+            ({
+              path,
+              name,
+              size,
+            }: {
+              path: string;
+              name: string;
+              size: number;
+            }) => {
+              temp.push({
+                path,
+                fileName: name,
+                size,
+                file: null,
+                url: '',
+              });
+            },
+          );
+        }
         setTemplateData({
           type: replaceType,
           menuEntry: menuEntry,
@@ -172,6 +218,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
           body: editorState,
           id: parseInt(id),
         });
+        setAttachment(temp);
       }
     }
   }, [emailTemplate]);
@@ -220,12 +267,19 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         id,
       });
     }
+
     const emailTemplateInput: IEmailTemplateSubmitValues = {
       type: type && type.label ? type.label : '',
       typeId,
       menuEntry,
       subject,
       body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '',
+      attachments:
+        attachment && attachment.length
+          ? attachment
+              .map((item: IEmailAttachmentData) => item.file)
+              .filter((file: File | null) => file)
+          : null,
     };
     try {
       if (id) {
@@ -243,10 +297,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         });
       }
     } catch (error) {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+      const message = errorFormatter(error);
       toastId = toast.error(message);
     }
     resetForm();
@@ -266,6 +317,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   ) => {
     setTemplateType(selectedType);
     setTemplateData(null);
+    setAttachment([]);
+    setActiveTemplate(null);
   };
 
   // To use formik submit form outside
@@ -287,10 +340,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
             variables: { id: parseInt(activeTemplate) },
           });
         } catch (error) {
-          const message = error.message
-            .replace('SequelizeValidationError: ', '')
-            .replace('Validation error: ', '')
-            .replace('GraphQL error: ', '');
+          const message = errorFormatter(error);
           if (!toast.isActive(toastId)) {
             toastId = toast.error(message);
           }
@@ -298,11 +348,17 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       }
     }
   };
+
+  const uploadDocument = (data: IEmailAttachmentData) => {
+    setAttachment((prevArray: any) => [...prevArray, data]);
+  };
+
   return (
     <>
       <div className='common-detail-page'>
         <div className='common-detail-section'>
           <EmailTemplateMenu
+            id={templateData && templateData.id ? templateData.id : null}
             typeListOptions={typeListOptions}
             templateType={templateType}
             activeTemplate={activeTemplate}
@@ -332,7 +388,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                 <EmailTemplateList
                   onTemplateSelection={onTemplateSelection}
                   data={data}
-                  loading={fetchTemplateListLoading}
+                  loading={!called || fetchTemplateListLoading}
                   activeTemplate={activeTemplate}
                 />
                 <AddTemplate
@@ -341,7 +397,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   templateData={templateData}
                   typeListOptions={typeListOptions}
                   setTypeId={setTypeId}
-                  setTemplateData={setTemplateData}
+                  attachment={attachment}
+                  uploadDocument={uploadDocument}
                 />
               </Row>
             </div>

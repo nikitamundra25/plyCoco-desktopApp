@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FunctionComponent } from 'react';
 import {
   Button,
   Card,
@@ -23,13 +23,14 @@ import { toast } from 'react-toastify';
 const [GET_ATTRIBUTES_TYPE, GET_ATTRIBUTES_BY_TYPE] = AttributeQueries;
 const [ADD_ATTRIBUTE] = AttributeMutations;
 
-const AttributeManageMent = () => {
+const AttributeManageMent: FunctionComponent = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [newAttribute, setNewAttribute] = useState<string>('');
   const [activeAttributeMenu, setActiveAttrMenu] = useState<number | null>(
     null
   );
+  const [attributeName, setAttributeName] = useState<string | null>(null);
   const toggle = () => {
     setIsOpen(!isOpen);
     setNewAttribute('');
@@ -39,15 +40,16 @@ const AttributeManageMent = () => {
   const [getAtrributeHeading, { data, loading, refetch }] = useLazyQuery<any>(
     GET_ATTRIBUTES_TYPE
   );
-  console.log('getAtrributeHeading', data);
-
   // To get attributes of selected types
   const [
     getAttributesName,
-    { data: attributeList, loading: listLoading, refetch: attributeListRefetch }
+    {
+      data: attributeList,
+      loading: listLoading,
+      called,
+      refetch: attributeListRefetch
+    }
   ] = useLazyQuery<any>(GET_ATTRIBUTES_BY_TYPE);
-  console.log('attributeList', attributeList);
-
   // To add attributes into db
   const [addAttribute] = useMutation<
     {
@@ -81,12 +83,14 @@ const AttributeManageMent = () => {
   }, [data]);
   // It will call on type change
   useEffect(() => {
-    getAttributesName({
-      variables: {
-        id: activeAttributeMenu,
-        sortBy: 2
-      }
-    });
+    if (activeAttributeMenu !== null) {
+      getAttributesName({
+        variables: {
+          id: activeAttributeMenu,
+          sortBy: 2
+        }
+      });
+    }
   }, [activeAttributeMenu]);
   // On attribute change
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,13 +99,12 @@ const AttributeManageMent = () => {
     } = e;
     setNewAttribute(value);
   };
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     setIsSubmit(true);
-    console.log('in handleSubmit');
     if (activeAttributeMenu) {
       try {
         if (newAttribute) {
-          await addAttribute({
+          addAttribute({
             variables: {
               attributeInput: {
                 id: activeAttributeMenu ? activeAttributeMenu : 0,
@@ -121,15 +124,21 @@ const AttributeManageMent = () => {
       }
     }
   };
-  const onAttributeChange = (id: number) => {
+  const onAttributeChange = (id: number, name: string) => {
     setActiveAttrMenu(id);
+    setAttributeName(name);
   };
+
+  const replace = attributeName ? attributeName.replace('Attributes', ' ') : '';
+  console.log('attributeName', attributeName);
+  console.log('replace', replace);
+
   return (
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
         <div>
-          <Button
+          {/* <Button
             color={!isOpen ? 'primary' : 'danger'}
             className={'btn-add'}
             id={'add-new-pm-tooltip'}
@@ -137,23 +146,25 @@ const AttributeManageMent = () => {
           >
             {!isOpen ? (
               <>
-                <i className={'fa fa-plus'} />
-                &nbsp; {languageTranslation('ADD_NEW_ATTRIBUTE_BUTTON')}
+                <i className={"fa fa-plus"} />
+                &nbsp; {languageTranslation("ADD_NEW_ATTRIBUTE_BUTTON")}
               </>
             ) : (
-              languageTranslation('CANCEL')
+              languageTranslation("CANCEL")
             )}
-          </Button>
+          </Button> */}
         </div>
       </CardHeader>
       <CardBody>
         <Collapse isOpen={isOpen} className='region-input-section'>
-          <AddAttribute
+          {/* <AddAttribute
             handleSubmit={handleSubmit}
             onChange={onChange}
             newAttribute={newAttribute}
             isSubmit={isSubmit}
-          />
+            data={data}
+            attributeName={attributeName}
+          /> */}
         </Collapse>
 
         <div className='d-flex align-items-center justify-content-between  mb-2'>
@@ -173,11 +184,16 @@ const AttributeManageMent = () => {
               <th className={'text-center sno-th-column'}>
                 {languageTranslation('S_NO')}
               </th>
-              <th>{languageTranslation('ATTRIBUTE_NAME')}</th>
+              <th>
+                {replace
+                  ? replace + ' ' + 'Attributes'
+                  : 'Acquisition Attributes'}
+              </th>
+              {}
             </tr>
           </thead>
           <tbody>
-            {listLoading ? (
+            {!called || listLoading ? (
               <tr>
                 <td className={'table-loader'} colSpan={6}>
                   <Loader />
@@ -199,19 +215,15 @@ const AttributeManageMent = () => {
             ) : (
               <tr className={'text-center no-hover-row'}>
                 <td colSpan={6} className={'pt-5 pb-5'}>
-                  {false ? (
-                    <NoSearchFound />
-                  ) : (
-                    <div className='no-data-section'>
-                      <div className='no-data-icon'>
-                        <i className='icon-ban' />
-                      </div>
-                      <h4 className='mb-1'>
-                        Currently there are no attribute added.{' '}
-                      </h4>
-                      <p>Please click above button to add new.</p>
+                  <div className='no-data-section'>
+                    <div className='no-data-icon'>
+                      <i className='icon-ban' />
                     </div>
-                  )}
+                    <h4 className='mb-1'>
+                      Currently there are no attribute added.{' '}
+                    </h4>
+                    <p>Please click above button to add new.</p>
+                  </div>
                 </td>
               </tr>
             )}

@@ -67,7 +67,7 @@ const CreateTodo = (props: any) => {
                 <Col lg={"4"}>
                   <div>
                     <DayPicker
-                      initialMonth={new Date(2020, 1)}
+                      initialMonth={new Date(2020, 2)}
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
                     />
@@ -76,7 +76,7 @@ const CreateTodo = (props: any) => {
                 <Col lg={"4"}>
                   <div>
                     <DayPicker
-                      initialMonth={new Date(2020, 2)}
+                      initialMonth={new Date(2020, 3)}
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
                     />
@@ -157,8 +157,9 @@ const CreateTodo = (props: any) => {
                                 { label: "John Doe", value: "John Doe" },
                                 { label: "Mark Doe", value: "Mark Doe" }
                               ]}
+                              classNamePrefix="custom-inner-reactselect"
+                              className={"custom-reactselect"}
                               // placeholder={languageTranslation("TIME_OF_DAY")}
-                              className="width-common"
                             />
                           </div>
                         </Col>
@@ -180,6 +181,8 @@ const CreateTodo = (props: any) => {
                           <Select
                             placeholder={languageTranslation("PRIORITY")}
                             options={Priority}
+                            classNamePrefix="custom-inner-reactselect"
+                            className={"custom-reactselect"}
                           />
                         </div>
                       </Col>

@@ -146,8 +146,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       });
     }
   };
-  console.log('errors', errors, touched);
-
   return (
     <div>
       <Card>

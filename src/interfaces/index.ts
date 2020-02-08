@@ -17,3 +17,4 @@ export * from './Email';
 export * from './Profile';
 export * from './Attribute';
 export * from './Document';
+export * from './WorkingProof';

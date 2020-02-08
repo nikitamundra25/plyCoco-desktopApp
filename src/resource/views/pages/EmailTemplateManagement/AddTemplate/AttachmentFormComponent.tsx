@@ -3,7 +3,6 @@ import { Col } from 'reactstrap';
 import { useDropzone } from 'react-dropzone';
 
 export const AttachmentFormComponent: FunctionComponent<any> = ({
-  attachment,
   uploadDocument,
 }: any) => {
   // convert document to binary format

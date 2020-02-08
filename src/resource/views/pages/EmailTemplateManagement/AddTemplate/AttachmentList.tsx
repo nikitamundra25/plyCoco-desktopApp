@@ -18,7 +18,9 @@ export const AttachmentList: FunctionComponent<{
         {attachment.map((item: IEmailAttachmentData, index: number) => {
           return (
             <tr key={index}>
-              <td className='file-name'>{item.fileName}</td>
+              <td className='file-name'>
+                <span>{item.fileName}</span>
+              </td>
               <td className='size-col'>{formatFileSize(item.size)}</td>
             </tr>
           );

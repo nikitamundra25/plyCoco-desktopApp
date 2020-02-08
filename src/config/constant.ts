@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from '../interfaces';
+import { IReactSelectInterface, IObjectType } from '../interfaces';
 import { languageTranslation } from '../helpers';
 import { maskArray } from 'react-text-mask';
 export const taxNumberLimit: number = 11;
@@ -1337,3 +1337,10 @@ export const DocumentTypes: IReactSelectInterface[] = [
     label: 'Certificate / diploma / exam',
   },
 ];
+
+export const sortFilter: IObjectType = {
+  3: 'name',
+  4: 'name-desc',
+  2: 'oldest',
+  1: 'newest',
+};

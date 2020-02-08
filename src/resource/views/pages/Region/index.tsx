@@ -22,15 +22,9 @@ import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
 import AddRegion from './AddRegion';
 import moment from 'moment';
 import Loader from '../../containers/Loader/Loader';
+import { sortFilter } from '../../../../config';
 
 const [, GET_REGIONS] = RegionQueries;
-
-const sortFilter: any = {
-  3: 'name',
-  4: 'name-desc',
-  2: 'oldest',
-  1: 'newest',
-};
 
 const pageLimit: number = 25;
 
@@ -48,12 +42,11 @@ export const Region: FunctionComponent = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   // To get emplyee list from db
-  const [fetchRegionList, { data, loading, refetch }] = useLazyQuery<any>(
-    GET_REGIONS,
-    {
-      fetchPolicy: 'no-cache',
-    },
-  );
+  const [fetchRegionList, { data, loading, called, refetch }] = useLazyQuery<
+    any
+  >(GET_REGIONS, {
+    fetchPolicy: 'no-cache',
+  });
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -215,7 +208,7 @@ export const Region: FunctionComponent = () => {
             </tr>
           </thead>
           <tbody>
-            {loading ? (
+            {!called || loading ? (
               <tr>
                 <td className={'table-loader'} colSpan={6}>
                   <Loader />

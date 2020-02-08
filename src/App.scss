@@ -254,6 +254,7 @@ body {
     overflow-x: hidden;
     @media only screen and (max-width: 991px) {
       height: auto;
+      overflow-y: hidden;
     }
   }
   .custom-caregiver-height {
@@ -262,6 +263,7 @@ body {
     overflow-x: hidden;
     @media only screen and (max-width: 991px) {
       height: auto;
+      overflow-y: hidden;
     }
   }
   /* ==================== custom-scrollbar Css ================ */
@@ -1813,15 +1815,19 @@ html:not([dir="rtl"]) {
     }
     &.file-th-column {
       width: 180px;
+      min-width: 150px;
     }
     &.filetype-th-column {
       width: 400px;
+      min-width: 200px;
     }
     &.filesize-th-column {
       width: 80px;
+      min-width: 80px;
     }
     &.date-column {
       width: 80px;
+      min-width: 80px;
     }
     .table-checkbox-wrap {
       position: relative;
@@ -2833,6 +2839,7 @@ html:not([dir="rtl"]) {
   background: $white;
   @media only screen and (max-width: 991px) {
     margin-top: 12px;
+    margin-bottom: 12px;
     height: auto;
   }
   .remark-header {

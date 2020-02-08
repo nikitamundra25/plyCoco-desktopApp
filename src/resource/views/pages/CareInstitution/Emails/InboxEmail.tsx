@@ -44,13 +44,13 @@ const InboxEmail: FunctionComponent = () => {
                         <UncontrolledTooltip placement="top" target="search1">
                           {languageTranslation("SEARCH_LABEL")}
                         </UncontrolledTooltip>
-                        <i className="fa fa-search"></i>
+                        {languageTranslation("SEARCH_LABEL")}
                       </span>
                       <span className="btn-filter mr-2" id="reset">
                         <UncontrolledTooltip placement="top" target="reset">
                           {languageTranslation("RESET_LABEL")}
                         </UncontrolledTooltip>
-                        <i className="fa fa-refresh "></i>
+                        {languageTranslation("RESET_LABEL")}
                       </span>
                     </div>
                   </Col>

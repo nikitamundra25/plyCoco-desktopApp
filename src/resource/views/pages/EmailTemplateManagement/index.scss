@@ -16,6 +16,18 @@
   .size-col {
     width: 60px;
   }
+  .file-description {
+    padding-right: 30px;
+    position: relative;
+    .trash-icon {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      cursor: pointer;
+    }
+  }
 }
 .required-error {
   color: red;

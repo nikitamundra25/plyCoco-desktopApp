@@ -11,7 +11,7 @@ import {
   Input,
   Col,
   Row,
-  Form,
+  Form
 } from 'reactstrap';
 import Select from 'react-select';
 import 'react-day-picker/lib/style.css';
@@ -38,11 +38,11 @@ const DocumentUploadModal = (props: any) => {
     onDrop,
     show,
     handleClose,
-    setShowDocumentPopup,
+    setShowDocumentPopup
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
-    multiple: false,
+    multiple: false
   });
   const externalCloseBtn = (
     <button className='close modal-close' onClick={() => handleClose()}>
@@ -55,7 +55,9 @@ const DocumentUploadModal = (props: any) => {
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
         <ModalHeader close={externalCloseBtn}>
-          {languageTranslation('ADD_DOCUMENT')}
+          {!documentIdUpdate
+            ? languageTranslation('ADD_DOCUMENT')
+            : languageTranslation('UPDATE_DOCUMENT')}
         </ModalHeader>
         <ModalBody>
           <div className=''>
@@ -255,9 +257,16 @@ const DocumentUploadModal = (props: any) => {
           <Button
             color='primary'
             onClick={handleSaveDocument}
-            disable={!isSubmit}
+            disabled={isSubmit}
           >
-            {languageTranslation('SAVE_BUTTON')}
+            {isSubmit ? (
+              <>
+                <i className='fa fa-spinner fa-spin ' />{' '}
+                {languageTranslation('SAVE_BUTTON')}
+              </>
+            ) : (
+              languageTranslation('SAVE_BUTTON')
+            )}
           </Button>
 
           <Button color='secondary' onClick={handleClose}>

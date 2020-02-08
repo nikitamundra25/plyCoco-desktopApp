@@ -1,12 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import {
-  Col,
-  Row,
-  Collapse,
-  FormGroup,
-  Input,
-  UncontrolledTooltip,
-} from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { useParams } from 'react-router';
 import moment from 'moment';
 import { languageTranslation } from '../../../../../helpers';

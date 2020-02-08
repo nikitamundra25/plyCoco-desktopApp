@@ -20,6 +20,7 @@ const UPDATE_EMAIL_TEMPLATE = gql`
       email_template_type {
         type
       }
+      attachments
     }
   }
 `;

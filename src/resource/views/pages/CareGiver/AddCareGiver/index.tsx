@@ -1,4 +1,7 @@
 import React, { useState, FunctionComponent, Suspense, useEffect } from 'react';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useHistory, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   CareGiverValues,
   ICareGiverInput,
@@ -11,9 +14,6 @@ import {
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import CareGiverFormComponent from './CareGiverFormComponent';
 import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import { useHistory, useParams } from 'react-router';
-import { toast } from 'react-toastify';
 import { languageTranslation } from '../../../../../helpers';
 import { AppRoutes, PAGE_LIMIT } from '../../../../../config';
 import CareGiverSidebar from '../Sidebar/SidebarLayout/CareGiverLayout';
@@ -37,10 +37,9 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   const { data: attributeData } = useQuery<{
     getCaregiverAtrribute: IAttributeValues[];
   }>(GET_CAREGIVER_ATTRIBUTES);
-
+  // Push into attribute options
   const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
   useEffect(() => {
-    // const statesOpt: IReactSelectInterface[] | undefined = [];
     if (attributeData && attributeData.getCaregiverAtrribute) {
       attributeData.getCaregiverAtrribute.forEach(
         ({ id, name, color }: IAttributeValues) =>

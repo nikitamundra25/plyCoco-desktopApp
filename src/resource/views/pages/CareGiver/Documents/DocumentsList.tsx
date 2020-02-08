@@ -131,7 +131,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           <tbody>
             {!called || loading ? (
               <tr>
-                <td className={"table-loader"} colSpan={6}>
+                <td className={"table-loader"} colSpan={8}>
                   <Loader />
                 </td>
               </tr>

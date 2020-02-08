@@ -6,6 +6,9 @@
   overflow-y: auto;
   overflow-x: hidden;
   height: calc(100% - 153px);
+  @media (max-width: 991px) {
+    height: 300px;
+  }
 }
 
 .document-preview {
@@ -21,6 +24,8 @@
     color: $faq_bg;
     font-size: $font_16;
     line-height: normal;
+    padding: 25px 25px;
+    text-align: center;
     .doc-icon {
       img {
         width: 65px;
@@ -33,4 +38,8 @@
   height: calc(100vh - 160px);
   background-color: $white;
   border: 1px solid $table_border;
+  @media (max-width: 991px) {
+    height: auto;
+    margin-bottom: 12px;
+  }
 }

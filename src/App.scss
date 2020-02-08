@@ -360,7 +360,7 @@ body {
     line-height: 1;
     width: 16px;
     height: 16px;
-    color: #333;
+    color: $white;
   }
 
   .checkbox-custom input[type="checkbox"]:disabled {
@@ -400,6 +400,10 @@ body {
     border-radius: 2px;
     border: 1px solid #bbb;
     background: #fff;
+  }
+  .checkbox-custom input[type="checkbox"]:checked + label:before {
+    background: $theme_color;
+    border: 1px solid $theme_color;
   }
   .status-btn-wrap {
     .btn {
@@ -1749,6 +1753,13 @@ html:not([dir="rtl"]) {
     &.thead-bg {
       background: $th_bg;
     }
+    &.thead-sticky {
+      position: -webkit-sticky;
+      position: sticky;
+      z-index: 1;
+      top: 0px;
+      background: $th_bg;
+    }
     th {
       border-bottom-width: 1px !important;
       font-weight: 700;
@@ -1767,6 +1778,8 @@ html:not([dir="rtl"]) {
     }
     &.remark-col {
       min-width: 200px;
+      word-wrap: break-word;
+      word-break: break-word;
     }
     &.company-th-column {
       min-width: 150px;
@@ -2562,6 +2575,9 @@ html:not([dir="rtl"]) {
     font-size: $font_13;
     color: $black;
     height: 100%;
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
     .subject-title {
       font-size: $font_20;
       color: $black;
@@ -2652,8 +2668,8 @@ html:not([dir="rtl"]) {
       border-top: 1px solid $table_border;
     }
     .email-subject-block {
-      flex: 0 0 135px;
-      max-width: 135px;
+      flex: 0 0 90px;
+      max-width: 90px;
       padding: 4px;
       border-right: 1px solid $table_border;
       border-top: 1px solid $table_border;

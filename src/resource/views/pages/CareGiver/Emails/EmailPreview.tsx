@@ -22,7 +22,7 @@ export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
               <div>
                 <span className='gray-color'>Posted:</span>{' '}
                 <span>
-                  {moment(emailData.createdAt).format('DD.MM.YYYY HH:MM:SS')}
+                  {moment(emailData.createdAt).format('DD.MM.YYYY HH:mm:ss')}
                 </span>
               </div>
               {selectedUserName ? (

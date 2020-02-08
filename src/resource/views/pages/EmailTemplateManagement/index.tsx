@@ -386,22 +386,25 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     attachmentId: string,
     attachmentIndex?: number,
   ) => {
-    if (attachmentId && activeTemplate) {
-      const { value } = await ConfirmBox({
-        title: languageTranslation('CONFIRM_LABEL'),
-        text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_DELETE_MSG'),
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_DELETE_MSG'),
+    });
+    if (!value) {
+      return;
+    } else if (attachmentId && activeTemplate) {
+      deleteEmailAttachment({
+        variables: {
+          id: parseInt(activeTemplate),
+          attachmentId,
+        },
       });
-      if (!value) {
-        return;
-      } else {
-        deleteEmailAttachment({
-          variables: {
-            id: parseInt(activeTemplate),
-            attachmentId,
-          },
-        });
-      }
     } else {
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('EMAIL_TEMPLATE_ATTACHMENT_DELETION_SUCCESS'),
+        );
+      }
       setAttachment((prevArray: any) =>
         prevArray.filter((_: any, index: number) => attachmentIndex !== index),
       );

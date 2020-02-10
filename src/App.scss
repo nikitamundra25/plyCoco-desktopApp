@@ -248,6 +248,7 @@ body {
       }
     }
   }
+
   .custom-careinstitution-height {
     height: calc(100vh - 380px);
     overflow-y: auto;
@@ -266,6 +267,7 @@ body {
       overflow-y: hidden;
     }
   }
+
   /* ==================== custom-scrollbar Css ================ */
   .custom-scrollbar::-webkit-scrollbar {
     width: 7px;
@@ -407,35 +409,34 @@ body {
     background: $theme_color;
     border: 1px solid $theme_color;
   }
-  .status-btn-wrap {
-    .btn {
-      padding: 6px 12px;
-      line-height: 1;
-      font-weight: 500;
-      font-size: $font_12;
-    }
-  }
-  .action-btn-wrap {
-    .btn {
-      width: 25px;
-      height: 25px;
-      line-height: 0px;
-      text-align: center;
-      font-size: $font_12;
-      padding: 0;
-      color: #232323;
-      background: #dcdcdc;
-      margin: 0 3px;
-      .fa {
-        line-height: 1;
-      }
-    }
-    .red {
-      color: red;
-    }
-  }
+  // .status-btn-wrap {
+  //   .btn {
+  //     padding: 6px 12px;
+  //     line-height: 1;
+  //     font-weight: 500;
+  //     font-size: $font_12;
+  //   }
+  // }
+  // .action-btn-wrap {
+  //   .btn {
+  //     width: 25px;
+  //     height: 25px;
+  //     line-height: 0px;
+  //     text-align: center;
+  //     font-size: $font_12;
+  //     padding: 0;
+  //     color: #232323;
+  //     background: #dcdcdc;
+  //     margin: 0 3px;
+  //     .fa {
+  //       line-height: 1;
+  //     }
+  //   }
+  //   .red {
+  //     color: red;
+  //   }
+  // }
 }
-
 // new css
 .auth-page {
   position: relative;
@@ -1087,12 +1088,12 @@ html:not([dir="rtl"]) {
   font-size: $font_11;
   color: $red;
 }
-.css-1n7v3ny-option,
-.css-yt9ioa-option,
-.css-9gakcf-option {
-  padding: 2px 12px !important;
-  font-size: $font_12 !important;
-}
+// .css-1n7v3ny-option,
+// .css-yt9ioa-option,
+// .css-9gakcf-option {
+//   padding: 2px 12px !important;
+//   font-size: $font_12 !important;
+// }
 .form-section {
   .label-height {
     height: 18px;
@@ -1522,11 +1523,33 @@ html:not([dir="rtl"]) {
       padding-bottom: 0px;
       padding-top: 0px;
     }
+    .custom-inner-reactselect__option {
+      padding: 2px 12px;
+      font-size: 12px;
+      &.custom-inner-reactselect__option--is-selected {
+        background: $theme_color;
+        color: $white;
+      }
+      &:active,
+      &:hover {
+        background-color: rgba(217, 145, 25, 0.25);
+        color: $black;
+      }
+    }
     .custom-select-options {
       display: flex;
       align-items: center;
       cursor: pointer;
       border-bottom: 1px solid $table_border;
+      &.active {
+        background: $theme_color;
+        color: $white;
+      }
+      &:active,
+      &:hover {
+        background-color: rgba(217, 145, 25, 0.25);
+        color: $black;
+      }
       &.custom-sticky-head {
         position: -webkit-sticky;
         position: sticky;
@@ -1554,9 +1577,6 @@ html:not([dir="rtl"]) {
       .custom-head {
         text-align: left;
         font-family: $font_Frutiger_Bold;
-      }
-      &:hover {
-        background-color: #deebff;
       }
     }
   }
@@ -1703,6 +1723,28 @@ html:not([dir="rtl"]) {
         font-size: 12px;
         padding: 2px 3px;
       }
+      .attribute-inner-select__menu {
+        z-index: 9;
+        border-radius: 0px;
+        .attribute-inner-select__menu-list {
+          padding-bottom: 0px;
+          padding-top: 0px;
+        }
+        .attribute-inner-select__option {
+          padding: 2px 12px;
+          font-size: 12px;
+          &.attribute-inner-select__option--is-selected {
+            background: $theme_color;
+            color: $white;
+          }
+          &:active,
+          &:hover {
+            background-color: rgba(217, 145, 25, 0.25);
+            color: $black;
+          }
+        }
+      }
+
       .attribute-inner-select__indicator {
         padding: 3px;
         svg {
@@ -3591,6 +3633,10 @@ html:not([dir="rtl"]) {
     img {
       width: 40px;
     }
+  }
+  .document-name {
+    color: $theme_color;
+    font-weight: 600;
   }
 }
 

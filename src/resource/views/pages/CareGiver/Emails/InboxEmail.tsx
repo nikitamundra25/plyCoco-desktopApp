@@ -1,12 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import {
-  Col,
-  Row,
-  Collapse,
-  FormGroup,
-  Input,
-  UncontrolledTooltip
-} from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { useParams } from 'react-router';
 import moment from 'moment';
 import { languageTranslation } from '../../../../../helpers';
@@ -27,7 +20,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
   searchBy,
   handleChange,
   handleSubmit,
-  onReset
+  onReset,
 }: IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
 }) => {
@@ -129,7 +122,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                           <div className='email-row-wrap inner-content-wrap'>
                             <div className='email-date-time-block'>
                               {moment(email.createdAt).format(
-                                'DD.MM.YYYY HH:mm:ss'
+                                'DD.MM.YYYY HH:mm:ss',
                               )}
                             </div>
                             <div className='email-text-wrap'>

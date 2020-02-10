@@ -1,1 +1,109 @@
-export * from './CareLogin';
+import React, { FunctionComponent, useEffect } from 'react';
+import { Table } from 'reactstrap';
+import { languageTranslation } from '../../../../../helpers';
+import { LoginHistoryQuery } from '../../../../../graphql/queries/LoginHistory';
+import { useLazyQuery } from '@apollo/react-hooks';
+import { useLocation, useParams } from 'react-router-dom';
+import moment from 'moment';
+import Loader from '../../../containers/Loader/Loader';
+const [GET_LOGIN_HISTORY] = LoginHistoryQuery;
+
+const LoginLogs: FunctionComponent = () => {
+  const { id } = useParams();
+  const [fetchLoginList, { data, loading, called }] = useLazyQuery<any>(
+    GET_LOGIN_HISTORY,
+    {
+      fetchPolicy: 'no-cache',
+    },
+  );
+  const path = useLocation();
+
+  useEffect(() => {
+    fetchLoginList({
+      variables: {
+        userId: id ? parseInt(id) : '',
+      },
+    });
+  }, []);
+  console.log(called, loading, 'cxcxcxcxc');
+
+  return (
+    <>
+      <div className='login-section'>
+        <div>
+          <h5 className='content-title'>
+            {languageTranslation('LOGIN_HISTORY')}
+          </h5>
+          <Table bordered hover responsive>
+            <thead className='thead-bg'>
+              <tr>
+                <th className='sno-th-column text-center'>
+                  {languageTranslation('S_NO')}
+                </th>
+                <th className='date-th-column'>
+                  {languageTranslation('DATE')}
+                </th>
+                <th>{languageTranslation('IP_ADDRESS')}</th>
+                <th>{languageTranslation('BROWSER')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {!called || loading ? (
+                <tr>
+                  <td className={'table-loader'} colSpan={8}>
+                    <Loader />
+                  </td>
+                </tr>
+              ) : data &&
+                data.getLoginHistory &&
+                data.getLoginHistory.length ? (
+                data.getLoginHistory.map((loginDetails: any, index: number) => {
+                  return (
+                    <tr
+                      className={
+                        loginDetails.loginAttempt === 'success'
+                          ? 'table-success'
+                          : 'table-danger'
+                      }
+                      key={index}
+                    >
+                      <td className='sno-th-column text-center'>{index + 1}</td>
+                      <td className='date-th-column'>
+                        {loginDetails.lastLogin
+                          ? moment(loginDetails.lastLogin).format('lll')
+                          : '-'}
+                      </td>
+                      <td>
+                        {loginDetails.loggedInIP
+                          ? loginDetails.loggedInIP
+                          : '-'}
+                      </td>
+                      <td>
+                        {loginDetails.userAgent ? loginDetails.userAgent : '-'}
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr className={'text-center no-hover-row'}>
+                  <td colSpan={4} className={'pt-5 pb-5'}>
+                    <div className='no-data-section'>
+                      <div className='no-data-icon'>
+                        <i className='icon-ban' />
+                      </div>
+                      <h4 className='mb-1'>
+                        Currently there are no logs available.{' '}
+                      </h4>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default LoginLogs;

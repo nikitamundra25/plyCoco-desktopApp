@@ -35,7 +35,7 @@ export const Login: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toast.error(message);
       }
-    },
+    }
   });
 
   useEffect(() => {
@@ -45,12 +45,12 @@ export const Login: FunctionComponent = () => {
   }, []);
   // on login
   const handleSubmit = (
-    { email, password }: ILoginFormValues,
-    { setSubmitting }: FormikHelpers<ILoginFormValues>,
+    { userName, password }: ILoginFormValues,
+    { setSubmitting }: FormikHelpers<ILoginFormValues>
   ) => {
     try {
       adminLogin({
-        variables: { authInput: { email, password } },
+        variables: { authInput: { userName, password } }
       });
     } catch (error) {
       const message = error.message

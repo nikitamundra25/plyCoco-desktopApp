@@ -33,6 +33,8 @@ import clear from '../../../assets/img/clear.svg';
 import { CareInstitutionMutation } from '../../../../graphql/Mutations';
 import Login from './Login/CareInstitutionLogin';
 import CreateTodo from '../../components/CreateTodo';
+import { languageTranslation } from '../../../../helpers';
+import CustomOption from '../../components/CustomOptions';
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -128,6 +130,10 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   if (careInstituition && careInstituition.getCareInstitutions) {
     const { getCareInstitutions } = careInstituition;
     const { careInstitutionData } = getCareInstitutions;
+    CareInstitutionList.push({
+      label: languageTranslation('NAME'),
+      value: languageTranslation('ID'),
+    });
     careInstitutionData.map((data: any, index: any) => {
       CareInstitutionList.push({
         label: `${data.firstName}${' '}${data.lastName}`,
@@ -220,12 +226,18 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                 <div className='user-select'>
                   <Select
                     classNamePrefix='custom-inner-reactselect'
-                    className={'custom-reactselect'}
+                    className={
+                      'custom-reactselect custom-reactselect-menu-width'
+                    }
                     defaultValue={selectUser}
                     placeholder='Select Caregiver'
                     value={selectUser}
                     onChange={(e: any) => handleSelect(e)}
                     options={CareInstitutionList}
+                    components={{ Option: CustomOption }}
+                    isOptionDisabled={(option: any) =>
+                      option.value === languageTranslation('ID')
+                    }
                   />
                 </div>
                 <Button

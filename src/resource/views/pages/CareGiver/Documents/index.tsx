@@ -334,7 +334,7 @@ const Documents = () => {
   const onApprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'Document will be Approved'
+      text: languageTranslation('CG_PROFILE_APPROVE')
     });
     if (!value) {
       return;
@@ -348,7 +348,9 @@ const Documents = () => {
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success('Document approved successfully');
+          toastId = toast.success(
+            languageTranslation('CG_PROFILE_APPROVE_SUCESS')
+          );
         }
       } catch (error) {
         const message = error.message
@@ -366,7 +368,7 @@ const Documents = () => {
   const onDisapprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'Document will be Disapproved'
+      text: languageTranslation('CG_PROFILE_DISAPPROVE')
     });
     if (!value) {
       return;
@@ -380,7 +382,9 @@ const Documents = () => {
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success('Document disapproved successfully');
+          toastId = toast.success(
+            languageTranslation('CG_PROFILE_DISAPPROVE_SUCESS')
+          );
         }
       } catch (error) {
         const message = error.message

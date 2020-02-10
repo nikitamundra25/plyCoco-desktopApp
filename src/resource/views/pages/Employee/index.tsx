@@ -311,6 +311,7 @@ const Employee: FunctionComponent = () => {
           id={'add-new-pm-tooltip'}
           onClick={() => history.push(AppRoutes.EMPLOYEE_ARCHIVE)}
         >
+          <i className={'fa fa-archive'} />
           &nbsp;{languageTranslation('VIEW_ARCHIVE_EMPLOYEE_BUTTON')}
         </Button>
 

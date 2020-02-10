@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { AppConfig, sortFilter } from '../../../../config';
-import { AppRoutes, PAGE_LIMIT } from '../../../../config';
+import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../config';
 import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
 import { languageTranslation, logger } from '../../../../helpers';
@@ -28,6 +28,7 @@ import { ConfirmBox } from '../../components/ConfirmBox';
 import defaultProfile from '../../../assets/avatars/default-profile.png';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
+import archive from '../../../assets/img/restore.svg';
 let toastId: any = null;
 
 const [, , GET_ARCHIVE_EMPLOYEES] = EmployeeQueries;
@@ -117,9 +118,8 @@ const ArchiveEmployee: FunctionComponent = () => {
         userRole: 'employee',
         searchBy,
         sortBy: sortByValue ? parseInt(sortByValue) : 0,
-        limit: PAGE_LIMIT,
-        page: query.page ? parseInt(query.page as string) : 1,
-       
+        limit: ARCHIVE_PAGE_LIMIT,
+        page: query.page ? parseInt(query.page as string) : 1
       }
     });
   }, [search]); // It will run when the search value gets changed
@@ -157,13 +157,6 @@ const ArchiveEmployee: FunctionComponent = () => {
       '?'
     );
     history.push(path);
-  };
-  const queryVariables = {
-    page: currentPage,
-    isActive: isActive ? isActive.value : '',
-    sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
-    searchBy: searchValue ? searchValue : '',
-    limit: PAGE_LIMIT
   };
 
   const onRestoreEmployee = async (id: string) => {
@@ -203,7 +196,9 @@ const ArchiveEmployee: FunctionComponent = () => {
     isActive,
     sortBy
   };
-  let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  let count = (currentPage - 1) * ARCHIVE_PAGE_LIMIT + 1;
+  console.log('count', count);
+
   console.log(data, 'data');
 
   return (
@@ -216,7 +211,7 @@ const ArchiveEmployee: FunctionComponent = () => {
           id={'add-new-pm-tooltip'}
           onClick={() => history.push(AppRoutes.EMPLOYEE)}
         >
-          &nbsp;{'Employee List'}
+          &nbsp;{languageTranslation('BACK_TO_LIST')}
         </Button>
       </CardHeader>
       <CardBody>
@@ -268,7 +263,7 @@ const ArchiveEmployee: FunctionComponent = () => {
                 return (
                   <tr key={index}>
                     <td className='sno-th-column text-center'>
-                      <span>{index + 1}</span>
+                      <span>{count++}</span>
                     </td>
                     <td>
                       <div className='info-column'>{elements.join(' ')}</div>
@@ -281,9 +276,17 @@ const ArchiveEmployee: FunctionComponent = () => {
                         : ''}
                     </td>
                     <td>
-                      <div className='action-btn'>
-                        <Button onClick={() => onRestoreEmployee(trashUser.id)}>
-                          {languageTranslation("RESTORE")}
+                      <div className='text-center'>
+                        <Button
+                          onClick={() => onRestoreEmployee(trashUser.id)}
+                          className='archive-btn'
+                        >
+                          <span className='archive-icon'>
+                            <img src={archive} />
+                          </span>
+                          <span className='align-middle'>
+                            {languageTranslation('RESTORE')}
+                          </span>
                         </Button>
                       </div>
                     </td>
@@ -291,24 +294,22 @@ const ArchiveEmployee: FunctionComponent = () => {
                 );
               })
             ) : (
-              //   <tr className={'text-center no-hover-row'}>
-              //     <td colSpan={7} className={'pt-5 pb-5'}>
-              //       {isFilterApplied ? (
-              //         <NoSearchFound />
-              //       ) : (
-              //         <div className='no-data-section'>
-              //           <div className='no-data-icon'>
-              //             <i className='icon-ban' />
-              //           </div>
-              //           <h4 className='mb-1'>
-              //             Currently there are no employees added.{' '}
-              //           </h4>
-              //           <p>Please click above button to add new. </p>
-              //         </div>
-              //       )}
-              //     </td>
-              //   </tr>
-              ''
+              <tr className={'text-center no-hover-row'}>
+                <td colSpan={7} className={'pt-5 pb-5'}>
+                  {isFilterApplied ? (
+                    <NoSearchFound />
+                  ) : (
+                    <div className='no-data-section'>
+                      <div className='no-data-icon'>
+                        <i className='icon-ban' />
+                      </div>
+                      <h4 className='mb-1'>
+                        Currently there is no data in trash.
+                      </h4>
+                    </div>
+                  )}
+                </td>
+              </tr>
             )}
           </tbody>
         </Table>
@@ -317,6 +318,7 @@ const ArchiveEmployee: FunctionComponent = () => {
             totalRecords={data.trashUserList.totalCount}
             currentPage={currentPage}
             onPageChanged={onPageChanged}
+            pageLimit={ARCHIVE_PAGE_LIMIT}
           />
         ) : null}
       </CardBody>

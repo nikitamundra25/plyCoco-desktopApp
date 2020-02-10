@@ -4,7 +4,7 @@ import React, {
     useCallback,
     useState,
 } from 'react';
-import { FormGroup, Label, Input, Col, Row, Form, Button,Table } from 'reactstrap';
+import { FormGroup, Label, Input, Col, Row, Form, Button,InputGroup,InputGroupAddon,InputGroupText,Table } from 'reactstrap';
 
 import Select from 'react-select';
 import { languageTranslation } from '../../../../helpers';
@@ -57,7 +57,7 @@ const Appointment: FunctionComponent = () => {
                         <div>
                             <Row>
                            
-                                <Col lg={"2"}>
+                                <Col lg={"4"}>
                                 <div><h5 className="content-title">Fachkraft</h5></div>
                                     <div className='form-section'>
                                         <div className='form-card minheight-auto '>
@@ -68,7 +68,7 @@ const Appointment: FunctionComponent = () => {
                                             </Row></div>
                                     </div>
                                 </Col>
-                                <Col lg={"5"}>
+                                <Col lg={"4"}>
                                  <div><h5 className="content-title">{languageTranslation("PROFESSIONAL")}</h5></div>
                                     <div className='form-section'>
                                         <div className='form-card minheight-auto '>
@@ -106,14 +106,14 @@ const Appointment: FunctionComponent = () => {
                                                             </Col>
                                                             <Col sm='8'>
                                                                 <div>
-                                                                <Input type="select" name="select" id="exampleSelect">
-                                                                <option>Sefige</option>
-                                                                <option>2</option>
-                                                                <option>3</option>
-                                                                <option>4</option>
-                                                                <option>5</option>
-                                                                </Input>
-                                                                </div>
+                                                                        <InputGroup>
+                                                                        <Input />
+                                                                        <InputGroupAddon addonType="append">
+                                                                        <Button color="secondary width-common form-control"> <i className="fa fa-star" aria-hidden="true"></i></Button>
+                                                                        </InputGroupAddon>
+                                                                    </InputGroup>
+                                                                
+                                                                </div> 
                                                             </Col>
                                                         </Row>
                                                     </FormGroup>
@@ -133,7 +133,7 @@ const Appointment: FunctionComponent = () => {
                                                                     type="date"
                                                                     name="date"
                                                                     id="exampleDate"
-                                                                    placeholder="date placeholder"
+                                                                    // placeholder="date placeholder"
                                                                     className="mb-2"
                                                                     />
                                                                      <span className="checkbox-custom mb-0 mt-1">
@@ -174,44 +174,26 @@ const Appointment: FunctionComponent = () => {
                                                         <div className="custom-col inner-no-padding-col row">
                                                         <Col lg={"6"}>
                                                                 <div className="form-group">
-                                                                    <div className="custom-col inner-no-padding-col row">
-                                                                       
-                                                                        <Col lg={"8"}>
                                                                         <div>
-                                                                    <Input
-                                                                        type='text'
-                                                                        name={'id'}
-
-
-                                                                        placeholder='Name'
-                                                                        className='width-common'
-                                                                    />
-                                                                </div>
-                                                                        </Col>
-                                                                        <Col lg={"4"}>
-                                                                        <Label className='form-label col-form-label'>
-                                                                                {languageTranslation('€')}
-                                                                        </Label>
-                                                                        </Col>
-                                                                    </div>
+                                                                        <InputGroup>
+                                                                        <Input />
+                                                                        <InputGroupAddon addonType="append">
+                                                                        <Button color="secondary width-common form-control"> {languageTranslation('€')}</Button>
+                                                                        </InputGroupAddon>
+                                                                    </InputGroup>
+                                                                
+                                                                </div>    
                                                                 </div>
                                                             </Col>
                                                             <Col lg={"6"}>
                                                             <div>
-                                                                    <Input
-                                                                        type='text'
-                                                                        name={'id'}
-
-
-                                                                        placeholder='LAST'
-                                                                        className='width-common'
-                                                                    />
+                                                            <InputGroupAddon addonType="append">
+                                                                        <Button color="secondary width-common form-control"> {languageTranslation('LAST')}</Button>
+                                                                        </InputGroupAddon>
+                                                                
                                                                 </div>
 
                                                             </Col>
-
-
-                                                           
                                                         </div>
                                                         </Col>
                                                     </Row>
@@ -230,26 +212,15 @@ const Appointment: FunctionComponent = () => {
                                                         <div className="custom-col inner-no-padding-col row">
                                                         <Col lg={"6"}>
                                                                 <div className="form-group">
-                                                                    <div className="custom-col inner-no-padding-col row">
-                                                                       
-                                                                        <Col lg={"8"}>
                                                                         <div>
-                                                                    <Input
-                                                                        type='text'
-                                                                        name={'id'}
-
-
-                                                                        placeholder='Name'
-                                                                        className='width-common'
-                                                                    />
-                                                                </div>
-                                                                        </Col>
-                                                                        <Col lg={"4"}>
-                                                                        <Label className='form-label col-form-label'>
-                                                                                {languageTranslation('€')}
-                                                                        </Label>
-                                                                        </Col>
-                                                                    </div>
+                                                                        <InputGroup>
+                                                                        <Input />
+                                                                        <InputGroupAddon addonType="append">
+                                                                        <Button color="secondary width-common form-control"> {languageTranslation('€')}</Button>
+                                                                        </InputGroupAddon>
+                                                                    </InputGroup>
+                                                                
+                                                                </div>    
                                                                 </div>
                                                             </Col>
                                                             <Col lg={"6"}>
@@ -280,28 +251,17 @@ const Appointment: FunctionComponent = () => {
 
                                                         <Col lg={"8"}> 
                                                         <div className="custom-col inner-no-padding-col row">
-                                                        <Col lg={"6"}>
+                                                           <Col lg={"6"}>
                                                                 <div className="form-group">
-                                                                    <div className="custom-col inner-no-padding-col row">
-                                                                       
-                                                                        <Col lg={"8"}>
                                                                         <div>
-                                                                    <Input
-                                                                        type='text'
-                                                                        name={'id'}
-
-
-                                                                        placeholder='Name'
-                                                                        className='width-common'
-                                                                    />
-                                                                </div>
-                                                                        </Col>
-                                                                        <Col lg={"4"}>
-                                                                        <Label className='form-label col-form-label'>
-                                                                                {languageTranslation('€')} 
-                                                                        </Label>
-                                                                        </Col>
-                                                                    </div>
+                                                                        <InputGroup>
+                                                                        <Input />
+                                                                        <InputGroupAddon addonType="append">
+                                                                        <Button color="secondary width-common form-control"> {languageTranslation('€')}</Button>
+                                                                        </InputGroupAddon>
+                                                                    </InputGroup>
+                                                                
+                                                                </div>    
                                                                 </div>
                                                             </Col>
                                                             
@@ -323,26 +283,15 @@ const Appointment: FunctionComponent = () => {
                                                         <div className="custom-col inner-no-padding-col row">
                                                         <Col lg={"6"}>
                                                                 <div className="form-group">
-                                                                    <div className="custom-col inner-no-padding-col row">
-                                                                       
-                                                                        <Col lg={"8"}>
                                                                         <div>
-                                                                    <Input
-                                                                        type='text'
-                                                                        name={'id'}
-
-
-                                                                        placeholder='Name'
-                                                                        className='width-common'
-                                                                    />
-                                                                </div>
-                                                                        </Col>
-                                                                        <Col lg={"4"}>
-                                                                        <Label className='form-label col-form-label'>
-                                                                                {languageTranslation('€')}
-                                                                        </Label>
-                                                                        </Col>
-                                                                    </div>
+                                                                        <InputGroup>
+                                                                        <Input />
+                                                                        <InputGroupAddon addonType="append">
+                                                                        <Button color="secondary width-common form-control"> {languageTranslation('€')}</Button>
+                                                                        </InputGroupAddon>
+                                                                    </InputGroup>
+                                                                
+                                                                </div>    
                                                                 </div>
                                                             </Col>
                                                           
@@ -362,98 +311,128 @@ const Appointment: FunctionComponent = () => {
 
                                                         <Col lg={"8"}> 
                                                         <div className="custom-col inner-no-padding-col row">
-                                                        <Col lg={"3"}>
+                                                            <Col lg={"6"}>
                                                                 <div className="form-group">
-                                                                    <div className="custom-col inner-no-padding-col row">
-                                                                       
-                                                                        <Col lg={"8"}>
+                                                                    
                                                                         <div>
-                                                                    <Input
-                                                                        type='text'
-                                                                        name={'id'}
-
-
-                                                                        placeholder='Name'
-                                                                        className='width-common'
-                                                                    />
-                                                                </div>
-                                                                        </Col>
-                                                                        <Col lg={"4"}>
-                                                                        <Label className='form-label col-form-label'>
-                                                                                {languageTranslation('KM')}
-                                                                        </Label>
-                                                                        </Col>
-                                                                    </div>
+                                                                        <InputGroup>
+                                                                        <Input />
+                                                                      <InputGroupAddon addonType="append">
+                                                                        <Button color="secondary width-common form-control"> {languageTranslation('KM')}</Button>
+                                                                        </InputGroupAddon>
+                                                                    </InputGroup>
+                                                                
+                                                                </div>    
                                                                 </div>
                                                             </Col>
-                                                            <Col lg={"3"}>
+                                                            <Col lg={"6"}>
                                                                 <div className="form-group">
-                                                                    <div className="custom-col inner-no-padding-col row">
-                                                                       
-                                                                        <Col lg={"8"}>
+                                                                    
                                                                         <div>
-                                                                            <span className="pl-2 pr-2 b-a-1 pt-1 pb-1"> <i className="fa fa-arrow-left" aria-hidden="true"></i></span>
-                                                                        </div>
-                                                                        </Col>
-                                                                        <Col lg={"4"}>
-                                                                        <Label className='form-label col-form-label'>
-                                                                                {languageTranslation('A')} 
-                                                                        </Label>
-                                                                        </Col>
-                                                                    </div>
+                                                                        <InputGroup>
+                                                                        <span className="pr-2">{languageTranslation('A')}</span>
+                                                                        <Input />
+                                                                        <InputGroupAddon addonType="append">
+                                                                        <Button color="secondary width-common form-control"> {languageTranslation('€')}</Button>
+                                                                        </InputGroupAddon>
+                                                                    </InputGroup>
+                                                                
+                                                                </div>    
                                                                 </div>
                                                             </Col>
-                                                            <Col lg={"3"}>
-                                                                <div className="form-group">
-                                                                    <div className="custom-col inner-no-padding-col row">
-                                                                       
-                                                                        <Col lg={"8"}>
-                                                                        <div>
-                                                                    <Input
-                                                                        type='text'
-                                                                        name={'id'}
-
-
-                                                                        placeholder='Name'
-                                                                        className='width-common'
-                                                                    />
-                                                                </div>
-                                                                        </Col>
-                                                                        <Col lg={"4"}>
-                                                                        <Label className='form-label col-form-label'>
-                                                                                {languageTranslation('€')}
-                                                                        </Label>
-                                                                        </Col>
-                                                                    </div>
+                                                        </div>
+                                                        </Col>
+                                                    </Row>
+                                                </FormGroup>
+                                                </Col>
+                                                <Col lg={'12'}>
+                                                    <FormGroup>
+                                                        <Row>
+                                                            <Col sm='4'>
+                                                                <Label className='form-label col-form-label'>
+                                                                {languageTranslation('EXPENSES')}
+                                                                </Label>
+                                                            </Col>
+                                                            <Col sm='8'>
+                                                                <div>
+                                                                <InputGroup>
+                                                                        <Input />  
+                                                                    </InputGroup>
                                                                 </div>
                                                             </Col>
-                                                            <Col lg={"3"}>
-                                                                <div className="form-group">
-                                                                    <div className="custom-col inner-no-padding-col row">
-                                                                       
+                                                        </Row>
+                                                    </FormGroup>
+                                                </Col>
 
-                                                                    <Col lg={"4"}>
-                                                                        <Label className='form-label col-form-label'>
-                                                                                {languageTranslation('EXPENSES')}
-                                                                        </Label>
-                                                                        </Col> 
-                                                                        <Col lg={"8"}>
-                                                                        <div>
-                                                                    <Input
-                                                                        type='text'
-                                                                        name={'id'}
+                                                <Col lg={"12"}>
+                                                <FormGroup>
+                                                    <Row>
+                                                        <Col lg={"4"}> 
+                                                        <Label className='form-label col-form-label'>
+                                                                    {languageTranslation('WORKING_HORUS')}
+                                                                </Label>
+                                                        </Col>
 
-
-                                                                        placeholder='Name'
-                                                                        className='width-common'
-                                                                    />
-                                                                </div>
-                                                                        </Col>
-                                                                        
-                                                                    </div>
-                                                                </div>
+                                                        <Col lg={"8"}> 
+                                                        <div className="custom-col inner-no-padding-col row">
+                                                        <Col lg={"6"}>
+                                                        <div>
+                                                        <Input
+                                                            type="date"
+                                                            name="date"
+                                                            id="exampleDate"
+                                                            // placeholder="date placeholder"
+                                                            />
+                                                        </div>
                                                             </Col>
-                                                         
+                                                            <Col lg={"6"}>
+                                                            <div>
+                                                            <Input type="select" name="select" id="exampleSelect">
+                                                                <option>12-2-2020</option>
+                                                                <option>15-2-2020</option>
+                                                                <option>18-2-2020</option>
+                                                                
+                                                                </Input>
+                                                        </div>
+
+                                                            </Col>
+                                                        </div>
+                                                        </Col>
+                                                    </Row>
+                                                </FormGroup>
+                                                </Col>
+                                                <Col lg={"12"}>
+                                                <FormGroup>
+                                                    <Row>
+                                                        <Col lg={"4"}> 
+                                                        <Label className='form-label col-form-label'>
+                                                                    {languageTranslation('BREAK')}
+                                                                </Label>
+                                                        </Col>
+
+                                                        <Col lg={"8"}> 
+                                                        <div className="custom-col inner-no-padding-col row">
+                                                        <Col lg={"6"}>
+                                                        <div>
+                                                        <Input
+                                                            type="date"
+                                                            name="date"
+                                                            id="exampleDate"
+                                                            // placeholder="date placeholder"
+                                                            />
+                                                        </div>
+                                                            </Col>
+                                                            <Col lg={"6"}>
+                                                            <div>
+                                                            <Input type="select" name="select" id="exampleSelect">
+                                                                <option>12-2-2020</option>
+                                                                <option>15-2-2020</option>
+                                                                <option>18-2-2020</option>
+                                                                
+                                                                </Input>
+                                                        </div>
+
+                                                            </Col>
                                                         </div>
                                                         </Col>
                                                     </Row>
@@ -480,6 +459,7 @@ const Appointment: FunctionComponent = () => {
                                                         </Row>
                                                     </FormGroup>
                                                 </Col>
+                                               
                                                 <Col lg={'12'}>
                                                     <FormGroup>
                                                         <Row>
@@ -514,17 +494,14 @@ const Appointment: FunctionComponent = () => {
                                                         </Row>
                                                     </FormGroup>
                                                 </Col>
-                                                <Col lg={"6"}>
-                                                <Button className="btn-submit text-center btn  btn-block" color="primary"><span> <i className="fa fa-times mr-2" aria-hidden="true"></i></span> {languageTranslation('CLEAR')}</Button>
-                                                </Col>
-
-                                                <Col lg={"6"}>
-                                                <Button className="btn-submit text-center btn  btn-block" color="primary"><span> <i className="fa fa-floppy-o mr-2"></i></span>{languageTranslation('TO_SAVE')}</Button>
+                                                <Col lg={"12"}>
+                                                <Button className="btn" color="primary"><span> <i className="fa fa-times" aria-hidden="true"></i></span> {languageTranslation('CLEAR')}</Button>
+                                                <Button className="btn ml-2" color="primary"><span> <i className="fa fa-floppy-o mr-1"></i></span>{languageTranslation('TO_SAVE')}</Button>
                                                 </Col>
                                             </Row></div>
                                     </div>
                                 </Col>
-                                <Col lg={"5"}>
+                                <Col lg={"4"}>
                                  <div><h5 className="content-title">{languageTranslation("FACILITY")}</h5></div>
                                     <div className='form-section'>
                                         <div className='form-card minheight-auto '>
@@ -544,7 +521,7 @@ const Appointment: FunctionComponent = () => {
                                                                         name={'id'}
 
 
-                                                                        placeholder='APPOINTMENT_ID'
+                                                                        placeholder= {languageTranslation('APPOINTMENT_ID')}
                                                                         className='width-common'
                                                                     />
                                                                 </div>
@@ -562,15 +539,20 @@ const Appointment: FunctionComponent = () => {
                                                             </Col>
                                                             <Col sm='8'>
                                                                 <div>
-                                                                    <Input
-                                                                        type='text'
-                                                                        name={'id'}
-
-
-                                                                        placeholder='Name'
-                                                                        className='width-common'
-                                                                    />
-                                                                </div>
+                                                                        <InputGroup>
+                                                                        <Input type="select" name="select" id="exampleSelect">
+                                                                        <option>Sefige</option>
+                                                                        <option>2</option>
+                                                                        <option>3</option>
+                                                                        <option>4</option>
+                                                                        <option>5</option>
+                                                                        </Input>
+                                                                        <InputGroupAddon addonType="append">
+                                                                        <Button color="secondary width-common form-control"> <i className="fa fa-star" aria-hidden="true"></i></Button>
+                                                                        </InputGroupAddon>
+                                                                    </InputGroup>
+                                                                
+                                                                </div> 
                                                             </Col>
                                                         </Row>
                                                     </FormGroup>
@@ -590,7 +572,7 @@ const Appointment: FunctionComponent = () => {
                                                                     type="date"
                                                                     name="date"
                                                                     id="exampleDate"
-                                                                    placeholder="date placeholder"
+                                                                    // placeholder="date placeholder"
                                                                     className="mb-2"
                                                                     />
                                                                     
@@ -618,7 +600,7 @@ const Appointment: FunctionComponent = () => {
                                                                 <div className="form-group">
                                                                     <div className="custom-col inner-no-padding-col row">
                                                                        
-                                                                        <Col lg={"5"}>
+                                                                        <Col lg={"6"}>
                                                                         <div>
                                                                         <Input type="select" name="select" id="exampleSelect">
                                                                         <option>Sefige</option>
@@ -629,8 +611,9 @@ const Appointment: FunctionComponent = () => {
                                                                         </Input>
                                                                         </div>
                                                                         </Col>
-                                                                        <Col lg={"5"}>
+                                                                        <Col lg={"6"}>
                                                                         <div>
+                                                                        <InputGroup>
                                                                         <Input type="select" name="select" id="exampleSelect">
                                                                         <option>Sefige</option>
                                                                         <option>2</option>
@@ -638,13 +621,15 @@ const Appointment: FunctionComponent = () => {
                                                                         <option>4</option>
                                                                         <option>5</option>
                                                                         </Input>
-                                                                        </div>
+                                                                        <InputGroupAddon addonType="append">
+                                                                        <Button color="secondary width-common form-control"> <i className="fa fa-clock-o" aria-hidden="true"></i></Button>
+                                                                        </InputGroupAddon>
+                                                                    </InputGroup>
+                                                                
+                                                                </div> 
                                                                         </Col>
-                                                                        <Col lg={"2"}>
-                                                                        <Label className='form-label col-form-label'>
-                                                                                {languageTranslation('CLOCK')}
-                                                                        </Label>
-                                                                 </Col> 
+                                                                        
+                                                                      
                                                                     </div>
                                                                 </div>
                                                             </Col>
@@ -668,11 +653,11 @@ const Appointment: FunctionComponent = () => {
                                                         <div className="custom-col inner-no-padding-col row">
                                                         
                                                           
-                                                            <Col lg={"12"}>
+                                                        <Col lg={"12"}>
                                                                 <div className="form-group">
                                                                     <div className="custom-col inner-no-padding-col row">
                                                                        
-                                                                        <Col lg={"5"}>
+                                                                    <Col lg={"6"}>
                                                                         <div>
                                                                         <Input type="select" name="select" id="exampleSelect">
                                                                         <option>Sefige</option>
@@ -683,8 +668,9 @@ const Appointment: FunctionComponent = () => {
                                                                         </Input>
                                                                         </div>
                                                                         </Col>
-                                                                        <Col lg={"5"}>
+                                                                        <Col lg={"6"}>
                                                                         <div>
+                                                                        <InputGroup>
                                                                         <Input type="select" name="select" id="exampleSelect">
                                                                         <option>Sefige</option>
                                                                         <option>2</option>
@@ -692,13 +678,15 @@ const Appointment: FunctionComponent = () => {
                                                                         <option>4</option>
                                                                         <option>5</option>
                                                                         </Input>
-                                                                        </div>
+                                                                        <InputGroupAddon addonType="append">
+                                                                        <Button color="secondary width-common form-control"> <i className="fa fa-clock-o" aria-hidden="true"></i></Button>
+                                                                        </InputGroupAddon>
+                                                                    </InputGroup>
+                                                                
+                                                                </div> 
                                                                         </Col>
-                                                                        <Col lg={"2"}>
-                                                                        <Label className='form-label col-form-label'>
-                                                                                {languageTranslation('CLOCK')}
-                                                                        </Label>
-                                                                 </Col> 
+                                                                        
+                                                                     
                                                                     </div>
                                                                 </div>
                                                             </Col>
@@ -709,7 +697,50 @@ const Appointment: FunctionComponent = () => {
                                                     </Row>
                                                 </FormGroup>
                                                 </Col>
-
+                                                <Col lg={'12'}>
+                                                    <FormGroup>
+                                                        <Row>
+                                                            <Col sm='4'>
+                                                                <Label className='form-label col-form-label'>
+                                                                    {languageTranslation('QUALIFIKATION')}
+                                                                </Label>
+                                                            </Col>
+                                                            <Col sm='8'>
+                                                                <div>
+                                                                <Input type="select" name="select" id="exampleSelect">
+                                                                <option>Sefige</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                                <option>4</option>
+                                                                <option>5</option>
+                                                                </Input>
+                                                                </div>
+                                                            </Col>
+                                                        </Row>
+                                                    </FormGroup>
+                                                </Col>
+                                                <Col lg={'12'}>
+                                                    <FormGroup>
+                                                        <Row>
+                                                            <Col sm='4'>
+                                                                <Label className='form-label col-form-label'>
+                                                                    {languageTranslation('QUALIFICATION_FOR_SETTLEMENT')}
+                                                                </Label>
+                                                            </Col>
+                                                            <Col sm='8'>
+                                                                <div>
+                                                                <Input type="select" name="select" id="exampleSelect">
+                                                                <option>Sefige</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                                <option>4</option>
+                                                                <option>5</option>
+                                                                </Input>
+                                                                </div>
+                                                            </Col>
+                                                        </Row>
+                                                    </FormGroup>
+                                                </Col>
 
                                                 <Col lg={'12'}>
                                                     <FormGroup>
@@ -734,7 +765,7 @@ const Appointment: FunctionComponent = () => {
                                                     </FormGroup>
                                                 </Col>
 
-
+                                               
 
                                                 <Col lg={'12'}>
                                                     <FormGroup>
@@ -905,12 +936,9 @@ const Appointment: FunctionComponent = () => {
                                                         </Row>
                                                     </FormGroup>
                                                 </Col>
-                                                <Col lg={"6"}>
-                                                <Button className="btn-submit text-center btn  btn-block" color="primary"><span> <i className="fa fa-times mr-2" aria-hidden="true"></i></span> {languageTranslation('CLEAR')}</Button>
-                                                </Col>
-
-                                                <Col lg={"6"}>
-                                                <Button className="btn-submit text-center btn  btn-block" color="primary"><span> <i className="fa fa-floppy-o mr-2"></i></span> {languageTranslation('TO_SAVE')}</Button>
+                                                <Col lg={"12"}>
+                                                <Button className="btn" color="primary"><span> <i className="fa fa-times" aria-hidden="true"></i></span> {languageTranslation('CLEAR')}</Button>
+                                                <Button className="btn ml-2" color="primary"><span> <i className="fa fa-floppy-o mr-1"></i></span>{languageTranslation('TO_SAVE')}</Button>
                                                 </Col>
                                             </Row></div>
                                     </div>

@@ -619,15 +619,15 @@
   "NIGHT":"Night",
   "€":"€",
   "LAST":"Last",
-  "ALLOWANCE_NIGHT":"allowance night",
+  "ALLOWANCE_NIGHT":"Allowance Night",
   "ALLOWANCE_WE":"Allowance We",
   "ALLOWANCE_HOLIDAY":"Allowance Holiday",
-  "MILEAGE_ALLOWANCE":"mileage allowance",
+  "MILEAGE_ALLOWANCE":"Mileage Allowance",
   "KM":"Km",
-  "A":"A",
+  "A":"a",
   "EXPENSES":"Expenses",
   "DLN_REQUIRED":"Dln Required",
-  "COMMENT_TO_SPECIALIST":"Comment (visible to specialist)",
+  "COMMENT_TO_SPECIALIST":"Comment (Visible to Specialist)",
   "TO_SAVE":"To Save",
   "WORKING_HOURS_START":"Working Hours start",
   "CLOCK":"Clock",
@@ -636,10 +636,11 @@
   "COMMENTS_OFFER_DEPARTMENT":"Comments Offer Department",
   "COMMENTAR_DEPARTMENT_ONLY_VISIBLE_INTERNALLY":"Commentar Department (Only Visible Internally)",
   "REMARK_OFFER":"Remark Offer",
-  "COMMENTS_POSTED":"Cmments Posted",
-
-  
-
+  "COMMENTS_POSTED":"Comment Posted",
+  "WORKING_HORUS":"Working Hours",
+  "BREAK":"Break",
+  "QUALIFIKATION":"Qualifikation",
+  "QUALIFICATION_FOR_SETTLEMENT":"Qualification for Settlement",
   "NO_SUBORDINATED_MEG": "Currently, no subordinated caregiver available.",
   "ADD_NEW_EMAIL_TEMPLATE": "Add New E-mail Template"
 }

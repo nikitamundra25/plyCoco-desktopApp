@@ -2,20 +2,20 @@ import React, {
   Component,
   FunctionComponent,
   useState,
-  useEffect,
-} from 'react';
-import { Button, Col, Row } from 'reactstrap';
-import { assignIn } from 'lodash';
-import { useParams, useHistory } from 'react-router';
-import { languageTranslation } from '../../../../../helpers';
-import PersonalInfoFormComponent from './PersonalInfoFormComponent';
-import BillingSettingsFormComponent from './BillingSettingsFormComponent';
-import QualificationFormComponent from './QualificationFormComponent';
-import AttributeFormComponent from './AttributesFromComponent';
-import RemarkFormComponent from './RemarkFormComponent';
-import { Formik, FormikHelpers, Form, FormikProps } from 'formik';
-import { Query } from '@apollo/react-components';
-import { CareGiverQueries } from '../../../../../graphql/queries/CareGiver';
+  useEffect
+} from "react";
+import { Button, Col, Row } from "reactstrap";
+import { assignIn } from "lodash";
+import { useParams, useHistory } from "react-router";
+import { languageTranslation } from "../../../../../helpers";
+import PersonalInfoFormComponent from "./PersonalInfoFormComponent";
+import BillingSettingsFormComponent from "./BillingSettingsFormComponent";
+import QualificationFormComponent from "./QualificationFormComponent";
+import AttributeFormComponent from "./AttributesFromComponent";
+import RemarkFormComponent from "./RemarkFormComponent";
+import { Formik, FormikHelpers, Form, FormikProps } from "formik";
+import { Query } from "@apollo/react-components";
+import { CareGiverQueries } from "../../../../../graphql/queries/CareGiver";
 import {
   ICareGiverValues,
   IPersonalObject,
@@ -24,20 +24,20 @@ import {
   ICountries,
   IStates,
   IAttributeValues,
-  IAttributeOptions,
-} from '../../../../../interfaces';
-import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
+  IAttributeOptions
+} from "../../../../../interfaces";
+import { CareGiverValidationSchema } from "../../../../validations/CareGiverValidationSchema";
 
-import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
-import { toast } from 'react-toastify';
-import '../caregiver.scss';
+import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { toast } from "react-toastify";
+import "../caregiver.scss";
 import {
   GET_QUALIFICATION_ATTRIBUTE,
-  CountryQueries,
-} from '../../../../../graphql/queries';
-import { IQualifications } from '../../../../../interfaces/qualification';
-import Loader from '../../../containers/Loader/Loader';
-import { CareGiverMutations } from '../../../../../graphql/Mutations';
+  CountryQueries
+} from "../../../../../graphql/queries";
+import { IQualifications } from "../../../../../interfaces/qualification";
+import Loader from "../../../containers/Loader/Loader";
+import { CareGiverMutations } from "../../../../../graphql/Mutations";
 let toastId: any;
 
 const [
@@ -46,7 +46,7 @@ const [
   ,
   ,
   ,
-  GET_CAREGIVER_ATTRIBUTES,
+  GET_CAREGIVER_ATTRIBUTES
 ] = CareGiverQueries;
 const [, UPDATE_CAREGIVER] = CareGiverMutations;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -63,18 +63,18 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   }>(GET_CAREGIVER_ATTRIBUTES);
 
   const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
+  if (attributeData && attributeData.getCaregiverAtrribute) {
+    attributeData.getCaregiverAtrribute.forEach(
+      ({ id, name, color }: IAttributeValues) =>
+        caregiverAttrOpt.push({
+          label: name,
+          value: id.toString(),
+          color
+        })
+    );
+  }
   useEffect(() => {
     // const statesOpt: IReactSelectInterface[] | undefined = [];
-    if (attributeData && attributeData.getCaregiverAtrribute) {
-      attributeData.getCaregiverAtrribute.forEach(
-        ({ id, name, color }: IAttributeValues) =>
-          caregiverAttrOpt.push({
-            label: name,
-            value: id.toString(),
-            color,
-          }),
-      );
-    }
   }, [attributeData]);
 
   // To update caregiver details into db
@@ -94,17 +94,17 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     data.getQualificationAttributes.forEach((quali: any) => {
       qualificationList.push({
         label: quali.attributeName,
-        value: quali.id,
+        value: quali.id
       });
     });
   }
 
   //To get country details
   const { data: countries, loading: countryLoading } = useQuery<ICountries>(
-    GET_COUNTRIES,
+    GET_COUNTRIES
   );
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
 
   useEffect(() => {
@@ -119,15 +119,15 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         variables: {
           countryid: props.getCaregiver
             ? props.getCaregiver.caregiver.countryId
-            : '',
-        },
+            : ""
+        }
       });
     }
   }, [props.getCaregiver]);
 
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
     const {
       userName,
@@ -176,17 +176,17 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       night,
       holiday,
       leasingPricingList,
-      invoiceInterval,
+      invoiceInterval
     } = values;
 
     try {
       let careGiverInput: any = {
-        userName: userName ? userName.trim() : '',
-        gender: gender && gender.value ? gender.value : '',
+        userName: userName ? userName.trim() : "",
+        gender: gender && gender.value ? gender.value : "",
         title,
-        salutation: salutation && salutation.value ? salutation.value : '',
-        firstName: firstName ? firstName.trim() : '',
-        lastName: lastName ? lastName.trim() : '',
+        salutation: salutation && salutation.value ? salutation.value : "",
+        firstName: firstName ? firstName.trim() : "",
+        lastName: lastName ? lastName.trim() : "",
         dateOfBirth,
         age: age ? parseInt(age) : null,
         address1,
@@ -199,9 +199,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           qualifications && qualifications.length
             ? `{${qualifications
                 .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
+                  (qualification: IReactSelectInterface) => qualification.value
                 )
-                .join(', ')}}`
+                .join(", ")}}`
             : null,
         street,
         attributes:
@@ -213,7 +213,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         phoneNumber,
         fax,
         mobileNumber,
-        email: email ? email.trim() : '',
+        email: email ? email.trim() : "",
         taxNumber,
         socialSecurityContribution,
         countryId: country && country.value ? country.value : null,
@@ -246,25 +246,25 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         leasingPricingList:
           leasingPricingList && leasingPricingList.value
             ? leasingPricingList.label
-            : null,
+            : null
       };
       // Edit employee details
       if (id) {
         await updateCaregiver({
           variables: {
             id: parseInt(id),
-            careGiverInput,
-          },
+            careGiverInput
+          }
         });
         if (!toast.isActive(toastId)) {
-          toast.success(languageTranslation('CARE_GIVER_UPDATED_SUCCESS'));
+          toast.success(languageTranslation("CARE_GIVER_UPDATED_SUCCESS"));
         }
       }
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       // setFieldError('email', message);
       toast.error(message);
     }
@@ -279,19 +279,19 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           variables: {
             id: parseInt(id),
             careGiverInput: {
-              remarks: remarksData ? remarksData : remarksDetail, // send remarksData in case of delete
+              remarks: remarksData ? remarksData : remarksDetail // send remarksData in case of delete
             },
-            isRemarkAdded: true,
-          },
+            isRemarkAdded: true
+          }
         });
         if (!toast.isActive(toastId)) {
           toast.success(message);
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         // setFieldError('email', message);
         toast.error(message);
       }
@@ -299,16 +299,16 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   };
 
   const {
-    userName = '',
-    firstName = '',
-    lastName = '',
-    countryId = '',
-    email = '',
+    userName = "",
+    firstName = "",
+    lastName = "",
+    countryId = "",
+    email = "",
     socialSecurityContribution = false,
-    password = '',
-    status = 'active',
+    password = "",
+    status = "active",
     qualifications = [],
-    caregiver = {},
+    caregiver = {}
   } = props.getCaregiver ? props.getCaregiver : {};
 
   const {
@@ -318,29 +318,29 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     title = null,
     dateOfBirth = null,
     age = null,
-    address1 = '',
-    address2 = '',
-    driversLicense = '',
-    driverLicenseNumber = '',
-    street = '',
-    city = '',
-    zipCode = '',
-    fax = '',
-    mobileNumber = '',
-    taxNumber = '',
-    vehicleAvailable = '',
+    address1 = "",
+    address2 = "",
+    driversLicense = "",
+    driverLicenseNumber = "",
+    street = "",
+    city = "",
+    zipCode = "",
+    fax = "",
+    mobileNumber = "",
+    taxNumber = "",
+    vehicleAvailable = "",
     legalForm = undefined,
-    companyName = '',
-    registerCourt = '',
-    registrationNumber = '',
-    executiveDirector = '',
+    companyName = "",
+    registerCourt = "",
+    registrationNumber = "",
+    executiveDirector = "",
     remarks = [],
     employed = false,
-    comments = '',
-    fee = '',
+    comments = "",
+    fee = "",
     weekendAllowance = null,
     holiday = null,
-    night = null,
+    night = null
   } = caregiver ? caregiver : {};
 
   const qualificationsData: IReactSelectInterface[] | undefined = [];
@@ -359,13 +359,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   if (countries && countries.countries) {
     const userCountry = countries.countries.filter(
-      (x: any) => x.id === countryData,
+      (x: any) => x.id === countryData
     );
 
     if (userCountry && userCountry.length) {
       userSelectedCountry = {
         label: userCountry[0].name,
-        value: userCountry[0].id,
+        value: userCountry[0].id
       };
     }
   }
@@ -373,7 +373,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const stateData =
     props.getCaregiver && props.getCaregiver.caregiver
       ? props.getCaregiver.caregiver.stateId
-      : '';
+      : "";
 
   let userSelectedState: any = {};
   if (statesData && statesData.states) {
@@ -381,7 +381,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     if (userState && userState.length) {
       userSelectedState = {
         label: userState[0].name,
-        value: userState[0].id,
+        value: userState[0].id
       };
     }
   }
@@ -396,7 +396,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     props.getCaregiver.caregiver.attributes.map((attData: string) => {
       selectedAttributes.push({
         label: attData,
-        value: attData,
+        value: attData
       });
     });
   }
@@ -409,7 +409,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   if (props.careGiverOpt && props.careGiverOpt.length) {
     const userBelongTo = props.careGiverOpt.filter(
-      (x: any) => parseInt(x.value) === belongToId,
+      (x: any) => parseInt(x.value) === belongToId
     );
 
     if (userBelongTo && userBelongTo.length) {
@@ -424,7 +424,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     title,
     firstName,
     lastName,
-    phoneNumber: props.getCaregiver ? props.getCaregiver.phoneNumber : '',
+    phoneNumber: props.getCaregiver ? props.getCaregiver.phoneNumber : "",
     dateOfBirth,
     age,
     address1,
@@ -443,7 +443,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       props.getCaregiver.regions.length
         ? {
             label: props.getCaregiver.regions[0].regionName,
-            value: props.getCaregiver.regions[0].id,
+            value: props.getCaregiver.regions[0].id
           }
         : undefined,
     fax,
@@ -454,16 +454,16 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     bankName:
       props.getCaregiver && props.getCaregiver.bankDetails
         ? props.getCaregiver.bankDetails.bankName
-        : '',
+        : "",
     IBAN:
       props.getCaregiver && props.getCaregiver.bankDetails
         ? props.getCaregiver.bankDetails.IBAN
-        : '',
+        : "",
     belongTo: UserSelectedBelongsTo ? UserSelectedBelongsTo : null,
     legalForm: legalForm
       ? {
           label: props.getCaregiver.caregiver.legalForm,
-          value: props.getCaregiver.caregiver.legalForm,
+          value: props.getCaregiver.caregiver.legalForm
         }
       : undefined,
     companyName,
@@ -478,12 +478,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         ? remarks
         : [
             {
-              data: '',
-              createdAt: '',
-              createdBy: '',
-            },
+              data: "",
+              createdAt: "",
+              createdBy: ""
+            }
           ],
-    remarkData: '',
+    remarkData: "",
     invoiceInterval: invoiceInterval
       ? { label: invoiceInterval, value: invoiceInterval }
       : undefined,
@@ -502,20 +502,22 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       props.getCaregiver && props.getCaregiver.salutation
         ? {
             label: props.getCaregiver.salutation,
-            value: props.getCaregiver.salutation,
+            value: props.getCaregiver.salutation
           }
         : undefined,
     gender:
       props.getCaregiver && props.getCaregiver.gender
         ? {
             label: props.getCaregiver.gender,
-            value: props.getCaregiver.gender,
+            value: props.getCaregiver.gender
           }
         : undefined,
-    attributeId: selectedAttributes,
+    attributeId: selectedAttributes
   };
 
   const usersList = props.careGiverOpt;
+  console.log(caregiverAttrOpt, "caregiverAttrOpt");
+
   return (
     <Formik
       initialValues={initialValues}
@@ -524,34 +526,34 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       validationSchema={CareGiverValidationSchema}
       render={(props: FormikProps<ICareGiverValues>) => {
         return (
-          <Form className='form-section forms-main-section'>
-            <div id={'caregiver-add-btn'}>
+          <Form className="form-section forms-main-section">
+            <div id={"caregiver-add-btn"}>
               <Button
                 disabled={props.isSubmitting}
                 onClick={props.handleSubmit}
-                color={'primary'}
+                color={"primary"}
                 className={`save-button`}
               >
                 {props.isSubmitting ? (
-                  <i className='fa fa-spinner fa-spin loader' />
+                  <i className="fa fa-spinner fa-spin loader" />
                 ) : (
-                  ''
+                  ""
                 )}
-                {languageTranslation('SAVE_BUTTON')}
+                {languageTranslation("SAVE_BUTTON")}
               </Button>
             </div>
 
             <Row>
-              <Col lg={4} md={'12'} sm={'12'}>
+              <Col lg={4} md={"12"} sm={"12"}>
                 <PersonalInfoFormComponent
                   {...props}
                   CareInstitutionList={usersList}
                 />
               </Col>
-              <Col lg={4} md={'12'} sm={'12'} className='px-lg-0'>
-                <div className='common-col custom-caregiver-height  custom-scrollbar'>
+              <Col lg={4} md={"12"} sm={"12"} className="px-lg-0">
+                <div className="common-col custom-caregiver-height  custom-scrollbar">
                   <BillingSettingsFormComponent {...props} />
-                  <div className='quality-attribute-section d-flex flex-column'>
+                  <div className="quality-attribute-section d-flex flex-column">
                     <QualificationFormComponent
                       {...props}
                       qualificationList={qualificationList}
@@ -589,40 +591,40 @@ class GetData extends Component<any, any> {
       assignIn(
         caregiverDetails,
         caregiverDetails,
-        caregiverDetails.bankDetails,
+        caregiverDetails.bankDetails
       );
     }
     if (caregiverDetails.billingSettingDetails) {
       assignIn(
         caregiverDetails,
         caregiverDetails,
-        caregiverDetails.billingSettingDetails,
+        caregiverDetails.billingSettingDetails
       );
     } else {
       assignIn(caregiverDetails, caregiverDetails, {
-        fee: '',
-        weekendAllowancePerHour: '',
-        holidayAllowancePerHourFee: '',
-        nightAllowancePerHour: '',
-        leasingPrice: '',
-        invoiceInterval: '',
+        fee: "",
+        weekendAllowancePerHour: "",
+        holidayAllowancePerHourFee: "",
+        nightAllowancePerHour: "",
+        leasingPrice: "",
+        invoiceInterval: ""
       });
     }
     caregiverDetails.salutation = {
       value: caregiverDetails.salutation,
-      label: caregiverDetails.salutation,
+      label: caregiverDetails.salutation
     };
     caregiverDetails.state = {
       value: caregiverDetails.state,
-      label: caregiverDetails.state,
+      label: caregiverDetails.state
     };
     caregiverDetails.legalForm = {
       value: caregiverDetails.legalForm,
-      label: caregiverDetails.legalForm,
+      label: caregiverDetails.legalForm
     };
     caregiverDetails.regionId = {
       value: caregiverDetails.regions[0]._id,
-      label: caregiverDetails.regions[0].regionName,
+      label: caregiverDetails.regions[0].regionName
     };
     caregiverDetails.workZones =
       caregiverDetails.workZones && caregiverDetails.workZones.length
@@ -642,13 +644,13 @@ class GetData extends Component<any, any> {
     return (
       <Query
         query={GET_CAREGIVER_BY_ID}
-        fetchPolicy='network-only'
+        fetchPolicy="network-only"
         variables={{ id: parseInt(this.props.Id) }}
       >
         {({ loading, error, data }: any) => {
           if (loading)
             return (
-              <div className='overview-loader'>
+              <div className="overview-loader">
                 <Loader />
               </div>
             );

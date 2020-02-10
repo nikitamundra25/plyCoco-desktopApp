@@ -589,7 +589,7 @@
   "KEY": "Key",
   "VALUE": "Value",
   "CONTACT_REQUIRED": "Contact is required",
-  "TEXT_EMAIL": "Text Email (Title is inserted automatically)",
+  "TEXT_EMAIL": "Text Email (Salutation will be added automatically)",
   "SELECT_TEMPLATE": "Select Template",
   "MY_PROFILE": "My Profile",
   "ADD_ATTRIBUTE_SUCCESS": "Atrribute added succesfully",

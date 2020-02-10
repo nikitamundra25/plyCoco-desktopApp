@@ -176,7 +176,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                                 toolbarClassName="toolbarClassName"
                                 wrapperClassName="wrapperClassName"
                                 editorClassName="editorClassName"
-                                placeholder="Enter Email Here"
+                                placeholder="Enter Email Content Here"
                                 toolbar={{
                                   options: [
                                     "inline",

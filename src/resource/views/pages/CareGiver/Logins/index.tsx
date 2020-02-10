@@ -3,7 +3,7 @@ import { Table } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
 import { LoginHistoryQuery } from '../../../../../graphql/queries/LoginHistory';
 import { useLazyQuery } from '@apollo/react-hooks';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import Loader from '../../../containers/Loader/Loader';
 const [GET_LOGIN_HISTORY] = LoginHistoryQuery;

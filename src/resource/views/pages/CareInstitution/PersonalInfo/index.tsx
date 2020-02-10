@@ -8,6 +8,8 @@ import {
   IReactSelectInterface,
   ICountries,
   IStates,
+  IAttributeValues,
+  IAttributeOptions,
 } from '../../../../../interfaces';
 import { CareInstituionValidationSchema } from '../../../../validations';
 import { useParams } from 'react-router';
@@ -30,6 +32,7 @@ const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
   GET_DEPARTMENT_LIST,
+  GET_CAREINSTITUTION_ATTRIBUTES,
 ] = CareInstitutionQueries;
 
 const [
@@ -59,6 +62,23 @@ const PersonalInformation: any = (props: any) => {
     getCareInstitutionDetails,
     { data: careInstituionDetails, error: detailsError, refetch },
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
+
+  // Fetch attribute list from db
+  const { data: attributeData } = useQuery<{
+    getCareInstitutionAtrribute: IAttributeValues[];
+  }>(GET_CAREINSTITUTION_ATTRIBUTES);
+  // Push into attribute options
+  const careInstitutionAttrOpt: IAttributeOptions[] | undefined = [];
+  if (attributeData && attributeData.getCareInstitutionAtrribute) {
+    attributeData.getCareInstitutionAtrribute.forEach(
+      ({ id, name, color }: IAttributeValues) =>
+        careInstitutionAttrOpt.push({
+          label: name,
+          value: id.toString(),
+          color,
+        }),
+    );
+  }
 
   const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
@@ -545,6 +565,7 @@ const PersonalInformation: any = (props: any) => {
             setRemarksDetail={setRemarksDetail}
             remarksDetail={remarksDetail}
             saveRemark={saveRemark}
+            careInstitutionAttrOpt={careInstitutionAttrOpt}
           />
         )}
         validationSchema={CareInstituionValidationSchema}

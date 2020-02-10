@@ -99,7 +99,8 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
                 value={attributeId ? attributeId : undefined}
                 onChange={(value: any) => handleSelect(value, 'attributeId')}
                 isMulti
-                options={CareInstitutionAttr}
+                options={props.careInstitutionAttrOpt}
+                // options={CareInstitutionAttr}
                 menuPlacement={'top'}
                 className='attribute-select'
                 classNamePrefix='attribute-inner-select'

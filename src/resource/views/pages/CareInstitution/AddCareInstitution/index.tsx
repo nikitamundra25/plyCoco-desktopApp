@@ -65,18 +65,16 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   }>(GET_CAREINSTITUTION_ATTRIBUTES);
   // Push into attribute options
   const careInstitutionAttrOpt: IAttributeOptions[] | undefined = [];
-  useEffect(() => {
-    if (attributeData && attributeData.getCareInstitutionAtrribute) {
-      attributeData.getCareInstitutionAtrribute.forEach(
-        ({ id, name, color }: IAttributeValues) =>
-          careInstitutionAttrOpt.push({
-            label: name,
-            value: id.toString(),
-            color,
-          }),
-      );
-    }
-  }, [attributeData]);
+  if (attributeData && attributeData.getCareInstitutionAtrribute) {
+    attributeData.getCareInstitutionAtrribute.forEach(
+      ({ id, name, color }: IAttributeValues) =>
+        careInstitutionAttrOpt.push({
+          label: name,
+          value: id.toString(),
+          color,
+        }),
+    );
+  }
 
   const [updateCareInstitution, { error, data }] = useMutation<{
     updateCareInstitution: ICareInstitutionFormValues;

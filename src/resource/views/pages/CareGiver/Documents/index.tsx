@@ -1,12 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Card, CardHeader, CardBody } from 'reactstrap';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
-import { AppBreadcrumb } from '@coreui/react';
-
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { DocumentMutations } from '../../../../../graphql/Mutations';
-import routes from '../../../../../routes/routes';
 import moment from 'moment';
 import { IDocumentUrls } from '../../../../../interfaces';
 import DocumentUploadModal from './DocumentModal';
@@ -141,9 +137,9 @@ const Documents = () => {
   //set state data null
   const setStateValueNull = () => {
     setRemarkValue(null);
-    setDocumentType({ label: null, value: null });
+    setDocumentType({ value: 'Various documents', label: 'Various documents' });
     setDocumentUrl(null);
-    setStatusValue(false);
+    setStatusValue(true);
     setDocumentIdUpdate(null);
     setFileObject(null);
     setFilename(null);
@@ -232,7 +228,7 @@ const Documents = () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
       text: languageTranslation(
-        status === 'notrequested'
+        status !== languageTranslation('APPROVE_STATUS')
           ? 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_APPROVE_MSG'
           : 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_NOTREQUESTED_MSG'
       )
@@ -338,7 +334,7 @@ const Documents = () => {
   const onApprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'Document will be Approved'
+      text: languageTranslation('CG_PROFILE_APPROVE')
     });
     if (!value) {
       return;
@@ -352,7 +348,9 @@ const Documents = () => {
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success('Document approved successfully');
+          toastId = toast.success(
+            languageTranslation('CG_PROFILE_APPROVE_SUCESS')
+          );
         }
       } catch (error) {
         const message = error.message
@@ -370,7 +368,7 @@ const Documents = () => {
   const onDisapprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'Document will be Disapproved'
+      text: languageTranslation('CG_PROFILE_DISAPPROVE')
     });
     if (!value) {
       return;
@@ -384,7 +382,9 @@ const Documents = () => {
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success('Document disapproved successfully');
+          toastId = toast.success(
+            languageTranslation('CG_PROFILE_DISAPPROVE_SUCESS')
+          );
         }
       } catch (error) {
         const message = error.message

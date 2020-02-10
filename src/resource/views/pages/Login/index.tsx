@@ -8,6 +8,10 @@ import { ILoginFormValues, ILoginResponse } from '../../../../interfaces';
 import LoginFormComponent from './LoginFormComponent';
 import { LOGIN } from '../../../../graphql/queries';
 import { AppRoutes } from '../../../../config';
+import { ApolloError } from 'apollo-client';
+import { errorFormatter } from '../../../../helpers/ErrorFormatter';
+
+let toastId: any = null;
 
 export const Login: FunctionComponent = () => {
   let history = useHistory();
@@ -24,6 +28,12 @@ export const Login: FunctionComponent = () => {
       } else {
         localStorage.setItem('adminToken', token);
         history.push(AppRoutes.MAIN);
+      }
+    },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toast.error(message);
       }
     },
   });

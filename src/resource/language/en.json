@@ -617,5 +617,14 @@
   "SUBORDINATED_HEADING": "Grouped Below",
   "NO_SUBORDINATED_MEG": "Currently, no subordinated caregiver available.",
   "ADD_NEW_EMAIL_TEMPLATE": "Add New E-mail Template",
-  "UPDATE_DOCUMENT": "Update Document"
+  "UPDATE_DOCUMENT": "Update Document",
+  "APPROVE_STATUS": "approve",
+  "LOGIN_DATE": "Login Date",
+  "CG_PROFILE_APPROVE": "This caregiver's profile will be approved",
+  "CG_PROFILE_DISAPPROVE": "This caregiver's profile will be disapproved",
+  "CI_PROFILE_APPROVE": "This caregiver's profile will be approved",
+  "CI_PROFILE_DISAPPROVE": "This caregiver's profile will be disapproved",
+  "CG_PROFILE_APPROVE_SUCESS":"Caregiver's profile approved successfully",
+  "CG_PROFILE_DISAPPROVE_SUCESS":"Caregiver's profile disapproved successfully"
+
 }

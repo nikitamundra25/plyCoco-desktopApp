@@ -81,7 +81,7 @@ const UPDATE_CAREGIVER = gql`
       }
       qualifications {
         id
-        attributeName
+        name
       }
     }
   }

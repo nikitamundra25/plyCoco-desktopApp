@@ -16,7 +16,6 @@ const LoginLogs: FunctionComponent = () => {
       fetchPolicy: 'no-cache',
     },
   );
-  const path = useLocation();
 
   useEffect(() => {
     fetchLoginList({
@@ -25,7 +24,6 @@ const LoginLogs: FunctionComponent = () => {
       },
     });
   }, []);
-  console.log(called, loading, 'cxcxcxcxc');
 
   return (
     <>
@@ -75,7 +73,7 @@ const LoginLogs: FunctionComponent = () => {
                       </td>
                       <td>
                         {loginDetails.loggedInIP
-                          ? loginDetails.loggedInIP
+                          ? loginDetails.loggedInIP.replace('::ffff:', '')
                           : '-'}
                       </td>
                       <td>

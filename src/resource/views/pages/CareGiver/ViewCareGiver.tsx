@@ -20,7 +20,7 @@ import password from '../../../assets/img/password.svg';
 import appointment from '../../../assets/img/appointment.svg';
 import clear from '../../../assets/img/clear.svg';
 import { CareGiverQueries } from '../../../../graphql/queries';
-import LoginLogs from './Logins/CareLogin';
+import LoginLogs from './Logins';
 import CreateTodo from '../../components/CreateTodo';
 import CustomOption from '../../components/CustomOptions';
 import { languageTranslation } from '../../../../helpers';

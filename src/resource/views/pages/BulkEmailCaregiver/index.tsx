@@ -112,7 +112,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
           <div className="common-content flex-grow-1">
             <div className="bulk-email-section">
               <Row>
-                <Col lg={"7"}>
+                <Col lg={"5"}>
                   <div className="caregiver-list custom-scroll">
                     <Table bordered hover responsive>
                       <thead className="thead-bg">
@@ -194,7 +194,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   </div>
                 </Col>
 
-                <Col lg={"5"}>
+                <Col lg={"7"}>
                   <div className="">
                     <div className="form-section py-2 px-3 bulk-email-form">
                       <div className="d-flex align-items-end justify-content-between bulk-email-header">
@@ -236,7 +236,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                                 toolbarClassName="toolbarClassName"
                                 wrapperClassName="wrapperClassName"
                                 editorClassName="editorClassName"
-                                placeholder="Enter Email Here"
+                                placeholder="Enter Email Content Here"
                                 toolbar={{
                                   options: [
                                     "inline",

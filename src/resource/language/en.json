@@ -591,7 +591,7 @@
   "KEY": "Key",
   "VALUE": "Value",
   "CONTACT_REQUIRED": "Contact is required",
-  "TEXT_EMAIL": "Text Email (Title is inserted automatically)",
+  "TEXT_EMAIL": "Text Email (Salutation will be added automatically)",
   "SELECT_TEMPLATE": "Select Template",
   "MY_PROFILE": "My Profile",
   "ADD_ATTRIBUTE_SUCCESS": "Atrribute added succesfully",
@@ -627,5 +627,6 @@
   "CI_PROFILE_APPROVE": "This caregiver's profile will be approved",
   "CI_PROFILE_DISAPPROVE": "This caregiver's profile will be disapproved",
   "CG_PROFILE_APPROVE_SUCESS": "Caregiver's profile approved successfully",
-  "CG_PROFILE_DISAPPROVE_SUCESS": "Caregiver's profile disapproved successfully"
+  "CG_PROFILE_DISAPPROVE_SUCESS": "Caregiver's profile disapproved successfully",
+  "USERNAME_PLACEHOLDER": "Enter Username"
 }

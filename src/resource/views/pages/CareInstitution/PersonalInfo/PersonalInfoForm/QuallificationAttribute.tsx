@@ -29,6 +29,18 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
     handleSelect,
     qualificationList,
   } = props;
+  const colourStyles = {
+    option: (styles: any, { data }: any) => {
+      return {
+        ...styles,
+        backgroundColor: data.color,
+        color:
+          data.color === '#6a0dad' || data.color === '#000000'
+            ? '#fff'
+            : '#000',
+      };
+    },
+  };
   return (
     <div className='quality-attribute-section d-flex flex-column'>
       <div className='common-list-card'>
@@ -86,9 +98,24 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
           <div className='common-list-body custom-scrollbar'>
             <ul className='common-list list-unstyled'>
               {attributeId && attributeId.length
-                ? attributeId.map((attData: IReactSelectInterface) => {
-                    return <li>{attData.label} </li>;
-                  })
+                ? attributeId.map(
+                    ({ label, color }: IAttributeOptions, index: number) => {
+                      return (
+                        <li
+                          key={index}
+                          style={{
+                            backgroundColor: color ? color : '',
+                            color:
+                              color === '#6a0dad' || color === '#000000'
+                                ? '#fff'
+                                : '#000',
+                          }}
+                        >
+                          {label}{' '}
+                        </li>
+                      );
+                    },
+                  )
                 : null}
             </ul>
           </div>
@@ -99,10 +126,12 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
                 value={attributeId ? attributeId : undefined}
                 onChange={(value: any) => handleSelect(value, 'attributeId')}
                 isMulti
-                options={CareInstitutionAttr}
+                options={props.careInstitutionAttrOpt}
+                // options={CareInstitutionAttr}
                 menuPlacement={'top'}
                 className='attribute-select'
                 classNamePrefix='attribute-inner-select'
+                styles={colourStyles}
               />
             </FormGroup>
           </div>

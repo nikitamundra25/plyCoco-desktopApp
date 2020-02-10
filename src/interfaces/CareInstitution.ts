@@ -1,4 +1,5 @@
 import { IReactSelectInterface } from './Constant';
+import { IAttributeOptions } from './CareGiver';
 
 export interface ICareInstitutionFormValues {
   salutation?: IReactSelectInterface;
@@ -25,7 +26,7 @@ export interface ICareInstitutionFormValues {
   salt?: String;
   userRole?: String;
   qualificationId?: IReactSelectInterface[];
-  attributeId?: IReactSelectInterface[] | undefined | any;
+  attributeId?: IAttributeOptions[] | undefined | any;
   isActive?: Boolean;
   isDeleted?: Boolean;
   zipCode?: string;

@@ -220,7 +220,7 @@ export interface ICareGiverValues {
   legalForm?: IReactSelectInterface;
   legalFormValue?: IReactSelectInterface;
   qualifications?: IReactSelectInterface[];
-  attributeId?: IReactSelectInterface[];
+  attributeId?: IAttributeOptions[];
   remarks?: ICareInstitutionRemarks[];
   remarkData?: string;
   remarkValue?: string; // for edit

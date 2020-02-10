@@ -1,17 +1,19 @@
 import React, { useState, FunctionComponent, Suspense, useEffect } from 'react';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useHistory, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   CareGiverValues,
   ICareGiverInput,
   IAddCargiverRes,
   IReactSelectInterface,
-  ICareGiverValues
+  ICareGiverValues,
+  IAttributeValues,
+  IAttributeOptions,
 } from '../../../../../interfaces';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import CareGiverFormComponent from './CareGiverFormComponent';
 import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
-import { useMutation } from '@apollo/react-hooks';
-import { useHistory, useParams } from 'react-router';
-import { toast } from 'react-toastify';
 import { languageTranslation } from '../../../../../helpers';
 import { AppRoutes, PAGE_LIMIT } from '../../../../../config';
 import CareGiverSidebar from '../Sidebar/SidebarLayout/CareGiverLayout';
@@ -25,12 +27,30 @@ import { CareGiverMutations } from '../../../../../graphql/Mutations';
 import { CareGiverQueries } from '../../../../../graphql/queries';
 
 const CareGiverRoutesTabs = careGiverRoutes;
-const [GET_CAREGIVERS] = CareGiverQueries;
+const [GET_CAREGIVERS, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [ADD_CAREGIVER] = CareGiverMutations;
 
 export const CareGiverForm: FunctionComponent = (props: any) => {
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
   let history = useHistory();
+  // Fetch attribute list from db
+  const { data: attributeData } = useQuery<{
+    getCaregiverAtrribute: IAttributeValues[];
+  }>(GET_CAREGIVER_ATTRIBUTES);
+  // Push into attribute options
+  const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
+  useEffect(() => {
+    if (attributeData && attributeData.getCaregiverAtrribute) {
+      attributeData.getCaregiverAtrribute.forEach(
+        ({ id, name, color }: IAttributeValues) =>
+          caregiverAttrOpt.push({
+            label: name,
+            value: id.toString(),
+            color,
+          }),
+      );
+    }
+  }, [attributeData]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -42,7 +62,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn'
+      'caregiver-add-btn',
     );
     if (buttonDiv) {
       if (scrollPositionY >= 12) {
@@ -76,8 +96,8 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       history.push(
         AppRoutes.CARE_GIVER_VIEW.replace(
           ':id',
-          Data.addCareGiver ? Data.addCareGiver.id : 'null'
-        )
+          Data.addCareGiver ? Data.addCareGiver.id : 'null',
+        ),
       );
     }
   }, [data]);
@@ -85,7 +105,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   // function to add/edit employee information
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -136,7 +156,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       weekendAllowance,
       night,
       holiday,
-      postalCode
+      postalCode,
     } = values;
 
     try {
@@ -167,7 +187,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
           qualifications && qualifications.length
             ? `{${qualifications
                 .map(
-                  (qualification: IReactSelectInterface) => qualification.value
+                  (qualification: IReactSelectInterface) => qualification.value,
                 )
                 .join(', ')}}`
             : null,
@@ -208,11 +228,11 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         // remarks && remarks.length ? remarks : [],
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],
-        status
+        status,
       };
       await addCaregiver({
         variables: {
-          careGiverInput
+          careGiverInput,
         },
         update: (cache, { data: { addCaregiver } }: any) => {
           const data: any = cache.readQuery({
@@ -222,17 +242,17 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
               sortBy: 0,
               limit: PAGE_LIMIT,
               page: 0,
-              isActive: undefined
-            }
+              isActive: undefined,
+            },
           });
           cache.writeQuery({
             query: GET_CAREGIVERS,
             data: {
               getCaregiversCount: data.getCaregiversCount + 1,
-              getCaregivers: data.getCaregivers.concat([addCaregiver])
-            }
+              getCaregivers: data.getCaregivers.concat([addCaregiver]),
+            },
           });
-        }
+        },
       });
       toast.success(languageTranslation('CAREGIVER_ADD_SUCCESS_MSG'));
 
@@ -286,7 +306,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     socialSecurityContribution = false,
     taxNumber = '',
     workZones = undefined,
-    status = ''
+    status = '',
   } = caregiverData ? caregiverData : {};
 
   const initialValues: ICareGiverValues = {
@@ -317,7 +337,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     taxNumber,
     workZones,
     status,
-    qualifications
+    qualifications,
   };
 
   return (
@@ -383,6 +403,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
                           {...props}
                           setRemarksDetail={setRemarksDetail}
                           remarksDetail={remarksDetail}
+                          caregiverAttrOpt={caregiverAttrOpt}
                         />
                       );
                     }}

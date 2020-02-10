@@ -1,12 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Card, CardHeader, CardBody } from 'reactstrap';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
-import { AppBreadcrumb } from '@coreui/react';
-
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { DocumentMutations } from '../../../../../graphql/Mutations';
-import routes from '../../../../../routes/routes';
 import moment from 'moment';
 import { IDocumentUrls } from '../../../../../interfaces';
 import DocumentUploadModal from './DocumentModal';
@@ -42,7 +38,9 @@ const Documents = () => {
   const [documentData, setDocumentData] = useState<any>(null);
   const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
   const [fileName, setFilename] = useState<any>(null);
-  const [userApproved, setUserApproved] = useState<string | null>(null);
+  // const [errorMsg, setErrorMsg] = useState<string | null>(
+  //   'Document is required'
+  // );
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const [documentId, setDocumentId] = useState<{
@@ -50,9 +48,9 @@ const Documents = () => {
     checked: boolean;
   } | null>(null);
 
-  const [fetchDocumentList, { data, loading, refetch }] = useLazyQuery<any>(
-    GET_DOCUMENTS
-  );
+  const [fetchDocumentList, { data, loading, refetch, called }] = useLazyQuery<
+    any
+  >(GET_DOCUMENTS);
 
   const [
     fetchCaregiverDetails,
@@ -63,26 +61,33 @@ const Documents = () => {
     }
   ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
   //add document
-  const [addDocument] = useMutation<any>(ADD_DOCUMENT, {
-    onCompleted({ addDocument }) {
-      setIsSubmit(false);
-      refetch();
-      setShowDocumentPopup(false);
-      if (!toast.isActive(toastId)) {
-        toastId = toast.success(languageTranslation('DOCUMENT_ADDED_SUCCESS'));
+  const [addDocument, { loading: addDocumentLoading }] = useMutation<any>(
+    ADD_DOCUMENT,
+    {
+      onCompleted({ addDocument }) {
+        setIsSubmit(false);
+        refetch();
+        setShowDocumentPopup(false);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('DOCUMENT_ADDED_SUCCESS')
+          );
+        }
       }
     }
-  });
+  );
 
   //disapprove document
-  const [disapprovedDocument, { data: disApprovedData }] = useMutation<any>(
-    DISAPPROVE_DOCUMENT
-  );
+  const [
+    disapprovedDocument,
+    { data: disApprovedData, loading: disapproveLoading }
+  ] = useMutation<any>(DISAPPROVE_DOCUMENT);
 
   //approve document
-  const [approvedDocument, { data: ApprovedData }] = useMutation<any>(
-    APPROVE_DOCUMENT
-  );
+  const [
+    approvedDocument,
+    { data: ApprovedData, loading: approveLoading }
+  ] = useMutation<any>(APPROVE_DOCUMENT);
 
   //update document status
   const [updateDocumentStatus] = useMutation<any>(UPDATE_DOCUMENT_STATUS);
@@ -91,18 +96,21 @@ const Documents = () => {
   const [deleteDocument] = useMutation<any>(DELETE_DOCUMENT);
 
   //update document
-  const [updateDocument] = useMutation<any>(UPDATE_DOCUMENT, {
-    onCompleted({ updateDocument }) {
-      refetch();
-      setIsSubmit(false);
-      setShowDocumentPopup(false);
-      if (!toast.isActive(toastId)) {
-        toastId = toast.success(
-          languageTranslation('DOCUMENT_UPDATED_SUCCESS')
-        );
+  const [updateDocument, { loading: updateDocumentLoading }] = useMutation<any>(
+    UPDATE_DOCUMENT,
+    {
+      onCompleted({ updateDocument }) {
+        refetch();
+        setIsSubmit(false);
+        setShowDocumentPopup(false);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('DOCUMENT_UPDATED_SUCCESS')
+          );
+        }
       }
     }
-  });
+  );
 
   useEffect(() => {
     if (ApprovedData) {
@@ -129,12 +137,13 @@ const Documents = () => {
   //set state data null
   const setStateValueNull = () => {
     setRemarkValue(null);
-    setDocumentType({ label: null, value: null });
+    setDocumentType({ value: 'Various documents', label: 'Various documents' });
     setDocumentUrl(null);
-    setStatusValue(false);
+    setStatusValue(true);
     setDocumentIdUpdate(null);
     setFileObject(null);
     setFilename(null);
+    // setErrorMsg(null);
   };
   useEffect(() => {
     if (id) {
@@ -219,7 +228,7 @@ const Documents = () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
       text: languageTranslation(
-        status === 'notrequested'
+        status !== languageTranslation('APPROVE_STATUS')
           ? 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_APPROVE_MSG'
           : 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_NOTREQUESTED_MSG'
       )
@@ -325,7 +334,7 @@ const Documents = () => {
   const onApprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'Document will be Approved'
+      text: languageTranslation('CG_PROFILE_APPROVE')
     });
     if (!value) {
       return;
@@ -339,7 +348,9 @@ const Documents = () => {
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success('Document approved successfully');
+          toastId = toast.success(
+            languageTranslation('CG_PROFILE_APPROVE_SUCESS')
+          );
         }
       } catch (error) {
         const message = error.message
@@ -357,7 +368,7 @@ const Documents = () => {
   const onDisapprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'Document will be Disapproved'
+      text: languageTranslation('CG_PROFILE_DISAPPROVE')
     });
     if (!value) {
       return;
@@ -371,7 +382,9 @@ const Documents = () => {
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success('Document disapproved successfully');
+          toastId = toast.success(
+            languageTranslation('CG_PROFILE_DISAPPROVE_SUCESS')
+          );
         }
       } catch (error) {
         const message = error.message
@@ -399,6 +412,10 @@ const Documents = () => {
         onApprove={onApprove}
         isApproved={isApproved}
         onDisapprove={onDisapprove}
+        loading={loading}
+        called={called}
+        approveLoading={approveLoading}
+        disapproveLoading={disapproveLoading}
       />
       <DocumentUploadModal
         documentIdUpdate={documentIdUpdate}
@@ -418,6 +435,10 @@ const Documents = () => {
         isSubmit={isSubmit}
         setIsSubmit={setIsSubmit}
         setShowDocumentPopup={setShowDocumentPopup}
+        addDocumentLoading={addDocumentLoading}
+        updateDocumentLoading={updateDocumentLoading}
+        // setErrorMsg={setErrorMsg}
+        // errorMsg={errorMsg}
       />
     </div>
   );

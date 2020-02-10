@@ -290,7 +290,7 @@ const CareGiver: FunctionComponent = () => {
                     </div>
                   </div>
                 </th> */}
-                  <th className={'text-center'}>
+                  <th className='sno-th-column text-center'>
                     {languageTranslation('S_NO')}
                   </th>
                   <th>{languageTranslation('TABEL_HEAD_CG_INFO')}</th>
@@ -331,33 +331,26 @@ const CareGiver: FunctionComponent = () => {
                       };
                       return (
                         <tr key={index}>
-                          <td className={'text-center'}>
-                            <div className='table-checkbox-wrap'>
-                              <div className='btn-group btn-check-action-wrap'>
-                                {/* <span className='btn'>
-                                  <span className='checkboxli checkbox-custom checkbox-default'>
-                                    <input
-                                      type="checkbox"
-                                      id="checkAll"
-                                      className=""
-                                    />
-                                    <label className=""></label>
-                                  </span>
-                                </span> */}
-                                <span className='checkbox-no'>{count++}</span>
-                              </div>
-                            </div>
+                          <td className='sno-th-column text-center'>
+                            <span>{count++}</span>
                           </td>
                           <td>
                             <div className='info-column'>
                               <div className='description-column '>
                                 <div className='info-title text-capitalize'>{`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}</div>
                                 <p className='description-text'>
+                                  <i className='fa fa-user mr-2'></i>
+                                  <span className='align-middle'>
+                                    {careGiverData.userName}
+                                  </span>
+                                </p>
+                                <p className='description-text'>
                                   <i className='fa fa-envelope mr-2'></i>
                                   <span className='align-middle'>
                                     {careGiverData.email}
                                   </span>
                                 </p>
+
                                 {careGiverData.phoneNumber ? (
                                   <p className='description-text'>
                                     <i className='fa fa-phone mr-2'></i>
@@ -382,7 +375,7 @@ const CareGiver: FunctionComponent = () => {
                                         className='region-label'
                                         key={index}
                                       >
-                                        {qualification.attributeName}
+                                        {qualification.name}
                                       </span>
                                     );
                                   },

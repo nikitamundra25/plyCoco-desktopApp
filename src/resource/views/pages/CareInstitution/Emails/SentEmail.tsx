@@ -28,7 +28,7 @@ const SentEmail: FunctionComponent = () => {
             <div className="email-inbox-section">
               <div className="filter-form form-section">
                 <Row>
-                  <Col lg={"10"}>
+                  <Col lg={"8"} md={"8"} sm={"8"}>
                     <FormGroup className="mb-2">
                       <Input
                         type="text"
@@ -38,19 +38,19 @@ const SentEmail: FunctionComponent = () => {
                       />
                     </FormGroup>
                   </Col>
-                  <Col lg={"2"}>
+                  <Col lg={"4"} md={"4"} sm={"4"}>
                     <div className="filter-btn-wrap mb-2">
                       <span className="btn-filter mr-2" id="search1">
                         <UncontrolledTooltip placement="top" target="search1">
                           {languageTranslation("SEARCH_LABEL")}
                         </UncontrolledTooltip>
-                        <i className="fa fa-search"></i>
+                        {languageTranslation("SEARCH_LABEL")}
                       </span>
                       <span className="btn-filter mr-2" id="reset">
                         <UncontrolledTooltip placement="top" target="reset">
                           {languageTranslation("RESET_LABEL")}
                         </UncontrolledTooltip>
-                        <i className="fa fa-refresh "></i>
+                        {languageTranslation("RESET_LABEL")}
                       </span>
                     </div>
                   </Col>
@@ -90,7 +90,7 @@ const SentEmail: FunctionComponent = () => {
                   <span>{languageTranslation("SUBJECT")}</span>
                 </div>
               </div>
-              <ul className="m-0 p-0 list-group">
+              <ul className="mb-3 p-0 list-group">
                 <li className={`email-wrap `}>
                   <div
                     className={`email-date-block ${

@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { FormGroup } from 'reactstrap';
 import Select from 'react-select';
 import { CareGiveAttributes } from '../../../../../config';
 import { FormikProps } from 'formik';
 import {
-  CareGiverValues,
   IReactSelectInterface,
+  ICareGiverValues,
+  IAttributeOptions,
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
+import CustomOption from '../../../components/CustomOptions';
 
-const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
+const AttributeFormComponent: FunctionComponent<FormikProps<
+  ICareGiverValues
+> & {
+  caregiverAttrOpt?: IAttributeOptions[] | undefined;
+}> = (
+  props: FormikProps<ICareGiverValues> & {
+    caregiverAttrOpt?: IAttributeOptions[] | undefined;
+  },
+) => {
   const {
     values: { attributeId },
     setFieldValue,
+    caregiverAttrOpt,
   } = props;
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -49,10 +60,12 @@ const AttributeFormComponent: any = (props: FormikProps<CareGiverValues>) => {
                 value={attributeId ? attributeId : undefined}
                 onChange={(value: any) => handleSelect(value, 'attributeId')}
                 isMulti
+                // options={caregiverAttrOpt}
                 options={CareGiveAttributes}
                 menuPlacement={'top'}
                 className='attribute-select'
                 classNamePrefix='attribute-inner-select'
+                // components={{ Option: CustomOption }}
               />
             </FormGroup>
           </div>

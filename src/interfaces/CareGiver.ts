@@ -371,3 +371,15 @@ export interface IEmailSearchFilterProps {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   onReset: () => void;
 }
+
+export interface IAttributeValues {
+  id: number;
+  name: string;
+  color: string;
+}
+
+export interface IAttributeOptions {
+  label: string;
+  value: string;
+  color: string | null;
+}

@@ -40,7 +40,7 @@ const UPDATE_CARE_INSTITUTION = gql`
       careInstitutionInput: $careInstitutionInput
       isRemarkAdded: $isRemarkAdded
     ) {
-       firstName
+      firstName
       lastName
       salutation
       email
@@ -78,7 +78,7 @@ const UPDATE_CARE_INSTITUTION = gql`
       }
       qualifications {
         id
-        attributeName
+        name
       }
       regions {
         id
@@ -231,5 +231,5 @@ export const CareInstitutionMutation = [
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   ADD_NEW_CARE_INTITUTION,
   ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT
+  DELETE_DEPARTMENT,
 ];

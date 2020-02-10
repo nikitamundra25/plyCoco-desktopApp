@@ -78,7 +78,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
       }
       qualifications {
         id
-        attributeName
+        name
       }
       regions {
         id
@@ -135,8 +135,19 @@ const GET_DEPARTMENT_LIST = gql`
   }
 `;
 
+const GET_CAREINSTITUTION_ATTRIBUTES = gql`
+  query getCareInstitutionAtrribute {
+    getCareInstitutionAtrribute {
+      id
+      name
+      color
+    }
+  }
+`;
+
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
   GET_DEPARTMENT_LIST,
+  GET_CAREINSTITUTION_ATTRIBUTES,
 ];

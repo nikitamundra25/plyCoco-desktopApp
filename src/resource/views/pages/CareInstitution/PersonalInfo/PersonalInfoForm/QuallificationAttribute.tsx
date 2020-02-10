@@ -7,6 +7,7 @@ import {
   ICareInstitutionFormValues,
   IHandleSelectInterface,
   IReactSelectInterface,
+  IAttributeOptions,
 } from '../../../../../../interfaces';
 import { CareInstitutionAttr } from '../../../../../../config';
 
@@ -15,10 +16,12 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
 > &
   IHandleSelectInterface & {
     qualificationList: IReactSelectInterface[] | undefined;
+    careInstitutionAttrOpt: IAttributeOptions[] | undefined;
   }> = (
   props: FormikProps<ICareInstitutionFormValues> &
     IHandleSelectInterface & {
       qualificationList: IReactSelectInterface[] | undefined;
+      careInstitutionAttrOpt: IAttributeOptions[] | undefined;
     },
 ) => {
   const {

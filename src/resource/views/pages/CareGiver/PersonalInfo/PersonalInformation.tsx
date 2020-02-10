@@ -23,6 +23,8 @@ import {
   IReactSelectInterface,
   ICountries,
   IStates,
+  IAttributeValues,
+  IAttributeOptions,
 } from '../../../../../interfaces';
 import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
 
@@ -33,19 +35,50 @@ import {
   GET_QUALIFICATION_ATTRIBUTE,
   CountryQueries,
 } from '../../../../../graphql/queries';
-import { IQualifications } from '../../../../../interfaces/qualification';
+import {
+  IQualifications,
+  IQualification,
+} from '../../../../../interfaces/qualification';
 import Loader from '../../../containers/Loader/Loader';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
 let toastId: any;
 
-const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
-const [, UPDATE_CAREGIVER, , , , UPDATE_BILLING_SETTINGS] = CareGiverMutations;
+const [
+  ,
+  GET_CAREGIVER_BY_ID,
+  ,
+  ,
+  ,
+  GET_CAREGIVER_ATTRIBUTES,
+] = CareGiverQueries;
+const [, UPDATE_CAREGIVER] = CareGiverMutations;
+const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let { id } = useParams();
   let history = useHistory();
   const [careGiverData, setCareGiverData] = useState<ICareGiverValues | null>();
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
+
+  // Fetch attribute list from db
+  const { data: attributeData } = useQuery<{
+    getCaregiverAtrribute: IAttributeValues[];
+  }>(GET_CAREGIVER_ATTRIBUTES);
+
+  const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
+  useEffect(() => {
+    // const statesOpt: IReactSelectInterface[] | undefined = [];
+    if (attributeData && attributeData.getCaregiverAtrribute) {
+      attributeData.getCaregiverAtrribute.forEach(
+        ({ id, name, color }: IAttributeValues) =>
+          caregiverAttrOpt.push({
+            label: name,
+            value: id.toString(),
+            color,
+          }),
+      );
+    }
+  }, [attributeData]);
 
   // To update caregiver details into db
   const [updateCaregiver] = useMutation<
@@ -57,24 +90,17 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     }
   >(UPDATE_CAREGIVER);
 
-  const [updateBillingSettings] = useMutation<
-    { updateBillingSettings: IBillingSettingsValues },
-    { id: number; careGiverInput: IPersonalObject }
-  >(UPDATE_BILLING_SETTINGS);
-
   // To fecth qualification attributes list
   const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
   const qualificationList: IReactSelectInterface[] | undefined = [];
-  if (data && data.getQualificationAttributes) {
-    data.getQualificationAttributes.forEach((quali: any) => {
+  if (data && data.getQualifications) {
+    data.getQualifications.forEach((quali: any) => {
       qualificationList.push({
-        label: quali.attributeName,
+        label: quali.name,
         value: quali.id,
       });
     });
   }
-
-  const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
   //To get country details
   const { data: countries, loading: countryLoading } = useQuery<ICountries>(
@@ -322,8 +348,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   const qualificationsData: IReactSelectInterface[] | undefined = [];
   if (qualifications) {
-    qualifications.forEach(({ attributeName, id }: any) => {
-      qualificationsData.push({ label: attributeName, value: id });
+    qualifications.forEach(({ name, id }: IQualification) => {
+      qualificationsData.push({ label: name, value: id });
     });
   }
   let countryData: Number;
@@ -533,7 +559,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                       {...props}
                       qualificationList={qualificationList}
                     />
-                    <AttributeFormComponent {...props} />
+                    <AttributeFormComponent
+                      {...props}
+                      caregiverAttrOpt={caregiverAttrOpt}
+                    />
                   </div>
                 </div>
               </Col>

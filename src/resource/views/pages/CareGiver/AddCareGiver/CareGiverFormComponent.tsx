@@ -10,6 +10,7 @@ import {
   IStates,
   IState,
   ICareGiverValues,
+  IAttributeOptions,
 } from '../../../../../interfaces';
 import {
   CountryQueries,
@@ -31,13 +32,18 @@ const [GET_CAREGIVERS] = CareGiverQueries;
 
 const CareGiverFormComponent: FunctionComponent<FormikProps<
   ICareGiverValues
-> & { setRemarksDetail: any; remarksDetail: any }> = (
+> & {
+  setRemarksDetail: any;
+  remarksDetail: any;
+  caregiverAttrOpt: IAttributeOptions[] | undefined;
+}> = (
   props: FormikProps<ICareGiverValues> & {
     setRemarksDetail: any;
     remarksDetail: any;
+    caregiverAttrOpt: IAttributeOptions[] | undefined;
   },
 ) => {
-  const { values, setRemarksDetail, remarksDetail } = props;
+  const { values, setRemarksDetail, remarksDetail, caregiverAttrOpt } = props;
   const handleField = (e: any) => {
     const value = {
       createdBy: `${values.firstName} ${values.lastName}`,
@@ -79,10 +85,10 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
     GET_QUALIFICATION_ATTRIBUTE,
   );
   const qualificationList: IReactSelectInterface[] | undefined = [];
-  if (qualificationData && qualificationData.getQualificationAttributes) {
-    qualificationData.getQualificationAttributes.forEach((quali: any) => {
+  if (qualificationData && qualificationData.getQualifications) {
+    qualificationData.getQualifications.forEach((quali: any) => {
       qualificationList.push({
-        label: quali.attributeName,
+        label: quali.name,
         value: quali.id,
       });
     });
@@ -152,7 +158,10 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
                 {...props}
                 qualificationList={qualificationList}
               />
-              <AttributeFormComponent {...props} />
+              <AttributeFormComponent
+                {...props}
+                caregiverAttrOpt={caregiverAttrOpt}
+              />
             </div>
           </div>
         </Col>

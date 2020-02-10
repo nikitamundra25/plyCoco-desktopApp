@@ -118,7 +118,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           userId: id ? parseInt(id) : 0,
           to: 'caregiver',
           from: 'plycoco',
-          subject: subject.replace(/AW:/g, ''),
+          subject: subject /* .replace(/AW:/g, '') */,
           body: body ? content : '',
           parentId,
           status: 'new',
@@ -177,6 +177,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setSubject(e.target.value)
                           }
+                          maxLength={255}
                         />
                         {isSubmit && !subject ? (
                           <div className='required-tooltip'>

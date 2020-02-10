@@ -16,9 +16,12 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { IProfileValues, IChangePasswordValues } from '../../../../interfaces';
 import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
+import { errorFormatter } from '../../../../helpers/ErrorFormatter';
 
 const [UPDATE_ADMIN_PROFILE, CHANGE_PASSWORD] = AdminProfileMutations;
 const [VIEW_PROFILE] = ProfileQueries;
+
+let toastId: any = null;
 
 const MyProfile: FunctionComponent = () => {
   const [profileValues, setProfileValues] = useState<IProfileValues | null>(
@@ -32,14 +35,15 @@ const MyProfile: FunctionComponent = () => {
     { userInput: IProfileValues }
   >(UPDATE_ADMIN_PROFILE, {
     onCompleted() {
-      toast.success(languageTranslation('UPDATE_PROFILE_SUCCESS'));
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation('UPDATE_PROFILE_SUCCESS'));
+      }
     },
     onError: (error: ApolloError) => {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      toast.error(message);
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toast.error(message);
+      }
     },
   });
   // Change password
@@ -50,14 +54,15 @@ const MyProfile: FunctionComponent = () => {
     { password: string; oldPassword: string }
   >(CHANGE_PASSWORD, {
     onCompleted() {
-      toast.success(languageTranslation('UPDATE_PASSWORD_SUCCESS'));
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation('UPDATE_PASSWORD_SUCCESS'));
+      }
     },
     onError: (error: ApolloError) => {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      toast.error(message);
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toast.error(message);
+      }
     },
   });
   const { data: profileData } = useQuery(VIEW_PROFILE);
@@ -75,6 +80,7 @@ const MyProfile: FunctionComponent = () => {
     { setSubmitting }: FormikHelpers<IProfileValues>,
   ) => {
     try {
+      toast.dismiss();
       updateAdminProfile({ variables: { userInput: { ...values } } });
     } catch (error) {
       const message = error.message

@@ -1,15 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import { FormGroup } from 'reactstrap';
 import Select from 'react-select';
-import { CareGiveAttributes } from '../../../../../config';
 import { FormikProps } from 'formik';
+import { CareGiveAttributes } from '../../../../../config';
 import {
   IReactSelectInterface,
   ICareGiverValues,
   IAttributeOptions,
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
-import CustomOption from '../../../components/CustomOptions';
 
 const AttributeFormComponent: FunctionComponent<FormikProps<
   ICareGiverValues
@@ -41,7 +40,6 @@ const AttributeFormComponent: FunctionComponent<FormikProps<
       };
     },
   };
-  console.log(attributeId, 'attributeId');
 
   return (
     <>
@@ -60,8 +58,21 @@ const AttributeFormComponent: FunctionComponent<FormikProps<
             <ul className='common-list list-unstyled mb-0'>
               {attributeId
                 ? attributeId.map(
-                    ({ label }: IReactSelectInterface, index: number) => {
-                      return <li key={index}>{label}</li>;
+                    ({ label, color }: IAttributeOptions, index: number) => {
+                      return (
+                        <li
+                          key={index}
+                          style={{
+                            backgroundColor: color ? color : '',
+                            color:
+                              color === '#6a0dad' || color === '#000000'
+                                ? '#fff'
+                                : '#000',
+                          }}
+                        >
+                          {label}
+                        </li>
+                      );
                     },
                   )
                 : null}

@@ -368,7 +368,7 @@ const PersonalInformation: any = (props: any) => {
         };
       }
     }
-    let selectedAttributes: IReactSelectInterface[] = [];
+    let selectedAttributes: IAttributeOptions[] = [];
     if (
       getCareInstitution &&
       getCareInstitution.canstitution &&
@@ -376,9 +376,13 @@ const PersonalInformation: any = (props: any) => {
       getCareInstitution.canstitution.attributes.length
     ) {
       getCareInstitution.canstitution.attributes.map((attData: string) => {
+        const data = careInstitutionAttrOpt.filter(
+          ({ label }: IAttributeOptions) => label === attData,
+        )[0];
         selectedAttributes.push({
-          label: attData,
-          value: attData,
+          label: data ? data.label : attData,
+          value: data ? data.value : attData,
+          color: data ? data.color : null,
         });
       });
     }

@@ -76,9 +76,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         }),
     );
   }
-  useEffect(() => {
-    // const statesOpt: IReactSelectInterface[] | undefined = [];
-  }, [attributeData]);
 
   // To update caregiver details into db
   const [updateCaregiver] = useMutation<
@@ -397,10 +394,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     props.getCaregiver.caregiver.attributes.length
   ) {
     props.getCaregiver.caregiver.attributes.map((attData: string) => {
+      const data = caregiverAttrOpt.filter(
+        (attr: any) => attr.label === attData,
+      )[0];
       selectedAttributes.push({
-        label: attData,
-        value: attData,
-        color: null,
+        label: data ? data.label : attData,
+        value: data ? data.value : attData,
+        color: data ? data.color : null,
       });
     });
   }

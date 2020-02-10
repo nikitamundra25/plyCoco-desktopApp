@@ -98,9 +98,24 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
           <div className='common-list-body custom-scrollbar'>
             <ul className='common-list list-unstyled'>
               {attributeId && attributeId.length
-                ? attributeId.map((attData: IReactSelectInterface) => {
-                    return <li>{attData.label} </li>;
-                  })
+                ? attributeId.map(
+                    ({ label, color }: IAttributeOptions, index: number) => {
+                      return (
+                        <li
+                          key={index}
+                          style={{
+                            backgroundColor: color ? color : '',
+                            color:
+                              color === '#6a0dad' || color === '#000000'
+                                ? '#fff'
+                                : '#000',
+                          }}
+                        >
+                          {label}{' '}
+                        </li>
+                      );
+                    },
+                  )
                 : null}
             </ul>
           </div>

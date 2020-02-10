@@ -29,6 +29,16 @@ const AttributeFormComponent: FunctionComponent<FormikProps<
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
+  const colourStyles = {
+    option: (styles: any, { data }: any) => {
+      return {
+        ...styles,
+        backgroundColor: data.color,
+        color:
+          data.color === "#6a0dad" || data.color === "#000" ? "#fff" : "#000"
+      };
+    }
+  };
   return (
     <>
       <div className="common-list-card">
@@ -65,7 +75,8 @@ const AttributeFormComponent: FunctionComponent<FormikProps<
                 menuPlacement={"top"}
                 className="attribute-select"
                 classNamePrefix="attribute-inner-select"
-                components={{ Option: CustomOption }}
+                // components={{ Option: CustomOption }}
+                styles={colourStyles}
               />
             </FormGroup>
           </div>

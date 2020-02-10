@@ -118,17 +118,18 @@ const DocumentUploadModal = (props: any) => {
                                 />
                               )}
                             </div>
-                            <span
-                            // className={
-                            //   isSubmit && documentUrls === null
-                            //     ? 'text-input error my-2 my-sm-0'
-                            //     : 'text-input my-2 my-sm-0'
-                            // }
-                            >
-                              {documentUrls
-                                ? documentUrls.name
-                                : "Drag 'n' drop files here, or click here to upload files"}
-                            </span>
+
+                            {documentUrls ? (
+                              <span className="document-name">
+                                {documentUrls.name}
+                              </span>
+                            ) : (
+                              <span>
+                                {languageTranslation(
+                                  "PERSONAL_DOCUMENTS_UPLOAD"
+                                )}
+                              </span>
+                            )}
                           </div>
                           {isSubmit && documentUrls === null ? (
                             <div className="required-error">

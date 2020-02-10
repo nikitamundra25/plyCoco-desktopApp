@@ -1088,12 +1088,12 @@ html:not([dir="rtl"]) {
   font-size: $font_11;
   color: $red;
 }
-.css-1n7v3ny-option,
-.css-yt9ioa-option,
-.css-9gakcf-option {
-  padding: 2px 12px !important;
-  font-size: $font_12 !important;
-}
+// .css-1n7v3ny-option,
+// .css-yt9ioa-option,
+// .css-9gakcf-option {
+//   padding: 2px 12px !important;
+//   font-size: $font_12 !important;
+// }
 .form-section {
   .label-height {
     height: 18px;
@@ -1523,6 +1523,18 @@ html:not([dir="rtl"]) {
       padding-bottom: 0px;
       padding-top: 0px;
     }
+    .custom-inner-reactselect__option {
+      padding: 2px 12px;
+      font-size: 12px;
+      &.custom-inner-reactselect__option--is-selected {
+        background: $theme_color;
+        color: #fff;
+      }
+      &:active,
+      &:hover {
+        background-color: rgba(217, 145, 25, 0.25);
+      }
+    }
     .custom-select-options {
       display: flex;
       align-items: center;
@@ -1704,6 +1716,27 @@ html:not([dir="rtl"]) {
         font-size: 12px;
         padding: 2px 3px;
       }
+      .attribute-inner-select__menu {
+        z-index: 9;
+        border-radius: 0px;
+        .attribute-inner-select__menu-list {
+          padding-bottom: 0px;
+          padding-top: 0px;
+        }
+        .attribute-inner-select__option {
+          padding: 2px 12px;
+          font-size: 12px;
+          &.attribute-inner-select__option--is-selected {
+            background: $theme_color;
+            color: #fff;
+          }
+          &:active,
+          &:hover {
+            background-color: rgba(217, 145, 25, 0.25);
+          }
+        }
+      }
+
       .attribute-inner-select__indicator {
         padding: 3px;
         svg {
@@ -3592,6 +3625,10 @@ html:not([dir="rtl"]) {
     img {
       width: 40px;
     }
+  }
+  .document-name {
+    color: $theme_color;
+    font-weight: 600;
   }
 }
 

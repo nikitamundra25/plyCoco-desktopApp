@@ -58,7 +58,6 @@ const DocumentUploadModal = (props: any) => {
   );
   let splitName = documentUrls && documentUrls.name.split('.');
   const extention = splitName && splitName[1];
-  console.log('extention', extention);
 
   return (
     <div>

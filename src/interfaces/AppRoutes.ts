@@ -56,4 +56,5 @@ export interface IAppRoutes {
   ALL_EMAILS: string;
   APPOINTMENT:string;
   FURTHER: string;
+  PAGENOTFOUND:string;
 }

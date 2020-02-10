@@ -802,13 +802,18 @@ body {
           color: $white;
         }
       }
+      
     }
   }
 
   .sidebar-minimizer {
     // background-color: #046fc1;
+    background-color: $theme_color_hover;
+    height: 35px;
+    flex: 0 0 35px;
     &:before {
       background-image: url(./resource/assets/img/left-arrow.svg);
+      height:35px;
     }
     &:hover {
       background-color: rgba(0, 0, 0, 0.3);
@@ -828,6 +833,7 @@ body {
         .nav-icon {
           margin: 0px 16px 0px 16px;
         }
+        
       }
 
       &:hover {
@@ -875,7 +881,7 @@ body {
       height: 35px;
       &:before {
         background-image: url(./resource/assets/img/left-arrow.svg);
-      }
+      } 
       &:hover {
         background-color: rgba(0, 0, 0, 0.3);
       }
@@ -3512,6 +3518,44 @@ html:not([dir="rtl"]) {
     width: 362px;
   }
 }
+// 404 page
+
+.page-404 {
+  background: #fff;
+  max-width: 100%;
+  margin: auto;
+  text-align: center;
+  height: 89vh;
+  .notfound-404 {
+    -webkit-transform: translate(0%, 50%);
+    -ms-transform: translate(0%, 50%);
+    transform: translate(0%, 50%);
+      .heading{
+        font-size: 123px;
+        font-weight: 700;
+        text-align: center;
+        margin: 0px;
+        color: $light_black;
+        text-transform: uppercase;
+        span {
+          color: $theme_color;
+        }
+      }
+      .sub-heading{
+        font-size: $font_17;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: $light_black;
+        margin-top: 0px;
+        margin-bottom: 25px;
+      }
+   
+  }
+}
+
+
+
+
 
 @media only screen and (max-width: 991px) {
   .employee-details {
@@ -3603,4 +3647,9 @@ html:not([dir="rtl"]) {
     font-size: 15px;
     color: $no_search_text_color;
   }
+}
+
+
+.nav-link.nav-dropdown-toggle:before {
+  display: none;
 }

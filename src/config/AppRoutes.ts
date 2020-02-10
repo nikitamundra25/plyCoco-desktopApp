@@ -57,4 +57,5 @@ export const AppRoutes: IAppRoutes = {
   ALL_EMAILS: '/email',
   APPOINTMENT: '/appointment',
   FURTHER: '/further',
+  PAGENOTFOUND:'/404'
 };

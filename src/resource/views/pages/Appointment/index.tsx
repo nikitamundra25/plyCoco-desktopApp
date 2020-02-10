@@ -948,6 +948,7 @@ const Appointment: FunctionComponent = () => {
                     </div>
                 </div>
             </div>
+            
         </>
     );
 };

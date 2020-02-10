@@ -169,7 +169,9 @@ const EmailQueue = React.lazy(() =>
 const Appointment = React.lazy(() =>
   import("../resource/views/pages/Appointment")
 );
-
+const PageNotFound = React.lazy(() =>
+  import("../resource/views/pages/PageNotFound")
+);
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -517,6 +519,12 @@ const routes = [
     path: AppRoutes.APPOINTMENT,
     name: "Appointment",
     component: Appointment,
+    exact: true
+  },
+  {
+    path: AppRoutes.PAGENOTFOUND,
+    name: "Page 404",
+    component: PageNotFound,
     exact: true
   },
 ];

@@ -1528,11 +1528,12 @@ html:not([dir="rtl"]) {
       font-size: 12px;
       &.custom-inner-reactselect__option--is-selected {
         background: $theme_color;
-        color: #fff;
+        color: $white;
       }
       &:active,
       &:hover {
         background-color: rgba(217, 145, 25, 0.25);
+        color: $black;
       }
     }
     .custom-select-options {
@@ -1540,6 +1541,15 @@ html:not([dir="rtl"]) {
       align-items: center;
       cursor: pointer;
       border-bottom: 1px solid $table_border;
+      &.active {
+        background: $theme_color;
+        color: $white;
+      }
+      &:active,
+      &:hover {
+        background-color: rgba(217, 145, 25, 0.25);
+        color: $black;
+      }
       &.custom-sticky-head {
         position: -webkit-sticky;
         position: sticky;
@@ -1567,9 +1577,6 @@ html:not([dir="rtl"]) {
       .custom-head {
         text-align: left;
         font-family: $font_Frutiger_Bold;
-      }
-      &:hover {
-        background-color: #deebff;
       }
     }
   }
@@ -1728,11 +1735,12 @@ html:not([dir="rtl"]) {
           font-size: 12px;
           &.attribute-inner-select__option--is-selected {
             background: $theme_color;
-            color: #fff;
+            color: $white;
           }
           &:active,
           &:hover {
             background-color: rgba(217, 145, 25, 0.25);
+            color: $black;
           }
         }
       }

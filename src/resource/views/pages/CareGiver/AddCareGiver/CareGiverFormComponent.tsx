@@ -85,10 +85,10 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
     GET_QUALIFICATION_ATTRIBUTE
   );
   const qualificationList: IReactSelectInterface[] | undefined = [];
-  if (qualificationData && qualificationData.getQualificationAttributes) {
-    qualificationData.getQualificationAttributes.forEach((quali: any) => {
+  if (qualificationData && qualificationData.getQualifications) {
+    qualificationData.getQualifications.forEach((quali: any) => {
       qualificationList.push({
-        label: quali.attributeName,
+        label: quali.name,
         value: quali.id
       });
     });

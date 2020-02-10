@@ -26,6 +26,7 @@ import close from "../../../../assets/img/cancel.svg";
 import doc from "../../../../assets/img/doc.svg";
 import ppt from "../../../../assets/img/ppt.svg";
 import txt from "../../../../assets/img/txt.svg";
+import defaultExtention from "../../../../assets/img/no-extension.svg";
 import closehover from "../../../../assets/img/cancel-hover.svg";
 const DocumentUploadModal = (props: any) => {
   const {
@@ -58,7 +59,6 @@ const DocumentUploadModal = (props: any) => {
   );
   let splitName = documentUrls && documentUrls.name.split(".");
   const extention = splitName && splitName[1];
-  console.log("extention", extention);
 
   return (
     <div>
@@ -93,7 +93,10 @@ const DocumentUploadModal = (props: any) => {
                               className="dropzone-input-preview"
                             />
                             <div className="icon-upload">
-                              {extention === "jpg" || extention === "jpeg" ? (
+                              {extention === null ? (
+                                <i className="cui-cloud-upload"></i>
+                              ) : extention === "jpg" ||
+                                extention === "jpeg" ? (
                                 <img src={jpg} alt="" className="mb-2" />
                               ) : extention === "png" ? (
                                 <img src={png} alt="" className="mb-2" />
@@ -108,7 +111,11 @@ const DocumentUploadModal = (props: any) => {
                               ) : extention === "txt" ? (
                                 <img src={txt} alt="" className="mb-2" />
                               ) : (
-                                <i className="cui-cloud-upload"></i>
+                                <img
+                                  src={defaultExtention}
+                                  alt=""
+                                  className="mb-2"
+                                />
                               )}
                             </div>
                             <span

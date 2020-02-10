@@ -78,7 +78,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
       }
       qualifications {
         id
-        attributeName
+        name
       }
       regions {
         id

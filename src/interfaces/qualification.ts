@@ -1,8 +1,8 @@
 export interface IQualification {
-    id: string;
-    attributeName: string;
+  id: string;
+  name: string;
 }
 
 export interface IQualifications {
-    getQualificationAttributes: IQualification[]
+  getQualifications: IQualification[];
 }

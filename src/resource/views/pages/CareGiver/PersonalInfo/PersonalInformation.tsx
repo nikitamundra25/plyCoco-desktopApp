@@ -35,7 +35,10 @@ import {
   GET_QUALIFICATION_ATTRIBUTE,
   CountryQueries
 } from "../../../../../graphql/queries";
-import { IQualifications } from "../../../../../interfaces/qualification";
+import {
+  IQualifications,
+  IQualification
+} from "../../../../../interfaces/qualification";
 import Loader from "../../../containers/Loader/Loader";
 import { CareGiverMutations } from "../../../../../graphql/Mutations";
 let toastId: any;
@@ -90,10 +93,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   // To fecth qualification attributes list
   const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
   const qualificationList: IReactSelectInterface[] | undefined = [];
-  if (data && data.getQualificationAttributes) {
-    data.getQualificationAttributes.forEach((quali: any) => {
+  if (data && data.getQualifications) {
+    data.getQualifications.forEach((quali: any) => {
       qualificationList.push({
-        label: quali.attributeName,
+        label: quali.name,
         value: quali.id
       });
     });
@@ -345,8 +348,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   const qualificationsData: IReactSelectInterface[] | undefined = [];
   if (qualifications) {
-    qualifications.forEach(({ attributeName, id }: any) => {
-      qualificationsData.push({ label: attributeName, value: id });
+    qualifications.forEach(({ name, id }: IQualification) => {
+      qualificationsData.push({ label: name, value: id });
     });
   }
   let countryData: Number;

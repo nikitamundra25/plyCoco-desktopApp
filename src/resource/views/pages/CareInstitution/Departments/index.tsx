@@ -1,42 +1,42 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
-import { RouteComponentProps } from "react-router";
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router';
 import {
   FormGroup,
   Col,
   Row,
   Form,
   Button,
-  UncontrolledTooltip
-} from "reactstrap";
-import Select from "react-select";
-import { Formik, FormikProps, FormikHelpers } from "formik";
-import { languageTranslation, logger } from "../../../../../helpers";
-import AddDepartmentForm from "./AddDepartmentForm";
-import QuallificationAttribute from "./QuallificationAttribute";
-import TimesForm from "./TimesForm";
-import { useParams } from "react-router-dom";
+  UncontrolledTooltip,
+} from 'reactstrap';
+import Select from 'react-select';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { languageTranslation, logger } from '../../../../../helpers';
+import AddDepartmentForm from './AddDepartmentForm';
+import QuallificationAttribute from './QuallificationAttribute';
+import TimesForm from './TimesForm';
+import { useParams } from 'react-router-dom';
 import {
   IAddDepartmentFormValues,
   IReactSelectInterface,
-  IAddTimeFormValues
-} from "../../../../../interfaces";
-import { toast } from "react-toastify";
+  IAddTimeFormValues,
+} from '../../../../../interfaces';
+import { toast } from 'react-toastify';
 import {
   AddDepartmentValidationSchema,
-  AddTimeValidationSchema
-} from "../../../../validations";
-import { CareInstitutionQueries, LOGIN } from "../../../../../graphql/queries";
-import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { IQualifications } from "../../../../../interfaces/qualification";
+  AddTimeValidationSchema,
+} from '../../../../validations';
+import { CareInstitutionQueries, LOGIN } from '../../../../../graphql/queries';
+import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { IQualifications } from '../../../../../interfaces/qualification';
 
-import { GET_QUALIFICATION_ATTRIBUTE } from "../../../../../graphql/queries";
-import { ConfirmBox } from "../../../components/ConfirmBox";
-import { CareInstitutionMutation } from "../../../../../graphql/Mutations";
+import { GET_QUALIFICATION_ATTRIBUTE } from '../../../../../graphql/queries';
+import { ConfirmBox } from '../../../components/ConfirmBox';
+import { CareInstitutionMutation } from '../../../../../graphql/Mutations';
 
 const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
-  GET_DEPARTMENT_LIST
+  GET_DEPARTMENT_LIST,
 ] = CareInstitutionQueries;
 
 const [
@@ -49,10 +49,10 @@ const [
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   ADD_NEW_CARE_INTITUTION,
   ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT
+  DELETE_DEPARTMENT,
 ] = CareInstitutionMutation;
 
-let toastId: any = "";
+let toastId: any = '';
 
 const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   let [timesData, setTimesData] = useState<any>([]);
@@ -73,7 +73,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   // Mutation to delete caregiver
   const [deleteDivision] = useMutation<{ deleteDivision: any }, { id: number }>(
-    DELETE_DEPARTMENT
+    DELETE_DEPARTMENT,
   );
 
   // To get caregiver list from db
@@ -86,14 +86,14 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   // To fecth qualification attributes list
   const { data: qualificationData } = useQuery<IQualifications>(
-    GET_QUALIFICATION_ATTRIBUTE
+    GET_QUALIFICATION_ATTRIBUTE,
   );
   const qualificationList: IReactSelectInterface[] | undefined = [];
-  if (qualificationData && qualificationData.getQualificationAttributes) {
-    qualificationData.getQualificationAttributes.forEach((quali: any) => {
+  if (qualificationData && qualificationData.getQualifications) {
+    qualificationData.getQualifications.forEach((quali: any) => {
       qualificationList.push({
-        label: quali.attributeName,
-        value: quali.id
+        label: quali.name,
+        value: quali.id,
       });
     });
   }
@@ -102,14 +102,14 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     // call query
     getDepartmentList({
       variables: {
-        userId: parseInt(Id)
-      }
+        userId: parseInt(Id),
+      },
     });
   }, [departmentList]);
 
   const handleSubmit = async (
     values: IAddDepartmentFormValues,
-    { setSubmitting, resetForm }: FormikHelpers<IAddDepartmentFormValues>
+    { setSubmitting, resetForm }: FormikHelpers<IAddDepartmentFormValues>,
   ) => {
     try {
       const departmentInput: any = {
@@ -129,32 +129,32 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         locked: values.locked,
         times: timesData,
         qualifications: qualifications,
-        attributes: attributes
+        attributes: attributes,
       };
 
       if (isActive > -1) {
         await updateDivision({
           variables: {
             id: parseInt(departmentDetails.id),
-            divisionInput: departmentInput
-          }
+            divisionInput: departmentInput,
+          },
         });
         toast.success(
-          languageTranslation("UPDATE_DEPARTMENT_CARE_INSTITUTION")
+          languageTranslation('UPDATE_DEPARTMENT_CARE_INSTITUTION'),
         );
       } else {
         await addDivision({
           variables: {
             id: parseInt(Id),
-            divisionInput: departmentInput
-          }
+            divisionInput: departmentInput,
+          },
         });
         resetForm();
         setTimesData([]);
         setQualifications([]);
         setAttributes([]);
         toast.success(
-          languageTranslation("ADD_NEW_DEPARTMENT_CARE_INSTITUTION")
+          languageTranslation('ADD_NEW_DEPARTMENT_CARE_INSTITUTION'),
         );
       }
       setSubmitting(false);
@@ -165,9 +165,9 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       // setAttributes([]);
     } catch (error) {
       const message = error.message
-        .replace("SequelizeValidationError: ", "")
-        .replace("Validation error: ", "")
-        .replace("GraphQL error: ", "");
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
       toast.error(message);
       logger(error);
     }
@@ -194,40 +194,40 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       locked: departmentDetails.locked,
       times: departmentDetails.times,
       qualifications: departmentDetails.qualifications,
-      attributes: departmentDetails.attributes
+      attributes: departmentDetails.attributes,
     };
   } else {
     values = {
-      id: "",
+      id: '',
       userId: parseInt(Id),
-      name: "",
-      anonymousName: "",
-      anonymousName2: "",
-      address: "",
-      contactPerson: "",
-      phoneNumber: "",
-      faxNumber: "",
-      email: "",
-      commentsOffer: "",
-      commentsCareGiver: "",
-      commentsVisibleInternally: "",
+      name: '',
+      anonymousName: '',
+      anonymousName2: '',
+      address: '',
+      contactPerson: '',
+      phoneNumber: '',
+      faxNumber: '',
+      email: '',
+      commentsOffer: '',
+      commentsCareGiver: '',
+      commentsVisibleInternally: '',
       locked: false,
       times: [],
       qualifications: [],
-      attributes: []
+      attributes: [],
     };
   }
 
   const handleAddTime = async (
     TimeValues: IAddTimeFormValues,
-    { setSubmitting, resetForm }: FormikHelpers<IAddTimeFormValues>
+    { setSubmitting, resetForm }: FormikHelpers<IAddTimeFormValues>,
   ) => {
     try {
       let timesInput: any = {
         userId: values.userId,
         begin: TimeValues.begin,
         end: TimeValues.end,
-        comment: TimeValues.comment
+        comment: TimeValues.comment,
       };
       let temp: any = [];
       temp = [...timesData];
@@ -244,29 +244,29 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   TimeValues = {
     userId: parseInt(Id),
-    begin: "",
-    end: "",
-    comment: ""
+    begin: '',
+    end: '',
+    comment: '',
   };
 
   const addNewDepartment = async () => {
     setIsLoading(true);
     setDepartmentDetails({
-      id: "",
+      id: '',
       userId: parseInt(Id),
-      name: "",
-      anonymousName: "",
-      anonymousName2: "",
-      address: "",
-      contactPerson: "",
-      phoneNumber: "",
-      faxNumber: "",
-      email: "",
-      commentsOffer: "",
-      commentsCareGiver: "",
-      commentsVisibleInternally: "",
+      name: '',
+      anonymousName: '',
+      anonymousName2: '',
+      address: '',
+      contactPerson: '',
+      phoneNumber: '',
+      faxNumber: '',
+      email: '',
+      commentsOffer: '',
+      commentsCareGiver: '',
+      commentsVisibleInternally: '',
       locked: false,
-      times: []
+      times: [],
     });
     setTimesData([]);
     setQualifications([]);
@@ -279,34 +279,34 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation("CONFIRM_DEPARTMENT_DELETE_MSG")
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_DEPARTMENT_DELETE_MSG'),
     });
     if (!value) {
       return;
     } else {
       await deleteDivision({
         variables: {
-          id: parseInt(id)
-        }
+          id: parseInt(id),
+        },
       });
       refetch();
       setDepartmentDetails({
-        id: "",
+        id: '',
         userId: parseInt(Id),
-        name: "",
-        anonymousName: "",
-        anonymousName2: "",
-        address: "",
-        contactPerson: "",
-        phoneNumber: "",
-        faxNumber: "",
-        email: "",
-        commentsOffer: "",
-        commentsCareGiver: "",
-        commentsVisibleInternally: "",
+        name: '',
+        anonymousName: '',
+        anonymousName2: '',
+        address: '',
+        contactPerson: '',
+        phoneNumber: '',
+        faxNumber: '',
+        email: '',
+        commentsOffer: '',
+        commentsCareGiver: '',
+        commentsVisibleInternally: '',
         locked: false,
-        times: []
+        times: [],
       });
       setTimesData([]);
       setQualifications([]);
@@ -314,7 +314,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       setIsActive(-1);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation("DEPARTMENT_DELETE_SUCCESS_MSG")
+          languageTranslation('DEPARTMENT_DELETE_SUCCESS_MSG'),
         );
       }
     }
@@ -322,40 +322,40 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   return (
     <>
-      <Form className="form-section forms-main-section">
-        <Row className="">
-          <Col lg={"4"}>
+      <Form className='form-section forms-main-section'>
+        <Row className=''>
+          <Col lg={'4'}>
             <div>
-              <h5 className="content-title">
-                {languageTranslation("DEPARTMENT")}
+              <h5 className='content-title'>
+                {languageTranslation('DEPARTMENT')}
               </h5>
             </div>
 
-            <div className="form-card p-0 department-card-height">
-              <div className="d-flex align-items-center justify-content-end department-list-header pt-2 px-2">
+            <div className='form-card p-0 department-card-height'>
+              <div className='d-flex align-items-center justify-content-end department-list-header pt-2 px-2'>
                 <Button
-                  color={"primary"}
-                  className={"btn-department mb-2 "}
-                  id={"add-new-pm-tooltip"}
+                  color={'primary'}
+                  className={'btn-department mb-2 '}
+                  id={'add-new-pm-tooltip'}
                   onClick={addNewDepartment}
                 >
-                  <i className={"fa fa-plus"} />
+                  <i className={'fa fa-plus'} />
                   &nbsp; Add New Departments
                 </Button>
               </div>
 
-              <div className="common-list-card border-0">
-                <div className="common-list-wrap mb-0">
-                  <div className="common-list-header d-flex align-items-cente justify-content-between">
-                    <div className="common-list-title align-middle">
-                      {languageTranslation("NAME")}
+              <div className='common-list-card border-0'>
+                <div className='common-list-wrap mb-0'>
+                  <div className='common-list-header d-flex align-items-cente justify-content-between'>
+                    <div className='common-list-title align-middle'>
+                      {languageTranslation('NAME')}
                     </div>
-                    <div className=" align-middle toggle-icon">
-                      <i className="fa fa-angle-down"></i>
+                    <div className=' align-middle toggle-icon'>
+                      <i className='fa fa-angle-down'></i>
                     </div>
                   </div>
-                  <div className="common-list-body border-0 department-list">
-                    <ul className="common-list list-unstyled mb-0">
+                  <div className='common-list-body border-0 department-list'>
+                    <ul className='common-list list-unstyled mb-0'>
                       {departmentList && departmentList.getDivision.length
                         ? departmentList.getDivision.map(
                             (item: any, index: number) => {
@@ -363,8 +363,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                                 <li
                                   key={index}
                                   className={
-                                    "cursor-pointer list-item text-capitalize" +
-                                    (isActive === index ? " active" : "")
+                                    'cursor-pointer list-item text-capitalize' +
+                                    (isActive === index ? ' active' : '')
                                   }
                                 >
                                   <span
@@ -375,26 +375,26 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                                       setAttributes(item.attributes);
                                       setIsActive(index);
                                     }}
-                                    className="list-item-text"
+                                    className='list-item-text'
                                   >
                                     {item.name}
-                                  </span>{" "}
+                                  </span>{' '}
                                   <span
                                     id={`delete${index}`}
-                                    className="list-item-icon"
+                                    className='list-item-icon'
                                     onClick={() => onDelete(item.id)}
                                   >
                                     <UncontrolledTooltip
-                                      placement={"top"}
+                                      placement={'top'}
                                       target={`delete${index}`}
                                     >
-                                      {languageTranslation("DEPARTMENT_DELETE")}
+                                      {languageTranslation('DEPARTMENT_DELETE')}
                                     </UncontrolledTooltip>
-                                    <i className="fa fa-trash"></i>
+                                    <i className='fa fa-trash'></i>
                                   </span>
                                 </li>
                               );
-                            }
+                            },
                           )
                         : null}
                     </ul>
@@ -403,7 +403,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
               </div>
             </div>
           </Col>
-          <Col lg={"4"}>
+          <Col lg={'4'}>
             <Formik
               initialValues={values}
               enableReinitialize={true}

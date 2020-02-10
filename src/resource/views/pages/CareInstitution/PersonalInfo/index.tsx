@@ -21,6 +21,7 @@ import { logger, languageTranslation } from '../../../../../helpers';
 import CareInstitutionContacts from './CareInstitutionContacts';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
 import { CareInstitutionMutation } from '../../../../../graphql/Mutations';
+import { IQualification } from '../../../../../interfaces/qualification';
 
 let toastId: any;
 
@@ -484,8 +485,8 @@ const PersonalInformation: any = (props: any) => {
     const attributeData: IReactSelectInterface[] = [];
     if (getCareInstitution.qualifications) {
       getCareInstitution.qualifications.forEach(
-        ({ attributeName, id }: any) => {
-          qualificationsData.push({ label: attributeName, value: id });
+        ({ name, id }: IQualification) => {
+          qualificationsData.push({ label: name, value: id });
         },
       );
     }

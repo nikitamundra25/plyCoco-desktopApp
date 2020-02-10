@@ -20,7 +20,7 @@ export interface IEmailTemplateSubmitValues {
 export interface IAddEmailTemplateProps {
   handleSubmit: (
     values: IEmailTemplateValues,
-    actions: FormikHelpers<IEmailTemplateValues>
+    actions: FormikHelpers<IEmailTemplateValues>,
   ) => void;
   bindSubmitForm: any;
   emailTemplateLoading: boolean;
@@ -66,4 +66,10 @@ export interface IEmailAttachmentData {
   path: string;
   file: File | null;
   id: string;
+}
+
+export interface INewEmailAttachments {
+  fileName: string;
+  size: number;
+  path: string;
 }

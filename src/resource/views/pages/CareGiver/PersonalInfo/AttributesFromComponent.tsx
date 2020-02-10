@@ -35,7 +35,9 @@ const AttributeFormComponent: FunctionComponent<FormikProps<
         ...styles,
         backgroundColor: data.color,
         color:
-          data.color === '#6a0dad' || data.color === '#000' ? '#fff' : '#000',
+          data.color === '#6a0dad' || data.color === '#000000'
+            ? '#fff'
+            : '#000',
       };
     },
   };

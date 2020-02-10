@@ -29,6 +29,18 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
     handleSelect,
     qualificationList,
   } = props;
+  const colourStyles = {
+    option: (styles: any, { data }: any) => {
+      return {
+        ...styles,
+        backgroundColor: data.color,
+        color:
+          data.color === '#6a0dad' || data.color === '#000000'
+            ? '#fff'
+            : '#000',
+      };
+    },
+  };
   return (
     <div className='quality-attribute-section d-flex flex-column'>
       <div className='common-list-card'>
@@ -104,6 +116,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
                 menuPlacement={'top'}
                 className='attribute-select'
                 classNamePrefix='attribute-inner-select'
+                styles={colourStyles}
               />
             </FormGroup>
           </div>

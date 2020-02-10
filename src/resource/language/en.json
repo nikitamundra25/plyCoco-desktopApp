@@ -631,5 +631,6 @@
   "EMPLOYEE_RESTORED_SUCCESS": "Employee restored successfully.",
   "EMPLOYEE_NAME": "Employee Name",
   "DELETED_DATE": "Deleted Date and time",
-  "RESTORE": "Restore"
+  "RESTORE": "Restore",
+  "USERNAME_PLACEHOLDER": "Enter Username"
 }

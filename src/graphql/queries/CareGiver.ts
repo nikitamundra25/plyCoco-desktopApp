@@ -64,7 +64,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
     }
     qualifications{
       id
-      attributeName
+      name
     }
 }`;
 
@@ -96,7 +96,7 @@ const GET_CAREGIVERS = gql`
         createdAt
         qualifications {
           id
-          attributeName
+          name
         }
         caregiver {
           address1
@@ -184,7 +184,7 @@ const GET_CAREGIVER_BY_ID = gql`
       }
       qualifications {
         id
-        attributeName
+        name
       }
       regions {
         id

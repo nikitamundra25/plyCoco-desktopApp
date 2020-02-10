@@ -148,9 +148,11 @@
   "EMPLOYEE_STATE_PLACEHOLDER": "Select State",
   "EMPLOYEE_ZIP_LABEL": "Postal Code",
   "EMPLOYEE_ZIP_PLACEHOLDER": "Postal Code",
-  "EMPLOYEE_EMPLOYEE_RIGHTS_LABEL": "Employee rights",
+  "EMPLOYEE_EMPLOYEE_RIGHTS_LABEL": "Employee Rights",
   "EMPLOYEE_JOINING_DATE_LABEL": "Joining Date",
   "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "MM/DD/YYYY",
+  "EMPLOYEE_BASIC": "Basic",
+  "EMPLOYEE_INVOICE": "Invoice",
   "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL": "Add Profile Image",
   "EMPLOYEE_OTHER_INFORMATION_LABEL": "Any other information",
   "EMPLOYEE_OTHER_INFORMATION": "other information",
@@ -624,7 +626,6 @@
   "CG_PROFILE_DISAPPROVE": "This caregiver's profile will be disapproved",
   "CI_PROFILE_APPROVE": "This caregiver's profile will be approved",
   "CI_PROFILE_DISAPPROVE": "This caregiver's profile will be disapproved",
-  "CG_PROFILE_APPROVE_SUCESS":"Caregiver's profile approved successfully",
-  "CG_PROFILE_DISAPPROVE_SUCESS":"Caregiver's profile disapproved successfully"
-
+  "CG_PROFILE_APPROVE_SUCESS": "Caregiver's profile approved successfully",
+  "CG_PROFILE_DISAPPROVE_SUCESS": "Caregiver's profile disapproved successfully"
 }

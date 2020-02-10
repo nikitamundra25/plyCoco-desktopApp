@@ -2,10 +2,10 @@ import React, {
   useState,
   ChangeEvent,
   FunctionComponent,
-  useEffect,
-} from 'react';
-import { useLazyQuery } from '@apollo/react-hooks';
-import { AppBreadcrumb } from '@coreui/react';
+  useEffect
+} from "react";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { AppBreadcrumb } from "@coreui/react";
 import {
   Button,
   FormGroup,
@@ -15,25 +15,26 @@ import {
   CardBody,
   Input,
   Col,
-  Row,
-} from 'reactstrap';
-import Select from 'react-select';
-import MaskedInput from 'react-text-mask';
-import { FormikProps, Form } from 'formik';
+  CustomInput,
+  Row
+} from "reactstrap";
+import Select from "react-select";
+import MaskedInput from "react-text-mask";
+import { FormikProps, Form } from "formik";
 import {
   IBANRegex,
   DateMask,
   AppConfig,
-  PAGE_LIMIT,
-} from '../../../../../config';
-import routes from '../../../../../routes/routes';
+  PAGE_LIMIT
+} from "../../../../../config";
+import routes from "../../../../../routes/routes";
 import {
   IEmployeeFormValues,
   IReactSelectInterface,
-  IRegion,
-} from '../../../../../interfaces';
-import { logger, languageTranslation } from '../../../../../helpers';
-import { RegionQueries } from '../../../../../graphql/queries/Region';
+  IRegion
+} from "../../../../../interfaces";
+import { logger, languageTranslation } from "../../../../../helpers";
+import { RegionQueries } from "../../../../../graphql/queries/Region";
 const [, GET_REGIONS] = RegionQueries;
 const EmployeeFormComponent: FunctionComponent<FormikProps<
   IEmployeeFormValues
@@ -48,7 +49,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     countriesOpt: IReactSelectInterface[];
     statesOpt: IReactSelectInterface[];
     getStatesByCountry: any;
-  },
+  }
 ) => {
   const {
     values: {
@@ -70,7 +71,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       city,
       zip,
       joiningDate,
-      image,
+      permission,
+      image
     },
     touched,
     errors,
@@ -84,19 +86,19 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     countriesOpt,
     statesOpt,
     getStatesByCountry,
-    setFieldError,
+    setFieldError
   } = props;
-  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
+  const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
   const regionOptions: IReactSelectInterface[] | undefined = [];
   if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
   useEffect(() => {
@@ -107,9 +109,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
   // Custom function to handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setFieldTouched('image', true);
+    setFieldTouched("image", true);
     const {
-      target: { files },
+      target: { files }
     } = e;
     let reader = new FileReader();
     let file: File | null = null;
@@ -121,7 +123,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
         setUrl(reader.result);
       };
       reader.readAsDataURL(file);
-      setFieldValue('image', file);
+      setFieldValue("image", file);
     }
   };
   useEffect(() => {
@@ -129,23 +131,24 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3,
-      },
+        sortBy: 3
+      }
     });
   }, []);
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'selectOptionvalue');
+    logger(selectOption, "selectOptionvalue");
     setFieldValue(name, selectOption);
-    if (name === 'country') {
-      setFieldValue('state', { label: '', value: '' });
+    if (name === "country") {
+      setFieldValue("state", { label: "", value: "" });
       getStatesByCountry({
         variables: {
-          countryid: selectOption ? selectOption.value : '82',
-        }, // default code is for germany
+          countryid: selectOption ? selectOption.value : "82"
+        } // default code is for germany
       });
     }
   };
+
   return (
     <div>
       <Card>
@@ -626,6 +629,62 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         )}
                                     </Col>
                                   </Row>
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation(
+                                    "EMPLOYEE_EMPLOYEE_RIGHTS_LABEL"
+                                  )}
+                                </Label>
+                              </Col>
+                              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                                <div className="custom-radio-block">
+                                  <FormGroup check inline>
+                                    <CustomInput
+                                      type="radio"
+                                      id="permission-1"
+                                      name="permission"
+                                      label="All"
+                                      checked={
+                                        permission === "all" ? true : false
+                                      }
+                                      value={"all"}
+                                      onChange={handleChange}
+                                    />
+                                  </FormGroup>
+                                  <FormGroup check inline>
+                                    <CustomInput
+                                      type="radio"
+                                      id="permission-2"
+                                      name="permission"
+                                      label="Basic"
+                                      checked={
+                                        permission === "basic" ? true : false
+                                      }
+                                      value={"basic"}
+                                      onChange={handleChange}
+                                    />
+                                  </FormGroup>
+                                  <FormGroup check inline>
+                                    <CustomInput
+                                      type="radio"
+                                      id="permission-3"
+                                      name="permission"
+                                      label="Invoice"
+                                      checked={
+                                        permission === "invoice" ? true : false
+                                      }
+                                      value={"invoice"}
+                                      onChange={handleChange}
+                                    />
+                                  </FormGroup>
                                 </div>
                               </Col>
                             </Row>

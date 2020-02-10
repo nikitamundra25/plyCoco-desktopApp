@@ -55,4 +55,5 @@ export interface IAppRoutes {
   ATTRIBUTE_MANAGEMENT: string;
   ALL_EMAILS: string;
   FURTHER: string;
+  EMPLOYEE_ARCHIVE: string;
 }

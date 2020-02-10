@@ -7,7 +7,7 @@ import {
   Col,
   Row,
   UncontrolledTooltip,
-  Button,
+  Button
 } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { SortOptions, StatusOptions } from '../../../../config';
@@ -16,11 +16,11 @@ import { FormikProps, Form } from 'formik';
 import {
   ISearchValues,
   IReactSelectInterface,
-  ISearchProps,
+  ISearchProps
 } from '../../../../interfaces';
 
 const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
-  props: FormikProps<ISearchValues> & ISearchProps,
+  props: FormikProps<ISearchValues> & ISearchProps
 ) => {
   let history = useHistory();
   let { pathname } = useLocation();
@@ -31,7 +31,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
     handleChange,
     setFieldValue,
     searchPlacholderText,
-    resetForm,
+    resetForm
   } = props;
 
   // Custom function to handle react select fields
@@ -57,7 +57,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
                 placeholder={
                   searchPlacholderText
                     ? searchPlacholderText
-                    : label === 'employee'
+                    : label === 'employee' || label === 'archiveEmployee'
                     ? languageTranslation('SEARCH_EMPLOYEE_PLACEHOLDER')
                     : label === 'care institution'
                     ? languageTranslation('SEARCH_CARE_INSTI_PLACEHOLDER')
@@ -83,7 +83,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues> & ISearchProps> = (
               />
             </FormGroup>
           </Col>
-          {label !== 'region' ? (
+          {label !== 'region' && label !== 'archiveEmployee' ? (
             <Col lg={'2'} md={'3'}>
               <FormGroup>
                 <Label for='Selectregion' className='col-form-label'>

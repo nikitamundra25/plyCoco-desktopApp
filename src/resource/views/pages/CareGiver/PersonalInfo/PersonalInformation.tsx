@@ -66,19 +66,16 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   }>(GET_CAREGIVER_ATTRIBUTES);
 
   const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
-  useEffect(() => {
-    // const statesOpt: IReactSelectInterface[] | undefined = [];
-    if (attributeData && attributeData.getCaregiverAtrribute) {
-      attributeData.getCaregiverAtrribute.forEach(
-        ({ id, name, color }: IAttributeValues) =>
-          caregiverAttrOpt.push({
-            label: name,
-            value: id.toString(),
-            color,
-          }),
-      );
-    }
-  }, [attributeData]);
+  if (attributeData && attributeData.getCaregiverAtrribute) {
+    attributeData.getCaregiverAtrribute.forEach(
+      ({ id, name, color }: IAttributeValues) =>
+        caregiverAttrOpt.push({
+          label: name,
+          value: id.toString(),
+          color,
+        }),
+    );
+  }
 
   // To update caregiver details into db
   const [updateCaregiver] = useMutation<
@@ -209,7 +206,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         street,
         attributes:
           attributeId && attributeId.length
-            ? attributeId.map(({ label }: IReactSelectInterface) => label)
+            ? attributeId.map(({ label }: IAttributeOptions) => label)
             : [],
         city,
         zipCode: postalCode,
@@ -389,7 +386,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     }
   }
 
-  let selectedAttributes: IReactSelectInterface[] = [];
+  let selectedAttributes: IAttributeOptions[] = [];
   if (
     props.getCaregiver &&
     props.getCaregiver.caregiver &&
@@ -397,9 +394,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     props.getCaregiver.caregiver.attributes.length
   ) {
     props.getCaregiver.caregiver.attributes.map((attData: string) => {
+      const data = caregiverAttrOpt.filter(
+        (attr: any) => attr.label === attData,
+      )[0];
       selectedAttributes.push({
-        label: attData,
-        value: attData,
+        label: data ? data.label : attData,
+        value: data ? data.value : attData,
+        color: data ? data.color : null,
       });
     });
   }
@@ -519,6 +520,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   };
 
   const usersList = props.careGiverOpt;
+  console.log(caregiverAttrOpt, 'caregiverAttrOpt');
+
   return (
     <Formik
       initialValues={initialValues}

@@ -1,15 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import { FormGroup } from 'reactstrap';
 import Select from 'react-select';
-import { CareGiveAttributes } from '../../../../../config';
 import { FormikProps } from 'formik';
+import { CareGiveAttributes } from '../../../../../config';
 import {
   IReactSelectInterface,
   ICareGiverValues,
   IAttributeOptions,
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
-import CustomOption from '../../../components/CustomOptions';
 
 const AttributeFormComponent: FunctionComponent<FormikProps<
   ICareGiverValues
@@ -29,6 +28,19 @@ const AttributeFormComponent: FunctionComponent<FormikProps<
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
+  const colourStyles = {
+    option: (styles: any, { data }: any) => {
+      return {
+        ...styles,
+        backgroundColor: data.color,
+        color:
+          data.color === '#6a0dad' || data.color === '#000000'
+            ? '#fff'
+            : '#000',
+      };
+    },
+  };
+
   return (
     <>
       <div className='common-list-card'>
@@ -46,8 +58,21 @@ const AttributeFormComponent: FunctionComponent<FormikProps<
             <ul className='common-list list-unstyled mb-0'>
               {attributeId
                 ? attributeId.map(
-                    ({ label }: IReactSelectInterface, index: number) => {
-                      return <li key={index}>{label}</li>;
+                    ({ label, color }: IAttributeOptions, index: number) => {
+                      return (
+                        <li
+                          key={index}
+                          style={{
+                            backgroundColor: color ? color : '',
+                            color:
+                              color === '#6a0dad' || color === '#000000'
+                                ? '#fff'
+                                : '#000',
+                          }}
+                        >
+                          {label}
+                        </li>
+                      );
                     },
                   )
                 : null}
@@ -60,12 +85,13 @@ const AttributeFormComponent: FunctionComponent<FormikProps<
                 value={attributeId ? attributeId : undefined}
                 onChange={(value: any) => handleSelect(value, 'attributeId')}
                 isMulti
-                // options={caregiverAttrOpt}
-                options={CareGiveAttributes}
+                options={caregiverAttrOpt}
+                // options={CareGiveAttributes}
                 menuPlacement={'top'}
                 className='attribute-select'
                 classNamePrefix='attribute-inner-select'
                 // components={{ Option: CustomOption }}
+                styles={colourStyles}
               />
             </FormGroup>
           </div>

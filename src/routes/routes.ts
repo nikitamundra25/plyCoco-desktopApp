@@ -77,9 +77,7 @@ const Offer = React.lazy(() =>
 const Invoices = React.lazy(() =>
   import('../resource/views/pages/CareGiver/Invoices/Invoices')
 );
-const care_login = React.lazy(() =>
-  import('../resource/views/pages/CareGiver/Logins/CareLogin')
-);
+
 const Todos = React.lazy(() =>
   import('../resource/views/pages/CareGiver/ToDos/ToDos')
 );
@@ -214,14 +212,7 @@ const routes = [
     component: CareGiver,
     exact: true
   },
-  {
-    path: AppRoutes.CARE_LOGIN,
-    name: 'Care Login',
-    component: care_login,
-    exact: true,
-    layout: CareGiverLayout,
-    layoutName: 'CareGiver'
-  },
+
   {
     path: AppRoutes.CHANGE_PASSWORD,
     name: 'Change Password',

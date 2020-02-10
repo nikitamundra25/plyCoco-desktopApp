@@ -26,7 +26,7 @@ import close from '../../../../assets/img/cancel.svg';
 import doc from '../../../../assets/img/doc.svg';
 import ppt from '../../../../assets/img/ppt.svg';
 import txt from '../../../../assets/img/txt.svg';
-// import defaultExtention from '../../../assets/img/no-extension.svg';
+import defaultExtention from '../../../../assets/img/no-extension.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 const DocumentUploadModal = (props: any) => {
   const {
@@ -112,9 +112,9 @@ const DocumentUploadModal = (props: any) => {
                                 <img src={txt} alt='' className='mb-2' />
                               ) : (
                                 <img
-                                // src={defaultExtention}
-                                // alt=''
-                                // className='mb-2'
+                                  src={defaultExtention}
+                                  alt=''
+                                  className='mb-2'
                                 />
                               )}
                             </div>

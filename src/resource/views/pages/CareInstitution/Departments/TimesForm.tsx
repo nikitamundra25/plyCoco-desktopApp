@@ -10,7 +10,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
   props: FormikProps<IAddTimeFormValues> & any
 ) => {
   const {
-    values: { userId, begin, end, comment },
+    values: { begin, end, comment },
     timesData,
     setTimesData,
     touched,
@@ -69,29 +69,6 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
       ) : null}
       <div className="form-card minheight-auto">
         <Row>
-          {/* <Col lg={"12"}>
-            <FormGroup>
-              <Row>
-                <Col sm="3">
-                  <Label className="form-label col-form-label">
-                    {languageTranslation("ID")}
-                  </Label>
-                </Col>
-                <Col sm="9">
-                  <div>
-                    <Input
-                      type="text"
-                      name={"userId"}
-                      disabled
-                      value={userId}
-                      placeholder={languageTranslation("USER_ID")}
-                      className="width-common"
-                    />
-                  </div>
-                </Col>
-              </Row>
-            </FormGroup>
-          </Col> */}
           <Col lg={"12"}>
             <FormGroup>
               <Row>
@@ -99,7 +76,6 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                 <Col sm="3">
                   <Label className="form-label col-form-label">
                     {languageTranslation("BEGIN")}
-                    {/* <span className="required">*</span> */}
                   </Label>
                 </Col>
                 <Col sm="9">
@@ -139,7 +115,6 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                 <Col sm="3">
                   <Label className="form-label col-form-label">
                     {languageTranslation("END")}
-                    {/* <span className="required">*</span> */}
                   </Label>
                 </Col>
                 <Col sm="9">
@@ -154,7 +129,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                           )}
                           mask={DateMask}
                           className={
-                            errors.end && touched.end
+                            (errors.end && touched.end) || (new Date(begin) > new Date(end))
                               ? "text-input error form-control"
                               : "text-input form-control"
                           }
@@ -167,6 +142,12 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                     {errors.end && touched.end && (
                       <div className="required-tooltip">{errors.end}</div>
                     )}
+
+                    {touched.end && (new Date(begin) > new Date(end)) ?
+                      <div className="required-tooltip">{languageTranslation(
+                        "VALID_DATE_RANGE"
+                      )}</div>
+                      : null}
                   </div>
                 </Col>
               </Row>
@@ -178,7 +159,6 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                 <Col sm="3">
                   <Label className="form-label col-form-label">
                     {languageTranslation("COMMENT")}
-                    {/* <span className="required">*</span> */}
                   </Label>
                 </Col>
                 <Col sm="9">
@@ -198,19 +178,18 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
               </Row>
             </FormGroup>
           </Col>
-          <Col lg={"12"}>
+          <Col lg={"12"} className="text-right">
             <Button
-              className="btn-submit text-center"
+              className="status-btn"
               onClick={handleSubmit}
-              block
               color={"primary"}
               disabled={!(begin && end)}
             >
               <span>
                 {" "}
-                <i className="fa fa-floppy-o"></i>
+                <i className={'fa fa-plus'} />
               </span>{" "}
-              {languageTranslation("SAVE_BUTTON")}
+              {languageTranslation("ADD_MORE_BUTTON")}
             </Button>
           </Col>
         </Row>

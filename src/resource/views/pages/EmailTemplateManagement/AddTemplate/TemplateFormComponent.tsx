@@ -198,7 +198,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                 </FormGroup>
               </Col>
               <Col lg={"12"}>
-                <FormGroup>
+                <FormGroup className="mb-3">
                   <div>
                     <Editor
                       editorState={body}

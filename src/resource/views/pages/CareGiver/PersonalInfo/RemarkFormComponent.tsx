@@ -205,7 +205,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                           undefined
                                         );
                                       } else {
-                                        toast.dismiss(toastId);
+                                        toast.dismiss();
                                         if (!toast.isActive(toastId)) {
                                           toastId = toast.success(
                                             languageTranslation(

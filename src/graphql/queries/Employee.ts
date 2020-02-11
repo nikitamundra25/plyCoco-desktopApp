@@ -27,6 +27,7 @@ const GET_EMPLOYEE_BY_ID = gql`
         regionName
         id
       }
+      accessLevel
       bankDetails {
         bankName
         accountHolder

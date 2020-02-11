@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { FormGroup, Label, Input, Col, Row, Table } from "reactstrap";
 import Select from "react-select";
 import { languageTranslation } from "../../../../helpers";
+import { CareGiverQueries } from "../../../../graphql/queries";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { State } from "../../../../config";
@@ -9,8 +10,82 @@ import filter from "../../../assets/img/filter.svg";
 import refresh from "../../../assets/img/refresh.svg";
 import send from "../../../assets/img/send.svg";
 import "./index.scss";
+import { useLazyQuery } from "@apollo/react-hooks";
+import Loader from "../../containers/Loader/Loader";
+
+const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
 
 const BulkEmailCaregiver: FunctionComponent = () => {
+  let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
+  // To get caregiver list from db
+  const [
+    fetchCareGiverList,
+    { data: careGivers, called, loading, refetch }
+  ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
+    fetchPolicy: "no-cache"
+  });
+
+  useEffect(() => {
+    // Fetch list of caregivers
+    fetchCareGiverList({
+      variables: {
+        searchBy: "",
+        sortBy: 3,
+        limit: 200,
+        page: 1,
+        isActive: ""
+      }
+    });
+  }, []);
+
+  const [careGiverData, setcareGiverData] = useState<Object[]>([]);
+  useEffect(() => {
+    if (careGivers) {
+      const { getCaregivers } = careGivers;
+      const { result } = getCaregivers;
+      setcareGiverData(result);
+    }
+  }, [careGivers]);
+
+  const handleSelectAll = async () => {
+    if (
+      careGivers &&
+      careGivers.getCaregivers &&
+      careGivers.getCaregivers.result.length
+    ) {
+      let list: any = [];
+      if (selectedCareGiver && selectedCareGiver.length <= 0) {
+        careGivers.getCaregivers.result.map((key: any) => {
+          return (list = [...list, parseInt(key.id)]);
+        });
+        setselectedCareGiver(list);
+      } else {
+        setselectedCareGiver([]);
+      }
+    }
+  };
+
+  const handleCheckElement = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) => {
+    const { target } = e;
+    const { checked } = target;
+
+    if (checked) {
+      setselectedCareGiver((selectedCareGiver: any) => [
+        ...selectedCareGiver,
+        parseInt(id)
+      ]);
+      return;
+    } else {
+      if (selectedCareGiver.indexOf(parseInt(id)) > -1) {
+        selectedCareGiver.splice(selectedCareGiver.indexOf(parseInt(id)), 1);
+        setselectedCareGiver([...selectedCareGiver]);
+      }
+    }
+  };
+
   return (
     <>
       <div className="common-detail-page">
@@ -53,82 +128,74 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                     <Table bordered hover responsive>
                       <thead className="thead-bg">
                         <tr>
-                          <th className="checkbox-th-column"></th>
+                          <th className="checkbox-th-column">
+                            <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                name="checkbox"
+                                className=""
+                                checked={
+                                  careGivers &&
+                                  careGivers.getCaregivers &&
+                                  careGivers.getCaregivers.result.length ===
+                                    selectedCareGiver.length
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e: any) => {
+                                  handleSelectAll();
+                                }}
+                              />
+                              <label className=""></label>
+                            </span>
+                          </th>
                           <th>{languageTranslation("NAME")}</th>
                           <th>{languageTranslation("EMAIL")}</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>
-                            <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""></label>
-                            </span>
-                          </td>
-                          <td>Akan Nicole</td>
-                          <td>kontact@pfleglisoft.de</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""></label>
-                            </span>
-                          </td>
-                          <td>John Doe</td>
-                          <td>kontact@johndoe.de</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""></label>
-                            </span>
-                          </td>
-                          <td>Justina</td>
-                          <td>kontact@justina.de</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""></label>
-                            </span>
-                          </td>
-                          <td>Mark Smith</td>
-                          <td>kontact@smith.com</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""></label>
-                            </span>
-                          </td>
-                          <td>Akan Nicole</td>
-                          <td>kontact@pfleglisoft.de</td>
-                        </tr>
+                        {!called || loading ? (
+                          <tr>
+                            <td className={"table-loader"} colSpan={8}>
+                              <Loader />
+                            </td>
+                          </tr>
+                        ) : careGiverData && careGiverData.length ? (
+                          careGiverData.map(
+                            (careGivers: any, index: number) => {
+                              return (
+                                <tr key={index}>
+                                  <td>
+                                    <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                      <input
+                                        type="checkbox"
+                                        id="check"
+                                        name="checkbox"
+                                        className=""
+                                        checked={
+                                          selectedCareGiver &&
+                                          selectedCareGiver.length &&
+                                          selectedCareGiver.indexOf(
+                                            parseInt(careGivers.id)
+                                          ) > -1
+                                            ? true
+                                            : false
+                                        }
+                                        onChange={(e: any) => {
+                                          handleCheckElement(e, careGivers.id);
+                                        }}
+                                      />
+                                      <label className=""></label>
+                                    </span>
+                                  </td>
+                                  <td>{`${careGivers.firstName} ${careGivers.lastName}`}</td>
+                                  <td>{careGivers.email}</td>
+                                </tr>
+                              );
+                            }
+                          )
+                        ) : null}
                       </tbody>
                     </Table>
                   </div>

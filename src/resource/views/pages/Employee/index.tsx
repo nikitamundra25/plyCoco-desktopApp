@@ -1,5 +1,15 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Button, Card, CardHeader, CardBody, Table } from 'reactstrap';
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  Table,
+  UncontrolledButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { AppBreadcrumb } from '@coreui/react';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -31,9 +41,18 @@ import { EmployeeMutations } from '../../../../graphql/Mutations';
 
 let toastId: any = null;
 
+const perminssionArray: String[] = ['All', 'Basic', 'Invoice'];
+
 const [, GET_EMPLOYEES] = EmployeeQueries;
 
-const [, , UPDATE_EMPLOYEE_STATUS, DELETE_EMPLOYEE] = EmployeeMutations;
+const [
+  ,
+  ,
+  UPDATE_EMPLOYEE_STATUS,
+  DELETE_EMPLOYEE,
+  ,
+  UPDATE_EMP_ACCESS_LEVEL
+] = EmployeeMutations;
 
 const Employee: FunctionComponent = () => {
   let history = useHistory();
@@ -62,6 +81,12 @@ const Employee: FunctionComponent = () => {
     { activeStatusEmployee: any },
     { id: string; isActive: boolean }
   >(UPDATE_EMPLOYEE_STATUS);
+
+  // Mutation to update employee status
+  const [updateEmployeeAccessLevel] = useMutation<
+    { updateAccessLevelEmployee: any },
+    { id: string; accessLevel: string }
+  >(UPDATE_EMP_ACCESS_LEVEL);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -294,6 +319,32 @@ const Employee: FunctionComponent = () => {
     }
   };
 
+  const changeAccessLevelValue = async (accessLevel: string, id: string) => {
+    try {
+      toast.dismiss();
+      await updateEmployeeAccessLevel({
+        variables: {
+          id,
+          accessLevel
+        }
+      });
+      refetch();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('EMPLOYEE_ACCESS_LEVEL_UPDATE_MSG')
+        );
+      }
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
+    }
+  };
+
   const values: ISearchValues = {
     searchValue,
     isActive,
@@ -304,7 +355,6 @@ const Employee: FunctionComponent = () => {
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
-
         <Button
           color={'primary'}
           className={'btn-add mr-3'}
@@ -312,9 +362,8 @@ const Employee: FunctionComponent = () => {
           onClick={() => history.push(AppRoutes.EMPLOYEE_ARCHIVE)}
         >
           <i className={'fa fa-archive'} />
-          &nbsp;{languageTranslation('VIEW_ARCHIVE')}
+          &nbsp; {languageTranslation('VIEW_ARCHIVE')}
         </Button>
-
         <Button
           color={'primary'}
           className={'btn-add'}
@@ -355,6 +404,9 @@ const Employee: FunctionComponent = () => {
                 {languageTranslation('CREATED_DATE')}
               </th>
 
+              <th className='status-column one-line-text'>
+                {'Employee Rights'}
+              </th>
               <th className='text-center status-column'>
                 {languageTranslation('STATUS')}
               </th>
@@ -387,7 +439,8 @@ const Employee: FunctionComponent = () => {
                     regions,
                     isActive,
                     profileThumbnailImage,
-                    createdAt
+                    createdAt,
+                    accessLevel
                   }: IEmployee,
                   index: number
                 ) => {
@@ -396,6 +449,7 @@ const Employee: FunctionComponent = () => {
                     ':userName': userName
                   };
                   var elements = [firstName, lastName];
+
                   return (
                     <tr key={index}>
                       <td className='sno-th-column text-center'>
@@ -421,7 +475,19 @@ const Employee: FunctionComponent = () => {
                             />
                           </div>
                           <div className='description-column'>
-                            <div className='info-title text-capitalize'>
+                            <div
+                              className='info-title text-capitalize'
+                              onClick={() =>
+                                history.push(
+                                  AppRoutes.VIEW_EMPLOYEE.replace(
+                                    /:id|:userName/gi,
+                                    function(matched: string) {
+                                      return replaceObj[matched];
+                                    }
+                                  )
+                                )
+                              }
+                            >
                               {elements.join(' ')}
                             </div>
                             <div className='description-text'>
@@ -458,6 +524,46 @@ const Employee: FunctionComponent = () => {
                       </td>
                       <td className='date-th-column '>
                         {createdAt ? moment(createdAt).format('lll') : ''}
+                      </td>
+                      <td>
+                        <div className='action-btn text-capitalize cursor-pointer'>
+                          {accessLevel ? (
+                            <UncontrolledButtonDropdown>
+                              <DropdownToggle
+                                className={'text-capitalize'}
+                                caret
+                                size='sm'
+                              >
+                                {accessLevel ? accessLevel : '-'}
+                              </DropdownToggle>
+                              <DropdownMenu>
+                                <DropdownItem
+                                  onClick={() =>
+                                    changeAccessLevelValue('all', id)
+                                  }
+                                >
+                                  All
+                                </DropdownItem>
+                                <DropdownItem
+                                  onClick={() =>
+                                    changeAccessLevelValue('basic', id)
+                                  }
+                                >
+                                  Basic
+                                </DropdownItem>
+                                <DropdownItem
+                                  onClick={() =>
+                                    changeAccessLevelValue('invoice', id)
+                                  }
+                                >
+                                  Invoice
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </UncontrolledButtonDropdown>
+                          ) : (
+                            '-'
+                          )}
+                        </div>
                       </td>
                       <td className='text-center'>
                         {isActive}

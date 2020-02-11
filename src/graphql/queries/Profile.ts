@@ -6,7 +6,8 @@ const VIEW_PROFILE = gql`
       id
       firstName
       lastName
-      email
+      email,
+      accessLevel
     }
   }
 `;

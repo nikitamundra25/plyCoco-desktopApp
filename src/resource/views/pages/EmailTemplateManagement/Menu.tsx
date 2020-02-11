@@ -20,7 +20,8 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
     onDeleteEmailTemplate,
     addEmailLoading,
     id,
-    updateLoading
+    updateLoading,
+    fetchArchiveList
   } = props;
   return (
     <div className='sticky-common-header'>
@@ -49,12 +50,6 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
             {languageTranslation('NEW_EMAIL_TEMPLATE')}
           </span>
         </div>
-        {/* <div className='header-nav-item'>
-          <span className='header-nav-icon'>
-            <img src={EmailSeparator} alt='' />
-          </span>
-          <span className='header-nav-text'>New Email Separator</span>
-        </div> */}
         <div
           className={`header-nav-item ${!activeTemplate ? 'disable' : ''}`}
           onClick={onDeleteEmailTemplate}
@@ -64,6 +59,15 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
           </span>
           <span className='header-nav-text'>
             {languageTranslation('CLEAR')}
+          </span>
+        </div>
+
+        <div className={`header-nav-item`} onClick={fetchArchiveList}>
+          <span className='header-nav-icon'>
+            {/* <img src={clear} alt='' /> */}
+          </span>
+          <span className='header-nav-text'>
+            {languageTranslation('VIEW_ARCHIVE')}
           </span>
         </div>
 

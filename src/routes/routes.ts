@@ -166,7 +166,12 @@ const EmailQueue = React.lazy(() =>
 const ArchiveEmployee = React.lazy(() =>
   import('../resource/views/pages/Employee/ArchiveEmployee')
 );
-
+const ArchiveCaregiver = React.lazy(() =>
+  import('../resource/views/pages/CareGiver/ArchiveCaregiver')
+);
+const ArchiveCareInstitution = React.lazy(() =>
+  import('../resource/views/pages/CareInstitution/ArchiveCareInstitution')
+);
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -507,6 +512,18 @@ const routes = [
     path: AppRoutes.EMPLOYEE_ARCHIVE,
     name: 'Archive Employee',
     component: ArchiveEmployee,
+    exact: true
+  },
+  {
+    path: AppRoutes.CAREGIVER_ARCHIVE,
+    name: 'Archive Caregiver',
+    component: ArchiveCaregiver,
+    exact: true
+  },
+  {
+    path: AppRoutes.CAREINSTITUTION_ARCHIVE,
+    name: 'Archive CareInstitution',
+    component: ArchiveCareInstitution,
     exact: true
   }
 ];

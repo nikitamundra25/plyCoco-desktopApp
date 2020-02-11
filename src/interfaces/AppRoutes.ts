@@ -56,4 +56,6 @@ export interface IAppRoutes {
   ALL_EMAILS: string;
   FURTHER: string;
   EMPLOYEE_ARCHIVE: string;
+  CAREGIVER_ARCHIVE: string;
+  CAREINSTITUTION_ARCHIVE: string;
 }

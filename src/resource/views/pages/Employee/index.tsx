@@ -312,7 +312,7 @@ const Employee: FunctionComponent = () => {
           onClick={() => history.push(AppRoutes.EMPLOYEE_ARCHIVE)}
         >
           <i className={'fa fa-archive'} />
-          &nbsp;{languageTranslation('VIEW_ARCHIVE_EMPLOYEE_BUTTON')}
+          &nbsp;{languageTranslation('VIEW_ARCHIVE')}
         </Button>
 
         <Button
@@ -421,19 +421,7 @@ const Employee: FunctionComponent = () => {
                             />
                           </div>
                           <div className='description-column'>
-                            <div
-                              className='info-title text-capitalize'
-                              onClick={() =>
-                                history.push(
-                                  AppRoutes.VIEW_EMPLOYEE.replace(
-                                    /:id|:userName/gi,
-                                    function(matched: string) {
-                                      return replaceObj[matched];
-                                    }
-                                  )
-                                )
-                              }
-                            >
+                            <div className='info-title text-capitalize'>
                               {elements.join(' ')}
                             </div>
                             <div className='description-text'>

@@ -1,39 +1,35 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Button, Card, CardHeader, CardBody, Table } from 'reactstrap';
-import { useHistory, useLocation, Link } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { AppBreadcrumb } from '@coreui/react';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import * as qs from 'query-string';
-import { UncontrolledTooltip } from 'reactstrap';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { AppConfig, sortFilter } from '../../../../config';
-import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../config';
-import routes from '../../../../routes/routes';
-import Search from '../../components/SearchFilter';
-import { languageTranslation, logger } from '../../../../helpers';
-import ButtonTooltip from '../../components/Tooltip/ButtonTooltip';
-import { EmployeeQueries } from '../../../../graphql/queries';
-import { EmployeeMutations } from '../../../../graphql/Mutations';
-import PaginationComponent from '../../components/Pagination';
+import { sortFilter } from '../../../../../config';
+import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../../config';
+import routes from '../../../../../routes/routes';
+import Search from '../../../components/SearchFilter';
+import { languageTranslation, logger } from '../../../../../helpers';
+import { EmployeeQueries } from '../../../../../graphql/queries';
+import { EmployeeMutations } from '../../../../../graphql/Mutations';
+import PaginationComponent from '../../../components/Pagination';
 import {
   ISearchValues,
-  IEmployee,
   IReactSelectInterface,
-  IObjectType,
-  IReplaceObjectInterface
-} from '../../../../interfaces';
-import { ConfirmBox } from '../../components/ConfirmBox';
+  IObjectType
+} from '../../../../../interfaces';
+import { ConfirmBox } from '../../../components/ConfirmBox';
 import defaultProfile from '../../../assets/avatars/default-profile.png';
-import Loader from '../../containers/Loader/Loader';
-import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
-import archive from '../../../assets/img/restore.svg';
+import Loader from '../../../containers/Loader/Loader';
+import { NoSearchFound } from '../../../components/SearchFilter/NoSearchFound';
+import archive from '../../../../assets/img/restore.svg';
 let toastId: any = null;
 
 const [, , GET_ARCHIVE_EMPLOYEES] = EmployeeQueries;
 const [, , , , RESTORE_EMPLOYEE] = EmployeeMutations;
-const ArchiveEmployee: FunctionComponent = () => {
+const ArchiveCareInstitution: FunctionComponent = () => {
   let history = useHistory();
 
   const { search, pathname, state } = useLocation();
@@ -115,7 +111,7 @@ const ArchiveEmployee: FunctionComponent = () => {
     // call query
     fetchArchiveEmployeeList({
       variables: {
-        userRole: 'employee',
+        userRole: 'canstitution',
         searchBy,
         sortBy: sortByValue ? parseInt(sortByValue) : 0,
         limit: ARCHIVE_PAGE_LIMIT,
@@ -162,7 +158,7 @@ const ArchiveEmployee: FunctionComponent = () => {
   const onRestoreEmployee = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMPLOYEE_RESTORE_MSG')
+      text: languageTranslation('CONFIRM_CAREINSTITUTION_RESTORE_MSG')
     });
     if (!value) {
       return;
@@ -177,7 +173,7 @@ const ArchiveEmployee: FunctionComponent = () => {
 
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('EMPLOYEE_RESTORED_SUCCESS')
+            languageTranslation('CAREINSTITUTION_RESTORED_SUCCESS')
           );
         }
       } catch (error) {
@@ -209,7 +205,7 @@ const ArchiveEmployee: FunctionComponent = () => {
           color={'primary'}
           className={'btn-add'}
           id={'add-new-pm-tooltip'}
-          onClick={() => history.push(AppRoutes.EMPLOYEE)}
+          onClick={() => history.push(AppRoutes.CARE_INSTITUTION)}
         >
           &nbsp;{languageTranslation('BACK_TO_LIST')}
         </Button>
@@ -236,7 +232,7 @@ const ArchiveEmployee: FunctionComponent = () => {
               <th className='sno-th-column text-center'>
                 {languageTranslation('S_NO')}
               </th>
-              <th>{languageTranslation('EMPLOYEE_NAME')}</th>
+              <th>{languageTranslation('CARE_INSTITUTION_NAME')}</th>
               <th>{languageTranslation('USERNAME')}</th>
               <th>{languageTranslation('EMAIL')}</th>
               <th className='date-th-column'>
@@ -272,7 +268,7 @@ const ArchiveEmployee: FunctionComponent = () => {
                     <td>{trashUser.email.split('-')[0]}</td>
                     <td className='date-th-column '>
                       {trashUser.deletedAt
-                        ? moment(trashUser.deletedAt).format('lll')
+                        ? moment(trashUser.deletedAt).format('MMM, Do YYYY')
                         : ''}
                     </td>
                     <td>
@@ -326,4 +322,4 @@ const ArchiveEmployee: FunctionComponent = () => {
   );
 };
 
-export default ArchiveEmployee;
+export default ArchiveCareInstitution;

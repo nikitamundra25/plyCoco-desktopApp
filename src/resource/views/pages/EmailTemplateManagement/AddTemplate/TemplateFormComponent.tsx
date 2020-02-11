@@ -22,6 +22,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
   uploadDocument: any;
   emailTemplateLoading: boolean;
   onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
+  fetchArchiveList: () => void;
 }> = (
   props: FormikProps<IEmailTemplateValues> & {
     typeListOptions?: any;
@@ -30,7 +31,8 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     uploadDocument: any;
     emailTemplateLoading: boolean;
     onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
-  },
+    fetchArchiveList: () => void;
+  }
 ) => {
   const {
     values: { type, menuEntry, subject, body, id },
@@ -43,7 +45,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     attachment,
     uploadDocument,
     onDelteDocument,
-    emailTemplateLoading,
+    emailTemplateLoading
   } = props;
   const typeError: any = errors.type;
 
@@ -209,7 +211,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         setFieldValue('body', editorState)
                       }
                       placeholder={languageTranslation(
-                        'EMAIL_BODY_PLACEHOLDER',
+                        'EMAIL_BODY_PLACEHOLDER'
                       )}
                       toolbar={{
                         options: [
@@ -218,24 +220,24 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                           'fontSize',
                           'list',
                           'textAlign',
-                          'link',
+                          'link'
                         ],
                         inline: {
-                          options: ['bold', 'italic', 'underline'],
+                          options: ['bold', 'italic', 'underline']
                         },
                         fontSize: {
-                          className: 'bordered-option-classname',
+                          className: 'bordered-option-classname'
                         },
                         fontFamily: {
-                          className: 'bordered-option-classname',
+                          className: 'bordered-option-classname'
                         },
                         list: {
                           inDropdown: false,
-                          options: ['unordered'],
+                          options: ['unordered']
                         },
                         link: {
-                          options: ['link'],
-                        },
+                          options: ['link']
+                        }
                       }}
                     />
                     {touched.body &&

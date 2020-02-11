@@ -9,7 +9,7 @@ import { IEmailTemplateValues } from '../../../../../interfaces';
 import { languageTranslation, stripHtml } from '../../../../../helpers';
 import { ErroredFieldComponent } from '../../../components/ErroredFieldComponent';
 import { AttachmentFormComponent } from './AttachmentFormComponent';
-import { AttachmentList } from './AttachmentList';
+import { AttachmentList } from '../../../components/Attachments';
 import Loader from '../../../containers/Loader/Loader';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 

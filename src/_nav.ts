@@ -32,7 +32,7 @@ export default {
     {
       name: languageTranslation("MENU_APPOINTMENTS"),
       icon: "icon-appointment",
-      url: AppRoutes.APPOINTMENT
+      url: AppRoutes.HOME
     },
     {
       name: languageTranslation("MENU_EMAIL"),

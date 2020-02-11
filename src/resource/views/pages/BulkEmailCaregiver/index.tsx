@@ -79,7 +79,6 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       ]);
       return;
     }else{
-      console.log("Not Selected");
       if (selectedCareGiver.indexOf(id) > -1) {
         selectedCareGiver.splice(selectedCareGiver.indexOf(id), 1);
         setselectedCareGiver([...selectedCareGiver]);
@@ -87,7 +86,6 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     }
   };
 
-  console.log('selectedCareGiver ', selectedCareGiver);
 
   return (
     <>

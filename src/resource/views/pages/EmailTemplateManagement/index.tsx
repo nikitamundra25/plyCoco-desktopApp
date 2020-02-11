@@ -331,10 +331,10 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
     resetForm();
   };
-  const onTemplateSelection = async (id: string) => {
+  const onTemplateSelection = (id: string) => {
     setActiveTemplate(id);
     toast.dismiss();
-    await fetchTemplateById({
+    fetchTemplateById({
       variables: {
         id,
       },
@@ -437,6 +437,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                 body: '',
                 id: undefined,
               });
+              setAttachment([]);
             }}
             onDeleteEmailTemplate={onDeleteEmailTemplate}
             onTypeChange={onTypeChange}

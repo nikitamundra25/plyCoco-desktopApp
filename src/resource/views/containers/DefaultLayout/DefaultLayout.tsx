@@ -131,7 +131,7 @@ const DefaultLayout = (props: RouteComponentProps) => {
   return (
     <div className='app'>
       <AppHeader>
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={''}>
           <DefaultHeader />
         </Suspense>
       </AppHeader>

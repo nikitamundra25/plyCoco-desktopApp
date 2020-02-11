@@ -564,6 +564,7 @@
   "CONFIRM_EMAIL_TEMPLATE_DELETE_MSG": "This email template will be deleted.",
   "ATTACHMENT_DELETE_INFO_MSG": "Click here to delete attachment",
   "CONFIRM_EMAIL_ATTACHMENT_DELETE_MSG": "This attachment will be deleted.",
+  "CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG": "This attachment will be removed.",
   "EMAIL_TEMPLATE_DELETION_SUCCESS": "Email Template deleted successfully.",
   "EMAIL_TEMPLATE_ATTACHMENT_DELETION_SUCCESS": "Attached document deleted successfully.",
   "EMAIL_SENT_SUCCESS": "Email Sent successfully.",

@@ -6,20 +6,25 @@ import { fileSize, AppConfig } from "../../../../../config";
 
 export const AttachmentList: FunctionComponent<{
   attachment: IEmailAttachmentData[];
-  onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
+  label?: string;
+  onDelteDocument?: (attachmentId: string, attachmentIndex?: number) => void;
 }> = ({
   attachment,
+  label,
   onDelteDocument
 }: {
   attachment: IEmailAttachmentData[];
-  onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
+  label?: string;
+  onDelteDocument?: (attachmentId: string, attachmentIndex?: number) => void;
 }) => {
   return (
     <Table bordered hover responsive className="mail-table">
       <thead className="thead-bg">
         <tr>
           <th className="file-name">{languageTranslation("FILE_NAME")}</th>
-          <th className="size-col">{languageTranslation("SIZE")}</th>
+          {label !== "preview" ? (
+            <th className="size-col">{languageTranslation("SIZE")}</th>
+          ) : null}
         </tr>
       </thead>
       <tbody>
@@ -47,38 +52,42 @@ export const AttachmentList: FunctionComponent<{
                       </span>
                     </>
                   ) : (
-                    <>
-                      <span
-                        onClick={() =>
-                          window.open(
-                            `${AppConfig.FILES_ENDPOINT}${item.path}`,
-                            "_blank"
-                          )
+                    <span
+                      onClick={() => {
+                        let path = item.path;
+                        // To concat base path in existing. In attachmetn full path are a;ready there
+                        if (label !== "preview") {
+                          path = `${AppConfig.FILES_ENDPOINT}${item.path}`;
                         }
-                        className="word-wrap view-more-link"
-                      >
-                        {item.fileName}
-                      </span>
-                    </>
-                  )}
-                  <span
-                    id={`delete${index}`}
-                    className="trash-icon"
-                    onClick={() =>
-                      onDelteDocument(item.id ? item.id : "", index)
-                    }
-                  >
-                    <UncontrolledTooltip
-                      placement={"top"}
-                      target={`delete${index}`}
+                        return window.open(path, "_blank");
+                      }}
+                      className="word-wrap view-more-link"
                     >
-                      {languageTranslation("ATTACHMENT_DELETE_INFO_MSG")}
-                    </UncontrolledTooltip>
-                    <i className="fa fa-trash"></i>
-                  </span>
+                      {item.fileName}
+                    </span>
+                  )}
+                  {onDelteDocument ? (
+                    <span
+                      id={`delete${index}`}
+                      className="trash-icon"
+                      onClick={() =>
+                        onDelteDocument(item.id ? item.id : "", index)
+                      }
+                    >
+                      <UncontrolledTooltip
+                        placement={"top"}
+                        target={`delete${index}`}
+                      >
+                        {languageTranslation("ATTACHMENT_DELETE_INFO_MSG")}
+                      </UncontrolledTooltip>
+                      <i className="fa fa-trash"></i>
+                    </span>
+                  ) : null}
                 </div>
               </td>
-              <td className="size-col">{formatFileSize(item.size)}</td>
+              {label !== "preview" ? (
+                <td className="size-col">{formatFileSize(item.size)}</td>
+              ) : null}
             </tr>
           );
         })}

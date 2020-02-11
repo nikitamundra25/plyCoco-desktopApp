@@ -1262,6 +1262,12 @@ html:not([dir="rtl"]) {
       font-size: 11px;
       right: 15px;
     }
+    .input-group-text {
+      padding: 0px 10px;
+      border-color: $light_gray;
+      font-family: $font_Frutiger_Regular;
+      border-radius: 0px;
+    }
     .react-datepicker-wrapper {
       display: block;
       .react-datepicker__input-container {
@@ -3648,5 +3654,68 @@ html:not([dir="rtl"]) {
   .no-text {
     font-size: 15px;
     color: $no_search_text_color;
+  }
+}
+
+// calendar table css
+.calender-section {
+  position: relative;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+  font-family: $font_open_sans;
+  background: $white;
+  .custom-appointment-calendar {
+    .custom-appointment-calendar-head {
+      font-weight: 600;
+    }
+    .custom-appointment-row {
+      display: flex;
+      font-size: 12px;
+      color: $black;
+      border-left: 1px solid $table_border;
+
+      .custom-appointment-col {
+        flex: 0 0 30px;
+        max-width: 30px;
+        padding: 4px;
+        border-right: 1px solid $table_border;
+        border-top: 1px solid $table_border;
+        vertical-align: middle;
+        &.name-col {
+          flex: 0 0 200px;
+          max-width: 200px;
+        }
+        &.h-col {
+          flex: 0 0 70px;
+          max-width: 70px;
+        }
+        &.calender-col {
+          flex: 0 0 50px;
+          max-width: 50px;
+          .custom-appointment-calendar-date {
+            text-transform: capitalize;
+          }
+          &.appointment-color1 {
+            background: #d3d3d3;
+          }
+          &.appointment-color2 {
+            background: #ffff00;
+          }
+          &.appointment-color3 {
+            background: #6a0dad;
+          }
+          &.appointment-color4 {
+            background: #f6cfca;
+          }
+          &.appointment-color5 {
+            background: #07e651;
+          }
+          &.appointment-color5 {
+            background: #a1f5bd;
+          }
+        }
+      }
+    }
   }
 }

@@ -518,7 +518,7 @@ const routes = [
     name: "Appointment",
     component: Appointment,
     exact: true
-  },
+  }
 ];
 
 export default routes;

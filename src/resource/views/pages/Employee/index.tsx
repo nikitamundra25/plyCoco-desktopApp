@@ -45,7 +45,14 @@ const perminssionArray: String[] = ["All", "Basic", "Invoice"];
 
 const [, GET_EMPLOYEES] = EmployeeQueries;
 
-const [, , UPDATE_EMPLOYEE_STATUS, DELETE_EMPLOYEE] = EmployeeMutations;
+const [
+  ,
+  ,
+  UPDATE_EMPLOYEE_STATUS,
+  DELETE_EMPLOYEE,
+  ,
+  UPDATE_EMP_ACCESS_LEVEL
+] = EmployeeMutations;
 
 const Employee: FunctionComponent = () => {
   let history = useHistory();
@@ -74,6 +81,12 @@ const Employee: FunctionComponent = () => {
     { activeStatusEmployee: any },
     { id: string; isActive: boolean }
   >(UPDATE_EMPLOYEE_STATUS);
+
+  // Mutation to update employee status
+  const [updateEmployeeAccessLevel] = useMutation<
+    { updateAccessLevelEmployee: any },
+    { id: string; accessLevel: string }
+  >(UPDATE_EMP_ACCESS_LEVEL);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -306,6 +319,34 @@ const Employee: FunctionComponent = () => {
     }
   };
 
+  const changeAccessLevelValue = async (accessLevel: string, id: string) => {
+    console.log("value", accessLevel);
+    console.log("id", id);
+    try {
+      toast.dismiss();
+      await updateEmployeeAccessLevel({
+        variables: {
+          id,
+          accessLevel
+        }
+      });
+      refetch();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation("EMPLOYEE_STATUS_UPDATE_MSG")
+        );
+      }
+    } catch (error) {
+      const message = error.message
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
+    }
+  };
+
   const values: ISearchValues = {
     searchValue,
     isActive,
@@ -391,7 +432,8 @@ const Employee: FunctionComponent = () => {
                     regions,
                     isActive,
                     profileThumbnailImage,
-                    createdAt
+                    createdAt,
+                    accessLevel
                   }: IEmployee,
                   index: number
                 ) => {
@@ -400,6 +442,7 @@ const Employee: FunctionComponent = () => {
                     ":userName": userName
                   };
                   var elements = [firstName, lastName];
+
                   return (
                     <tr key={index}>
                       <td className="sno-th-column text-center">
@@ -479,18 +522,30 @@ const Employee: FunctionComponent = () => {
                         <div className="action-btn text-capitalize cursor-pointer">
                           <UncontrolledButtonDropdown>
                             <DropdownToggle caret size="sm">
-                              {
-                                perminssionArray[
-                                  Math.floor(
-                                    Math.random() * perminssionArray.length
-                                  )
-                                ]
-                              }
+                              {accessLevel ? accessLevel : "-"}
                             </DropdownToggle>
                             <DropdownMenu>
-                              <DropdownItem>All</DropdownItem>
-                              <DropdownItem>Basic</DropdownItem>
-                              <DropdownItem>Invoice</DropdownItem>
+                              <DropdownItem
+                                onClick={() =>
+                                  changeAccessLevelValue("all", id)
+                                }
+                              >
+                                All
+                              </DropdownItem>
+                              <DropdownItem
+                                onClick={() =>
+                                  changeAccessLevelValue("basic", id)
+                                }
+                              >
+                                Basic
+                              </DropdownItem>
+                              <DropdownItem
+                                onClick={() =>
+                                  changeAccessLevelValue("invoice", id)
+                                }
+                              >
+                                Invoice
+                              </DropdownItem>
                             </DropdownMenu>
                           </UncontrolledButtonDropdown>
                         </div>

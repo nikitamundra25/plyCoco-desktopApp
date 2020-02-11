@@ -3,12 +3,11 @@ import { Formik, FormikProps } from 'formik';
 import { TemplateFormComponent } from './TemplateFormComponent';
 import {
   IEmailTemplateValues,
-  IAddEmailTemplateProps,
+  IAddEmailTemplateProps
 } from '../../../../../interfaces';
 import { EmailTemplateValidationSchema } from '../../../../validations/EmailTemplateValidationSchema';
-
 export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
-  props: IAddEmailTemplateProps,
+  props: IAddEmailTemplateProps
 ) => {
   const {
     handleSubmit,
@@ -20,20 +19,21 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
     uploadDocument,
     onDelteDocument,
     emailTemplateLoading,
+    fetchArchiveList
   } = props;
   const {
     type = { label: '', value: '' },
     menuEntry = '',
     subject = '',
     body = '',
-    id = undefined,
+    id = undefined
   } = templateData ? templateData : {};
   const values: IEmailTemplateValues = {
     type,
     menuEntry,
     subject,
     body,
-    id,
+    id
   };
 
   return (
@@ -53,6 +53,7 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
             uploadDocument={uploadDocument}
             onDelteDocument={onDelteDocument}
             emailTemplateLoading={emailTemplateLoading}
+            fetchArchiveList={fetchArchiveList}
           />
         );
       }}

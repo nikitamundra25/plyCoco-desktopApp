@@ -20,7 +20,7 @@ export interface IEmailTemplateSubmitValues {
 export interface IAddEmailTemplateProps {
   handleSubmit: (
     values: IEmailTemplateValues,
-    actions: FormikHelpers<IEmailTemplateValues>,
+    actions: FormikHelpers<IEmailTemplateValues>
   ) => void;
   bindSubmitForm: any;
   emailTemplateLoading: boolean;
@@ -30,6 +30,7 @@ export interface IAddEmailTemplateProps {
   attachment: IEmailAttachmentData[] | [];
   uploadDocument: any;
   onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
+  fetchArchiveList: () => void;
 }
 
 export interface IEmailTemplateList {
@@ -37,6 +38,7 @@ export interface IEmailTemplateList {
   data: any;
   loading: any;
   activeTemplate: string | null;
+  showArchive: boolean | null;
 }
 
 export interface IEmailTemplateMenu {
@@ -50,6 +52,8 @@ export interface IEmailTemplateMenu {
   addEmailLoading: boolean;
   id: number | null;
   updateLoading: boolean;
+  fetchArchiveList: () => void;
+  setShowArchive: any;
 }
 
 export interface IEmailTemplateData {
@@ -69,7 +73,13 @@ export interface IEmailAttachmentData {
 }
 
 export interface INewEmailAttachments {
-  fileName: string;
+  name: string;
+  id: string;
   size: number;
+  path: string;
+}
+
+export interface IEmailInputAttachmenttypes {
+  fileName: string;
   path: string;
 }

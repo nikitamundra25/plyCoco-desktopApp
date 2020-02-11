@@ -82,7 +82,7 @@ const InboxEmail: FunctionComponent = () => {
                   {languageTranslation("SUBJECT")}
                 </div>
               </div>
-              <ul className="mb-3 p-0 list-group">
+              <ul className="mb-3 mb-lg-0 p-0 list-group custom-scrollbar">
                 <li className={`email-wrap `}>
                   <div
                     className={`email-date-block ${

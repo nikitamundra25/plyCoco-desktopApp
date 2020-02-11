@@ -7,7 +7,7 @@ import {
   Col,
   Row,
   Table,
-  UncontrolledTooltip,
+  UncontrolledTooltip
 } from 'reactstrap';
 import * as qs from 'query-string';
 import { toast } from 'react-toastify';
@@ -24,7 +24,7 @@ import { languageTranslation } from '../../../../helpers';
 import {
   ISearchValues,
   IReactSelectInterface,
-  IObjectType,
+  IObjectType
 } from '../../../../interfaces';
 import { CareGiverMutations } from '../../../../graphql/Mutations';
 import { ConfirmBox } from '../../components/ConfirmBox';
@@ -50,7 +50,7 @@ const CareGiver: FunctionComponent = () => {
     any,
     any
   >(GET_CAREGIVERS, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'no-cache'
   });
 
   // Mutation to update caregiver status
@@ -68,7 +68,7 @@ const CareGiver: FunctionComponent = () => {
     let sortByValue: string | undefined = '1';
     if (query.sortBy) {
       sortByValue = Object.keys(sortFilter).find(
-        (key: string) => sortFilter[key] === query.sortBy,
+        (key: string) => sortFilter[key] === query.sortBy
       );
     }
     if (sortByValue === '3') {
@@ -90,8 +90,8 @@ const CareGiver: FunctionComponent = () => {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy,
-              ) || '1',
+                (key: any) => sortFilter[key] === query.sortBy
+              ) || '1'
           }
         : { label: 'Newest', value: '1' };
       isActive = query.status
@@ -102,12 +102,12 @@ const CareGiver: FunctionComponent = () => {
       setSearchValues({
         searchValue: searchBy,
         sortBy,
-        isActive,
+        isActive
       });
       setIsFilter(
         searchBy !== '' ||
           query.status !== undefined ||
-          query.sortBy !== undefined,
+          query.sortBy !== undefined
       );
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -122,15 +122,15 @@ const CareGiver: FunctionComponent = () => {
           ? query.status === 'active'
             ? 'true'
             : 'false'
-          : '',
-      },
+          : ''
+      }
     });
   }, [search]); // It will run when the search value gets changed
 
   const {
     searchValue = '',
     sortBy = undefined,
-    isActive = undefined,
+    isActive = undefined
   } = searchValues ? searchValues : {};
 
   // Mutation to delete caregiver
@@ -141,7 +141,7 @@ const CareGiver: FunctionComponent = () => {
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>,
+    { setSubmitting }: FormikHelpers<ISearchValues>
   ) => {
     let params: {
       [key: string]: any;
@@ -163,7 +163,7 @@ const CareGiver: FunctionComponent = () => {
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?',
+      '?'
     );
     history.push(path);
   };
@@ -171,15 +171,15 @@ const CareGiver: FunctionComponent = () => {
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CAREGIVER_DELETE_MSG'),
+      text: languageTranslation('CONFIRM_CAREGIVER_DELETE_MSG')
     });
     if (!value) {
       return;
     } else {
       await deleteCaregiver({
         variables: {
-          id: parseInt(id),
-        },
+          id: parseInt(id)
+        }
       });
       refetch();
       if (!toast.isActive(toastId)) {
@@ -194,8 +194,8 @@ const CareGiver: FunctionComponent = () => {
       text: languageTranslation(
         status
           ? 'CONFIRM_CAREGIVER_STATUS_ACTIVATE_MSG'
-          : 'CONFIRM_CAREGIVER_STATUS_DISABLED_MSG',
-      ),
+          : 'CONFIRM_CAREGIVER_STATUS_DISABLED_MSG'
+      )
     });
     if (!value) {
       return;
@@ -205,13 +205,13 @@ const CareGiver: FunctionComponent = () => {
         await updateEmployeeStatus({
           variables: {
             id,
-            isActive: status,
-          },
+            isActive: status
+          }
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CAREGIVER_STATUS_UPDATE_MSG'),
+            languageTranslation('CAREGIVER_STATUS_UPDATE_MSG')
           );
         }
       } catch (error) {
@@ -229,7 +229,7 @@ const CareGiver: FunctionComponent = () => {
   const values: ISearchValues = {
     searchValue,
     isActive,
-    sortBy,
+    sortBy
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
@@ -238,6 +238,17 @@ const CareGiver: FunctionComponent = () => {
         <Card>
           <CardHeader>
             <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+
+            <Button
+              color={'primary'}
+              className={'btn-add mr-3'}
+              id={'add-new-pm-tooltip'}
+              onClick={() => history.push(AppRoutes.CAREGIVER_ARCHIVE)}
+            >
+              <i className={'fa fa-archive'} />
+              &nbsp;{languageTranslation('VIEW_ARCHIVE')}
+            </Button>
+
             <Button
               color={'primary'}
               className={'btn-add'}
@@ -258,7 +269,7 @@ const CareGiver: FunctionComponent = () => {
                   <Search
                     {...props}
                     searchPlacholderText={languageTranslation(
-                      'SEARCH_CAREGIVER_PLACEHOLDER',
+                      'SEARCH_CAREGIVER_PLACEHOLDER'
                     )}
                   />
                 )}
@@ -327,7 +338,7 @@ const CareGiver: FunctionComponent = () => {
                     (careGiverData: any, index: number) => {
                       const replaceObj: any = {
                         ':id': careGiverData.id,
-                        ':userName': careGiverData.userName,
+                        ':userName': careGiverData.userName
                       };
                       return (
                         <tr key={index}>
@@ -378,7 +389,7 @@ const CareGiver: FunctionComponent = () => {
                                         {qualification.name}
                                       </span>
                                     );
-                                  },
+                                  }
                                 )
                               ) : (
                                 <div>-</div>
@@ -393,7 +404,7 @@ const CareGiver: FunctionComponent = () => {
                                 careGiverData.regions.map(
                                   (wZ: any, index: number) => (
                                     <span key={index}>{wZ.regionName}</span>
-                                  ),
+                                  )
                                 )
                               ) : (
                                 <div>-</div>
@@ -426,7 +437,7 @@ const CareGiver: FunctionComponent = () => {
                               onClick={() =>
                                 onStatusUpdate(
                                   careGiverData.id,
-                                  !careGiverData.isActive,
+                                  !careGiverData.isActive
                                 )
                               }
                             >
@@ -444,7 +455,7 @@ const CareGiver: FunctionComponent = () => {
                                   /:id/gi,
                                   function(matched) {
                                     return replaceObj[matched];
-                                  },
+                                  }
                                 )}
                               >
                                 {' '}
@@ -457,7 +468,7 @@ const CareGiver: FunctionComponent = () => {
                                   /:id/gi,
                                   function(matched) {
                                     return replaceObj[matched];
-                                  },
+                                  }
                                 )}
                               >
                                 {' '}
@@ -480,7 +491,7 @@ const CareGiver: FunctionComponent = () => {
                           </td>
                         </tr>
                       );
-                    },
+                    }
                   )
                 ) : (
                   <tr className={'text-center no-hover-row'}>

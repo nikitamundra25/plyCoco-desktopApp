@@ -8,10 +8,10 @@ import { convertToRaw } from 'draft-js';
 import { IEmailTemplateValues } from '../../../../../interfaces';
 import { languageTranslation, stripHtml } from '../../../../../helpers';
 import { ErroredFieldComponent } from '../../../components/ErroredFieldComponent';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { AttachmentFormComponent } from './AttachmentFormComponent';
 import { AttachmentList } from './AttachmentList';
 import Loader from '../../../containers/Loader/Loader';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
@@ -22,6 +22,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
   uploadDocument: any;
   emailTemplateLoading: boolean;
   onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
+  fetchArchiveList: () => void;
 }> = (
   props: FormikProps<IEmailTemplateValues> & {
     typeListOptions?: any;
@@ -30,20 +31,23 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     uploadDocument: any;
     emailTemplateLoading: boolean;
     onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
-  },
+    fetchArchiveList: () => void;
+  }
 ) => {
   const {
     values: { type, menuEntry, subject, body, id },
     touched,
     errors,
     setFieldValue,
+    setFieldTouched,
     handleChange,
+    handleBlur,
     typeListOptions,
     setTypeId,
     attachment,
     uploadDocument,
     onDelteDocument,
-    emailTemplateLoading,
+    emailTemplateLoading
   } = props;
   const typeError: any = errors.type;
 
@@ -59,7 +63,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
 
   return (
     <Col lg={'7'}>
-      <h5 className='content-title text-capitalize'>
+      <h5 className='content-title text-capitalize one-line-text'>
         {id ? menuEntry : languageTranslation('NEW_TEMPLATE')}
       </h5>
       <div className='form-section'>
@@ -117,6 +121,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                               : 'custom-reactselect'
                           }
                           onChange={handleTypeSelect}
+                          onBlur={handleBlur}
                           value={type && type.label !== '' ? type : null}
                           options={typeListOptions}
                           placeholder={'Create and select type'}
@@ -149,6 +154,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                           maxLength={255}
                           placeholder={languageTranslation('MENU_ENTRY')}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={
                             errors.menuEntry && touched.menuEntry
                               ? 'text-input error text-capitalize'
@@ -181,12 +187,12 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                           value={subject}
                           maxLength={255}
                           placeholder={languageTranslation('SUBJECT')}
-                          className={
-                            errors.subject && touched.subject
-                              ? 'text-input error text-capitalize'
-                              : 'text-input text-capitalize'
-                          }
+                          className={`text-input text-capitalize
+                            ${
+                              errors.subject && touched.subject ? 'error' : ''
+                            }`}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                         />
                         <ErroredFieldComponent
                           errors={errors.subject}
@@ -198,18 +204,20 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                 </FormGroup>
               </Col>
               <Col lg={'12'}>
-                <FormGroup>
+                <FormGroup className='mb-3'>
                   <div>
                     <Editor
                       editorState={body}
                       toolbarClassName='toolbarClassName'
                       wrapperClassName='wrapperClassName'
                       editorClassName='editorClassName'
-                      onEditorStateChange={editorState =>
-                        setFieldValue('body', editorState)
-                      }
+                      onEditorStateChange={editorState => {
+                        setFieldValue('body', editorState);
+                        setFieldTouched('body', true);
+                      }}
+                      onBlur={handleBlur}
                       placeholder={languageTranslation(
-                        'EMAIL_BODY_PLACEHOLDER',
+                        'EMAIL_BODY_PLACEHOLDER'
                       )}
                       toolbar={{
                         options: [
@@ -218,24 +226,24 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                           'fontSize',
                           'list',
                           'textAlign',
-                          'link',
+                          'link'
                         ],
                         inline: {
-                          options: ['bold', 'italic', 'underline'],
+                          options: ['bold', 'italic', 'underline']
                         },
                         fontSize: {
-                          className: 'bordered-option-classname',
+                          className: 'bordered-option-classname'
                         },
                         fontFamily: {
-                          className: 'bordered-option-classname',
+                          className: 'bordered-option-classname'
                         },
                         list: {
                           inDropdown: false,
-                          options: ['unordered'],
+                          options: ['unordered']
                         },
                         link: {
-                          options: ['link'],
-                        },
+                          options: ['link']
+                        }
                       }}
                     />
                     {touched.body &&

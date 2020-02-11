@@ -6,7 +6,7 @@ import {
   IEmailInputAttachmenttypes,
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
-import { AttachmentList } from '../../EmailTemplateManagement/AddTemplate/AttachmentList';
+import { AttachmentList } from '../../../components/Attachments';
 
 export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
   emailData,

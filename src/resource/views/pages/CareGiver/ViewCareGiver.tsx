@@ -127,7 +127,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       (careGiver: any) => careGiver.value === id,
     )[0];
     setselectUser(currenCareGiver);
-  }, [careGivers]);
+  }, [careGivers, pathname]);
 
   const onTabChange = (activeTab: number) => {
     props.history.push(

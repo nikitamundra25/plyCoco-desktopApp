@@ -23,7 +23,7 @@ import {
 } from "../../../../../interfaces";
 import { EmailFormComponent } from "./EmailFormComponent";
 import { CareGiverMutations } from "../../../../../graphql/Mutations";
-import { AttachmentList } from "../../EmailTemplateManagement/AddTemplate/AttachmentList";
+import { AttachmentList } from "../../../components/Attachments";
 import { AppConfig } from "../../../../../config";
 import { ConfirmBox } from "../../../components/ConfirmBox";
 
@@ -51,7 +51,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     }
   );
 
-  const [addNewEmail] = useMutation<
+  const [addNewEmail, { loading: adding }] = useMutation<
     {
       addNewEmail: any;
     },
@@ -68,6 +68,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       setAttachments([]);
       setParentId(null);
       setIsSubmit(false);
+      setTemplate({ label: "", value: "" });
     }
   });
 
@@ -199,7 +200,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           <Row>
             <Col lg={"12"}>
               <div className="email-inbox-section">
-                <div className="email-row-wrap align-items-center email-attributes-wrap">
+                <div className="email-row-wrap align-items-md-center email-attributes-wrap flex-column flex-md-row">
                   <div
                     className="email-attributes-content d-flex align-items-center"
                     onClick={onNewEmail}
@@ -252,7 +253,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                           classNamePrefix="custom-inner-reactselect"
                           className={"custom-reactselect"}
                           onChange={onTemplateSelection}
-                          value={template}
+                          value={
+                            template && template.value !== "" ? template : null
+                          }
                         />
                       </FormGroup>
                     </div>
@@ -283,7 +286,11 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                 className="btn-submit"
                 onClick={sendEmail}
               >
-                <i className="fa fa-paper-plane mr-2" aria-hidden="true"></i>
+                {adding ? (
+                  <i className="fa fa-spinner fa-spin loader" />
+                ) : (
+                  <i className="fa fa-paper-plane mr-2" aria-hidden="true"></i>
+                )}
                 <span>{languageTranslation("SEND")}</span>
               </Button>
             </div>

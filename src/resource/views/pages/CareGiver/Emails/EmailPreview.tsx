@@ -6,7 +6,7 @@ import {
   IEmailInputAttachmenttypes,
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
-import { AttachmentList } from '../../EmailTemplateManagement/AddTemplate/AttachmentList';
+import { AttachmentList } from '../../../components/Attachments';
 
 export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
   emailData,
@@ -15,7 +15,16 @@ export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
 }: IEmailPreviewProps) => {
   return (
     <Col lg={'7'}>
-      <div className='mail-details'>
+      <div
+        className={`mail-details ${
+          sendBy &&
+          emailData &&
+          emailData.attachments &&
+          emailData.attachments.length
+            ? 'sent-box'
+            : ''
+        }`}
+      >
         <div className='mail-body'>
           {emailData ? (
             <div>
@@ -48,25 +57,25 @@ export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
                   __html: emailData.body,
                 }}
               />
-              {emailData.attachments && emailData.attachments.length ? (
-                <AttachmentList
-                  attachment={emailData.attachments.map(
-                    ({ path, fileName }: IEmailInputAttachmenttypes) => ({
-                      url: null,
-                      fileName,
-                      size: 0,
-                      path,
-                      file: null,
-                      id: '',
-                    }),
-                  )}
-                  label={'preview'}
-                />
-              ) : null}
             </div>
           ) : null}
         </div>
       </div>
+      {emailData && emailData.attachments && emailData.attachments.length ? (
+        <AttachmentList
+          attachment={emailData.attachments.map(
+            ({ path, fileName }: IEmailInputAttachmenttypes) => ({
+              url: null,
+              fileName,
+              size: 0,
+              path,
+              file: null,
+              id: '',
+            }),
+          )}
+          label={'preview'}
+        />
+      ) : null}
     </Col>
   );
 };

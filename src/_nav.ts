@@ -40,12 +40,12 @@ export default {
       url: AppRoutes.HOME,
       authKey: ['all', 'superadmin', 'basic', 'invoice']
     },
-    {
-      name: languageTranslation('MENU_EMAIL'),
-      icon: 'icon-email-temp',
-      url: AppRoutes.ALL_EMAILS,
-      authKey: ['all', 'superadmin', 'basic', 'invoice']
-    },
+    // {
+    //   name: languageTranslation('MENU_EMAIL'),
+    //   icon: 'icon-email-temp',
+    //   url: AppRoutes.ALL_EMAILS,
+    //   authKey: ['all', 'superadmin', 'basic', 'invoice']
+    // },
     {
       name: languageTranslation('MENU_TO_DO_CARE_GIVER'),
       icon: 'icon-todo-care',

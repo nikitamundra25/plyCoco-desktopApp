@@ -1236,8 +1236,8 @@ html:not([dir="rtl"]) {
     .required-error {
       color: $red;
       font-size: $font_11;
-      position:absolute;
-      bottom:0px;
+      position: absolute;
+      bottom: 0px;
     }
 
     .form-control {
@@ -1257,6 +1257,7 @@ html:not([dir="rtl"]) {
         outline: none;
         border-color: $theme_color;
       }
+
       &.height-auto {
         height: auto;
       }
@@ -1281,6 +1282,7 @@ html:not([dir="rtl"]) {
         }
       }
     }
+
     .custom-input-width {
       width: 125px;
     }
@@ -2819,9 +2821,12 @@ html:not([dir="rtl"]) {
         display: flex;
         white-space: nowrap;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         &.input-wrap {
           flex: 1 1 100%;
+          .form-control {
+            width: 300px;
+          }
         }
       }
       .email-text-wrap {
@@ -2909,18 +2914,13 @@ html:not([dir="rtl"]) {
 }
 
 .new-email-select-wrap {
-  width: 300px;
+  width: 500px;
   margin-left: 15px;
   font-weight: normal;
   .new-email-select {
     width: 100%;
   }
-  // .react-select__control {
-  //   min-height: unset;
-  //   display: flex;
-  //   align-items: center;
-  //   border-radius: 0px;
-  // }
+ 
 }
 .gray-color {
   color: $gray_color;

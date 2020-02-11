@@ -217,11 +217,11 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                   </div> */}
                   <span className="email-attributes-seprator">|</span>
                   <div className="email-attributes-content input-wrap ">
-                    <FormGroup className="d-flex align-items-center m-0 w-100">
+                    <FormGroup className="d-flex align-items-center m-0 ">
                       <Label className="d-flex align-items-center m-0 mr-1">
                         {languageTranslation("SUBJECT")}:{" "}
                       </Label>
-                      <div className={"position-relative w-100"}>
+                      <div className={"position-relative"}>
                         <Input
                           type="text"
                           placeholder={languageTranslation("SUBJECT")}

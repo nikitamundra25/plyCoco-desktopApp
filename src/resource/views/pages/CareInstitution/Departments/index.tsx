@@ -1,14 +1,12 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import {
-  FormGroup,
   Col,
   Row,
   Form,
   Button,
   UncontrolledTooltip,
 } from 'reactstrap';
-import Select from 'react-select';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { languageTranslation, logger } from '../../../../../helpers';
 import AddDepartmentForm from './AddDepartmentForm';
@@ -19,24 +17,28 @@ import {
   IAddDepartmentFormValues,
   IReactSelectInterface,
   IAddTimeFormValues,
+  IAttributeOptions,
+  IAttributeValues,
 } from '../../../../../interfaces';
 import { toast } from 'react-toastify';
 import {
   AddDepartmentValidationSchema,
   AddTimeValidationSchema,
 } from '../../../../validations';
-import { CareInstitutionQueries, LOGIN } from '../../../../../graphql/queries';
+import { CareInstitutionQueries } from '../../../../../graphql/queries';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { IQualifications } from '../../../../../interfaces/qualification';
 
 import { GET_QUALIFICATION_ATTRIBUTE } from '../../../../../graphql/queries';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import { CareInstitutionMutation } from '../../../../../graphql/Mutations';
+import Loader from '../../../containers/Loader/Loader';
 
 const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
   GET_DEPARTMENT_LIST,
+  GET_CAREINSTITUTION_ATTRIBUTES
 ] = CareInstitutionQueries;
 
 const [
@@ -59,6 +61,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   let [isLoading, setIsLoading] = useState<any>(false);
   let [qualifications, setQualifications] = useState<any>([]);
   let [attributes, setAttributes] = useState<any>([]);
+  let [userId, setUserId] = useState<string>('');
+  let [refreshList, setRefreshList] = useState<boolean>(false);
 
   let { id } = useParams();
   const Id: any | undefined = id;
@@ -67,7 +71,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     addDivision: IAddDepartmentFormValues;
   }>(ADD_DEPARTMENT_CARE_INSTITUTION);
 
-  const [updateDivision, { error, data }] = useMutation<{
+  const [updateDivision] = useMutation<{
     updateDivision: IAddDepartmentFormValues;
   }>(UPDATE_DEPARTMENT_CARE_INSTITUTION);
 
@@ -88,6 +92,12 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   const { data: qualificationData } = useQuery<IQualifications>(
     GET_QUALIFICATION_ATTRIBUTE,
   );
+
+  // Fetch attribute list from db
+  const { data: attributeData } = useQuery<{
+    getCareInstitutionAtrribute: IAttributeValues[];
+  }>(GET_CAREINSTITUTION_ATTRIBUTES);
+
   const qualificationList: IReactSelectInterface[] | undefined = [];
   if (qualificationData && qualificationData.getQualifications) {
     qualificationData.getQualifications.forEach((quali: any) => {
@@ -98,6 +108,18 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     });
   }
 
+  const careInstitutionAttrOpt: IAttributeOptions[] | undefined = [];
+  if (attributeData && attributeData.getCareInstitutionAtrribute) {
+    attributeData.getCareInstitutionAtrribute.forEach(
+      ({ id, name, color }: IAttributeValues) =>
+        careInstitutionAttrOpt.push({
+          label: name,
+          value: id.toString(),
+          color,
+        }),
+    );
+  }
+
   useEffect(() => {
     // call query
     getDepartmentList({
@@ -105,7 +127,19 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         userId: parseInt(Id),
       },
     });
+    setUserId(Id);
   }, [departmentList]);
+
+  if (userId && userId !== Id) {
+    setRefreshList(true);
+    setUserId(Id);
+    getDepartmentList({
+      variables: {
+        userId: parseInt(Id),
+      },
+    });
+    setRefreshList(false);
+  }
 
   const handleSubmit = async (
     values: IAddDepartmentFormValues,
@@ -223,17 +257,21 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     { setSubmitting, resetForm }: FormikHelpers<IAddTimeFormValues>,
   ) => {
     try {
-      let timesInput: any = {
-        userId: values.userId,
-        begin: TimeValues.begin,
-        end: TimeValues.end,
-        comment: TimeValues.comment,
-      };
-      let temp: any = [];
-      temp = [...timesData];
-      temp.push(timesInput);
-      setTimesData(temp);
-      resetForm();
+      if (new Date(TimeValues.end) >= new Date(TimeValues.begin)) {
+        let timesInput: any = {
+          userId: values.userId,
+          begin: TimeValues.begin,
+          end: TimeValues.end,
+          comment: TimeValues.comment,
+        };
+        let temp: any = [];
+        temp = [...timesData];
+        temp.push(timesInput);
+        setTimesData(temp);
+        resetForm();
+      } else {
+        return;
+      }
     } catch (error) {
       logger(error);
     }
@@ -272,7 +310,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     setQualifications([]);
     setAttributes([]);
     setIsActive(-1);
-    setInterval(function() {
+    setInterval(function () {
       setIsLoading(false);
     }, 1000);
   };
@@ -325,6 +363,11 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       <Form className='form-section forms-main-section'>
         <Row className=''>
           <Col lg={'4'}>
+            {refreshList ? (
+              <div>
+                <Loader />
+              </div>
+            ) : null}
             <div>
               <h5 className='content-title'>
                 {languageTranslation('DEPARTMENT')}
@@ -358,44 +401,44 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                     <ul className='common-list list-unstyled mb-0'>
                       {departmentList && departmentList.getDivision.length
                         ? departmentList.getDivision.map(
-                            (item: any, index: number) => {
-                              return (
-                                <li
-                                  key={index}
-                                  className={
-                                    'cursor-pointer list-item text-capitalize' +
-                                    (isActive === index ? ' active' : '')
-                                  }
+                          (item: any, index: number) => {
+                            return (
+                              <li
+                                key={index}
+                                className={
+                                  'cursor-pointer list-item text-capitalize' +
+                                  (isActive === index ? ' active' : '')
+                                }
+                              >
+                                <span
+                                  onClick={() => {
+                                    setDepartmentDetails(item);
+                                    setTimesData(item.times);
+                                    setQualifications(item.qualifications);
+                                    setAttributes(item.attributes);
+                                    setIsActive(index);
+                                  }}
+                                  className='list-item-text'
                                 >
-                                  <span
-                                    onClick={() => {
-                                      setDepartmentDetails(item);
-                                      setTimesData(item.times);
-                                      setQualifications(item.qualifications);
-                                      setAttributes(item.attributes);
-                                      setIsActive(index);
-                                    }}
-                                    className='list-item-text'
+                                  {item.name}
+                                </span>{' '}
+                                <span
+                                  id={`delete${index}`}
+                                  className='list-item-icon'
+                                  onClick={() => onDelete(item.id)}
+                                >
+                                  <UncontrolledTooltip
+                                    placement={'top'}
+                                    target={`delete${index}`}
                                   >
-                                    {item.name}
-                                  </span>{' '}
-                                  <span
-                                    id={`delete${index}`}
-                                    className='list-item-icon'
-                                    onClick={() => onDelete(item.id)}
-                                  >
-                                    <UncontrolledTooltip
-                                      placement={'top'}
-                                      target={`delete${index}`}
-                                    >
-                                      {languageTranslation('DEPARTMENT_DELETE')}
-                                    </UncontrolledTooltip>
-                                    <i className='fa fa-trash'></i>
-                                  </span>
-                                </li>
-                              );
-                            },
-                          )
+                                    {languageTranslation('DEPARTMENT_DELETE')}
+                                  </UncontrolledTooltip>
+                                  <i className='fa fa-trash'></i>
+                                </span>
+                              </li>
+                            );
+                          },
+                        )
                         : null}
                     </ul>
                   </div>
@@ -433,6 +476,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
               qualificationList={qualificationList}
               qualifications={qualifications}
               setQualifications={setQualifications}
+              careInstitutionAttrOpt={careInstitutionAttrOpt}
               attributes={attributes}
               setAttributes={setAttributes}
             />

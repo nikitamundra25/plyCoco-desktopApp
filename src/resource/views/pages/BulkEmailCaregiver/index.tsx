@@ -16,7 +16,7 @@ import Loader from "../../containers/Loader/Loader";
 const [GET_CAREGIVERS] = CareGiverQueries;
 
 const BulkEmailCaregiver: FunctionComponent = () => {
-  let [careGiverId, setCareGiverId] = useState<any>([]);
+  let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   // To get caregiver list from db
   const [
     fetchCareGiverList,
@@ -45,13 +45,13 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       careGivers.getCaregivers.result.length
     ) {
       let list: any = [];
-      if (careGiverId && careGiverId.length <= 0) {
+      if (selectedCareGiver && selectedCareGiver.length <= 0) {
         careGivers.getCaregivers.result.map((key: any) => {
           return (list = [...list, key.id]);
         });
-        setCareGiverId(list);
+        setselectedCareGiver(list);
       } else {
-        setCareGiverId([]);
+        setselectedCareGiver([]);
       }
     }
   };
@@ -59,21 +59,26 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const handleCheckElement = async (
     e: React.ChangeEvent<HTMLInputElement>,
     id: string,
-    list: string
+    index: number
   ) => {
     const { target } = e;
-    const { checked, value } = target;
+    const { checked } = target;
+
     if (checked) {
-      setCareGiverId((careGiverId: any) => [...careGiverId, id]);
+      setselectedCareGiver((selectedCareGiver: any) => [
+        ...selectedCareGiver,
+        id
+      ]);
       return;
     }
-    careGiverId.splice(careGiverId.indexOf(id), 1);
-    console.log("careGiverId", careGiverId);
+    if (selectedCareGiver.indexOf(id) > -1) {
+      selectedCareGiver.splice(selectedCareGiver.indexOf(id), 1);
 
-    setCareGiverId(careGiverId);
-    //  setCareGiverId((careGiverId: any) => [...careGiverId, temp]);
+      setselectedCareGiver(selectedCareGiver);
+    }
   };
-  console.log("careGiverId ", careGiverId);
+
+  console.log("selectedCareGiver ", selectedCareGiver);
 
   return (
     <>
@@ -122,14 +127,14 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                               <input
                                 type="checkbox"
                                 id="checkAll"
+                                name="checkbox"
                                 className=""
-                                // checked={
-                                //   careGiverId &&
-                                //   careGiverId.indexOf(id) ===
-                                //     careGivers.id
-                                //     ? careGivers.checked
-                                //     : false
-                                // }
+                                checked={
+                                  careGivers &&
+                                  careGivers.getCaregivers &&
+                                  careGivers.getCaregivers.result.length ===
+                                    selectedCareGiver.length
+                                }
                                 onChange={(e: any) => {
                                   handleSelectAll();
                                 }}
@@ -160,12 +165,14 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                                       <input
                                         type="checkbox"
                                         id="check"
+                                        name="checkbox"
                                         className=""
                                         checked={
-                                          careGiverId &&
-                                          careGiverId.length &&
-                                          careGiverId.indexOf(careGivers.id) >
-                                            -1
+                                          selectedCareGiver &&
+                                          selectedCareGiver.length &&
+                                          selectedCareGiver.indexOf(
+                                            careGivers.id
+                                          ) > -1
                                             ? true
                                             : false
                                         }
@@ -173,7 +180,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                                           handleCheckElement(
                                             e,
                                             careGivers.id,
-                                            careGivers
+                                            index
                                           );
                                         }}
                                       />

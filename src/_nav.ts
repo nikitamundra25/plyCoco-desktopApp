@@ -1,70 +1,82 @@
-import { AppRoutes } from "./config";
-import { languageTranslation } from "./helpers";
+import { AppRoutes } from './config';
+import { languageTranslation } from './helpers';
 export default {
   items: [
     {
       name: languageTranslation('MENU_DASHBOARD'),
       icon: 'icon-dash',
-      url: AppRoutes.HOME
+      url: AppRoutes.HOME,
+      authKey: ['all', 'superadmin', 'basic', 'invoice']
     },
     {
       name: languageTranslation('MENU_EMPLOYEE'),
       icon: 'icon-emp',
-      url: AppRoutes.EMPLOYEE
+      url: AppRoutes.EMPLOYEE,
+      authKey: ['all', 'superadmin']
     },
     {
       name: languageTranslation('REGION'),
       icon: 'icon-reg',
-      url: AppRoutes.REGION
+      url: AppRoutes.REGION,
+      authKey: ['all', 'superadmin', 'basic', 'invoice']
     },
     {
       name: languageTranslation('MENU_CAREGIVER'),
       icon: 'icon-care',
-      url: AppRoutes.CARE_GIVER
+      url: AppRoutes.CARE_GIVER,
+      authKey: ['all', 'superadmin', 'basic', 'invoice']
     },
 
     {
       name: languageTranslation('MENU_INSTITUTION'),
       icon: 'icon-build',
-      url: AppRoutes.CARE_INSTITUTION
+      url: AppRoutes.CARE_INSTITUTION,
+      authKey: ['all', 'superadmin', 'basic', 'invoice']
     },
 
     {
       name: languageTranslation('MENU_APPOINTMENTS'),
       icon: 'icon-appointment',
-      url: AppRoutes.HOME
+      url: AppRoutes.HOME,
+      authKey: ['all', 'superadmin', 'basic', 'invoice']
     },
     {
       name: languageTranslation('MENU_EMAIL'),
       icon: 'icon-email-temp',
-      url: AppRoutes.ALL_EMAILS
+      url: AppRoutes.ALL_EMAILS,
+      authKey: ['all', 'superadmin', 'basic', 'invoice']
     },
     {
       name: languageTranslation('MENU_TO_DO_CARE_GIVER'),
       icon: 'icon-todo-care',
-      url: AppRoutes.CAREGIVER_TODO
+      url: AppRoutes.CAREGIVER_TODO,
+      authKey: ['all', 'superadmin', 'basic', 'invoice']
     },
     {
       name: languageTranslation('MENU_TO_DO_INSTITUTION'),
       icon: 'icon-todo-inst',
-      url: AppRoutes.CARE_INSTITUTION_TODO
+      url: AppRoutes.CARE_INSTITUTION_TODO,
+      authKey: ['all', 'superadmin', 'basic', 'invoice']
       // url: AppRoutes.REGION
     },
     {
       name: languageTranslation('MENU_BULK_EMAIL'),
       icon: 'icon-bulk-email',
-      url: AppRoutes.BULK_EMAIL_CAREGIVER
+      url: AppRoutes.BULK_EMAIL_CAREGIVER,
+      authKey: ['all', 'superadmin', 'basic', 'invoice']
     },
     {
       name: languageTranslation('MENU_INVOICES'),
       icon: 'icon-invoice',
-      url: AppRoutes.HOME
+      url: AppRoutes.HOME,
+      authKey: ['all', 'superadmin', 'basic', 'invoice']
       // url: AppRoutes.REGION
     },
     {
-      name: languageTranslation("MENU_DOCUMENT_UPLOADS"),
-      icon: "icon-upload",
+      name: languageTranslation('MENU_DOCUMENT_UPLOADS'),
+      icon: 'icon-upload',
       url: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
+      authKey: ['all', 'superadmin', 'basic', 'invoice'],
       children: [
         {
           name: languageTranslation('MENU_DOCUMENT_WORKING_PROOF'),
@@ -79,9 +91,10 @@ export default {
       ]
     },
     {
-      name: languageTranslation("MENU_FURTHER"),
-      icon: "icon-cms",
+      name: languageTranslation('MENU_FURTHER'),
+      icon: 'icon-cms',
       url: AppRoutes.FURTHER,
+      authKey: ['all', 'superadmin', 'basic', 'invoice'],
       children: [
         // {
         //   name: languageTranslation("MENU_FURTHER_BULK_EMAIL_CANSTITUTION"),
@@ -135,9 +148,10 @@ export default {
       //url: AppRoutes.REGION
     },
     {
-      name: languageTranslation("MENU_REPORTS"),
-      icon: "icon-document",
+      name: languageTranslation('MENU_REPORTS'),
+      icon: 'icon-document',
       url: AppRoutes.HOME,
+      authKey: ['all', 'superadmin', 'basic', 'invoice'],
       children: [
         {
           name: languageTranslation('MENU_REPORTS_TURNOVER'),

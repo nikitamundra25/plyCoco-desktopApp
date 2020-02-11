@@ -55,5 +55,9 @@ export const AppRoutes: IAppRoutes = {
   EMAIL_OUTBOX: '/outbox-email',
   EMAIL_QUEUE: '/email-queue',
   ALL_EMAILS: '/email',
+  APPOINTMENT: '/appointment',
   FURTHER: '/further',
+  EMPLOYEE_ARCHIVE: '/employee/trash',
+  CAREGIVER_ARCHIVE: '/caregiver/trash',
+  CAREINSTITUTION_ARCHIVE: '/care-institution/trash'
 };

@@ -83,10 +83,22 @@ const DELETE_EMPLOYEE = gql`
     }
   }
 `;
-
+const RESTORE_EMPLOYEE = gql`
+  mutation RestoreTrashUser($id: ID!) {
+    restoreTrashUser(id: $id) {
+      firstName
+    }
+  }
+`;
+// mutation{
+//   restoreTrashUser(id: 42){
+//     firstName
+//   }
+//  }
 export const EmployeeMutations = [
   ADD_EMPLOYEE,
   UPDATE_EMPLOYEE,
   UPDATE_EMPLOYEE_STATUS,
   DELETE_EMPLOYEE,
+  RESTORE_EMPLOYEE
 ];

@@ -233,6 +233,7 @@ const GET_EMAILS = gql`
       to
       subject
       body
+      attachments
       createdAt
     }
   }

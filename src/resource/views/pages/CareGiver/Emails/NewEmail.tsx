@@ -25,6 +25,7 @@ import { EmailFormComponent } from './EmailFormComponent';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
 import { AttachmentList } from '../../EmailTemplateManagement/AddTemplate/AttachmentList';
 import { AppConfig } from '../../../../../config';
+import { ConfirmBox } from '../../../components/ConfirmBox';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , NEW_EMAIL] = CareGiverMutations;
@@ -154,9 +155,26 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     }
   };
 
-  const onEditorStateChange: any = (editorState: any): void => {
+  const onEditorStateChange = (editorState: any): void => {
     logger(editorState, 'editorState');
     setBody(editorState);
+  };
+
+  const onDelteDocument = async (
+    attachmentId: string,
+    attachmentIndex?: number,
+  ) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG'),
+    });
+    if (!value) {
+      return;
+    } else {
+      setAttachments((prevArray: any) =>
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index),
+      );
+    }
   };
 
   return (
@@ -235,7 +253,10 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           </Row>
         </Form>
         {attachments && attachments.length ? (
-          <AttachmentList attachment={attachments} />
+          <AttachmentList
+            attachment={attachments}
+            onDelteDocument={onDelteDocument}
+          />
         ) : null}
       </div>
     </div>

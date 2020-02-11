@@ -158,7 +158,6 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     { id: number; attachmentId: string }
   >(DELETE_EMAIL_TEMPLATE_ATTACHMENT, {
     onCompleted({ deleteEmailAttachment }) {
-      console.log(deleteEmailAttachment, 'deleteEmailAttachment');
       const { attachmentId } = deleteEmailAttachment;
       setAttachment((prevArray: any) =>
         prevArray.filter((item: any) => item.id !== attachmentId),

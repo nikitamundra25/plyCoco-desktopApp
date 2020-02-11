@@ -520,34 +520,38 @@ const Employee: FunctionComponent = () => {
                       </td>
                       <td>
                         <div className="action-btn text-capitalize cursor-pointer">
-                          <UncontrolledButtonDropdown>
-                            <DropdownToggle caret size="sm">
-                              {accessLevel ? accessLevel : "-"}
-                            </DropdownToggle>
-                            <DropdownMenu>
-                              <DropdownItem
-                                onClick={() =>
-                                  changeAccessLevelValue("all", id)
-                                }
-                              >
-                                All
-                              </DropdownItem>
-                              <DropdownItem
-                                onClick={() =>
-                                  changeAccessLevelValue("basic", id)
-                                }
-                              >
-                                Basic
-                              </DropdownItem>
-                              <DropdownItem
-                                onClick={() =>
-                                  changeAccessLevelValue("invoice", id)
-                                }
-                              >
-                                Invoice
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </UncontrolledButtonDropdown>
+                          {accessLevel ? (
+                            <UncontrolledButtonDropdown>
+                              <DropdownToggle caret size="sm">
+                                {accessLevel ? accessLevel : "-"}
+                              </DropdownToggle>
+                              <DropdownMenu>
+                                <DropdownItem
+                                  onClick={() =>
+                                    changeAccessLevelValue("all", id)
+                                  }
+                                >
+                                  All
+                                </DropdownItem>
+                                <DropdownItem
+                                  onClick={() =>
+                                    changeAccessLevelValue("basic", id)
+                                  }
+                                >
+                                  Basic
+                                </DropdownItem>
+                                <DropdownItem
+                                  onClick={() =>
+                                    changeAccessLevelValue("invoice", id)
+                                  }
+                                >
+                                  Invoice
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </UncontrolledButtonDropdown>
+                          ) : (
+                            "-"
+                          )}
                         </div>
                       </td>
                       <td className="text-center">

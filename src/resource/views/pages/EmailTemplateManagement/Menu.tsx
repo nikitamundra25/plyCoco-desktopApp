@@ -21,7 +21,8 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
     addEmailLoading,
     id,
     updateLoading,
-    fetchArchiveList
+    fetchArchiveList,
+    setShowArchive
   } = props;
   return (
     <div className='sticky-common-header'>
@@ -62,7 +63,13 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
           </span>
         </div>
 
-        <div className={`header-nav-item`} onClick={fetchArchiveList}>
+        <div
+          className={`header-nav-item`}
+          onClick={() => {
+            setShowArchive(true);
+            fetchArchiveList();
+          }}
+        >
           <span className='header-nav-icon'>
             {/* <img src={clear} alt='' /> */}
           </span>

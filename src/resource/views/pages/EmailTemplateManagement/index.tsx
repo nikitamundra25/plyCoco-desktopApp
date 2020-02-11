@@ -42,6 +42,7 @@ let toastId: any = '';
 
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
+  const [showArchive, setShowArchive] = useState<boolean | null>(null);
   const [typeId, setTypeId] = useState<number | null>(null);
   const [attachment, setAttachment] = useState<IEmailAttachmentData[]>([]);
   // To set email template data at the time of edit
@@ -174,7 +175,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         toast.error(message);
       }
     }
-  });
+  })
 
   //To get email templates by type
   const [
@@ -451,6 +452,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
             onDeleteEmailTemplate={onDeleteEmailTemplate}
             onTypeChange={onTypeChange}
             fetchArchiveList={fetchArchiveList}
+            setShowArchive={setShowArchive}
           />
           <div className='common-content flex-grow-1'>
             <div>
@@ -460,6 +462,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   data={data}
                   loading={!called || fetchTemplateListLoading}
                   activeTemplate={activeTemplate}
+                  showArchive={showArchive}
                 />
                 <AddTemplate
                   handleSubmit={handleSubmit}

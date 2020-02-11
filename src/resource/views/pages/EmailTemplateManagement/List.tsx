@@ -10,6 +10,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   data,
   loading,
   activeTemplate,
+  showArchive
 }: IEmailTemplateList) => {
   return (
     <Col lg={'5'} className='pr-lg-0'>
@@ -53,7 +54,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
                       </td>
                     </tr>
                   );
-                },
+                }
               )
             ) : (
               <tr className={'text-center no-hover-row'}>

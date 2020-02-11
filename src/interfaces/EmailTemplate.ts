@@ -38,6 +38,7 @@ export interface IEmailTemplateList {
   data: any;
   loading: any;
   activeTemplate: string | null;
+  showArchive: boolean | null;
 }
 
 export interface IEmailTemplateMenu {
@@ -52,6 +53,7 @@ export interface IEmailTemplateMenu {
   id: number | null;
   updateLoading: boolean;
   fetchArchiveList: () => void;
+  setShowArchive: any;
 }
 
 export interface IEmailTemplateData {

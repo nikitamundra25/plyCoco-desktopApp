@@ -33,26 +33,36 @@ export const AttachmentList: FunctionComponent<{
                   }`}
                 >
                   {typeof item.url === "string" && item.url ? (
-                    <a
-                      href={item.url}
-                      target="_blank"
-                      download={item.fileName}
-                      className="one-line-text view-more-link"
-                    >
-                      {item.fileName}
-                    </a>
+                    <>
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        download={item.fileName}
+                        className="word-wrap view-more-link"
+                      >
+                        {item.fileName}
+                      </a>
+                      <span className="new-tag d-inline-flex align-items-center justify-content-center">
+                        NEW
+                      </span>
+                    </>
                   ) : (
-                    <div
-                      onClick={() =>
-                        window.open(
-                          `${AppConfig.FILES_ENDPOINT}${item.path}`,
-                          "_blank"
-                        )
-                      }
-                      className="one-line-text view-more-link"
-                    >
-                      {item.fileName}
-                    </div>
+                    <>
+                      <span
+                        onClick={() =>
+                          window.open(
+                            `${AppConfig.FILES_ENDPOINT}${item.path}`,
+                            "_blank"
+                          )
+                        }
+                        className="word-wrap view-more-link"
+                      >
+                        {item.fileName}
+                      </span>
+                      <span className="new-tag d-inline-flex align-items-center justify-content-center">
+                        NEW
+                      </span>
+                    </>
                   )}
                   <span
                     id={`delete${index}`}

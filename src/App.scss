@@ -170,6 +170,16 @@ body {
     }
   }
 
+  .btn-email-save {
+    padding: 4px 30px;
+    font-weight: 600;
+    font-size: $font_12;
+    &.disabled {
+      pointer-events: auto;
+      cursor: not-allowed;
+    }
+  }
+
   .btn-active {
     background: $transparent;
     border: 1px solid $active_green;
@@ -229,6 +239,15 @@ body {
       color: $light_black;
       text-decoration: underline;
     }
+  }
+  .new-tag {
+    background: $newtag;
+    color: $white;
+    padding: 0px 6px;
+    font-weight: 700;
+    margin-left: 10px;
+    border-radius: 2px;
+    font-size: $font_11;
   }
   .custom-dropdown {
     .dropdown-menu {
@@ -1766,6 +1785,10 @@ html:not([dir="rtl"]) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.word-wrap {
+  word-wrap: break-word;
+  word-break: break-word;
+}
 .table {
   background: $white;
   &.table-bordered {
@@ -1957,6 +1980,7 @@ html:not([dir="rtl"]) {
         display: flex;
         align-items: center;
         font-weight: 500;
+        word-wrap: break-word;
         word-break: break-word;
         .text-label {
           font-weight: 500;
@@ -1976,6 +2000,7 @@ html:not([dir="rtl"]) {
         display: flex;
         align-items: center;
         font-weight: 500;
+        word-wrap: break-word;
         word-break: break-word;
       }
     }
@@ -2076,6 +2101,7 @@ html:not([dir="rtl"]) {
       color: $black;
       display: inline-block;
       flex: 1;
+      word-wrap: break-word;
       word-break: break-word;
       position: relative;
       padding-left: 12px;
@@ -2145,6 +2171,7 @@ html:not([dir="rtl"]) {
         font-size: $font_12;
         color: $black;
         font-weight: 600;
+        word-wrap: break-word;
         word-break: break-word;
         margin-bottom: 0px;
       }
@@ -2922,6 +2949,7 @@ html:not([dir="rtl"]) {
     .remark-section {
       position: relative;
       word-wrap: break-word;
+      word-break: break-word;
       textarea {
         height: 70px;
         border-radius: 0px;

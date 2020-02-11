@@ -255,7 +255,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                           </td>
                                           <td className="file-col ">
                                             <div
-                                              className=" cursor-pointer one-line-text"
+                                              className=" cursor-pointer word-wrap"
                                               onClick={() => {
                                                 handlePreview(
                                                   item.document,

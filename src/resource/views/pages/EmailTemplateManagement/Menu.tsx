@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import Select from 'react-select';
+import { Button } from 'reactstrap';
 import { languageTranslation } from '../../../../helpers';
 import save from '../../../assets/img/save.svg';
 import clear from '../../../assets/img/clear.svg';
@@ -26,7 +27,7 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
   } = props;
   return (
     <div className='sticky-common-header'>
-      <div className='common-topheader d-flex align-items-center mb-2 '>
+      <div className='common-topheader d-flex align-items-center py-2 border-bottom'>
         <div className='template-lable'>
           {languageTranslation('TEMPLATE_TYPE')}
         </div>
@@ -78,7 +79,7 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
           </span>
         </div>
 
-        <div className='header-nav-item' onClick={handleSubmit}>
+        {/* <div className='header-nav-item' onClick={handleSubmit}>
           <span className='header-nav-icon'>
             {addEmailLoading || updateLoading ? (
               <i className='fa fa-spinner fa-spin ' />
@@ -89,7 +90,19 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
           <span className='header-nav-text'>
             {languageTranslation('SAVE_BUTTON')}
           </span>
-        </div>
+        </div>  */}
+        <Button
+          onClick={handleSubmit}
+          color={'primary'}
+          className={'btn-email-save ml-auto mr-2'}
+        >
+          {addEmailLoading || updateLoading ? (
+            <i className='fa fa-spinner fa-spin ' />
+          ) : (
+            ''
+          )}
+          {languageTranslation('SAVE_BUTTON')}
+        </Button>
       </div>
     </div>
   );

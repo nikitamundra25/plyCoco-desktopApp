@@ -6,6 +6,7 @@ import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { toast } from 'react-toastify';
+import { ApolloError } from 'apollo-client';
 import {
   IEmailTemplateValues,
   IReactSelectInterface,
@@ -19,9 +20,8 @@ import { AddTemplate } from './AddTemplate';
 import { languageTranslation } from '../../../../helpers';
 import { EmailTemplateMutations } from '../../../../graphql/Mutations';
 import { ConfirmBox } from '../../components/ConfirmBox';
-import './index.scss';
-import { ApolloError } from 'apollo-client';
 import { errorFormatter } from '../../../../helpers/ErrorFormatter';
+import './index.scss';
 
 const [
   GET_EMAIL_TEMPLATE_TYEPS,
@@ -308,8 +308,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     const emailTemplateInput: IEmailTemplateSubmitValues = {
       type: type && type.label ? type.label : '',
       typeId,
-      menuEntry,
-      subject,
+      menuEntry: menuEntry ? menuEntry.trim() : '',
+      subject: subject ? subject.trim() : '',
       body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '',
       attachments:
         attachment && attachment.length

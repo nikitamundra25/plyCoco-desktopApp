@@ -47,7 +47,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
             <Loader />
           </div>
         ) : emailList && emailList.getEmails && emailList.getEmails.length ? (
-          <Row className="custom-col">
+          <Row>
             <Col lg={"5"}>
               <div className="email-inbox-section">
                 <EmailSearchFilter
@@ -96,7 +96,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                 {emailList &&
                 emailList.getEmails &&
                 emailList.getEmails.length ? (
-                  <ul className="mb-3 p-0 list-group">
+                  <ul className="mb-3 mb-lg-0 p-0 list-group custom-scrollbar">
                     {emailList.getEmails.map((email: any, index: number) => {
                       return (
                         <li

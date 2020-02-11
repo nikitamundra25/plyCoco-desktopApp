@@ -170,6 +170,16 @@ body {
     }
   }
 
+  .btn-email-save {
+    padding: 4px 30px;
+    font-weight: 600;
+    font-size: $font_12;
+    &.disabled {
+      pointer-events: auto;
+      cursor: not-allowed;
+    }
+  }
+
   .btn-active {
     background: $transparent;
     border: 1px solid $active_green;
@@ -241,6 +251,24 @@ body {
       color: $light_black;
       text-decoration: underline;
     }
+  }
+  .one-line-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .word-wrap {
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+  .new-tag {
+    background: $newtag;
+    color: $white;
+    padding: 0px 6px;
+    font-weight: 700;
+    margin-left: 10px;
+    border-radius: 2px;
+    font-size: $font_11;
   }
   .custom-dropdown {
     .dropdown-menu {
@@ -1220,6 +1248,8 @@ html:not([dir='rtl']) {
     .required-error {
       color: $red;
       font-size: $font_11;
+      position:absolute;
+      bottom:0px;
     }
 
     .form-control {
@@ -1273,6 +1303,12 @@ html:not([dir='rtl']) {
       font-weight: 600;
       font-size: 11px;
       right: 15px;
+    }
+    .input-group-text {
+      padding: 0px 10px;
+      border-color: $light_gray;
+      font-family: $font_Frutiger_Regular;
+      border-radius: 0px;
     }
     .react-datepicker-wrapper {
       display: block;
@@ -1767,11 +1803,7 @@ html:not([dir='rtl']) {
     }
   }
 }
-.one-line-text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+
 .table {
   background: $white;
   &.table-bordered {
@@ -1963,6 +1995,7 @@ html:not([dir='rtl']) {
         display: flex;
         align-items: center;
         font-weight: 500;
+        word-wrap: break-word;
         word-break: break-word;
         .text-label {
           font-weight: 500;
@@ -1982,6 +2015,7 @@ html:not([dir='rtl']) {
         display: flex;
         align-items: center;
         font-weight: 500;
+        word-wrap: break-word;
         word-break: break-word;
       }
     }
@@ -2046,6 +2080,24 @@ html:not([dir='rtl']) {
   }
 }
 
+.mail-table {
+  .size-col {
+    width: 60px;
+  }
+  .file-description {
+    padding-right: 30px;
+    position: relative;
+    .trash-icon {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      cursor: pointer;
+    }
+  }
+}
+
 .employee-details {
   .employee-title {
     color: $black;
@@ -2082,6 +2134,7 @@ html:not([dir='rtl']) {
       color: $black;
       display: inline-block;
       flex: 1;
+      word-wrap: break-word;
       word-break: break-word;
       position: relative;
       padding-left: 12px;
@@ -2151,6 +2204,7 @@ html:not([dir='rtl']) {
         font-size: $font_12;
         color: $black;
         font-weight: 600;
+        word-wrap: break-word;
         word-break: break-word;
         margin-bottom: 0px;
       }
@@ -2617,6 +2671,11 @@ html:not([dir='rtl']) {
 .mail-details {
   height: 100%;
   border: 1px solid $table_border;
+  max-height: calc(100vh - 210px);
+  background: $white;
+  @media only screen and (max-width: 991px) {
+    max-height: 300px;
+  }
   .mail-header {
     background: $card_header_bg;
     border-bottom: 1px solid $table_border;
@@ -2635,7 +2694,7 @@ html:not([dir='rtl']) {
     font-size: $font_13;
     color: $black;
     height: 100%;
-    max-height: 500px;
+
     overflow-y: auto;
     overflow-x: hidden;
     .subject-title {
@@ -2665,6 +2724,12 @@ html:not([dir='rtl']) {
     border-top: 1px solid $table_border;
     border: 1px solid $table_border;
     background: $white;
+    max-height: calc(100vh - 304px);
+    overflow-y: auto;
+    overflow-x: auto;
+    @media only screen and (max-width: 991px) {
+      max-height: 400px;
+    }
   }
   li {
     &.email-wrap {
@@ -2928,6 +2993,7 @@ html:not([dir='rtl']) {
     .remark-section {
       position: relative;
       word-wrap: break-word;
+      word-break: break-word;
       textarea {
         height: 70px;
         border-radius: 0px;
@@ -3660,5 +3726,68 @@ html:not([dir='rtl']) {
   .no-text {
     font-size: 15px;
     color: $no_search_text_color;
+  }
+}
+
+// calendar table css
+.calender-section {
+  position: relative;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+  font-family: $font_open_sans;
+  background: $white;
+  .custom-appointment-calendar {
+    .custom-appointment-calendar-head {
+      font-weight: 600;
+    }
+    .custom-appointment-row {
+      display: flex;
+      font-size: 12px;
+      color: $black;
+      border-left: 1px solid $table_border;
+
+      .custom-appointment-col {
+        flex: 0 0 30px;
+        max-width: 30px;
+        padding: 4px;
+        border-right: 1px solid $table_border;
+        border-top: 1px solid $table_border;
+        vertical-align: middle;
+        &.name-col {
+          flex: 0 0 200px;
+          max-width: 200px;
+        }
+        &.h-col {
+          flex: 0 0 70px;
+          max-width: 70px;
+        }
+        &.calender-col {
+          flex: 0 0 50px;
+          max-width: 50px;
+          .custom-appointment-calendar-date {
+            text-transform: capitalize;
+          }
+          &.appointment-color1 {
+            background: #d3d3d3;
+          }
+          &.appointment-color2 {
+            background: #ffff00;
+          }
+          &.appointment-color3 {
+            background: #6a0dad;
+          }
+          &.appointment-color4 {
+            background: #f6cfca;
+          }
+          &.appointment-color5 {
+            background: #07e651;
+          }
+          &.appointment-color5 {
+            background: #a1f5bd;
+          }
+        }
+      }
+    }
   }
 }

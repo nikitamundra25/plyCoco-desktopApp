@@ -172,6 +172,9 @@ const ArchiveCaregiver = React.lazy(() =>
 const ArchiveCareInstitution = React.lazy(() =>
   import('../resource/views/pages/CareInstitution/ArchiveCareInstitution')
 );
+const Appointment = React.lazy(() =>
+  import('../resource/views/pages/Appointment')
+);
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
@@ -523,7 +526,12 @@ const routes = [
   {
     path: AppRoutes.CAREINSTITUTION_ARCHIVE,
     name: 'Archive CareInstitution',
-    component: ArchiveCareInstitution,
+    component: ArchiveCareInstitution
+  },
+  {
+    path: AppRoutes.APPOINTMENT,
+    name: 'Appointment',
+    component: Appointment,
     exact: true
   }
 ];

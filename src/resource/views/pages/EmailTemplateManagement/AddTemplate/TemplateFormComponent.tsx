@@ -61,7 +61,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
 
   return (
     <Col lg={'7'}>
-      <h5 className='content-title text-capitalize'>
+      <h5 className='content-title text-capitalize one-line-text'>
         {id ? menuEntry : languageTranslation('NEW_TEMPLATE')}
       </h5>
       <div className='form-section'>
@@ -200,7 +200,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                 </FormGroup>
               </Col>
               <Col lg={'12'}>
-                <FormGroup>
+                <FormGroup className='mb-3'>
                   <div>
                     <Editor
                       editorState={body}

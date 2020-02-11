@@ -101,6 +101,7 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
           ) : (
             ""
           )}
+          &nbsp;
           {languageTranslation("SAVE_BUTTON")}
         </Button>
       </div>

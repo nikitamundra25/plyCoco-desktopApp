@@ -13,7 +13,7 @@ import {
   Form,
   InputGroup,
   InputGroupAddon,
-  InputGroupText,
+  InputGroupText
 } from 'reactstrap';
 import { ILoginFormValues } from '../../../../interfaces';
 import { languageTranslation } from '../../../../helpers';
@@ -23,13 +23,13 @@ const LoginFormComponent: FunctionComponent<FormikProps<ILoginFormValues> & {
   loading: boolean;
 }> = (props: FormikProps<ILoginFormValues> & { loading: boolean }) => {
   const {
-    values: { email, password },
+    values: { userName, password },
     touched,
     errors,
     handleChange,
     handleBlur,
     handleSubmit,
-    loading,
+    loading
   } = props;
   return (
     <div className='app flex-row align-items-center auth-page'>
@@ -61,24 +61,25 @@ const LoginFormComponent: FunctionComponent<FormikProps<ILoginFormValues> & {
                         </InputGroupAddon>
                         <Input
                           type={'text'}
-                          id='email'
-                          name={'email'}
+                          name={'userName'}
                           placeholder={languageTranslation(
-                            'EMAIL_ADDRESS_PLACEHOLDER',
+                            'USERNAME_PLACEHOLDER'
                           )}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={email}
+                          value={userName}
                           className={
-                            errors.email && touched.email
+                            errors.userName && touched.userName
                               ? 'text-input error'
                               : 'text-input'
                           }
                           autoComplete='username'
                         />
                       </InputGroup>
-                      {errors.email && touched.email && (
-                        <div className='required-tooltip'>{errors.email}</div>
+                      {errors.userName && touched.userName && (
+                        <div className='required-tooltip'>
+                          {errors.userName}
+                        </div>
                       )}
                     </FormGroup>
 

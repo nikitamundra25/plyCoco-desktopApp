@@ -630,6 +630,11 @@ body {
   }
 }
 .sidebar {
+  .nav-dropdown-toggle{
+    &:before{
+      background-image: url(./resource/assets/img/sidebar/left-icon.svg);
+    }
+  }
   background: $theme_color;
   @media only screen and (max-width: 991px) {
     position: fixed;
@@ -3696,6 +3701,3 @@ html:not([dir="rtl"]) {
 }
 
 
-.nav-link.nav-dropdown-toggle:before {
-  display: none;
-}

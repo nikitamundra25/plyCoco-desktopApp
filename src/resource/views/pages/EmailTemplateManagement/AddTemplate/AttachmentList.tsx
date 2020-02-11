@@ -38,16 +38,21 @@ export const AttachmentList: FunctionComponent<{
                   }`}
                 >
                   {typeof item.url === 'string' && item.url ? (
-                    <a
-                      href={item.url}
-                      target='_blank'
-                      download={item.fileName}
-                      className='one-line-text view-more-link'
-                    >
-                      {item.fileName}
-                    </a>
+                    <>
+                      <a
+                        href={item.url}
+                        target='_blank'
+                        download={item.fileName}
+                        className='word-wrap view-more-link'
+                      >
+                        {item.fileName}
+                      </a>
+                      <span className='new-tag d-inline-flex align-items-center justify-content-center'>
+                        NEW
+                      </span>
+                    </>
                   ) : (
-                    <div
+                    <span
                       onClick={() => {
                         let path = item.path;
                         // To concat base path in existing. In attachmetn full path are a;ready there
@@ -56,10 +61,10 @@ export const AttachmentList: FunctionComponent<{
                         }
                         return window.open(path, '_blank');
                       }}
-                      className='one-line-text view-more-link'
+                      className='word-wrap view-more-link'
                     >
                       {item.fileName}
-                    </div>
+                    </span>
                   )}
                   {onDelteDocument ? (
                     <span

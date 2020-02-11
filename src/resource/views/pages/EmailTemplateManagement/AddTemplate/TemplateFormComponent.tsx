@@ -8,10 +8,10 @@ import { convertToRaw } from 'draft-js';
 import { IEmailTemplateValues } from '../../../../../interfaces';
 import { languageTranslation, stripHtml } from '../../../../../helpers';
 import { ErroredFieldComponent } from '../../../components/ErroredFieldComponent';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { AttachmentFormComponent } from './AttachmentFormComponent';
 import { AttachmentList } from './AttachmentList';
 import Loader from '../../../containers/Loader/Loader';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 export const TemplateFormComponent: FunctionComponent<FormikProps<
   IEmailTemplateValues
@@ -39,7 +39,9 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     touched,
     errors,
     setFieldValue,
+    setFieldTouched,
     handleChange,
+    handleBlur,
     typeListOptions,
     setTypeId,
     attachment,
@@ -119,6 +121,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                               : 'custom-reactselect'
                           }
                           onChange={handleTypeSelect}
+                          onBlur={handleBlur}
                           value={type && type.label !== '' ? type : null}
                           options={typeListOptions}
                           placeholder={'Create and select type'}
@@ -151,6 +154,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                           maxLength={255}
                           placeholder={languageTranslation('MENU_ENTRY')}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={
                             errors.menuEntry && touched.menuEntry
                               ? 'text-input error text-capitalize'
@@ -183,12 +187,12 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                           value={subject}
                           maxLength={255}
                           placeholder={languageTranslation('SUBJECT')}
-                          className={
-                            errors.subject && touched.subject
-                              ? 'text-input error text-capitalize'
-                              : 'text-input text-capitalize'
-                          }
+                          className={`text-input text-capitalize
+                            ${
+                              errors.subject && touched.subject ? 'error' : ''
+                            }`}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                         />
                         <ErroredFieldComponent
                           errors={errors.subject}
@@ -207,9 +211,11 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                       toolbarClassName='toolbarClassName'
                       wrapperClassName='wrapperClassName'
                       editorClassName='editorClassName'
-                      onEditorStateChange={editorState =>
-                        setFieldValue('body', editorState)
-                      }
+                      onEditorStateChange={editorState => {
+                        setFieldValue('body', editorState);
+                        setFieldTouched('body', true);
+                      }}
+                      onBlur={handleBlur}
                       placeholder={languageTranslation(
                         'EMAIL_BODY_PLACEHOLDER'
                       )}

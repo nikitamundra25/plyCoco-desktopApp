@@ -9,7 +9,7 @@ import { IEmailTemplateMenu } from '../../../../interfaces';
 // import EmailSeparator from '../../assets/img/mail.svg';
 
 export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
-  props: IEmailTemplateMenu
+  props: IEmailTemplateMenu,
 ) => {
   const {
     typeListOptions,

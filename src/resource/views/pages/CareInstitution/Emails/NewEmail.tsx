@@ -25,14 +25,14 @@ const NewEmail: FunctionComponent = () => {
                     <i className="fa fa-envelope mr-1" aria-hidden="true"></i>
                     <span> {languageTranslation("NEW_EMAIL")}</span>
                   </div>
-                  <span className="email-attributes-seprator">|</span>
+                  {/* <span className="email-attributes-seprator">|</span>
                   <div className="email-attributes-content">
                     <i
                       className="fa fa-paper-plane mr-1"
                       aria-hidden="true"
                     ></i>
                     <span>{languageTranslation("SEND")}</span>
-                  </div>
+                  </div> */}
                   <span className="email-attributes-seprator">|</span>
                   <div className="email-attributes-content input-wrap ">
                     <FormGroup className="d-flex align-items-center m-0 w-100">
@@ -106,7 +106,7 @@ const NewEmail: FunctionComponent = () => {
                       </Row>
                     </FormGroup>
                   </Col>
-                  {/* <Col lg={"12"}>
+                  <Col lg={"12"}>
                     <div className="d-flex align-items-center justify-content-end">
                       <div>
                         <Button
@@ -114,11 +114,15 @@ const NewEmail: FunctionComponent = () => {
                           type="submit"
                           className="btn-submit"
                         >
-                          {languageTranslation("SEND")}
+                          <i
+                            className="fa fa-paper-plane mr-1"
+                            aria-hidden="true"
+                          ></i>
+                          <span>{languageTranslation("SEND")}</span>
                         </Button>
                       </div>
                     </div>
-                  </Col> */}
+                  </Col>
                 </Row>
               </div>
             </Col>

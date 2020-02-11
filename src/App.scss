@@ -1,92 +1,92 @@
 // Styles
 // CoreUI Icons Set
-@import '~@coreui/icons/css/coreui-icons.css';
+@import "~@coreui/icons/css/coreui-icons.css";
 // Import Flag Icons Set
-@import '~flag-icon-css/css/flag-icon.min.css';
+@import "~flag-icon-css/css/flag-icon.min.css";
 // Import Font Awesome Icons Set
-@import '~font-awesome/css/font-awesome.min.css';
+@import "~font-awesome/css/font-awesome.min.css";
 // Import Simple Line Icons Set
-@import '~simple-line-icons/css/simple-line-icons.css';
+@import "~simple-line-icons/css/simple-line-icons.css";
 // Import Main styles for this application
-@import './resource/assets/scss/style.scss';
+@import "./resource/assets/scss/style.scss";
 
-@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap");
 
 @font-face {
   font-family: TechniqueBRKNormal;
-  src: url('./resource/assets/fonts/techniqu-webfont.eot');
-  src: url('./resource/assets/fonts/techniqu-webfont.eot?#iefix')
-      format('embedded-opentype'),
-    url('./resource/assets/fonts/techniqu-webfont.woff') format('woff'),
-    url('./resource/assets/fonts/techniqu-webfont.ttf') format('truetype'),
-    url('./resource/assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal')
-      format('svg');
+  src: url("./resource/assets/fonts/techniqu-webfont.eot");
+  src: url("./resource/assets/fonts/techniqu-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    url("./resource/assets/fonts/techniqu-webfont.woff") format("woff"),
+    url("./resource/assets/fonts/techniqu-webfont.ttf") format("truetype"),
+    url("./resource/assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal")
+      format("svg");
 
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Regular';
-  src: url('./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf')
-    format('truetype');
-  src: url('./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix')
-      format('embedded-opentype'),
-    url('./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2')
-      format('woff2'),
-    url('./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff')
-      format('woff');
+  font-family: "FrutigerNeueLTPro-Regular";
+  src: url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
+    format("truetype");
+  src: url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
+      format("woff2"),
+    url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
+      format("woff");
   //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Medium';
-  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot');
-  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix')
-      format('embedded-opentype'),
-    url('./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2')
-      format('woff2'),
-    url('./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff')
-      format('woff'),
-    url('./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Medium";
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
+      format("woff2"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
+      format("woff"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
+      format("truetype");
   // url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Bold';
-  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot');
-  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix')
-      format('embedded-opentype'),
-    url('./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2')
-      format('woff2'),
-    url('./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff')
-      format('woff'),
-    url('./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Bold";
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
+      format("woff2"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
+      format("woff"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
+      format("truetype");
   // url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: 'FrutigerNeueLTPro-Light';
-  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot');
-  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix')
-      format('embedded-opentype'),
-    url('./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2')
-      format('woff2'),
-    url('./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff')
-      format('woff'),
-    url('./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf')
-      format('truetype');
+  font-family: "FrutigerNeueLTPro-Light";
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
+  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
+      format("embedded-opentype"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
+      format("woff2"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
+      format("woff"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
+      format("truetype");
   //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -95,7 +95,7 @@ body {
   background: $white;
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
   }
   a {
@@ -240,6 +240,15 @@ body {
       text-decoration: underline;
     }
   }
+  .one-line-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .word-wrap {
+    word-wrap: break-word;
+    word-break: break-word;
+  }
   .new-tag {
     background: $newtag;
     color: $white;
@@ -360,7 +369,7 @@ body {
     margin-bottom: 0;
   }
 
-  .checkbox-custom input[type='checkbox'] {
+  .checkbox-custom input[type="checkbox"] {
     opacity: 0;
     position: absolute;
     top: 50%;
@@ -370,12 +379,12 @@ body {
     cursor: pointer;
   }
 
-  .checkbox-custom input[type='checkbox']:checked + label:after {
+  .checkbox-custom input[type="checkbox"]:checked + label:after {
     position: absolute;
     display: inline-block;
-    font-family: 'FontAwesome';
+    font-family: "FontAwesome";
     font-weight: 400;
-    content: '\F00C';
+    content: "\F00C";
     top: 50%;
     left: 4px;
     margin-top: -5px;
@@ -386,19 +395,19 @@ body {
     color: $white;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled {
+  .checkbox-custom input[type="checkbox"]:disabled {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled:checked + label:after {
+  .checkbox-custom input[type="checkbox"]:disabled:checked + label:after {
     color: #999;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled + label {
+  .checkbox-custom input[type="checkbox"]:disabled + label {
     cursor: not-allowed;
   }
 
-  .checkbox-custom input[type='checkbox']:disabled + label:before {
+  .checkbox-custom input[type="checkbox"]:disabled + label:before {
     background-color: #eee;
   }
 
@@ -412,7 +421,7 @@ body {
   }
 
   .checkbox-custom label:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 0;
@@ -424,7 +433,7 @@ body {
     border: 1px solid #bbb;
     background: #fff;
   }
-  .checkbox-custom input[type='checkbox']:checked + label:before {
+  .checkbox-custom input[type="checkbox"]:checked + label:before {
     background: $theme_color;
     border: 1px solid $theme_color;
   }
@@ -592,7 +601,7 @@ body {
         border-bottom: 7px solid #ccc;
         border-left: 7px solid transparent;
         border-bottom-color: #c8ced3;
-        content: '';
+        content: "";
       }
 
       &:after {
@@ -603,7 +612,7 @@ body {
         border-right: 6px solid transparent;
         border-bottom: 6px solid #ffffff;
         border-left: 6px solid transparent;
-        content: '';
+        content: "";
       }
       .dropdown-item {
         &:active,
@@ -940,7 +949,7 @@ body {
         z-index: 1018;
         width: 100%;
         height: 100%;
-        content: '';
+        content: "";
         background: rgba(0, 0, 0, 0.7);
         -webkit-animation: opacity 0.25s;
         animation: opacity 0.25s;
@@ -950,7 +959,7 @@ body {
 }
 
 @media (max-width: 991.98px) {
-  html:not([dir='rtl']) {
+  html:not([dir="rtl"]) {
     .sidebar-lg-show {
       &.sidebar-fixed {
         .main {
@@ -961,7 +970,7 @@ body {
     }
   }
 }
-html:not([dir='rtl']) {
+html:not([dir="rtl"]) {
   .sidebar-lg-show {
     &.sidebar-fixed {
       .main {
@@ -1157,7 +1166,7 @@ html:not([dir='rtl']) {
     margin-bottom: 10px;
     font-family: $font_Frutiger_Medium;
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       height: 2px;
       width: 55px;
@@ -1214,7 +1223,7 @@ html:not([dir='rtl']) {
         }
       }
       &:after {
-        content: '';
+        content: "";
         position: absolute;
         top: 100%;
         left: 50%;
@@ -1227,6 +1236,8 @@ html:not([dir='rtl']) {
     .required-error {
       color: $red;
       font-size: $font_11;
+      position: absolute;
+      bottom: 0px;
     }
 
     .form-control {
@@ -1246,6 +1257,7 @@ html:not([dir='rtl']) {
         outline: none;
         border-color: $theme_color;
       }
+
       &.height-auto {
         height: auto;
       }
@@ -1270,6 +1282,7 @@ html:not([dir='rtl']) {
         }
       }
     }
+
     .custom-input-width {
       width: 125px;
     }
@@ -1780,15 +1793,7 @@ html:not([dir='rtl']) {
     }
   }
 }
-.one-line-text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.word-wrap {
-  word-wrap: break-word;
-  word-break: break-word;
-}
+
 .table {
   background: $white;
   &.table-bordered {
@@ -2092,7 +2097,7 @@ html:not([dir='rtl']) {
     font-weight: 600;
     margin-bottom: 10px;
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       height: 2px;
       width: 55px;
@@ -2124,7 +2129,7 @@ html:not([dir='rtl']) {
       position: relative;
       padding-left: 12px;
       &::before {
-        content: ':';
+        content: ":";
         position: absolute;
         left: 0px;
       }
@@ -2262,7 +2267,7 @@ html:not([dir='rtl']) {
         font-weight: 400;
         font-family: $font_Frutiger_Medium;
         &:before {
-          content: '';
+          content: "";
           position: absolute;
           height: 2px;
           width: 55px;
@@ -2508,7 +2513,7 @@ html:not([dir='rtl']) {
         font-family: $font_Frutiger_Medium;
         margin-bottom: 15px;
         &:before {
-          content: '';
+          content: "";
           position: absolute;
           height: 2px;
           width: 55px;
@@ -2656,6 +2661,11 @@ html:not([dir='rtl']) {
 .mail-details {
   height: 100%;
   border: 1px solid $table_border;
+  max-height: calc(100vh - 210px);
+  background: $white;
+  @media only screen and (max-width: 991px) {
+    max-height: 300px;
+  }
   .mail-header {
     background: $card_header_bg;
     border-bottom: 1px solid $table_border;
@@ -2674,7 +2684,7 @@ html:not([dir='rtl']) {
     font-size: $font_13;
     color: $black;
     height: 100%;
-    max-height: 500px;
+
     overflow-y: auto;
     overflow-x: hidden;
     .subject-title {
@@ -2692,7 +2702,7 @@ html:not([dir='rtl']) {
 .custom-col {
   margin-left: -7.5px;
   margin-right: -7.5px;
-  [class*='col-'] {
+  [class*="col-"] {
     padding: 0 7.5px;
   }
 }
@@ -2704,6 +2714,12 @@ html:not([dir='rtl']) {
     border-top: 1px solid $table_border;
     border: 1px solid $table_border;
     background: $white;
+    max-height: calc(100vh - 304px);
+    overflow-y: auto;
+    overflow-x: auto;
+    @media only screen and (max-width: 991px) {
+      max-height: 400px;
+    }
   }
   li {
     &.email-wrap {
@@ -2725,7 +2741,7 @@ html:not([dir='rtl']) {
         display: inline-block;
         margin-left: 0.255em;
         vertical-align: 0.255em;
-        content: '';
+        content: "";
         border-top: 0.3em solid;
         border-right: 0.3em solid transparent;
         border-bottom: 0;
@@ -2805,9 +2821,12 @@ html:not([dir='rtl']) {
         display: flex;
         white-space: nowrap;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         &.input-wrap {
           flex: 1 1 100%;
+          .form-control {
+            width: 300px;
+          }
         }
       }
       .email-text-wrap {
@@ -2829,7 +2848,7 @@ html:not([dir='rtl']) {
     display: inline-block;
     margin-left: 0.255em;
     vertical-align: 0.255em;
-    content: '';
+    content: "";
     border-top: 0.3em solid;
     border-right: 0.3em solid transparent;
     border-bottom: 0;
@@ -2895,18 +2914,13 @@ html:not([dir='rtl']) {
 }
 
 .new-email-select-wrap {
-  width: 300px;
+  width: 500px;
   margin-left: 15px;
   font-weight: normal;
   .new-email-select {
     width: 100%;
   }
-  // .react-select__control {
-  //   min-height: unset;
-  //   display: flex;
-  //   align-items: center;
-  //   border-radius: 0px;
-  // }
+ 
 }
 .gray-color {
   color: $gray_color;
@@ -2918,7 +2932,7 @@ html:not([dir='rtl']) {
     .form-group {
       margin-bottom: 0px;
     }
-    [class*='col-'] {
+    [class*="col-"] {
       padding: 0px;
       label {
         padding-left: 7px;
@@ -3312,9 +3326,9 @@ html:not([dir='rtl']) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          background-image: url('./resource/assets/img/success-toaster.svg');
+          background-image: url("./resource/assets/img/success-toaster.svg");
           position: absolute;
-          content: '';
+          content: "";
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
@@ -3340,10 +3354,10 @@ html:not([dir='rtl']) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          background: url('./resource/assets/img/error-toaster.svg') no-repeat;
+          background: url("./resource/assets/img/error-toaster.svg") no-repeat;
           background-size: 35px;
           position: absolute;
-          content: '';
+          content: "";
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
@@ -3368,8 +3382,8 @@ html:not([dir='rtl']) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          content: '';
-          background: url('./resource/assets/img/warning-toaster.svg') no-repeat;
+          content: "";
+          background: url("./resource/assets/img/warning-toaster.svg") no-repeat;
           background-size: 35px;
           position: absolute;
           top: 50%;
@@ -3391,8 +3405,8 @@ html:not([dir='rtl']) {
     width: 10px;
     height: 10px;
     &::after {
-      content: '';
-      background: url('./resource/assets/img/close-toaster.svg') no-repeat;
+      content: "";
+      background: url("./resource/assets/img/close-toaster.svg") no-repeat;
       background-size: 10px;
       position: absolute;
       top: 50%;

@@ -58,6 +58,7 @@ const GET_EMPLOYEES = gql`
       employeeData {
         id
         firstName
+        accessLevel
         lastName
         email
         userName

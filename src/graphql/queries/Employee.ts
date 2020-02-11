@@ -27,6 +27,7 @@ const GET_EMPLOYEE_BY_ID = gql`
         regionName
         id
       }
+      accessLevel
       bankDetails {
         bankName
         accountHolder
@@ -57,6 +58,7 @@ const GET_EMPLOYEES = gql`
       employeeData {
         id
         firstName
+        accessLevel
         lastName
         email
         userName

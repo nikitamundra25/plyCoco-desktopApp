@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from './Constant';
+import { IReactSelectInterface } from "./Constant";
 
 export interface IEmployeeFormValues {
   email: string;
@@ -22,6 +22,7 @@ export interface IEmployeeFormValues {
   city: string;
   profileThumbnailImage?: string;
   profileImage?: string;
+  accessLevel?: string | undefined;
 }
 
 export interface IEmployeeInput {
@@ -47,6 +48,7 @@ export interface IEmployeeInput {
   image?: File;
   profileThumbnailImage?: string;
   profileImage?: string;
+  accessLevel?: string;
 }
 
 export interface IAddEmployeeRes {
@@ -66,4 +68,5 @@ export interface IEmployee {
   createdAt: string;
   regions: string[];
   lastName: string;
+  accessLevel?: string;
 }

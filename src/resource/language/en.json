@@ -150,9 +150,12 @@
   "EMPLOYEE_STATE_PLACEHOLDER": "Select State",
   "EMPLOYEE_ZIP_LABEL": "Postal Code",
   "EMPLOYEE_ZIP_PLACEHOLDER": "Postal Code",
-  "EMPLOYEE_EMPLOYEE_RIGHTS_LABEL": "Employee rights",
+  "EMPLOYEE_EMPLOYEE_RIGHTS_LABEL": "Employee Rights",
   "EMPLOYEE_JOINING_DATE_LABEL": "Joining Date",
   "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "MM/DD/YYYY",
+  "EMPLOYEE_BASIC": "Basic",
+  "EMPLOYEE_INVOICE": "Invoice",
+  "EMPLOYEE_ACCESS_LEVEL_UPDATE_MSG": "Employee access level updated sucessfully",
   "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL": "Add Profile Image",
   "EMPLOYEE_OTHER_INFORMATION_LABEL": "Any other information",
   "EMPLOYEE_OTHER_INFORMATION": "other information",
@@ -518,6 +521,7 @@
   "PERSONAL_DOCUMENTS_DROP_HERE": "Drop here",
   "VALIDATE_DOCUMENT_TYPE": "File type not allowed. Only jpg, png and pdf files.",
   "VALIDATE_DOCUMENT_SIZE": "Please select document upto max 1MB in size",
+  "VALIDATE_DOCUMENT_SIZE_MAX_10MB": "Please select document upto max 10MB in size",
   "UPDATE_DEPARTMENT_CARE_INSTITUTION": "Care Institution department updated successfully.",
   "DEPARTMENT_DELETE_SUCCESS_MSG": "Care Institution department has been deleted successfully",
   "UPDATE_BUTTON": "Update",
@@ -619,7 +623,6 @@
   "NO_EMAIL_MESSAGE": " Currently there are no emails Found.",
   "SUBORDINATED_HEADING": "Grouped Below",
   "PROFESSIONAL": "Professional",
-
   "APPOINTMENT_ID": "Appointment Id",
   "EARLY": "Early",
   "LATE": "Late",
@@ -673,5 +676,6 @@
   "CAREINSTITUTION_RESTORED_SUCCESS": "Care Institution restored successfully.",
   "CI_PROFILE_DISAPPROVE": "This care institution's profile will be disapproved",
   "CI_PROFILE_DISAPPROVE_SUCESS": "Care Institution's profile disapproved successfully",
-  "CI_PROFILE_APPROVE":"This care institution's profile will be approved",
-  "CI_PROFILE_APPROVE_SUCESS":"Care Institution's profile approved successfully"}
+  "CI_PROFILE_APPROVE": "This care institution's profile will be approved",
+  "CI_PROFILE_APPROVE_SUCESS": "Care Institution's profile approved successfully"
+}

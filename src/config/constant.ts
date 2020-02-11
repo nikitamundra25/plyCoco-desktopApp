@@ -1349,6 +1349,7 @@ export const AcceptedDocumentFile = [
 ];
 
 export const maxFileSize1MB = 1048576;
+export const maxFileSize10MB = 10485760;
 export const sortFilter: IObjectType = {
   3: "name",
   4: "name-desc",

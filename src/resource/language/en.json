@@ -153,6 +153,7 @@
   "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "MM/DD/YYYY",
   "EMPLOYEE_BASIC": "Basic",
   "EMPLOYEE_INVOICE": "Invoice",
+  "EMPLOYEE_ACCESS_LEVEL_UPDATE_MSG": "Employee access level updated sucessfully",
   "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL": "Add Profile Image",
   "EMPLOYEE_OTHER_INFORMATION_LABEL": "Any other information",
   "EMPLOYEE_OTHER_INFORMATION": "other information",
@@ -673,5 +674,6 @@
   "CAREINSTITUTION_RESTORED_SUCCESS": "Care Institution restored successfully.",
   "CI_PROFILE_DISAPPROVE": "This care institution's profile will be disapproved",
   "CI_PROFILE_DISAPPROVE_SUCESS": "Care Institution's profile disapproved successfully",
-  "CI_PROFILE_APPROVE":"This care institution's profile will be approved",
-  "CI_PROFILE_APPROVE_SUCESS":"Care Institution's profile approved successfully"}
+  "CI_PROFILE_APPROVE": "This care institution's profile will be approved",
+  "CI_PROFILE_APPROVE_SUCESS": "Care Institution's profile approved successfully"
+}

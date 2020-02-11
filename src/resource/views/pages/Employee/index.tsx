@@ -320,8 +320,6 @@ const Employee: FunctionComponent = () => {
   };
 
   const changeAccessLevelValue = async (accessLevel: string, id: string) => {
-    console.log("value", accessLevel);
-    console.log("id", id);
     try {
       toast.dismiss();
       await updateEmployeeAccessLevel({
@@ -333,7 +331,7 @@ const Employee: FunctionComponent = () => {
       refetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation("EMPLOYEE_STATUS_UPDATE_MSG")
+          languageTranslation("EMPLOYEE_ACCESS_LEVEL_UPDATE_MSG")
         );
       }
     } catch (error) {

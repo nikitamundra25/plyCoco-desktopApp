@@ -22,6 +22,8 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
     addEmailLoading,
     id,
     updateLoading,
+    fetchArchiveList,
+    setShowArchive
   } = props;
   return (
     <div className='sticky-common-header'>
@@ -50,12 +52,6 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
             {languageTranslation('NEW_EMAIL_TEMPLATE')}
           </span>
         </div>
-        {/* <div className='header-nav-item'>
-          <span className='header-nav-icon'>
-            <img src={EmailSeparator} alt='' />
-          </span>
-          <span className='header-nav-text'>New Email Separator</span>
-        </div> */}
         <div
           className={`header-nav-item ${!activeTemplate ? 'disable' : ''}`}
           onClick={onDeleteEmailTemplate}
@@ -68,21 +64,22 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
           </span>
         </div>
 
-        <Button
-          onClick={handleSubmit}
-          color={'primary'}
-          className={'btn-email-save ml-auto mr-2'}
+        <div
+          className={`header-nav-item`}
+          onClick={() => {
+            setShowArchive(true);
+            fetchArchiveList();
+          }}
         >
-          {addEmailLoading || updateLoading ? (
-            <i className='fa fa-spinner fa-spin' />
-          ) : (
-            ''
-          )}
-          &nbsp;
-          {languageTranslation('SAVE_BUTTON')}
-        </Button>
+          <span className='header-nav-icon'>
+            {/* <img src={clear} alt='' /> */}
+          </span>
+          <span className='header-nav-text'>
+            {languageTranslation('VIEW_ARCHIVE')}
+          </span>
+        </div>
 
-        {/* <div className='btn-email-save' onClick={handleSubmit} >
+        {/* <div className='header-nav-item' onClick={handleSubmit}>
           <span className='header-nav-icon'>
             {addEmailLoading || updateLoading ? (
               <i className='fa fa-spinner fa-spin ' />
@@ -93,7 +90,19 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
           <span className='header-nav-text'>
             {languageTranslation('SAVE_BUTTON')}
           </span>
-        </div> */}
+        </div>  */}
+        <Button
+          onClick={handleSubmit}
+          color={'primary'}
+          className={'btn-email-save ml-auto mr-2'}
+        >
+          {addEmailLoading || updateLoading ? (
+            <i className='fa fa-spinner fa-spin ' />
+          ) : (
+            ''
+          )}
+          {languageTranslation('SAVE_BUTTON')}
+        </Button>
       </div>
     </div>
   );

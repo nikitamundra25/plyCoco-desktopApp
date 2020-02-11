@@ -1,239 +1,248 @@
-import React from "react";
-import { AppRoutes } from "../config";
-import ToDo from "../resource/views/pages/CareGiver/ToDos/ToDos";
-import AttributeManageMent from "../resource/views/pages/AttributeManageMent";
+import React from 'react';
+import { AppRoutes } from '../config';
+import ToDo from '../resource/views/pages/CareGiver/ToDos/ToDos';
+import AttributeManageMent from '../resource/views/pages/AttributeManageMent';
 
-const Dashboard = React.lazy(() => import("../resource/views/pages/Dashboard"));
-const Login = React.lazy(() => import("../resource/views/pages/Login"));
-const MyProfile = React.lazy(() => import("../resource/views/pages/MyProfile"));
-const Employee = React.lazy(() => import("../resource/views/pages/Employee"));
+const Dashboard = React.lazy(() => import('../resource/views/pages/Dashboard'));
+const Login = React.lazy(() => import('../resource/views/pages/Login'));
+const MyProfile = React.lazy(() => import('../resource/views/pages/MyProfile'));
+const Employee = React.lazy(() => import('../resource/views/pages/Employee'));
 const AddEmployee = React.lazy(() =>
-  import("../resource/views/pages/Employee/AddEmployee")
+  import('../resource/views/pages/Employee/AddEmployee')
 );
 const ViewEmployee = React.lazy(() =>
-  import("../resource/views/pages/Employee/ViewEmployee")
+  import('../resource/views/pages/Employee/ViewEmployee')
 );
 const Department = React.lazy(() =>
-  import("../resource/views/pages/Department")
+  import('../resource/views/pages/Department')
 );
 const AddDepartment = React.lazy(() =>
-  import("../resource/views/pages/Department/AddDepartment")
+  import('../resource/views/pages/Department/AddDepartment')
 );
-const Region = React.lazy(() => import("../resource/views/pages/Region"));
+const Region = React.lazy(() => import('../resource/views/pages/Region'));
 const AddRegion = React.lazy(() =>
-  import("../resource/views/pages/Region/AddRegion")
+  import('../resource/views/pages/Region/AddRegion')
 );
-const CareGiver = React.lazy(() => import("../resource/views/pages/CareGiver"));
+const CareGiver = React.lazy(() => import('../resource/views/pages/CareGiver'));
 const AddCareGiver = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/AddCareGiver/index")
+  import('../resource/views/pages/CareGiver/AddCareGiver/index')
 );
 const CareGiverLayout = React.lazy(() =>
   import(
-    "../resource/views/pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout"
+    '../resource/views/pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout'
   )
 );
 const ConstitutionLayout = React.lazy(() =>
   import(
-    "../resource/views/pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout"
+    '../resource/views/pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout'
   )
 );
 const PersonalInformation = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/PersonalInfo/PersonalInformation")
+  import('../resource/views/pages/CareGiver/PersonalInfo/PersonalInformation')
 );
 const QualificationAttribute = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/GroupedBelow")
+  import('../resource/views/pages/CareGiver/GroupedBelow')
 );
 const BillingSetting = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/Billings/BillingSettings")
+  import('../resource/views/pages/CareGiver/Billings/BillingSettings')
 );
 const Billing = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/Billings")
+  import('../resource/views/pages/CareGiver/Billings')
 );
 const LeasingPersonalData = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/LeasingData")
+  import('../resource/views/pages/CareGiver/LeasingData')
 );
 const ChangePassword = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/ChangePassword/ChangePassword")
+  import('../resource/views/pages/CareGiver/ChangePassword/ChangePassword')
 );
 // const Email = React.lazy(() => import("../pages/CareGiver/Emails/EmailMenus"));
 const InboxEmail = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/Emails/InboxEmail")
+  import('../resource/views/pages/CareGiver/Emails/InboxEmail')
 );
 const SentEmail = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/Emails/SentEmail")
+  import('../resource/views/pages/CareGiver/Emails/SentEmail')
 );
 const NewEmail = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/Emails/NewEmail")
+  import('../resource/views/pages/CareGiver/Emails/NewEmail')
 );
 const EmailSettings = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/Emails/EmailSettings")
+  import('../resource/views/pages/CareGiver/Emails/EmailSettings')
 );
 const Event = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/Events/Event")
+  import('../resource/views/pages/CareGiver/Events/Event')
 );
 const Offer = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/Offers/Offer")
+  import('../resource/views/pages/CareGiver/Offers/Offer')
 );
 const Invoices = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/Invoices/Invoices")
+  import('../resource/views/pages/CareGiver/Invoices/Invoices')
 );
+
 const Todos = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/ToDos/ToDos")
+  import('../resource/views/pages/CareGiver/ToDos/ToDos')
 );
 const Signature = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/Signature/Signature")
+  import('../resource/views/pages/CareGiver/Signature/Signature')
 );
 const DocumentUpload = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/Documents")
+  import('../resource/views/pages/CareGiver/Documents')
 );
 const AddCareInstitution = React.lazy(() =>
-  import("../resource/views/pages/CareInstitution/AddCareInstitution")
+  import('../resource/views/pages/CareInstitution/AddCareInstitution')
 );
 const Constitution = React.lazy(() =>
-  import("../resource/views/pages/CareInstitution")
+  import('../resource/views/pages/CareInstitution')
 );
 
 const ViewCareInstitution = React.lazy(() =>
-  import("../resource/views/pages/CareInstitution/ViewCareInstituion")
+  import('../resource/views/pages/CareInstitution/ViewCareInstituion')
 );
 const ViewCareGiver = React.lazy(() =>
-  import("../resource/views/pages/CareGiver/ViewCareGiver")
+  import('../resource/views/pages/CareGiver/ViewCareGiver')
 );
 
 const CareGiverTodo = React.lazy(() =>
-  import("../resource/views/pages/CareGiverTodo")
+  import('../resource/views/pages/CareGiverTodo')
 );
 const CareInstitutionTodo = React.lazy(() =>
-  import("../resource/views/pages/CareInstitutionTodo")
+  import('../resource/views/pages/CareInstitutionTodo')
 );
 const CareGiverTodoLayout = React.lazy(() =>
   import(
-    "../resource/views/pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout"
+    '../resource/views/pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout'
   )
 );
 
 const CareInstitutionTodoLayout = React.lazy(() =>
   import(
-    "../resource/views/pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout"
+    '../resource/views/pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout'
   )
 );
 
 const DocumentTemplateWorkingProof = React.lazy(() =>
-  import("../resource/views/pages/DocumentTemplateManagement/index")
+  import('../resource/views/pages/DocumentTemplateManagement/index')
 );
 const CareInstitutionTodoHideDone = React.lazy(() =>
-  import("../resource/views/pages/CareInstitutionTodo/hideDone")
+  import('../resource/views/pages/CareInstitutionTodo/hideDone')
 );
 
 const CareInstitutionTodoHideFuture = React.lazy(() =>
-  import("../resource/views/pages/CareInstitutionTodo/hideFuture")
+  import('../resource/views/pages/CareInstitutionTodo/hideFuture')
 );
 
 const CareInstitutionTodoRequirement = React.lazy(() =>
-  import("../resource/views/pages/CareInstitutionTodo/requirement")
+  import('../resource/views/pages/CareInstitutionTodo/requirement')
 );
 
 const CareGiverTodoHideDone = React.lazy(() =>
-  import("../resource/views/pages/CareGiverTodo/hideDone")
+  import('../resource/views/pages/CareGiverTodo/hideDone')
 );
 const CareGiverTodoHideFuture = React.lazy(() =>
-  import("../resource/views/pages/CareGiverTodo/hideFuture")
+  import('../resource/views/pages/CareGiverTodo/hideFuture')
 );
 
 const EmailTemplateManagement = React.lazy(() =>
-  import("../resource/views/pages/EmailTemplateManagement")
+  import('../resource/views/pages/EmailTemplateManagement')
 );
 
 const BulkEmailCaregiver = React.lazy(() =>
-  import("../resource/views/pages/BulkEmailCaregiver")
+  import('../resource/views/pages/BulkEmailCaregiver')
 );
 
 // const EmailInbox = React.lazy(() =>
 //   import("../resource/views/pages/Email/InboxEmail")
 // );
-const EmailInbox = React.lazy(() => import("../resource/views/pages/Email"));
+const EmailInbox = React.lazy(() => import('../resource/views/pages/Email'));
 
 const EmailSent = React.lazy(() =>
-  import("../resource/views/pages/Email/SentEmail")
+  import('../resource/views/pages/Email/SentEmail')
 );
 const EmailOutbox = React.lazy(() =>
-  import("../resource/views/pages/Email/OutboxEmail")
+  import('../resource/views/pages/Email/OutboxEmail')
 );
 const EmailQueue = React.lazy(() =>
-  import("../resource/views/pages/Email/MailQueueEmail")
+  import('../resource/views/pages/Email/MailQueueEmail')
 );
-
+const ArchiveEmployee = React.lazy(() =>
+  import('../resource/views/pages/Employee/ArchiveEmployee')
+);
+const ArchiveCaregiver = React.lazy(() =>
+  import('../resource/views/pages/CareGiver/ArchiveCaregiver')
+);
+const ArchiveCareInstitution = React.lazy(() =>
+  import('../resource/views/pages/CareInstitution/ArchiveCareInstitution')
+);
 const Appointment = React.lazy(() =>
-  import("../resource/views/pages/Appointment")
+  import('../resource/views/pages/Appointment')
 );
-
 const routes = [
   {
     path: AppRoutes.ADD_CARE_GIVER,
-    name: "Add Caregiver",
+    name: 'Add Caregiver',
     component: AddCareGiver,
     exact: true
   },
   {
     path: AppRoutes.ADD_CARE_INSTITUTION,
-    name: "Add Care Institution",
+    name: 'Add Care Institution',
     component: AddCareInstitution,
     exact: true
   },
   {
     path: AppRoutes.ADD_DEPARTMENT,
-    name: "Add Department",
+    name: 'Add Department',
     component: AddDepartment,
     exact: true
   },
   {
     path: AppRoutes.ADD_EMPLOYEE,
-    name: "Add Employee",
+    name: 'Add Employee',
     component: AddEmployee,
     exact: true
   },
   {
     path: AppRoutes.ADD_REGION,
-    name: "Add Region",
+    name: 'Add Region',
     component: AddRegion,
     exact: true
   },
   {
     path: AppRoutes.BILLING_SETTING,
-    name: "Billing",
+    name: 'Billing',
     component: BillingSetting,
     layout: CareGiverLayout,
-    layoutName: "CareGiver",
+    layoutName: 'CareGiver',
     exact: true
   },
   {
     path: AppRoutes.CARE_GIVER,
-    name: "Caregiver",
+    name: 'Caregiver',
     component: CareGiver,
     exact: true
   },
+
   {
     path: AppRoutes.CHANGE_PASSWORD,
-    name: "Change Password",
+    name: 'Change Password',
     component: ChangePassword,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.CARE_INSTITUTION,
-    name: "Care Institution",
+    name: 'Care Institution',
     component: Constitution,
     exact: true
   },
   {
     path: AppRoutes.MAIN,
     exact: true,
-    name: "Dashboard"
+    name: 'Dashboard'
   },
   {
     path: AppRoutes.CARE_INSTITUION_VIEW,
-    name: "Care Institution View",
+    name: 'Care Institution View',
     component: ViewCareInstitution,
     exact: true
     // layout: ConstitutionLayout,
@@ -241,270 +250,287 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_GIVER_VIEW,
-    name: "Caregiver View",
+    name: 'Caregiver View',
     component: ViewCareGiver,
     exact: true
   },
   {
     path: AppRoutes.HOME,
-    name: "Dashboard",
+    name: 'Dashboard',
     component: Dashboard,
     exact: true
   },
   {
     path: AppRoutes.DEPARTMENT,
-    name: "Department",
+    name: 'Department',
     component: Department,
     exact: true
   },
   {
     path: AppRoutes.DOCUMENTS_UPLOAD,
-    name: "Document Upload",
+    name: 'Document Upload',
     component: DocumentUpload,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.EDIT_EMPLOYEE,
-    name: "Edit Employee",
+    name: 'Edit Employee',
     component: AddEmployee,
     exact: true
   },
   {
     path: AppRoutes.EMAIL_SETTINGS,
-    name: "Email Settings",
+    name: 'Email Settings',
     component: EmailSettings,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.EVENT,
-    name: "Event",
+    name: 'Event',
     component: Event,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.EMPLOYEE,
-    name: "Employee",
+    name: 'Employee',
     component: Employee,
     exact: true
   },
   {
     path: AppRoutes.EVENT,
-    name: "Event",
+    name: 'Event',
     component: Event,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.INBOX,
-    name: "Inbox Email",
+    name: 'Inbox Email',
     component: InboxEmail,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.INVOCES,
-    name: "Invoices",
+    name: 'Invoices',
     component: Invoices,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.LEASING_PERSONALDATA,
-    name: "Leasing Personal Data",
+    name: 'Leasing Personal Data',
     component: LeasingPersonalData,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.LOGIN,
-    name: "Login",
+    name: 'Login',
     component: Login,
     exact: true
   },
   {
     path: AppRoutes.NEW_EMAIL,
-    name: "New Email",
+    name: 'New Email',
     component: NewEmail,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.OFFER,
-    name: "Offer",
+    name: 'Offer',
     component: Offer,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.PERSONAL_INFORMATION,
-    name: "Personal Information",
+    name: 'Personal Information',
     component: PersonalInformation,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.MY_PROFILE,
-    name: "Profile",
+    name: 'Profile',
     component: MyProfile,
     exact: true
   },
   {
     path: AppRoutes.REGION,
-    name: "Region",
+    name: 'Region',
     component: Region,
     exact: true
   },
   {
     path: AppRoutes.SENT_EMAIL,
-    name: "Sent Email",
+    name: 'Sent Email',
     component: SentEmail,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.SIGNATURE,
-    name: "Signature",
+    name: 'Signature',
     component: Signature,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.TODO,
-    name: "Todos",
+    name: 'Todos',
     component: Todos,
     exact: true,
     layout: CareGiverLayout,
-    layoutName: "CareGiver"
+    layoutName: 'CareGiver'
   },
   {
     path: AppRoutes.VIEW_EMPLOYEE,
-    name: "View Employee",
+    name: 'View Employee',
     component: ViewEmployee,
     exact: true
   },
   {
     path: AppRoutes.CAREGIVER_TODO,
-    name: "Caregiver Todo",
+    name: 'Caregiver Todo',
     component: CareGiverTodo,
     exact: true,
     layout: CareGiverTodoLayout,
-    layoutName: "CareGiverTodoLayout"
+    layoutName: 'CareGiverTodoLayout'
   },
   {
     path: AppRoutes.CARE_INSTITUTION_TODO,
-    name: "Care Institution Todo",
+    name: 'Care Institution Todo',
     component: CareInstitutionTodo,
     exact: true,
     layout: CareInstitutionTodoLayout,
-    layoutName: "CareInstitutionTodoLayout"
+    layoutName: 'CareInstitutionTodoLayout'
   },
   {
     path: AppRoutes.CARE_INSTITUTION_TODO_HIDE_DONE,
-    name: "Care Institution Todo Hide Done",
+    name: 'Care Institution Todo Hide Done',
     component: CareInstitutionTodoHideDone,
     exact: true,
     layout: CareInstitutionTodoLayout,
-    layoutName: "CareInstitutionTodoLayout"
+    layoutName: 'CareInstitutionTodoLayout'
   },
   {
     path: AppRoutes.CARE_INSTITUTION_TODO_HIDE_FUTURE,
-    name: "Care Institution Todo Hide Future",
+    name: 'Care Institution Todo Hide Future',
     component: CareInstitutionTodoHideFuture,
     exact: true,
     layout: CareInstitutionTodoLayout,
-    layoutName: "CareInstitutionTodoLayout"
+    layoutName: 'CareInstitutionTodoLayout'
   },
   {
     path: AppRoutes.CARE_INSTITUTION_TODO_REQUIREMENT,
-    name: "Care Institution Todo Requirement",
+    name: 'Care Institution Todo Requirement',
     component: CareInstitutionTodoRequirement,
     exact: true,
     layout: CareInstitutionTodoLayout,
-    layoutName: "CareInstitutionTodoLayout"
+    layoutName: 'CareInstitutionTodoLayout'
   },
   {
     path: AppRoutes.CARE_GIVER_HIDE_DONE,
-    name: "Care Giver Todo Hide Done",
+    name: 'Care Giver Todo Hide Done',
     component: CareGiverTodoHideDone,
     exact: true,
     layout: CareGiverTodoLayout,
-    layoutName: "CareGiverTodoLayout"
+    layoutName: 'CareGiverTodoLayout'
   },
   {
     path: AppRoutes.CARE_GIVER_HIDE_FUTURE,
-    name: "Care Giver Todo Hide Future",
+    name: 'Care Giver Todo Hide Future',
     component: CareGiverTodoHideFuture,
     exact: true,
     layout: CareGiverTodoLayout,
-    layoutName: "CareGiverTodoLayout"
+    layoutName: 'CareGiverTodoLayout'
   },
 
   {
     path: AppRoutes.EMAIL_TEMPLATE_MANAGEMENT,
-    name: "Email Template Management",
+    name: 'Email Template Management',
     component: EmailTemplateManagement,
     exact: true
   },
   {
     path: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
-    name: "Document Template Working Proof",
+    name: 'Document Template Working Proof',
     component: DocumentTemplateWorkingProof,
     exact: true
   },
   {
     path: AppRoutes.BULK_EMAIL_CAREGIVER,
-    name: "Bulk Email Caregiver",
+    name: 'Bulk Email Caregiver',
     component: BulkEmailCaregiver,
     exact: true
   },
   {
     path: AppRoutes.ALL_EMAILS,
-    name: "Email Inbox",
+    name: 'Email Inbox',
     component: EmailInbox,
     exact: true
   },
   {
     path: AppRoutes.EMAIL_SENT,
-    name: "Email Sent",
+    name: 'Email Sent',
     component: EmailSent,
     exact: true
   },
   {
     path: AppRoutes.EMAIL_OUTBOX,
-    name: "Email outbox",
+    name: 'Email outbox',
     component: EmailOutbox,
     exact: true
   },
   {
     path: AppRoutes.EMAIL_QUEUE,
-    name: "Email Queue",
+    name: 'Email Queue',
     component: EmailQueue,
     exact: true
   },
   {
     path: AppRoutes.ATTRIBUTE_MANAGEMENT,
-    name: "Attribute management",
+    name: 'Attribute management',
     component: AttributeManageMent,
     exact: true
   },
   {
+    path: AppRoutes.EMPLOYEE_ARCHIVE,
+    name: 'Trash',
+    component: ArchiveEmployee,
+    exact: true
+  },
+  {
+    path: AppRoutes.CAREGIVER_ARCHIVE,
+    name: 'Trash',
+    component: ArchiveCaregiver,
+    exact: true
+  },
+  {
+    path: AppRoutes.CAREINSTITUTION_ARCHIVE,
+    name: 'Trash',
+    component: ArchiveCareInstitution
+  },
+  {
     path: AppRoutes.APPOINTMENT,
-    name: "Appointment",
+    name: 'Appointment',
     component: Appointment,
     exact: true
   }

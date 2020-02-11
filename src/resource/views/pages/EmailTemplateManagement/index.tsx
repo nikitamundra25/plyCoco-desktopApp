@@ -27,6 +27,8 @@ const [
   GET_EMAIL_TEMPLATE_TYEPS,
   GET_EMAIL_TEMPLATE,
   GET_EMAIL_TEMPLATE_BY_ID,
+  ,
+  GET_ARCHIVE_EMAIL_TEMPLATES,
 ] = EmailTemplateQueries;
 
 const [
@@ -40,6 +42,7 @@ let toastId: any = '';
 
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
+  const [showArchive, setShowArchive] = useState<boolean | null>(null);
   const [typeId, setTypeId] = useState<number | null>(null);
   const [attachment, setAttachment] = useState<IEmailAttachmentData[]>([]);
   // To set email template data at the time of edit
@@ -180,6 +183,11 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     { data, loading: fetchTemplateListLoading, called, refetch: listRefetch },
   ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
 
+  //To get trash email templates
+  const [
+    fetchArchiveList,
+    { data: archiveList, loading: archiveListLoading },
+  ] = useLazyQuery<any>(GET_ARCHIVE_EMAIL_TEMPLATES);
   //To get email templates by id
   const [
     fetchTemplateById,
@@ -421,6 +429,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   };
 
+  // const fetchArchiveList = () => {
+  // fetchArchiveList();
+
   return (
     <>
       <div className='common-detail-page'>
@@ -451,6 +462,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
             }}
             onDeleteEmailTemplate={onDeleteEmailTemplate}
             onTypeChange={onTypeChange}
+            fetchArchiveList={fetchArchiveList}
+            setShowArchive={setShowArchive}
           />
           <div className='common-content flex-grow-1'>
             <div>
@@ -460,6 +473,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   data={data}
                   loading={!called || fetchTemplateListLoading}
                   activeTemplate={activeTemplate}
+                  showArchive={showArchive}
                 />
                 <AddTemplate
                   handleSubmit={handleSubmit}
@@ -471,6 +485,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   uploadDocument={uploadDocument}
                   onDelteDocument={onDelteDocument}
                   emailTemplateLoading={emailTemplateLoading}
+                  fetchArchiveList={fetchArchiveList}
                 />
               </Row>
             </div>

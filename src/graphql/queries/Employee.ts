@@ -91,5 +91,38 @@ const GET_EMPLOYEES = gql`
     }
   }
 `;
+const GET_ARCHIVE_EMPLOYEES = gql`
+  query TrashUserList(
+    $userRole: String
+    $searchBy: String
+    $sortBy: Int
+    $limit: Int
+    $page: Int
+  ) {
+    trashUserList(
+      userRole: $userRole
+      searchBy: $searchBy
+      sortBy: $sortBy
+      limit: $limit
+      page: $page
+    ) {
+      totalCount
+      result {
+        id
+        firstName
+        lastName
+        email
+        userName
+        userRole
+        deletedAt
+      }
+    }
+  }
+`;
+// trashUserList(userRole: String, searchBy:String, sortBy:Int, limit:Int, page:Int): UserResponse
 
-export const EmployeeQueries = [GET_EMPLOYEE_BY_ID, GET_EMPLOYEES];
+export const EmployeeQueries = [
+  GET_EMPLOYEE_BY_ID,
+  GET_EMPLOYEES,
+  GET_ARCHIVE_EMPLOYEES
+];

@@ -1,5 +1,5 @@
-import { AppRoutes } from './config';
-import { languageTranslation } from './helpers';
+import { AppRoutes } from "./config";
+import { languageTranslation } from "./helpers";
 export default {
   items: [
     {
@@ -62,8 +62,8 @@ export default {
       // url: AppRoutes.REGION
     },
     {
-      name: languageTranslation('MENU_DOCUMENT_UPLOADS'),
-      icon: 'icon-upload',
+      name: languageTranslation("MENU_DOCUMENT_UPLOADS"),
+      icon: "icon-upload",
       url: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
       children: [
         {
@@ -79,8 +79,8 @@ export default {
       ]
     },
     {
-      name: languageTranslation('MENU_FURTHER'),
-      icon: 'icon-cms',
+      name: languageTranslation("MENU_FURTHER"),
+      icon: "icon-cms",
       url: AppRoutes.FURTHER,
       children: [
         // {
@@ -135,8 +135,8 @@ export default {
       //url: AppRoutes.REGION
     },
     {
-      name: languageTranslation('MENU_REPORTS'),
-      icon: 'icon-document',
+      name: languageTranslation("MENU_REPORTS"),
+      icon: "icon-document",
       url: AppRoutes.HOME,
       children: [
         {

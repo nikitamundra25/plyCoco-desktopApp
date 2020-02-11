@@ -18,3 +18,4 @@ export * from './Profile';
 export * from './Attribute';
 export * from './Document';
 export * from './WorkingProof';
+export * from './qualification';

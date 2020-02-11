@@ -18,9 +18,14 @@ import {
   IAddEmailVariables,
   IEmailTemplateData,
   INewEmailProps,
+  IEmailAttachmentData,
+  INewEmailAttachments,
 } from '../../../../../interfaces';
 import { EmailFormComponent } from './EmailFormComponent';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
+import { AttachmentList } from '../../EmailTemplateManagement/AddTemplate/AttachmentList';
+import { AppConfig } from '../../../../../config';
+import { ConfirmBox } from '../../../components/ConfirmBox';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , NEW_EMAIL] = CareGiverMutations;
@@ -35,6 +40,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   const [parentId, setParentId] = useState<number | null>(null);
   const [template, setTemplate] = useState<any>(undefined);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   //To get all email templates of care giver addded in system
   const { data, loading: fetchTemplateListLoading } = useQuery<any>(
     GET_CAREGIVER_EMAIL_TEMPLATES,
@@ -59,6 +65,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       }
       setSubject('');
       setBody(undefined);
+      setAttachments([]);
       setParentId(null);
       setIsSubmit(false);
     },
@@ -89,6 +96,15 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       // setBody(HtmlToDraftConverter(''));
     }
   }, [emailData]);
+
+  // on new email click
+  const onNewEmail = () => {
+    setSubject('');
+    setBody(undefined);
+    setAttachments([]);
+    setParentId(null);
+    setIsSubmit(false);
+  };
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
     const {
@@ -99,10 +115,22 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value),
     )[0];
     if (templateData) {
-      const { subject, body } = templateData;
+      const { subject, body, attachments } = templateData;
       const editorState = body ? HtmlToDraftConverter(body) : '';
       setSubject(subject);
       setBody(editorState);
+      setAttachments(
+        attachments
+          ? attachments.map(
+              ({ name, id, path, size }: INewEmailAttachments) => ({
+                fileName: name,
+                id,
+                path,
+                size,
+              }),
+            )
+          : [],
+      );
     }
   };
   // Function to send new email
@@ -122,6 +150,12 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           body: body ? content : '',
           parentId,
           status: 'new',
+          attachments: attachments.map(
+            ({ path, fileName }: IEmailAttachmentData) => ({
+              path: `${AppConfig.FILES_ENDPOINT}${path}`,
+              fileName,
+            }),
+          ),
         };
         addNewEmail({ variables: { emailInput } });
       }
@@ -134,10 +168,28 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     }
   };
 
-  const onEditorStateChange: any = (editorState: any): void => {
+  const onEditorStateChange = (editorState: any): void => {
     logger(editorState, 'editorState');
     setBody(editorState);
   };
+
+  const onDelteDocument = async (
+    attachmentId: string,
+    attachmentIndex?: number,
+  ) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG'),
+    });
+    if (!value) {
+      return;
+    } else {
+      setAttachments((prevArray: any) =>
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index),
+      );
+    }
+  };
+
   return (
     <div className='email-section'>
       {/* <EmailMenus {...this.props} /> */}
@@ -147,7 +199,10 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
             <Col lg={'12'}>
               <div className='email-inbox-section'>
                 <div className='email-row-wrap align-items-center email-attributes-wrap'>
-                  <div className='email-attributes-content d-flex align-items-center'>
+                  <div
+                    className='email-attributes-content d-flex align-items-center'
+                    onClick={onNewEmail}
+                  >
                     <i className='fa fa-envelope mr-1' aria-hidden='true'></i>
                     <span> {languageTranslation('NEW_EMAIL')}</span>
                   </div>
@@ -213,6 +268,12 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
             </Col>
           </Row>
         </Form>
+        {attachments && attachments.length ? (
+          <AttachmentList
+            attachment={attachments}
+            onDelteDocument={onDelteDocument}
+          />
+        ) : null}
       </div>
     </div>
   );

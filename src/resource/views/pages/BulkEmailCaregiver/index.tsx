@@ -1,8 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { FormGroup, Label, Input, Col, Row, Table } from "reactstrap";
 import Select from "react-select";
-import { languageTranslation } from "../../../../helpers";
-import { CareGiverQueries } from "../../../../graphql/queries";
+import { languageTranslation, HtmlToDraftConverter } from "../../../../helpers";
+import {
+  CareGiverQueries,
+  EmailTemplateQueries
+} from "../../../../graphql/queries";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { State } from "../../../../config";
@@ -10,9 +13,16 @@ import filter from "../../../assets/img/filter.svg";
 import refresh from "../../../assets/img/refresh.svg";
 import send from "../../../assets/img/send.svg";
 import "./index.scss";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import Loader from "../../containers/Loader/Loader";
-
+import {
+  IReactSelectInterface,
+  IEmailTemplateData,
+  INewEmailAttachments,
+  IEmailAttachmentData
+} from "../../../../interfaces";
+import { EmailEditorComponent } from "./emailEditor";
+const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
 
 const BulkEmailCaregiver: FunctionComponent = () => {
@@ -24,6 +34,23 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
     fetchPolicy: "no-cache"
   });
+
+  // To get all the types of email template
+  // const { data: typeList } = useQuery(GET_EMAIL_TEMPLATE_TYEPS);
+  //To get all email templates of care giver addded in system
+  const { data, loading: fetchTemplateListLoading } = useQuery<any>(
+    GET_CAREGIVER_EMAIL_TEMPLATES,
+    {
+      variables: {
+        type: languageTranslation("CAREGIVER_EMAIL_TEMPLATE_TYPE")
+      }
+    }
+  );
+
+  const [template, setTemplate] = useState<any>(undefined);
+  const [subject, setSubject] = useState<string>("");
+  const [body, setBody] = useState<any>("");
+  const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
 
   useEffect(() => {
     // Fetch list of caregivers
@@ -83,6 +110,57 @@ const BulkEmailCaregiver: FunctionComponent = () => {
         selectedCareGiver.splice(selectedCareGiver.indexOf(parseInt(id)), 1);
         setselectedCareGiver([...selectedCareGiver]);
       }
+    }
+  };
+
+  const templateOptions: IReactSelectInterface[] | undefined = [];
+  if (data && data.getEmailtemplate) {
+    const {
+      getEmailtemplate: { email_templates }
+    } = data;
+    if (email_templates && email_templates.length) {
+      email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
+        templateOptions.push({
+          label: menuEntry,
+          value: id ? id.toString() : ""
+        });
+      });
+    }
+  }
+
+  // useEffect(() => {
+  //   if (!templateType) {
+  //     // To set default email type
+  //     setTemplateType(typeListOptions[0]);
+  //   }
+  // }, [typeListOptions]);
+
+  // set subject & body on template selection
+  const onTemplateSelection = (selectedOption: any) => {
+    const {
+      getEmailtemplate: { email_templates }
+    } = data;
+    setTemplate(selectedOption);
+    const templateData = email_templates.filter(
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value)
+    )[0];
+    if (templateData) {
+      const { subject, body, attachments } = templateData;
+      const editorState = body ? HtmlToDraftConverter(body) : "";
+      setSubject(subject);
+      setBody(editorState);
+      setAttachments(
+        attachments
+          ? attachments.map(
+              ({ name, id, path, size }: INewEmailAttachments) => ({
+                fileName: name,
+                id,
+                path,
+                size
+              })
+            )
+          : []
+      );
     }
   };
 
@@ -200,111 +278,13 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                     </Table>
                   </div>
                 </Col>
-
-                <Col lg={"7"}>
-                  <div className="">
-                    <div className="form-section py-2 px-3 bulk-email-form">
-                      <div className="d-flex align-items-end justify-content-between bulk-email-header">
-                        <Label className="bulk-email-label">
-                          {languageTranslation("SUBJECT")}{" "}
-                          {languageTranslation("EMAIL")}
-                        </Label>
-                        <div className="select-box mb-2">
-                          <Select
-                            placeholder={languageTranslation("SELECT_TEMPLATE")}
-                            options={State}
-                            classNamePrefix="custom-inner-reactselect"
-                            className="custom-reactselect"
-                          />
-                        </div>
-                      </div>
-                      <Row>
-                        <Col lg={"12"}>
-                          <FormGroup>
-                            <div>
-                              <Input
-                                type="text"
-                                placeholder={languageTranslation("SUBJECT")}
-                                name={"lastName"}
-                                className="width-common"
-                              />
-                            </div>
-                          </FormGroup>
-                        </Col>
-                        <Col lg={"12"}>
-                          <FormGroup>
-                            <Label className="form-label col-form-label mb-2">
-                              {languageTranslation("TEXT_EMAIL")}
-                            </Label>
-
-                            <div>
-                              <Editor
-                                // editorState={editorState}
-                                toolbarClassName="toolbarClassName"
-                                wrapperClassName="wrapperClassName"
-                                editorClassName="editorClassName"
-                                placeholder="Enter Email Content Here"
-                                toolbar={{
-                                  options: [
-                                    "inline",
-                                    "blockType",
-                                    "fontSize",
-                                    "list",
-                                    "textAlign",
-                                    "link"
-                                  ],
-                                  inline: {
-                                    options: ["bold", "italic", "underline"]
-                                  },
-                                  fontSize: {
-                                    className: "bordered-option-classname"
-                                  },
-                                  fontFamily: {
-                                    className: "bordered-option-classname"
-                                  },
-                                  list: {
-                                    inDropdown: false,
-                                    options: ["unordered"]
-                                  },
-                                  link: {
-                                    options: ["link"]
-                                  }
-                                }}
-                              />
-                            </div>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </div>
-                    <Table bordered hover responsive className="mail-table">
-                      <thead className="thead-bg">
-                        <tr>
-                          <th className="file-name">
-                            {languageTranslation("FILE_NAME")}
-                          </th>
-                          <th className="size-col">
-                            {languageTranslation("SIZE")}
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="file-name ">Pan Card.PDF</td>
-                          <td className="size-col">1kb</td>
-                        </tr>
-                        <tr>
-                          <td className="file-name">VoterID.pdf</td>
-                          <td className="size-col">2kb</td>
-                        </tr>
-
-                        <tr>
-                          <td className="file-name">Pan Card.PDF</td>
-                          <td className="size-col">5kb</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div>
-                </Col>
+                <EmailEditorComponent
+                  body={body}
+                  templateOptions={templateOptions}
+                  subject={subject}
+                  onTemplateSelection={onTemplateSelection}
+                  template={template}
+                />
               </Row>
             </div>
           </div>

@@ -6,29 +6,11 @@
   font-weight: bold;
 }
 .email-template-list {
-  max-height: 522px;
+  max-height: calc(100vh - 170px);
   overflow-y: auto;
   overflow-x: hidden;
   margin-bottom: 8px;
-}
-
-.mail-table {
-  .size-col {
-    width: 60px;
+  @media only screen and (max-width: 991px) {
+    max-height: 400px;
   }
-  .file-description {
-    padding-right: 30px;
-    position: relative;
-    .trash-icon {
-      position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 15px;
-      cursor: pointer;
-    }
-  }
-}
-.required-error {
-  color: red;
 }

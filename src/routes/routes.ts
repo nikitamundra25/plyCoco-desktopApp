@@ -513,19 +513,19 @@ const routes = [
   },
   {
     path: AppRoutes.EMPLOYEE_ARCHIVE,
-    name: 'Archive Employee',
+    name: 'Trash',
     component: ArchiveEmployee,
     exact: true
   },
   {
     path: AppRoutes.CAREGIVER_ARCHIVE,
-    name: 'Archive Caregiver',
+    name: 'Trash',
     component: ArchiveCaregiver,
     exact: true
   },
   {
     path: AppRoutes.CAREINSTITUTION_ARCHIVE,
-    name: 'Archive CareInstitution',
+    name: 'Trash',
     component: ArchiveCareInstitution
   },
   {

@@ -2674,7 +2674,12 @@ html:not([dir="rtl"]) {
   height: 100%;
   border: 1px solid $table_border;
   max-height: calc(100vh - 210px);
+
   background: $white;
+  margin-bottom: 12px;
+  &.sent-box {
+    max-height: 420px;
+  }
   @media only screen and (max-width: 991px) {
     max-height: 300px;
   }

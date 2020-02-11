@@ -96,6 +96,15 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       // setBody(HtmlToDraftConverter(''));
     }
   }, [emailData]);
+
+  // on new email click
+  const onNewEmail = () => {
+    setSubject('');
+    setBody(undefined);
+    setAttachments([]);
+    setParentId(null);
+    setIsSubmit(false);
+  };
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
     const {
@@ -111,12 +120,16 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       setSubject(subject);
       setBody(editorState);
       setAttachments(
-        attachments.map(({ name, id, path, size }: INewEmailAttachments) => ({
-          fileName: name,
-          id,
-          path,
-          size,
-        })),
+        attachments
+          ? attachments.map(
+              ({ name, id, path, size }: INewEmailAttachments) => ({
+                fileName: name,
+                id,
+                path,
+                size,
+              }),
+            )
+          : [],
       );
     }
   };
@@ -186,7 +199,10 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
             <Col lg={'12'}>
               <div className='email-inbox-section'>
                 <div className='email-row-wrap align-items-center email-attributes-wrap'>
-                  <div className='email-attributes-content d-flex align-items-center'>
+                  <div
+                    className='email-attributes-content d-flex align-items-center'
+                    onClick={onNewEmail}
+                  >
                     <i className='fa fa-envelope mr-1' aria-hidden='true'></i>
                     <span> {languageTranslation('NEW_EMAIL')}</span>
                   </div>

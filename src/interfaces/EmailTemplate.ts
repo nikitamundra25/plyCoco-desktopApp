@@ -69,7 +69,13 @@ export interface IEmailAttachmentData {
 }
 
 export interface INewEmailAttachments {
-  fileName: string;
+  name: string;
+  id: string;
   size: number;
+  path: string;
+}
+
+export interface IEmailInputAttachmenttypes {
+  fileName: string;
   path: string;
 }

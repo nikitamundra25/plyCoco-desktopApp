@@ -45,6 +45,7 @@ const GET_CAREGIVER_EMAIL_TEMPLATES = gql`
         menuEntry
         subject
         body
+        attachments
       }
     }
   }

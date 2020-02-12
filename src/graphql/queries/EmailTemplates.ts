@@ -53,17 +53,42 @@ const GET_CAREGIVER_EMAIL_TEMPLATES = gql`
 const GET_ARCHIVE_EMAIL_TEMPLATES = gql`
   query TrashEmailTemplateList {
     trashEmailTemplateList {
+      id
       menuEntry
       deletedAt
     }
   }
 `;
-// query{ trashEmailTemplateList{ menuEntry, deletedAt } }
+const GET_ARCHIVE_EMAIL_TEMPLATE_BY_ID = gql`
+  query TrashSingleEmailTemp($id: Int!) {
+    trashSingleEmailTemp(id: $id) {
+      email_template_type {
+        type
+      }
+      menuEntry
+      subject
+      body
+      id
+      attachments
+    }
+  }
+`;
+// query{
+//   trashSingleEmailTemp(id: 159){
+//    menuEntry,
+//    subject,
+//    body
+//    email_template_type{
+//      type
+//    }
+//   }
+//   }
 
 export const EmailTemplateQueries = [
   GET_EMAIL_TEMPLATE_TYEPS,
   GET_EMAIL_TEMPLATE,
   GET_EMAIL_TEMPLATE_BY_ID,
   GET_CAREGIVER_EMAIL_TEMPLATES,
-  GET_ARCHIVE_EMAIL_TEMPLATES
+  GET_ARCHIVE_EMAIL_TEMPLATES,
+  GET_ARCHIVE_EMAIL_TEMPLATE_BY_ID
 ];

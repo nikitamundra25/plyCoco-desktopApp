@@ -53,14 +53,12 @@ export const AttachmentList: FunctionComponent<{
                     </>
                   ) : (
                     <span
-                      onClick={() => {
-                        let path = item.path;
-                        // To concat base path in existing. In attachmetn full path are a;ready there
-                        if (label !== 'preview') {
-                          path = `${AppConfig.FILES_ENDPOINT}${item.path}`;
-                        }
-                        return window.open(path, '_blank');
-                      }}
+                      onClick={() =>
+                        window.open(
+                          `${AppConfig.FILES_ENDPOINT}${item.path}`,
+                          '_blank',
+                        )
+                      }
                       className='word-wrap view-more-link'
                     >
                       {item.fileName}

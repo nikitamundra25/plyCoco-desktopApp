@@ -265,10 +265,14 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                   </div>
                 </FormGroup>
               </Col>
-              <AttachmentFormComponent
-                uploadDocument={uploadDocument}
-                attachment={attachment}
-              />
+              {!showArchive ? (
+                <AttachmentFormComponent
+                  uploadDocument={uploadDocument}
+                  attachment={attachment}
+                />
+              ) : (
+                ''
+              )}
             </Row>
           )}
         </div>

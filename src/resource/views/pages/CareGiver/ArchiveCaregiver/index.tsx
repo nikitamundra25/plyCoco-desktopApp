@@ -15,6 +15,8 @@ import { languageTranslation, logger } from '../../../../../helpers';
 import { EmployeeQueries } from '../../../../../graphql/queries';
 import { EmployeeMutations } from '../../../../../graphql/Mutations';
 import PaginationComponent from '../../../components/Pagination';
+
+import { UncontrolledTooltip } from 'reactstrap';
 import {
   ISearchValues,
   IReactSelectInterface,
@@ -308,7 +310,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
                         ? moment(trashUser.deletedAt).format('MMM, Do YYYY')
                         : ''}
                     </td>
-                    <td>
+                    {/* <td>
                       <div className='text-center'>
                         <Button
                           onClick={() => onRestoreEmployee(trashUser.id)}
@@ -333,6 +335,40 @@ const ArchiveCaregiver: FunctionComponent = () => {
                             &nbsp;{languageTranslation('DELETE')}
                           </span>
                         </Button>
+                      </div>
+                    </td>
+                   */}
+
+                    <td>
+                      <div className='action-btn'>
+                        <span
+                          className='btn-icon mr-2'
+                          id={`restore${index}`}
+                          onClick={() => onRestoreEmployee(trashUser.id)}
+                        >
+                          <UncontrolledTooltip
+                            placement='top'
+                            target={`restore${index}`}
+                          >
+                            {languageTranslation('RESTORE_TOOLTIP')}
+                          </UncontrolledTooltip>
+                          <i className='fa fa-undo'></i>
+                        </span>
+                        <span
+                          className='btn-icon '
+                          id={`delete${index}`}
+                          onClick={() =>
+                            onPermanentlyDeleteEmployee(trashUser.id)
+                          }
+                        >
+                          <UncontrolledTooltip
+                            placement='top'
+                            target={`delete${index}`}
+                          >
+                            {languageTranslation('DELETE_PERMANENTALY_TOOLTIP')}
+                          </UncontrolledTooltip>
+                          <i className='fa fa-trash'></i>
+                        </span>
                       </div>
                     </td>
                   </tr>

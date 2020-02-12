@@ -92,7 +92,11 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   const [permanentDeleteEmail, { error }] = useMutation<
     { permanentDeleteEmail: any },
     { id: string }
-  >(PERMANENT_DELETE_EMAIL_TEMPLATE);
+  >(PERMANENT_DELETE_EMAIL_TEMPLATE, {
+    onCompleted({ permanentDeleteEmail }) {
+      archiveListRefetch();
+    }
+  });
 
   useEffect(() => {
     if (!templateType) {

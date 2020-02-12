@@ -5,7 +5,7 @@ import {
   Redirect,
   RouteComponentProps,
   useHistory,
-  useLocation
+  useLocation,
 } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { AppRoutes } from '../../../../config';
@@ -19,7 +19,7 @@ import {
   AppSidebarForm,
   AppSidebarHeader,
   AppSidebarMinimizer,
-  AppSidebarNav
+  AppSidebarNav,
 } from '@coreui/react';
 import { useLazyQuery } from '@apollo/react-hooks';
 import Loader from '../Loader/Loader';
@@ -27,16 +27,17 @@ import { ProfileQueries } from '../../../../graphql/queries';
 import logo from '../../../assets/img/plycoco-white.png';
 import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
+import { errorFormatter } from '../../../../helpers/ErrorFormatter';
 
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 const CareInstitutionTodoLayoutComponent = React.lazy(() =>
   import(
     '../../pages/CareInstitutionTodo/Sidebar/SidebarLayout/CareInstitutionTodoLayout'
-  )
+  ),
 );
 const CareGiverTodoLayoutComponent = React.lazy(() =>
-  import('../../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout')
+  import('../../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout'),
 );
 
 //Caregiver Todo Layout
@@ -81,6 +82,8 @@ const CareInstitutionTodoLayout = ({ component: Component, ...rest }: any) => {
 
 const [VIEW_PROFILE] = ProfileQueries;
 
+let toastId: any = null;
+
 const DefaultLayout = (props: RouteComponentProps) => {
   let history = useHistory();
   let { pathname } = useLocation();
@@ -89,14 +92,13 @@ const DefaultLayout = (props: RouteComponentProps) => {
   const [viewAdminProfile, { data }] = useLazyQuery(VIEW_PROFILE, {
     fetchPolicy: 'no-cache',
     onError: (error: ApolloError) => {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      toast.error(message);
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
       localStorage.removeItem('adminToken');
       history.push(AppRoutes.LOGIN);
-    }
+    },
   });
 
   const [permission, setpermission] = useState<string>('');
@@ -115,7 +117,7 @@ const DefaultLayout = (props: RouteComponentProps) => {
       }
     }
   }, [data]);
-  
+
   // To add scroll event listener
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -151,7 +153,7 @@ const DefaultLayout = (props: RouteComponentProps) => {
 
   const navigationFunction = (permissions: any) => {
     const navItems: any = {
-      items: []
+      items: [],
     };
     navigation.items.forEach((nav: any | string) => {
       if (nav) {

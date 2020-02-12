@@ -677,5 +677,6 @@
   "CI_PROFILE_DISAPPROVE": "This care institution's profile will be disapproved",
   "CI_PROFILE_DISAPPROVE_SUCESS": "Care Institution's profile disapproved successfully",
   "CI_PROFILE_APPROVE": "This care institution's profile will be approved",
-  "CI_PROFILE_APPROVE_SUCESS": "Care Institution's profile approved successfully"
+  "CI_PROFILE_APPROVE_SUCESS": "Care Institution's profile approved successfully",
+  "EMAIL_SELECT_CARE_GIVERS": "Please select careGiver to sent email"
 }

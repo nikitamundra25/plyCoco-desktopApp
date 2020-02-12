@@ -4,10 +4,10 @@ import { Editor } from "react-draft-wysiwyg";
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import Select from "react-select";
-import { IEmailFormComponentPorps } from "../../../../interfaces";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { stripHtml, languageTranslation } from "../../../../helpers";
 import { IEmailEditorComponentProps } from "../../../../interfaces/bulkEmailCaregiver";
+import { AttachmentList } from "../../components/Attachments";
 
 export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps> = (
   props: IEmailEditorComponentProps
@@ -17,10 +17,16 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
     templateOptions,
     subject,
     onTemplateSelection,
-    template
+    onEditorStateChange,
+    handleChangeSubject,
+    onDelteDocument,
+    template,
+    attachments,
+    isSubmit
   } = props;
   let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : "";
   const result = stripHtml(content);
+
   return (
     <Col lg={"7"}>
       <div className="">
@@ -28,6 +34,7 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
           <div className="d-flex align-items-end justify-content-between bulk-email-header">
             <Label className="bulk-email-label">
               {languageTranslation("SUBJECT")} {languageTranslation("EMAIL")}
+              <span className="required">*</span>
             </Label>
             <div className="select-box mb-2">
               <Select
@@ -48,9 +55,20 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
                     type="text"
                     placeholder={languageTranslation("SUBJECT")}
                     name={"lastName"}
-                    className="width-common"
+                    className={`width-common ${
+                      isSubmit && !subject ? "error" : ""
+                    }`}
                     value={subject}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleChangeSubject(e)
+                    }
+                    maxLength={255}
                   />
+                  {isSubmit && !subject ? (
+                    <div className="required-tooltip">
+                      {languageTranslation("REQUIRED_SUBJECT")}
+                    </div>
+                  ) : null}
                 </div>
               </FormGroup>
             </Col>
@@ -58,6 +76,7 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
               <FormGroup>
                 <Label className="form-label col-form-label mb-2">
                   {languageTranslation("TEXT_EMAIL")}
+                  <span className="required">*</span>
                 </Label>
 
                 <div>
@@ -66,7 +85,7 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
                     editorClassName="editorClassName"
-                    placeholder="Enter Email Content Here"
+                    placeholder={languageTranslation("EMAIL_BODY_PLACEHOLDER")}
                     toolbar={{
                       options: [
                         "inline",
@@ -93,35 +112,26 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
                         options: ["link"]
                       }
                     }}
+                    onEditorStateChange={onEditorStateChange}
                   />
                 </div>
               </FormGroup>
+              {isSubmit && (!body || (result && result.length < 2)) ? (
+                <div className="required-error">
+                  {languageTranslation("REQUIRED_BODY")}
+                </div>
+              ) : (
+                ""
+              )}
             </Col>
           </Row>
         </div>
-        <Table bordered hover responsive className="mail-table">
-          <thead className="thead-bg">
-            <tr>
-              <th className="file-name">{languageTranslation("FILE_NAME")}</th>
-              <th className="size-col">{languageTranslation("SIZE")}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="file-name ">Pan Card.PDF</td>
-              <td className="size-col">1kb</td>
-            </tr>
-            <tr>
-              <td className="file-name">VoterID.pdf</td>
-              <td className="size-col">2kb</td>
-            </tr>
-
-            <tr>
-              <td className="file-name">Pan Card.PDF</td>
-              <td className="size-col">5kb</td>
-            </tr>
-          </tbody>
-        </Table>
+        {attachments && attachments.length ? (
+          <AttachmentList
+            attachment={attachments}
+            onDelteDocument={onDelteDocument}
+          />
+        ) : null}
       </div>
     </Col>
   );

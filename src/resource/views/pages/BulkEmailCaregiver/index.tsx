@@ -1,14 +1,18 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { FormGroup, Label, Input, Col, Row, Table } from "reactstrap";
+import { FormGroup, Label, Input, Col, Row, Table, Button } from "reactstrap";
 import Select from "react-select";
-import { languageTranslation, HtmlToDraftConverter } from "../../../../helpers";
+import {
+  languageTranslation,
+  HtmlToDraftConverter,
+  stripHtml
+} from "../../../../helpers";
 import {
   CareGiverQueries,
   EmailTemplateQueries
 } from "../../../../graphql/queries";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { State } from "../../../../config";
+import { State, AppConfig } from "../../../../config";
 import filter from "../../../assets/img/filter.svg";
 import refresh from "../../../assets/img/refresh.svg";
 import send from "../../../assets/img/send.svg";
@@ -19,12 +23,17 @@ import {
   IReactSelectInterface,
   IEmailTemplateData,
   INewEmailAttachments,
-  IEmailAttachmentData
+  IEmailAttachmentData,
+  IAddEmailVariables
 } from "../../../../interfaces";
 import { EmailEditorComponent } from "./emailEditor";
+import { ConfirmBox } from "../../components/ConfirmBox";
+import { convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+import { toast } from "react-toastify";
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
-
+let toastId: any = null;
 const BulkEmailCaregiver: FunctionComponent = () => {
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   // To get caregiver list from db
@@ -51,6 +60,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const [subject, setSubject] = useState<string>("");
   const [body, setBody] = useState<any>("");
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   useEffect(() => {
     // Fetch list of caregivers
@@ -164,6 +174,76 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     }
   };
 
+  const onEditorStateChange = (editorState: any): void => {
+    setBody(editorState);
+  };
+
+  const handleChangeSubject = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSubject(e.target.value);
+  };
+
+  const onDelteDocument = async (
+    attachmentId: string,
+    attachmentIndex?: number
+  ) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG")
+    });
+    if (!value) {
+      return;
+    } else {
+      setAttachments((prevArray: any) =>
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index)
+      );
+    }
+  };
+
+  const handleSendEmail = (e: React.FormEvent<any>) => {
+    e.preventDefault();
+    let content = body
+      ? draftToHtml(convertToRaw(body.getCurrentContent()))
+      : "";
+    const result = stripHtml(content);
+    setIsSubmit(true);
+    try {
+      if (selectedCareGiver && selectedCareGiver.length) {
+        selectedCareGiver.map((careGiverId: number) => {
+          if (subject && body && result && result.length >= 2) {
+            // const emailInput: IAddEmailVariables = {
+            //   userId: careGiverId ? careGiverId : 0,
+            //   to: "caregiver",
+            //   from: "plycoco",
+            //   subject: subject /* .replace(/AW:/g, '') */,
+            //   body: body ? content : "",
+            //   // parentId,
+            //   status: "new",
+            //   attachments: attachments.map(
+            //     ({ path, fileName }: IEmailAttachmentData) => ({
+            //       path: `${AppConfig.FILES_ENDPOINT}${path}`,
+            //       fileName
+            //     })
+            //   )
+            // };
+            // addNewEmail({ variables: { emailInput } });
+          }
+        });
+      } else {
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(
+            languageTranslation("EMAIL_SELECT_CARE_GIVERS")
+          );
+        }
+      }
+    } catch (error) {
+      const message = error.message
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
+      toast.error(message);
+    }
+  };
+
   return (
     <>
       <div className="common-detail-page">
@@ -186,15 +266,26 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   {languageTranslation("ATTRIBUTES")}
                 </span>
               </div>
-
-              <div className="header-nav-item">
+              <div className="ml-auto">
+                <Button
+                  color="primary"
+                  onClick={handleSendEmail}
+                  className="btn-email-save ml-auto mr-2 btn btn-primary"
+                >
+                  <span>{languageTranslation("SEND")}</span>
+                </Button>
+              </div>
+              {/* <div
+                className="header-nav-item ml-auto"
+                onClick={handleSendEmail}
+              >
                 <span className="header-nav-icon">
                   <img src={send} alt="" />
                 </span>
                 <span className="header-nav-text">
                   {languageTranslation("SEND")}
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -283,7 +374,12 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   templateOptions={templateOptions}
                   subject={subject}
                   onTemplateSelection={onTemplateSelection}
+                  onEditorStateChange={onEditorStateChange}
                   template={template}
+                  handleChangeSubject={handleChangeSubject}
+                  attachments={attachments}
+                  onDelteDocument={onDelteDocument}
+                  isSubmit={isSubmit}
                 />
               </Row>
             </div>

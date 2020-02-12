@@ -679,5 +679,7 @@
   "CI_PROFILE_APPROVE": "This care institution's profile will be approved",
   "CI_PROFILE_APPROVE_SUCESS": "Care Institution's profile approved successfully",
   "CONFIRM_EMAIL_TEMPLATE_RESTORE_MSG": "This email template will be restored.",
-  "EMAIL_TEMPLATE_RESTORED_SUCCESS": "Email Template restored successfully."
+  "EMAIL_TEMPLATE_RESTORED_SUCCESS": "Email Template restored successfully.",
+  "RESTORE_TOOLTIP": "Click here to restore data",
+  "DELETE_PERMANENTALY_TOOLTIP": "Click here to delete permanently"
 }

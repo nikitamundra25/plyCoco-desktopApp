@@ -80,7 +80,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
                                 placement="top"
                                 target={`restore${index}`}
                               >
-                                Click here to restore data
+                                {languageTranslation("RESTORE_TOOLTIP")}
                               </UncontrolledTooltip>
                               <i className="fa fa-undo"></i>
                             </span>
@@ -89,7 +89,9 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
                                 placement="top"
                                 target={`delete${index}`}
                               >
-                                Click here to delete permanentaly
+                                {languageTranslation(
+                                  "DELETE_PERMANENTALY_TOOLTIP"
+                                )}
                               </UncontrolledTooltip>
                               <i className="fa fa-trash"></i>
                             </span>

@@ -19,6 +19,7 @@ import send from "../../../assets/img/send.svg";
 import "./index.scss";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import Loader from "../../containers/Loader/Loader";
+import InfiniteScroll from "react-infinite-scroll-component";
 import {
   IReactSelectInterface,
   IEmailTemplateData,
@@ -57,6 +58,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     }
   );
 
+  const [page, setPage] = useState<number>(1);
   const [template, setTemplate] = useState<any>(undefined);
   const [subject, setSubject] = useState<string>("");
   const [body, setBody] = useState<any>("");
@@ -69,8 +71,8 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       variables: {
         searchBy: "",
         sortBy: 3,
-        limit: 200,
-        page: 1,
+        limit: 30,
+        page,
         isActive: ""
       }
     });
@@ -78,22 +80,37 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
   const [careGiverData, setcareGiverData] = useState<Object[]>([]);
   useEffect(() => {
+    let list: any = [...careGiverData];
     if (careGivers) {
       const { getCaregivers } = careGivers;
       const { result } = getCaregivers;
-      setcareGiverData(result);
+      if (result && result.length) {
+        result.map((key: any) => {
+          return (list = [...list, key]);
+        });
+      }
+      setcareGiverData(list);
     }
   }, [careGivers]);
 
+  const handleInfiniteScroll = () => {
+    setPage(page + 1);
+    fetchCareGiverList({
+      variables: {
+        searchBy: "",
+        sortBy: 3,
+        limit: 30,
+        page: page + 1,
+        isActive: ""
+      }
+    });
+  };
+
   const handleSelectAll = async () => {
-    if (
-      careGivers &&
-      careGivers.getCaregivers &&
-      careGivers.getCaregivers.result.length
-    ) {
+    if (careGiverData && careGiverData.length) {
       let list: any = [];
       if (selectedCareGiver && selectedCareGiver.length <= 0) {
-        careGivers.getCaregivers.result.map((key: any) => {
+        careGiverData.map((key: any) => {
           return (list = [...list, parseInt(key.id)]);
         });
         setselectedCareGiver(list);
@@ -301,6 +318,8 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   careGiverData={careGiverData}
                   selectedCareGiver={selectedCareGiver}
                   handleCheckElement={handleCheckElement}
+                  handleInfiniteScroll={handleInfiniteScroll}
+                  page={page}
                 />
 
                 <EmailEditorComponent

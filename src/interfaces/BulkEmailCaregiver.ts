@@ -34,4 +34,5 @@ export interface ICareGiverListComponentProps {
     e: React.ChangeEvent<HTMLInputElement>,
     id: string
   ) => Promise<void>;
+  handleInfiniteScroll: () => void;
 }

@@ -201,7 +201,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       loading: archiveListLoading,
       refetch: archiveListRefetch
     }
-  ] = useLazyQuery<any>(GET_ARCHIVE_EMAIL_TEMPLATES);
+  ] = useLazyQuery<any>(GET_ARCHIVE_EMAIL_TEMPLATES, {
+    fetchPolicy: 'no-cache'
+  });
 
   //To get email templates by id
   const [
@@ -285,12 +287,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       setAttachment(temp);
     }
   };
-
-  console.log('archiveEmailTemplate', archiveEmailTemplate);
-
   //view a particular archived template by clicking on its menu entry
   useEffect(() => {
-    if (!emailTemplateLoading && archiveEmailTemplate) {
+    if (!archiveEmailTemplateLoading && archiveEmailTemplate) {
       const { trashSingleEmailTemp = {} } = archiveEmailTemplate
         ? archiveEmailTemplate
         : {};
@@ -562,12 +561,20 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       }
     }
   };
+  //on clicking view trash button
   const onViewTrash = () => {
     setShowArchive(true);
     setTemplateData(null);
     fetchArchiveList();
   };
 
+  //onclicking back to list in view trash
+  const onBackToList = () => {
+    setShowArchive(false);
+    setActiveTemplate('');
+    setTemplateData(null);
+    listRefetch();
+  };
   return (
     <>
       <div className='common-detail-page'>
@@ -602,7 +609,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
             setShowArchive={setShowArchive}
             showArchive={showArchive}
             onViewTrash={onViewTrash}
-            // setTemplateData={ setTemplateData}
+            listRefetch={listRefetch}
+            setActiveTemplate={setActiveTemplate}
+            onBackToList={onBackToList}
           />
           <div className='common-content flex-grow-1'>
             <div>
@@ -629,6 +638,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   onDelteDocument={onDelteDocument}
                   emailTemplateLoading={emailTemplateLoading}
                   showArchive={showArchive}
+                  archiveEmailTemplateLoading={archiveEmailTemplateLoading}
                 />
               </Row>
             </div>

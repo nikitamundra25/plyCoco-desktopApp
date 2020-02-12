@@ -23,6 +23,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
   emailTemplateLoading: boolean;
   onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
   showArchive: boolean;
+  archiveEmailTemplateLoading: boolean;
 }> = (
   props: FormikProps<IEmailTemplateValues> & {
     typeListOptions?: any;
@@ -32,6 +33,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     emailTemplateLoading: boolean;
     onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
     showArchive: boolean;
+    archiveEmailTemplateLoading: boolean;
   }
 ) => {
   const {
@@ -48,7 +50,8 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     uploadDocument,
     onDelteDocument,
     emailTemplateLoading,
-    showArchive
+    showArchive,
+    archiveEmailTemplateLoading
   } = props;
   const typeError: any = errors.type;
 
@@ -71,7 +74,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
         <div
           className={`form-card minheight-auto ${id ? 'active-border' : ''}`}
         >
-          {emailTemplateLoading ? (
+          {emailTemplateLoading || archiveEmailTemplateLoading ? (
             <div className='emailtemplate-loader'>
               <Loader />
             </div>

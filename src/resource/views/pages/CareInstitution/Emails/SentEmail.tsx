@@ -23,7 +23,7 @@ const SentEmail: FunctionComponent = () => {
     <div className="email-section">
       {/* <EmailMenus {...this.props} /> */}
       <div className="email-content">
-        <Row className="custom-col">
+        <Row>
           <Col lg={"5"}>
             <div className="email-inbox-section">
               <div className="filter-form form-section">
@@ -90,7 +90,7 @@ const SentEmail: FunctionComponent = () => {
                   <span>{languageTranslation("SUBJECT")}</span>
                 </div>
               </div>
-              <ul className="mb-3 p-0 list-group">
+              <ul className="mb-3 mb-lg-0 p-0 list-group custom-scrollbar">
                 <li className={`email-wrap `}>
                   <div
                     className={`email-date-block ${

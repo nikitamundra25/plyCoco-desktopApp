@@ -9,7 +9,8 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   onTemplateSelection,
   data,
   loading,
-  activeTemplate
+  activeTemplate,
+  showArchive
 }: IEmailTemplateList) => {
   return (
     <Col lg={"5"} className="pr-lg-0">

@@ -1,11 +1,11 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import {
   Route,
   Switch,
   Redirect,
   RouteComponentProps,
   useHistory,
-  useLocation,
+  useLocation
 } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { AppRoutes } from '../../../../config';
@@ -19,7 +19,7 @@ import {
   AppSidebarForm,
   AppSidebarHeader,
   AppSidebarMinimizer,
-  AppSidebarNav,
+  AppSidebarNav
 } from '@coreui/react';
 import { useLazyQuery } from '@apollo/react-hooks';
 import Loader from '../Loader/Loader';
@@ -33,10 +33,10 @@ const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 const CareInstitutionTodoLayoutComponent = React.lazy(() =>
   import(
     '../../pages/CareInstitutionTodo/Sidebar/SidebarLayout/CareInstitutionTodoLayout'
-  ),
+  )
 );
 const CareGiverTodoLayoutComponent = React.lazy(() =>
-  import('../../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout'),
+  import('../../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout')
 );
 
 //Caregiver Todo Layout
@@ -84,6 +84,8 @@ const [VIEW_PROFILE] = ProfileQueries;
 const DefaultLayout = (props: RouteComponentProps) => {
   let history = useHistory();
   let { pathname } = useLocation();
+  let location = useLocation();
+
   const [viewAdminProfile, { data }] = useLazyQuery(VIEW_PROFILE, {
     fetchPolicy: 'no-cache',
     onError: (error: ApolloError) => {
@@ -94,8 +96,26 @@ const DefaultLayout = (props: RouteComponentProps) => {
       toast.error(message);
       localStorage.removeItem('adminToken');
       history.push(AppRoutes.LOGIN);
-    },
+    }
   });
+
+  const [permission, setpermission] = useState<string>('');
+  useEffect(() => {
+    if (data) {
+      const { viewAdminProfile } = data;
+      setpermission(viewAdminProfile.accessLevel);
+      if (
+        viewAdminProfile.accessLevel !== 'superadmin' &&
+        (pathname === AppRoutes.EMPLOYEE ||
+          pathname === AppRoutes.ADD_EMPLOYEE ||
+          pathname === AppRoutes.EDIT_EMPLOYEE ||
+          pathname === AppRoutes.VIEW_EMPLOYEE)
+      ) {
+        history.push(AppRoutes.HOME);
+      }
+    }
+  }, [data]);
+  
   // To add scroll event listener
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -128,10 +148,27 @@ const DefaultLayout = (props: RouteComponentProps) => {
       }
     }
   };
+
+  const navigationFunction = (permissions: any) => {
+    const navItems: any = {
+      items: []
+    };
+    navigation.items.forEach((nav: any | string) => {
+      if (nav) {
+        nav.authKey.map((data: string, index: number) => {
+          if (data === permissions) {
+            navItems.items.push(nav);
+          }
+        });
+      }
+    });
+    return navItems;
+  };
+
   return (
     <div className='app'>
       <AppHeader>
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={''}>
           <DefaultHeader />
         </Suspense>
       </AppHeader>
@@ -143,7 +180,11 @@ const DefaultLayout = (props: RouteComponentProps) => {
           <AppSidebarHeader />
           <AppSidebarForm />
           <Suspense fallback={<Loader />}>
-            <AppSidebarNav navConfig={navigation} {...props} isOpen />
+            <AppSidebarNav
+              navConfig={navigationFunction(permission || {})}
+              {...props}
+              isOpen
+            />
           </Suspense>
           <AppSidebarFooter />
           <AppSidebarMinimizer />

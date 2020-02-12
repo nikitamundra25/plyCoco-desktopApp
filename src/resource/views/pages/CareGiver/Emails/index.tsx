@@ -23,10 +23,10 @@ const Email: FunctionComponent<{
   const [emailData, setEmailData] = useState<any>('');
   const [searchBy, setSearchBy] = useState<string>('');
 
-  let [fetchEmails, { data: emailList, loading, refetch }] = useLazyQuery<
-    { fetchEmails: any },
-    IEmailQueryVar
-  >(GET_EMAILS, {
+  let [
+    fetchEmails,
+    { data: emailList, loading, called, refetch },
+  ] = useLazyQuery<{ fetchEmails: any }, IEmailQueryVar>(GET_EMAILS, {
     notifyOnNetworkStatusChange: true,
   });
 
@@ -118,7 +118,7 @@ const Email: FunctionComponent<{
             emailList={emailList}
             onTabChange={onTabChange}
             selectedUserName={selectedUserName}
-            loading={loading}
+            loading={!called || loading}
             onRefresh={() => onRefresh('caregiver')}
             searchBy={searchBy}
             handleChange={handleChange}
@@ -131,7 +131,7 @@ const Email: FunctionComponent<{
           <SentEmail
             emailList={emailList}
             selectedUserName={selectedUserName}
-            loading={loading}
+            loading={!called || loading}
             onRefresh={() => onRefresh('plycoco')}
             searchBy={searchBy}
             handleChange={handleChange}

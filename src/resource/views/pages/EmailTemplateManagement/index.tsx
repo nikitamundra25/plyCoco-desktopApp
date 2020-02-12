@@ -6,6 +6,7 @@ import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { toast } from 'react-toastify';
+import { ApolloError } from 'apollo-client';
 import {
   IEmailTemplateValues,
   IReactSelectInterface,
@@ -19,14 +20,15 @@ import { AddTemplate } from './AddTemplate';
 import { languageTranslation } from '../../../../helpers';
 import { EmailTemplateMutations } from '../../../../graphql/Mutations';
 import { ConfirmBox } from '../../components/ConfirmBox';
-import './index.scss';
-import { ApolloError } from 'apollo-client';
 import { errorFormatter } from '../../../../helpers/ErrorFormatter';
+import './index.scss';
 
 const [
   GET_EMAIL_TEMPLATE_TYEPS,
   GET_EMAIL_TEMPLATE,
   GET_EMAIL_TEMPLATE_BY_ID,
+  ,
+  GET_ARCHIVE_EMAIL_TEMPLATES,
 ] = EmailTemplateQueries;
 
 const [
@@ -40,6 +42,7 @@ let toastId: any = '';
 
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
+  const [showArchive, setShowArchive] = useState<boolean | null>(null);
   const [typeId, setTypeId] = useState<number | null>(null);
   const [attachment, setAttachment] = useState<IEmailAttachmentData[]>([]);
   // To set email template data at the time of edit
@@ -155,7 +158,6 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     { id: number; attachmentId: string }
   >(DELETE_EMAIL_TEMPLATE_ATTACHMENT, {
     onCompleted({ deleteEmailAttachment }) {
-      console.log(deleteEmailAttachment, 'deleteEmailAttachment');
       const { attachmentId } = deleteEmailAttachment;
       setAttachment((prevArray: any) =>
         prevArray.filter((item: any) => item.id !== attachmentId),
@@ -180,6 +182,11 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     { data, loading: fetchTemplateListLoading, called, refetch: listRefetch },
   ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE);
 
+  //To get trash email templates
+  const [
+    fetchArchiveList,
+    { data: archiveList, loading: archiveListLoading },
+  ] = useLazyQuery<any>(GET_ARCHIVE_EMAIL_TEMPLATES);
   //To get email templates by id
   const [
     fetchTemplateById,
@@ -189,68 +196,73 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   //view a particular template by clicking on its menu entry
   useEffect(() => {
     if (!emailTemplateLoading && emailTemplate) {
-      const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
-      const {
-        id = null,
-        menuEntry = '',
-        subject = '',
-        body = '',
-        email_template_type = {},
-        attachments = [],
-      } = viewEmailTemplate ? viewEmailTemplate : {};
-      const { type = '' } = email_template_type ? email_template_type : {};
-      const contentBlock = body ? htmlToDraft(body) : '';
-      if (contentBlock) {
-        const contentState = ContentState.createFromBlockArray(
-          contentBlock.contentBlocks,
-        );
-        const editorState = EditorState.createWithContent(contentState);
-        const typeIdIndex: number = typeListOptions.findIndex(
-          (item: IReactSelectInterface) => item.label === type,
-        );
-        const replaceType: any = {
-          label: type,
-          value: type,
-        };
-        if (typeIdIndex > -1) {
-          setTypeId(parseInt(typeListOptions[typeIdIndex].value));
-        }
-        let temp: IEmailAttachmentData[] = [];
-        if (attachments && attachments.length) {
-          attachments.forEach(
-            ({
-              path,
-              name,
-              size,
-              id,
-            }: {
-              path: string;
-              name: string;
-              size: number;
-              id: string;
-            }) => {
-              temp.push({
-                path,
-                fileName: name,
-                size,
-                file: null,
-                url: '',
-                id,
-              });
-            },
-          );
-        }
-        setTemplateData({
-          type: replaceType,
-          menuEntry: menuEntry,
-          subject: subject,
-          body: editorState,
-          id: parseInt(id),
-        });
-        setAttachment(temp);
-      }
+      updateData();
     }
   }, [emailTemplate]);
+
+  // Function to set template data into state after some modifications
+  const updateData = () => {
+    const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
+    const {
+      id = null,
+      menuEntry = '',
+      subject = '',
+      body = '',
+      email_template_type = {},
+      attachments = [],
+    } = viewEmailTemplate ? viewEmailTemplate : {};
+    const { type = '' } = email_template_type ? email_template_type : {};
+    const contentBlock = body ? htmlToDraft(body) : '';
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks,
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      const typeIdIndex: number = typeListOptions.findIndex(
+        (item: IReactSelectInterface) => item.label === type,
+      );
+      const replaceType: any = {
+        label: type,
+        value: type,
+      };
+      if (typeIdIndex > -1) {
+        setTypeId(parseInt(typeListOptions[typeIdIndex].value));
+      }
+      let temp: IEmailAttachmentData[] = [];
+      if (attachments && attachments.length) {
+        attachments.forEach(
+          ({
+            path,
+            name,
+            size,
+            id,
+          }: {
+            path: string;
+            name: string;
+            size: number;
+            id: string;
+          }) => {
+            temp.push({
+              path,
+              fileName: name,
+              size,
+              file: null,
+              url: '',
+              id,
+            });
+          },
+        );
+      }
+      setTemplateData({
+        type: replaceType,
+        menuEntry: menuEntry,
+        subject: subject,
+        body: editorState,
+        id: parseInt(id),
+      });
+      setAttachment(temp);
+    }
+  };
 
   useEffect(() => {
     // call query
@@ -300,8 +312,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     const emailTemplateInput: IEmailTemplateSubmitValues = {
       type: type && type.label ? type.label : '',
       typeId,
-      menuEntry,
-      subject,
+      menuEntry: menuEntry ? menuEntry.trim() : '',
+      subject: subject ? subject.trim() : '',
       body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '',
       attachments:
         attachment && attachment.length
@@ -331,10 +343,15 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
     resetForm();
   };
-  const onTemplateSelection = async (id: string) => {
+  const onTemplateSelection = (id: string) => {
     setActiveTemplate(id);
     toast.dismiss();
-    await fetchTemplateById({
+    // To update data when query result from the Apollo cache & previous one & this one is the same
+    const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
+    if (viewEmailTemplate && viewEmailTemplate.id === id) {
+      updateData();
+    }
+    fetchTemplateById({
       variables: {
         id,
       },
@@ -411,6 +428,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   };
 
+  // const fetchArchiveList = () => {
+  // fetchArchiveList();
+
   return (
     <>
       <div className='common-detail-page'>
@@ -437,9 +457,12 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                 body: '',
                 id: undefined,
               });
+              setAttachment([]);
             }}
             onDeleteEmailTemplate={onDeleteEmailTemplate}
             onTypeChange={onTypeChange}
+            fetchArchiveList={fetchArchiveList}
+            setShowArchive={setShowArchive}
           />
           <div className='common-content flex-grow-1'>
             <div>
@@ -449,6 +472,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   data={data}
                   loading={!called || fetchTemplateListLoading}
                   activeTemplate={activeTemplate}
+                  showArchive={showArchive}
                 />
                 <AddTemplate
                   handleSubmit={handleSubmit}
@@ -460,6 +484,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   uploadDocument={uploadDocument}
                   onDelteDocument={onDelteDocument}
                   emailTemplateLoading={emailTemplateLoading}
+                  fetchArchiveList={fetchArchiveList}
                 />
               </Row>
             </div>

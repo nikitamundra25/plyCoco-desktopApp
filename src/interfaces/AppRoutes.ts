@@ -57,4 +57,7 @@ export interface IAppRoutes {
   APPOINTMENT:string;
   FURTHER: string;
   PAGENOTFOUND:string;
+  EMPLOYEE_ARCHIVE: string;
+  CAREGIVER_ARCHIVE: string;
+  CAREINSTITUTION_ARCHIVE: string;
 }

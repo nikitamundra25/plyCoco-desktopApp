@@ -1,8 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { Col } from 'reactstrap';
 import moment from 'moment';
-import { IEmailPreviewProps } from '../../../../../interfaces';
+import {
+  IEmailPreviewProps,
+  IEmailInputAttachmenttypes,
+} from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
+import { AttachmentList } from '../../../components/Attachments';
 
 export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
   emailData,
@@ -11,7 +15,16 @@ export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
 }: IEmailPreviewProps) => {
   return (
     <Col lg={'7'}>
-      <div className='mail-details'>
+      <div
+        className={`mail-details ${
+          sendBy &&
+          emailData &&
+          emailData.attachments &&
+          emailData.attachments.length
+            ? 'sent-box'
+            : ''
+        }`}
+      >
         <div className='mail-body'>
           {emailData ? (
             <div>
@@ -20,7 +33,9 @@ export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
               </h4>
               <h5 className='mb-2'>{sendBy ? sendBy : selectedUserName}</h5>
               <div>
-                <span className='gray-color'>Posted:</span>{' '}
+                <span className='gray-color'>
+                  {languageTranslation('POSTED')}:
+                </span>{' '}
                 <span>
                   {moment(emailData.createdAt).format('DD.MM.YYYY HH:mm:ss')}
                 </span>
@@ -44,28 +59,23 @@ export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
               />
             </div>
           ) : null}
-          {/* Hello Denis,
-                </p>
-
-                <p>we have the following offer for you: Searched for</p>
-
-                <p>qualification: Elderly care</p>
-
-                <p>
-                  01.01. ND 8.0h: old people's home near Bielefeld (code: Q9T3M)
-                  Services by arrangement. Accommodation is provided. Double
-                  services possible. Please let us know your availability by
-                  email ! Fee: freely negotiable Best regards Marc Erdtmann Tel:
-                  +49.30.644 99 444 Fax: +49.30.644 99 445 E-Mail:
-                  Kontakt@plycoco.de www.plycoco.de Plycoco GmbH Am Borsigturm 6
-                  13507 Berlin Entry in the commercial register: Register court
-                  : District court Berlin-Charlottenburg, registration number:
-                  HRB 150746, managing 
-                  </p>*/
-          /* <div className='mt-3  mb-1'>Thanks and Regards</div>
-                <div className='h6'>John die</div>*/}
         </div>
       </div>
+      {emailData && emailData.attachments && emailData.attachments.length ? (
+        <AttachmentList
+          attachment={emailData.attachments.map(
+            ({ path, fileName }: IEmailInputAttachmenttypes) => ({
+              url: null,
+              fileName,
+              size: 0,
+              path,
+              file: null,
+              id: '',
+            }),
+          )}
+          label={'preview'}
+        />
+      ) : null}
     </Col>
   );
 };

@@ -162,7 +162,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                             "_blank"
                           )
                         }
-                        className="view-more-link"
+                        className="view-more-link word-wrap"
                       >
                         {list && list.fileName ? list.fileName : "-"}
                       </span>

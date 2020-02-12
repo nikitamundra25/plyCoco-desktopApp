@@ -201,6 +201,18 @@ body {
       text-decoration: none;
     }
   }
+  .archive-btn {
+    padding: 3px 6px;
+    font-weight: 600;
+    font-size: $font_12;
+    .archive-icon {
+      margin-right: 6px;
+      img {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
 
   .password-btn {
     height: 25px;
@@ -239,6 +251,15 @@ body {
       color: $light_black;
       text-decoration: underline;
     }
+  }
+  .one-line-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .word-wrap {
+    word-wrap: break-word;
+    word-break: break-word;
   }
   .new-tag {
     background: $newtag;
@@ -1238,6 +1259,8 @@ html:not([dir="rtl"]) {
     .required-error {
       color: $red;
       font-size: $font_11;
+      position: absolute;
+      bottom: 0px;
     }
 
     .form-control {
@@ -1257,6 +1280,7 @@ html:not([dir="rtl"]) {
         outline: none;
         border-color: $theme_color;
       }
+
       &.height-auto {
         height: auto;
       }
@@ -1281,6 +1305,7 @@ html:not([dir="rtl"]) {
         }
       }
     }
+
     .custom-input-width {
       width: 125px;
     }
@@ -1791,15 +1816,7 @@ html:not([dir="rtl"]) {
     }
   }
 }
-.one-line-text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.word-wrap {
-  word-wrap: break-word;
-  word-break: break-word;
-}
+
 .table {
   background: $white;
   &.table-bordered {
@@ -2072,6 +2089,24 @@ html:not([dir="rtl"]) {
           border-color: $btn_hover_gray;
         }
       }
+    }
+  }
+}
+
+.mail-table {
+  .size-col {
+    width: 60px;
+  }
+  .file-description {
+    padding-right: 30px;
+    position: relative;
+    .trash-icon {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      cursor: pointer;
     }
   }
 }
@@ -2649,6 +2684,16 @@ html:not([dir="rtl"]) {
 .mail-details {
   height: 100%;
   border: 1px solid $table_border;
+  max-height: calc(100vh - 210px);
+
+  background: $white;
+  margin-bottom: 12px;
+  &.sent-box {
+    max-height: 420px;
+  }
+  @media only screen and (max-width: 991px) {
+    max-height: 300px;
+  }
   .mail-header {
     background: $card_header_bg;
     border-bottom: 1px solid $table_border;
@@ -2667,7 +2712,7 @@ html:not([dir="rtl"]) {
     font-size: $font_13;
     color: $black;
     height: 100%;
-    max-height: 500px;
+
     overflow-y: auto;
     overflow-x: hidden;
     .subject-title {
@@ -2697,6 +2742,12 @@ html:not([dir="rtl"]) {
     border-top: 1px solid $table_border;
     border: 1px solid $table_border;
     background: $white;
+    max-height: calc(100vh - 304px);
+    overflow-y: auto;
+    overflow-x: auto;
+    @media only screen and (max-width: 991px) {
+      max-height: 400px;
+    }
   }
   li {
     &.email-wrap {
@@ -2791,16 +2842,30 @@ html:not([dir="rtl"]) {
       font-weight: bold;
       .email-attributes-seprator {
         padding: 0px 8px;
-        font-size: 20 px;
+        @media only screen and (max-width: 767px) {
+          display: none;
+        }
       }
 
       .email-attributes-content {
         display: flex;
         white-space: nowrap;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         &.input-wrap {
           flex: 1 1 100%;
+          @media only screen and (max-width: 767px) {
+            margin: 10px 0px;
+          }
+          .form-control {
+            width: 500px;
+            @media only screen and (max-width: 991px) {
+              width: 300px;
+            }
+            @media only screen and (max-width: 400px) {
+              width: 230px;
+            }
+          }
         }
       }
       .email-text-wrap {
@@ -2888,18 +2953,18 @@ html:not([dir="rtl"]) {
 }
 
 .new-email-select-wrap {
-  width: 300px;
+  width: 500px;
   margin-left: 15px;
   font-weight: normal;
+  @media only screen and (max-width: 991px) {
+    width: 300px;
+  }
+  @media only screen and (max-width: 767px) {
+    margin-left: 0px;
+  }
   .new-email-select {
     width: 100%;
   }
-  // .react-select__control {
-  //   min-height: unset;
-  //   display: flex;
-  //   align-items: center;
-  //   border-radius: 0px;
-  // }
 }
 .gray-color {
   color: $gray_color;

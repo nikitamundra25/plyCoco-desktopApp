@@ -45,14 +45,25 @@ const GET_CAREGIVER_EMAIL_TEMPLATES = gql`
         menuEntry
         subject
         body
+        attachments
       }
     }
   }
 `;
+const GET_ARCHIVE_EMAIL_TEMPLATES = gql`
+  query TrashEmailTemplateList {
+    trashEmailTemplateList {
+      menuEntry
+      deletedAt
+    }
+  }
+`;
+// query{ trashEmailTemplateList{ menuEntry, deletedAt } }
 
 export const EmailTemplateQueries = [
   GET_EMAIL_TEMPLATE_TYEPS,
   GET_EMAIL_TEMPLATE,
   GET_EMAIL_TEMPLATE_BY_ID,
   GET_CAREGIVER_EMAIL_TEMPLATES,
+  GET_ARCHIVE_EMAIL_TEMPLATES
 ];

@@ -233,6 +233,7 @@ const GET_EMAILS = gql`
       to
       subject
       body
+      attachments
       createdAt
     }
   }
@@ -258,6 +259,32 @@ const GET_CAREGIVER_ATTRIBUTES = gql`
   }
 `;
 
+const GET_CAREGIVERS_FOR_BULK_EMAIL = gql`
+  query getCaregivers(
+    $searchBy: String
+    $sortBy: Int
+    $limit: Int
+    $page: Int
+    $isActive: String
+  ) {
+    getCaregivers(
+      searchBy: $searchBy
+      sortBy: $sortBy
+      limit: $limit
+      page: $page
+      isActive: $isActive
+    ) {
+      result {
+        id
+        firstName
+        lastName
+        email
+      }
+      totalCount
+    }
+  }
+`;
+
 export const CareGiverQueries = [
   GET_CAREGIVERS,
   GET_CAREGIVER_BY_ID,
@@ -265,4 +292,5 @@ export const CareGiverQueries = [
   GET_EMAILS,
   GET_BELONGS_TO,
   GET_CAREGIVER_ATTRIBUTES,
+  GET_CAREGIVERS_FOR_BULK_EMAIL
 ];

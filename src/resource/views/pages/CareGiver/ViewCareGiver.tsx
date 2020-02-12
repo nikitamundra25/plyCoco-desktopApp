@@ -6,28 +6,31 @@ import { useLazyQuery } from '@apollo/react-hooks';
 import { AppRoutes } from '../../../../config';
 import { careGiverRoutes } from './Sidebar/SidebarRoutes/CareGiverRoutes';
 import { IReactSelectInterface } from '../../../../interfaces';
-import Invoices from './Invoices/Invoices';
-import PersonalInformation from './PersonalInfo/PersonalInformation';
-import Offer from './Offers/Offer';
-import ToDo from './ToDos/ToDos';
-import LeasingPersonalData from './LeasingData';
-import QualificationAttribute from './GroupedBelow';
 import Loader from '../../containers/Loader/Loader';
-import Email from './Emails';
+import { CareGiverQueries } from '../../../../graphql/queries';
+import CustomOption from '../../components/CustomOptions';
+import { languageTranslation } from '../../../../helpers';
 import add from '../../../assets/img/add.svg';
 import reminder from '../../../assets/img/reminder.svg';
 import password from '../../../assets/img/password.svg';
 import appointment from '../../../assets/img/appointment.svg';
 import clear from '../../../assets/img/clear.svg';
-import { CareGiverQueries } from '../../../../graphql/queries';
-import LoginLogs from './Logins';
-import CreateTodo from '../../components/CreateTodo';
-import CustomOption from '../../components/CustomOptions';
-import { languageTranslation } from '../../../../helpers';
-import Documents from './Documents';
+
 const CareGiverSidebar = React.lazy(() =>
   import('./Sidebar/SidebarLayout/CareGiverLayout'),
 );
+const PersonalInformation = React.lazy(() =>
+  import('./PersonalInfo/PersonalInformation'),
+);
+const Offer = React.lazy(() => import('./Offers/Offer'));
+const LoginLogs = React.lazy(() => import('./Logins'));
+const Invoices = React.lazy(() => import('./Invoices/Invoices'));
+const ToDo = React.lazy(() => import('./ToDos/ToDos'));
+const Documents = React.lazy(() => import('./Documents'));
+const Email = React.lazy(() => import('./Emails'));
+const CreateTodo = React.lazy(() => import('../../components/CreateTodo'));
+const LeasingPersonalData = React.lazy(() => import('./LeasingData'));
+const GroupedBelow = React.lazy(() => import('./GroupedBelow'));
 
 const [GET_CAREGIVERS] = CareGiverQueries;
 const CareGiverRoutesTabs = careGiverRoutes;
@@ -124,7 +127,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       (careGiver: any) => careGiver.value === id,
     )[0];
     setselectUser(currenCareGiver);
-  }, [careGivers]);
+  }, [careGivers, pathname]);
 
   const onTabChange = (activeTab: number) => {
     props.history.push(
@@ -161,7 +164,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     <div>
       <div className='common-detail-page'>
         <div className='common-detail-section'>
-          <Suspense fallback={<Loader />}>
+          <Suspense fallback={''}>
             <div className='sticky-common-header'>
               <div className='common-topheader d-flex align-items-center '>
                 <div className='user-select'>
@@ -227,7 +230,13 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               />
             </div>
           </Suspense>
-          <Suspense fallback={''}>
+          <Suspense
+            fallback={
+              <div className='overview-loader'>
+                <Loader />
+              </div>
+            }
+          >
             <div className='common-content flex-grow-1'>
               {activeTab === 0 ? (
                 <PersonalInformation
@@ -256,7 +265,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               ) : null}
               {activeTab === 6 ? <ToDo /> : null}
               {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}
-              {activeTab === 8 ? <QualificationAttribute /> : null}
+              {activeTab === 8 ? <GroupedBelow /> : null}
             </div>
           </Suspense>
         </div>

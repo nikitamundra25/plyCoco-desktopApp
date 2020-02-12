@@ -22,10 +22,9 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
     addEmailLoading,
     id,
     updateLoading,
-    fetchArchiveList,
-    setShowArchive,
     showArchive,
-    onViewTrash
+    onViewTrash,
+    onBackToList
   } = props;
   return (
     <>
@@ -33,7 +32,7 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
         {showArchive ? (
           <div className='common-topheader d-flex align-items-center justify-content-end py-2 border-bottom'>
             <Button
-              onClick={() => setShowArchive(false)}
+              onClick={onBackToList}
               color={'primary'}
               className={'btn-email-save mr-2'}
             >
@@ -110,7 +109,7 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
               ) : (
                 ''
               )}
-              {languageTranslation('SAVE_BUTTON')}
+              &nbsp;{languageTranslation('SAVE_BUTTON')}
             </Button>
           </div>
         )}

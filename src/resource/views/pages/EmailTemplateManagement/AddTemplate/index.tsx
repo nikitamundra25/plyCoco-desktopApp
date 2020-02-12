@@ -19,7 +19,8 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
     uploadDocument,
     onDelteDocument,
     emailTemplateLoading,
-    showArchive
+    showArchive,
+    archiveEmailTemplateLoading
   } = props;
   const {
     type = { label: '', value: '' },
@@ -54,6 +55,7 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
             onDelteDocument={onDelteDocument}
             emailTemplateLoading={emailTemplateLoading}
             showArchive={showArchive}
+            archiveEmailTemplateLoading={archiveEmailTemplateLoading}
           />
         );
       }}

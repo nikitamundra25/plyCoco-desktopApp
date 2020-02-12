@@ -10,7 +10,7 @@ import {
   languageTranslation,
   HtmlToDraftConverter,
   logger,
-  stripHtml,
+  stripHtml
 } from '../../../../../helpers';
 import { EmailTemplateQueries } from '../../../../../graphql/queries';
 import {
@@ -19,7 +19,7 @@ import {
   IEmailTemplateData,
   INewEmailProps,
   IEmailAttachmentData,
-  INewEmailAttachments,
+  INewEmailAttachments
 } from '../../../../../interfaces';
 import { EmailFormComponent } from './EmailFormComponent';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
@@ -34,7 +34,7 @@ const [, , , , , , NEW_EMAIL] = CareGiverMutations;
 let toastId: any = null;
 
 const NewEmail: FunctionComponent<INewEmailProps> = ({
-  emailData,
+  emailData
 }: INewEmailProps) => {
   let { id } = useParams();
   const [subject, setSubject] = useState<string>('');
@@ -48,9 +48,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     GET_CAREGIVER_EMAIL_TEMPLATES,
     {
       variables: {
-        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE'),
-      },
-    },
+        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE')
+      }
+    }
   );
 
   const [addNewEmail, { loading: adding }] = useMutation<
@@ -77,19 +77,19 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    },
+    }
   });
 
   const templateOptions: IReactSelectInterface[] | undefined = [];
   if (data && data.getEmailtemplate) {
     const {
-      getEmailtemplate: { email_templates },
+      getEmailtemplate: { email_templates }
     } = data;
     if (email_templates && email_templates.length) {
       email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
         templateOptions.push({
           label: menuEntry,
-          value: id ? id.toString() : '',
+          value: id ? id.toString() : ''
         });
       });
     }
@@ -117,11 +117,11 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
     const {
-      getEmailtemplate: { email_templates },
+      getEmailtemplate: { email_templates }
     } = data;
     setTemplate(selectedOption);
     const templateData = email_templates.filter(
-      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value),
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value)
     )[0];
     if (templateData) {
       const { subject, body, attachments } = templateData;
@@ -135,10 +135,10 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                 fileName: name,
                 id,
                 path,
-                size,
-              }),
+                size
+              })
             )
-          : [],
+          : []
       );
     }
   };
@@ -159,13 +159,13 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           subject: subject /* .replace(/AW:/g, '') */,
           body: body ? content : '',
           parentId,
-          status: 'new',
+          status: 'unread',
           attachments: attachments.map(
             ({ path, fileName }: IEmailAttachmentData) => ({
               path,
-              fileName,
-            }),
-          ),
+              fileName
+            })
+          )
         };
         addNewEmail({ variables: { emailInput } });
       }
@@ -184,17 +184,17 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   const onDelteDocument = async (
     attachmentId: string,
-    attachmentIndex?: number,
+    attachmentIndex?: number
   ) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG'),
+      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG')
     });
     if (!value) {
       return;
     } else {
       setAttachments((prevArray: any) =>
-        prevArray.filter((_: any, index: number) => attachmentIndex !== index),
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index)
       );
     }
   };

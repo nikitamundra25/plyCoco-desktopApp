@@ -28,21 +28,23 @@ const [
   GET_EMAIL_TEMPLATE,
   GET_EMAIL_TEMPLATE_BY_ID,
   ,
-  GET_ARCHIVE_EMAIL_TEMPLATES
+  GET_ARCHIVE_EMAIL_TEMPLATES,
+  GET_ARCHIVE_EMAIL_TEMPLATE_BY_ID
 ] = EmailTemplateQueries;
 
 const [
   ADD_EMAIL_TEMPLATE,
   UPDATE_EMAIL_TEMPLATE,
   DELETE_EMAIL_TEMPLATE,
-  DELETE_EMAIL_TEMPLATE_ATTACHMENT
+  DELETE_EMAIL_TEMPLATE_ATTACHMENT,
+  RESTORE_ARCHIVED_EMAIL
 ] = EmailTemplateMutations;
 
 let toastId: any = '';
 
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
-  const [showArchive, setShowArchive] = useState<boolean | null>(null);
+  const [showArchive, setShowArchive] = useState<boolean>(false);
   const [typeId, setTypeId] = useState<number | null>(null);
   const [attachment, setAttachment] = useState<IEmailAttachmentData[]>([]);
   // To set email template data at the time of edit
@@ -75,6 +77,15 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         })
     );
   }
+  // To restore archive user
+  const [restoreEmailTemplate, { error }] = useMutation<
+    { restoreEmailTemplate: any },
+    { id: string }
+  >(RESTORE_ARCHIVED_EMAIL, {
+    onCompleted({ restoreEmailTemplate }) {
+      archiveListRefetch();
+    }
+  });
   useEffect(() => {
     if (!templateType) {
       // To set default email type
@@ -175,7 +186,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         toast.error(message);
       }
     }
-  })
+  });
 
   //To get email templates by type
   const [
@@ -186,13 +197,24 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   //To get trash email templates
   const [
     fetchArchiveList,
-    { data: archiveList, loading: archiveListLoading }
+    {
+      data: archiveList,
+      loading: archiveListLoading,
+      refetch: archiveListRefetch
+    }
   ] = useLazyQuery<any>(GET_ARCHIVE_EMAIL_TEMPLATES);
+
   //To get email templates by id
   const [
     fetchTemplateById,
     { data: emailTemplate, loading: emailTemplateLoading }
   ] = useLazyQuery<any>(GET_EMAIL_TEMPLATE_BY_ID);
+
+  //To get archive email templates by id
+  const [
+    fetchArchiveTemplateById,
+    { data: archiveEmailTemplate, loading: archiveEmailTemplateLoading }
+  ] = useLazyQuery<any>(GET_ARCHIVE_EMAIL_TEMPLATE_BY_ID);
 
   //view a particular template by clicking on its menu entry
   useEffect(() => {
@@ -260,6 +282,76 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   }, [emailTemplate]);
 
+  console.log('archiveEmailTemplate', archiveEmailTemplate);
+
+  //view a particular archived template by clicking on its menu entry
+  useEffect(() => {
+    if (!emailTemplateLoading && archiveEmailTemplate) {
+      const { trashSingleEmailTemp = {} } = archiveEmailTemplate
+        ? archiveEmailTemplate
+        : {};
+      const {
+        id = null,
+        menuEntry = '',
+        subject = '',
+        body = '',
+        email_template_type = {},
+        attachments = []
+      } = trashSingleEmailTemp ? trashSingleEmailTemp : {};
+      const { type = '' } = email_template_type ? email_template_type : {};
+      const contentBlock = body ? htmlToDraft(body) : '';
+      if (contentBlock) {
+        const contentState = ContentState.createFromBlockArray(
+          contentBlock.contentBlocks
+        );
+        const editorState = EditorState.createWithContent(contentState);
+        const typeIdIndex: number = typeListOptions.findIndex(
+          (item: IReactSelectInterface) => item.label === type
+        );
+        const replaceType: any = {
+          label: type,
+          value: type
+        };
+        if (typeIdIndex > -1) {
+          setTypeId(parseInt(typeListOptions[typeIdIndex].value));
+        }
+        let temp: IEmailAttachmentData[] = [];
+        if (attachments && attachments.length) {
+          attachments.forEach(
+            ({
+              path,
+              name,
+              size,
+              id
+            }: {
+              path: string;
+              name: string;
+              size: number;
+              id: string;
+            }) => {
+              temp.push({
+                path,
+                fileName: name,
+                size,
+                file: null,
+                url: '',
+                id
+              });
+            }
+          );
+        }
+        setTemplateData({
+          type: replaceType,
+          menuEntry: menuEntry,
+          subject: subject,
+          body: editorState,
+          id: parseInt(id)
+        });
+        setAttachment(temp);
+      }
+    }
+  }, [archiveEmailTemplate]);
+
   useEffect(() => {
     // call query
     //when template type changes it will be called
@@ -304,7 +396,6 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         id
       });
     }
-
     const emailTemplateInput: IEmailTemplateSubmitValues = {
       type: type && type.label ? type.label : '',
       typeId,
@@ -348,6 +439,17 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       }
     });
   };
+
+  const onArchiveTemplateSelection = (id: string) => {
+    setActiveTemplate(id);
+    toast.dismiss();
+    fetchArchiveTemplateById({
+      variables: {
+        id
+      }
+    });
+  };
+
   // Function to change list according to type selected
   const onTypeChange = (
     selectedType: IReactSelectInterface /* , id: string */
@@ -419,8 +521,43 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     }
   };
 
-  // const fetchArchiveList = () => {
-  // fetchArchiveList();
+  const onRestoreEmailTemplate = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_EMAIL_TEMPLATE_RESTORE_MSG')
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        await restoreEmailTemplate({
+          variables: {
+            id
+          }
+        });
+        refetch();
+
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('EMAIL_TEMPLATE_RESTORED_SUCCESS')
+          );
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
+  const onViewTrash = () => {
+    setShowArchive(true);
+    setTemplateData(null);
+    fetchArchiveList();
+  };
 
   return (
     <>
@@ -454,6 +591,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
             onTypeChange={onTypeChange}
             fetchArchiveList={fetchArchiveList}
             setShowArchive={setShowArchive}
+            showArchive={showArchive}
+            onViewTrash={onViewTrash}
+            // setTemplateData={ setTemplateData}
           />
           <div className='common-content flex-grow-1'>
             <div>
@@ -464,6 +604,10 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   loading={!called || fetchTemplateListLoading}
                   activeTemplate={activeTemplate}
                   showArchive={showArchive}
+                  archiveList={archiveList}
+                  archiveListLoading={archiveListLoading}
+                  onArchiveTemplateSelection={onArchiveTemplateSelection}
+                  onRestoreEmailTemplate={onRestoreEmailTemplate}
                 />
                 <AddTemplate
                   handleSubmit={handleSubmit}
@@ -475,7 +619,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   uploadDocument={uploadDocument}
                   onDelteDocument={onDelteDocument}
                   emailTemplateLoading={emailTemplateLoading}
-                  fetchArchiveList={fetchArchiveList}
+                  showArchive={showArchive}
                 />
               </Row>
             </div>

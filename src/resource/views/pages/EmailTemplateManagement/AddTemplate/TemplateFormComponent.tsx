@@ -22,7 +22,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
   uploadDocument: any;
   emailTemplateLoading: boolean;
   onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
-  fetchArchiveList: () => void;
+  showArchive: boolean;
 }> = (
   props: FormikProps<IEmailTemplateValues> & {
     typeListOptions?: any;
@@ -31,7 +31,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     uploadDocument: any;
     emailTemplateLoading: boolean;
     onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
-    fetchArchiveList: () => void;
+    showArchive: boolean;
   }
 ) => {
   const {
@@ -47,7 +47,8 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
     attachment,
     uploadDocument,
     onDelteDocument,
-    emailTemplateLoading
+    emailTemplateLoading,
+    showArchive
   } = props;
   const typeError: any = errors.type;
 
@@ -125,6 +126,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                           value={type && type.label !== '' ? type : null}
                           options={typeListOptions}
                           placeholder={'Create and select type'}
+                          isDisabled={showArchive}
                         />
                         <ErroredFieldComponent
                           errors={typeError ? typeError.value : ''}
@@ -160,6 +162,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                               ? 'text-input error text-capitalize'
                               : 'text-input text-capitalize'
                           }
+                          disabled={showArchive}
                         />
                         <ErroredFieldComponent
                           errors={errors.menuEntry}
@@ -193,6 +196,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                             }`}
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          disabled={showArchive}
                         />
                         <ErroredFieldComponent
                           errors={errors.subject}
@@ -219,6 +223,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                       placeholder={languageTranslation(
                         'EMAIL_BODY_PLACEHOLDER'
                       )}
+                      readOnly={showArchive}
                       toolbar={{
                         options: [
                           'inline',

@@ -617,7 +617,6 @@
   "NO_EMAIL_MESSAGE": " Currently there are no emails Found.",
   "SUBORDINATED_HEADING": "Grouped Below",
   "PROFESSIONAL": "Professional",
-
   "APPOINTMENT_ID": "Appointment Id",
   "EARLY": "Early",
   "LATE": "Late",
@@ -671,5 +670,8 @@
   "CAREINSTITUTION_RESTORED_SUCCESS": "Care Institution restored successfully.",
   "CI_PROFILE_DISAPPROVE": "This care institution's profile will be disapproved",
   "CI_PROFILE_DISAPPROVE_SUCESS": "Care Institution's profile disapproved successfully",
-  "CI_PROFILE_APPROVE":"This care institution's profile will be approved",
-  "CI_PROFILE_APPROVE_SUCESS":"Care Institution's profile approved successfully"}
+  "CI_PROFILE_APPROVE": "This care institution's profile will be approved",
+  "CI_PROFILE_APPROVE_SUCESS": "Care Institution's profile approved successfully",
+  "CONFIRM_EMAIL_TEMPLATE_RESTORE_MSG": "This email template will be restored.",
+  "EMAIL_TEMPLATE_RESTORED_SUCCESS": "Email Template restored successfully."
+}

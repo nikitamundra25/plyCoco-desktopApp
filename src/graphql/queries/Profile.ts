@@ -7,6 +7,12 @@ const VIEW_PROFILE = gql`
       firstName
       lastName
       email
+      accessLevel
+      userName
+      phoneNumber
+      isActive
+      profileImage
+      profileThumbnailImage
     }
   }
 `;

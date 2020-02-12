@@ -13,12 +13,12 @@ import {
   IReactSelectInterface,
   ICountry,
   IStates,
-  IState,
+  IState
 } from '../../../../../interfaces';
 import EmployeeFormComponent from './EmployeeFormComponent';
 import {
   EmployeeQueries,
-  CountryQueries,
+  CountryQueries
 } from '../../../../../graphql/queries';
 import { logger, languageTranslation } from '../../../../../helpers';
 import { AppRoutes } from '../../../../../config';
@@ -36,18 +36,18 @@ export const EmployeeForm: FunctionComponent = () => {
   // To get the employee details by id
   const [
     getEmployeeDetails,
-    { data: employeeDetails, error: detailsError, refetch },
+    { data: employeeDetails, error: detailsError, refetch }
   ] = useLazyQuery<any>(GET_EMPLOYEE_BY_ID);
 
   // To fetch the list of countries
   const { data: countriesData, loading } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const [
     employeeData,
-    setEmployeeData,
+    setEmployeeData
   ] = useState<IEmployeeFormValues | null>();
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
@@ -56,21 +56,21 @@ export const EmployeeForm: FunctionComponent = () => {
     countriesData.countries.forEach(({ id, name }: ICountry) =>
       countriesOpt.push({
         label: name,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
   const [imageUrl, setImageUrl] = useState('');
   const [statesOpt, setStatesOpt] = useState<IReactSelectInterface[] | []>([]);
   const [states, setStatesValue] = useState<IReactSelectInterface | undefined>(
-    undefined,
+    undefined
   );
   logger(id, 'id');
 
   const update = (cache: any, payload: any) => {
     logger(payload, 'payload');
     const data = cache.readQuery({
-      query: GET_EMPLOYEES,
+      query: GET_EMPLOYEES
     });
     logger(data, 'data');
   };
@@ -101,8 +101,8 @@ export const EmployeeForm: FunctionComponent = () => {
     if (id) {
       getEmployeeDetails({
         variables: {
-          id,
-        },
+          id
+        }
       });
     }
   }, [id]);
@@ -117,20 +117,20 @@ export const EmployeeForm: FunctionComponent = () => {
       if (viewEmployee.employee.country) {
         index = countriesOpt.findIndex(
           ({ label }: IReactSelectInterface) =>
-            label === viewEmployee.employee.country,
+            label === viewEmployee.employee.country
         );
         getStatesByCountry({
           variables: {
             countryid:
-              countriesOpt && index > -1 ? countriesOpt[index].value : '82',
-          }, // default code is for germany
+              countriesOpt && index > -1 ? countriesOpt[index].value : '82'
+          } // default code is for germany
         });
       }
       if (viewEmployee.regions && viewEmployee.regions.length) {
         viewEmployee.regions.map(({ id, regionName }: any) => {
           regionData.push({
             label: regionName,
-            value: id,
+            value: id
           });
         });
       }
@@ -157,7 +157,7 @@ export const EmployeeForm: FunctionComponent = () => {
         zip:
           viewEmployee.employee && viewEmployee.employee.zipCode
             ? viewEmployee.employee.zipCode
-            : '',
+            : ''
       });
     }
   }, [employeeDetails]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
@@ -169,19 +169,19 @@ export const EmployeeForm: FunctionComponent = () => {
       if (viewEmployee.employee.country) {
         index = countriesOpt.findIndex(
           ({ label }: IReactSelectInterface) =>
-            label === viewEmployee.employee.country,
+            label === viewEmployee.employee.country
         );
         getStatesByCountry({
           variables: {
             countryid:
-              countriesOpt && index > -1 ? countriesOpt[index].value : '82',
-          }, // default code is for germany
+              countriesOpt && index > -1 ? countriesOpt[index].value : '82'
+          } // default code is for germany
         });
       }
       if (employeeData) {
         setEmployeeData({
           ...employeeData,
-          country: index > -1 ? countriesOpt[index] : undefined,
+          country: index > -1 ? countriesOpt[index] : undefined
         });
       }
     }
@@ -193,8 +193,8 @@ export const EmployeeForm: FunctionComponent = () => {
       statesData.states.forEach(({ id, name }: IState) =>
         stateList.push({
           label: name,
-          value: id,
-        }),
+          value: id
+        })
       );
       setStatesOpt(stateList);
       // To call it only once
@@ -203,8 +203,8 @@ export const EmployeeForm: FunctionComponent = () => {
         setStatesValue(
           stateList.filter(
             ({ label }: IReactSelectInterface) =>
-              label === viewEmployee.employee.state,
-          )[0],
+              label === viewEmployee.employee.state
+          )[0]
         );
       }
     }
@@ -212,7 +212,7 @@ export const EmployeeForm: FunctionComponent = () => {
   // function to add/edit employee information
   const handleSubmit = async (
     values: IEmployeeFormValues,
-    { setSubmitting }: FormikHelpers<IEmployeeFormValues>,
+    { setSubmitting }: FormikHelpers<IEmployeeFormValues>
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -235,6 +235,7 @@ export const EmployeeForm: FunctionComponent = () => {
       joiningDate,
       image,
       region,
+      accessLevel
     } = values;
     logger(region, 'regionnnn');
     try {
@@ -265,6 +266,7 @@ export const EmployeeForm: FunctionComponent = () => {
         IBAN,
         BIC,
         image,
+        accessLevel
       };
       // Edit employee details
       if (id) {
@@ -277,8 +279,8 @@ export const EmployeeForm: FunctionComponent = () => {
         await updateEmployee({
           variables: {
             id: parseInt(id),
-            employeeInput,
-          },
+            employeeInput
+          }
         });
         toast.success(languageTranslation('EMPLOYEE_UPDATE_SUCCESS_MSG'));
         history.push(AppRoutes.EMPLOYEE);
@@ -289,8 +291,8 @@ export const EmployeeForm: FunctionComponent = () => {
       } else {
         await addEmployee({
           variables: {
-            employeeInput,
-          },
+            employeeInput
+          }
         });
         toast.success(languageTranslation('EMPLOYEE_ADD_SUCCESS_MSG'));
         history.push(AppRoutes.EMPLOYEE);
@@ -335,6 +337,7 @@ export const EmployeeForm: FunctionComponent = () => {
     additionalText = '',
     telephoneNumber = undefined,
     joiningDate = '',
+    accessLevel = ''
   } = employeeData ? employeeData : {};
 
   const values: IEmployeeFormValues = {
@@ -353,9 +356,10 @@ export const EmployeeForm: FunctionComponent = () => {
     city,
     zip,
     joiningDate,
+    accessLevel,
     country,
     region,
-    state: states,
+    state: states
   };
   return (
     <Formik
@@ -367,7 +371,7 @@ export const EmployeeForm: FunctionComponent = () => {
           imageUrl: string;
           countriesOpt: IReactSelectInterface[];
           statesOpt: IReactSelectInterface[];
-        },
+        }
       ) => (
         <EmployeeFormComponent
           {...props}

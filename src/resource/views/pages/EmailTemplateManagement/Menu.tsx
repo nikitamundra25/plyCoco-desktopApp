@@ -6,7 +6,7 @@ import save from '../../../assets/img/save.svg';
 import clear from '../../../assets/img/clear.svg';
 import newEmail from '../../../assets/img/new-email.svg';
 import { IEmailTemplateMenu } from '../../../../interfaces';
-// import EmailSeparator from '../../assets/img/mail.svg';
+import delete_icon from '../../../assets/img/delete.svg';
 
 export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
   props: IEmailTemplateMenu
@@ -79,7 +79,9 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
             </div>
 
             <div className={`header-nav-item`} onClick={onViewTrash}>
-            
+              <span className='header-nav-icon'>
+                <img src={delete_icon} alt='' />
+              </span>
               <span className='header-nav-text'>
                 {languageTranslation('VIEW_ARCHIVE')}
               </span>

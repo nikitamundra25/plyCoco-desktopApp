@@ -169,7 +169,6 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     { id: number; attachmentId: string }
   >(DELETE_EMAIL_TEMPLATE_ATTACHMENT, {
     onCompleted({ deleteEmailAttachment }) {
-      console.log(deleteEmailAttachment, 'deleteEmailAttachment');
       const { attachmentId } = deleteEmailAttachment;
       setAttachment((prevArray: any) =>
         prevArray.filter((item: any) => item.id !== attachmentId)
@@ -219,68 +218,73 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   //view a particular template by clicking on its menu entry
   useEffect(() => {
     if (!emailTemplateLoading && emailTemplate) {
-      const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
-      const {
-        id = null,
-        menuEntry = '',
-        subject = '',
-        body = '',
-        email_template_type = {},
-        attachments = []
-      } = viewEmailTemplate ? viewEmailTemplate : {};
-      const { type = '' } = email_template_type ? email_template_type : {};
-      const contentBlock = body ? htmlToDraft(body) : '';
-      if (contentBlock) {
-        const contentState = ContentState.createFromBlockArray(
-          contentBlock.contentBlocks
-        );
-        const editorState = EditorState.createWithContent(contentState);
-        const typeIdIndex: number = typeListOptions.findIndex(
-          (item: IReactSelectInterface) => item.label === type
-        );
-        const replaceType: any = {
-          label: type,
-          value: type
-        };
-        if (typeIdIndex > -1) {
-          setTypeId(parseInt(typeListOptions[typeIdIndex].value));
-        }
-        let temp: IEmailAttachmentData[] = [];
-        if (attachments && attachments.length) {
-          attachments.forEach(
-            ({
-              path,
-              name,
-              size,
-              id
-            }: {
-              path: string;
-              name: string;
-              size: number;
-              id: string;
-            }) => {
-              temp.push({
-                path,
-                fileName: name,
-                size,
-                file: null,
-                url: '',
-                id
-              });
-            }
-          );
-        }
-        setTemplateData({
-          type: replaceType,
-          menuEntry: menuEntry,
-          subject: subject,
-          body: editorState,
-          id: parseInt(id)
-        });
-        setAttachment(temp);
-      }
+      updateData();
     }
   }, [emailTemplate]);
+
+  // Function to set template data into state after some modifications
+  const updateData = () => {
+    const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
+    const {
+      id = null,
+      menuEntry = '',
+      subject = '',
+      body = '',
+      email_template_type = {},
+      attachments = []
+    } = viewEmailTemplate ? viewEmailTemplate : {};
+    const { type = '' } = email_template_type ? email_template_type : {};
+    const contentBlock = body ? htmlToDraft(body) : '';
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      const typeIdIndex: number = typeListOptions.findIndex(
+        (item: IReactSelectInterface) => item.label === type
+      );
+      const replaceType: any = {
+        label: type,
+        value: type
+      };
+      if (typeIdIndex > -1) {
+        setTypeId(parseInt(typeListOptions[typeIdIndex].value));
+      }
+      let temp: IEmailAttachmentData[] = [];
+      if (attachments && attachments.length) {
+        attachments.forEach(
+          ({
+            path,
+            name,
+            size,
+            id
+          }: {
+            path: string;
+            name: string;
+            size: number;
+            id: string;
+          }) => {
+            temp.push({
+              path,
+              fileName: name,
+              size,
+              file: null,
+              url: '',
+              id
+            });
+          }
+        );
+      }
+      setTemplateData({
+        type: replaceType,
+        menuEntry: menuEntry,
+        subject: subject,
+        body: editorState,
+        id: parseInt(id)
+      });
+      setAttachment(temp);
+    }
+  };
 
   console.log('archiveEmailTemplate', archiveEmailTemplate);
 
@@ -433,6 +437,11 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   const onTemplateSelection = (id: string) => {
     setActiveTemplate(id);
     toast.dismiss();
+    // To update data when query result from the Apollo cache & previous one & this one is the same
+    const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
+    if (viewEmailTemplate && viewEmailTemplate.id === id) {
+      updateData();
+    }
     fetchTemplateById({
       variables: {
         id

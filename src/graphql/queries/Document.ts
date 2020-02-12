@@ -6,6 +6,7 @@ const GET_DOCUMENT_LIST = gql`
       id
       document
       fileName
+      fileSize
       createdAt
     }
   }

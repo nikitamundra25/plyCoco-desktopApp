@@ -37,7 +37,8 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
               color={'primary'}
               className={'btn-email-save mr-2'}
             >
-              {languageTranslation('BACK_TO_LIST')}
+              <i className={'fa fa-arrow-left'} />
+              &nbsp; {languageTranslation('BACK_TO_LIST')}
             </Button>
           </div>
         ) : (

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { FormGroup, Label, Input, Col, Row, Form, Table } from "reactstrap";
+import { FormGroup, Label, Input, Col, Row, Form, Table, UncontrolledTooltip } from "reactstrap";
 import moment from "moment";
 import Dropzone from "react-dropzone";
 import Select from "react-select";
@@ -31,7 +31,17 @@ let toastId: any;
 
 const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
   any> = (props: FormikProps<IWorkingProofFormValues> & any) => {
-    const { documentList, refetch } = props;
+    const {
+      documentList,
+      refetch,
+      onDelete,
+      imageUrls,
+      setImageUrl,
+      documentUrls,
+      setDocumentUrl,
+      rowIndex,
+      setRowIndex
+    } = props;
 
     // Mutation to upload document
     const [addUserDocuments] = useMutation<
@@ -77,9 +87,9 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
       }
     };
 
-    const [imageUrls, setImageUrl] = useState<string>("");
-    const [documentUrls, setDocumentUrl] = useState<string>("");
-    const [rowIndex, setRowIndex] = useState<number>(-1);
+    // const [imageUrls, setImageUrl] = useState<string>("");
+    // const [documentUrls, setDocumentUrl] = useState<string>("");
+    // const [rowIndex, setRowIndex] = useState<number>(-1);
 
     const handlePreview = async (document: string, index: number) => {
       setRowIndex(index);
@@ -248,6 +258,9 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                   <th className="filesize-th-column">
                                     {languageTranslation("FILE_SIZE")}
                                   </th>
+                                  <th className={"text-center"}>
+                                    {languageTranslation("TABEL_HEAD_CG_ACTION")}
+                                  </th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -281,6 +294,31 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                           </td>
                                           <td>
                                             {formatFileSize(item.fileSize)}
+                                          </td>
+                                          <td>
+                                            <div
+                                              className={"action-btn"}
+                                            >
+                                              <span
+                                                id={`delete${index}`}
+                                                className={"btn-icon mr-2"}
+                                                onClick={() => {
+                                                  onDelete(item.id)
+                                                }}
+                                              >
+                                                {item.status === "approve" ? (
+                                                  ""
+                                                ) : (
+                                                    <UncontrolledTooltip
+                                                      placement={"top"}
+                                                      target={`delete${index}`}
+                                                    >
+                                                      {languageTranslation("DOCUMENT_DELETE")}
+                                                    </UncontrolledTooltip>
+                                                  )}
+                                                <i className="fa fa-trash"></i>
+                                              </span>
+                                            </div>
                                           </td>
                                         </tr>
                                       );

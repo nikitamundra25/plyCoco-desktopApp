@@ -17,7 +17,7 @@ import filter from "../../../assets/img/filter.svg";
 import refresh from "../../../assets/img/refresh.svg";
 import send from "../../../assets/img/send.svg";
 import "./index.scss";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import Loader from "../../containers/Loader/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
@@ -31,11 +31,17 @@ import { EmailEditorComponent } from "./EmailFormComponent";
 import { ConfirmBox } from "../../components/ConfirmBox";
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import { BulkEmailCareGivers } from "../../../../graphql/Mutations";
 import { toast } from "react-toastify";
 import { CareGiverListComponent } from "./CareGiverListComponent";
+import { IBulkEmailVariables } from "../../../../interfaces/BulkEmailCaregiver";
+import { ApolloError } from "apollo-client";
+import { errorFormatter } from "../../../../helpers/ErrorFormatter";
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
+const [BULK_EMAILS] = BulkEmailCareGivers;
 let toastId: any = null;
+
 const BulkEmailCaregiver: FunctionComponent = () => {
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   // To get caregiver list from db
@@ -64,6 +70,22 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const [body, setBody] = useState<any>("");
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+
+  const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
+    bulkEmailsInput: IBulkEmailVariables;
+  }>(BULK_EMAILS, {
+    onCompleted() {
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation("EMAIL_SENT_SUCCESS"));
+      }
+    },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
+    }
+  });
 
   useEffect(() => {
     // Fetch list of caregivers
@@ -224,28 +246,31 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       : "";
     const result = stripHtml(content);
     setIsSubmit(true);
+
     try {
+      let careGiverIdList: any = [];
       if (selectedCareGiver && selectedCareGiver.length) {
         selectedCareGiver.map((careGiverId: number) => {
-          if (subject && body && result && result.length >= 2) {
-            // const emailInput: IAddEmailVariables = {
-            //   userId: careGiverId ? careGiverId : 0,
-            //   to: "caregiver",
-            //   from: "plycoco",
-            //   subject: subject /* .replace(/AW:/g, '') */,
-            //   body: body ? content : "",
-            //   // parentId,
-            //   status: "new",
-            //   attachments: attachments.map(
-            //     ({ path, fileName }: IEmailAttachmentData) => ({
-            //       path: `${AppConfig.FILES_ENDPOINT}${path}`,
-            //       fileName
-            //     })
-            //   )
-            // };
-            // addNewEmail({ variables: { emailInput } });
-          }
+          careGiverIdList = [...careGiverIdList, { userId: careGiverId }];
         });
+        if (subject && body && result && result.length >= 2) {
+          const bulkEmailsInput: IBulkEmailVariables = {
+            to: "caregiver",
+            from: "plycoco",
+            subject: subject /* .replace(/AW:/g, '') */,
+            body: body ? content : "",
+            parentId: null,
+            status: "new",
+            attachments: attachments.map(
+              ({ path, fileName }: IEmailAttachmentData) => ({
+                path: `${AppConfig.FILES_ENDPOINT}${path}`,
+                fileName
+              })
+            ),
+            caregiver: careGiverIdList
+          };
+          bulkEmails({ variables: { bulkEmailsInput } });
+        }
       } else {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(

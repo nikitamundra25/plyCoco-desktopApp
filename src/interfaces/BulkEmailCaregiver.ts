@@ -2,7 +2,10 @@ import { IReactSelectInterface } from "./Constant";
 import { ActionMeta, ValueType } from "react-select";
 import { FormEvent } from "react";
 import { EditorState } from "draft-js";
-import { IEmailAttachmentData } from "./EmailTemplate";
+import {
+  IEmailAttachmentData,
+  IEmailInputAttachmenttypes
+} from "./EmailTemplate";
 
 export interface IEmailEditorComponentProps {
   templateOptions: any[] | undefined;
@@ -35,4 +38,15 @@ export interface ICareGiverListComponentProps {
     id: string
   ) => Promise<void>;
   handleInfiniteScroll: () => void;
+}
+
+export interface IBulkEmailVariables {
+  caregiver: any;
+  to: string;
+  from: string;
+  subject: string;
+  body: string;
+  parentId: number | null;
+  status: string;
+  attachments: IEmailInputAttachmenttypes[];
 }

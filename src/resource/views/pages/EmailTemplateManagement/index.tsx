@@ -37,7 +37,8 @@ const [
   UPDATE_EMAIL_TEMPLATE,
   DELETE_EMAIL_TEMPLATE,
   DELETE_EMAIL_TEMPLATE_ATTACHMENT,
-  RESTORE_ARCHIVED_EMAIL
+  RESTORE_ARCHIVED_EMAIL,
+  PERMANENT_DELETE_EMAIL_TEMPLATE
 ] = EmailTemplateMutations;
 
 let toastId: any = '';
@@ -78,7 +79,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     );
   }
   // To restore archive user
-  const [restoreEmailTemplate, { error }] = useMutation<
+  const [restoreEmailTemplate, {}] = useMutation<
     { restoreEmailTemplate: any },
     { id: string }
   >(RESTORE_ARCHIVED_EMAIL, {
@@ -86,6 +87,13 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       archiveListRefetch();
     }
   });
+
+  // To permanently delete archive user
+  const [permanentDeleteEmail, { error }] = useMutation<
+    { permanentDeleteEmail: any },
+    { id: string }
+  >(PERMANENT_DELETE_EMAIL_TEMPLATE);
+
   useEffect(() => {
     if (!templateType) {
       // To set default email type
@@ -561,6 +569,39 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       }
     }
   };
+
+  const onPermanentlyDeleteEmployee = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_EMAIL_TEMP_PERMANENT_DELETE_MSG')
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        await permanentDeleteEmail({
+          variables: {
+            id
+          }
+        });
+        refetch();
+
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('EMAIL_TEMP_PERMANENT_DEL_SUCCESS')
+          );
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
   //on clicking view trash button
   const onViewTrash = () => {
     setShowArchive(true);
@@ -626,6 +667,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                   archiveListLoading={archiveListLoading}
                   onArchiveTemplateSelection={onArchiveTemplateSelection}
                   onRestoreEmailTemplate={onRestoreEmailTemplate}
+                  onPermanentlyDeleteEmployee={onPermanentlyDeleteEmployee}
                 />
                 <AddTemplate
                   handleSubmit={handleSubmit}

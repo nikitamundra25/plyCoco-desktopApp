@@ -50,18 +50,20 @@ const RESTORE_ARCHIVED_EMAIL = gql`
     }
   }
 `;
-// restoreTrashEmailTemplate(id:Int!): EmailTemplate
-// mutation{
-//  restoreTrashEmailTemplate(id: 253){
-//    id
-//    menuEntry
-//  }
-// }
+
+const PERMANENT_DELETE_EMAIL_TEMPLATE = gql`
+  mutation ParmanentDeleteEmail($id: ID!) {
+    parmanentDeleteEmail(id: $id) {
+      id
+    }
+  }
+`;
 
 export const EmailTemplateMutations = [
   ADD_EMAIL_TEMPLATE,
   UPDATE_EMAIL_TEMPLATE,
   DELETE_EMAIL_TEMPLATE,
   DELETE_EMAIL_TEMPLATE_ATTACHMENT,
-  RESTORE_ARCHIVED_EMAIL
+  RESTORE_ARCHIVED_EMAIL,
+  PERMANENT_DELETE_EMAIL_TEMPLATE
 ];

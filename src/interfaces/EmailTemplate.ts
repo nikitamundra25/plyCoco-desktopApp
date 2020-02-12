@@ -44,6 +44,7 @@ export interface IEmailTemplateList {
   archiveListLoading: any;
   onArchiveTemplateSelection: any;
   onRestoreEmailTemplate: any;
+  onPermanentlyDeleteEmployee: any;
 }
 
 export interface IEmailTemplateMenu {

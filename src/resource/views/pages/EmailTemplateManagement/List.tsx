@@ -14,7 +14,8 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   archiveList,
   archiveListLoading,
   onArchiveTemplateSelection,
-  onRestoreEmailTemplate
+  onRestoreEmailTemplate,
+  onPermanentlyDeleteEmployee
 }: IEmailTemplateList) => {
   return (
     <Col lg={'5'} className='pr-lg-0'>

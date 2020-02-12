@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const ADD_EMPLOYEE = gql`
   mutation AddEmployee($employeeInput: EmployeeInput!) {
@@ -76,15 +76,6 @@ const UPDATE_EMPLOYEE_STATUS = gql`
   }
 `;
 
-const UPDATE_EMP_ACCESS_LEVEL = gql`
-  mutation updateAccessLevelEmployee($id: ID!, $accessLevel: String) {
-    updateAccessLevelEmployee(id: $id, accessLevel: $accessLevel) {
-      id
-      accessLevel
-    }
-  }
-`;
-
 const DELETE_EMPLOYEE = gql`
   mutation DeleteEmployee($id: ID!) {
     deleteEmployee(id: $id) {
@@ -100,9 +91,24 @@ const RESTORE_EMPLOYEE = gql`
   }
 `;
 
+const UPDATE_EMP_ACCESS_LEVEL = gql`
+  mutation updateAccessLevelEmployee($id: ID!, $accessLevel: String) {
+    updateAccessLevelEmployee(id: $id, accessLevel: $accessLevel) {
+      id
+      accessLevel
+    }
+  }
+`;
+const PERMANENT_DELETE_USER = gql`
+  mutation parmanentDeleteUser($id: ID!) {
+    parmanentDeleteUser(id: $id) {
+      id
+    }
+  }
+`;
 // mutation{
-//   restoreTrashUser(id: 42){
-//     firstName
+//   parmanentDeleteUser(id: 961){
+//     id
 //   }
 //  }
 export const EmployeeMutations = [
@@ -111,5 +117,6 @@ export const EmployeeMutations = [
   UPDATE_EMPLOYEE_STATUS,
   DELETE_EMPLOYEE,
   RESTORE_EMPLOYEE,
-  UPDATE_EMP_ACCESS_LEVEL
+  UPDATE_EMP_ACCESS_LEVEL,
+  PERMANENT_DELETE_USER
 ];

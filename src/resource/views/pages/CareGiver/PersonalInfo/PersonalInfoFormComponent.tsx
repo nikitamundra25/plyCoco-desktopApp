@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import Select from "react-select";
-import { Label, Col, Row, CustomInput, FormGroup, Input } from "reactstrap";
+import React, { useEffect } from 'react';
+import Select from 'react-select';
+import { Label, Col, Row, CustomInput, FormGroup, Input } from 'reactstrap';
 import {
   State,
   Salutation,
@@ -8,8 +8,8 @@ import {
   Gender,
   DateMask,
   IBANRegex
-} from "../../../../../config";
-import { FormikProps, Field } from "formik";
+} from '../../../../../config';
+import { FormikProps, Field } from 'formik';
 import {
   IReactSelectInterface,
   IStates,
@@ -18,16 +18,16 @@ import {
   IState,
   IRegion,
   ICareGiverValues
-} from "../../../../../interfaces";
-import { FormikTextField } from "../../../components/forms/FormikFields";
-import { languageTranslation, logger } from "../../../../../helpers";
-import MaskedInput from "react-text-mask";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { CountryQueries } from "../../../../../graphql/queries";
-import { useLocation } from "react-router";
-import { RegionQueries } from "../../../../../graphql/queries/Region";
-import moment from "moment";
-import CustomOption from "../../../components/CustomOptions";
+} from '../../../../../interfaces';
+import { FormikTextField } from '../../../components/forms/FormikFields';
+import { languageTranslation, logger } from '../../../../../helpers';
+import MaskedInput from 'react-text-mask';
+import { useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { CountryQueries } from '../../../../../graphql/queries';
+import { useLocation } from 'react-router';
+import { RegionQueries } from '../../../../../graphql/queries/Region';
+import moment from 'moment';
+import CustomOption from '../../../components/CustomOptions';
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -69,7 +69,7 @@ const PersonalInfoFormComponent: any = (
   }
 
   let { pathname } = useLocation();
-  let PathArray: string[] = pathname.split("/");
+  let PathArray: string[] = pathname.split('/');
 
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
@@ -82,9 +82,9 @@ const PersonalInfoFormComponent: any = (
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
-    if (name === "country") {
+    if (name === 'country') {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
     }
   };
@@ -126,75 +126,76 @@ const PersonalInfoFormComponent: any = (
     touched
   } = props;
 
-  // scroll to the errored field
-  const handleScroll = () => {
-    logger("in handle scroll");
-    const scr: any = document.getElementsByClassName("error")[0];
-    const scrtop = scr ? scr.offsetTop : 10;
-    // console.log(scrtop, "scrtop");
-    logger(scr, "scr");
-    const height: any = scr ? scr.getBoundingClientRect() : 0;
-    const mainSection: any = document.getElementById("care-profile");
-    if (mainSection && height) {
-      mainSection.scrollTop = height.top - 20 - 68 - 35;
+  const scrollParentToChild: any = () => {
+    let parent = document.getElementById('care-profile');
+    let child = document.getElementsByClassName('error')[0];
+    // Where is the parent on page
+    if (parent) {
+      let parentRect = parent.getBoundingClientRect();
+
+      // Where is the child
+      let childRect: any = child ? child.getBoundingClientRect() : {};
+      // scroll by offset relative to parent
+      parent.scrollTop = childRect.top + parent.scrollTop - parentRect.top - 55;
     }
   };
+
   //After submission of form
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     handleScroll();
-  //   }, 200);
-  // }, [submitCount]);
+  useEffect(() => {
+    setTimeout(() => {
+      scrollParentToChild();
+    }, 200);
+  }, [submitCount]);
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    "YYYY-MM-DD"
+    'YYYY-MM-DD'
   );
 
   return (
     <div
       className="form-card custom-caregiver-height custom-scrollbar"
-      id={"care-profile"}
+      id={'care-profile'}
     >
-      <Row className={"caregiver-form"}>
-        {PathArray && PathArray[2] !== "add" ? (
-          <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+      <Row className={'caregiver-form'}>
+        {PathArray && PathArray[2] !== 'add' ? (
+          <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
             <FormGroup>
               <Row>
-                <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                   <Label className="form-label col-form-label">
-                    {languageTranslation("USER_ID")}
+                    {languageTranslation('USER_ID')}
                     <span className="required">*</span>
                   </Label>
                 </Col>
-                <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                   <Row className="custom-col inner-no-padding-col">
-                    <Col xs={"12"} sm={"3"} md={"3"} lg={"3"}>
+                    <Col xs={'12'} sm={'3'} md={'3'} lg={'3'}>
                       <div className="required-input">
                         <Input
                           type="text"
-                          name={"id"}
+                          name={'id'}
                           disabled
                           value={id}
-                          placeholder={languageTranslation("USER_ID")}
+                          placeholder={languageTranslation('USER_ID')}
                           className="width-common"
                         />
                       </div>
                     </Col>
-                    <Col xs={"12"} sm={"9"} md={"9"} lg={"9"}>
+                    <Col xs={'12'} sm={'9'} md={'9'} lg={'9'}>
                       <FormGroup>
                         <Row className="custom-col inner-no-padding-col">
-                          <Col xs={"12"} sm={"5"} md={"5"} lg={"5"}>
+                          <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                             <Label className="form-label col-form-label inner-label">
-                              {languageTranslation("REG_SINCE")}
+                              {languageTranslation('REG_SINCE')}
                               <span className="required">*</span>
                             </Label>
                           </Col>
-                          <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
+                          <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                             <div>
                               <Input
                                 type="text"
-                                name={"regSince"}
+                                name={'regSince'}
                                 disabled
                                 value={RegYear}
                                 placeholder="Reg Since"
@@ -211,63 +212,63 @@ const PersonalInfoFormComponent: any = (
             </FormGroup>
           </Col>
         ) : null}
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                <Label className="form-label col-form-label">{"Region"}</Label>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                <Label className="form-label col-form-label">{'Region'}</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className="field-class text-capitalize">
                   <Select
-                    placeholder={languageTranslation("REGION", "STATE")}
-                    onChange={(value: any) => handleSelect(value, "regionId")}
+                    placeholder={languageTranslation('REGION', 'STATE')}
+                    onChange={(value: any) => handleSelect(value, 'regionId')}
                     value={regionId ? regionId : undefined}
                     options={regionOptions}
                     classNamePrefix="custom-inner-reactselect"
-                    className={"custom-reactselect"}
+                    className={'custom-reactselect'}
                   />
                 </div>
               </Col>
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className="">
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
-                  {languageTranslation("GENDER")}
+                  {languageTranslation('GENDER')}
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <Row className="custom-col inner-no-padding-col">
-                  <Col xs={"12"} sm={"5"} md={"5"} lg={"5"}>
+                  <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                     <div>
                       <Select
-                        placeholder={languageTranslation("GENDER")}
+                        placeholder={languageTranslation('GENDER')}
                         options={Gender}
                         value={gender && gender.value ? gender : null}
-                        onChange={(value: any) => handleSelect(value, "gender")}
+                        onChange={(value: any) => handleSelect(value, 'gender')}
                         classNamePrefix="custom-inner-reactselect"
-                        className={"custom-reactselect"}
+                        className={'custom-reactselect'}
                       />
                     </div>
                   </Col>
-                  <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
+                  <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                     <FormGroup>
                       <Row className="custom-col inner-no-padding-col d-flex ">
-                        <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                        <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
                           <Label className="form-label col-form-label inner-label">
-                            {languageTranslation("TITLE")}
+                            {languageTranslation('TITLE')}
                           </Label>
                         </Col>
-                        <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                        <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
                           <div>
                             <Field
                               component={FormikTextField}
-                              name={"title"}
-                              placeholder={languageTranslation("TITLE")}
+                              name={'title'}
+                              placeholder={languageTranslation('TITLE')}
                               className="width-common"
                               maxLength={50}
                             />
@@ -281,23 +282,23 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
-                  {languageTranslation("SALUTATION")}
+                  {languageTranslation('SALUTATION')}
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Select
-                    placeholder={languageTranslation("SALUTATION")}
+                    placeholder={languageTranslation('SALUTATION')}
                     options={Salutation}
                     value={salutation && salutation.value ? salutation : null}
-                    onChange={(value: any) => handleSelect(value, "salutation")}
+                    onChange={(value: any) => handleSelect(value, 'salutation')}
                     classNamePrefix="custom-inner-reactselect"
-                    className={"custom-reactselect"}
+                    className={'custom-reactselect'}
                   />
                 </div>
                 {/* <Button  className="alfabate-btn btn">S</Button> */}
@@ -305,21 +306,21 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
-                  {languageTranslation("FIRST_NAME")}
+                  {languageTranslation('FIRST_NAME')}
                   <span className="required">*</span>
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className="required-input">
                   <Field
                     component={FormikTextField}
-                    name={"firstName"}
-                    placeholder={languageTranslation("FIRST_NAME")}
+                    name={'firstName'}
+                    placeholder={languageTranslation('FIRST_NAME')}
                     className="width-common  "
                   />
                 </div>
@@ -328,21 +329,21 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
-                  {languageTranslation("SURNAME")}
+                  {languageTranslation('SURNAME')}
                   <span className="required">*</span>
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className="required-input">
                   <Field
                     component={FormikTextField}
-                    name={"lastName"}
-                    placeholder={languageTranslation("SURNAME")}
+                    name={'lastName'}
+                    placeholder={languageTranslation('SURNAME')}
                     className="width-common text-capitalize"
                   />
                 </div>
@@ -350,28 +351,28 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className="">
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Birthday Date
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <Row className="custom-col inner-no-padding-col">
-                  <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
+                  <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                     <div className="required-input">
                       <Field
-                        name={"dateOfBirth"}
+                        name={'dateOfBirth'}
                         render={({ field }: any) => (
                           <MaskedInput
                             {...field}
                             placeholder={languageTranslation(
-                              "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
+                              'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
                             )}
                             mask={DateMask}
-                            className={"form-control"}
+                            className={'form-control'}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={dateOfBirth}
@@ -385,20 +386,20 @@ const PersonalInfoFormComponent: any = (
                       )}
                     </div>
                   </Col>
-                  <Col xs={"12"} sm={"5"} md={"5"} lg={"5"}>
+                  <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                     <FormGroup>
                       <Row className="custom-col inner-no-padding-col d-flex ">
-                        <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                        <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
                           <Label className="form-label col-form-label inner-label">
-                            {languageTranslation("AGE")}
+                            {languageTranslation('AGE')}
                           </Label>
                         </Col>
-                        <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                        <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
                           <div>
                             <Field
                               component={FormikTextField}
-                              name={"age"}
-                              placeholder={languageTranslation("AGE")}
+                              name={'age'}
+                              placeholder={languageTranslation('AGE')}
                               className="width-common"
                             />
                           </div>
@@ -412,17 +413,17 @@ const PersonalInfoFormComponent: any = (
           </FormGroup>
         </Col>
 
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label ">Street</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"street"}
+                    name={'street'}
                     placeholder="Street"
                     className=" width-common"
                     maxLength={100}
@@ -432,19 +433,19 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label ">
                   Postal Code
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"postalCode"}
+                    name={'postalCode'}
                     placeholder="Postal Code"
                     className=" width-common"
                     maxLength={30}
@@ -455,17 +456,17 @@ const PersonalInfoFormComponent: any = (
           </FormGroup>
         </Col>
 
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label ">City</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"city"}
+                    name={'city'}
                     placeholder="City"
                     className=" width-common"
                     maxLength={30}
@@ -476,46 +477,46 @@ const PersonalInfoFormComponent: any = (
           </FormGroup>
         </Col>
 
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label ">Country</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Select
-                    placeholder={languageTranslation("COUNTRY")}
+                    placeholder={languageTranslation('COUNTRY')}
                     options={countriesOpt}
                     value={country && country.value ? country : undefined}
-                    onChange={(value: any) => handleSelect(value, "country")}
+                    onChange={(value: any) => handleSelect(value, 'country')}
                     classNamePrefix="custom-inner-reactselect"
-                    className={"custom-reactselect"}
+                    className={'custom-reactselect'}
                   />
                 </div>
               </Col>
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label ">State</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Select
-                    placeholder={languageTranslation("STATE")}
+                    placeholder={languageTranslation('STATE')}
                     // placeholder="Bavaria"
                     options={statesOpt}
                     value={state && state.value ? state : undefined}
-                    onChange={(value: any) => handleSelect(value, "state")}
+                    onChange={(value: any) => handleSelect(value, 'state')}
                     noOptionsMessage={() => {
-                      return "Select a country first";
+                      return 'Select a country first';
                     }}
                     classNamePrefix="custom-inner-reactselect"
-                    className={"custom-reactselect"}
+                    className={'custom-reactselect'}
                   />
                 </div>
               </Col>
@@ -523,17 +524,17 @@ const PersonalInfoFormComponent: any = (
           </FormGroup>
         </Col>
 
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">Phone</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"phoneNumber"}
+                    name={'phoneNumber'}
                     placeholder=" Phone"
                     className="width-common"
                   />
@@ -543,17 +544,17 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">Fax</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"fax"}
+                    name={'fax'}
                     placeholder=" Fax"
                     className="width-common"
                     maxLength={30}
@@ -563,19 +564,19 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Mobile Number
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"mobileNumber"}
+                    name={'mobileNumber'}
                     placeholder="Mobile Number"
                     className="width-common"
                   />
@@ -585,20 +586,20 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Email
                   <span className="required">*</span>
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className="required-input">
                   <Field
                     component={FormikTextField}
-                    name={"email"}
+                    name={'email'}
                     placeholder=" Email"
                     className="width-common"
                     maxLength={50}
@@ -608,17 +609,17 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">Tax Number</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"taxNumber"}
+                    name={'taxNumber'}
                     placeholder="Tax Number"
                     className="width-common"
                     maxLength={30}
@@ -628,17 +629,17 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">Bank</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"bankName"}
+                    name={'bankName'}
                     placeholder="Bank"
                     className="width-common"
                     maxLength={30}
@@ -648,25 +649,25 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">IBAN</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className="required-input">
                   <Field name="payrollIBAN">
                     {({ field }: any) => (
                       <div>
                         <MaskedInput
                           {...field}
-                          className={"form-control"}
+                          className={'form-control'}
                           value={IBAN}
                           placeholder={languageTranslation(
-                            "BANK_IBAN_PLACEHOLDER"
+                            'BANK_IBAN_PLACEHOLDER'
                           )}
-                          name={"IBAN"}
+                          name={'IBAN'}
                           mask={IBANRegex}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -682,20 +683,20 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Username
                   <span className="required">*</span>
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className="required-input">
                   <Field
                     component={FormikTextField}
-                    name={"userName"}
+                    name={'userName'}
                     placeholder="Username"
                     className="width-common"
                   />
@@ -704,24 +705,24 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">Belongs to</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Select
                     placeholder="Belongs to"
                     options={props.CareInstitutionList}
                     value={belongTo && belongTo.value ? belongTo : undefined}
-                    onChange={(value: any) => handleSelect(value, "belongTo")}
+                    onChange={(value: any) => handleSelect(value, 'belongTo')}
                     classNamePrefix="custom-inner-reactselect"
-                    className={"custom-reactselect"}
+                    className={'custom-reactselect'}
                     components={{ Option: CustomOption }}
                     isOptionDisabled={option =>
-                      option.value === languageTranslation("ID")
+                      option.value === languageTranslation('ID')
                     }
                   />
                 </div>
@@ -729,15 +730,15 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Driver's license
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className="custom-radio-block">
                   <FormGroup check inline>
                     <CustomInput
@@ -745,8 +746,8 @@ const PersonalInfoFormComponent: any = (
                       id="driversLicense-1"
                       name="driversLicense"
                       label="Yes"
-                      checked={driversLicense === "yes" ? true : false}
-                      value={"yes"}
+                      checked={driversLicense === 'yes' ? true : false}
+                      value={'yes'}
                       onChange={handleChange}
                     />
                   </FormGroup>
@@ -756,8 +757,8 @@ const PersonalInfoFormComponent: any = (
                       id="driversLicense-2"
                       name="driversLicense"
                       label="No"
-                      checked={driversLicense === "no" ? true : false}
-                      value={"no"}
+                      checked={driversLicense === 'no' ? true : false}
+                      value={'no'}
                       onChange={handleChange}
                     />
                   </FormGroup>
@@ -766,19 +767,19 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Driver's License Number
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"driverLicenseNumber"}
+                    name={'driverLicenseNumber'}
                     placeholder="Driver's License Number"
                     className="width-common"
                     value={driverLicenseNumber}
@@ -789,15 +790,15 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Own vehicle available
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className="custom-radio-block">
                   <FormGroup check inline>
                     <CustomInput
@@ -805,8 +806,8 @@ const PersonalInfoFormComponent: any = (
                       id="vehicleAvailable-1"
                       name="vehicleAvailable"
                       label="Yes"
-                      checked={vehicleAvailable === "yes" ? true : false}
-                      value={"yes"}
+                      checked={vehicleAvailable === 'yes' ? true : false}
+                      value={'yes'}
                       onChange={handleChange}
                     />
                   </FormGroup>
@@ -816,8 +817,8 @@ const PersonalInfoFormComponent: any = (
                       id="vehicleAvailable-2"
                       name="vehicleAvailable"
                       label="No"
-                      checked={vehicleAvailable === "no" ? true : false}
-                      value={"no"}
+                      checked={vehicleAvailable === 'no' ? true : false}
+                      value={'no'}
                       onChange={handleChange}
                     />
                   </FormGroup>
@@ -826,40 +827,40 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">Legal Form</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Select
                     placeholder="Legal Form"
                     options={LegalForm}
                     value={legalForm ? legalForm : undefined}
-                    onChange={(value: any) => handleSelect(value, "legalForm")}
+                    onChange={(value: any) => handleSelect(value, 'legalForm')}
                     classNamePrefix="custom-inner-reactselect"
-                    className={"custom-reactselect"}
+                    className={'custom-reactselect'}
                   />
                 </div>
               </Col>
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Company Name
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"companyName"}
+                    name={'companyName'}
                     placeholder="Company Name"
                     className="width-common"
                     maxLength={50}
@@ -869,19 +870,19 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Register Court
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"registerCourt"}
+                    name={'registerCourt'}
                     placeholder="Register Court"
                     className="width-common"
                     maxLength={50}
@@ -891,19 +892,19 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Registration Number
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"registrationNumber"}
+                    name={'registrationNumber'}
                     placeholder="Registration Number"
                     className="width-common"
                     maxLength={30}
@@ -913,19 +914,19 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Executive Director
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Field
                     component={FormikTextField}
-                    name={"executiveDirector"}
+                    name={'executiveDirector'}
                     placeholder="Executive Director"
                     className="width-common"
                     maxLength={50}
@@ -935,13 +936,13 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">Employed</Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   {/*<div className=" checkbox-custom mb-0">
                      <Field
@@ -956,13 +957,13 @@ const PersonalInfoFormComponent: any = (
                       type="checkbox"
                       id="check"
                       className=""
-                      name={"employed"}
+                      name={'employed'}
                       checked={employed}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const {
                           target: { checked }
                         } = e;
-                        setFieldValue("employed", checked);
+                        setFieldValue('employed', checked);
                       }}
                     />
                     <Label for="check"></Label>
@@ -972,19 +973,19 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className="form-label col-form-label">
                   Comments (Internally)
                 </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Input
                     type="textarea"
-                    name={"comments"}
+                    name={'comments'}
                     placeholder="Comments (Internally)"
                     className="textarea-custom"
                     rows="4"

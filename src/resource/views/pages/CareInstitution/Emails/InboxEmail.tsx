@@ -145,7 +145,7 @@ const InboxEmail: FunctionComponent = () => {
           </Col>
           <Col lg={"7"}>
             <div className="mail-details">
-              <div className="mail-body">
+              <div className="mail-body word-wrap">
                 <h5 className="mb-3">
                   {" "}
                   Your iBuy.com grocery shopping confirmation

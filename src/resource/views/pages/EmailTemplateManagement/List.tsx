@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import { Col, Table, Button } from 'reactstrap';
+import { Col, Table, Button, UncontrolledTooltip } from 'reactstrap';
 import { languageTranslation } from '../../../../helpers';
 import { IEmailTemplateList } from '../../../../interfaces';
 import Loader from '../../containers/Loader/Loader';
 import nodata from '../../../assets/img/nodata.png';
 import archive from '../../../assets/img/restore.svg';
+import ButtonTooltip from '../../components/Tooltip/ButtonTooltip';
 export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   onTemplateSelection,
   data,
@@ -14,7 +15,8 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
   archiveList,
   archiveListLoading,
   onArchiveTemplateSelection,
-  onRestoreEmailTemplate
+  onRestoreEmailTemplate,
+  onPermanentlyDeleteEmployee
 }: IEmailTemplateList) => {
   return (
     <Col lg={'5'} className='pr-lg-0'>
@@ -27,6 +29,11 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
                 {languageTranslation('S_NO')}
               </th>
               <th>{languageTranslation('MENU_ENTRY')}</th>
+              {showArchive ? (
+                <th className='text-center status-column'>
+                  {languageTranslation('TABLE_HEAD_ACTION')}
+                </th>
+              ) : null}
             </tr>
           </thead>
 
@@ -49,12 +56,15 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
                         className={`cursor-pointer ${
                           activeTemplate === trashMenu.id ? 'active' : ''
                         }`}
-                        onClick={() => onArchiveTemplateSelection(trashMenu.id)}
                       >
                         <td className='sno-th-column text-center'>
                           {index + 1}
                         </td>
-                        <td>
+                        <td
+                          onClick={() =>
+                            onArchiveTemplateSelection(trashMenu.id)
+                          }
+                        >
                           <span
                             className={`cursor-pointer text-capitalize word-wrap`}
                           >
@@ -62,19 +72,42 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
                           </span>
                         </td>
                         <td>
-                          <div className='text-center'>
-                            <Button
+                          <div className='action-btn'>
+                            <span
+                              className='btn-icon mr-2'
+                              id={`restore${index}`}
                               onClick={() =>
                                 onRestoreEmailTemplate(trashMenu.id)
                               }
-                              className='archive-btn'
                             >
-                              <span className='archive-icon'>
-                                <img src={archive} />
-                              </span>
-                            </Button>
+                              <UncontrolledTooltip
+                                placement='top'
+                                target={`restore${index}`}
+                              >
+                                {languageTranslation('RESTORE_TOOLTIP')}
+                              </UncontrolledTooltip>
+                              <i className='fa fa-undo'></i>
+                            </span>
+                            <span
+                              className='btn-icon '
+                              id={`delete${index}`}
+                              onClick={() =>
+                                onPermanentlyDeleteEmployee(trashMenu.id)
+                              }
+                            >
+                              <UncontrolledTooltip
+                                placement='top'
+                                target={`delete${index}`}
+                              >
+                                {languageTranslation(
+                                  'DELETE_PERMANENTALY_TOOLTIP'
+                                )}
+                              </UncontrolledTooltip>
+                              <i className='fa fa-trash'></i>
+                            </span>
                           </div>
                         </td>
+                      
                       </tr>
                     );
                   }

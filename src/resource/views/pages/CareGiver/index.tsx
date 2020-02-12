@@ -183,7 +183,7 @@ const CareGiver: FunctionComponent = () => {
       });
       refetch();
       if (!toast.isActive(toastId)) {
-        toastId = toast.success("Caregiver deleted successfully.");
+        toastId = toast.success("Caregiver moved to trash.");
       }
     }
   };

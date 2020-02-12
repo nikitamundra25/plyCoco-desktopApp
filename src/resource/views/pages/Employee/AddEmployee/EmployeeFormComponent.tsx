@@ -148,8 +148,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       });
     }
   };
-  console.log('Accesss Level',accessLevel);
-
   return (
     <div>
       <Card>

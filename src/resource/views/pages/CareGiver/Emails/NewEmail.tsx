@@ -29,7 +29,6 @@ import { ConfirmBox } from "../../../components/ConfirmBox";
 import { ApolloError } from "apollo-client";
 import { errorFormatter } from "../../../../../helpers/ErrorFormatter";
 import { AttachmentFormComponent } from "../../EmailTemplateManagement/AddTemplate/AttachmentFormComponent";
-
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , NEW_EMAIL] = CareGiverMutations;
 let toastId: any = null;
@@ -160,7 +159,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           subject: subject /* .replace(/AW:/g, '') */,
           body: body ? content : "",
           parentId,
-          status: "new",
+          status: "unread",
           attachments: attachments.map(
             ({ path, fileName }: IEmailAttachmentData) => ({
               path,

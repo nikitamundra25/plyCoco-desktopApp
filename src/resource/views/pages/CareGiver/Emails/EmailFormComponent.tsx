@@ -6,17 +6,24 @@ import draftToHtml from "draftjs-to-html";
 import { IEmailFormComponentPorps } from "../../../../../interfaces";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { stripHtml, languageTranslation } from "../../../../../helpers";
+import { AttachmentFormComponent } from "../../EmailTemplateManagement/AddTemplate/AttachmentFormComponent";
 
 export const EmailFormComponent: FunctionComponent<IEmailFormComponentPorps> = (
   props: IEmailFormComponentPorps
 ) => {
-  const { body, onEditorStateChange, isSubmit } = props;
+  const {
+    body,
+    onEditorStateChange,
+    isSubmit,
+    uploadDocument,
+    attachments
+  } = props;
   let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : "";
   const result = stripHtml(content);
   return (
     <div>
       <Row>
-        <Col lg={"12"}>
+        <Col lg={"8"}>
           <FormGroup className="mb-3">
             <div>
               <Editor
@@ -61,6 +68,13 @@ export const EmailFormComponent: FunctionComponent<IEmailFormComponentPorps> = (
             </div>
           </FormGroup>
         </Col>
+
+        <AttachmentFormComponent
+          uploadDocument={uploadDocument}
+          attachment={attachments}
+          newEmailPortion={true}
+        />
+
         {/* <Col lg={'12'}>
           <div className='d-flex align-items-center justify-content-end'>
             <div>

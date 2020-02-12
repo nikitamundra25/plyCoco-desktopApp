@@ -23,6 +23,7 @@ export const Login: FunctionComponent = () => {
     { authInput: ILoginFormValues }
   >(LOGIN, {
     onCompleted({ adminLogin: { token, message, status } }) {
+      toast.dismiss();
       if (status === 'failed') {
         toast.error(message);
       } else {
@@ -33,9 +34,9 @@ export const Login: FunctionComponent = () => {
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
       if (!toast.isActive(toastId)) {
-        toast.error(message);
+        toastId = toast.error(message);
       }
-    }
+    },
   });
 
   useEffect(() => {
@@ -46,18 +47,17 @@ export const Login: FunctionComponent = () => {
   // on login
   const handleSubmit = (
     { userName, password }: ILoginFormValues,
-    { setSubmitting }: FormikHelpers<ILoginFormValues>
+    { setSubmitting }: FormikHelpers<ILoginFormValues>,
   ) => {
     try {
       adminLogin({
-        variables: { authInput: { userName, password } }
+        variables: { authInput: { userName, password } },
       });
     } catch (error) {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      toast.error(message);
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
     }
   };
 

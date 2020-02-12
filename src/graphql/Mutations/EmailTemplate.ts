@@ -42,9 +42,26 @@ const DELETE_EMAIL_TEMPLATE_ATTACHMENT = gql`
   }
 `;
 
+const RESTORE_ARCHIVED_EMAIL = gql`
+  mutation RestoreTrashEmailTemplate($id: Int!) {
+    restoreTrashEmailTemplate(id: $id) {
+      id
+      menuEntry
+    }
+  }
+`;
+// restoreTrashEmailTemplate(id:Int!): EmailTemplate
+// mutation{
+//  restoreTrashEmailTemplate(id: 253){
+//    id
+//    menuEntry
+//  }
+// }
+
 export const EmailTemplateMutations = [
   ADD_EMAIL_TEMPLATE,
   UPDATE_EMAIL_TEMPLATE,
   DELETE_EMAIL_TEMPLATE,
   DELETE_EMAIL_TEMPLATE_ATTACHMENT,
+  RESTORE_ARCHIVED_EMAIL
 ];

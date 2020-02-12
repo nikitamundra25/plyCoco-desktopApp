@@ -683,9 +683,11 @@
   "CONFIRM_EMPLOYEE_PERMANENT_DELETE_MSG": "This employee will be permanently deleted.",
   "EMPLOYEE_PERMANENT_DEL_SUCCESS": "Employee deleted permanently.",
   "CONFIRM_CG_PERMANENT_DELETE_MSG": "This care giver will be permanently deleted.",
-  "CG_PERMANENT_DEL_SUCCESS": "Caregiver deleted permanently..",
+  "CG_PERMANENT_DEL_SUCCESS": "Caregiver deleted permanently.",
   "CONFIRM_CI_PERMANENT_DELETE_MSG": "This care institution will be permanently deleted.",
   "CI_PERMANENT_DEL_SUCCESS": "Care Institution deleted permanently.",
   "CONFIRM_EMAIL_TEMP_PERMANENT_DELETE_MSG": "This email template will be permanently deleted.",
-  "EMAIL_TEMP_PERMANENT_DEL_SUCCESS": "Email Template deleted permanently.."
+  "EMAIL_TEMP_PERMANENT_DEL_SUCCESS": "Email Template deleted permanently.",
+  "RESTORE_TOOLTIP": "Click here to restore data",
+  "DELETE_PERMANENTALY_TOOLTIP": "Click here to delete permanently"
 }

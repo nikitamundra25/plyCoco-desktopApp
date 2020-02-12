@@ -1576,6 +1576,9 @@ html:not([dir="rtl"]) {
     .custom-inner-reactselect__option {
       padding: 2px 12px;
       font-size: 12px;
+      &:first-letter {
+        text-transform: capitalize;
+      }
       &.custom-inner-reactselect__option--is-selected {
         background: $theme_color;
         color: $white;
@@ -1779,10 +1782,14 @@ html:not([dir="rtl"]) {
         .attribute-inner-select__menu-list {
           padding-bottom: 0px;
           padding-top: 0px;
+          max-height: 270px;
         }
         .attribute-inner-select__option {
           padding: 2px 12px;
           font-size: 12px;
+          &:first-letter {
+            text-transform: capitalize;
+          }
           &.attribute-inner-select__option--is-selected {
             background: $theme_color;
             color: $white;

@@ -207,7 +207,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                       </span>
                                       {isDragActive &&
                                         !isDragReject &&
-                                        languageTranslation(" ")}
+                                        languageTranslation("PERSONAL_DOCUMENTS_DROP_HERE")}
                                       {isDragReject || !isValidFile ? (
                                         <>
                                           {(isDragReject || !isValidFile) && (

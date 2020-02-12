@@ -236,10 +236,7 @@ const ArchiveCareInstitution: FunctionComponent = () => {
     sortBy
   };
   let count = (currentPage - 1) * ARCHIVE_PAGE_LIMIT + 1;
-  console.log('count', count);
-
-  console.log(data, 'data');
-
+ 
   return (
     <Card>
       <CardHeader>

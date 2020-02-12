@@ -14,8 +14,6 @@ const AddAttribute: FunctionComponent<IAddAttributeProps> = (
     data,
     attributeName
   } = props;
-  console.log('attributeName', attributeName);
-
   return (
     <Form onSubmit={handleSubmit} className='form-section'>
       <FormGroup>

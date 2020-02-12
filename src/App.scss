@@ -670,6 +670,11 @@ body {
   }
 }
 .sidebar {
+  .nav-dropdown-toggle {
+    &:before {
+      background-image: url(./resource/assets/img/sidebar/left-icon.svg);
+    }
+  }
   background: $theme_color;
   @media only screen and (max-width: 991px) {
     position: fixed;
@@ -848,8 +853,12 @@ body {
 
   .sidebar-minimizer {
     // background-color: #046fc1;
+    background-color: $theme_color_hover;
+    height: 35px;
+    flex: 0 0 35px;
     &:before {
       background-image: url(./resource/assets/img/left-arrow.svg);
+      height: 35px;
     }
     &:hover {
       background-color: rgba(0, 0, 0, 0.3);
@@ -3664,6 +3673,39 @@ html:not([dir='rtl']) {
     width: 362px;
   }
 }
+// 404 page
+
+.page-404 {
+  background: #fff;
+  max-width: 100%;
+  margin: auto;
+  text-align: center;
+  height: 89vh;
+  .notfound-404 {
+    -webkit-transform: translate(0%, 50%);
+    -ms-transform: translate(0%, 50%);
+    transform: translate(0%, 50%);
+    .heading {
+      font-size: 123px;
+      font-weight: 700;
+      text-align: center;
+      margin: 0px;
+      color: $light_black;
+      text-transform: uppercase;
+      span {
+        color: $theme_color;
+      }
+    }
+    .sub-heading {
+      font-size: $font_17;
+      font-weight: 400;
+      text-transform: uppercase;
+      color: $light_black;
+      margin-top: 0px;
+      margin-bottom: 25px;
+    }
+  }
+}
 
 @media only screen and (max-width: 991px) {
   .employee-details {
@@ -3758,68 +3800,5 @@ html:not([dir='rtl']) {
   .no-text {
     font-size: 15px;
     color: $no_search_text_color;
-  }
-}
-
-// calendar table css
-.calender-section {
-  position: relative;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: auto;
-  font-family: $font_open_sans;
-  background: $white;
-  .custom-appointment-calendar {
-    .custom-appointment-calendar-head {
-      font-weight: 600;
-    }
-    .custom-appointment-row {
-      display: flex;
-      font-size: 12px;
-      color: $black;
-      border-left: 1px solid $table_border;
-
-      .custom-appointment-col {
-        flex: 0 0 30px;
-        max-width: 30px;
-        padding: 4px;
-        border-right: 1px solid $table_border;
-        border-top: 1px solid $table_border;
-        vertical-align: middle;
-        &.name-col {
-          flex: 0 0 200px;
-          max-width: 200px;
-        }
-        &.h-col {
-          flex: 0 0 70px;
-          max-width: 70px;
-        }
-        &.calender-col {
-          flex: 0 0 50px;
-          max-width: 50px;
-          .custom-appointment-calendar-date {
-            text-transform: capitalize;
-          }
-          &.appointment-color1 {
-            background: #d3d3d3;
-          }
-          &.appointment-color2 {
-            background: #ffff00;
-          }
-          &.appointment-color3 {
-            background: #6a0dad;
-          }
-          &.appointment-color4 {
-            background: #f6cfca;
-          }
-          &.appointment-color5 {
-            background: #07e651;
-          }
-          &.appointment-color5 {
-            background: #a1f5bd;
-          }
-        }
-      }
-    }
   }
 }

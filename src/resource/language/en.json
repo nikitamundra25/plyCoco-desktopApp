@@ -668,7 +668,7 @@
   "RESTORE": "Restore",
   "USERNAME_PLACEHOLDER": "Enter Username",
   "BACK_TO_LIST": "Back to List",
-  "SEARCH_ARCHIVE": "By name or email",
+  "SEARCH_ARCHIVE": "By name, email or username",
   "CARE_INSTITUTION_NAME": "Care Institution Name",
   "CONFIRM_CAREGIVER_RESTORE_MSG": "This caregiver will be restored.",
   "CONFIRM_CAREINSTITUTION_RESTORE_MSG": "This care institution will be restored.",

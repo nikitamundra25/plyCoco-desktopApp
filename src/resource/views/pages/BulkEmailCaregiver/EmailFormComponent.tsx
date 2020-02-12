@@ -6,7 +6,7 @@ import draftToHtml from "draftjs-to-html";
 import Select from "react-select";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { stripHtml, languageTranslation } from "../../../../helpers";
-import { IEmailEditorComponentProps } from "../../../../interfaces/bulkEmailCaregiver";
+import { IEmailEditorComponentProps } from "../../../../interfaces/BulkEmailCaregiver";
 import { AttachmentList } from "../../components/Attachments";
 
 export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps> = (
@@ -117,7 +117,7 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
                 </div>
               </FormGroup>
               {isSubmit && (!body || (result && result.length < 2)) ? (
-                <div className="required-error">
+                <div className="required">
                   {languageTranslation("REQUIRED_BODY")}
                 </div>
               ) : (

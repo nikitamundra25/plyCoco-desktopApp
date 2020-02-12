@@ -22,3 +22,16 @@ export interface IEmailEditorComponentProps {
     attachmentIndex?: number | undefined
   ) => Promise<void>;
 }
+
+export interface ICareGiverListComponentProps {
+  careGivers: any;
+  called: boolean;
+  loading: boolean;
+  careGiverData: Object[] | any;
+  selectedCareGiver: number[];
+  handleSelectAll: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCheckElement: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) => Promise<void>;
+}

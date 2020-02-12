@@ -26,11 +26,12 @@ import {
   IEmailAttachmentData,
   IAddEmailVariables
 } from "../../../../interfaces";
-import { EmailEditorComponent } from "./emailEditor";
+import { EmailEditorComponent } from "./EmailFormComponent";
 import { ConfirmBox } from "../../components/ConfirmBox";
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { toast } from "react-toastify";
+import { CareGiverListComponent } from "./CareGiverListComponent";
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
 let toastId: any = null;
@@ -292,83 +293,16 @@ const BulkEmailCaregiver: FunctionComponent = () => {
           <div className="common-content flex-grow-1">
             <div className="bulk-email-section">
               <Row>
-                <Col lg={"5"}>
-                  <div className="caregiver-list custom-scroll">
-                    <Table bordered hover responsive>
-                      <thead className="thead-bg">
-                        <tr>
-                          <th className="checkbox-th-column">
-                            <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                name="checkbox"
-                                className=""
-                                checked={
-                                  careGivers &&
-                                  careGivers.getCaregivers &&
-                                  careGivers.getCaregivers.result.length ===
-                                    selectedCareGiver.length
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e: any) => {
-                                  handleSelectAll();
-                                }}
-                              />
-                              <label className=""></label>
-                            </span>
-                          </th>
-                          <th>{languageTranslation("NAME")}</th>
-                          <th>{languageTranslation("EMAIL")}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {!called || loading ? (
-                          <tr>
-                            <td className={"table-loader"} colSpan={8}>
-                              <Loader />
-                            </td>
-                          </tr>
-                        ) : careGiverData && careGiverData.length ? (
-                          careGiverData.map(
-                            (careGivers: any, index: number) => {
-                              return (
-                                <tr key={index}>
-                                  <td>
-                                    <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                                      <input
-                                        type="checkbox"
-                                        id="check"
-                                        name="checkbox"
-                                        className=""
-                                        checked={
-                                          selectedCareGiver &&
-                                          selectedCareGiver.length &&
-                                          selectedCareGiver.indexOf(
-                                            parseInt(careGivers.id)
-                                          ) > -1
-                                            ? true
-                                            : false
-                                        }
-                                        onChange={(e: any) => {
-                                          handleCheckElement(e, careGivers.id);
-                                        }}
-                                      />
-                                      <label className=""></label>
-                                    </span>
-                                  </td>
-                                  <td>{`${careGivers.firstName} ${careGivers.lastName}`}</td>
-                                  <td>{careGivers.email}</td>
-                                </tr>
-                              );
-                            }
-                          )
-                        ) : null}
-                      </tbody>
-                    </Table>
-                  </div>
-                </Col>
+                <CareGiverListComponent
+                  careGivers={careGivers}
+                  handleSelectAll={handleSelectAll}
+                  called={called}
+                  loading={loading}
+                  careGiverData={careGiverData}
+                  selectedCareGiver={selectedCareGiver}
+                  handleCheckElement={handleCheckElement}
+                />
+
                 <EmailEditorComponent
                   body={body}
                   templateOptions={templateOptions}

@@ -1,8 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Row, Card, CardHeader, CardBody, Button } from 'reactstrap';
+import { Row, Card, CardHeader, CardBody } from 'reactstrap';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { AppBreadcrumb } from '@coreui/react';
+import { toast } from 'react-toastify';
+import { ApolloError } from 'apollo-client';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { ProfileFormComponent } from './ProfileFormComponent';
+import { ProfileQueries } from '../../../../graphql/queries';
 import { AdminProfileMutations } from '../../../../graphql/Mutations';
 import { ChangePwdFormComponent } from './ChangePwdFormComponent';
 import { languageTranslation } from '../../../../helpers';
@@ -11,11 +15,7 @@ import {
   ProfileValidationSchema,
   ChangePasswordValidationSchema,
 } from '../../../validations';
-import { ProfileQueries } from '../../../../graphql/queries';
-import { useQuery, useMutation } from '@apollo/react-hooks';
 import { IProfileValues, IChangePasswordValues } from '../../../../interfaces';
-import { toast } from 'react-toastify';
-import { ApolloError } from 'apollo-client';
 import { errorFormatter } from '../../../../helpers/ErrorFormatter';
 
 const [UPDATE_ADMIN_PROFILE, CHANGE_PASSWORD] = AdminProfileMutations;
@@ -42,7 +42,7 @@ const MyProfile: FunctionComponent = () => {
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
       if (!toast.isActive(toastId)) {
-        toast.error(message);
+        toastId = toast.error(message);
       }
     },
   });
@@ -61,7 +61,7 @@ const MyProfile: FunctionComponent = () => {
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
       if (!toast.isActive(toastId)) {
-        toast.error(message);
+        toastId = toast.error(message);
       }
     },
   });
@@ -83,11 +83,10 @@ const MyProfile: FunctionComponent = () => {
       toast.dismiss();
       updateAdminProfile({ variables: { userInput: { ...values } } });
     } catch (error) {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      toast.error(message);
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
     }
   };
   // Function to update password into db
@@ -99,11 +98,10 @@ const MyProfile: FunctionComponent = () => {
       await changePassword({ variables: { oldPassword, password } });
       resetForm();
     } catch (error) {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      toast.error(message);
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
     }
   };
   const { firstName = '', lastName = '', email = '' } = profileValues

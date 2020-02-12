@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardBody,
   Table,
-  UncontrolledTooltip
+  UncontrolledTooltip,
 } from 'reactstrap';
 import { AppRoutes, PAGE_LIMIT, sortFilter } from '../../../../config';
 import { AppBreadcrumb } from '@coreui/react';
@@ -15,7 +15,7 @@ import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import {
   ICareInstitutionListDataInterface,
   ISearchValues,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../interfaces';
 import { RouteComponentProps } from 'react-router';
 import PaginationComponent from '../../components/Pagination';
@@ -34,7 +34,7 @@ let toastId: any = null;
 const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
-  GET_DEPARTMENT_LIST
+  GET_DEPARTMENT_LIST,
 ] = CareInstitutionQueries;
 
 const [
@@ -47,15 +47,15 @@ const [
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   ADD_NEW_CARE_INTITUTION,
   ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT
+  DELETE_DEPARTMENT,
 ] = CareInstitutionMutation;
 
 const CareInstitution = (props: RouteComponentProps) => {
   const [
     fetchCareInstitutionList,
-    { data, called, loading, refetch }
+    { data, called, loading, refetch },
   ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   let userData: [Object] | any;
@@ -78,7 +78,7 @@ const CareInstitution = (props: RouteComponentProps) => {
 
   const [
     addUser,
-    { error: addUserError, data: CareIntitutionId, loading: Loading }
+    { error: addUserError, data: CareIntitutionId, loading: Loading },
   ] = useMutation<{ addUser: any }>(ADD_NEW_CARE_INTITUTION);
 
   // Similar to componentDidMount and componentDidUpdate: updateStatus
@@ -92,7 +92,7 @@ const CareInstitution = (props: RouteComponentProps) => {
     let sortByValue: string | undefined = '1';
     if (query.sortBy) {
       sortByValue = Object.keys(sortFilter).find(
-        (key: string) => sortFilter[key] === query.sortBy
+        (key: string) => sortFilter[key] === query.sortBy,
       );
     }
 
@@ -116,8 +116,8 @@ const CareInstitution = (props: RouteComponentProps) => {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy
-              ) || '1'
+                (key: any) => sortFilter[key] === query.sortBy,
+              ) || '1',
           }
         : { label: 'Newest', value: '1' };
       isActive = query.status
@@ -128,7 +128,7 @@ const CareInstitution = (props: RouteComponentProps) => {
       setSearchValues({
         searchValue: searchBy,
         sortBy,
-        isActive
+        isActive,
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -143,14 +143,14 @@ const CareInstitution = (props: RouteComponentProps) => {
           ? query.status === 'active'
             ? 'true'
             : 'false'
-          : ''
-      }
+          : '',
+      },
     });
   }, [search]); // It will run when the search value gets changed
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>
+    { setSubmitting }: FormikHelpers<ISearchValues>,
   ) => {
     let params: {
       [key: string]: any;
@@ -174,7 +174,7 @@ const CareInstitution = (props: RouteComponentProps) => {
     // logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?'
+      '?',
     );
     history.push(path);
   };
@@ -184,7 +184,7 @@ const CareInstitution = (props: RouteComponentProps) => {
       title: languageTranslation('CONFIRM_LABEL'),
       text: status
         ? languageTranslation('CONFIRM_CARE_INSTITUTION_DISABLED_MSG')
-        : languageTranslation('CONFIRM_CARE_INSTITUTION_ACTIVATE_MSG')
+        : languageTranslation('CONFIRM_CARE_INSTITUTION_ACTIVATE_MSG'),
     });
     if (!value) {
       return;
@@ -194,13 +194,13 @@ const CareInstitution = (props: RouteComponentProps) => {
         await updateStatus({
           variables: {
             id,
-            isActive: !status
-          }
+            isActive: !status,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG')
+            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG'),
           );
         }
       } catch (error) {
@@ -218,7 +218,7 @@ const CareInstitution = (props: RouteComponentProps) => {
   const {
     searchValue = '',
     sortBy = undefined,
-    isActive = undefined
+    isActive = undefined,
   } = searchValues ? searchValues : {};
 
   const queryVariables = {
@@ -226,13 +226,13 @@ const CareInstitution = (props: RouteComponentProps) => {
     isActive: isActive ? isActive.value : '',
     sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
     searchBy: searchValue ? searchValue : '',
-    limit: PAGE_LIMIT
+    limit: PAGE_LIMIT,
   };
 
   const onDelete = async (id: any) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CARE_INSTITUTION_DELETE_MSG')
+      text: languageTranslation('CONFIRM_CARE_INSTITUTION_DELETE_MSG'),
     });
     if (!value) {
       return;
@@ -240,12 +240,12 @@ const CareInstitution = (props: RouteComponentProps) => {
       try {
         await deleteCareInstitution({
           variables: {
-            id
-          }
+            id,
+          },
         });
         refetch();
         toast.success(
-          languageTranslation('CARE_INSTITUTION_DELETE_SUCCESS_MSG')
+          languageTranslation('CARE_INSTITUTION_DELETE_SUCCESS_MSG'),
         );
       } catch (error) {
         const message = error.message
@@ -260,7 +260,7 @@ const CareInstitution = (props: RouteComponentProps) => {
     if (CareIntitutionId) {
       const { addUser } = CareIntitutionId;
       props.history.push(
-        AppRoutes.ADD_CARE_INSTITUTION.replace(':id', addUser.id)
+        AppRoutes.ADD_CARE_INSTITUTION.replace(':id', addUser.id),
       );
     }
   }, [CareIntitutionId]);
@@ -269,9 +269,9 @@ const CareInstitution = (props: RouteComponentProps) => {
     addUser({
       variables: {
         careInstInput: {
-          firstName: ''
-        }
-      }
+          firstName: '',
+        },
+      },
     });
   };
 
@@ -280,6 +280,7 @@ const CareInstitution = (props: RouteComponentProps) => {
   }
   const tableData: any[] = [];
   const query = qs.parse(search);
+  let count = (currentPage - 1) * PAGE_LIMIT + 1;
 
   <>
     {userData && userData.length
@@ -288,7 +289,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             return tableData.push(
               <tr>
                 <td className={'sno-th-column text-center'}>
-                  <span>{index + 1}</span>
+                  <span>{count++}</span>
                 </td>
                 <td>
                   <div className='info-column'>
@@ -357,7 +358,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                       message={'Click here to edit Care Institution'}
                       redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
                         ':id',
-                        user.id.toString()
+                        user.id.toString(),
                       )}
                     >
                       <i className='fa fa-pencil'></i>
@@ -367,7 +368,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                       message={'Click here to view Care Institution'}
                       redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
                         ':id',
-                        user.id.toString()
+                        user.id.toString(),
                       )}
                     >
                       <i className='fa fa-eye'></i>
@@ -387,9 +388,9 @@ const CareInstitution = (props: RouteComponentProps) => {
                     </span>
                   </div>
                 </td>
-              </tr>
+              </tr>,
             );
-          }
+          },
         )
       : tableData.push(
           <tr className={'text-center no-hover-row'}>
@@ -429,14 +430,14 @@ const CareInstitution = (props: RouteComponentProps) => {
                 </div>
               )}
             </td>
-          </tr>
+          </tr>,
         )}
   </>;
 
   const values: ISearchValues = {
     searchValue,
     isActive,
-    sortBy
+    sortBy,
   };
   return (
     <Card>

@@ -30,7 +30,7 @@ export interface IAddEmailTemplateProps {
   attachment: IEmailAttachmentData[] | [];
   uploadDocument: any;
   onDelteDocument: (attachmentId: string, attachmentIndex?: number) => void;
-  fetchArchiveList: () => void;
+  showArchive: boolean | any;
 }
 
 export interface IEmailTemplateList {
@@ -39,6 +39,10 @@ export interface IEmailTemplateList {
   loading: any;
   activeTemplate: string | null;
   showArchive: boolean | null;
+  archiveList: any;
+  archiveListLoading: any;
+  onArchiveTemplateSelection: any;
+  onRestoreEmailTemplate: any;
 }
 
 export interface IEmailTemplateMenu {
@@ -54,6 +58,8 @@ export interface IEmailTemplateMenu {
   updateLoading: boolean;
   fetchArchiveList: () => void;
   setShowArchive: any;
+  showArchive: boolean | null;
+  onViewTrash: any;
 }
 
 export interface IEmailTemplateData {

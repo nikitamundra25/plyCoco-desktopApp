@@ -182,18 +182,7 @@ const DocumentUploadModal = (props: any) => {
                           }}
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
-                          // className={
-                          //   props.isSubmit && !props.documentType
-                          //     ? "text-input error my-2 my-sm-0"
-                          //     : "text-input my-2 my-sm-0"
-                          // }
                         />
-                        {/* {console.log('isSubmit', isSubmit)}
-                        {isSubmit && !documentType ? (
-                          <div className='required-error'>
-                            Document type is required
-                          </div>
-                        ) : null} */}
                       </Col>
                     </Row>
                   </FormGroup>
@@ -287,7 +276,6 @@ const DocumentUploadModal = (props: any) => {
           <Button
             color='primary'
             onClick={() => {
-              console.log('inside handle save');
               handleSaveDocument();
             }}
             disabled={addDocumentLoading || updateDocumentLoading}

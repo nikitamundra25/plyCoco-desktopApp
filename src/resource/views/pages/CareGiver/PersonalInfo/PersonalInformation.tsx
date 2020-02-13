@@ -520,8 +520,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   };
 
   const usersList = props.careGiverOpt;
-  console.log(caregiverAttrOpt, 'caregiverAttrOpt');
-
   return (
     <Formik
       initialValues={initialValues}

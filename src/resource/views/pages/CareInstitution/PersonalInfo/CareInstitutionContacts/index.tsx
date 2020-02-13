@@ -9,7 +9,8 @@ import {
   IStates,
   ICountry,
   IState,
-  ICareInstitutionFormValues
+  ICareInstitutionFormValues,
+  IAttributeOptions
 } from '../../../../../../interfaces';
 import {
   CountryQueries,
@@ -279,10 +280,17 @@ const CareInstitutionContacts: any = (props: any) => {
       }
     }
   };
+  const [contactAttributeOpt, setcontactAttributeOpt] = useState<
+    IAttributeOptions[] | undefined
+  >([]);
 
+  useEffect(() => {
+    if (props.careInstitutionAttrOpt && props.careInstitutionAttrOpt.length) {
+      setcontactAttributeOpt(props.careInstitutionAttrOpt);
+    }
+  }, [props]);
 
-  
-  console.log('props.careInstitutionAttrOpt', props.careInstitutionAttrOpt);
+  console.log('props.careInstitutionAttrOpt', contactAttributeOpt);
 
   return (
     <>
@@ -326,7 +334,7 @@ const CareInstitutionContacts: any = (props: any) => {
           <CotactFormComponent
             {...props}
             ContactFromAdd={ContactFromAdd}
-            careInstitutionAttrOpt={props.careInstitutionAttrOpt}
+            careInstitutionAttrOpt={contactAttributeOpt}
           />
         )}
         validationSchema={CareInstituionContactValidationSchema}

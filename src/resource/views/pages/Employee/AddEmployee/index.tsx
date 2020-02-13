@@ -1,5 +1,5 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { toast } from 'react-toastify';
@@ -37,6 +37,7 @@ export const EmployeeForm: FunctionComponent<{
   // get id from params
   let { id } = useParams();
   let history = useHistory();
+  const { state: locationState } = useLocation();
 
   // To get the employee details by id
   const [
@@ -380,7 +381,13 @@ export const EmployeeForm: FunctionComponent<{
         // It's the update employee case
         if (id) {
           toast.success(languageTranslation('EMPLOYEE_UPDATE_SUCCESS_MSG'));
-          history.push(AppRoutes.EMPLOYEE);
+          history.push(
+            `${AppRoutes.EMPLOYEE}?page=${
+              locationState && locationState.currentPage
+                ? locationState.currentPage
+                : 1
+            }`,
+          );
         } else {
           //Profile updation case
           if (!toast.isActive(toastId)) {

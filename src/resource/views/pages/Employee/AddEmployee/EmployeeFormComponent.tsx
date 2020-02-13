@@ -2,7 +2,7 @@ import React, {
   useState,
   ChangeEvent,
   FunctionComponent,
-  useEffect
+  useEffect,
 } from 'react';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { AppBreadcrumb } from '@coreui/react';
@@ -16,7 +16,7 @@ import {
   Input,
   Col,
   CustomInput,
-  Row
+  Row,
 } from 'reactstrap';
 import Select from 'react-select';
 import MaskedInput from 'react-text-mask';
@@ -25,13 +25,13 @@ import {
   IBANRegex,
   DateMask,
   AppConfig,
-  PAGE_LIMIT
+  PAGE_LIMIT,
 } from '../../../../../config';
 import routes from '../../../../../routes/routes';
 import {
   IEmployeeFormValues,
   IReactSelectInterface,
-  IRegion
+  IRegion,
 } from '../../../../../interfaces';
 import { logger, languageTranslation } from '../../../../../helpers';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
@@ -49,7 +49,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     countriesOpt: IReactSelectInterface[];
     statesOpt: IReactSelectInterface[];
     getStatesByCountry: any;
-  }
+  },
 ) => {
   const {
     values: {
@@ -72,7 +72,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       zip,
       joiningDate,
       accessLevel,
-      image
+      image,
     },
     touched,
     errors,
@@ -86,19 +86,19 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     countriesOpt,
     statesOpt,
     getStatesByCountry,
-    setFieldError
+    setFieldError,
   } = props;
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>('');
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS
+    GET_REGIONS,
   );
   const regionOptions: IReactSelectInterface[] | undefined = [];
   if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id
-      })
+        value: id,
+      }),
     );
   }
   useEffect(() => {
@@ -111,8 +111,10 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     e.preventDefault();
     setFieldTouched('image', true);
     const {
-      target: { files }
+      target: { files },
     } = e;
+    console.log(files, 'files');
+
     let reader = new FileReader();
     let file: File | null = null;
     if (files) {
@@ -131,8 +133,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3
-      }
+        sortBy: 3,
+      },
     });
   }, []);
   // Custom function to handle react select fields
@@ -143,8 +145,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       setFieldValue('state', { label: '', value: '' });
       getStatesByCountry({
         variables: {
-          countryid: selectOption ? selectOption.value : '82'
-        } // default code is for germany
+          countryid: selectOption ? selectOption.value : '82',
+        }, // default code is for germany
       });
     }
   };
@@ -186,7 +188,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     type='text'
                                     name={'firstName'}
                                     placeholder={languageTranslation(
-                                      'FIRST_NAME'
+                                      'FIRST_NAME',
                                     )}
                                     maxLength={30}
                                     onChange={handleChange}
@@ -214,7 +216,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                                 <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    'EMPLOYEE_SURNAME_LABEL'
+                                    'EMPLOYEE_SURNAME_LABEL',
                                   )}
                                   <span className='required'>*</span>
                                 </Label>
@@ -251,7 +253,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                                 <Label className='form-label col-form-label '>
                                   {languageTranslation(
-                                    'EMPLOYEE_EMAIL_ADDRESS_LABEL'
+                                    'EMPLOYEE_EMAIL_ADDRESS_LABEL',
                                   )}
                                   <span className='required'>*</span>
                                 </Label>
@@ -270,7 +272,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         : '';
                                       const username = setUsername.replace(
                                         /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi,
-                                        ''
+                                        '',
                                       );
                                       setFieldValue('userName', username);
                                       setTimeout(() => {
@@ -301,7 +303,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                                 <Label className='form-label col-form-label '>
                                   {languageTranslation(
-                                    'EMPLOYEE_USER_NAME_LABEL'
+                                    'EMPLOYEE_USER_NAME_LABEL',
                                   )}
                                   <span className='required'>*</span>
                                 </Label>
@@ -312,7 +314,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     type='text'
                                     name={'userName'}
                                     placeholder={languageTranslation(
-                                      'EMPLOYEE_USER_NAME_LABEL'
+                                      'EMPLOYEE_USER_NAME_LABEL',
                                     )}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -339,7 +341,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                                 <Label className='form-label col-form-label '>
                                   {languageTranslation(
-                                    'EMPLOYEE_TELEPHONE_NUMBER_LABEL'
+                                    'EMPLOYEE_TELEPHONE_NUMBER_LABEL',
                                   )}
                                 </Label>
                               </Col>
@@ -348,7 +350,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                   <Input
                                     name={'telephoneNumber'}
                                     placeholder={languageTranslation(
-                                      'EMPLOYEE_TELEPHONE_NUMBER_LABEL'
+                                      'EMPLOYEE_TELEPHONE_NUMBER_LABEL',
                                     )}
                                     // mask="999-999-9999"
                                     onChange={handleChange}
@@ -379,7 +381,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                                 <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    'EMPLOYEE_ADDRESS1_LABEL'
+                                    'EMPLOYEE_ADDRESS1_LABEL',
                                   )}
                                 </Label>
                               </Col>
@@ -390,7 +392,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     name={'address1'}
                                     maxLength={150}
                                     placeholder={languageTranslation(
-                                      'EMPLOYEE_ADDRESS1_LABEL'
+                                      'EMPLOYEE_ADDRESS1_LABEL',
                                     )}
                                     onChange={handleChange}
                                     value={address1}
@@ -406,7 +408,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                                 <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    'EMPLOYEE_ADDRESS2_LABEL'
+                                    'EMPLOYEE_ADDRESS2_LABEL',
                                   )}
                                 </Label>
                               </Col>
@@ -418,7 +420,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     name={'address2'}
                                     maxLength={150}
                                     placeholder={languageTranslation(
-                                      'EMPLOYEE_ADDRESS2_LABEL'
+                                      'EMPLOYEE_ADDRESS2_LABEL',
                                     )}
                                     onChange={handleChange}
                                     value={address2}
@@ -445,7 +447,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     maxLength={10}
                                     // className="form-control"
                                     placeholder={languageTranslation(
-                                      'EMPLOYEE_ZIP_LABEL'
+                                      'EMPLOYEE_ZIP_LABEL',
                                     )}
                                     value={zip}
                                     onBlur={handleBlur}
@@ -481,7 +483,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     onChange={handleChange}
                                     // className="form-control"
                                     placeholder={languageTranslation(
-                                      'EMPLOYEE_CITY_LABEL'
+                                      'EMPLOYEE_CITY_LABEL',
                                     )}
                                     maxLength={100}
                                     value={city}
@@ -510,7 +512,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 <div>
                                   <Select
                                     placeholder={languageTranslation(
-                                      'COUNTRY_PLACEHOLDER'
+                                      'COUNTRY_PLACEHOLDER',
                                     )}
                                     options={countriesOpt}
                                     value={
@@ -541,7 +543,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 <div>
                                   <Select
                                     placeholder={languageTranslation(
-                                      'EMPLOYEE_STATE_LABEL'
+                                      'EMPLOYEE_STATE_LABEL',
                                     )}
                                     options={statesOpt}
                                     value={
@@ -574,7 +576,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 <div className='text-capitalize'>
                                   <Select
                                     placeholder={languageTranslation(
-                                      'EMPLOYEE_REGION_PLACEHOLDER'
+                                      'EMPLOYEE_REGION_PLACEHOLDER',
                                     )}
                                     isMulti
                                     options={regionOptions}
@@ -596,7 +598,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                                 <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    'EMPLOYEE_JOINING_DATE_LABEL'
+                                    'EMPLOYEE_JOINING_DATE_LABEL',
                                   )}
                                 </Label>
                               </Col>
@@ -607,7 +609,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       <MaskedInput
                                         name={'joiningDate'}
                                         placeholder={languageTranslation(
-                                          'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
+                                          'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
                                         )}
                                         mask={DateMask}
                                         onChange={handleChange}
@@ -639,7 +641,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                                 <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    'EMPLOYEE_EMPLOYEE_RIGHTS_LABEL'
+                                    'EMPLOYEE_EMPLOYEE_RIGHTS_LABEL',
                                   )}
                                 </Label>
                               </Col>
@@ -730,7 +732,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                             accept='image/*'
                             id='gallery-photo-add'
                             placeholder={languageTranslation(
-                              'EMPLOYEE_ADD_PROFILE_IMAGE_LABEL'
+                              'EMPLOYEE_ADD_PROFILE_IMAGE_LABEL',
                             )}
                             onChange={handleImageChange}
                           />
@@ -751,7 +753,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                                 <Label className='form-label col-form-label '>
                                   {languageTranslation(
-                                    'EMPLOYEE_BANK_NAME_LABEL'
+                                    'EMPLOYEE_BANK_NAME_LABEL',
                                   )}
                                 </Label>
                               </Col>
@@ -761,7 +763,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     type='text'
                                     name={'bankName'}
                                     placeholder={languageTranslation(
-                                      'EMPLOYEE_BANK_NAME_LABEL'
+                                      'EMPLOYEE_BANK_NAME_LABEL',
                                     )}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -789,7 +791,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                                 <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    'BANK_ACCOUNT_HOLDER_NAME_LABEL'
+                                    'BANK_ACCOUNT_HOLDER_NAME_LABEL',
                                   )}
                                   {/* Account Holder Name */}
                                 </Label>
@@ -800,7 +802,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     type='text'
                                     name={'accountHolderName'}
                                     placeholder={languageTranslation(
-                                      'BANK_ACCOUNT_HOLDER_NAME_LABEL'
+                                      'BANK_ACCOUNT_HOLDER_NAME_LABEL',
                                     )}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -839,7 +841,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     name={'IBAN'}
                                     value={IBAN}
                                     placeholder={languageTranslation(
-                                      'BANK_IBAN_LABEL'
+                                      'BANK_IBAN_LABEL',
                                     )}
                                     mask={IBANRegex}
                                     onChange={handleChange}
@@ -875,7 +877,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     type='text'
                                     name={'BIC'}
                                     placeholder={languageTranslation(
-                                      'BANK_BIC_LABEL'
+                                      'BANK_BIC_LABEL',
                                     )}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -913,7 +915,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     name={'additionalText'}
                                     // className="textarea-custom"
                                     placeholder={languageTranslation(
-                                      'ADDITIONAL_TEXT_LABEL'
+                                      'ADDITIONAL_TEXT_LABEL',
                                     )}
                                     rows='3'
                                     maxLength={255}

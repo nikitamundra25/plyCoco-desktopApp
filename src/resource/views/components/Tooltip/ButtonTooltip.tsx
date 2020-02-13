@@ -4,16 +4,26 @@ import { ITooltipProps } from '../../../../interfaces';
 import { Link } from 'react-router-dom';
 
 const ButtonTooltip = (props: ITooltipProps) => {
+  const { id, message, position, children, redirectUrl, currentPage } = props;
   return (
-    <Link to={props.redirectUrl} className='btn-icon mr-2'>
-      <span id={props.id}>
+    <Link
+      to={{
+        pathname: redirectUrl,
+        state: {
+          currentPage,
+        },
+      }}
+      className='btn-icon mr-2'
+      id={id}
+    >
+      <span>
         <UncontrolledTooltip
-          placement={props.position ? props.position : 'top'}
-          target={props.id}
+          placement={position ? position : 'top'}
+          target={id}
         >
-          {props.message}
+          {message}
         </UncontrolledTooltip>
-        {props.children}
+        {children}
       </span>
     </Link>
   );

@@ -1,6 +1,7 @@
-import { IReactSelectInterface } from "./Constant";
+import { IReactSelectInterface } from './Constant';
 
 export interface IEmployeeFormValues {
+  id?: string;
   email: string;
   firstName: string;
   lastName: string;

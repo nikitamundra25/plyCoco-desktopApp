@@ -10,8 +10,8 @@ import {
 import { useHistory } from 'react-router';
 import { useQuery } from '@apollo/react-hooks';
 import { AppRoutes } from '../../../../config';
-import logo from '../../../assets/img/plycoco-orange.png';
 import { ProfileQueries } from '../../../../graphql/queries';
+import logo from '../../../assets/img/plycoco-orange.png';
 
 const [VIEW_PROFILE] = ProfileQueries;
 

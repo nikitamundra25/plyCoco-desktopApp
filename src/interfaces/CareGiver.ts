@@ -323,6 +323,7 @@ export interface IAddEmailVariables {
 
 export interface INewEmailProps {
   emailData: any;
+  selectedUserName: string;
 }
 
 export interface IEmailData {

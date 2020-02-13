@@ -78,6 +78,11 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("EMAIL_SENT_SUCCESS"));
       }
+      setSubject("");
+      setBody(undefined);
+      setAttachments([]);
+      setIsSubmit(false);
+      setTemplate({ label: "", value: "" });
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -239,6 +244,10 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     }
   };
 
+  const uploadDocument = (data: IEmailAttachmentData) => {
+    setAttachments((prevArray: any) => [data, ...prevArray]);
+  };
+
   const handleSendEmail = (e: React.FormEvent<any>) => {
     e.preventDefault();
     let content = body
@@ -263,7 +272,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
             status: "new",
             attachments: attachments.map(
               ({ path, fileName }: IEmailAttachmentData) => ({
-                path: `${AppConfig.FILES_ENDPOINT}${path}`,
+                path,
                 fileName
               })
             ),
@@ -315,6 +324,14 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   onClick={handleSendEmail}
                   className="btn-email-save ml-auto mr-2 btn btn-primary"
                 >
+                  {bulkEmailLoading ? (
+                    <i className="fa fa-spinner fa-spin loader" />
+                  ) : (
+                    <i
+                      className="fa fa-paper-plane mr-2"
+                      aria-hidden="true"
+                    ></i>
+                  )}
                   <span>{languageTranslation("SEND")}</span>
                 </Button>
               </div>
@@ -356,6 +373,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   template={template}
                   handleChangeSubject={handleChangeSubject}
                   attachments={attachments}
+                  uploadDocument={uploadDocument}
                   onDelteDocument={onDelteDocument}
                   isSubmit={isSubmit}
                 />

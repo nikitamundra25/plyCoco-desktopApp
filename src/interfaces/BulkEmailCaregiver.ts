@@ -24,6 +24,7 @@ export interface IEmailEditorComponentProps {
     attachmentId: string,
     attachmentIndex?: number | undefined
   ) => Promise<void>;
+  uploadDocument: (data: IEmailAttachmentData) => void;
 }
 
 export interface ICareGiverListComponentProps {

@@ -575,6 +575,7 @@
   "CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG": "This attachment will be removed.",
   "EMAIL_TEMPLATE_DELETION_SUCCESS": "Email Template deleted successfully.",
   "EMAIL_TEMPLATE_ATTACHMENT_DELETION_SUCCESS": "Attached document deleted successfully.",
+  "DOCUMENT_DELETION_SUCCESS": "Document deleted successfully.",
   "EMAIL_SENT_SUCCESS": "Email Sent successfully.",
   "SOCIAL_SECURITY_NUM_ERROR": "Social Security must be a less than or equal to 12 digits",
   "TAX_BRACKET_NUM_ERROR": "Tax bracket must be a number",

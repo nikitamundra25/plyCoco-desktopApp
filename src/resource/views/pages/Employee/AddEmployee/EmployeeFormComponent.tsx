@@ -35,7 +35,9 @@ import {
 } from '../../../../../interfaces';
 import { logger, languageTranslation } from '../../../../../helpers';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
+
 const [, GET_REGIONS] = RegionQueries;
+
 const EmployeeFormComponent: FunctionComponent<FormikProps<
   IEmployeeFormValues
 > & {
@@ -113,7 +115,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     const {
       target: { files },
     } = e;
-    console.log(files, 'files');
 
     let reader = new FileReader();
     let file: File | null = null;
@@ -150,7 +151,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       });
     }
   };
-  console.log('Accesss Level', accessLevel);
 
   return (
     <div>

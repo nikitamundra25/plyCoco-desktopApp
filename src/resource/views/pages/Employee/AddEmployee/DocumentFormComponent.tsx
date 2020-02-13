@@ -13,6 +13,9 @@ import { DocumentMutations } from '../../../../../graphql/Mutations';
 import { languageTranslation, logger } from '../../../../../helpers';
 import { IEmailAttachmentData } from '../../../../../interfaces';
 import { AttachmentList } from '../../../components/Attachments';
+import { ConfirmBox } from '../../../components/ConfirmBox';
+import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
+import { ApolloError } from 'apollo-client';
 
 const [, GET_DOCUMENTS] = DocumentQueries;
 const [ADD_DOCUMENT, , UPDATE_DOCUMENT, DELETE_DOCUMENT] = DocumentMutations;
@@ -52,6 +55,27 @@ export const DocumentFormComponent: FunctionComponent = () => {
       },
     },
   );
+
+  // Mutation to delete Component
+  const [deleteDocument] = useMutation<any>(DELETE_DOCUMENT, {
+    onCompleted({ deleteDocument }) {
+      const { attachmentId } = deleteDocument;
+      setAttachment((prevArray: any) =>
+        prevArray.filter((item: any) => item.id !== attachmentId),
+      );
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('DOCUMENT_DELETION_SUCCESS'),
+        );
+      }
+    },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toast.error(message);
+      }
+    },
+  });
 
   useEffect(() => {
     if (data) {
@@ -118,7 +142,29 @@ export const DocumentFormComponent: FunctionComponent = () => {
       }
     }
   };
-  console.log(attachment, 'attachment', data);
+  //on delete document
+  const onDeleteDocument = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: 'This document will be deleted',
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        deleteDocument({
+          variables: {
+            id: id ? parseInt(id) : null,
+          },
+        });
+      } catch (error) {
+        const message = errorFormatter(error);
+        if (!toast.isActive(toastId)) {
+          toast.error(message);
+        }
+      }
+    }
+  };
 
   return (
     <Col sm={'6'}>
@@ -129,7 +175,7 @@ export const DocumentFormComponent: FunctionComponent = () => {
       {attachment && attachment.length ? (
         <AttachmentList
           attachment={attachment}
-          // onDelteDocument={onDelteDocument}
+          onDelteDocument={onDeleteDocument}
         />
       ) : null}
     </Col>

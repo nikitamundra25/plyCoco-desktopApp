@@ -496,7 +496,9 @@ export const EmployeeForm: FunctionComponent<{
         )}
         validationSchema={EmployeeValidationSchema}
       />
-      <DocumentFormComponent />
+      {id || (employeeData && employeeData.id) ? (
+        <DocumentFormComponent />
+      ) : null}
     </>
   );
 };

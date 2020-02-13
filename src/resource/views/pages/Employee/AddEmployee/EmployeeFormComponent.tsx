@@ -188,7 +188,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     placeholder={languageTranslation(
                                       'FIRST_NAME'
                                     )}
-                                    maxLength={30}
+                                    maxLength={250}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={firstName}
@@ -226,7 +226,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     name={'lastName'}
                                     placeholder={languageTranslation('SURNAME')}
                                     onChange={handleChange}
-                                    maxLength={30}
+                                    maxLength={250}
                                     onBlur={handleBlur}
                                     value={lastName}
                                     className={
@@ -263,6 +263,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     name={'email'}
                                     placeholder={languageTranslation('EMAIL')}
                                     onChange={handleChange}
+                                    maxLength={250}
                                     onBlur={(e: any) => {
                                       //get string before a @ to set username
                                       const setUsername = email
@@ -317,6 +318,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={userName}
+                                    maxLength={250}
                                     className={
                                       errors.userName && touched.userName
                                         ? 'text-input error'

@@ -9,11 +9,11 @@ import {
   IStates,
   ICountry,
   IState,
-  ICareInstitutionFormValues,
+  ICareInstitutionFormValues
 } from '../../../../../../interfaces';
 import {
   CountryQueries,
-  CareInstitutionQueries,
+  CareInstitutionQueries
 } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { CareInstituionContactValidationSchema } from '../../../../../validations';
@@ -33,7 +33,7 @@ const [
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   ADD_NEW_CARE_INTITUTION,
   ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT,
+  DELETE_DEPARTMENT
 ] = CareInstitutionMutation;
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -59,7 +59,7 @@ const CareInstitutionContacts: any = (props: any) => {
       mobileNumber: '',
       faxNumber: '',
       comments: '',
-      groupAttributes: '',
+      groupAttributes: ''
     };
 
     newContacts[newContacts.length - 1] = data.data.addContact;
@@ -69,7 +69,7 @@ const CareInstitutionContacts: any = (props: any) => {
   // Mutation to add new contact
   const [
     addContact,
-    { error: contactError, data: contactDataA },
+    { error: contactError, data: contactDataA }
   ] = useMutation<{
     addContact: ICareInstitutionFormValues;
   }>(ADD_NEW_CONTACT_CARE_INSTITUTION, { update: addContacts });
@@ -81,29 +81,29 @@ const CareInstitutionContacts: any = (props: any) => {
 
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
-    { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionContact>
   ) => {
     let AttributeData: string[] = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>
-        AttributeData.push(attribute.label),
+        AttributeData.push(attribute.label)
       );
     }
     try {
@@ -128,25 +128,25 @@ const CareInstitutionContacts: any = (props: any) => {
         mobileNumber: values.mobileNumber,
         email: values.email,
         remark: values.remark,
-        attributes: AttributeData,
+        attributes: AttributeData
       };
       if (id) {
         await updateContact({
           variables: {
             id: values.id ? parseInt(values.id) : null,
-            contactInput: contactInput,
-          },
+            contactInput: contactInput
+          }
         });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CONTACT_UPDATE_CARE_INSTITUTION'),
+            languageTranslation('CONTACT_UPDATE_CARE_INSTITUTION')
           );
         }
       } else {
         await addContact({
           variables: {
-            contactInput: contactInput,
-          },
+            contactInput: contactInput
+          }
         });
         toast.success(languageTranslation('NEW_CONTACT_ADD_CARE_INSTITUTION'));
       }
@@ -182,7 +182,7 @@ const CareInstitutionContacts: any = (props: any) => {
     gender = undefined,
     attributes = [],
     salutation = '',
-    countryId = undefined,
+    countryId = undefined
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
 
   let countryData: Number;
@@ -194,7 +194,7 @@ const CareInstitutionContacts: any = (props: any) => {
     if (userCountry && userCountry.length) {
       userSelectedCountry = {
         label: userCountry[0].name,
-        value: userCountry[0].id,
+        value: userCountry[0].id
       };
     }
   }
@@ -204,16 +204,16 @@ const CareInstitutionContacts: any = (props: any) => {
     attributes.map((attData: string) => {
       selectedAttributes.push({
         label: attData,
-        value: attData,
+        value: attData
       });
     });
   }
 
   const contactFormValues: ICareInstitutionContact = {
-    email,
-    firstName,
-    lastName: surName,
-    userName,
+    email: email ? email.trim() : '',
+    firstName: firstName ? firstName.trim() : '',
+    lastName: surName ? surName.trim() : '',
+    userName: userName ? userName.trim() : '',
     phoneNumber,
     phoneNumber2,
     mobileNumber,
@@ -226,20 +226,20 @@ const CareInstitutionContacts: any = (props: any) => {
     title,
     contactType: {
       label: contactType,
-      value: contactType,
+      value: contactType
     },
     gender: {
       label: gender,
-      value: gender,
+      value: gender
     },
     salutation: {
       label: salutation,
-      value: salutation,
+      value: salutation
     },
     id,
     country: userSelectedCountry,
     remark,
-    attributeId: selectedAttributes,
+    attributeId: selectedAttributes
   };
 
   return (

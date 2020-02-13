@@ -19,22 +19,22 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   email: Yup.string()
     .trim()
     // .matches(emailRegex, "Email invalidddddddd")
-    .max(50, languageTranslation('EMAIL_MAXLENGTH'))
+    .max(120, languageTranslation('EMAIL_MAXLENGTH'))
     .email(languageTranslation('VALID_EMAIL'))
     .required(languageTranslation('REQUIRED_EMAIL')),
   firstName: Yup.string()
     .trim()
     .min(3, languageTranslation('NAME_MINLENGTH'))
-    .max(20, languageTranslation('FIRSTNAME_MAXLENGTH'))
+    .max(120, languageTranslation('FIRSTNAME_MAXLENGTH'))
     .required(languageTranslation('FIRSTNAME_REQUIRED')),
   lastName: Yup.string()
     .trim()
-    .max(20, languageTranslation('LASTNAME_MAXLENGTH'))
+    .max(120, languageTranslation('LASTNAME_MAXLENGTH'))
     .min(3, languageTranslation('NAME_MINLENGTH'))
     .required(languageTranslation('LASTNAME_REQUIRED')),
   userName: Yup.string()
     .trim()
-    .max(50, languageTranslation('USERNAME_MAXLENGTH'))
+    .max(120, languageTranslation('USERNAME_MAXLENGTH'))
     .required(languageTranslation('USERNAME_REQUIRED')),
   // .matches(userNameReplaceRegex, "Invalid username"),
   accountHolderName: Yup.string()

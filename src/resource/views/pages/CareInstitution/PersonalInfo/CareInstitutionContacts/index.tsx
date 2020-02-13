@@ -9,31 +9,33 @@ import {
   IStates,
   ICountry,
   IState,
-  ICareInstitutionFormValues,
+  ICareInstitutionFormValues
 } from '../../../../../../interfaces';
 import {
   CountryQueries,
-  CareInstitutionQueries,
+  CareInstitutionQueries
 } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { CareInstituionContactValidationSchema } from '../../../../../validations';
 import CotactFormComponent from './CotactFormComponent';
 import { toast } from 'react-toastify';
 import { CareInstitutionMutation } from '../../../../../../graphql/Mutations';
+import { ConfirmBox } from '../../../../components/ConfirmBox';
 
 let toastId: any;
 
 const [
-  UPDATE_CARE_INSTITUTION,
-  UPDATE_CARE_INSTITUTION_STATUS,
-  UPDATE_DEPARTMENT_CARE_INSTITUTION,
+  ,
+  ,
+  ,
   UPDATE_NEW_CONTACT_CARE_INSTITUTION,
-  DELETE_CARE_INSTITUTION,
-  ADD_CARE_INSTITUTION,
+  ,
+  ,
   ADD_NEW_CONTACT_CARE_INSTITUTION,
-  ADD_NEW_CARE_INTITUTION,
-  ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT,
+  ,
+  ,
+  ,
+  DELETE_CONTACT
 ] = CareInstitutionMutation;
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -59,7 +61,7 @@ const CareInstitutionContacts: any = (props: any) => {
       mobileNumber: '',
       faxNumber: '',
       comments: '',
-      groupAttributes: '',
+      groupAttributes: ''
     };
 
     newContacts[newContacts.length - 1] = data.data.addContact;
@@ -69,7 +71,7 @@ const CareInstitutionContacts: any = (props: any) => {
   // Mutation to add new contact
   const [
     addContact,
-    { error: contactError, data: contactDataA },
+    { error: contactError, data: contactDataA }
   ] = useMutation<{
     addContact: ICareInstitutionFormValues;
   }>(ADD_NEW_CONTACT_CARE_INSTITUTION, { update: addContacts });
@@ -79,31 +81,45 @@ const CareInstitutionContacts: any = (props: any) => {
     updateContact: ICareInstitutionFormValues;
   }>(UPDATE_NEW_CONTACT_CARE_INSTITUTION);
 
+  // Mutation to delete contact
+  const [deleteContact, { data: deleteContactData }] = useMutation<
+    { deleteContact: any },
+    { id: number }
+  >(DELETE_CONTACT);
+
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
+
+  //use effect for delete contact
+  useEffect(() => {
+    if (deleteContactData) {
+      props.refetch();
+    }
+  }, [deleteContactData]);
+
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
-    { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionContact>
   ) => {
     let AttributeData: string[] = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>
-        AttributeData.push(attribute.label),
+        AttributeData.push(attribute.label)
       );
     }
     try {
@@ -128,25 +144,25 @@ const CareInstitutionContacts: any = (props: any) => {
         mobileNumber: values.mobileNumber,
         email: values.email,
         remark: values.remark,
-        attributes: AttributeData,
+        attributes: AttributeData
       };
       if (id) {
         await updateContact({
           variables: {
             id: values.id ? parseInt(values.id) : null,
-            contactInput: contactInput,
-          },
+            contactInput: contactInput
+          }
         });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CONTACT_UPDATE_CARE_INSTITUTION'),
+            languageTranslation('CONTACT_UPDATE_CARE_INSTITUTION')
           );
         }
       } else {
         await addContact({
           variables: {
-            contactInput: contactInput,
-          },
+            contactInput: contactInput
+          }
         });
         toast.success(languageTranslation('NEW_CONTACT_ADD_CARE_INSTITUTION'));
       }
@@ -182,7 +198,7 @@ const CareInstitutionContacts: any = (props: any) => {
     gender = undefined,
     attributes = [],
     salutation = '',
-    countryId = undefined,
+    countryId = undefined
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
 
   let countryData: Number;
@@ -194,7 +210,7 @@ const CareInstitutionContacts: any = (props: any) => {
     if (userCountry && userCountry.length) {
       userSelectedCountry = {
         label: userCountry[0].name,
-        value: userCountry[0].id,
+        value: userCountry[0].id
       };
     }
   }
@@ -204,7 +220,7 @@ const CareInstitutionContacts: any = (props: any) => {
     attributes.map((attData: string) => {
       selectedAttributes.push({
         label: attData,
-        value: attData,
+        value: attData
       });
     });
   }
@@ -226,21 +242,47 @@ const CareInstitutionContacts: any = (props: any) => {
     title,
     contactType: {
       label: contactType,
-      value: contactType,
+      value: contactType
     },
     gender: {
       label: gender,
-      value: gender,
+      value: gender
     },
     salutation: {
       label: salutation,
-      value: salutation,
+      value: salutation
     },
     id,
     country: userSelectedCountry,
     remark,
-    attributeId: selectedAttributes,
+    attributeId: selectedAttributes
   };
+
+  const onDelete = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_CONTACT_DELETE_MSG')
+    });
+    if (!value) {
+      return;
+    } else {
+      await deleteContact({
+        variables: {
+          id: parseInt(id)
+        }
+      });
+      setActiveContact(contacts.length - 1);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('CONTACT_DELETE_SUCCESS_MSG')
+        );
+      }
+    }
+  };
+
+
+  
+  console.log('props.careInstitutionAttrOpt', props.careInstitutionAttrOpt);
 
   return (
     <>
@@ -256,9 +298,19 @@ const CareInstitutionContacts: any = (props: any) => {
                         onClick={() => setActiveContact(index)}
                       >
                         {contact && contact.contactType
-                          ? contact.contactType
+                          ? contact.contactType + ' ' + contact.id
                           : 'New contact'}{' '}
                       </NavLink>
+                      {contact && contact.contactType ? (
+                        <span
+                          className='cursor-pointer'
+                          onClick={() => {
+                            onDelete(contact.id);
+                          }}
+                        >
+                          x
+                        </span>
+                      ) : null}
                     </NavItem>
                   );
                 })
@@ -271,7 +323,11 @@ const CareInstitutionContacts: any = (props: any) => {
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}
         children={(props: FormikProps<ICareInstitutionContact> & any) => (
-          <CotactFormComponent {...props} ContactFromAdd={ContactFromAdd} />
+          <CotactFormComponent
+            {...props}
+            ContactFromAdd={ContactFromAdd}
+            careInstitutionAttrOpt={props.careInstitutionAttrOpt}
+          />
         )}
         validationSchema={CareInstituionContactValidationSchema}
       />

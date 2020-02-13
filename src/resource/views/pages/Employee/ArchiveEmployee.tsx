@@ -309,7 +309,7 @@ const ArchiveEmployee: FunctionComponent = () => {
                     <td>{trashUser.email.split('-')[0]}</td>
                     <td className='date-th-column '>
                       {trashUser.deletedAt
-                        ? moment(trashUser.deletedAt).format('lll')
+                        ? moment(trashUser.deletedAt).format('MMM, Do YYYY')
                         : ''}
                     </td>
                     {/* <td>

@@ -490,19 +490,26 @@ const Employee: FunctionComponent = () => {
                             >
                               {elements.join(' ')}
                             </div>
-                            <div className='description-text'>
+
+                            <p className='description-text'>
                               <i className='fa fa-envelope mr-2'></i>
                               <span className='align-middle one-line-text'>
                                 {email ? email : ''}
                               </span>
-                            </div>
+                            </p>
+                            <p className='description-text'>
+                              <i className='fa fa-user mr-2'></i>
+                              <span className='align-middle'>
+                                {userName ? userName : ''}
+                              </span>
+                            </p>
                             {phoneNumber ? (
-                              <div className='description-text'>
+                              <p className='description-text'>
                                 <i className='fa fa-phone mr-2'></i>
                                 <span className='align-middle one-line-text'>
                                   {phoneNumber}
                                 </span>
-                              </div>
+                              </p>
                             ) : null}
                           </div>
                         </div>

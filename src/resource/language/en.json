@@ -665,7 +665,7 @@
   "CONFIRM_EMPLOYEE_RESTORE_MSG": "This employee will be restored.",
   "EMPLOYEE_RESTORED_SUCCESS": "Employee restored successfully.",
   "EMPLOYEE_NAME": "Employee Name",
-  "DELETED_DATE": "Deleted Date and time",
+  "DELETED_DATE": "Deleted date and time",
   "RESTORE": "Restore",
   "USERNAME_PLACEHOLDER": "Enter Username",
   "BACK_TO_LIST": "Back to List",

@@ -302,6 +302,12 @@ const CareInstitution = (props: RouteComponentProps) => {
                         <span className='align-middle'>{user.email}</span>
                       </p>
                       <p className='description-text'>
+                        <i className='fa fa-user mr-2'></i>
+                        <span className='align-middle'>
+                          {user.userName ? user.userName : ''}
+                        </span>
+                      </p>
+                      <p className='description-text'>
                         <i className='fa fa-phone mr-2'></i>
                         <span className='align-middle'>
                           {user.phoneNumber ? user.phoneNumber : 'N/A'}

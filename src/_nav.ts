@@ -12,7 +12,7 @@ export default {
       name: languageTranslation('MENU_EMPLOYEE'),
       icon: 'icon-emp',
       url: AppRoutes.EMPLOYEE,
-      authKey: ['all', 'superadmin']
+      authKey: ['superadmin']
     },
     {
       name: languageTranslation('REGION'),

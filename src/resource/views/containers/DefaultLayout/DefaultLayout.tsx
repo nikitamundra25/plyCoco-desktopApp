@@ -104,18 +104,20 @@ const DefaultLayout = (props: RouteComponentProps) => {
     if (data) {
       const { viewAdminProfile } = data;
       setpermission(viewAdminProfile.accessLevel);
+      console.log('viewAdminProfile.accessLevel', viewAdminProfile.accessLevel);
+
       if (
-        (viewAdminProfile.accessLevel !== 'superadmin' &&
-          pathname === AppRoutes.EMPLOYEE) ||
-        pathname === AppRoutes.ADD_EMPLOYEE ||
-        pathname === AppRoutes.EDIT_EMPLOYEE ||
-        pathname === AppRoutes.VIEW_EMPLOYEE
+        viewAdminProfile.accessLevel !== 'superadmin' &&
+        (pathname === AppRoutes.EMPLOYEE ||
+          pathname === AppRoutes.ADD_EMPLOYEE ||
+          pathname === AppRoutes.EDIT_EMPLOYEE ||
+          pathname === AppRoutes.VIEW_EMPLOYEE)
       ) {
         history.push(AppRoutes.HOME);
       }
     }
   }, [data]);
-  
+
   // To add scroll event listener
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);

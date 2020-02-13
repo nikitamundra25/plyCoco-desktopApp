@@ -33,7 +33,7 @@ class PaginationComponent extends Component<
       totalRecords = null,
       currentPage = null,
       pageLimit,
-      pageNeighbours = 1,
+      pageNeighbours = 1
     } = props;
     // PAGE LIMIT AND RECORDS
     this.pageLimit = typeof pageLimit === 'number' ? pageLimit : 10;
@@ -54,7 +54,7 @@ class PaginationComponent extends Component<
     if (prevProps.currentPage !== this.props.currentPage) {
       const { currentPage } = this.props;
       this.setState({
-        currentPage,
+        currentPage
       });
     }
   };
@@ -109,7 +109,7 @@ class PaginationComponent extends Component<
       const startPage: number = Math.max(2, currentPage - pageNeighbours);
       const endPage: number = Math.min(
         totalPages - 1,
-        currentPage + pageNeighbours,
+        currentPage + pageNeighbours
       );
 
       let pages: Array<any> = range(startPage, endPage);

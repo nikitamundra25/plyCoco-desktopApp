@@ -151,7 +151,6 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       });
     }
   };
-
   return (
     <div>
       <Card>

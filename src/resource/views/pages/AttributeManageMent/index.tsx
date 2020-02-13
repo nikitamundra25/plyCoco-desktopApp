@@ -130,10 +130,7 @@ const AttributeManageMent: FunctionComponent = () => {
   };
 
   const replace = attributeName ? attributeName.replace('Attributes', ' ') : '';
-  console.log('attributeName', attributeName);
-  console.log('replace', replace);
-
-  return (
+   return (
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />

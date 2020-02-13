@@ -20,6 +20,7 @@ import { CareInstituionContactValidationSchema } from '../../../../../validation
 import CotactFormComponent from './CotactFormComponent';
 import { toast } from 'react-toastify';
 import { CareInstitutionMutation } from '../../../../../../graphql/Mutations';
+import { ConfirmBox } from '../../../../components/ConfirmBox';
 
 let toastId: any;
 
@@ -78,6 +79,11 @@ const CareInstitutionContacts: any = (props: any) => {
   const [updateContact] = useMutation<{
     updateContact: ICareInstitutionFormValues;
   }>(UPDATE_NEW_CONTACT_CARE_INSTITUTION);
+
+  // Mutation to delete contact
+  // const [deleteContact] = useMutation<{ deleteContact: any }, { id: number }>(
+  //   DELETE_CONTACT
+  // );
 
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
@@ -242,6 +248,28 @@ const CareInstitutionContacts: any = (props: any) => {
     attributeId: selectedAttributes,
   };
 
+  const onDelete = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_CONTACT_DELETE_MSG")
+    });
+    if (!value) {
+      return;
+    } else {
+      // await deleteContact({
+      //   variables: {
+      //     id: parseInt(id)
+      //   }
+      // });
+      setActiveContact(contacts.length - 1);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation("CONTACT_DELETE_SUCCESS_MSG")
+        );
+      }
+    }
+  };
+
   return (
     <>
       <div className={'form-section position-relative flex-grow-1'}>
@@ -249,19 +277,22 @@ const CareInstitutionContacts: any = (props: any) => {
           <Nav tabs className='contact-tabs'>
             {contacts && contacts.length
               ? contacts.map((contact: any, index: number) => {
-                  return (
-                    <NavItem className='text-capitalize' key={index}>
-                      <NavLink
-                        className={`${index === activeContact ? 'active' : ''}`}
-                        onClick={() => setActiveContact(index)}
-                      >
-                        {contact && contact.contactType
-                          ? contact.contactType
-                          : 'New contact'}{' '}
-                      </NavLink>
-                    </NavItem>
-                  );
-                })
+                return (
+                  <NavItem className='text-capitalize' key={index}>
+                    <NavLink
+                      className={`${index === activeContact ? 'active' : ''}`}
+                      onClick={() => setActiveContact(index)}
+                    >
+                      {contact && contact.contactType
+                        ? contact.contactType + ' ' + contact.id
+                        : 'New contact'}{' '}
+                    </NavLink>
+                    {contact && contact.contactType ?
+                      <span className="cursor-pointer" onClick={() => { onDelete(contact.id) }}>x</span>
+                      : null}
+                  </NavItem>
+                );
+              })
               : null}
           </Nav>
         </div>

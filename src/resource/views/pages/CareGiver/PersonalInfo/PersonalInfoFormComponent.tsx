@@ -103,6 +103,7 @@ const PersonalInfoFormComponent: any = (
     values: {
       dateOfBirth,
       id,
+      email,
       createdAt,
       regionId,
       gender,
@@ -597,13 +598,23 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className="required-input">
-                  <Field
-                    component={FormikTextField}
-                    name={'email'}
-                    placeholder=" Email"
-                    className="width-common"
+                  <Input
+                    type="text"
+                    name={"email"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={email}
                     maxLength={50}
+                    placeholder="Email"
+                    className={
+                      errors.email && touched.email
+                        ? "text-input error "
+                        : "text-input "
+                    }
                   />
+                  {errors.email && touched.email && (
+                    <div className="required-tooltip">{errors.email}</div>
+                  )}
                 </div>
               </Col>
             </Row>

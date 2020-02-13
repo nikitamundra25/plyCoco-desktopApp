@@ -37,7 +37,6 @@ export const DocumentFormComponent: FunctionComponent = () => {
     ADD_DOCUMENT,
     {
       onCompleted({ addUserDocuments }) {
-        console.log(addUserDocuments, 'addDocument');
         const {
           fileSize: size = 0,
           fileName = '',
@@ -59,9 +58,9 @@ export const DocumentFormComponent: FunctionComponent = () => {
   // Mutation to delete Component
   const [deleteDocument] = useMutation<any>(DELETE_DOCUMENT, {
     onCompleted({ deleteDocument }) {
-      const { attachmentId } = deleteDocument;
+      const { id } = deleteDocument;
       setAttachment((prevArray: any) =>
-        prevArray.filter((item: any) => item.id !== attachmentId),
+        prevArray.filter((item: any) => item.id !== id),
       );
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -146,7 +145,7 @@ export const DocumentFormComponent: FunctionComponent = () => {
   const onDeleteDocument = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'This document will be deleted',
+      text: languageTranslation('CONFIRM_DOCUMENT_DELETE_MSG'),
     });
     if (!value) {
       return;
@@ -169,7 +168,9 @@ export const DocumentFormComponent: FunctionComponent = () => {
   return (
     <Col sm={'6'}>
       <FormGroup className={`col-sm-6`}>
-        <Label className='simple-label mb-2'>Documents</Label>
+        <Label className='simple-label mb-2'>
+          {languageTranslation('DOCUMENTS')}
+        </Label>
         <input type='file' multiple onChange={handleImageChange} />
       </FormGroup>
       {attachment && attachment.length ? (

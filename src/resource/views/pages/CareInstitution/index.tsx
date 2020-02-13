@@ -280,6 +280,7 @@ const CareInstitution = (props: RouteComponentProps) => {
   }
   const tableData: any[] = [];
   const query = qs.parse(search);
+  let count = (currentPage - 1) * PAGE_LIMIT + 1;
 
   <>
     {userData && userData.length
@@ -288,7 +289,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             return tableData.push(
               <tr>
                 <td className={'sno-th-column text-center'}>
-                  <span>{index + 1}</span>
+                  <span>{count++}</span>
                 </td>
                 <td>
                   <div className='info-column'>
@@ -354,7 +355,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                   <div className='action-btn'>
                     <ButtonTooltip
                       id={`edit${index}`}
-                      message={'Click here to edit Care Institution'}
+                      message={'Edit Care Institution'}
                       redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
                         ':id',
                         user.id.toString()
@@ -364,7 +365,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                     </ButtonTooltip>
                     <ButtonTooltip
                       id={`view${index}`}
-                      message={'Click here to view Care Institution'}
+                      message={'View Care Institution'}
                       redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
                         ':id',
                         user.id.toString()
@@ -381,7 +382,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                         placement='top'
                         target={`delete${index}`}
                       >
-                        Click here to delete Care Institution
+                        Move to trash
                       </UncontrolledTooltip>
                       <i className='fa fa-trash'></i>
                     </span>

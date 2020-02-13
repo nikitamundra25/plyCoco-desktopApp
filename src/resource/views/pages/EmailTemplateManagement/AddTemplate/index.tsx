@@ -19,7 +19,8 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
     uploadDocument,
     onDelteDocument,
     emailTemplateLoading,
-    fetchArchiveList
+    showArchive,
+    archiveEmailTemplateLoading
   } = props;
   const {
     type = { label: '', value: '' },
@@ -53,7 +54,8 @@ export const AddTemplate: FunctionComponent<IAddEmailTemplateProps> = (
             uploadDocument={uploadDocument}
             onDelteDocument={onDelteDocument}
             emailTemplateLoading={emailTemplateLoading}
-            fetchArchiveList={fetchArchiveList}
+            showArchive={showArchive}
+            archiveEmailTemplateLoading={archiveEmailTemplateLoading}
           />
         );
       }}

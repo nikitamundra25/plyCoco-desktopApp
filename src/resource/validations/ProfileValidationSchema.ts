@@ -1,11 +1,11 @@
 import * as Yup from 'yup';
-import { IProfileValues, IChangePasswordValues } from '../../interfaces';
+import { IChangePasswordValues, IProfileFormvalues } from '../../interfaces';
 import { languageTranslation } from '../../helpers';
 
 export const ProfileValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
-  IProfileValues
->> = Yup.object().shape<IProfileValues>({
+  IProfileFormvalues
+>> = Yup.object().shape<IProfileFormvalues>({
   firstName: Yup.string().required(languageTranslation('FIRSTNAME_REQUIRED')),
   lastName: Yup.string().required(languageTranslation('LASTNAME_REQUIRED')),
   email: Yup.string()

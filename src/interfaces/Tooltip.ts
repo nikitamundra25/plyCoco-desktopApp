@@ -5,4 +5,5 @@ export interface ITooltipProps {
   children?: any;
   onBtnClick?: any;
   redirectUrl: string;
+  currentPage?: number;
 }

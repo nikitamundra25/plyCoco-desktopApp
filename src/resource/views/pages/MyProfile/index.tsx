@@ -15,8 +15,14 @@ import {
   ProfileValidationSchema,
   ChangePasswordValidationSchema,
 } from '../../../validations';
-import { IProfileValues, IChangePasswordValues } from '../../../../interfaces';
+import {
+  IProfileValues,
+  IChangePasswordValues,
+  IProfileFormvalues,
+} from '../../../../interfaces';
 import { errorFormatter } from '../../../../helpers/ErrorFormatter';
+import EmployeeForm from '../Employee/AddEmployee';
+import Loader from '../../containers/Loader/Loader';
 
 const [UPDATE_ADMIN_PROFILE, CHANGE_PASSWORD] = AdminProfileMutations;
 const [VIEW_PROFILE] = ProfileQueries;
@@ -27,12 +33,14 @@ const MyProfile: FunctionComponent = () => {
   const [profileValues, setProfileValues] = useState<IProfileValues | null>(
     null,
   );
+  const [employeeData, setEmployeeData] = useState<any>();
+
   // update profile mutation
   const [updateAdminProfile, { loading }] = useMutation<
     {
       updateAdminProfile: any;
     },
-    { userInput: IProfileValues }
+    { userInput: IProfileFormvalues }
   >(UPDATE_ADMIN_PROFILE, {
     onCompleted() {
       if (!toast.isActive(toastId)) {
@@ -65,19 +73,25 @@ const MyProfile: FunctionComponent = () => {
       }
     },
   });
-  const { data: profileData } = useQuery(VIEW_PROFILE);
+  const { data: profileData, loading: profileLoading, called } = useQuery(
+    VIEW_PROFILE,
+  );
   useEffect(() => {
     if (profileData) {
       const {
-        viewAdminProfile: { firstName, lastName, email },
+        viewAdminProfile: { firstName, lastName, email, userRole },
       } = profileData;
-      setProfileValues({ firstName, lastName, email });
+
+      setProfileValues({ firstName, lastName, email, userRole });
+      if (userRole === languageTranslation('EMPLOYEE')) {
+        setEmployeeData(profileData.viewAdminProfile);
+      }
     }
   }, [profileData]);
   // Function to update profile
   const handleSubmit = async (
-    values: IProfileValues,
-    { setSubmitting }: FormikHelpers<IProfileValues>,
+    values: IProfileFormvalues,
+    { setSubmitting }: FormikHelpers<IProfileFormvalues>,
   ) => {
     try {
       toast.dismiss();
@@ -104,10 +118,13 @@ const MyProfile: FunctionComponent = () => {
       }
     }
   };
-  const { firstName = '', lastName = '', email = '' } = profileValues
-    ? profileValues
-    : {};
-  const values = {
+  const {
+    firstName = '',
+    lastName = '',
+    email = '',
+    userRole = '',
+  } = profileValues ? profileValues : {};
+  const values: IProfileFormvalues = {
     firstName,
     lastName,
     email,
@@ -117,22 +134,14 @@ const MyProfile: FunctionComponent = () => {
     password: '',
     confirmPassword: '',
   };
+
   return (
-    <Card>
-      <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
-      </CardHeader>
-      <CardBody>
-        <Row>
-          <Formik
-            initialValues={values}
-            enableReinitialize={true}
-            onSubmit={handleSubmit}
-            children={(props: FormikProps<any>) => (
-              <ProfileFormComponent {...props} loading={loading} />
-            )}
-            validationSchema={ProfileValidationSchema}
-          />
+    <>
+      {!called || profileLoading ? (
+        <Loader />
+      ) : userRole === languageTranslation('EMPLOYEE') ? (
+        <>
+          <EmployeeForm employeeValues={employeeData} />
           <Formik
             initialValues={ChangePasswordValues}
             enableReinitialize={true}
@@ -145,9 +154,40 @@ const MyProfile: FunctionComponent = () => {
             )}
             validationSchema={ChangePasswordValidationSchema}
           />
-        </Row>
-      </CardBody>
-    </Card>
+        </>
+      ) : (
+        <Card>
+          <CardHeader>
+            <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+          </CardHeader>
+          <CardBody>
+            <Row>
+              <Formik
+                initialValues={values}
+                enableReinitialize={true}
+                onSubmit={handleSubmit}
+                children={(props: FormikProps<IProfileFormvalues>) => (
+                  <ProfileFormComponent {...props} loading={loading} />
+                )}
+                validationSchema={ProfileValidationSchema}
+              />
+              <Formik
+                initialValues={ChangePasswordValues}
+                enableReinitialize={true}
+                onSubmit={onChangePassword}
+                children={(props: FormikProps<IChangePasswordValues>) => (
+                  <ChangePwdFormComponent
+                    {...props}
+                    changePwdLoading={changePwdLoading}
+                  />
+                )}
+                validationSchema={ChangePasswordValidationSchema}
+              />
+            </Row>
+          </CardBody>
+        </Card>
+      )}
+    </>
   );
 };
 

@@ -41,10 +41,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   let { id } = useParams();
   const Id: any | undefined = id;
   const [showToDo, setShowToDo] = useState<boolean>(false);
-  let sortBy: IReactSelectInterface | undefined = {
-    label: '3',
-    value: 'Sort by A-Z',
-  };
   // To fetch the list of all caregiver
   const [
     fetchCareGivers,

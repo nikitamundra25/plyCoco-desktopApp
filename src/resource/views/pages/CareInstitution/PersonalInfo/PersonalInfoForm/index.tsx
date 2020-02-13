@@ -151,7 +151,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     }
   };
   return (
-    <Row className=" ">
+    <Row className=' '>
       <div id={'caregiver-add-btn'}>
         <Button
           color={'primary'}
@@ -160,13 +160,13 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
           onClick={handleSubmit}
           // id={"caregiver-save-btn"}
         >
-          {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ''}
+          {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
           {languageTranslation('SAVE_BUTTON')}
         </Button>
       </div>
       <Col lg={'4'}>
         <div
-          className="form-card custom-careinstitution-height custom-scrollbar"
+          className='form-card custom-careinstitution-height custom-scrollbar'
           id={'care-profile'}
         >
           <Row>
@@ -174,42 +174,42 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('USER_ID')}
-                      <span className="required">*</span>
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <Row className="custom-col inner-no-padding-col">
+                    <Row className='custom-col inner-no-padding-col'>
                       <Col xs={'12'} sm={'3'} md={'3'} lg={'3'}>
                         <div>
                           <Input
-                            type="text"
+                            type='text'
                             name={'id'}
                             disabled
                             value={id}
                             placeholder={languageTranslation('USER_ID')}
-                            className="width-common"
+                            className='width-common'
                           />
                         </div>
                       </Col>
                       <Col xs={'12'} sm={'9'} md={'9'} lg={'9'}>
                         <FormGroup>
-                          <Row className="custom-col inner-no-padding-col">
+                          <Row className='custom-col inner-no-padding-col'>
                             <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
-                              <Label className="form-label col-form-label inner-label">
+                              <Label className='form-label col-form-label inner-label'>
                                 {languageTranslation('REG_SINCE')}
                               </Label>
                             </Col>
                             <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                               <div>
                                 <Input
-                                  type="text"
+                                  type='text'
                                   name={'regSince'}
                                   disabled
                                   value={RegYear}
-                                  placeholder="Reg Since"
-                                  className="width-common"
+                                  placeholder='Reg Since'
+                                  className='width-common'
                                 />
                               </div>
                             </Col>
@@ -225,12 +225,12 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('REGION')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="text-capitalize">
+                    <div className='text-capitalize'>
                       <Select
                         placeholder={languageTranslation('REGION', 'STATE')}
                         options={regionOptions}
@@ -238,7 +238,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onChange={(value: any) =>
                           handleSelect(value, 'regionId')
                         }
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                       />
                     </div>
@@ -248,14 +248,14 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row className="">
+                <Row className=''>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('GENDER')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <Row className="custom-col inner-no-padding-col">
+                    <Row className='custom-col inner-no-padding-col'>
                       <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <div>
                           <Select
@@ -265,29 +265,29 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                               handleSelect(value, 'gender')
                             }
                             options={Gender}
-                            classNamePrefix="custom-inner-reactselect"
+                            classNamePrefix='custom-inner-reactselect'
                             className={'custom-reactselect'}
                           />
                         </div>
                       </Col>
-                      <Col sm="7">
+                      <Col sm='7'>
                         <FormGroup>
-                          <Row className="custom-col inner-no-padding-col d-flex ">
-                            <Col sm="6">
-                              <Label className="form-label col-form-label inner-label">
+                          <Row className='custom-col inner-no-padding-col d-flex '>
+                            <Col sm='6'>
+                              <Label className='form-label col-form-label inner-label'>
                                 {languageTranslation('TITLE')}
                               </Label>
                             </Col>
                             <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
                               <div>
                                 <Input
-                                  type="text"
+                                  type='text'
                                   name={'title'}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={title}
                                   placeholder={languageTranslation('TITLE')}
-                                  className="width-common"
+                                  className='width-common'
                                   maxLength={30}
                                 />
                               </div>
@@ -304,7 +304,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('SALUTATION')}
                     </Label>
                   </Col>
@@ -321,7 +321,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                           handleSelect(value, 'salutation')
                         }
                         options={Salutation}
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                       />
                     </div>
@@ -333,17 +333,18 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('FIRST_NAME')}
-                      <span className="required">*</span>
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'firstName'}
                         onChange={handleChange}
+                        maxLength={250}
                         onBlur={handleBlur}
                         value={firstName}
                         placeholder={languageTranslation('FIRST_NAME')}
@@ -354,7 +355,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.firstName && touched.firstName && (
-                        <div className="required-tooltip">
+                        <div className='required-tooltip'>
                           {errors.firstName}
                         </div>
                       )}
@@ -367,19 +368,20 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('SURNAME')}
-                      <span className="required">*</span>
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'lastName'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={lastName}
+                        maxLength={250}
                         placeholder={languageTranslation('SURNAME')}
                         className={
                           errors.lastName && touched.lastName
@@ -388,7 +390,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.lastName && touched.lastName && (
-                        <div className="required-tooltip">
+                        <div className='required-tooltip'>
                           {errors.lastName}
                         </div>
                       )}
@@ -401,21 +403,21 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('SHORT_NAME')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'shortName'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={shortName}
                         placeholder={languageTranslation('SHORT_NAME')}
-                        className="width-common"
-                        maxLength={30}
+                        className='width-common'
+                        maxLength={250}
                       />
                     </div>
                   </Col>
@@ -426,20 +428,20 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('COMPANY_NAME')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'companyName'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={companyName}
                         placeholder={languageTranslation('COMPANY_NAME')}
-                        className="width-common"
+                        className='width-common'
                         maxLength={50}
                       />
                     </div>
@@ -451,20 +453,20 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('ANONYMOUS_NAME')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'anonymousName'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={anonymousName}
                         placeholder={languageTranslation('ANONYMOUS_NAME')}
-                        className="width-common"
+                        className='width-common'
                         maxLength={30}
                       />
                     </div>
@@ -476,20 +478,20 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('ANONYMOUS_NAME2')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'anonymousName2'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={anonymousName2}
                         placeholder={languageTranslation('ANONYMOUS_NAME2')}
-                        className="width-common"
+                        className='width-common'
                         maxLength={30}
                       />
                     </div>
@@ -502,20 +504,20 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('STREET')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'street'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={street}
                         placeholder={languageTranslation('STREET')}
-                        className=" width-common"
+                        className=' width-common'
                         maxLength={50}
                       />
                     </div>
@@ -527,20 +529,20 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('CITY')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'city'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={city}
                         placeholder={languageTranslation('CITY')}
-                        className=" width-common"
+                        className=' width-common'
                         maxLength={30}
                       />
                     </div>
@@ -552,20 +554,20 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('ZIP')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'zipCode'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={zipCode}
                         placeholder={languageTranslation('ZIP')}
-                        className=" width-common"
+                        className=' width-common'
                         maxLength={30}
                       />
                     </div>
@@ -577,7 +579,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('COUNTRY')}
                     </Label>
                   </Col>
@@ -590,7 +592,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onChange={(value: any) =>
                           handleSelect(value, 'country')
                         }
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                       />
                     </div>
@@ -602,7 +604,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('STATE')}
                     </Label>
                   </Col>
@@ -616,7 +618,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         noOptionsMessage={() => {
                           return 'Select a country first';
                         }}
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                       />
                     </div>
@@ -628,14 +630,14 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('PHONE')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'phoneNumber'}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -648,7 +650,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.phoneNumber && touched.phoneNumber && (
-                        <div className="required-tooltip">
+                        <div className='required-tooltip'>
                           {errors.phoneNumber}
                         </div>
                       )}
@@ -662,14 +664,14 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('FAX')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'fax'}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -683,7 +685,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.fax && touched.fax && (
-                        <div className="required-tooltip">{errors.fax}</div>
+                        <div className='required-tooltip'>{errors.fax}</div>
                       )}
                     </div>
                   </Col>
@@ -694,14 +696,14 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('MOBILE')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'mobileNumber'}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -714,7 +716,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.mobileNumber && touched.mobileNumber && (
-                        <div className="required-tooltip">
+                        <div className='required-tooltip'>
                           {errors.mobileNumber}
                         </div>
                       )}
@@ -727,15 +729,15 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('EMAIL')}
-                      <span className="required">*</span>
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'email'}
                         onChange={handleChange}
                         onBlur={(e: any) => {
@@ -753,7 +755,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }}
                         value={email}
                         placeholder={languageTranslation('EMAIL')}
-                        maxLength={50}
+                        maxLength={250}
                         className={
                           errors.email && touched.email
                             ? 'text-input error'
@@ -761,7 +763,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.email && touched.email && (
-                        <div className="required-tooltip">{errors.email}</div>
+                        <div className='required-tooltip'>{errors.email}</div>
                       )}
                     </div>
                   </Col>
@@ -772,21 +774,21 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('USERNAME')}
-                      <span className="required">*</span>
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'userName'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={userName}
                         placeholder={languageTranslation('USERNAME')}
-                        maxLength={30}
+                        maxLength={250}
                         className={
                           errors.userName && touched.userName
                             ? 'text-input error'
@@ -794,7 +796,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.userName && !userName && touched.userName && (
-                        <div className="required-tooltip">
+                        <div className='required-tooltip'>
                           {errors.userName}
                         </div>
                       )}
@@ -807,14 +809,14 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('WEBSITE')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'website'}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -828,7 +830,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.website && touched.website && (
-                        <div className="required-tooltip">{errors.website}</div>
+                        <div className='required-tooltip'>{errors.website}</div>
                       )}
                     </div>
                   </Col>
@@ -839,7 +841,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('LIKED_TO')}
                     </Label>
                   </Col>
@@ -852,7 +854,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         }
                         onChange={(e: any) => handleLinkedToSelect(e)}
                         options={CareInstitutionList}
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                       />
                     </div>
@@ -864,7 +866,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('REMARKS')} (
                       {languageTranslation('FOR_CANSTITUTION_VIEWBLE')})
                     </Label>
@@ -872,16 +874,16 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="textarea"
+                        type='textarea'
                         name={'remarksViewable'}
                         placeholder={languageTranslation('REMARKS')}
-                        className="textarea-custom "
-                        rows="4"
+                        className='textarea-custom '
+                        rows='4'
                         value={remarksViewable ? remarksViewable : undefined}
                         onChange={handleChange}
                         maxLength={255}
                       />
-                      <div className="text-count">
+                      <div className='text-count'>
                         {remarksViewable && remarksViewable.length
                           ? remarksViewable.length
                           : 0}
@@ -895,8 +897,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
           </Row>
         </div>
       </Col>
-      <Col lg={'4'} className="px-lg-0">
-        <div className="common-col custom-careinstitution-height custom-scrollbar">
+      <Col lg={'4'} className='px-lg-0'>
+        <div className='common-col custom-careinstitution-height custom-scrollbar'>
           <CommissionFormData {...props} handleSelect={handleSelect} />
           <InvoiceFormData {...props} handleSelect={handleSelect} />
           <QuallificationAttribute
@@ -908,7 +910,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         </div>
       </Col>
       <Col lg={4}>
-        <div className="custom-careinstitution-height custom-scrollbar">
+        <div className='custom-careinstitution-height custom-scrollbar'>
           <RemarkFormData
             {...props}
             setRemarksDetail={props.setRemarksDetail}

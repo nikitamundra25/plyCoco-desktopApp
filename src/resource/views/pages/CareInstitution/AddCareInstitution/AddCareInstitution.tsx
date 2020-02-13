@@ -188,7 +188,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
     }, 200);
   }, [submitCount]);
   return (
-    <Row className=" ">
+    <Row className=' '>
       <div id={'caregiver-add-btn'}>
         <Button
           disabled={isSubmitting}
@@ -197,13 +197,13 @@ const AddCareInstitution: FunctionComponent<FormikProps<
           color={'primary'}
           className={'save-button'}
         >
-          {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ''}
+          {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
           {languageTranslation('SAVE_BUTTON')}
         </Button>
       </div>
       <Col lg={'4'} md={'12'} sm={'12'}>
         <div
-          className="form-card custom-careinstitution-height custom-scrollbar"
+          className='form-card custom-careinstitution-height custom-scrollbar'
           id={'care-profile'}
         >
           <Row>
@@ -211,12 +211,12 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('REGION')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="text-capitalize">
+                    <div className='text-capitalize'>
                       <Select
                         placeholder={languageTranslation('REGION', 'STATE')}
                         value={regionId ? regionId : undefined}
@@ -224,7 +224,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                           handleSelect(value, 'regionId')
                         }
                         options={regionOptions}
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                       />
                     </div>
@@ -234,14 +234,14 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row className="">
+                <Row className=''>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('GENDER')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <Row className="custom-col inner-no-padding-col">
+                    <Row className='custom-col inner-no-padding-col'>
                       <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <div>
                           <Select
@@ -251,29 +251,29 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                               handleSelect(value, 'gender')
                             }
                             options={Gender}
-                            classNamePrefix="custom-inner-reactselect"
+                            classNamePrefix='custom-inner-reactselect'
                             className={'custom-reactselect'}
                           />
                         </div>
                       </Col>
                       <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <FormGroup>
-                          <Row className="custom-col inner-no-padding-col d-flex">
+                          <Row className='custom-col inner-no-padding-col d-flex'>
                             <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
-                              <Label className="form-label col-form-label inner-label">
+                              <Label className='form-label col-form-label inner-label'>
                                 {languageTranslation('TITLE')}
                               </Label>
                             </Col>
                             <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
                               <div>
                                 <Input
-                                  type="text"
+                                  type='text'
                                   name={'title'}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={title}
                                   placeholder={languageTranslation('TITLE')}
-                                  className="width-common"
+                                  className='width-common'
                                   maxLength={30}
                                 />
                               </div>
@@ -290,7 +290,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('SALUTATION')}
                     </Label>
                   </Col>
@@ -307,7 +307,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                           handleSelect(value, 'salutation')
                         }
                         options={Salutation}
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                       />
                     </div>
@@ -319,17 +319,18 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('FIRST_NAME')}
-                      <span className="required">*</span>
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'firstName'}
                         onChange={handleChange}
+                        maxLength={250}
                         onBlur={handleBlur}
                         value={firstName}
                         placeholder={languageTranslation('FIRST_NAME')}
@@ -340,7 +341,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.firstName && touched.firstName && (
-                        <div className="required-tooltip">
+                        <div className='required-tooltip'>
                           {errors.firstName}
                         </div>
                       )}
@@ -353,19 +354,20 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('SURNAME')}
-                      <span className="required">*</span>
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'lastName'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={lastName}
+                        maxLength={250}
                         placeholder={languageTranslation('SURNAME')}
                         className={
                           errors.lastName && touched.lastName
@@ -374,7 +376,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.lastName && touched.lastName && (
-                        <div className="required-tooltip">
+                        <div className='required-tooltip'>
                           {errors.lastName}
                         </div>
                       )}
@@ -387,21 +389,21 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('SHORT_NAME')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'shortName'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={shortName}
                         placeholder={languageTranslation('SHORT_NAME')}
-                        className="width-common"
-                        maxLength={30}
+                        className='width-common'
+                        maxLength={50}
                       />
                     </div>
                   </Col>
@@ -412,20 +414,20 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('COMPANY_NAME')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'companyName'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={companyName}
                         placeholder={languageTranslation('COMPANY_NAME')}
-                        className="width-common"
+                        className='width-common'
                         maxLength={50}
                       />
                     </div>
@@ -437,20 +439,20 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('ANONYMOUS_NAME')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'anonymousName'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={anonymousName}
                         placeholder={languageTranslation('ANONYMOUS_NAME')}
-                        className="width-common"
+                        className='width-common'
                         maxLength={30}
                       />
                     </div>
@@ -462,20 +464,20 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('ANONYMOUS_NAME2')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'anonymousName2'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={anonymousName2}
                         placeholder={languageTranslation('ANONYMOUS_NAME2')}
-                        className="width-common"
+                        className='width-common'
                         maxLength={30}
                       />
                     </div>
@@ -488,20 +490,20 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('STREET')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'street'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={street}
                         placeholder={languageTranslation('STREET')}
-                        className=" width-common"
+                        className=' width-common'
                         maxLength={50}
                       />
                     </div>
@@ -513,20 +515,20 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('ZIP')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'zipCode'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={zipCode}
                         placeholder={languageTranslation('ZIP')}
-                        className=" width-common"
+                        className=' width-common'
                         maxLength={30}
                       />
                     </div>
@@ -538,20 +540,20 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('CITY')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="text"
+                        type='text'
                         name={'city'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={city}
                         placeholder={languageTranslation('CITY')}
-                        className=" width-common"
+                        className=' width-common'
                         maxLength={30}
                       />
                     </div>
@@ -564,7 +566,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('COUNTRY')}
                     </Label>
                   </Col>
@@ -577,7 +579,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         onChange={(value: any) =>
                           handleSelect(value, 'country')
                         }
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                       />
                     </div>
@@ -589,7 +591,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('STATE')}
                     </Label>
                   </Col>
@@ -603,7 +605,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         noOptionsMessage={() => {
                           return 'Select a country first';
                         }}
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                       />
                     </div>
@@ -615,14 +617,14 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label ">
+                    <Label className='form-label col-form-label '>
                       {languageTranslation('PHONE')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'phoneNumber'}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -636,7 +638,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.phoneNumber && touched.phoneNumber && (
-                        <div className="required-tooltip">
+                        <div className='required-tooltip'>
                           {errors.phoneNumber}
                         </div>
                       )}
@@ -650,14 +652,14 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('FAX')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'fax'}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -671,7 +673,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.fax && touched.fax && (
-                        <div className="required-tooltip">{errors.fax}</div>
+                        <div className='required-tooltip'>{errors.fax}</div>
                       )}
                     </div>
                   </Col>
@@ -682,14 +684,14 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('MOBILE')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'mobileNumber'}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -702,7 +704,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.mobileNumber && touched.mobileNumber && (
-                        <div className="required-tooltip">
+                        <div className='required-tooltip'>
                           {errors.mobileNumber}
                         </div>
                       )}
@@ -715,15 +717,15 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('EMAIL')}
-                      <span className="required">*</span>
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'email'}
                         onChange={handleChange}
                         value={email}
@@ -736,7 +738,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                           setFieldValue('userName', username);
                           handleBlur(e);
                         }}
-                        maxLength={50}
+                        maxLength={250}
                         placeholder={languageTranslation('EMAIL')}
                         className={
                           errors.email && touched.email
@@ -745,7 +747,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.email && touched.email && (
-                        <div className="required-tooltip">{errors.email}</div>
+                        <div className='required-tooltip'>{errors.email}</div>
                       )}
                     </div>
                   </Col>
@@ -756,21 +758,21 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('USERNAME')}
-                      <span className="required">*</span>
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'userName'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={userName}
                         placeholder={languageTranslation('USERNAME')}
-                        maxLength={50}
+                        maxLength={250}
                         className={
                           errors.userName && touched.userName
                             ? 'text-input error'
@@ -778,7 +780,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.userName && !userName && touched.userName && (
-                        <div className="required-tooltip">
+                        <div className='required-tooltip'>
                           {errors.userName}
                         </div>
                       )}
@@ -791,14 +793,14 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('WEBSITE')}
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className="required-input">
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         name={'website'}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -811,7 +813,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                       />
                       {errors.website && touched.website && (
-                        <div className="required-tooltip">{errors.website}</div>
+                        <div className='required-tooltip'>{errors.website}</div>
                       )}
                     </div>
                   </Col>
@@ -823,7 +825,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('LIKED_TO')}
                     </Label>
                   </Col>
@@ -836,7 +838,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         }
                         value={linkedTo}
                         options={CareInstitutionList}
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                       />
                     </div>
@@ -848,7 +850,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
               <FormGroup>
                 <Row>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className="form-label col-form-label">
+                    <Label className='form-label col-form-label'>
                       {languageTranslation('REMARKS')} (
                       {languageTranslation('FOR_CANSTITUTION_VIEWBLE')})
                     </Label>
@@ -856,17 +858,17 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                     <div>
                       <Input
-                        type="textarea"
+                        type='textarea'
                         name={'remarksViewable'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={remarksViewable}
                         placeholder={languageTranslation('REMARKS')}
-                        className="textarea-custom"
-                        rows="4"
+                        className='textarea-custom'
+                        rows='4'
                         maxLength={255}
                       />
-                      <div className="text-count">
+                      <div className='text-count'>
                         {remarksViewable && remarksViewable.length
                           ? remarksViewable.length
                           : 0}
@@ -880,8 +882,8 @@ const AddCareInstitution: FunctionComponent<FormikProps<
           </Row>
         </div>
       </Col>
-      <Col lg={'4'} className="px-lg-0">
-        <div className="common-col custom-careinstitution-height custom-scrollbar">
+      <Col lg={'4'} className='px-lg-0'>
+        <div className='common-col custom-careinstitution-height custom-scrollbar'>
           <CommissionFormData {...props} handleSelect={handleSelect} />
           <InvoiceFormData {...props} handleSelect={handleSelect} />
           <QuallificationAttribute
@@ -893,7 +895,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
         </div>
       </Col>
       <Col lg={4}>
-        <div className="custom-careinstitution-height custom-scrollbar">
+        <div className='custom-careinstitution-height custom-scrollbar'>
           <RemarkFormData
             {...props}
             setRemarksDetail={setRemarksDetail}

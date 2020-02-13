@@ -8,28 +8,28 @@ import moment from 'moment';
 import Loader from '../../../containers/Loader/Loader';
 const [GET_LOGIN_HISTORY] = LoginHistoryQuery;
 
-const LoginLogs: FunctionComponent = () => {
+const LoginLogs: FunctionComponent<any> = (props: any) => {
   const { id } = useParams();
   const [fetchLoginList, { data, loading, called }] = useLazyQuery<any>(
     GET_LOGIN_HISTORY,
     {
-      fetchPolicy: 'no-cache',
-    },
+      fetchPolicy: 'no-cache'
+    }
   );
 
   useEffect(() => {
     fetchLoginList({
       variables: {
-        userId: id ? parseInt(id) : '',
-      },
+        userId: id ? parseInt(id) : ''
+      }
     });
   }, []);
-
+  const { label } = props;
   return (
     <>
       <div className='login-section'>
-        <div>
-          <h5 className='content-title'>
+        <div className={label ? 'employee-details' : ''}>
+          <h5 className={`content-title ${label ? 'employee-title' : null}`}>
             {languageTranslation('LOGIN_HISTORY')}
           </h5>
           <Table bordered hover responsive>
@@ -39,7 +39,7 @@ const LoginLogs: FunctionComponent = () => {
                   {languageTranslation('S_NO')}
                 </th>
                 <th className='date-th-column'>
-                  {languageTranslation('DATE')}
+                  {languageTranslation('LOGIN_DATE')}
                 </th>
                 <th>{languageTranslation('IP_ADDRESS')}</th>
                 <th>{languageTranslation('BROWSER')}</th>

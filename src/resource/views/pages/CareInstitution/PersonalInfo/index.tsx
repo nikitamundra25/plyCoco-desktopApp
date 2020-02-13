@@ -579,6 +579,7 @@ const PersonalInformation: any = (props: any) => {
           contacts={contacts}
           careInstId={id}
           refetch={() => refetch()}
+          careInstitutionAttrOpt={careInstitutionAttrOpt}
           setContacts={(contacts: any) => {
             setContacts((contacts = contacts));
           }}

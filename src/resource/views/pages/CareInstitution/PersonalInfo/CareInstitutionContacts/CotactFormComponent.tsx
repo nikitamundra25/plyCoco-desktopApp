@@ -31,7 +31,7 @@ import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const CotactFormComponent: any = (
-  props: FormikProps<ICareInstitutionContact>
+  props: FormikProps<ICareInstitutionContact> & any
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
@@ -114,8 +114,7 @@ const CotactFormComponent: any = (
         array3 = newAttributeValue;
       }
       console.log('array3array3array3', array3);
-      console.log("newAttributeValue",newAttributeValue);
-      
+      console.log('newAttributeValue', newAttributeValue);
 
       AttributeID.push(newAttributeValue);
       // const FData: any = AttOpt;
@@ -166,8 +165,12 @@ const CotactFormComponent: any = (
     handleBlur,
     handleSubmit,
     setFieldValue,
+    careInstitutionAttrOpt,
     setFieldTouched
   } = props;
+
+  console.log("careInstitutionAttrOpt",careInstitutionAttrOpt);
+  
   const ContactError: any = errors.contactType;
 
   return (
@@ -752,7 +755,7 @@ const CotactFormComponent: any = (
                           placeholder={
                             'Please select Attribute or type to add new'
                           }
-                          options={AttOpt}
+                          options={careInstitutionAttrOpt}
                           value={
                             contactAttribute
                               ? {

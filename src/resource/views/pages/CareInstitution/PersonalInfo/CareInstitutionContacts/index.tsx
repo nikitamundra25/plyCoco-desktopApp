@@ -280,6 +280,10 @@ const CareInstitutionContacts: any = (props: any) => {
     }
   };
 
+
+  
+  console.log('props.careInstitutionAttrOpt', props.careInstitutionAttrOpt);
+
   return (
     <>
       <div className={'form-section position-relative flex-grow-1'}>
@@ -319,7 +323,11 @@ const CareInstitutionContacts: any = (props: any) => {
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}
         children={(props: FormikProps<ICareInstitutionContact> & any) => (
-          <CotactFormComponent {...props} ContactFromAdd={ContactFromAdd} />
+          <CotactFormComponent
+            {...props}
+            ContactFromAdd={ContactFromAdd}
+            careInstitutionAttrOpt={props.careInstitutionAttrOpt}
+          />
         )}
         validationSchema={CareInstituionContactValidationSchema}
       />

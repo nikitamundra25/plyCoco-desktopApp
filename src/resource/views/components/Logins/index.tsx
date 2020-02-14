@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { Table } from 'reactstrap';
-import { languageTranslation } from '../../../../../helpers';
-import { LoginHistoryQuery } from '../../../../../graphql/queries/LoginHistory';
+import { languageTranslation } from '../../../../helpers';
+import { LoginHistoryQuery } from '../../../../graphql/queries/LoginHistory';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
-import Loader from '../../../containers/Loader/Loader';
+import Loader from '../../containers/Loader/Loader';
+import { defaultDateTimeFormat } from '../../../../config';
 const [GET_LOGIN_HISTORY] = LoginHistoryQuery;
 
 const LoginLogs: FunctionComponent<any> = (props: any) => {
@@ -68,7 +69,9 @@ const LoginLogs: FunctionComponent<any> = (props: any) => {
                       <td className='sno-th-column text-center'>{index + 1}</td>
                       <td className='date-th-column'>
                         {loginDetails.lastLogin
-                          ? moment(loginDetails.lastLogin).format('lll')
+                          ? moment(loginDetails.lastLogin).format(
+                              defaultDateTimeFormat
+                            )
                           : '-'}
                       </td>
                       <td>

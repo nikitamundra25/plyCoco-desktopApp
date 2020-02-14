@@ -22,7 +22,7 @@ import { NoSearchFound } from "../../components/SearchFilter/NoSearchFound";
 import AddRegion from "./AddRegion";
 import moment from "moment";
 import Loader from "../../containers/Loader/Loader";
-import { sortFilter } from "../../../../config";
+import { sortFilter, defaultDateTimeFormat } from "../../../../config";
 
 const [, GET_REGIONS] = RegionQueries;
 
@@ -230,7 +230,7 @@ export const Region: FunctionComponent = () => {
                     <td className="text-center">0</td>
                     <td className="date-th-column ">
                       {region && region.createdAt
-                        ? moment(region.createdAt).format("lll")
+                        ? moment(region.createdAt).format(defaultDateTimeFormat)
                         : ""}
                     </td>
                   </tr>

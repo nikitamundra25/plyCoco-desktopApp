@@ -18,7 +18,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { AppConfig, sortFilter } from '../../../../config';
+import { AppConfig, sortFilter, defaultDateTimeFormat } from '../../../../config';
 import { AppRoutes, PAGE_LIMIT } from '../../../../config';
 import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
@@ -530,7 +530,7 @@ const Employee: FunctionComponent = () => {
                         </div>
                       </td>
                       <td className='date-th-column '>
-                        {createdAt ? moment(createdAt).format('lll') : ''}
+                        {createdAt ? moment(createdAt).format(defaultDateTimeFormat) : ''}
                       </td>
                       <td>
                         <div className='action-btn text-capitalize cursor-pointer'>

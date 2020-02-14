@@ -14,7 +14,7 @@ import { languageTranslation } from '../../../../helpers';
 import defaultProfile from '../../../assets/avatars/default-profile.png';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import { EmployeeMutations } from '../../../../graphql/Mutations';
-import LoginLogs from '../CareGiver/Logins';
+import LoginLogs from '../../components/Logins';
 
 const [GET_EMPLOYEE_BY_ID] = EmployeeQueries;
 const [, , UPDATE_EMPLOYEE_STATUS] = EmployeeMutations;

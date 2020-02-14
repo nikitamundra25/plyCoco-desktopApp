@@ -8,7 +8,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { AppConfig, sortFilter } from '../../../../config';
+import { AppConfig, sortFilter, dateFormat } from '../../../../config';
 import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../config';
 import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
@@ -311,7 +311,7 @@ const ArchiveEmployee: FunctionComponent = () => {
                     <td>{trashUser.email.split('-')[0]}</td>
                     <td className='date-th-column '>
                       {trashUser.deletedAt
-                        ? moment(trashUser.deletedAt).format('MMM, Do YYYY')
+                        ? moment(trashUser.deletedAt).format(dateFormat)
                         : ''}
                     </td>
                     <td>

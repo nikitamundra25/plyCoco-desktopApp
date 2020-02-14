@@ -112,9 +112,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   }
   const setDefaultSignature = (body: any) => {
     const contentBlock = htmlToDraft(
-      `<div><p style="font-size:16px; padding:12px 0px;">Hello ${selectedUserName}</p>${body}<p style="font-size:14px; margin:0px 0px;">${languageTranslation(
+      `<div><span style="font-size:15px;">Hello ${selectedUserName}</span>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
         'BEST_WISHES',
-      )}</p><p style="font-size:14px; margin:0px 0px;">${firstName} ${lastName}</p><div><div style="text-align:left;"><a href="https://www.plycoco.de/"><img src=${logo} alt="" style="height: auto; width: 180px;"/></a></div><p style="padding:2px 0px;"><strong>Tel:</strong><a href="tel:+49-30-377 07 67 20" style="color: #000; text-decoration: none;"> +49-30-377 07 67 20</a></p><p style="padding:2px 0px;"><strong>Fax:</strong> <a href="fax:+49-30-377 07 67 21" style="color: #000; text-decoration: none;">+49-30-377 07 67 21</a></p><p style="padding:2px 0px;"><strong>E-Mail:</strong><a href="#" style="color: #000; text-decoration: none;"> kontakt@solona.de</a></p><p style="padding:2px 0px;"><a href="www.solona.de" style="color: #000; text-decoration: none;">www.solona.de</a></p></div><div style="padding:20px 0px"><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Solona Personal list ein der Essenz Personal Agency GmbH, Weststr, 1, 13405 Berlin, Deutschland</p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Eintragung im Handelsrigester; Registergericht Berlin-Charlottenburg, Registernumber:HRB 188828 B, Geschaftsfuhrer: Michael Krusch</p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Tel: +49-30-577 07 67 20 Fax: +49-30-577 07 67 21 </p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Aufsichtsbehorde: Agentur fur Arbeit Kiel Tel: 0431 709 1010 </p></div></div>`,
+      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-377%2007%2067%2020" style="color: #000; text-decoration: none;">+49-30-377 07 67 20</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-377%2007%2067%2021" style="color: #000; text-decoration: none;">+49-30-377 07 67 21</a></span><br><span><strong>E-Mail:</strong> <a href="#" style="color: #000; text-decoration: none;">kontakt@solona.de</a></span><br><span><a href="www.solona.de" style="color: #000; text-decoration: none;">www.solona.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;;">Solona Personal list ein der Essenz Personal Agency GmbH, Weststr, 1, 13405 Berlin, Deutschland</span><br><span style="font-size: 12px;color: #b5b4b4;;">Eintragung im Handelsrigester; Registergericht Berlin-Charlottenburg, Registernumber:HRB 188828 B, Geschaftsfuhrer: Michael Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;;">Tel: +49-30-577 07 67 20 Fax: +49-30-577 07 67 21</span><br><span style="font-size: 12px;color: #b5b4b4;;">Aufsichtsbehorde: Agentur fur Arbeit Kiel Tel: 0431 709 1010</span></div></div>`,
     );
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(
@@ -331,14 +331,16 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
               />
             </Col>
           </Row>
-          {attachments && attachments.length ? (
-            <AttachmentList
-              attachment={attachments}
-              onDelteDocument={onDelteDocument}
-            />
-          ) : null}
+          <div className='employee-document-list custom-scrollbar mb-3'>
+            {attachments && attachments.length ? (
+              <AttachmentList
+                attachment={attachments}
+                onDelteDocument={onDelteDocument}
+              />
+            ) : null}
+          </div>
 
-          <div className='d-flex align-items-center justify-content-end'>
+          <div className='d-flex align-items-center justify-content-end '>
             <div>
               <Button
                 color='primary'

@@ -155,7 +155,7 @@
   "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "MM/DD/YYYY",
   "EMPLOYEE_BASIC": "Basic",
   "EMPLOYEE_INVOICE": "Invoice",
-  "EMPLOYEE_ACCESS_LEVEL_UPDATE_MSG": "Employee access level updated sucessfully",
+  "EMPLOYEE_ACCESS_LEVEL_UPDATE_MSG": "Employee rights updated successfully",
   "EMPLOYEE_ADD_PROFILE_IMAGE_LABEL": "Add Profile Image",
   "EMPLOYEE_OTHER_INFORMATION_LABEL": "Any other information",
   "EMPLOYEE_OTHER_INFORMATION": "other information",
@@ -693,5 +693,5 @@
   "EMAIL_TEMP_PERMANENT_DEL_SUCCESS": "Email Template deleted permanently.",
   "RESTORE_TOOLTIP": "Restore Data",
   "DELETE_PERMANENTALY_TOOLTIP": "Delete Permanently",
-  "SUPER_ADMIN":"Super Admin"
+  "SUPER_ADMIN": "Super Admin"
 }

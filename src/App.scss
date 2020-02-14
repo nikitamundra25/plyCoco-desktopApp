@@ -3336,6 +3336,9 @@ html:not([dir="rtl"]) {
 
 .contact-tabs {
   border: 0px;
+  &.pr-120{
+    padding-right:120px;
+  }
   .nav-item {
     position: relative;
     .nav-link {

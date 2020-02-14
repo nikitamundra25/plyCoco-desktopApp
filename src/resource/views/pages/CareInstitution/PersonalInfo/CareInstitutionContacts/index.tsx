@@ -37,7 +37,8 @@ const [
   ,
   ,
   ,
-  DELETE_CONTACT
+  DELETE_CONTACT,
+  CONTACT_ADD_ATTRIBUTE
 ] = CareInstitutionMutation;
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -89,6 +90,11 @@ const CareInstitutionContacts: any = (props: any) => {
     { id: number }
   >(DELETE_CONTACT);
 
+  // Mutation to delete contact
+  const [addAttribute, { data: addAttriContact }] = useMutation<{
+    name: string;
+  }>(CONTACT_ADD_ATTRIBUTE);
+
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY
@@ -100,6 +106,8 @@ const CareInstitutionContacts: any = (props: any) => {
       props.refetch();
     }
   }, [deleteContactData]);
+
+  const [isNewAttribute, setisNewAttribute] = useState<any>(false);
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
@@ -291,13 +299,11 @@ const CareInstitutionContacts: any = (props: any) => {
     }
   }, [props]);
 
-  console.log('props.careInstitutionAttrOpt', contactAttributeOpt);
-
   return (
     <>
       <div className={'form-section position-relative flex-grow-1'}>
         <div className='d-flex align-items-center justify-content-between  '>
-          <Nav tabs className='contact-tabs'>
+          <Nav tabs className='contact-tabs pr-120'>
             {contacts && contacts.length
               ? contacts.map((contact: any, index: number) => {
                   return (
@@ -337,6 +343,15 @@ const CareInstitutionContacts: any = (props: any) => {
           <CotactFormComponent
             {...props}
             ContactFromAdd={ContactFromAdd}
+            addAttribute={(data: String) => {
+              setisNewAttribute(true);
+              addAttribute({
+                variables: {
+                  name: data
+                }
+              });
+            }}
+            addAttriContactData={addAttriContact}
             careInstitutionAttrOpt={contactAttributeOpt}
           />
         )}

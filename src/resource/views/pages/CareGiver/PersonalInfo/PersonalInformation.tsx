@@ -114,7 +114,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   }, [props.getCaregiver]);
 
   useEffect(() => {
-    if (props.getCaregiver && props.getCaregiver.caregiver) {
+    if (
+      props.getCaregiver &&
+      props.getCaregiver.caregiver &&
+      props.getCaregiver.caregiver.countryId
+    ) {
       getStatesByCountry({
         variables: {
           countryid: props.getCaregiver
@@ -197,11 +201,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         vehicleAvailable,
         qualificationId:
           qualifications && qualifications.length
-            ? `{${qualifications
-                .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
-                )
-                .join(', ')}}`
+            ? qualifications.map((qualification: IReactSelectInterface) =>
+                parseInt(qualification.value),
+              )
             : null,
         street,
         attributes:
@@ -238,7 +240,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           : null,
         holiday: holiday ? parseFloat(holiday) : null,
         night: night ? parseFloat(night) : null,
-        regionId: regionId && regionId.value ? `{${regionId.value}}` : null,
+        regionId: regionId && regionId.value ? parseInt(regionId.value) : null,
         invoiceInterval:
           invoiceInterval && invoiceInterval.value
             ? invoiceInterval.label

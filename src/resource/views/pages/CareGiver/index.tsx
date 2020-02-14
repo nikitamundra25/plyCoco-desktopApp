@@ -16,7 +16,7 @@ import { useLocation, useHistory } from "react-router";
 import { AppBreadcrumb } from "@coreui/react";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { FormikHelpers, Formik, FormikProps } from "formik";
-import { AppRoutes, PAGE_LIMIT, sortFilter } from "../../../../config";
+import { AppRoutes, PAGE_LIMIT, sortFilter, defaultDateTimeFormat } from "../../../../config";
 import routes from "../../../../routes/routes";
 import Search from "../../components/SearchFilter";
 import ButtonTooltip from "../../components/Tooltip/ButtonTooltip";
@@ -425,7 +425,7 @@ const CareGiver: FunctionComponent = () => {
 
                           <td className="date-th-column ">
                             {careGiverData.createdAt
-                              ? moment(careGiverData.createdAt).format("lll")
+                              ? moment(careGiverData.createdAt).format(defaultDateTimeFormat)
                               : "-"}
                           </td>
 

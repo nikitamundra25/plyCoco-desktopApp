@@ -1,5 +1,5 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { toast } from "react-toastify";
@@ -23,15 +23,21 @@ import {
 import { logger, languageTranslation } from "../../../../../helpers";
 import { AppRoutes } from "../../../../../config";
 import { EmployeeMutations } from "../../../../../graphql/Mutations";
+import { errorFormatter } from "../../../../../helpers/ErrorFormatter";
 
 const [GET_EMPLOYEE_BY_ID, GET_EMPLOYEES] = EmployeeQueries;
 const [ADD_EMPLOYEE, UPDATE_EMPLOYEE] = EmployeeMutations;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
-export const EmployeeForm: FunctionComponent = () => {
+let toastId: any = null;
+
+export const EmployeeForm: FunctionComponent<{
+  employeeValues?: any;
+}> = ({ employeeValues }: { employeeValues?: any }) => {
   // get id from params
   let { id } = useParams();
   let history = useHistory();
+  const { state: locationState } = useLocation();
 
   // To get the employee details by id
   const [
@@ -107,6 +113,39 @@ export const EmployeeForm: FunctionComponent = () => {
     }
   }, [id]);
 
+  const updateEmployeeValues = (temp: IEmployeeFormValues) => {
+    const { profileImage = "", region } = temp;
+    let country: any = temp.country;
+    setImageUrl(profileImage);
+    let index: number = -1;
+    const regionData: IReactSelectInterface[] | undefined = [];
+
+    if (country) {
+      index = countriesOpt.findIndex(
+        ({ label }: IReactSelectInterface) => label === country
+      );
+      getStatesByCountry({
+        variables: {
+          countryid:
+            countriesOpt && index > -1 ? countriesOpt[index].value : "82"
+        } // default code is for germany
+      });
+    }
+
+    if (region && region.length) {
+      region.map(({ id, regionName }: any) => {
+        regionData.push({
+          label: regionName,
+          value: id
+        });
+      });
+    }
+    setEmployeeData({
+      ...temp,
+      region: regionData,
+      country: index > -1 ? countriesOpt[index] : undefined
+    });
+  };
   useEffect(() => {
     logger("in employeeDetail useEfect");
     if (employeeDetails && employeeDetails.viewEmployee) {
@@ -163,13 +202,55 @@ export const EmployeeForm: FunctionComponent = () => {
   }, [employeeDetails]); // Pass empty array to only run once on mount. Here it will run when the value of employeeDetails get changed.
 
   useEffect(() => {
-    if (employeeDetails) {
-      const { viewEmployee } = employeeDetails;
+    if (employeeValues) {
+      const {
+        phoneNumber = "",
+        profileThumbnailImage = "",
+        profileImage = "",
+        employee,
+        regions,
+        bankDetails
+      } = employeeValues;
+      const { joiningDate = "", zipCode = "" } = employee ? employee : {};
+      const { accountHolder = "", additionalText = "" } = bankDetails
+        ? bankDetails
+        : {};
+      const temp: IEmployeeFormValues = {
+        ...employeeValues,
+        ...employee,
+        ...bankDetails,
+        // country: index > -1 ? countriesOpt[index] : undefined,
+        joiningDate: joiningDate
+          ? moment(joiningDate).format("MM/DD/YYYY")
+          : null,
+        accountHolderName: accountHolder,
+        additionalText,
+        telephoneNumber: phoneNumber || "",
+        // region: regionData,
+        profileThumbnailImage,
+        profileImage,
+        zip: zipCode,
+        region: regions
+      };
+      updateEmployeeValues(temp);
+    }
+  }, [employeeValues]);
+
+  useEffect(() => {
+    if (employeeDetails || employeeValues) {
+      let country: string = "";
+      if (employeeDetails) {
+        const { viewEmployee } = employeeDetails;
+        country = viewEmployee.employee.country || "";
+      } else {
+        // For edit profile after employee login
+        const { employee } = employeeValues;
+        country = employee.country || "";
+      }
       let index: number = -1;
-      if (viewEmployee.employee.country) {
+      if (country) {
         index = countriesOpt.findIndex(
-          ({ label }: IReactSelectInterface) =>
-            label === viewEmployee.employee.country
+          ({ label }: IReactSelectInterface) => label === country
         );
         getStatesByCountry({
           variables: {
@@ -189,6 +270,15 @@ export const EmployeeForm: FunctionComponent = () => {
 
   useEffect(() => {
     if (statesData && statesData.states) {
+      let state: string = "";
+      if (employeeDetails) {
+        const { viewEmployee } = employeeDetails;
+        state = viewEmployee.employee.state || "";
+      } else {
+        // For edit profile after employee login
+        const { employee } = employeeValues;
+        state = employee.state || "";
+      }
       let stateList: IReactSelectInterface[] = [];
       statesData.states.forEach(({ id, name }: IState) =>
         stateList.push({
@@ -199,11 +289,9 @@ export const EmployeeForm: FunctionComponent = () => {
       setStatesOpt(stateList);
       // To call it only once
       if (employeeData && !states) {
-        const { viewEmployee } = employeeDetails;
         setStatesValue(
           stateList.filter(
-            ({ label }: IReactSelectInterface) =>
-              label === viewEmployee.employee.state
+            ({ label }: IReactSelectInterface) => label === state
           )[0]
         );
       }
@@ -252,9 +340,9 @@ export const EmployeeForm: FunctionComponent = () => {
         state: state && state.label ? state.label : null,
         regionId:
           region && region.length
-            ? `{${region
-                .map((region: IReactSelectInterface) => region.value)
-                .join(", ")}}`
+            ? region.map((region: IReactSelectInterface) =>
+                parseInt(region.value)
+              )
             : null,
         city,
         zipCode: zip,
@@ -269,7 +357,15 @@ export const EmployeeForm: FunctionComponent = () => {
         accessLevel
       };
       // Edit employee details
-      if (id) {
+      if (id || (employeeData && employeeData.id)) {
+        let updatedId: number = 0;
+        if (id) {
+          updatedId = parseInt(id);
+        }
+        // To manage at the time of profile update
+        if (employeeData && employeeData.id) {
+          updatedId = parseInt(employeeData.id);
+        }
         employeeInput.profileThumbnailImage = employeeData
           ? employeeData.profileThumbnailImage
           : "";
@@ -278,12 +374,28 @@ export const EmployeeForm: FunctionComponent = () => {
           : "";
         await updateEmployee({
           variables: {
-            id: parseInt(id),
+            id: updatedId,
             employeeInput
           }
         });
-        toast.success(languageTranslation("EMPLOYEE_UPDATE_SUCCESS_MSG"));
-        history.push(AppRoutes.EMPLOYEE);
+        // It's the update employee case
+        if (id) {
+          toast.success(languageTranslation("EMPLOYEE_UPDATE_SUCCESS_MSG"));
+          history.push(
+            `${AppRoutes.EMPLOYEE}?page=${
+              locationState && locationState.currentPage
+                ? locationState.currentPage
+                : 1
+            }`
+          );
+        } else {
+          //Profile updation case
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation("UPDATE_PROFILE_SUCCESS")
+            );
+          }
+        }
         // history.push({
         //   pathname: AppRoutes.EMPLOYEE,
         //   state: { isValid: true },
@@ -303,12 +415,10 @@ export const EmployeeForm: FunctionComponent = () => {
         // });
       }
     } catch (error) {
-      const message = error.message
-        .replace("SequelizeValidationError: ", "")
-        .replace("Validation error: ", "")
-        .replace("GraphQL error: ", "");
-      // setFieldError('email', message);
-      toast.error(message);
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
       if (
         message ===
         "Employee added successfully but due to some network issue email couldn't be sent out"
@@ -318,6 +428,7 @@ export const EmployeeForm: FunctionComponent = () => {
     }
     setSubmitting(false);
   };
+
   // Fetch values in case of edit by default it will be null or undefined
   const {
     email = "",
@@ -337,7 +448,8 @@ export const EmployeeForm: FunctionComponent = () => {
     additionalText = "",
     telephoneNumber = undefined,
     joiningDate = "",
-    accessLevel = "all"
+    accessLevel = "all",
+    id: employeeId = ""
   } = employeeData ? employeeData : {};
 
   const values: IEmployeeFormValues = {
@@ -359,30 +471,33 @@ export const EmployeeForm: FunctionComponent = () => {
     accessLevel,
     country,
     region,
-    state: states
+    state: states,
+    id: employeeId
   };
   return (
-    <Formik
-      initialValues={values}
-      enableReinitialize={true}
-      onSubmit={handleSubmit}
-      children={(
-        props: FormikProps<IEmployeeFormValues> & {
-          imageUrl: string;
-          countriesOpt: IReactSelectInterface[];
-          statesOpt: IReactSelectInterface[];
-        }
-      ) => (
-        <EmployeeFormComponent
-          {...props}
-          imageUrl={imageUrl}
-          countriesOpt={countriesOpt}
-          statesOpt={statesOpt}
-          getStatesByCountry={getStatesByCountry}
-        />
-      )}
-      validationSchema={EmployeeValidationSchema}
-    />
+    <>
+      <Formik
+        initialValues={values}
+        enableReinitialize={true}
+        onSubmit={handleSubmit}
+        children={(
+          props: FormikProps<IEmployeeFormValues> & {
+            imageUrl: string;
+            countriesOpt: IReactSelectInterface[];
+            statesOpt: IReactSelectInterface[];
+          }
+        ) => (
+          <EmployeeFormComponent
+            {...props}
+            imageUrl={imageUrl}
+            countriesOpt={countriesOpt}
+            statesOpt={statesOpt}
+            getStatesByCountry={getStatesByCountry}
+          />
+        )}
+        validationSchema={EmployeeValidationSchema}
+      />
+    </>
   );
 };
 

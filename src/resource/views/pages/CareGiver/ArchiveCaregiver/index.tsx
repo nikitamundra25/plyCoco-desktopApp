@@ -7,7 +7,7 @@ import * as qs from 'query-string';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { sortFilter } from '../../../../../config';
+import { sortFilter, dateFormat } from '../../../../../config';
 import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../../config';
 import routes from '../../../../../routes/routes';
 import Search from '../../../components/SearchFilter';
@@ -295,6 +295,8 @@ const ArchiveCaregiver: FunctionComponent = () => {
               data.trashUserList.result.length ? (
               data.trashUserList.result.map((trashUser: any, index: number) => {
                 var elements = [trashUser.firstName, trashUser.lastName];
+                let trashLength = data.trashUserList.result.length;
+
                 return (
                   <tr key={index}>
                     <td className='sno-th-column text-center'>
@@ -307,40 +309,15 @@ const ArchiveCaregiver: FunctionComponent = () => {
                     <td>{trashUser.email.split('-')[0]}</td>
                     <td className='date-th-column '>
                       {trashUser.deletedAt
-                        ? moment(trashUser.deletedAt).format('MMM, Do YYYY')
+                        ? moment(trashUser.deletedAt).format(dateFormat)
                         : ''}
                     </td>
-                    {/* <td>
-                      <div className='text-center'>
-                        <Button
-                          onClick={() => onRestoreEmployee(trashUser.id)}
-                          className='archive-btn mr-3'
-                        >
-                          <span className='archive-icon'>
-                            <img src={archive} />
-                          </span>
-                          <span className='align-middle'>
-                            {languageTranslation('RESTORE')}
-                          </span>
-                        </Button>
-
-                        <Button
-                          onClick={() =>
-                            onPermanentlyDeleteEmployee(trashUser.id)
-                          }
-                          className='archive-btn'
-                        >
-                          <i className='fa fa-trash'></i>
-                          <span className='align-middle'>
-                            &nbsp;{languageTranslation('DELETE')}
-                          </span>
-                        </Button>
-                      </div>
-                    </td>
-                   */}
-
                     <td>
-                      <div className='action-btn'>
+                      <div
+                        className={`action-btn ${
+                          trashLength === 1 ? 'margin-tooltip' : ''
+                        }`}
+                      >
                         <span
                           className='btn-icon mr-2'
                           id={`restore${index}`}

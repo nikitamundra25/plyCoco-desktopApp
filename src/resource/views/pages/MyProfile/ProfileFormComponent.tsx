@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from "react";
-import { Button, Form, FormGroup, Input, Label, Col, Row } from "reactstrap";
-import { FormikProps } from "formik";
-import { languageTranslation } from "../../../../helpers";
-import { IProfileValues } from "../../../../interfaces";
+import React, { FunctionComponent } from 'react';
+import { Button, Form, FormGroup, Input, Label, Col, Row } from 'reactstrap';
+import { FormikProps } from 'formik';
+import { languageTranslation } from '../../../../helpers';
+import { IProfileFormvalues } from '../../../../interfaces';
 
 export const ProfileFormComponent: FunctionComponent<FormikProps<
-  IProfileValues
+  IProfileFormvalues
 > & { loading: boolean }> = (
-  props: FormikProps<IProfileValues> & { loading: boolean }
+  props: FormikProps<IProfileFormvalues> & { loading: boolean },
 ) => {
   const {
     errors,
@@ -15,39 +15,39 @@ export const ProfileFormComponent: FunctionComponent<FormikProps<
     touched,
     handleChange,
     handleSubmit,
-    loading
+    loading,
   } = props;
   return (
-    <Col lg={"6"}>
-      <div className="form-section">
-        <h5 className="main-title ">{languageTranslation("MY_PROFILE")}</h5>
-        <div className="form-card minheight-auto">
+    <Col lg={'6'}>
+      <div className='form-section'>
+        <h5 className='main-title '>{languageTranslation('MY_PROFILE')}</h5>
+        <div className='form-card minheight-auto'>
           <Form onSubmit={handleSubmit}>
             <Row>
-              <Col lg={"12"}>
+              <Col lg={'12'}>
                 <FormGroup>
                   <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label ">
-                        {languageTranslation("FIRST_NAME")}
+                    <Col sm='4'>
+                      <Label className='form-label col-form-label '>
+                        {languageTranslation('FIRST_NAME')}
                       </Label>
                     </Col>
-                    <Col sm="8">
+                    <Col sm='8'>
                       <div>
                         <Input
-                          type="text"
-                          name={"firstName"}
+                          type='text'
+                          name={'firstName'}
                           value={firstName}
-                          placeholder={languageTranslation("FIRST_NAME")}
+                          placeholder={languageTranslation('FIRST_NAME')}
                           onChange={handleChange}
                           className={
                             errors.firstName && touched.firstName
-                              ? "text-input error my-2 my-sm-0"
-                              : "text-input my-2 my-sm-0"
+                              ? 'text-input error my-2 my-sm-0'
+                              : 'text-input my-2 my-sm-0'
                           }
                         />
                         {errors.firstName && touched.firstName && (
-                          <div className="required-tooltip">
+                          <div className='required-tooltip'>
                             {errors.firstName}
                           </div>
                         )}
@@ -56,30 +56,30 @@ export const ProfileFormComponent: FunctionComponent<FormikProps<
                   </Row>
                 </FormGroup>
               </Col>
-              <Col lg={"12"}>
+              <Col lg={'12'}>
                 <FormGroup>
                   <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                        {languageTranslation("SURNAME")}
+                    <Col sm='4'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('SURNAME')}
                       </Label>
                     </Col>
-                    <Col sm="8">
+                    <Col sm='8'>
                       <div>
                         <Input
-                          type="text"
-                          name={"lastName"}
+                          type='text'
+                          name={'lastName'}
                           value={lastName}
-                          placeholder={languageTranslation("SURNAME")}
+                          placeholder={languageTranslation('SURNAME')}
                           onChange={handleChange}
                           className={
                             errors.lastName && touched.lastName
-                              ? "text-input error my-2 my-sm-0"
-                              : "text-input my-2 my-sm-0"
+                              ? 'text-input error my-2 my-sm-0'
+                              : 'text-input my-2 my-sm-0'
                           }
                         />
                         {errors.lastName && touched.lastName && (
-                          <div className="required-tooltip">
+                          <div className='required-tooltip'>
                             {errors.lastName}
                           </div>
                         )}
@@ -88,51 +88,51 @@ export const ProfileFormComponent: FunctionComponent<FormikProps<
                   </Row>
                 </FormGroup>
               </Col>
-              <Col lg={"12"}>
+              <Col lg={'12'}>
                 <FormGroup>
                   <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label ">
-                        {languageTranslation("EMAIL")}
+                    <Col sm='4'>
+                      <Label className='form-label col-form-label '>
+                        {languageTranslation('EMAIL')}
                       </Label>
                     </Col>
-                    <Col sm="8">
+                    <Col sm='8'>
                       <div>
                         <Input
-                          type="text"
-                          name={"email"}
+                          type='text'
+                          name={'email'}
                           value={email}
-                          placeholder={languageTranslation("EMAIL")}
+                          placeholder={languageTranslation('EMAIL')}
                           disabled={true}
                           className={
                             errors.email && touched.email
-                              ? "text-input error my-2 my-sm-0"
-                              : "text-input my-2 my-sm-0"
+                              ? 'text-input error my-2 my-sm-0'
+                              : 'text-input my-2 my-sm-0'
                           }
                         />
                         {errors.email && touched.email && (
-                          <div className="required-tooltip">{errors.email}</div>
+                          <div className='required-tooltip'>{errors.email}</div>
                         )}
                       </div>
                     </Col>
                   </Row>
                 </FormGroup>
               </Col>
-              <Col lg={"12"} className="mt-3">
+              <Col lg={'12'} className='mt-3'>
                 <FormGroup>
                   <Row>
-                    <Col lg={"4"}></Col>
-                    <Col lg={"8"}>
+                    <Col lg={'4'}></Col>
+                    <Col lg={'8'}>
                       <Button
-                        color={"primary"}
-                        className={"btn-save"}
+                        color={'primary'}
+                        className={'btn-save'}
                         onClick={handleSubmit}
                         disabled={loading}
                       >
                         {loading ? (
-                          <i className="fa fa-spinner fa-spin loader" />
+                          <i className='fa fa-spinner fa-spin loader' />
                         ) : null}
-                        {languageTranslation("UPDATE_BUTTON")}
+                        {languageTranslation('UPDATE_BUTTON')}
                       </Button>
                     </Col>
                   </Row>

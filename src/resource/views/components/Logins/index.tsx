@@ -1,35 +1,36 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { Table } from 'reactstrap';
-import { languageTranslation } from '../../../../../helpers';
-import { LoginHistoryQuery } from '../../../../../graphql/queries/LoginHistory';
+import { languageTranslation } from '../../../../helpers';
+import { LoginHistoryQuery } from '../../../../graphql/queries/LoginHistory';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
-import Loader from '../../../containers/Loader/Loader';
+import Loader from '../../containers/Loader/Loader';
+import { defaultDateTimeFormat } from '../../../../config';
 const [GET_LOGIN_HISTORY] = LoginHistoryQuery;
 
-const LoginLogs: FunctionComponent = () => {
+const LoginLogs: FunctionComponent<any> = (props: any) => {
   const { id } = useParams();
   const [fetchLoginList, { data, loading, called }] = useLazyQuery<any>(
     GET_LOGIN_HISTORY,
     {
-      fetchPolicy: 'no-cache',
-    },
+      fetchPolicy: 'no-cache'
+    }
   );
 
   useEffect(() => {
     fetchLoginList({
       variables: {
-        userId: id ? parseInt(id) : '',
-      },
+        userId: id ? parseInt(id) : ''
+      }
     });
   }, []);
-
+  const { label } = props;
   return (
     <>
       <div className='login-section'>
-        <div>
-          <h5 className='content-title'>
+        <div className={label ? 'employee-details' : ''}>
+          <h5 className={`content-title ${label ? 'employee-title' : null}`}>
             {languageTranslation('LOGIN_HISTORY')}
           </h5>
           <Table bordered hover responsive>
@@ -39,7 +40,7 @@ const LoginLogs: FunctionComponent = () => {
                   {languageTranslation('S_NO')}
                 </th>
                 <th className='date-th-column'>
-                  {languageTranslation('DATE')}
+                  {languageTranslation('LOGIN_DATE')}
                 </th>
                 <th>{languageTranslation('IP_ADDRESS')}</th>
                 <th>{languageTranslation('BROWSER')}</th>
@@ -68,7 +69,9 @@ const LoginLogs: FunctionComponent = () => {
                       <td className='sno-th-column text-center'>{index + 1}</td>
                       <td className='date-th-column'>
                         {loginDetails.lastLogin
-                          ? moment(loginDetails.lastLogin).format('lll')
+                          ? moment(loginDetails.lastLogin).format(
+                              defaultDateTimeFormat
+                            )
                           : '-'}
                       </td>
                       <td>

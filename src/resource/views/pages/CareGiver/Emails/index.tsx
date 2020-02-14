@@ -25,26 +25,32 @@ const Email: FunctionComponent<{
 
   let [
     fetchEmails,
-    { data: emailList, loading, called, refetch },
+    { data: emailList, loading, called, refetch }
   ] = useLazyQuery<{ fetchEmails: any }, IEmailQueryVar>(GET_EMAILS, {
-    notifyOnNetworkStatusChange: true,
+    notifyOnNetworkStatusChange: true
   });
 
   useEffect(() => {
     const query = qs.parse(search);
+    // Initialize variables
     let variables: IEmailQueryVar = {
       userId: id ? parseInt(id) : 0,
       from: 'caregiver',
-      searchBy,
+      searchBy
     };
     if (query && query.q) {
       const { q }: any = query;
       const index: number = EmailMenusTab.findIndex(
         ({ name }: { name: string; icon: string }) =>
-          q && typeof q === 'string' && name.toUpperCase() === q.toUpperCase(),
+          q && typeof q === 'string' && name.toUpperCase() === q.toUpperCase()
       );
       setactiveTab(index);
       setSearchBy(query.searchBy ? query.searchBy.toString() : '');
+      // update search by parameter in variables
+      variables = {
+        ...variables,
+        searchBy: query.searchBy ? query.searchBy.toString() : ''
+      };
       if (index === 1) {
         variables = { ...variables, from: 'plycoco' };
       }
@@ -66,8 +72,8 @@ const Email: FunctionComponent<{
       pathname,
       qs.stringify({
         ...query,
-        q: EmailMenusTab[activeTab].name.toLowerCase(),
-      }),
+        q: EmailMenusTab[activeTab].name.toLowerCase()
+      })
     ].join('?');
     history.push(path);
   };
@@ -76,25 +82,29 @@ const Email: FunctionComponent<{
     let variables: IEmailQueryVar = {
       userId: id ? parseInt(id) : 0,
       from,
-      searchBy,
+      searchBy
     };
     refetch(variables);
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { value },
+      target: { value }
     } = event;
     setSearchBy(value);
+    console.log('value', value);
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const path = [
-      pathname,
-      qs.stringify({
-        ...query,
-        searchBy,
-      }),
-    ].join('?');
+    console.log('searchBy', searchBy);
+    let queryParam: any = query;
+    delete queryParam.searchBy;
+    if (searchBy) {
+      queryParam = {
+        ...queryParam,
+        searchBy
+      };
+    }
+    const path = [pathname, qs.stringify(queryParam)].join('?');
     history.push(path);
   };
 
@@ -104,8 +114,8 @@ const Email: FunctionComponent<{
     const path = [
       pathname,
       qs.stringify({
-        ...query,
-      }),
+        ...query
+      })
     ].join('?');
     history.push(path);
   };
@@ -140,7 +150,9 @@ const Email: FunctionComponent<{
           />
         );
       case 2:
-        return <NewEmail emailData={emailData} />;
+        return (
+          <NewEmail emailData={emailData} selectedUserName={selectedUserName} />
+        );
 
       default:
         break;

@@ -1,12 +1,12 @@
-import { Location } from "history";
-import * as H from "history";
-import { IReactSelectInterface } from "./Constant";
-import { ICareInstitutionRemarks } from "./CareInstitution";
-import { number } from "prop-types";
+import { Location } from 'history';
+import * as H from 'history';
+import { IReactSelectInterface } from './Constant';
+import { ICareInstitutionRemarks } from './CareInstitution';
+import { number } from 'prop-types';
 import {
   IEmailInputAttachmenttypes,
-  IEmailAttachmentData
-} from "./EmailTemplate";
+  IEmailAttachmentData,
+} from './EmailTemplate';
 
 export interface ICareGiverInput {
   id?: string;
@@ -327,6 +327,7 @@ export interface IAddEmailVariables {
 
 export interface INewEmailProps {
   emailData: any;
+  selectedUserName: string;
 }
 
 export interface IEmailData {
@@ -343,6 +344,7 @@ export interface IEmailPreviewProps {
   emailData: IEmailData | null;
   selectedUserName: string;
   sendBy?: string;
+  length?: any;
 }
 
 export interface IEmailFormComponentPorps {

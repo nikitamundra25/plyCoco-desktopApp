@@ -8,7 +8,7 @@ import {
   UncontrolledButtonDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { AppBreadcrumb } from '@coreui/react';
@@ -18,7 +18,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { AppConfig, sortFilter } from '../../../../config';
+import { AppConfig, sortFilter, defaultDateTimeFormat } from '../../../../config';
 import { AppRoutes, PAGE_LIMIT } from '../../../../config';
 import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
@@ -31,7 +31,7 @@ import {
   IEmployee,
   IReactSelectInterface,
   IObjectType,
-  IReplaceObjectInterface
+  IReplaceObjectInterface,
 } from '../../../../interfaces';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import defaultProfile from '../../../assets/avatars/default-profile.png';
@@ -51,7 +51,7 @@ const [
   UPDATE_EMPLOYEE_STATUS,
   DELETE_EMPLOYEE,
   ,
-  UPDATE_EMP_ACCESS_LEVEL
+  UPDATE_EMP_ACCESS_LEVEL,
 ] = EmployeeMutations;
 
 const Employee: FunctionComponent = () => {
@@ -67,7 +67,7 @@ const Employee: FunctionComponent = () => {
   const [fetchEmployeeList, { data, called, loading, refetch }] = useLazyQuery<
     any
   >(GET_EMPLOYEES, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   // Mutation to delete employee
@@ -98,7 +98,7 @@ const Employee: FunctionComponent = () => {
     let sortByValue: string | undefined = '1';
     if (query.sortBy) {
       sortByValue = Object.keys(sortFilter).find(
-        (key: string) => sortFilter[key] === query.sortBy
+        (key: string) => sortFilter[key] === query.sortBy,
       );
     }
     logger(sortByValue);
@@ -122,8 +122,8 @@ const Employee: FunctionComponent = () => {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy
-              ) || '1'
+                (key: any) => sortFilter[key] === query.sortBy,
+              ) || '1',
           }
         : { label: 'Newest', value: '1' };
       isActive = query.status
@@ -134,13 +134,13 @@ const Employee: FunctionComponent = () => {
       setSearchValues({
         searchValue: searchBy,
         sortBy,
-        isActive
+        isActive,
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       setIsFilter(
         searchBy !== '' ||
           query.status !== undefined ||
-          query.sortBy !== undefined
+          query.sortBy !== undefined,
       );
     }
     // call query
@@ -154,8 +154,8 @@ const Employee: FunctionComponent = () => {
           ? query.status === 'active'
             ? 'true'
             : 'false'
-          : ''
-      }
+          : '',
+      },
     });
   }, [search]); // It will run when the search value gets changed
 
@@ -189,12 +189,12 @@ const Employee: FunctionComponent = () => {
   const {
     searchValue = '',
     sortBy = undefined,
-    isActive = undefined
+    isActive = undefined,
   } = searchValues ? searchValues : {};
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>
+    { setSubmitting }: FormikHelpers<ISearchValues>,
   ) => {
     let params: IObjectType = {};
     params.page = 1;
@@ -216,7 +216,7 @@ const Employee: FunctionComponent = () => {
     logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?'
+      '?',
     );
     history.push(path);
   };
@@ -225,12 +225,12 @@ const Employee: FunctionComponent = () => {
     isActive: isActive ? isActive.value : '',
     sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
     searchBy: searchValue ? searchValue : '',
-    limit: PAGE_LIMIT
+    limit: PAGE_LIMIT,
   };
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG')
+      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG'),
     });
     if (!value) {
       return;
@@ -238,8 +238,8 @@ const Employee: FunctionComponent = () => {
       try {
         await deleteEmployee({
           variables: {
-            id
-          }
+            id,
+          },
         });
         refetch();
         // const data = await client.readQuery({
@@ -265,7 +265,7 @@ const Employee: FunctionComponent = () => {
         // });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('EMPLOYEE_DELETED_SUCCESS')
+            languageTranslation('EMPLOYEE_DELETED_SUCCESS'),
           );
         }
       } catch (error) {
@@ -287,8 +287,8 @@ const Employee: FunctionComponent = () => {
       text: languageTranslation(
         status
           ? 'CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG'
-          : 'CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG'
-      )
+          : 'CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG',
+      ),
     });
     if (!value) {
       return;
@@ -298,13 +298,13 @@ const Employee: FunctionComponent = () => {
         await updateEmployeeStatus({
           variables: {
             id,
-            isActive: status
-          }
+            isActive: status,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('EMPLOYEE_STATUS_UPDATE_MSG')
+            languageTranslation('EMPLOYEE_STATUS_UPDATE_MSG'),
           );
         }
       } catch (error) {
@@ -325,13 +325,13 @@ const Employee: FunctionComponent = () => {
       await updateEmployeeAccessLevel({
         variables: {
           id,
-          accessLevel
-        }
+          accessLevel,
+        },
       });
       refetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('EMPLOYEE_ACCESS_LEVEL_UPDATE_MSG')
+          languageTranslation('EMPLOYEE_ACCESS_LEVEL_UPDATE_MSG'),
         );
       }
     } catch (error) {
@@ -348,7 +348,7 @@ const Employee: FunctionComponent = () => {
   const values: ISearchValues = {
     searchValue,
     isActive,
-    sortBy
+    sortBy,
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
@@ -440,13 +440,13 @@ const Employee: FunctionComponent = () => {
                     isActive,
                     profileThumbnailImage,
                     createdAt,
-                    accessLevel
+                    accessLevel,
                   }: IEmployee,
-                  index: number
+                  index: number,
                 ) => {
                   const replaceObj: IReplaceObjectInterface = {
                     ':id': id,
-                    ':userName': userName
+                    ':userName': userName,
                   };
                   var elements = [firstName, lastName];
 
@@ -465,7 +465,7 @@ const Employee: FunctionComponent = () => {
                                   : defaultProfile
                               }`}
                               onError={(
-                                e: React.ChangeEvent<HTMLImageElement>
+                                e: React.ChangeEvent<HTMLImageElement>,
                               ) => {
                                 e.target.onerror = null;
                                 e.target.src = defaultProfile;
@@ -483,26 +483,33 @@ const Employee: FunctionComponent = () => {
                                     /:id|:userName/gi,
                                     function(matched: string) {
                                       return replaceObj[matched];
-                                    }
-                                  )
+                                    },
+                                  ),
                                 )
                               }
                             >
                               {elements.join(' ')}
                             </div>
-                            <div className='description-text'>
+
+                            <p className='description-text'>
                               <i className='fa fa-envelope mr-2'></i>
                               <span className='align-middle one-line-text'>
                                 {email ? email : ''}
                               </span>
-                            </div>
+                            </p>
+                            <p className='description-text'>
+                              <i className='fa fa-user mr-2'></i>
+                              <span className='align-middle'>
+                                {userName ? userName : ''}
+                              </span>
+                            </p>
                             {phoneNumber ? (
-                              <div className='description-text'>
+                              <p className='description-text'>
                                 <i className='fa fa-phone mr-2'></i>
                                 <span className='align-middle one-line-text'>
                                   {phoneNumber}
                                 </span>
-                              </div>
+                              </p>
                             ) : null}
                           </div>
                         </div>
@@ -523,7 +530,7 @@ const Employee: FunctionComponent = () => {
                         </div>
                       </td>
                       <td className='date-th-column '>
-                        {createdAt ? moment(createdAt).format('lll') : ''}
+                        {createdAt ? moment(createdAt).format(defaultDateTimeFormat) : ''}
                       </td>
                       <td>
                         <div className='action-btn text-capitalize cursor-pointer'>
@@ -595,8 +602,9 @@ const Employee: FunctionComponent = () => {
                               /:id|:userName/gi,
                               function(matched) {
                                 return replaceObj[matched];
-                              }
+                              },
                             )}
+                            currentPage={currentPage}
                             // onBtnClick={() =>
                             //   history.push(
                             //     AppRoutes.EDIT_EMPLOYEE.replace(
@@ -619,7 +627,7 @@ const Employee: FunctionComponent = () => {
                               /:id|:userName/gi,
                               function(matched) {
                                 return replaceObj[matched];
-                              }
+                              },
                             )}
                             // onBtnClick={() =>
                             //   history.push(
@@ -652,7 +660,7 @@ const Employee: FunctionComponent = () => {
                       </td>
                     </tr>
                   );
-                }
+                },
               )
             ) : (
               <tr className={'text-center no-hover-row'}>

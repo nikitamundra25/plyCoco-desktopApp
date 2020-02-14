@@ -455,7 +455,7 @@ const PersonalInfoFormComponent: any = (
                     name={'postalCode'}
                     placeholder='Postal Code'
                     className=' width-common'
-                    maxLength={30}
+                    maxLength={15}
                   />
                 </div>
               </Col>

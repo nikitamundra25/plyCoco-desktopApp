@@ -97,10 +97,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       });
     }
   }
-  // To set default salutation & signature while composing the newemail
-  useEffect(() => {
+  const setDefaultSignature = (body: any) => {
     const contentBlock = htmlToDraft(
-      `<div><p style="font-size:16px; padding:12px 0px;">Hello ${selectedUserName}</p><br /><br /><br /><br /><br /><br /><p style="font-size:14px; margin:0px 0px;">${languageTranslation(
+      `<div><p style="font-size:16px; padding:12px 0px;">Hello ${selectedUserName}</p>${body}<p style="font-size:14px; margin:0px 0px;">${languageTranslation(
         'BEST_WISHES',
       )}</p><p style="font-size:14px; margin:0px 0px;">Anand Unknown</p><div><div style="text-align:left;"> <a href="https://www.plycoco.de/"><img src=${logo} alt="" style="height: auto; width: 180px;"/></a></div><p style="padding:2px 0px;"><strong>Tel:</strong><a href="tel:+49-30-377 07 67 20" style="color: #000; text-decoration: none;"> +49-30-377 07 67 20</a></p><p style="padding:2px 0px;"><strong>Fax:</strong> <a href="fax:+49-30-377 07 67 21" style="color: #000; text-decoration: none;">+49-30-377 07 67 21</a></p><p style="padding:2px 0px;"><strong>E-Mail:</strong><a href="#" style="color: #000; text-decoration: none;"> kontakt@solona.de</a></p><p style="padding:2px 0px;"><a href="www.solona.de" style="color: #000; text-decoration: none;">www.solona.de</a></p></div><div style="padding:20px 0px"><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Solona Personal list ein der Essenz Personal Agency GmbH, Weststr, 1, 13405 Berlin, Deutschland</p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Eintragung im Handelsrigester; Registergericht Berlin-Charlottenburg, Registernumber:HRB 188828 B, Geschaftsfuhrer: Michael Krusch</p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Tel: +49-30-577 07 67 20 Fax: +49-30-577 07 67 21 </p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Aufsichtsbehorde: Agentur fur Arbeit Kiel Tel: 0431 709 1010 </p></div></div>`,
     );
@@ -109,8 +108,14 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
         contentBlock.contentBlocks,
       );
       const editorState = EditorState.createWithContent(contentState);
-      setBody(editorState);
+      return editorState;
     }
+  };
+  // To set default salutation & signature while composing the newemail
+  useEffect(() => {
+    let body = '<br /><br /><br /><br /><br /><br />';
+    const updatedContent: any = setDefaultSignature(body);
+    setBody(updatedContent);
   }, []);
   // To set subject & body on reply
   useEffect(() => {
@@ -127,7 +132,10 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   // on new email click
   const onNewEmail = () => {
     setSubject('');
-    setBody(undefined);
+    let body = '<br /><br /><br /><br /><br /><br />';
+    const updatedContent: any = setDefaultSignature(body);
+    setBody(updatedContent);
+    // setBody(undefined);
     setAttachments([]);
     setParentId(null);
     setIsSubmit(false);
@@ -143,9 +151,12 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     )[0];
     if (templateData) {
       const { subject, body, attachments } = templateData;
-      const editorState = body ? HtmlToDraftConverter(body) : '';
+      // let body = '<br /><br /><br /><br /><br /><br />';
+      const updatedContent: any = setDefaultSignature(`${body}<br /><br />`);
+      setBody(updatedContent);
+      // const editorState = body ? HtmlToDraftConverter(body) : '';
       setSubject(subject);
-      setBody(editorState);
+      // setBody(editorState);
       setAttachments(
         attachments
           ? attachments.map(

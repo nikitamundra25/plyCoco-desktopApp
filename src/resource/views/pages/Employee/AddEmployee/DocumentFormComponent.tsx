@@ -42,9 +42,10 @@ export const DocumentFormComponent: FunctionComponent<{
           fileSize: size = 0,
           fileName = '',
           document: path = '',
+          id = '',
         } = addUserDocuments ? addUserDocuments : {};
         setAttachment((prevArray: any) => [
-          { size, path, fileName, url: null, file: null },
+          { size, path, fileName, url: null, file: null, id },
           ...prevArray,
         ]);
         if (!toast.isActive(toastId)) {
@@ -112,13 +113,10 @@ export const DocumentFormComponent: FunctionComponent<{
     const {
       target: { files },
     } = e;
-    console.log(files, 'files');
     if (files) {
-      console.log(files.length, 'files.length');
       for (let index = 0; index < files.length; index++) {
         let reader = new FileReader();
         let file = files[index];
-        console.log('in for loop', reader);
         reader.readAsDataURL(file);
         reader.onloadend = () => {
           let temp = {
@@ -128,8 +126,6 @@ export const DocumentFormComponent: FunctionComponent<{
             file,
             path: '',
           };
-          console.log('on load end', temp);
-
           addDocument({
             variables: {
               documentInput: {
@@ -152,11 +148,13 @@ export const DocumentFormComponent: FunctionComponent<{
       return;
     } else {
       try {
-        deleteDocument({
-          variables: {
-            id: id ? parseInt(id) : null,
-          },
-        });
+        if (id) {
+          deleteDocument({
+            variables: {
+              id: parseInt(id),
+            },
+          });
+        }
       } catch (error) {
         const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {

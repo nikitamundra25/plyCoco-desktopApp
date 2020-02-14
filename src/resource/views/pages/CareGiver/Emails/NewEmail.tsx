@@ -14,7 +14,10 @@ import {
   logger,
   stripHtml,
 } from '../../../../../helpers';
-import { EmailTemplateQueries } from '../../../../../graphql/queries';
+import {
+  EmailTemplateQueries,
+  ProfileQueries,
+} from '../../../../../graphql/queries';
 import {
   IReactSelectInterface,
   IAddEmailVariables,
@@ -28,17 +31,27 @@ import { CareGiverMutations } from '../../../../../graphql/Mutations';
 import { AttachmentList } from '../../../components/Attachments';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
-import { AppConfig } from '../../../../../config';
+import { AppConfig, client } from '../../../../../config';
 import logo from '../../../../assets/img/plycoco-orange.png';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , NEW_EMAIL] = CareGiverMutations;
+const [VIEW_PROFILE] = ProfileQueries;
+
 let toastId: any = null;
 
 const NewEmail: FunctionComponent<INewEmailProps> = ({
   emailData,
   selectedUserName,
 }: INewEmailProps) => {
+  const userData: any = client.readQuery({
+    query: VIEW_PROFILE,
+  });
+  const { viewAdminProfile = {} } = userData ? userData : {};
+  const { firstName = '', lastName = '' } = viewAdminProfile
+    ? viewAdminProfile
+    : {};
+
   let { id } = useParams();
   const [subject, setSubject] = useState<string>('');
   const [body, setBody] = useState<any>('');
@@ -101,7 +114,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     const contentBlock = htmlToDraft(
       `<div><p style="font-size:16px; padding:12px 0px;">Hello ${selectedUserName}</p>${body}<p style="font-size:14px; margin:0px 0px;">${languageTranslation(
         'BEST_WISHES',
-      )}</p><p style="font-size:14px; margin:0px 0px;">Anand Unknown</p><div><div style="text-align:left;"> <a href="https://www.plycoco.de/"><img src=${logo} alt="" style="height: auto; width: 180px;"/></a></div><p style="padding:2px 0px;"><strong>Tel:</strong><a href="tel:+49-30-377 07 67 20" style="color: #000; text-decoration: none;"> +49-30-377 07 67 20</a></p><p style="padding:2px 0px;"><strong>Fax:</strong> <a href="fax:+49-30-377 07 67 21" style="color: #000; text-decoration: none;">+49-30-377 07 67 21</a></p><p style="padding:2px 0px;"><strong>E-Mail:</strong><a href="#" style="color: #000; text-decoration: none;"> kontakt@solona.de</a></p><p style="padding:2px 0px;"><a href="www.solona.de" style="color: #000; text-decoration: none;">www.solona.de</a></p></div><div style="padding:20px 0px"><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Solona Personal list ein der Essenz Personal Agency GmbH, Weststr, 1, 13405 Berlin, Deutschland</p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Eintragung im Handelsrigester; Registergericht Berlin-Charlottenburg, Registernumber:HRB 188828 B, Geschaftsfuhrer: Michael Krusch</p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Tel: +49-30-577 07 67 20 Fax: +49-30-577 07 67 21 </p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Aufsichtsbehorde: Agentur fur Arbeit Kiel Tel: 0431 709 1010 </p></div></div>`,
+      )}</p><p style="font-size:14px; margin:0px 0px;">${firstName} ${lastName}</p><div><div style="text-align:left;"> <a href="https://www.plycoco.de/"><img src=${logo} alt="" style="height: auto; width: 180px;"/></a></div><p style="padding:2px 0px;"><strong>Tel:</strong><a href="tel:+49-30-377 07 67 20" style="color: #000; text-decoration: none;"> +49-30-377 07 67 20</a></p><p style="padding:2px 0px;"><strong>Fax:</strong> <a href="fax:+49-30-377 07 67 21" style="color: #000; text-decoration: none;">+49-30-377 07 67 21</a></p><p style="padding:2px 0px;"><strong>E-Mail:</strong><a href="#" style="color: #000; text-decoration: none;"> kontakt@solona.de</a></p><p style="padding:2px 0px;"><a href="www.solona.de" style="color: #000; text-decoration: none;">www.solona.de</a></p></div><div style="padding:20px 0px"><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Solona Personal list ein der Essenz Personal Agency GmbH, Weststr, 1, 13405 Berlin, Deutschland</p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Eintragung im Handelsrigester; Registergericht Berlin-Charlottenburg, Registernumber:HRB 188828 B, Geschaftsfuhrer: Michael Krusch</p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Tel: +49-30-577 07 67 20 Fax: +49-30-577 07 67 21 </p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Aufsichtsbehorde: Agentur fur Arbeit Kiel Tel: 0431 709 1010 </p></div></div>`,
     );
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(
@@ -189,12 +202,18 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           body: body ? content : '',
           parentId,
           status: 'unread',
-          attachments: attachments.map(
-            ({ path, fileName }: IEmailAttachmentData) => ({
-              path,
-              fileName,
-            }),
-          ),
+          attachments:
+            attachments && attachments.length
+              ? attachments.filter(
+                  (attachment: IEmailAttachmentData) => attachment.path,
+                )
+              : [],
+          files:
+            attachments && attachments.length
+              ? attachments
+                  .map((item: IEmailAttachmentData) => item.file)
+                  .filter((file: File | null) => file)
+              : null,
         };
         addNewEmail({ variables: { emailInput } });
       }

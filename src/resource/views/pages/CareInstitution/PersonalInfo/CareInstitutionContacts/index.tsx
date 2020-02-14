@@ -107,7 +107,7 @@ const CareInstitutionContacts: any = (props: any) => {
     }
   }, [deleteContactData]);
 
-  const [isNewAttribute, setisNewAttribute] = useState<any>(false);
+  const [isNewAttribute, setisNewAttribute] = useState<any>([]);
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
@@ -186,6 +186,7 @@ const CareInstitutionContacts: any = (props: any) => {
       logger(error);
     }
   };
+  console.log('isNewAttribute', isNewAttribute);
 
   const {
     email = '',
@@ -206,7 +207,7 @@ const CareInstitutionContacts: any = (props: any) => {
     title = '',
     contactType = undefined,
     gender = undefined,
-    attributes = [],
+    attributes = isNewAttribute,
     salutation = '',
     countryId = undefined
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
@@ -295,6 +296,7 @@ const CareInstitutionContacts: any = (props: any) => {
 
   useEffect(() => {
     if (props.careInstitutionAttrOpt && props.careInstitutionAttrOpt.length) {
+      
       setcontactAttributeOpt(props.careInstitutionAttrOpt);
     }
   }, [props]);
@@ -344,7 +346,7 @@ const CareInstitutionContacts: any = (props: any) => {
             {...props}
             ContactFromAdd={ContactFromAdd}
             addAttribute={(data: String) => {
-              setisNewAttribute(true);
+              setisNewAttribute([data]);
               addAttribute({
                 variables: {
                   name: data

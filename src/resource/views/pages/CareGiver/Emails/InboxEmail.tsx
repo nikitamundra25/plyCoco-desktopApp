@@ -45,6 +45,8 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
       setEmailData(null);
     }
   }, [emailList]);
+  console.log('searchBy', searchBy);
+
   return (
     <div className='email-section'>
       {/* <EmailMenus
@@ -56,7 +58,17 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
           <div className='overview-loader'>
             <Loader />
           </div>
-        ) : emailList && emailList.getEmails ? (
+        ) : !searchBy &&
+          emailList &&
+          emailList.getEmails &&
+          !emailList.getEmails.length ? (
+          <div className='no-data-section pt-5 pb-5 bg-white text-center'>
+            <div className='no-data-icon mb-2'>
+              <img src={noemail} width='35px' />
+            </div>
+            <h4 className='mb-1'>{languageTranslation('NO_EMAIL_MESSAGE')}</h4>
+          </div>
+        ) : (
           <Row>
             <Col lg={'5'}>
               <div className='email-inbox-section'>
@@ -150,20 +162,12 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                 )}
               </div>
             </Col>
-
             <EmailPreview
               emailData={emailData}
               selectedUserName={selectedUserName}
-              length={emailList.getEmails.length}
+              length={emailList && emailList.getEmails && emailList.getEmails.length}
             />
           </Row>
-        ) : (
-          <div className='no-data-section pt-5 pb-5 bg-white text-center'>
-            <div className='no-data-icon mb-2'>
-              <img src={noemail} width='35px' />
-            </div>
-            <h4 className='mb-1'>{languageTranslation('NO_EMAIL_MESSAGE')}</h4>
-          </div>
         )}
       </div>
     </div>

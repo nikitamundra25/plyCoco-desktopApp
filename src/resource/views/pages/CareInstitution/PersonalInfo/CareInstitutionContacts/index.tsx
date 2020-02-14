@@ -9,7 +9,8 @@ import {
   IStates,
   ICountry,
   IState,
-  ICareInstitutionFormValues
+  ICareInstitutionFormValues,
+  IAttributeOptions
 } from '../../../../../../interfaces';
 import {
   CountryQueries,
@@ -20,20 +21,23 @@ import { CareInstituionContactValidationSchema } from '../../../../../validation
 import CotactFormComponent from './CotactFormComponent';
 import { toast } from 'react-toastify';
 import { CareInstitutionMutation } from '../../../../../../graphql/Mutations';
+import { ConfirmBox } from '../../../../components/ConfirmBox';
+import close from '../../../../../assets/img/close.svg';
 
 let toastId: any;
 
 const [
-  UPDATE_CARE_INSTITUTION,
-  UPDATE_CARE_INSTITUTION_STATUS,
-  UPDATE_DEPARTMENT_CARE_INSTITUTION,
+  ,
+  ,
+  ,
   UPDATE_NEW_CONTACT_CARE_INSTITUTION,
-  DELETE_CARE_INSTITUTION,
-  ADD_CARE_INSTITUTION,
+  ,
+  ,
   ADD_NEW_CONTACT_CARE_INSTITUTION,
-  ADD_NEW_CARE_INTITUTION,
-  ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT
+  ,
+  ,
+  ,
+  DELETE_CONTACT
 ] = CareInstitutionMutation;
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -79,10 +83,24 @@ const CareInstitutionContacts: any = (props: any) => {
     updateContact: ICareInstitutionFormValues;
   }>(UPDATE_NEW_CONTACT_CARE_INSTITUTION);
 
+  // Mutation to delete contact
+  const [deleteContact, { data: deleteContactData }] = useMutation<
+    { deleteContact: any },
+    { id: number }
+  >(DELETE_CONTACT);
+
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY
   );
+
+  //use effect for delete contact
+  useEffect(() => {
+    if (deleteContactData) {
+      props.refetch();
+    }
+  }, [deleteContactData]);
+
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
@@ -242,23 +260,68 @@ const CareInstitutionContacts: any = (props: any) => {
     attributeId: selectedAttributes
   };
 
+  const onDelete = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_CONTACT_DELETE_MSG')
+    });
+    if (!value) {
+      return;
+    } else {
+      await deleteContact({
+        variables: {
+          id: parseInt(id)
+        }
+      });
+      setActiveContact(contacts.length - 1);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('CONTACT_DELETE_SUCCESS_MSG')
+        );
+      }
+    }
+  };
+  const [contactAttributeOpt, setcontactAttributeOpt] = useState<
+    IAttributeOptions[] | undefined
+  >([]);
+
+  useEffect(() => {
+    if (props.careInstitutionAttrOpt && props.careInstitutionAttrOpt.length) {
+      setcontactAttributeOpt(props.careInstitutionAttrOpt);
+    }
+  }, [props]);
+
+  console.log('props.careInstitutionAttrOpt', contactAttributeOpt);
+
   return (
     <>
       <div className={'form-section position-relative flex-grow-1'}>
-        <div className='d-flex align-items-center justify-content-between  mb-2'>
+        <div className='d-flex align-items-center justify-content-between  '>
           <Nav tabs className='contact-tabs'>
             {contacts && contacts.length
               ? contacts.map((contact: any, index: number) => {
                   return (
-                    <NavItem className='text-capitalize' key={index}>
+                    <NavItem className='text-capitalize mb-2' key={index}>
                       <NavLink
-                        className={`${index === activeContact ? 'active' : ''}`}
+                        className={`contact-right ${
+                          index === activeContact ? 'active' : ''
+                        }`}
                         onClick={() => setActiveContact(index)}
                       >
                         {contact && contact.contactType
-                          ? contact.contactType
+                          ? contact.contactType + ' ' + contact.id
                           : 'New contact'}{' '}
                       </NavLink>
+                      {contact && contact.contactType ? (
+                        <span
+                          className='tab-close cursor-pointer'
+                          onClick={() => {
+                            onDelete(contact.id);
+                          }}
+                        >
+                          <img src={close} alt='' />
+                        </span>
+                      ) : null}
                     </NavItem>
                   );
                 })
@@ -271,7 +334,11 @@ const CareInstitutionContacts: any = (props: any) => {
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}
         children={(props: FormikProps<ICareInstitutionContact> & any) => (
-          <CotactFormComponent {...props} ContactFromAdd={ContactFromAdd} />
+          <CotactFormComponent
+            {...props}
+            ContactFromAdd={ContactFromAdd}
+            careInstitutionAttrOpt={contactAttributeOpt}
+          />
         )}
         validationSchema={CareInstituionContactValidationSchema}
       />

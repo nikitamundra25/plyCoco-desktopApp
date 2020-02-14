@@ -4,38 +4,54 @@ import { Col, Row, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import Select from 'react-select';
 import { useParams } from 'react-router';
 import draftToHtml from 'draftjs-to-html';
-import { convertToRaw } from 'draft-js';
+import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import { toast } from 'react-toastify';
+import { ApolloError } from 'apollo-client';
+import htmlToDraft from 'html-to-draftjs';
 import {
   languageTranslation,
   HtmlToDraftConverter,
   logger,
-  stripHtml
+  stripHtml,
 } from '../../../../../helpers';
-import { EmailTemplateQueries } from '../../../../../graphql/queries';
+import {
+  EmailTemplateQueries,
+  ProfileQueries,
+} from '../../../../../graphql/queries';
 import {
   IReactSelectInterface,
   IAddEmailVariables,
   IEmailTemplateData,
   INewEmailProps,
   IEmailAttachmentData,
-  INewEmailAttachments
+  INewEmailAttachments,
 } from '../../../../../interfaces';
 import { EmailFormComponent } from './EmailFormComponent';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
 import { AttachmentList } from '../../../components/Attachments';
-import { AppConfig } from '../../../../../config';
 import { ConfirmBox } from '../../../components/ConfirmBox';
-import { ApolloError } from 'apollo-client';
 import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
+import { AppConfig, client } from '../../../../../config';
+import logo from '../../../../assets/img/plycoco-orange.png';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , NEW_EMAIL] = CareGiverMutations;
+const [VIEW_PROFILE] = ProfileQueries;
+
 let toastId: any = null;
 
 const NewEmail: FunctionComponent<INewEmailProps> = ({
-  emailData
+  emailData,
+  selectedUserName,
 }: INewEmailProps) => {
+  const userData: any = client.readQuery({
+    query: VIEW_PROFILE,
+  });
+  const { viewAdminProfile = {} } = userData ? userData : {};
+  const { firstName = '', lastName = '' } = viewAdminProfile
+    ? viewAdminProfile
+    : {};
+
   let { id } = useParams();
   const [subject, setSubject] = useState<string>('');
   const [body, setBody] = useState<any>('');
@@ -48,9 +64,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     GET_CAREGIVER_EMAIL_TEMPLATES,
     {
       variables: {
-        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE')
-      }
-    }
+        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE'),
+      },
+    },
   );
 
   const [addNewEmail, { loading: adding }] = useMutation<
@@ -77,23 +93,43 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    }
+    },
   });
 
   const templateOptions: IReactSelectInterface[] | undefined = [];
   if (data && data.getEmailtemplate) {
     const {
-      getEmailtemplate: { email_templates }
+      getEmailtemplate: { email_templates },
     } = data;
     if (email_templates && email_templates.length) {
       email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
         templateOptions.push({
           label: menuEntry,
-          value: id ? id.toString() : ''
+          value: id ? id.toString() : '',
         });
       });
     }
   }
+  const setDefaultSignature = (body: any) => {
+    const contentBlock = htmlToDraft(
+      `<div><p style="font-size:16px; padding:12px 0px;">Hello ${selectedUserName}</p>${body}<p style="font-size:14px; margin:0px 0px;">${languageTranslation(
+        'BEST_WISHES',
+      )}</p><p style="font-size:14px; margin:0px 0px;">${firstName} ${lastName}</p><div><div style="text-align:left;"> <a href="https://www.plycoco.de/"><img src=${logo} alt="" style="height: auto; width: 180px;"/></a></div><p style="padding:2px 0px;"><strong>Tel:</strong><a href="tel:+49-30-377 07 67 20" style="color: #000; text-decoration: none;"> +49-30-377 07 67 20</a></p><p style="padding:2px 0px;"><strong>Fax:</strong> <a href="fax:+49-30-377 07 67 21" style="color: #000; text-decoration: none;">+49-30-377 07 67 21</a></p><p style="padding:2px 0px;"><strong>E-Mail:</strong><a href="#" style="color: #000; text-decoration: none;"> kontakt@solona.de</a></p><p style="padding:2px 0px;"><a href="www.solona.de" style="color: #000; text-decoration: none;">www.solona.de</a></p></div><div style="padding:20px 0px"><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Solona Personal list ein der Essenz Personal Agency GmbH, Weststr, 1, 13405 Berlin, Deutschland</p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Eintragung im Handelsrigester; Registergericht Berlin-Charlottenburg, Registernumber:HRB 188828 B, Geschaftsfuhrer: Michael Krusch</p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Tel: +49-30-577 07 67 20 Fax: +49-30-577 07 67 21 </p><p style="padding: 2px 0px;font-size: 13px;color: #b5b4b4;;">Aufsichtsbehorde: Agentur fur Arbeit Kiel Tel: 0431 709 1010 </p></div></div>`,
+    );
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks,
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      return editorState;
+    }
+  };
+  // To set default salutation & signature while composing the newemail
+  useEffect(() => {
+    let body = '<br /><br /><br /><br /><br /><br />';
+    const updatedContent: any = setDefaultSignature(body);
+    setBody(updatedContent);
+  }, []);
   // To set subject & body on reply
   useEffect(() => {
     if (emailData) {
@@ -109,7 +145,10 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   // on new email click
   const onNewEmail = () => {
     setSubject('');
-    setBody(undefined);
+    let body = '<br /><br /><br /><br /><br /><br />';
+    const updatedContent: any = setDefaultSignature(body);
+    setBody(updatedContent);
+    // setBody(undefined);
     setAttachments([]);
     setParentId(null);
     setIsSubmit(false);
@@ -117,17 +156,20 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
     const {
-      getEmailtemplate: { email_templates }
+      getEmailtemplate: { email_templates },
     } = data;
     setTemplate(selectedOption);
     const templateData = email_templates.filter(
-      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value)
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value),
     )[0];
     if (templateData) {
       const { subject, body, attachments } = templateData;
-      const editorState = body ? HtmlToDraftConverter(body) : '';
+      // let body = '<br /><br /><br /><br /><br /><br />';
+      const updatedContent: any = setDefaultSignature(`${body}<br /><br />`);
+      setBody(updatedContent);
+      // const editorState = body ? HtmlToDraftConverter(body) : '';
       setSubject(subject);
-      setBody(editorState);
+      // setBody(editorState);
       setAttachments(
         attachments
           ? attachments.map(
@@ -135,10 +177,10 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                 fileName: name,
                 id,
                 path,
-                size
-              })
+                size,
+              }),
             )
-          : []
+          : [],
       );
     }
   };
@@ -160,12 +202,18 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           body: body ? content : '',
           parentId,
           status: 'unread',
-          attachments: attachments.map(
-            ({ path, fileName }: IEmailAttachmentData) => ({
-              path,
-              fileName
-            })
-          )
+          attachments:
+            attachments && attachments.length
+              ? attachments.filter(
+                  (attachment: IEmailAttachmentData) => attachment.path,
+                )
+              : [],
+          files:
+            attachments && attachments.length
+              ? attachments
+                  .map((item: IEmailAttachmentData) => item.file)
+                  .filter((file: File | null) => file)
+              : null,
         };
         addNewEmail({ variables: { emailInput } });
       }
@@ -184,19 +232,22 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   const onDelteDocument = async (
     attachmentId: string,
-    attachmentIndex?: number
+    attachmentIndex?: number,
   ) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG')
+      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG'),
     });
     if (!value) {
       return;
     } else {
       setAttachments((prevArray: any) =>
-        prevArray.filter((_: any, index: number) => attachmentIndex !== index)
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index),
       );
     }
+  };
+  const uploadDocument = (data: IEmailAttachmentData) => {
+    setAttachments((prevArray: any) => [data, ...prevArray]);
   };
 
   return (
@@ -275,6 +326,8 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                 isSubmit={isSubmit}
                 onEditorStateChange={onEditorStateChange}
                 sendEmail={sendEmail}
+                attachments={attachments}
+                uploadDocument={uploadDocument}
               />
             </Col>
           </Row>

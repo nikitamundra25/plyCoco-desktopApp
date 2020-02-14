@@ -22,6 +22,7 @@ const GroupedBelow: FunctionComponent = () => {
     variables: {
       userId: id ? parseInt(id) : 0,
     },
+    fetchPolicy: 'cache-and-network',
   });
   return (
     <>

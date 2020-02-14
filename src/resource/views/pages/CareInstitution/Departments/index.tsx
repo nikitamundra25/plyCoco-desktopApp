@@ -440,7 +440,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
               </div>
             </div>
           </Col>
-          <Col lg={"4"}>
+          <Col lg={"4"} className="px-lg-0">
             <Formik
               initialValues={values}
               enableReinitialize={true}

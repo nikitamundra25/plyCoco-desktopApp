@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import { Table, Button, Input, UncontrolledTooltip } from 'reactstrap';
 import moment from 'moment';
 import { languageTranslation, formatFileSize } from '../../../../../helpers';
-import { AppConfig } from '../../../../../config';
+import { AppConfig, defaultDateTimeFormat } from '../../../../../config';
 import Loader from '../../../containers/Loader/Loader';
 const DocumentsList: FunctionComponent<any> = (props: any) => {
   const {
@@ -151,7 +151,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     <td className='sno-th-column text-center'>{index + 1}</td>
                     <td className='date-th-column'>
                       {list && list.createdAt
-                        ? moment(list.createdAt).format('lll')
+                        ? moment(list.createdAt).format(defaultDateTimeFormat)
                         : '-'}
                     </td>
                     <td>

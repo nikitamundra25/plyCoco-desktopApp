@@ -26,7 +26,7 @@ import QuallificationAttribute from '../PersonalInfo/PersonalInfoForm/Quallifica
 import RemarkFormData from '../PersonalInfo/PersonalInfoForm/RemarkFormData';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
 import '../careinstitution.scss';
-import { valueContainerCSS } from 'react-select/src/components/containers';
+import CustomOption from '../../../components/CustomOptions';
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -127,6 +127,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
       return true;
     });
   }
+  // console.log('data.id', data.id);
 
   const {
     values: {
@@ -833,6 +834,21 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation('LIKED_TO')}
+                        options={CareInstitutionList}
+                        value={linkedTo}
+                        onChange={(value: any) =>
+                          handleSelect(value, 'linkedTo')
+                        }
+                        classNamePrefix='custom-inner-reactselect'
+                        className={'custom-reactselect'}
+                        components={{ Option: CustomOption }}
+                        isOptionDisabled={(option: any) =>
+                          option.value === languageTranslation('ID')
+                        }
+                      />
+                      {/* 
+                      <Select
+                        placeholder={languageTranslation('LIKED_TO')}
                         onChange={(value: any) =>
                           handleSelect(value, 'linkedTo')
                         }
@@ -840,7 +856,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         options={CareInstitutionList}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
-                      />
+                      /> */}
                     </div>
                   </Col>
                 </Row>

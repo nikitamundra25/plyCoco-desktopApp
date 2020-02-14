@@ -50,8 +50,17 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
           <div className='overview-loader'>
             <Loader />
           </div>
-        ) : emailList &&
-          emailList.getEmails /* && emailList.getEmails.length */ ? (
+        ) : !searchBy &&
+          emailList &&
+          emailList.getEmails &&
+          !emailList.getEmails.length ? (
+          <div className='no-data-section pt-5 pb-5 bg-white text-center'>
+            <div className='no-data-icon mb-2'>
+              <img src={noemail} width='35px' />
+            </div>
+            <h4 className='mb-1'>{languageTranslation('NO_EMAIL_MESSAGE')}</h4>
+          </div>
+        ) : (
           <Row>
             <Col lg={'5'}>
               <div className='email-inbox-section'>
@@ -80,7 +89,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                 </div>
                 <div className='email-row-wrap email-heading-wrap '>
                   <div className='email-date-time-block'>
-                    Date
+                    {languageTranslation('DATE')}
                     {/* <Select
                       placeholder='Select Region'
                       options={this.options}
@@ -143,7 +152,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                               )}
                             </div>
                             <div className='email-subject-block'>
-                              Super Admin
+                              {languageTranslation('SUPER_ADMIN')}
                             </div>
                             <div className='email-text-wrap'>
                               {email.subject}
@@ -165,15 +174,11 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
               emailData={emailData}
               selectedUserName={selectedUserName}
               sendBy={'Super Admin'}
+              length={
+                emailList && emailList.getEmails && emailList.getEmails.length
+              }
             />
           </Row>
-        ) : (
-          <div className='no-data-section pt-5 pb-5 bg-white text-center'>
-            <div className='no-data-icon mb-2'>
-              <img src={noemail} width='35px' />
-            </div>
-            <h4 className='mb-1'>{languageTranslation('NO_EMAIL_MESSAGE')}</h4>
-          </div>
         )}
       </div>
     </div>

@@ -1,19 +1,47 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { FormGroup, Label, Input, Col, Row, Table } from "reactstrap";
+import { FormGroup, Label, Input, Col, Row, Table, Button } from "reactstrap";
 import Select from "react-select";
-import { languageTranslation } from "../../../../helpers";
-import { CareGiverQueries } from "../../../../graphql/queries";
+import {
+  languageTranslation,
+  HtmlToDraftConverter,
+  stripHtml
+} from "../../../../helpers";
+import {
+  CareGiverQueries,
+  EmailTemplateQueries
+} from "../../../../graphql/queries";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { State } from "../../../../config";
+import { State, AppConfig } from "../../../../config";
 import filter from "../../../assets/img/filter.svg";
 import refresh from "../../../assets/img/refresh.svg";
 import send from "../../../assets/img/send.svg";
 import "./index.scss";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import Loader from "../../containers/Loader/Loader";
-
+import InfiniteScroll from "react-infinite-scroll-component";
+import {
+  IReactSelectInterface,
+  IEmailTemplateData,
+  INewEmailAttachments,
+  IEmailAttachmentData,
+  IAddEmailVariables
+} from "../../../../interfaces";
+import { EmailEditorComponent } from "./EmailFormComponent";
+import { ConfirmBox } from "../../components/ConfirmBox";
+import { convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+import { BulkEmailCareGivers } from "../../../../graphql/Mutations";
+import { toast } from "react-toastify";
+import { CareGiverListComponent } from "./CareGiverListComponent";
+import { IBulkEmailVariables } from "../../../../interfaces/BulkEmailCaregiver";
+import { ApolloError } from "apollo-client";
+import { errorFormatter } from "../../../../helpers/ErrorFormatter";
+import { log } from "util";
+const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
+const [BULK_EMAILS] = BulkEmailCareGivers;
+let toastId: any = null;
 
 const BulkEmailCaregiver: FunctionComponent = () => {
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
@@ -25,14 +53,54 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     fetchPolicy: "no-cache"
   });
 
+  // To get all the types of email template
+  // const { data: typeList } = useQuery(GET_EMAIL_TEMPLATE_TYEPS);
+  //To get all email templates of care giver addded in system
+  const { data, loading: fetchTemplateListLoading } = useQuery<any>(
+    GET_CAREGIVER_EMAIL_TEMPLATES,
+    {
+      variables: {
+        type: languageTranslation("CAREGIVER_EMAIL_TEMPLATE_TYPE")
+      }
+    }
+  );
+
+  const [page, setPage] = useState<number>(1);
+  const [template, setTemplate] = useState<any>(undefined);
+  const [subject, setSubject] = useState<string>("");
+  const [body, setBody] = useState<any>("");
+  const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
+    bulkEmailsInput: IBulkEmailVariables;
+  }>(BULK_EMAILS, {
+    onCompleted() {
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation("EMAIL_SENT_SUCCESS"));
+      }
+      setSubject("");
+      setBody(undefined);
+      setAttachments([]);
+      setIsSubmit(false);
+      setTemplate({ label: "", value: "" });
+      setselectedCareGiver([]);
+    },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
+    }
+  });
+
   useEffect(() => {
     // Fetch list of caregivers
     fetchCareGiverList({
       variables: {
         searchBy: "",
         sortBy: 3,
-        limit: 200,
-        page: 1,
+        limit: 30,
+        page,
         isActive: ""
       }
     });
@@ -40,22 +108,37 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
   const [careGiverData, setcareGiverData] = useState<Object[]>([]);
   useEffect(() => {
+    let list: any = [...careGiverData];
     if (careGivers) {
       const { getCaregivers } = careGivers;
       const { result } = getCaregivers;
-      setcareGiverData(result);
+      if (result && result.length) {
+        result.map((key: any) => {
+          return (list = [...list, key]);
+        });
+      }
+      setcareGiverData(list);
     }
   }, [careGivers]);
 
+  const handleInfiniteScroll = () => {
+    setPage(page + 1);
+    fetchCareGiverList({
+      variables: {
+        searchBy: "",
+        sortBy: 3,
+        limit: 30,
+        page: page + 1,
+        isActive: ""
+      }
+    });
+  };
+
   const handleSelectAll = async () => {
-    if (
-      careGivers &&
-      careGivers.getCaregivers &&
-      careGivers.getCaregivers.result.length
-    ) {
+    if (careGiverData && careGiverData.length) {
       let list: any = [];
       if (selectedCareGiver && selectedCareGiver.length <= 0) {
-        careGivers.getCaregivers.result.map((key: any) => {
+        careGiverData.map((key: any) => {
           return (list = [...list, parseInt(key.id)]);
         });
         setselectedCareGiver(list);
@@ -86,6 +169,147 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     }
   };
 
+  const templateOptions: IReactSelectInterface[] | undefined = [];
+  if (data && data.getEmailtemplate) {
+    const {
+      getEmailtemplate: { email_templates }
+    } = data;
+    if (email_templates && email_templates.length) {
+      email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
+        templateOptions.push({
+          label: menuEntry,
+          value: id ? id.toString() : ""
+        });
+      });
+    }
+  }
+
+  // useEffect(() => {
+  //   if (!templateType) {
+  //     // To set default email type
+  //     setTemplateType(typeListOptions[0]);
+  //   }
+  // }, [typeListOptions]);
+
+  // set subject & body on template selection
+  const onTemplateSelection = (selectedOption: any) => {
+    const {
+      getEmailtemplate: { email_templates }
+    } = data;
+    setTemplate(selectedOption);
+    const templateData = email_templates.filter(
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value)
+    )[0];
+    if (templateData) {
+      const { subject, body, attachments } = templateData;
+      const editorState = body ? HtmlToDraftConverter(body) : "";
+      setSubject(subject);
+      setBody(editorState);
+      setAttachments(
+        attachments
+          ? attachments.map(
+              ({ name, id, path, size }: INewEmailAttachments) => ({
+                fileName: name,
+                id,
+                path,
+                size
+              })
+            )
+          : []
+      );
+    }
+  };
+
+  const onEditorStateChange = (editorState: any): void => {
+    setBody(editorState);
+  };
+
+  const handleChangeSubject = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSubject(e.target.value);
+  };
+
+  const onDelteDocument = async (
+    attachmentId: string,
+    attachmentIndex?: number
+  ) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG")
+    });
+    if (!value) {
+      return;
+    } else {
+      setAttachments((prevArray: any) =>
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index)
+      );
+    }
+  };
+
+  const uploadDocument = (data: IEmailAttachmentData) => {
+    setAttachments((prevArray: any) => [data, ...prevArray]);
+  };
+
+  const handleSendEmail = (e: React.FormEvent<any>) => {
+    e.preventDefault();
+    let content = body
+      ? draftToHtml(convertToRaw(body.getCurrentContent()))
+      : "";
+    const result = stripHtml(content);
+    setIsSubmit(true);
+
+    try {
+      let careGiverIdList: any = [];
+
+      if (selectedCareGiver && selectedCareGiver.length) {
+        selectedCareGiver.map((careGiverId: number) => {
+          careGiverIdList = [...careGiverIdList, { userId: careGiverId }];
+        });
+        if (subject && body && result && result.length >= 2) {
+          const bulkEmailsInput: IBulkEmailVariables = {
+            to: "caregiver",
+            from: "plycoco",
+            subject: subject /* .replace(/AW:/g, '') */,
+            body: body ? content : "",
+            parentId: null,
+            status: "new",
+            attachments:
+              attachments && attachments.length
+                ? attachments.filter((attachment: any) => attachment.path)
+                : [],
+            // attachments.map(
+            //   ({ path, fileName }: IEmailAttachmentData) => ({
+            //     path,
+            //     fileName
+            //   })
+            // ),
+            files:
+              attachments && attachments.length
+                ? attachments
+                    .map((item: IEmailAttachmentData) => item.file)
+                    .filter((file: File | null) => file)
+                : null,
+            caregiver: careGiverIdList
+          };
+          bulkEmails({ variables: { bulkEmailsInput } });
+        }
+      } else {
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(
+            languageTranslation("EMAIL_SELECT_CARE_GIVERS")
+          );
+        }
+      }
+    } catch (error) {
+      const message = error.message
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
+      toast.error(message);
+    }
+  };
+  console.log("====================================");
+  console.log(attachments);
+  console.log("====================================");
   return (
     <>
       <div className="common-detail-page">
@@ -108,203 +332,65 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   {languageTranslation("ATTRIBUTES")}
                 </span>
               </div>
-
-              <div className="header-nav-item">
+              <div className="ml-auto">
+                <Button
+                  color="primary"
+                  onClick={handleSendEmail}
+                  className="btn-email-save ml-auto mr-2 btn btn-primary"
+                >
+                  {bulkEmailLoading ? (
+                    <i className="fa fa-spinner fa-spin loader" />
+                  ) : (
+                    <i
+                      className="fa fa-paper-plane mr-2"
+                      aria-hidden="true"
+                    ></i>
+                  )}
+                  <span>{languageTranslation("SEND")}</span>
+                </Button>
+              </div>
+              {/* <div
+                className="header-nav-item ml-auto"
+                onClick={handleSendEmail}
+              >
                 <span className="header-nav-icon">
                   <img src={send} alt="" />
                 </span>
                 <span className="header-nav-text">
                   {languageTranslation("SEND")}
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
 
           <div className="common-content flex-grow-1">
             <div className="bulk-email-section">
               <Row>
-                <Col lg={"5"}>
-                  <div className="caregiver-list custom-scroll">
-                    <Table bordered hover responsive>
-                      <thead className="thead-bg">
-                        <tr>
-                          <th className="checkbox-th-column">
-                            <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                name="checkbox"
-                                className=""
-                                checked={
-                                  careGivers &&
-                                  careGivers.getCaregivers &&
-                                  careGivers.getCaregivers.result.length ===
-                                    selectedCareGiver.length
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e: any) => {
-                                  handleSelectAll();
-                                }}
-                              />
-                              <label className=""></label>
-                            </span>
-                          </th>
-                          <th>{languageTranslation("NAME")}</th>
-                          <th>{languageTranslation("EMAIL")}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {!called || loading ? (
-                          <tr>
-                            <td className={"table-loader"} colSpan={8}>
-                              <Loader />
-                            </td>
-                          </tr>
-                        ) : careGiverData && careGiverData.length ? (
-                          careGiverData.map(
-                            (careGivers: any, index: number) => {
-                              return (
-                                <tr key={index}>
-                                  <td>
-                                    <span className="checkboxli checkbox-custom checkbox-default mr-2">
-                                      <input
-                                        type="checkbox"
-                                        id="check"
-                                        name="checkbox"
-                                        className=""
-                                        checked={
-                                          selectedCareGiver &&
-                                          selectedCareGiver.length &&
-                                          selectedCareGiver.indexOf(
-                                            parseInt(careGivers.id)
-                                          ) > -1
-                                            ? true
-                                            : false
-                                        }
-                                        onChange={(e: any) => {
-                                          handleCheckElement(e, careGivers.id);
-                                        }}
-                                      />
-                                      <label className=""></label>
-                                    </span>
-                                  </td>
-                                  <td>{`${careGivers.firstName} ${careGivers.lastName}`}</td>
-                                  <td>{careGivers.email}</td>
-                                </tr>
-                              );
-                            }
-                          )
-                        ) : null}
-                      </tbody>
-                    </Table>
-                  </div>
-                </Col>
+                <CareGiverListComponent
+                  careGivers={careGivers}
+                  handleSelectAll={handleSelectAll}
+                  called={called}
+                  loading={loading}
+                  careGiverData={careGiverData}
+                  selectedCareGiver={selectedCareGiver}
+                  handleCheckElement={handleCheckElement}
+                  handleInfiniteScroll={handleInfiniteScroll}
+                  page={page}
+                />
 
-                <Col lg={"7"}>
-                  <div className="">
-                    <div className="form-section py-2 px-3 bulk-email-form">
-                      <div className="d-flex align-items-end justify-content-between bulk-email-header">
-                        <Label className="bulk-email-label">
-                          {languageTranslation("SUBJECT")}{" "}
-                          {languageTranslation("EMAIL")}
-                        </Label>
-                        <div className="select-box mb-2">
-                          <Select
-                            placeholder={languageTranslation("SELECT_TEMPLATE")}
-                            options={State}
-                            classNamePrefix="custom-inner-reactselect"
-                            className="custom-reactselect"
-                          />
-                        </div>
-                      </div>
-                      <Row>
-                        <Col lg={"12"}>
-                          <FormGroup>
-                            <div>
-                              <Input
-                                type="text"
-                                placeholder={languageTranslation("SUBJECT")}
-                                name={"lastName"}
-                                className="width-common"
-                              />
-                            </div>
-                          </FormGroup>
-                        </Col>
-                        <Col lg={"12"}>
-                          <FormGroup>
-                            <Label className="form-label col-form-label mb-2">
-                              {languageTranslation("TEXT_EMAIL")}
-                            </Label>
-
-                            <div>
-                              <Editor
-                                // editorState={editorState}
-                                toolbarClassName="toolbarClassName"
-                                wrapperClassName="wrapperClassName"
-                                editorClassName="editorClassName"
-                                placeholder="Enter Email Content Here"
-                                toolbar={{
-                                  options: [
-                                    "inline",
-                                    "blockType",
-                                    "fontSize",
-                                    "list",
-                                    "textAlign",
-                                    "link"
-                                  ],
-                                  inline: {
-                                    options: ["bold", "italic", "underline"]
-                                  },
-                                  fontSize: {
-                                    className: "bordered-option-classname"
-                                  },
-                                  fontFamily: {
-                                    className: "bordered-option-classname"
-                                  },
-                                  list: {
-                                    inDropdown: false,
-                                    options: ["unordered"]
-                                  },
-                                  link: {
-                                    options: ["link"]
-                                  }
-                                }}
-                              />
-                            </div>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </div>
-                    <Table bordered hover responsive className="mail-table">
-                      <thead className="thead-bg">
-                        <tr>
-                          <th className="file-name">
-                            {languageTranslation("FILE_NAME")}
-                          </th>
-                          <th className="size-col">
-                            {languageTranslation("SIZE")}
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="file-name ">Pan Card.PDF</td>
-                          <td className="size-col">1kb</td>
-                        </tr>
-                        <tr>
-                          <td className="file-name">VoterID.pdf</td>
-                          <td className="size-col">2kb</td>
-                        </tr>
-
-                        <tr>
-                          <td className="file-name">Pan Card.PDF</td>
-                          <td className="size-col">5kb</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div>
-                </Col>
+                <EmailEditorComponent
+                  body={body}
+                  templateOptions={templateOptions}
+                  subject={subject}
+                  onTemplateSelection={onTemplateSelection}
+                  onEditorStateChange={onEditorStateChange}
+                  template={template}
+                  handleChangeSubject={handleChangeSubject}
+                  attachments={attachments}
+                  uploadDocument={uploadDocument}
+                  onDelteDocument={onDelteDocument}
+                  isSubmit={isSubmit}
+                />
               </Row>
             </div>
           </div>

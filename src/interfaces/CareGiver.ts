@@ -3,7 +3,10 @@ import * as H from 'history';
 import { IReactSelectInterface } from './Constant';
 import { ICareInstitutionRemarks } from './CareInstitution';
 import { number } from 'prop-types';
-import { IEmailInputAttachmenttypes } from './EmailTemplate';
+import {
+  IEmailInputAttachmenttypes,
+  IEmailAttachmentData,
+} from './EmailTemplate';
 
 export interface ICareGiverInput {
   id?: string;
@@ -319,10 +322,12 @@ export interface IAddEmailVariables {
   parentId: number | null;
   status: string;
   attachments: IEmailInputAttachmenttypes[];
+  files: any;
 }
 
 export interface INewEmailProps {
   emailData: any;
+  selectedUserName: string;
 }
 
 export interface IEmailData {
@@ -348,6 +353,8 @@ export interface IEmailFormComponentPorps {
   isSubmit: boolean;
   onEditorStateChange: (editorState: any) => void;
   sendEmail: (e: React.FormEvent<HTMLFormElement>) => void;
+  uploadDocument?: (data: IEmailAttachmentData) => void;
+  attachments: IEmailAttachmentData[];
 }
 
 export interface IEmailQueryVar {

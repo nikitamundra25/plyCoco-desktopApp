@@ -353,7 +353,6 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
                       className="textarea-custom"
                       rows="3"
                     />
-                    <Label for="check"></Label>
                   </div>
                 </Col>
               </Row>

@@ -20,6 +20,8 @@ import InvoiceFormData from './InvoiceFormData';
 import QuallificationAttribute from './QuallificationAttribute';
 import RemarkFormData from './RemarkFormData';
 import { RegionQueries } from '../../../../../../graphql/queries/Region';
+import CustomOption from '../../../../components/CustomOptions';
+
 import moment from 'moment';
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -849,6 +851,21 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation('LIKED_TO')}
+                        options={CareInstitutionList}
+                        value={linkedTo}
+                        onChange={(value: any) =>
+                          handleSelect(value, 'linkedTo')
+                        }
+                        classNamePrefix='custom-inner-reactselect'
+                        className={'custom-reactselect'}
+                        components={{ Option: CustomOption }}
+                        isOptionDisabled={(option: any) =>
+                          option.value === languageTranslation('ID')
+                        }
+                      />
+
+                      {/* <Select
+                        placeholder={languageTranslation('LIKED_TO')}
                         value={
                           linkedTo && linkedTo.value ? linkedTo : undefined
                         }
@@ -856,7 +873,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         options={CareInstitutionList}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
-                      />
+                      /> */}
                     </div>
                   </Col>
                 </Row>

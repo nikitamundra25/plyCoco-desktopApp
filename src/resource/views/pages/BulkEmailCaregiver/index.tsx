@@ -37,6 +37,7 @@ import { CareGiverListComponent } from "./CareGiverListComponent";
 import { IBulkEmailVariables } from "../../../../interfaces/BulkEmailCaregiver";
 import { ApolloError } from "apollo-client";
 import { errorFormatter } from "../../../../helpers/ErrorFormatter";
+import { log } from "util";
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
 const [BULK_EMAILS] = BulkEmailCareGivers;
@@ -70,7 +71,6 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const [body, setBody] = useState<any>("");
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-
   const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
     bulkEmailsInput: IBulkEmailVariables;
   }>(BULK_EMAILS, {
@@ -78,6 +78,12 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("EMAIL_SENT_SUCCESS"));
       }
+      setSubject("");
+      setBody(undefined);
+      setAttachments([]);
+      setIsSubmit(false);
+      setTemplate({ label: "", value: "" });
+      setselectedCareGiver([]);
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -239,6 +245,10 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     }
   };
 
+  const uploadDocument = (data: IEmailAttachmentData) => {
+    setAttachments((prevArray: any) => [data, ...prevArray]);
+  };
+
   const handleSendEmail = (e: React.FormEvent<any>) => {
     e.preventDefault();
     let content = body
@@ -249,6 +259,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
     try {
       let careGiverIdList: any = [];
+
       if (selectedCareGiver && selectedCareGiver.length) {
         selectedCareGiver.map((careGiverId: number) => {
           careGiverIdList = [...careGiverIdList, { userId: careGiverId }];
@@ -261,12 +272,22 @@ const BulkEmailCaregiver: FunctionComponent = () => {
             body: body ? content : "",
             parentId: null,
             status: "new",
-            attachments: attachments.map(
-              ({ path, fileName }: IEmailAttachmentData) => ({
-                path: `${AppConfig.FILES_ENDPOINT}${path}`,
-                fileName
-              })
-            ),
+            attachments:
+              attachments && attachments.length
+                ? attachments.filter((attachment: any) => attachment.path)
+                : [],
+            // attachments.map(
+            //   ({ path, fileName }: IEmailAttachmentData) => ({
+            //     path,
+            //     fileName
+            //   })
+            // ),
+            files:
+              attachments && attachments.length
+                ? attachments
+                    .map((item: IEmailAttachmentData) => item.file)
+                    .filter((file: File | null) => file)
+                : null,
             caregiver: careGiverIdList
           };
           bulkEmails({ variables: { bulkEmailsInput } });
@@ -286,7 +307,9 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       toast.error(message);
     }
   };
-
+  console.log("====================================");
+  console.log(attachments);
+  console.log("====================================");
   return (
     <>
       <div className="common-detail-page">
@@ -315,6 +338,14 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   onClick={handleSendEmail}
                   className="btn-email-save ml-auto mr-2 btn btn-primary"
                 >
+                  {bulkEmailLoading ? (
+                    <i className="fa fa-spinner fa-spin loader" />
+                  ) : (
+                    <i
+                      className="fa fa-paper-plane mr-2"
+                      aria-hidden="true"
+                    ></i>
+                  )}
                   <span>{languageTranslation("SEND")}</span>
                 </Button>
               </div>
@@ -356,6 +387,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   template={template}
                   handleChangeSubject={handleChangeSubject}
                   attachments={attachments}
+                  uploadDocument={uploadDocument}
                   onDelteDocument={onDelteDocument}
                   isSubmit={isSubmit}
                 />

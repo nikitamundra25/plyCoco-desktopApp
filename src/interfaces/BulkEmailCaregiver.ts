@@ -24,6 +24,7 @@ export interface IEmailEditorComponentProps {
     attachmentId: string,
     attachmentIndex?: number | undefined
   ) => Promise<void>;
+  uploadDocument: (data: IEmailAttachmentData) => void;
 }
 
 export interface ICareGiverListComponentProps {
@@ -48,5 +49,6 @@ export interface IBulkEmailVariables {
   body: string;
   parentId: number | null;
   status: string;
+  files: any /* IEmailInputAttachmenttypes[] */;
   attachments: IEmailInputAttachmenttypes[];
 }

@@ -8,6 +8,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { stripHtml, languageTranslation } from "../../../../helpers";
 import { IEmailEditorComponentProps } from "../../../../interfaces/BulkEmailCaregiver";
 import { AttachmentList } from "../../components/Attachments";
+import { AttachmentFormComponent } from "../EmailTemplateManagement/AddTemplate/AttachmentFormComponent";
 
 export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps> = (
   props: IEmailEditorComponentProps
@@ -22,7 +23,8 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
     onDelteDocument,
     template,
     attachments,
-    isSubmit
+    isSubmit,
+    uploadDocument
   } = props;
   let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : "";
   const result = stripHtml(content);
@@ -124,6 +126,10 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
                 ""
               )}
             </Col>
+            <AttachmentFormComponent
+              uploadDocument={uploadDocument}
+              attachment={attachments}
+            />
           </Row>
         </div>
         {attachments && attachments.length ? (

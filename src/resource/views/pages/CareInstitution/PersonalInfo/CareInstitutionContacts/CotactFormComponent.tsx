@@ -23,12 +23,24 @@ import {
   ICountries,
   IStates,
   ICountry,
-  IState
+  IState,
+  IAttributeOptions
 } from '../../../../../../interfaces';
 import { CountryQueries } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+
+const colourStyles = {
+  option: (styles: any, { data }: any) => {
+    return {
+      ...styles,
+      backgroundColor: data.color,
+      color:
+        data.color === '#6a0dad' || data.color === '#000000' ? '#fff' : '#000'
+    };
+  }
+};
 
 const CotactFormComponent: any = (
   props: FormikProps<ICareInstitutionContact> & any
@@ -169,8 +181,6 @@ const CotactFormComponent: any = (
     setFieldTouched
   } = props;
 
-  console.log("careInstitutionAttrOpt",careInstitutionAttrOpt);
-  
   const ContactError: any = errors.contactType;
 
   return (
@@ -719,17 +729,27 @@ const CotactFormComponent: any = (
                     <ul className='common-list list-unstyled mb-0'>
                       {attributeId && attributeId.length
                         ? attributeId.map(
-                            (data: IReactSelectInterface, index: number) => {
+                            (
+                              { label, color }: IAttributeOptions,
+                              index: number
+                            ) => {
                               return (
                                 <li
                                   className={
                                     'cursor-pointer list-item text-capitalize'
                                   }
                                   key={index}
+                                  style={{
+                                    backgroundColor: color ? color : '',
+                                    color:
+                                      color === '#6a0dad' || color === '#000000'
+                                        ? '#fff'
+                                        : '#000'
+                                  }}
                                 >
                                   <>
                                     <span className='list-item-text'>
-                                      {data.label}
+                                      {label}{' '}
                                     </span>
                                     <span
                                       id='delete0'
@@ -772,6 +792,7 @@ const CotactFormComponent: any = (
                           menuPlacement={'top'}
                           className='attribute-select'
                           classNamePrefix='attribute-inner-select'
+                          styles={colourStyles}
                         />
                       </FormGroup>
                       <Button

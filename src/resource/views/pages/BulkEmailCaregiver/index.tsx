@@ -37,6 +37,7 @@ import { CareGiverListComponent } from "./CareGiverListComponent";
 import { IBulkEmailVariables } from "../../../../interfaces/BulkEmailCaregiver";
 import { ApolloError } from "apollo-client";
 import { errorFormatter } from "../../../../helpers/ErrorFormatter";
+import { log } from "util";
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
 const [BULK_EMAILS] = BulkEmailCareGivers;
@@ -70,7 +71,6 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const [body, setBody] = useState<any>("");
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-
   const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
     bulkEmailsInput: IBulkEmailVariables;
   }>(BULK_EMAILS, {
@@ -83,6 +83,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       setAttachments([]);
       setIsSubmit(false);
       setTemplate({ label: "", value: "" });
+      setselectedCareGiver([]);
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -258,6 +259,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
     try {
       let careGiverIdList: any = [];
+
       if (selectedCareGiver && selectedCareGiver.length) {
         selectedCareGiver.map((careGiverId: number) => {
           careGiverIdList = [...careGiverIdList, { userId: careGiverId }];
@@ -270,12 +272,22 @@ const BulkEmailCaregiver: FunctionComponent = () => {
             body: body ? content : "",
             parentId: null,
             status: "new",
-            attachments: attachments.map(
-              ({ path, fileName }: IEmailAttachmentData) => ({
-                path,
-                fileName
-              })
-            ),
+            attachments:
+              attachments && attachments.length
+                ? attachments.filter((attachment: any) => attachment.path)
+                : [],
+            // attachments.map(
+            //   ({ path, fileName }: IEmailAttachmentData) => ({
+            //     path,
+            //     fileName
+            //   })
+            // ),
+            files:
+              attachments && attachments.length
+                ? attachments
+                    .map((item: IEmailAttachmentData) => item.file)
+                    .filter((file: File | null) => file)
+                : null,
             caregiver: careGiverIdList
           };
           bulkEmails({ variables: { bulkEmailsInput } });
@@ -295,7 +307,9 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       toast.error(message);
     }
   };
-
+  console.log("====================================");
+  console.log(attachments);
+  console.log("====================================");
   return (
     <>
       <div className="common-detail-page">

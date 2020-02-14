@@ -21,7 +21,7 @@ export const AttachmentFormComponent: FunctionComponent<any> = ({
               fileName: file.name,
               size: file.size,
               file,
-              path: URL.createObjectURL(file)
+              path: ""
             });
           }
         };

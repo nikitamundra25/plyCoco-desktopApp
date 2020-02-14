@@ -138,6 +138,7 @@ const PersonalInformation: any = (props: any) => {
           faxNumber: '',
           comments: '',
           groupAttributes: '',
+          attributeId: []
         });
       } else if (contactsData && contactsData[contactsData.length - 1].id) {
         contactsData.push({
@@ -150,6 +151,7 @@ const PersonalInformation: any = (props: any) => {
           faxNumber: '',
           comments: '',
           groupAttributes: '',
+          attributeId: []
         });
       }
       setContacts(contactsData);
@@ -579,6 +581,7 @@ const PersonalInformation: any = (props: any) => {
         <CareInstitutionContacts
           contacts={contacts}
           careInstId={id}
+          careInstitutionAttrOpt={careInstitutionAttrOpt}
           setContacts={(contacts: any) => {
             setContacts((contacts = contacts));
           }}

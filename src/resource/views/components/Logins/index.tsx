@@ -24,7 +24,7 @@ const LoginLogs: FunctionComponent<any> = (props: any) => {
         userId: id ? parseInt(id) : ''
       }
     });
-  }, []);
+  }, [id]);
   const { label } = props;
   return (
     <>

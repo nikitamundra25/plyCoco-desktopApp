@@ -699,5 +699,6 @@
   "CONFIRM_EMAIL_TEMP_PERMANENT_DELETE_MSG": "This email template will be permanently deleted.",
   "EMAIL_TEMP_PERMANENT_DEL_SUCCESS": "Email Template deleted permanently.",
   "RESTORE_TOOLTIP": "Restore Data",
-  "DELETE_PERMANENTALY_TOOLTIP": "Delete Permanently"
+  "DELETE_PERMANENTALY_TOOLTIP": "Delete Permanently",
+  "BASIC_DETAILS": "Basic Details"
 }

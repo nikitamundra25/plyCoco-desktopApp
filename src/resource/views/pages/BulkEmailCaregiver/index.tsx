@@ -82,7 +82,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       setBody(undefined);
       setAttachments([]);
       setIsSubmit(false);
-      setTemplate({ label: "", value: "" });
+      setTemplate(undefined);
       setselectedCareGiver([]);
     },
     onError: (error: ApolloError) => {

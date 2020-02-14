@@ -129,7 +129,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     let body = '<br /><br /><br /><br /><br /><br />';
     const updatedContent: any = setDefaultSignature(body);
     setBody(updatedContent);
-  }, []);
+  }, [id]);
   // To set subject & body on reply
   useEffect(() => {
     if (emailData) {

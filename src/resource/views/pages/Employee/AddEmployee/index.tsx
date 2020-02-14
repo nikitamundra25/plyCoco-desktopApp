@@ -274,7 +274,8 @@ export const EmployeeForm: FunctionComponent<{
       if (employeeDetails) {
         const { viewEmployee } = employeeDetails;
         state = viewEmployee.employee.state || '';
-      } else {
+      }
+      if (employeeValues) {
         // For edit profile after employee login
         const { employee } = employeeValues;
         state = employee.state || '';

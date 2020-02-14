@@ -8,18 +8,18 @@ import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
 import {
   languageTranslation,
   HtmlToDraftConverter,
-  stripHtml,
+  stripHtml
 } from '../../../../helpers';
 import {
   CareGiverQueries,
-  EmailTemplateQueries,
+  EmailTemplateQueries
 } from '../../../../graphql/queries';
 import { BulkEmailCareGivers } from '../../../../graphql/Mutations';
 import {
   IReactSelectInterface,
   IEmailTemplateData,
   INewEmailAttachments,
-  IEmailAttachmentData,
+  IEmailAttachmentData
 } from '../../../../interfaces';
 import { EmailEditorComponent } from './EmailFormComponent';
 import { ConfirmBox } from '../../components/ConfirmBox';
@@ -40,9 +40,9 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   // To get caregiver list from db
   const [
     fetchCareGiverList,
-    { data: careGivers, called, loading, refetch },
+    { data: careGivers, called, loading, refetch }
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'no-cache'
   });
 
   // To get all the types of email template
@@ -52,9 +52,9 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     GET_CAREGIVER_EMAIL_TEMPLATES,
     {
       variables: {
-        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE'),
-      },
-    },
+        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE')
+      }
+    }
   );
 
   const [page, setPage] = useState<number>(1);
@@ -74,7 +74,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       setBody(undefined);
       setAttachments([]);
       setIsSubmit(false);
-      setTemplate({ label: '', value: '' });
+      setTemplate(undefined);
       setselectedCareGiver([]);
     },
     onError: (error: ApolloError) => {
@@ -82,7 +82,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    },
+    }
   });
 
   useEffect(() => {
@@ -93,8 +93,8 @@ const BulkEmailCaregiver: FunctionComponent = () => {
         sortBy: 3,
         limit: 30,
         page,
-        isActive: '',
-      },
+        isActive: ''
+      }
     });
   }, []);
 
@@ -121,8 +121,8 @@ const BulkEmailCaregiver: FunctionComponent = () => {
         sortBy: 3,
         limit: 30,
         page: page + 1,
-        isActive: '',
-      },
+        isActive: ''
+      }
     });
   };
 
@@ -142,7 +142,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
   const handleCheckElement = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string,
+    id: string
   ) => {
     const { target } = e;
     const { checked } = target;
@@ -150,7 +150,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     if (checked) {
       setselectedCareGiver((selectedCareGiver: any) => [
         ...selectedCareGiver,
-        parseInt(id),
+        parseInt(id)
       ]);
       return;
     } else {
@@ -164,13 +164,13 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const templateOptions: IReactSelectInterface[] | undefined = [];
   if (data && data.getEmailtemplate) {
     const {
-      getEmailtemplate: { email_templates },
+      getEmailtemplate: { email_templates }
     } = data;
     if (email_templates && email_templates.length) {
       email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
         templateOptions.push({
           label: menuEntry,
-          value: id ? id.toString() : '',
+          value: id ? id.toString() : ''
         });
       });
     }
@@ -186,11 +186,11 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
     const {
-      getEmailtemplate: { email_templates },
+      getEmailtemplate: { email_templates }
     } = data;
     setTemplate(selectedOption);
     const templateData = email_templates.filter(
-      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value),
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value)
     )[0];
     if (templateData) {
       const { subject, body, attachments } = templateData;
@@ -204,10 +204,10 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                 fileName: name,
                 id,
                 path,
-                size,
-              }),
+                size
+              })
             )
-          : [],
+          : []
       );
     }
   };
@@ -222,17 +222,17 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
   const onDelteDocument = async (
     attachmentId: string,
-    attachmentIndex?: number,
+    attachmentIndex?: number
   ) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG'),
+      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG')
     });
     if (!value) {
       return;
     } else {
       setAttachments((prevArray: any) =>
-        prevArray.filter((_: any, index: number) => attachmentIndex !== index),
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index)
       );
     }
   };
@@ -280,14 +280,14 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                     .map((item: IEmailAttachmentData) => item.file)
                     .filter((file: File | null) => file)
                 : null,
-            caregiver: careGiverIdList,
+            caregiver: careGiverIdList
           };
           bulkEmails({ variables: { bulkEmailsInput } });
         }
       } else {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(
-            languageTranslation('EMAIL_SELECT_CARE_GIVERS'),
+            languageTranslation('EMAIL_SELECT_CARE_GIVERS')
           );
         }
       }

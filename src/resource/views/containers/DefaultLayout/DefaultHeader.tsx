@@ -9,9 +9,9 @@ import {
 } from 'reactstrap';
 import { useHistory } from 'react-router';
 import { useQuery } from '@apollo/react-hooks';
-import { AppRoutes, client } from '../../../../config';
-import logo from '../../../assets/img/plycoco-orange.png';
+import { AppRoutes } from '../../../../config';
 import { ProfileQueries } from '../../../../graphql/queries';
+import logo from '../../../assets/img/plycoco-orange.png';
 
 const [VIEW_PROFILE] = ProfileQueries;
 
@@ -54,7 +54,11 @@ const DefaultHeader: FunctionComponent = () => {
                       : ''}
                   </b>
                 </h6>
-                <p className='mb-0'>superadmin@plycoco.com</p>
+                <p className='mb-0'>
+                  {data && data.viewAdminProfile
+                    ? data.viewAdminProfile.email
+                    : ''}
+                </p>
               </div>
             </DropdownItem>
             <DropdownItem onClick={() => history.push(AppRoutes.MY_PROFILE)}>

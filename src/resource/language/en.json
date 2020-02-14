@@ -419,6 +419,7 @@
   "OLD_PASSWORD": "Old Password",
   "CONFIRM_PASSWORD": "Confirm Password",
   "CHANGE_PASSWORD": "Change Password",
+  "DOCUMENTS": "Documents",
   "CG_EDIT": "Edit Caregiver",
   "CG_MENU_NEW_CAREGIVER": "New Caregiver",
   "CG_MENU_CREATE_TODO": "Create Todo/Reminder",

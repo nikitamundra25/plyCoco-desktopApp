@@ -140,7 +140,9 @@ const Email: FunctionComponent<{
           />
         );
       case 2:
-        return <NewEmail emailData={emailData} />;
+        return (
+          <NewEmail emailData={emailData} selectedUserName={selectedUserName} />
+        );
 
       default:
         break;

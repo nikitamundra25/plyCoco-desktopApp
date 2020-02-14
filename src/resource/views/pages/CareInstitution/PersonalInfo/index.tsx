@@ -209,7 +209,9 @@ const PersonalInformation: any = (props: any) => {
             ? values.linkedTo.value
             : null,
         regionId:
-          values && values.regionId ? `{${values.regionId.value}}` : null,
+          values && values.regionId && values.regionId.value
+            ? parseInt(values.regionId.value)
+            : null,
         website: values.website,
         email: values.email ? values.email.trim() : '',
         userName: values.userName ? values.userName.trim() : '',

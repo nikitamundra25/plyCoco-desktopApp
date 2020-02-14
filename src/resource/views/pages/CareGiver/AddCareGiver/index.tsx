@@ -170,7 +170,8 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         city,
         stateId: state && state.value ? state.value : undefined,
         countryId: country && country.value ? country.value : undefined,
-        regionId: regionId ? `{${regionId.value}}` : undefined,
+        regionId:
+          regionId && regionId.value ? parseInt(regionId.value) : undefined,
         zipCode: postalCode,
         email: email ? email.trim() : '',
         IBAN,
@@ -185,11 +186,9 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         userName: userName ? userName.trim() : '',
         qualificationId:
           qualifications && qualifications.length
-            ? `{${qualifications
-                .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
-                )
-                .join(', ')}}`
+            ? qualifications.map((qualification: IReactSelectInterface) =>
+                parseInt(qualification.value),
+              )
             : null,
         attributes:
           attributeId && attributeId.length

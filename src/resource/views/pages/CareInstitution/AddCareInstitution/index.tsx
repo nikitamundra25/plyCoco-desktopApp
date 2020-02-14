@@ -186,7 +186,9 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         emailInvoice: values.emailInvoice,
         addressInvoice: values.addressInvoice,
         regionId:
-          values && values.regionId ? `{${values.regionId.value}}` : null,
+          values && values.regionId && values.regionId.value
+            ? parseInt(values.regionId.value)
+            : null,
         city: values && values.city,
         fax: values && values.fax,
         linkedTo: values && values.linkedTo ? values.linkedTo.value : '',
@@ -194,11 +196,10 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         mobileNumber: values.mobileNumber,
         qualificationId:
           values.qualificationId && values.qualificationId.length
-            ? `{${values.qualificationId
-                .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
-                )
-                .join(', ')}}`
+            ? values.qualificationId.map(
+                (qualification: IReactSelectInterface) =>
+                  parseInt(qualification.value),
+              )
             : null,
         attributes: AttributeData,
         leasingPriceListId:

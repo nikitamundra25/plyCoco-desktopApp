@@ -322,7 +322,8 @@ const PersonalInfoFormComponent: any = (
                     component={FormikTextField}
                     name={'firstName'}
                     placeholder={languageTranslation('FIRST_NAME')}
-                    className='width-common  '
+                    className='width-common'
+                    maxLength={250}
                   />
                 </div>
                 {/* <Button  className="alfabate-btn btn">N</Button> */}
@@ -346,6 +347,7 @@ const PersonalInfoFormComponent: any = (
                     name={'lastName'}
                     placeholder={languageTranslation('SURNAME')}
                     className='width-common text-capitalize'
+                    maxLength={250}
                   />
                 </div>
               </Col>
@@ -602,19 +604,12 @@ const PersonalInfoFormComponent: any = (
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className='required-input'>
-                  <Input
-                    type='text'
+                  <Field
+                    component={FormikTextField}
                     name={'email'}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={email}
-                    maxLength={50}
-                    placeholder='Email'
-                    className={
-                      errors.email && touched.email
-                        ? 'text-input error '
-                        : 'text-input '
-                    }
+                    placeholder=' Email'
+                    className='width-common'
+                    maxLength={250}
                   />
                   {errors.email && touched.email && (
                     <div className='required-tooltip'>{errors.email}</div>
@@ -714,6 +709,7 @@ const PersonalInfoFormComponent: any = (
                     name={'userName'}
                     placeholder='Username'
                     className='width-common'
+                    maxLength={250}
                   />
                 </div>
               </Col>

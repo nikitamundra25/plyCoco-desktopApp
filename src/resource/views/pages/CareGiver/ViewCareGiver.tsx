@@ -23,7 +23,7 @@ const PersonalInformation = React.lazy(() =>
   import('./PersonalInfo/PersonalInformation'),
 );
 const Offer = React.lazy(() => import('./Offers/Offer'));
-const LoginLogs = React.lazy(() => import('./Logins'));
+const LoginLogs = React.lazy(() => import('../../components/Logins'));
 const Invoices = React.lazy(() => import('./Invoices/Invoices'));
 const ToDo = React.lazy(() => import('./ToDos/ToDos'));
 const Documents = React.lazy(() => import('./Documents'));

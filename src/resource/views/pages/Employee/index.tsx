@@ -18,7 +18,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { AppConfig, sortFilter } from '../../../../config';
+import { AppConfig, sortFilter, defaultDateTimeFormat } from '../../../../config';
 import { AppRoutes, PAGE_LIMIT } from '../../../../config';
 import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
@@ -490,19 +490,26 @@ const Employee: FunctionComponent = () => {
                             >
                               {elements.join(' ')}
                             </div>
-                            <div className='description-text'>
+
+                            <p className='description-text'>
                               <i className='fa fa-envelope mr-2'></i>
                               <span className='align-middle one-line-text'>
                                 {email ? email : ''}
                               </span>
-                            </div>
+                            </p>
+                            <p className='description-text'>
+                              <i className='fa fa-user mr-2'></i>
+                              <span className='align-middle'>
+                                {userName ? userName : ''}
+                              </span>
+                            </p>
                             {phoneNumber ? (
-                              <div className='description-text'>
+                              <p className='description-text'>
                                 <i className='fa fa-phone mr-2'></i>
                                 <span className='align-middle one-line-text'>
                                   {phoneNumber}
                                 </span>
-                              </div>
+                              </p>
                             ) : null}
                           </div>
                         </div>
@@ -523,7 +530,7 @@ const Employee: FunctionComponent = () => {
                         </div>
                       </td>
                       <td className='date-th-column '>
-                        {createdAt ? moment(createdAt).format('lll') : ''}
+                        {createdAt ? moment(createdAt).format(defaultDateTimeFormat) : ''}
                       </td>
                       <td>
                         <div className='action-btn text-capitalize cursor-pointer'>

@@ -2697,6 +2697,10 @@ html:not([dir="rtl"]) {
   &.sent-box {
     max-height: 420px;
   }
+  &.disable {
+    cursor: not-allowed;
+    opacity: 0.2;
+  }
   @media only screen and (max-width: 991px) {
     max-height: 300px;
   }
@@ -3332,6 +3336,9 @@ html:not([dir="rtl"]) {
 
 .contact-tabs {
   border: 0px;
+  &.pr-120{
+    padding-right:120px;
+  }
   .nav-item {
     position: relative;
     .nav-link {

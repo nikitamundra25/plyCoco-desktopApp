@@ -28,6 +28,7 @@ import {
 } from '../../../../../../interfaces';
 import { CountryQueries } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { toast } from 'react-toastify';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
@@ -72,9 +73,20 @@ const CotactFormComponent: any = (
   let [newAttributeValue, setnewAttributeValue] = useState();
   let [newValue, setnewValue] = useState({});
 
-  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
+  const handleSelect = (
+    selectOption: IReactSelectInterface,
+    name: string,
+    type: string
+  ) => {
     logger(selectOption, 'value');
     setFieldValue(name, selectOption);
+    if (type === 'newAttribute') {
+      props.addAttribute(
+        newAttributeValue && newAttributeValue.value
+          ? newAttributeValue.value
+          : ''
+      );
+    }
     if (name === 'country') {
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
@@ -87,6 +99,8 @@ const CotactFormComponent: any = (
     selectOption: IReactSelectInterface,
     name: string
   ) => {
+    console.log('IN handle change');
+
     const data: IReactSelectInterface[] = [];
     if (props.values && props.values.attributeId) {
       data.push(...props.values.attributeId, selectOption);
@@ -105,39 +119,24 @@ const CotactFormComponent: any = (
     };
     setnewAttributeValue((newAttributeValue = Data));
   };
+  let contactAttribute: any[] | undefined | any = props.values.attributeId;
   /*
   /*  
   */
-  let contactAttribute: any[] | undefined | any = props.values.attributeId;
+
   const handleAddNewAttributevalue = () => {
     if (newAttributeValue && newAttributeValue.value) {
-      const AttributeID: any = attributeId;
-      let oldTagArray: any[] = AttributeID;
-      console.log('GGGGGGGGGGGGGG', oldTagArray);
-      var array3: any[] = [];
-      if (oldTagArray && oldTagArray.length) {
-        array3 = oldTagArray.concat(
-          AttributeID.filter(
-            (item: any) =>
-              oldTagArray.findIndex((tag: any) => tag.label === item.label) < 0
-          )
-        );
-      } else {
-        array3 = newAttributeValue;
-      }
-      console.log('array3array3array3', array3);
-      console.log('newAttributeValue', newAttributeValue);
-
-      AttributeID.push(newAttributeValue);
-      // const FData: any = AttOpt;
       AttOpt.push(newAttributeValue);
       setAttOpt(AttOpt);
-      handleSelect(AttributeID, 'attributeId');
+      attributeId.push(newAttributeValue);
+      handleSelect(attributeId, 'attributeId', 'newAttribute');
       setnewAttributeValue('');
     }
   };
 
   const handleRemoveAttribute = (index: any) => {
+    console.log('in remove');
+
     let newAttributeList: IReactSelectInterface[];
     if (props.values && props.values.attributeId) {
       newAttributeList = props.values.attributeId;
@@ -180,6 +179,8 @@ const CotactFormComponent: any = (
     careInstitutionAttrOpt,
     setFieldTouched
   } = props;
+
+  console.log('attributeIDDDDDD', attributeId);
 
   const ContactError: any = errors.contactType;
 
@@ -244,7 +245,7 @@ const CotactFormComponent: any = (
                             placeholder={languageTranslation('GENDER')}
                             value={gender ? gender : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'gender')
+                              handleSelect(value, 'gender', '')
                             }
                             options={Gender}
                             classNamePrefix='custom-inner-reactselect'
@@ -296,7 +297,7 @@ const CotactFormComponent: any = (
                             placeholder={languageTranslation('SALUTATION')}
                             value={salutation ? salutation : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'salutation')
+                              handleSelect(value, 'salutation', '')
                             }
                             options={Salutation}
                             classNamePrefix='custom-inner-reactselect'
@@ -394,7 +395,7 @@ const CotactFormComponent: any = (
                             placeholder={languageTranslation('CONTACT_TYPE')}
                             value={contactType ? contactType : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'contactType')
+                              handleSelect(value, 'contactType', '')
                             }
                             classNamePrefix='custom-inner-reactselect'
                             className={
@@ -502,7 +503,7 @@ const CotactFormComponent: any = (
                             options={countriesOpt}
                             value={country ? country : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'country')
+                              handleSelect(value, 'country', '')
                             }
                             menuPlacement={'top'}
                             classNamePrefix='custom-inner-reactselect'

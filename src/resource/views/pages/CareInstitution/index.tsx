@@ -7,7 +7,12 @@ import {
   Table,
   UncontrolledTooltip
 } from 'reactstrap';
-import { AppRoutes, PAGE_LIMIT, sortFilter } from '../../../../config';
+import {
+  AppRoutes,
+  PAGE_LIMIT,
+  sortFilter,
+  defaultDateTimeFormat
+} from '../../../../config';
 import { AppBreadcrumb } from '@coreui/react';
 import routes from '../../../../routes/routes';
 import { CareInstitutionQueries } from '../../../../graphql/queries';
@@ -302,6 +307,12 @@ const CareInstitution = (props: RouteComponentProps) => {
                         <span className='align-middle'>{user.email}</span>
                       </p>
                       <p className='description-text'>
+                        <i className='fa fa-user mr-2'></i>
+                        <span className='align-middle'>
+                          {user.userName ? user.userName : ''}
+                        </span>
+                      </p>
+                      <p className='description-text'>
                         <i className='fa fa-phone mr-2'></i>
                         <span className='align-middle'>
                           {user.phoneNumber ? user.phoneNumber : 'N/A'}
@@ -339,7 +350,9 @@ const CareInstitution = (props: RouteComponentProps) => {
                   </div>
                 </td>
                 <td className='date-th-column '>
-                  {user.createdAt ? moment(user.createdAt).format('lll') : ''}
+                  {user.createdAt
+                    ? moment(user.createdAt).format(defaultDateTimeFormat)
+                    : ''}
                 </td>
                 <td className='text-center'>
                   <span

@@ -344,6 +344,7 @@ export interface IEmailPreviewProps {
   emailData: IEmailData | null;
   selectedUserName: string;
   sendBy?: string;
+  length?: any;
 }
 
 export interface IEmailFormComponentPorps {

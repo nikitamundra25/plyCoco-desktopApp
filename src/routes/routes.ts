@@ -149,8 +149,8 @@ const BulkEmailCaregiver = React.lazy(() =>
   import('../resource/views/pages/BulkEmailCaregiver')
 );
 
-// const EmailInbox = React.lazy(() =>
-//   import("../resource/views/pages/Email/InboxEmail")
+// const LoginHistory = React.lazy(() =>
+//   import('../resource/views/components/Logins')
 // );
 const EmailInbox = React.lazy(() => import('../resource/views/pages/Email'));
 
@@ -176,7 +176,7 @@ const Appointment = React.lazy(() =>
   import('../resource/views/pages/Appointment')
 );
 const PageNotFound = React.lazy(() =>
-  import("../resource/views/pages/PageNotFound")
+  import('../resource/views/pages/PageNotFound')
 );
 const routes = [
   {
@@ -539,11 +539,16 @@ const routes = [
   },
   {
     path: AppRoutes.PAGENOTFOUND,
-    name: "Page 404",
+    name: 'Page 404',
     component: PageNotFound,
     exact: true
-    
-  },
+  }
+  // {
+  //   path: AppRoutes.EMPLOYEE_LOGIN_HISTORY,
+  //   name: 'Login History',
+  //   component: LoginHistory,
+  //   exact: true
+  // }
 ];
 
 export default routes;

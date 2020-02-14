@@ -230,6 +230,14 @@ const DELETE_CONTACT = gql`
   }
 `;
 
+const CONTACT_ADD_ATTRIBUTE = gql`
+  mutation addContactAttribute($name: String) {
+    addContactAttribute(name: $name) {
+      name
+    }
+  }
+`;
+
 export const CareInstitutionMutation = [
   UPDATE_CARE_INSTITUTION,
   UPDATE_CARE_INSTITUTION_STATUS,
@@ -241,5 +249,6 @@ export const CareInstitutionMutation = [
   ADD_NEW_CARE_INTITUTION,
   ADD_DEPARTMENT_CARE_INSTITUTION,
   DELETE_DEPARTMENT,
-  DELETE_CONTACT
+  DELETE_CONTACT,
+  CONTACT_ADD_ATTRIBUTE
 ];

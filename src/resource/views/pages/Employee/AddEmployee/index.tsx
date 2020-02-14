@@ -24,7 +24,6 @@ import { logger, languageTranslation } from '../../../../../helpers';
 import { AppRoutes } from '../../../../../config';
 import { EmployeeMutations } from '../../../../../graphql/Mutations';
 import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
-import { DocumentFormComponent } from './DocumentFormComponent';
 
 const [GET_EMPLOYEE_BY_ID, GET_EMPLOYEES] = EmployeeQueries;
 const [ADD_EMPLOYEE, UPDATE_EMPLOYEE] = EmployeeMutations;
@@ -450,6 +449,7 @@ export const EmployeeForm: FunctionComponent<{
     telephoneNumber = undefined,
     joiningDate = '',
     accessLevel = '',
+    id: employeeId = '',
   } = employeeData ? employeeData : {};
 
   const values: IEmployeeFormValues = {
@@ -472,6 +472,7 @@ export const EmployeeForm: FunctionComponent<{
     country,
     region,
     state: states,
+    id: employeeId,
   };
   return (
     <>
@@ -496,9 +497,6 @@ export const EmployeeForm: FunctionComponent<{
         )}
         validationSchema={EmployeeValidationSchema}
       />
-      {id || (employeeData && employeeData.id) ? (
-        <DocumentFormComponent />
-      ) : null}
     </>
   );
 };

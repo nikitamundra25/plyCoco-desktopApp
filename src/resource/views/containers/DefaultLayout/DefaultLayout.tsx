@@ -106,6 +106,8 @@ const DefaultLayout = (props: RouteComponentProps) => {
     if (data) {
       const { viewAdminProfile } = data;
       setpermission(viewAdminProfile.accessLevel);
+      console.log('viewAdminProfile.accessLevel', viewAdminProfile.accessLevel);
+
       if (
         viewAdminProfile.accessLevel !== 'superadmin' &&
         (pathname === AppRoutes.EMPLOYEE ||

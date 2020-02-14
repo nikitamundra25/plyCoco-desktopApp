@@ -5,7 +5,7 @@ import React, {
   useEffect,
 } from 'react';
 import { useParams } from 'react-router';
-import { Col, FormGroup, Label } from 'reactstrap';
+import { Col, FormGroup, Label, Row, Input } from 'reactstrap';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
 import { DocumentQueries } from '../../../../../graphql/queries';
@@ -22,15 +22,16 @@ const [ADD_DOCUMENT, , UPDATE_DOCUMENT, DELETE_DOCUMENT] = DocumentMutations;
 
 let toastId: any = null;
 
-export const DocumentFormComponent: FunctionComponent = () => {
-  let { id } = useParams();
-
+export const DocumentFormComponent: FunctionComponent<{
+  id: string;
+}> = ({ id }: { id: string }) => {
   const [attachment, setAttachment] = useState<IEmailAttachmentData[]>([]);
   // Query to fetch documents
   const { data, loading, refetch, called } = useQuery<any>(GET_DOCUMENTS, {
     variables: {
       userId: id ? parseInt(id) : '',
     },
+    fetchPolicy: 'cache-and-network',
   });
   //mutation to add documents of employee
   const [addDocument, { loading: addDocumentLoading }] = useMutation<any>(
@@ -43,8 +44,8 @@ export const DocumentFormComponent: FunctionComponent = () => {
           document: path = '',
         } = addUserDocuments ? addUserDocuments : {};
         setAttachment((prevArray: any) => [
-          ...prevArray,
           { size, path, fileName, url: null, file: null },
+          ...prevArray,
         ]);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
@@ -166,19 +167,44 @@ export const DocumentFormComponent: FunctionComponent = () => {
   };
 
   return (
-    <Col sm={'6'}>
-      <FormGroup className={`col-sm-6`}>
-        <Label className='simple-label mb-2'>
-          {languageTranslation('DOCUMENTS')}
-        </Label>
-        <input type='file' multiple onChange={handleImageChange} />
-      </FormGroup>
-      {attachment && attachment.length ? (
-        <AttachmentList
-          attachment={attachment}
-          onDelteDocument={onDeleteDocument}
-        />
-      ) : null}
-    </Col>
+    <Row>
+      <Col lg={'12'} md={'12'} sm={'12'}>
+        <div>
+          <h5 className='main-title '>Documents</h5>
+          <FormGroup className='mb-2'>
+            <div>
+              <div className='custom-file-div position-relative'>
+                <Input
+                  id='FileBrowser'
+                  type='file'
+                  multiple
+                  onChange={handleImageChange}
+                  className='custom-input-file'
+                />
+
+                <Label className='custom-label-file' for='FileBrowser'>
+                  <span className='choosefile-label'>
+                    <i className='fa fa-folder-open mr-2'></i>
+                    <span>Choose file</span>
+                  </span>
+                </Label>
+              </div>
+            </div>
+          </FormGroup>
+        </div>
+        {/* <FormGroup className={`col-sm-6`}>
+        <Label className="simple-label mb-2">Documents</Label>
+        <input type="file" multiple onChange={handleImageChange} />
+      </FormGroup> */}
+        <div className='employee-document-list custom-scrollbar'>
+          {attachment && attachment.length ? (
+            <AttachmentList
+              attachment={attachment}
+              onDelteDocument={onDeleteDocument}
+            />
+          ) : null}
+        </div>
+      </Col>
+    </Row>
   );
 };

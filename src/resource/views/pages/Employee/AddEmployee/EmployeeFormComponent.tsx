@@ -35,6 +35,8 @@ import {
 } from '../../../../../interfaces';
 import { logger, languageTranslation } from '../../../../../helpers';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
+import { useParams } from 'react-router-dom';
+import { DocumentFormComponent } from './DocumentFormComponent';
 
 const [, GET_REGIONS] = RegionQueries;
 
@@ -53,8 +55,11 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     getStatesByCountry: any;
   },
 ) => {
+  let { id: employeeId } = useParams();
+
   const {
     values: {
+      id,
       email,
       firstName,
       lastName,
@@ -172,6 +177,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
               <Form onSubmit={handleSubmit} className='form-section'>
                 <Row>
                   <Col lg={'6'} md={'12'} sm={'12'}>
+                    <h5 className='main-title '>
+                      {languageTranslation('EMPLOYEE_ADD_PROFILE_IMAGE_LABEL')}
+                    </h5>
                     <div className='form-card minheight-auto'>
                       <Row>
                         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
@@ -694,6 +702,11 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                         </Col>
                       </Row>
                     </div>
+                    <div className='d-flex mt-2'>
+                      <div className='mandatory-text'>
+                        {languageTranslation('REQUIRED_FIELDS')}
+                      </div>
+                    </div>
                   </Col>
 
                   <Col lg={'6'} md={'12'} sm={'12'}>
@@ -942,14 +955,13 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                         </Col>
                       </Row>
                     </div>
+                    {employeeId || id ? (
+                      <DocumentFormComponent
+                        id={employeeId ? employeeId : id ? id : ''}
+                      />
+                    ) : null}
                   </Col>
                 </Row>
-
-                <div className='d-flex align-items-center justify-content-between'>
-                  <div className='mandatory-text'>
-                    {languageTranslation('REQUIRED_FIELDS')}
-                  </div>
-                </div>
               </Form>
             </Col>
           </Row>

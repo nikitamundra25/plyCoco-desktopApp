@@ -216,6 +216,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       );
     }
   };
+  const uploadDocument = (data: IEmailAttachmentData) => {
+    setAttachments((prevArray: any) => [data, ...prevArray]);
+  };
 
   return (
     <div className='email-section'>
@@ -293,6 +296,8 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                 isSubmit={isSubmit}
                 onEditorStateChange={onEditorStateChange}
                 sendEmail={sendEmail}
+                attachments={attachments}
+                uploadDocument={uploadDocument}
               />
             </Col>
           </Row>

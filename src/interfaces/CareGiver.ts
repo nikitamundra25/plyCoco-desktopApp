@@ -1,9 +1,12 @@
-import { Location } from 'history';
-import * as H from 'history';
-import { IReactSelectInterface } from './Constant';
-import { ICareInstitutionRemarks } from './CareInstitution';
-import { number } from 'prop-types';
-import { IEmailInputAttachmenttypes } from './EmailTemplate';
+import { Location } from "history";
+import * as H from "history";
+import { IReactSelectInterface } from "./Constant";
+import { ICareInstitutionRemarks } from "./CareInstitution";
+import { number } from "prop-types";
+import {
+  IEmailInputAttachmenttypes,
+  IEmailAttachmentData
+} from "./EmailTemplate";
 
 export interface ICareGiverInput {
   id?: string;
@@ -348,6 +351,8 @@ export interface IEmailFormComponentPorps {
   isSubmit: boolean;
   onEditorStateChange: (editorState: any) => void;
   sendEmail: (e: React.FormEvent<HTMLFormElement>) => void;
+  uploadDocument?: (data: IEmailAttachmentData) => void;
+  attachments: IEmailAttachmentData[];
 }
 
 export interface IEmailQueryVar {

@@ -1011,6 +1011,14 @@ html:not([dir="rtl"]) {
     min-height: auto;
     height: auto;
   }
+  &.employeeform-height {
+    height: auto;
+    min-height: calc(100% - 27px);
+    @media (max-width: 991px) {
+      min-height: auto;
+      height: auto;
+    }
+  }
   &.active-border {
     border: 1px solid $theme_color;
   }

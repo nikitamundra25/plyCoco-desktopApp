@@ -35,6 +35,8 @@ import {
 } from "../../../../../interfaces";
 import { logger, languageTranslation } from "../../../../../helpers";
 import { RegionQueries } from "../../../../../graphql/queries/Region";
+import { useParams } from "react-router-dom";
+import { DocumentFormComponent } from "./DocumentFormComponent";
 
 const [, GET_REGIONS] = RegionQueries;
 
@@ -53,6 +55,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     getStatesByCountry: any;
   }
 ) => {
+  let { id } = useParams();
+
   const {
     values: {
       email,
@@ -945,7 +949,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                   </Col>
                 </Row>
 
-                <div className="d-flex align-items-center justify-content-between">
+                {id ? <DocumentFormComponent /> : null}
+                <div className="d-flex mt-2">
                   <div className="mandatory-text">
                     {languageTranslation("REQUIRED_FIELDS")}
                   </div>

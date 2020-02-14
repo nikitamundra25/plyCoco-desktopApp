@@ -44,8 +44,8 @@ export const DocumentFormComponent: FunctionComponent = () => {
           document: path = ""
         } = addUserDocuments ? addUserDocuments : {};
         setAttachment((prevArray: any) => [
-          ...prevArray,
-          { size, path, fileName, url: null, file: null }
+          { size, path, fileName, url: null, file: null },
+          ...prevArray
         ]);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
@@ -167,23 +167,19 @@ export const DocumentFormComponent: FunctionComponent = () => {
   };
 
   return (
-    <Col sm={"6"}>
-      <div>
-        <FormGroup>
-          <Row>
-            <Col sm="4" className="label-col-wrap">
-              <Label className="form-label col-form-label">
-                Documents
-                <span className="required">*</span>
-              </Label>
-            </Col>
-            <Col sm="8">
+    <Row>
+      <Col lg={"6"} md={"12"} sm={"12"}>
+        <div>
+          <h5 className="main-title ">Documents</h5>
+          <FormGroup className="mb-2">
+            <div>
               <div className="custom-file-div position-relative">
                 <Input
                   id="FileBrowser"
                   type="file"
                   multiple
                   onChange={handleImageChange}
+                  className="custom-input-file"
                 />
 
                 <Label className="custom-label-file" for="FileBrowser">
@@ -192,22 +188,23 @@ export const DocumentFormComponent: FunctionComponent = () => {
                     <span>Choose file</span>
                   </span>
                 </Label>
-                <span className="document-upload-wrap">doc.tsx</span>
               </div>
-            </Col>
-          </Row>
-        </FormGroup>
-      </div>
-      <FormGroup className={`col-sm-6`}>
+            </div>
+          </FormGroup>
+        </div>
+        {/* <FormGroup className={`col-sm-6`}>
         <Label className="simple-label mb-2">Documents</Label>
         <input type="file" multiple onChange={handleImageChange} />
-      </FormGroup>
-      {attachment && attachment.length ? (
-        <AttachmentList
-          attachment={attachment}
-          onDelteDocument={onDeleteDocument}
-        />
-      ) : null}
-    </Col>
+      </FormGroup> */}
+        <div className="employee-document-list custom-scrollbar">
+          {attachment && attachment.length ? (
+            <AttachmentList
+              attachment={attachment}
+              onDelteDocument={onDeleteDocument}
+            />
+          ) : null}
+        </div>
+      </Col>
+    </Row>
   );
 };

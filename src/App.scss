@@ -298,6 +298,10 @@ body {
       overflow-y: hidden;
     }
   }
+  .employee-document-list {
+    max-height: 135px;
+    overflow-y: auto;
+  }
   .custom-caregiver-height {
     height: calc(100vh - 157px);
     overflow-y: auto;
@@ -1496,7 +1500,7 @@ html:not([dir="rtl"]) {
       line-height: 19px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       border-radius: 0px;
       margin-bottom: 0px;
       .file-text {
@@ -1513,6 +1517,19 @@ html:not([dir="rtl"]) {
         align-items: center;
         cursor: pointer;
       }
+    }
+    .upload-doc-name {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 8px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      z-index: 1;
+      width: calc(100% - 140px);
+      font-size: $font_12;
+      color: $black;
     }
   }
   .custom-radio-block {
@@ -3811,6 +3828,11 @@ html:not([dir="rtl"]) {
   justify-content: center;
   font-size: $font_13;
   cursor: pointer;
+  &.email-dropzone-height {
+    @media only screen and (min-width: 992px) {
+      height: calc(100% - 16px);
+    }
+  }
   .icon-upload {
     font-size: 35px;
     img {

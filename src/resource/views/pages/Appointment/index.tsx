@@ -26,6 +26,10 @@ import { State } from "../../../../config";
 import right_arrow from "../../../assets/img/rightarrow.svg";
 import left_arrow from "../../../assets/img/leftarrow.svg";
 import refresh from "../../../assets/img/refresh.svg";
+import filter from "../../../assets/img/filter.svg";
+import caregiver from "../../../assets/img/caregiver.svg";
+import careinstitution from "../../../assets/img/careinstitution.svg";
+import close from "../../../assets/img/close.svg";
 import "./index.scss";
 import { LanguageAction } from "../../../../store/actions";
 
@@ -44,21 +48,97 @@ const Appointment: FunctionComponent = () => {
                   {languageTranslation("REFRESH")}
                 </span>
               </div>
+              <div className="common-label px-1">Today</div>
               <div className="header-nav-item">
-                <span className="header-nav-icon">
+                <span className="header-nav-icon pr-0">
                   <img src={left_arrow} alt="" />
                 </span>
               </div>
+              <div className="common-header-input pr-1">
+                <Input
+                  className="form-control"
+                  placeholder={"February 2020"}
+                  type="input"
+                  name="text"
+                />
+              </div>
               <div className="header-nav-item">
-                <span className="header-nav-icon">
+                <span className="header-nav-icon pr-0">
                   <img src={right_arrow} alt="" />
                 </span>
               </div>
-              <div className="header-nav-item">
-                <span className="header-nav-text">Hide Locked caregiver</span>
+              <div className="user-select mx-1">
+                <Select
+                  classNamePrefix="custom-inner-reactselect"
+                  className={"custom-reactselect custom-reactselect-menu-width"}
+                  placeholder="Select"
+                  options={State}
+                />
               </div>
               <div className="header-nav-item">
-                <span className="header-nav-text">Hide old files</span>
+                <span className="header-nav-icon pr-0">
+                  <img src={close} alt="" />
+                </span>
+              </div>
+              <div className="user-select mx-1">
+                <Select
+                  classNamePrefix="custom-inner-reactselect"
+                  className={"custom-reactselect custom-reactselect-menu-width"}
+                  placeholder="Select Qualifications"
+                  options={State}
+                />
+              </div>
+
+              <div className="header-nav-item">
+                <span className="header-nav-icon  pr-0">
+                  <img src={caregiver} alt="" />
+                </span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={filter} alt="" />
+                </span>
+                <span className="header-nav-text">Attibutes</span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon pr-0">
+                  <img src={close} alt="" />
+                </span>
+              </div>
+
+              <div className="user-select mx-1">
+                <Select
+                  classNamePrefix="custom-inner-reactselect"
+                  className={"custom-reactselect custom-reactselect-menu-width"}
+                  placeholder="Select Caregiver"
+                  options={State}
+                />
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon  pr-0">
+                  <img src={careinstitution} alt="" />
+                </span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon pr-0">
+                  <img src={close} alt="" />
+                </span>
+              </div>
+              <div className="user-select mx-1">
+                <Select
+                  classNamePrefix="custom-inner-reactselect"
+                  className={"custom-reactselect custom-reactselect-menu-width"}
+                  placeholder="Select Care Institution"
+                  options={State}
+                />
+              </div>
+              <div className="common-header-input pr-1">
+                <Input
+                  className="form-control"
+                  placeholder={""}
+                  type="input"
+                  name="text"
+                />
               </div>
             </div>
           </div>
@@ -3525,28 +3605,26 @@ const Appointment: FunctionComponent = () => {
                                   <div className="custom-col inner-no-padding-col row">
                                     <Col lg={"6"}>
                                       <div>
-                                        <Input
-                                          type="select"
-                                          name="select"
-                                          id="exampleSelect"
-                                        >
-                                          <option>12-2-2020</option>
-                                          <option>15-2-2020</option>
-                                          <option>18-2-2020</option>
-                                        </Input>
+                                        <Select
+                                          classNamePrefix="custom-inner-reactselect"
+                                          className={
+                                            "custom-reactselect custom-reactselect-menu-width"
+                                          }
+                                          placeholder="Select Caregiver"
+                                          options={State}
+                                        />
                                       </div>
                                     </Col>
                                     <Col lg={"6"}>
                                       <div>
-                                        <Input
-                                          type="select"
-                                          name="select"
-                                          id="exampleSelect"
-                                        >
-                                          <option>12-2-2020</option>
-                                          <option>15-2-2020</option>
-                                          <option>18-2-2020</option>
-                                        </Input>
+                                        <Select
+                                          classNamePrefix="custom-inner-reactselect"
+                                          className={
+                                            "custom-reactselect custom-reactselect-menu-width"
+                                          }
+                                          placeholder="Select Caregiver"
+                                          options={State}
+                                        />
                                       </div>
                                     </Col>
                                   </div>
@@ -3569,28 +3647,26 @@ const Appointment: FunctionComponent = () => {
                                   <div className="custom-col inner-no-padding-col row">
                                     <Col lg={"6"}>
                                       <div>
-                                        <Input
-                                          type="select"
-                                          name="select"
-                                          id="exampleSelect"
-                                        >
-                                          <option>12-2-2020</option>
-                                          <option>15-2-2020</option>
-                                          <option>18-2-2020</option>
-                                        </Input>
+                                        <Select
+                                          classNamePrefix="custom-inner-reactselect"
+                                          className={
+                                            "custom-reactselect custom-reactselect-menu-width"
+                                          }
+                                          placeholder="Select Caregiver"
+                                          options={State}
+                                        />
                                       </div>
                                     </Col>
                                     <Col lg={"6"}>
                                       <div>
-                                        <Input
-                                          type="select"
-                                          name="select"
-                                          id="exampleSelect"
-                                        >
-                                          <option>12-2-2020</option>
-                                          <option>15-2-2020</option>
-                                          <option>18-2-2020</option>
-                                        </Input>
+                                        <Select
+                                          classNamePrefix="custom-inner-reactselect"
+                                          className={
+                                            "custom-reactselect custom-reactselect-menu-width"
+                                          }
+                                          placeholder="Select Caregiver"
+                                          options={State}
+                                        />
                                       </div>
                                     </Col>
                                   </div>
@@ -3702,40 +3778,76 @@ const Appointment: FunctionComponent = () => {
                   </div>
                   <div className="form-section ">
                     <div className="form-card custom-height custom-scrollbar">
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("APPOINTMENT_ID")}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  type="text"
-                                  name={"id"}
-                                  placeholder={languageTranslation(
-                                    "APPOINTMENT_ID"
-                                  )}
-                                  className="width-common"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("NAME")}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <InputGroup>
+                      <Row>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("APPOINTMENT_ID")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <Input
+                                    type="text"
+                                    name={"id"}
+                                    placeholder={languageTranslation(
+                                      "APPOINTMENT_ID"
+                                    )}
+                                    className="width-common"
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("NAME")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <InputGroup>
+                                    <Input
+                                      type="select"
+                                      name="select"
+                                      id="exampleSelect"
+                                    >
+                                      <option>Sefige</option>
+                                      <option>2</option>
+                                      <option>3</option>
+                                      <option>4</option>
+                                      <option>5</option>
+                                    </Input>
+                                    <InputGroupAddon addonType="append">
+                                      <InputGroupText>
+                                        <i
+                                          className="fa fa-star"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                  </InputGroup>
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("QUALIFIKATION")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
                                   <Input
                                     type="select"
                                     name="select"
@@ -3747,329 +3859,295 @@ const Appointment: FunctionComponent = () => {
                                     <option>4</option>
                                     <option>5</option>
                                   </Input>
-                                  <InputGroupAddon addonType="append">
-                                    <InputGroupText>
-                                      <i
-                                        className="fa fa-star"
-                                        aria-hidden="true"
-                                      ></i>
-                                    </InputGroupText>
-                                  </InputGroupAddon>
-                                </InputGroup>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("QUALIFIKATION")}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  type="select"
-                                  name="select"
-                                  id="exampleSelect"
-                                >
-                                  <option>Sefige</option>
-                                  <option>2</option>
-                                  <option>3</option>
-                                  <option>4</option>
-                                  <option>5</option>
-                                </Input>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
 
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation(
-                                  "QUALIFICATION_FOR_SETTLEMENT"
-                                )}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  type="select"
-                                  name="select"
-                                  id="exampleSelect"
-                                >
-                                  <option>Sefige</option>
-                                  <option>2</option>
-                                  <option>3</option>
-                                  <option>4</option>
-                                  <option>5</option>
-                                </Input>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("DEPARTMENTS")}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  type="select"
-                                  name="select"
-                                  id="exampleSelect"
-                                >
-                                  <option>Sefige</option>
-                                  <option>2</option>
-                                  <option>3</option>
-                                  <option>4</option>
-                                  <option>5</option>
-                                </Input>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("ADDRESS")}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  type="text"
-                                  name={"id"}
-                                  placeholder={languageTranslation("ADDRESS")}
-                                  class="width-common"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("CONTACT_PERSON")}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  type="text"
-                                  name={"id"}
-                                  placeholder={languageTranslation(
-                                    "CONTACT_PERSON"
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation(
+                                    "QUALIFICATION_FOR_SETTLEMENT"
                                   )}
-                                  classNmae="width-common"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation(
-                                  "COMMENTS_OFFER_DEPARTMENT"
-                                )}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
-                                  type="textarea"
-                                  name="text"
-                                  id="exampleText"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation(
-                                  "COMMETS_POSTED_DEPARTEMENT"
-                                )}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
-                                  type="textarea"
-                                  name="text"
-                                  id="exampleText"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation(
-                                  "COMMENTAR_DEPARTMENT_ONLY_VISIBLE_INTERNALLY"
-                                )}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
-                                  type="textarea"
-                                  name="text"
-                                  id="exampleText"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("DLN_REQUIRED")}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <FormGroup check inline>
-                                  <div className=" checkbox-custom mb-0">
-                                    <input
-                                      type="checkbox"
-                                      id="check1"
-                                      className=""
-                                      name={""}
-                                    />
-                                    <Label for="check1">
-                                      {languageTranslation("")}
-                                    </Label>
-                                  </div>
-                                </FormGroup>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("REMARK_OFFER")}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
-                                  type="textarea"
-                                  name="text"
-                                  id="exampleText"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("COMMENTS_POSTED")}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
-                                  type="textarea"
-                                  name="text"
-                                  id="exampleText"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("COMMENT_TO_SPECIALIST")}
-                              </Label>
-                            </Col>
-                            <Col sm="8">
-                              <div className="required-input">
-                                <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
-                                  type="textarea"
-                                  name="text"
-                                  id="exampleText"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={"12"}>
-                        <Button className="btn" color="primary">
-                          <span>
-                            {" "}
-                            <i className="fa fa-times" aria-hidden="true"></i>
-                          </span>{" "}
-                          {languageTranslation("CLEAR")}
-                        </Button>
-                        <Button className="btn ml-2" color="primary">
-                          <span>
-                            {" "}
-                            <i className="fa fa-floppy-o mr-1"></i>
-                          </span>
-                          {languageTranslation("TO_SAVE")}
-                        </Button>
-                      </Col>
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <Input
+                                    type="select"
+                                    name="select"
+                                    id="exampleSelect"
+                                  >
+                                    <option>Sefige</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                  </Input>
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("DEPARTMENTS")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <Input
+                                    type="select"
+                                    name="select"
+                                    id="exampleSelect"
+                                  >
+                                    <option>Sefige</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                  </Input>
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("ADDRESS")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <Input
+                                    type="text"
+                                    name={"id"}
+                                    placeholder={languageTranslation("ADDRESS")}
+                                    class="width-common"
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("CONTACT_PERSON")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <Input
+                                    type="text"
+                                    name={"id"}
+                                    placeholder={languageTranslation(
+                                      "CONTACT_PERSON"
+                                    )}
+                                    classNmae="width-common"
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation(
+                                    "COMMENTS_OFFER_DEPARTMENT"
+                                  )}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <Input
+                                    className="textarea-custom form-control"
+                                    rows="3"
+                                    type="textarea"
+                                    name="text"
+                                    id="exampleText"
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation(
+                                    "COMMETS_POSTED_DEPARTEMENT"
+                                  )}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <Input
+                                    className="textarea-custom form-control"
+                                    rows="3"
+                                    type="textarea"
+                                    name="text"
+                                    id="exampleText"
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation(
+                                    "COMMENTAR_DEPARTMENT_ONLY_VISIBLE_INTERNALLY"
+                                  )}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <Input
+                                    className="textarea-custom form-control"
+                                    rows="3"
+                                    type="textarea"
+                                    name="text"
+                                    id="exampleText"
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("DLN_REQUIRED")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <FormGroup check inline>
+                                    <div className=" checkbox-custom mb-0">
+                                      <input
+                                        type="checkbox"
+                                        id="check1"
+                                        className=""
+                                        name={""}
+                                      />
+                                      <Label for="check1">
+                                        {languageTranslation("")}
+                                      </Label>
+                                    </div>
+                                  </FormGroup>
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("REMARK_OFFER")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <Input
+                                    className="textarea-custom form-control"
+                                    rows="3"
+                                    type="textarea"
+                                    name="text"
+                                    id="exampleText"
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("COMMENTS_POSTED")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <Input
+                                    className="textarea-custom form-control"
+                                    rows="3"
+                                    type="textarea"
+                                    name="text"
+                                    id="exampleText"
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("COMMENT_TO_SPECIALIST")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="required-input">
+                                  <Input
+                                    className="textarea-custom form-control"
+                                    rows="3"
+                                    type="textarea"
+                                    name="text"
+                                    id="exampleText"
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <Button className="btn" color="primary">
+                            <span>
+                              {" "}
+                              <i className="fa fa-times" aria-hidden="true"></i>
+                            </span>{" "}
+                            {languageTranslation("CLEAR")}
+                          </Button>
+                          <Button className="btn ml-2" color="primary">
+                            <span>
+                              {" "}
+                              <i className="fa fa-floppy-o mr-1"></i>
+                            </span>
+                            {languageTranslation("TO_SAVE")}
+                          </Button>
+                        </Col>
+                      </Row>
                     </div>
                   </div>
                 </Col>

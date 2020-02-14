@@ -106,6 +106,8 @@ const DefaultLayout = (props: RouteComponentProps) => {
     if (data) {
       const { viewAdminProfile } = data;
       setpermission(viewAdminProfile.accessLevel);
+      console.log('viewAdminProfile.accessLevel', viewAdminProfile.accessLevel);
+
       if (
         viewAdminProfile.accessLevel !== 'superadmin' &&
         (pathname === AppRoutes.EMPLOYEE ||
@@ -120,6 +122,9 @@ const DefaultLayout = (props: RouteComponentProps) => {
 
   // To add scroll event listener
   useEffect(() => {
+    if (!localStorage.getItem('adminToken')) {
+      history.push(AppRoutes.LOGIN);
+    }
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -128,13 +133,14 @@ const DefaultLayout = (props: RouteComponentProps) => {
   // Token verification on route change
   useEffect(() => {
     try {
-      viewAdminProfile();
+      if (localStorage.getItem('adminToken')) {
+        viewAdminProfile();
+      }
     } catch (error) {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      toast.error(message);
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
       history.push(AppRoutes.LOGIN);
     }
   }, [pathname]);

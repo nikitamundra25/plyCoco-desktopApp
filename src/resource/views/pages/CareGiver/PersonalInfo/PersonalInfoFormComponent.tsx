@@ -103,6 +103,7 @@ const PersonalInfoFormComponent: any = (
     values: {
       dateOfBirth,
       id,
+      email,
       createdAt,
       regionId,
       gender,
@@ -374,7 +375,11 @@ const PersonalInfoFormComponent: any = (
                               'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
                             )}
                             mask={DateMask}
-                            className={'form-control'}
+                            className={
+                              errors.dateOfBirth && touched.dateOfBirth
+                                ? 'error form-control'
+                                : 'form-control'
+                            }
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={dateOfBirth}
@@ -606,6 +611,9 @@ const PersonalInfoFormComponent: any = (
                     className='width-common'
                     maxLength={250}
                   />
+                  {errors.email && touched.email && (
+                    <div className='required-tooltip'>{errors.email}</div>
+                  )}
                 </div>
               </Col>
             </Row>

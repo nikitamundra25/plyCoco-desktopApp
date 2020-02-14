@@ -1,86 +1,106 @@
 @import "../../../assets/scss/variables";
 
- 
-
-
- 
+.common-header-input {
+  .form-control {
+    border-radius: 0px;
+    color: $light_black;
+    font-size: $font_12;
+    height: 25px;
+    border-color: $light_gray;
+    padding: 0px 8px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    font-family: $font_Frutiger_Regular;
+    &:focus {
+      box-shadow: none;
+      outline: none;
+      border-color: $theme_color;
+    }
+  }
+}
+.common-label {
+  font-size: $font_12;
+  color: $black;
+  font-weight: bold;
+}
 // calendar table css
 .calender-section {
-    position: relative;
+  position: relative;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+  font-family: $font_open_sans;
+  background: $white;
+  .custom-appointment-calendar-body {
+    // max-height: 190px;
     width: 100%;
-    overflow-y: auto;
-    overflow-x: auto;
-    font-family: $font_open_sans;
+  }
+  .custom-appointment-col.calender-col.text-center {
     background: $white;
-    .custom-appointment-calendar-body {
-        max-height: 190px;
-        width: 100%;
-     }
-     .custom-appointment-col.calender-col.text-center {
+  }
+
+  .custom-appointment-calendar {
+    height: calc(50vh - 80px);
+    .custom-appointment-calendar-head {
+      position: sticky;
+      top: 0;
+      background: $white;
+      width: 100%;
+      font-weight: 600;
+    }
+    .custom-appointment-row {
+      display: flex;
+      font-size: 12px;
+      color: $black;
+      border-left: 1px solid $table_border;
+
+      .custom-appointment-col {
+        flex: 0 0 30px;
+        max-width: 30px;
+        padding: 4px;
+        border-right: 1px solid $table_border;
+        border-top: 1px solid $table_border;
+        vertical-align: middle;
         background: $white;
-     }
-    
-    .custom-appointment-calendar {
-        height: calc(50vh - 80px);
-      .custom-appointment-calendar-head {
-        position:sticky;
-        top: 0;
-        background: $white; 
-        width: 100%; 
-        font-weight: 600;
-      }
-      .custom-appointment-row {
-        display: flex;
-        font-size: 12px;
-        color: $black;
-        border-left: 1px solid $table_border;
-  
-        .custom-appointment-col {
-          flex: 0 0 30px;
-          max-width: 30px;
-          padding: 4px;
-          border-right: 1px solid $table_border;
-          border-top: 1px solid $table_border;
-          vertical-align: middle;
-          background: $white;
-          &.name-col {
-            flex: 0 0 200px;
-            max-width: 200px;
+        &.name-col {
+          flex: 0 0 200px;
+          max-width: 200px;
+        }
+        &.h-col {
+          flex: 0 0 70px;
+          max-width: 70px;
+        }
+        &.calender-col {
+          flex: 0 0 40px;
+          max-width: 40px;
+          .custom-appointment-calendar-date {
+            text-transform: capitalize;
           }
-          &.h-col {
-            flex: 0 0 70px;
-            max-width: 70px;
+          &.appointment-color1 {
+            background: #d3d3d3;
           }
-          &.calender-col {
-            flex: 0 0 40px;
-            max-width: 40px;
-            .custom-appointment-calendar-date {
-              text-transform: capitalize;
-            }
-            &.appointment-color1 {
-              background: #d3d3d3;
-            }
-            &.appointment-color2 {
-              background: #ffff00;
-            }
-            &.appointment-color3 {
-              background: #6a0dad;
-            }
-            &.appointment-color4 {
-              background: #f6cfca;
-            }
-            &.appointment-color5 {
-              background: #a1f5bd;
-            }
-            &.appointment-color6 {
-              background: #07e651;
-            }
+          &.appointment-color2 {
+            background: #ffff00;
+          }
+          &.appointment-color3 {
+            background: #6a0dad;
+          }
+          &.appointment-color4 {
+            background: #f6cfca;
+          }
+          &.appointment-color5 {
+            background: #a1f5bd;
+          }
+          &.appointment-color6 {
+            background: #07e651;
           }
         }
       }
     }
   }
-  .custom-height{
-    height: calc(100vh - 164px);
-    overflow-x: hidden;
-  }
+}
+.custom-height {
+  height: calc(100vh - 164px);
+  overflow-x: hidden;
+}

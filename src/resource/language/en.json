@@ -622,7 +622,7 @@
   "DOCUMENT_STATUS_LABEL": "Checked files cannot be punched by the user",
   "DOCUMENT_OPTIMIZE_LABEL": "convert to PDF and resize",
   "DOCUMENT_DELETED_SUCCESS": "Document deleted successfully",
-  "NO_EMAIL_MESSAGE": " Currently there are no emails Found.",
+  "NO_EMAIL_MESSAGE": " Currently there are no emails found.",
   "SUBORDINATED_HEADING": "Grouped Below",
   "PROFESSIONAL": "Professional",
   "APPOINTMENT_ID": "Appointment Id",
@@ -692,5 +692,6 @@
   "CONFIRM_EMAIL_TEMP_PERMANENT_DELETE_MSG": "This email template will be permanently deleted.",
   "EMAIL_TEMP_PERMANENT_DEL_SUCCESS": "Email Template deleted permanently.",
   "RESTORE_TOOLTIP": "Restore Data",
-  "DELETE_PERMANENTALY_TOOLTIP": "Delete Permanently"
+  "DELETE_PERMANENTALY_TOOLTIP": "Delete Permanently",
+  "SUPER_ADMIN":"Super Admin"
 }

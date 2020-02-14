@@ -87,7 +87,6 @@ let toastId: any = null;
 const DefaultLayout = (props: RouteComponentProps) => {
   let history = useHistory();
   let { pathname } = useLocation();
-  let location = useLocation();
 
   const [viewAdminProfile, { data }] = useLazyQuery(VIEW_PROFILE, {
     fetchPolicy: 'no-cache',
@@ -106,8 +105,6 @@ const DefaultLayout = (props: RouteComponentProps) => {
     if (data) {
       const { viewAdminProfile } = data;
       setpermission(viewAdminProfile.accessLevel);
-      console.log('viewAdminProfile.accessLevel', viewAdminProfile.accessLevel);
-
       if (
         viewAdminProfile.accessLevel !== 'superadmin' &&
         (pathname === AppRoutes.EMPLOYEE ||

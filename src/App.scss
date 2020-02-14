@@ -1066,6 +1066,12 @@ html:not([dir="rtl"]) {
     min-height: 200px;
     padding: 0px 10px;
     max-height: 200px;
+    &.newemailheight {
+      max-height: 290px;
+    }
+  }
+  .rdw-image-center {
+    justify-content: flex-start;
   }
 
   .rdw-link-modal {
@@ -3336,8 +3342,8 @@ html:not([dir="rtl"]) {
 
 .contact-tabs {
   border: 0px;
-  &.pr-120{
-    padding-right:120px;
+  &.pr-120 {
+    padding-right: 120px;
   }
   .nav-item {
     position: relative;

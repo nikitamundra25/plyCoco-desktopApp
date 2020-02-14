@@ -21,7 +21,7 @@ export const AttachmentFormComponent: FunctionComponent<any> = ({
               fileName: file.name,
               size: file.size,
               file,
-              path: URL.createObjectURL(file)
+              path: ""
             });
           }
         };
@@ -35,7 +35,14 @@ export const AttachmentFormComponent: FunctionComponent<any> = ({
   });
   return (
     <Col lg={newEmailPortion ? "4" : "12"}>
-      <div {...getRootProps()} className="dropzone-preview mb-0">
+      <div
+        {...getRootProps()}
+        className={
+          newEmailPortion
+            ? "dropzone-preview email-dropzone-height"
+            : "dropzone-preview mb-0 "
+        }
+      >
         <input {...getInputProps()} className="dropzone-input-preview" />
         <div className="icon-upload">
           <i className="cui-cloud-upload"></i>

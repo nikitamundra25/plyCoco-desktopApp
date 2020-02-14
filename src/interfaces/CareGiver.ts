@@ -322,6 +322,7 @@ export interface IAddEmailVariables {
   parentId: number | null;
   status: string;
   attachments: IEmailInputAttachmenttypes[];
+  files: any;
 }
 
 export interface INewEmailProps {

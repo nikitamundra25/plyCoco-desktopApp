@@ -160,12 +160,18 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           body: body ? content : "",
           parentId,
           status: "unread",
-          attachments: attachments.map(
-            ({ path, fileName }: IEmailAttachmentData) => ({
-              path,
-              fileName
-            })
-          )
+          attachments:
+            attachments && attachments.length
+              ? attachments.filter(
+                  (attachment: IEmailAttachmentData) => attachment.path
+                )
+              : [],
+          files:
+            attachments && attachments.length
+              ? attachments
+                  .map((item: IEmailAttachmentData) => item.file)
+                  .filter((file: File | null) => file)
+              : null
         };
         addNewEmail({ variables: { emailInput } });
       }

@@ -3814,6 +3814,11 @@ html:not([dir="rtl"]) {
   justify-content: center;
   font-size: $font_13;
   cursor: pointer;
+  &.email-dropzone-height {
+    @media only screen and (min-width: 992px) {
+      height: calc(100% - 16px);
+    }
+  }
   .icon-upload {
     font-size: 35px;
     img {

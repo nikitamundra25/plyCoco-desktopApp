@@ -174,7 +174,9 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
               emailData={emailData}
               selectedUserName={selectedUserName}
               sendBy={'Super Admin'}
-              length={emailList.getEmails.length}
+              length={
+                emailList && emailList.getEmails && emailList.getEmails.length
+              }
             />
           </Row>
         )}

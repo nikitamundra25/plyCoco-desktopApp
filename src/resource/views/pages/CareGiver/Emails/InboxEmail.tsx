@@ -165,7 +165,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
             <EmailPreview
               emailData={emailData}
               selectedUserName={selectedUserName}
-              length={emailList.getEmails.length}
+              length={emailList && emailList.getEmails && emailList.getEmails.length}
             />
           </Row>
         )}

@@ -30,7 +30,7 @@ export const EmailFormComponent: FunctionComponent<IEmailFormComponentPorps> = (
                 editorState={body}
                 toolbarClassName="toolbarClassName"
                 wrapperClassName="wrapperClassName"
-                editorClassName="editorClassName"
+                editorClassName="editorClassName newemailheight"
                 placeholder={languageTranslation("EMAIL_BODY_PLACEHOLDER")}
                 toolbar={{
                   options: [

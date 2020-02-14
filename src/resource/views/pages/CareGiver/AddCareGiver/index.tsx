@@ -186,11 +186,9 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         userName: userName ? userName.trim() : '',
         qualificationId:
           qualifications && qualifications.length
-            ? `{${qualifications
-                .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
-                )
-                .join(', ')}}`
+            ? qualifications.map((qualification: IReactSelectInterface) =>
+                parseInt(qualification.value),
+              )
             : null,
         attributes:
           attributeId && attributeId.length

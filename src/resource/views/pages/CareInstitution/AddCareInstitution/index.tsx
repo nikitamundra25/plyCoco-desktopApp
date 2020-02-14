@@ -196,11 +196,10 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         mobileNumber: values.mobileNumber,
         qualificationId:
           values.qualificationId && values.qualificationId.length
-            ? `{${values.qualificationId
-                .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
-                )
-                .join(', ')}}`
+            ? values.qualificationId.map(
+                (qualification: IReactSelectInterface) =>
+                  parseInt(qualification.value),
+              )
             : null,
         attributes: AttributeData,
         leasingPriceListId:

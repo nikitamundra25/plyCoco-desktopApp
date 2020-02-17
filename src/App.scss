@@ -278,19 +278,23 @@ body {
     font-size: $font_11;
   }
   .custom-dropdown {
+    .btn {
+      font-size: $font_12;
+      font-weight: 600;
+    }
     .dropdown-menu {
       min-width: auto;
       border-color: $table_border;
-
       .dropdown-item {
         padding: 4px 15px;
-        color: $light_black;
+        color: $black;
         font-size: $font_12;
+        font-weight: 600;
         transition: all 0.3s ease;
         border-color: $table_border;
         &:hover {
           background: $btn_gray;
-          color: $light_black;
+          color: $black;
         }
       }
     }
@@ -1947,7 +1951,7 @@ html:not([dir="rtl"]) {
       width: 150px;
       min-width: 150px;
     }
-    &.contact-th-column{
+    &.contact-th-column {
       width: 300px;
       min-width: 200px;
     }

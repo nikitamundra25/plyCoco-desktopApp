@@ -701,5 +701,6 @@
   "RESTORE_TOOLTIP": "Restore Data",
   "DELETE_PERMANENTALY_TOOLTIP": "Delete Permanently",
   "SUPER_ADMIN": "Super Admin",
-  "BASIC_DETAILS": "Basic Details"
+  "BASIC_DETAILS": "Basic Details",
+  "EXPLICITLY_DOCUMENT": "Explicitly Requested Documents"
 }

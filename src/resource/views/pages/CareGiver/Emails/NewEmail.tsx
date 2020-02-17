@@ -259,11 +259,18 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
             <Col lg={"12"}>
               <div className="email-inbox-section">
                 <div className="email-row-wrap align-items-md-center email-attributes-wrap flex-column flex-md-row">
-                  <div
+                  {/* <div
                     className="email-attributes-content d-flex align-items-center"
                     onClick={onNewEmail}
                   >
                     <i className="fa fa-envelope mr-1" aria-hidden="true"></i>
+                    <span> {languageTranslation("NEW_EMAIL")}</span>
+                  </div> */}
+                  <div
+                    className="email-attributes-content btn-primary new-email-btn mr-2"
+                    onClick={onNewEmail}
+                  >
+                    <i className="icon-note mr-2" aria-hidden="true"></i>
                     <span> {languageTranslation("NEW_EMAIL")}</span>
                   </div>
                   {/* <span className="email-attributes-seprator">|</span>

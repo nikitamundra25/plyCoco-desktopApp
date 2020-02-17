@@ -21,6 +21,6 @@ export const careInstitutionRoutes = [
     name: "emails"
   },
   {
-    name: "reminders"
+    name: "reminders/todos"
   }
 ];

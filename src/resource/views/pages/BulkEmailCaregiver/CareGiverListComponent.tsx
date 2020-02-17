@@ -1,10 +1,9 @@
-import React, { FunctionComponent } from "react";
-import { Col, Table } from "reactstrap";
-import { ICareGiverListComponentProps } from "../../../../interfaces/BulkEmailCaregiver";
-import Loader from "../../containers/Loader/Loader";
-import { languageTranslation } from "../../../../helpers";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { loadingIndicatorCSS } from "react-select/src/components/indicators";
+import React, { FunctionComponent } from 'react';
+import { Col, Table } from 'reactstrap';
+import { ICareGiverListComponentProps } from '../../../../interfaces/BulkEmailCaregiver';
+import Loader from '../../containers/Loader/Loader';
+import { languageTranslation } from '../../../../helpers';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentProps &
   any> = (props: ICareGiverListComponentProps & any) => {
@@ -17,12 +16,12 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
     selectedCareGiver,
     handleCheckElement,
     handleInfiniteScroll,
-    page
+    page,
   } = props;
 
   return (
-    <Col lg={"5"}>
-      <div id="scrollableDiv" className="caregiver-list custom-scroll">
+    <Col lg={'5'}>
+      <div id='scrollableDiv' className='caregiver-list custom-scroll'>
         <InfiniteScroll
           dataLength={
             careGiverData && careGiverData.length ? careGiverData.length : 0
@@ -30,7 +29,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
           next={() => {
             handleInfiniteScroll();
           }}
-          scrollableTarget="scrollableDiv"
+          scrollableTarget='scrollableDiv'
           hasMore={
             careGivers &&
             careGivers.getCaregivers &&
@@ -41,21 +40,21 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
               : false
           }
           loader={
-            <div className="infinite-loader">
+            <div className='infinite-loader'>
               <Loader />
             </div>
           }
         >
           <Table bordered hover responsive>
-            <thead className="thead-bg">
+            <thead className='thead-bg'>
               <tr>
-                <th className="checkbox-th-column">
-                  <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                <th className='checkbox-th-column'>
+                  <span className='checkboxli checkbox-custom checkbox-default mr-2'>
                     <input
-                      type="checkbox"
-                      id="checkAll"
-                      name="checkbox"
-                      className=""
+                      type='checkbox'
+                      id='checkAll'
+                      name='checkbox'
+                      className=''
                       checked={
                         careGivers &&
                         careGivers.getCaregivers &&
@@ -68,17 +67,17 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                         handleSelectAll(e);
                       }}
                     />
-                    <label className=""></label>
+                    <label className=''></label>
                   </span>
                 </th>
-                <th>{languageTranslation("NAME")}</th>
-                <th>{languageTranslation("EMAIL")}</th>
+                <th>{languageTranslation('NAME')}</th>
+                <th>{languageTranslation('EMAIL')}</th>
               </tr>
             </thead>
             <tbody>
               {page === 1 && (!called || loading) ? (
                 <tr>
-                  <td className={"table-loader"} colSpan={8}>
+                  <td className={'table-loader'} colSpan={8}>
                     <Loader />
                   </td>
                 </tr>
@@ -87,17 +86,17 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                   return (
                     <tr key={index}>
                       <td>
-                        <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                        <span className='checkboxli checkbox-custom checkbox-default mr-2'>
                           <input
-                            type="checkbox"
-                            id="check"
-                            name="checkbox"
-                            className=""
+                            type='checkbox'
+                            id='check'
+                            name='checkbox'
+                            className=''
                             checked={
                               selectedCareGiver &&
                               selectedCareGiver.length &&
                               selectedCareGiver.indexOf(
-                                parseInt(careGivers.id)
+                                parseInt(careGivers.id),
                               ) > -1
                                 ? true
                                 : false
@@ -106,7 +105,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                               handleCheckElement(e, careGivers.id);
                             }}
                           />
-                          <label className=""></label>
+                          <label className=''></label>
                         </span>
                       </td>
                       <td>{`${careGivers.firstName} ${careGivers.lastName}`}</td>

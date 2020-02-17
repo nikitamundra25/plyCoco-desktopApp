@@ -158,7 +158,7 @@ const Documents = () => {
         }
       });
     }
-  }, []);
+  }, [id]);
 
   //on update document
   const onUpdateDocument = (data: any) => {

@@ -201,11 +201,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         vehicleAvailable,
         qualificationId:
           qualifications && qualifications.length
-            ? `{${qualifications
-                .map(
-                  (qualification: IReactSelectInterface) => qualification.value,
-                )
-                .join(', ')}}`
+            ? qualifications.map((qualification: IReactSelectInterface) =>
+                parseInt(qualification.value),
+              )
             : null,
         street,
         attributes:

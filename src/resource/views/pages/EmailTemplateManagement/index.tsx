@@ -611,6 +611,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     setShowArchive(true);
     setTemplateData(null);
     fetchArchiveList();
+    setAttachment([]);
   };
 
   //onclicking back to list in view trash

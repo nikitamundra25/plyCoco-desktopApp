@@ -11,7 +11,7 @@ export interface IEmailEditorComponentProps {
   templateOptions: any[] | undefined;
   subject: string;
   body: any;
-  template: ValueType<FormEvent<HTMLFormElement>>;
+  template: any;
   attachments: IEmailAttachmentData[];
   isSubmit: boolean;
   onTemplateSelection: (

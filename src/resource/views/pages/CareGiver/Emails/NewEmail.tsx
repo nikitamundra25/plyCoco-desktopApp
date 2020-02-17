@@ -50,11 +50,12 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   });
 
   const { viewAdminProfile }: any = userData ? userData : {};
-  const { firstName = "", lastName = "" } = viewAdminProfile
+
+  const { firstName = "", lastName = "", id = "" } = viewAdminProfile
     ? viewAdminProfile
     : {};
 
-  let { id } = useParams();
+  let { id: Id } = useParams();
   const [subject, setSubject] = useState<string>("");
   const [body, setBody] = useState<any>("");
   const [parentId, setParentId] = useState<number | null>(null);
@@ -67,7 +68,11 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     GET_CAREGIVER_EMAIL_TEMPLATES,
     {
       variables: {
-        type: languageTranslation("CAREGIVER_EMAIL_TEMPLATE_TYPE")
+        type: languageTranslation(
+          userRole === "canstitution"
+            ? "CAREINSTITUTION_EMAIL_TEMPLATE_TYPE"
+            : "CAREGIVER_EMAIL_TEMPLATE_TYPE"
+        )
       }
     }
   );
@@ -77,6 +82,15 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   //   fetchContactListById,
   //   { data: contactList, loading: contactListLoading }
   // ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
+
+  // useEffect(() => {
+  //   // Fetch contact details by care institution id
+  //   if (id) {
+  //     fetchContactListById({
+  //       variables: { careInstitutionId: parseInt(id) }
+  //     });
+  //   }
+  // }, []);
 
   const [addNewEmail, { loading: adding }] = useMutation<
     {
@@ -120,6 +134,22 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     }
   }
 
+  // set contact list options
+  // const contactOptions: IReactSelectInterface[] | undefined = [];
+  // if (contactList && contactList.getEmailtemplate) {
+  //   const {
+  //     getEmailtemplate: { contact_list }
+  //   } = data;
+  //   if (contact_list && contact_list.length) {
+  //     contact_list.map(({ list, id }: any) => {
+  //       contactOptions.push({
+  //         label: list,
+  //         value: id ? id.toString() : ""
+  //       });
+  //     });
+  //   }
+  // }
+
   const setDefaultSignature = (body: any) => {
     const contentBlock = htmlToDraft(
       `<div><span style="font-size:15px;">Hello ${selectedUserName}</span>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
@@ -134,12 +164,14 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       return editorState;
     }
   };
+
   // To set default salutation & signature while composing the newemail
   useEffect(() => {
     let body = "<br /><br /><br /><br /><br /><br />";
     const updatedContent: any = setDefaultSignature(body);
     setBody(updatedContent);
-  }, [id]);
+  }, [Id]);
+
   // To set subject & body on reply
   useEffect(() => {
     if (emailData) {
@@ -216,8 +248,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     try {
       if (subject && body && result && result.length >= 2) {
         const emailInput: IAddEmailVariables = {
-          userId: id ? parseInt(id) : 0,
-          to: "caregiver",
+          senderUserId: id ? parseInt(id) : 0,
+          receiverUserId: Id ? parseInt(Id) : 0,
+          to: userRole === "canstitution" ? "" : "caregiver",
           from: "plycoco",
           subject: subject /* .replace(/AW:/g, '') */,
           body: body ? content : "",

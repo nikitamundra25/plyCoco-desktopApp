@@ -41,7 +41,8 @@ const Email: FunctionComponent<{
     const query = qs.parse(search);
     // Initialize variables
     let variables: IEmailQueryVar = {
-      userId: id ? parseInt(id) : 0,
+      senderUserId: id ? parseInt(id) : 0,
+      receiverUserId: null,
       from: "caregiver",
       searchBy
     };
@@ -59,7 +60,12 @@ const Email: FunctionComponent<{
         searchBy: query.searchBy ? query.searchBy.toString() : ""
       };
       if (index === 1) {
-        variables = { ...variables, from: "plycoco" };
+        variables = {
+          ...variables,
+          from: "plycoco",
+          receiverUserId: id ? parseInt(id) : 0,
+          senderUserId: null
+        };
       }
       if (refetch) {
         refetch(variables);
@@ -70,7 +76,7 @@ const Email: FunctionComponent<{
       setEmailData("");
       fetchEmails({ variables });
     }
-  }, [search]);
+  }, [search, id]);
 
   const onTabChange = (activeTab: number, data?: any) => {
     setEmailData(data);
@@ -87,7 +93,8 @@ const Email: FunctionComponent<{
 
   const onRefresh = (from: string) => {
     let variables: IEmailQueryVar = {
-      userId: id ? parseInt(id) : 0,
+      senderUserId: from === "caregiver" ? (id ? parseInt(id) : 0) : null,
+      receiverUserId: from === "plycoco" ? (id ? parseInt(id) : 0) : null,
       from,
       searchBy
     };

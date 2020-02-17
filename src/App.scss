@@ -180,6 +180,14 @@ body {
     }
   }
 
+  .new-email-btn {
+    padding: 0px 15px;
+    font-weight: 600;
+    font-size: $font_12;
+    height: 25px;
+    border-radius: 2px;
+  }
+
   .btn-active {
     background: $transparent;
     border: 1px solid $active_green;

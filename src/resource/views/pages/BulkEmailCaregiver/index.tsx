@@ -277,7 +277,10 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
       if (selectedCareGiver && selectedCareGiver.length) {
         selectedCareGiver.map((careGiverId: number) => {
-          careGiverIdList = [...careGiverIdList, { userId: careGiverId }];
+          careGiverIdList = [
+            ...careGiverIdList,
+            { receiverUserId: careGiverId }
+          ];
         });
         if (subject && body && result && result.length >= 2) {
           const bulkEmailsInput: IBulkEmailVariables = {

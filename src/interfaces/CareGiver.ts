@@ -360,7 +360,8 @@ export interface IEmailFormComponentPorps {
 }
 
 export interface IEmailQueryVar {
-  receiverUserId: number;
+  receiverUserId?: number | null;
+  senderUserId: number | null;
   from: string;
   searchBy: string;
 }

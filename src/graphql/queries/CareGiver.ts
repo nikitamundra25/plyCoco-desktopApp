@@ -228,13 +228,20 @@ const GET_LEASING_INFO = gql`
 `;
 
 const GET_EMAILS = gql`
-  query getEmails($receiverUserId: Int!, $from: String, $searchBy: String) {
+  query getEmails(
+    $senderUserId: Int
+    $receiverUserId: Int
+    $from: String
+    $searchBy: String
+  ) {
     getEmails(
+      senderUserId: $senderUserId
       receiverUserId: $receiverUserId
       from: $from
       searchBy: $searchBy
     ) {
       id
+      senderUserId
       receiverUserId
       to
       subject

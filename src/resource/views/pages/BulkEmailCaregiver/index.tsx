@@ -71,6 +71,8 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const [body, setBody] = useState<any>("");
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [bulkcareGivers, setBulkCareGivers] = useState<boolean>(false);
+
   const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
     bulkEmailsInput: IBulkEmailVariables;
   }>(BULK_EMAILS, {
@@ -82,7 +84,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       setBody(undefined);
       setAttachments([]);
       setIsSubmit(false);
-      setTemplate(undefined);
+      setTemplate({ label: "", value: "" });
       setselectedCareGiver([]);
     },
     onError: (error: ApolloError) => {
@@ -118,6 +120,13 @@ const BulkEmailCaregiver: FunctionComponent = () => {
         });
       }
       setcareGiverData(list);
+      let selectedId: any = [];
+      if (bulkcareGivers) {
+        list.map((key: any) => {
+          return (selectedId = [...selectedId, parseInt(key.id)]);
+        });
+        setselectedCareGiver(selectedId);
+      }
     }
   }, [careGivers]);
 
@@ -137,13 +146,15 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const handleSelectAll = async () => {
     if (careGiverData && careGiverData.length) {
       let list: any = [];
-      if (selectedCareGiver && selectedCareGiver.length <= 0) {
+      if (selectedCareGiver && selectedCareGiver.length >= 0) {
         careGiverData.map((key: any) => {
           return (list = [...list, parseInt(key.id)]);
         });
         setselectedCareGiver(list);
+        setBulkCareGivers(true);
       } else {
         setselectedCareGiver([]);
+        setBulkCareGivers(false);
       }
     }
   };
@@ -160,11 +171,23 @@ const BulkEmailCaregiver: FunctionComponent = () => {
         ...selectedCareGiver,
         parseInt(id)
       ]);
-      return;
+      if (
+        careGiverData &&
+        careGiverData.length === selectedCareGiver.length + 1
+      ) {
+        setBulkCareGivers(true);
+      } else {
+        setBulkCareGivers(false);
+      }
     } else {
       if (selectedCareGiver.indexOf(parseInt(id)) > -1) {
         selectedCareGiver.splice(selectedCareGiver.indexOf(parseInt(id)), 1);
         setselectedCareGiver([...selectedCareGiver]);
+      }
+      if (careGiverData && careGiverData.length === selectedCareGiver.length) {
+        setBulkCareGivers(true);
+      } else {
+        setBulkCareGivers(false);
       }
     }
   };
@@ -376,6 +399,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   handleCheckElement={handleCheckElement}
                   handleInfiniteScroll={handleInfiniteScroll}
                   page={page}
+                  bulkcareGivers={bulkcareGivers}
                 />
 
                 <EmailEditorComponent

@@ -180,6 +180,14 @@ body {
     }
   }
 
+  .new-email-btn {
+    padding: 0px 15px;
+    font-weight: 600;
+    font-size: $font_12;
+    height: 25px;
+    border-radius: 2px;
+  }
+
   .btn-active {
     background: $transparent;
     border: 1px solid $active_green;
@@ -3336,8 +3344,8 @@ html:not([dir="rtl"]) {
 
 .contact-tabs {
   border: 0px;
-  &.pr-120{
-    padding-right:120px;
+  &.pr-120 {
+    padding-right: 120px;
   }
   .nav-item {
     position: relative;

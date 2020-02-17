@@ -1138,6 +1138,11 @@ export const Priority: IReactSelectInterface[] = [
   { value: 'Normal', label: languageTranslation('NORMAL') },
   { value: 'High', label: languageTranslation('HIGH') },
 ];
+export const TodoFilter: IReactSelectInterface[] = [
+  { value: 'Hide Done', label: languageTranslation('HIDE_DONE') },
+  { value: 'Hide Future Ones', label: languageTranslation('HIDE_FUTURE_ONES') },
+];
+
 export const SortOptions: IReactSelectInterface[] = [
   {
     label: languageTranslation('SORTBY_OPTION3'),

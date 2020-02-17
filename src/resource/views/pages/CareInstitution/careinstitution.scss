@@ -17,6 +17,14 @@
         .common-list-body {
           height: 88px;
           max-height: 88px;
+          @media only screen and (min-width: 1366px) {
+            height: 115px;
+            max-height: 115px;
+          }
+          @media only screen and (min-width: 1600px) {
+            height: 160px;
+            max-height: 160px;
+          }
         }
       }
     }
@@ -109,51 +117,6 @@
   }
 }
 
-.reminders-todo-table {
-  th {
-    border: 1px solid $table_border;
-  }
-  td {
-    padding: 0px;
-    border-top: 0px;
-  }
-  .inner-reminders-todo-table {
-    margin-bottom: 0px;
-    th,
-    td {
-      padding: 4px;
-    }
-  }
-  .sno-col {
-    width: 45px;
-    text-align: center;
-  }
-  .institution-col {
-    width: 100px;
-  }
-  .date-col {
-    width: 121px;
-  }
-
-  .contact-col {
-    width: 270px;
-  }
-
-  .done-col {
-    width: 60px;
-  }
-
-  .remarks-col {
-    width: 270px;
-  }
-
-  .external-col {
-    width: 60px;
-  }
-  .prio-col {
-    width: 92px;
-  }
-}
 .disabled-div {
   cursor: not-allowed !important;
   opacity: 0.7;
@@ -175,5 +138,9 @@
 
 .department-list {
   height: 525px !important;
+  overflow-y: auto;
+}
+.filetypelist {
+  height: 200px !important;
   overflow-y: auto;
 }

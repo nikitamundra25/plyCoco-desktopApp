@@ -21,19 +21,29 @@ const NewEmail: FunctionComponent = () => {
             <Col lg={"12"}>
               <div className="email-inbox-section">
                 <div className="email-row-wrap align-items-center email-attributes-wrap">
-                  <div className="email-attributes-content d-flex align-items-center">
-                    <i className="fa fa-envelope mr-1" aria-hidden="true"></i>
+                  <div className="email-attributes-content btn-primary new-email-btn mr-2">
+                    <i className="icon-note mr-2" aria-hidden="true"></i>
                     <span> {languageTranslation("NEW_EMAIL")}</span>
                   </div>
-                  {/* <span className="email-attributes-seprator">|</span>
-                  <div className="email-attributes-content">
-                    <i
-                      className="fa fa-paper-plane mr-1"
-                      aria-hidden="true"
-                    ></i>
-                    <span>{languageTranslation("SEND")}</span>
-                  </div> */}
-                  <span className="email-attributes-seprator">|</span>
+
+                  <div className="email-attributes-content new-email-select-wrap ml-0 mr-2">
+                    <div className="form-section w-100">
+                      <FormGroup className="mb-0 ">
+                        <Select
+                          placeholder="Select Department"
+                          options={[
+                            {
+                              label: "John Doe (HR Department)",
+                              value: "John Doe (HR Department)"
+                            }
+                          ]}
+                          classNamePrefix="custom-inner-reactselect"
+                          className={"custom-reactselect"}
+                        />
+                      </FormGroup>
+                    </div>
+                  </div>
+
                   <div className="email-attributes-content input-wrap ">
                     <FormGroup className="d-flex align-items-center m-0 w-100">
                       <Label className="d-flex align-items-center m-0 mr-1">

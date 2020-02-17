@@ -154,7 +154,7 @@
   "EMPLOYEE_ZIP_PLACEHOLDER": "Postal Code",
   "EMPLOYEE_EMPLOYEE_RIGHTS_LABEL": "Employee Rights",
   "EMPLOYEE_JOINING_DATE_LABEL": "Joining Date",
-  "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "MM/DD/YYYY",
+  "EMPLOYEE_JOINING_DATE_PLACEHOLDER": "DD/MM/YYYY",
   "EMPLOYEE_BASIC": "Basic",
   "EMPLOYEE_INVOICE": "Invoice",
   "EMPLOYEE_ACCESS_LEVEL_UPDATE_MSG": "Employee rights updated successfully",
@@ -703,5 +703,6 @@
   "RESTORE_TOOLTIP": "Restore Data",
   "DELETE_PERMANENTALY_TOOLTIP": "Delete Permanently",
   "SUPER_ADMIN": "Super Admin",
-  "BASIC_DETAILS": "Basic Details"
+  "BASIC_DETAILS": "Basic Details",
+  "EXPLICITLY_DOCUMENT": "Explicitly Requested Documents"
 }

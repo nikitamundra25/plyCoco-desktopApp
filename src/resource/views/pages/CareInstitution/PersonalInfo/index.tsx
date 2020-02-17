@@ -9,7 +9,8 @@ import {
   ICountries,
   IStates,
   IAttributeValues,
-  IAttributeOptions
+  IAttributeOptions,
+  IState
 } from '../../../../../interfaces';
 import { CareInstituionValidationSchema } from '../../../../validations';
 import { useParams } from 'react-router';
@@ -91,6 +92,7 @@ const PersonalInformation: any = (props: any) => {
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
     GET_REGIONS
   );
+
   useEffect(() => {
     // call query
     fetchRegionList({
@@ -117,6 +119,7 @@ const PersonalInformation: any = (props: any) => {
       });
     }
   }, []);
+
   // It calls when the response will come
   useEffect(() => {
     // Fetch details by care institution id
@@ -158,17 +161,31 @@ const PersonalInformation: any = (props: any) => {
     }
   }, [careInstituionDetails]);
 
+  // useEffect(() => {
+  //   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
+  //     const { getCareInstitution } = careInstituionDetails;
+
+  //     getStatesByCountry({
+  //       variables: {
+  //         countryid: getCareInstitution.canstitution
+  //           ? getCareInstitution.canstitution.countryId
+  //           : ''
+  //       }
+  //     });
+  //   }
+  // }, [careInstituionDetails]);
+
   useEffect(() => {
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
       const { getCareInstitution } = careInstituionDetails;
-
-      getStatesByCountry({
-        variables: {
-          countryid: getCareInstitution.canstitution
-            ? getCareInstitution.canstitution.countryId
-            : ''
-        }
-      });
+      const { canstitution } = getCareInstitution;
+      if (canstitution && canstitution.countryId) {
+        getStatesByCountry({
+          variables: {
+            countryid: canstitution ? canstitution.countryId : ''
+          }
+        });
+      }
     }
   }, [careInstituionDetails]);
 
@@ -270,6 +287,26 @@ const PersonalInformation: any = (props: any) => {
     }
   }, [careInstituionDetails]);
 
+  const [stateOptions, setstateOptions] = useState<
+    IReactSelectInterface[] | undefined
+  >([]);
+
+  useEffect(() => {
+    if (statesData) {
+      const { states }: any = statesData;
+      let stateDataF: IReactSelectInterface[] = [];
+      for (let index = 0; index < states.length; index++) {
+        const element = states[index];
+        stateDataF.push({
+          label: element.name,
+          value: element.id
+        });
+      }
+      setstateOptions(stateDataF);
+    }
+  }, [statesData]);
+
+  console.log('VVVVVVVVVVVVV', stateOptions);
   // Save remarks into DB
   const saveRemark = async (message: string, remarksData: any) => {
     if (id) {
@@ -346,6 +383,7 @@ const PersonalInformation: any = (props: any) => {
     }
 
     let UserSelectedLinkedTo: any = {};
+    const statesOpt: IReactSelectInterface[] | undefined = [];
 
     if (props.CareInstitutionList) {
       const userSelectedLinkedTo = props.CareInstitutionList.filter(
@@ -370,6 +408,9 @@ const PersonalInformation: any = (props: any) => {
           value: userState[0].id
         };
       }
+      statesData.states.forEach(({ id, name }: IState) =>
+        statesOpt.push({ label: name, value: id })
+      );
     }
     let selectedAttributes: IAttributeOptions[] = [];
     if (
@@ -573,6 +614,7 @@ const PersonalInformation: any = (props: any) => {
             remarksDetail={remarksDetail}
             saveRemark={saveRemark}
             careInstitutionAttrOpt={careInstitutionAttrOpt}
+            stateOptions={stateOptions}
           />
         )}
         validationSchema={CareInstituionValidationSchema}

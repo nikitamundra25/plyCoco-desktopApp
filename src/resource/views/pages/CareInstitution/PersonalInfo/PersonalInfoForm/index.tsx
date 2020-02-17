@@ -614,7 +614,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation('STATE')}
-                        options={statesOpt}
+                        options={props.stateOptions}
                         value={state && state.value ? state : undefined}
                         onChange={(value: any) => handleSelect(value, 'state')}
                         noOptionsMessage={() => {

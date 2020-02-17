@@ -3,7 +3,7 @@ import {
   ILeasingValues,
   IAddLeasingRes,
   ILeasingInput,
-  IReactSelectInterface,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import LeasingPersonalDataFormComponent from './LeasingPersonalDataFormComponent';
@@ -20,16 +20,17 @@ import {
   Preoccupation,
   HealthInsuranceProvider,
   HealthInsuranceType,
-  StatusOptions,
+  StatusOptions
 } from '../../../../../config';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
 import { CareGiverQueries } from '../../../../../graphql/queries';
+import Loader from '../../../containers/Loader/Loader';
 
 const [, , GET_LEASING_INFO] = CareGiverQueries;
 const [, , , , ADD_UPDATE_CARE_GIVER_LEASING_INFO] = CareGiverMutations;
 
 export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
-  props: RouteComponentProps,
+  props: RouteComponentProps
 ) => {
   let { id } = useParams();
   const [leasingData, setleasingData] = useState<ILeasingValues | null>();
@@ -43,7 +44,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
   // To get the employee details by id
   const [
     getLeasingInformation,
-    { data: leasingDetails, error: detailsError, refetch },
+    { data: leasingDetails, loading, refetch }
   ] = useLazyQuery<any>(GET_LEASING_INFO);
 
   // Fetch leasing data on mount & user update
@@ -51,18 +52,18 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     // Fetch details by caregiver id
     if (id) {
       getLeasingInformation({
-        variables: { userId: parseInt(id) },
+        variables: { userId: parseInt(id) }
       });
     }
   }, [id]);
 
   const setLabelValue = (
     value: string,
-    fieldOptions: IReactSelectInterface[],
+    fieldOptions: IReactSelectInterface[]
   ) => {
     if (value) {
       return fieldOptions.filter(
-        (item: IReactSelectInterface) => item.value === value,
+        (item: IReactSelectInterface) => item.value === value
       )[0];
     } else {
       return undefined;
@@ -77,26 +78,26 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
           ...getLeasingInformation,
           nationality: setLabelValue(
             getLeasingInformation.nationality,
-            Nationality,
+            Nationality
           ),
           maritalStatus: setLabelValue(
             getLeasingInformation.maritalStatus,
-            MaritalStatus,
+            MaritalStatus
           ),
           status: setLabelValue(getLeasingInformation.status, StatusOptions),
           religion: setLabelValue(getLeasingInformation.religion, Religion),
           preoccupation: setLabelValue(
             getLeasingInformation.preOccupation,
-            Preoccupation,
+            Preoccupation
           ),
           healthInsuranceProvider: setLabelValue(
             getLeasingInformation.healthInsuranceProvider,
-            HealthInsuranceProvider,
+            HealthInsuranceProvider
           ),
           healthInsuranceType: setLabelValue(
             getLeasingInformation.healthInsuranceType,
-            HealthInsuranceType,
-          ),
+            HealthInsuranceType
+          )
         });
       } else {
         setleasingData(null);
@@ -107,7 +108,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
   // function to add/edit employee information
   const handleSubmit = async (
     values: ILeasingValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ILeasingValues>,
+    { setSubmitting, setFieldError }: FormikHelpers<ILeasingValues>
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -129,7 +130,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
       firstDay,
       lastDay,
       monthlyWorkingHrs,
-      weeklyWorkingHrs,
+      weeklyWorkingHrs
     } = values;
     try {
       let leasingInput: ILeasingInput = {
@@ -165,14 +166,14 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
           : null,
         weeklyWorkingHrs: weeklyWorkingHrs
           ? parseInt(weeklyWorkingHrs.toString())
-          : null,
+          : null
       };
       if (id) {
         await addUpdateLeasingInformation({
           variables: {
             userId: parseInt(id),
-            leasingInformationInput: leasingInput,
-          },
+            leasingInformationInput: leasingInput
+          }
         });
         toast.success(languageTranslation('CARE_GIVER_LEASING_UPDATE_SUCCESS'));
       }
@@ -205,7 +206,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     firstDay = '',
     lastDay = '',
     monthlyWorkingHrs = null,
-    weeklyWorkingHrs = null,
+    weeklyWorkingHrs = null
   } = leasingData ? leasingData : {};
   const initialValues: ILeasingValues = {
     placeOfBirth: placeOfBirth ? placeOfBirth : '',
@@ -226,21 +227,29 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     firstDay,
     lastDay,
     monthlyWorkingHrs,
-    weeklyWorkingHrs,
+    weeklyWorkingHrs
   };
 
   return (
     <>
-      <Formik
-        initialValues={initialValues}
-        enableReinitialize={true}
-        onSubmit={handleSubmit}
-        validationSchema={LeasingDataValidationSchema}
-        render={(props: FormikProps<ILeasingValues>) => {
-          return <LeasingPersonalDataFormComponent {...props} />;
-        }}
-      />
-      <LeasingPaySlipComponent />
+      {loading ? (
+        <div className='overview-loader'>
+          <Loader />
+        </div>
+      ) : (
+        <>
+          <Formik
+            initialValues={initialValues}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}
+            validationSchema={LeasingDataValidationSchema}
+            render={(props: FormikProps<ILeasingValues>) => {
+              return <LeasingPersonalDataFormComponent {...props} />;
+            }}
+          />
+          <LeasingPaySlipComponent />
+        </>
+      )}
     </>
   );
 };

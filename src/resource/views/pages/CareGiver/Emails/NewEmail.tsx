@@ -12,11 +12,11 @@ import {
   languageTranslation,
   HtmlToDraftConverter,
   logger,
-  stripHtml,
+  stripHtml
 } from '../../../../../helpers';
 import {
   EmailTemplateQueries,
-  ProfileQueries,
+  ProfileQueries
 } from '../../../../../graphql/queries';
 import {
   IReactSelectInterface,
@@ -24,7 +24,7 @@ import {
   IEmailTemplateData,
   INewEmailProps,
   IEmailAttachmentData,
-  INewEmailAttachments,
+  INewEmailAttachments
 } from '../../../../../interfaces';
 import { EmailFormComponent } from './EmailFormComponent';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
@@ -42,10 +42,10 @@ let toastId: any = null;
 
 const NewEmail: FunctionComponent<INewEmailProps> = ({
   emailData,
-  selectedUserName,
+  selectedUserName
 }: INewEmailProps) => {
   const userData: any = client.readQuery({
-    query: VIEW_PROFILE,
+    query: VIEW_PROFILE
   });
   const { viewAdminProfile = {} } = userData ? userData : {};
   const { firstName = '', lastName = '' } = viewAdminProfile
@@ -64,9 +64,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     GET_CAREGIVER_EMAIL_TEMPLATES,
     {
       variables: {
-        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE'),
-      },
-    },
+        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE')
+      }
+    }
   );
 
   const [addNewEmail, { loading: adding }] = useMutation<
@@ -93,19 +93,19 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    },
+    }
   });
 
   const templateOptions: IReactSelectInterface[] | undefined = [];
   if (data && data.getEmailtemplate) {
     const {
-      getEmailtemplate: { email_templates },
+      getEmailtemplate: { email_templates }
     } = data;
     if (email_templates && email_templates.length) {
       email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
         templateOptions.push({
           label: menuEntry,
-          value: id ? id.toString() : '',
+          value: id ? id.toString() : ''
         });
       });
     }
@@ -113,12 +113,12 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   const setDefaultSignature = (body: any) => {
     const contentBlock = htmlToDraft(
       `<div><span style="font-size:15px;">Hello ${selectedUserName}</span>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
-        'BEST_WISHES',
-      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-377%2007%2067%2020" style="color: #000; text-decoration: none;">+49-30-377 07 67 20</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-377%2007%2067%2021" style="color: #000; text-decoration: none;">+49-30-377 07 67 21</a></span><br><span><strong>E-Mail:</strong> <a href="#" style="color: #000; text-decoration: none;">kontakt@solona.de</a></span><br><span><a href="www.solona.de" style="color: #000; text-decoration: none;">www.solona.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;;">Solona Personal list ein der Essenz Personal Agency GmbH, Weststr, 1, 13405 Berlin, Deutschland</span><br><span style="font-size: 12px;color: #b5b4b4;;">Eintragung im Handelsrigester; Registergericht Berlin-Charlottenburg, Registernumber:HRB 188828 B, Geschaftsfuhrer: Michael Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;;">Tel: +49-30-577 07 67 20 Fax: +49-30-577 07 67 21</span><br><span style="font-size: 12px;color: #b5b4b4;;">Aufsichtsbehorde: Agentur fur Arbeit Kiel Tel: 0431 709 1010</span></div></div>`,
+        'BEST_WISHES'
+      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-377%2007%2067%2020" style="color: #000; text-decoration: none;">+49-30-377 07 67 20</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-377%2007%2067%2021" style="color: #000; text-decoration: none;">+49-30-377 07 67 21</a></span><br><span><strong>E-Mail:</strong> <a href="#" style="color: #000; text-decoration: none;">kontakt@solona.de</a></span><br><span><a href="www.solona.de" style="color: #000; text-decoration: none;">www.solona.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;;">Solona Personal list ein der Essenz Personal Agency GmbH, Weststr, 1, 13405 Berlin, Deutschland</span><br><span style="font-size: 12px;color: #b5b4b4;;">Eintragung im Handelsrigester; Registergericht Berlin-Charlottenburg, Registernumber:HRB 188828 B, Geschaftsfuhrer: Michael Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;;">Tel: +49-30-577 07 67 20 Fax: +49-30-577 07 67 21</span><br><span style="font-size: 12px;color: #b5b4b4;;">Aufsichtsbehorde: Agentur fur Arbeit Kiel Tel: 0431 709 1010</span></div></div>`
     );
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(
-        contentBlock.contentBlocks,
+        contentBlock.contentBlocks
       );
       const editorState = EditorState.createWithContent(contentState);
       return editorState;
@@ -156,11 +156,11 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
     const {
-      getEmailtemplate: { email_templates },
+      getEmailtemplate: { email_templates }
     } = data;
     setTemplate(selectedOption);
     const templateData = email_templates.filter(
-      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value),
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value)
     )[0];
     if (templateData) {
       const { subject, body, attachments } = templateData;
@@ -177,10 +177,10 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                 fileName: name,
                 id,
                 path,
-                size,
-              }),
+                size
+              })
             )
-          : [],
+          : []
       );
     }
   };
@@ -205,7 +205,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           attachments:
             attachments && attachments.length
               ? attachments.filter(
-                  (attachment: IEmailAttachmentData) => attachment.path,
+                  (attachment: IEmailAttachmentData) => attachment.path
                 )
               : [],
           files:
@@ -213,7 +213,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
               ? attachments
                   .map((item: IEmailAttachmentData) => item.file)
                   .filter((file: File | null) => file)
-              : null,
+              : null
         };
         addNewEmail({ variables: { emailInput } });
       }
@@ -232,17 +232,17 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   const onDelteDocument = async (
     attachmentId: string,
-    attachmentIndex?: number,
+    attachmentIndex?: number
   ) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG'),
+      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG')
     });
     if (!value) {
       return;
     } else {
       setAttachments((prevArray: any) =>
-        prevArray.filter((_: any, index: number) => attachmentIndex !== index),
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index)
       );
     }
   };

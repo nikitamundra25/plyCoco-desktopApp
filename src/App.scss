@@ -179,6 +179,13 @@ body {
       cursor: not-allowed;
     }
   }
+  .new-email-btn {
+    padding: 0px 15px;
+    font-weight: 600;
+    font-size: $font_12;
+    height: 25px;
+    border-radius: 2px;
+  }
 
   .btn-active {
     background: $transparent;
@@ -1935,6 +1942,14 @@ html:not([dir="rtl"]) {
     &.filesize-th-column {
       width: 80px;
       min-width: 80px;
+    }
+    &.priority-th-column {
+      width: 150px;
+      min-width: 150px;
+    }
+    &.contact-th-column{
+      width: 300px;
+      min-width: 200px;
     }
     &.date-column {
       width: 80px;

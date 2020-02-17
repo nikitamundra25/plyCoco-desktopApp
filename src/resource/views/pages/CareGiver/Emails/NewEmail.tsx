@@ -260,21 +260,13 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
               <div className="email-inbox-section">
                 <div className="email-row-wrap align-items-md-center email-attributes-wrap flex-column flex-md-row">
                   <div
-                    className="email-attributes-content d-flex align-items-center"
+                    className="email-attributes-content btn-primary new-email-btn mr-2"
                     onClick={onNewEmail}
                   >
-                    <i className="fa fa-envelope mr-1" aria-hidden="true"></i>
+                    <i className="icon-note mr-2" aria-hidden="true"></i>
                     <span> {languageTranslation("NEW_EMAIL")}</span>
                   </div>
-                  {/* <span className="email-attributes-seprator">|</span>
-                  <div className="email-attributes-content" onClick={sendEmail}>
-                    <i
-                      className="fa fa-paper-plane mr-1"
-                      aria-hidden="true"
-                    ></i>
-                    <span>{languageTranslation("SEND")}</span>
-                  </div> */}
-                  <span className="email-attributes-seprator">|</span>
+
                   <div className="email-attributes-content input-wrap ">
                     <FormGroup className="d-flex align-items-center m-0 ">
                       <Label className="d-flex align-items-center m-0 mr-1">
@@ -331,14 +323,15 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
               />
             </Col>
           </Row>
-          <div className="employee-document-list custom-scrollbar mb-3">
-            {attachments && attachments.length ? (
+
+          {attachments && attachments.length ? (
+            <div className="employee-document-list custom-scrollbar mb-3">
               <AttachmentList
                 attachment={attachments}
                 onDelteDocument={onDelteDocument}
               />
-            ) : null}
-          </div>
+            </div>
+          ) : null}
 
           <div className="d-flex align-items-center justify-content-end ">
             <div>

@@ -17,6 +17,14 @@
         .common-list-body {
           height: 88px;
           max-height: 88px;
+          @media only screen and (min-width: 1366px) {
+            height: 115px;
+            max-height: 115px;
+          }
+          @media only screen and (min-width: 1600px) {
+            height: 160px;
+            max-height: 160px;
+          }
         }
       }
     }

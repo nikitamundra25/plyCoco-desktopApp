@@ -138,7 +138,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const handleSelectAll = async () => {
     if (careGiverData && careGiverData.length) {
       let list: any = [];
-      if (selectedCareGiver && selectedCareGiver.length >= 0) {
+      if (!bulkcareGivers) {
         careGiverData.map((key: any) => {
           return (list = [...list, parseInt(key.id)]);
         });

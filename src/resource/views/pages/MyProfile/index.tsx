@@ -95,7 +95,15 @@ const MyProfile: FunctionComponent = () => {
   ) => {
     try {
       toast.dismiss();
-      updateAdminProfile({ variables: { userInput: { ...values } } });
+      updateAdminProfile({
+        variables: {
+          userInput: {
+            firstName: firstName ? firstName.trim() : '',
+            lastName: lastName ? lastName.trim() : '',
+            email: email ? email.trim() : '',
+          },
+        },
+      });
     } catch (error) {
       const message = errorFormatter(error);
       if (!toast.isActive(toastId)) {

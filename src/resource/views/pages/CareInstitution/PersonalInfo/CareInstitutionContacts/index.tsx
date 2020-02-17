@@ -296,7 +296,6 @@ const CareInstitutionContacts: any = (props: any) => {
 
   useEffect(() => {
     if (props.careInstitutionAttrOpt && props.careInstitutionAttrOpt.length) {
-      
       setcontactAttributeOpt(props.careInstitutionAttrOpt);
     }
   }, [props]);
@@ -311,13 +310,13 @@ const CareInstitutionContacts: any = (props: any) => {
                   return (
                     <NavItem className='text-capitalize mb-2' key={index}>
                       <NavLink
-                        className={`contact-right ${
-                          index === activeContact ? 'active' : ''
-                        }`}
+                        className={`${
+                          contact && contact.contactType ? 'contact-right' : ''
+                        }  ${index === activeContact ? 'active' : ''}`}
                         onClick={() => setActiveContact(index)}
                       >
                         {contact && contact.contactType
-                          ? contact.contactType + ' ' + contact.id
+                          ? contact.contactType
                           : 'New contact'}{' '}
                       </NavLink>
                       {contact && contact.contactType ? (
@@ -346,7 +345,9 @@ const CareInstitutionContacts: any = (props: any) => {
             {...props}
             ContactFromAdd={ContactFromAdd}
             addAttribute={(data: String) => {
-              setisNewAttribute([data]);
+              attributes && !attributes.length
+                ? setisNewAttribute([data])
+                : null;
               addAttribute({
                 variables: {
                   name: data

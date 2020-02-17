@@ -14,3 +14,20 @@
     max-height: 400px;
   }
 }
+.attach-document-list {
+  height: 155px;
+  overflow-y: auto;
+}
+.dropzone-preview {
+  height: 100px;
+}
+.wrapperClassName {
+  .editorClassName {
+    border: 1px solid $table_border;
+    border-top: 0px;
+    background: $white;
+    min-height: 150px;
+    padding: 0px 10px;
+    max-height: 150px;
+  }
+}

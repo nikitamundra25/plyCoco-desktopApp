@@ -67,7 +67,11 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     GET_CAREGIVER_EMAIL_TEMPLATES,
     {
       variables: {
-        type: languageTranslation("CAREGIVER_EMAIL_TEMPLATE_TYPE")
+        type: languageTranslation(
+          userRole === "canstitution"
+            ? "CAREINSTITUTION_EMAIL_TEMPLATE_TYPE"
+            : "CAREGIVER_EMAIL_TEMPLATE_TYPE"
+        )
       }
     }
   );
@@ -77,6 +81,15 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   //   fetchContactListById,
   //   { data: contactList, loading: contactListLoading }
   // ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
+
+  // useEffect(() => {
+  //   // Fetch contact details by care institution id
+  //   if (id) {
+  //     fetchContactListById({
+  //       variables: { careInstitutionId: parseInt(id) }
+  //     });
+  //   }
+  // }, []);
 
   const [addNewEmail, { loading: adding }] = useMutation<
     {
@@ -120,6 +133,22 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     }
   }
 
+  // set contact list options
+  // const contactOptions: IReactSelectInterface[] | undefined = [];
+  // if (contactList && contactList.getEmailtemplate) {
+  //   const {
+  //     getEmailtemplate: { email_templates }
+  //   } = data;
+  //   if (email_templates && email_templates.length) {
+  //     email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
+  //       contactOptions.push({
+  //         label: menuEntry,
+  //         value: id ? id.toString() : ""
+  //       });
+  //     });
+  //   }
+  // }
+
   const setDefaultSignature = (body: any) => {
     const contentBlock = htmlToDraft(
       `<div><span style="font-size:15px;">Hello ${selectedUserName}</span>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
@@ -140,6 +169,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     const updatedContent: any = setDefaultSignature(body);
     setBody(updatedContent);
   }, [id]);
+
   // To set subject & body on reply
   useEffect(() => {
     if (emailData) {

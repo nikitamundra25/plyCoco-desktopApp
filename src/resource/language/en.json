@@ -102,6 +102,7 @@
   "MENU_FURTHER_BULK_EMAIL_CANSTITUTION": "Bulk Email Care Institutions",
   "MENU_FURTHER_EMAIL_TEMPLATES": "Email Templates",
   "CAREGIVER_EMAIL_TEMPLATE_TYPE": "Caregiver Profile",
+  "CAREINSTITUTION_EMAIL_TEMPLATE_TYPE": "Careinstitution Profile",
   "MENU_FURTHER_EMPLOYEE": "Employees",
   "MENU_FURTHER_PERMISSION": "Permissions",
   "MENU_FURTHER_SCHEDULER": "Scheduler",

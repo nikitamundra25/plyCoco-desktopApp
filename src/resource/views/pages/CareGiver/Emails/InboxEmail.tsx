@@ -38,6 +38,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
   const onEmailSelection = (email: any) => {
     setEmailData(email);
   };
+
   useEffect(() => {
     if (emailList && emailList.getEmails && emailList.getEmails.length) {
       setEmailData(emailList.getEmails[0]);
@@ -45,7 +46,6 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
       setEmailData(null);
     }
   }, [emailList]);
-  console.log("searchBy", searchBy);
 
   return (
     <div className="email-section">
@@ -117,7 +117,9 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                   <div className="overview-loader">
                     <Loader />
                   </div>
-                ) : emailList && emailList.getEmails.length ? (
+                ) : emailList &&
+                  emailList.getEmails &&
+                  emailList.getEmails.length ? (
                   <ul className="mb-3 mb-lg-0 p-0 list-group custom-scrollbar">
                     {emailList.getEmails.map((email: any, index: number) => {
                       return (

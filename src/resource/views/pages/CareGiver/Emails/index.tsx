@@ -41,7 +41,7 @@ const Email: FunctionComponent<{
     const query = qs.parse(search);
     // Initialize variables
     let variables: IEmailQueryVar = {
-      userId: id ? parseInt(id) : 0,
+      receiverUserId: id ? parseInt(id) : 0,
       from: "caregiver",
       searchBy
     };
@@ -87,7 +87,7 @@ const Email: FunctionComponent<{
 
   const onRefresh = (from: string) => {
     let variables: IEmailQueryVar = {
-      userId: id ? parseInt(id) : 0,
+      receiverUserId: id ? parseInt(id) : 0,
       from,
       searchBy
     };

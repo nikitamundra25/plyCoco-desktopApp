@@ -50,11 +50,12 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   });
 
   const { viewAdminProfile }: any = userData ? userData : {};
-  const { firstName = "", lastName = "" } = viewAdminProfile
+
+  const { firstName = "", lastName = "", id = "" } = viewAdminProfile
     ? viewAdminProfile
     : {};
 
-  let { id } = useParams();
+  let { id: Id } = useParams();
   const [subject, setSubject] = useState<string>("");
   const [body, setBody] = useState<any>("");
   const [parentId, setParentId] = useState<number | null>(null);
@@ -137,12 +138,12 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   // const contactOptions: IReactSelectInterface[] | undefined = [];
   // if (contactList && contactList.getEmailtemplate) {
   //   const {
-  //     getEmailtemplate: { email_templates }
+  //     getEmailtemplate: { contact_list }
   //   } = data;
-  //   if (email_templates && email_templates.length) {
-  //     email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
+  //   if (contact_list && contact_list.length) {
+  //     contact_list.map(({ list, id }: any) => {
   //       contactOptions.push({
-  //         label: menuEntry,
+  //         label: list,
   //         value: id ? id.toString() : ""
   //       });
   //     });
@@ -163,12 +164,13 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       return editorState;
     }
   };
+
   // To set default salutation & signature while composing the newemail
   useEffect(() => {
     let body = "<br /><br /><br /><br /><br /><br />";
     const updatedContent: any = setDefaultSignature(body);
     setBody(updatedContent);
-  }, [id]);
+  }, [Id]);
 
   // To set subject & body on reply
   useEffect(() => {
@@ -246,7 +248,8 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     try {
       if (subject && body && result && result.length >= 2) {
         const emailInput: IAddEmailVariables = {
-          userId: id ? parseInt(id) : 0,
+          senderUserId: id ? parseInt(id) : 0,
+          receiverUserId: Id ? parseInt(Id) : 0,
           to: "caregiver",
           from: "plycoco",
           subject: subject /* .replace(/AW:/g, '') */,

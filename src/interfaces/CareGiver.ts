@@ -314,7 +314,8 @@ export interface IAddCargiverRes {
 }
 
 export interface IAddEmailVariables {
-  userId: number;
+  senderUserId?: number;
+  receiverUserId: number;
   to: string;
   from: string;
   subject: string;
@@ -359,7 +360,7 @@ export interface IEmailFormComponentPorps {
 }
 
 export interface IEmailQueryVar {
-  userId: number;
+  receiverUserId: number;
   from: string;
   searchBy: string;
 }

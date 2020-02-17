@@ -1090,16 +1090,16 @@ html:not([dir='rtl']) {
     }
     a {
       font-weight: 400;
-      color: #007bff !important;
+      color: #d99119 !important;
       text-decoration: none;
       span {
-        color: #007bff !important;
+        color: #d99119 !important;
       }
       &:hover {
-        color: #0056b3 !important;
+        color: #d99119 !important;
         text-decoration: underline;
         span {
-          color: #0056b3 !important;
+          color: #d99119 !important;
         }
       }
     }

@@ -180,8 +180,6 @@ const CotactFormComponent: any = (
     setFieldTouched
   } = props;
 
-  console.log('attributeIDDDDDD', attributeId);
-
   const ContactError: any = errors.contactType;
 
   return (

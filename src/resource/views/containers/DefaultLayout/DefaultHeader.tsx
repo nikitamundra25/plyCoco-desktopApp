@@ -9,7 +9,7 @@ import {
 } from 'reactstrap';
 import { useHistory } from 'react-router';
 import { useQuery } from '@apollo/react-hooks';
-import { AppRoutes } from '../../../../config';
+import { AppRoutes, client } from '../../../../config';
 import { ProfileQueries } from '../../../../graphql/queries';
 import logo from '../../../assets/img/plycoco-orange.png';
 
@@ -17,7 +17,9 @@ const [VIEW_PROFILE] = ProfileQueries;
 
 const DefaultHeader: FunctionComponent = () => {
   const history = useHistory();
-  const { data } = useQuery(VIEW_PROFILE);
+  const { data } = useQuery(VIEW_PROFILE, {
+    fetchPolicy: 'cache-and-network',
+  });
 
   return (
     <React.Fragment>
@@ -43,7 +45,10 @@ const DefaultHeader: FunctionComponent = () => {
 
           <DropdownMenu className='profile-dropdown'>
             <DropdownItem className='user-box'>
-              <div className='user-text'>
+              <div
+                className='user-text'
+                onClick={() => history.push(AppRoutes.MY_PROFILE)}
+              >
                 <h6>
                   <b>
                     {data && data.viewAdminProfile

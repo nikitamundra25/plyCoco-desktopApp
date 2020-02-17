@@ -4,7 +4,6 @@ import { ICareGiverListComponentProps } from "../../../../interfaces/BulkEmailCa
 import Loader from "../../containers/Loader/Loader";
 import { languageTranslation } from "../../../../helpers";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { loadingIndicatorCSS } from "react-select/src/components/indicators";
 
 export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentProps &
   any> = (props: ICareGiverListComponentProps & any) => {

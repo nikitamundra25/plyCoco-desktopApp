@@ -98,11 +98,9 @@ const Email: FunctionComponent<{
       target: { value }
     } = event;
     setSearchBy(value);
-    console.log("value", value);
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("searchBy", searchBy);
     let queryParam: any = query;
     delete queryParam.searchBy;
     if (searchBy) {

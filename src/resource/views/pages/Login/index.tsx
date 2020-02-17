@@ -51,7 +51,9 @@ export const Login: FunctionComponent = () => {
   ) => {
     try {
       adminLogin({
-        variables: { authInput: { userName, password } },
+        variables: {
+          authInput: { userName: userName ? userName.trim() : '', password },
+        },
       });
     } catch (error) {
       const message = errorFormatter(error);

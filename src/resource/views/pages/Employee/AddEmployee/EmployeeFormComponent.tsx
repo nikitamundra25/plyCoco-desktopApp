@@ -459,7 +459,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     <Input
                                       name={'zip'}
                                       onChange={handleChange}
-                                      maxLength={10}
+                                      maxLength={15}
                                       // className="form-control"
                                       placeholder={languageTranslation(
                                         'EMPLOYEE_ZIP_LABEL'

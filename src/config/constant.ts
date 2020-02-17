@@ -7,7 +7,7 @@ export const ssn: number = 12;
 export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi;
 export const PAGE_LIMIT: number = 10;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
-export const defaultDateTimeFormat: any = 'lll';
+export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm:ss';
 export const dateFormat: any = 'MMM, Do YYYY';
 export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
@@ -39,18 +39,23 @@ export const IBANRegex: maskArray = [
   /\d/,
   ' ',
   /\d/,
+  ' ',
   /\d/,
   /\d/,
   /\d/,
   ' ',
   /\d/,
+  ' ',
   /\d/,
   /\d/,
   /\d/,
   ' ',
   /\d/,
+  ' ',
   /\d/,
   /\d/,
+  /\d/,
+  ' ',
   /\d/,
   ' ',
   /\d/,
@@ -58,10 +63,12 @@ export const IBANRegex: maskArray = [
 ];
 
 export const DateMask: maskArray = [
+  /\d/,
+  /\d/,
+  '/',
   /[0-9]/,
   /\d/,
   '/',
-  /\d/,
   /\d/,
   '/',
   /\d/,
@@ -78,37 +85,34 @@ export const Status: IReactSelectInterface[] = [
 export const webRegExp: RegExp = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.​\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[​6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1​,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00​a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u​00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i;
 
 export const ContactType: IReactSelectInterface[] = [
-  { value: 'Medical director', label: 'Medical director' },
-  { value: 'Bookkeeper', label: 'Bookkeeper' },
-  { value: 'Head physician', label: 'Head physician' },
-  { value: 'Director', label: 'Director' },
-  { value: 'Managing director', label: 'Managing director' },
-  { value: 'Nursing home director', label: 'Nursing home director' },
+  { value: 'Administration department', label: 'Administration department' },
   { value: 'Assistant medical director', label: 'Assistant medical director' },
-  {
-    value: 'Head of the nursing service',
-    label: 'Head of the nursing service'
-  },
-  {
-    value: 'Head of the nursing service',
-    label: 'Head of the nursing service'
-  },
   {
     value: 'Assitant to the head of the nursing service',
     label: 'Assitant to the head of the nursing service'
   },
-  { value: 'Guesthouse', label: 'Guesthouse' },
-  { value: 'HR department', label: 'HR department' },
-  { value: 'Health care director', label: 'Health care director' },
-  { value: 'Practice manager', label: 'Practice manager' },
+  { value: 'Bookkeeper', label: 'Bookkeeper' },
+  { value: 'Branch office', label: 'Branch office' },
+  { value: 'Director', label: 'Director' },
   { value: 'General manager', label: 'General manager' },
-  { value: 'Secretary', label: 'Secretary' },
-  { value: 'Other', label: 'Other' },
-  { value: 'Vice director', label: 'Vice director' },
-  { value: 'Administration department', label: 'Administration department' },
+  { value: 'Guesthouse', label: 'Guesthouse' },
+  {
+    value: 'Head of the nursing service',
+    label: 'Head of the nursing service'
+  },
+  { value: 'Head physician', label: 'Head physician' },
   { value: 'Headquarter', label: 'Headquarter' },
-  { value: 'Branch office', label: 'Branch office' }
+  { value: 'Health care director', label: 'Health care director' },
+  { value: 'HR department', label: 'HR department' },
+  { value: 'Managing director', label: 'Managing director' },
+  { value: 'Medical director', label: 'Medical director' },
+  { value: 'Nursing home director', label: 'Nursing home director' },
+  { value: 'Other', label: 'Other' },
+  { value: 'Practice manager', label: 'Practice manager' },
+  { value: 'Secretary', label: 'Secretary' },
+  { value: 'Vice director', label: 'Vice director' }
 ];
+
 export const InvoiceType: IReactSelectInterface[] = [
   {
     value: 'By emails without documents',
@@ -1141,6 +1145,11 @@ export const Priority: IReactSelectInterface[] = [
   { value: 'Normal', label: languageTranslation('NORMAL') },
   { value: 'High', label: languageTranslation('HIGH') }
 ];
+export const TodoFilter: IReactSelectInterface[] = [
+  { value: 'Hide Done', label: languageTranslation('HIDE_DONE') },
+  { value: 'Hide Future Ones', label: languageTranslation('HIDE_FUTURE_ONES') }
+];
+
 export const SortOptions: IReactSelectInterface[] = [
   {
     label: languageTranslation('SORTBY_OPTION3'),

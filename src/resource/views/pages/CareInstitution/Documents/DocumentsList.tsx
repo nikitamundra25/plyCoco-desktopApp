@@ -1,8 +1,23 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Table, Button, Input, UncontrolledTooltip } from 'reactstrap';
+import {
+  Table,
+  Button,
+  Input,
+  UncontrolledTooltip,
+  FormGroup,
+  Row,
+  Col
+} from 'reactstrap';
 import moment from 'moment';
+import Select from 'react-select';
 import { languageTranslation, formatFileSize } from '../../../../../helpers';
-import { AppConfig, defaultDateTimeFormat } from '../../../../../config';
+import {
+  AppConfig,
+  defaultDateTimeFormat,
+  State,
+  DocumentTypes
+} from '../../../../../config';
+
 import Loader from '../../../containers/Loader/Loader';
 const DocumentsList: FunctionComponent<any> = (props: any) => {
   const {
@@ -36,7 +51,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
 
   return (
     <>
-      <div className='document-upload-section mb-3'>
+      <div className='document-upload-section '>
         <div className='d-flex align-items-center justify-content-between flex-wrap'>
           <h5 className='content-title mb-3'>
             {languageTranslation('CG_SUB_MENU_DOCUMENTS')}
@@ -261,6 +276,49 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
             )}
           </tbody>
         </Table>
+
+        <Row>
+          <Col lg={4} md={5} sm={12}>
+            <h5 className='content-title '>
+              {languageTranslation('EXPLICITLY_DOCUMENT')}
+            </h5>
+            <div className='common-list-wrap'>
+              <div className='common-list-header d-flex align-items-cente justify-content-between'>
+                <div className='common-list-title align-middle'>
+                  {languageTranslation('TYPE')}{' '}
+                </div>
+                <div className=' align-middle toggle-icon'>
+                  <i className='fa fa-angle-down'></i>
+                </div>
+              </div>
+              <div className='common-list-body custom-scrollbar filetypelist'>
+                <ul className='common-list list-unstyled mb-0'>
+                  {DocumentTypes
+                    ? DocumentTypes.map((type: any) => {
+                        return <li>{type.value}</li>;
+                      })
+                    : null}
+                </ul>
+              </div>
+              <div className='common-list-footer form-section '>
+                <div className='contact-attribute '>
+                  <FormGroup className='mb-0'>
+                    <Select
+                      placeholder={languageTranslation('TYPE')}
+                      options={State}
+                      menuPlacement={'top'}
+                      className='attribute-select'
+                      classNamePrefix='attribute-inner-select'
+                    />
+                  </FormGroup>
+                  <Button className='add-attribute-btn  d-flex align-items-center justify-content-center'>
+                    <i className={'fa fa-plus'} />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
       </div>
     </>
   );

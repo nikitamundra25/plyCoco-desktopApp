@@ -1,12 +1,12 @@
-import { Location } from 'history';
-import * as H from 'history';
-import { IReactSelectInterface } from './Constant';
-import { ICareInstitutionRemarks } from './CareInstitution';
-import { number } from 'prop-types';
+import { Location } from "history";
+import * as H from "history";
+import { IReactSelectInterface } from "./Constant";
+import { ICareInstitutionRemarks } from "./CareInstitution";
+import { number } from "prop-types";
 import {
   IEmailInputAttachmenttypes,
-  IEmailAttachmentData,
-} from './EmailTemplate';
+  IEmailAttachmentData
+} from "./EmailTemplate";
 
 export interface ICareGiverInput {
   id?: string;
@@ -314,7 +314,8 @@ export interface IAddCargiverRes {
 }
 
 export interface IAddEmailVariables {
-  userId: number;
+  senderUserId?: number;
+  receiverUserId: number;
   to: string;
   from: string;
   subject: string;
@@ -328,6 +329,7 @@ export interface IAddEmailVariables {
 export interface INewEmailProps {
   emailData: any;
   selectedUserName: string;
+  userRole: string;
 }
 
 export interface IEmailData {
@@ -358,7 +360,8 @@ export interface IEmailFormComponentPorps {
 }
 
 export interface IEmailQueryVar {
-  userId: number;
+  receiverUserId?: number | null;
+  senderUserId: number | null;
   from: string;
   searchBy: string;
 }
@@ -366,6 +369,7 @@ export interface IEmailQueryVar {
 export interface IEmailListProps extends IEmailSearchFilterProps {
   emailList: any;
   selectedUserName: string;
+  userRole?: string;
   loading: boolean;
   onRefresh: (from: string) => void;
 }

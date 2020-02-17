@@ -14,7 +14,14 @@ const [, , , GET_EMAILS] = CareGiverQueries;
 
 const Email: FunctionComponent<{
   selectedUserName: string;
-}> = ({ selectedUserName }: { selectedUserName: string }) => {
+  userRole: string;
+}> = ({
+  selectedUserName,
+  userRole,
+}: {
+  selectedUserName: string;
+  userRole: string;
+}) => {
   let { id } = useParams();
   const { search, pathname } = useLocation();
   const query = qs.parse(search);
@@ -34,7 +41,8 @@ const Email: FunctionComponent<{
     const query = qs.parse(search);
     // Initialize variables
     let variables: IEmailQueryVar = {
-      userId: id ? parseInt(id) : 0,
+      senderUserId: id ? parseInt(id) : 0,
+      receiverUserId: null,
       from: 'caregiver',
       searchBy,
     };
@@ -52,7 +60,12 @@ const Email: FunctionComponent<{
         searchBy: query.searchBy ? query.searchBy.toString() : '',
       };
       if (index === 1) {
-        variables = { ...variables, from: 'plycoco' };
+        variables = {
+          ...variables,
+          from: 'plycoco',
+          receiverUserId: id ? parseInt(id) : 0,
+          senderUserId: null,
+        };
       }
       if (refetch) {
         refetch(variables);
@@ -61,9 +74,11 @@ const Email: FunctionComponent<{
       }
     } else {
       setEmailData('');
+      console.log('in useEffect else');
+
       fetchEmails({ variables });
     }
-  }, [search]);
+  }, [search, id]);
 
   const onTabChange = (activeTab: number, data?: any) => {
     setEmailData(data);
@@ -80,7 +95,8 @@ const Email: FunctionComponent<{
 
   const onRefresh = (from: string) => {
     let variables: IEmailQueryVar = {
-      userId: id ? parseInt(id) : 0,
+      senderUserId: from === 'caregiver' ? (id ? parseInt(id) : 0) : null,
+      receiverUserId: from === 'plycoco' ? (id ? parseInt(id) : 0) : null,
       from,
       searchBy,
     };
@@ -117,6 +133,7 @@ const Email: FunctionComponent<{
     ].join('?');
     history.push(path);
   };
+
   // render component according to selected tab
   const renderComponent = () => {
     switch (activeTab) {
@@ -145,11 +162,16 @@ const Email: FunctionComponent<{
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             onReset={onReset}
+            userRole={userRole ? userRole : ''}
           />
         );
       case 2:
         return (
-          <NewEmail emailData={emailData} selectedUserName={selectedUserName} />
+          <NewEmail
+            emailData={emailData}
+            selectedUserName={selectedUserName}
+            userRole={userRole ? userRole : ''}
+          />
         );
 
       default:

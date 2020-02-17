@@ -1,16 +1,16 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from "react";
 import {
   Route,
   Switch,
   Redirect,
   RouteComponentProps,
   useHistory,
-  useLocation,
-} from 'react-router-dom';
-import { Container } from 'reactstrap';
-import { AppRoutes } from '../../../../config';
-import routes from '../../../../routes/routes';
-import navigation from '../../../../_nav';
+  useLocation
+} from "react-router-dom";
+import { Container } from "reactstrap";
+import { AppRoutes } from "../../../../config";
+import routes from "../../../../routes/routes";
+import navigation from "../../../../_nav";
 import {
   AppFooter,
   AppHeader,
@@ -19,25 +19,25 @@ import {
   AppSidebarForm,
   AppSidebarHeader,
   AppSidebarMinimizer,
-  AppSidebarNav,
-} from '@coreui/react';
-import { useLazyQuery } from '@apollo/react-hooks';
-import Loader from '../Loader/Loader';
-import { ProfileQueries } from '../../../../graphql/queries';
-import logo from '../../../assets/img/plycoco-white.png';
-import { toast } from 'react-toastify';
-import { ApolloError } from 'apollo-client';
-import { errorFormatter } from '../../../../helpers/ErrorFormatter';
+  AppSidebarNav
+} from "@coreui/react";
+import { useLazyQuery } from "@apollo/react-hooks";
+import Loader from "../Loader/Loader";
+import { ProfileQueries } from "../../../../graphql/queries";
+import logo from "../../../assets/img/plycoco-white.png";
+import { toast } from "react-toastify";
+import { ApolloError } from "apollo-client";
+import { errorFormatter } from "../../../../helpers/ErrorFormatter";
 
-const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
-const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
+const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
+const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 const CareInstitutionTodoLayoutComponent = React.lazy(() =>
   import(
-    '../../pages/CareInstitutionTodo/Sidebar/SidebarLayout/CareInstitutionTodoLayout'
-  ),
+    "../../pages/CareInstitutionTodo/Sidebar/SidebarLayout/CareInstitutionTodoLayout"
+  )
 );
 const CareGiverTodoLayoutComponent = React.lazy(() =>
-  import('../../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout'),
+  import("../../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout")
 );
 
 //Caregiver Todo Layout
@@ -46,12 +46,12 @@ const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
     <Route
       {...rest}
       render={props => (
-        <div className='common-detail-page'>
-          <div className='common-detail-section'>
-            <div className='sticky-common-header'>
+        <div className="common-detail-page">
+          <div className="common-detail-section">
+            <div className="sticky-common-header">
               <CareGiverTodoLayoutComponent />
             </div>
-            <div className='common-content flex-grow-1'>
+            <div className="common-content flex-grow-1">
               <Component {...props} />
             </div>
           </div>
@@ -65,12 +65,12 @@ const CareInstitutionTodoLayout = ({ component: Component, ...rest }: any) => {
     <Route
       {...rest}
       render={props => (
-        <div className='common-detail-page'>
-          <div className='common-detail-section'>
-            <div className='sticky-common-header'>
+        <div className="common-detail-page">
+          <div className="common-detail-section">
+            <div className="sticky-common-header">
               <CareInstitutionTodoLayoutComponent />
             </div>
-            <div className='common-content flex-grow-1'>
+            <div className="common-content flex-grow-1">
               <Component {...props} />
             </div>
           </div>
@@ -89,24 +89,24 @@ const DefaultLayout = (props: RouteComponentProps) => {
   let { pathname } = useLocation();
 
   const [viewAdminProfile, { data }] = useLazyQuery(VIEW_PROFILE, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache",
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-      localStorage.removeItem('adminToken');
+      localStorage.removeItem("adminToken");
       history.push(AppRoutes.LOGIN);
-    },
+    }
   });
 
-  const [permission, setpermission] = useState<string>('');
+  const [permission, setpermission] = useState<string>("");
   useEffect(() => {
     if (data) {
       const { viewAdminProfile } = data;
       setpermission(viewAdminProfile.accessLevel);
       if (
-        viewAdminProfile.accessLevel !== 'superadmin' &&
+        viewAdminProfile.accessLevel !== "superadmin" &&
         (pathname === AppRoutes.EMPLOYEE ||
           pathname === AppRoutes.ADD_EMPLOYEE ||
           pathname === AppRoutes.EDIT_EMPLOYEE ||
@@ -119,18 +119,18 @@ const DefaultLayout = (props: RouteComponentProps) => {
 
   // To add scroll event listener
   useEffect(() => {
-    if (!localStorage.getItem('adminToken')) {
+    if (!localStorage.getItem("adminToken")) {
       history.push(AppRoutes.LOGIN);
     }
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
   // Token verification on route change
   useEffect(() => {
     try {
-      if (localStorage.getItem('adminToken')) {
+      if (localStorage.getItem("adminToken")) {
         viewAdminProfile();
       }
     } catch (error) {
@@ -144,19 +144,19 @@ const DefaultLayout = (props: RouteComponentProps) => {
   // To add sticky class into header
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
-    const header: HTMLElement | null = document.getElementById('sidebar');
+    const header: HTMLElement | null = document.getElementById("sidebar");
     if (header) {
       if (scrollPositionY >= 12) {
-        header.classList.add('sidebar-sticky');
+        header.classList.add("sidebar-sticky");
       } else {
-        header.classList.remove('sidebar-sticky');
+        header.classList.remove("sidebar-sticky");
       }
     }
   };
 
   const navigationFunction = (permissions: any) => {
     const navItems: any = {
-      items: [],
+      items: []
     };
     navigation.items.forEach((nav: any | string) => {
       if (nav) {
@@ -171,16 +171,16 @@ const DefaultLayout = (props: RouteComponentProps) => {
   };
 
   return (
-    <div className='app'>
+    <div className="app">
       <AppHeader>
-        <Suspense fallback={''}>
+        <Suspense fallback={""}>
           <DefaultHeader />
         </Suspense>
       </AppHeader>
-      <div className='app-body'>
-        <AppSidebar fixed minimized display='lg' id='sidebar'>
-          <div className='sidebar-logo'>
-            <img src={logo} alt='' className='img-fluid' />
+      <div className="app-body">
+        <AppSidebar fixed minimized display="lg" id="sidebar">
+          <div className="sidebar-logo">
+            <img src={logo} alt="" className="img-fluid" />
           </div>
           <AppSidebarHeader />
           <AppSidebarForm />
@@ -194,20 +194,20 @@ const DefaultLayout = (props: RouteComponentProps) => {
           <AppSidebarFooter />
           <AppSidebarMinimizer />
         </AppSidebar>
-        <main className='main'>
+        <main className="main">
           <Container fluid>
             <Suspense fallback={<Loader />}>
               <Switch>
                 {routes.map((route: any, idx) => {
                   return route.layout ? (
-                    route.layoutName === 'CareInstitutionTodoLayout' ? (
+                    route.layoutName === "CareInstitutionTodoLayout" ? (
                       <CareInstitutionTodoLayout
                         key={idx}
                         path={route.path}
                         exact={route.exact}
                         component={route.component}
                       />
-                    ) : route.layoutName === 'CareGiverTodoLayout' ? (
+                    ) : route.layoutName === "CareGiverTodoLayout" ? (
                       <CareGiverTodoLayout
                         key={idx}
                         path={route.path}

@@ -17,8 +17,9 @@ export const dateValidator = (
   }
   // Parse the date parts to integers
   var parts: string[] = dateString ? dateString.split('/') : [];
-  var day: number = parseInt(parts[1], 10);
-  var month: number = parseInt(parts[0], 10);
+  
+  var day: number = parseInt(parts[0], 10);
+  var month: number = parseInt(parts[1], 10);
   var year: number = parseInt(parts[2], 10);
 
   const getCurrentYear = new Date().getFullYear();

@@ -19,7 +19,8 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
   searchBy,
   handleChange,
   handleSubmit,
-  onReset
+  onReset,
+  userRole
 }: IEmailListProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [opened, setIsOpened] = useState<boolean>(true);
@@ -97,6 +98,17 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                       className='hover-short-select'
                     /> */}
                   </div>
+                  {userRole === 'canstitution' ? (
+                    <div className='email-date-time-block'>
+                      {languageTranslation('To')}
+                      {/* <Select
+                    placeholder='Select Region'
+                    options={this.options}
+                    classNamePrefix='react-select'
+                    className='hover-short-select'
+                  /> */}
+                    </div>
+                  ) : null}
                   <div className='email-subject-block'>
                     <span>{languageTranslation('OF')}</span>
                     {/* <Select
@@ -151,6 +163,9 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                                 'DD.MM.YYYY HH:mm:ss'
                               )}
                             </div>
+                            {userRole === 'canstitution' ? (
+                              <div className='email-date-time-block'>to</div>
+                            ) : null}
                             <div className='email-subject-block'>
                               {languageTranslation('SUPER_ADMIN')}
                             </div>

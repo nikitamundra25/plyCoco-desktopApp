@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const GET_CARE_INSTITUTION_LIST = gql`
   query(
@@ -23,6 +23,7 @@ const GET_CARE_INSTITUTION_LIST = gql`
         email
         userName
         phoneNumber
+        userRole
         isActive
         createdAt
         canstitution {
@@ -47,6 +48,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
       userName
       phoneNumber
       id
+      userRole
       gender
       canstitution {
         city
@@ -149,5 +151,5 @@ export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
   GET_DEPARTMENT_LIST,
-  GET_CAREINSTITUTION_ATTRIBUTES,
+  GET_CAREINSTITUTION_ATTRIBUTES
 ];

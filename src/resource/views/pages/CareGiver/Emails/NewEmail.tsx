@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { Col, Row, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import Select from 'react-select';
 import { useParams } from 'react-router';
@@ -42,21 +42,25 @@ let toastId: any = null;
 
 const NewEmail: FunctionComponent<INewEmailProps> = ({
   emailData,
-  selectedUserName
+  selectedUserName,
+  userRole
 }: INewEmailProps) => {
   const userData: any = client.readQuery({
     query: VIEW_PROFILE
   });
-  const { viewAdminProfile = {} } = userData ? userData : {};
-  const { firstName = '', lastName = '' } = viewAdminProfile
+
+  const { viewAdminProfile }: any = userData ? userData : {};
+
+  const { firstName = '', lastName = '', id = '' } = viewAdminProfile
     ? viewAdminProfile
     : {};
 
-  let { id } = useParams();
+  let { id: Id } = useParams();
   const [subject, setSubject] = useState<string>('');
   const [body, setBody] = useState<any>('');
   const [parentId, setParentId] = useState<number | null>(null);
   const [template, setTemplate] = useState<any>(undefined);
+  const [contact, setContact] = useState<any>(undefined);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   //To get all email templates of care giver addded in system
@@ -64,10 +68,29 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     GET_CAREGIVER_EMAIL_TEMPLATES,
     {
       variables: {
-        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE')
+        type: languageTranslation(
+          userRole === 'canstitution'
+            ? 'CAREINSTITUTION_EMAIL_TEMPLATE_TYPE'
+            : 'CAREGIVER_EMAIL_TEMPLATE_TYPE'
+        )
       }
     }
   );
+
+  //To get contact list by id
+  //  const [
+  //   fetchContactListById,
+  //   { data: contactList, loading: contactListLoading }
+  // ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
+
+  // useEffect(() => {
+  //   // Fetch contact details by care institution id
+  //   if (id) {
+  //     fetchContactListById({
+  //       variables: { careInstitutionId: parseInt(id) }
+  //     });
+  //   }
+  // }, []);
 
   const [addNewEmail, { loading: adding }] = useMutation<
     {
@@ -110,6 +133,23 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       });
     }
   }
+
+  // set contact list options
+  // const contactOptions: IReactSelectInterface[] | undefined = [];
+  // if (contactList && contactList.getEmailtemplate) {
+  //   const {
+  //     getEmailtemplate: { contact_list }
+  //   } = data;
+  //   if (contact_list && contact_list.length) {
+  //     contact_list.map(({ list, id }: any) => {
+  //       contactOptions.push({
+  //         label: list,
+  //         value: id ? id.toString() : ""
+  //       });
+  //     });
+  //   }
+  // }
+
   const setDefaultSignature = (body: any) => {
     const contentBlock = htmlToDraft(
       `<div><span style="font-size:15px;">Hello ${selectedUserName}</span>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
@@ -124,12 +164,14 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       return editorState;
     }
   };
+
   // To set default salutation & signature while composing the newemail
   useEffect(() => {
     let body = '<br /><br /><br /><br /><br /><br />';
     const updatedContent: any = setDefaultSignature(body);
     setBody(updatedContent);
-  }, [id]);
+  }, [Id]);
+
   // To set subject & body on reply
   useEffect(() => {
     if (emailData) {
@@ -184,6 +226,17 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       );
     }
   };
+
+  //Contact selection
+  const onContactSelection = (selectedOption: any) => {
+    // fetchTemplateById({
+    //   variables: {
+    //     id
+    //   }
+    // });
+    setContact(selectedOption);
+  };
+
   // Function to send new email
   const sendEmail = (e: React.FormEvent<any>) => {
     e.preventDefault();
@@ -195,8 +248,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     try {
       if (subject && body && result && result.length >= 2) {
         const emailInput: IAddEmailVariables = {
-          userId: id ? parseInt(id) : 0,
-          to: 'caregiver',
+          senderUserId: id ? parseInt(id) : 0,
+          receiverUserId: Id ? parseInt(Id) : 0,
+          to: userRole === 'canstitution' ? 'careinstitution' : 'caregiver',
           from: 'plycoco',
           subject: subject /* .replace(/AW:/g, '') */,
           body: body ? content : '',
@@ -259,22 +313,40 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
             <Col lg={'12'}>
               <div className='email-inbox-section'>
                 <div className='email-row-wrap align-items-md-center email-attributes-wrap flex-column flex-md-row'>
-                  <div
-                    className='email-attributes-content d-flex align-items-center'
+                  {/* <div
+                    className="email-attributes-content d-flex align-items-center"
                     onClick={onNewEmail}
                   >
-                    <i className='fa fa-envelope mr-1' aria-hidden='true'></i>
+                    <i className="fa fa-envelope mr-1" aria-hidden="true"></i>
+                    <span> {languageTranslation("NEW_EMAIL")}</span>
+                  </div> */}
+                  <div
+                    className='email-attributes-content btn-primary new-email-btn mr-2'
+                    onClick={onNewEmail}
+                  >
+                    <i className='icon-note mr-2' aria-hidden='true'></i>
                     <span> {languageTranslation('NEW_EMAIL')}</span>
                   </div>
-                  {/* <span className="email-attributes-seprator">|</span>
-                  <div className="email-attributes-content" onClick={sendEmail}>
-                    <i
-                      className="fa fa-paper-plane mr-1"
-                      aria-hidden="true"
-                    ></i>
-                    <span>{languageTranslation("SEND")}</span>
-                  </div> */}
-                  <span className='email-attributes-seprator'>|</span>
+                  {userRole === 'canstitution' ? (
+                    <div className='email-attributes-content new-email-select-wrap ml-0 mr-2'>
+                      <div className='form-section w-100'>
+                        <FormGroup className='mb-0 '>
+                          <Select
+                            placeholder='Select Department'
+                            options={templateOptions}
+                            classNamePrefix='custom-inner-reactselect'
+                            className={'custom-reactselect'}
+                            onChange={onContactSelection}
+                            value={
+                              contact && contact.value !== '' ? contact : null
+                            }
+                          />
+                        </FormGroup>
+                      </div>
+                    </div>
+                  ) : (
+                    ''
+                  )}
                   <div className='email-attributes-content input-wrap '>
                     <FormGroup className='d-flex align-items-center m-0 '>
                       <Label className='d-flex align-items-center m-0 mr-1'>
@@ -331,14 +403,15 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
               />
             </Col>
           </Row>
-          <div className='employee-document-list custom-scrollbar mb-3'>
-            {attachments && attachments.length ? (
+
+          {attachments && attachments.length ? (
+            <div className='employee-document-list custom-scrollbar mb-3'>
               <AttachmentList
                 attachment={attachments}
                 onDelteDocument={onDelteDocument}
               />
-            ) : null}
-          </div>
+            </div>
+          ) : null}
 
           <div className='d-flex align-items-center justify-content-end '>
             <div>

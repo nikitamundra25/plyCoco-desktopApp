@@ -1,27 +1,29 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import { Row } from 'reactstrap';
-import { FormikHelpers } from 'formik';
-import { useMutation, useQuery, useLazyQuery } from '@apollo/react-hooks';
-import { convertToRaw, ContentState, EditorState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-import { toast } from 'react-toastify';
-import { ApolloError } from 'apollo-client';
+import React, { FunctionComponent, useState, useEffect } from "react";
+import { Row } from "reactstrap";
+import { FormikHelpers } from "formik";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { convertToRaw, ContentState, EditorState } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
+import { toast } from "react-toastify";
+import { ApolloError } from "apollo-client";
 import {
   IEmailTemplateValues,
   IReactSelectInterface,
   IEmailTemplateSubmitValues,
   IEmailAttachmentData
-} from '../../../../interfaces';
-import { EmailTemplateQueries } from '../../../../graphql/queries';
-import { EmailTemplateMenu } from './Menu';
-import { EmailTemplateList } from './List';
-import { AddTemplate } from './AddTemplate';
-import { languageTranslation } from '../../../../helpers';
-import { EmailTemplateMutations } from '../../../../graphql/Mutations';
-import { ConfirmBox } from '../../components/ConfirmBox';
-import { errorFormatter } from '../../../../helpers/ErrorFormatter';
-import './index.scss';
+} from "../../../../interfaces";
+import { EmailTemplateQueries } from "../../../../graphql/queries";
+import { EmailTemplateMenu } from "./Menu";
+import { EmailTemplateList } from "./List";
+import { AddTemplate } from "./AddTemplate";
+import { languageTranslation } from "../../../../helpers";
+import { EmailTemplateMutations } from "../../../../graphql/Mutations";
+import { ConfirmBox } from "../../components/ConfirmBox";
+import { errorFormatter } from "../../../../helpers/ErrorFormatter";
+import "./index.scss";
+import { useLocation, useHistory } from "react-router";
+import * as qs from "query-string";
 
 const [
   GET_EMAIL_TEMPLATE_TYEPS,
@@ -41,10 +43,13 @@ const [
   PERMANENT_DELETE_EMAIL_TEMPLATE
 ] = EmailTemplateMutations;
 
-let toastId: any = '';
+let toastId: any = "";
 
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
+  const { search, pathname } = useLocation();
+  const query = qs.parse(search);
+  const history = useHistory();
   const [showArchive, setShowArchive] = useState<boolean>(false);
   const [typeId, setTypeId] = useState<number | null>(null);
   const [attachment, setAttachment] = useState<IEmailAttachmentData[]>([]);
@@ -119,7 +124,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       refetch();
       listRefetch();
       if (!toast.isActive(toastId)) {
-        toastId = toast.success(languageTranslation('EMAIL_ADDED_SUCCESS'));
+        toastId = toast.success(languageTranslation("EMAIL_ADDED_SUCCESS"));
       }
     },
     onError: (error: ApolloError) => {
@@ -141,7 +146,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   >(UPDATE_EMAIL_TEMPLATE, {
     onCompleted({ updateEmailTemplate }) {
       if (!toast.isActive(toastId)) {
-        toastId = toast.success(languageTranslation('EMAIL_UPDATION_SUCCESS'));
+        toastId = toast.success(languageTranslation("EMAIL_UPDATION_SUCCESS"));
       }
     },
     onError: (error: ApolloError) => {
@@ -163,7 +168,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       listRefetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('EMAIL_TEMPLATE_DELETION_SUCCESS')
+          languageTranslation("EMAIL_TEMPLATE_DELETION_SUCCESS")
         );
       }
     },
@@ -187,7 +192,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       );
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('EMAIL_TEMPLATE_ATTACHMENT_DELETION_SUCCESS')
+          languageTranslation("EMAIL_TEMPLATE_ATTACHMENT_DELETION_SUCCESS")
         );
       }
     },
@@ -214,7 +219,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       refetch: archiveListRefetch
     }
   ] = useLazyQuery<any>(GET_ARCHIVE_EMAIL_TEMPLATES, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: "no-cache"
   });
 
   //To get email templates by id
@@ -241,14 +246,14 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     const { viewEmailTemplate = {} } = emailTemplate ? emailTemplate : {};
     const {
       id = null,
-      menuEntry = '',
-      subject = '',
-      body = '',
+      menuEntry = "",
+      subject = "",
+      body = "",
       email_template_type = {},
       attachments = []
     } = viewEmailTemplate ? viewEmailTemplate : {};
-    const { type = '' } = email_template_type ? email_template_type : {};
-    const contentBlock = body ? htmlToDraft(body) : '';
+    const { type = "" } = email_template_type ? email_template_type : {};
+    const contentBlock = body ? htmlToDraft(body) : "";
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(
         contentBlock.contentBlocks
@@ -283,7 +288,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
               fileName: name,
               size,
               file: null,
-              url: '',
+              url: "",
               id
             });
           }
@@ -307,14 +312,14 @@ export const EmailTemplateManagement: FunctionComponent = () => {
         : {};
       const {
         id = null,
-        menuEntry = '',
-        subject = '',
-        body = '',
+        menuEntry = "",
+        subject = "",
+        body = "",
         email_template_type = {},
         attachments = []
       } = trashSingleEmailTemp ? trashSingleEmailTemp : {};
-      const { type = '' } = email_template_type ? email_template_type : {};
-      const contentBlock = body ? htmlToDraft(body) : '';
+      const { type = "" } = email_template_type ? email_template_type : {};
+      const contentBlock = body ? htmlToDraft(body) : "";
       if (contentBlock) {
         const contentState = ContentState.createFromBlockArray(
           contentBlock.contentBlocks
@@ -349,7 +354,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
                 fileName: name,
                 size,
                 file: null,
-                url: '',
+                url: "",
                 id
               });
             }
@@ -373,9 +378,15 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     if (templateType) {
       fetchTemplateList({
         variables: {
-          type: templateType && templateType.label ? templateType.label : ''
+          type: templateType && templateType.label ? templateType.label : ""
         }
       });
+      if (query && query.tab) {
+        fetchArchiveList();
+        setShowArchive(true);
+      } else {
+        setShowArchive(false);
+      }
     }
   }, [templateType]);
 
@@ -395,9 +406,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     // It convert into raw before send it out
     const text = body
       ? draftToHtml(convertToRaw(body.getCurrentContent()))
-      : '';
+      : "";
     // To set template data
-    const contentBlock = text ? htmlToDraft(text) : '';
+    const contentBlock = text ? htmlToDraft(text) : "";
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(
         contentBlock.contentBlocks
@@ -412,11 +423,11 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       });
     }
     const emailTemplateInput: IEmailTemplateSubmitValues = {
-      type: type && type.label ? type.label : '',
+      type: type && type.label ? type.label : "",
       typeId,
-      menuEntry: menuEntry ? menuEntry.trim() : '',
-      subject: subject ? subject.trim() : '',
-      body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '',
+      menuEntry: menuEntry ? menuEntry.trim() : "",
+      subject: subject ? subject.trim() : "",
+      body: body ? draftToHtml(convertToRaw(body.getCurrentContent())) : "",
       attachments:
         attachment && attachment.length
           ? attachment
@@ -488,8 +499,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   const onDeleteEmailTemplate = async () => {
     if (activeTemplate) {
       const { value } = await ConfirmBox({
-        title: languageTranslation('CONFIRM_LABEL'),
-        text: languageTranslation('CONFIRM_EMAIL_TEMPLATE_DELETE_MSG')
+        title: languageTranslation("CONFIRM_LABEL"),
+        text: languageTranslation("CONFIRM_EMAIL_TEMPLATE_DELETE_MSG")
       });
       if (!value) {
         return;
@@ -517,8 +528,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     attachmentIndex?: number
   ) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_DELETE_MSG')
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_EMAIL_ATTACHMENT_DELETE_MSG")
     });
     if (!value) {
       return;
@@ -532,7 +543,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     } else {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('EMAIL_TEMPLATE_ATTACHMENT_DELETION_SUCCESS')
+          languageTranslation("EMAIL_TEMPLATE_ATTACHMENT_DELETION_SUCCESS")
         );
       }
       setAttachment((prevArray: any) =>
@@ -543,8 +554,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
 
   const onRestoreEmailTemplate = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_TEMPLATE_RESTORE_MSG')
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_EMAIL_TEMPLATE_RESTORE_MSG")
     });
     if (!value) {
       return;
@@ -559,14 +570,14 @@ export const EmailTemplateManagement: FunctionComponent = () => {
 
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('EMAIL_TEMPLATE_RESTORED_SUCCESS')
+            languageTranslation("EMAIL_TEMPLATE_RESTORED_SUCCESS")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -576,8 +587,8 @@ export const EmailTemplateManagement: FunctionComponent = () => {
 
   const onPermanentlyDeleteEmployee = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_TEMP_PERMANENT_DELETE_MSG')
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_EMAIL_TEMP_PERMANENT_DELETE_MSG")
     });
     if (!value) {
       return;
@@ -592,14 +603,14 @@ export const EmailTemplateManagement: FunctionComponent = () => {
 
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('EMAIL_TEMP_PERMANENT_DEL_SUCCESS')
+            languageTranslation("EMAIL_TEMP_PERMANENT_DEL_SUCCESS")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -608,22 +619,48 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   };
   //on clicking view trash button
   const onViewTrash = () => {
+    const path = [
+      pathname,
+      qs.stringify({
+        tab: "trash"
+      })
+    ].join("?");
+    history.push(path);
     setShowArchive(true);
     setTemplateData(null);
     fetchArchiveList();
+    setAttachment([]);
   };
+
+  //Handle view trash with url
+  useEffect(() => {
+    if (query && query.tab) {
+      setShowArchive(true);
+    } else {
+      setShowArchive(false);
+    }
+  }, [query]);
 
   //onclicking back to list in view trash
   const onBackToList = () => {
+    delete query.tab;
+    const path = [
+      pathname,
+      qs.stringify({
+        ...query
+      })
+    ].join("?");
+    history.push(path);
     setShowArchive(false);
-    setActiveTemplate('');
+    setActiveTemplate("");
     setTemplateData(null);
     listRefetch();
   };
+
   return (
     <>
-      <div className='common-detail-page'>
-        <div className='common-detail-section'>
+      <div className="common-detail-page">
+        <div className="common-detail-section">
           <EmailTemplateMenu
             id={templateData && templateData.id ? templateData.id : null}
             typeListOptions={typeListOptions}
@@ -637,13 +674,13 @@ export const EmailTemplateManagement: FunctionComponent = () => {
             onAddNewTemplate={() => {
               if (templateType && templateType.value) {
                 setTypeId(parseInt(templateType.value));
-                setActiveTemplate('');
+                setActiveTemplate("");
               }
               setTemplateData({
                 type: templateType ? templateType : undefined,
-                menuEntry: '',
-                subject: '',
-                body: '',
+                menuEntry: "",
+                subject: "",
+                body: "",
                 id: undefined
               });
               setAttachment([]);
@@ -658,7 +695,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
             setActiveTemplate={setActiveTemplate}
             onBackToList={onBackToList}
           />
-          <div className='common-content flex-grow-1'>
+          <div className="common-content flex-grow-1">
             <div>
               <Row>
                 <EmailTemplateList

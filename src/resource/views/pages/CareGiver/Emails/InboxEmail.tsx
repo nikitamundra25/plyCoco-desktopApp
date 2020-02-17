@@ -45,7 +45,11 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
       setEmailData(null);
     }
   }, [emailList]);
-  console.log('searchBy', searchBy);
+  console.log(
+    'searchBy',
+    searchBy,
+    !searchBy && emailList && emailList.getEmails && !emailList.getEmails.length
+  );
 
   return (
     <div className='email-section'>
@@ -117,7 +121,9 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                   <div className='overview-loader'>
                     <Loader />
                   </div>
-                ) : emailList.getEmails.length ? (
+                ) : emailList &&
+                  emailList.getEmails &&
+                  emailList.getEmails.length ? (
                   <ul className='mb-3 mb-lg-0 p-0 list-group custom-scrollbar'>
                     {emailList.getEmails.map((email: any, index: number) => {
                       return (
@@ -165,7 +171,9 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
             <EmailPreview
               emailData={emailData}
               selectedUserName={selectedUserName}
-              length={emailList && emailList.getEmails && emailList.getEmails.length}
+              length={
+                emailList && emailList.getEmails && emailList.getEmails.length
+              }
             />
           </Row>
         )}

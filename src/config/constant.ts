@@ -7,7 +7,7 @@ export const ssn: number = 12;
 export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi;
 export const PAGE_LIMIT: number = 10;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
-export const defaultDateTimeFormat: any = 'DD-MM-YYYY HH:mm:ss';
+export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm:ss';
 export const dateFormat: any = 'MMM, Do YYYY';
 export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;

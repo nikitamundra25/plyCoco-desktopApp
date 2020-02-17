@@ -40,7 +40,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   // To get caregiver list from db
   const [
     fetchCareGiverList,
-    { data: careGivers, called, loading, refetch }
+    { data: careGivers, called, loading, refetch, fetchMore }
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
     fetchPolicy: "no-cache"
   });
@@ -122,15 +122,53 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     }
   }, [careGivers]);
 
+  // const handleInfiniteScroll = () => {
+  //   setPage(page + 1);
+  //   fetchCareGiverList({
+  //     variables: {
+  //       searchBy: "",
+  //       sortBy: 3,
+  //       limit: 30,
+  //       page: page + 1,
+  //       isActive: ""
+  //     }
+  //   });
+  // };
+
   const handleInfiniteScroll = () => {
     setPage(page + 1);
-    fetchCareGiverList({
+    fetchMore({
       variables: {
-        searchBy: "",
-        sortBy: 3,
-        limit: 30,
-        page: page + 1,
-        isActive: ""
+        page: page + 1
+      },
+      updateQuery: (prev: any, { fetchMoreResult }: any) => {
+        if (!fetchMoreResult) return prev;
+        if (prev.getCaregivers) {
+          let list = [
+            ...careGiverData,
+            ...fetchMoreResult.getCaregivers.result
+          ];
+          setcareGiverData((prevArray: any) => [
+            ...prevArray,
+            ...fetchMoreResult.getCaregivers.result
+          ]);
+          let selectedId: any = [];
+          if (bulkcareGivers) {
+            list.forEach(caregiver => {
+              selectedId = [...selectedId, parseInt(caregiver.id)];
+            });
+            setselectedCareGiver(selectedId);
+          }
+          return Object.assign({}, prev, {
+            getCaregivers: {
+              ...prev.getCaregivers,
+              result: [
+                ...prev.getCaregivers.result,
+                ...fetchMoreResult.getCaregivers.result
+              ]
+            }
+          });
+        }
       }
     });
   };
@@ -138,7 +176,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const handleSelectAll = async () => {
     if (careGiverData && careGiverData.length) {
       let list: any = [];
-      if (selectedCareGiver && selectedCareGiver.length >= 0) {
+      if (!bulkcareGivers) {
         careGiverData.map((key: any) => {
           return (list = [...list, parseInt(key.id)]);
         });

@@ -250,7 +250,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
         const emailInput: IAddEmailVariables = {
           senderUserId: id ? parseInt(id) : 0,
           receiverUserId: Id ? parseInt(Id) : 0,
-          to: userRole === 'canstitution' ? '' : 'caregiver',
+          to: userRole === 'canstitution' ? 'careinstitution' : 'caregiver',
           from: 'plycoco',
           subject: subject /* .replace(/AW:/g, '') */,
           body: body ? content : '',

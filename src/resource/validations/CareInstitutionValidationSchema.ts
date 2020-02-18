@@ -1,15 +1,13 @@
 import * as Yup from 'yup';
 import { mobMin, mobMax, webRegExp } from '../../config';
-import { languageTranslation, dateValidator } from '../../helpers';
+import { languageTranslation, timeValidator } from '../../helpers';
 import {
   ICareInstitutionValidationSchema,
   ICareInstitutionContactValidationSchema,
   IAddDepartmentFormValidationSchema,
   IAddTimeFormValidationSchema,
-  IDateResponse,
+  ITimeResponse,
 } from '../../interfaces';
-
-import { yupToFormErrors } from 'formik';
 
 export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -186,18 +184,18 @@ export const AddTimeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   IAddTimeFormValidationSchema
 >> = Yup.object().shape<IAddTimeFormValidationSchema>({
   begin: Yup.mixed().test({
-    name: 'validate-date',
-    test: function(val) {
+    name: 'validate-time',
+    test: function (val) {
       const { path, createError } = this;
-      const { isValid, message }: IDateResponse = dateValidator(val);
+      const { isValid, message }: ITimeResponse = timeValidator(val);
       return !val || isValid || createError({ path, message });
     },
   }),
   end: Yup.mixed().test({
-    name: 'validate-date',
-    test: function(val) {
+    name: 'validate-time',
+    test: function (val) {
       const { path, createError } = this;
-      const { isValid, message }: IDateResponse = dateValidator(val);
+      const { isValid, message }: ITimeResponse = timeValidator(val);
       return !val || isValid || createError({ path, message });
     },
   }),

@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from "react";
 import { FormGroup, Label, Input, Col, Row, Table, Button } from "reactstrap";
-import { DateMask } from "../../../../../config";
+import { TimeMask } from "../../../../../config";
 import { FormikProps, Field } from "formik";
 import { languageTranslation } from "../../../../../helpers";
 import MaskedInput from "react-text-mask";
 import { IAddTimeFormValues } from "../../../../../interfaces";
+import moment from 'moment';
 
 const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
   props: FormikProps<IAddTimeFormValues> & any
@@ -19,6 +20,11 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
     handleBlur,
     handleSubmit
   } = props;
+
+  let d = moment().format('L');
+  let dtStart: any = new Date(d + " " + begin);
+  let dtEnd: any = new Date(d + " " + end);
+  let difference = dtEnd - dtStart;
 
   return (
     <>
@@ -86,9 +92,9 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                         <MaskedInput
                           {...field}
                           placeholder={languageTranslation(
-                            "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
+                            "EMPLOYEE_JOINING_TIME_PLACEHOLDER"
                           )}
-                          mask={DateMask}
+                          mask={TimeMask}
                           className={
                             errors.begin && touched.begin
                               ? "text-input error form-control"
@@ -125,11 +131,11 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                         <MaskedInput
                           {...field}
                           placeholder={languageTranslation(
-                            "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
+                            "EMPLOYEE_JOINING_TIME_PLACEHOLDER"
                           )}
-                          mask={DateMask}
+                          mask={TimeMask}
                           className={
-                            (errors.end && touched.end) || (new Date(begin) > new Date(end))
+                            (errors.end && touched.end) || (difference < 0 || isNaN(difference))
                               ? "text-input error form-control"
                               : "text-input form-control"
                           }
@@ -142,10 +148,9 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                     {errors.end && touched.end && (
                       <div className="required-tooltip">{errors.end}</div>
                     )}
-
-                    {touched.end && (new Date(begin) > new Date(end)) ?
+                    {touched.end && (difference < 0 || isNaN(difference)) ?
                       <div className="required-tooltip">{languageTranslation(
-                        "VALID_DATE_RANGE"
+                        "VALID_TIME_RANGE"
                       )}</div>
                       : null}
                   </div>

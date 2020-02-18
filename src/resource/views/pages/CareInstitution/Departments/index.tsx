@@ -377,7 +377,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                   onClick={addNewDepartment}
                 >
                   <i className={"fa fa-plus"} />
-                  &nbsp; Add New Departments
+                  &nbsp; Add New Department
                 </Button>
               </div>
 

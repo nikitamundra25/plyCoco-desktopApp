@@ -81,7 +81,7 @@ const ToDo: FunctionComponent = () => {
               </th>
               <th className="checkbox-th-column text-center">
                 {" "}
-                {languageTranslation("EXTREME")}
+                {languageTranslation("EXTERNAL")}
               </th>
               <th className="prio-col"> {languageTranslation("PRIORITY")}</th>
             </tr>

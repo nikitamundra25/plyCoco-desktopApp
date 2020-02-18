@@ -1,33 +1,33 @@
-import React from 'react';
-import Select from 'react-select';
-import { Label, Col, Row, FormGroup } from 'reactstrap';
-import 'react-datepicker/dist/react-datepicker.css';
-import 'react-datepicker/dist/react-datepicker.css';
+import React from "react";
+import Select from "react-select";
+import { Label, Col, Row, FormGroup } from "reactstrap";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   NightAllowancePerHour,
   InvoiceInterval,
-  LeasingPriceList,
-} from '../../../../../config';
-import { FormikProps, Field } from 'formik';
+  LeasingPriceList
+} from "../../../../../config";
+import { FormikProps, Field } from "formik";
 import {
   CareGiverValues,
-  IReactSelectInterface,
-} from '../../../../../interfaces';
-import { FormikTextField } from '../../../components/forms/FormikFields';
-import { logger } from '../../../../../helpers';
+  IReactSelectInterface
+} from "../../../../../interfaces";
+import { FormikTextField } from "../../../components/forms/FormikFields";
+import { logger } from "../../../../../helpers";
 
 const BillingSettingsFormComponent: any = (
-  props: FormikProps<CareGiverValues>,
+  props: FormikProps<CareGiverValues>
 ) => {
   const {
     values: { nightAllowance, invoiceInterval, leasingPricingList },
     setFieldValue,
-    errors,
+    errors
   } = props;
-  logger(props.values, 'values');
+  logger(props.values, "values");
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'selectOptionvalue');
+    logger(selectOption, "selectOptionvalue");
     setFieldValue(name, selectOption);
   };
   return (
@@ -35,7 +35,7 @@ const BillingSettingsFormComponent: any = (
       <Row>
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup>
-            <Row>
+            <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">Fee</Label>
               </Col>
@@ -52,7 +52,7 @@ const BillingSettingsFormComponent: any = (
                   </Col>
                   <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
                     <FormGroup>
-                      <Row className="custom-col inner-no-padding-col">
+                      <Row className="custom-col inner-no-padding-col align-items-center">
                         <Col xs={"12"} sm={"5"} md={"5"} lg={"5"}>
                           <Label className="form-label col-form-label inner-label">
                             Night
@@ -77,7 +77,7 @@ const BillingSettingsFormComponent: any = (
         </Col>
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup>
-            <Row>
+            <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">Weekend</Label>
               </Col>
@@ -94,7 +94,7 @@ const BillingSettingsFormComponent: any = (
                   </Col>
                   <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
                     <FormGroup>
-                      <Row className="custom-col inner-no-padding-col">
+                      <Row className="custom-col inner-no-padding-col align-items-center">
                         <Col xs={"12"} sm={"5"} md={"5"} lg={"5"}>
                           <Label className="form-label col-form-label inner-label">
                             Holiday
@@ -120,7 +120,7 @@ const BillingSettingsFormComponent: any = (
         </Col>
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup>
-            <Row>
+            <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
                   Night Allowance
@@ -146,7 +146,7 @@ const BillingSettingsFormComponent: any = (
 
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup>
-            <Row>
+            <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
                   Invoice interval
@@ -171,7 +171,7 @@ const BillingSettingsFormComponent: any = (
         </Col>
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup className="mb-0">
-            <Row>
+            <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
                   Leasing Price List

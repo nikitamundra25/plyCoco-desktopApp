@@ -1,23 +1,23 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
-import { Col, Row, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import Select from 'react-select';
-import { useParams } from 'react-router';
-import draftToHtml from 'draftjs-to-html';
-import { convertToRaw, ContentState, EditorState } from 'draft-js';
-import { toast } from 'react-toastify';
-import { ApolloError } from 'apollo-client';
-import htmlToDraft from 'html-to-draftjs';
+import React, { FunctionComponent, useState, useEffect } from "react";
+import { useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { Col, Row, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import Select from "react-select";
+import { useParams } from "react-router";
+import draftToHtml from "draftjs-to-html";
+import { convertToRaw, ContentState, EditorState } from "draft-js";
+import { toast } from "react-toastify";
+import { ApolloError } from "apollo-client";
+import htmlToDraft from "html-to-draftjs";
 import {
   languageTranslation,
   HtmlToDraftConverter,
   logger,
   stripHtml
-} from '../../../../../helpers';
+} from "../../../../../helpers";
 import {
   EmailTemplateQueries,
   ProfileQueries
-} from '../../../../../graphql/queries';
+} from "../../../../../graphql/queries";
 import {
   IReactSelectInterface,
   IAddEmailVariables,
@@ -25,14 +25,14 @@ import {
   INewEmailProps,
   IEmailAttachmentData,
   INewEmailAttachments
-} from '../../../../../interfaces';
-import { EmailFormComponent } from './EmailFormComponent';
-import { CareGiverMutations } from '../../../../../graphql/Mutations';
-import { AttachmentList } from '../../../components/Attachments';
-import { ConfirmBox } from '../../../components/ConfirmBox';
-import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
-import { AppConfig, client } from '../../../../../config';
-import logo from '../../../../assets/img/plycoco-orange.png';
+} from "../../../../../interfaces";
+import { EmailFormComponent } from "./EmailFormComponent";
+import { CareGiverMutations } from "../../../../../graphql/Mutations";
+import { AttachmentList } from "../../../components/Attachments";
+import { ConfirmBox } from "../../../components/ConfirmBox";
+import { errorFormatter } from "../../../../../helpers/ErrorFormatter";
+import { AppConfig, client } from "../../../../../config";
+import logo from "../../../../assets/img/plycoco-orange.png";
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , NEW_EMAIL] = CareGiverMutations;
@@ -51,13 +51,13 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   const { viewAdminProfile }: any = userData ? userData : {};
 
-  const { firstName = '', lastName = '', id = '' } = viewAdminProfile
+  const { firstName = "", lastName = "", id = "" } = viewAdminProfile
     ? viewAdminProfile
     : {};
 
   let { id: Id } = useParams();
-  const [subject, setSubject] = useState<string>('');
-  const [body, setBody] = useState<any>('');
+  const [subject, setSubject] = useState<string>("");
+  const [body, setBody] = useState<any>("");
   const [parentId, setParentId] = useState<number | null>(null);
   const [template, setTemplate] = useState<any>(undefined);
   const [contact, setContact] = useState<any>(undefined);
@@ -69,9 +69,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     {
       variables: {
         type: languageTranslation(
-          userRole === 'canstitution'
-            ? 'CAREINSTITUTION_EMAIL_TEMPLATE_TYPE'
-            : 'CAREGIVER_EMAIL_TEMPLATE_TYPE'
+          userRole === "canstitution"
+            ? "CAREINSTITUTION_EMAIL_TEMPLATE_TYPE"
+            : "CAREGIVER_EMAIL_TEMPLATE_TYPE"
         )
       }
     }
@@ -102,14 +102,14 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   >(NEW_EMAIL, {
     onCompleted() {
       if (!toast.isActive(toastId)) {
-        toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
+        toastId = toast.success(languageTranslation("EMAIL_SENT_SUCCESS"));
       }
-      setSubject('');
+      setSubject("");
       setBody(undefined);
       setAttachments([]);
       setParentId(null);
       setIsSubmit(false);
-      setTemplate({ label: '', value: '' });
+      setTemplate({ label: "", value: "" });
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -128,7 +128,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
         templateOptions.push({
           label: menuEntry,
-          value: id ? id.toString() : ''
+          value: id ? id.toString() : ""
         });
       });
     }
@@ -153,8 +153,8 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   const setDefaultSignature = (body: any) => {
     const contentBlock = htmlToDraft(
       `<div><span style="font-size:15px;">Hello ${selectedUserName}</span>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
-        'BEST_WISHES'
-      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-377%2007%2067%2020" style="color: #000; text-decoration: none;">+49-30-377 07 67 20</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-377%2007%2067%2021" style="color: #000; text-decoration: none;">+49-30-377 07 67 21</a></span><br><span><strong>E-Mail:</strong> <a href="#" style="color: #000; text-decoration: none;">kontakt@solona.de</a></span><br><span><a href="www.solona.de" style="color: #000; text-decoration: none;">www.solona.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;;">Solona Personal list ein der Essenz Personal Agency GmbH, Weststr, 1, 13405 Berlin, Deutschland</span><br><span style="font-size: 12px;color: #b5b4b4;;">Eintragung im Handelsrigester; Registergericht Berlin-Charlottenburg, Registernumber:HRB 188828 B, Geschaftsfuhrer: Michael Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;;">Tel: +49-30-577 07 67 20 Fax: +49-30-577 07 67 21</span><br><span style="font-size: 12px;color: #b5b4b4;;">Aufsichtsbehorde: Agentur fur Arbeit Kiel Tel: 0431 709 1010</span></div></div>`
+        "BEST_WISHES"
+      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-644 99 444" style="color: #000; text-decoration: none;">+49-30-644 99 444</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-644 99 445" style="color: #000; text-decoration: none;">+49-30-644 99 445</a></span><br><span><strong>E-Mail:</strong> <a href="mailto:kontakt@plycoco.de" style="color: #000; text-decoration: none;">kontakt@plycoco.de</a></span><br><span><a href="www.plycoco.de" style="color: #000; text-decoration: none;">www.plycoco.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;">Plycoco GmbH, Welfenallee 3-7, 13465 Berlin</span><br><span style="font-size: 12px;color: #b5b4b4;">Vertreten durch: Maren Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;">Eintragung im Handelsregister Amtsgericht Berlin-Charlottenburg, Registernummer: HRB 150746</span><br><span style="font-size: 12px;color: #b5b4b4;">Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz DE290375287</span></div></div>`
     );
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(
@@ -167,7 +167,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   // To set default salutation & signature while composing the newemail
   useEffect(() => {
-    let body = '<br /><br /><br /><br /><br /><br />';
+    let body = "<br /><br /><br /><br /><br /><br />";
     const updatedContent: any = setDefaultSignature(body);
     setBody(updatedContent);
   }, [Id]);
@@ -175,7 +175,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   // To set subject & body on reply
   useEffect(() => {
     if (emailData) {
-      let { id = null, subject = '' } = emailData ? emailData : {};
+      let { id = null, subject = "" } = emailData ? emailData : {};
       setParentId(id);
       setSubject(`AW: ${subject}`);
       // body = body + '<br></br>------------------------';
@@ -186,8 +186,8 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   // on new email click
   const onNewEmail = () => {
-    setSubject('');
-    let body = '<br /><br /><br /><br /><br /><br />';
+    setSubject("");
+    let body = "<br /><br /><br /><br /><br /><br />";
     const updatedContent: any = setDefaultSignature(body);
     setBody(updatedContent);
     // setBody(undefined);
@@ -242,7 +242,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     e.preventDefault();
     let content = body
       ? draftToHtml(convertToRaw(body.getCurrentContent()))
-      : '';
+      : "";
     const result = stripHtml(content);
     setIsSubmit(true);
     try {
@@ -250,12 +250,12 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
         const emailInput: IAddEmailVariables = {
           senderUserId: id ? parseInt(id) : 0,
           receiverUserId: Id ? parseInt(Id) : 0,
-          to: userRole === 'canstitution' ? 'careinstitution' : 'caregiver',
-          from: 'plycoco',
+          to: userRole === "canstitution" ? "careinstitution" : "caregiver",
+          from: "plycoco",
           subject: subject /* .replace(/AW:/g, '') */,
-          body: body ? content : '',
+          body: body ? content : "",
           parentId,
-          status: 'unread',
+          status: "unread",
           attachments:
             attachments && attachments.length
               ? attachments.filter(
@@ -280,7 +280,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   };
 
   const onEditorStateChange = (editorState: any): void => {
-    logger(editorState, 'editorState');
+    logger(editorState, "editorState");
     setBody(editorState);
   };
 
@@ -289,8 +289,8 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     attachmentIndex?: number
   ) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG')
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG")
     });
     if (!value) {
       return;
@@ -305,14 +305,14 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   };
 
   return (
-    <div className='email-section'>
+    <div className="email-section">
       {/* <EmailMenus {...this.props} /> */}
-      <div className='email-content'>
-        <Form className='form-section'>
+      <div className="email-content">
+        <Form className="form-section">
           <Row>
-            <Col lg={'12'}>
-              <div className='email-inbox-section'>
-                <div className='email-row-wrap align-items-md-center email-attributes-wrap flex-column flex-md-row'>
+            <Col lg={"12"}>
+              <div className="email-inbox-section">
+                <div className="email-row-wrap align-items-md-center email-attributes-wrap flex-column flex-md-row">
                   {/* <div
                     className="email-attributes-content d-flex align-items-center"
                     onClick={onNewEmail}
@@ -321,45 +321,45 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                     <span> {languageTranslation("NEW_EMAIL")}</span>
                   </div> */}
                   <div
-                    className='email-attributes-content btn-primary new-email-btn mr-2'
+                    className="email-attributes-content btn-primary new-email-btn mr-2"
                     onClick={onNewEmail}
                   >
-                    <i className='icon-note mr-2' aria-hidden='true'></i>
-                    <span> {languageTranslation('NEW_EMAIL')}</span>
+                    <i className="icon-note mr-2" aria-hidden="true"></i>
+                    <span> {languageTranslation("NEW_EMAIL")}</span>
                   </div>
-                  {userRole === 'canstitution' ? (
-                    <div className='email-attributes-content new-email-select-wrap ml-0 mr-2'>
-                      <div className='form-section w-100'>
-                        <FormGroup className='mb-0 '>
+                  {userRole === "canstitution" ? (
+                    <div className="email-attributes-content new-email-select-wrap ml-0 mr-2">
+                      <div className="form-section w-100">
+                        <FormGroup className="mb-0 ">
                           <Select
-                            placeholder='Select Department'
+                            placeholder="Select Department"
                             options={templateOptions}
-                            classNamePrefix='custom-inner-reactselect'
-                            className={'custom-reactselect'}
+                            classNamePrefix="custom-inner-reactselect"
+                            className={"custom-reactselect"}
                             onChange={onContactSelection}
                             value={
-                              contact && contact.value !== '' ? contact : null
+                              contact && contact.value !== "" ? contact : null
                             }
                           />
                         </FormGroup>
                       </div>
                     </div>
                   ) : (
-                    ''
+                    ""
                   )}
-                  <div className='email-attributes-content input-wrap '>
-                    <FormGroup className='d-flex align-items-center m-0 '>
-                      <Label className='d-flex align-items-center m-0 mr-1'>
-                        {languageTranslation('SUBJECT')}:{' '}
+                  <div className="email-attributes-content input-wrap ">
+                    <FormGroup className="d-flex align-items-center m-0 ">
+                      <Label className="d-flex align-items-center m-0 mr-1">
+                        {languageTranslation("SUBJECT")}:{" "}
                       </Label>
-                      <div className={'position-relative'}>
+                      <div className={"position-relative"}>
                         <Input
-                          type='text'
-                          placeholder={languageTranslation('SUBJECT')}
-                          name={'subject'}
+                          type="text"
+                          placeholder={languageTranslation("SUBJECT")}
+                          name={"subject"}
                           value={subject}
                           className={`width-common ${
-                            isSubmit && !subject ? 'error' : ''
+                            isSubmit && !subject ? "error" : ""
                           }`}
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setSubject(e.target.value)
@@ -367,24 +367,24 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                           maxLength={255}
                         />
                         {isSubmit && !subject ? (
-                          <div className='required-tooltip'>
-                            {languageTranslation('REQUIRED_SUBJECT')}
+                          <div className="required-tooltip">
+                            {languageTranslation("REQUIRED_SUBJECT")}
                           </div>
                         ) : null}
                       </div>
                     </FormGroup>
                   </div>
-                  <div className='email-attributes-content new-email-select-wrap'>
-                    <div className='form-section w-100'>
-                      <FormGroup className='mb-0 '>
+                  <div className="email-attributes-content new-email-select-wrap">
+                    <div className="form-section w-100">
+                      <FormGroup className="mb-0 ">
                         <Select
-                          placeholder='Select Template'
+                          placeholder="Select Template"
                           options={templateOptions}
-                          classNamePrefix='custom-inner-reactselect'
-                          className={'custom-reactselect'}
+                          classNamePrefix="custom-inner-reactselect"
+                          className={"custom-reactselect"}
                           onChange={onTemplateSelection}
                           value={
-                            template && template.value !== '' ? template : null
+                            template && template.value !== "" ? template : null
                           }
                         />
                       </FormGroup>
@@ -405,7 +405,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           </Row>
 
           {attachments && attachments.length ? (
-            <div className='employee-document-list custom-scrollbar mb-3'>
+            <div className="employee-document-list custom-scrollbar mb-3">
               <AttachmentList
                 attachment={attachments}
                 onDelteDocument={onDelteDocument}
@@ -413,20 +413,20 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
             </div>
           ) : null}
 
-          <div className='d-flex align-items-center justify-content-end '>
+          <div className="d-flex align-items-center justify-content-end ">
             <div>
               <Button
-                color='primary'
-                type='submit'
-                className='btn-submit'
+                color="primary"
+                type="submit"
+                className="btn-submit"
                 onClick={sendEmail}
               >
                 {adding ? (
-                  <i className='fa fa-spinner fa-spin loader' />
+                  <i className="fa fa-spinner fa-spin loader" />
                 ) : (
-                  <i className='fa fa-paper-plane mr-2' aria-hidden='true'></i>
+                  <i className="fa fa-paper-plane mr-2" aria-hidden="true"></i>
                 )}
-                <span>{languageTranslation('SEND')}</span>
+                <span>{languageTranslation("SEND")}</span>
               </Button>
             </div>
           </div>

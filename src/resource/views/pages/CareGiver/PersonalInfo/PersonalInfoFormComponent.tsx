@@ -7,7 +7,8 @@ import {
   LegalForm,
   Gender,
   DateMask,
-  IBANRegex
+  IBANRegex,
+  regSinceDate
 } from "../../../../../config";
 import { FormikProps, Field } from "formik";
 import {
@@ -155,7 +156,7 @@ const PersonalInfoFormComponent: any = (
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    "YYYY-MM-DD"
+    regSinceDate
   );
 
   return (
@@ -199,6 +200,7 @@ const PersonalInfoFormComponent: any = (
                           </Col>
                           <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
                             <div>
+                              {console.log("RegYear", RegYear)}
                               <Input
                                 type="text"
                                 name={"regSince"}

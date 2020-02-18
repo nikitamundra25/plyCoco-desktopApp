@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from 'react';
-import { FormGroup, Label, Input, Col, Row } from 'reactstrap';
-import Select from 'react-select';
-import { FormikProps } from 'formik';
-import { languageTranslation } from '../../../../../../helpers';
+import React, { FunctionComponent } from "react";
+import { FormGroup, Label, Input, Col, Row } from "reactstrap";
+import Select from "react-select";
+import { FormikProps } from "formik";
+import { languageTranslation } from "../../../../../../helpers";
 import {
   ICareInstitutionFormValues,
   IHandleSelectInterface
-} from '../../../../../../interfaces';
-import { InvoiceType, InvoiceInterval } from '../../../../../../config';
+} from "../../../../../../interfaces";
+import { InvoiceType, InvoiceInterval } from "../../../../../../config";
 
 const InvoiceFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -31,15 +31,15 @@ const InvoiceFormData: FunctionComponent<FormikProps<
   return (
     <div className="form-card minheight-auto mb-2">
       <Row>
-         <Col xs={"12"}>
+        <Col xs={"12"}>
           <FormGroup>
-            <Row>
+            <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
                   {languageTranslation("INVOICE_TYPE")}
                 </Label>
               </Col>
-               <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                 <div>
                   <Select
                     placeholder={languageTranslation("INVOICE_TYPE")}
@@ -56,15 +56,15 @@ const InvoiceFormData: FunctionComponent<FormikProps<
             </Row>
           </FormGroup>
         </Col>
-         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup>
-            <Row>
+            <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
                   {languageTranslation("Interval")}
                 </Label>
               </Col>
-               <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                 <div>
                   <Select
                     placeholder={languageTranslation("Interval")}
@@ -79,15 +79,15 @@ const InvoiceFormData: FunctionComponent<FormikProps<
             </Row>
           </FormGroup>
         </Col>
-         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup>
-            <Row>
+            <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
                   {"Email Invoice"}
                 </Label>
               </Col>
-               <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                 <div>
                   <Input
                     name={"emailInvoice"}
@@ -101,7 +101,7 @@ const InvoiceFormData: FunctionComponent<FormikProps<
             </Row>
           </FormGroup>
         </Col>
-         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup className="mb-0">
             <Row>
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
@@ -110,7 +110,7 @@ const InvoiceFormData: FunctionComponent<FormikProps<
                   {/* <small>You can enter upto 255 characters</small> */}
                 </Label>
               </Col>
-               <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                 <div>
                   <Input
                     type="textarea"

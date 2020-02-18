@@ -17,16 +17,16 @@ import {
 import { toast } from 'react-toastify';
 import {
   AddDepartmentValidationSchema,
-  AddTimeValidationSchema,
-} from '../../../../validations';
-import { CareInstitutionQueries } from '../../../../../graphql/queries';
-import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
-import { IQualifications } from '../../../../../interfaces/qualification';
-
-import { GET_QUALIFICATION_ATTRIBUTE } from '../../../../../graphql/queries';
-import { ConfirmBox } from '../../../components/ConfirmBox';
-import { CareInstitutionMutation } from '../../../../../graphql/Mutations';
-import Loader from '../../../containers/Loader/Loader';
+  AddTimeValidationSchema
+} from "../../../../validations";
+import { CareInstitutionQueries } from "../../../../../graphql/queries";
+import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { IQualifications } from "../../../../../interfaces/qualification";
+import moment from 'moment';
+import { GET_QUALIFICATION_ATTRIBUTE } from "../../../../../graphql/queries";
+import { ConfirmBox } from "../../../components/ConfirmBox";
+import { CareInstitutionMutation } from "../../../../../graphql/Mutations";
+import Loader from "../../../containers/Loader/Loader";
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -251,7 +251,12 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     { setSubmitting, resetForm }: FormikHelpers<IAddTimeFormValues>,
   ) => {
     try {
-      if (new Date(TimeValues.end) >= new Date(TimeValues.begin)) {
+      let d = moment().format('L');
+      let dtStart: any = new Date(d + " " + TimeValues.begin);
+      let dtEnd: any = new Date(d + " " + TimeValues.end);
+      let difference = dtEnd - dtStart;
+
+      if (difference >= 0) {
         let timesInput: any = {
           userId: values.userId,
           begin: TimeValues.begin,

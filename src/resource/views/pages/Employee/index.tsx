@@ -492,7 +492,7 @@ const Employee: FunctionComponent = () => {
                                 )
                               }
                             >
-                              {elements.join(' ') + ','}
+                              {elements.join(' ')}
                             </div>
 
                             <p className='description-text'>

@@ -52,7 +52,7 @@ const CareInstitutionContacts: any = (props: any) => {
   // To set active contact
   useEffect(() => {
     if (contacts && contacts.length) {
-      setActiveContact(contacts.length - 1);
+      setActiveContact(0);
     }
   }, [contacts]);
 

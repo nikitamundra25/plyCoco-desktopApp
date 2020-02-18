@@ -5,6 +5,7 @@ export interface IReactSelectInterface {
   value: string;
 }
 
+
 export interface IHandleSelectInterface {
   handleSelect: (selectOption: IReactSelectInterface, name: string) => void;
 }

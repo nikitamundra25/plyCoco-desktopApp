@@ -570,7 +570,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         value={zipCode}
                         placeholder={languageTranslation('ZIP')}
                         className=' width-common'
-                        maxLength={30}
+                        maxLength={15}
                       />
                     </div>
                   </Col>

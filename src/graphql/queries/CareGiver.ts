@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
@@ -92,6 +92,7 @@ const GET_CAREGIVERS = gql`
         userName
         phoneNumber
         gender
+        userRole
         isActive
         createdAt
         qualifications {
@@ -142,6 +143,7 @@ const GET_CAREGIVER_BY_ID = gql`
       phoneNumber
       profileImage
       gender
+      userRole
       profileThumbnailImage
       isActive
       createdAt
@@ -226,10 +228,21 @@ const GET_LEASING_INFO = gql`
 `;
 
 const GET_EMAILS = gql`
-  query getEmails($userId: Int!, $from: String, $searchBy: String) {
-    getEmails(userId: $userId, from: $from, searchBy: $searchBy) {
+  query getEmails(
+    $senderUserId: Int
+    $receiverUserId: Int
+    $from: String
+    $searchBy: String
+  ) {
+    getEmails(
+      senderUserId: $senderUserId
+      receiverUserId: $receiverUserId
+      from: $from
+      searchBy: $searchBy
+    ) {
       id
-      userId
+      senderUserId
+      receiverUserId
       to
       subject
       body

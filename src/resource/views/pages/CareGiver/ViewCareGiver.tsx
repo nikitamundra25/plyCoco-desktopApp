@@ -49,9 +49,10 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     fetchPolicy: 'no-cache',
   });
 
-  let [selectUser, setselectUser] = useState<IReactSelectInterface | null>(
-    null,
-  );
+  let [selectUser, setselectUser] = useState<IReactSelectInterface>({
+    label: '',
+    value: '',
+  });
 
   const [activeTab, setactiveTab] = useState(0);
   const { search, pathname } = useLocation();
@@ -140,13 +141,24 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         value: e.value,
       };
       setselectUser((selectUser = data));
+
       if (e.value !== Id) {
+        const {
+          location: { search },
+        } = props;
+        const query = qs.parse(search);
         props.history.push(
-          `${AppRoutes.CARE_GIVER_VIEW.replace(
-            ':id',
-            e.value,
-          )}?tab=${encodeURIComponent(careGiverRoutes[activeTab].name)}`,
+          [
+            `${AppRoutes.CARE_GIVER_VIEW.replace(':id', e.value)}`,
+            qs.stringify({ ...query }),
+          ].join('?'),
         );
+        // props.history.push(
+        //   `${AppRoutes.CARE_GIVER_VIEW.replace(
+        //     ":id",
+        //     e.value
+        //   )}?tab=${encodeURIComponent(careGiverRoutes[activeTab].name)}`
+        // );
         setisUserChange((isUserChange = true));
       }
     }
@@ -264,6 +276,18 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                     <Email
                       selectedUserName={
                         selectUser && selectUser.label ? selectUser.label : ''
+                      }
+                      userRole={
+                        careGivers &&
+                        careGivers.getCaregivers &&
+                        careGivers.getCaregivers.result &&
+                        selectUser &&
+                        selectUser.value
+                          ? careGivers.getCaregivers.result.find(
+                              (careGiver: any) =>
+                                careGiver.id === selectUser.value,
+                            ).userRole
+                          : ''
                       }
                     />
                   ) : null}

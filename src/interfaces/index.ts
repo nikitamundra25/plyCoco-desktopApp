@@ -19,3 +19,4 @@ export * from './Attribute';
 export * from './Document';
 export * from './WorkingProof';
 export * from './qualification';
+export * from './TimeFunction';

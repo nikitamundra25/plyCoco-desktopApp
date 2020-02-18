@@ -25,6 +25,10 @@
             height: 160px;
             max-height: 160px;
           }
+          @media only screen and (max-width: 991px) {
+            height: 200px;
+            max-height: 200px;
+          }
         }
       }
     }

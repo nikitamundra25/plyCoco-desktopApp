@@ -20,7 +20,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
   handleChange,
   handleSubmit,
   onReset,
-  userRole
+  userRole,
 }: IEmailListProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [opened, setIsOpened] = useState<boolean>(true);
@@ -69,7 +69,9 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                   searchBy={searchBy}
                   handleChange={handleChange}
                   handleSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-                    setEmailData(null);
+                    if (searchBy) {
+                      setEmailData(null);
+                    }
                     handleSubmit(e);
                   }}
                   onReset={onReset}

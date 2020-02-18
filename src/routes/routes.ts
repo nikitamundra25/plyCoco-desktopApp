@@ -1,6 +1,5 @@
 import React from 'react';
 import { AppRoutes } from '../config';
-import ToDo from '../resource/views/pages/CareGiver/ToDos/ToDos';
 import AttributeManageMent from '../resource/views/pages/AttributeManageMent';
 
 const Dashboard = React.lazy(() => import('../resource/views/pages/Dashboard'));
@@ -79,7 +78,7 @@ const Invoices = React.lazy(() =>
 );
 
 const Todos = React.lazy(() =>
-  import('../resource/views/pages/CareGiver/ToDos/ToDos')
+  import('../resource/views/pages/CareGiver/ToDos')
 );
 const Signature = React.lazy(() =>
   import('../resource/views/pages/CareGiver/Signature/Signature')

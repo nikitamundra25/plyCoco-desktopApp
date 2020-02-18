@@ -317,7 +317,7 @@ body {
   }
 
   .custom-careinstitution-height {
-    height: calc(100vh - 380px);
+    height: calc(100vh - 385px);
     overflow-y: auto;
     overflow-x: hidden;
     @media only screen and (max-width: 991px) {
@@ -1562,32 +1562,36 @@ html:not([dir="rtl"]) {
     }
   }
   .custom-radio-block {
-    .custom-control-label {
-      font-family: $font_Frutiger_Bold;
-      font-size: $font_12;
-      cursor: pointer;
-      &:after,
-      &:before {
-        top: 1px;
+    .custom-control {
+      display: flex;
+      align-items: center;
+      .custom-control-label {
+        font-family: $font_Frutiger_Bold;
+        font-size: $font_12;
+        cursor: pointer;
+        &:after,
+        &:before {
+          top: 1px;
+        }
       }
-    }
-    .custom-control-input {
-      &:checked {
-        & ~ {
-          .custom-control-label {
-            &:before {
-              color: $white;
-              border-color: $theme_color;
-              background-color: $theme_color;
+      .custom-control-input {
+        &:checked {
+          & ~ {
+            .custom-control-label {
+              &:before {
+                color: $white;
+                border-color: $theme_color;
+                background-color: $theme_color;
+              }
             }
           }
         }
-      }
-      &:focus {
-        & ~ {
-          .custom-control-label {
-            &:before {
-              box-shadow: 0 0 0 0.2rem rgba(255, 108, 0, 0.25);
+        &:focus {
+          & ~ {
+            .custom-control-label {
+              &:before {
+                box-shadow: 0 0 0 0.2rem rgba(255, 108, 0, 0.25);
+              }
             }
           }
         }
@@ -3412,7 +3416,7 @@ html:not([dir="rtl"]) {
       &.contact-right {
         padding-right: 30px;
       }
-      &.new-contact{
+      &.new-contact {
         color: $theme_color;
         border: 1px solid $theme_color;
       }

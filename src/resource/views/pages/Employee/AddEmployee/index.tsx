@@ -21,7 +21,11 @@ import {
   CountryQueries,
 } from '../../../../../graphql/queries';
 import { logger, languageTranslation } from '../../../../../helpers';
-import { AppRoutes, defaultDateFormat } from '../../../../../config';
+import {
+  AppRoutes,
+  defaultDateFormat,
+  dbAcceptableFormat,
+} from '../../../../../config';
 import { EmployeeMutations } from '../../../../../graphql/Mutations';
 import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
 
@@ -335,7 +339,7 @@ export const EmployeeForm: FunctionComponent<{
         email: email ? email.trim() : '',
         phoneNumber: telephoneNumber ? telephoneNumber.toString() : '',
         joiningDate: joiningDate
-          ? moment(joiningDate).format('YYYY/MM/DD')
+          ? moment(joiningDate, defaultDateFormat).format(dbAcceptableFormat)
           : null,
         country: country && country.label ? country.label : null,
         state: state && state.label ? state.label : null,

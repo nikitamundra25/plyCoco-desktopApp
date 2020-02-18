@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import routes from '../../../../routes/routes';
 import { EmployeeQueries } from '../../../../graphql/queries';
-import { AppConfig, AppRoutes } from '../../../../config';
+import { AppConfig, AppRoutes, defaultDateFormat } from '../../../../config';
 import { IReplaceObjectInterface } from '../../../../interfaces';
 import { languageTranslation } from '../../../../helpers';
 import defaultProfile from '../../../assets/avatars/default-profile.png';
@@ -418,7 +418,9 @@ const ViewEmployee: FunctionComponent = () => {
                           {employee &&
                           employee.employee &&
                           employee.employee.joiningDate
-                            ? moment(employee.employee.joiningDate).format(defaultDateFormat)
+                            ? moment(employee.employee.joiningDate).format(
+                                defaultDateFormat 
+                              )
                             : 'N/A'}
                         </span>
                       </div>

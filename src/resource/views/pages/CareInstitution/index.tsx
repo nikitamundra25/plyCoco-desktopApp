@@ -20,7 +20,8 @@ import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import {
   ICareInstitutionListDataInterface,
   ISearchValues,
-  IReactSelectInterface
+  IReactSelectInterface,
+  IReplaceObjectInterface
 } from '../../../../interfaces';
 import { RouteComponentProps } from 'react-router';
 import PaginationComponent from '../../components/Pagination';
@@ -296,31 +297,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <td className={'sno-th-column text-center'}>
                   <span>{count++}</span>
                 </td>
-                <td>
-                  <div className='info-column'>
-                    <div className='description-column'>
-                      <div className='info-title text-capitalize'>
-                        {`${user.firstName} ${user.lastName}`}
-                      </div>
-                      <p className='description-text'>
-                        <i className='fa fa-envelope mr-2'></i>
-                        <span className='align-middle'>{user.email}</span>
-                      </p>
-                      <p className='description-text'>
-                        <i className='fa fa-user mr-2'></i>
-                        <span className='align-middle'>
-                          {user.userName ? user.userName : ''}
-                        </span>
-                      </p>
-                      <p className='description-text'>
-                        <i className='fa fa-phone mr-2'></i>
-                        <span className='align-middle'>
-                          {user.phoneNumber ? user.phoneNumber : 'N/A'}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                </td>
+
                 <td>
                   <div className='company-column text-capitalize'>
                     <div className='company-text'>
@@ -341,14 +318,48 @@ const CareInstitution = (props: RouteComponentProps) => {
                           : 'N/A'}
                       </span>
                     </p>
-                    <p className='company-text'>
-                      <i className='fa fa-user mr-2'></i>
-                      <span className='align-middle'>
-                        {user.userName ? user.userName : 'N/A'}
-                      </span>
-                    </p>
                   </div>
                 </td>
+                <td>
+                  <div className='info-column'>
+                    <div className='description-column'>
+                      <div
+                        className='info-title text-capitalize'
+                        onClick={() =>
+                          history.push(
+                            AppRoutes.CARE_INSTITUION_VIEW.replace(
+                              ':id',
+                              user.id.toString()
+                            )
+                          )
+                        }
+                        // redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
+                        //   ':id',
+                        //   user.id.toString()
+                        // )}
+                      >
+                        {`${user.firstName} ${user.lastName}` + ','}
+                      </div>
+                      <p className='description-text'>
+                        <i className='fa fa-envelope mr-2'></i>
+                        <span className='align-middle'>{user.email}</span>
+                      </p>
+                      <p className='description-text'>
+                        <i className='fa fa-user mr-2'></i>
+                        <span className='align-middle'>
+                          {user.userName ? user.userName : ''}
+                        </span>
+                      </p>
+                      <p className='description-text'>
+                        <i className='fa fa-phone mr-2'></i>
+                        <span className='align-middle'>
+                          {user.phoneNumber ? user.phoneNumber : 'N/A'}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </td>
+
                 <td className='date-th-column '>
                   {user.createdAt
                     ? moment(user.createdAt).format(defaultDateTimeFormat)
@@ -495,8 +506,8 @@ const CareInstitution = (props: RouteComponentProps) => {
               <th className='sno-th-column text-center'>
                 {languageTranslation('S_NO')}
               </th>
-              <th>Care Institution Information</th>
               <th className='company-th-column'>Company Details</th>
+              <th>Care Institution Information</th>
               <th className='date-th-column'>
                 {languageTranslation('CREATED_DATE')}
               </th>

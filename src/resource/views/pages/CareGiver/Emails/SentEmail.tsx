@@ -162,7 +162,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                           >
                             <div className='email-date-time-block'>
                               {moment(email.createdAt).format(
-                                'DD.MM.YYYY HH:mm:ss',
+                                'DD.MM.YYYY HH:mm:ss'
                               )}
                             </div>
                             {userRole === 'canstitution' ? (

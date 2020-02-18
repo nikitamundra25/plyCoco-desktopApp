@@ -22,6 +22,8 @@ import { EmailTemplateMutations } from '../../../../graphql/Mutations';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import { errorFormatter } from '../../../../helpers/ErrorFormatter';
 import './index.scss';
+import { useLocation, useHistory } from 'react-router';
+import * as qs from 'query-string';
 
 const [
   GET_EMAIL_TEMPLATE_TYEPS,
@@ -45,6 +47,9 @@ let toastId: any = '';
 
 export const EmailTemplateManagement: FunctionComponent = () => {
   let submitMyForm: any = null;
+  const { search, pathname } = useLocation();
+  const query = qs.parse(search);
+  const history = useHistory();
   const [showArchive, setShowArchive] = useState<boolean>(false);
   const [typeId, setTypeId] = useState<number | null>(null);
   const [attachment, setAttachment] = useState<IEmailAttachmentData[]>([]);
@@ -84,6 +89,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     { id: string }
   >(RESTORE_ARCHIVED_EMAIL, {
     onCompleted({ restoreEmailTemplate }) {
+      setActiveTemplate('');
+      setTemplateData(null);
+      setAttachment([]);
       archiveListRefetch();
     }
   });
@@ -94,6 +102,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     { id: string }
   >(PERMANENT_DELETE_EMAIL_TEMPLATE, {
     onCompleted({ permanentDeleteEmail }) {
+      setActiveTemplate('');
+      setTemplateData(null);
+      setAttachment([]);
       archiveListRefetch();
     }
   });
@@ -376,6 +387,12 @@ export const EmailTemplateManagement: FunctionComponent = () => {
           type: templateType && templateType.label ? templateType.label : ''
         }
       });
+      if (query && query.tab) {
+        fetchArchiveList();
+        setShowArchive(true);
+      } else {
+        setShowArchive(false);
+      }
     }
   }, [templateType]);
 
@@ -608,18 +625,45 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   };
   //on clicking view trash button
   const onViewTrash = () => {
+    const path = [
+      pathname,
+      qs.stringify({
+        tab: 'trash'
+      })
+    ].join('?');
+    history.push(path);
     setShowArchive(true);
     setTemplateData(null);
     fetchArchiveList();
+    setAttachment([]);
   };
+
+  //Handle view trash with url
+  useEffect(() => {
+    if (query && query.tab) {
+      setShowArchive(true);
+    } else {
+      setShowArchive(false);
+    }
+  }, [query]);
 
   //onclicking back to list in view trash
   const onBackToList = () => {
+    delete query.tab;
+    const path = [
+      pathname,
+      qs.stringify({
+        ...query
+      })
+    ].join('?');
+    history.push(path);
     setShowArchive(false);
     setActiveTemplate('');
     setTemplateData(null);
     listRefetch();
+    setAttachment([]);
   };
+
   return (
     <>
       <div className='common-detail-page'>

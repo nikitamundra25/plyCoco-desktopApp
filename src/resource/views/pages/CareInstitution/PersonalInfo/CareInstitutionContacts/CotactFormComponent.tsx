@@ -509,6 +509,7 @@ const CotactFormComponent: any = (
                             value={zipCode}
                             placeholder={languageTranslation('ZIP')}
                             className='width-common'
+                            maxLength={15}
                           />
                         </div>
                       </Col>

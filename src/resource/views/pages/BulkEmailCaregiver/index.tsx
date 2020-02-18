@@ -1,34 +1,34 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Row, Button } from 'reactstrap';
-import { convertToRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import { toast } from 'react-toastify';
-import { ApolloError } from 'apollo-client';
-import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { Row, Button } from "reactstrap";
+import { convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+import { toast } from "react-toastify";
+import { ApolloError } from "apollo-client";
+import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import {
   languageTranslation,
   HtmlToDraftConverter,
-  stripHtml,
-} from '../../../../helpers';
+  stripHtml
+} from "../../../../helpers";
 import {
   CareGiverQueries,
-  EmailTemplateQueries,
-} from '../../../../graphql/queries';
-import { BulkEmailCareGivers } from '../../../../graphql/Mutations';
+  EmailTemplateQueries
+} from "../../../../graphql/queries";
+import { BulkEmailCareGivers } from "../../../../graphql/Mutations";
 import {
   IReactSelectInterface,
   IEmailTemplateData,
   INewEmailAttachments,
-  IEmailAttachmentData,
-} from '../../../../interfaces';
-import { EmailEditorComponent } from './EmailFormComponent';
-import { ConfirmBox } from '../../components/ConfirmBox';
-import { CareGiverListComponent } from './CareGiverListComponent';
-import { IBulkEmailVariables } from '../../../../interfaces/BulkEmailCaregiver';
-import { errorFormatter } from '../../../../helpers/ErrorFormatter';
-import filter from '../../../assets/img/filter.svg';
-import refresh from '../../../assets/img/refresh.svg';
-import './index.scss';
+  IEmailAttachmentData
+} from "../../../../interfaces";
+import { EmailEditorComponent } from "./EmailFormComponent";
+import { ConfirmBox } from "../../components/ConfirmBox";
+import { CareGiverListComponent } from "./CareGiverListComponent";
+import { IBulkEmailVariables } from "../../../../interfaces/BulkEmailCaregiver";
+import { errorFormatter } from "../../../../helpers/ErrorFormatter";
+import filter from "../../../assets/img/filter.svg";
+import refresh from "../../../assets/img/refresh.svg";
+import "./index.scss";
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
@@ -40,9 +40,9 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   // To get caregiver list from db
   const [
     fetchCareGiverList,
-    { data: careGivers, called, loading, refetch, fetchMore },
+    { data: careGivers, called, loading, refetch, fetchMore }
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache"
   });
 
   // To get all the types of email template
@@ -52,15 +52,15 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     GET_CAREGIVER_EMAIL_TEMPLATES,
     {
       variables: {
-        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE'),
-      },
-    },
+        type: languageTranslation("CAREGIVER_EMAIL_TEMPLATE_TYPE")
+      }
+    }
   );
 
   const [page, setPage] = useState<number>(1);
   const [template, setTemplate] = useState<any>(undefined);
-  const [subject, setSubject] = useState<string>('');
-  const [body, setBody] = useState<any>('');
+  const [subject, setSubject] = useState<string>("");
+  const [body, setBody] = useState<any>("");
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [bulkcareGivers, setBulkCareGivers] = useState<boolean>(false);
@@ -70,13 +70,13 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   }>(BULK_EMAILS, {
     onCompleted() {
       if (!toast.isActive(toastId)) {
-        toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
+        toastId = toast.success(languageTranslation("EMAIL_SENT_SUCCESS"));
       }
-      setSubject('');
+      setSubject("");
       setBody(undefined);
       setAttachments([]);
       setIsSubmit(false);
-      setTemplate({ label: '', value: '' });
+      setTemplate({ label: "", value: "" });
       setselectedCareGiver([]);
     },
     onError: (error: ApolloError) => {
@@ -84,19 +84,19 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    },
+    }
   });
 
   useEffect(() => {
     // Fetch list of caregivers
     fetchCareGiverList({
       variables: {
-        searchBy: '',
+        searchBy: "",
         sortBy: 3,
         limit: 30,
         page,
-        isActive: '',
-      },
+        isActive: ""
+      }
     });
   }, []);
 
@@ -136,24 +136,21 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   // };
 
   const handleInfiniteScroll = () => {
-    console.log('handleInfiniteScroll', page + 1);
-
     setPage(page + 1);
     fetchMore({
       variables: {
-        page: page + 1,
+        page: page + 1
       },
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
-        console.log(fetchMoreResult, 'dataaaa updateQuery', prev);
         if (!fetchMoreResult) return prev;
         if (prev.getCaregivers) {
           let list = [
             ...careGiverData,
-            ...fetchMoreResult.getCaregivers.result,
+            ...fetchMoreResult.getCaregivers.result
           ];
           setcareGiverData((prevArray: any) => [
             ...prevArray,
-            ...fetchMoreResult.getCaregivers.result,
+            ...fetchMoreResult.getCaregivers.result
           ]);
           let selectedId: any = [];
           if (bulkcareGivers) {
@@ -167,12 +164,12 @@ const BulkEmailCaregiver: FunctionComponent = () => {
               ...prev.getCaregivers,
               result: [
                 ...prev.getCaregivers.result,
-                ...fetchMoreResult.getCaregivers.result,
-              ],
-            },
+                ...fetchMoreResult.getCaregivers.result
+              ]
+            }
           });
         }
-      },
+      }
     });
   };
 
@@ -194,7 +191,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
   const handleCheckElement = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string,
+    id: string
   ) => {
     const { target } = e;
     const { checked } = target;
@@ -202,7 +199,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     if (checked) {
       setselectedCareGiver((selectedCareGiver: any) => [
         ...selectedCareGiver,
-        parseInt(id),
+        parseInt(id)
       ]);
       if (
         careGiverData &&
@@ -228,13 +225,13 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const templateOptions: IReactSelectInterface[] | undefined = [];
   if (data && data.getEmailtemplate) {
     const {
-      getEmailtemplate: { email_templates },
+      getEmailtemplate: { email_templates }
     } = data;
     if (email_templates && email_templates.length) {
       email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
         templateOptions.push({
           label: menuEntry,
-          value: id ? id.toString() : '',
+          value: id ? id.toString() : ""
         });
       });
     }
@@ -250,15 +247,15 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
     const {
-      getEmailtemplate: { email_templates },
+      getEmailtemplate: { email_templates }
     } = data;
     setTemplate(selectedOption);
     const templateData = email_templates.filter(
-      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value),
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value)
     )[0];
     if (templateData) {
       const { subject, body, attachments } = templateData;
-      const editorState = body ? HtmlToDraftConverter(body) : '';
+      const editorState = body ? HtmlToDraftConverter(body) : "";
       setSubject(subject);
       setBody(editorState);
       setAttachments(
@@ -268,10 +265,10 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                 fileName: name,
                 id,
                 path,
-                size,
-              }),
+                size
+              })
             )
-          : [],
+          : []
       );
     }
   };
@@ -286,17 +283,17 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
   const onDelteDocument = async (
     attachmentId: string,
-    attachmentIndex?: number,
+    attachmentIndex?: number
   ) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG'),
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG")
     });
     if (!value) {
       return;
     } else {
       setAttachments((prevArray: any) =>
-        prevArray.filter((_: any, index: number) => attachmentIndex !== index),
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index)
       );
     }
   };
@@ -309,7 +306,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     e.preventDefault();
     let content = body
       ? draftToHtml(convertToRaw(body.getCurrentContent()))
-      : '';
+      : "";
     const result = stripHtml(content);
     setIsSubmit(true);
 
@@ -320,17 +317,17 @@ const BulkEmailCaregiver: FunctionComponent = () => {
         selectedCareGiver.map((careGiverId: number) => {
           careGiverIdList = [
             ...careGiverIdList,
-            { receiverUserId: careGiverId },
+            { receiverUserId: careGiverId }
           ];
         });
         if (subject && body && result && result.length >= 2) {
           const bulkEmailsInput: IBulkEmailVariables = {
-            to: 'caregiver',
-            from: 'plycoco',
+            to: "caregiver",
+            from: "plycoco",
             subject: subject /* .replace(/AW:/g, '') */,
-            body: body ? content : '',
+            body: body ? content : "",
             parentId: null,
-            status: 'new',
+            status: "new",
             attachments:
               attachments && attachments.length
                 ? attachments.filter((attachment: any) => attachment.path)
@@ -347,63 +344,63 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                     .map((item: IEmailAttachmentData) => item.file)
                     .filter((file: File | null) => file)
                 : null,
-            caregiver: careGiverIdList,
+            caregiver: careGiverIdList
           };
           bulkEmails({ variables: { bulkEmailsInput } });
         }
       } else {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(
-            languageTranslation('EMAIL_SELECT_CARE_GIVERS'),
+            languageTranslation("EMAIL_SELECT_CARE_GIVERS")
           );
         }
       }
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       toast.error(message);
     }
   };
 
   return (
     <>
-      <div className='common-detail-page'>
-        <div className='common-detail-section'>
-          <div className='sticky-common-header'>
-            <div className='common-topheader d-flex align-items-center px-2 mb-1'>
-              <div className='header-nav-item'>
-                <span className='header-nav-icon'>
-                  <img src={refresh} alt='' />
+      <div className="common-detail-page">
+        <div className="common-detail-section">
+          <div className="sticky-common-header">
+            <div className="common-topheader d-flex align-items-center px-2 mb-1">
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={refresh} alt="" />
                 </span>
-                <span className='header-nav-text'>
-                  {languageTranslation('REFRESH')}
-                </span>
-              </div>
-              <div className='header-nav-item'>
-                <span className='header-nav-icon'>
-                  <img src={filter} alt='' />
-                </span>
-                <span className='header-nav-text'>
-                  {languageTranslation('ATTRIBUTES')}
+                <span className="header-nav-text">
+                  {languageTranslation("REFRESH")}
                 </span>
               </div>
-              <div className='ml-auto'>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={filter} alt="" />
+                </span>
+                <span className="header-nav-text">
+                  {languageTranslation("ATTRIBUTES")}
+                </span>
+              </div>
+              <div className="ml-auto">
                 <Button
-                  color='primary'
+                  color="primary"
                   onClick={handleSendEmail}
-                  className='btn-email-save ml-auto mr-2 btn btn-primary'
+                  className="btn-email-save ml-auto mr-2 btn btn-primary"
                 >
                   {bulkEmailLoading ? (
-                    <i className='fa fa-spinner fa-spin loader' />
+                    <i className="fa fa-spinner fa-spin loader" />
                   ) : (
                     <i
-                      className='fa fa-paper-plane mr-2'
-                      aria-hidden='true'
+                      className="fa fa-paper-plane mr-2"
+                      aria-hidden="true"
                     ></i>
                   )}
-                  <span>{languageTranslation('SEND')}</span>
+                  <span>{languageTranslation("SEND")}</span>
                 </Button>
               </div>
               {/* <div
@@ -420,8 +417,8 @@ const BulkEmailCaregiver: FunctionComponent = () => {
             </div>
           </div>
 
-          <div className='common-content flex-grow-1'>
-            <div className='bulk-email-section'>
+          <div className="common-content flex-grow-1">
+            <div className="bulk-email-section">
               <Row>
                 <CareGiverListComponent
                   careGivers={careGivers}

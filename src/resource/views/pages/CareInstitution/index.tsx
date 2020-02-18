@@ -338,7 +338,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                         //   user.id.toString()
                         // )}
                       >
-                        {`${user.firstName} ${user.lastName}` + ','}
+                        {`${user.firstName} ${user.lastName}`}
                       </div>
                       <p className='description-text'>
                         <i className='fa fa-envelope mr-2'></i>

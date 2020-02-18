@@ -28,7 +28,7 @@ export const ChangePwdFormComponent: FunctionComponent<FormikProps<
             <Row>
               <Col lg={"12"}>
                 <FormGroup>
-                  <Row>
+                  <Row className="align-items-center">
                     <Col sm="4">
                       <Label className="form-label col-form-label ">
                         {languageTranslation("OLD_PASSWORD")}
@@ -61,7 +61,7 @@ export const ChangePwdFormComponent: FunctionComponent<FormikProps<
               </Col>
               <Col lg={"12"}>
                 <FormGroup>
-                  <Row>
+                  <Row className="align-items-center">
                     <Col sm="4">
                       <Label className="form-label col-form-label">
                         {languageTranslation("CG_MENU_NEW_PASSWORD")}
@@ -96,7 +96,7 @@ export const ChangePwdFormComponent: FunctionComponent<FormikProps<
               </Col>
               <Col lg={"12"}>
                 <FormGroup>
-                  <Row>
+                  <Row className="align-items-center">
                     <Col sm="4">
                       <Label className="form-label col-form-label ">
                         {languageTranslation("CONFIRM_PASSWORD")}

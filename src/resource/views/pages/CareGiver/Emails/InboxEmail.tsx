@@ -22,7 +22,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
   searchBy,
   handleChange,
   handleSubmit,
-  onReset
+  onReset,
 }: IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
 }) => {
@@ -38,6 +38,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
   const onEmailSelection = (email: any) => {
     setEmailData(email);
   };
+
   useEffect(() => {
     if (emailList && emailList.getEmails && emailList.getEmails.length) {
       setEmailData(emailList.getEmails[0]);
@@ -45,7 +46,6 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
       setEmailData(null);
     }
   }, [emailList]);
-  console.log('searchBy', searchBy);
 
   return (
     <div className='email-section'>
@@ -76,7 +76,9 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                   searchBy={searchBy}
                   handleChange={handleChange}
                   handleSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-                    setEmailData(null);
+                    if (searchBy) {
+                      setEmailData(null);
+                    }
                     handleSubmit(e);
                   }}
                   onReset={onReset}
@@ -117,7 +119,9 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                   <div className='overview-loader'>
                     <Loader />
                   </div>
-                ) : emailList.getEmails.length ? (
+                ) : emailList &&
+                  emailList.getEmails &&
+                  emailList.getEmails.length ? (
                   <ul className='mb-3 mb-lg-0 p-0 list-group custom-scrollbar'>
                     {emailList.getEmails.map((email: any, index: number) => {
                       return (
@@ -143,7 +147,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                           <div className='email-row-wrap inner-content-wrap'>
                             <div className='email-date-time-block'>
                               {moment(email.createdAt).format(
-                                'DD.MM.YYYY HH:mm:ss'
+                                'DD.MM.YYYY HH:mm:ss',
                               )}
                             </div>
                             <div className='email-text-wrap'>
@@ -165,7 +169,9 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
             <EmailPreview
               emailData={emailData}
               selectedUserName={selectedUserName}
-              length={emailList && emailList.getEmails && emailList.getEmails.length}
+              length={
+                emailList && emailList.getEmails && emailList.getEmails.length
+              }
             />
           </Row>
         )}

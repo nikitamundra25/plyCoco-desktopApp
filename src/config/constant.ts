@@ -7,7 +7,7 @@ export const ssn: number = 12;
 export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi;
 export const PAGE_LIMIT: number = 10;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
-export const defaultDateTimeFormat: any = 'DD-MM-YYYY HH:mm:ss';
+export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm:ss';
 export const dateFormat: any = 'MMM, Do YYYY';
 export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
@@ -1138,6 +1138,11 @@ export const Priority: IReactSelectInterface[] = [
   { value: 'Normal', label: languageTranslation('NORMAL') },
   { value: 'High', label: languageTranslation('HIGH') },
 ];
+export const TodoFilter: IReactSelectInterface[] = [
+  { value: 'Hide Done', label: languageTranslation('HIDE_DONE') },
+  { value: 'Hide Future Ones', label: languageTranslation('HIDE_FUTURE_ONES') },
+];
+
 export const SortOptions: IReactSelectInterface[] = [
   {
     label: languageTranslation('SORTBY_OPTION3'),

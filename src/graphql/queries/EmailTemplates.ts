@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const GET_EMAIL_TEMPLATE_TYEPS = gql`
   query GetEmailtemplateTypes {
@@ -50,6 +50,7 @@ const GET_CAREGIVER_EMAIL_TEMPLATES = gql`
     }
   }
 `;
+
 const GET_ARCHIVE_EMAIL_TEMPLATES = gql`
   query TrashEmailTemplateList {
     trashEmailTemplateList {

@@ -79,7 +79,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       ({ type, id }: { type: string; id: number }) =>
         typeListOptions.push({
           label: type,
-          value: id.toString()
+          value: id ? id.toString() : ""
         })
     );
   }

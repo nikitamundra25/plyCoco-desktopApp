@@ -70,7 +70,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
       ({ id, name, color }: IAttributeValues) =>
         careInstitutionAttrOpt.push({
           label: name,
-          value: id.toString(),
+          value: id ? id.toString() : "",
           color,
         }),
     );

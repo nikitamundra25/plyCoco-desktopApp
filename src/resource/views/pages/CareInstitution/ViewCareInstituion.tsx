@@ -35,7 +35,7 @@ const Documents = React.lazy(() => import('./Documents'));
 const Departments = React.lazy(() => import('./Departments'));
 const Email = React.lazy(() => import('./Emails'));
 const Reminders = React.lazy(() => import('./Reminders'));
-const CreateTodo = React.lazy(() => import('../../components/CreateTodo'));
+const CreateTodo = React.lazy(() => import('../../components/CreateTodo/CreateTodoForm'));
 
 const [
   GET_CARE_INSTITUTION_LIST,

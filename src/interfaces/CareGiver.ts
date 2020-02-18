@@ -123,7 +123,7 @@ export interface ICareGiverValidationInterface {
 
 export interface IEmailMenus<
   Params extends { [K in keyof Params]?: string } = {}
-> {
+  > {
   history: H.History;
   location: H.Location;
 }
@@ -393,4 +393,21 @@ export interface IAttributeOptions {
   label: string;
   value: string;
   color: string | null;
+}
+
+
+export interface IToDoFormValues {
+  timeOfDay: string;
+  comment: string;
+}
+
+export interface ICreateTodoFormValues {
+  timeOfDay: string;
+  comment: string;
+}
+
+
+export interface ICreateTodoFormValidationSchema {
+  timeOfDay: string;
+  comment: string;
 }

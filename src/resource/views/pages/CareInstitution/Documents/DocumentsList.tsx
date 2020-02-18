@@ -8,17 +8,18 @@ import {
   Row,
   Col
 } from 'reactstrap';
+import { DocumentMutations } from '../../../../../graphql/Mutations';
+
 import moment from 'moment';
 import Select from 'react-select';
 import { languageTranslation, formatFileSize } from '../../../../../helpers';
-import {
-  AppConfig,
-  defaultDateTimeFormat,
-  State,
-  DocumentTypes
-} from '../../../../../config';
+import { AppConfig, defaultDateTimeFormat } from '../../../../../config';
 
 import Loader from '../../../containers/Loader/Loader';
+import { useMutation } from '@apollo/react-hooks';
+import { DocumentQueries } from '../../../../../graphql/queries';
+const [, , , , , , ADD_DOCUMENT_TYPE_CAREINST] = DocumentMutations;
+const [, , , GET_ADDED_DOCUMENT_TYPES] = DocumentQueries;
 const DocumentsList: FunctionComponent<any> = (props: any) => {
   const {
     documentListing,
@@ -34,9 +35,20 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     approveLoading,
     disapproveLoading,
     loading,
-    called
+    called,
+    documentTypeList,
+    userId
   } = props;
   let allDocDisApp: boolean = true;
+  //Add document type
+  const [addDocumentType, { loading: documentTypeLoading }] = useMutation<any>(
+    ADD_DOCUMENT_TYPE_CAREINST,
+    {
+      onCompleted({ addDocumentType }) {}
+    }
+  );
+
+  // Get added document types list
   if (
     documentListing &&
     documentListing.getDocuments &&
@@ -48,6 +60,34 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
       }
     });
   }
+  const [documentType, setDocumentType] = useState<string[] | null>([]);
+  // useEffect(() => {
+  //   if () {
+  //     // careGiverDetailsRetch();
+  //   }
+  // }, []);
+
+  const handleDocumentType = (selectedType: any) => {
+    console.log('documentType', documentType);
+    if (documentType) {
+      addDocumentType({
+        variables: {
+          id: userId ? userId : '',
+          requiredDocuments:
+            selectedType && selectedType.value
+              ? [parseInt(selectedType.value)]
+              : null
+        }
+      });
+    }
+    setDocumentType((documents: any) => [
+      ...documents,
+      {
+        label: selectedType.label,
+        value: selectedType.value
+      }
+    ]);
+  };
 
   return (
     <>
@@ -62,12 +102,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 onClick={() => {
                   onDisapprove();
                 }}
-                // disabled={
-                //   allDocDisApp ||
-                //   (documentListing &&
-                //     documentListing.getDocuments &&
-                //     !documentListing.getDocuments.length)
-                // }
                 className='btn-common btn-inactive mb-3 mr-3'
                 color='link'
               >
@@ -117,7 +151,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
             </Button>
           </div>
         </div>
-
         <Table bordered responsive>
           <thead className='thead-bg'>
             <tr>
@@ -276,7 +309,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
             )}
           </tbody>
         </Table>
-
         <Row>
           <Col lg={4} md={5} sm={12}>
             <h5 className='content-title '>
@@ -293,9 +325,10 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               </div>
               <div className='common-list-body custom-scrollbar filetypelist'>
                 <ul className='common-list list-unstyled mb-0'>
-                  {DocumentTypes
-                    ? DocumentTypes.map((type: any) => {
-                        return <li>{type.value}</li>;
+                  {documentType
+                    ? documentType.map((type: any, index: number) => {
+                        console.log('type of doc', type);
+                        return <li key={index}>{type.label}</li>;
                       })
                     : null}
                 </ul>
@@ -304,16 +337,15 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 <div className='contact-attribute '>
                   <FormGroup className='mb-0'>
                     <Select
-                      placeholder={languageTranslation('TYPE')}
-                      options={State}
                       menuPlacement={'top'}
+                      placeholder={languageTranslation('TYPE')}
+                      value={documentType}
+                      options={documentTypeList ? documentTypeList : ''}
                       className='attribute-select'
                       classNamePrefix='attribute-inner-select'
+                      onChange={handleDocumentType}
                     />
                   </FormGroup>
-                  <Button className='add-attribute-btn  d-flex align-items-center justify-content-center'>
-                    <i className={'fa fa-plus'} />
-                  </Button>
                 </div>
               </div>
             </div>

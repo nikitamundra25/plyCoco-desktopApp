@@ -9,7 +9,7 @@ export const PAGE_LIMIT: number = 10;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
 export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm:ss';
 export const dateFormat: any = 'MMM, Do YYYY';
-export const regSinceDate:any='DD.MM.YYYY'
+export const regSinceDate: any = 'DD.MM.YYYY';
 export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
 export const emailRegex: RegExp = /^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -1309,7 +1309,7 @@ export const DocumentTypes: IReactSelectInterface[] = [
     value: 'Professional liability insurance (no application)',
     label: 'Professional liability insurance (no application)'
   },
-  { value: 'Various documents', label: 'Various documents' },
+  // { value: 'Various documents', label: 'Various documents' },
   { value: 'First-aid pass', label: 'First-aid pass' },
   { value: 'Driving license car', label: 'Driving license car' },
   { value: 'Business registration', label: 'Business registration' },
@@ -1331,10 +1331,8 @@ export const DocumentTypes: IReactSelectInterface[] = [
     label: 'Police certificate of good conduct, expanded'
   },
   {
-    value:
-      'Framework contract for fixed-term contracts - Solona Personalservice',
-    label:
-      'Framework contract for fixed-term contracts - Solona Personalservice'
+    value: 'Framework contract for fixed-term contracts',
+    label: 'Framework contract for fixed-term contracts'
   },
   { value: 'Governance agreement', label: 'Governance agreement' },
   { value: 'Pension Insurance', label: 'Pension Insurance' },

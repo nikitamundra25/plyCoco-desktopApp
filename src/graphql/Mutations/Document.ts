@@ -1,15 +1,22 @@
 import gql from 'graphql-tag';
 
+// mutation AddUserDocuments($documentInput: DocumentInput!) {
+//   addUserDocuments(documentInput: $documentInput) {
+//     id
+//     document
+//     remarks
+//     documentType
+//     status
+//     fileSize
+//     fileName
+//   }
+// }
 const ADD_DOCUMENT = gql`
-  mutation AddUserDocuments($documentInput: DocumentInput!) {
+  mutation AddUserDocuments($documentInput: DocumentInput) {
     addUserDocuments(documentInput: $documentInput) {
-      id
       document
       remarks
       documentType
-      status
-      fileSize
-      fileName
     }
   }
 `;
@@ -51,7 +58,21 @@ const DISAPPROVE_DOCUMENT = gql`
     }
   }
 `;
-
+const ADD_DOCUMENT_TYPE_CAREINST = gql`
+  mutation AddRequiredDocuments($id: ID!, $requiredDocuments: [ID]) {
+    addRequiredDocuments(id: $id, requiredDocuments: $requiredDocuments) {
+      requiredDocuments
+    }
+  }
+`;
+//add doc mutation
+// mutation AddUserDocuments($documentInput: DocumentInput) {
+//   addUserDocuments(documentInput: $documentInput) {
+//     document
+//     remarks
+//     documentType
+//   }
+// }
 export const DocumentMutations = [
   ADD_DOCUMENT,
   UPDATE_DOCUMENT_STATUS,
@@ -59,4 +80,5 @@ export const DocumentMutations = [
   DELETE_DOCUMENT,
   APPROVE_DOCUMENT,
   DISAPPROVE_DOCUMENT,
+  ADD_DOCUMENT_TYPE_CAREINST
 ];

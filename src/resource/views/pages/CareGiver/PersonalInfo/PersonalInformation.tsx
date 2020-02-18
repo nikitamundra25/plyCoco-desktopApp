@@ -98,7 +98,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       ({ id, name, color }: IAttributeValues) =>
         caregiverAttrOpt.push({
           label: name,
-          value: id.toString(),
+          value: id ? id.toString() : "",
           color,
         }),
     );

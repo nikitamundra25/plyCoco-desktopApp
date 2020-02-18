@@ -9,6 +9,7 @@ export const PAGE_LIMIT: number = 10;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
 export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm:ss';
 export const dateFormat: any = 'MMM, Do YYYY';
+export const regSinceDate:any='DD.MM.YYYY'
 export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
 export const emailRegex: RegExp = /^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -60,10 +61,10 @@ export const IBANRegex: maskArray = [
 export const DateMask: maskArray = [
   /\d/,
   /\d/,
-  '/',
+  '.',
   /[0-9]/,
   /\d/,
-  '/',
+  '.',
   /\d/,
   /\d/,
   /\d/,

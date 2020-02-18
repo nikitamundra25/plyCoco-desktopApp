@@ -8,6 +8,7 @@ import {
   Gender,
   DateMask,
   IBANRegex,
+  regSinceDate
 } from '../../../../../config';
 import { FormikProps, Field } from 'formik';
 import {
@@ -17,7 +18,7 @@ import {
   ICountry,
   IState,
   IRegion,
-  ICareGiverValues,
+  ICareGiverValues
 } from '../../../../../interfaces';
 import { FormikTextField } from '../../../components/forms/FormikFields';
 import { languageTranslation, logger } from '../../../../../helpers';
@@ -38,7 +39,7 @@ const PersonalInfoFormComponent: any = (
     countriesOpt: IReactSelectInterface[] | undefined;
     statesOpt: IReactSelectInterface[] | undefined;
     getStatesByCountry: any;
-  },
+  }
 ) => {
   const { countriesOpt, statesOpt, getStatesByCountry } = props;
   // const { data } = useQuery<ICountries>(GET_COUNTRIES);
@@ -59,7 +60,7 @@ const PersonalInfoFormComponent: any = (
 
   // Region Data
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
   //Region List Data
   const regionOptions: IReactSelectInterface[] | undefined = [];
@@ -67,8 +68,8 @@ const PersonalInfoFormComponent: any = (
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
 
@@ -89,7 +90,7 @@ const PersonalInfoFormComponent: any = (
     if (name === 'country') {
       setFieldValue('state', { label: '', value: '' });
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
     }
   };
@@ -99,8 +100,8 @@ const PersonalInfoFormComponent: any = (
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3,
-      },
+        sortBy: 3
+      }
     });
   }, []);
 
@@ -122,14 +123,14 @@ const PersonalInfoFormComponent: any = (
       legalForm,
       vehicleAvailable,
       comments,
-      belongTo,
+      belongTo
     },
     submitCount,
     handleChange,
     handleBlur,
     errors,
     setFieldValue,
-    touched,
+    touched
   } = props;
 
   const scrollParentToChild: any = () => {
@@ -155,7 +156,7 @@ const PersonalInfoFormComponent: any = (
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    'YYYY-MM-DD',
+    regSinceDate
   );
 
   return (
@@ -199,6 +200,7 @@ const PersonalInfoFormComponent: any = (
                           </Col>
                           <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                             <div>
+                              {console.log('RegYear', RegYear)}
                               <Input
                                 type='text'
                                 name={'regSince'}
@@ -377,7 +379,7 @@ const PersonalInfoFormComponent: any = (
                           <MaskedInput
                             {...field}
                             placeholder={languageTranslation(
-                              'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
+                              'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
                             )}
                             mask={DateMask}
                             className={
@@ -680,7 +682,7 @@ const PersonalInfoFormComponent: any = (
                           className={'form-control'}
                           value={IBAN}
                           placeholder={languageTranslation(
-                            'BANK_IBAN_PLACEHOLDER',
+                            'BANK_IBAN_PLACEHOLDER'
                           )}
                           name={'IBAN'}
                           mask={IBANRegex}
@@ -977,7 +979,7 @@ const PersonalInfoFormComponent: any = (
                       checked={employed}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const {
-                          target: { checked },
+                          target: { checked }
                         } = e;
                         setFieldValue('employed', checked);
                       }}

@@ -11,6 +11,7 @@ import { DocumentQueries } from '../../../../../graphql/queries';
 import { languageTranslation } from '../../../../../helpers';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import { CareGiverQueries } from '../../../../../graphql/queries';
+import { regSinceDate } from '../../../../../config';
 
 const [
   ADD_DOCUMENT,
@@ -206,7 +207,7 @@ const Documents = () => {
             temp = {
               url: reader.result,
               name: file.name,
-              date: moment().format('DD.MM.YYYY')
+              date: moment().format(regSinceDate)
             };
             setDocumentUrl(temp);
           }

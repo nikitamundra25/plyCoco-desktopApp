@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from "react";
 import { FormGroup, Label, Input, Col, Row, Table, Button } from "reactstrap";
-import { DateMask } from "../../../../../config";
+import { TimeMask } from "../../../../../config";
 import { FormikProps, Field } from "formik";
 import { languageTranslation } from "../../../../../helpers";
 import MaskedInput from "react-text-mask";
 import { IAddTimeFormValues } from "../../../../../interfaces";
+import moment from 'moment';
 
 const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
   props: FormikProps<IAddTimeFormValues> & any
@@ -19,6 +20,11 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
     handleBlur,
     handleSubmit
   } = props;
+
+  let d = moment().format('L');
+  let dtStart: any = new Date(d + " " + begin);
+  let dtEnd: any = new Date(d + " " + end);
+  let difference = dtEnd - dtStart;
 
   return (
     <>
@@ -40,29 +46,29 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
           <tbody>
             {timesData && timesData.length
               ? timesData.map((item: any, index: number) => {
-                return (
-                  <tr key={index}>
-                    <td>{item.begin}</td>
-                    <td>{item.end}</td>
-                    <td>{item.comment ? item.comment : '-'}</td>
-                    <td className="text-center">
-                      <div className="action-btn">
-                        <span
-                          className="btn-icon "
-                          onClick={() => {
-                            const filteredTimes = timesData.filter(
-                              (t: any, i: number) => i !== index
-                            );
-                            setTimesData(filteredTimes);
-                          }}
-                        >
-                          <i className="fa fa-trash"></i>
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
+                  return (
+                    <tr key={index}>
+                      <td>{item.begin}</td>
+                      <td>{item.end}</td>
+                      <td>{item.comment ? item.comment : "-"}</td>
+                      <td className="text-center">
+                        <div className="action-btn">
+                          <span
+                            className="btn-icon "
+                            onClick={() => {
+                              const filteredTimes = timesData.filter(
+                                (t: any, i: number) => i !== index
+                              );
+                              setTimesData(filteredTimes);
+                            }}
+                          >
+                            <i className="fa fa-trash"></i>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               : null}
           </tbody>
         </Table>
@@ -71,8 +77,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
         <Row>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
-                <Col lg={"12"}></Col>
+              <Row className="align-items-center">
                 <Col sm="3">
                   <Label className="form-label col-form-label">
                     {languageTranslation("BEGIN")}
@@ -86,9 +91,9 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                         <MaskedInput
                           {...field}
                           placeholder={languageTranslation(
-                            "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
+                            "EMPLOYEE_JOINING_TIME_PLACEHOLDER"
                           )}
-                          mask={DateMask}
+                          mask={TimeMask}
                           className={
                             errors.begin && touched.begin
                               ? "text-input error form-control"
@@ -110,8 +115,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
           </Col>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
-                <Col lg={"12"}></Col>
+              <Row className="align-items-center">
                 <Col sm="3">
                   <Label className="form-label col-form-label">
                     {languageTranslation("END")}
@@ -125,11 +129,11 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                         <MaskedInput
                           {...field}
                           placeholder={languageTranslation(
-                            "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
+                            "EMPLOYEE_JOINING_TIME_PLACEHOLDER"
                           )}
-                          mask={DateMask}
+                          mask={TimeMask}
                           className={
-                            (errors.end && touched.end) || (new Date(begin) > new Date(end))
+                            (errors.end && touched.end) || (difference < 0 || isNaN(difference))
                               ? "text-input error form-control"
                               : "text-input form-control"
                           }
@@ -142,10 +146,9 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                     {errors.end && touched.end && (
                       <div className="required-tooltip">{errors.end}</div>
                     )}
-
-                    {touched.end && (new Date(begin) > new Date(end)) ?
+                    {touched.end && (difference < 0 || isNaN(difference)) ?
                       <div className="required-tooltip">{languageTranslation(
-                        "VALID_DATE_RANGE"
+                        "VALID_TIME_RANGE"
                       )}</div>
                       : null}
                   </div>
@@ -187,7 +190,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
             >
               <span>
                 {" "}
-                <i className={'fa fa-plus'} />
+                <i className={"fa fa-plus"} />
               </span>{" "}
               {languageTranslation("ADD_MORE_BUTTON")}
             </Button>

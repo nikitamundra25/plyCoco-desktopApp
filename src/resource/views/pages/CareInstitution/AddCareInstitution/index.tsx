@@ -317,6 +317,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
                     contacts={contacts}
                     careInstId={Id}
                     ContactFromAdd={true}
+                    careInstitutionAttrOpt={careInstitutionAttrOpt}
                     setContacts={(contacts: any) => {
                       setContacts((contacts = contacts));
                     }}

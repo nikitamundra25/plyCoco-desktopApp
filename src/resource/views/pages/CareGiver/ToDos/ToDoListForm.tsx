@@ -12,8 +12,12 @@ import { languageTranslation } from "../../../../../helpers";
 import "../caregiver.scss";
 import Select from "react-select";
 import { Priority, TodoFilter } from "../../../../../config";
+import { FormikProps } from "formik";
+import { IToDoFormValues } from "../../../../../interfaces";
 
-const ToDo: FunctionComponent = () => {
+const ToDoListForm: FunctionComponent<FormikProps<IToDoFormValues> & any> = (
+  props: FormikProps<IToDoFormValues> & any
+) => {
   return (
     <>
       <div className="todo-section">
@@ -81,70 +85,12 @@ const ToDo: FunctionComponent = () => {
               </th>
               <th className="checkbox-th-column text-center">
                 {" "}
-                {languageTranslation("EXTREME")}
+                {languageTranslation("EXTERNAL")}
               </th>
               <th className="prio-col"> {languageTranslation("PRIORITY")}</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="date-th-column">30.12.2020</td>
-              <td className="remark-col">
-                <span className="word-wrap">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </td>
-              <td className="checkbox-th-column text-center">
-                <span className="checkboxli checkbox-custom checkbox-default">
-                  <input type="checkbox" id="checkAll" className="" />
-                  <label className=""> </label>
-                </span>
-              </td>
-              <td className="checkbox-th-column text-center">
-                <span className="checkboxli checkbox-custom checkbox-default">
-                  <input type="checkbox" id="checkAll" className="" />
-                  <label className=""> </label>
-                </span>
-              </td>
-              <td className="priority-th-column">
-                <Select
-                  placeholder="Select Priority"
-                  classNamePrefix="custom-inner-reactselect"
-                  className={"custom-reactselect"}
-                  options={Priority}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="date-th-column">30.12.2020</td>
-              <td className="remark-col">
-                <span className="word-wrap">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </td>
-              <td className="checkbox-th-column text-center">
-                <span className="checkboxli checkbox-custom checkbox-default">
-                  <input type="checkbox" id="checkAll" className="" />
-                  <label className=""> </label>
-                </span>
-              </td>
-              <td className="checkbox-th-column text-center">
-                <span className="checkboxli checkbox-custom checkbox-default">
-                  <input type="checkbox" id="checkAll" className="" />
-                  <label className=""> </label>
-                </span>
-              </td>
-              <td className="priority-th-column">
-                <Select
-                  placeholder="Select Priority"
-                  classNamePrefix="custom-inner-reactselect"
-                  className={"custom-reactselect"}
-                  options={Priority}
-                />
-              </td>
-            </tr>
             <tr>
               <td className="date-th-column">30.12.2020</td>
               <td className="remark-col">
@@ -399,4 +345,4 @@ const ToDo: FunctionComponent = () => {
   );
 };
 
-export default ToDo;
+export default ToDoListForm;

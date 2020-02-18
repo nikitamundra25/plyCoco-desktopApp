@@ -66,7 +66,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
         <Row>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
+              <Row className="align-items-center">
                 <Col sm="4">
                   <Label className="form-label col-form-label">
                     {languageTranslation("ID")}
@@ -99,7 +99,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
           </Col>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
+              <Row className="align-items-center">
                 <Col sm="4">
                   <Label className="form-label col-form-label">
                     {languageTranslation("NAME")}
@@ -131,7 +131,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
           </Col>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
+              <Row className="align-items-center">
                 <Col sm="4">
                   <Label className="form-label col-form-label">
                     {languageTranslation("ANONYMOUS_NAME")}
@@ -156,7 +156,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
           </Col>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
+              <Row className="align-items-center">
                 <Col sm="4">
                   <Label className="form-label col-form-label">
                     {languageTranslation("ANONYMOUS_NAME2")}
@@ -181,7 +181,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
           </Col>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
+              <Row className="align-items-center">
                 <Col sm="4">
                   <Label className="form-label col-form-label">
                     {languageTranslation("ADDRESS")}
@@ -206,7 +206,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
           </Col>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
+              <Row className="align-items-center">
                 <Col sm="4">
                   <Label className="form-label col-form-label">
                     {languageTranslation("CONTACT_PERSON")}
@@ -231,7 +231,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
           </Col>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
+              <Row className="align-items-center">
                 <Col sm="4">
                   <Label className="form-label col-form-label">
                     {languageTranslation("PHONE")}
@@ -265,7 +265,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
           </Col>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
+              <Row className="align-items-center">
                 <Col sm="4">
                   <Label className="form-label col-form-label">
                     {languageTranslation("FAX")}
@@ -297,7 +297,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
           </Col>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
+              <Row className="align-items-center">
                 <Col sm="4">
                   <Label className="form-label col-form-label">
                     {languageTranslation("EMPLOYEE_EMAIL_ADDRESS_LABEL")}
@@ -414,7 +414,7 @@ const AddDepartmentForm: FunctionComponent<FormikProps<
           </Col>
           <Col lg={"12"}>
             <FormGroup>
-              <Row>
+              <Row className="align-items-center">
                 <Col sm="4">
                   <Label className="form-label col-form-label">
                     {languageTranslation("LOCKED")}

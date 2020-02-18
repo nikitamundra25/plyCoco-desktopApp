@@ -1,19 +1,19 @@
-import React, { FunctionComponent } from 'react';
-import { FormGroup, Label, Input, Col, Row } from 'reactstrap';
-import Select from 'react-select';
-import { FormikProps } from 'formik';
-import { languageTranslation } from '../../../../../../helpers';
+import React, { FunctionComponent } from "react";
+import { FormGroup, Label, Input, Col, Row } from "reactstrap";
+import Select from "react-select";
+import { FormikProps } from "formik";
+import { languageTranslation } from "../../../../../../helpers";
 import {
   ICareInstitutionFormValues,
-  IHandleSelectInterface,
-} from '../../../../../../interfaces';
-import { CareInstLeasingPriceList } from '../../../../../../config';
+  IHandleSelectInterface
+} from "../../../../../../interfaces";
+import { CareInstLeasingPriceList } from "../../../../../../config";
 
 const CommissionFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 > &
   IHandleSelectInterface> = (
-  props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface,
+  props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface
 ) => {
   const {
     values: { careGiverCommission, doctorCommission, leasingPriceListId },
@@ -21,7 +21,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
     errors,
     handleChange,
     handleBlur,
-    handleSelect,
+    handleSelect
   } = props;
 
   return (
@@ -29,7 +29,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
       <Row>
         <Col xs={"12"}>
           <FormGroup>
-            <Row>
+            <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
                   {languageTranslation("HEALTH_CARE_FEE")}
@@ -62,7 +62,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
                   </Col>
                   <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <FormGroup>
-                      <Row className="custom-col inner-no-padding-col">
+                      <Row className="custom-col inner-no-padding-col align-items-center">
                         <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
                           <Label className="form-label col-form-label inner-label">
                             {languageTranslation("DOCTOR_FEE")}
@@ -101,7 +101,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
         </Col>
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup className="mb-0">
-            <Row>
+            <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
                   {languageTranslation("LEASING_PRICE_LIST")}
@@ -122,7 +122,6 @@ const CommissionFormData: FunctionComponent<FormikProps<
                     options={CareInstLeasingPriceList}
                     classNamePrefix="custom-inner-reactselect"
                     className={"custom-reactselect"}
-                    
                   />
                 </div>
               </Col>

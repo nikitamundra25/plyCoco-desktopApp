@@ -17,7 +17,7 @@ import { IQualifications } from '../../../../interfaces/qualification';
 import Loader from '../../containers/Loader/Loader';
 import clear from '../../../assets/img/clear.svg';
 import { CareInstitutionMutation } from '../../../../graphql/Mutations';
-import CreateTodo from '../../components/CreateTodo';
+import CreateTodo from '../../components/CreateTodo/CreateTodoForm';
 import { languageTranslation } from '../../../../helpers';
 import inbox from '../../../assets/img/inbox.svg';
 import send from '../../../assets/img/send.svg';

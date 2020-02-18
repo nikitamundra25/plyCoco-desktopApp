@@ -1,15 +1,15 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
-import { Col, Row } from "reactstrap";
-import { useParams, useLocation } from "react-router";
-import moment from "moment";
-import { languageTranslation } from "../../../../../helpers";
-import { IEmailListProps, IEmailData } from "../../../../../interfaces";
-import { EmailPreview } from "./EmailPreview";
-import noemail from "../../../../assets/img/no-email.svg";
-import Loader from "../../../containers/Loader/Loader";
-import { EmailSearchFilter } from "./EmailSearchFilter";
-import { NoSearchFound } from "../../../components/SearchFilter/NoSearchFound";
-import * as qs from "query-string";
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { Col, Row } from 'reactstrap';
+import { useParams, useLocation } from 'react-router';
+import moment from 'moment';
+import { languageTranslation } from '../../../../../helpers';
+import { IEmailListProps, IEmailData } from '../../../../../interfaces';
+import { EmailPreview } from './EmailPreview';
+import noemail from '../../../../assets/img/no-email.svg';
+import Loader from '../../../containers/Loader/Loader';
+import { EmailSearchFilter } from './EmailSearchFilter';
+import { NoSearchFound } from '../../../components/SearchFilter/NoSearchFound';
+import * as qs from 'query-string';
 
 const InboxEmail: FunctionComponent<IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
@@ -22,7 +22,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
   searchBy,
   handleChange,
   handleSubmit,
-  onReset
+  onReset,
 }: IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
 }) => {
@@ -48,60 +48,62 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
   }, [emailList]);
 
   return (
-    <div className="email-section">
+    <div className='email-section'>
       {/* <EmailMenus
             location={this.props.location}
             history={this.props.history}
           /> */}
-      <div className="email-content">
+      <div className='email-content'>
         {loading && !query.searchBy ? (
-          <div className="overview-loader">
+          <div className='overview-loader'>
             <Loader />
           </div>
         ) : !searchBy &&
           emailList &&
           emailList.getEmails &&
           !emailList.getEmails.length ? (
-          <div className="no-data-section pt-5 pb-5 bg-white text-center">
-            <div className="no-data-icon mb-2">
-              <img src={noemail} width="35px" />
+          <div className='no-data-section pt-5 pb-5 bg-white text-center'>
+            <div className='no-data-icon mb-2'>
+              <img src={noemail} width='35px' />
             </div>
-            <h4 className="mb-1">{languageTranslation("NO_EMAIL_MESSAGE")}</h4>
+            <h4 className='mb-1'>{languageTranslation('NO_EMAIL_MESSAGE')}</h4>
           </div>
         ) : (
           <Row>
-            <Col lg={"5"}>
-              <div className="email-inbox-section">
+            <Col lg={'5'}>
+              <div className='email-inbox-section'>
                 <EmailSearchFilter
                   searchBy={searchBy}
                   handleChange={handleChange}
                   handleSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-                    setEmailData(null);
+                    if (searchBy) {
+                      setEmailData(null);
+                    }
                     handleSubmit(e);
                   }}
                   onReset={onReset}
                 />
 
-                <div className="email-row-wrap align-items-center email-attributes-wrap">
+                <div className='email-row-wrap align-items-center email-attributes-wrap'>
                   <div
-                    className="email-attributes-content d-flex align-items-center"
-                    onClick={() => onRefresh("plycoco")}
+                    className='email-attributes-content d-flex align-items-center'
+                    onClick={() => onRefresh('plycoco')}
                   >
-                    <i className="fa fa-refresh mr-1"></i>
-                    <span>{languageTranslation("REFRESH")}</span>
+                    <i className='fa fa-refresh mr-1'></i>
+                    <span>{languageTranslation('REFRESH')}</span>
                   </div>
-                  <span className="email-attributes-seprator">|</span>
+                  <span className='email-attributes-seprator'>|</span>
                   <div
-                    className="email-attributes-content"
+                    className='email-attributes-content'
                     onClick={() => onTabChange(2, emailData)}
                   >
-                    <i className="fa fa-hourglass-end mr-1"></i>
-                    <span>{languageTranslation("REPLY")}</span>
+                    <i className='fa fa-hourglass-end mr-1'></i>
+                    <span>{languageTranslation('REPLY')}</span>
                   </div>
                 </div>
-                <div className="email-row-wrap email-heading-wrap ">
-                  <div className="email-date-time-block">
-                    {languageTranslation("DATE")}
+                <div className='email-row-wrap email-heading-wrap '>
+                  <div className='email-date-time-block'>
+                    {languageTranslation('DATE')}
                     {/* <Select
                         placeholder="Select Region"
                         options={this.options}
@@ -109,12 +111,12 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                         className="hover-short-select"
                       /> */}
                   </div>
-                  <div className="email-text-wrap">
-                    {languageTranslation("SUBJECT")}
+                  <div className='email-text-wrap'>
+                    {languageTranslation('SUBJECT')}
                   </div>
                 </div>
                 {loading ? (
-                  <div className="overview-loader">
+                  <div className='overview-loader'>
                     <Loader />
                   </div>
                 ) : emailList &&
@@ -126,8 +128,8 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                         <li
                           className={`email-wrap ${
                             emailData && emailData.id === email.id
-                              ? "active"
-                              : ""
+                              ? 'active'
+                              : ''
                           }`}
                           key={index}
                           onClick={() => onEmailSelection(email)}
@@ -142,13 +144,13 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                           {languageTranslation('DATE')}: january 2020
                         </div> */}
                           {/* <Collapse isOpen={isOpen}> */}
-                          <div className="email-row-wrap inner-content-wrap">
-                            <div className="email-date-time-block">
+                          <div className='email-row-wrap inner-content-wrap'>
+                            <div className='email-date-time-block'>
                               {moment(email.createdAt).format(
-                                "DD.MM.YYYY HH:mm:ss"
+                                'DD.MM.YYYY HH:mm:ss',
                               )}
                             </div>
-                            <div className="email-text-wrap">
+                            <div className='email-text-wrap'>
                               {email.subject}
                             </div>
                           </div>
@@ -158,7 +160,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                     })}
                   </ul>
                 ) : (
-                  <div className=" py-3 bg-white text-center">
+                  <div className=' py-3 bg-white text-center'>
                     <NoSearchFound />
                   </div>
                 )}

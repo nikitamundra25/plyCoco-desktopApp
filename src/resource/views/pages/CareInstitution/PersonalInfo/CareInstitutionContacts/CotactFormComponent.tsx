@@ -74,74 +74,49 @@ const CotactFormComponent: any = (
   let [newValue, setnewValue] = useState({});
 
   const handleSelect = (
-    selectOption: IReactSelectInterface,
+    selectOption: IReactSelectInterface | any,
     name: string,
     type: string
   ) => {
-    logger(selectOption, 'value');
-    setFieldValue(name, selectOption);
+    logger(selectOption, 'value+12');
     if (type === 'newAttribute') {
-      props.addAttribute(
-        newAttributeValue && newAttributeValue.value
-          ? newAttributeValue.value
-          : ''
+      // To check if it's already exist on options or not
+      console.log('careInstitutionAttrOpt', careInstitutionAttrOpt);
+
+      const index: number = attributeId.findIndex(
+        (attribute: IReactSelectInterface) => {
+          console.log(
+            'attribute.label.toLowerCase()',
+            attribute.label.toLowerCase()
+          );
+          console.log(
+            'selectOption[selectOption.length - 1].label.toLowerCase()',
+            selectOption[selectOption.length - 1].label.toLowerCase() ===
+              attribute.label.toLowerCase()
+          );
+          return (
+            attribute.label.toLowerCase() ===
+            selectOption[selectOption.length - 1].label.toLowerCase()
+          );
+        }
       );
+      console.log('Index', index);
+      if (index < 0) {
+        console.log("In this ifffffff");
+        
+        setFieldValue(name, selectOption);
+        props.addAttribute(
+          newAttributeValue && newAttributeValue.value
+            ? newAttributeValue.value
+            : ''
+        );
+      }
     }
     if (name === 'country') {
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
-    }
-  };
-
-  const handleAttributeSelectContarct = (
-    selectOption: IReactSelectInterface,
-    name: string
-  ) => {
-    console.log('IN handle change');
-
-    const data: IReactSelectInterface[] = [];
-    if (props.values && props.values.attributeId) {
-      data.push(...props.values.attributeId, selectOption);
-    } else {
-      data.push(selectOption);
-    }
-    setnewAttributeValue(null);
-    setFieldValue(name, data);
-  };
-
-  const handleAttributeSelect = (value: any) => {
-    setnewValue(value);
-    const Data = {
-      label: newValue,
-      value: newValue
-    };
-    setnewAttributeValue((newAttributeValue = Data));
-  };
-  let contactAttribute: any[] | undefined | any = props.values.attributeId;
-  /*
-  /*  
-  */
-
-  const handleAddNewAttributevalue = () => {
-    if (newAttributeValue && newAttributeValue.value) {
-      AttOpt.push(newAttributeValue);
-      setAttOpt(AttOpt);
-      attributeId.push(newAttributeValue);
-      handleSelect(attributeId, 'attributeId', 'newAttribute');
-      setnewAttributeValue('');
-    }
-  };
-
-  const handleRemoveAttribute = (index: any) => {
-    console.log('in remove');
-
-    let newAttributeList: IReactSelectInterface[];
-    if (props.values && props.values.attributeId) {
-      newAttributeList = props.values.attributeId;
-      newAttributeList.splice(index, 1);
-      setFieldValue('attributeId', newAttributeList);
     }
   };
 
@@ -180,8 +155,62 @@ const CotactFormComponent: any = (
     setFieldTouched
   } = props;
 
-  const ContactError: any = errors.contactType;
+  const handleAttributeSelectContarct = (
+    selectOption: IReactSelectInterface,
+    name: string
+  ) => {
+    let index: number = -1;
+    if (attributeId && attributeId.length) {
+      index = attributeId.findIndex(
+        (attribute: IReactSelectInterface) =>
+          attribute.value === selectOption.value
+      );
+    }
 
+    if (index < 0) {
+      const data: IReactSelectInterface[] = [];
+      if (props.values && props.values.attributeId) {
+        data.push(...props.values.attributeId, selectOption);
+      } else {
+        data.push(selectOption);
+      }
+      setnewAttributeValue(null);
+      setFieldValue(name, data);
+    }
+  };
+
+  const handleAttributeSelect = (value: any) => {
+    setnewValue(value);
+    const Data = {
+      label: newValue,
+      value: newValue
+    };
+    setnewAttributeValue((newAttributeValue = Data));
+  };
+  let contactAttribute: any[] | undefined | any = props.values.attributeId;
+
+  const handleAddNewAttributevalue = () => {
+    if (newAttributeValue && newAttributeValue.value) {
+      AttOpt.push(newAttributeValue);
+      setAttOpt(AttOpt);
+      const addNewAttribute: any [] = []
+      addNewAttribute.push(...attributeId,newAttributeValue)
+      handleSelect(addNewAttribute, 'attributeId', 'newAttribute');
+      setnewAttributeValue('');
+    }
+  };
+
+  const handleRemoveAttribute = (index: any) => {
+    let newAttributeList: IReactSelectInterface[];
+    if (props.values && props.values.attributeId) {
+      newAttributeList = props.values.attributeId;
+      newAttributeList.splice(index, 1);
+      setFieldValue('attributeId', newAttributeList);
+    }
+  };
+
+  const ContactError: any = errors.contactType;
+  
   return (
     <>
       <Button
@@ -480,6 +509,7 @@ const CotactFormComponent: any = (
                             value={zipCode}
                             placeholder={languageTranslation('ZIP')}
                             className='width-common'
+                            maxLength={15}
                           />
                         </div>
                       </Col>

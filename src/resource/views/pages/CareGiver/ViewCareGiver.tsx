@@ -25,10 +25,10 @@ const PersonalInformation = React.lazy(() =>
 const Offer = React.lazy(() => import('./Offers/Offer'));
 const LoginLogs = React.lazy(() => import('../../components/Logins'));
 const Invoices = React.lazy(() => import('./Invoices/Invoices'));
-const ToDo = React.lazy(() => import('./ToDos/ToDos'));
+const ToDo = React.lazy(() => import('./ToDos'));
 const Documents = React.lazy(() => import('./Documents'));
 const Email = React.lazy(() => import('./Emails'));
-const CreateTodo = React.lazy(() => import('../../components/CreateTodo'));
+const CreateTodo = React.lazy(() => import('../../components/CreateTodo/index'));
 const LeasingPersonalData = React.lazy(() => import('./LeasingData'));
 const GroupedBelow = React.lazy(() => import('./GroupedBelow'));
 
@@ -112,8 +112,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     setactiveTab(
       query.tab
         ? careGiverRoutes.findIndex(
-            d => d.name === decodeURIComponent(query.tab),
-          )
+          d => d.name === decodeURIComponent(query.tab),
+        )
         : 0,
     );
   }, [search]);
@@ -177,84 +177,81 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               <Loader />
             </div>
           ) : (
-            <>
-              <Suspense fallback={''}>
-                <div className='sticky-common-header'>
-                  <div className='common-topheader d-flex align-items-center '>
-                    <div className='user-select'>
-                      <Select
-                        classNamePrefix='custom-inner-reactselect'
-                        className={
-                          'custom-reactselect custom-reactselect-menu-width'
-                        }
-                        defaultValue={selectUser}
-                        placeholder='Select Caregiver'
-                        value={selectUser}
-                        onChange={(e: any) => handleSelect(e)}
-                        options={careGiverOpt}
-                        components={{ Option: CustomOption }}
-                        isOptionDisabled={option =>
-                          option.value === languageTranslation('ID')
-                        }
-                      />
-                    </div>
-                    <div
-                      onClick={handleAddNewCareGiver}
-                      className='header-nav-item'
-                    >
-                      <span className='header-nav-icon'>
-                        <img src={add} alt='' />
-                      </span>
-                      <span className='header-nav-text'>New Caregiver</span>
-                    </div>
-                    <div className='header-nav-item'>
-                      <span className='header-nav-icon'>
-                        <img src={reminder} alt='' />
-                      </span>
-                      <span
-                        className='header-nav-text'
-                        onClick={() => setShowToDo(true)}
+              <>
+                <Suspense fallback={''}>
+                  <div className='sticky-common-header'>
+                    <div className='common-topheader d-flex align-items-center '>
+                      <div className='user-select'>
+                        <Select
+                          classNamePrefix='custom-inner-reactselect'
+                          className={
+                            'custom-reactselect custom-reactselect-menu-width'
+                          }
+                          defaultValue={selectUser}
+                          placeholder='Select Caregiver'
+                          value={selectUser}
+                          onChange={(e: any) => handleSelect(e)}
+                          options={careGiverOpt}
+                          components={{ Option: CustomOption }}
+                          isOptionDisabled={option =>
+                            option.value === languageTranslation('ID')
+                          }
+                        />
+                      </div>
+                      <div
+                        onClick={handleAddNewCareGiver}
+                        className='header-nav-item'
                       >
-                        Create Todo/Reminder
+                        <span className='header-nav-icon'>
+                          <img src={add} alt='' />
+                        </span>
+                        <span className='header-nav-text'>New Caregiver</span>
+                      </div>
+                      <div className='header-nav-item' onClick={() => setShowToDo(true)}>
+                        <span className='header-nav-icon'>
+                          <img src={reminder} alt='' />
+                        </span>
+                        <span className='header-nav-text'>
+                          Create Todo/Reminder
                       </span>
+                      </div>
+                      <div className='header-nav-item'>
+                        <span className='header-nav-icon'>
+                          <img src={password} alt='' />
+                        </span>
+                        <span className='header-nav-text'>New Password</span>
+                      </div>
+                      <div className='header-nav-item'>
+                        <span className='header-nav-icon'>
+                          <img src={appointment} alt='' />
+                        </span>
+                        <span className='header-nav-text'>
+                          Display Appointments
+                      </span>
+                      </div>
+                      <div className='header-nav-item'>
+                        <span className='header-nav-icon'>
+                          <img src={clear} alt='' />
+                        </span>
+                        <span className='header-nav-text'>Clear</span>
+                      </div>
                     </div>
-                    <div className='header-nav-item'>
-                      <span className='header-nav-icon'>
-                        <img src={password} alt='' />
-                      </span>
-                      <span className='header-nav-text'>New Password</span>
-                    </div>
-                    <div className='header-nav-item'>
-                      <span className='header-nav-icon'>
-                        <img src={appointment} alt='' />
-                      </span>
-                      <span className='header-nav-text'>
-                        Display Appointments
-                      </span>
-                    </div>
-                    <div className='header-nav-item'>
-                      <span className='header-nav-icon'>
-                        <img src={clear} alt='' />
-                      </span>
-                      <span className='header-nav-text'>Clear</span>
-                    </div>
+                    <CareGiverSidebar
+                      tabs={CareGiverRoutesTabs}
+                      activeTab={activeTab}
+                      onTabChange={onTabChange}
+                    />
                   </div>
-                  <CareGiverSidebar
-                    tabs={CareGiverRoutesTabs}
-                    activeTab={activeTab}
-                    onTabChange={onTabChange}
-                  />
-                </div>
-              </Suspense>
-              <Suspense
-                fallback={
-                  <div className='overview-loader'>
-                    <Loader />
-                  </div>
-                }
-              >
+                </Suspense>
+                <Suspense
+                  fallback={
+                    <div className='overview-loader'>
+                      <Loader />
+                    </div>
+                  }
+                >
                 <div className='common-content flex-grow-1'>
-                  {activeTab === 0 ? (
+                {activeTab === 0 ? (
                     <PersonalInformation
                       currentSelectuser={(Data: IReactSelectInterface) => {
                         setselectUser((selectUser = Data));
@@ -291,7 +288,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       }
                     />
                   ) : null}
-                  {activeTab === 6 ? <ToDo /> : null}
+                  {activeTab === 6 ? <ToDo {...props}/> : null}
                   {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}
                   {activeTab === 8 ? <GroupedBelow /> : null}
                 </div>
@@ -301,6 +298,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         </div>
       </div>
       <CreateTodo
+        {...props}
         show={showToDo}
         handleClose={() => setShowToDo(false)}
         name={selectUser ? selectUser.label : null}

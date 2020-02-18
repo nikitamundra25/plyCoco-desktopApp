@@ -365,7 +365,22 @@ const CareGiver: FunctionComponent = () => {
                           <td>
                             <div className='info-column'>
                               <div className='description-column '>
-                                <div className='info-title text-capitalize'>{`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}</div>
+                                <div
+                                  className='info-title text-capitalize'
+                                  onClick={() =>
+                                    history.push(
+                                      AppRoutes.CARE_GIVER_VIEW.replace(
+                                        /:id/gi,
+                                        function(matched) {
+                                          return replaceObj[matched];
+                                        }
+                                      )
+                                    )
+                                  }
+                                >
+                                  {`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}` +
+                                    ','}
+                                </div>
                                 <p className='description-text'>
                                   <i className='fa fa-user mr-2'></i>
                                   <span className='align-middle'>

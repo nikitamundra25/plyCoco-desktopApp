@@ -418,9 +418,7 @@ const ViewEmployee: FunctionComponent = () => {
                           {employee &&
                           employee.employee &&
                           employee.employee.joiningDate
-                            ? moment(employee.employee.joiningDate).format(
-                                'Do MMM, YYYY'
-                              )
+                            ? moment(employee.employee.joiningDate).format(defaultDateFormat)
                             : 'N/A'}
                         </span>
                       </div>

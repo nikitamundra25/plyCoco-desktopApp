@@ -108,7 +108,7 @@ const CareGiverTodo: FunctionComponent = () => {
 
                   <th className="checkbox-th-column text-center">
                     {" "}
-                    {languageTranslation("EXTREME")}
+                    {languageTranslation("EXTERNAL")}
                   </th>
                   <th className={"text-center action-th-column"}>
                     {languageTranslation("TABEL_HEAD_CG_ACTION")}

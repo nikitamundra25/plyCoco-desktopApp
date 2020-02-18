@@ -46,12 +46,20 @@ const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 const CareInstitutionContacts: any = (props: any) => {
   const { contacts, careInstId, ContactFromAdd } = props;
   const [activeContact, setActiveContact] = useState<number>(0);
-  // To set new empty contact
+  const [selectedAttributes, setSelectedAttributes] = useState<
+    IReactSelectInterface[]
+  >([]);
+  // To set active contact
   useEffect(() => {
     if (contacts && contacts.length) {
       setActiveContact(contacts.length - 1);
     }
   }, [contacts]);
+
+  // To reset selected attribute on contact change
+  useEffect(() => {
+    setSelectedAttributes([]);
+  }, [activeContact]);
 
   const addContacts = (cache: any, data: any) => {
     let newContacts = contacts;
@@ -89,11 +97,33 @@ const CareInstitutionContacts: any = (props: any) => {
     { deleteContact: any },
     { id: number }
   >(DELETE_CONTACT);
-
+  // let selectedAttributes: IReactSelectInterface[] = [];
   // Mutation to delete contact
   const [addAttribute, { data: addAttriContact }] = useMutation<{
     name: string;
-  }>(CONTACT_ADD_ATTRIBUTE);
+  }>(CONTACT_ADD_ATTRIBUTE, {
+    onCompleted({ addContactAttribute }: any) {
+      console.log(addContactAttribute, 'addAttribute');
+      setcontactAttributeOpt((prevArray: any) => [
+        ...prevArray,
+        {
+          label: addContactAttribute.name,
+          value: addContactAttribute.name
+        }
+      ]);
+      // setSelectedAttributes((prevArray: any) => [
+      //   ...prevArray,
+      //   {
+      //     label: addContactAttribute.name,
+      //     value: addContactAttribute.name,
+      //   },
+      // ]);
+      // selectedAttributes.push({
+      //   label: addContactAttribute.name,
+      //   value: addContactAttribute.name,
+      // });
+    }
+  });
 
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
@@ -207,7 +237,7 @@ const CareInstitutionContacts: any = (props: any) => {
     title = '',
     contactType = undefined,
     gender = undefined,
-    attributes = isNewAttribute,
+    attributes = [],
     salutation = '',
     countryId = undefined
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
@@ -226,15 +256,21 @@ const CareInstitutionContacts: any = (props: any) => {
     }
   }
 
-  let selectedAttributes: IReactSelectInterface[] = [];
-  if (attributes && attributes.length) {
-    attributes.map((attData: string) => {
-      selectedAttributes.push({
-        label: attData,
-        value: attData
+  useEffect(() => {
+    let attributesData: IReactSelectInterface[] = [];
+    console.log(attributes, 'attributes');
+    if (attributes && attributes.length) {
+      attributes.map((attData: string) => {
+        attributesData.push({
+          label: attData,
+          value: attData
+        });
       });
-    });
-  }
+      setSelectedAttributes(attributesData);
+    }
+  }, [contacts[activeContact]]);
+
+  console.log(selectedAttributes, 'selectedAttributes in values');
 
   const contactFormValues: ICareInstitutionContact = {
     email: email ? email.trim() : '',
@@ -296,6 +332,8 @@ const CareInstitutionContacts: any = (props: any) => {
 
   useEffect(() => {
     if (props.careInstitutionAttrOpt && props.careInstitutionAttrOpt.length) {
+      console.log("in props use effetc");
+      
       setcontactAttributeOpt(props.careInstitutionAttrOpt);
     }
   }, [props]);
@@ -311,13 +349,13 @@ const CareInstitutionContacts: any = (props: any) => {
                     <NavItem className='text-capitalize mb-2' key={index}>
                       <NavLink
                         className={`${
-                          contact && contact.contactType ? 'contact-right' : ''
+                          contact && contact.contactType ? 'contact-right' : 'new-contact'
                         }  ${index === activeContact ? 'active' : ''}`}
                         onClick={() => setActiveContact(index)}
                       >
                         {contact && contact.contactType
                           ? contact.contactType
-                          : 'New contact'}{' '}
+                          : (<><span><i className="fa fa-plus mr-1"></i></span><span className="align-middle">New contact</span></>)}{' '}
                       </NavLink>
                       {contact && contact.contactType ? (
                         <span
@@ -345,9 +383,9 @@ const CareInstitutionContacts: any = (props: any) => {
             {...props}
             ContactFromAdd={ContactFromAdd}
             addAttribute={(data: String) => {
-              attributes && !attributes.length
-                ? setisNewAttribute([data])
-                : null;
+              // attributes && !attributes.length
+              //   ? setisNewAttribute(isNewAttribute.push(data))
+              //   : null;
               addAttribute({
                 variables: {
                   name: data

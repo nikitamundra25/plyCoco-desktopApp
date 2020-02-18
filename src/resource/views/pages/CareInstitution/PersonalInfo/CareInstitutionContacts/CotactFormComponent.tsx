@@ -6,7 +6,7 @@ import {
   Col,
   Row,
   Button,
-  UncontrolledTooltip
+  UncontrolledTooltip,
 } from 'reactstrap';
 import { languageTranslation, logger } from '../../../../../../helpers';
 import Select from 'react-select';
@@ -14,7 +14,7 @@ import {
   Gender,
   Salutation,
   ContactType,
-  CareInstitutionContactAttribute
+  CareInstitutionContactAttribute,
 } from '../../../../../../config';
 import { FormikProps } from 'formik';
 import {
@@ -24,7 +24,7 @@ import {
   IStates,
   ICountry,
   IState,
-  IAttributeOptions
+  IAttributeOptions,
 } from '../../../../../../interfaces';
 import { CountryQueries } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
@@ -38,29 +38,29 @@ const colourStyles = {
       ...styles,
       backgroundColor: data.color,
       color:
-        data.color === '#6a0dad' || data.color === '#000000' ? '#fff' : '#000'
+        data.color === '#6a0dad' || data.color === '#000000' ? '#fff' : '#000',
     };
-  }
+  },
 };
 
 const CotactFormComponent: any = (
-  props: FormikProps<ICareInstitutionContact> & any
+  props: FormikProps<ICareInstitutionContact> & any,
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY
+    GET_STATES_BY_COUNTRY,
   );
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id })
+      countriesOpt.push({ label: name, value: id }),
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id })
+      statesOpt.push({ label: name, value: id }),
     );
   }
   const [AttOpt, setAttOpt] = useState<any>([]);
@@ -74,74 +74,35 @@ const CotactFormComponent: any = (
   let [newValue, setnewValue] = useState({});
 
   const handleSelect = (
-    selectOption: IReactSelectInterface,
+    selectOption: IReactSelectInterface | any,
     name: string,
-    type: string
+    type: string,
   ) => {
-    logger(selectOption, 'value');
-    setFieldValue(name, selectOption);
+    logger(selectOption, 'value+12');
     if (type === 'newAttribute') {
-      props.addAttribute(
-        newAttributeValue && newAttributeValue.value
-          ? newAttributeValue.value
-          : ''
+      // To check if it's already exist on options or not
+      const index: number = attributeId.findIndex(
+        (attribute: IReactSelectInterface) => {
+          return (
+            attribute.label.toLowerCase() ===
+            selectOption[selectOption.length - 1].label.toLowerCase()
+          );
+        }
       );
+      if (index < 0) {
+        setFieldValue(name, selectOption);
+        props.addAttribute(
+          newAttributeValue && newAttributeValue.value
+            ? newAttributeValue.value
+            : '',
+        );
+      }
     }
     if (name === 'country') {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
-    }
-  };
-
-  const handleAttributeSelectContarct = (
-    selectOption: IReactSelectInterface,
-    name: string
-  ) => {
-    console.log('IN handle change');
-
-    const data: IReactSelectInterface[] = [];
-    if (props.values && props.values.attributeId) {
-      data.push(...props.values.attributeId, selectOption);
-    } else {
-      data.push(selectOption);
-    }
-    setnewAttributeValue(null);
-    setFieldValue(name, data);
-  };
-
-  const handleAttributeSelect = (value: any) => {
-    setnewValue(value);
-    const Data = {
-      label: newValue,
-      value: newValue
-    };
-    setnewAttributeValue((newAttributeValue = Data));
-  };
-  let contactAttribute: any[] | undefined | any = props.values.attributeId;
-  /*
-  /*  
-  */
-
-  const handleAddNewAttributevalue = () => {
-    if (newAttributeValue && newAttributeValue.value) {
-      AttOpt.push(newAttributeValue);
-      setAttOpt(AttOpt);
-      attributeId.push(newAttributeValue);
-      handleSelect(attributeId, 'attributeId', 'newAttribute');
-      setnewAttributeValue('');
-    }
-  };
-
-  const handleRemoveAttribute = (index: any) => {
-    console.log('in remove');
-
-    let newAttributeList: IReactSelectInterface[];
-    if (props.values && props.values.attributeId) {
-      newAttributeList = props.values.attributeId;
-      newAttributeList.splice(index, 1);
-      setFieldValue('attributeId', newAttributeList);
+      logger(statesData, "sdsdsdsd");
     }
   };
 
@@ -167,7 +128,7 @@ const CotactFormComponent: any = (
       faxNumber,
       id,
       createdAt,
-      attributeId
+      attributeId,
     },
     touched,
     errors,
@@ -177,8 +138,62 @@ const CotactFormComponent: any = (
     handleSubmit,
     setFieldValue,
     careInstitutionAttrOpt,
-    setFieldTouched
+    setFieldTouched,
   } = props;
+
+  const handleAttributeSelectContarct = (
+    selectOption: IReactSelectInterface,
+    name: string,
+  ) => {
+    let index: number = -1;
+    if (attributeId && attributeId.length) {
+      index = attributeId.findIndex(
+        (attribute: IReactSelectInterface) =>
+          attribute.value === selectOption.value,
+      );
+    }
+
+    if (index < 0) {
+      const data: IReactSelectInterface[] = [];
+      if (props.values && props.values.attributeId) {
+        data.push(...props.values.attributeId, selectOption);
+      } else {
+        data.push(selectOption);
+      }
+      setnewAttributeValue(null);
+      setFieldValue(name, data);
+    }
+  };
+
+  const handleAttributeSelect = (value: any) => {
+    setnewValue(value);
+    const Data = {
+      label: newValue,
+      value: newValue,
+    };
+    setnewAttributeValue((newAttributeValue = Data));
+  };
+  let contactAttribute: any[] | undefined | any = props.values.attributeId;
+
+  const handleAddNewAttributevalue = () => {
+    if (newAttributeValue && newAttributeValue.value) {
+      AttOpt.push(newAttributeValue);
+      setAttOpt(AttOpt);
+      const addNewAttribute: any[] = [];
+      addNewAttribute.push(...attributeId, newAttributeValue);
+      handleSelect(addNewAttribute, 'attributeId', 'newAttribute');
+      setnewAttributeValue('');
+    }
+  };
+
+  const handleRemoveAttribute = (index: any) => {
+    let newAttributeList: IReactSelectInterface[];
+    if (props.values && props.values.attributeId) {
+      newAttributeList = props.values.attributeId;
+      newAttributeList.splice(index, 1);
+      setFieldValue('attributeId', newAttributeList);
+    }
+  };
 
   const ContactError: any = errors.contactType;
 
@@ -206,7 +221,7 @@ const CotactFormComponent: any = (
                 {id ? (
                   <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                     <FormGroup>
-                      <Row>
+                      <Row className='align-items-center'>
                         <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                           <Label className='form-label col-form-label'>
                             {languageTranslation('ID')}
@@ -231,7 +246,7 @@ const CotactFormComponent: any = (
                 ) : null}
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('GENDER')}
@@ -257,7 +272,7 @@ const CotactFormComponent: any = (
 
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('TITLE')}
@@ -283,7 +298,7 @@ const CotactFormComponent: any = (
 
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('SALUTATION')}
@@ -308,7 +323,7 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('FIRST_NAME')}
@@ -342,7 +357,7 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('SURNAME')}
@@ -380,7 +395,7 @@ const CotactFormComponent: any = (
               <Row>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('CONTACT_TYPE')}
@@ -416,9 +431,9 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                        <Label className='form-label col-form-label'>
+                        <Label className='form-label col-form-label whitespace-normal'>
                           {languageTranslation('STREET')}
                         </Label>
                       </Col>
@@ -440,7 +455,7 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('CITY')}
@@ -464,7 +479,7 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('ZIP')}
@@ -489,7 +504,7 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('COUNTRY')}
@@ -519,7 +534,7 @@ const CotactFormComponent: any = (
               <Row>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('PHONE')}
@@ -552,7 +567,7 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('PHONE2')}
@@ -585,7 +600,7 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('FAX')}
@@ -618,7 +633,7 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('MOBILE')}
@@ -651,7 +666,7 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
+                    <Row className='align-items-center'>
                       <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('EMAIL')}
@@ -731,7 +746,7 @@ const CotactFormComponent: any = (
                         ? attributeId.map(
                             (
                               { label, color }: IAttributeOptions,
-                              index: number
+                              index: number,
                             ) => {
                               return (
                                 <li
@@ -744,7 +759,7 @@ const CotactFormComponent: any = (
                                     color:
                                       color === '#6a0dad' || color === '#000000'
                                         ? '#fff'
-                                        : '#000'
+                                        : '#000',
                                   }}
                                 >
                                   <>
@@ -763,7 +778,7 @@ const CotactFormComponent: any = (
                                   </>
                                 </li>
                               );
-                            }
+                            },
                           )
                         : null}
                     </ul>
@@ -781,7 +796,7 @@ const CotactFormComponent: any = (
                               ? {
                                   label:
                                     'Please select Attribute or type to add new',
-                                  value: ''
+                                  value: '',
                                 }
                               : undefined
                           }

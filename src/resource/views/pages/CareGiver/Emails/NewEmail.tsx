@@ -80,14 +80,14 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   //To get contact list by id
   const [
-    getContactsByUserID,
+    fetchContactsByUserID,
     { data: contactList, loading: contactListLoading }
   ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
 
   useEffect(() => {
     // Fetch contact details by care institution id
-    if (Id) {
-      getContactsByUserID({
+    if (Id && userRole === 'canstitution') {
+      fetchContactsByUserID({
         variables: { userId: parseInt(Id) }
       });
     }
@@ -120,6 +120,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     }
   });
 
+  // set template list options
   const templateOptions: IReactSelectInterface[] | undefined = [];
   if (data && data.getEmailtemplate) {
     const {
@@ -137,19 +138,17 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   // set contact list options
   const contactOptions: IReactSelectInterface[] | undefined = [];
-  // if (contactList && contactList.getContactsByUserID) {
-  //   const {
-  //     getContactsByUserID: { contact_list }
-  //   } = data;
-  //   if (contact_list && contact_list.length) {
-  //     contact_list.map(({ list, id }: any) => {
-  //       contactOptions.push({
-  //         label: list,
-  //         value: id ? id.toString() : ""
-  //       });
-  //     });
-  //   }
-  // }
+  if (contactList && contactList.getContactsByUserID) {
+    const { getContactsByUserID } = contactList;
+    if (getContactsByUserID && getContactsByUserID.length) {
+      getContactsByUserID.map((list: any) => {
+        return contactOptions.push({
+          label: `${list.firstName} ${list.surName} (${list.contactType})`,
+          value: list.id ? list.id : ''
+        });
+      });
+    }
+  }
 
   const setDefaultSignature = (body: any) => {
     const contentBlock = htmlToDraft(
@@ -230,11 +229,6 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   //Contact selection
   const onContactSelection = (selectedOption: any) => {
-    // fetchTemplateById({
-    //   variables: {
-    //     id
-    //   }
-    // });
     setContact(selectedOption);
   };
 
@@ -334,7 +328,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                         <FormGroup className='mb-0 '>
                           <Select
                             placeholder='Select Department'
-                            options={templateOptions}
+                            options={contactOptions}
                             classNamePrefix='custom-inner-reactselect'
                             className={'custom-reactselect'}
                             onChange={onContactSelection}

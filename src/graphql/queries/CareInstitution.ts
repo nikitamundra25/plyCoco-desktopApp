@@ -153,6 +153,9 @@ const GET_CONTACT_LIST_BY_ID = gql`
       gender
       firstName
       surName
+      contactType
+      id
+      email
     }
   }
 `;

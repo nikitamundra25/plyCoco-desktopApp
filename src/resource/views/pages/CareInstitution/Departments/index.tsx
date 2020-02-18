@@ -376,9 +376,9 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                   id={'add-new-pm-tooltip'}
                   onClick={addNewDepartment}
                 >
-                  <i className={'fa fa-plus'} />
+                  <i className={"fa fa-plus"} />
                   &nbsp;
-                  {languageTranslation('ADD_NEW_DEPARTMENT_BTN')}
+                  {languageTranslation("ADD_NEW_DEPARTMENT_BTN")}
                 </Button>
               </div>
 

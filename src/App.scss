@@ -3412,6 +3412,10 @@ html:not([dir="rtl"]) {
       &.contact-right {
         padding-right: 30px;
       }
+      &.new-contact{
+        color: $theme_color;
+        border: 1px solid $theme_color;
+      }
       &:hover,
       &.active {
         text-decoration: none;

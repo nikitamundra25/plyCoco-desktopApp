@@ -87,7 +87,7 @@ const CotactFormComponent: any = (
             attribute.label.toLowerCase() ===
             selectOption[selectOption.length - 1].label.toLowerCase()
           );
-        },
+        }
       );
       if (index < 0) {
         setFieldValue(name, selectOption);
@@ -102,7 +102,7 @@ const CotactFormComponent: any = (
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
+      logger(statesData, "sdsdsdsd");
     }
   };
 

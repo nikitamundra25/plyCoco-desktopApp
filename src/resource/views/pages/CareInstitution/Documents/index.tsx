@@ -1,10 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { DocumentMutations } from '../../../../../graphql/Mutations';
 import moment from 'moment';
-import { IDocumentUrls } from '../../../../../interfaces';
+import {
+  IDocumentUrls,
+  IReactSelectInterface
+} from '../../../../../interfaces';
 import DocumentUploadModal from './DocumentModal';
 import DocumentsList from './DocumentsList';
 import { DocumentQueries } from '../../../../../graphql/queries';
@@ -21,7 +24,7 @@ const [
   DISAPPROVE_DOCUMENT
 ] = DocumentMutations;
 const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
-const [, GET_DOCUMENTS] = DocumentQueries;
+const [, GET_DOCUMENTS, GET_DOCUMENT_TYPES] = DocumentQueries;
 let toastId: any = '';
 
 const Documents = () => {
@@ -38,9 +41,6 @@ const Documents = () => {
   const [documentData, setDocumentData] = useState<any>(null);
   const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
   const [fileName, setFilename] = useState<any>(null);
-  // const [errorMsg, setErrorMsg] = useState<string | null>(
-  //   'Document is required'
-  // );
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const [documentId, setDocumentId] = useState<{
@@ -60,6 +60,7 @@ const Documents = () => {
       refetch: careGiverDetailsRetch
     }
   ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
+
   //add document
   const [addDocument, { loading: addDocumentLoading }] = useMutation<any>(
     ADD_DOCUMENT,
@@ -76,6 +77,20 @@ const Documents = () => {
       }
     }
   );
+
+  // To fecth document type list
+  const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES);
+  console.log('All types', documentTypeListData);
+
+  const documentTypeList: IReactSelectInterface[] | undefined = [];
+  if (documentTypeListData && documentTypeListData.getDocumentType) {
+    documentTypeListData.getDocumentType.forEach((type: any) => {
+      documentTypeList.push({
+        label: type.type,
+        value: type.id
+      });
+    });
+  }
 
   //disapprove document
   const [
@@ -416,6 +431,8 @@ const Documents = () => {
         called={called}
         approveLoading={approveLoading}
         disapproveLoading={disapproveLoading}
+        documentTypeList={documentTypeList}
+        userId={id}
       />
       <DocumentUploadModal
         documentIdUpdate={documentIdUpdate}

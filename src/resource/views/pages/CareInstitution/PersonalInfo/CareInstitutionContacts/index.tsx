@@ -349,13 +349,13 @@ const CareInstitutionContacts: any = (props: any) => {
                     <NavItem className='text-capitalize mb-2' key={index}>
                       <NavLink
                         className={`${
-                          contact && contact.contactType ? 'contact-right' : ''
+                          contact && contact.contactType ? 'contact-right' : 'new-contact'
                         }  ${index === activeContact ? 'active' : ''}`}
                         onClick={() => setActiveContact(index)}
                       >
                         {contact && contact.contactType
                           ? contact.contactType
-                          : 'New contact'}{' '}
+                          : (<><span><i className="fa fa-plus mr-1"></i></span><span className="align-middle">New contact</span></>)}{' '}
                       </NavLink>
                       {contact && contact.contactType ? (
                         <span

@@ -10,11 +10,11 @@ import {
   ICountry,
   IState,
   ICareInstitutionFormValues,
-  IAttributeOptions,
+  IAttributeOptions
 } from '../../../../../../interfaces';
 import {
   CountryQueries,
-  CareInstitutionQueries,
+  CareInstitutionQueries
 } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { CareInstituionContactValidationSchema } from '../../../../../validations';
@@ -38,7 +38,7 @@ const [
   ,
   ,
   DELETE_CONTACT,
-  CONTACT_ADD_ATTRIBUTE,
+  CONTACT_ADD_ATTRIBUTE
 ] = CareInstitutionMutation;
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -72,7 +72,7 @@ const CareInstitutionContacts: any = (props: any) => {
       mobileNumber: '',
       faxNumber: '',
       comments: '',
-      groupAttributes: '',
+      groupAttributes: ''
     };
 
     newContacts[newContacts.length - 1] = data.data.addContact;
@@ -82,7 +82,7 @@ const CareInstitutionContacts: any = (props: any) => {
   // Mutation to add new contact
   const [
     addContact,
-    { error: contactError, data: contactDataA },
+    { error: contactError, data: contactDataA }
   ] = useMutation<{
     addContact: ICareInstitutionFormValues;
   }>(ADD_NEW_CONTACT_CARE_INSTITUTION, { update: addContacts });
@@ -108,8 +108,8 @@ const CareInstitutionContacts: any = (props: any) => {
         ...prevArray,
         {
           label: addContactAttribute.name,
-          value: addContactAttribute.name,
-        },
+          value: addContactAttribute.name
+        }
       ]);
       // setSelectedAttributes((prevArray: any) => [
       //   ...prevArray,
@@ -122,12 +122,12 @@ const CareInstitutionContacts: any = (props: any) => {
       //   label: addContactAttribute.name,
       //   value: addContactAttribute.name,
       // });
-    },
+    }
   });
 
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
 
   //use effect for delete contact
@@ -143,23 +143,23 @@ const CareInstitutionContacts: any = (props: any) => {
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
-    { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionContact>
   ) => {
     let AttributeData: string[] = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>
-        AttributeData.push(attribute.label),
+        AttributeData.push(attribute.label)
       );
     }
     try {
@@ -184,25 +184,25 @@ const CareInstitutionContacts: any = (props: any) => {
         mobileNumber: values.mobileNumber,
         email: values.email,
         remark: values.remark,
-        attributes: AttributeData,
+        attributes: AttributeData
       };
       if (id) {
         await updateContact({
           variables: {
             id: values.id ? parseInt(values.id) : null,
-            contactInput: contactInput,
-          },
+            contactInput: contactInput
+          }
         });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CONTACT_UPDATE_CARE_INSTITUTION'),
+            languageTranslation('CONTACT_UPDATE_CARE_INSTITUTION')
           );
         }
       } else {
         await addContact({
           variables: {
-            contactInput: contactInput,
-          },
+            contactInput: contactInput
+          }
         });
         toast.success(languageTranslation('NEW_CONTACT_ADD_CARE_INSTITUTION'));
       }
@@ -239,7 +239,7 @@ const CareInstitutionContacts: any = (props: any) => {
     gender = undefined,
     attributes = [],
     salutation = '',
-    countryId = undefined,
+    countryId = undefined
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
 
   let countryData: Number;
@@ -251,7 +251,7 @@ const CareInstitutionContacts: any = (props: any) => {
     if (userCountry && userCountry.length) {
       userSelectedCountry = {
         label: userCountry[0].name,
-        value: userCountry[0].id,
+        value: userCountry[0].id
       };
     }
   }
@@ -263,7 +263,7 @@ const CareInstitutionContacts: any = (props: any) => {
       attributes.map((attData: string) => {
         attributesData.push({
           label: attData,
-          value: attData,
+          value: attData
         });
       });
       setSelectedAttributes(attributesData);
@@ -289,39 +289,39 @@ const CareInstitutionContacts: any = (props: any) => {
     title,
     contactType: {
       label: contactType,
-      value: contactType,
+      value: contactType
     },
     gender: {
       label: gender,
-      value: gender,
+      value: gender
     },
     salutation: {
       label: salutation,
-      value: salutation,
+      value: salutation
     },
     id,
     country: userSelectedCountry,
     remark,
-    attributeId: selectedAttributes,
+    attributeId: selectedAttributes
   };
 
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CONTACT_DELETE_MSG'),
+      text: languageTranslation('CONFIRM_CONTACT_DELETE_MSG')
     });
     if (!value) {
       return;
     } else {
       await deleteContact({
         variables: {
-          id: parseInt(id),
-        },
+          id: parseInt(id)
+        }
       });
       setActiveContact(contacts.length - 1);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('CONTACT_DELETE_SUCCESS_MSG'),
+          languageTranslation('CONTACT_DELETE_SUCCESS_MSG')
         );
       }
     }
@@ -332,6 +332,8 @@ const CareInstitutionContacts: any = (props: any) => {
 
   useEffect(() => {
     if (props.careInstitutionAttrOpt && props.careInstitutionAttrOpt.length) {
+      console.log("in props use effetc");
+      
       setcontactAttributeOpt(props.careInstitutionAttrOpt);
     }
   }, [props]);
@@ -381,13 +383,13 @@ const CareInstitutionContacts: any = (props: any) => {
             {...props}
             ContactFromAdd={ContactFromAdd}
             addAttribute={(data: String) => {
-              attributes && !attributes.length
-                ? setisNewAttribute([data])
-                : null;
+              // attributes && !attributes.length
+              //   ? setisNewAttribute(isNewAttribute.push(data))
+              //   : null;
               addAttribute({
                 variables: {
-                  name: data,
-                },
+                  name: data
+                }
               });
             }}
             addAttriContactData={addAttriContact}

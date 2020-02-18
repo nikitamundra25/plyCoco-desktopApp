@@ -49,9 +49,10 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     fetchPolicy: 'no-cache',
   });
 
-  let [selectUser, setselectUser] = useState<IReactSelectInterface | null>(
-    null,
-  );
+  let [selectUser, setselectUser] = useState<IReactSelectInterface>({
+    label: '',
+    value: '',
+  });
 
   const [activeTab, setactiveTab] = useState(0);
   const { search, pathname } = useLocation();
@@ -140,13 +141,24 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         value: e.value,
       };
       setselectUser((selectUser = data));
+
       if (e.value !== Id) {
+        const {
+          location: { search },
+        } = props;
+        const query = qs.parse(search);
         props.history.push(
-          `${AppRoutes.CARE_GIVER_VIEW.replace(
-            ':id',
-            e.value,
-          )}?tab=${encodeURIComponent(careGiverRoutes[activeTab].name)}`,
+          [
+            `${AppRoutes.CARE_GIVER_VIEW.replace(':id', e.value)}`,
+            qs.stringify({ ...query }),
+          ].join('?'),
         );
+        // props.history.push(
+        //   `${AppRoutes.CARE_GIVER_VIEW.replace(
+        //     ":id",
+        //     e.value
+        //   )}?tab=${encodeURIComponent(careGiverRoutes[activeTab].name)}`
+        // );
         setisUserChange((isUserChange = true));
       }
     }
@@ -238,39 +250,51 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                     </div>
                   }
                 >
-                  <div className='common-content flex-grow-1'>
-                    {activeTab === 0 ? (
-                      <PersonalInformation
-                        currentSelectuser={(Data: IReactSelectInterface) => {
-                          setselectUser((selectUser = Data));
-                        }}
-                        handleIsUserChange={() =>
-                          setisUserChange((isUserChange = false))
-                        }
-                        Id={Id}
-                        isUserChange={isUserChange}
-                        careGiverOpt={careGiverOpt}
-                        {...props}
-                      />
-                    ) : null}
-                    {activeTab === 1 ? <Offer /> : null}
-                    {activeTab === 2 ? <LoginLogs /> : null}
-                    {activeTab === 3 ? <Invoices /> : null}
-                    {activeTab === 4 ? <Documents /> : null}
-                    {activeTab === 5 ? (
-                      <Email
-                        selectedUserName={
-                          selectUser && selectUser.label ? selectUser.label : ''
-                        }
-                      />
-                    ) : null}
-                    {activeTab === 6 ? <ToDo {...props} /> : null}
-                    {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}
-                    {activeTab === 8 ? <GroupedBelow /> : null}
-                  </div>
-                </Suspense>
-              </>
-            )}
+                <div className='common-content flex-grow-1'>
+                {activeTab === 0 ? (
+                    <PersonalInformation
+                      currentSelectuser={(Data: IReactSelectInterface) => {
+                        setselectUser((selectUser = Data));
+                      }}
+                      handleIsUserChange={() =>
+                        setisUserChange((isUserChange = false))
+                      }
+                      Id={Id}
+                      isUserChange={isUserChange}
+                      careGiverOpt={careGiverOpt}
+                      {...props}
+                    />
+                  ) : null}
+                  {activeTab === 1 ? <Offer /> : null}
+                  {activeTab === 2 ? <LoginLogs /> : null}
+                  {activeTab === 3 ? <Invoices /> : null}
+                  {activeTab === 4 ? <Documents /> : null}
+                  {activeTab === 5 ? (
+                    <Email
+                      selectedUserName={
+                        selectUser && selectUser.label ? selectUser.label : ''
+                      }
+                      userRole={
+                        careGivers &&
+                        careGivers.getCaregivers &&
+                        careGivers.getCaregivers.result &&
+                        selectUser &&
+                        selectUser.value
+                          ? careGivers.getCaregivers.result.find(
+                              (careGiver: any) =>
+                                careGiver.id === selectUser.value,
+                            ).userRole
+                          : ''
+                      }
+                    />
+                  ) : null}
+                  {activeTab === 6 ? <ToDo {...props}/> : null}
+                  {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}
+                  {activeTab === 8 ? <GroupedBelow /> : null}
+                </div>
+              </Suspense>
+            </>
+          )}
         </div>
       </div>
       <CreateTodo

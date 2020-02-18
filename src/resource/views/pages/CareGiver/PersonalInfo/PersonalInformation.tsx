@@ -25,6 +25,8 @@ import {
   IStates,
   IAttributeValues,
   IAttributeOptions,
+  ICountry,
+  IState,
 } from '../../../../../interfaces';
 import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
 
@@ -60,6 +62,31 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const [careGiverData, setCareGiverData] = useState<ICareGiverValues | null>();
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
 
+  const { data: CountriesData } = useQuery<ICountries>(GET_COUNTRIES);
+  // To fetch the states of selected contry & don't want to query on initial load
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY,
+  );
+  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  const statesOpt: IReactSelectInterface[] | undefined = [];
+  if (CountriesData && CountriesData.countries) {
+    CountriesData.countries.forEach(({ id, name }: ICountry) =>
+      countriesOpt.push({
+        label: name,
+        value: id,
+      }),
+    );
+  }
+
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({
+        label: name,
+        value: id,
+      }),
+    );
+  }
+
   // Fetch attribute list from db
   const { data: attributeData } = useQuery<{
     getCaregiverAtrribute: IAttributeValues[];
@@ -79,10 +106,16 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   // To update caregiver details into db
   const [updateCaregiver] = useMutation<
-    { updateCaregiver: ICareGiverValues },
+    {
+      updateCaregiver: ICareGiverValues;
+    },
     {
       id: number;
-      careGiverInput: IPersonalObject | { remarks: any };
+      careGiverInput:
+        | IPersonalObject
+        | {
+            remarks: any;
+          };
       isRemarkAdded?: Boolean;
     }
   >(UPDATE_CAREGIVER);
@@ -102,9 +135,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   //To get country details
   const { data: countries, loading: countryLoading } = useQuery<ICountries>(
     GET_COUNTRIES,
-  );
-  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
   );
 
   useEffect(() => {
@@ -348,7 +378,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const qualificationsData: IReactSelectInterface[] | undefined = [];
   if (qualifications) {
     qualifications.forEach(({ name, id }: IQualification) => {
-      qualificationsData.push({ label: name, value: id });
+      qualificationsData.push({
+        label: name,
+        value: id,
+      });
     });
   }
   let countryData: Number;
@@ -377,7 +410,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       ? props.getCaregiver.caregiver.stateId
       : '';
 
-  let userSelectedState: any = {};
+  let userSelectedState: any = null;
   if (statesData && statesData.states) {
     const userState = statesData.states.filter((x: any) => x.id === stateData);
     if (userState && userState.length) {
@@ -491,15 +524,24 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           ],
     remarkData: '',
     invoiceInterval: invoiceInterval
-      ? { label: invoiceInterval, value: invoiceInterval }
+      ? {
+          label: invoiceInterval,
+          value: invoiceInterval,
+        }
       : undefined,
     qualifications: qualificationsData,
     fee,
     nightAllowance: nightAllowance
-      ? { label: nightAllowance, value: nightAllowance }
+      ? {
+          label: nightAllowance,
+          value: nightAllowance,
+        }
       : undefined,
     leasingPricingList: leasingPricingList
-      ? { label: leasingPricingList, value: leasingPricingList }
+      ? {
+          label: leasingPricingList,
+          value: leasingPricingList,
+        }
       : undefined,
     weekendAllowance,
     holiday,
@@ -552,6 +594,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 <PersonalInfoFormComponent
                   {...props}
                   CareInstitutionList={usersList}
+                  countriesOpt={countriesOpt}
+                  statesOpt={statesOpt}
+                  getStatesByCountry={getStatesByCountry}
                 />
               </Col>
               <Col lg={4} md={'12'} sm={'12'} className='px-lg-0'>

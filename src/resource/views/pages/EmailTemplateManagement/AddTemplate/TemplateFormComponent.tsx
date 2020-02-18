@@ -232,6 +232,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                           'inline',
                           'blockType',
                           'fontSize',
+                          'fontFamily',
                           'list',
                           'textAlign',
                           'link'
@@ -239,15 +240,28 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
                         inline: {
                           options: ['bold', 'italic', 'underline']
                         },
-                        fontSize: {
-                          className: 'bordered-option-classname'
+                        blockType: {
+                          className: 'demo-option-custom-wide',
+                          dropdownClassName: 'demo-dropdown-custom'
                         },
+                        fontSize: { className: 'demo-option-custom-medium' },
+
                         fontFamily: {
-                          className: 'bordered-option-classname'
+                          className: 'bordered-option-classname',
+                          dropdownClassName: 'demo-dropdown-custom'
                         },
                         list: {
                           inDropdown: false,
+                          unordered: { className: 'demo-option-custom' },
+                          ordered: { className: 'demo-option-custom' },
+
                           options: ['unordered']
+                        },
+                        textAlign: {
+                          left: { className: 'demo-option-custom' },
+                          center: { className: 'demo-option-custom' },
+                          right: { className: 'demo-option-custom' },
+                          justify: { className: 'demo-option-custom' }
                         },
                         link: {
                           options: ['link']
@@ -278,10 +292,12 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
         </div>
       </div>
       {attachment && attachment.length ? (
-        <AttachmentList
-          attachment={attachment}
-          onDelteDocument={onDelteDocument}
-        />
+        <div className='attach-document-list custom-scrollbar mb-2'>
+          <AttachmentList
+            attachment={attachment}
+            onDelteDocument={onDelteDocument}
+          />
+        </div>
       ) : null}
     </Col>
   );

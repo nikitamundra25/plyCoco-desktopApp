@@ -138,7 +138,7 @@ const PersonalInformation: any = (props: any) => {
           faxNumber: '',
           comments: '',
           groupAttributes: '',
-          attributeId: []
+          attributeId: [],
         });
       } else if (contactsData && contactsData[contactsData.length - 1].id) {
         contactsData.push({
@@ -151,7 +151,7 @@ const PersonalInformation: any = (props: any) => {
           faxNumber: '',
           comments: '',
           groupAttributes: '',
-          attributeId: []
+          attributeId: [],
         });
       }
       setContacts(contactsData);
@@ -582,6 +582,7 @@ const PersonalInformation: any = (props: any) => {
           contacts={contacts}
           careInstId={id}
           careInstitutionAttrOpt={careInstitutionAttrOpt}
+          refetch={() => refetch()}
           setContacts={(contacts: any) => {
             setContacts((contacts = contacts));
           }}

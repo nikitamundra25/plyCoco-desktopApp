@@ -8,17 +8,22 @@ export const dateValidator = (
 ): IDateResponse => {
   const date = dateString ? dateString.replace(/\D+/g, '') : '';
   // First check for the pattern
+  console.log('date', date);
+
   if (date !== '') {
-    if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+    console.log('dateString', dateString);
+    if (!/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(dateString))
       return {
         isValid: false,
         message: 'Please enter a valid date'
       };
   }
   // Parse the date parts to integers
-  var parts: string[] = dateString ? dateString.split('/') : [];
-  var day: number = parseInt(parts[1], 10);
-  var month: number = parseInt(parts[0], 10);
+  var parts: string[] = dateString ? dateString.split('.') : [];
+  console.log('parts', parts);
+
+  var day: number = parseInt(parts[0], 10);
+  var month: number = parseInt(parts[1], 10);
   var year: number = parseInt(parts[2], 10);
 
   const getCurrentYear = new Date().getFullYear();
@@ -59,7 +64,7 @@ export const dateValidator = (
   var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
   if (date !== '') {
-    if (year % 400 === 0 || (year % 100 != 0 && year % 4 === 0))
+    if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
       monthLength[1] = 29;
     return {
       isValid: day > 0 && day <= monthLength[month - 1],

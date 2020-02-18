@@ -17,6 +17,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
     handleCheckElement,
     handleInfiniteScroll,
     page,
+    bulkcareGivers,
   } = props;
 
   return (
@@ -56,12 +57,13 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                       name='checkbox'
                       className=''
                       checked={
-                        careGivers &&
-                        careGivers.getCaregivers &&
-                        careGivers.getCaregivers.result.length ===
-                          selectedCareGiver.length
-                          ? true
-                          : false
+                        bulkcareGivers ? true : false
+                        // careGivers &&
+                        // careGivers.getCaregivers &&
+                        // careGivers.getCaregivers.result.length ===
+                        //   selectedCareGiver.length
+                        //   ? true
+                        //   : false
                       }
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         handleSelectAll(e);

@@ -7,7 +7,8 @@ import {
   LegalForm,
   Gender,
   DateMask,
-  IBANRegex
+  IBANRegex,
+  regSinceDate
 } from '../../../../../config';
 import { FormikProps, Field } from 'formik';
 import {
@@ -35,23 +36,27 @@ const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 const PersonalInfoFormComponent: any = (
   props: FormikProps<ICareGiverValues> & {
     CareInstitutionList: IReactSelectInterface[] | undefined;
+    countriesOpt: IReactSelectInterface[] | undefined;
+    statesOpt: IReactSelectInterface[] | undefined;
+    getStatesByCountry: any;
   }
 ) => {
-  const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
+  const { countriesOpt, statesOpt, getStatesByCountry } = props;
+  // const { data } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
-  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY
-  );
-  const countriesOpt: IReactSelectInterface[] | undefined = [];
-  const statesOpt: IReactSelectInterface[] | undefined = [];
-  if (data && data.countries) {
-    data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({
-        label: name,
-        value: id
-      })
-    );
-  }
+  // const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+  //   GET_STATES_BY_COUNTRY,
+  // );
+  // const countriesOpt: IReactSelectInterface[] | undefined = [];
+  // const statesOpt: IReactSelectInterface[] | undefined = [];
+  // if (data && data.countries) {
+  //   data.countries.forEach(({ id, name }: ICountry) =>
+  //     countriesOpt.push({
+  //       label: name,
+  //       value: id,
+  //     }),
+  //   );
+  // }
 
   // Region Data
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
@@ -71,18 +76,19 @@ const PersonalInfoFormComponent: any = (
   let { pathname } = useLocation();
   let PathArray: string[] = pathname.split('/');
 
-  if (statesData && statesData.states) {
-    statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({
-        label: name,
-        value: id
-      })
-    );
-  }
+  // if (statesData && statesData.states) {
+  //   statesData.states.forEach(({ id, name }: IState) =>
+  //     statesOpt.push({
+  //       label: name,
+  //       value: id,
+  //     }),
+  //   );
+  // }
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
     if (name === 'country') {
+      setFieldValue('state', { label: '', value: '' });
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
@@ -150,7 +156,7 @@ const PersonalInfoFormComponent: any = (
 
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    'YYYY-MM-DD'
+    regSinceDate
   );
 
   return (
@@ -194,6 +200,7 @@ const PersonalInfoFormComponent: any = (
                           </Col>
                           <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                             <div>
+                              {console.log('RegYear', RegYear)}
                               <Input
                                 type='text'
                                 name={'regSince'}
@@ -455,7 +462,7 @@ const PersonalInfoFormComponent: any = (
                     name={'postalCode'}
                     placeholder='Postal Code'
                     className=' width-common'
-                    maxLength={30}
+                    maxLength={15}
                   />
                 </div>
               </Col>
@@ -517,7 +524,7 @@ const PersonalInfoFormComponent: any = (
                     placeholder={languageTranslation('STATE')}
                     // placeholder="Bavaria"
                     options={statesOpt}
-                    value={state && state.value ? state : undefined}
+                    value={state && state.value !== '' ? state : null}
                     onChange={(value: any) => handleSelect(value, 'state')}
                     noOptionsMessage={() => {
                       return 'Select a country first';

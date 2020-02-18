@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { FormGroup, Label, Input, Col, Row, Button } from 'reactstrap';
 import Select from 'react-select';
 import { FormikProps } from 'formik';
-import { Salutation, Gender } from '../../../../../../config';
+import { Salutation, Gender, regSinceDate } from '../../../../../../config';
 import { languageTranslation, logger } from '../../../../../../helpers';
 import {
   ICareInstitutionFormValues,
@@ -99,7 +99,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   } = props;
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    'YYYY-MM-DD'
+    regSinceDate
   );
   const scrollParentToChild: any = () => {
     let parent = document.getElementById('care-profile');

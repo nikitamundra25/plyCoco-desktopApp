@@ -9,7 +9,7 @@ export const PAGE_LIMIT: number = 10;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
 export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm:ss';
 export const dateFormat: any = 'MMM, Do YYYY';
-export const regSinceDate:any='DD.MM.YYYY'
+export const regSinceDate: any = 'DD.MM.YYYY';
 export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
 export const emailRegex: RegExp = /^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -70,6 +70,7 @@ export const DateMask: maskArray = [
   /\d/,
   /\d/
 ];
+export const TimeMask: maskArray = [/\d/, /\d/, ':', /[0-9]/, /\d/];
 
 export const Status: IReactSelectInterface[] = [
   { value: 'true', label: languageTranslation('ACTIVE') },
@@ -1135,9 +1136,9 @@ export const CareGiver: IReactSelectInterface[] = [
 ];
 
 export const Priority: IReactSelectInterface[] = [
-  { value: 'Low', label: languageTranslation('LOW') },
-  { value: 'Normal', label: languageTranslation('NORMAL') },
-  { value: 'High', label: languageTranslation('HIGH') }
+  { value: 'low', label: languageTranslation('LOW') },
+  { value: 'normal', label: languageTranslation('NORMAL') },
+  { value: 'high', label: languageTranslation('HIGH') }
 ];
 export const TodoFilter: IReactSelectInterface[] = [
   { value: 'Hide Done', label: languageTranslation('HIDE_DONE') },

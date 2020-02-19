@@ -4,3 +4,4 @@ export * from './DateValidator';
 export * from './StripHtml';
 export * from './HtmlToDraftConverter';
 export * from './FormatFIleSize';
+export * from './TimeValidator';

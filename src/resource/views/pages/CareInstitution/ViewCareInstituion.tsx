@@ -34,7 +34,8 @@ const InvoiceMenu = React.lazy(() => import('./invoiceMenu'));
 const Documents = React.lazy(() => import('./Documents'));
 const Departments = React.lazy(() => import('./Departments'));
 const Email = React.lazy(() => import('../CareGiver/Emails'));
-const Reminders = React.lazy(() => import('./Reminders'));
+// const Reminders = React.lazy(() => import('./Reminders'));
+const Reminders = React.lazy(() => import('../../components/ToDosInnerList'));
 const CreateTodo = React.lazy(() =>
   import('../../components/CreateTodo/index')
 );
@@ -373,7 +374,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                       }
                     />
                   ) : null}
-                  {activeTab === 7 ? <Reminders /> : null}
+                  {activeTab === 7 ? <Reminders {...props} /> : null}
                 </div>
               </Suspense>
             </>

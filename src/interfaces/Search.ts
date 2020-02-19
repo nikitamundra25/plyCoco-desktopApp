@@ -13,7 +13,7 @@ export interface ISearchProps {
 }
 
 export interface ISearchToDoValues {
-  searchValue?: string;
+  searchBy?: string;
   sortBy?: IReactSelectInterface;
   priority?: IReactSelectInterface;
   futureOnly?: boolean;

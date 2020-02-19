@@ -7,7 +7,7 @@ import { ToDoQueries } from '../../../../graphql/queries';
 import { useLazyQuery } from "@apollo/react-hooks";
 import { IReactSelectInterface, ISearchToDoValues } from "../../../../interfaces";
 import { FormikHelpers, FormikProps, Formik } from "formik";
-import { PAGE_LIMIT } from "../../../../config";
+import { PAGE_LIMIT, TodoStatus, Priority } from "../../../../config";
 
 const [GET_TO_DOS] = ToDoQueries;
 
@@ -15,9 +15,6 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   let { id } = useParams();
   const userId: any | undefined = id;
-
-  console.log('userId ', userId);
-
 
   let history = useHistory();
   const { search, pathname } = useLocation();
@@ -35,7 +32,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   useEffect(() => {
     const query = qs.parse(search);
-    let searchValue: string = '';
+    let searchBy: string = '';
     let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
     let priority: IReactSelectInterface | undefined = { label: '', value: '' };
     let futureOnly: boolean | undefined = false;
@@ -45,36 +42,12 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
       const current: string = history.location.search;
       let search: any = {};
       search = { ...qs.parse(current) };
-      if (search.searchValue) {
-        searchValue = search.searchValue;
-      }
-      if (search.sortBy) {
-        sortBy = search.sortBy;
-      }
-      if (search.priority) {
-        priority = search.priority;
-      }
-      if (search.futureOnly) {
-        futureOnly = JSON.parse(search.futureOnly);
+      if (search.searchBy) {
+        searchBy = search.searchBy;
       }
 
-      // setSearchValues({
-      //   searchValue,
-      //   sortBy,
-      //   priority,
-      //   futureOnly
-      // });
-      let status = '';
-      let pri = '';
-      if (sortBy) {
-        if (sortBy.value) {
-          status = sortBy.value
-        }
-      }
-      if (priority) {
-        if (priority.value) {
-          pri = priority.value
-        }
+      if (search.futureOnly) {
+        futureOnly = JSON.parse(search.futureOnly);
       }
 
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
@@ -82,14 +55,29 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
       fetchToDoList({
         variables: {
           userId: parseInt(userId),
-          searchValue,
-          sortBy: status,
-          priority: pri,
+          searchBy,
+          sortBy: search.sortBy === 'all' ? null : search.sortBy,
+          priority: search.priority,
           futureOnly,
           limit: PAGE_LIMIT,
           page: query.page ? parseInt(query.page as string) : 1,
         }
       });
+
+      if (search.sortBy) {
+        sortBy = TodoStatus[TodoStatus.map((item) => { return item.value; }).indexOf(search.sortBy)];
+      }
+
+      if (search.priority) {
+        priority = Priority[Priority.map((item) => { return item.value; }).indexOf(search.priority)];
+      }
+
+      setSearchValues({
+        searchBy,
+        futureOnly,
+        sortBy,
+        priority
+      })
     }
 
   }, [search]); // It will run when the search value gets changed
@@ -98,14 +86,14 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
     values: ISearchToDoValues,
     { }: FormikHelpers<ISearchToDoValues>
   ) => {
-    const { searchValue, sortBy, priority, futureOnly } = values;
+    const { searchBy, sortBy, priority, futureOnly } = values;
     let params: any = qs.parse(search);
 
     params.futureOnly = false;
     params.page = 1;
 
-    if (searchValue) {
-      params.searchValue = searchValue;
+    if (searchBy) {
+      params.searchBy = searchBy;
     }
     if (sortBy && sortBy.value !== '') {
       params.sortBy = sortBy.value;
@@ -131,14 +119,14 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
   };
 
   const {
-    searchValue = '',
+    searchBy = '',
     sortBy = undefined,
     priority = undefined,
     futureOnly = false
   } = searchValues ? searchValues : {};
 
   const values: ISearchToDoValues = {
-    searchValue,
+    searchBy,
     sortBy,
     priority,
     futureOnly

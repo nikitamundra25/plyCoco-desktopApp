@@ -27,16 +27,11 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
 ) => {
   let history = useHistory();
   let { pathname } = useLocation();
-  // const current: string = history.location.search;
-
-
   const path = [pathname, qs.stringify({ tab: "reminders/todos" })].join('?');
-
-  console.log('path ', path);
 
   const {
     values: {
-      searchValue,
+      searchBy,
       sortBy,
       priority,
       futureOnly,
@@ -52,9 +47,6 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
     onPageChanged,
     currentPage
   } = props;
-
-  console.log('data ', data);
-
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -79,9 +71,9 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                 </Label>
                 <Input
                   type='text'
-                  name='searchValue'
+                  name='searchBy'
                   id='search'
-                  value={searchValue}
+                  value={searchBy}
                   onChange={handleChange}
                   placeholder={languageTranslation("SEARCH_LABEL")}
                 />
@@ -247,6 +239,8 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                               options={Priority}
                             />
                           </td>
+                          <td>{item.priority}</td>
+                          <td>{item.status}</td>
                         </tr>
                       );
                     }

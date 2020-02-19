@@ -93,7 +93,11 @@ const Documents = () => {
     },
   );
   // To fecth document type list
-  const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES);
+  const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES, {
+    variables: {
+      userRole: languageTranslation('CAREGIVER_USERROLE'),
+    },
+  });
 
   // To set document type into label value pair
   const documentTypeList: IReactSelectInterface[] | undefined = [];

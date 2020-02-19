@@ -1,4 +1,6 @@
 {
+  "CAREGIVER_USERROLE": "caregiver",
+  "CAREINST_USERROLE": "careinstitution",
   "REMARK_LIMIT": "Text should be minimum of 255 characters",
   "REQUIRED_REGION": "Please enter the name of Region",
   "DELETE": "Delete",

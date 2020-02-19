@@ -195,6 +195,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                               ? true
                               : false
                           }
+                          disabled={list && !list.fileName}
                           onChange={(e: any) => {
                             handleCheckElement(e, list.id, list.status);
                           }}

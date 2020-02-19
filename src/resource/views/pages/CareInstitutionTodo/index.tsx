@@ -74,8 +74,8 @@ const CareGiverTodo: FunctionComponent = () => {
       title: languageTranslation('CONFIRM_LABEL'),
       text:
         status === 'pending'
-          ? languageTranslation('CONFIRM_CARE_INSTITUTION_DISABLED_MSG')
-          : languageTranslation('CONFIRM_CARE_INSTITUTION_ACTIVATE_MSG')
+          ? languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG')
+          : languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG')
     });
     if (!value) {
       return;
@@ -258,7 +258,9 @@ const CareGiverTodo: FunctionComponent = () => {
                               id='check'
                               className=''
                               name={'status'}
-                              checked={list.status === 'done' ? true : false}
+                              checked={
+                                list.status === 'completed' ? true : false
+                              }
                               onChange={e =>
                                 handleChange(
                                   list.id,

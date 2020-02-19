@@ -711,5 +711,7 @@
   "TIME_REQUIRED": "Time is required",
   "COMMENT_REQUIRED": "Comment is required",
   "PRIORITY_REQUIRED": "Priority is required",
-  "JURIDICTION_REQUIRED": "Juridiction is required"
+  "JURIDICTION_REQUIRED": "Juridiction is required",
+  "CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG": "This Todo will be marked as done",
+  "CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG": "This Todo will be marked as undone"
 }

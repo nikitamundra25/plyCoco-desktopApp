@@ -19,7 +19,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     approveLoading,
     disapproveLoading,
     loading,
-    called,
+    called
   } = props;
   let allDocDisApp: boolean = true;
   if (
@@ -47,12 +47,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 onClick={() => {
                   onDisapprove();
                 }}
-                // disabled={
-                //   allDocDisApp ||
-                //   (documentListing &&
-                //     documentListing.getDocuments &&
-                //     !documentListing.getDocuments.length)
-                // }
                 className='btn-common btn-inactive mb-3 mr-3'
                 color='link'
               >
@@ -159,7 +153,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         onClick={() =>
                           window.open(
                             `${AppConfig.FILES_ENDPOINT}${list.document}`,
-                            '_blank',
+                            '_blank'
                           )
                         }
                         className='view-more-link word-wrap'

@@ -11,7 +11,7 @@ import {
   Input,
   Col,
   Row,
-  Form
+  Form,
 } from 'reactstrap';
 import Select from 'react-select';
 import 'react-day-picker/lib/style.css';
@@ -28,11 +28,13 @@ import ppt from '../../../../assets/img/ppt.svg';
 import txt from '../../../../assets/img/txt.svg';
 import defaultExtention from '../../../../assets/img/no-extension.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
+
 const DocumentUploadModal = (props: any) => {
   const {
     documentIdUpdate,
     documentUrls,
     fileName,
+    isMissingDocEditable,
     remarkValue,
     handleChange,
     documentType,
@@ -46,11 +48,11 @@ const DocumentUploadModal = (props: any) => {
     setErrorMsg,
     addDocumentLoading,
     updateDocumentLoading,
-    documentTypeList
+    documentTypeList,
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
-    multiple: false
+    multiple: false,
   });
   const externalCloseBtn = (
     <button className='close modal-close' onClick={() => handleClose()}>
@@ -60,7 +62,7 @@ const DocumentUploadModal = (props: any) => {
   );
   let splitName = documentUrls && documentUrls.name.split('.');
   const extention = splitName && splitName[1];
-
+  console.log(isMissingDocEditable, 'props isMissingDocEditable+++');
   return (
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
@@ -131,7 +133,7 @@ const DocumentUploadModal = (props: any) => {
                             ) : (
                               <span>
                                 {languageTranslation(
-                                  'PERSONAL_DOCUMENTS_UPLOAD'
+                                  'PERSONAL_DOCUMENTS_UPLOAD',
                                 )}
                               </span>
                             )}
@@ -218,7 +220,7 @@ const DocumentUploadModal = (props: any) => {
                     </Row>
                   </FormGroup>
                 </Col>
-                {!documentIdUpdate ? (
+                {!documentIdUpdate || isMissingDocEditable ? (
                   <Col lg={'12'}>
                     <FormGroup>
                       <Row className='align-items-center'>

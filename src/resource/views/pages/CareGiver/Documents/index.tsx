@@ -6,7 +6,7 @@ import { DocumentMutations } from '../../../../../graphql/Mutations';
 import moment from 'moment';
 import {
   IDocumentUrls,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../../interfaces';
 import DocumentUploadModal from './DocumentModal';
 import DocumentsList from './DocumentsList';
@@ -15,6 +15,8 @@ import { languageTranslation } from '../../../../../helpers';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import { CareGiverQueries } from '../../../../../graphql/queries';
 import { regSinceDate } from '../../../../../config';
+import { ApolloError } from 'apollo-client';
+import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
 
 const [
   ADD_DOCUMENT,
@@ -22,7 +24,7 @@ const [
   UPDATE_DOCUMENT,
   DELETE_DOCUMENT,
   APPROVE_DOCUMENT,
-  DISAPPROVE_DOCUMENT
+  DISAPPROVE_DOCUMENT,
 ] = DocumentMutations;
 const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
 const [, GET_DOCUMENTS, GET_DOCUMENT_TYPES] = DocumentQueries;
@@ -40,10 +42,14 @@ const Documents = () => {
   const [statusValue, setStatusValue] = useState<boolean>(true);
   const [remarkValue, setRemarkValue] = useState<any>(null);
   const [documentType, setDocumentType] = useState<any>(null);
-  const [documentData, setDocumentData] = useState<any>(null);
+  // const [documentData, setDocumentData] = useState<any>(null);
   const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
   const [fileName, setFilename] = useState<any>(null);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  // To set missing document type editable
+  const [isMissingDocEditable, setIsMissingDocEditable] = useState<boolean>(
+    false,
+  );
 
   const [documentId, setDocumentId] = useState<{
     id: string;
@@ -59,8 +65,8 @@ const Documents = () => {
     {
       data: caregiverData,
       loading: caregiverDataLoading,
-      refetch: careGiverDetailsRetch
-    }
+      refetch: careGiverDetailsRetch,
+    },
   ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
 
   //add document
@@ -73,11 +79,17 @@ const Documents = () => {
         setShowDocumentPopup(false);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('DOCUMENT_ADDED_SUCCESS')
+            languageTranslation('DOCUMENT_ADDED_SUCCESS'),
           );
         }
-      }
-    }
+      },
+      onError: (error: ApolloError) => {
+        const message = errorFormatter(error);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      },
+    },
   );
   // To fecth document type list
   const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES);
@@ -88,7 +100,7 @@ const Documents = () => {
     documentTypeListData.getDocumentType.forEach((type: any) => {
       documentTypeList.push({
         label: type.type,
-        value: type.id
+        value: type.id,
       });
     });
   }
@@ -96,13 +108,13 @@ const Documents = () => {
   //disapprove document
   const [
     disapprovedDocument,
-    { data: disApprovedData, loading: disapproveLoading }
+    { data: disApprovedData, loading: disapproveLoading },
   ] = useMutation<any>(DISAPPROVE_DOCUMENT);
 
   //approve document
   const [
     approvedDocument,
-    { data: ApprovedData, loading: approveLoading }
+    { data: ApprovedData, loading: approveLoading },
   ] = useMutation<any>(APPROVE_DOCUMENT);
 
   //update document status
@@ -121,11 +133,11 @@ const Documents = () => {
         setShowDocumentPopup(false);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('DOCUMENT_UPDATED_SUCCESS')
+            languageTranslation('DOCUMENT_UPDATED_SUCCESS'),
           );
         }
-      }
-    }
+      },
+    },
   );
 
   useEffect(() => {
@@ -165,35 +177,45 @@ const Documents = () => {
     if (id) {
       fetchDocumentList({
         variables: {
-          userId: id ? id : ''
-        }
+          userId: id ? id : '',
+        },
       });
       fetchCaregiverDetails({
         variables: {
-          id: id ? id : ''
-        }
+          id: id ? id : '',
+        },
       });
     }
   }, [id]);
 
   //on update document
-  const onUpdateDocument = (data: any) => {
-    //set data in all states
-    setDocumentData(data);
+  const onUpdateDocument = (data: any, isMissingDocEditable: boolean) => {
+    const {
+      id = '',
+      remarks = '',
+      document_type = {},
+      document = '',
+      fileName = '',
+      createdAt = '',
+    } = data ? data : {};
+    //To set data in case of edit uploaded document
+    setIsMissingDocEditable(isMissingDocEditable);
     setShowDocumentPopup(true);
-    setRemarkValue(data.remarks);
+    setDocumentIdUpdate(id);
     setDocumentType(
-      data && data.document_type && data.document_type.type
-        ? { label: data.document_type.type, value: data.document_type.id }
-        : undefined
+      document_type && document_type.type
+        ? { label: document_type.type, value: document_type.id }
+        : undefined,
     );
-    setDocumentUrl({
-      url: data.document,
-      name: data.fileName,
-      date: data.createdAt
-    });
-    setFilename(data.fileName);
-    setDocumentIdUpdate(data.id);
+    if (!isMissingDocEditable) {
+      setRemarkValue(remarks);
+      setDocumentUrl({
+        url: document,
+        name: fileName,
+        date: createdAt,
+      });
+      setFilename(fileName);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -222,7 +244,7 @@ const Documents = () => {
             temp = {
               url: reader.result,
               name: file.name,
-              date: moment().format(regSinceDate)
+              date: moment().format(regSinceDate),
             };
             setDocumentUrl(temp);
           }
@@ -236,7 +258,7 @@ const Documents = () => {
   const handleCheckElement = async (
     e: React.ChangeEvent<HTMLInputElement>,
     id: string,
-    status: string
+    status: string,
   ) => {
     const { target } = e;
     const { checked } = target;
@@ -246,8 +268,8 @@ const Documents = () => {
       text: languageTranslation(
         status !== languageTranslation('APPROVE_STATUS')
           ? 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_APPROVE_MSG'
-          : 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_NOTREQUESTED_MSG'
-      )
+          : 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_NOTREQUESTED_MSG',
+      ),
     });
     if (!value) {
       setDocumentId(null);
@@ -258,14 +280,14 @@ const Documents = () => {
         await updateDocumentStatus({
           variables: {
             id: id ? parseInt(id) : null,
-            status: checked === true ? 'approve' : 'decline'
-          }
+            status: checked === true ? 'approve' : 'decline',
+          },
         });
         setDocumentId(null);
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('DOCUMENT_STATUS_UPDATED_SUCCESS')
+            languageTranslation('DOCUMENT_STATUS_UPDATED_SUCCESS'),
           );
         }
       } catch (error) {
@@ -281,21 +303,31 @@ const Documents = () => {
   };
   //on save document detatils
   const handleSaveDocument = () => {
+    console.log('in handleSaveDocument');
+
     setIsSubmit(true);
     const queryPath = path.pathname;
     const res = queryPath.split('/');
     const id = parseInt(res[3]);
+    let documentInput = {
+      fileName: fileName ? fileName : '',
+      documentTypeId: documentType ? documentType.value : '',
+      remarks: remarkValue ? remarkValue : '',
+    };
     if (documentIdUpdate) {
-      if (fileName) {
+      if (fileName || isMissingDocEditable) {
+        // To validate file name shoulb not be empty or is the missing document
         updateDocument({
           variables: {
             id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
-            documentInput: {
-              fileName: fileName ? fileName : '',
-              documentTypeId: documentType ? documentType.value : '',
-              remarks: remarkValue ? remarkValue : ''
-            }
-          }
+            documentInput: isMissingDocEditable
+              ? {
+                  ...documentInput,
+                  document: fileObject ? fileObject : null,
+                  status: statusValue ? 'approve' : 'notrequested',
+                }
+              : documentInput,
+          },
         });
       }
     } else {
@@ -307,9 +339,9 @@ const Documents = () => {
               documentTypeId: documentType ? documentType.value : '',
               document: fileObject ? fileObject : null,
               remarks: remarkValue,
-              status: statusValue ? 'approve' : 'notrequested'
-            }
-          }
+              status: statusValue ? 'approve' : 'notrequested',
+            },
+          },
         });
       }
     }
@@ -319,7 +351,7 @@ const Documents = () => {
   const onDeleteDocument = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'This document will be deleted'
+      text: 'This document will be deleted',
     });
     if (!value) {
       return;
@@ -327,8 +359,8 @@ const Documents = () => {
       try {
         await deleteDocument({
           variables: {
-            id: id ? parseInt(id) : null
-          }
+            id: id ? parseInt(id) : null,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
@@ -350,7 +382,7 @@ const Documents = () => {
   const onApprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CG_PROFILE_APPROVE')
+      text: languageTranslation('CG_PROFILE_APPROVE'),
     });
     if (!value) {
       return;
@@ -359,13 +391,13 @@ const Documents = () => {
         await approvedDocument({
           variables: {
             userId: id ? id : '',
-            isApproved: true
-          }
+            isApproved: true,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CG_PROFILE_APPROVE_SUCESS')
+            languageTranslation('CG_PROFILE_APPROVE_SUCESS'),
           );
         }
       } catch (error) {
@@ -384,7 +416,7 @@ const Documents = () => {
   const onDisapprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CG_PROFILE_DISAPPROVE')
+      text: languageTranslation('CG_PROFILE_DISAPPROVE'),
     });
     if (!value) {
       return;
@@ -393,13 +425,13 @@ const Documents = () => {
         await disapprovedDocument({
           variables: {
             userId: id ? id : '',
-            isApproved: false
-          }
+            isApproved: false,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CG_PROFILE_DISAPPROVE_SUCESS')
+            languageTranslation('CG_PROFILE_DISAPPROVE_SUCESS'),
           );
         }
       } catch (error) {
@@ -418,7 +450,6 @@ const Documents = () => {
     <div>
       <DocumentsList
         setShowDocumentPopup={setShowDocumentPopup}
-        setDocumentData={setDocumentData}
         documentListing={data}
         handleCheckElement={handleCheckElement}
         documentId={documentId}
@@ -436,7 +467,10 @@ const Documents = () => {
       <DocumentUploadModal
         documentIdUpdate={documentIdUpdate}
         show={showDocumentPopup}
-        handleClose={() => setShowDocumentPopup(false)}
+        handleClose={() => {
+          setShowDocumentPopup(false);
+          setStateValueNull();
+        }}
         handleSaveDocument={handleSaveDocument}
         onDrop={onDrop}
         documentUrls={documentUrls}
@@ -445,9 +479,9 @@ const Documents = () => {
         setDocumentType={setDocumentType}
         remarkValue={remarkValue}
         statusValue={statusValue}
-        setDocumentData={setDocumentData}
         fileName={fileName}
         onUpdateDocument={onUpdateDocument}
+        isMissingDocEditable={isMissingDocEditable}
         isSubmit={isSubmit}
         setIsSubmit={setIsSubmit}
         setShowDocumentPopup={setShowDocumentPopup}

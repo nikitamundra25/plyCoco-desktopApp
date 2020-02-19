@@ -34,6 +34,7 @@ const DocumentUploadModal = (props: any) => {
     documentUrls,
     fileName,
     remarkValue,
+    isMissingDocEditable,
     handleChange,
     documentType,
     setDocumentType,
@@ -78,7 +79,9 @@ const DocumentUploadModal = (props: any) => {
                   <FormGroup>
                     <Row
                       className={`${
-                        !documentIdUpdate ? '' : 'align-items-center'
+                        !documentIdUpdate || isMissingDocEditable
+                          ? ''
+                          : 'align-items-center'
                       }`}
                     >
                       <Col sm='2'>
@@ -88,7 +91,7 @@ const DocumentUploadModal = (props: any) => {
                             : languageTranslation('FILE_NAME')}
                         </Label>
                       </Col>
-                      {!documentIdUpdate ? (
+                      {!documentIdUpdate || isMissingDocEditable ? (
                         <Col sm='10'>
                           <div
                             {...getRootProps()}
@@ -187,6 +190,7 @@ const DocumentUploadModal = (props: any) => {
                           }}
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
+                          isDisabled={isMissingDocEditable}
                         />
                       </Col>
                     </Row>
@@ -217,7 +221,7 @@ const DocumentUploadModal = (props: any) => {
                     </Row>
                   </FormGroup>
                 </Col>
-                {!documentIdUpdate ? (
+                {!documentIdUpdate || isMissingDocEditable ? (
                   <Col lg={'12'}>
                     <FormGroup>
                       <Row className='align-items-center'>

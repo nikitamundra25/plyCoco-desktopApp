@@ -6,7 +6,7 @@ import { DocumentMutations } from '../../../../../graphql/Mutations';
 import moment from 'moment';
 import {
   IDocumentUrls,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../../interfaces';
 import DocumentUploadModal from './DocumentModal';
 import DocumentsList from './DocumentsList';
@@ -23,14 +23,14 @@ const [
   APPROVE_DOCUMENT,
   DISAPPROVE_DOCUMENT,
   ,
-  DELETE_DOCUMENT_TYPE_CAREINST
+  DELETE_DOCUMENT_TYPE_CAREINST,
 ] = DocumentMutations;
 const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
 const [
   ,
   GET_DOCUMENTS,
   GET_DOCUMENT_TYPES,
-  GET_REQUIRED_DOCUMENT_TYPES
+  GET_REQUIRED_DOCUMENT_TYPES,
 ] = DocumentQueries;
 
 let toastId: any = '';
@@ -51,6 +51,10 @@ const Documents = () => {
   const [fileName, setFilename] = useState<any>(null);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [addedDocumentType, setaddedDocumentType] = useState<any>(null);
+  // To set missing document type editable
+  const [isMissingDocEditable, setIsMissingDocEditable] = useState<boolean>(
+    false,
+  );
 
   const [documentId, setDocumentId] = useState<{
     id: string;
@@ -66,8 +70,8 @@ const Documents = () => {
     {
       data: caregiverData,
       loading: caregiverDataLoading,
-      refetch: careGiverDetailsRetch
-    }
+      refetch: careGiverDetailsRetch,
+    },
   ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
 
   // To fetch the explicitly required document of careinstitution by id
@@ -76,8 +80,8 @@ const Documents = () => {
     {
       data: explicitDocument,
       loading: addedDocumentListLoading,
-      refetch: addedDocumentListRefetch
-    }
+      refetch: addedDocumentListRefetch,
+    },
   ] = useLazyQuery<any>(GET_REQUIRED_DOCUMENT_TYPES);
 
   //add document
@@ -90,11 +94,11 @@ const Documents = () => {
         setShowDocumentPopup(false);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('DOCUMENT_ADDED_SUCCESS')
+            languageTranslation('DOCUMENT_ADDED_SUCCESS'),
           );
         }
-      }
-    }
+      },
+    },
   );
 
   // To fecth document type list
@@ -105,7 +109,7 @@ const Documents = () => {
     documentTypeListData.getDocumentType.forEach((type: any) => {
       documentTypeList.push({
         label: type.type,
-        value: type.id
+        value: type.id,
       });
     });
   }
@@ -113,13 +117,13 @@ const Documents = () => {
   //disapprove document
   const [
     disapprovedDocument,
-    { data: disApprovedData, loading: disapproveLoading }
+    { data: disApprovedData, loading: disapproveLoading },
   ] = useMutation<any>(DISAPPROVE_DOCUMENT);
 
   //approve document
   const [
     approvedDocument,
-    { data: ApprovedData, loading: approveLoading }
+    { data: ApprovedData, loading: approveLoading },
   ] = useMutation<any>(APPROVE_DOCUMENT);
 
   //update document status
@@ -141,18 +145,18 @@ const Documents = () => {
         setShowDocumentPopup(false);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('DOCUMENT_UPDATED_SUCCESS')
+            languageTranslation('DOCUMENT_UPDATED_SUCCESS'),
           );
         }
-      }
-    }
+      },
+    },
   );
   //to fetch added document lest
   useEffect(() => {
     fetchAddedDocumentList({
       variables: {
-        userId: id ? id : ''
-      }
+        userId: id ? id : '',
+      },
     });
   }, []);
 
@@ -167,8 +171,8 @@ const Documents = () => {
     setaddedDocumentType(
       document_types.map((document: any) => ({
         label: document.type,
-        value: document.id
-      }))
+        value: document.id,
+      })),
     );
   }, [explicitDocument]);
 
@@ -209,34 +213,37 @@ const Documents = () => {
     if (id) {
       fetchDocumentList({
         variables: {
-          userId: id ? id : ''
-        }
+          userId: id ? id : '',
+        },
       });
       fetchCaregiverDetails({
         variables: {
-          id: id ? id : ''
-        }
+          id: id ? id : '',
+        },
       });
     }
   }, []);
 
   //on update document
-  const onUpdateDocument = (data: any) => {
-    //set data in all states
-    setDocumentData(data);
-    setShowDocumentPopup(true);
-    setRemarkValue(data.remarks);
-    setDocumentType(
-      data && data.document_type && data.document_type.type
-        ? { label: data.document_type.type, value: data.document_type.id }
-        : undefined
-    );
-    setDocumentUrl({
-      url: data.document,
-      name: data.fileName,
-      date: data.createdAt
-    });
-    setFilename(data.fileName);
+  const onUpdateDocument = (data: any, isMissingDocEditable: boolean) => {
+    //To set data in case of edit uploaded document
+    setIsMissingDocEditable(isMissingDocEditable);
+    if (!isMissingDocEditable) {
+      setDocumentData(data);
+      setShowDocumentPopup(true);
+      setRemarkValue(data.remarks);
+      setDocumentType(
+        data && data.document_type && data.document_type.type
+          ? { label: data.document_type.type, value: data.document_type.id }
+          : undefined,
+      );
+      setDocumentUrl({
+        url: data.document,
+        name: data.fileName,
+        date: data.createdAt,
+      });
+      setFilename(data.fileName);
+    }
     setDocumentIdUpdate(data.id);
   };
 
@@ -266,7 +273,7 @@ const Documents = () => {
             temp = {
               url: reader.result,
               name: file.name,
-              date: moment().format('DD.MM.YYYY')
+              date: moment().format('DD.MM.YYYY'),
             };
             setDocumentUrl(temp);
           }
@@ -280,7 +287,7 @@ const Documents = () => {
   const handleCheckElement = async (
     e: React.ChangeEvent<HTMLInputElement>,
     id: string,
-    status: string
+    status: string,
   ) => {
     const { target } = e;
     const { checked } = target;
@@ -290,8 +297,8 @@ const Documents = () => {
       text: languageTranslation(
         status !== languageTranslation('APPROVE_STATUS')
           ? 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_APPROVE_MSG'
-          : 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_NOTREQUESTED_MSG'
-      )
+          : 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_NOTREQUESTED_MSG',
+      ),
     });
     if (!value) {
       setDocumentId(null);
@@ -302,14 +309,14 @@ const Documents = () => {
         await updateDocumentStatus({
           variables: {
             id: id ? parseInt(id) : null,
-            status: checked === true ? 'approve' : 'decline'
-          }
+            status: checked === true ? 'approve' : 'decline',
+          },
         });
         setDocumentId(null);
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('DOCUMENT_STATUS_UPDATED_SUCCESS')
+            languageTranslation('DOCUMENT_STATUS_UPDATED_SUCCESS'),
           );
         }
       } catch (error) {
@@ -337,9 +344,9 @@ const Documents = () => {
             documentInput: {
               fileName: fileName ? fileName : '',
               documentTypeId: documentType ? documentType.value : '',
-              remarks: remarkValue ? remarkValue : ''
-            }
-          }
+              remarks: remarkValue ? remarkValue : '',
+            },
+          },
         });
       }
     } else {
@@ -351,9 +358,9 @@ const Documents = () => {
               document: fileObject ? fileObject : null,
               remarks: remarkValue,
               status: statusValue ? 'approve' : 'notrequested',
-              documentTypeId: documentType ? documentType.value : ''
-            }
-          }
+              documentTypeId: documentType ? documentType.value : '',
+            },
+          },
         });
       }
     }
@@ -364,7 +371,7 @@ const Documents = () => {
     console.log('documentId inside delete', documentId);
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'This document type will be deleted'
+      text: 'This document type will be deleted',
     });
     if (!value) {
       return;
@@ -373,8 +380,8 @@ const Documents = () => {
         await deleteDocumentTypes({
           variables: {
             id: id ? id : null,
-            requiredDocuments: [documentId]
-          }
+            requiredDocuments: [documentId],
+          },
         });
         // documentTypeRefetch();
         if (!toast.isActive(toastId)) {
@@ -395,7 +402,7 @@ const Documents = () => {
   const onDeleteDocument = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'This document will be deleted'
+      text: 'This document will be deleted',
     });
     if (!value) {
       return;
@@ -403,8 +410,8 @@ const Documents = () => {
       try {
         await deleteDocument({
           variables: {
-            id: id ? parseInt(id) : null
-          }
+            id: id ? parseInt(id) : null,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
@@ -426,7 +433,7 @@ const Documents = () => {
   const onApprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CI_PROFILE_APPROVE')
+      text: languageTranslation('CI_PROFILE_APPROVE'),
     });
     if (!value) {
       return;
@@ -435,13 +442,13 @@ const Documents = () => {
         await approvedDocument({
           variables: {
             userId: id ? id : '',
-            isApproved: true
-          }
+            isApproved: true,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CI_PROFILE_APPROVE_SUCESS')
+            languageTranslation('CI_PROFILE_APPROVE_SUCESS'),
           );
         }
       } catch (error) {
@@ -460,7 +467,7 @@ const Documents = () => {
   const onDisapprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CI_PROFILE_DISAPPROVE')
+      text: languageTranslation('CI_PROFILE_DISAPPROVE'),
     });
     if (!value) {
       return;
@@ -469,13 +476,13 @@ const Documents = () => {
         await disapprovedDocument({
           variables: {
             userId: id ? id : '',
-            isApproved: false
-          }
+            isApproved: false,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CI_PROFILE_DISAPPROVE_SUCESS')
+            languageTranslation('CI_PROFILE_DISAPPROVE_SUCESS'),
           );
         }
       } catch (error) {
@@ -489,6 +496,8 @@ const Documents = () => {
       }
     }
   };
+
+  console.log(isMissingDocEditable, 'isMissingDocEditable+++');
 
   return (
     <div>
@@ -524,6 +533,7 @@ const Documents = () => {
         handleChange={handleChange}
         documentType={documentType}
         setDocumentType={setDocumentType}
+        isMissingDocEditable={isMissingDocEditable}
         remarkValue={remarkValue}
         statusValue={statusValue}
         setDocumentData={setDocumentData}

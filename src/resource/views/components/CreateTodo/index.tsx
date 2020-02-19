@@ -24,8 +24,9 @@ const [VIEW_PROFILE] = ProfileQueries;
 const [ADD_TO_DO, UPDATE_TO_DO] = ToDoMutations;
 const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
 
-const CreateTodo: FunctionComponent<any> = (props: any) => {
-  console.log(props);
+const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
+  console.log(mainProps);
+  const { userRole, handleClose, userData, show, name, editToDo } = mainProps;
 
   let { id } = useParams();
   let userId: any | undefined = id;
@@ -35,20 +36,20 @@ const CreateTodo: FunctionComponent<any> = (props: any) => {
     fetchContactsByUserID,
     { data: contactList, loading: contactListLoading }
   ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
-  userId = userId ? userId : props.userData ? props.userData.userId : undefined;
+  userId = userId ? userId : userData ? userData.userId : undefined;
 
   useEffect(() => {
     // Fetch contact details by care institution id
-    if (userId && props.userRole === 'careInstitution') {
+    if (userId && userRole === 'careInstitution') {
       fetchContactsByUserID({
         variables: { userId: parseInt(userId) }
       });
     }
-  }, [props.userData]);
+  }, [userData]);
 
   // To add todo details into db
   const [addToDo, { error, data }] = useMutation<{ toDoInput: any }>(ADD_TO_DO);
-  const [editToDo, {}] = useMutation<{ id: number; toDoInput: any }>(
+  const [editToDoList, {}] = useMutation<{ id: number; toDoInput: any }>(
     UPDATE_TO_DO
   );
 
@@ -65,13 +66,13 @@ const CreateTodo: FunctionComponent<any> = (props: any) => {
         priority: priority && priority.value ? priority.value : null,
         juridiction,
         userId: parseInt(userId),
-        userType: props.userRole.toLowerCase(),
+        userType: userRole.toLowerCase(),
         contactId: contact && contact.value ? contact.value : null
       };
-      if (props.userData) {
-        await editToDo({
+      if (userData) {
+        await editToDoList({
           variables: {
-            id: parseInt(props.userData.id),
+            id: parseInt(userData.id),
             toDoInput
           }
         });
@@ -84,7 +85,7 @@ const CreateTodo: FunctionComponent<any> = (props: any) => {
       }
       resetForm();
       toast.success(languageTranslation('ADD_NEW_DEPARTMENT_CARE_INSTITUTION'));
-      props.handleClose();
+      handleClose();
       setSubmitting(false);
     } catch (error) {
       const message = error.message
@@ -97,16 +98,14 @@ const CreateTodo: FunctionComponent<any> = (props: any) => {
     setSubmitting(false);
   };
 
-  let values: ICreateTodoFormValues;
-
-  values = {
+  const [todoValues, setTodoValues] = useState<ICreateTodoFormValues>({
     time: '',
     comment: '',
     date: '',
     priority: undefined,
     juridiction: '',
     contact: undefined
-  };
+  });
 
   // set contact list options
   const contactOptions: IReactSelectInterface[] | undefined = [];
@@ -122,55 +121,77 @@ const CreateTodo: FunctionComponent<any> = (props: any) => {
     }
   }
 
-  // useEffect(() => {
-  //   console.log('userData', props.userData);
-  //   if (props.userData) {
-  //     console.log('iffffffffff');
-  //   } else {
-  //     console.log('elseeeeeeee');
+  useEffect(() => {
+    console.log('userData', userData);
+    if (userData) {
+      const { time, comment, date, priority, juridiction, contact } = userData;
+      setTodoValues({
+        time,
+        comment,
+        date,
+        priority: priority
+          ? {
+              label: priority.toUpperCase(),
+              value: priority
+            }
+          : undefined,
+        juridiction,
+        contact: contact
+          ? {
+              label: `${contact.firstName} ${contact.surName} (${contact.contactType})`,
+              value: contact.id ? contact.id : ''
+            }
+          : undefined
+      });
+      console.log('iffffffffff');
+    } else {
+      console.log('elseeeeeeee');
+      setTodoValues({
+        time: '',
+        comment: '',
+        date: '',
+        priority: undefined,
+        juridiction: '',
+        contact: undefined
+      });
+    }
+  }, [show]);
 
-  //     values = {
-  //       time: '',
-  //       comment: '',
-  //       date: '',
-  //       priority: undefined,
-  //       juridiction: '',
-  //       contact: undefined
-  //     };
-  //   }
-  // }, [props.show]);
+  // if (props.userData) {
+  //   const {
+  //     time,
+  //     comment,
+  //     date,
+  //     priority,
+  //     juridiction,
+  //     contact
+  //   } = props.userData;
+  //   setvalues({
+  //     time,
+  //     comment,
+  //     date,
+  //     priority,
+  //     juridiction,
+  //     contact
+  //   });
+  // }
+  const {
+    time = '',
+    comment = '',
+    date = '',
+    priority = undefined,
+    juridiction = '',
+    contact = undefined
+  } = todoValues ? todoValues : {};
 
-  if (props.userData) {
-    // console.log('props.userData', props.userData);
-
-    const {
-      time,
-      comment,
-      date,
-      priority,
-      juridiction,
-      contact
-    } = props.userData;
-    console.log('time', date);
-    values = {
-      time,
-      comment,
-      date,
-      priority: priority
-        ? {
-            label: priority.toUpperCase(),
-            value: priority
-          }
-        : undefined,
-      juridiction,
-      contact: contact
-        ? {
-            label: `${contact.firstName} ${contact.surName} (${contact.contactType})`,
-            value: contact.id ? contact.id : ''
-          }
-        : undefined
-    };
-  }
+  const values = {
+    time,
+    comment,
+    date,
+    priority,
+    juridiction,
+    contact
+  };
   console.log('values', values);
 
   return (
@@ -179,11 +200,18 @@ const CreateTodo: FunctionComponent<any> = (props: any) => {
         initialValues={values}
         enableReinitialize={true}
         onSubmit={handleSubmit}
-        children={(formikProps: FormikProps<ICreateTodoFormValues>) => (
+        children={(props: FormikProps<ICreateTodoFormValues>) => (
           <CreateTodoForm
-            {...formikProps}
             {...props}
             contactOptions={contactOptions}
+            handleClose={() => {
+              props.resetForm();
+              handleClose();
+            }}
+            show={show}
+            userRole={userRole}
+            editToDo={editToDo}
+            name={name}
           />
         )}
         validationSchema={CreateTodoFormValidationSchema}

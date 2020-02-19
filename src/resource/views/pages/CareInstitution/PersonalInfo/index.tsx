@@ -25,6 +25,7 @@ import CareInstitutionContacts from './CareInstitutionContacts';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
 import { CareInstitutionMutation } from '../../../../../graphql/Mutations';
 import { IQualification } from '../../../../../interfaces/qualification';
+import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
 
 let toastId: any;
 
@@ -306,7 +307,6 @@ const PersonalInformation: any = (props: any) => {
     }
   }, [statesData]);
 
-  console.log('VVVVVVVVVVVVV', stateOptions);
   // Save remarks into DB
   const saveRemark = async (message: string, remarksData: any) => {
     if (id) {
@@ -321,15 +321,13 @@ const PersonalInformation: any = (props: any) => {
           },
         });
         if (!toast.isActive(toastId)) {
-          toast.success(message);
+          toastId = toast.success(message);
         }
       } catch (error) {
-        const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
-        // setFieldError('email', message);
-        toast.error(message);
+        const message = errorFormatter(error);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
       }
     }
   };

@@ -76,7 +76,6 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
-  console.log('error', errors);
 
   return (
     <div>
@@ -149,12 +148,13 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                                 value={time}
                                 className={
                                   errors.time && touched.time
-                                    ? 'text-input error'
-                                    : 'text-input'
+                                    ? 'error form-control'
+                                    : 'form-control'
                                 }
                               />
                             )}
                           />
+
                           {errors.time && touched.time && (
                             <div className='required-tooltip'>
                               {errors.time}
@@ -262,6 +262,9 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                             }
                           />
                         </div>
+                        {errors.priority && touched.priority && (
+                          <div className='required'>{errors.priority}</div>
+                        )}
                       </Col>
                     </Row>
                   </FormGroup>

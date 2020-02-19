@@ -10,10 +10,10 @@ export const CreateTodoFormValidationSchema: Yup.ObjectSchema<Yup.Shape<
   ICreateTodoFormValidationSchema
 >> = Yup.object().shape<ICreateTodoFormValidationSchema>({
   /* Yup.string() */
-  time:
+  time: Yup.string()
     // .max(250, languageTranslation('NAME_MAXLENGTH'))
-    // .required(languageTranslation('TIME_REQUIRED'))
-    Yup.mixed().test({
+    .required(languageTranslation('TIME_REQUIRED'))
+    .test({
       name: 'time',
       test: function(val) {
         const { path, createError } = this;

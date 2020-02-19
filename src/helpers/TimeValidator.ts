@@ -7,11 +7,11 @@ export const timeValidator = (dateString: string, label?: string): any => {
   console.log('time', time);
   if (time !== '') {
     console.log('dateString', dateString);
-    // if (!/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(dateString))
-    //   return {
-    //     isValid: false,
-    //     message: 'Please enter a valid time'
-    //   };
+    if (!/^\d{1,2}\:\d{1,2}\$/.test(dateString))
+      return {
+        isValid: false,
+        message: 'Please enter a valid time'
+      };
   }
   // Parse the time parts to integers
   var parts: string[] = dateString ? dateString.split(':') : [];

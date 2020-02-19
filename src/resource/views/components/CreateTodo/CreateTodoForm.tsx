@@ -77,7 +77,8 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
-  console.log('contact', contact);
+  const ContactError: any = errors.contact;
+  const PriorityError: any = errors.priority;
 
   return (
     <div>
@@ -225,7 +226,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                           </Label>
                         </Col>
                         <Col sm='8'>
-                          <div>
+                          <div className='required-input'>
                             <Select
                               options={contactOptions}
                               classNamePrefix='custom-inner-reactselect'
@@ -234,19 +235,19 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                               }
                               className={
                                 errors.contact && touched.contact
-                                  ? 'custom-reactselect error'
+                                  ? 'error custom-reactselect'
                                   : 'custom-reactselect'
                               }
                               value={
                                 contact && contact.value !== '' ? contact : null
                               }
                             />
+                            {errors.contact && touched.contact && (
+                              <div className='required-tooltip'>
+                                {ContactError}
+                              </div>
+                            )}
                           </div>
-                          {errors.contact && touched.contact && (
-                            <div className='required-tooltip'>
-                              {errors.contact}
-                            </div>
-                          )}
                         </Col>
                       </Row>
                     </FormGroup>
@@ -262,7 +263,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                         </Label>
                       </Col>
                       <Col sm='8'>
-                        <div>
+                        <div className='required-input'>
                           <Select
                             placeholder={languageTranslation('PRIORITY')}
                             options={Priority}
@@ -277,12 +278,12 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                                 : 'custom-reactselect'
                             }
                           />
+                          {errors.priority && touched.priority && (
+                            <div className='required-tooltip'>
+                              {PriorityError}
+                            </div>
+                          )}
                         </div>
-                        {errors.priority && touched.priority && (
-                          <div className='required-tooltip'>
-                            {errors.priority}
-                          </div>
-                        )}
                       </Col>
                     </Row>
                   </FormGroup>
@@ -328,7 +329,12 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color='primary' onClick={handleSubmit}>
+          <Button
+            disabled={isSubmitting}
+            color='primary'
+            onClick={handleSubmit}
+          >
+            {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
             {languageTranslation('ADD_REMINDER')}
           </Button>
           <Button color='secondary' onClick={handleClose}>

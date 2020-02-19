@@ -63,7 +63,7 @@ const CreateTodo: FunctionComponent<any> = (props: any) => {
         juridiction,
         userId: parseInt(userId),
         userType: props.userRole.toLowerCase(),
-        contact: contact && contact.value ? contact.value : null
+        contactId: contact && contact.value ? contact.value : null
       };
 
       await addToDo({
@@ -73,7 +73,7 @@ const CreateTodo: FunctionComponent<any> = (props: any) => {
       });
       resetForm();
       toast.success(languageTranslation('ADD_NEW_DEPARTMENT_CARE_INSTITUTION'));
-
+      props.handleClose();
       setSubmitting(false);
     } catch (error) {
       const message = error.message
@@ -115,6 +115,7 @@ const CreateTodo: FunctionComponent<any> = (props: any) => {
     <>
       <Formik
         initialValues={values}
+        enableReinitialize={true}
         onSubmit={handleSubmit}
         children={(formikProps: FormikProps<ICreateTodoFormValues>) => (
           <CreateTodoForm

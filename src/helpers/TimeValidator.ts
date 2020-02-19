@@ -1,7 +1,6 @@
-import { ITimeResponse } from '../interfaces';
-export const timeValidator = (
-  timeString: string,
-): ITimeResponse => {
+import { ITimeResponse } from '../interfaces/TimeFunction';
+
+export const timeValidator = (timeString: string): ITimeResponse => {
   if (!/^\d{1,2}:\d{2}([ap]m)?$/.test(timeString)) {
     return {
       isValid: false,

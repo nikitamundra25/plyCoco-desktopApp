@@ -19,7 +19,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     approveLoading,
     disapproveLoading,
     loading,
-    called,
+    called
   } = props;
   let allDocDisApp: boolean = true;
   if (
@@ -159,28 +159,24 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         onClick={() =>
                           window.open(
                             `${AppConfig.FILES_ENDPOINT}${list.document}`,
-                            '_blank',
+                            '_blank'
                           )
                         }
                         className='view-more-link word-wrap'
                       >
-                        {list && list.fileName
-                          ? list.fileName
-                          : `---${languageTranslation('DOCUMENT_MISSING')}---`}
+                        {list && list.fileName ? list.fileName : '-'}
                       </span>
                     </td>
                     <td>
                       <span>
-                        {list && list.document_type && list.document_type.type
-                          ? list.document_type.type
-                          : '-'}
+                        {list && list.documentType ? list.documentType : '-'}
                       </span>
                     </td>
                     <td className='remark-col'>
                       {list && list.remarks ? list.remarks : '-'}
                     </td>
                     <td className='text-center'>
-                      <span className='checkboxli checkbox-custom checkbox-default'>
+                      <span className=' checkbox-custom '>
                         <input
                           type='checkbox'
                           checked={

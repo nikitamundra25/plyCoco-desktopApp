@@ -1148,6 +1148,18 @@ export const TodoFilter: IReactSelectInterface[] = [
   { value: 'Hide Future Ones', label: languageTranslation('HIDE_FUTURE_ONES') }
 ];
 
+export const Without_Appointments: IReactSelectInterface[] = [
+  {
+    value: 'Show with appointment',
+    label: languageTranslation('SHOW_APPOINTMENT')
+  },
+  {
+    value: 'Show without appointment',
+    label: languageTranslation('SHOW_WITHOUT_APPOINTMENT')
+  },
+  { value: 'View All', label: languageTranslation('VIEW_ALL') }
+];
+
 export const SortOptions: IReactSelectInterface[] = [
   {
     label: languageTranslation('SORTBY_OPTION3'),

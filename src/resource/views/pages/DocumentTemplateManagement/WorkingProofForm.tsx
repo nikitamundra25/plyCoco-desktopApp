@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState } from 'react';
 import {
   FormGroup,
   Label,
@@ -8,36 +8,36 @@ import {
   Form,
   Table,
   UncontrolledTooltip
-} from "reactstrap";
-import moment from "moment";
-import Dropzone from "react-dropzone";
-import Select from "react-select";
+} from 'reactstrap';
+import moment from 'moment';
+import Dropzone from 'react-dropzone';
+import Select from 'react-select';
 import {
   languageTranslation,
   logger,
   formatFileSize
-} from "../../../../helpers";
+} from '../../../../helpers';
 import {
   State,
   AcceptedDocumentFile,
   maxFileSize10MB
-} from "../../../../config";
+} from '../../../../config';
 import {
   IWorkingProofFormValues,
   IDocumentInputInterface
-} from "../../../../interfaces";
-import displaydoc from "../../../assets/img/display-doc.svg";
-import upload from "../../../assets/img/upload.svg";
-import locked_caregiver from "../../../assets/img/block-caregiver.svg";
-import hideoldfile from "../../../assets/img/hide-old-file.svg";
-import hidemapped from "../../../assets/img/block-file.svg";
-import "./index.scss";
-import { FormikProps } from "formik";
-import { useMutation } from "@apollo/react-hooks";
-import { DocumentUploadMutations } from "../../../../graphql/Mutations";
-import { toast } from "react-toastify";
-import DocumentPreview from "./DocumentPreview";
-import Loader from "../../containers/Loader/Loader";
+} from '../../../../interfaces';
+import displaydoc from '../../../assets/img/display-doc.svg';
+import upload from '../../../assets/img/upload.svg';
+import locked_caregiver from '../../../assets/img/block-caregiver.svg';
+import hideoldfile from '../../../assets/img/hide-old-file.svg';
+import hidemapped from '../../../assets/img/block-file.svg';
+import './index.scss';
+import { FormikProps } from 'formik';
+import { useMutation } from '@apollo/react-hooks';
+import { DocumentUploadMutations } from '../../../../graphql/Mutations';
+import { toast } from 'react-toastify';
+import DocumentPreview from './DocumentPreview';
+import Loader from '../../containers/Loader/Loader';
 const [ADD_DOCUMENT] = DocumentUploadMutations;
 
 let toastId: any;
@@ -82,7 +82,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
         });
         if (!toast.isActive(toastId)) {
           toast.dismiss();
-          toast.success(languageTranslation("DOCUMENT_UPLOAD_SUCCESS"));
+          toast.success(languageTranslation('DOCUMENT_UPLOAD_SUCCESS'));
         }
         setLoading(false);
         refetch();
@@ -91,9 +91,9 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
       }
     } catch (error) {
       const message = error.message
-        .replace("SequelizeValidationError: ", "")
-        .replace("Validation error: ", "")
-        .replace("GraphQL error: ", "");
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
       toast.dismiss();
       toast.error(message);
       logger(error);
@@ -106,18 +106,18 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
 
   const handlePreview = async (document: string, index: number) => {
     setRowIndex(index);
-    let sampleFileUrl = "";
-    if (process.env.NODE_ENV === "production") {
+    let sampleFileUrl = '';
+    if (process.env.NODE_ENV === 'production') {
       sampleFileUrl = document;
     } else {
       sampleFileUrl = process.env.REACT_APP_FILES_ENDPOINT + document;
     }
-    if (document.split(".").pop() === "pdf") {
+    if (document.split('.').pop() === 'pdf') {
       setDocumentUrl(sampleFileUrl);
-      setImageUrl("");
+      setImageUrl('');
     } else {
       setImageUrl(sampleFileUrl);
-      setDocumentUrl("");
+      setDocumentUrl('');
     }
   };
 
@@ -140,7 +140,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                   <img src={displaydoc} alt="" />
                 </span>
                 <span className="header-nav-text">
-                  {languageTranslation("DISPLAY_DIFFRENT_HEADER")}
+                  {languageTranslation('DISPLAY_DIFFRENT_HEADER')}
                 </span>
               </div>
               <div className="header-nav-item">
@@ -148,7 +148,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                   <img src={hidemapped} alt="" />
                 </span>
                 <span className="header-nav-text">
-                  {languageTranslation("HIDE_MAPPED_HEADER")}
+                  {languageTranslation('HIDE_MAPPED_HEADER')}
                 </span>
               </div>
               <div className="header-nav-item">
@@ -156,7 +156,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                   <img src={locked_caregiver} alt="" />
                 </span>
                 <span className="header-nav-text">
-                  {languageTranslation("HIDE_LOCKED_CAREGIVER_HEADER")}
+                  {languageTranslation('HIDE_LOCKED_CAREGIVER_HEADER')}
                 </span>
               </div>
               <div className="header-nav-item">
@@ -164,7 +164,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                   <img src={hideoldfile} alt="" />
                 </span>
                 <span className="header-nav-text">
-                  {languageTranslation("HIDE_OLD_FILES_HEADER")}
+                  {languageTranslation('HIDE_OLD_FILES_HEADER')}
                 </span>
               </div>
             </div>
@@ -173,11 +173,22 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
             <div>
               <Form className="form-section ">
                 <Row>
-                  <Col lg={"4"}>
+                  <Col lg={'4'}>
                     <div>
-                      <h5 className="content-title">
-                        {languageTranslation("NEW_WORK_PROOF_HEADER")}
-                      </h5>
+                      <div className="align-items-center d-flex justify-content-between">
+                        <h5 className="content-title">
+                          {languageTranslation('NEW_WORK_PROOF_HEADER')}
+                        </h5>
+                        <div className="user-select">
+                          <Select
+                            placeholder="Select Type"
+                            options={State}
+                            classNamePrefix="custom-inner-reactselect"
+                            className={'custom-reactselect'}
+                          />
+                        </div>
+                      </div>
+
                       <div className="working-height">
                         <div className="form-section pt-2 px-3">
                           {loading ? (
@@ -225,20 +236,20 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                     <span>
                                       {!isDragActive &&
                                         languageTranslation(
-                                          "PERSONAL_DOCUMENTS_UPLOAD"
+                                          'PERSONAL_DOCUMENTS_UPLOAD'
                                         )}
                                     </span>
                                     {isDragActive &&
                                       !isDragReject &&
                                       languageTranslation(
-                                        "PERSONAL_DOCUMENTS_DROP_HERE"
+                                        'PERSONAL_DOCUMENTS_DROP_HERE'
                                       )}
                                     {isDragReject || !isValidFile ? (
                                       <>
                                         {(isDragReject || !isValidFile) && (
                                           <div className="text-danger mt-2">
                                             {languageTranslation(
-                                              "VALIDATE_DOCUMENT_TYPE"
+                                              'VALIDATE_DOCUMENT_TYPE'
                                             )}
                                           </div>
                                         )}
@@ -248,7 +259,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                         {isFileTooLarge && (
                                           <div className="text-danger mt-2">
                                             {languageTranslation(
-                                              "VALIDATE_DOCUMENT_SIZE_MAX_10MB"
+                                              'VALIDATE_DOCUMENT_SIZE_MAX_10MB'
                                             )}
                                           </div>
                                         )}
@@ -265,16 +276,16 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             <thead className="thead-bg thead-sticky">
                               <tr>
                                 <th className="date-column">
-                                  {languageTranslation("DATE")}
+                                  {languageTranslation('DATE')}
                                 </th>
                                 <th className="file-col">
-                                  {languageTranslation("FILE_NAME")}
+                                  {languageTranslation('FILE_NAME')}
                                 </th>
                                 <th className="filesize-th-column">
-                                  {languageTranslation("FILE_SIZE")}
+                                  {languageTranslation('FILE_SIZE')}
                                 </th>
-                                <th className={"text-center"}>
-                                  {languageTranslation("TABEL_HEAD_CG_ACTION")}
+                                <th className={'text-center'}>
+                                  {languageTranslation('TABEL_HEAD_CG_ACTION')}
                                 </th>
                               </tr>
                             </thead>
@@ -286,13 +297,13 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                         <tr
                                           key={index}
                                           className={
-                                            rowIndex === index ? "active" : ""
+                                            rowIndex === index ? 'active' : ''
                                           }
                                         >
                                           <td className="date-column ">
                                             {moment(item.createdAt).format(
-                                              "DD.MM.YYYY"
-                                            )}{" "}
+                                              'DD.MM.YYYY'
+                                            )}{' '}
                                           </td>
                                           <td className="file-col ">
                                             <div
@@ -311,23 +322,23 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                             {formatFileSize(item.fileSize)}
                                           </td>
                                           <td>
-                                            <div className={"action-btn"}>
+                                            <div className={'action-btn'}>
                                               <span
                                                 id={`delete${index}`}
-                                                className={"btn-icon mr-2"}
+                                                className={'btn-icon mr-2'}
                                                 onClick={() => {
                                                   onDelete(item.id);
                                                 }}
                                               >
-                                                {item.status === "approve" ? (
-                                                  ""
+                                                {item.status === 'approve' ? (
+                                                  ''
                                                 ) : (
                                                   <UncontrolledTooltip
-                                                    placement={"top"}
+                                                    placement={'top'}
                                                     target={`delete${index}`}
                                                   >
                                                     {languageTranslation(
-                                                      "DOCUMENT_DELETE"
+                                                      'DOCUMENT_DELETE'
                                                     )}
                                                   </UncontrolledTooltip>
                                                 )}
@@ -346,34 +357,34 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                       </div>
                     </div>
                   </Col>
-                  <Col lg={"4"}>
+                  <Col lg={'4'}>
                     <DocumentPreview
                       documentUrls={documentUrls}
                       imageUrls={imageUrls}
                     />
                   </Col>
-                  <Col lg={"4"}>
+                  <Col lg={'4'}>
                     <div>
                       <h5 className="content-title">
-                        {languageTranslation("PERFORMED_WORK_HEADING")}
+                        {languageTranslation('PERFORMED_WORK_HEADING')}
                       </h5>
                       <div className="working-height">
                         <div className="document-form py-2 px-3">
                           <Row>
-                            <Col lg={"12"}>
+                            <Col lg={'12'}>
                               <FormGroup>
                                 <Row className="align-items-center">
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      {languageTranslation("ID")}
+                                      {languageTranslation('ID')}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
                                     <div>
                                       <Input
                                         type="text"
-                                        name={"lastName"}
-                                        placeholder={languageTranslation("ID")}
+                                        name={'lastName'}
+                                        placeholder={languageTranslation('ID')}
                                         className="width-common"
                                       />
                                     </div>
@@ -381,7 +392,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                 </Row>
                               </FormGroup>
                             </Col>
-                            <Col lg={"12"}>
+                            <Col lg={'12'}>
                               <FormGroup>
                                 <Row className="align-items-center">
                                   <Col sm="4">
@@ -395,7 +406,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                         placeholder="Select Caregiver"
                                         options={State}
                                         classNamePrefix="custom-inner-reactselect"
-                                        className={"custom-reactselect"}
+                                        className={'custom-reactselect'}
                                       />
                                     </div>
                                   </Col>
@@ -416,7 +427,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             <tr>
                               <td>
                                 <div className="d-flex align-items-center">
-                                  <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                  <span className=" checkbox-custom  mr-2">
                                     <input
                                       type="checkbox"
                                       id="checkAll"
@@ -433,7 +444,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             <tr>
                               <td>
                                 <div className="d-flex align-items-center">
-                                  <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                  <span className=" checkbox-custom  mr-2">
                                     <input
                                       type="checkbox"
                                       id="checkAll"
@@ -450,7 +461,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             <tr>
                               <td>
                                 <div className="d-flex align-items-center">
-                                  <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                  <span className=" checkbox-custom  mr-2">
                                     <input
                                       type="checkbox"
                                       id="checkAll"
@@ -467,7 +478,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             <tr>
                               <td>
                                 <div className="d-flex align-items-center">
-                                  <span className="checkboxli checkbox-custom checkbox-default mr-2">
+                                  <span className=" checkbox-custom  mr-2">
                                     <input
                                       type="checkbox"
                                       id="checkAll"

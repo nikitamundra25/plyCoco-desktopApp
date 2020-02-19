@@ -6,7 +6,7 @@ import {
   UncontrolledTooltip,
   FormGroup,
   Row,
-  Col,
+  Col
 } from 'reactstrap';
 import { DocumentMutations } from '../../../../../graphql/Mutations';
 
@@ -43,7 +43,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     userId,
     onDeleteDocumentTypes,
     addedDocumentType,
-    setaddedDocumentType,
+    setaddedDocumentType
   } = props;
   let allDocDisApp: boolean = true;
   //Add document type
@@ -52,10 +52,10 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
       // refetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('DOCUMENT_TYPE_ADDED_SUCCESS'),
+          languageTranslation('DOCUMENT_TYPE_ADDED_SUCCESS')
         );
       }
-    },
+    }
   });
 
   // Get added document types list
@@ -80,8 +80,8 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           requiredDocuments:
             selectedType && selectedType.length
               ? selectedType.map((document: any) => parseInt(document.value))
-              : null,
-        },
+              : null
+        }
       });
     }
     setaddedDocumentType(selectedType);
@@ -205,7 +205,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         onClick={() =>
                           window.open(
                             `${AppConfig.FILES_ENDPOINT}${list.document}`,
-                            '_blank',
+                            '_blank'
                           )
                         }
                         className='view-more-link word-wrap'
@@ -224,7 +224,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       {list && list.remarks ? list.remarks : '-'}
                     </td>
                     <td className='text-center'>
-                      <span className='checkboxli checkbox-custom checkbox-default'>
+                      <span className=' checkbox-custom '>
                         <input
                           type='checkbox'
                           checked={
@@ -356,7 +356,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       multiValue: (provided, state) => {
                         const display = 'none';
                         return { ...provided, display };
-                      },
+                      }
                     }}
                     isClearable={false}
                   />

@@ -10,7 +10,6 @@ export const timeValidator = (timeString: string): ITimeResponse => {
 
   // Parse the time parts to integers
   var parts: string[] = timeString ? timeString.split(':') : [];
-  console.log('parts', parts);
   var hours: number = parseInt(parts[0], 10);
   var minutes: number = parseInt(parts[1], 10);
   if (hours > 24 || hours === 0) {

@@ -80,6 +80,11 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   };
   const ContactError: any = errors.contact;
   const PriorityError: any = errors.priority;
+  console.log('date', date);
+  let temp = moment()
+    .add(1, 'days')
+    .format('L');
+  console.log('temp', temp);
 
   return (
     <div>

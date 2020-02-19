@@ -25,7 +25,7 @@ const PersonalInformation = React.lazy(() =>
 const Offer = React.lazy(() => import('./Offers/Offer'));
 const LoginLogs = React.lazy(() => import('../../components/Logins'));
 const Invoices = React.lazy(() => import('./Invoices/Invoices'));
-const ToDo = React.lazy(() => import('./ToDos'));
+const ToDo = React.lazy(() => import('../../components/ToDosInnerList'));
 const Documents = React.lazy(() => import('./Documents'));
 const Email = React.lazy(() => import('./Emails'));
 const CreateTodo = React.lazy(() =>

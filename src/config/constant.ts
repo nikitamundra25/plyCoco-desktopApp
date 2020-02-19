@@ -1154,6 +1154,12 @@ export const TodoFilter: IReactSelectInterface[] = [
   { value: 'Hide Future Ones', label: languageTranslation('HIDE_FUTURE_ONES') },
 ];
 
+export const TodoStatus: IReactSelectInterface[] = [
+  { value: 'all', label: languageTranslation('ALL') },
+  { value: 'pending', label: languageTranslation('PENDING') },
+  { value: 'completed', label: languageTranslation('COMPLETED') },
+];
+
 export const SortOptions: IReactSelectInterface[] = [
   {
     label: languageTranslation('SORTBY_OPTION3'),

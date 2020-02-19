@@ -14,6 +14,7 @@ import { DocumentQueries } from '../../../../../graphql/queries';
 import { languageTranslation } from '../../../../../helpers';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import { CareGiverQueries } from '../../../../../graphql/queries';
+import ExplicitDocument from './ExplicitDocument';
 
 const [
   ADD_DOCUMENT,
@@ -218,7 +219,7 @@ const Documents = () => {
         }
       });
     }
-  }, []);
+  }, [id]);
 
   //on update document
   const onUpdateDocument = (data: any) => {
@@ -376,7 +377,8 @@ const Documents = () => {
             requiredDocuments: [documentId]
           }
         });
-        // documentTypeRefetch();
+        addedDocumentListRefetch();
+        toast.dismiss();
         if (!toast.isActive(toastId)) {
           toastId = toast.success('Document type deleted successfully');
         }

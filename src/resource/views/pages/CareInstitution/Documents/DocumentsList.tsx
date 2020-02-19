@@ -19,6 +19,7 @@ import Loader from '../../../containers/Loader/Loader';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { DocumentQueries } from '../../../../../graphql/queries';
 import { toast } from 'react-toastify';
+import ExplicitDocument from './ExplicitDocument';
 const [, , , , , , ADD_DOCUMENT_TYPE_CAREINST] = DocumentMutations;
 const [, , , GET_REQUIRED_DOCUMENT_TYPES] = DocumentQueries;
 let toastId: any = '';
@@ -50,6 +51,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
   const [addDocumentType] = useMutation<any>(ADD_DOCUMENT_TYPE_CAREINST, {
     onCompleted({ addDocument }) {
       // refetch();
+      toast.dismiss();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
           languageTranslation('DOCUMENT_TYPE_ADDED_SUCCESS')
@@ -313,6 +315,13 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
             )}
           </tbody>
         </Table>
+        {/* <ExplicitDocument
+          userId={userId}
+          onDeleteDocumentTypes={onDeleteDocumentTypes}
+          addedDocumentType={addedDocumentType}
+          setaddedDocumentType={setaddedDocumentType}
+          handleDocumentType={handleDocumentType}
+        /> */}
         <Row>
           <Col lg={4} md={5} sm={12}>
             <h5 className='content-title '>
@@ -333,12 +342,23 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     ? addedDocumentType.map((type: any, index: number) => {
                         return (
                           <li
+                            className={
+                              'cursor-pointer list-item text-capitalize'
+                            }
                             key={index}
-                            onClick={() => {
-                              onDeleteDocumentTypes(type.value);
-                            }}
                           >
-                            {type.label}
+                            <span className='list-item-text'>
+                              {type.label}{' '}
+                            </span>
+                            <span
+                              id={`delete${index}`}
+                              onClick={() => {
+                                onDeleteDocumentTypes(type.value);
+                              }}
+                              className='list-item-icon'
+                            >
+                              <i className='fa fa-trash'></i>
+                            </span>
                           </li>
                         );
                       })

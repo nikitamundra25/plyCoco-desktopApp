@@ -22,8 +22,9 @@ export const CreateTodoFormValidationSchema: Yup.ObjectSchema<Yup.Shape<
       }
     }),
   comment: Yup.string().required(languageTranslation('COMMENT_REQUIRED')),
-  // priority: Yup.object().required(languageTranslation('PRIORITY_REQUIRED')),
+  priority: Yup.string().required(languageTranslation('PRIORITY_REQUIRED')),
   juridiction: Yup.string().required(
     languageTranslation('JURIDICTION_REQUIRED')
-  )
+  ),
+  contact: Yup.string().required(languageTranslation('CONTACT_REQUIRED'))
 });

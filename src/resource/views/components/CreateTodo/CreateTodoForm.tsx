@@ -31,7 +31,7 @@ import MaskedInput from 'react-text-mask';
 const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   any> = (props: FormikProps<ICreateTodoFormValues> & any) => {
   const {
-    values: { time, comment, date, priority, juridiction },
+    values: { time, comment, date, priority, juridiction, contact },
     isLoading,
     touched,
     errors,
@@ -43,7 +43,8 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
     show,
     handleClose,
     name,
-    userRole
+    userRole,
+    contactOptions
   } = props;
 
   const modifiers = {
@@ -76,6 +77,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
+  console.log('contact', contact);
 
   return (
     <div>
@@ -204,7 +206,9 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                           </FormGroup>
                         </div>
                         {errors.juridiction && touched.juridiction && (
-                          <div className='required'>{errors.juridiction}</div>
+                          <div className='required-tooltip'>
+                            {errors.juridiction}
+                          </div>
                         )}
                       </Col>
                     </Row>
@@ -223,14 +227,26 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                         <Col sm='8'>
                           <div>
                             <Select
-                              options={[
-                                { label: 'John Doe', value: 'John Doe' },
-                                { label: 'Mark Doe', value: 'Mark Doe' }
-                              ]}
+                              options={contactOptions}
                               classNamePrefix='custom-inner-reactselect'
-                              className={'custom-reactselect'}
+                              onChange={(value: any) =>
+                                handleSelect(value, 'contact')
+                              }
+                              className={
+                                errors.contact && touched.contact
+                                  ? 'custom-reactselect error'
+                                  : 'custom-reactselect'
+                              }
+                              value={
+                                contact && contact.value !== '' ? contact : null
+                              }
                             />
                           </div>
+                          {errors.contact && touched.contact && (
+                            <div className='required-tooltip'>
+                              {errors.contact}
+                            </div>
+                          )}
                         </Col>
                       </Row>
                     </FormGroup>
@@ -263,7 +279,9 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                           />
                         </div>
                         {errors.priority && touched.priority && (
-                          <div className='required'>{errors.priority}</div>
+                          <div className='required-tooltip'>
+                            {errors.priority}
+                          </div>
                         )}
                       </Col>
                     </Row>

@@ -19,24 +19,36 @@ import { RouteComponentProps, useParams } from 'react-router-dom';
 import { languageTranslation } from '../../../../helpers';
 import Select from 'react-select';
 import { Priority, TodoFilter, defaultDateFormat } from '../../../../config';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { ToDoQueries } from '../../../../graphql/queries';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
 import moment from 'moment';
 import CreateTodo from '../../components/CreateTodo';
+import { ConfirmBox } from '../../components/ConfirmBox';
+import { toast } from 'react-toastify';
+import { ToDoMutations } from '../../../../graphql/Mutations';
 const [GET_CARE_INSTITUTION_TODO_LIST] = ToDoQueries;
+const [, , UPDATE_CARE_INSTITUTION_TODO_STATUS] = ToDoMutations;
+let toastId: any = null;
 
 const CareGiverTodo: FunctionComponent = () => {
   let { id } = useParams();
   const userId: any | undefined = id;
   const [showToDo, setShowToDo] = useState<boolean>(false);
   const [selectUser, setSelectUser] = useState<any>({});
-
+  const [status, setStatus] = useState<string>('');
   //To get todo list by id
-  const [fetchToDoByUserID, { data, called, loading }] = useLazyQuery<any>(
-    GET_CARE_INSTITUTION_TODO_LIST
-  );
+  const [fetchToDoByUserID, { data, called, loading, refetch }] = useLazyQuery<
+    any
+  >(GET_CARE_INSTITUTION_TODO_LIST);
+
+  // Mutation to update careInstitution todo status
+  const [updateStatus] = useMutation<{
+    id: string;
+    status: string;
+    priority: string;
+  }>(UPDATE_CARE_INSTITUTION_TODO_STATUS);
 
   useEffect(() => {
     // Fetch TODO details by care institution id
@@ -56,6 +68,46 @@ const CareGiverTodo: FunctionComponent = () => {
     setShowToDo(true);
     setSelectUser(list);
   };
+
+  const handleChange = async (id: any, status: string, priority: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text:
+        status === 'pending'
+          ? languageTranslation('CONFIRM_CARE_INSTITUTION_DISABLED_MSG')
+          : languageTranslation('CONFIRM_CARE_INSTITUTION_ACTIVATE_MSG')
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        toast.dismiss();
+        await updateStatus({
+          variables: {
+            id: parseInt(id),
+            status: status === 'pending' ? 'completed' : 'pending',
+            priority
+          }
+        });
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toast.success(
+            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG')
+          );
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
+  console.log('status', status);
+
   return (
     <>
       <div>
@@ -146,7 +198,10 @@ const CareGiverTodo: FunctionComponent = () => {
                   <th className='remark-col'>
                     {languageTranslation('REMARKS')}
                   </th>
-
+                  <th className='checkbox-th-column text-center'>
+                    {' '}
+                    {languageTranslation('DONE')}
+                  </th>
                   <th className='checkbox-th-column text-center'>
                     {' '}
                     {languageTranslation('EXTERNAL')}
@@ -163,8 +218,11 @@ const CareGiverTodo: FunctionComponent = () => {
                       <Loader />
                     </td>
                   </tr>
-                ) : data && data.getToDos && data.getToDos.length ? (
-                  data.getToDos.map((list: any, index: number) => {
+                ) : data &&
+                  data.getToDos &&
+                  data.getToDos.result &&
+                  data.getToDos.result.length ? (
+                  data.getToDos.result.map((list: any, index: number) => {
                     return (
                       <tr>
                         <td className='sno-th-column text-center'>
@@ -197,20 +255,31 @@ const CareGiverTodo: FunctionComponent = () => {
                           <span className='checkboxli checkbox-custom checkbox-default'>
                             <input
                               type='checkbox'
+                              id='check'
+                              className=''
+                              name={'status'}
+                              checked={list.status === 'done' ? true : false}
+                              onChange={e =>
+                                handleChange(
+                                  list.id,
+                                  list.status,
+                                  list.priority
+                                )
+                              }
+                            />
+                            <label className=''> </label>
+                          </span>
+                        </td>
+                        <td className='checkbox-th-column text-center'>
+                          <span className='checkboxli checkbox-custom checkbox-default'>
+                            <input
+                              type='checkbox'
                               id='checkAll'
                               className=''
                               name={'juridiction'}
                               checked={
                                 list.juridiction === 'externally' ? true : false
                               }
-                              // onChange={(
-                              //   e: React.ChangeEvent<HTMLInputElement>
-                              // ) => {
-                              //   const {
-                              //     target: { checked }
-                              //   } = e;
-                              //   setFieldValue('employed', checked);
-                              // }}
                             />
                             <label className=''> </label>
                           </span>
@@ -235,18 +304,17 @@ const CareGiverTodo: FunctionComponent = () => {
                   <tr className={'text-center no-hover-row'}>
                     <td colSpan={8} className={'pt-5 pb-5'}>
                       {/* {isFilterApplied ? ( */}
-                      <NoSearchFound />
-                      {/* )  */}: (
+                      {/* <NoSearchFound /> */}
+                      {/* ) : ( */}
                       <div className='no-data-section'>
                         <div className='no-data-icon'>
                           <i className='icon-ban' />
                         </div>
                         <h4 className='mb-1'>
-                          Currently there are no caregiver added.{' '}
+                          Currently there are no careinstitution todo added.{' '}
                         </h4>
                         <p>Please click above button to add new. </p>
                       </div>
-                      )}
                     </td>
                   </tr>
                 )}

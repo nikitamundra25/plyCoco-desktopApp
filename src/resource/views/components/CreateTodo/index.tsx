@@ -21,20 +21,22 @@ import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { ToDoMutations } from '../../../../graphql/Mutations';
 import moment from 'moment';
 const [VIEW_PROFILE] = ProfileQueries;
-const [ADD_TO_DO] = ToDoMutations;
+const [ADD_TO_DO, UPDATE_TO_DO] = ToDoMutations;
 const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
 
 const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
   console.log(mainProps);
   const { userRole, handleClose, userData, show, name, editToDo } = mainProps;
+
   let { id } = useParams();
-  const userId: any | undefined = id;
+  let userId: any | undefined = id;
 
   //To get contact list by id
   const [
     fetchContactsByUserID,
     { data: contactList, loading: contactListLoading }
   ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
+  userId = userId ? userId : userData ? userData.userId : undefined;
 
   useEffect(() => {
     // Fetch contact details by care institution id
@@ -43,10 +45,13 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         variables: { userId: parseInt(userId) }
       });
     }
-  }, []);
+  }, [userData]);
 
   // To add todo details into db
   const [addToDo, { error, data }] = useMutation<{ toDoInput: any }>(ADD_TO_DO);
+  const [editToDoList, {}] = useMutation<{ id: number; toDoInput: any }>(
+    UPDATE_TO_DO
+  );
 
   const handleSubmit = async (
     values: ICreateTodoFormValues,
@@ -64,12 +69,20 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         userType: userRole.toLowerCase(),
         contactId: contact && contact.value ? contact.value : null
       };
-
-      await addToDo({
-        variables: {
-          toDoInput
-        }
-      });
+      if (userData) {
+        await editToDoList({
+          variables: {
+            id: parseInt(userData.id),
+            toDoInput
+          }
+        });
+      } else {
+        await addToDo({
+          variables: {
+            toDoInput
+          }
+        });
+      }
       resetForm();
       toast.success(languageTranslation('ADD_NEW_DEPARTMENT_CARE_INSTITUTION'));
       handleClose();
@@ -116,9 +129,19 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         time,
         comment,
         date,
-        priority,
+        priority: priority
+          ? {
+              label: priority.toUpperCase(),
+              value: priority
+            }
+          : undefined,
         juridiction,
-        contact
+        contact: contact
+          ? {
+              label: `${contact.firstName} ${contact.surName} (${contact.contactType})`,
+              value: contact.id ? contact.id : ''
+            }
+          : undefined
       });
       console.log('iffffffffff');
     } else {

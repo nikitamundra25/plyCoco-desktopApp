@@ -7,6 +7,9 @@ const GET_CARE_INSTITUTION_TODO_LIST = gql`
     $sortBy: String
     $priority: String
     $futureOnly: Boolean
+    $skip: Int
+    $limit: Int
+    $page: Int
   ) {
     getToDos(
       userType: $userType
@@ -14,25 +17,33 @@ const GET_CARE_INSTITUTION_TODO_LIST = gql`
       sortBy: $sortBy
       priority: $priority
       futureOnly: $futureOnly
+      skip: $skip
+      limit: $limit
+      page: $page
     ) {
-      id
-      userId
-      date
-      time
-      comment
-      juridiction
-      priority
-      status
-      createdBy
-      userType
-      contactId
-      user {
-        firstName
-        lastName
-      }
-      contact {
-        firstName
-        surName
+      totalCount
+      result {
+        id
+        userId
+        date
+        time
+        comment
+        juridiction
+        priority
+        status
+        createdBy
+        userType
+        contactId
+        user {
+          firstName
+          lastName
+        }
+        contact {
+          firstName
+          surName
+          id
+          contactType
+        }
       }
     }
   }

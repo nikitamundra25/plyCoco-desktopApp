@@ -9,7 +9,7 @@ import LoginFormComponent from './LoginFormComponent';
 import { LOGIN } from '../../../../graphql/queries';
 import { AppRoutes } from '../../../../config';
 import { ApolloError } from 'apollo-client';
-import { errorFormatter } from '../../../../helpers/ErrorFormatter';
+import { errorFormatter } from '../../../../helpers';
 
 let toastId: any = null;
 

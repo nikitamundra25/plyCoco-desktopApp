@@ -1,22 +1,23 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { ApolloError } from 'apollo-client';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
-import { DocumentMutations } from '../../../../../graphql/Mutations';
 import moment from 'moment';
+import { DocumentMutations } from '../../../../../graphql/Mutations';
 import {
   IDocumentUrls,
   IReactSelectInterface,
 } from '../../../../../interfaces';
 import DocumentUploadModal from './DocumentModal';
 import DocumentsList from './DocumentsList';
-import { DocumentQueries } from '../../../../../graphql/queries';
-import { languageTranslation } from '../../../../../helpers';
+import {
+  CareGiverQueries,
+  DocumentQueries,
+} from '../../../../../graphql/queries';
+import { errorFormatter, languageTranslation } from '../../../../../helpers';
 import { ConfirmBox } from '../../../components/ConfirmBox';
-import { CareGiverQueries } from '../../../../../graphql/queries';
 import { regSinceDate } from '../../../../../config';
-import { ApolloError } from 'apollo-client';
-import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
 
 const [
   ADD_DOCUMENT,
@@ -463,14 +464,17 @@ const Documents = () => {
         disapproveLoading={disapproveLoading}
       />
       <DocumentUploadModal
-        documentIdUpdate={documentIdUpdate}
-        show={showDocumentPopup}
+        // Functions
         handleClose={() => {
           setShowDocumentPopup(false);
           setStateValueNull();
         }}
         handleSaveDocument={handleSaveDocument}
+        onUpdateDocument={onUpdateDocument}
+        documentIdUpdate={documentIdUpdate}
         onDrop={onDrop}
+        // States
+        show={showDocumentPopup}
         documentUrls={documentUrls}
         handleChange={handleChange}
         documentType={documentType}
@@ -478,13 +482,9 @@ const Documents = () => {
         remarkValue={remarkValue}
         statusValue={statusValue}
         fileName={fileName}
-        onUpdateDocument={onUpdateDocument}
         isMissingDocEditable={isMissingDocEditable}
         isSubmit={isSubmit}
-        setIsSubmit={setIsSubmit}
-        setShowDocumentPopup={setShowDocumentPopup}
-        addDocumentLoading={addDocumentLoading}
-        updateDocumentLoading={updateDocumentLoading}
+        loading={addDocumentLoading || updateDocumentLoading}
         documentTypeList={documentTypeList}
       />
     </div>

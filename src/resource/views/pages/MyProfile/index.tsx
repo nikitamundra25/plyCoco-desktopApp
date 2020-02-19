@@ -20,7 +20,7 @@ import {
   IChangePasswordValues,
   IProfileFormvalues,
 } from '../../../../interfaces';
-import { errorFormatter } from '../../../../helpers/ErrorFormatter';
+import { errorFormatter } from '../../../../helpers';
 import EmployeeForm from '../Employee/AddEmployee';
 import Loader from '../../containers/Loader/Loader';
 

@@ -15,7 +15,7 @@ import defaultProfile from '../../../assets/avatars/default-profile.png';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import { EmployeeMutations } from '../../../../graphql/Mutations';
 import LoginLogs from '../../components/Logins';
-import { errorFormatter } from '../../../../helpers/ErrorFormatter';
+import { errorFormatter } from '../../../../helpers';
 import Loader from '../../containers/Loader/Loader';
 
 const [GET_EMPLOYEE_BY_ID] = EmployeeQueries;

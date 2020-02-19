@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
   Modal,
   ModalHeader,
-  ModalTitle,
   ModalBody,
   ModalFooter,
   FormGroup,
@@ -14,10 +13,8 @@ import {
   Form,
 } from 'reactstrap';
 import Select from 'react-select';
-import 'react-day-picker/lib/style.css';
-import { languageTranslation } from '../../../../../helpers';
-import { DocumentTypes } from '../../../../../config';
 import { useDropzone } from 'react-dropzone';
+import { languageTranslation } from '../../../../../helpers';
 import png from '../../../../assets/img/png.svg';
 import jpg from '../../../../assets/img/jpg.svg';
 import pdf from '../../../../assets/img/pdf.svg';
@@ -28,6 +25,7 @@ import ppt from '../../../../assets/img/ppt.svg';
 import txt from '../../../../assets/img/txt.svg';
 import defaultExtention from '../../../../assets/img/no-extension.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
+
 const DocumentUploadModal = (props: any) => {
   const {
     documentIdUpdate,
@@ -44,8 +42,7 @@ const DocumentUploadModal = (props: any) => {
     onDrop,
     show,
     handleClose,
-    addDocumentLoading,
-    updateDocumentLoading,
+    loading,
     documentTypeList,
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
@@ -287,9 +284,9 @@ const DocumentUploadModal = (props: any) => {
             onClick={() => {
               handleSaveDocument();
             }}
-            disabled={addDocumentLoading || updateDocumentLoading}
+            disabled={loading}
           >
-            {addDocumentLoading || updateDocumentLoading ? (
+            {loading ? (
               <>
                 <i className='fa fa-spinner fa-spin ' />{' '}
                 {languageTranslation('SAVE_BUTTON')}

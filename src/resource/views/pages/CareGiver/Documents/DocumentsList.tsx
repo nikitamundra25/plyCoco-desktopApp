@@ -68,7 +68,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   allDocDisApp ||
                   (documentListing &&
                     documentListing.getDocuments &&
-                    !documentListing.getDocuments.length)
+                    !documentListing.getDocuments.length) ||
+                  (documentListing &&
+                    documentListing.getDocuments &&
+                    documentListing.getDocuments.filter(
+                      (document: any) => !document.fileName,
+                    ).length)
                 }
                 className='btn-common btn-active mb-3 mr-3 '
                 color='link'
@@ -224,7 +229,10 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         <span
                           id={`delete${index}`}
                           className={`btn-icon mr-2 ${
-                            list.status === 'approve' ? 'disbale' : ''
+                            list.status === 'approve' ||
+                            (list && !list.fileName)
+                              ? 'disbale'
+                              : ''
                           }`}
                           onClick={() =>
                             list.status === 'approve'

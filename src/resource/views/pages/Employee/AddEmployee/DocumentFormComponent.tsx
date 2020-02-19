@@ -14,7 +14,7 @@ import { languageTranslation, logger } from '../../../../../helpers';
 import { IEmailAttachmentData } from '../../../../../interfaces';
 import { AttachmentList } from '../../../components/Attachments';
 import { ConfirmBox } from '../../../components/ConfirmBox';
-import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
+import { errorFormatter } from '../../../../../helpers';
 import { ApolloError } from 'apollo-client';
 
 const [, GET_DOCUMENTS] = DocumentQueries;

@@ -5,3 +5,4 @@ export * from './StripHtml';
 export * from './HtmlToDraftConverter';
 export * from './FormatFIleSize';
 export * from './TimeValidator';
+export * from './ErrorFormatter';

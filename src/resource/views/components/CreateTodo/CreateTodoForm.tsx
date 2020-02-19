@@ -44,7 +44,8 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
     handleClose,
     name,
     userRole,
-    contactOptions
+    contactOptions,
+    editToDo
   } = props;
 
   const modifiers = {
@@ -85,7 +86,11 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
         <ModalHeader close={externalCloseBtn}>
           {' '}
-          {languageTranslation('CG_MENU_CREATE_TODO')} for {name}{' '}
+          {!editToDo
+            ? languageTranslation('CG_MENU_CREATE_TODO')
+            : languageTranslation('CG_MENU_EDIT_TODO')}{' '}
+          {''}
+          for {name}{' '}
         </ModalHeader>
         <ModalBody>
           <div className=''>
@@ -335,7 +340,9 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
             onClick={handleSubmit}
           >
             {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
-            {languageTranslation('ADD_REMINDER')}
+            {!editToDo
+              ? languageTranslation('ADD_REMINDER')
+              : languageTranslation('EDIT_REMINDER')}
           </Button>
           <Button color='secondary' onClick={handleClose}>
             {languageTranslation('CANCEL')}

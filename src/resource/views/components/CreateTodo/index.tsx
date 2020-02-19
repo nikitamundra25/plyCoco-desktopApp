@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import { useParams } from 'react-router-dom';
@@ -29,7 +29,6 @@ const CreateTodo: FunctionComponent<any> = (props: any) => {
 
   let { id } = useParams();
   const userId: any | undefined = id;
-  console.log('userId', userId);
 
   //To get contact list by id
   const [
@@ -110,6 +109,44 @@ const CreateTodo: FunctionComponent<any> = (props: any) => {
       });
     }
   }
+
+  // useEffect(() => {
+  //   console.log('userData', props.userData);
+  //   if (props.userData) {
+  //     console.log('iffffffffff');
+  //   } else {
+  //     console.log('elseeeeeeee');
+
+  //     values = {
+  //       time: '',
+  //       comment: '',
+  //       date: '',
+  //       priority: undefined,
+  //       juridiction: '',
+  //       contact: undefined
+  //     };
+  //   }
+  // }, [props.show]);
+
+  if (props.userData) {
+    const {
+      time,
+      comment,
+      date,
+      priority,
+      juridiction,
+      contact
+    } = props.userData;
+    values = {
+      time,
+      comment,
+      date,
+      priority,
+      juridiction,
+      contact
+    };
+  }
+  console.log('values', values);
 
   return (
     <>

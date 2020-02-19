@@ -1,4 +1,4 @@
-import React, { Component, FunctionComponent } from "react";
+import React, { Component, FunctionComponent } from 'react';
 import {
   Col,
   Row,
@@ -7,79 +7,79 @@ import {
   Table,
   UncontrolledTooltip,
   Label
-} from "reactstrap";
+} from 'reactstrap';
 
-import { languageTranslation } from "../../../../helpers";
-import Select from "react-select";
-import { Priority, TodoFilter } from "../../../../config";
+import { languageTranslation } from '../../../../helpers';
+import Select from 'react-select';
+import { Priority, TodoFilter } from '../../../../config';
 
 const CareGiverTodo: FunctionComponent = () => {
   return (
     <>
       <div>
         <h5 className="content-title">
-          {languageTranslation("MENU_TO_DO_CARE_GIVER")}
+          {languageTranslation('MENU_TO_DO_CARE_GIVER')}
         </h5>
 
         <Row>
-          <Col lg={"12"}>
+          <Col lg={'12'}>
             <div className="filter-form form-section">
               <Row>
-                <Col lg={"3"} md={"3"}>
+                <Col lg={'3'} md={'3'}>
                   <FormGroup className="mb-2">
                     <Label className="col-form-label">
-                      {languageTranslation("SEARCH_LABEL")} :
+                      {languageTranslation('SEARCH_LABEL')} :
                     </Label>
                     <Input
                       type="text"
                       name="search"
                       id="search"
-                      placeholder={languageTranslation("SEARCH_LABEL")}
+                      placeholder={languageTranslation('SEARCH_LABEL')}
                     />
                   </FormGroup>
                 </Col>
-                <Col lg={"2"} md={"3"}>
+                <Col lg={'2'} md={'3'}>
                   <FormGroup>
                     <Label className="col-form-label">
-                      {languageTranslation("STATUS_LABEL")} :
+                      {languageTranslation('STATUS_LABEL')} :
                     </Label>
                     <Select
-                      placeholder={languageTranslation("STATUS_PLACEHOLDER")}
+                      placeholder={languageTranslation('STATUS_PLACEHOLDER')}
                       classNamePrefix="custom-inner-reactselect"
-                      className={"custom-reactselect"}
+                      className={'custom-reactselect'}
                       options={TodoFilter}
                     />
                   </FormGroup>
                 </Col>
-                <Col lg={"2"} md={"3"}>
+                <Col lg={'2'} md={'3'}>
                   <FormGroup>
                     <Label className="col-form-label">
-                      {languageTranslation("PRIORITY")} :
+                      {languageTranslation('PRIORITY')} :
                     </Label>
                     <Select
                       placeholder="Select Priority"
                       classNamePrefix="custom-inner-reactselect"
-                      className={"custom-reactselect"}
+                      className={'custom-reactselect'}
                       options={Priority}
                     />
                   </FormGroup>
                 </Col>
-                <Col lg={"2"} md={"3"}>
+                <Col lg={'2'} md={'3'}>
                   <div className="label-height"></div>
                   <div className="filter-btn-wrap mb-2">
                     <span className="btn-filter mr-2" id="search1">
                       <UncontrolledTooltip placement="top" target="search1">
-                        {languageTranslation("SEARCH_LABEL")}
+                        {languageTranslation('SEARCH_LABEL')}
                       </UncontrolledTooltip>
                       <i className="fa fa-search mr-1"></i>
-                      {languageTranslation("SEARCH_LABEL")}
+                      {languageTranslation('SEARCH_LABEL')}
                     </span>
                     <span className="btn-filter mr-2" id="reset">
                       <UncontrolledTooltip placement="top" target="reset">
-                        {languageTranslation("RESET_LABEL")}
+                        {languageTranslation('RESET_LABEL')}
                       </UncontrolledTooltip>
                       <i className="fa fa-refresh mr-1"></i>
-                      {languageTranslation("RESET_LABEL")}
+                      {languageTranslation('RESET_LABEL')}
                     </span>
                   </div>
                 </Col>
@@ -90,25 +90,25 @@ const CareGiverTodo: FunctionComponent = () => {
               <thead className="thead-bg">
                 <tr>
                   <th className="sno-th-column text-center">
-                    {languageTranslation("S_NO")}
+                    {languageTranslation('S_NO')}
                   </th>
                   <th className="date-th-column">
-                    {languageTranslation("DATE")}{" "}
+                    {languageTranslation('DATE')}{' '}
                   </th>
                   <th className="file-th-column">
-                    {" "}
-                    {languageTranslation("NAME")}
+                    {' '}
+                    {languageTranslation('NAME')}
                   </th>
                   <th className="remark-col">
-                    {languageTranslation("REMARKS")}
+                    {languageTranslation('REMARKS')}
                   </th>
 
                   <th className="checkbox-th-column text-center">
-                    {" "}
-                    {languageTranslation("EXTERNAL")}
+                    {' '}
+                    {languageTranslation('EXTERNAL')}
                   </th>
-                  <th className={"text-center action-th-column"}>
-                    {languageTranslation("TABEL_HEAD_CG_ACTION")}
+                  <th className={'text-center action-th-column'}>
+                    {languageTranslation('TABEL_HEAD_CG_ACTION')}
                   </th>
                 </tr>
               </thead>
@@ -126,7 +126,7 @@ const CareGiverTodo: FunctionComponent = () => {
                     </span>
                   </td>
                   <td className="checkbox-th-column text-center">
-                    <span className="checkboxli checkbox-custom checkbox-default">
+                    <span className=" checkbox-custom ">
                       <input type="checkbox" id="checkAll" className="" />
                       <label className=""> </label>
                     </span>
@@ -155,7 +155,7 @@ const CareGiverTodo: FunctionComponent = () => {
                     </span>
                   </td>
                   <td className="checkbox-th-column text-center">
-                    <span className="checkboxli checkbox-custom checkbox-default">
+                    <span className=" checkbox-custom ">
                       <input type="checkbox" id="checkAll" className="" />
                       <label className=""> </label>
                     </span>
@@ -184,7 +184,7 @@ const CareGiverTodo: FunctionComponent = () => {
                     </span>
                   </td>
                   <td className="checkbox-th-column text-center">
-                    <span className="checkboxli checkbox-custom checkbox-default">
+                    <span className=" checkbox-custom ">
                       <input type="checkbox" id="checkAll" className="" />
                       <label className=""> </label>
                     </span>
@@ -245,7 +245,7 @@ const CareGiverTodo: FunctionComponent = () => {
                                 and typesetting industry.{" "}
                               </td>
                               <td className="external-col">
-                                <span className="checkboxli checkbox-custom checkbox-default">
+                                <span className=" checkbox-custom ">
                                   <input
                                     type="checkbox"
                                     id="checkAll"
@@ -265,7 +265,7 @@ const CareGiverTodo: FunctionComponent = () => {
                                 and typesetting industry.{" "}
                               </td>
                               <td className="external-col">
-                                <span className="checkboxli checkbox-custom checkbox-default">
+                                <span className=" checkbox-custom ">
                                   <input
                                     type="checkbox"
                                     id="checkAll"
@@ -306,7 +306,7 @@ const CareGiverTodo: FunctionComponent = () => {
                                 and typesetting industry.{" "}
                               </td>
                               <td className="external-col">
-                                <span className="checkboxli checkbox-custom checkbox-default">
+                                <span className=" checkbox-custom ">
                                   <input
                                     type="checkbox"
                                     id="checkAll"
@@ -326,7 +326,7 @@ const CareGiverTodo: FunctionComponent = () => {
                                 and typesetting industry.{" "}
                               </td>
                               <td className="external-col">
-                                <span className="checkboxli checkbox-custom checkbox-default">
+                                <span className=" checkbox-custom ">
                                   <input
                                     type="checkbox"
                                     id="checkAll"

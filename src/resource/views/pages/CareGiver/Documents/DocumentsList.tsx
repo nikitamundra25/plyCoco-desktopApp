@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useState } from "react";
-import { Table, Button, Input, UncontrolledTooltip } from "reactstrap";
-import moment from "moment";
-import { languageTranslation, formatFileSize } from "../../../../../helpers";
-import { AppConfig, defaultDateTimeFormat } from "../../../../../config";
-import Loader from "../../../containers/Loader/Loader";
+import React, { FunctionComponent, useState } from 'react';
+import { Table, Button, Input, UncontrolledTooltip } from 'reactstrap';
+import moment from 'moment';
+import { languageTranslation, formatFileSize } from '../../../../../helpers';
+import { AppConfig, defaultDateTimeFormat } from '../../../../../config';
+import Loader from '../../../containers/Loader/Loader';
 const DocumentsList: FunctionComponent<any> = (props: any) => {
   const {
     documentListing,
@@ -28,7 +28,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     documentListing.getDocuments.length
   ) {
     documentListing.getDocuments.map((data: any) => {
-      if (data && data.status === "approve") {
+      if (data && data.status === 'approve') {
         allDocDisApp = false;
       }
     });
@@ -39,7 +39,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
       <div className="document-upload-section mb-3">
         <div className="d-flex align-items-center justify-content-between flex-wrap">
           <h5 className="content-title mb-3">
-            {languageTranslation("CG_SUB_MENU_DOCUMENTS")}
+            {languageTranslation('CG_SUB_MENU_DOCUMENTS')}
           </h5>
           <div>
             {isApproved ? (
@@ -58,11 +58,11 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               >
                 {disapproveLoading ? (
                   <>
-                    <i className="fa fa-spinner fa-spin " />{" "}
-                    {languageTranslation("DISAPPROVE")}
+                    <i className="fa fa-spinner fa-spin " />{' '}
+                    {languageTranslation('DISAPPROVE')}
                   </>
                 ) : (
-                  languageTranslation("DISAPPROVE")
+                  languageTranslation('DISAPPROVE')
                 )}
               </Button>
             ) : (
@@ -81,11 +81,11 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               >
                 {approveLoading ? (
                   <>
-                    <i className="fa fa-spinner fa-spin " />{" "}
-                    {languageTranslation("APPROVE")}
+                    <i className="fa fa-spinner fa-spin " />{' '}
+                    {languageTranslation('APPROVE')}
                   </>
                 ) : (
-                  languageTranslation("APPROVE")
+                  languageTranslation('APPROVE')
                 )}
               </Button>
             )}
@@ -97,8 +97,8 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               className="btn-common mb-3"
               color="primary"
             >
-              <i className={"fa fa-upload"} />
-              &nbsp;{languageTranslation("UPLOAD_DOCUMENT")}
+              <i className={'fa fa-upload'} />
+              &nbsp;{languageTranslation('UPLOAD_DOCUMENT')}
             </Button>
           </div>
         </div>
@@ -107,31 +107,31 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           <thead className="thead-bg">
             <tr>
               <th className="sno-th-column text-center">
-                {languageTranslation("S_NO")}
+                {languageTranslation('S_NO')}
               </th>
-              <th className="date-th-column">{languageTranslation("DATE")}</th>
+              <th className="date-th-column">{languageTranslation('DATE')}</th>
               <th className="file-th-column">
-                {languageTranslation("FILE_NAME")}
+                {languageTranslation('FILE_NAME')}
               </th>
               <th className="filetype-th-column">
-                {languageTranslation("TYPE")}
+                {languageTranslation('TYPE')}
               </th>
-              <th>{languageTranslation("REMARKS")}</th>
+              <th>{languageTranslation('REMARKS')}</th>
               <th className="checkbox-th-column ">
-                {languageTranslation("CHECKED")}
+                {languageTranslation('CHECKED')}
               </th>
               <th className="filesize-th-column">
-                {languageTranslation("FILE_SIZE")}
+                {languageTranslation('FILE_SIZE')}
               </th>
-              <th className={"text-center action-th-column"}>
-                {languageTranslation("TABEL_HEAD_CG_ACTION")}
+              <th className={'text-center action-th-column'}>
+                {languageTranslation('TABEL_HEAD_CG_ACTION')}
               </th>
             </tr>
           </thead>
           <tbody>
             {!called || loading ? (
               <tr>
-                <td className={"table-loader"} colSpan={8}>
+                <td className={'table-loader'} colSpan={8}>
                   <Loader />
                 </td>
               </tr>
@@ -145,44 +145,44 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   <tr
                     key={index}
                     className={
-                      list.status === "approve" ? "approve-bg" : "table-danger"
+                      list.status === 'approve' ? 'approve-bg' : 'table-danger'
                     }
                   >
                     <td className="sno-th-column text-center">{index + 1}</td>
                     <td className="date-th-column">
                       {list && list.createdAt
                         ? moment(list.createdAt).format(defaultDateTimeFormat)
-                        : "-"}
+                        : '-'}
                     </td>
                     <td>
                       <span
                         onClick={() =>
                           window.open(
                             `${AppConfig.FILES_ENDPOINT}${list.document}`,
-                            "_blank"
+                            '_blank'
                           )
                         }
                         className="view-more-link word-wrap"
                       >
-                        {list && list.fileName ? list.fileName : "-"}
+                        {list && list.fileName ? list.fileName : '-'}
                       </span>
                     </td>
                     <td>
                       <span>
-                        {list && list.documentType ? list.documentType : "-"}
+                        {list && list.documentType ? list.documentType : '-'}
                       </span>
                     </td>
                     <td className="remark-col">
-                      {list && list.remarks ? list.remarks : "-"}
+                      {list && list.remarks ? list.remarks : '-'}
                     </td>
                     <td className="text-center">
-                      <span className="checkboxli checkbox-custom checkbox-default">
+                      <span className=" checkbox-custom ">
                         <input
                           type="checkbox"
                           checked={
                             documentId && documentId.id === list.id
                               ? documentId.checked
-                              : list.status === "approve"
+                              : list.status === 'approve'
                               ? true
                               : false
                           }
@@ -199,7 +199,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     <td>
                       <div
                         className={`action-btn ${
-                          documentLength === 1 ? "margin-tooltip" : ""
+                          documentLength === 1 ? 'margin-tooltip' : ''
                         }`}
                       >
                         <span
@@ -209,32 +209,32 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                           // disable={list.status === 'approve'}
                         >
                           <UncontrolledTooltip
-                            placement={"top"}
+                            placement={'top'}
                             target={`edit${index}`}
                           >
-                            {languageTranslation("DOCUMENT_EDIT")}
+                            {languageTranslation('DOCUMENT_EDIT')}
                           </UncontrolledTooltip>
                           <i className="fa fa-pencil"></i>
                         </span>
                         <span
                           id={`delete${index}`}
                           className={`btn-icon mr-2 ${
-                            list.status === "approve" ? "disbale" : ""
+                            list.status === 'approve' ? 'disbale' : ''
                           }`}
                           onClick={() =>
-                            list.status === "approve"
-                              ? ""
+                            list.status === 'approve'
+                              ? ''
                               : onDeleteDocument(list.id)
                           }
                         >
-                          {list.status === "approve" ? (
-                            ""
+                          {list.status === 'approve' ? (
+                            ''
                           ) : (
                             <UncontrolledTooltip
-                              placement={"top"}
+                              placement={'top'}
                               target={`delete${index}`}
                             >
-                              {languageTranslation("DOCUMENT_DELETE")}
+                              {languageTranslation('DOCUMENT_DELETE')}
                             </UncontrolledTooltip>
                           )}
                           <i className="fa fa-trash"></i>
@@ -245,14 +245,14 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 );
               })
             ) : (
-              <tr className={"text-center no-hover-row"}>
-                <td colSpan={8} className={"pt-5 pb-5"}>
+              <tr className={'text-center no-hover-row'}>
+                <td colSpan={8} className={'pt-5 pb-5'}>
                   <div className="no-data-section">
                     <div className="no-data-icon">
                       <i className="icon-ban" />
                     </div>
                     <h4 className="mb-1">
-                      Currently there are no documents added.{" "}
+                      Currently there are no documents added.{' '}
                     </h4>
                     <p>Please click above button to add new document. </p>
                   </div>

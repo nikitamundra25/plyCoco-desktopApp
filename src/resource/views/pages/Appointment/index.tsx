@@ -21,7 +21,11 @@ import MaskedInput from "react-text-mask";
 
 import Select from "react-select";
 import { languageTranslation } from "../../../../helpers";
-import { State, NightAllowancePerHour } from "../../../../config";
+import {
+  State,
+  NightAllowancePerHour,
+  Without_Appointments
+} from "../../../../config";
 
 import right_arrow from "../../../assets/img/rightarrow.svg";
 import left_arrow from "../../../assets/img/leftarrow.svg";
@@ -72,20 +76,17 @@ const Appointment: FunctionComponent = () => {
                   classNamePrefix="custom-inner-reactselect"
                   className={"custom-reactselect custom-reactselect-menu-width"}
                   placeholder="Select"
-                  options={State}
+                  options={Without_Appointments}
                 />
               </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon pr-0">
-                  <img src={close} alt="" />
-                </span>
-              </div>
+
               <div className="user-select mx-1">
                 <Select
                   classNamePrefix="custom-inner-reactselect"
                   className={"custom-reactselect custom-reactselect-menu-width"}
                   placeholder="Select Qualifications"
                   options={State}
+                  isClearable={true}
                 />
               </div>
 
@@ -100,11 +101,6 @@ const Appointment: FunctionComponent = () => {
                 </span>
                 <span className="header-nav-text">Attibutes</span>
               </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon pr-0">
-                  <img src={close} alt="" />
-                </span>
-              </div>
 
               <div className="user-select mx-1">
                 <Select
@@ -112,6 +108,7 @@ const Appointment: FunctionComponent = () => {
                   className={"custom-reactselect custom-reactselect-menu-width"}
                   placeholder="Select Caregiver"
                   options={State}
+                  isClearable={true}
                 />
               </div>
               <div className="header-nav-item">
@@ -120,9 +117,10 @@ const Appointment: FunctionComponent = () => {
                 </span>
               </div>
               <div className="header-nav-item">
-                <span className="header-nav-icon pr-0">
-                  <img src={close} alt="" />
+                <span className="header-nav-icon">
+                  <img src={filter} alt="" />
                 </span>
+                <span className="header-nav-text">Attibutes</span>
               </div>
               <div className="user-select mx-1">
                 <Select
@@ -130,6 +128,7 @@ const Appointment: FunctionComponent = () => {
                   className={"custom-reactselect custom-reactselect-menu-width"}
                   placeholder="Select Care Institution"
                   options={State}
+                  isClearable={true}
                 />
               </div>
               <div className="common-header-input pr-1">
@@ -3347,7 +3346,7 @@ const Appointment: FunctionComponent = () => {
                 <Col lg={"3"} className="px-lg-0">
                   <div>
                     <h5 className="content-title">
-                      {languageTranslation("PROFESSIONAL")}
+                      {languageTranslation("MENU_CAREGIVER")}
                     </h5>
                   </div>
                   <div className="form-section">
@@ -3420,48 +3419,50 @@ const Appointment: FunctionComponent = () => {
                                     )}
                                     className={"form-control mb-2"}
                                   />
-                                  <div>
-                                    <FormGroup check inline>
-                                      <div className=" checkbox-custom mb-0">
-                                        <input
-                                          type="checkbox"
-                                          id="check"
-                                          className=""
-                                          name={"early"}
-                                          checked
-                                        />
-                                        <Label for="check">
-                                          {languageTranslation("EARLY")}
-                                        </Label>
-                                      </div>
-                                    </FormGroup>
-                                    <FormGroup check inline>
-                                      <div className=" checkbox-custom mb-0">
-                                        <input
-                                          type="checkbox"
-                                          id="check1"
-                                          className=""
-                                          name={"late"}
-                                        />
-                                        <Label for="check1">
-                                          {languageTranslation("LATE")}
-                                        </Label>
-                                      </div>
-                                    </FormGroup>
-                                    <FormGroup check inline>
-                                      <div className=" checkbox-custom mb-0">
-                                        <input
-                                          type="checkbox"
-                                          id="check2"
-                                          className=""
-                                          name={"night"}
-                                        />
-                                        <Label for="check2">
-                                          {languageTranslation("NIGHT")}
-                                        </Label>
-                                      </div>
-                                    </FormGroup>
-                                  </div>
+                                </div>
+                              </Col>
+                              <Col sm="12">
+                                <div>
+                                  <FormGroup check inline>
+                                    <div className=" checkbox-custom mb-0">
+                                      <input
+                                        type="checkbox"
+                                        id="check"
+                                        className=""
+                                        name={"early"}
+                                        checked
+                                      />
+                                      <Label for="check">
+                                        {languageTranslation("EARLY")}
+                                      </Label>
+                                    </div>
+                                  </FormGroup>
+                                  <FormGroup check inline>
+                                    <div className=" checkbox-custom mb-0">
+                                      <input
+                                        type="checkbox"
+                                        id="check1"
+                                        className=""
+                                        name={"late"}
+                                      />
+                                      <Label for="check1">
+                                        {languageTranslation("LATE")}
+                                      </Label>
+                                    </div>
+                                  </FormGroup>
+                                  <FormGroup check inline>
+                                    <div className=" checkbox-custom mb-0">
+                                      <input
+                                        type="checkbox"
+                                        id="check2"
+                                        className=""
+                                        name={"night"}
+                                      />
+                                      <Label for="check2">
+                                        {languageTranslation("NIGHT")}
+                                      </Label>
+                                    </div>
+                                  </FormGroup>
                                 </div>
                               </Col>
                             </Row>
@@ -3790,9 +3791,7 @@ const Appointment: FunctionComponent = () => {
                                         className=""
                                         name={""}
                                       />
-                                      <Label for="check1">
-                                        {languageTranslation("")}
-                                      </Label>
+                                      <Label for="check1"></Label>
                                     </div>
                                   </FormGroup>
                                 </div>
@@ -3850,20 +3849,14 @@ const Appointment: FunctionComponent = () => {
                           </FormGroup>
                         </Col>
                         <Col lg={"12"}>
-                          <Button className="btn" color="primary">
-                            <span>
-                              {" "}
-                              <i className="fa fa-times" aria-hidden="true"></i>
-                            </span>{" "}
-                            {languageTranslation("CLEAR")}
-                          </Button>
-                          <Button className="btn ml-2" color="primary">
-                            <span>
-                              {" "}
-                              <i className="fa fa-floppy-o mr-1"></i>
-                            </span>
-                            {languageTranslation("TO_SAVE")}
-                          </Button>
+                          <div className="d-flex align-items-center justify-content-between">
+                            <Button className="btn-save" color="danger">
+                              {languageTranslation("CLEAR")}
+                            </Button>
+                            <Button className="btn-save" color="primary">
+                              {languageTranslation("SAVE_BUTTON")}
+                            </Button>
+                          </div>
                         </Col>
                       </Row>
                     </div>
@@ -3872,7 +3865,7 @@ const Appointment: FunctionComponent = () => {
                 <Col lg={"3"}>
                   <div>
                     <h5 className="content-title">
-                      {languageTranslation("FACILITY")}
+                      {languageTranslation("MENU_INSTITUTION")}
                     </h5>
                   </div>
                   <div className="form-section ">
@@ -3951,6 +3944,27 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
+                        <Col sm={"12"} lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm={"5"}>
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("SHIFT")}
+                                </Label>
+                              </Col>
+                              <Col sm={"7"}>
+                                <div>
+                                  <Select
+                                    placeholder="Select"
+                                    options={NightAllowancePerHour}
+                                    classNamePrefix="custom-inner-reactselect"
+                                    className={"custom-reactselect"}
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
@@ -4015,17 +4029,12 @@ const Appointment: FunctionComponent = () => {
                               </Col>
                               <Col sm="7">
                                 <div className="required-input">
-                                  <Input
-                                    type="select"
-                                    name="select"
-                                    id="exampleSelect"
-                                  >
-                                    <option>Sefige</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                  </Input>
+                                  <Select
+                                    placeholder="Select Qualifications"
+                                    options={State}
+                                    classNamePrefix="custom-inner-reactselect"
+                                    className={"custom-reactselect"}
+                                  />
                                 </div>
                               </Col>
                             </Row>
@@ -4035,26 +4044,23 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
+                              <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation(
-                                    "QUALIFICATION_FOR_SETTLEMENT"
+                                    "QUALIFICATION_FOR_BILLING"
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm="7">
                                 <div className="required-input">
-                                  <Input
-                                    type="select"
-                                    name="select"
-                                    id="exampleSelect"
-                                  >
-                                    <option>Sefige</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                  </Input>
+                                  <div className="required-input">
+                                    <Select
+                                      placeholder="Select Qualifications"
+                                      options={State}
+                                      classNamePrefix="custom-inner-reactselect"
+                                      className={"custom-reactselect"}
+                                    />
+                                  </div>
                                 </div>
                               </Col>
                             </Row>
@@ -4064,24 +4070,19 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
+                              <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation("DEPARTMENTS")}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm="7">
                                 <div className="required-input">
-                                  <Input
-                                    type="select"
-                                    name="select"
-                                    id="exampleSelect"
-                                  >
-                                    <option>Sefige</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                  </Input>
+                                  <Select
+                                    placeholder="Select Qualifications"
+                                    options={State}
+                                    classNamePrefix="custom-inner-reactselect"
+                                    className={"custom-reactselect"}
+                                  />
                                 </div>
                               </Col>
                             </Row>
@@ -4091,12 +4092,12 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
+                              <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation("ADDRESS")}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm="7">
                                 <div className="required-input">
                                   <Input
                                     type="text"
@@ -4112,12 +4113,12 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
+                              <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation("CONTACT_PERSON")}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm="7">
                                 <div className="required-input">
                                   <Input
                                     type="text"
@@ -4135,14 +4136,14 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
+                              <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation(
                                     "COMMENTS_OFFER_DEPARTMENT"
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm="7">
                                 <div className="required-input">
                                   <Input
                                     className="textarea-custom form-control"
@@ -4159,14 +4160,14 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
+                              <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation(
                                     "COMMETS_POSTED_DEPARTEMENT"
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm="7">
                                 <div className="required-input">
                                   <Input
                                     className="textarea-custom form-control"
@@ -4183,14 +4184,14 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
+                              <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation(
-                                    "COMMENTAR_DEPARTMENT_ONLY_VISIBLE_INTERNALLY"
+                                    "COMMENT_DEPARTMENT_ONLY_VISIBLE_INTERNALLY"
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm="7">
                                 <div className="required-input">
                                   <Input
                                     className="textarea-custom form-control"
@@ -4207,12 +4208,12 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
+                              <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation("DLN_REQUIRED")}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm="7">
                                 <div className="required-input">
                                   <FormGroup check inline>
                                     <div className=" checkbox-custom mb-0">
@@ -4222,9 +4223,7 @@ const Appointment: FunctionComponent = () => {
                                         className=""
                                         name={""}
                                       />
-                                      <Label for="check1">
-                                        {languageTranslation("")}
-                                      </Label>
+                                      <Label for="check1"></Label>
                                     </div>
                                   </FormGroup>
                                 </div>
@@ -4235,12 +4234,12 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
+                              <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation("REMARK_OFFER")}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm="7">
                                 <div className="required-input">
                                   <Input
                                     className="textarea-custom form-control"
@@ -4257,12 +4256,12 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
+                              <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation("COMMENTS_POSTED")}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm="7">
                                 <div className="required-input">
                                   <Input
                                     className="textarea-custom form-control"
@@ -4279,12 +4278,14 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
+                              <Col sm="5">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation("COMMENT_TO_SPECIALIST")}
+                                  {languageTranslation(
+                                    "COMMENT_VISIBLE_INTERNALLY"
+                                  )}
                                 </Label>
                               </Col>
-                              <Col sm="8">
+                              <Col sm="7">
                                 <div className="required-input">
                                   <Input
                                     className="textarea-custom form-control"
@@ -4299,20 +4300,14 @@ const Appointment: FunctionComponent = () => {
                           </FormGroup>
                         </Col>
                         <Col lg={"12"}>
-                          <Button className="btn" color="primary">
-                            <span>
-                              {" "}
-                              <i className="fa fa-times" aria-hidden="true"></i>
-                            </span>{" "}
-                            {languageTranslation("CLEAR")}
-                          </Button>
-                          <Button className="btn ml-2" color="primary">
-                            <span>
-                              {" "}
-                              <i className="fa fa-floppy-o mr-1"></i>
-                            </span>
-                            {languageTranslation("TO_SAVE")}
-                          </Button>
+                          <div className="d-flex align-items-center justify-content-between">
+                            <Button className="btn-save" color="danger">
+                              {languageTranslation("CLEAR")}
+                            </Button>
+                            <Button className="btn-save" color="primary">
+                              {languageTranslation("SAVE_BUTTON")}
+                            </Button>
+                          </div>
                         </Col>
                       </Row>
                     </div>

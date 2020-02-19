@@ -71,7 +71,6 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   );
 
   const handleDayClick = (day: any) => {
-    // let date = moment(day).format('DD/MM/YY');
     setFieldValue('date', day);
   };
 
@@ -80,9 +79,9 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   };
   const ContactError: any = errors.contact;
   const PriorityError: any = errors.priority;
-  let temp = moment()
-    .add(1, 'days')
-    .format('L');
+
+  let currentTime = new Date();
+  let year = currentTime.getFullYear();
 
   return (
     <div>
@@ -113,7 +112,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                 <Col lg={'4'}>
                   <div>
                     <DayPicker
-                      initialMonth={new Date(2020, 2)}
+                      initialMonth={new Date(year, 2)}
                       selectedDays={date ? date : new Date()}
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
@@ -124,7 +123,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                 <Col lg={'4'}>
                   <div>
                     <DayPicker
-                      initialMonth={new Date(2020, 3)}
+                      initialMonth={new Date(year, 3)}
                       selectedDays={date ? date : new Date()}
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
@@ -230,7 +229,6 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                         <Col sm='4'>
                           <Label className='form-label col-form-label'>
                             {languageTranslation('CONTACT')}
-                            <span className='required'>*</span>
                           </Label>
                         </Col>
                         <Col sm='8'>
@@ -241,20 +239,11 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                               onChange={(value: any) =>
                                 handleSelect(value, 'contact')
                               }
-                              className={
-                                errors.contact && touched.contact
-                                  ? 'error custom-reactselect'
-                                  : 'custom-reactselect'
-                              }
+                              className={'custom-reactselect'}
                               value={
                                 contact && contact.value !== '' ? contact : null
                               }
                             />
-                            {errors.contact && touched.contact && (
-                              <div className='required-tooltip'>
-                                {ContactError}
-                              </div>
-                            )}
                           </div>
                         </Col>
                       </Row>

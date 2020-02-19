@@ -75,7 +75,7 @@ const PersonalInformation: any = (props: any) => {
       ({ id, name, color }: IAttributeValues) =>
         careInstitutionAttrOpt.push({
           label: name,
-          value: id ? id.toString() : "",
+          value: id ? id.toString() : '',
           color
         })
     );
@@ -306,7 +306,6 @@ const PersonalInformation: any = (props: any) => {
     }
   }, [statesData]);
 
-  console.log('VVVVVVVVVVVVV', stateOptions);
   // Save remarks into DB
   const saveRemark = async (message: string, remarksData: any) => {
     if (id) {

@@ -66,11 +66,12 @@ const CareInstitutionTodo: FunctionComponent = () => {
 
   useEffect(() => {
     // Fetch TODO details by care institution id
+    const userRole: string =
+      path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution';
 
     fetchToDoByUserID({
       variables: {
-        userType:
-          path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution',
+        userType: userRole,
         searchBy: '',
         priority: '',
         sortBy: '',
@@ -239,9 +240,13 @@ const CareInstitutionTodo: FunctionComponent = () => {
                     {' '}
                     {languageTranslation('NAME')}
                   </th>
-                  <th className='contact-th-column'>
-                    {languageTranslation('CONTACT')}
-                  </th>
+                  {path[1] !== 'caregiver-todo' ? (
+                    <th className='contact-th-column'>
+                      {languageTranslation('CONTACT')}
+                    </th>
+                  ) : (
+                    ''
+                  )}
                   <th className='remark-col'>
                     {languageTranslation('REMARKS')}
                   </th>
@@ -288,13 +293,17 @@ const CareInstitutionTodo: FunctionComponent = () => {
                               : '-'}
                           </span>
                         </td>
-                        <td className='contact-th-column'>
-                          <span className='view-more-link word-wrap'>
-                            {list.contact
-                              ? `${list.contact.firstName} ${list.contact.surName}`
-                              : '-'}
-                          </span>
-                        </td>
+                        {path[1] !== 'caregiver-todo' ? (
+                          <td className='contact-th-column'>
+                            <span className='view-more-link word-wrap'>
+                              {list.contact
+                                ? `${list.contact.firstName} ${list.contact.surName}`
+                                : '-'}
+                            </span>
+                          </td>
+                        ) : (
+                          ''
+                        )}
                         <td className='remark-col'>
                           <span className='word-wrap'>{list.comment}</span>
                         </td>

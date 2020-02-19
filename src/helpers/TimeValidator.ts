@@ -18,7 +18,13 @@ export const timeValidator = (timeString: string): ITimeResponse => {
       message: 'Please enter a valid hour'
     };
   }
-  if (minutes > 60 || minutes === 0) {
+  if (minutes > 60 || minutes > 0) {
+    return {
+      isValid: false,
+      message: 'Please enter a valid minutes'
+    };
+  }
+  if (hours === 24 && minutes > 0) {
     return {
       isValid: false,
       message: 'Please enter a valid minutes'

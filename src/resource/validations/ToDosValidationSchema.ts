@@ -25,29 +25,5 @@ export const CreateTodoFormValidationSchema: Yup.ObjectSchema<Yup.Shape<
   priority: Yup.string().required(languageTranslation('PRIORITY_REQUIRED')),
   juridiction: Yup.string().required(
     languageTranslation('JURIDICTION_REQUIRED')
-  ),
-  contact: Yup.string().required(languageTranslation('CONTACT_REQUIRED'))
-});
-
-export const CreateTodoFormCareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
-  object,
-  ICreateTodoFormValidationSchema
->> = Yup.object().shape<ICreateTodoFormValidationSchema>({
-  /* Yup.string() */
-  time: Yup.string()
-    // .max(250, languageTranslation('NAME_MAXLENGTH'))
-    .required(languageTranslation('TIME_REQUIRED'))
-    .test({
-      name: 'time',
-      test: function(val) {
-        const { path, createError } = this;
-        const { isValid, message }: IDateResponse = timeValidator(val);
-        return !val || isValid || createError({ path, message });
-      }
-    }),
-  comment: Yup.string().required(languageTranslation('COMMENT_REQUIRED')),
-  priority: Yup.string().required(languageTranslation('PRIORITY_REQUIRED')),
-  juridiction: Yup.string().required(
-    languageTranslation('JURIDICTION_REQUIRED')
   )
 });

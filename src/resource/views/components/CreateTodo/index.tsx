@@ -11,10 +11,7 @@ import {
 } from '../../../../interfaces';
 import { languageTranslation, logger } from '../../../../helpers';
 import { toast } from 'react-toastify';
-import {
-  CreateTodoFormValidationSchema,
-  CreateTodoFormCareGiverValidationSchema
-} from '../../../validations';
+import { CreateTodoFormValidationSchema } from '../../../validations';
 import { client } from '../../../../config';
 import {
   ProfileQueries,
@@ -129,7 +126,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
       setTodoValues({
         time,
         comment,
-        date,
+        date: new Date(date),
         priority: priority
           ? {
               label: priority.toUpperCase(),
@@ -212,11 +209,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
             name={name}
           />
         )}
-        validationSchema={
-          userRole === 'careInstitution'
-            ? CreateTodoFormValidationSchema
-            : CreateTodoFormCareGiverValidationSchema
-        }
+        validationSchema={CreateTodoFormValidationSchema}
       />
       {/* <CreateTodoForm {...props} /> */}
     </>

@@ -418,5 +418,5 @@ export interface ICreateTodoFormValidationSchema {
   comment: string;
   priority: any;
   juridiction: string;
-  contact: any;
+  contact?: any;
 }

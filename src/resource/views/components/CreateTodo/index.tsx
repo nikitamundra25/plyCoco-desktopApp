@@ -11,7 +11,10 @@ import {
 } from '../../../../interfaces';
 import { languageTranslation, logger } from '../../../../helpers';
 import { toast } from 'react-toastify';
-import { CreateTodoFormValidationSchema } from '../../../validations';
+import {
+  CreateTodoFormValidationSchema,
+  CreateTodoFormCareGiverValidationSchema
+} from '../../../validations';
 import { client } from '../../../../config';
 import {
   ProfileQueries,
@@ -25,7 +28,6 @@ const [ADD_TO_DO, UPDATE_TO_DO] = ToDoMutations;
 const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
 
 const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
-  console.log(mainProps);
   const { userRole, handleClose, userData, show, name, editToDo } = mainProps;
 
   let { id } = useParams();
@@ -122,7 +124,6 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
   }
 
   useEffect(() => {
-    console.log('userData', userData);
     if (userData) {
       const { time, comment, date, priority, juridiction, contact } = userData;
       setTodoValues({
@@ -143,9 +144,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
             }
           : undefined
       });
-      console.log('iffffffffff');
     } else {
-      console.log('elseeeeeeee');
       setTodoValues({
         time: '',
         comment: '',
@@ -192,7 +191,6 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
     juridiction,
     contact
   };
-  console.log('values', values);
 
   return (
     <>
@@ -214,7 +212,11 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
             name={name}
           />
         )}
-        validationSchema={CreateTodoFormValidationSchema}
+        validationSchema={
+          userRole === 'careInstitution'
+            ? CreateTodoFormValidationSchema
+            : CreateTodoFormCareGiverValidationSchema
+        }
       />
       {/* <CreateTodoForm {...props} /> */}
     </>

@@ -30,8 +30,6 @@ import MaskedInput from 'react-text-mask';
 
 const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   any> = (props: FormikProps<ICreateTodoFormValues> & any) => {
-
-    
   const {
     values: { time, comment, date, priority, juridiction, contact },
     isLoading,
@@ -49,9 +47,6 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
     contactOptions,
     editToDo
   } = props;
-
-  console.log("Valueeeeee", props.values);
-  
 
   const modifiers = {
     sundays: { daysOfWeek: [0] },
@@ -85,11 +80,9 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   };
   const ContactError: any = errors.contact;
   const PriorityError: any = errors.priority;
-  console.log('date', date);
   let temp = moment()
     .add(1, 'days')
     .format('L');
-  console.log('temp', temp);
 
   return (
     <div>

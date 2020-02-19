@@ -14,7 +14,7 @@ import {
   UncontrolledTooltip
 } from 'reactstrap';
 // import "./index.scss";
-import { RouteComponentProps, useParams } from 'react-router-dom';
+import { RouteComponentProps, useParams, useLocation } from 'react-router-dom';
 // import EmailMenus from "../CareGiver/Emails/EmailMenus";
 import { languageTranslation } from '../../../../helpers';
 import Select from 'react-select';
@@ -29,15 +29,24 @@ import { ConfirmBox } from '../../components/ConfirmBox';
 import { toast } from 'react-toastify';
 import { ToDoMutations } from '../../../../graphql/Mutations';
 const [GET_CARE_INSTITUTION_TODO_LIST] = ToDoQueries;
-const [, , UPDATE_CARE_INSTITUTION_TODO_STATUS] = ToDoMutations;
+const [
+  ,
+  ,
+  UPDATE_CARE_INSTITUTION_TODO_STATUS,
+  DELETE_CARE_INSTITUTION_TODO_STATUS
+] = ToDoMutations;
 let toastId: any = null;
 
-const CareGiverTodo: FunctionComponent = () => {
+const CareInstitutionTodo: FunctionComponent = () => {
   let { id } = useParams();
   const userId: any | undefined = id;
   const [showToDo, setShowToDo] = useState<boolean>(false);
   const [selectUser, setSelectUser] = useState<any>({});
   const [status, setStatus] = useState<string>('');
+  const location = useLocation();
+  const { pathname } = location;
+  const path = pathname.split('/');
+
   //To get todo list by id
   const [fetchToDoByUserID, { data, called, loading, refetch }] = useLazyQuery<
     any
@@ -50,12 +59,18 @@ const CareGiverTodo: FunctionComponent = () => {
     priority: string;
   }>(UPDATE_CARE_INSTITUTION_TODO_STATUS);
 
+  // Mutation to delete careInstitution todo status
+  const [deleteStatus] = useMutation<{
+    id: string;
+  }>(DELETE_CARE_INSTITUTION_TODO_STATUS);
+
   useEffect(() => {
     // Fetch TODO details by care institution id
 
     fetchToDoByUserID({
       variables: {
-        userType: 'careinstitution',
+        userType:
+          path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution',
         searchBy: '',
         priority: '',
         sortBy: '',
@@ -106,7 +121,39 @@ const CareGiverTodo: FunctionComponent = () => {
       }
     }
   };
-  console.log('status', status);
+
+  const deleteToDo = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('DELETE_CARE_INSTITUTION_TODO')
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        toast.dismiss();
+        await deleteStatus({
+          variables: {
+            id: parseInt(id)
+          }
+        });
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toast.success(
+            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG')
+          );
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -290,12 +337,29 @@ const CareGiverTodo: FunctionComponent = () => {
                           <div className={`action-btn `}>
                             <span
                               className='btn-icon mr-2'
+                              id={`edit${index}`}
                               onClick={() => editToDo(list)}
                             >
+                              <UncontrolledTooltip
+                                placement='top'
+                                target={`edit${index}`}
+                              >
+                                Edit
+                              </UncontrolledTooltip>
                               <i className='fa fa-pencil'></i>
                             </span>
-                            <span className={`btn-icon mr-2 `}>
-                              <i className='fa fa-check'></i>
+                            <span
+                              className={`btn-icon mr-2 `}
+                              id={`delete${index}`}
+                              onClick={() => deleteToDo(list.id)}
+                            >
+                              <UncontrolledTooltip
+                                placement='top'
+                                target={`delete${index}`}
+                              >
+                                Move to trash
+                              </UncontrolledTooltip>
+                              <i className='fa fa-trash'></i>
                             </span>
                           </div>
                         </td>
@@ -334,11 +398,13 @@ const CareGiverTodo: FunctionComponent = () => {
           }
           editToDo={true}
           userData={selectUser}
-          userRole={'careInstitution'}
+          userRole={
+            path[1] === 'caregiver-todo' ? 'caregiver' : 'careInstitution'
+          }
         />
       </div>
     </>
   );
 };
 
-export default CareGiverTodo;
+export default CareInstitutionTodo;

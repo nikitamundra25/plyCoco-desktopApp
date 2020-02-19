@@ -38,8 +38,18 @@ const UPDATE_CARE_INSTITUTION_TODO_STATUS = gql`
     }
   }
 `;
+
+const DELETE_CARE_INSTITUTION_TODO_STATUS = gql`
+  mutation deleteToDo($id: Int!) {
+    deleteToDo(id: $id) {
+      id
+    }
+  }
+`;
+
 export const ToDoMutations = [
   ADD_TO_DO,
   UPDATE_TO_DO,
-  UPDATE_CARE_INSTITUTION_TODO_STATUS
+  UPDATE_CARE_INSTITUTION_TODO_STATUS,
+  DELETE_CARE_INSTITUTION_TODO_STATUS
 ];

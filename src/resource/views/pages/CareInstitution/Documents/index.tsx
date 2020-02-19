@@ -21,10 +21,18 @@ const [
   UPDATE_DOCUMENT,
   DELETE_DOCUMENT,
   APPROVE_DOCUMENT,
-  DISAPPROVE_DOCUMENT
+  DISAPPROVE_DOCUMENT,
+  ,
+  DELETE_DOCUMENT_TYPE_CAREINST
 ] = DocumentMutations;
 const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
-const [, GET_DOCUMENTS, GET_DOCUMENT_TYPES] = DocumentQueries;
+const [
+  ,
+  GET_DOCUMENTS,
+  GET_DOCUMENT_TYPES,
+  GET_REQUIRED_DOCUMENT_TYPES
+] = DocumentQueries;
+
 let toastId: any = '';
 
 const Documents = () => {
@@ -42,6 +50,7 @@ const Documents = () => {
   const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
   const [fileName, setFilename] = useState<any>(null);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [addedDocumentType, setaddedDocumentType] = useState<any>(null);
 
   const [documentId, setDocumentId] = useState<{
     id: string;
@@ -60,6 +69,16 @@ const Documents = () => {
       refetch: careGiverDetailsRetch
     }
   ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
+
+  // To fetch the explicitly required document of careinstitution by id
+  const [
+    fetchAddedDocumentList,
+    {
+      data: explicitDocument,
+      loading: addedDocumentListLoading,
+      refetch: addedDocumentListRefetch
+    }
+  ] = useLazyQuery<any>(GET_REQUIRED_DOCUMENT_TYPES);
 
   //add document
   const [addDocument, { loading: addDocumentLoading }] = useMutation<any>(
@@ -80,8 +99,7 @@ const Documents = () => {
 
   // To fecth document type list
   const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES);
-  console.log('All types', documentTypeListData);
-
+  // To set document type into label value pair
   const documentTypeList: IReactSelectInterface[] | undefined = [];
   if (documentTypeListData && documentTypeListData.getDocumentType) {
     documentTypeListData.getDocumentType.forEach((type: any) => {
@@ -110,6 +128,9 @@ const Documents = () => {
   //delete document
   const [deleteDocument] = useMutation<any>(DELETE_DOCUMENT);
 
+  //delete explicit document types
+  const [deleteDocumentTypes] = useMutation<any>(DELETE_DOCUMENT_TYPE_CAREINST);
+
   //update document
   const [updateDocument, { loading: updateDocumentLoading }] = useMutation<any>(
     UPDATE_DOCUMENT,
@@ -126,6 +147,30 @@ const Documents = () => {
       }
     }
   );
+  //to fetch added document lest
+  useEffect(() => {
+    fetchAddedDocumentList({
+      variables: {
+        userId: id ? id : ''
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    const { getRequiredDocuments = {} } = explicitDocument
+      ? explicitDocument
+      : {};
+    const { document_types = [] } = getRequiredDocuments
+      ? getRequiredDocuments
+      : {};
+    // To set added documents into label value pair
+    setaddedDocumentType(
+      document_types.map((document: any) => ({
+        label: document.type,
+        value: document.id
+      }))
+    );
+  }, [explicitDocument]);
 
   useEffect(() => {
     if (ApprovedData) {
@@ -182,8 +227,8 @@ const Documents = () => {
     setShowDocumentPopup(true);
     setRemarkValue(data.remarks);
     setDocumentType(
-      data.documentType
-        ? { label: data.documentType, value: data.documentType }
+      data && data.document_type && data.document_type.type
+        ? { label: data.document_type.type, value: data.document_type.id }
         : undefined
     );
     setDocumentUrl({
@@ -291,7 +336,7 @@ const Documents = () => {
             id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
             documentInput: {
               fileName: fileName ? fileName : '',
-              documentType: documentType ? documentType.value : '',
+              documentTypeId: documentType ? documentType.value : '',
               remarks: remarkValue ? remarkValue : ''
             }
           }
@@ -306,7 +351,7 @@ const Documents = () => {
               document: fileObject ? fileObject : null,
               remarks: remarkValue,
               status: statusValue ? 'approve' : 'notrequested',
-              documentType: documentType ? documentType.value : ''
+              documentTypeId: documentType ? documentType.value : ''
             }
           }
         });
@@ -314,6 +359,38 @@ const Documents = () => {
     }
   };
 
+  //on delete document types
+  const onDeleteDocumentTypes = async (documentId: string) => {
+    console.log('documentId inside delete', documentId);
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: 'This document type will be deleted'
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        await deleteDocumentTypes({
+          variables: {
+            id: id ? id : null,
+            requiredDocuments: [documentId]
+          }
+        });
+        // documentTypeRefetch();
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success('Document type deleted successfully');
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
   //on delete document
   const onDeleteDocument = async (id: string) => {
     const { value } = await ConfirmBox({
@@ -433,6 +510,9 @@ const Documents = () => {
         disapproveLoading={disapproveLoading}
         documentTypeList={documentTypeList}
         userId={id}
+        onDeleteDocumentTypes={onDeleteDocumentTypes}
+        addedDocumentType={addedDocumentType}
+        setaddedDocumentType={setaddedDocumentType}
       />
       <DocumentUploadModal
         documentIdUpdate={documentIdUpdate}
@@ -454,8 +534,7 @@ const Documents = () => {
         setShowDocumentPopup={setShowDocumentPopup}
         addDocumentLoading={addDocumentLoading}
         updateDocumentLoading={updateDocumentLoading}
-        // setErrorMsg={setErrorMsg}
-        // errorMsg={errorMsg}
+        documentTypeList={documentTypeList}
       />
     </div>
   );

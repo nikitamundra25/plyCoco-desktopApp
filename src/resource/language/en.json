@@ -675,7 +675,7 @@
   "CONFIRM_EMPLOYEE_RESTORE_MSG": "This employee will be restored.",
   "EMPLOYEE_RESTORED_SUCCESS": "Employee restored successfully.",
   "EMPLOYEE_NAME": "Employee Name",
-  "DELETED_DATE": "Deleted Date",
+  "DELETED_DATE": "Deleted Date and Time",
   "RESTORE": "Restore",
   "USERNAME_PLACEHOLDER": "Enter Username",
   "BACK_TO_LIST": "Back to List",
@@ -704,5 +704,6 @@
   "DELETE_PERMANENTALY_TOOLTIP": "Delete Permanently",
   "SUPER_ADMIN": "Super Admin",
   "BASIC_DETAILS": "Basic Details",
-  "EXPLICITLY_DOCUMENT": "Explicitly Requested Documents"
+  "EXPLICITLY_DOCUMENT": "Explicitly Requested Documents",
+  "DOCUMENT_TYPE_ADDED_SUCCESS": "Document Type Added Successfully"
 }

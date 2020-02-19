@@ -7,7 +7,11 @@ import * as qs from 'query-string';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { sortFilter, dateFormat } from '../../../../../config';
+import {
+  sortFilter,
+  dateFormat,
+  defaultDateTimeFormat
+} from '../../../../../config';
 import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../../config';
 import routes from '../../../../../routes/routes';
 import Search from '../../../components/SearchFilter';
@@ -306,11 +310,17 @@ const ArchiveCareInstitution: FunctionComponent = () => {
                     <td>
                       <div className='info-column'>{elements.join(' ')}</div>
                     </td>
-                    <td>{trashUser.userName.split('-')[0]}</td>
-                    <td>{trashUser.email.split('-')[0]}</td>
+                    <td className='word-wrap'>
+                      {trashUser.userName.split('-')[0]}
+                    </td>
+                    <td className='word-wrap'>
+                      {trashUser.email.split('-')[0]}
+                    </td>
                     <td className='date-th-column '>
                       {trashUser.deletedAt
-                        ? moment(trashUser.deletedAt).format(dateFormat)
+                        ? moment(trashUser.deletedAt).format(
+                            defaultDateTimeFormat
+                          )
                         : ''}
                     </td>
                     <td>

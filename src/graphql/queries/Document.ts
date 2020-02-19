@@ -23,10 +23,13 @@ const GET_DOCUMENTS = gql`
       fileName
       status
       createdAt
+      document_type {
+        id
+        type
+      }
     }
   }
 `;
-
 const GET_DOCUMENT_TYPES = gql`
   query {
     getDocumentType {
@@ -35,7 +38,7 @@ const GET_DOCUMENT_TYPES = gql`
     }
   }
 `;
-const GET_ADDED_DOCUMENT_TYPES = gql`
+const GET_REQUIRED_DOCUMENT_TYPES = gql`
   query GetRequiredDocuments($userId: ID!) {
     getRequiredDocuments(userId: $userId) {
       document_types {
@@ -45,17 +48,9 @@ const GET_ADDED_DOCUMENT_TYPES = gql`
     }
   }
 `;
-// query{
-//   getRequiredDocuments(userId:1017){
-//     document_types{
-//       id
-//       type
-//     }
-//   }
-//  }
 export const DocumentQueries = [
   GET_DOCUMENT_LIST,
   GET_DOCUMENTS,
   GET_DOCUMENT_TYPES,
-  GET_ADDED_DOCUMENT_TYPES
+  GET_REQUIRED_DOCUMENT_TYPES
 ];

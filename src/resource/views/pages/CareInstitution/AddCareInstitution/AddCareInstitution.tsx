@@ -210,7 +210,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
           <Row>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('REGION')}
@@ -235,7 +235,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row className=''>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('GENDER')}
@@ -259,7 +259,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                       </Col>
                       <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <FormGroup>
-                          <Row className='custom-col inner-no-padding-col d-flex'>
+                          <Row className='custom-col inner-no-padding-col align-items-center'>
                             <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
                               <Label className='form-label col-form-label inner-label'>
                                 {languageTranslation('TITLE')}
@@ -289,7 +289,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('SALUTATION')}
@@ -318,7 +318,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('FIRST_NAME')}
@@ -353,7 +353,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('SURNAME')}
@@ -388,7 +388,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('SHORT_NAME')}
@@ -413,10 +413,11 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('COMPANY_NAME')}
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -428,9 +429,18 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={companyName}
                         placeholder={languageTranslation('COMPANY_NAME')}
-                        className='width-common'
+                        className={
+                          errors.companyName && touched.companyName
+                            ? 'text-input error text-capitalize'
+                            : 'text-input text-capitalize'
+                        }
                         maxLength={50}
                       />
+                      {errors.companyName && touched.companyName && (
+                        <div className='required-tooltip'>
+                          {errors.companyName}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -438,7 +448,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('ANONYMOUS_NAME')}
@@ -463,7 +473,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('ANONYMOUS_NAME2')}
@@ -489,7 +499,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
 
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label '>
                       {languageTranslation('STREET')}
@@ -514,7 +524,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label '>
                       {languageTranslation('ZIP')}
@@ -539,7 +549,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label '>
                       {languageTranslation('CITY')}
@@ -565,7 +575,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
 
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label '>
                       {languageTranslation('COUNTRY')}
@@ -590,7 +600,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label '>
                       {languageTranslation('STATE')}
@@ -616,7 +626,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label '>
                       {languageTranslation('PHONE')}
@@ -651,7 +661,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
 
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('FAX')}
@@ -683,7 +693,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('MOBILE')}
@@ -716,7 +726,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('EMAIL')}
@@ -757,7 +767,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('USERNAME')}
@@ -792,7 +802,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
             </Col>
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('WEBSITE')}
@@ -824,7 +834,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
 
             <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
               <FormGroup>
-                <Row>
+                <Row className='align-items-center'>
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('LIKED_TO')}

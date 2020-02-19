@@ -78,32 +78,19 @@ const CotactFormComponent: any = (
     name: string,
     type: string
   ) => {
-    logger(selectOption, 'value+12');
-    if (type === 'newAttribute') {
-      // To check if it's already exist on options or not
-      console.log('careInstitutionAttrOpt', careInstitutionAttrOpt);
+    console.log('namename', name);
 
+    if (type === 'newAttribute' && name === 'attributeId') {
+      // To check if it's already exist on options or not
       const index: number = attributeId.findIndex(
         (attribute: IReactSelectInterface) => {
-          console.log(
-            'attribute.label.toLowerCase()',
-            attribute.label.toLowerCase()
-          );
-          console.log(
-            'selectOption[selectOption.length - 1].label.toLowerCase()',
-            selectOption[selectOption.length - 1].label.toLowerCase() ===
-              attribute.label.toLowerCase()
-          );
           return (
             attribute.label.toLowerCase() ===
             selectOption[selectOption.length - 1].label.toLowerCase()
           );
         }
       );
-      console.log('Index', index);
       if (index < 0) {
-        console.log("In this ifffffff");
-        
         setFieldValue(name, selectOption);
         props.addAttribute(
           newAttributeValue && newAttributeValue.value
@@ -111,12 +98,14 @@ const CotactFormComponent: any = (
             : ''
         );
       }
-    }
-    if (name === 'country') {
+    } else if (name === 'country') {
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
+      setFieldValue(name, selectOption);
+    } else {
+      setFieldValue(name, selectOption);
     }
   };
 
@@ -166,7 +155,6 @@ const CotactFormComponent: any = (
           attribute.value === selectOption.value
       );
     }
-
     if (index < 0) {
       const data: IReactSelectInterface[] = [];
       if (props.values && props.values.attributeId) {
@@ -175,6 +163,8 @@ const CotactFormComponent: any = (
         data.push(selectOption);
       }
       setnewAttributeValue(null);
+      console.log('Data', data);
+
       setFieldValue(name, data);
     }
   };
@@ -193,8 +183,8 @@ const CotactFormComponent: any = (
     if (newAttributeValue && newAttributeValue.value) {
       AttOpt.push(newAttributeValue);
       setAttOpt(AttOpt);
-      const addNewAttribute: any [] = []
-      addNewAttribute.push(...attributeId,newAttributeValue)
+      const addNewAttribute: any[] = [];
+      addNewAttribute.push(...attributeId, newAttributeValue);
       handleSelect(addNewAttribute, 'attributeId', 'newAttribute');
       setnewAttributeValue('');
     }
@@ -210,7 +200,7 @@ const CotactFormComponent: any = (
   };
 
   const ContactError: any = errors.contactType;
-  
+
   return (
     <>
       <Button
@@ -235,14 +225,14 @@ const CotactFormComponent: any = (
                 {id ? (
                   <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                     <FormGroup>
-                      <Row>
-                        <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                      <Row className='align-items-center'>
+                        <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                           <Label className='form-label col-form-label'>
                             {languageTranslation('ID')}
                             <span className='required'>*</span>
                           </Label>
                         </Col>
-                        <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                        <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                           <div>
                             <Input
                               type='text'
@@ -260,13 +250,13 @@ const CotactFormComponent: any = (
                 ) : null}
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('GENDER')}
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div>
                           <Select
                             placeholder={languageTranslation('GENDER')}
@@ -286,13 +276,13 @@ const CotactFormComponent: any = (
 
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('TITLE')}
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div>
                           <Input
                             type='text'
@@ -312,13 +302,13 @@ const CotactFormComponent: any = (
 
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('SALUTATION')}
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div>
                           <Select
                             placeholder={languageTranslation('SALUTATION')}
@@ -337,14 +327,14 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('FIRST_NAME')}
                           <span className='required'>*</span>
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div className='required-input'>
                           <Input
                             type='text'
@@ -371,14 +361,14 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('SURNAME')}
                           <span className='required'>*</span>
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div className='required-input'>
                           <Input
                             type='text'
@@ -409,14 +399,14 @@ const CotactFormComponent: any = (
               <Row>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('CONTACT_TYPE')}
                           <span className='required'>*</span>
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div className='required-input'>
                           <Select
                             placeholder={languageTranslation('CONTACT_TYPE')}
@@ -445,13 +435,13 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                        <Label className='form-label col-form-label'>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
+                        <Label className='form-label col-form-label whitespace-normal'>
                           {languageTranslation('STREET')}
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div>
                           <Input
                             type='text'
@@ -469,13 +459,13 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('CITY')}
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div>
                           <Input
                             type='text'
@@ -493,13 +483,13 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('ZIP')}
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div>
                           <Input
                             type='text'
@@ -518,13 +508,13 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('COUNTRY')}
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div>
                           <Select
                             placeholder={languageTranslation('COUNTRY')}
@@ -548,13 +538,13 @@ const CotactFormComponent: any = (
               <Row>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('PHONE')}
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div className='required-input'>
                           <Input
                             type='text'
@@ -581,13 +571,13 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('PHONE2')}
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div className='required-input'>
                           <Input
                             type='text'
@@ -614,13 +604,13 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('FAX')}
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div className='required-input'>
                           <Input
                             type='text'
@@ -647,13 +637,13 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('MOBILE')}
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div className='required-input'>
                           <Input
                             type='text'
@@ -680,14 +670,14 @@ const CotactFormComponent: any = (
                 </Col>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row>
-                      <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('EMAIL')}
                           <span className='required'>*</span>
                         </Label>
                       </Col>
-                      <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div className='required-input'>
                           <Input
                             type='text'

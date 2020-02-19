@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Button,
   Modal,
@@ -12,22 +12,22 @@ import {
   Col,
   Row,
   Form
-} from "reactstrap";
-import Select from "react-select";
-import "react-day-picker/lib/style.css";
-import { languageTranslation } from "../../../../../helpers";
-import { DocumentTypes } from "../../../../../config";
-import { useDropzone } from "react-dropzone";
-import png from "../../../../assets/img/png.svg";
-import jpg from "../../../../assets/img/jpg.svg";
-import pdf from "../../../../assets/img/pdf.svg";
-import xls from "../../../../assets/img/xls.svg";
-import close from "../../../../assets/img/cancel.svg";
-import doc from "../../../../assets/img/doc.svg";
-import ppt from "../../../../assets/img/ppt.svg";
-import txt from "../../../../assets/img/txt.svg";
-import defaultExtention from "../../../../assets/img/no-extension.svg";
-import closehover from "../../../../assets/img/cancel-hover.svg";
+} from 'reactstrap';
+import Select from 'react-select';
+import 'react-day-picker/lib/style.css';
+import { languageTranslation } from '../../../../../helpers';
+import { DocumentTypes } from '../../../../../config';
+import { useDropzone } from 'react-dropzone';
+import png from '../../../../assets/img/png.svg';
+import jpg from '../../../../assets/img/jpg.svg';
+import pdf from '../../../../assets/img/pdf.svg';
+import xls from '../../../../assets/img/xls.svg';
+import close from '../../../../assets/img/cancel.svg';
+import doc from '../../../../assets/img/doc.svg';
+import ppt from '../../../../assets/img/ppt.svg';
+import txt from '../../../../assets/img/txt.svg';
+import defaultExtention from '../../../../assets/img/no-extension.svg';
+import closehover from '../../../../assets/img/cancel-hover.svg';
 const DocumentUploadModal = (props: any) => {
   const {
     documentIdUpdate,
@@ -43,122 +43,122 @@ const DocumentUploadModal = (props: any) => {
     onDrop,
     show,
     handleClose,
-    setErrorMsg,
     addDocumentLoading,
-    updateDocumentLoading
+    updateDocumentLoading,
+    documentTypeList
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
     multiple: false
   });
   const externalCloseBtn = (
-    <button className="close modal-close" onClick={() => handleClose()}>
-      <img src={close} alt="close" className="main-img" />
-      <img src={closehover} alt="close" className="hover-img" />
+    <button className='close modal-close' onClick={() => handleClose()}>
+      <img src={close} alt='close' className='main-img' />
+      <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  let splitName = documentUrls && documentUrls.name.split(".");
+  let splitName = documentUrls && documentUrls.name.split('.');
   const extention = splitName && splitName[1];
 
   return (
     <div>
-      <Modal isOpen={show} className="reminder-modal" size="lg" centered>
+      <Modal isOpen={show} className='reminder-modal' size='lg' centered>
         <ModalHeader close={externalCloseBtn}>
           {!documentIdUpdate
-            ? languageTranslation("ADD_DOCUMENT")
-            : languageTranslation("UPDATE_DOCUMENT")}
+            ? languageTranslation('ADD_DOCUMENT')
+            : languageTranslation('UPDATE_DOCUMENT')}
         </ModalHeader>
         <ModalBody>
-          <div className="">
-            <Form className="form-section forms-main-section">
+          <div className=''>
+            <Form className='form-section forms-main-section'>
               <Row>
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row
                       className={`${
-                        !documentIdUpdate ? "" : "align-items-center"
+                        !documentIdUpdate ? '' : 'align-items-center'
                       }`}
                     >
-                      <Col sm="2">
-                        <Label className="form-label col-form-label">
+                      <Col sm='2'>
+                        <Label className='form-label col-form-label'>
                           {!documentIdUpdate
-                            ? languageTranslation("FILE")
-                            : languageTranslation("FILE_NAME")}
+                            ? languageTranslation('FILE')
+                            : languageTranslation('FILE_NAME')}
                         </Label>
                       </Col>
                       {!documentIdUpdate ? (
-                        <Col sm="10">
+                        <Col sm='10'>
                           <div
                             {...getRootProps()}
-                            className="dropzone-preview mb-0"
+                            className='dropzone-preview mb-0'
                           >
                             <input
                               {...getInputProps()}
-                              className="dropzone-input-preview"
+                              className='dropzone-input-preview'
                             />
-                            <div className="icon-upload">
+                            <div className='icon-upload'>
                               {extention === null ? (
-                                <i className="cui-cloud-upload"></i>
-                              ) : extention === "jpg" ||
-                                extention === "jpeg" ? (
-                                <img src={jpg} alt="" className="mb-2" />
-                              ) : extention === "png" ? (
-                                <img src={png} alt="" className="mb-2" />
-                              ) : extention === "pdf" ? (
-                                <img src={pdf} alt="" className="mb-2" />
-                              ) : extention === "xlsx" ? (
-                                <img src={xls} alt="" className="mb-2" />
-                              ) : extention === "doc" ? (
-                                <img src={doc} alt="" className="mb-2" />
-                              ) : extention === "ppt" ? (
-                                <img src={ppt} alt="" className="mb-2" />
-                              ) : extention === "txt" ? (
-                                <img src={txt} alt="" className="mb-2" />
+                                <i className='cui-cloud-upload'></i>
+                              ) : extention === 'jpg' ||
+                                extention === 'jpeg' ? (
+                                <img src={jpg} alt='' className='mb-2' />
+                              ) : extention === 'png' ? (
+                                <img src={png} alt='' className='mb-2' />
+                              ) : extention === 'pdf' ? (
+                                <img src={pdf} alt='' className='mb-2' />
+                              ) : extention === 'xlsx' ? (
+                                <img src={xls} alt='' className='mb-2' />
+                              ) : extention === 'doc' ? (
+                                <img src={doc} alt='' className='mb-2' />
+                              ) : extention === 'ppt' ? (
+                                <img src={ppt} alt='' className='mb-2' />
+                              ) : extention === 'txt' ? (
+                                <img src={txt} alt='' className='mb-2' />
                               ) : (
                                 <img
                                   src={defaultExtention}
-                                  alt=""
-                                  className="mb-2"
+                                  alt=''
+                                  className='mb-2'
                                 />
                               )}
                             </div>
 
                             {documentUrls ? (
-                              <span className="document-name">
+                              <span className='document-name'>
                                 {documentUrls.name}
                               </span>
                             ) : (
                               <span>
                                 {languageTranslation(
-                                  "PERSONAL_DOCUMENTS_UPLOAD"
+                                  'PERSONAL_DOCUMENTS_UPLOAD'
                                 )}
                               </span>
                             )}
                           </div>
                           {isSubmit && documentUrls === null ? (
-                            <div className="required-error">
+                            <div className='required-error'>
                               Document is required
                             </div>
                           ) : null}
                         </Col>
                       ) : (
-                        <Col sm="10">
+                        <Col sm='10'>
                           <div>
                             <Input
-                              type="text"
-                              name="filename"
+                              type='text'
+                              name='filename'
                               value={fileName}
                               onChange={handleChange}
                               maxLength={100}
                               className={
                                 isSubmit && !fileName
-                                  ? "text-input error my-2 my-sm-0"
-                                  : "text-input my-2 my-sm-0"
+                                  ? 'text-input error my-2 my-sm-0'
+                                  : 'text-input my-2 my-sm-0'
                               }
                             />
                           </div>
                           {isSubmit && !fileName ? (
-                            <div className="required-error">
+                            <div className='required-error'>
                               File name is required
                             </div>
                           ) : null}
@@ -167,46 +167,45 @@ const DocumentUploadModal = (props: any) => {
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
-                    <Row className="align-items-center">
-                      <Col sm="2">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("TYPE")}
+                    <Row className='align-items-center'>
+                      <Col sm='2'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('TYPE')}
                         </Label>
                       </Col>
-                      <Col sm="10">
+                      <Col sm='10'>
                         <Select
-                          name="type"
+                          name='type'
                           value={documentType}
-                          options={DocumentTypes}
-                          // placeholder={'Select type'}
+                          options={documentTypeList}
                           onChange={(type: any) => {
                             setDocumentType(type);
                           }}
-                          classNamePrefix="custom-inner-reactselect"
-                          className={"custom-reactselect"}
+                          classNamePrefix='custom-inner-reactselect'
+                          className={'custom-reactselect'}
                         />
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm="2">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("REMARKS")}
+                      <Col sm='2'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('REMARKS')}
                         </Label>
                       </Col>
-                      <Col sm="10">
+                      <Col sm='10'>
                         <div>
                           <Input
-                            type="textarea"
+                            type='textarea'
                             // placeholder={languageTranslation('REMARKS')}
-                            className="textarea-custom"
-                            rows="4"
-                            name={"remarks"}
+                            className='textarea-custom'
+                            rows='4'
+                            name={'remarks'}
                             value={remarkValue}
                             onChange={handleChange}
                             maxLength={255}
@@ -217,25 +216,25 @@ const DocumentUploadModal = (props: any) => {
                   </FormGroup>
                 </Col>
                 {!documentIdUpdate ? (
-                  <Col lg={"12"}>
+                  <Col lg={'12'}>
                     <FormGroup>
-                      <Row className="align-items-center">
-                        <Col sm="2">
-                          <Label className="form-label col-form-label">
-                            {languageTranslation("CHECKED")}
+                      <Row className='align-items-center'>
+                        <Col sm='2'>
+                          <Label className='form-label col-form-label'>
+                            {languageTranslation('CHECKED')}
                           </Label>
                         </Col>
-                        <Col sm="10">
-                          <div className=" checkbox-custom mb-0">
+                        <Col sm='10'>
+                          <div className=' checkbox-custom mb-0'>
                             <input
-                              id="check"
-                              type="checkbox"
-                              name="check"
+                              id='check'
+                              type='checkbox'
+                              name='check'
                               checked={statusValue}
                               onChange={handleChange}
                             />
-                            <Label for="check" className="pl-3">
-                              ( {languageTranslation("DOCUMENT_STATUS_LABEL")} )
+                            <Label for='check' className='pl-3'>
+                              ( {languageTranslation('DOCUMENT_STATUS_LABEL')} )
                             </Label>
                           </div>
                         </Col>
@@ -243,7 +242,7 @@ const DocumentUploadModal = (props: any) => {
                     </FormGroup>
                   </Col>
                 ) : (
-                  ""
+                  ''
                 )}
                 {/* <Col lg={'12'}>
                   <FormGroup>
@@ -278,7 +277,7 @@ const DocumentUploadModal = (props: any) => {
         <ModalFooter>
           {/* {isSubmit ? } */}
           <Button
-            color="primary"
+            color='primary'
             onClick={() => {
               handleSaveDocument();
             }}
@@ -286,16 +285,16 @@ const DocumentUploadModal = (props: any) => {
           >
             {addDocumentLoading || updateDocumentLoading ? (
               <>
-                <i className="fa fa-spinner fa-spin " />{" "}
-                {languageTranslation("SAVE_BUTTON")}
+                <i className='fa fa-spinner fa-spin ' />{' '}
+                {languageTranslation('SAVE_BUTTON')}
               </>
             ) : (
-              languageTranslation("SAVE_BUTTON")
+              languageTranslation('SAVE_BUTTON')
             )}
           </Button>
 
-          <Button color="secondary" onClick={handleClose}>
-            {languageTranslation("CANCEL")}
+          <Button color='secondary' onClick={handleClose}>
+            {languageTranslation('CANCEL')}
           </Button>
         </ModalFooter>
       </Modal>

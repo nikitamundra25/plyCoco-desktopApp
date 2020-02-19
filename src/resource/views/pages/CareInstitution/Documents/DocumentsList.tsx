@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import {
   Table,
   Button,
@@ -16,10 +16,13 @@ import { languageTranslation, formatFileSize } from '../../../../../helpers';
 import { AppConfig, defaultDateTimeFormat } from '../../../../../config';
 
 import Loader from '../../../containers/Loader/Loader';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { DocumentQueries } from '../../../../../graphql/queries';
+import { toast } from 'react-toastify';
 const [, , , , , , ADD_DOCUMENT_TYPE_CAREINST] = DocumentMutations;
-const [, , , GET_ADDED_DOCUMENT_TYPES] = DocumentQueries;
+const [, , , GET_REQUIRED_DOCUMENT_TYPES] = DocumentQueries;
+let toastId: any = '';
+
 const DocumentsList: FunctionComponent<any> = (props: any) => {
   const {
     documentListing,
@@ -37,16 +40,23 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     loading,
     called,
     documentTypeList,
-    userId
+    userId,
+    onDeleteDocumentTypes,
+    addedDocumentType,
+    setaddedDocumentType
   } = props;
   let allDocDisApp: boolean = true;
   //Add document type
-  const [addDocumentType, { loading: documentTypeLoading }] = useMutation<any>(
-    ADD_DOCUMENT_TYPE_CAREINST,
-    {
-      onCompleted({ addDocumentType }) {}
+  const [addDocumentType] = useMutation<any>(ADD_DOCUMENT_TYPE_CAREINST, {
+    onCompleted({ addDocument }) {
+      // refetch();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('DOCUMENT_TYPE_ADDED_SUCCESS')
+        );
+      }
     }
-  );
+  });
 
   // Get added document types list
   if (
@@ -60,35 +70,27 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
       }
     });
   }
-  const [documentType, setDocumentType] = useState<string[] | null>([]);
-  // useEffect(() => {
-  //   if () {
-  //     // careGiverDetailsRetch();
-  //   }
-  // }, []);
 
+  //on selecting document type
   const handleDocumentType = (selectedType: any) => {
-    console.log('documentType', documentType);
-    if (documentType) {
+    let temp: any = addedDocumentType ? addedDocumentType : [];
+    temp.push({
+      label: selectedType.label,
+      value: selectedType.value
+    });
+    if (addedDocumentType) {
       addDocumentType({
         variables: {
           id: userId ? userId : '',
           requiredDocuments:
             selectedType && selectedType.value
-              ? [parseInt(selectedType.value)]
+              ? temp.map((document: any) => parseInt(document.value))
               : null
         }
       });
     }
-    setDocumentType((documents: any) => [
-      ...documents,
-      {
-        label: selectedType.label,
-        value: selectedType.value
-      }
-    ]);
+    setaddedDocumentType(temp);
   };
-
   return (
     <>
       <div className='document-upload-section '>
@@ -217,7 +219,9 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     </td>
                     <td>
                       <span>
-                        {list && list.documentType ? list.documentType : '-'}
+                        {list && list.document_type && list.document_type.type
+                          ? list.document_type.type
+                          : '-'}
                       </span>
                     </td>
                     <td className='remark-col'>
@@ -325,28 +329,34 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               </div>
               <div className='common-list-body custom-scrollbar filetypelist'>
                 <ul className='common-list list-unstyled mb-0'>
-                  {documentType
-                    ? documentType.map((type: any, index: number) => {
-                        console.log('type of doc', type);
-                        return <li key={index}>{type.label}</li>;
+                  {addedDocumentType
+                    ? addedDocumentType.map((type: any, index: number) => {
+                        return (
+                          <li
+                            key={index}
+                            onClick={() => {
+                              onDeleteDocumentTypes(type.value);
+                            }}
+                          >
+                            {type.label}
+                          </li>
+                        );
                       })
                     : null}
                 </ul>
               </div>
               <div className='common-list-footer form-section '>
-                <div className='contact-attribute '>
-                  <FormGroup className='mb-0'>
-                    <Select
-                      menuPlacement={'top'}
-                      placeholder={languageTranslation('TYPE')}
-                      value={documentType}
-                      options={documentTypeList ? documentTypeList : ''}
-                      className='attribute-select'
-                      classNamePrefix='attribute-inner-select'
-                      onChange={handleDocumentType}
-                    />
-                  </FormGroup>
-                </div>
+                <FormGroup className='mb-0'>
+                  <Select
+                    menuPlacement={'top'}
+                    placeholder={languageTranslation('TYPE')}
+                    value={addedDocumentType}
+                    options={documentTypeList ? documentTypeList : ''}
+                    className='attribute-select'
+                    classNamePrefix='attribute-inner-select'
+                    onChange={handleDocumentType}
+                  />
+                </FormGroup>
               </div>
             </div>
           </Col>

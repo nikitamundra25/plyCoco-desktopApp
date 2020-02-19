@@ -704,5 +704,6 @@
   "DELETE_PERMANENTALY_TOOLTIP": "Delete Permanently",
   "SUPER_ADMIN": "Super Admin",
   "BASIC_DETAILS": "Basic Details",
-  "EXPLICITLY_DOCUMENT": "Explicitly Requested Documents"
+  "EXPLICITLY_DOCUMENT": "Explicitly Requested Documents",
+  "COMPANY_REQUIRED": "Company name is required"
 }

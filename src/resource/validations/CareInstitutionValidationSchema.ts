@@ -6,7 +6,7 @@ import {
   ICareInstitutionContactValidationSchema,
   IAddDepartmentFormValidationSchema,
   IAddTimeFormValidationSchema,
-  ITimeResponse,
+  ITimeResponse
 } from '../../interfaces';
 
 export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -30,29 +30,32 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   userName: Yup.string()
     .trim()
     .required(languageTranslation('USERNAME_REQUIRED')),
+  companyName: Yup.string()
+    .trim()
+    .required(languageTranslation('COMPANY_REQUIRED')),
   mobileNumber: Yup.mixed()
     .test(
       'check-num',
       languageTranslation('MOB_NUMERROR'),
-      value => !value || (value && !isNaN(value)),
+      value => !value || (value && !isNaN(value))
     )
     .test(
       'num-length',
       languageTranslation('MOB_MAXLENGTH'),
       value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax),
+        !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
   phoneNumber: Yup.mixed()
     .test(
       'check-num',
       languageTranslation('PHONE_NUMERROR'),
-      value => !value || (value && !isNaN(value)),
+      value => !value || (value && !isNaN(value))
     )
     .test(
       'num-length',
       languageTranslation('PHONE_MAXLENGTH'),
       value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax),
+        !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
   careGiverCommission: Yup.number()
     .nullable()
@@ -65,14 +68,14 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   fax: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value)),
+    value => !value || (value && !isNaN(value))
   ),
   website: Yup.string()
     .matches(webRegExp, {
       message: languageTranslation('ENTER_VALID_WEB_URL'),
-      excludeEmptyString: true,
+      excludeEmptyString: true
     })
-    .nullable(),
+    .nullable()
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -97,47 +100,47 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .test(
       'check-num',
       languageTranslation('MOB_NUMERROR'),
-      value => !value || (value && !isNaN(value)),
+      value => !value || (value && !isNaN(value))
     )
     .test(
       'num-length',
       languageTranslation('MOB_MAXLENGTH'),
       value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax),
+        !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
   phoneNumber: Yup.mixed()
     .test(
       'check-num',
       languageTranslation('PHONE_NUMERROR'),
-      value => !value || (value && !isNaN(value)),
+      value => !value || (value && !isNaN(value))
     )
     .test(
       'num-length',
       languageTranslation('PHONE_MAXLENGTH'),
       value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax),
+        !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
   phoneNumber2: Yup.mixed()
     .test(
       'check-num',
       languageTranslation('PHONE_NUMERROR'),
-      value => !value || (value && !isNaN(value)),
+      value => !value || (value && !isNaN(value))
     )
     .test(
       'num-length',
       languageTranslation('PHONE_MAXLENGTH'),
       value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax),
+        !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
   faxNumber: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value)),
+    value => !value || (value && !isNaN(value))
   ),
   contactType: Yup.object().shape({
     value: Yup.string().required(languageTranslation('CONTACT_REQUIRED')),
-    label: Yup.string().required(languageTranslation('CONTACT_REQUIRED')),
-  }),
+    label: Yup.string().required(languageTranslation('CONTACT_REQUIRED'))
+  })
 });
 
 export const AddDepartmentValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -157,18 +160,18 @@ export const AddDepartmentValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .test(
       'check-num',
       languageTranslation('PHONE_NUMERROR'),
-      value => !value || (value && !isNaN(value)),
+      value => !value || (value && !isNaN(value))
     )
     .test(
       'num-length',
       languageTranslation('PHONE_MAXLENGTH'),
       value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax),
+        !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
   faxNumber: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value)),
+    value => !value || (value && !isNaN(value))
   ),
   email: Yup.string()
     .trim()
@@ -176,7 +179,7 @@ export const AddDepartmentValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation('REQUIRED_EMAIL')),
   commentsOffer: Yup.string(),
   commentsCareGiver: Yup.string(),
-  commentsVisibleInternally: Yup.string(),
+  commentsVisibleInternally: Yup.string()
 });
 
 export const AddTimeValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -185,19 +188,19 @@ export const AddTimeValidationSchema: Yup.ObjectSchema<Yup.Shape<
 >> = Yup.object().shape<IAddTimeFormValidationSchema>({
   begin: Yup.mixed().test({
     name: 'validate-time',
-    test: function (val) {
+    test: function(val) {
       const { path, createError } = this;
       const { isValid, message }: ITimeResponse = timeValidator(val);
       return !val || isValid || createError({ path, message });
-    },
+    }
   }),
   end: Yup.mixed().test({
     name: 'validate-time',
-    test: function (val) {
+    test: function(val) {
       const { path, createError } = this;
       const { isValid, message }: ITimeResponse = timeValidator(val);
       return !val || isValid || createError({ path, message });
-    },
+    }
   }),
-  comment: Yup.string(),
+  comment: Yup.string()
 });

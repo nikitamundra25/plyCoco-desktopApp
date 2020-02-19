@@ -259,7 +259,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         <span
                           id={`edit${index}`}
                           className='btn-icon mr-2'
-                          onClick={() => onUpdateDocument(list)}
+                          onClick={() =>
+                            onUpdateDocument(
+                              list,
+                              list && list.fileName ? false : true, // To ensure user try to edit missing document
+                            )
+                          }
                           // disable={list.status === 'approve'}
                         >
                           <UncontrolledTooltip

@@ -28,6 +28,7 @@ import {
 } from '../../../../../config';
 import { EmployeeMutations } from '../../../../../graphql/Mutations';
 import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
+import Loader from '../../../containers/Loader/Loader';
 
 const [GET_EMPLOYEE_BY_ID, GET_EMPLOYEES] = EmployeeQueries;
 const [ADD_EMPLOYEE, UPDATE_EMPLOYEE] = EmployeeMutations;
@@ -46,7 +47,12 @@ export const EmployeeForm: FunctionComponent<{
   // To get the employee details by id
   const [
     getEmployeeDetails,
-    { data: employeeDetails, error: detailsError, refetch },
+    {
+      data: employeeDetails,
+      error: detailsError,
+      loading: dataLoading,
+      refetch,
+    },
   ] = useLazyQuery<any>(GET_EMPLOYEE_BY_ID);
 
   // To fetch the list of countries
@@ -481,27 +487,31 @@ export const EmployeeForm: FunctionComponent<{
   };
   return (
     <>
-      <Formik
-        initialValues={values}
-        enableReinitialize={true}
-        onSubmit={handleSubmit}
-        children={(
-          props: FormikProps<IEmployeeFormValues> & {
-            imageUrl: string;
-            countriesOpt: IReactSelectInterface[];
-            statesOpt: IReactSelectInterface[];
-          },
-        ) => (
-          <EmployeeFormComponent
-            {...props}
-            imageUrl={imageUrl}
-            countriesOpt={countriesOpt}
-            statesOpt={statesOpt}
-            getStatesByCountry={getStatesByCountry}
-          />
-        )}
-        validationSchema={EmployeeValidationSchema}
-      />
+      {dataLoading ? (
+        <Loader />
+      ) : (
+        <Formik
+          initialValues={values}
+          enableReinitialize={true}
+          onSubmit={handleSubmit}
+          children={(
+            props: FormikProps<IEmployeeFormValues> & {
+              imageUrl: string;
+              countriesOpt: IReactSelectInterface[];
+              statesOpt: IReactSelectInterface[];
+            },
+          ) => (
+            <EmployeeFormComponent
+              {...props}
+              imageUrl={imageUrl}
+              countriesOpt={countriesOpt}
+              statesOpt={statesOpt}
+              getStatesByCountry={getStatesByCountry}
+            />
+          )}
+          validationSchema={EmployeeValidationSchema}
+        />
+      )}
     </>
   );
 };

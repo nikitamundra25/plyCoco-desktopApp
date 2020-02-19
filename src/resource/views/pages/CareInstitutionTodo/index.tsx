@@ -1,4 +1,9 @@
-import React, { Component, FunctionComponent } from "react";
+import React, {
+  Component,
+  FunctionComponent,
+  useEffect,
+  useState
+} from 'react';
 import {
   Col,
   Row,
@@ -7,79 +12,215 @@ import {
   Table,
   Label,
   UncontrolledTooltip
-} from "reactstrap";
+} from 'reactstrap';
 // import "./index.scss";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, useParams, useLocation } from 'react-router-dom';
 // import EmailMenus from "../CareGiver/Emails/EmailMenus";
-import { languageTranslation } from "../../../../helpers";
-import Select from "react-select";
-import { Priority, TodoFilter } from "../../../../config";
-const CareGiverTodo: FunctionComponent = () => {
+import { languageTranslation } from '../../../../helpers';
+import Select from 'react-select';
+import { Priority, TodoFilter, defaultDateFormat } from '../../../../config';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { ToDoQueries } from '../../../../graphql/queries';
+import Loader from '../../containers/Loader/Loader';
+import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
+import moment from 'moment';
+import CreateTodo from '../../components/CreateTodo';
+import { ConfirmBox } from '../../components/ConfirmBox';
+import { toast } from 'react-toastify';
+import { ToDoMutations } from '../../../../graphql/Mutations';
+const [GET_TO_DOS] = ToDoQueries;
+const [
+  ,
+  ,
+  UPDATE_CARE_INSTITUTION_TODO_STATUS,
+  DELETE_CARE_INSTITUTION_TODO_STATUS
+] = ToDoMutations;
+let toastId: any = null;
+
+const CareInstitutionTodo: FunctionComponent = () => {
+  let { id } = useParams();
+  const userId: any | undefined = id;
+  const [showToDo, setShowToDo] = useState<boolean>(false);
+  const [selectUser, setSelectUser] = useState<any>({});
+  const [status, setStatus] = useState<string>('');
+  const location = useLocation();
+  const { pathname } = location;
+  const path = pathname.split('/');
+
+  //To get todo list by id
+  const [fetchToDoByUserID, { data, called, loading, refetch }] = useLazyQuery<
+    any
+  >(GET_TO_DOS);
+
+  // Mutation to update careInstitution todo status
+  const [updateStatus] = useMutation<{
+    id: string;
+    status: string;
+    priority: string;
+  }>(UPDATE_CARE_INSTITUTION_TODO_STATUS);
+
+  // Mutation to delete careInstitution todo status
+  const [deleteStatus] = useMutation<{
+    id: string;
+  }>(DELETE_CARE_INSTITUTION_TODO_STATUS);
+
+  useEffect(() => {
+    // Fetch TODO details by care institution id
+    const userRole: string =
+      path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution';
+
+    fetchToDoByUserID({
+      variables: {
+        userType: userRole,
+        searchBy: '',
+        priority: '',
+        sortBy: '',
+        futureOnly: false
+      }
+    });
+  }, []);
+
+  const editToDo = (list: any) => {
+    setShowToDo(true);
+    setSelectUser(list);
+  };
+
+  const handleChange = async (id: any, status: string, priority: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text:
+        status === 'pending'
+          ? languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG')
+          : languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG')
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        toast.dismiss();
+        await updateStatus({
+          variables: {
+            id: parseInt(id),
+            status: status === 'pending' ? 'completed' : 'pending',
+            priority
+          }
+        });
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toast.success(
+            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG')
+          );
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
+
+  const deleteToDo = async (id: string) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('DELETE_CARE_INSTITUTION_TODO')
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        toast.dismiss();
+        await deleteStatus({
+          variables: {
+            id: parseInt(id)
+          }
+        });
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toast.success(
+            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG')
+          );
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
+
   return (
     <>
       <div>
-        <h5 className="content-title">
-          {languageTranslation("MENU_TO_DO_INSTITUTION")}
+        <h5 className='content-title'>
+          {languageTranslation('MENU_TO_DO_INSTITUTION')}
         </h5>
         <Row>
-          <Col lg={"12"}>
-            <div className="filter-form form-section">
+          <Col lg={'12'}>
+            <div className='filter-form form-section'>
               <Row>
-                <Col lg={"3"} md={"3"}>
-                  <FormGroup className="mb-2">
-                    <Label className="col-form-label">
-                      {languageTranslation("SEARCH_LABEL")} :
+                <Col lg={'3'} md={'3'}>
+                  <FormGroup className='mb-2'>
+                    <Label className='col-form-label'>
+                      {languageTranslation('SEARCH_LABEL')} :
                     </Label>
                     <Input
-                      type="text"
-                      name="search"
-                      id="search"
-                      placeholder={languageTranslation("SEARCH_LABEL")}
+                      type='text'
+                      name='search'
+                      id='search'
+                      placeholder={languageTranslation('SEARCH_LABEL')}
                     />
                   </FormGroup>
                 </Col>
-                <Col lg={"2"} md={"3"}>
+                <Col lg={'2'} md={'3'}>
                   <FormGroup>
-                    <Label className="col-form-label">
-                      {languageTranslation("STATUS_LABEL")} :
+                    <Label className='col-form-label'>
+                      {languageTranslation('STATUS_LABEL')} :
                     </Label>
                     <Select
-                      placeholder={languageTranslation("STATUS_PLACEHOLDER")}
-                      classNamePrefix="custom-inner-reactselect"
-                      className={"custom-reactselect"}
+                      placeholder={languageTranslation('STATUS_PLACEHOLDER')}
+                      classNamePrefix='custom-inner-reactselect'
+                      className={'custom-reactselect'}
                       options={TodoFilter}
                     />
                   </FormGroup>
                 </Col>
-                <Col lg={"2"} md={"3"}>
+                <Col lg={'2'} md={'3'}>
                   <FormGroup>
-                    <Label className="col-form-label">
-                      {languageTranslation("PRIORITY")} :
+                    <Label className='col-form-label'>
+                      {languageTranslation('PRIORITY')} :
                     </Label>
                     <Select
-                      placeholder="Select Priority"
-                      classNamePrefix="custom-inner-reactselect"
-                      className={"custom-reactselect"}
+                      placeholder='Select Priority'
+                      classNamePrefix='custom-inner-reactselect'
+                      className={'custom-reactselect'}
                       options={Priority}
                     />
                   </FormGroup>
                 </Col>
-                <Col lg={"2"} md={"3"}>
-                  <div className="label-height"></div>
-                  <div className="filter-btn-wrap mb-2">
-                    <span className="btn-filter mr-2" id="search1">
-                      <UncontrolledTooltip placement="top" target="search1">
-                        {languageTranslation("SEARCH_LABEL")}
+                <Col lg={'2'} md={'3'}>
+                  <div className='label-height'></div>
+                  <div className='filter-btn-wrap mb-2'>
+                    <span className='btn-filter mr-2' id='search1'>
+                      <UncontrolledTooltip placement='top' target='search1'>
+                        {languageTranslation('SEARCH_LABEL')}
                       </UncontrolledTooltip>
-                      <i className="fa fa-search mr-1"></i>
-                      {languageTranslation("SEARCH_LABEL")}
+                      <i className='fa fa-search mr-1'></i>
+                      {languageTranslation('SEARCH_LABEL')}
                     </span>
-                    <span className="btn-filter mr-2" id="reset">
-                      <UncontrolledTooltip placement="top" target="reset">
-                        {languageTranslation("RESET_LABEL")}
+                    <span className='btn-filter mr-2' id='reset'>
+                      <UncontrolledTooltip placement='top' target='reset'>
+                        {languageTranslation('RESET_LABEL')}
                       </UncontrolledTooltip>
-                      <i className="fa fa-refresh mr-1"></i>
-                      {languageTranslation("RESET_LABEL")}
+                      <i className='fa fa-refresh mr-1'></i>
+                      {languageTranslation('RESET_LABEL')}
                     </span>
                   </div>
                 </Col>
@@ -87,281 +228,192 @@ const CareGiverTodo: FunctionComponent = () => {
             </div>
 
             <Table bordered hover responsive>
-              <thead className="thead-bg">
+              <thead className='thead-bg'>
                 <tr>
-                  <th className="sno-th-column text-center">
-                    {languageTranslation("S_NO")}
+                  <th className='sno-th-column text-center'>
+                    {languageTranslation('S_NO')}
                   </th>
-                  <th className="date-th-column">
-                    {languageTranslation("DATE")}{" "}
+                  <th className='date-th-column'>
+                    {languageTranslation('DATE')}{' '}
                   </th>
-                  <th className="file-th-column">
-                    {" "}
-                    {languageTranslation("NAME")}
+                  <th className='file-th-column'>
+                    {' '}
+                    {languageTranslation('NAME')}
                   </th>
-                  <th className="contact-th-column">
-                    {languageTranslation("CONTACT")}
+                  {path[1] !== 'caregiver-todo' ? (
+                    <th className='contact-th-column'>
+                      {languageTranslation('CONTACT')}
+                    </th>
+                  ) : (
+                    ''
+                  )}
+                  <th className='remark-col'>
+                    {languageTranslation('REMARKS')}
                   </th>
-                  <th className="remark-col">
-                    {languageTranslation("REMARKS")}
+                  <th className='checkbox-th-column text-center'>
+                    {' '}
+                    {languageTranslation('DONE')}
                   </th>
-
-                  <th className="checkbox-th-column text-center">
-                    {" "}
-                    {languageTranslation("EXTERNAL")}
+                  <th className='checkbox-th-column text-center'>
+                    {' '}
+                    {languageTranslation('EXTERNAL')}
                   </th>
-                  <th className={"text-center action-th-column"}>
-                    {languageTranslation("TABEL_HEAD_CG_ACTION")}
+                  <th className={'text-center action-th-column'}>
+                    {languageTranslation('TABEL_HEAD_CG_ACTION')}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="sno-th-column text-center">1</td>
-                  <td className="date-th-column">26.08.2015 01:30</td>
-                  <td className="file-th-column">
-                    <span className="view-more-link word-wrap">John doe</span>
-                  </td>
-                  <td className="contact-th-column">
-                    <span className="view-more-link word-wrap">
-                      John Doe (HR Department)
-                    </span>
-                  </td>
-                  <td className="remark-col">
-                    <span className="word-wrap">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.
-                    </span>
-                  </td>
-                  <td className="checkbox-th-column text-center">
-                    <span className="checkboxli checkbox-custom checkbox-default">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td>
-                    <div className={`action-btn `}>
-                      <span className="btn-icon mr-2">
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className={`btn-icon mr-2 `}>
-                        <i className="fa fa-check"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="sno-th-column text-center">2</td>
-                  <td className="date-th-column">26.08.2015 01:30</td>
-                  <td className="file-th-column">
-                    <span className="view-more-link word-wrap">John doe</span>
-                  </td>
-                  <td className="contact-th-column">
-                    <span className="view-more-link word-wrap">
-                      John Doe (HR Department)
-                    </span>
-                  </td>
-                  <td className="remark-col">
-                    <span className="word-wrap">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.
-                    </span>
-                  </td>
-                  <td className="checkbox-th-column text-center">
-                    <span className="checkboxli checkbox-custom checkbox-default">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td>
-                    <div className={`action-btn `}>
-                      <span className="btn-icon mr-2">
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className={`btn-icon mr-2 `}>
-                        <i className="fa fa-check"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="sno-th-column text-center">3</td>
-                  <td className="date-th-column">26.08.2015 01:30</td>
-                  <td className="file-th-column">
-                    <span className="view-more-link word-wrap">John doe</span>
-                  </td>
-                  <td className="contact-th-column">
-                    <span className="view-more-link word-wrap">
-                      John Doe (HR Department)
-                    </span>
-                  </td>
-                  <td className="remark-col">
-                    <span className="word-wrap">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.
-                    </span>
-                  </td>
-                  <td className="checkbox-th-column text-center">
-                    <span className="checkboxli checkbox-custom checkbox-default">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td>
-                    <div className={`action-btn `}>
-                      <span className="btn-icon mr-2">
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className={`btn-icon mr-2 `}>
-                        <i className="fa fa-check"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>
+                {!called || loading ? (
+                  <tr>
+                    <td className={'table-loader'} colSpan={8}>
+                      <Loader />
+                    </td>
+                  </tr>
+                ) : data &&
+                  data.getToDos &&
+                  data.getToDos.result &&
+                  data.getToDos.result.length ? (
+                  data.getToDos.result.map((list: any, index: number) => {
+                    return (
+                      <tr>
+                        <td className='sno-th-column text-center'>
+                          {index + 1}
+                        </td>
+                        <td className='date-th-column'>
+                          {' '}
+                          {`${moment(list.date).format(defaultDateFormat)} ${
+                            list.time
+                          }`}{' '}
+                        </td>
+                        <td className='file-th-column'>
+                          <span className='view-more-link word-wrap'>
+                            {list.user
+                              ? `${list.user.firstName} ${list.user.lastName}`
+                              : '-'}
+                          </span>
+                        </td>
+                        {path[1] !== 'caregiver-todo' ? (
+                          <td className='contact-th-column'>
+                            <span className='view-more-link word-wrap'>
+                              {list.contact
+                                ? `${list.contact.firstName} ${list.contact.surName}`
+                                : '-'}
+                            </span>
+                          </td>
+                        ) : (
+                          ''
+                        )}
+                        <td className='remark-col'>
+                          <span className='word-wrap'>{list.comment}</span>
+                        </td>
+                        <td className='checkbox-th-column text-center'>
+                          <span className='checkboxli checkbox-custom checkbox-default'>
+                            <input
+                              type='checkbox'
+                              id='check'
+                              className=''
+                              name={'status'}
+                              checked={
+                                list.status === 'completed' ? true : false
+                              }
+                              onChange={e =>
+                                handleChange(
+                                  list.id,
+                                  list.status,
+                                  list.priority
+                                )
+                              }
+                            />
+                            <label className=''> </label>
+                          </span>
+                        </td>
+                        <td className='checkbox-th-column text-center'>
+                          <span className='checkboxli checkbox-custom checkbox-default'>
+                            <input
+                              type='checkbox'
+                              id='checkAll'
+                              className=''
+                              name={'juridiction'}
+                              checked={
+                                list.juridiction === 'externally' ? true : false
+                              }
+                            />
+                            <label className=''> </label>
+                          </span>
+                        </td>
+                        <td>
+                          <div className={`action-btn `}>
+                            <span
+                              className='btn-icon mr-2'
+                              id={`edit${index}`}
+                              onClick={() => editToDo(list)}
+                            >
+                              <UncontrolledTooltip
+                                placement='top'
+                                target={`edit${index}`}
+                              >
+                                Edit
+                              </UncontrolledTooltip>
+                              <i className='fa fa-pencil'></i>
+                            </span>
+                            <span
+                              className={`btn-icon mr-2 `}
+                              id={`delete${index}`}
+                              onClick={() => deleteToDo(list.id)}
+                            >
+                              <UncontrolledTooltip
+                                placement='top'
+                                target={`delete${index}`}
+                              >
+                                Move to trash
+                              </UncontrolledTooltip>
+                              <i className='fa fa-trash'></i>
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr className={'text-center no-hover-row'}>
+                    <td colSpan={8} className={'pt-5 pb-5'}>
+                      {/* {isFilterApplied ? ( */}
+                      {/* <NoSearchFound /> */}
+                      {/* ) : ( */}
+                      <div className='no-data-section'>
+                        <div className='no-data-icon'>
+                          <i className='icon-ban' />
+                        </div>
+                        <h4 className='mb-1'>
+                          Currently there are no careinstitution todo added.{' '}
+                        </h4>
+                        <p>Please click above button to add new. </p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </Table>
-
-            {/* <Table responsive className="care-giver-todo">
-            <thead className="thead-bg">
-              <tr>
-                <th className="date-col">{languageTranslation("DATE")} </th>
-                <th className="name-col">{languageTranslation("NAME")} </th>
-                <th className="comment-col">
-                  {" "}
-                  {languageTranslation("CONTACT")}
-                </th>
-                <th className="remarks-col">
-                  {" "}
-                  {languageTranslation("REMARKS")}
-                </th>
-                <th className="external-col">
-                  {" "}
-                  {languageTranslation("EXTERNAL")}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colSpan={12}>
-                  <div className="date-title">
-                    <span className="align-middle mr-2">
-                      <i className="icon-arrow-down" />
-                    </span>
-                    <span className="align-middle ">Date: 2019</span>
-                  </div>
-                  <div>
-                    <Table
-                      bordered
-                      hover
-                      responsive
-                      className="inner-care-giver-todo"
-                    >
-                      <tbody>
-                        <tr className="table-danger">
-                          <td className="date-col">26.08.2015 00:00</td>
-                          <td className="name-col">
-                            Generator, Origins and Meaning
-                          </td>
-                          <td className="comment-col">Contact Admin</td>
-                          <td className="remarks-col">this is remark</td>
-                          <td className="external-col">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="date-col">26.08.2015 00:00</td>
-                          <td className="name-col">
-                            Generator, Origins and Meaning
-                          </td>
-                          <td className="comment-col"></td>
-                          <td className="remarks-col">remark testing list</td>
-                          <td className="external-col">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={12}>
-                  <div className="date-title">
-                    <span className="align-middle mr-2">
-                      <i className="icon-arrow-down" />
-                    </span>
-                    <span className="align-middle ">Date: 2018</span>
-                  </div>
-                  <div>
-                    <Table
-                      bordered
-                      hover
-                      responsive
-                      className="inner-care-giver-todo"
-                    >
-                      <tbody>
-                        <tr>
-                          <td className="date-col">26.08.2015 00:00</td>
-                          <td className="name-col">
-                            Generator, Origins and Meaning
-                          </td>
-                          <td className="comment-col">Contact Admin</td>
-                          <td className="remarks-col">remark done</td>
-                          <td className="external-col">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="date-col">26.08.2015 00:00</td>
-                          <td className="name-col">
-                            Generator, Origins and Meaning
-                          </td>
-                          <td className="comment-col"></td>
-                          <td className="remarks-col">remarks todod list</td>
-                          <td className="external-col">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </Table> */}
           </Col>
         </Row>
+        <CreateTodo
+          show={showToDo ? true : false}
+          handleClose={() => setShowToDo(false)}
+          name={
+            selectUser && selectUser.user
+              ? `${selectUser.user.firstName} ${selectUser.user.lastName}`
+              : null
+          }
+          editToDo={true}
+          userData={selectUser}
+          userRole={
+            path[1] === 'caregiver-todo' ? 'caregiver' : 'careInstitution'
+          }
+        />
       </div>
     </>
   );
 };
 
-export default CareGiverTodo;
+export default CareInstitutionTodo;

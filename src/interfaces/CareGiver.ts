@@ -410,11 +410,13 @@ export interface ICreateTodoFormValues {
   date: any;
   priority: IReactSelectInterface | undefined;
   juridiction: string;
+  contact: IReactSelectInterface | undefined;
 }
 
 export interface ICreateTodoFormValidationSchema {
   time: string;
   comment: string;
-  // priority: IReactSelectInterface | undefined;
+  priority: any;
   juridiction: string;
+  contact?: any;
 }

@@ -31,7 +31,7 @@ import MaskedInput from 'react-text-mask';
 const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   any> = (props: FormikProps<ICreateTodoFormValues> & any) => {
   const {
-    values: { time, comment, date, priority, juridiction },
+    values: { time, comment, date, priority, juridiction, contact },
     isLoading,
     touched,
     errors,
@@ -43,7 +43,9 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
     show,
     handleClose,
     name,
-    userRole
+    userRole,
+    contactOptions,
+    editToDo
   } = props;
 
   const modifiers = {
@@ -69,20 +71,28 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   );
 
   const handleDayClick = (day: any) => {
-    // let date = moment(day).format('DD/MM/YY');
     setFieldValue('date', day);
   };
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
+  const ContactError: any = errors.contact;
+  const PriorityError: any = errors.priority;
+
+  let currentTime = new Date();
+  let year = currentTime.getFullYear();
 
   return (
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
         <ModalHeader close={externalCloseBtn}>
           {' '}
-          {languageTranslation('CG_MENU_CREATE_TODO')} for {name}{' '}
+          {!editToDo
+            ? languageTranslation('CG_MENU_CREATE_TODO')
+            : languageTranslation('CG_MENU_EDIT_TODO')}{' '}
+          {''}
+          for {name}{' '}
         </ModalHeader>
         <ModalBody>
           <div className=''>
@@ -102,7 +112,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                 <Col lg={'4'}>
                   <div>
                     <DayPicker
-                      initialMonth={new Date(2020, 2)}
+                      initialMonth={new Date(year, 2)}
                       selectedDays={date ? date : new Date()}
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
@@ -113,7 +123,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                 <Col lg={'4'}>
                   <div>
                     <DayPicker
-                      initialMonth={new Date(2020, 3)}
+                      initialMonth={new Date(year, 3)}
                       selectedDays={date ? date : new Date()}
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
@@ -204,7 +214,9 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                           </FormGroup>
                         </div>
                         {errors.juridiction && touched.juridiction && (
-                          <div className='required'>{errors.juridiction}</div>
+                          <div className='required-tooltip'>
+                            {errors.juridiction}
+                          </div>
                         )}
                       </Col>
                     </Row>
@@ -217,18 +229,20 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                         <Col sm='4'>
                           <Label className='form-label col-form-label'>
                             {languageTranslation('CONTACT')}
-                            <span className='required'>*</span>
                           </Label>
                         </Col>
                         <Col sm='8'>
-                          <div>
+                          <div className='required-input'>
                             <Select
-                              options={[
-                                { label: 'John Doe', value: 'John Doe' },
-                                { label: 'Mark Doe', value: 'Mark Doe' }
-                              ]}
+                              options={contactOptions}
                               classNamePrefix='custom-inner-reactselect'
+                              onChange={(value: any) =>
+                                handleSelect(value, 'contact')
+                              }
                               className={'custom-reactselect'}
+                              value={
+                                contact && contact.value !== '' ? contact : null
+                              }
                             />
                           </div>
                         </Col>
@@ -246,7 +260,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                         </Label>
                       </Col>
                       <Col sm='8'>
-                        <div>
+                        <div className='required-input'>
                           <Select
                             placeholder={languageTranslation('PRIORITY')}
                             options={Priority}
@@ -261,10 +275,12 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                                 : 'custom-reactselect'
                             }
                           />
+                          {errors.priority && touched.priority && (
+                            <div className='required-tooltip'>
+                              {PriorityError}
+                            </div>
+                          )}
                         </div>
-                        {errors.priority && touched.priority && (
-                          <div className='required'>{errors.priority}</div>
-                        )}
                       </Col>
                     </Row>
                   </FormGroup>
@@ -310,8 +326,15 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color='primary' onClick={handleSubmit}>
-            {languageTranslation('ADD_REMINDER')}
+          <Button
+            disabled={isSubmitting}
+            color='primary'
+            onClick={handleSubmit}
+          >
+            {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
+            {!editToDo
+              ? languageTranslation('ADD_REMINDER')
+              : languageTranslation('EDIT_REMINDER')}
           </Button>
           <Button color='secondary' onClick={handleClose}>
             {languageTranslation('CANCEL')}

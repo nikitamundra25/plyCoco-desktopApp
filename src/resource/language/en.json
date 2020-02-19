@@ -426,6 +426,7 @@
   "CG_EDIT": "Edit Caregiver",
   "CG_MENU_NEW_CAREGIVER": "New Caregiver",
   "CG_MENU_CREATE_TODO": "Create Todo/Reminder",
+  "CG_MENU_EDIT_TODO": "Edit Todo/Reminder",
   "CG_MENU_NEW_PASSWORD": "New Password",
   "CG_MENU_DISPLAY_APPOINTMENTS_": "Display appointments",
   "CG_MENU_DELETE_SPECIALIST": "Delete specialist",
@@ -478,6 +479,7 @@
   "NORMAL": "Normal",
   "COMMENT": "Comment",
   "ADD_REMINDER": "Add Reminder",
+  "EDIT_REMINDER": "Edit Reminder",
   "CANCEL": "Cancel",
   "FIND": "Find",
   "CLEAR": "Clear",
@@ -713,5 +715,8 @@
   "TIME_REQUIRED": "Time is required",
   "COMMENT_REQUIRED": "Comment is required",
   "PRIORITY_REQUIRED": "Priority is required",
-  "JURIDICTION_REQUIRED": "Juridiction is required"
+  "JURIDICTION_REQUIRED": "Juridiction is required",
+  "CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG": "This Todo will be marked as done",
+  "CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG": "This Todo will be marked as undone",
+  "DELETE_CARE_INSTITUTION_TODO": "This Todo willl be deleted"
 }

@@ -7,4 +7,49 @@ const ADD_TO_DO = gql`
   }
 `;
 
-export const ToDoMutations = [ADD_TO_DO];
+const UPDATE_TO_DO = gql`
+  mutation updateToDo($id: Int!, $toDoInput: ToDoInput!) {
+    updateToDo(id: $id, toDoInput: $toDoInput) {
+      id
+      userId
+      date
+      time
+      comment
+      juridiction
+      priority
+      createdBy
+    }
+  }
+`;
+
+const UPDATE_CARE_INSTITUTION_TODO_STATUS = gql`
+  mutation statusUpdateToDo($id: Int!, $status: String, $priority: String) {
+    statusUpdateToDo(id: $id, status: $status, priority: $priority) {
+      id
+      userId
+      date
+      time
+      comment
+      juridiction
+      priority
+      status
+      createdBy
+      userType
+    }
+  }
+`;
+
+const DELETE_CARE_INSTITUTION_TODO_STATUS = gql`
+  mutation deleteToDo($id: Int!) {
+    deleteToDo(id: $id) {
+      id
+    }
+  }
+`;
+
+export const ToDoMutations = [
+  ADD_TO_DO,
+  UPDATE_TO_DO,
+  UPDATE_CARE_INSTITUTION_TODO_STATUS,
+  DELETE_CARE_INSTITUTION_TODO_STATUS
+];

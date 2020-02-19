@@ -16,8 +16,9 @@ import {
 } from "../../../../../helpers";
 import {
   EmailTemplateQueries,
-  ProfileQueries
-} from "../../../../../graphql/queries";
+  ProfileQueries,
+  CareInstitutionQueries
+} from '../../../../../graphql/queries';
 import {
   IReactSelectInterface,
   IAddEmailVariables,
@@ -25,15 +26,15 @@ import {
   INewEmailProps,
   IEmailAttachmentData,
   INewEmailAttachments
-} from "../../../../../interfaces";
-import { EmailFormComponent } from "./EmailFormComponent";
-import { CareGiverMutations } from "../../../../../graphql/Mutations";
-import { AttachmentList } from "../../../components/Attachments";
-import { ConfirmBox } from "../../../components/ConfirmBox";
-import { errorFormatter } from "../../../../../helpers/ErrorFormatter";
-import { AppConfig, client } from "../../../../../config";
-import logo from "../../../../assets/img/plycoco-orange.png";
-
+} from '../../../../../interfaces';
+import { EmailFormComponent } from './EmailFormComponent';
+import { CareGiverMutations } from '../../../../../graphql/Mutations';
+import { AttachmentList } from '../../../components/Attachments';
+import { ConfirmBox } from '../../../components/ConfirmBox';
+import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
+import { AppConfig, client } from '../../../../../config';
+import logo from '../../../../assets/img/plycoco-orange.png';
+const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , NEW_EMAIL] = CareGiverMutations;
 const [VIEW_PROFILE] = ProfileQueries;
@@ -78,19 +79,19 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   );
 
   //To get contact list by id
-  //  const [
-  //   fetchContactListById,
-  //   { data: contactList, loading: contactListLoading }
-  // ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
+  const [
+    fetchContactsByUserID,
+    { data: contactList, loading: contactListLoading }
+  ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
 
-  // useEffect(() => {
-  //   // Fetch contact details by care institution id
-  //   if (id) {
-  //     fetchContactListById({
-  //       variables: { careInstitutionId: parseInt(id) }
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    // Fetch contact details by care institution id
+    if (Id && userRole === 'canstitution') {
+      fetchContactsByUserID({
+        variables: { userId: parseInt(Id) }
+      });
+    }
+  }, []);
 
   const [addNewEmail, { loading: adding }] = useMutation<
     {
@@ -119,6 +120,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     }
   });
 
+  // set template list options
   const templateOptions: IReactSelectInterface[] | undefined = [];
   if (data && data.getEmailtemplate) {
     const {
@@ -135,20 +137,18 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   }
 
   // set contact list options
-  // const contactOptions: IReactSelectInterface[] | undefined = [];
-  // if (contactList && contactList.getEmailtemplate) {
-  //   const {
-  //     getEmailtemplate: { contact_list }
-  //   } = data;
-  //   if (contact_list && contact_list.length) {
-  //     contact_list.map(({ list, id }: any) => {
-  //       contactOptions.push({
-  //         label: list,
-  //         value: id ? id.toString() : ""
-  //       });
-  //     });
-  //   }
-  // }
+  const contactOptions: IReactSelectInterface[] | undefined = [];
+  if (contactList && contactList.getContactsByUserID) {
+    const { getContactsByUserID } = contactList;
+    if (getContactsByUserID && getContactsByUserID.length) {
+      getContactsByUserID.map((list: any) => {
+        return contactOptions.push({
+          label: `${list.firstName} ${list.surName} (${list.contactType})`,
+          value: list.id ? list.id : ''
+        });
+      });
+    }
+  }
 
   const setDefaultSignature = (body: any) => {
     const contentBlock = htmlToDraft(
@@ -229,11 +229,6 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   //Contact selection
   const onContactSelection = (selectedOption: any) => {
-    // fetchTemplateById({
-    //   variables: {
-    //     id
-    //   }
-    // });
     setContact(selectedOption);
   };
 
@@ -332,10 +327,10 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                       <div className="form-section w-100">
                         <FormGroup className="mb-0 ">
                           <Select
-                            placeholder="Select Department"
-                            options={templateOptions}
-                            classNamePrefix="custom-inner-reactselect"
-                            className={"custom-reactselect"}
+                            placeholder='Select Department'
+                            options={contactOptions}
+                            classNamePrefix='custom-inner-reactselect'
+                            className={'custom-reactselect'}
                             onChange={onContactSelection}
                             value={
                               contact && contact.value !== "" ? contact : null

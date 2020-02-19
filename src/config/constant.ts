@@ -1145,9 +1145,9 @@ export const CareGiver: IReactSelectInterface[] = [
 ];
 
 export const Priority: IReactSelectInterface[] = [
-  { value: 'Low', label: languageTranslation('LOW') },
-  { value: 'Normal', label: languageTranslation('NORMAL') },
-  { value: 'High', label: languageTranslation('HIGH') },
+  { value: 'low', label: languageTranslation('LOW') },
+  { value: 'normal', label: languageTranslation('NORMAL') },
+  { value: 'high', label: languageTranslation('HIGH') }
 ];
 export const TodoFilter: IReactSelectInterface[] = [
   { value: 'Hide Done', label: languageTranslation('HIDE_DONE') },

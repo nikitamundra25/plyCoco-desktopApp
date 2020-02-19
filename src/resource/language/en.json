@@ -689,7 +689,7 @@
   "CI_PROFILE_DISAPPROVE_SUCESS": "Care Institution's profile disapproved successfully",
   "CI_PROFILE_APPROVE": "This care institution's profile will be approved",
   "CI_PROFILE_APPROVE_SUCESS": "Care Institution's profile approved successfully",
-  "EMAIL_SELECT_CARE_GIVERS": "Please select careGiver to sent email",
+  "EMAIL_SELECT_CARE_GIVERS": "Please select atleast a Caregiver to send email",
   "CONFIRM_EMAIL_TEMPLATE_RESTORE_MSG": "This email template will be restored.",
   "EMAIL_TEMPLATE_RESTORED_SUCCESS": "Email Template restored successfully.",
   "CONFIRM_EMPLOYEE_PERMANENT_DELETE_MSG": "This employee will be permanently deleted.",
@@ -705,5 +705,9 @@
   "SUPER_ADMIN": "Super Admin",
   "BASIC_DETAILS": "Basic Details",
   "EXPLICITLY_DOCUMENT": "Explicitly Requested Documents",
-  "COMPANY_REQUIRED": "Company name is required"
+  "COMPANY_REQUIRED": "Company name is required",
+  "TIME_REQUIRED": "Time is required",
+  "COMMENT_REQUIRED": "Comment is required",
+  "PRIORITY_REQUIRED": "Priority is required",
+  "JURIDICTION_REQUIRED": "Juridiction is required"
 }

@@ -11,7 +11,7 @@ import {
   Input,
   Col,
   Row,
-  Form,
+  Form
 } from 'reactstrap';
 import Select from 'react-select';
 import 'react-day-picker/lib/style.css';
@@ -45,14 +45,13 @@ const DocumentUploadModal = (props: any) => {
     onDrop,
     show,
     handleClose,
-    setErrorMsg,
     addDocumentLoading,
     updateDocumentLoading,
-    documentTypeList,
+    documentTypeList
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
-    multiple: false,
+    multiple: false
   });
   const externalCloseBtn = (
     <button className='close modal-close' onClick={() => handleClose()}>
@@ -60,10 +59,10 @@ const DocumentUploadModal = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  let splitName = documentUrls && documentUrls.name.split('.');
-  const extention = splitName && splitName[1];
-  console.log(isMissingDocEditable, 'props isMissingDocEditable+++');
-  return (
+  // To get file extension
+  let splitName =
+    documentUrls && documentUrls.name ? documentUrls.name.split('.') : [];
+  const extention = splitName && splitName[1];return (
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
         <ModalHeader close={externalCloseBtn}>
@@ -79,7 +78,9 @@ const DocumentUploadModal = (props: any) => {
                   <FormGroup>
                     <Row
                       className={`${
-                        !documentIdUpdate ? '' : 'align-items-center'
+                        !documentIdUpdate || isMissingDocEditable
+                          ? ''
+                          : 'align-items-center'
                       }`}
                     >
                       <Col sm='2'>
@@ -89,7 +90,7 @@ const DocumentUploadModal = (props: any) => {
                             : languageTranslation('FILE_NAME')}
                         </Label>
                       </Col>
-                      {!documentIdUpdate ? (
+                      {!documentIdUpdate || isMissingDocEditable ? (
                         <Col sm='10'>
                           <div
                             {...getRootProps()}
@@ -133,7 +134,7 @@ const DocumentUploadModal = (props: any) => {
                             ) : (
                               <span>
                                 {languageTranslation(
-                                  'PERSONAL_DOCUMENTS_UPLOAD',
+                                  'PERSONAL_DOCUMENTS_UPLOAD'
                                 )}
                               </span>
                             )}
@@ -190,6 +191,7 @@ const DocumentUploadModal = (props: any) => {
                           }}
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
+                          isDisabled={isMissingDocEditable}
                         />
                       </Col>
                     </Row>

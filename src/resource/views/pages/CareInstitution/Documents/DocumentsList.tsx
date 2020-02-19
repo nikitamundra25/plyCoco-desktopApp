@@ -200,7 +200,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   >
                     <td className='sno-th-column text-center'>{index + 1}</td>
                     <td className='date-th-column'>
-                      {list && list.createdAt
+                      {list && list.createdAt && list.fileName // filename condition to manage missing document
                         ? moment(list.createdAt).format(defaultDateTimeFormat)
                         : '-'}
                     </td>
@@ -262,7 +262,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                           onClick={() =>
                             onUpdateDocument(
                               list,
-                              list && list.fileName ? false : true, // To ensure user try to edit missing document
+                              list && list.fileName ? false : true // To ensure user try to edit missing document
                             )
                           }
                           // disable={list.status === 'approve'}

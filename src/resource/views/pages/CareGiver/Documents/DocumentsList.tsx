@@ -19,7 +19,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     approveLoading,
     disapproveLoading,
     loading,
-    called
+    called,
   } = props;
   let allDocDisApp: boolean = true;
   if (
@@ -140,8 +140,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               documentListing.getDocuments.length ? (
               documentListing.getDocuments.map((list: any, index: number) => {
                 const documentLength = documentListing.getDocuments.length;
-                const size = formatFileSize(list.fileSize);
-                console.log('list', list);
 
                 return (
                   <tr
@@ -152,7 +150,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   >
                     <td className='sno-th-column text-center'>{index + 1}</td>
                     <td className='date-th-column'>
-                      {list && list.createdAt
+                      {list && list.createdAt && list.fileName // filename condition to manage missing document
                         ? moment(list.createdAt).format(defaultDateTimeFormat)
                         : '-'}
                     </td>
@@ -161,12 +159,14 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         onClick={() =>
                           window.open(
                             `${AppConfig.FILES_ENDPOINT}${list.document}`,
-                            '_blank'
+                            '_blank',
                           )
                         }
                         className='view-more-link word-wrap'
                       >
-                        {list && list.fileName ? list.fileName : '-'}
+                        {list && list.fileName
+                          ? list.fileName
+                          : `---${languageTranslation('DOCUMENT_MISSING')}---`}
                       </span>
                     </td>
                     <td>
@@ -199,7 +199,9 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       </span>
                     </td>
 
-                    <td>{size}</td>
+                    <td>
+                      {list.fileSize ? formatFileSize(list.fileSize) : '-'}
+                    </td>
                     <td>
                       <div
                         className={`action-btn ${

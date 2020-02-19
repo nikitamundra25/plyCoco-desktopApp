@@ -35,7 +35,9 @@ const Documents = React.lazy(() => import('./Documents'));
 const Departments = React.lazy(() => import('./Departments'));
 const Email = React.lazy(() => import('../CareGiver/Emails'));
 const Reminders = React.lazy(() => import('./Reminders'));
-const CreateTodo = React.lazy(() => import('../../components/CreateTodo/CreateTodoForm'));
+const CreateTodo = React.lazy(() =>
+  import('../../components/CreateTodo/CreateTodoForm'),
+);
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -336,6 +338,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     <PersonalInformation
                       CareInstitutionList={CareInstitutionList}
                       currentSelectuser={(Data: IReactSelectInterface) => {
+                        console.log('in current select user', data);
+
                         setselectUser((selectUser = Data));
                       }}
                       handleIsUserChange={() =>

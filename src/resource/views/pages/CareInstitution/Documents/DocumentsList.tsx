@@ -6,7 +6,7 @@ import {
   UncontrolledTooltip,
   FormGroup,
   Row,
-  Col
+  Col,
 } from 'reactstrap';
 import { DocumentMutations } from '../../../../../graphql/Mutations';
 
@@ -44,7 +44,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     userId,
     onDeleteDocumentTypes,
     addedDocumentType,
-    setaddedDocumentType
+    setaddedDocumentType,
   } = props;
   let allDocDisApp: boolean = true;
   //Add document type
@@ -54,10 +54,10 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
       toast.dismiss();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('DOCUMENT_TYPE_ADDED_SUCCESS')
+          languageTranslation('DOCUMENT_TYPE_ADDED_SUCCESS'),
         );
       }
-    }
+    },
   });
 
   // Get added document types list
@@ -75,24 +75,20 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
 
   //on selecting document type
   const handleDocumentType = (selectedType: any) => {
-    let temp: any = addedDocumentType ? addedDocumentType : [];
-    temp.push({
-      label: selectedType.label,
-      value: selectedType.value
-    });
     if (addedDocumentType) {
       addDocumentType({
         variables: {
           id: userId ? userId : '',
           requiredDocuments:
-            selectedType && selectedType.value
-              ? temp.map((document: any) => parseInt(document.value))
-              : null
-        }
+            selectedType && selectedType.length
+              ? selectedType.map((document: any) => parseInt(document.value))
+              : null,
+        },
       });
     }
-    setaddedDocumentType(temp);
+    setaddedDocumentType(selectedType);
   };
+
   return (
     <>
       <div className='document-upload-section '>
@@ -211,7 +207,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         onClick={() =>
                           window.open(
                             `${AppConfig.FILES_ENDPOINT}${list.document}`,
-                            '_blank'
+                            '_blank',
                           )
                         }
                         className='view-more-link word-wrap'
@@ -371,10 +367,18 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     menuPlacement={'top'}
                     placeholder={languageTranslation('TYPE')}
                     value={addedDocumentType}
+                    isMulti
                     options={documentTypeList ? documentTypeList : ''}
                     className='attribute-select'
                     classNamePrefix='attribute-inner-select'
                     onChange={handleDocumentType}
+                    styles={{
+                      multiValue: (provided, state) => {
+                        const display = 'none';
+                        return { ...provided, display };
+                      },
+                    }}
+                    isClearable={false}
                   />
                 </FormGroup>
               </div>

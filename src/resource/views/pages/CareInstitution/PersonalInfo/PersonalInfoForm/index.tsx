@@ -11,7 +11,7 @@ import {
   IStates,
   ICountry,
   IState,
-  IRegion,
+  IRegion
 } from '../../../../../../interfaces';
 import { CountryQueries } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
@@ -31,30 +31,30 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   any> = (props: FormikProps<ICareInstitutionFormValues> & any) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
   const regionOptions: IReactSelectInterface[] | undefined = [];
   if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
@@ -84,7 +84,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       id,
       regionId,
       createdAt,
-      remarksViewable,
+      remarksViewable
     },
     touched,
     errors,
@@ -95,11 +95,11 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldValue,
     submitCount,
     CareInstitutionList,
-    setFieldError,
+    setFieldError
   } = props;
   const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
   const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    regSinceDate,
+    regSinceDate
   );
   const scrollParentToChild: any = () => {
     let parent = document.getElementById('care-profile');
@@ -127,8 +127,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3,
-      },
+        sortBy: 3
+      }
     });
   }, []);
   // Custom function to handle react select fields
@@ -137,7 +137,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldValue(name, selectOption);
     if (name === 'country') {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
     }
@@ -147,7 +147,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     if (e && e.value) {
       const data: IReactSelectInterface = {
         label: e.label,
-        value: e.value,
+        value: e.value
       };
       setFieldValue('linkedTo', data);
     }
@@ -432,6 +432,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                   <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('COMPANY_NAME')}
+                      <span className='required'>*</span>
                     </Label>
                   </Col>
                   <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -443,9 +444,18 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                         onBlur={handleBlur}
                         value={companyName}
                         placeholder={languageTranslation('COMPANY_NAME')}
-                        className='width-common'
+                        className={
+                          errors.companyName && touched.companyName
+                            ? 'text-input error text-capitalize'
+                            : 'text-input text-capitalize'
+                        }
                         maxLength={50}
                       />
+                      {errors.companyName && touched.companyName && (
+                        <div className='required-tooltip'>
+                          {errors.companyName}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -749,7 +759,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                             : '';
                           const username = setUsername.replace(
                             /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi,
-                            '',
+                            ''
                           );
                           setFieldError('userName', ' ');
                           setFieldValue('userName', username);

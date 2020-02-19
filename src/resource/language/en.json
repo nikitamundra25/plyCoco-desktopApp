@@ -705,5 +705,7 @@
   "SUPER_ADMIN": "Super Admin",
   "BASIC_DETAILS": "Basic Details",
   "EXPLICITLY_DOCUMENT": "Explicitly Requested Documents",
-  "DOCUMENT_TYPE_ADDED_SUCCESS": "Document Type Added Successfully"
+  "COMPANY_REQUIRED": "Company name is required",
+  "DOCUMENT_TYPE_ADDED_SUCCESS": "Document Type Added Successfully",
+  "DOCUMENT_MISSING": "is missing"
 }

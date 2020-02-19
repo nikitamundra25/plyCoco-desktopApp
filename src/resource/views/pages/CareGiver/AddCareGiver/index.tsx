@@ -45,7 +45,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         ({ id, name, color }: IAttributeValues) =>
           caregiverAttrOpt.push({
             label: name,
-            value: id.toString(),
+            value: id ? id.toString() : "",
             color,
           }),
       );

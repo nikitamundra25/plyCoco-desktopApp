@@ -9,7 +9,7 @@ import {
 import moment from 'moment';
 import { ConfirmBox } from '../../../../components/ConfirmBox';
 import { toast } from 'react-toastify';
-import { defaultDateTimeFormat, client } from '../../../../../../config';
+import { defaultDateFormat, client } from '../../../../../../config';
 import { ProfileQueries } from '../../../../../../graphql/queries';
 
 let toastId: any;
@@ -112,7 +112,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                 <div className='activity-date position-relative'>
                   <span>
                     <i className='fa fa-clock-o mr-2'></i>
-                    {moment().format(defaultDateTimeFormat)}
+                    {moment().format(defaultDateFormat)}
                   </span>
                   <span>
                     <i className='fa fa-user mr-2'></i>
@@ -187,9 +187,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                       <div className=' activity-date position-relative'>
                         <span>
                           <i className='fa fa-clock-o mr-2'></i>
-                          {moment(remark.createdAt).format(
-                            defaultDateTimeFormat,
-                          )}
+                          {moment(remark.createdAt).format(defaultDateFormat)}
                         </span>
                         <span>
                           <i className='fa fa-user mr-2'></i>

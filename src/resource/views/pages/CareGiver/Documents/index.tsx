@@ -130,11 +130,18 @@ const Documents = () => {
       onCompleted({ updateDocument }) {
         refetch();
         setIsSubmit(false);
+        setFileObject(null);
         setShowDocumentPopup(false);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
             languageTranslation('DOCUMENT_UPDATED_SUCCESS'),
           );
+        }
+      },
+      onError: (error: ApolloError) => {
+        const message = errorFormatter(error);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
         }
       },
     },
@@ -291,10 +298,7 @@ const Documents = () => {
           );
         }
       } catch (error) {
-        const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+        const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -367,10 +371,7 @@ const Documents = () => {
           toastId = toast.success('Document deleted successfully');
         }
       } catch (error) {
-        const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+        const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -435,10 +436,7 @@ const Documents = () => {
           );
         }
       } catch (error) {
-        const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+        const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }

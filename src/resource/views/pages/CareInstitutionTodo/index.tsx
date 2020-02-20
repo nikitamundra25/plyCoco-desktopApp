@@ -124,12 +124,14 @@ const CareInstitutionTodo: FunctionComponent = () => {
     } = {};
     params.page = 1;
     if (values.searchValue) {
-      params.search = searchValue;
+      params.search = values.searchValue;
     }
-    console.log('Values', values);
     if (values.toDoFilter && values.toDoFilter.value !== '') {
-      params.values.toDoFilter =
+      params.toDoFilter =
         values.toDoFilter.value !== '' ? values.toDoFilter.value : '';
+    }
+    if (values.priority && values.priority.value !== '') {
+      params.priority = values.priority.value !== '' ? values.priority : '';
     }
     const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);

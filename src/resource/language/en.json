@@ -726,5 +726,8 @@
   "CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG": "This Todo will be marked as undone",
   "DELETE_CARE_INSTITUTION_TODO": "This Todo willl be deleted",
   "SEARCH_BY_REMARKS": "By Remarks",
-  "PRIORIRY_PLACEHOLDER":"Select Priority"
+  "PRIORIRY_PLACEHOLDER":"Select Priority",
+  "TODO_STATUS_UPDATED_SUCCESSFULLY": "Todo status has been updated successfully",
+  "TODO_PRIORITY_UPDATED_SUCCESSFULLY": "Todo priority has been updated successfully",
+  "CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG": "This Todo priority will be updated"
 }

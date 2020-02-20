@@ -40,6 +40,8 @@ const GET_TO_DOS = gql`
         contact {
           firstName
           surName
+          id
+          contactType
         }
       }
     }

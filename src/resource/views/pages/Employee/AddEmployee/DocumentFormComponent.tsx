@@ -2,7 +2,7 @@ import React, {
   FunctionComponent,
   useState,
   ChangeEvent,
-  useEffect
+  useEffect,
 } from 'react';
 import { useParams } from 'react-router';
 import { Col, FormGroup, Label, Row, Input } from 'reactstrap';
@@ -29,9 +29,9 @@ export const DocumentFormComponent: FunctionComponent<{
   // Query to fetch documents
   const { data, loading, refetch, called } = useQuery<any>(GET_DOCUMENTS, {
     variables: {
-      userId: id ? parseInt(id) : ''
+      userId: id ? parseInt(id) : '',
     },
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'cache-and-network',
   });
   //mutation to add documents of employee
   const [addDocument, { loading: addDocumentLoading }] = useMutation<any>(
@@ -42,19 +42,19 @@ export const DocumentFormComponent: FunctionComponent<{
           fileSize: size = 0,
           fileName = '',
           document: path = '',
-          id = ''
+          id = '',
         } = addUserDocuments ? addUserDocuments : {};
         setAttachment((prevArray: any) => [
           { size, path, fileName, url: null, file: null, id },
-          ...prevArray
+          ...prevArray,
         ]);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('DOCUMENT_ADDED_SUCCESS')
+            languageTranslation('DOCUMENT_ADDED_SUCCESS'),
           );
         }
-      }
-    }
+      },
+    },
   );
 
   // Mutation to delete Component
@@ -62,11 +62,11 @@ export const DocumentFormComponent: FunctionComponent<{
     onCompleted({ deleteDocument }) {
       const { id } = deleteDocument;
       setAttachment((prevArray: any) =>
-        prevArray.filter((item: any) => item.id !== id)
+        prevArray.filter((item: any) => item.id !== id),
       );
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('DOCUMENT_DELETION_SUCCESS')
+          languageTranslation('DOCUMENT_DELETION_SUCCESS'),
         );
       }
     },
@@ -75,7 +75,7 @@ export const DocumentFormComponent: FunctionComponent<{
       if (!toast.isActive(toastId)) {
         toast.error(message);
       }
-    }
+    },
   });
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export const DocumentFormComponent: FunctionComponent<{
           document: path,
           fileName,
           fileSize: size,
-          id
+          id,
         }: {
           document: string;
           fileName: string;
@@ -100,9 +100,9 @@ export const DocumentFormComponent: FunctionComponent<{
             size,
             file: null,
             url: '',
-            id
+            id,
           });
-        }
+        },
       );
       setAttachment(temp);
     }
@@ -111,7 +111,7 @@ export const DocumentFormComponent: FunctionComponent<{
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const {
-      target: { files }
+      target: { files },
     } = e;
     if (files) {
       for (let index = 0; index < files.length; index++) {
@@ -119,20 +119,14 @@ export const DocumentFormComponent: FunctionComponent<{
         let file = files[index];
         reader.readAsDataURL(file);
         reader.onloadend = () => {
-          let temp = {
-            url: reader.result,
-            fileName: file.name,
-            size: file.size,
-            file,
-            path: ''
-          };
           addDocument({
             variables: {
               documentInput: {
                 userId: id ? id : '',
-                document: file
-              }
-            }
+                document: file,
+                documentTypeId: null,
+              },
+            },
           });
         };
       }
@@ -142,7 +136,7 @@ export const DocumentFormComponent: FunctionComponent<{
   const onDeleteDocument = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_DOCUMENT_DELETE_MSG')
+      text: languageTranslation('CONFIRM_DOCUMENT_DELETE_MSG'),
     });
     if (!value) {
       return;
@@ -151,8 +145,8 @@ export const DocumentFormComponent: FunctionComponent<{
         if (id) {
           deleteDocument({
             variables: {
-              id: parseInt(id)
-            }
+              id: parseInt(id),
+            },
           });
         }
       } catch (error) {
@@ -168,7 +162,7 @@ export const DocumentFormComponent: FunctionComponent<{
     <Row>
       <Col lg={'12'} md={'12'} sm={'12'}>
         <div>
-          <h5 className='main-title '>Documents</h5>
+          <h5 className='main-title'>{languageTranslation('DOCUMENTS')}</h5>
           <FormGroup className='mb-2'>
             <div>
               <div className='custom-file-div position-relative'>

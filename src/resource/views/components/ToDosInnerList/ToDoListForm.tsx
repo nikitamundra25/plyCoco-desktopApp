@@ -179,102 +179,103 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
             </Col>
           </Row>
         </Form>
-
-        <Table bordered hover responsive>
-          <thead className='thead-bg'>
-            <tr>
-              <th className='sno-th-column text-center'>
-                {languageTranslation('S_NO')}
-              </th>
-              <th className='date-th-column'>{languageTranslation('DATE')} </th>
-              {userRole === 'careinstitution' ? (
-                <th className='contact-th-column'>
-                  {languageTranslation('CONTACT')}
-                </th>
-              ) : (
-                ''
-              )}
-              <th className='remark-col'>{languageTranslation('REMARKS')}</th>
-              <th className='checkbox-th-column text-center'>
-                {' '}
-                {languageTranslation('DONE')}
-              </th>
-              <th className='checkbox-th-column text-center'>
-                {' '}
-                {languageTranslation('EXTERNAL')}
-              </th>
-              <th className='prio-col'> {languageTranslation('PRIORITY')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {!called || loading ? (
+        <div className='table-minheight'>
+          <Table bordered hover responsive>
+            <thead className='thead-bg'>
               <tr>
-                <td className={'table-loader'} colSpan={8}>
-                  <Loader />
-                </td>
+                <th className='sno-th-column text-center'>
+                  {languageTranslation('S_NO')}
+                </th>
+                <th className='date-th-column'>
+                  {languageTranslation('DATE')}{' '}
+                </th>
+                {userRole === 'careinstitution' ? (
+                  <th className='contact-th-column'>
+                    {languageTranslation('CONTACT')}
+                  </th>
+                ) : (
+                  ''
+                )}
+                <th className='remark-col'>{languageTranslation('REMARKS')}</th>
+                <th className='checkbox-th-column text-center'>
+                  {' '}
+                  {languageTranslation('DONE')}
+                </th>
+                <th className='checkbox-th-column text-center'>
+                  {' '}
+                  {languageTranslation('EXTERNAL')}
+                </th>
+                <th className='prio-col'> {languageTranslation('PRIORITY')}</th>
               </tr>
-            ) : data &&
-              data.getToDos &&
-              data.getToDos.result &&
-              data.getToDos.result.length ? (
-              data.getToDos.result.map((item: any, index: number) => {
-                return (
-                  <tr key={index}>
-                    <td className='sno-th-column text-center'>
-                      <span>{count++}</span>
-                    </td>
-                    <td className='date-th-column'>
-                      {' '}
-                      {`${moment(item.date).format(defaultDateFormat)} ${
-                        item.time
-                      }`}
-                    </td>
-                    {userRole === 'careinstitution' ? (
-                      <td className='contact-th-column'>
-                        <span className='view-more-link word-wrap'>
-                          {item.contact
-                            ? `${item.contact.firstName} ${item.contact.surName} (${item.contact.contactType})`
-                            : '-'}
+            </thead>
+            <tbody>
+              {!called || loading ? (
+                <tr>
+                  <td className={'table-loader'} colSpan={8}>
+                    <Loader />
+                  </td>
+                </tr>
+              ) : data &&
+                data.getToDos &&
+                data.getToDos.result &&
+                data.getToDos.result.length ? (
+                data.getToDos.result.map((item: any, index: number) => {
+                  return (
+                    <tr key={index}>
+                      <td className='sno-th-column text-center'>
+                        <span>{count++}</span>
+                      </td>
+                      <td className='date-th-column'>
+                        {' '}
+                        {`${moment(item.date).format(defaultDateFormat)} ${
+                          item.time
+                        }`}
+                      </td>
+                      {userRole === 'careinstitution' ? (
+                        <td className='contact-th-column'>
+                          <span className='view-more-link word-wrap'>
+                            {item.contact
+                              ? `${item.contact.firstName} ${item.contact.surName} (${item.contact.contactType})`
+                              : '-'}
+                          </span>
+                        </td>
+                      ) : (
+                        ''
+                      )}
+                      <td className='remark-col'>
+                        <span className='word-wrap'>{item.comment}</span>
+                      </td>
+                      <td className='checkbox-th-column text-center'>
+                        <span className='checkboxli checkbox-custom checkbox-default'>
+                          <input
+                            type='checkbox'
+                            id='check'
+                            className=''
+                            name={'status'}
+                            checked={item.status === 'completed' ? true : false}
+                            onChange={e =>
+                              handleStatusChange(item.id, item.status, null)
+                            }
+                          />
+                          <label className=''> </label>
                         </span>
                       </td>
-                    ) : (
-                      ''
-                    )}
-                    <td className='remark-col'>
-                      <span className='word-wrap'>{item.comment}</span>
-                    </td>
-                    <td className='checkbox-th-column text-center'>
-                      <span className='checkboxli checkbox-custom checkbox-default'>
-                        <input
-                          type='checkbox'
-                          id='check'
-                          className=''
-                          name={'status'}
-                          checked={item.status === 'completed' ? true : false}
-                          onChange={e =>
-                            handleStatusChange(item.id, item.status, null)
-                          }
-                        />
-                        <label className=''> </label>
-                      </span>
-                    </td>
-                    <td className='checkbox-th-column text-center'>
-                      <span className='checkboxli checkbox-custom checkbox-default'>
-                        <input
-                          type='checkbox'
-                          id='checkAll'
-                          className=''
-                          name={'juridiction'}
-                          disabled={item.juridiction === 'internally'}
-                          checked={
-                            item.juridiction === 'externally' ? true : false
-                          }
-                        />
-                        <label className=''> </label>
-                      </span>
-                    </td>
-                    <td className='priority-th-column'>
-                      {/* <Select
+                      <td className='checkbox-th-column text-center'>
+                        <span className='checkboxli checkbox-custom checkbox-default'>
+                          <input
+                            type='checkbox'
+                            id='checkAll'
+                            className=''
+                            name={'juridiction'}
+                            checked={
+                              item.juridiction === 'externally' ? true : false
+                            }
+                          />
+                          <label className=''> </label>
+                        </span>
+                      </td>
+                      <td className='priority-th-column'>
+                        {/* <Select
                         placeholder='Select Priority'
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
@@ -291,65 +292,66 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                         }
                         onChange={e => handlePriorityChange(item.id, null, e)}
                       /> */}
-                      <div className='action-btn text-capitalize'>
-                        <UncontrolledButtonDropdown className='custom-dropdown'>
-                          <DropdownToggle
-                            className={'text-capitalize'}
-                            caret
-                            size='sm'
-                          >
-                            {item.priority}
-                          </DropdownToggle>
-                          <DropdownMenu>
-                            <DropdownItem
-                              onClick={(e: any) =>
-                                handlePriorityChange(item.id, null, 'low')
-                              }
+                        <div className='action-btn text-capitalize'>
+                          <UncontrolledButtonDropdown className='custom-dropdown'>
+                            <DropdownToggle
+                              className={'text-capitalize m-width-72'}
+                              caret
+                              size='sm'
                             >
-                              {languageTranslation('LOW')}
-                            </DropdownItem>
-                            <DropdownItem
-                              onClick={(e: any) =>
-                                handlePriorityChange(item.id, null, 'normal')
-                              }
-                            >
-                              {languageTranslation('NORMAL')}
-                            </DropdownItem>
-                            <DropdownItem
-                              onClick={(e: any) =>
-                                handlePriorityChange(item.id, null, 'high')
-                              }
-                            >
-                              {languageTranslation('HIGH')}
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledButtonDropdown>
+                              {item.priority}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                              <DropdownItem
+                                onClick={(e: any) =>
+                                  handlePriorityChange(item.id, null, 'low')
+                                }
+                              >
+                                {languageTranslation('LOW')}
+                              </DropdownItem>
+                              <DropdownItem
+                                onClick={(e: any) =>
+                                  handlePriorityChange(item.id, null, 'normal')
+                                }
+                              >
+                                {languageTranslation('NORMAL')}
+                              </DropdownItem>
+                              <DropdownItem
+                                onClick={(e: any) =>
+                                  handlePriorityChange(item.id, null, 'high')
+                                }
+                              >
+                                {languageTranslation('HIGH')}
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </UncontrolledButtonDropdown>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr className={'text-center no-hover-row'}>
+                  <td colSpan={8} className={'pt-5 pb-5'}>
+                    {isFilterApplied ? (
+                      <NoSearchFound />
+                    ) : (
+                      <div className='no-data-section'>
+                        <div className='no-data-icon'>
+                          <i className='icon-ban' />
+                        </div>
+                        <h4 className='mb-1'>
+                          Currently there are no todos added.{' '}
+                        </h4>
+                        <p>Please click above button to add new. </p>
                       </div>
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <tr className={'text-center no-hover-row'}>
-                <td colSpan={8} className={'pt-5 pb-5'}>
-                  {isFilterApplied ? (
-                    <NoSearchFound />
-                  ) : (
-                    <div className='no-data-section'>
-                      <div className='no-data-icon'>
-                        <i className='icon-ban' />
-                      </div>
-                      <h4 className='mb-1'>
-                        Currently there are no todos added.{' '}
-                      </h4>
-                      <p>Please click above button to add new. </p>
-                    </div>
-                  )}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+                    )}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </div>
         {data && data.getToDos && data.getToDos.totalCount ? (
           <PaginationComponent
             totalRecords={data.getToDos.totalCount}
@@ -357,223 +359,6 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
             onPageChanged={onPageChanged}
           />
         ) : null}
-        {/* <Table responsive className="todolist-table">
-            <thead className="thead-bg">
-              <tr>
-                <th className="date-col">{languageTranslation("DATE")} </th>
-                <th className="remarks-col">
-                  {languageTranslation("REMARKS")}
-                </th>
-                <th className="done-col"> {languageTranslation("DONE")}</th>
-                <th className="extreme-col">
-                  {" "}
-                  {languageTranslation("EXTREME")}
-                </th>
-                <th className="prio-col"> {languageTranslation("PRIO")}</th>
-
-                
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colSpan={5}>
-                  <div className="date-title">
-                    <span className="align-middle mr-2">
-                      <i className="icon-arrow-down" />
-                    </span>
-                    <span className="align-middle ">Date: 2019</span>
-                  </div>
-                  <div>
-                    <Table
-                      bordered
-                      hover
-                      responsive
-                      className="inner-tododlist-table"
-                    >
-                      <tbody>
-                        <tr>
-                          <td className="date-col">30.12.2020</td>
-                          <td className="remarks-col">
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry.
-                          </td>
-                          <td className="done-col">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td className="extreme-col">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td className="prio-col">
-                            <div className="form-section">
-                              <FormGroup className="todo-select">
-                                <Input
-                                  type="select"
-                                  name="select"
-                                  id="exampleSelect"
-                                >
-                                  <option>Name</option>
-                                  <option>low</option>
-                                  <option>Normal</option>
-                                  <option>high</option>
-                                </Input>
-                              </FormGroup>
-                            </div>
-                          </td>
-                          
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td colSpan={5}>
-                  <div className="date-title">
-                    <span className="align-middle mr-2">
-                      <i className="icon-arrow-down" />
-                    </span>
-                    <span className="align-middle ">Date: 2018</span>
-                  </div>
-                  <div>
-                    <Table
-                      bordered
-                      hover
-                      responsive
-                      className="inner-tododlist-table"
-                    >
-                      <tbody>
-                        <tr>
-                          <td className="date-col">30.12.2020</td>
-                          <td className="remarks-col">
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry.
-                          </td>
-                          <td className="done-col">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td className="extreme-col">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td className="prio-col">
-                            <div className="form-section">
-                              <FormGroup className="todo-select">
-                                <Input
-                                  type="select"
-                                  name="select"
-                                  id="exampleSelect"
-                                >
-                                  <option>Name</option>
-                                  <option>low</option>
-                                  <option>Normal</option>
-                                  <option>high</option>
-                                </Input>
-                              </FormGroup>
-                            </div>
-                          </td>
-                          
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td colSpan={5}>
-                  <div className="date-title">
-                    <span className="align-middle mr-2">
-                      <i className="icon-arrow-down" />
-                    </span>
-                    <span className="align-middle ">Date: 2017</span>
-                  </div>
-                  <div>
-                    <Table
-                      bordered
-                      hover
-                      responsive
-                      className="inner-tododlist-table"
-                    >
-                      <tbody>
-                        <tr>
-                          <td className="date-col">30.12.2020</td>
-                          <td className="remarks-col">
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry.
-                          </td>
-                          <td className="done-col">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td className="extreme-col">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input
-                                type="checkbox"
-                                id="checkAll"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td className="prio-col">
-                            <div className="form-section">
-                              <FormGroup className="todo-select">
-                                <Input
-                                  type="select"
-                                  name="select"
-                                  id="exampleSelect"
-                                >
-                                  <option>Name</option>
-                                  <option>low</option>
-                                  <option>Normal</option>
-                                  <option>high</option>
-                                </Input>
-                              </FormGroup>
-                            </div>
-                          </td>
-                          
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </Table> */}
       </div>
     </>
   );

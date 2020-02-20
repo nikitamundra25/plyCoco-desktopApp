@@ -168,6 +168,8 @@ const CareInstitutionTodo: FunctionComponent = () => {
       params.search = values.searchValue;
     }
     if (values.toDoFilter && values.toDoFilter.value !== '') {
+      console.log('values.toDoFilter', values.toDoFilter);
+
       params.toDoFilter =
         values.toDoFilter.value !== '' ? values.toDoFilter.value : '';
     }
@@ -368,7 +370,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                           <span className='word-wrap'>{list.comment}</span>
                         </td>
                         <td className='checkbox-th-column text-center'>
-                          <span className='checkboxli checkbox-custom checkbox-default'>
+                          <span className=' checkbox-custom '>
                             <input
                               type='checkbox'
                               id='check'
@@ -389,11 +391,11 @@ const CareInstitutionTodo: FunctionComponent = () => {
                           </span>
                         </td>
                         <td className='checkbox-th-column text-center'>
-                          <span className='checkboxli checkbox-custom checkbox-default'>
+                          <span className=' checkbox-custom '>
                             <input
                               type='checkbox'
                               id='checkAll'
-                              className=''
+                              className='cursor-notallowed'
                               name={'juridiction'}
                               disabled={list.juridiction === 'internally'}
                               checked={

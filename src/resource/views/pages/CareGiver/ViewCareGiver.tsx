@@ -1,38 +1,38 @@
-import React, { FunctionComponent, useState, Suspense, useEffect } from 'react';
-import { RouteComponentProps, useLocation, useParams } from 'react-router';
-import Select from 'react-select';
-import qs from 'query-string';
-import { useLazyQuery } from '@apollo/react-hooks';
-import { AppRoutes } from '../../../../config';
-import { careGiverRoutes } from './Sidebar/SidebarRoutes/CareGiverRoutes';
-import { IReactSelectInterface } from '../../../../interfaces';
-import Loader from '../../containers/Loader/Loader';
-import { CareGiverQueries } from '../../../../graphql/queries';
-import CustomOption from '../../components/CustomOptions';
-import { languageTranslation } from '../../../../helpers';
-import add from '../../../assets/img/add.svg';
-import reminder from '../../../assets/img/reminder.svg';
-import password from '../../../assets/img/password.svg';
-import appointment from '../../../assets/img/appointment.svg';
-import clear from '../../../assets/img/clear.svg';
+import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
+import { RouteComponentProps, useLocation, useParams } from "react-router";
+import Select from "react-select";
+import qs from "query-string";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { AppRoutes } from "../../../../config";
+import { careGiverRoutes } from "./Sidebar/SidebarRoutes/CareGiverRoutes";
+import { IReactSelectInterface } from "../../../../interfaces";
+import Loader from "../../containers/Loader/Loader";
+import { CareGiverQueries } from "../../../../graphql/queries";
+import CustomOption from "../../components/CustomOptions";
+import { languageTranslation } from "../../../../helpers";
+import add from "../../../assets/img/add.svg";
+import reminder from "../../../assets/img/reminder.svg";
+import password from "../../../assets/img/password.svg";
+import appointment from "../../../assets/img/appointment.svg";
+import clear from "../../../assets/img/clear.svg";
 
 const CareGiverSidebar = React.lazy(() =>
-  import('./Sidebar/SidebarLayout/CareGiverLayout')
+  import("./Sidebar/SidebarLayout/CareGiverLayout")
 );
 const PersonalInformation = React.lazy(() =>
-  import('./PersonalInfo/PersonalInformation')
+  import("./PersonalInfo/PersonalInformation")
 );
-const Offer = React.lazy(() => import('./Offers/Offer'));
-const LoginLogs = React.lazy(() => import('../../components/Logins'));
-const Invoices = React.lazy(() => import('./Invoices/Invoices'));
-const ToDo = React.lazy(() => import('../../components/ToDosInnerList'));
-const Documents = React.lazy(() => import('./Documents'));
-const Email = React.lazy(() => import('./Emails'));
+const Offer = React.lazy(() => import("./Offers/Offer"));
+const LoginLogs = React.lazy(() => import("../../components/Logins"));
+const Invoices = React.lazy(() => import("./Invoices/Invoices"));
+const ToDo = React.lazy(() => import("../../components/ToDosInnerList"));
+const Documents = React.lazy(() => import("./Documents"));
+const Email = React.lazy(() => import("./Emails"));
 const CreateTodo = React.lazy(() =>
-  import('../../components/CreateTodo/index')
+  import("../../components/CreateTodo/index")
 );
-const LeasingPersonalData = React.lazy(() => import('./LeasingData'));
-const GroupedBelow = React.lazy(() => import('./GroupedBelow'));
+const LeasingPersonalData = React.lazy(() => import("./LeasingData"));
+const GroupedBelow = React.lazy(() => import("./GroupedBelow"));
 
 const [GET_CAREGIVERS] = CareGiverQueries;
 const CareGiverRoutesTabs = careGiverRoutes;
@@ -48,44 +48,44 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     fetchCareGivers,
     { data: careGivers, loading, refetch }
   ] = useLazyQuery<any>(GET_CAREGIVERS, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: "no-cache"
   });
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
-    label: '',
-    value: ''
+    label: "",
+    value: ""
   });
 
   const [activeTab, setactiveTab] = useState(0);
   const { search, pathname } = useLocation();
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     // Fetch list of caregivers
     fetchCareGivers({
       variables: {
-        searchBy: '',
+        searchBy: "",
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: ''
+        isActive: ""
       }
     });
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn'
+      "caregiver-add-btn"
     );
     if (buttonDiv) {
       if (scrollPositionY >= 12) {
-        buttonDiv.classList.add('sticky-save-btn');
+        buttonDiv.classList.add("sticky-save-btn");
       } else {
-        buttonDiv.classList.remove('sticky-save-btn');
+        buttonDiv.classList.remove("sticky-save-btn");
       }
     }
   };
@@ -97,13 +97,13 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     careGivers.getCaregivers.result
   ) {
     careGiverOpt.push({
-      label: languageTranslation('NAME'),
-      value: languageTranslation('ID')
+      label: languageTranslation("NAME"),
+      value: languageTranslation("ID")
     });
     careGivers.getCaregivers.result.forEach(
       ({ id, firstName, lastName }: any) =>
         careGiverOpt.push({
-          label: `${firstName}${' '}${lastName}`,
+          label: `${firstName}${" "}${lastName}`,
           value: id
         })
     );
@@ -132,7 +132,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 
   const onTabChange = (activeTab: number) => {
     props.history.push(
-      `${AppRoutes.CARE_GIVER_VIEW.replace(':id', Id)}?tab=${encodeURIComponent(
+      `${AppRoutes.CARE_GIVER_VIEW.replace(":id", Id)}?tab=${encodeURIComponent(
         careGiverRoutes[activeTab].name
       )}`
     );
@@ -153,9 +153,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         const query = qs.parse(search);
         props.history.push(
           [
-            `${AppRoutes.CARE_GIVER_VIEW.replace(':id', e.value)}`,
+            `${AppRoutes.CARE_GIVER_VIEW.replace(":id", e.value)}`,
             qs.stringify({ ...query })
-          ].join('?')
+          ].join("?")
         );
         // props.history.push(
         //   `${AppRoutes.CARE_GIVER_VIEW.replace(
@@ -174,73 +174,73 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 
   return (
     <div>
-      <div className='common-detail-page'>
-        <div className='common-detail-section'>
+      <div className="common-detail-page">
+        <div className="common-detail-section">
           {loading ? (
-            <div className='overview-loader'>
+            <div className="detailview-loader">
               <Loader />
             </div>
           ) : (
             <>
-              <Suspense fallback={''}>
-                <div className='sticky-common-header'>
-                  <div className='common-topheader d-flex align-items-center '>
-                    <div className='user-select'>
+              <Suspense fallback={""}>
+                <div className="sticky-common-header">
+                  <div className="common-topheader d-flex align-items-center ">
+                    <div className="user-select">
                       <Select
-                        classNamePrefix='custom-inner-reactselect'
+                        classNamePrefix="custom-inner-reactselect"
                         className={
-                          'custom-reactselect custom-reactselect-menu-width'
+                          "custom-reactselect custom-reactselect-menu-width"
                         }
                         defaultValue={selectUser}
-                        placeholder='Select Caregiver'
+                        placeholder="Select Caregiver"
                         value={selectUser}
                         onChange={(e: any) => handleSelect(e)}
                         options={careGiverOpt}
                         components={{ Option: CustomOption }}
                         isOptionDisabled={option =>
-                          option.value === languageTranslation('ID')
+                          option.value === languageTranslation("ID")
                         }
                       />
                     </div>
                     <div
                       onClick={handleAddNewCareGiver}
-                      className='header-nav-item'
+                      className="header-nav-item"
                     >
-                      <span className='header-nav-icon'>
-                        <img src={add} alt='' />
+                      <span className="header-nav-icon">
+                        <img src={add} alt="" />
                       </span>
-                      <span className='header-nav-text'>New Caregiver</span>
+                      <span className="header-nav-text">New Caregiver</span>
                     </div>
                     <div
-                      className='header-nav-item'
+                      className="header-nav-item"
                       onClick={() => setShowToDo(true)}
                     >
-                      <span className='header-nav-icon'>
-                        <img src={reminder} alt='' />
+                      <span className="header-nav-icon">
+                        <img src={reminder} alt="" />
                       </span>
-                      <span className='header-nav-text'>
+                      <span className="header-nav-text">
                         Create Todo/Reminder
                       </span>
                     </div>
-                    <div className='header-nav-item'>
-                      <span className='header-nav-icon'>
-                        <img src={password} alt='' />
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={password} alt="" />
                       </span>
-                      <span className='header-nav-text'>New Password</span>
+                      <span className="header-nav-text">New Password</span>
                     </div>
-                    <div className='header-nav-item'>
-                      <span className='header-nav-icon'>
-                        <img src={appointment} alt='' />
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={appointment} alt="" />
                       </span>
-                      <span className='header-nav-text'>
+                      <span className="header-nav-text">
                         Display Appointments
                       </span>
                     </div>
-                    <div className='header-nav-item'>
-                      <span className='header-nav-icon'>
-                        <img src={clear} alt='' />
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={clear} alt="" />
                       </span>
-                      <span className='header-nav-text'>Clear</span>
+                      <span className="header-nav-text">Clear</span>
                     </div>
                   </div>
                   <CareGiverSidebar
@@ -252,12 +252,12 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               </Suspense>
               <Suspense
                 fallback={
-                  <div className='overview-loader'>
+                  <div className="overview-loader">
                     <Loader />
                   </div>
                 }
               >
-                <div className='common-content flex-grow-1'>
+                <div className="common-content flex-grow-1">
                   {activeTab === 0 ? (
                     <PersonalInformation
                       currentSelectuser={(Data: IReactSelectInterface) => {
@@ -279,7 +279,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                   {activeTab === 5 ? (
                     <Email
                       selectedUserName={
-                        selectUser && selectUser.label ? selectUser.label : ''
+                        selectUser && selectUser.label ? selectUser.label : ""
                       }
                       userRole={
                         careGivers &&
@@ -291,14 +291,14 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                               (careGiver: any) =>
                                 careGiver.id === selectUser.value
                             ).userRole
-                          : ''
+                          : ""
                       }
                     />
                   ) : null}
                   {activeTab === 6 ? (
                     <ToDo
                       {...props}
-                      userRole='caregiver'
+                      userRole="caregiver"
                       isnewDataUpdate={isnewDataUpdate}
                     />
                   ) : null}
@@ -315,7 +315,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         show={showToDo ? true : false}
         handleClose={() => setShowToDo(false)}
         name={selectUser ? selectUser.label : null}
-        userRole={'careGiver'}
+        userRole={"careGiver"}
         newDataUpdate={() => setisnewDataUpdate(true)}
         setisnewDataUpdate={() => setisnewDataUpdate(false)}
       />

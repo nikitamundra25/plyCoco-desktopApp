@@ -1,4 +1,6 @@
 {
+  "CAREGIVER_USERROLE": "caregiver",
+  "CAREINST_USERROLE": "careinstitution",
   "REMARK_LIMIT": "Text should be minimum of 255 characters",
   "REQUIRED_REGION": "Please enter the name of Region",
   "DELETE": "Delete",
@@ -468,6 +470,8 @@
   "FILE_SIZE_TO_LARGE": "Image size must be less than 1 mb",
   "COUNTRY_PLACEHOLDER": "Select Country",
   "CHOOSE_IMAGE": "Upload your profile image",
+  "CHOOSE_FILE": "Choose file",
+  "BROWSE_FILE": "Browse",
   "TIME_OF_DAY": "Time of Day",
   "JURIDICTION": "Juridiction",
   "EXTERNALLY": "Externally",
@@ -485,8 +489,8 @@
   "CLEAR": "Clear",
   "CARE_GIVER_TODO": "Care Giver Todo",
   "CARE_INSTITUTION": "Care Institution Todo",
-  "HIDE_DONE": "Hide Done",
-  "HIDE_FUTURE_ONES": "Hide Future Ones",
+  "HIDE_DONE": "Pending",
+  "HIDE_FUTURE_ONES": "Completed",
   "ALL": "All",
   "PENDING": "Pending",
   "COMPLETED": "Completed",
@@ -729,5 +733,7 @@
   "PRIORIRY_PLACEHOLDER": "Select Priority",
   "TODO_STATUS_UPDATED_SUCCESSFULLY": "To-do's status has been updated successfully",
   "TODO_PRIORITY_UPDATED_SUCCESSFULLY": "To-do's priority has been updated successfully",
-  "CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG": "This To-do's priority will be updated."
+  "CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG": "This To-do's priority will be updated.",
+  "DOCUMENT_TYPE": "Select document type",
+  "VARIOUS_DOCUMENTS": "Various documents"
 }

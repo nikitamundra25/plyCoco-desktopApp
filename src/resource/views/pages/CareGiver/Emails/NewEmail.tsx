@@ -32,7 +32,7 @@ import { CareGiverMutations } from '../../../../../graphql/Mutations';
 import { AttachmentList } from '../../../components/Attachments';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
-import { AppConfig, client } from '../../../../../config';
+import { client } from '../../../../../config';
 import logo from '../../../../assets/img/plycoco-orange.png';
 const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
@@ -58,7 +58,6 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   let { id: Id } = useParams();
   let { pathname } = useLocation();
-  console.log('pathname', pathname);
 
   const [subject, setSubject] = useState<string>('');
   const [body, setBody] = useState<any>('');

@@ -3,7 +3,6 @@ import {
   Button,
   Modal,
   ModalHeader,
-  ModalTitle,
   ModalBody,
   ModalFooter,
   FormGroup,
@@ -16,7 +15,6 @@ import {
 import Select from 'react-select';
 import 'react-day-picker/lib/style.css';
 import { languageTranslation } from '../../../../../helpers';
-import { DocumentTypes } from '../../../../../config';
 import { useDropzone } from 'react-dropzone';
 import png from '../../../../assets/img/png.svg';
 import jpg from '../../../../assets/img/jpg.svg';
@@ -28,11 +26,13 @@ import ppt from '../../../../assets/img/ppt.svg';
 import txt from '../../../../assets/img/txt.svg';
 import defaultExtention from '../../../../assets/img/no-extension.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
+
 const DocumentUploadModal = (props: any) => {
   const {
     documentIdUpdate,
     documentUrls,
     fileName,
+    isMissingDocEditable,
     remarkValue,
     handleChange,
     documentType,
@@ -43,7 +43,6 @@ const DocumentUploadModal = (props: any) => {
     onDrop,
     show,
     handleClose,
-    setErrorMsg,
     addDocumentLoading,
     updateDocumentLoading,
     documentTypeList
@@ -58,9 +57,10 @@ const DocumentUploadModal = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  let splitName = documentUrls && documentUrls.name.split('.');
+  // To get file extension
+  let splitName =
+    documentUrls && documentUrls.name ? documentUrls.name.split('.') : [];
   const extention = splitName && splitName[1];
-
   return (
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
@@ -77,7 +77,9 @@ const DocumentUploadModal = (props: any) => {
                   <FormGroup>
                     <Row
                       className={`${
-                        !documentIdUpdate ? '' : 'align-items-center'
+                        !documentIdUpdate || isMissingDocEditable
+                          ? ''
+                          : 'align-items-center'
                       }`}
                     >
                       <Col sm='2'>
@@ -87,7 +89,7 @@ const DocumentUploadModal = (props: any) => {
                             : languageTranslation('FILE_NAME')}
                         </Label>
                       </Col>
-                      {!documentIdUpdate ? (
+                      {!documentIdUpdate || isMissingDocEditable ? (
                         <Col sm='10'>
                           <div
                             {...getRootProps()}
@@ -188,6 +190,7 @@ const DocumentUploadModal = (props: any) => {
                           }}
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
+                          isDisabled={isMissingDocEditable}
                         />
                       </Col>
                     </Row>
@@ -218,7 +221,7 @@ const DocumentUploadModal = (props: any) => {
                     </Row>
                   </FormGroup>
                 </Col>
-                {!documentIdUpdate ? (
+                {!documentIdUpdate || isMissingDocEditable ? (
                   <Col lg={'12'}>
                     <FormGroup>
                       <Row className='align-items-center'>
@@ -236,7 +239,7 @@ const DocumentUploadModal = (props: any) => {
                               checked={statusValue}
                               onChange={handleChange}
                             />
-                            <Label for='check' className='pl-3'>
+                            <Label for='check'>
                               ( {languageTranslation('DOCUMENT_STATUS_LABEL')} )
                             </Label>
                           </div>
@@ -282,6 +285,7 @@ const DocumentUploadModal = (props: any) => {
           <Button
             color='primary'
             onClick={() => {
+              console.log('inside save');
               handleSaveDocument();
             }}
             disabled={addDocumentLoading || updateDocumentLoading}

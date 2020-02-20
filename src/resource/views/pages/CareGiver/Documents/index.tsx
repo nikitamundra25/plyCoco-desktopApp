@@ -1,19 +1,23 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { Button } from 'reactstrap';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { ApolloError } from 'apollo-client';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
-import { DocumentMutations } from '../../../../../graphql/Mutations';
 import moment from 'moment';
+import { DocumentMutations } from '../../../../../graphql/Mutations';
 import {
   IDocumentUrls,
   IReactSelectInterface
 } from '../../../../../interfaces';
 import DocumentUploadModal from './DocumentModal';
 import DocumentsList from './DocumentsList';
-import { DocumentQueries } from '../../../../../graphql/queries';
-import { languageTranslation } from '../../../../../helpers';
+import {
+  CareGiverQueries,
+  DocumentQueries
+} from '../../../../../graphql/queries';
+import { errorFormatter, languageTranslation } from '../../../../../helpers';
 import { ConfirmBox } from '../../../components/ConfirmBox';
-import { CareGiverQueries } from '../../../../../graphql/queries';
 import { regSinceDate } from '../../../../../config';
 
 const [
@@ -39,11 +43,16 @@ const Documents = () => {
   const [fileObject, setFileObject] = useState<Object | null>(null);
   const [statusValue, setStatusValue] = useState<boolean>(true);
   const [remarkValue, setRemarkValue] = useState<any>(null);
-  const [documentType, setDocumentType] = useState<any>(null);
-  const [documentData, setDocumentData] = useState<any>(null);
+  const [documentType, setDocumentType] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
   const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
   const [fileName, setFilename] = useState<any>(null);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  // To set missing document type editable
+  const [isMissingDocEditable, setIsMissingDocEditable] = useState<boolean>(
+    false
+  );
 
   const [documentId, setDocumentId] = useState<{
     id: string;
@@ -76,11 +85,21 @@ const Documents = () => {
             languageTranslation('DOCUMENT_ADDED_SUCCESS')
           );
         }
+      },
+      onError: (error: ApolloError) => {
+        const message = errorFormatter(error);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
       }
     }
   );
   // To fecth document type list
-  const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES);
+  const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES, {
+    variables: {
+      userRole: languageTranslation('CAREGIVER_USERROLE')
+    }
+  });
 
   // To set document type into label value pair
   const documentTypeList: IReactSelectInterface[] | undefined = [];
@@ -118,11 +137,19 @@ const Documents = () => {
       onCompleted({ updateDocument }) {
         refetch();
         setIsSubmit(false);
+        resetFormValue();
+        setIsMissingDocEditable(false);
         setShowDocumentPopup(false);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
             languageTranslation('DOCUMENT_UPDATED_SUCCESS')
           );
+        }
+      },
+      onError: (error: ApolloError) => {
+        const message = errorFormatter(error);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
         }
       }
     }
@@ -140,6 +167,20 @@ const Documents = () => {
     }
   }, [disApprovedData]);
 
+  // useEffect(() => {
+  //   const { getDocumentType = [] } = documentTypeListData
+  //     ? documentTypeListData
+  //     : {};
+  //   if (getDocumentType && getDocumentType.length) {
+  //     const result = getDocumentType.filter((docType: any) => {
+  //       docType.type === languageTranslation('VARIOUS_DOCUMENTS');
+  //     })[0];
+  //     if (result) {
+  //       setDocumentType();
+  //     }
+  //   }
+  // }, [documentTypeListData]);
+
   // Get Care Giver Details
   const [isApproved, setisApproved] = useState<boolean>(false);
 
@@ -153,13 +194,25 @@ const Documents = () => {
   //set state data null
   const setStateValueNull = () => {
     setRemarkValue(null);
-    setDocumentType({ value: 'Various documents', label: 'Various documents' });
+    setDocumentType(undefined);
     setDocumentUrl(null);
     setStatusValue(true);
     setDocumentIdUpdate(null);
     setFileObject(null);
     setFilename(null);
+    setIsMissingDocEditable(false);
     // setErrorMsg(null);
+  };
+
+  //Reset form
+  const resetFormValue = () => {
+    setRemarkValue(null);
+    setDocumentType(undefined);
+    setDocumentUrl(null);
+    setStatusValue(true);
+    setDocumentIdUpdate(null);
+    setFileObject(null);
+    setFilename(null);
   };
   useEffect(() => {
     if (id) {
@@ -177,23 +230,35 @@ const Documents = () => {
   }, [id]);
 
   //on update document
-  const onUpdateDocument = (data: any) => {
-    //set data in all states
-    setDocumentData(data);
+  const onUpdateDocument = (data: any, isMissingDocEditable: boolean) => {
+    const {
+      id = '',
+      remarks = '',
+      document_type = {},
+      document = '',
+      fileName = '',
+      createdAt = ''
+    } = data ? data : {};
+    //To set data in case of edit uploaded document
+    setIsMissingDocEditable(isMissingDocEditable);
     setShowDocumentPopup(true);
-    setRemarkValue(data.remarks);
+    setDocumentIdUpdate(id);
     setDocumentType(
-      data && data.document_type && data.document_type.type
-        ? { label: data.document_type.type, value: data.document_type.id }
+      document_type && document_type.type
+        ? { label: document_type.type, value: document_type.id }
         : undefined
     );
-    setDocumentUrl({
-      url: data.document,
-      name: data.fileName,
-      date: data.createdAt
-    });
-    setFilename(data.fileName);
-    setDocumentIdUpdate(data.id);
+    setRemarkValue(null);
+    setDocumentUrl(null);
+    if (!isMissingDocEditable) {
+      setRemarkValue(remarks);
+      setDocumentUrl({
+        url: document,
+        name: fileName,
+        date: createdAt
+      });
+      setFilename(fileName);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -269,10 +334,7 @@ const Documents = () => {
           );
         }
       } catch (error) {
-        const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+        const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -285,16 +347,24 @@ const Documents = () => {
     const queryPath = path.pathname;
     const res = queryPath.split('/');
     const id = parseInt(res[3]);
+    let documentInput = {
+      fileName: fileName ? fileName : '',
+      documentTypeId: documentType ? documentType.value : '',
+      remarks: remarkValue ? remarkValue : ''
+    };
     if (documentIdUpdate) {
-      if (fileName) {
+      if (fileName || isMissingDocEditable) {
+        // To validate file name shoulb not be empty or is the missing document
         updateDocument({
           variables: {
             id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
-            documentInput: {
-              fileName: fileName ? fileName : '',
-              documentTypeId: documentType ? documentType.value : '',
-              remarks: remarkValue ? remarkValue : ''
-            }
+            documentInput: isMissingDocEditable
+              ? {
+                  ...documentInput,
+                  document: fileObject ? fileObject : null,
+                  status: statusValue ? 'approve' : 'notrequested'
+                }
+              : documentInput
           }
         });
       }
@@ -335,10 +405,7 @@ const Documents = () => {
           toastId = toast.success('Document deleted successfully');
         }
       } catch (error) {
-        const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+        const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -403,10 +470,7 @@ const Documents = () => {
           );
         }
       } catch (error) {
-        const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+        const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -414,45 +478,114 @@ const Documents = () => {
     }
   };
 
+  let allDocDisApp: boolean = true;
+  if (data && data.getDocuments && data.getDocuments.length) {
+    data.getDocuments.map((data: any) => {
+      if (data && data.status === 'approve') {
+        allDocDisApp = false;
+      }
+    });
+  }
+
   return (
     <div>
-      <DocumentsList
-        setShowDocumentPopup={setShowDocumentPopup}
-        setDocumentData={setDocumentData}
-        documentListing={data}
-        handleCheckElement={handleCheckElement}
-        documentId={documentId}
-        onDeleteDocument={onDeleteDocument}
-        onUpdateDocument={onUpdateDocument}
-        setStateValueNull={setStateValueNull}
-        onApprove={onApprove}
-        isApproved={isApproved}
-        onDisapprove={onDisapprove}
-        loading={loading}
-        called={called}
-        approveLoading={approveLoading}
-        disapproveLoading={disapproveLoading}
-      />
+      <div className='document-upload-section mb-3'>
+        <div className='d-flex align-items-center justify-content-between flex-wrap'>
+          <h5 className='content-title mb-3'>
+            {languageTranslation('CG_SUB_MENU_DOCUMENTS')}
+          </h5>
+          <div>
+            {isApproved ? (
+              <Button
+                onClick={onDisapprove}
+                className='btn-common btn-inactive mb-3 mr-3'
+                color='link'
+              >
+                {disapproveLoading ? (
+                  <>
+                    <i className='fa fa-spinner fa-spin ' />{' '}
+                    {languageTranslation('DISAPPROVE')}
+                  </>
+                ) : (
+                  languageTranslation('DISAPPROVE')
+                )}
+              </Button>
+            ) : (
+              <Button
+                onClick={onApprove}
+                disabled={
+                  allDocDisApp ||
+                  (data && data.getDocuments && !data.getDocuments.length) ||
+                  (data &&
+                    data.getDocuments &&
+                    data.getDocuments.filter(
+                      (document: any) => !document.fileName
+                    ).length)
+                }
+                className='btn-common btn-active mb-3 mr-3 '
+                color='link'
+              >
+                {approveLoading ? (
+                  <>
+                    <i className='fa fa-spinner fa-spin ' />{' '}
+                    {languageTranslation('APPROVE')}
+                  </>
+                ) : (
+                  languageTranslation('APPROVE')
+                )}
+              </Button>
+            )}
+            <Button
+              onClick={() => {
+                setStateValueNull();
+                setIsMissingDocEditable(false);
+                setShowDocumentPopup(true);
+                setDocumentType(
+                  documentTypeList.filter(
+                    (docType: any) =>
+                      docType.label === languageTranslation('VARIOUS_DOCUMENTS')
+                  )[0]
+                );
+              }}
+              className='btn-common mb-3'
+              color='primary'
+            >
+              <i className={'fa fa-upload'} />
+              &nbsp;{languageTranslation('UPLOAD_DOCUMENT')}
+            </Button>
+          </div>
+        </div>
+        <DocumentsList
+          documentListing={data}
+          handleCheckElement={handleCheckElement}
+          documentId={documentId}
+          onDeleteDocument={onDeleteDocument}
+          onUpdateDocument={onUpdateDocument}
+          loading={!called || loading}
+        />
+      </div>
       <DocumentUploadModal
-        documentIdUpdate={documentIdUpdate}
-        show={showDocumentPopup}
-        handleClose={() => setShowDocumentPopup(false)}
+        // Functions
+        handleClose={() => {
+          setShowDocumentPopup(false);
+          setStateValueNull();
+        }}
         handleSaveDocument={handleSaveDocument}
+        onUpdateDocument={onUpdateDocument}
+        documentIdUpdate={documentIdUpdate}
         onDrop={onDrop}
+        // States
+        show={showDocumentPopup}
         documentUrls={documentUrls}
         handleChange={handleChange}
         documentType={documentType}
         setDocumentType={setDocumentType}
         remarkValue={remarkValue}
         statusValue={statusValue}
-        setDocumentData={setDocumentData}
         fileName={fileName}
-        onUpdateDocument={onUpdateDocument}
+        isMissingDocEditable={isMissingDocEditable}
         isSubmit={isSubmit}
-        setIsSubmit={setIsSubmit}
-        setShowDocumentPopup={setShowDocumentPopup}
-        addDocumentLoading={addDocumentLoading}
-        updateDocumentLoading={updateDocumentLoading}
+        loading={addDocumentLoading || updateDocumentLoading}
         documentTypeList={documentTypeList}
       />
     </div>

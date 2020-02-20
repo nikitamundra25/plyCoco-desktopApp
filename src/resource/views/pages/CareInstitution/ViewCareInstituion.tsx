@@ -81,6 +81,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     value: 'Sort by A-Z'
   };
 
+  const [isnewDataUpdate, setisnewDataUpdate] = useState(false);
+
   const [
     addUser,
     { error: addUserError, data: CareIntitutionId, loading: Loading }
@@ -237,6 +239,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       }
     });
   };
+  console.log('newDataUpdate', isnewDataUpdate);
 
   return (
     <div>
@@ -377,7 +380,11 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     />
                   ) : null}
                   {activeTab === 7 ? (
-                    <Reminders {...props} userRole='careinstitution' />
+                    <Reminders
+                      {...props}
+                      userRole='careinstitution'
+                      isnewDataUpdate={isnewDataUpdate}
+                    />
                   ) : null}
                 </div>
               </Suspense>
@@ -389,6 +396,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
           handleClose={() => setShowToDo(false)}
           name={selectUser ? selectUser.label : null}
           userRole={'careInstitution'}
+          newDataUpdate={() => setisnewDataUpdate(true)}
+          setisnewDataUpdate={() => setisnewDataUpdate(false)}
         />
       </div>
     </div>

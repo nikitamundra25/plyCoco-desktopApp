@@ -472,7 +472,7 @@
   "CHOOSE_IMAGE": "Upload your profile image",
   "CHOOSE_FILE": "Choose file",
   "BROWSE_FILE": "Browse",
-  "TIME_OF_DAY": "Time of Day",
+  "TIME_OF_DAY": "HH:mm",
   "JURIDICTION": "Juridiction",
   "EXTERNALLY": "Externally",
   "INTERNALLY": "Internally",

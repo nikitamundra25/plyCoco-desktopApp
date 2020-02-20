@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
   Modal,
   ModalHeader,
-  ModalTitle,
   ModalBody,
   ModalFooter,
   FormGroup,
@@ -14,10 +13,8 @@ import {
   Form
 } from 'reactstrap';
 import Select from 'react-select';
-import 'react-day-picker/lib/style.css';
-import { languageTranslation } from '../../../../../helpers';
-import { DocumentTypes } from '../../../../../config';
 import { useDropzone } from 'react-dropzone';
+import { languageTranslation } from '../../../../../helpers';
 import png from '../../../../assets/img/png.svg';
 import jpg from '../../../../assets/img/jpg.svg';
 import pdf from '../../../../assets/img/pdf.svg';
@@ -28,12 +25,14 @@ import ppt from '../../../../assets/img/ppt.svg';
 import txt from '../../../../assets/img/txt.svg';
 import defaultExtention from '../../../../assets/img/no-extension.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
+
 const DocumentUploadModal = (props: any) => {
   const {
     documentIdUpdate,
     documentUrls,
     fileName,
     remarkValue,
+    isMissingDocEditable,
     handleChange,
     documentType,
     setDocumentType,
@@ -43,8 +42,7 @@ const DocumentUploadModal = (props: any) => {
     onDrop,
     show,
     handleClose,
-    addDocumentLoading,
-    updateDocumentLoading,
+    loading,
     documentTypeList
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
@@ -78,7 +76,9 @@ const DocumentUploadModal = (props: any) => {
                   <FormGroup>
                     <Row
                       className={`${
-                        !documentIdUpdate ? '' : 'align-items-center'
+                        !documentIdUpdate || isMissingDocEditable
+                          ? ''
+                          : 'align-items-center'
                       }`}
                     >
                       <Col sm='2'>
@@ -88,7 +88,7 @@ const DocumentUploadModal = (props: any) => {
                             : languageTranslation('FILE_NAME')}
                         </Label>
                       </Col>
-                      {!documentIdUpdate ? (
+                      {!documentIdUpdate || isMissingDocEditable ? (
                         <Col sm='10'>
                           <div
                             {...getRootProps()}
@@ -158,12 +158,12 @@ const DocumentUploadModal = (props: any) => {
                                   : 'text-input my-2 my-sm-0'
                               }
                             />
+                            {isSubmit && !fileName ? (
+                              <div className='required-tooltip'>
+                                File name is required
+                              </div>
+                            ) : null}
                           </div>
-                          {isSubmit && !fileName ? (
-                            <div className='required-error'>
-                              File name is required
-                            </div>
-                          ) : null}
                         </Col>
                       )}
                     </Row>
@@ -185,8 +185,10 @@ const DocumentUploadModal = (props: any) => {
                           onChange={(type: any) => {
                             setDocumentType(type);
                           }}
+                          placeholder={languageTranslation('DOCUMENT_TYPE')}
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
+                          isDisabled={isMissingDocEditable}
                         />
                       </Col>
                     </Row>
@@ -217,7 +219,7 @@ const DocumentUploadModal = (props: any) => {
                     </Row>
                   </FormGroup>
                 </Col>
-                {!documentIdUpdate ? (
+                {!documentIdUpdate || isMissingDocEditable ? (
                   <Col lg={'12'}>
                     <FormGroup>
                       <Row className='align-items-center'>
@@ -283,9 +285,9 @@ const DocumentUploadModal = (props: any) => {
             onClick={() => {
               handleSaveDocument();
             }}
-            disabled={addDocumentLoading || updateDocumentLoading}
+            disabled={loading}
           >
-            {addDocumentLoading || updateDocumentLoading ? (
+            {loading ? (
               <>
                 <i className='fa fa-spinner fa-spin ' />{' '}
                 {languageTranslation('SAVE_BUTTON')}

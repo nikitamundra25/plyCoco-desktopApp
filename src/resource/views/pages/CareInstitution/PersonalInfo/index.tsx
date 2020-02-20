@@ -25,7 +25,7 @@ import CareInstitutionContacts from './CareInstitutionContacts';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
 import { CareInstitutionMutation } from '../../../../../graphql/Mutations';
 import { IQualification } from '../../../../../interfaces/qualification';
-import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
+import { errorFormatter } from '../../../../../helpers';
 
 let toastId: any;
 

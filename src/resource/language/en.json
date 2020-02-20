@@ -1,4 +1,6 @@
 {
+  "CAREGIVER_USERROLE": "caregiver",
+  "CAREINST_USERROLE": "careinstitution",
   "REMARK_LIMIT": "Text should be minimum of 255 characters",
   "REQUIRED_REGION": "Please enter the name of Region",
   "DELETE": "Delete",
@@ -731,5 +733,7 @@
   "PRIORIRY_PLACEHOLDER": "Select Priority",
   "TODO_STATUS_UPDATED_SUCCESSFULLY": "To-do's status has been updated successfully",
   "TODO_PRIORITY_UPDATED_SUCCESSFULLY": "To-do's priority has been updated successfully",
-  "CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG": "This To-do's priority will be updated."
+  "CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG": "This To-do's priority will be updated.",
+  "DOCUMENT_TYPE": "Select document type",
+  "VARIOUS_DOCUMENTS": "Various documents"
 }

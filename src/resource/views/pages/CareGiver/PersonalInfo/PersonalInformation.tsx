@@ -43,7 +43,7 @@ import {
 } from '../../../../../interfaces/qualification';
 import Loader from '../../../containers/Loader/Loader';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
-import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
+import { errorFormatter } from '../../../../../helpers';
 let toastId: any;
 
 const [

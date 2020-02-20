@@ -27,7 +27,7 @@ import {
   dbAcceptableFormat,
 } from '../../../../../config';
 import { EmployeeMutations } from '../../../../../graphql/Mutations';
-import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
+import { errorFormatter } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
 
 const [GET_EMPLOYEE_BY_ID, GET_EMPLOYEES] = EmployeeQueries;

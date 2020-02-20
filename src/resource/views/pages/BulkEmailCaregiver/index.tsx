@@ -25,7 +25,7 @@ import { EmailEditorComponent } from './EmailFormComponent';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import { CareGiverListComponent } from './CareGiverListComponent';
 import { IBulkEmailVariables } from '../../../../interfaces/BulkEmailCaregiver';
-import { errorFormatter } from '../../../../helpers/ErrorFormatter';
+import { errorFormatter } from '../../../../helpers';
 import filter from '../../../assets/img/filter.svg';
 import refresh from '../../../assets/img/refresh.svg';
 import './index.scss';

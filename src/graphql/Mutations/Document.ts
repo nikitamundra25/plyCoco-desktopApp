@@ -67,15 +67,19 @@ const DELETE_DOCUMENT_TYPE_CAREINST = gql`
     }
   }
 `;
-// deleteRequiredDocumentType(id: ID!, requiredDocuments: [ID]): User
-// mutation{
-//   deleteRequiredDocumentType(id:1017, requiredDocuments:[2]){
-//     requiredDocuments{
-//       id
-//       type
-//     }
-//   }
-//  }
+const UPDATE_CAREINST_DOC = gql`
+  mutation UpdateCanstitutionDocuments(
+    $id: Int
+    $documentInput: DocumentInput
+  ) {
+    updateCanstitutionDocuments(id: $id, documentInput: $documentInput) {
+      id
+      fileName
+    }
+  }
+`;
+
+// updateCanstitutionDocuments(id: Int, documentInput : DocumentInput): Document
 export const DocumentMutations = [
   ADD_DOCUMENT,
   UPDATE_DOCUMENT_STATUS,
@@ -84,5 +88,6 @@ export const DocumentMutations = [
   APPROVE_DOCUMENT,
   DISAPPROVE_DOCUMENT,
   ADD_DOCUMENT_TYPE_CAREINST,
-  DELETE_DOCUMENT_TYPE_CAREINST
+  DELETE_DOCUMENT_TYPE_CAREINST,
+  UPDATE_CAREINST_DOC
 ];

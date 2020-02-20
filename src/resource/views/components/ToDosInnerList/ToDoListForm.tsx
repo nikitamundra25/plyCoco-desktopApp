@@ -7,6 +7,10 @@ import {
   Label,
   Input,
   UncontrolledTooltip,
+  UncontrolledButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
   Button
 } from 'reactstrap';
 import moment from 'moment';
@@ -269,7 +273,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                       </span>
                     </td>
                     <td className='priority-th-column'>
-                      <Select
+                      {/* <Select
                         placeholder='Select Priority'
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
@@ -285,7 +289,41 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                             : null
                         }
                         onChange={e => handlePriorityChange(item.id, null, e)}
-                      />
+                      /> */}
+                      <div className='action-btn text-capitalize'>
+                        <UncontrolledButtonDropdown className='custom-dropdown'>
+                          <DropdownToggle
+                            className={'text-capitalize'}
+                            caret
+                            size='sm'
+                          >
+                            {item.priority}
+                          </DropdownToggle>
+                          <DropdownMenu>
+                            <DropdownItem
+                              onClick={(e: any) =>
+                                handlePriorityChange(item.id, null, 'low')
+                              }
+                            >
+                              {languageTranslation('LOW')}
+                            </DropdownItem>
+                            <DropdownItem
+                              onClick={(e: any) =>
+                                handlePriorityChange(item.id, null, 'normal')
+                              }
+                            >
+                              {languageTranslation('NORMAL')}
+                            </DropdownItem>
+                            <DropdownItem
+                              onClick={(e: any) =>
+                                handlePriorityChange(item.id, null, 'high')
+                              }
+                            >
+                              {languageTranslation('HIGH')}
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledButtonDropdown>
+                      </div>
                     </td>
                   </tr>
                 );

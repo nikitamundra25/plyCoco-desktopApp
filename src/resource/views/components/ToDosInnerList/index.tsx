@@ -197,8 +197,10 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (mainProps: any) => {
   const handlePriorityChange = async (
     id: any,
     status: string,
-    priority: any
+    priority: string
   ) => {
+    console.log('dfhgfjgjdb');
+
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
       text: languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG')
@@ -212,7 +214,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (mainProps: any) => {
           variables: {
             id: parseInt(id),
             status: null,
-            priority: priority.value ? priority.value : priority
+            priority: priority
           }
         });
         refetch();

@@ -346,7 +346,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                         <td className='sno-th-column text-center'>{count++}</td>
                         <td className='date-th-column'>
                           {' '}
-                          {`${moment(list.date).format(defaultDateFormat)} ${
+                          {`${moment(list.date).format(defaultDateFormat)}, ${
                             list.time
                           }`}{' '}
                         </td>

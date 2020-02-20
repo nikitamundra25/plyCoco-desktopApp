@@ -10,14 +10,12 @@ import {
 import { languageTranslation, logger } from '../../../../helpers';
 import { toast } from 'react-toastify';
 import { CreateTodoFormValidationSchema } from '../../../validations';
-import { client } from '../../../../config';
 import {
   ProfileQueries,
   CareInstitutionQueries
 } from '../../../../graphql/queries';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { ToDoMutations } from '../../../../graphql/Mutations';
-import moment from 'moment';
 const [VIEW_PROFILE] = ProfileQueries;
 const [ADD_TO_DO, UPDATE_TO_DO] = ToDoMutations;
 const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;

@@ -17,13 +17,7 @@ import {
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 // import EmailMenus from "../CareGiver/Emails/EmailMenus";
 import { languageTranslation } from '../../../../helpers';
-import Select from 'react-select';
-import {
-  Priority,
-  TodoFilter,
-  defaultDateFormat,
-  PAGE_LIMIT
-} from '../../../../config';
+import { defaultDateFormat, PAGE_LIMIT } from '../../../../config';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { ToDoQueries } from '../../../../graphql/queries';
 import Loader from '../../containers/Loader/Loader';
@@ -446,18 +440,19 @@ const CareInstitutionTodo: FunctionComponent = () => {
                 ) : (
                   <tr className={'text-center no-hover-row'}>
                     <td colSpan={8} className={'pt-5 pb-5'}>
-                      {/* {isFilterApplied ? ( */}
-                      {/* <NoSearchFound /> */}
-                      {/* ) : ( */}
-                      <div className='no-data-section'>
-                        <div className='no-data-icon'>
-                          <i className='icon-ban' />
+                      {search ? (
+                        <NoSearchFound />
+                      ) : (
+                        <div className='no-data-section'>
+                          <div className='no-data-icon'>
+                            <i className='icon-ban' />
+                          </div>
+                          <h4 className='mb-1'>
+                            Currently there are no todos added.{' '}
+                          </h4>
+                          <p>Please click above button to add new. </p>
                         </div>
-                        <h4 className='mb-1'>
-                          Currently there are no careinstitution todo added.{' '}
-                        </h4>
-                        <p>Please click above button to add new. </p>
-                      </div>
+                      )}
                     </td>
                   </tr>
                 )}

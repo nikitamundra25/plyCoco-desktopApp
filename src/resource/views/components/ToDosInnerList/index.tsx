@@ -1,20 +1,20 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
-import ToDoListForm from './ToDoListForm';
-import * as qs from 'query-string';
-import { ToDoQueries } from '../../../../graphql/queries';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { RouteComponentProps } from "react-router";
+import { useParams, useLocation, useHistory } from "react-router-dom";
+import ToDoListForm from "./ToDoListForm";
+import * as qs from "query-string";
+import { ToDoQueries } from "../../../../graphql/queries";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import {
   IReactSelectInterface,
   ISearchToDoValues
-} from '../../../../interfaces';
-import { FormikHelpers, FormikProps, Formik } from 'formik';
-import { PAGE_LIMIT, TodoStatus, Priority } from '../../../../config';
-import { ConfirmBox } from '../ConfirmBox';
-import { languageTranslation } from '../../../../helpers';
-import { toast } from 'react-toastify';
-import { ToDoMutations } from '../../../../graphql/Mutations';
+} from "../../../../interfaces";
+import { FormikHelpers, FormikProps, Formik } from "formik";
+import { PAGE_LIMIT, TodoStatus, Priority } from "../../../../config";
+import { ConfirmBox } from "../ConfirmBox";
+import { languageTranslation } from "../../../../helpers";
+import { toast } from "react-toastify";
+import { ToDoMutations } from "../../../../graphql/Mutations";
 const [, , UPDATE_CARE_INSTITUTION_TODO_STATUS, ,] = ToDoMutations;
 const [GET_TO_DOS] = ToDoQueries;
 let toastId: any = null;
@@ -36,7 +36,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     any,
     any
   >(GET_TO_DOS, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: "no-cache"
   });
 
   // Mutation to update careInstitution todo status
@@ -54,9 +54,9 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
 
   useEffect(() => {
     const query = qs.parse(search);
-    let searchBy: string = '';
-    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
-    let priority: IReactSelectInterface | undefined = { label: '', value: '' };
+    let searchBy: string = "";
+    let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
+    let priority: IReactSelectInterface | undefined = { label: "", value: "" };
     let futureOnly: boolean | undefined = false;
 
     // To handle display and query param text
@@ -79,7 +79,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           userId: parseInt(userId),
           searchBy,
           userType: userRole,
-          sortBy: search.sortBy === 'all' ? null : search.sortBy,
+          sortBy: search.sortBy === "all" ? null : search.sortBy,
           priority: search.priority,
           futureOnly,
           limit: PAGE_LIMIT,
@@ -127,10 +127,10 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     if (searchBy) {
       params.searchBy = searchBy;
     }
-    if (sortBy && sortBy.value !== '') {
+    if (sortBy && sortBy.value !== "") {
       params.sortBy = sortBy.value;
     }
-    if (priority && priority.value !== '') {
+    if (priority && priority.value !== "") {
       params.priority = priority.value;
     }
 
@@ -138,20 +138,20 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
       params.futureOnly = futureOnly;
     }
 
-    const path = [pathname, qs.stringify(params)].join('?');
+    const path = [pathname, qs.stringify(params)].join("?");
     history.push(path);
   };
 
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?'
+      "?"
     );
     history.push(path);
   };
 
   const {
-    searchBy = '',
+    searchBy = "",
     sortBy = undefined,
     priority = undefined,
     futureOnly = false
@@ -166,11 +166,11 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
 
   const handleStatusChange = async (id: any, status: string, priority: any) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
+      title: languageTranslation("CONFIRM_LABEL"),
       text:
-        status === 'pending'
-          ? languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG')
-          : languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG')
+        status === "pending"
+          ? languageTranslation("CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG")
+          : languageTranslation("CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG")
     });
     if (!value) {
       return;
@@ -180,21 +180,21 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         await updateStatus({
           variables: {
             id: parseInt(id),
-            status: status === 'pending' ? 'completed' : 'pending',
+            status: status === "pending" ? "completed" : "pending",
             priority: null
           }
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('TODO_STATUS_UPDATED_SUCCESSFULLY')
+            languageTranslation("TODO_STATUS_UPDATED_SUCCESSFULLY")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -207,11 +207,11 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     status: string,
     priority: string
   ) => {
-    console.log('dfhgfjgjdb');
+    console.log("dfhgfjgjdb");
 
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG')
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG")
     });
     if (!value) {
       return;
@@ -228,14 +228,14 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('TODO_PRIORITY_UPDATED_SUCCESSFULLY')
+            languageTranslation("TODO_PRIORITY_UPDATED_SUCCESSFULLY")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }

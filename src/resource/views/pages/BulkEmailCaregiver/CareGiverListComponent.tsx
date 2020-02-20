@@ -17,12 +17,32 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
     handleCheckElement,
     handleInfiniteScroll,
     page,
-    bulkcareGivers,
+    bulkcareGivers
   } = props;
 
+  const handleChecked = (id: string) => {
+    if (selectedCareGiver && selectedCareGiver.length) {
+      const found = selectedCareGiver.some(
+        (el: any) => parseInt(el) === parseInt(id)
+      );
+      const e = {
+        target: {
+          checked: !found
+        }
+      };
+      handleCheckElement(e, id);
+    } else {
+      const e = {
+        target: {
+          checked: true
+        }
+      };
+      handleCheckElement(e, id);
+    }
+  };
   return (
     <Col lg={'5'}>
-      <div id='scrollableDiv' className='caregiver-list custom-scroll'>
+      <div id="scrollableDiv" className="caregiver-list custom-scroll">
         <InfiniteScroll
           dataLength={
             careGiverData && careGiverData.length ? careGiverData.length : 0
@@ -30,7 +50,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
           next={() => {
             handleInfiniteScroll();
           }}
-          scrollableTarget='scrollableDiv'
+          scrollableTarget="scrollableDiv"
           hasMore={
             careGivers &&
             careGivers.getCaregivers &&
@@ -41,21 +61,21 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
               : false
           }
           loader={
-            <div className='infinite-loader'>
+            <div className="infinite-loader">
               <Loader />
             </div>
           }
         >
           <Table bordered hover responsive>
-            <thead className='thead-bg'>
+            <thead className="thead-bg">
               <tr>
-                <th className='checkbox-th-column'>
-                  <span className='checkboxli checkbox-custom checkbox-default mr-2'>
+                <th className="checkbox-th-column">
+                  <span className=" checkbox-custom ">
                     <input
-                      type='checkbox'
-                      id='checkAll'
-                      name='checkbox'
-                      className=''
+                      type="checkbox"
+                      id="checkAll"
+                      name="checkbox"
+                      className=""
                       checked={
                         bulkcareGivers ? true : false
                         // careGivers &&
@@ -69,7 +89,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                         handleSelectAll(e);
                       }}
                     />
-                    <label className=''></label>
+                    <label className=""></label>
                   </span>
                 </th>
                 <th>{languageTranslation('NAME')}</th>
@@ -86,28 +106,36 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
               ) : careGiverData && careGiverData.length ? (
                 careGiverData.map((careGivers: any, index: number) => {
                   return (
-                    <tr key={index}>
+                    <tr
+                      key={index}
+                      onClick={(e: any) => {
+                        handleChecked(careGivers.id);
+                      }}
+                      className='cursor-pointer'
+                    >
                       <td>
-                        <span className='checkboxli checkbox-custom checkbox-default mr-2'>
+                        <span className=" checkbox-custom  ">
                           <input
-                            type='checkbox'
-                            id='check'
-                            name='checkbox'
-                            className=''
+                            type="checkbox"
+                            id="check"
+                            name="checkbox"
+                            className=""
                             checked={
                               selectedCareGiver &&
                               selectedCareGiver.length &&
                               selectedCareGiver.indexOf(
-                                parseInt(careGivers.id),
+                                parseInt(careGivers.id)
                               ) > -1
                                 ? true
                                 : false
                             }
-                            onChange={(e: any) => {
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
                               handleCheckElement(e, careGivers.id);
                             }}
                           />
-                          <label className=''></label>
+                          <label className=""></label>
                         </span>
                       </td>
                       <td>{`${careGivers.firstName} ${careGivers.lastName}`}</td>

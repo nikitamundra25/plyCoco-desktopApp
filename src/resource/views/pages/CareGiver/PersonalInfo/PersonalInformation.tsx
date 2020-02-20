@@ -43,6 +43,7 @@ import {
 } from '../../../../../interfaces/qualification';
 import Loader from '../../../containers/Loader/Loader';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
+import { errorFormatter } from '../../../../../helpers';
 let toastId: any;
 
 const [
@@ -98,7 +99,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       ({ id, name, color }: IAttributeValues) =>
         caregiverAttrOpt.push({
           label: name,
-          value: id ? id.toString() : "",
+          value: id ? id.toString() : '',
           color,
         }),
     );
@@ -293,12 +294,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         }
       }
     } catch (error) {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      // setFieldError('email', message);
-      toast.error(message);
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
     }
     setSubmitting(false);
   };
@@ -317,15 +316,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           },
         });
         if (!toast.isActive(toastId)) {
-          toast.success(message);
+          toastId = toast.success(message);
         }
       } catch (error) {
-        const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
-        // setFieldError('email', message);
-        toast.error(message);
+        const message = errorFormatter(error);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
       }
     }
   };

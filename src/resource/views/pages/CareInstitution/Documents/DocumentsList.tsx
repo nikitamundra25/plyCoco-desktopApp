@@ -1,24 +1,27 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import {
   Table,
   Button,
-  Input,
   UncontrolledTooltip,
   FormGroup,
   Row,
   Col
 } from 'reactstrap';
+import { DocumentMutations } from '../../../../../graphql/Mutations';
+
 import moment from 'moment';
 import Select from 'react-select';
 import { languageTranslation, formatFileSize } from '../../../../../helpers';
-import {
-  AppConfig,
-  defaultDateTimeFormat,
-  State,
-  DocumentTypes
-} from '../../../../../config';
+import { AppConfig, defaultDateTimeFormat } from '../../../../../config';
 
 import Loader from '../../../containers/Loader/Loader';
+import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { DocumentQueries } from '../../../../../graphql/queries';
+import { toast } from 'react-toastify';
+import ExplicitDocument from './ExplicitDocument';
+const [, , , , , , ADD_DOCUMENT_TYPE_CAREINST] = DocumentMutations;
+let toastId: any = '';
+
 const DocumentsList: FunctionComponent<any> = (props: any) => {
   const {
     documentListing,
@@ -34,9 +37,29 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     approveLoading,
     disapproveLoading,
     loading,
-    called
+    called,
+    documentTypeList,
+    userId,
+    onDeleteDocumentTypes,
+    addedDocumentType,
+    setaddedDocumentType,
+    setDocumentType
   } = props;
   let allDocDisApp: boolean = true;
+  //Add document type
+  const [addDocumentType] = useMutation<any>(ADD_DOCUMENT_TYPE_CAREINST, {
+    onCompleted({ addDocument }) {
+      // refetch();
+      toast.dismiss();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('DOCUMENT_TYPE_ADDED_SUCCESS')
+        );
+      }
+    }
+  });
+
+  // Get added document types list
   if (
     documentListing &&
     documentListing.getDocuments &&
@@ -49,6 +72,33 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     });
   }
 
+  //on selecting document type
+  const handleDocumentType = (selectedType: any) => {
+    if (addedDocumentType) {
+      addDocumentType({
+        variables: {
+          id: userId ? userId : '',
+          requiredDocuments:
+            selectedType && selectedType.length
+              ? selectedType.map((document: any) => parseInt(document.value))
+              : null
+        }
+      });
+    }
+    setaddedDocumentType(selectedType);
+  };
+  const explicitTypeDropdown = documentTypeList
+    ? documentTypeList.filter(
+        (docType: any) =>
+          docType.label !== languageTranslation('VARIOUS_DOCUMENTS')
+      )
+    : undefined;
+  const [isExpand, setIsExpand] = useState<boolean>(false);
+  const [activeRow, setActiveRow] = useState<number>(-1);
+  const expandedText = (index: number) => {
+    setIsExpand(activeRow === index || activeRow === -1 ? !isExpand : isExpand);
+    setActiveRow(activeRow === index ? -1 : index);
+  };
   return (
     <>
       <div className='document-upload-section '>
@@ -62,12 +112,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 onClick={() => {
                   onDisapprove();
                 }}
-                // disabled={
-                //   allDocDisApp ||
-                //   (documentListing &&
-                //     documentListing.getDocuments &&
-                //     !documentListing.getDocuments.length)
-                // }
                 className='btn-common btn-inactive mb-3 mr-3'
                 color='link'
               >
@@ -89,7 +133,13 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   allDocDisApp ||
                   (documentListing &&
                     documentListing.getDocuments &&
-                    !documentListing.getDocuments.length)
+                    !documentListing.getDocuments.length) ||
+                  // To check required document is submitted by caregive or not
+                  (documentListing &&
+                    documentListing.getDocuments &&
+                    documentListing.getDocuments.filter(
+                      (document: any) => !document.fileName
+                    ).length)
                 }
                 className='btn-common btn-active mb-3 mr-3 '
                 color='link'
@@ -108,6 +158,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               onClick={() => {
                 setStateValueNull();
                 setShowDocumentPopup(true);
+                setDocumentType(
+                  documentTypeList.filter(
+                    (docType: any) =>
+                      docType.label === languageTranslation('VARIOUS_DOCUMENTS')
+                  )[0]
+                );
               }}
               className='btn-common mb-3'
               color='primary'
@@ -117,7 +173,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
             </Button>
           </div>
         </div>
-
         <Table bordered responsive>
           <thead className='thead-bg'>
             <tr>
@@ -155,17 +210,19 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               documentListing.getDocuments.length ? (
               documentListing.getDocuments.map((list: any, index: number) => {
                 const documentLength = documentListing.getDocuments.length;
-                const size = formatFileSize(list.fileSize);
+
                 return (
                   <tr
                     key={index}
                     className={
-                      list.status === 'approve' ? 'approve-bg' : 'table-danger'
+                      list.fileName && list.status === 'approve'
+                        ? 'approve-bg'
+                        : 'table-danger'
                     }
                   >
                     <td className='sno-th-column text-center'>{index + 1}</td>
                     <td className='date-th-column'>
-                      {list && list.createdAt
+                      {list && list.createdAt && list.fileName // filename condition to manage missing document
                         ? moment(list.createdAt).format(defaultDateTimeFormat)
                         : '-'}
                     </td>
@@ -179,19 +236,43 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         }
                         className='view-more-link word-wrap'
                       >
-                        {list && list.fileName ? list.fileName : '-'}
+                        {list && list.fileName
+                          ? list.fileName
+                          : `---${languageTranslation('DOCUMENT_MISSING')}---`}
                       </span>
                     </td>
                     <td>
                       <span>
-                        {list && list.documentType ? list.documentType : '-'}
+                        {list && list.document_type && list.document_type.type
+                          ? list.document_type.type
+                          : '-'}
                       </span>
                     </td>
                     <td className='remark-col'>
-                      {list && list.remarks ? list.remarks : '-'}
+                      {list && list.remarks ? (
+                        list.remarks.length <= 100 ? (
+                          list.remarks
+                        ) : (
+                          <p className='mb-0'>
+                            {isExpand && activeRow === index
+                              ? list.remarks
+                              : list.remarks.substr(0, 100)}
+                            <span
+                              className='view-more-link'
+                              onClick={() => expandedText(index)}
+                            >
+                              {isExpand && activeRow === index
+                                ? '...Read less'
+                                : '...Read more'}
+                            </span>
+                          </p>
+                        )
+                      ) : (
+                        '-'
+                      )}
                     </td>
                     <td className='text-center'>
-                      <span className='checkboxli checkbox-custom checkbox-default'>
+                      <span className=' checkbox-custom '>
                         <input
                           type='checkbox'
                           checked={
@@ -201,6 +282,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                               ? true
                               : false
                           }
+                          disabled={list && !list.fileName}
                           onChange={(e: any) => {
                             handleCheckElement(e, list.id, list.status);
                           }}
@@ -210,7 +292,10 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       </span>
                     </td>
 
-                    <td>{size}</td>
+                    <td>
+                      {' '}
+                      {list.fileSize ? formatFileSize(list.fileSize) : '-'}
+                    </td>
                     <td>
                       <div
                         className={`action-btn ${
@@ -220,7 +305,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         <span
                           id={`edit${index}`}
                           className='btn-icon mr-2'
-                          onClick={() => onUpdateDocument(list)}
+                          onClick={() =>
+                            onUpdateDocument(
+                              list,
+                              list && list.fileName ? false : true // To ensure user try to edit missing document
+                            )
+                          }
                           // disable={list.status === 'approve'}
                         >
                           <UncontrolledTooltip
@@ -234,15 +324,20 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         <span
                           id={`delete${index}`}
                           className={`btn-icon mr-2 ${
-                            list.status === 'approve' ? 'disbale' : ''
+                            list.status === 'approve' ||
+                            (list && !list.fileName)
+                              ? 'disbale'
+                              : ''
                           }`}
                           onClick={() =>
+                            (list && !list.fileName) ||
                             list.status === 'approve'
                               ? ''
                               : onDeleteDocument(list.id)
                           }
                         >
-                          {list.status === 'approve' ? (
+                          {(list && !list.fileName) ||
+                          list.status === 'approve' ? (
                             ''
                           ) : (
                             <UncontrolledTooltip
@@ -276,7 +371,13 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
             )}
           </tbody>
         </Table>
-
+        {/* <ExplicitDocument
+          userId={userId}
+          onDeleteDocumentTypes={onDeleteDocumentTypes}
+          addedDocumentType={addedDocumentType}
+          setaddedDocumentType={setaddedDocumentType}
+          handleDocumentType={handleDocumentType}
+        /> */}
         <Row>
           <Col lg={4} md={5} sm={12}>
             <h5 className='content-title '>
@@ -293,28 +394,53 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               </div>
               <div className='common-list-body custom-scrollbar filetypelist'>
                 <ul className='common-list list-unstyled mb-0'>
-                  {DocumentTypes
-                    ? DocumentTypes.map((type: any) => {
-                        return <li>{type.value}</li>;
+                  {addedDocumentType
+                    ? addedDocumentType.map((type: any, index: number) => {
+                        return (
+                          <li
+                            className={
+                              'cursor-pointer list-item text-capitalize'
+                            }
+                            key={index}
+                          >
+                            <span className='list-item-text'>
+                              {type.label}{' '}
+                            </span>
+                            <span
+                              id={`delete${index}`}
+                              onClick={() => {
+                                onDeleteDocumentTypes(type.value);
+                              }}
+                              className='list-item-icon'
+                            >
+                              <i className='fa fa-trash'></i>
+                            </span>
+                          </li>
+                        );
                       })
                     : null}
                 </ul>
               </div>
               <div className='common-list-footer form-section '>
-                <div className='contact-attribute '>
-                  <FormGroup className='mb-0'>
-                    <Select
-                      placeholder={languageTranslation('TYPE')}
-                      options={State}
-                      menuPlacement={'top'}
-                      className='attribute-select'
-                      classNamePrefix='attribute-inner-select'
-                    />
-                  </FormGroup>
-                  <Button className='add-attribute-btn  d-flex align-items-center justify-content-center'>
-                    <i className={'fa fa-plus'} />
-                  </Button>
-                </div>
+                <FormGroup className='mb-0'>
+                  <Select
+                    menuPlacement={'top'}
+                    placeholder={'Please select type from list'}
+                    value={addedDocumentType}
+                    isMulti
+                    options={explicitTypeDropdown}
+                    className='attribute-select'
+                    classNamePrefix='attribute-inner-select'
+                    onChange={handleDocumentType}
+                    styles={{
+                      multiValue: (provided, state) => {
+                        const display = 'none';
+                        return { ...provided, display };
+                      }
+                    }}
+                    isClearable={false}
+                  />
+                </FormGroup>
               </div>
             </div>
           </Col>

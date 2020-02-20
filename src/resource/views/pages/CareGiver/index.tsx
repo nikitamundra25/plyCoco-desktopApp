@@ -49,6 +49,8 @@ const CareGiver: FunctionComponent = () => {
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFilterApplied, setIsFilter] = useState<boolean>(false);
+  const [readMore, setreadMore] = useState<boolean>(false);
+  const [readMoreIndex, setreadMoreIndex] = useState<number>(-1);
 
   // To get caregiver list from db
   const [fetchCareGiverList, { data, called, loading, refetch }] = useLazyQuery<
@@ -231,6 +233,16 @@ const CareGiver: FunctionComponent = () => {
     }
   };
 
+  const readMoreQualificationData = (index: number) => {
+    if (index !== readMoreIndex) {
+      setreadMore(true);
+      setreadMoreIndex(index);
+    } else {
+      setreadMore(!readMore);
+      setreadMoreIndex(index);
+    }
+  };
+
   const values: ISearchValues = {
     searchValue,
     isActive,
@@ -288,7 +300,7 @@ const CareGiver: FunctionComponent = () => {
                   <div className='table-checkbox-wrap'>
                     <div className='btn-group btn-check-action-wrap'>
                       <span className='btn'>
-                        <span className='checkboxli checkbox-custom checkbox-default'>
+                        <span className=' checkbox-custom '>
                           <input type='checkbox' id='checkAll' className='' />
                           <label className=''></label>
                         </span>
@@ -398,21 +410,51 @@ const CareGiver: FunctionComponent = () => {
                             <div className='region-list  text-capitalize'>
                               {careGiverData.qualifications &&
                               careGiverData.qualifications.length ? (
-                                careGiverData.qualifications.map(
-                                  (qualification: any, index: number) => {
-                                    return (
-                                      <span
-                                        className='region-label'
-                                        key={index}
-                                      >
-                                        {qualification.name}
-                                      </span>
-                                    );
-                                  }
+                                readMore && readMoreIndex === index ? (
+                                  careGiverData.qualifications.map(
+                                    (qualification: any, index: number) => {
+                                      return (
+                                        <span
+                                          className='region-label'
+                                          key={index}
+                                        >
+                                          {qualification.name}
+                                        </span>
+                                      );
+                                    }
+                                  )
+                                ) : (
+                                  careGiverData.qualifications
+                                    .slice(0, 5)
+                                    .map(
+                                      (qualification: any, index: number) => {
+                                        return (
+                                          <span
+                                            className='region-label'
+                                            key={index}
+                                          >
+                                            {qualification.name}
+                                          </span>
+                                        );
+                                      }
+                                    )
                                 )
                               ) : (
                                 <div>-</div>
                               )}
+                              {careGiverData.qualifications &&
+                              careGiverData.qualifications.length > 5 ? (
+                                <span
+                                  onClick={() =>
+                                    readMoreQualificationData(index)
+                                  }
+                                  className='view-more-link theme-text'
+                                >
+                                  {readMore && readMoreIndex === index
+                                    ? 'Read less'
+                                    : 'Read more'}
+                                </span>
+                              ) : null}
                             </div>
                           </td>
                           <td>

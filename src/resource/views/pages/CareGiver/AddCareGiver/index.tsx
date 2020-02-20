@@ -34,7 +34,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
   let history = useHistory();
   // Fetch attribute list from db
-  const { data: attributeData } = useQuery<{
+  const { data: attributeData, loading } = useQuery<{
     getCaregiverAtrribute: IAttributeValues[];
   }>(GET_CAREGIVER_ATTRIBUTES);
   // Push into attribute options
@@ -45,7 +45,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         ({ id, name, color }: IAttributeValues) =>
           caregiverAttrOpt.push({
             label: name,
-            value: id ? id.toString() : "",
+            value: id ? id.toString() : '',
             color,
           }),
       );

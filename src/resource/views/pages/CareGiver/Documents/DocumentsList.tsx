@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Table, UncontrolledTooltip } from 'reactstrap';
 import moment from 'moment';
 import { languageTranslation, formatFileSize } from '../../../../../helpers';
@@ -14,7 +14,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     onDeleteDocument,
     loading,
   } = props;
-
+  const [isExpand, setIsExpand] = useState<boolean>(false);
+  const [activeRow, setActiveRow] = useState<number>(-1);
+  const expandedText = (index: number) => {
+    setIsExpand(activeRow === index || activeRow === -1 ? !isExpand : isExpand);
+    setActiveRow(activeRow === index ? -1 : index);
+  };
   return (
     <Table bordered responsive>
       <thead className='thead-bg'>
@@ -49,17 +54,18 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           documentListing.getDocuments.length ? (
           documentListing.getDocuments.map((list: any, index: number) => {
             const documentLength = documentListing.getDocuments.length;
-
-            return (
+            return list ? (
               <tr
                 key={index}
                 className={
-                  list.status === 'approve' ? 'approve-bg' : 'table-danger'
+                  list.fileName && list.status === 'approve'
+                    ? 'approve-bg'
+                    : 'table-danger'
                 }
               >
                 <td className='sno-th-column text-center'>{index + 1}</td>
                 <td className='date-th-column'>
-                  {list && list.createdAt && list.fileName // filename condition to manage missing document
+                  {list.createdAt && list.fileName // filename condition to manage missing document
                     ? moment(list.createdAt).format(defaultDateTimeFormat)
                     : '-'}
                 </td>
@@ -73,20 +79,43 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     }
                     className='view-more-link word-wrap'
                   >
-                    {list && list.fileName
+                    {list.fileName
                       ? list.fileName
                       : `---${languageTranslation('DOCUMENT_MISSING')}---`}
                   </span>
                 </td>
                 <td>
                   <span>
-                    {list && list.document_type && list.document_type.type
+                    {list.document_type && list.document_type.type
                       ? list.document_type.type
                       : '-'}
                   </span>
                 </td>
                 <td className='remark-col'>
-                  {list && list.remarks ? list.remarks : '-'}
+                  {list.remarks ? (
+                    list.remarks.length <= 100 ? (
+                      list.remarks
+                    ) : (
+                      <p>
+                        {isExpand && activeRow === index
+                          ? list.remarks
+                          : list.remarks.substr(0, 100)}
+                        <span
+                          className='text-primary'
+                          style={{
+                            cursor: 'pointer',
+                          }}
+                          onClick={() => expandedText(index)}
+                        >
+                          {isExpand && activeRow === index
+                            ? 'Read less'
+                            : 'Read more'}
+                        </span>
+                      </p>
+                    )
+                  ) : (
+                    '-'
+                  )}
                 </td>
                 <td className='text-center'>
                   <span className='checkboxli checkbox-custom checkbox-default'>
@@ -99,7 +128,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                           ? true
                           : false
                       }
-                      disabled={list && !list.fileName}
+                      disabled={!list.fileName}
                       onChange={(e: any) => {
                         handleCheckElement(e, list.id, list.status);
                       }}
@@ -122,7 +151,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       onClick={() =>
                         onUpdateDocument(
                           list,
-                          list && list.fileName ? false : true, // To ensure user try to edit missing document
+                          list.fileName ? false : true, // To ensure user try to edit missing document
                         )
                       }
                       // disable={list.status === 'approve'}
@@ -138,18 +167,17 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     <span
                       id={`delete${index}`}
                       className={`btn-icon mr-2 ${
-                        list.status === 'approve' || (list && !list.fileName)
+                        list.status === 'approve' || !list.fileName
                           ? 'disbale'
                           : ''
                       }`}
                       onClick={() =>
-                        (list && !list.fileName) || list.status === 'approve'
+                        !list.fileName || list.status === 'approve'
                           ? null
                           : onDeleteDocument(list.id)
                       }
                     >
-                      {(list && !list.fileName) ||
-                      list.status === 'approve' ? null : (
+                      {!list.fileName || list.status === 'approve' ? null : (
                         <UncontrolledTooltip
                           placement={'top'}
                           target={`delete${index}`}
@@ -162,7 +190,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   </div>
                 </td>
               </tr>
-            );
+            ) : null;
           })
         ) : (
           <tr className={'text-center no-hover-row'}>

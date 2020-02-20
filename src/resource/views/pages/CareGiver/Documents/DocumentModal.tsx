@@ -11,7 +11,7 @@ import {
   Input,
   Col,
   Row,
-  Form,
+  Form
 } from 'reactstrap';
 import Select from 'react-select';
 import 'react-day-picker/lib/style.css';
@@ -45,11 +45,11 @@ const DocumentUploadModal = (props: any) => {
     handleClose,
     addDocumentLoading,
     updateDocumentLoading,
-    documentTypeList,
+    documentTypeList
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
-    multiple: false,
+    multiple: false
   });
   const externalCloseBtn = (
     <button className='close modal-close' onClick={() => handleClose()}>
@@ -132,7 +132,7 @@ const DocumentUploadModal = (props: any) => {
                             ) : (
                               <span>
                                 {languageTranslation(
-                                  'PERSONAL_DOCUMENTS_UPLOAD',
+                                  'PERSONAL_DOCUMENTS_UPLOAD'
                                 )}
                               </span>
                             )}
@@ -235,7 +235,7 @@ const DocumentUploadModal = (props: any) => {
                               checked={statusValue}
                               onChange={handleChange}
                             />
-                            <Label for='check' className='pl-3'>
+                            <Label for='check'>
                               ( {languageTranslation('DOCUMENT_STATUS_LABEL')} )
                             </Label>
                           </div>

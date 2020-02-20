@@ -2,20 +2,20 @@ import React, {
   FunctionComponent,
   useState,
   ChangeEvent,
-  useEffect,
-} from 'react';
-import { useParams } from 'react-router';
-import { Col, FormGroup, Label, Row, Input } from 'reactstrap';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import { toast } from 'react-toastify';
-import { DocumentQueries } from '../../../../../graphql/queries';
-import { DocumentMutations } from '../../../../../graphql/Mutations';
-import { languageTranslation, logger } from '../../../../../helpers';
-import { IEmailAttachmentData } from '../../../../../interfaces';
-import { AttachmentList } from '../../../components/Attachments';
-import { ConfirmBox } from '../../../components/ConfirmBox';
-import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
-import { ApolloError } from 'apollo-client';
+  useEffect
+} from "react";
+import { useParams } from "react-router";
+import { Col, FormGroup, Label, Row, Input } from "reactstrap";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { toast } from "react-toastify";
+import { DocumentQueries } from "../../../../../graphql/queries";
+import { DocumentMutations } from "../../../../../graphql/Mutations";
+import { languageTranslation, logger } from "../../../../../helpers";
+import { IEmailAttachmentData } from "../../../../../interfaces";
+import { AttachmentList } from "../../../components/Attachments";
+import { ConfirmBox } from "../../../components/ConfirmBox";
+import { errorFormatter } from "../../../../../helpers/ErrorFormatter";
+import { ApolloError } from "apollo-client";
 
 const [, GET_DOCUMENTS] = DocumentQueries;
 const [ADD_DOCUMENT, , UPDATE_DOCUMENT, DELETE_DOCUMENT] = DocumentMutations;
@@ -29,9 +29,9 @@ export const DocumentFormComponent: FunctionComponent<{
   // Query to fetch documents
   const { data, loading, refetch, called } = useQuery<any>(GET_DOCUMENTS, {
     variables: {
-      userId: id ? parseInt(id) : '',
+      userId: id ? parseInt(id) : ""
     },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: "cache-and-network"
   });
   //mutation to add documents of employee
   const [addDocument, { loading: addDocumentLoading }] = useMutation<any>(
@@ -40,21 +40,21 @@ export const DocumentFormComponent: FunctionComponent<{
       onCompleted({ addUserDocuments }) {
         const {
           fileSize: size = 0,
-          fileName = '',
-          document: path = '',
-          id = '',
+          fileName = "",
+          document: path = "",
+          id = ""
         } = addUserDocuments ? addUserDocuments : {};
         setAttachment((prevArray: any) => [
           { size, path, fileName, url: null, file: null, id },
-          ...prevArray,
+          ...prevArray
         ]);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('DOCUMENT_ADDED_SUCCESS'),
+            languageTranslation("DOCUMENT_ADDED_SUCCESS")
           );
         }
-      },
-    },
+      }
+    }
   );
 
   // Mutation to delete Component
@@ -62,11 +62,11 @@ export const DocumentFormComponent: FunctionComponent<{
     onCompleted({ deleteDocument }) {
       const { id } = deleteDocument;
       setAttachment((prevArray: any) =>
-        prevArray.filter((item: any) => item.id !== id),
+        prevArray.filter((item: any) => item.id !== id)
       );
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('DOCUMENT_DELETION_SUCCESS'),
+          languageTranslation("DOCUMENT_DELETION_SUCCESS")
         );
       }
     },
@@ -75,7 +75,7 @@ export const DocumentFormComponent: FunctionComponent<{
       if (!toast.isActive(toastId)) {
         toast.error(message);
       }
-    },
+    }
   });
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export const DocumentFormComponent: FunctionComponent<{
           document: path,
           fileName,
           fileSize: size,
-          id,
+          id
         }: {
           document: string;
           fileName: string;
@@ -99,10 +99,10 @@ export const DocumentFormComponent: FunctionComponent<{
             fileName,
             size,
             file: null,
-            url: '',
-            id,
+            url: "",
+            id
           });
-        },
+        }
       );
       setAttachment(temp);
     }
@@ -111,7 +111,7 @@ export const DocumentFormComponent: FunctionComponent<{
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const {
-      target: { files },
+      target: { files }
     } = e;
     if (files) {
       for (let index = 0; index < files.length; index++) {
@@ -124,15 +124,15 @@ export const DocumentFormComponent: FunctionComponent<{
             fileName: file.name,
             size: file.size,
             file,
-            path: '',
+            path: ""
           };
           addDocument({
             variables: {
               documentInput: {
-                userId: id ? id : '',
-                document: file,
-              },
-            },
+                userId: id ? id : "",
+                document: file
+              }
+            }
           });
         };
       }
@@ -141,8 +141,8 @@ export const DocumentFormComponent: FunctionComponent<{
   //on delete document
   const onDeleteDocument = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_DOCUMENT_DELETE_MSG'),
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_DOCUMENT_DELETE_MSG")
     });
     if (!value) {
       return;
@@ -151,8 +151,8 @@ export const DocumentFormComponent: FunctionComponent<{
         if (id) {
           deleteDocument({
             variables: {
-              id: parseInt(id),
-            },
+              id: parseInt(id)
+            }
           });
         }
       } catch (error) {
@@ -166,24 +166,27 @@ export const DocumentFormComponent: FunctionComponent<{
 
   return (
     <Row>
-      <Col lg={'12'} md={'12'} sm={'12'}>
+      <Col lg={"12"} md={"12"} sm={"12"}>
         <div>
-          <h5 className='main-title '>Documents</h5>
-          <FormGroup className='mb-2'>
+          <h5 className="main-title ">Documents</h5>
+          <FormGroup className="mb-2">
             <div>
-              <div className='custom-file-div position-relative'>
+              <div className="custom-file-div position-relative">
                 <Input
-                  id='FileBrowser'
-                  type='file'
+                  id="FileBrowser"
+                  type="file"
                   multiple
                   onChange={handleImageChange}
-                  className='custom-input-file'
+                  className="custom-input-file"
                 />
 
-                <Label className='custom-label-file' for='FileBrowser'>
-                  <span className='choosefile-label'>
-                    <i className='fa fa-folder-open mr-2'></i>
-                    <span>Choose file</span>
+                <Label className="custom-label-file" for="FileBrowser">
+                  <span className="choosefile-label">
+                    <i className="fa fa-folder-open mr-2"></i>
+                    <span>{languageTranslation("BROWSE_FILE")}</span>
+                  </span>
+                  <span className="upload-doc-name">
+                    {languageTranslation("CHOOSE_FILE")}
                   </span>
                 </Label>
               </div>
@@ -194,7 +197,7 @@ export const DocumentFormComponent: FunctionComponent<{
         <Label className="simple-label mb-2">Documents</Label>
         <input type="file" multiple onChange={handleImageChange} />
       </FormGroup> */}
-        <div className='employee-document-list custom-scrollbar'>
+        <div className="employee-document-list custom-scrollbar">
           {attachment && attachment.length ? (
             <AttachmentList
               attachment={attachment}

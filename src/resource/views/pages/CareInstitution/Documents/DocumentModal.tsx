@@ -236,7 +236,7 @@ const DocumentUploadModal = (props: any) => {
                               checked={statusValue}
                               onChange={handleChange}
                             />
-                            <Label for='check' className='pl-3'>
+                            <Label for='check'>
                               ( {languageTranslation('DOCUMENT_STATUS_LABEL')} )
                             </Label>
                           </div>

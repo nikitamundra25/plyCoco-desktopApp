@@ -177,7 +177,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       <div className='common-detail-page'>
         <div className='common-detail-section'>
           {loading ? (
-            <div className='overview-loader'>
+            <div className='detailview-loader'>
               <Loader />
             </div>
           ) : (

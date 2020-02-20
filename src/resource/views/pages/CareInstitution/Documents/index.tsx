@@ -26,7 +26,8 @@ const [
   APPROVE_DOCUMENT,
   DISAPPROVE_DOCUMENT,
   ,
-  DELETE_DOCUMENT_TYPE_CAREINST
+  DELETE_DOCUMENT_TYPE_CAREINST,
+  UPDATE_CAREINST_DOC
 ] = DocumentMutations;
 const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
 const [
@@ -150,7 +151,7 @@ const Documents = () => {
 
   //update document
   const [updateDocument, { loading: updateDocumentLoading }] = useMutation<any>(
-    UPDATE_DOCUMENT,
+    UPDATE_CAREINST_DOC,
     {
       onCompleted({ updateDocument }) {
         refetch();

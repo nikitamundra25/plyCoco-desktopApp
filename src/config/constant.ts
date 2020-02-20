@@ -341,6 +341,11 @@ export const State: IReactSelectInterface[] = [
   { value: 'Saarland', label: 'Saarland' },
   { value: 'Saxony', label: 'Saxony' }
 ];
+
+export const DocumentTempSelect: IReactSelectInterface[] = [
+  { value: 'Working Proof', label: 'Working Proof' },
+  { value: 'Sick Note', label: 'Sick Note' }
+];
 export const Gender: IReactSelectInterface[] = [
   { value: 'Male', label: 'Male' },
   { value: 'Female', label: 'Female' }
@@ -1139,13 +1144,25 @@ export const CareGiver: IReactSelectInterface[] = [
 ];
 
 export const Priority: IReactSelectInterface[] = [
-  { value: 'low', label: languageTranslation('LOW') },
-  { value: 'normal', label: languageTranslation('NORMAL') },
-  { value: 'high', label: languageTranslation('HIGH') }
+  { value: 'Low', label: languageTranslation('LOW') },
+  { value: 'Normal', label: languageTranslation('NORMAL') },
+  { value: 'High', label: languageTranslation('HIGH') }
 ];
 export const TodoFilter: IReactSelectInterface[] = [
   { value: 'Hide Done', label: languageTranslation('HIDE_DONE') },
   { value: 'Hide Future Ones', label: languageTranslation('HIDE_FUTURE_ONES') }
+];
+
+export const Without_Appointments: IReactSelectInterface[] = [
+  {
+    value: 'Show with appointment',
+    label: languageTranslation('SHOW_APPOINTMENT')
+  },
+  {
+    value: 'Show without appointment',
+    label: languageTranslation('SHOW_WITHOUT_APPOINTMENT')
+  },
+  { value: 'View All', label: languageTranslation('VIEW_ALL') }
 ];
 
 export const TodoStatus: IReactSelectInterface[] = [
@@ -1319,7 +1336,7 @@ export const DocumentTypes: IReactSelectInterface[] = [
     value: 'Professional liability insurance (no application)',
     label: 'Professional liability insurance (no application)'
   },
-  { value: 'Various documents', label: 'Various documents' },
+  // { value: 'Various documents', label: 'Various documents' },
   { value: 'First-aid pass', label: 'First-aid pass' },
   { value: 'Driving license car', label: 'Driving license car' },
   { value: 'Business registration', label: 'Business registration' },
@@ -1341,10 +1358,8 @@ export const DocumentTypes: IReactSelectInterface[] = [
     label: 'Police certificate of good conduct, expanded'
   },
   {
-    value:
-      'Framework contract for fixed-term contracts - Solona Personalservice',
-    label:
-      'Framework contract for fixed-term contracts - Solona Personalservice'
+    value: 'Framework contract for fixed-term contracts',
+    label: 'Framework contract for fixed-term contracts'
   },
   { value: 'Governance agreement', label: 'Governance agreement' },
   { value: 'Pension Insurance', label: 'Pension Insurance' },

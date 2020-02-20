@@ -5,42 +5,42 @@ import { languageTranslation } from '../../../../helpers';
 const CareGiverTodo: FunctionComponent = () => {
   return (
     <>
-      <div className='email-section'>
+      <div className="email-section">
         {/* <EmailMenus
            location={this.props.location}
            history={this.props.history}
          /> */}
-        <div className='email-content'>
-          <h5 className='content-title'>
+        <div className="email-content">
+          <h5 className="content-title">
             {languageTranslation('CARE_GIVER_TODO')}
           </h5>
 
           <Row>
             <Col lg={'12'}>
-              <div className='email-inbox-section'>
-                <div className='filter-form form-section'>
+              <div className="email-inbox-section">
+                <div className="filter-form form-section">
                   <Row>
                     <Col lg={'3'}>
-                      <FormGroup className='mb-2'>
+                      <FormGroup className="mb-2">
                         <Input
-                          type='text'
-                          name='search'
-                          id='search'
+                          type="text"
+                          name="search"
+                          id="search"
                           placeholder={languageTranslation(
-                            'SEARCH_PLACEHOLDER',
+                            'SEARCH_PLACEHOLDER'
                           )}
                         />
                       </FormGroup>
                     </Col>
                     <Col lg={'4'}>
-                      <div className='filter-btn-wrap mb-2'>
-                        <span className='' id='search1'>
-                          <div className='edit-remark'>
+                      <div className="filter-btn-wrap mb-2">
+                        <span className="" id="search1">
+                          <div className="edit-remark">
                             {languageTranslation('FIND')}
                           </div>
                         </span>
-                        <span className='ml-2' id='reset'>
-                          <div className='edit-remark'>
+                        <span className="ml-2" id="reset">
+                          <div className="edit-remark">
                             {languageTranslation('CLEAR')}
                           </div>
                         </span>
@@ -49,9 +49,9 @@ const CareGiverTodo: FunctionComponent = () => {
                   </Row>
                 </div>
 
-                <div className='email-row-wrap align-items-center email-attributes-wrap'>
-                  <div className='email-attributes-content d-flex align-items-center'>
-                    <i className='fa fa-refresh mr-1'></i>
+                <div className="email-row-wrap align-items-center email-attributes-wrap">
+                  <div className="email-attributes-content d-flex align-items-center">
+                    <i className="fa fa-refresh mr-1"></i>
                     <span>{languageTranslation('REFRESH')}</span>
                   </div>
                   {/* <span className="email-attributes-seprator">|</span>
@@ -61,20 +61,20 @@ const CareGiverTodo: FunctionComponent = () => {
                    </div> */}
                 </div>
 
-                <Table responsive className='care-giver-todo'>
-                  <thead className='thead-bg'>
+                <Table responsive className="care-giver-todo">
+                  <thead className="thead-bg">
                     <tr>
-                      <th className='date-col'>
+                      <th className="date-col">
                         {languageTranslation('DATE')}{' '}
                       </th>
-                      <th className='name-col'>
+                      <th className="name-col">
                         {languageTranslation('NAME')}{' '}
                       </th>
-                      <th className='comment-col'>
+                      <th className="comment-col">
                         {' '}
                         {languageTranslation('COMMENT')}
                       </th>
-                      <th className='external-col'>
+                      <th className="external-col">
                         {' '}
                         {languageTranslation('EXTERNAL')}
                       </th>
@@ -83,57 +83,57 @@ const CareGiverTodo: FunctionComponent = () => {
                   <tbody>
                     <tr>
                       <td colSpan={12}>
-                        <div className='date-title'>
-                          <span className='align-middle mr-2'>
-                            <i className='icon-arrow-down' />
+                        <div className="date-title">
+                          <span className="align-middle mr-2">
+                            <i className="icon-arrow-down" />
                           </span>
-                          <span className='align-middle '>Date: 2019</span>
+                          <span className="align-middle ">Date: 2019</span>
                         </div>
                         <div>
                           <Table
                             bordered
                             hover
                             responsive
-                            className='inner-care-giver-todo'
+                            className="inner-care-giver-todo"
                           >
                             <tbody>
                               <tr>
-                                <td className='date-col'>26.08.2015 00:00</td>
-                                <td className='name-col'>
+                                <td className="date-col">26.08.2015 00:00</td>
+                                <td className="name-col">
                                   Generator, Origins and Meaning
                                 </td>
-                                <td className='comment-col'>
+                                <td className="comment-col">
                                   Lorem Ipsum is simply dummy text of the
                                   printing and typesetting industry.{' '}
                                 </td>
-                                <td className='external-col'>
-                                  <span className='checkboxli checkbox-custom checkbox-default'>
+                                <td className="external-col">
+                                  <span className=" checkbox-custom ">
                                     <input
-                                      type='checkbox'
-                                      id='checkAll'
-                                      className=''
+                                      type="checkbox"
+                                      id="checkAll"
+                                      className=""
                                     />
-                                    <label className=''> </label>
+                                    <label className=""> </label>
                                   </span>
                                 </td>
                               </tr>
                               <tr>
-                                <td className='date-col'>26.08.2015 00:00</td>
-                                <td className='name-col'>
+                                <td className="date-col">26.08.2015 00:00</td>
+                                <td className="name-col">
                                   Generator, Origins and Meaning
                                 </td>
-                                <td className='comment-col'>
+                                <td className="comment-col">
                                   Lorem Ipsum is simply dummy text of the
                                   printing and typesetting industry.{' '}
                                 </td>
-                                <td className='external-col'>
-                                  <span className='checkboxli checkbox-custom checkbox-default'>
+                                <td className="external-col">
+                                  <span className=" checkbox-custom ">
                                     <input
-                                      type='checkbox'
-                                      id='checkAll'
-                                      className=''
+                                      type="checkbox"
+                                      id="checkAll"
+                                      className=""
                                     />
-                                    <label className=''> </label>
+                                    <label className=""> </label>
                                   </span>
                                 </td>
                               </tr>
@@ -144,57 +144,57 @@ const CareGiverTodo: FunctionComponent = () => {
                     </tr>
                     <tr>
                       <td colSpan={12}>
-                        <div className='date-title'>
-                          <span className='align-middle mr-2'>
-                            <i className='icon-arrow-down' />
+                        <div className="date-title">
+                          <span className="align-middle mr-2">
+                            <i className="icon-arrow-down" />
                           </span>
-                          <span className='align-middle '>Date: 2018</span>
+                          <span className="align-middle ">Date: 2018</span>
                         </div>
                         <div>
                           <Table
                             bordered
                             hover
                             responsive
-                            className='inner-care-giver-todo'
+                            className="inner-care-giver-todo"
                           >
                             <tbody>
                               <tr>
-                                <td className='date-col'>26.08.2015 00:00</td>
-                                <td className='name-col'>
+                                <td className="date-col">26.08.2015 00:00</td>
+                                <td className="name-col">
                                   Generator, Origins and Meaning
                                 </td>
-                                <td className='comment-col'>
+                                <td className="comment-col">
                                   Lorem Ipsum is simply dummy text of the
                                   printing and typesetting industry.{' '}
                                 </td>
-                                <td className='external-col'>
-                                  <span className='checkboxli checkbox-custom checkbox-default'>
+                                <td className="external-col">
+                                  <span className=" checkbox-custom ">
                                     <input
-                                      type='checkbox'
-                                      id='checkAll'
-                                      className=''
+                                      type="checkbox"
+                                      id="checkAll"
+                                      className=""
                                     />
-                                    <label className=''> </label>
+                                    <label className=""> </label>
                                   </span>
                                 </td>
                               </tr>
                               <tr>
-                                <td className='date-col'>26.08.2015 00:00</td>
-                                <td className='name-col'>
+                                <td className="date-col">26.08.2015 00:00</td>
+                                <td className="name-col">
                                   Generator, Origins and Meaning
                                 </td>
-                                <td className='comment-col'>
+                                <td className="comment-col">
                                   Lorem Ipsum is simply dummy text of the
                                   printing and typesetting industry.{' '}
                                 </td>
-                                <td className='external-col'>
-                                  <span className='checkboxli checkbox-custom checkbox-default'>
+                                <td className="external-col">
+                                  <span className=" checkbox-custom ">
                                     <input
-                                      type='checkbox'
-                                      id='checkAll'
-                                      className=''
+                                      type="checkbox"
+                                      id="checkAll"
+                                      className=""
                                     />
-                                    <label className=''> </label>
+                                    <label className=""> </label>
                                   </span>
                                 </td>
                               </tr>

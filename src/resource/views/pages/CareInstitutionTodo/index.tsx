@@ -35,7 +35,13 @@ import { toast } from 'react-toastify';
 import { ToDoMutations } from '../../../../graphql/Mutations';
 import PaginationComponent from '../../components/Pagination';
 import * as qs from 'query-string';
-import { IReactSelectInterface } from '../../../../interfaces';
+import {
+  ISearchValues,
+  ISearchToDoValues,
+  IReactSelectInterface
+} from '../../../../interfaces';
+import { Formik, FormikHelpers, FormikProps } from 'formik';
+import Search from '../../components/SearchFilter';
 
 const [GET_TO_DOS] = ToDoQueries;
 const [
@@ -65,6 +71,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const [fetchToDoByUserID, { data, called, loading, refetch }] = useLazyQuery<
     any
   >(GET_TO_DOS);
+  const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
 
   // Mutation to update careInstitution todo status
   const [updateStatus] = useMutation<{
@@ -105,15 +112,22 @@ const CareInstitutionTodo: FunctionComponent = () => {
 
     // To handle display and query param text
     if (query) {
-      const current: string = history.location.search;
-      let search: any = {};
-      search = { ...qs.parse(current) };
-      if (search.searchBy) {
-        searchBy = search.searchBy;
-      }
+      const current: string | any = history.location.search;
+      let searchData: any = {};
+      searchData = { ...qs.parse(current) };
+      console.log('search', searchData);
 
-      if (search.futureOnly) {
-        futureOnly = JSON.parse(search.futureOnly);
+      if (searchData && searchData.search) {
+        searchBy = searchData.search;
+      }
+      if (searchData && searchData.toDoFilter) {
+        sortBy = searchData.toDoFilter;
+      }
+      if (searchData && searchData.priority) {
+        priority = searchData.priority;
+      }
+      if (searchData.futureOnly) {
+        futureOnly = JSON.parse(searchData.futureOnly);
       }
 
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
@@ -124,39 +138,14 @@ const CareInstitutionTodo: FunctionComponent = () => {
         variables: {
           userType: userRole,
           userId: parseInt(userId),
-          searchBy,
-          sortBy: search.sortBy === 'all' ? null : search.sortBy,
-          priority: search.priority,
+          searchBy: searchBy ? searchBy : '',
+          sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
+          priority: searchData.priority,
           futureOnly,
           limit: PAGE_LIMIT,
           page: query.page ? parseInt(query.page as string) : 1
         }
       });
-
-      // if (search.sortBy) {
-      //   sortBy =
-      //     TodoStatus[
-      //       TodoStatus.map(item => {
-      //         return item.value;
-      //       }).indexOf(search.sortBy)
-      //     ];
-      // }
-
-      // if (search.priority) {
-      //   priority =
-      //     Priority[
-      //       Priority.map(item => {
-      //         return item.value;
-      //       }).indexOf(search.priority)
-      //     ];
-      // }
-
-      // setSearchValues({
-      //   searchBy,
-      //   futureOnly,
-      //   sortBy,
-      //   priority
-      // });
     }
   }, [search]);
 
@@ -171,6 +160,32 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const editToDo = (list: any) => {
     setShowToDo(true);
     setSelectUser(list);
+  };
+
+  const handleSubmit = async (
+    values: ISearchToDoValues,
+    { setSubmitting }: FormikHelpers<ISearchToDoValues>
+  ) => {
+    let params: {
+      [key: string]: any;
+    } = {};
+    params.page = 1;
+    if (values.searchValue) {
+      params.search = values.searchValue;
+    }
+    if (values.toDoFilter && values.toDoFilter.value !== '') {
+      params.toDoFilter =
+        values.toDoFilter.value !== '' ? values.toDoFilter.value : '';
+    }
+    if (values.priority && values.priority.value !== '') {
+      params.priority =
+        values.priority.value !== '' ? values.priority.value : '';
+    }
+    if (values.futureOnly) {
+      params.futureOnly = values.futureOnly ? values.futureOnly : false;
+    }
+    const path = [pathname, qs.stringify(params)].join('?');
+    history.push(path);
   };
 
   const handleChange = async (id: any, status: string, priority: string) => {
@@ -245,6 +260,22 @@ const CareInstitutionTodo: FunctionComponent = () => {
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
 
+  const {
+    searchValue = '',
+    sortBy = undefined,
+    toDoFilter = undefined,
+    priority = undefined,
+    futureOnly = false
+  } = searchValues ? searchValues : {};
+
+  const values: ISearchToDoValues = {
+    searchValue,
+    sortBy,
+    toDoFilter,
+    priority,
+    futureOnly
+  };
+
   return (
     <>
       <div>
@@ -254,66 +285,14 @@ const CareInstitutionTodo: FunctionComponent = () => {
         <Row>
           <Col lg={'12'}>
             <div className='filter-form form-section'>
-              <Row>
-                <Col lg={'3'} md={'3'}>
-                  <FormGroup className='mb-2'>
-                    <Label className='col-form-label'>
-                      {languageTranslation('SEARCH_LABEL')} :
-                    </Label>
-                    <Input
-                      type='text'
-                      name='search'
-                      id='search'
-                      placeholder={languageTranslation('SEARCH_LABEL')}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg={'2'} md={'3'}>
-                  <FormGroup>
-                    <Label className='col-form-label'>
-                      {languageTranslation('STATUS_LABEL')} :
-                    </Label>
-                    <Select
-                      placeholder={languageTranslation('STATUS_PLACEHOLDER')}
-                      classNamePrefix='custom-inner-reactselect'
-                      className={'custom-reactselect'}
-                      options={TodoFilter}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg={'2'} md={'3'}>
-                  <FormGroup>
-                    <Label className='col-form-label'>
-                      {languageTranslation('PRIORITY')} :
-                    </Label>
-                    <Select
-                      placeholder='Select Priority'
-                      classNamePrefix='custom-inner-reactselect'
-                      className={'custom-reactselect'}
-                      options={Priority}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg={'2'} md={'3'}>
-                  <div className='label-height'></div>
-                  <div className='filter-btn-wrap mb-2'>
-                    <span className='btn-filter mr-2' id='search1'>
-                      <UncontrolledTooltip placement='top' target='search1'>
-                        {languageTranslation('SEARCH_LABEL')}
-                      </UncontrolledTooltip>
-                      <i className='fa fa-search mr-1'></i>
-                      {languageTranslation('SEARCH_LABEL')}
-                    </span>
-                    <span className='btn-filter mr-2' id='reset'>
-                      <UncontrolledTooltip placement='top' target='reset'>
-                        {languageTranslation('RESET_LABEL')}
-                      </UncontrolledTooltip>
-                      <i className='fa fa-refresh mr-1'></i>
-                      {languageTranslation('RESET_LABEL')}
-                    </span>
-                  </div>
-                </Col>
-              </Row>
+              <Formik
+                initialValues={values}
+                enableReinitialize={true}
+                onSubmit={handleSubmit}
+                children={(props: FormikProps<ISearchToDoValues>) => (
+                  <Search {...props} label={'toDos'} />
+                )}
+              />
             </div>
 
             <Table bordered hover responsive>

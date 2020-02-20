@@ -76,19 +76,19 @@ export default {
       name: languageTranslation('MENU_DOCUMENT_UPLOADS'),
       icon: 'icon-upload',
       url: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
-      authKey: ['all', 'superadmin', 'basic', 'invoice'],
-      children: [
-        {
-          name: languageTranslation('MENU_DOCUMENT_WORKING_PROOF'),
-          icon: 'icon-working-list',
-          url: AppRoutes.DOCUMENT_TEMPLATE_WORKING
-        },
-        {
-          name: languageTranslation('MENU_DOCUMENT_STICK_NOTES'),
-          icon: 'icon-document',
-          url: AppRoutes.HOME
-        }
-      ]
+      authKey: ['all', 'superadmin', 'basic', 'invoice']
+      // children: [
+      //   {
+      //     name: languageTranslation("MENU_DOCUMENT_WORKING_PROOF"),
+      //     icon: "icon-working-list",
+      //     url: AppRoutes.DOCUMENT_TEMPLATE_WORKING
+      //   },
+      //   {
+      //     name: languageTranslation("MENU_DOCUMENT_SICK_NOTES"),
+      //     icon: "icon-document",
+      //     url: AppRoutes.HOME
+      //   }
+      // ]
     },
     {
       name: languageTranslation('MENU_FURTHER'),

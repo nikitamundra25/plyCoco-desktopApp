@@ -339,6 +339,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     <PersonalInformation
                       CareInstitutionList={CareInstitutionList}
                       currentSelectuser={(Data: IReactSelectInterface) => {
+                        console.log('in current select user', data);
+
                         setselectUser((selectUser = Data));
                       }}
                       handleIsUserChange={() =>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import {
   Table,
   Button,
@@ -8,17 +8,21 @@ import {
   Row,
   Col
 } from 'reactstrap';
+import { DocumentMutations } from '../../../../../graphql/Mutations';
+
 import moment from 'moment';
 import Select from 'react-select';
 import { languageTranslation, formatFileSize } from '../../../../../helpers';
-import {
-  AppConfig,
-  defaultDateTimeFormat,
-  State,
-  DocumentTypes
-} from '../../../../../config';
+import { AppConfig, defaultDateTimeFormat } from '../../../../../config';
 
 import Loader from '../../../containers/Loader/Loader';
+import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { DocumentQueries } from '../../../../../graphql/queries';
+import { toast } from 'react-toastify';
+const [, , , , , , ADD_DOCUMENT_TYPE_CAREINST] = DocumentMutations;
+const [, , , GET_REQUIRED_DOCUMENT_TYPES] = DocumentQueries;
+let toastId: any = '';
+
 const DocumentsList: FunctionComponent<any> = (props: any) => {
   const {
     documentListing,
@@ -34,9 +38,27 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     approveLoading,
     disapproveLoading,
     loading,
-    called
+    called,
+    documentTypeList,
+    userId,
+    onDeleteDocumentTypes,
+    addedDocumentType,
+    setaddedDocumentType
   } = props;
   let allDocDisApp: boolean = true;
+  //Add document type
+  const [addDocumentType] = useMutation<any>(ADD_DOCUMENT_TYPE_CAREINST, {
+    onCompleted({ addDocument }) {
+      // refetch();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('DOCUMENT_TYPE_ADDED_SUCCESS')
+        );
+      }
+    }
+  });
+
+  // Get added document types list
   if (
     documentListing &&
     documentListing.getDocuments &&
@@ -48,6 +70,22 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
       }
     });
   }
+
+  //on selecting document type
+  const handleDocumentType = (selectedType: any) => {
+    if (addedDocumentType) {
+      addDocumentType({
+        variables: {
+          id: userId ? userId : '',
+          requiredDocuments:
+            selectedType && selectedType.length
+              ? selectedType.map((document: any) => parseInt(document.value))
+              : null
+        }
+      });
+    }
+    setaddedDocumentType(selectedType);
+  };
 
   return (
     <>
@@ -62,12 +100,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 onClick={() => {
                   onDisapprove();
                 }}
-                // disabled={
-                //   allDocDisApp ||
-                //   (documentListing &&
-                //     documentListing.getDocuments &&
-                //     !documentListing.getDocuments.length)
-                // }
                 className='btn-common btn-inactive mb-3 mr-3'
                 color='link'
               >
@@ -117,7 +149,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
             </Button>
           </div>
         </div>
-
         <Table bordered responsive>
           <thead className='thead-bg'>
             <tr>
@@ -184,14 +215,16 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     </td>
                     <td>
                       <span>
-                        {list && list.documentType ? list.documentType : '-'}
+                        {list && list.document_type && list.document_type.type
+                          ? list.document_type.type
+                          : '-'}
                       </span>
                     </td>
                     <td className='remark-col'>
                       {list && list.remarks ? list.remarks : '-'}
                     </td>
                     <td className='text-center'>
-                      <span className='checkboxli checkbox-custom checkbox-default'>
+                      <span className=' checkbox-custom '>
                         <input
                           type='checkbox'
                           checked={
@@ -276,7 +309,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
             )}
           </tbody>
         </Table>
-
         <Row>
           <Col lg={4} md={5} sm={12}>
             <h5 className='content-title '>
@@ -293,28 +325,42 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               </div>
               <div className='common-list-body custom-scrollbar filetypelist'>
                 <ul className='common-list list-unstyled mb-0'>
-                  {DocumentTypes
-                    ? DocumentTypes.map((type: any) => {
-                        return <li>{type.value}</li>;
+                  {addedDocumentType
+                    ? addedDocumentType.map((type: any, index: number) => {
+                        return (
+                          <li
+                            key={index}
+                            onClick={() => {
+                              onDeleteDocumentTypes(type.value);
+                            }}
+                          >
+                            {type.label}
+                          </li>
+                        );
                       })
                     : null}
                 </ul>
               </div>
               <div className='common-list-footer form-section '>
-                <div className='contact-attribute '>
-                  <FormGroup className='mb-0'>
-                    <Select
-                      placeholder={languageTranslation('TYPE')}
-                      options={State}
-                      menuPlacement={'top'}
-                      className='attribute-select'
-                      classNamePrefix='attribute-inner-select'
-                    />
-                  </FormGroup>
-                  <Button className='add-attribute-btn  d-flex align-items-center justify-content-center'>
-                    <i className={'fa fa-plus'} />
-                  </Button>
-                </div>
+                <FormGroup className='mb-0'>
+                  <Select
+                    menuPlacement={'top'}
+                    placeholder={languageTranslation('TYPE')}
+                    value={addedDocumentType}
+                    isMulti
+                    options={documentTypeList ? documentTypeList : ''}
+                    className='attribute-select'
+                    classNamePrefix='attribute-inner-select'
+                    onChange={handleDocumentType}
+                    styles={{
+                      multiValue: (provided, state) => {
+                        const display = 'none';
+                        return { ...provided, display };
+                      }
+                    }}
+                    isClearable={false}
+                  />
+                </FormGroup>
               </div>
             </div>
           </Col>

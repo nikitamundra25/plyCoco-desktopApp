@@ -14,7 +14,9 @@ export interface ISearchProps {
 
 export interface ISearchToDoValues {
   searchBy?: string;
+  searchValue?: string;
   sortBy?: IReactSelectInterface;
   priority?: IReactSelectInterface;
   futureOnly?: boolean;
+  toDoFilter?: IReactSelectInterface;
 }

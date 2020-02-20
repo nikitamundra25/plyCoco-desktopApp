@@ -300,7 +300,7 @@ const CareGiver: FunctionComponent = () => {
                   <div className='table-checkbox-wrap'>
                     <div className='btn-group btn-check-action-wrap'>
                       <span className='btn'>
-                        <span className='checkboxli checkbox-custom checkbox-default'>
+                        <span className=' checkbox-custom '>
                           <input type='checkbox' id='checkAll' className='' />
                           <label className=''></label>
                         </span>

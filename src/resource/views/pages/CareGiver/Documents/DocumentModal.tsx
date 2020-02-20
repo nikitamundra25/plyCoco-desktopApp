@@ -185,6 +185,7 @@ const DocumentUploadModal = (props: any) => {
                           onChange={(type: any) => {
                             setDocumentType(type);
                           }}
+                          placeholder={languageTranslation('DOCUMENT_TYPE')}
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
                           isDisabled={isMissingDocEditable}

@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { Button } from 'reactstrap';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { ApolloError } from 'apollo-client';
 import { toast } from 'react-toastify';
@@ -42,8 +43,9 @@ const Documents = () => {
   const [fileObject, setFileObject] = useState<Object | null>(null);
   const [statusValue, setStatusValue] = useState<boolean>(true);
   const [remarkValue, setRemarkValue] = useState<any>(null);
-  const [documentType, setDocumentType] = useState<any>(null);
-  // const [documentData, setDocumentData] = useState<any>(null);
+  const [documentType, setDocumentType] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
   const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
   const [fileName, setFilename] = useState<any>(null);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
@@ -164,6 +166,20 @@ const Documents = () => {
     }
   }, [disApprovedData]);
 
+  // useEffect(() => {
+  //   const { getDocumentType = [] } = documentTypeListData
+  //     ? documentTypeListData
+  //     : {};
+  //   if (getDocumentType && getDocumentType.length) {
+  //     const result = getDocumentType.filter((docType: any) => {
+  //       docType.type === languageTranslation('VARIOUS_DOCUMENTS');
+  //     })[0];
+  //     if (result) {
+  //       setDocumentType();
+  //     }
+  //   }
+  // }, [documentTypeListData]);
+
   // Get Care Giver Details
   const [isApproved, setisApproved] = useState<boolean>(false);
 
@@ -177,12 +193,13 @@ const Documents = () => {
   //set state data null
   const setStateValueNull = () => {
     setRemarkValue(null);
-    setDocumentType({ value: 'Various documents', label: 'Various documents' });
+    setDocumentType(undefined);
     setDocumentUrl(null);
     setStatusValue(true);
     setDocumentIdUpdate(null);
     setFileObject(null);
     setFilename(null);
+    setIsMissingDocEditable(false);
     // setErrorMsg(null);
   };
   useEffect(() => {
@@ -449,24 +466,92 @@ const Documents = () => {
     }
   };
 
+  let allDocDisApp: boolean = true;
+  if (data && data.getDocuments && data.getDocuments.length) {
+    data.getDocuments.map((data: any) => {
+      if (data && data.status === 'approve') {
+        allDocDisApp = false;
+      }
+    });
+  }
+
   return (
     <div>
-      <DocumentsList
-        setShowDocumentPopup={setShowDocumentPopup}
-        documentListing={data}
-        handleCheckElement={handleCheckElement}
-        documentId={documentId}
-        onDeleteDocument={onDeleteDocument}
-        onUpdateDocument={onUpdateDocument}
-        setStateValueNull={setStateValueNull}
-        onApprove={onApprove}
-        isApproved={isApproved}
-        onDisapprove={onDisapprove}
-        loading={loading}
-        called={called}
-        approveLoading={approveLoading}
-        disapproveLoading={disapproveLoading}
-      />
+      <div className='document-upload-section mb-3'>
+        <div className='d-flex align-items-center justify-content-between flex-wrap'>
+          <h5 className='content-title mb-3'>
+            {languageTranslation('CG_SUB_MENU_DOCUMENTS')}
+          </h5>
+          <div>
+            {isApproved ? (
+              <Button
+                onClick={onDisapprove}
+                className='btn-common btn-inactive mb-3 mr-3'
+                color='link'
+              >
+                {disapproveLoading ? (
+                  <>
+                    <i className='fa fa-spinner fa-spin ' />{' '}
+                    {languageTranslation('DISAPPROVE')}
+                  </>
+                ) : (
+                  languageTranslation('DISAPPROVE')
+                )}
+              </Button>
+            ) : (
+              <Button
+                onClick={onApprove}
+                disabled={
+                  allDocDisApp ||
+                  (data && data.getDocuments && !data.getDocuments.length) ||
+                  (data &&
+                    data.getDocuments &&
+                    data.getDocuments.filter(
+                      (document: any) => !document.fileName,
+                    ).length)
+                }
+                className='btn-common btn-active mb-3 mr-3 '
+                color='link'
+              >
+                {approveLoading ? (
+                  <>
+                    <i className='fa fa-spinner fa-spin ' />{' '}
+                    {languageTranslation('APPROVE')}
+                  </>
+                ) : (
+                  languageTranslation('APPROVE')
+                )}
+              </Button>
+            )}
+            <Button
+              onClick={() => {
+                setStateValueNull();
+                setShowDocumentPopup(true);
+                setDocumentType(
+                  documentTypeList.filter(
+                    (docType: any) =>
+                      docType.label ===
+                      languageTranslation('VARIOUS_DOCUMENTS'),
+                  )[0],
+                );
+              }}
+              className='btn-common mb-3'
+              color='primary'
+            >
+              <i className={'fa fa-upload'} />
+              &nbsp;{languageTranslation('UPLOAD_DOCUMENT')}
+            </Button>
+          </div>
+        </div>
+        <DocumentsList
+          documentListing={data}
+          handleCheckElement={handleCheckElement}
+          documentId={documentId}
+          onDeleteDocument={onDeleteDocument}
+          onUpdateDocument={onUpdateDocument}
+          loading={!called || loading}
+        />
+      </div>
       <DocumentUploadModal
         // Functions
         handleClose={() => {

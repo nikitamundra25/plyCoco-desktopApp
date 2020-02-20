@@ -110,6 +110,9 @@ body {
   .cursor-pointer {
     cursor: pointer;
   }
+  .cursor-notallowed {
+    cursor: not-allowed !important;
+  }
   button {
     &:focus {
       outline: none;
@@ -259,6 +262,12 @@ body {
       color: $light_black;
       text-decoration: underline;
     }
+    &.theme-text {
+      color: $theme_color;
+      &:hover {
+        color: $theme_color_hover;
+      }
+    }
   }
   .one-line-text {
     white-space: nowrap;
@@ -290,6 +299,9 @@ body {
     .btn {
       font-size: $font_12;
       font-weight: 600;
+      &.m-width-72 {
+        min-width: 72px;
+      }
     }
     .dropdown-menu {
       min-width: auto;
@@ -1960,7 +1972,9 @@ html:not([dir="rtl"]) {
     }
   }
 }
-
+.table-minheight {
+  min-height: 150px;
+}
 .table {
   background: $white;
   &.table-bordered {

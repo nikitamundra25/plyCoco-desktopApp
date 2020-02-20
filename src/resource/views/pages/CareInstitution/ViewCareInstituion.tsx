@@ -27,16 +27,17 @@ import password from "../../../assets/img/password.svg";
 import appointment from "../../../assets/img/appointment.svg";
 import clear from "../../../assets/img/clear.svg";
 
-const PersonalInformation = React.lazy(() => import('./PersonalInfo'));
-const Offers = React.lazy(() => import('./Offers'));
-const Login = React.lazy(() => import('./Login/CareInstitutionLogin'));
-const InvoiceMenu = React.lazy(() => import('./invoiceMenu'));
-const Documents = React.lazy(() => import('./Documents'));
-const Departments = React.lazy(() => import('./Departments'));
-const Email = React.lazy(() => import('../CareGiver/Emails'));
-const Reminders = React.lazy(() => import('./Reminders'));
+const PersonalInformation = React.lazy(() => import("./PersonalInfo"));
+const Offers = React.lazy(() => import("./Offers"));
+const Login = React.lazy(() => import("./Login/CareInstitutionLogin"));
+const InvoiceMenu = React.lazy(() => import("./invoiceMenu"));
+const Documents = React.lazy(() => import("./Documents"));
+const Departments = React.lazy(() => import("./Departments"));
+const Email = React.lazy(() => import("../CareGiver/Emails"));
+// const Reminders = React.lazy(() => import('./Reminders'));
+const Reminders = React.lazy(() => import("../../components/ToDosInnerList"));
 const CreateTodo = React.lazy(() =>
-  import('../../components/CreateTodo/CreateTodoForm'),
+  import("../../components/CreateTodo/index")
 );
 
 const [
@@ -79,6 +80,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     label: "3",
     value: "Sort by A-Z"
   };
+
+  const [isnewDataUpdate, setisnewDataUpdate] = useState(false);
 
   const [
     addUser,
@@ -236,6 +239,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       }
     });
   };
+  console.log("newDataUpdate", isnewDataUpdate);
 
   return (
     <div>
@@ -338,7 +342,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                     <PersonalInformation
                       CareInstitutionList={CareInstitutionList}
                       currentSelectuser={(Data: IReactSelectInterface) => {
-                        console.log('in current select user', data);
+                        console.log("in current select user", data);
 
                         setselectUser((selectUser = Data));
                       }}
@@ -375,7 +379,13 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                       }
                     />
                   ) : null}
-                  {activeTab === 7 ? <Reminders /> : null}
+                  {activeTab === 7 ? (
+                    <Reminders
+                      {...props}
+                      userRole="careinstitution"
+                      isnewDataUpdate={isnewDataUpdate}
+                    />
+                  ) : null}
                 </div>
               </Suspense>
             </>
@@ -386,6 +396,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
           handleClose={() => setShowToDo(false)}
           name={selectUser ? selectUser.label : null}
           userRole={"careInstitution"}
+          newDataUpdate={() => setisnewDataUpdate(true)}
+          setisnewDataUpdate={() => setisnewDataUpdate(false)}
         />
       </div>
     </div>

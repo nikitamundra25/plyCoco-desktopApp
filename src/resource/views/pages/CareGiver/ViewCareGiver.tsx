@@ -25,7 +25,7 @@ const PersonalInformation = React.lazy(() =>
 const Offer = React.lazy(() => import("./Offers/Offer"));
 const LoginLogs = React.lazy(() => import("../../components/Logins"));
 const Invoices = React.lazy(() => import("./Invoices/Invoices"));
-const ToDo = React.lazy(() => import("./ToDos"));
+const ToDo = React.lazy(() => import("../../components/ToDosInnerList"));
 const Documents = React.lazy(() => import("./Documents"));
 const Email = React.lazy(() => import("./Emails"));
 const CreateTodo = React.lazy(() =>
@@ -119,6 +119,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         : 0
     );
   }, [search]);
+
+  const [isnewDataUpdate, setisnewDataUpdate] = useState(false);
 
   // Set selected caregiver
   useEffect(() => {
@@ -293,7 +295,13 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       }
                     />
                   ) : null}
-                  {activeTab === 6 ? <ToDo {...props} /> : null}
+                  {activeTab === 6 ? (
+                    <ToDo
+                      {...props}
+                      userRole="caregiver"
+                      isnewDataUpdate={isnewDataUpdate}
+                    />
+                  ) : null}
                   {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}
                   {activeTab === 8 ? <GroupedBelow /> : null}
                 </div>
@@ -304,10 +312,12 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       </div>
       <CreateTodo
         {...props}
-        show={showToDo}
+        show={showToDo ? true : false}
         handleClose={() => setShowToDo(false)}
         name={selectUser ? selectUser.label : null}
         userRole={"careGiver"}
+        newDataUpdate={() => setisnewDataUpdate(true)}
+        setisnewDataUpdate={() => setisnewDataUpdate(false)}
       />
     </div>
   );

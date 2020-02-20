@@ -467,6 +467,8 @@
   "FILE_SIZE_TO_LARGE": "Image size must be less than 1 mb",
   "COUNTRY_PLACEHOLDER": "Select Country",
   "CHOOSE_IMAGE": "Upload your profile image",
+  "CHOOSE_FILE": "Choose file",
+  "BROWSE_FILE": "Browse",
   "TIME_OF_DAY": "Time of Day",
   "JURIDICTION": "Juridiction",
   "EXTERNALLY": "Externally",

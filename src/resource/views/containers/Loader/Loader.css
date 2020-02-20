@@ -124,6 +124,14 @@
   position: relative;
   min-height: calc(100vh - 170px);
 }
+.detailview-loader {
+  position: relative;
+  min-height: calc(100vh - 70px);
+}
+.emailview-loader {
+  position: relative;
+  min-height: calc(100vh - 210px);
+}
 .emailtemplate-loader {
   position: relative;
   min-height: 430px;

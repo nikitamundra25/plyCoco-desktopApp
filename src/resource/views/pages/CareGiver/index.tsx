@@ -448,7 +448,7 @@ const CareGiver: FunctionComponent = () => {
                                   onClick={() =>
                                     readMoreQualificationData(index)
                                   }
-                                  className='view-more-link'
+                                  className='view-more-link theme-text'
                                 >
                                   {readMore && readMoreIndex === index
                                     ? 'Read less'

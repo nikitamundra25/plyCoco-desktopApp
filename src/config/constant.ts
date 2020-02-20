@@ -1148,9 +1148,10 @@ export const Priority: IReactSelectInterface[] = [
   { value: 'normal', label: languageTranslation('NORMAL') },
   { value: 'high', label: languageTranslation('HIGH') }
 ];
+
 export const TodoFilter: IReactSelectInterface[] = [
-  { value: 'hideDone', label: languageTranslation('HIDE_DONE') },
-  { value: 'hideFutureOnes', label: languageTranslation('HIDE_FUTURE_ONES') }
+  { value: 'pending', label: languageTranslation('HIDE_DONE') },
+  { value: 'completed', label: languageTranslation('HIDE_FUTURE_ONES') }
 ];
 
 export const Without_Appointments: IReactSelectInterface[] = [

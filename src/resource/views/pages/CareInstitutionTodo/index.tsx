@@ -64,7 +64,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   //To get todo list by id
   const [fetchToDoByUserID, { data, called, loading, refetch }] = useLazyQuery<
     any
-  >(GET_TO_DOS);
+  >(GET_TO_DOS, { fetchPolicy: 'no-cache' });
   const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
 
   // Mutation to update careInstitution todo status
@@ -109,7 +109,6 @@ const CareInstitutionTodo: FunctionComponent = () => {
       const current: string | any = history.location.search;
       let searchData: any = {};
       searchData = { ...qs.parse(current) };
-      console.log('search', searchData);
 
       if (searchData && searchData.search) {
         searchBy = searchData.search;
@@ -128,6 +127,8 @@ const CareInstitutionTodo: FunctionComponent = () => {
       const userRole: string =
         path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution';
       // call query
+      console.log('hereeee');
+
       fetchToDoByUserID({
         variables: {
           userType: userRole,
@@ -271,12 +272,13 @@ const CareInstitutionTodo: FunctionComponent = () => {
     priority,
     futureOnly
   };
-
   return (
     <>
       <div>
         <h5 className='content-title'>
-          {languageTranslation('MENU_TO_DO_INSTITUTION')}
+          {path[1] === 'caregiver-todo'
+            ? languageTranslation('MENU_TO_DO_CARE_GIVER')
+            : languageTranslation('MENU_TO_DO_INSTITUTION')}
         </h5>
         <Row>
           <Col lg={'12'}>

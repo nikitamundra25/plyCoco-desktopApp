@@ -472,7 +472,7 @@
   "CHOOSE_IMAGE": "Upload your profile image",
   "CHOOSE_FILE": "Choose file",
   "BROWSE_FILE": "Browse",
-  "TIME_OF_DAY": "Time of Day",
+  "TIME_OF_DAY": "HH:mm",
   "JURIDICTION": "Juridiction",
   "EXTERNALLY": "Externally",
   "INTERNALLY": "Internally",
@@ -480,10 +480,10 @@
   "LOW": "Low",
   "MENU_ENTRY": "Menu Entry",
   "HIGH": "High",
-  "NORMAL": "Normal",
+  "NORMAL": "Medium",
   "COMMENT": "Comment",
   "ADD_REMINDER": "Add Reminder",
-  "EDIT_REMINDER": "Edit Reminder",
+  "EDIT_REMINDER": "Update Reminder",
   "CANCEL": "Cancel",
   "FIND": "Find",
   "CLEAR": "Clear",
@@ -733,9 +733,12 @@
   "DELETE_CARE_INSTITUTION_TODO": "This To-do willl be deleted",
   "SEARCH_BY_REMARKS": "By Remarks",
   "PRIORIRY_PLACEHOLDER": "Select Priority",
-  "TODO_STATUS_UPDATED_SUCCESSFULLY": "To-do's status has been updated successfully",
-  "TODO_PRIORITY_UPDATED_SUCCESSFULLY": "To-do's priority has been updated successfully",
+  "TODO_STATUS_UPDATED_SUCCESSFULLY": "To-do status has been updated successfully",
+  "TODO_PRIORITY_UPDATED_SUCCESSFULLY": "To-do priority has been updated successfully",
   "CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG": "This To-do's priority will be updated.",
   "DOCUMENT_TYPE": "Select document type",
-  "VARIOUS_DOCUMENTS": "Various documents"
+  "VARIOUS_DOCUMENTS": "Various documents",
+  "TODO_ADD_SUCCESS": "To-do added successfully",
+  "TODO_UPDATE_SUCCESS": "To-do updated successfully"
+
 }

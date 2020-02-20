@@ -87,6 +87,12 @@ const CareInstitutionContacts: any = (props: any) => {
     addContact: ICareInstitutionFormValues;
   }>(ADD_NEW_CONTACT_CARE_INSTITUTION, { update: addContacts });
 
+  useEffect(() => {
+    if (contactDataA) {
+      props.neContactAdded();
+    }
+  }, [contactDataA]);
+
   // Mutation to update new contact
   const [updateContact] = useMutation<{
     updateContact: ICareInstitutionFormValues;

@@ -95,20 +95,17 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     list.remarks.length <= 100 ? (
                       list.remarks
                     ) : (
-                      <p>
+                      <p className='mb-0'>
                         {isExpand && activeRow === index
                           ? list.remarks
                           : list.remarks.substr(0, 100)}
                         <span
-                          className='text-primary'
-                          style={{
-                            cursor: 'pointer'
-                          }}
+                          className='view-more-link'
                           onClick={() => expandedText(index)}
                         >
                           {isExpand && activeRow === index
-                            ? 'Read less'
-                            : 'Read more'}
+                            ? '...Read less'
+                            : '...Read more'}
                         </span>
                       </p>
                     )

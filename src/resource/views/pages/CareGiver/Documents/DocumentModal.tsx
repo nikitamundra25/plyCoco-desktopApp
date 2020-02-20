@@ -158,12 +158,12 @@ const DocumentUploadModal = (props: any) => {
                                   : 'text-input my-2 my-sm-0'
                               }
                             />
+                            {isSubmit && !fileName ? (
+                              <div className='required-tooltip'>
+                                File name is required
+                              </div>
+                            ) : null}
                           </div>
-                          {isSubmit && !fileName ? (
-                            <div className='required-error'>
-                              File name is required
-                            </div>
-                          ) : null}
                         </Col>
                       )}
                     </Row>

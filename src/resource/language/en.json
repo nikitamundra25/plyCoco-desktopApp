@@ -722,9 +722,12 @@
   "COMMENT_REQUIRED": "Comment is required",
   "PRIORITY_REQUIRED": "Priority is required",
   "JURIDICTION_REQUIRED": "Juridiction is required",
-  "CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG": "This Todo will be marked as done",
-  "CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG": "This Todo will be marked as undone",
-  "DELETE_CARE_INSTITUTION_TODO": "This Todo willl be deleted",
+  "CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG": "This To-do's will be marked as done",
+  "CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG": "This To-do's will be marked as undone",
+  "DELETE_CARE_INSTITUTION_TODO": "This To-do willl be deleted",
   "SEARCH_BY_REMARKS": "By Remarks",
-  "PRIORIRY_PLACEHOLDER":"Select Priority"
+  "PRIORIRY_PLACEHOLDER": "Select Priority",
+  "TODO_STATUS_UPDATED_SUCCESSFULLY": "To-do's status has been updated successfully",
+  "TODO_PRIORITY_UPDATED_SUCCESSFULLY": "To-do's priority has been updated successfully",
+  "CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG": "This To-do's priority will be updated."
 }

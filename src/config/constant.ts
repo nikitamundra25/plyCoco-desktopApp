@@ -1144,9 +1144,9 @@ export const CareGiver: IReactSelectInterface[] = [
 ];
 
 export const Priority: IReactSelectInterface[] = [
-  { value: 'Low', label: languageTranslation('LOW') },
-  { value: 'Normal', label: languageTranslation('NORMAL') },
-  { value: 'High', label: languageTranslation('HIGH') }
+  { value: 'low', label: languageTranslation('LOW') },
+  { value: 'normal', label: languageTranslation('NORMAL') },
+  { value: 'high', label: languageTranslation('HIGH') }
 ];
 export const TodoFilter: IReactSelectInterface[] = [
   { value: 'Hide Done', label: languageTranslation('HIDE_DONE') },
@@ -1168,7 +1168,7 @@ export const Without_Appointments: IReactSelectInterface[] = [
 export const TodoStatus: IReactSelectInterface[] = [
   { value: 'all', label: languageTranslation('ALL') },
   { value: 'pending', label: languageTranslation('PENDING') },
-  { value: 'completed', label: languageTranslation('COMPLETED') },
+  { value: 'completed', label: languageTranslation('COMPLETED') }
 ];
 
 export const SortOptions: IReactSelectInterface[] = [

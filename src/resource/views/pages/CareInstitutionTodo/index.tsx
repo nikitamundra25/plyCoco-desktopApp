@@ -29,7 +29,6 @@ import { ToDoQueries } from '../../../../graphql/queries';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
 import moment from 'moment';
-
 import CreateTodo from '../../components/CreateTodo';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import { toast } from 'react-toastify';
@@ -72,7 +71,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const [fetchToDoByUserID, { data, called, loading, refetch }] = useLazyQuery<
     any
   >(GET_TO_DOS);
-  const [searchValues, setSearchValues] = useState<ISearchValues | null>();
+  const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
 
   // Mutation to update careInstitution todo status
   const [updateStatus] = useMutation<{
@@ -97,10 +96,58 @@ const CareInstitutionTodo: FunctionComponent = () => {
         searchBy: '',
         priority: '',
         sortBy: '',
-        futureOnly: false
+        futureOnly: false,
+        limit: PAGE_LIMIT
       }
     });
   }, []);
+
+  //  useEffect for searching, filtering
+  useEffect(() => {
+    const query = qs.parse(search);
+    let searchBy: string = '';
+    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
+    let priority: IReactSelectInterface | undefined = { label: '', value: '' };
+    let futureOnly: boolean | undefined = false;
+
+    // To handle display and query param text
+    if (query) {
+      const current: string | any = history.location.search;
+      let searchData: any = {};
+      searchData = { ...qs.parse(current) };
+      console.log('search', searchData);
+
+      if (searchData && searchData.search) {
+        searchBy = searchData.search;
+      }
+      if (searchData && searchData.toDoFilter) {
+        sortBy = searchData.toDoFilter;
+      }
+      if (searchData && searchData.priority) {
+        priority = searchData.priority;
+      }
+      if (searchData.futureOnly) {
+        futureOnly = JSON.parse(searchData.futureOnly);
+      }
+
+      setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+      const userRole: string =
+        path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution';
+      // call query
+      fetchToDoByUserID({
+        variables: {
+          userType: userRole,
+          userId: parseInt(userId),
+          searchBy: searchBy ? searchBy : '',
+          sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
+          priority: searchData.priority,
+          futureOnly,
+          limit: PAGE_LIMIT,
+          page: query.page ? parseInt(query.page as string) : 1
+        }
+      });
+    }
+  }, [search]);
 
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);
@@ -124,12 +171,18 @@ const CareInstitutionTodo: FunctionComponent = () => {
     } = {};
     params.page = 1;
     if (values.searchValue) {
-      params.search = searchValue;
+      params.search = values.searchValue;
     }
-    console.log('Values', values);
     if (values.toDoFilter && values.toDoFilter.value !== '') {
-      params.values.toDoFilter =
+      params.toDoFilter =
         values.toDoFilter.value !== '' ? values.toDoFilter.value : '';
+    }
+    if (values.priority && values.priority.value !== '') {
+      params.priority =
+        values.priority.value !== '' ? values.priority.value : '';
+    }
+    if (values.futureOnly) {
+      params.futureOnly = values.futureOnly ? values.futureOnly : false;
     }
     const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);
@@ -158,7 +211,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG')
+            languageTranslation('TODO_STATUS_UPDATED_SUCCESSFULLY')
           );
         }
       } catch (error) {
@@ -210,13 +263,17 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const {
     searchValue = '',
     sortBy = undefined,
-    isActive = undefined
+    toDoFilter = undefined,
+    priority = undefined,
+    futureOnly = false
   } = searchValues ? searchValues : {};
 
-  const values: ISearchValues = {
+  const values: ISearchToDoValues = {
     searchValue,
-    isActive,
-    sortBy
+    sortBy,
+    toDoFilter,
+    priority,
+    futureOnly
   };
 
   return (
@@ -308,7 +365,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                           <td className='contact-th-column'>
                             <span className='view-more-link word-wrap'>
                               {list.contact
-                                ? `${list.contact.firstName} ${list.contact.surName}`
+                                ? `${list.contact.firstName} ${list.contact.surName} (${list.contact.contactType})`
                                 : '-'}
                             </span>
                           </td>

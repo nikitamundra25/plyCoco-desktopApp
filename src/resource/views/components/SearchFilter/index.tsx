@@ -33,7 +33,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
   let history = useHistory();
   let { pathname } = useLocation();
   const {
-    values: { searchValue, sortBy, isActive, toDoFilter, priority },
+    values: { searchValue, sortBy, isActive, toDoFilter, priority, futureOnly },
     label,
     handleSubmit,
     handleChange,
@@ -127,7 +127,9 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
                     options={TodoFilter}
                     isClearable={true}
                     isSearchable={false}
-                    value={toDoFilter}
+                    value={
+                      toDoFilter && toDoFilter.value !== '' ? toDoFilter : null
+                    }
                     onChange={(value: any) => handleSelect(value, 'toDoFilter')}
                     classNamePrefix='custom-inner-reactselect'
                     className={'custom-reactselect'}
@@ -148,7 +150,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
                   options={Priority}
                   isClearable={true}
                   isSearchable={false}
-                  value={priority}
+                  value={priority && priority.value !== '' ? priority : null}
                   onChange={(value: any) => handleSelect(value, 'priority')}
                   classNamePrefix='custom-inner-reactselect'
                   className={'custom-reactselect'}
@@ -156,6 +158,33 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
               </FormGroup>
             </Col>
           ) : null}
+
+          {label === 'toDos' ? (
+            <Col lg={'1'} md={'3'}>
+              <FormGroup>
+                <Label className='col-form-label'>
+                  {languageTranslation('FUTURE_ONLY')} :
+                </Label>
+                <span className='checkboxli checkbox-custom checkbox-default'>
+                  <input
+                    type='checkbox'
+                    id='check'
+                    className=''
+                    name={'futureOnly'}
+                    checked={futureOnly}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const {
+                        target: { checked }
+                      } = e;
+                      setFieldValue('futureOnly', checked);
+                    }}
+                  />
+                  <Label for='check'></Label>
+                </span>
+              </FormGroup>
+            </Col>
+          ) : null}
+
           <Col lg={'2'} md={'3'}>
             <div className='label-height'></div>
             <div className='filter-btn-wrap'>

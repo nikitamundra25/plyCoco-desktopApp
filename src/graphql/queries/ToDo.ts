@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const GET_TO_DOS = gql`
   query getToDos(
@@ -40,12 +40,12 @@ const GET_TO_DOS = gql`
         contact {
           firstName
           surName
+          id
+          contactType
         }
       }
     }
   }
 `;
 
-export const ToDoQueries = [
-  GET_TO_DOS
-];
+export const ToDoQueries = [GET_TO_DOS];

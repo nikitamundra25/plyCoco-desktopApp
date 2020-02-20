@@ -7,13 +7,22 @@ import {
   Label,
   Input,
   UncontrolledTooltip,
+  UncontrolledButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
   Button
 } from 'reactstrap';
 import moment from 'moment';
 import { languageTranslation, logger } from '../../../../helpers';
 import '../../pages/CareGiver/caregiver.scss';
 import Select from 'react-select';
-import { Priority, TodoStatus, PAGE_LIMIT } from '../../../../config';
+import {
+  Priority,
+  TodoStatus,
+  PAGE_LIMIT,
+  defaultDateFormat
+} from '../../../../config';
 import { FormikProps, Form } from 'formik';
 import {
   IReactSelectInterface,
@@ -43,7 +52,10 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
     data,
     isFilterApplied,
     onPageChanged,
-    currentPage
+    handleStatusChange,
+    handlePriorityChange,
+    currentPage,
+    userRole
   } = props;
 
   // Custom function to handle react select fields
@@ -51,6 +63,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
     logger(selectOption, 'value');
     setFieldValue(name, selectOption);
   };
+  console.log(' careinstitution', userRole);
 
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
 
@@ -174,6 +187,13 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                 {languageTranslation('S_NO')}
               </th>
               <th className='date-th-column'>{languageTranslation('DATE')} </th>
+              {userRole === 'careinstitution' ? (
+                <th className='contact-th-column'>
+                  {languageTranslation('CONTACT')}
+                </th>
+              ) : (
+                ''
+              )}
               <th className='remark-col'>{languageTranslation('REMARKS')}</th>
               <th className='checkbox-th-column text-center'>
                 {' '}
@@ -205,33 +225,106 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                     </td>
                     <td className='date-th-column'>
                       {' '}
-                      {moment(item.createdAt).format('DD.MM.YYYY')}
+                      {`${moment(item.date).format(defaultDateFormat)} ${
+                        item.time
+                      }`}
                     </td>
+                    {userRole === 'careinstitution' ? (
+                      <td className='contact-th-column'>
+                        <span className='view-more-link word-wrap'>
+                          {item.contact
+                            ? `${item.contact.firstName} ${item.contact.surName} (${item.contact.contactType})`
+                            : '-'}
+                        </span>
+                      </td>
+                    ) : (
+                      ''
+                    )}
                     <td className='remark-col'>
                       <span className='word-wrap'>{item.comment}</span>
                     </td>
                     <td className='checkbox-th-column text-center'>
                       <span className='checkboxli checkbox-custom checkbox-default'>
-                        <input type='checkbox' id='checkAll' className='' />
+                        <input
+                          type='checkbox'
+                          id='check'
+                          className=''
+                          name={'status'}
+                          checked={item.status === 'completed' ? true : false}
+                          onChange={e =>
+                            handleStatusChange(item.id, item.status, null)
+                          }
+                        />
                         <label className=''> </label>
                       </span>
                     </td>
                     <td className='checkbox-th-column text-center'>
                       <span className='checkboxli checkbox-custom checkbox-default'>
-                        <input type='checkbox' id='checkAll' className='' />
+                        <input
+                          type='checkbox'
+                          id='checkAll'
+                          className=''
+                          name={'juridiction'}
+                          checked={
+                            item.juridiction === 'externally' ? true : false
+                          }
+                        />
                         <label className=''> </label>
                       </span>
                     </td>
                     <td className='priority-th-column'>
-                      <Select
+                      {/* <Select
                         placeholder='Select Priority'
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                         options={Priority}
-                      />
+                        value={
+                          item.priority
+                            ? {
+                                label:
+                                  item.priority.charAt(0).toUpperCase() +
+                                  item.priority.slice(1),
+                                value: item.priority
+                              }
+                            : null
+                        }
+                        onChange={e => handlePriorityChange(item.id, null, e)}
+                      /> */}
+                      <div className='action-btn text-capitalize'>
+                        <UncontrolledButtonDropdown className='custom-dropdown'>
+                          <DropdownToggle
+                            className={'text-capitalize'}
+                            caret
+                            size='sm'
+                          >
+                            {item.priority}
+                          </DropdownToggle>
+                          <DropdownMenu>
+                            <DropdownItem
+                              onClick={(e: any) =>
+                                handlePriorityChange(item.id, null, 'low')
+                              }
+                            >
+                              {languageTranslation('LOW')}
+                            </DropdownItem>
+                            <DropdownItem
+                              onClick={(e: any) =>
+                                handlePriorityChange(item.id, null, 'normal')
+                              }
+                            >
+                              {languageTranslation('NORMAL')}
+                            </DropdownItem>
+                            <DropdownItem
+                              onClick={(e: any) =>
+                                handlePriorityChange(item.id, null, 'high')
+                              }
+                            >
+                              {languageTranslation('HIGH')}
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledButtonDropdown>
+                      </div>
                     </td>
-                    <td>{item.priority}</td>
-                    <td>{item.status}</td>
                   </tr>
                 );
               })

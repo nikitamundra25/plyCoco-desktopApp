@@ -66,7 +66,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         juridiction,
         userId: parseInt(userId),
         userType: userRole.toLowerCase(),
-        contactId: contact && contact.value ? contact.value : null
+        contactId: contact && contact.value ? parseInt(contact.value) : null
       };
       if (userData) {
         await editToDoList({
@@ -153,46 +153,11 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
     }
   }, [show]);
 
-  // if (props.userData) {
-  //   const {
-  //     time,
-  //     comment,
-  //     date,
-  //     priority,
-  //     juridiction,
-  //     contact
-  //   } = props.userData;
-  //   setvalues({
-  //     time,
-  //     comment,
-  //     date,
-  //     priority,
-  //     juridiction,
-  //     contact
-  //   });
-  // }
-  const {
-    time = '',
-    comment = '',
-    date = '',
-    priority = undefined,
-    juridiction = '',
-    contact = undefined
-  } = todoValues ? todoValues : {};
-
-  const values = {
-    time,
-    comment,
-    date,
-    priority,
-    juridiction,
-    contact
-  };
 
   return (
     <>
       <Formik
-        initialValues={values}
+        initialValues={todoValues}
         enableReinitialize={true}
         onSubmit={handleSubmit}
         children={(props: FormikProps<ICreateTodoFormValues>) => (

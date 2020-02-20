@@ -1,18 +1,25 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router";
-import { useParams, useLocation, useHistory } from "react-router-dom";
-import ToDoListForm from "./ToDoListForm";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { RouteComponentProps } from 'react-router';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
+import ToDoListForm from './ToDoListForm';
 import * as qs from 'query-string';
 import { ToDoQueries } from '../../../../graphql/queries';
-import { useLazyQuery } from "@apollo/react-hooks";
-import { IReactSelectInterface, ISearchToDoValues } from "../../../../interfaces";
-import { FormikHelpers, FormikProps, Formik } from "formik";
-import { PAGE_LIMIT, TodoStatus, Priority } from "../../../../config";
-
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import {
+  IReactSelectInterface,
+  ISearchToDoValues
+} from '../../../../interfaces';
+import { FormikHelpers, FormikProps, Formik } from 'formik';
+import { PAGE_LIMIT, TodoStatus, Priority } from '../../../../config';
+import { ConfirmBox } from '../ConfirmBox';
+import { languageTranslation } from '../../../../helpers';
+import { toast } from 'react-toastify';
+import { ToDoMutations } from '../../../../graphql/Mutations';
+const [, , UPDATE_CARE_INSTITUTION_TODO_STATUS, ,] = ToDoMutations;
 const [GET_TO_DOS] = ToDoQueries;
-
-const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
-
+let toastId: any = null;
+const ToDoList: FunctionComponent<RouteComponentProps> = (mainProps: any) => {
+  const { userRole } = mainProps;
   let { id } = useParams();
   const userId: any | undefined = id;
 
@@ -29,6 +36,13 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
   >(GET_TO_DOS, {
     fetchPolicy: 'no-cache'
   });
+
+  // Mutation to update careInstitution todo status
+  const [updateStatus] = useMutation<{
+    id: string;
+    status: string;
+    priority: string;
+  }>(UPDATE_CARE_INSTITUTION_TODO_STATUS);
 
   useEffect(() => {
     const query = qs.parse(search);
@@ -56,20 +70,31 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
         variables: {
           userId: parseInt(userId),
           searchBy,
+          userType: userRole,
           sortBy: search.sortBy === 'all' ? null : search.sortBy,
           priority: search.priority,
           futureOnly,
           limit: PAGE_LIMIT,
-          page: query.page ? parseInt(query.page as string) : 1,
+          page: query.page ? parseInt(query.page as string) : 1
         }
       });
 
       if (search.sortBy) {
-        sortBy = TodoStatus[TodoStatus.map((item) => { return item.value; }).indexOf(search.sortBy)];
+        sortBy =
+          TodoStatus[
+            TodoStatus.map(item => {
+              return item.value;
+            }).indexOf(search.sortBy)
+          ];
       }
 
       if (search.priority) {
-        priority = Priority[Priority.map((item) => { return item.value; }).indexOf(search.priority)];
+        priority =
+          Priority[
+            Priority.map(item => {
+              return item.value;
+            }).indexOf(search.priority)
+          ];
       }
 
       setSearchValues({
@@ -77,14 +102,13 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
         futureOnly,
         sortBy,
         priority
-      })
+      });
     }
-
   }, [search]); // It will run when the search value gets changed
 
   const handleSubmit = async (
     values: ISearchToDoValues,
-    { }: FormikHelpers<ISearchToDoValues>
+    {}: FormikHelpers<ISearchToDoValues>
   ) => {
     const { searchBy, sortBy, priority, futureOnly } = values;
     let params: any = qs.parse(search);
@@ -132,6 +156,85 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
     futureOnly
   };
 
+  const handleStatusChange = async (id: any, status: string, priority: any) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text:
+        status === 'pending'
+          ? languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG')
+          : languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG')
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        toast.dismiss();
+        await updateStatus({
+          variables: {
+            id: parseInt(id),
+            status: status === 'pending' ? 'completed' : 'pending',
+            priority: null
+          }
+        });
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toast.success(
+            languageTranslation('TODO_STATUS_UPDATED_SUCCESSFULLY')
+          );
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
+
+  const handlePriorityChange = async (
+    id: any,
+    status: string,
+    priority: string
+  ) => {
+    console.log('dfhgfjgjdb');
+
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG')
+    });
+    if (!value) {
+      return;
+    } else {
+      try {
+        toast.dismiss();
+        await updateStatus({
+          variables: {
+            id: parseInt(id),
+            status: null,
+            priority: priority
+          }
+        });
+        refetch();
+        if (!toast.isActive(toastId)) {
+          toast.success(
+            languageTranslation('TODO_PRIORITY_UPDATED_SUCCESSFULLY')
+          );
+        }
+      } catch (error) {
+        const message = error.message
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  };
+
   return (
     <>
       <Formik
@@ -146,7 +249,10 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
             loading={loading}
             data={data}
             isFilterApplied={isFilterApplied}
+            handleStatusChange={handleStatusChange}
+            handlePriorityChange={handlePriorityChange}
             currentPage={currentPage}
+            userRole={userRole}
           />
         )}
       />

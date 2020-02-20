@@ -230,8 +230,6 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                         options={Priority}
                       />
                     </td>
-                    <td>{item.priority}</td>
-                    <td>{item.status}</td>
                   </tr>
                 );
               })

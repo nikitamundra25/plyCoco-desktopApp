@@ -1,4 +1,6 @@
 {
+  "CAREGIVER_USERROLE": "caregiver",
+  "CAREINST_USERROLE": "careinstitution",
   "REMARK_LIMIT": "Text should be minimum of 255 characters",
   "REQUIRED_REGION": "Please enter the name of Region",
   "DELETE": "Delete",
@@ -707,5 +709,7 @@
   "EXPLICITLY_DOCUMENT": "Explicitly Requested Documents",
   "COMPANY_REQUIRED": "Company name is required",
   "DOCUMENT_TYPE_ADDED_SUCCESS": "Document Type Added Successfully",
-  "DOCUMENT_MISSING": "is missing"
+  "DOCUMENT_MISSING": "is missing",
+  "DOCUMENT_TYPE": "Select document type",
+  "VARIOUS_DOCUMENTS": "Various documents"
 }

@@ -31,8 +31,8 @@ const GET_DOCUMENTS = gql`
   }
 `;
 const GET_DOCUMENT_TYPES = gql`
-  query {
-    getDocumentType {
+  query getDocumentType($userRole: String) {
+    getDocumentType(userRole: $userRole) {
       id
       type
     }
@@ -52,5 +52,5 @@ export const DocumentQueries = [
   GET_DOCUMENT_LIST,
   GET_DOCUMENTS,
   GET_DOCUMENT_TYPES,
-  GET_REQUIRED_DOCUMENT_TYPES
+  GET_REQUIRED_DOCUMENT_TYPES,
 ];

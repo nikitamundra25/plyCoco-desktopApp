@@ -3,9 +3,13 @@ import gql from 'graphql-tag';
 const ADD_DOCUMENT = gql`
   mutation AddUserDocuments($documentInput: DocumentInput) {
     addUserDocuments(documentInput: $documentInput) {
+      id
       document
       remarks
       documentType
+      status
+      fileSize
+      fileName
     }
   }
 `;

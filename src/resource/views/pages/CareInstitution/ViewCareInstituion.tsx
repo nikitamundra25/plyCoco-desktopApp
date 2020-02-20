@@ -1,43 +1,43 @@
-import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
-import { RouteComponentProps, useLocation, useParams } from "react-router";
-import qs from "query-string";
-import { Button } from "reactstrap";
-import Select from "react-select";
-import { FormikProps } from "formik";
-import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
-import { AppRoutes } from "../../../../config";
-import { careInstitutionRoutes } from "./Sidebar/SidebarRoutes/ConstitutionRoutes";
+import React, { FunctionComponent, useState, Suspense, useEffect } from 'react';
+import { RouteComponentProps, useLocation, useParams } from 'react-router';
+import qs from 'query-string';
+import { Button } from 'reactstrap';
+import Select from 'react-select';
+import { FormikProps } from 'formik';
+import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
+import { AppRoutes } from '../../../../config';
+import { careInstitutionRoutes } from './Sidebar/SidebarRoutes/ConstitutionRoutes';
 import {
   ICareInstitutionFormValues,
   IHandleSubmitInterface,
   IReactSelectInterface,
   IQualifications
-} from "../../../../interfaces";
+} from '../../../../interfaces';
 import {
   CareInstitutionQueries,
   GET_QUALIFICATION_ATTRIBUTE
-} from "../../../../graphql/queries";
-import { CareInstitutionMutation } from "../../../../graphql/Mutations";
-import Loader from "../../containers/Loader/Loader";
-import { languageTranslation } from "../../../../helpers";
-import CustomOption from "../../components/CustomOptions";
-import add from "../../../assets/img/add.svg";
-import reminder from "../../../assets/img/reminder.svg";
-import password from "../../../assets/img/password.svg";
-import appointment from "../../../assets/img/appointment.svg";
-import clear from "../../../assets/img/clear.svg";
+} from '../../../../graphql/queries';
+import { CareInstitutionMutation } from '../../../../graphql/Mutations';
+import Loader from '../../containers/Loader/Loader';
+import { languageTranslation } from '../../../../helpers';
+import CustomOption from '../../components/CustomOptions';
+import add from '../../../assets/img/add.svg';
+import reminder from '../../../assets/img/reminder.svg';
+import password from '../../../assets/img/password.svg';
+import appointment from '../../../assets/img/appointment.svg';
+import clear from '../../../assets/img/clear.svg';
 
-const PersonalInformation = React.lazy(() => import("./PersonalInfo"));
-const Offers = React.lazy(() => import("./Offers"));
-const Login = React.lazy(() => import("./Login/CareInstitutionLogin"));
-const InvoiceMenu = React.lazy(() => import("./invoiceMenu"));
-const Documents = React.lazy(() => import("./Documents"));
-const Departments = React.lazy(() => import("./Departments"));
-const Email = React.lazy(() => import("../CareGiver/Emails"));
+const PersonalInformation = React.lazy(() => import('./PersonalInfo'));
+const Offers = React.lazy(() => import('./Offers'));
+const Login = React.lazy(() => import('./Login/CareInstitutionLogin'));
+const InvoiceMenu = React.lazy(() => import('./invoiceMenu'));
+const Documents = React.lazy(() => import('./Documents'));
+const Departments = React.lazy(() => import('./Departments'));
+const Email = React.lazy(() => import('../CareGiver/Emails'));
 // const Reminders = React.lazy(() => import('./Reminders'));
-const Reminders = React.lazy(() => import("../../components/ToDosInnerList"));
+const Reminders = React.lazy(() => import('../../components/ToDosInnerList'));
 const CreateTodo = React.lazy(() =>
-  import("../../components/CreateTodo/index")
+  import('../../components/CreateTodo/index')
 );
 
 const [
@@ -60,7 +60,7 @@ const [
 ] = CareInstitutionMutation;
 
 const CareInstitutionSidebar = React.lazy(() =>
-  import("./Sidebar/SidebarLayout/CareInstitutionLayout")
+  import('./Sidebar/SidebarLayout/CareInstitutionLayout')
 );
 
 const CareInstitutionTabs = careInstitutionRoutes;
@@ -77,8 +77,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   const [showToDo, setShowToDo] = useState<boolean>(false);
 
   let sortBy: IReactSelectInterface | undefined = {
-    label: "3",
-    value: "Sort by A-Z"
+    label: '3',
+    value: 'Sort by A-Z'
   };
 
   const [isnewDataUpdate, setisnewDataUpdate] = useState(false);
@@ -92,31 +92,31 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     fetchCareInstitutionList,
     { data: careInstituition, loading, refetch }
   ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: "no-cache"
+    fetchPolicy: 'no-cache'
   });
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
-    label: "",
-    value: ""
+    label: '',
+    value: ''
   });
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      "caregiver-add-btn"
+      'caregiver-add-btn'
     );
     if (buttonDiv) {
       if (scrollPositionY >= 12) {
-        buttonDiv.classList.add("sticky-save-btn");
+        buttonDiv.classList.add('sticky-save-btn');
       } else {
-        buttonDiv.classList.remove("sticky-save-btn");
+        buttonDiv.classList.remove('sticky-save-btn');
       }
     }
   };
@@ -128,7 +128,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: ""
+        isActive: ''
       }
     });
   }, []);
@@ -138,12 +138,12 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     const { getCareInstitutions } = careInstituition;
     const { careInstitutionData } = getCareInstitutions;
     CareInstitutionList.push({
-      label: languageTranslation("NAME"),
-      value: languageTranslation("ID")
+      label: languageTranslation('NAME'),
+      value: languageTranslation('ID')
     });
     careInstitutionData.map((data: any, index: any) => {
       CareInstitutionList.push({
-        label: `${data.firstName}${" "}${data.lastName}`,
+        label: `${data.firstName}${' '}${data.lastName}`,
         value: data.id
       });
       return true;
@@ -164,6 +164,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 
   const [activeTab, setactiveTab] = useState(0);
   const { search, pathname } = useLocation();
+  const [newContactAdded, setnewContactAdded] = useState(false);
 
   useEffect(() => {
     const query: any = qs.parse(search);
@@ -187,7 +188,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   const onTabChange = (activeTab: number) => {
     props.history.push(
       `${AppRoutes.CARE_INSTITUION_VIEW.replace(
-        ":id",
+        ':id',
         Id
       )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
     );
@@ -212,7 +213,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       if (e.value !== Id) {
         props.history.push(
           `${AppRoutes.CARE_INSTITUION_VIEW.replace(
-            ":id",
+            ':id',
             e.value
           )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
         );
@@ -225,7 +226,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     if (CareIntitutionId) {
       const { addUser } = CareIntitutionId;
       props.history.push(
-        AppRoutes.ADD_CARE_INSTITUTION.replace(":id", addUser.id)
+        AppRoutes.ADD_CARE_INSTITUTION.replace(':id', addUser.id)
       );
     }
   }, [CareIntitutionId]);
@@ -234,92 +235,92 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     addUser({
       variables: {
         careInstInput: {
-          firstName: ""
+          firstName: ''
         }
       }
     });
   };
-  console.log("newDataUpdate", isnewDataUpdate);
+  console.log('neContactAdded', newContactAdded);
 
   return (
     <div>
-      <div className="common-detail-page">
-        <div className="common-detail-section">
+      <div className='common-detail-page'>
+        <div className='common-detail-section'>
           {loading ? (
-            <div className="detailview-loader">
+            <div className='detailview-loader'>
               <Loader />
             </div>
           ) : (
             <>
-              <Suspense fallback={""}>
-                <div className="sticky-common-header">
-                  <div className="common-topheader d-flex align-items-center ">
-                    <div className="user-select">
+              <Suspense fallback={''}>
+                <div className='sticky-common-header'>
+                  <div className='common-topheader d-flex align-items-center '>
+                    <div className='user-select'>
                       <Select
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         className={
-                          "custom-reactselect custom-reactselect-menu-width"
+                          'custom-reactselect custom-reactselect-menu-width'
                         }
                         defaultValue={selectUser}
-                        placeholder="Select Caregiver"
+                        placeholder='Select Caregiver'
                         value={selectUser}
                         onChange={(e: any) => handleSelect(e)}
                         options={CareInstitutionList}
                         components={{ Option: CustomOption }}
                         isOptionDisabled={(option: any) =>
-                          option.value === languageTranslation("ID")
+                          option.value === languageTranslation('ID')
                         }
                       />
                     </div>
                     <Button
                       onClick={handleAddNewCareInstitution}
                       disabled={Loading}
-                      className="header-nav-item"
+                      className='header-nav-item'
                     >
                       {Loading ? (
-                        <span className="header-nav-icon">
-                          <i className="fa fa-spinner fa-spin " />
+                        <span className='header-nav-icon'>
+                          <i className='fa fa-spinner fa-spin ' />
                         </span>
                       ) : (
-                        <span className="header-nav-icon">
-                          <img src={add} alt="" />
+                        <span className='header-nav-icon'>
+                          <img src={add} alt='' />
                         </span>
                       )}
-                      <span className="header-nav-text">
+                      <span className='header-nav-text'>
                         New Care Institution
                       </span>
                     </Button>
-                    <div className="header-nav-item">
-                      <span className="header-nav-icon">
-                        <img src={reminder} alt="" />
+                    <div className='header-nav-item'>
+                      <span className='header-nav-icon'>
+                        <img src={reminder} alt='' />
                       </span>
                       <span
-                        className="header-nav-text"
+                        className='header-nav-text'
                         onClick={() => setShowToDo(true)}
                       >
                         Create Todo/Reminder
                       </span>
                     </div>
-                    <div className="header-nav-item">
-                      <span className="header-nav-icon">
-                        <img src={password} alt="" />
+                    <div className='header-nav-item'>
+                      <span className='header-nav-icon'>
+                        <img src={password} alt='' />
                       </span>
-                      <span className="header-nav-text">New Password</span>
+                      <span className='header-nav-text'>New Password</span>
                     </div>
-                    <div className="header-nav-item">
-                      <span className="header-nav-icon">
-                        <img src={appointment} alt="" />
+                    <div className='header-nav-item'>
+                      <span className='header-nav-icon'>
+                        <img src={appointment} alt='' />
                       </span>
-                      <span className="header-nav-text">
+                      <span className='header-nav-text'>
                         Display Appointments
                       </span>
                     </div>
-                    <div className="header-nav-item">
-                      <span className="header-nav-icon">
-                        <img src={clear} alt="" />
+                    <div className='header-nav-item'>
+                      <span className='header-nav-icon'>
+                        <img src={clear} alt='' />
                       </span>
-                      <span className="header-nav-text">
-                        {languageTranslation("CLEAR")}
+                      <span className='header-nav-text'>
+                        {languageTranslation('CLEAR')}
                       </span>
                     </div>
                   </div>
@@ -332,17 +333,17 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
               </Suspense>
               <Suspense
                 fallback={
-                  <div className="overview-loader">
+                  <div className='overview-loader'>
                     <Loader />
                   </div>
                 }
               >
-                <div className="common-content flex-grow-1">
+                <div className='common-content flex-grow-1'>
                   {activeTab === 0 ? (
                     <PersonalInformation
                       CareInstitutionList={CareInstitutionList}
                       currentSelectuser={(Data: IReactSelectInterface) => {
-                        console.log("in current select user", data);
+                        console.log('in current select user', data);
 
                         setselectUser((selectUser = Data));
                       }}
@@ -352,6 +353,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                       isUserChange={isUserChange}
                       qualificationList={qualificationList}
                       {...props}
+                      neContactAdded={() => setnewContactAdded(true)}
                     />
                   ) : null}
                   {activeTab === 1 ? <Offers {...props} /> : null}
@@ -362,7 +364,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                   {activeTab === 6 ? (
                     <Email
                       selectedUserName={
-                        selectUser && selectUser.label ? selectUser.label : ""
+                        selectUser && selectUser.label ? selectUser.label : ''
                       }
                       userRole={
                         careInstituition &&
@@ -375,14 +377,14 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                               (careInstitutionData: any) =>
                                 careInstitutionData.id === selectUser.value
                             ).userRole
-                          : ""
+                          : ''
                       }
                     />
                   ) : null}
                   {activeTab === 7 ? (
                     <Reminders
                       {...props}
-                      userRole="careinstitution"
+                      userRole='careinstitution'
                       isnewDataUpdate={isnewDataUpdate}
                     />
                   ) : null}
@@ -395,9 +397,12 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
           show={showToDo}
           handleClose={() => setShowToDo(false)}
           name={selectUser ? selectUser.label : null}
-          userRole={"careInstitution"}
+          userRole={'careInstitution'}
           newDataUpdate={() => setisnewDataUpdate(true)}
           setisnewDataUpdate={() => setisnewDataUpdate(false)}
+          newContactAdded={newContactAdded}
+          setnewContactAdded={() => setnewContactAdded(false)}
+          Id={Id}
         />
       </div>
     </div>

@@ -628,6 +628,7 @@ const PersonalInformation: any = (props: any) => {
           setContacts={(contacts: any) => {
             setContacts((contacts = contacts));
           }}
+          neContactAdded={() => props.neContactAdded()}
         />
       </div>
       {/* <Formik

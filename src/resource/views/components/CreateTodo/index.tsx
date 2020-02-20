@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import CreateTodoForm from './CreateTodoForm';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
@@ -10,7 +10,7 @@ import {
 import { languageTranslation, logger } from '../../../../helpers';
 import { toast } from 'react-toastify';
 import { CreateTodoFormValidationSchema } from '../../../validations';
-import { client } from '../../../../config';
+import { client, AppRoutes } from '../../../../config';
 import {
   ProfileQueries,
   CareInstitutionQueries
@@ -25,13 +25,15 @@ const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
 const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
   const { userRole, handleClose, userData, show, name, editToDo } = mainProps;
 
+  let history = useHistory();
+
   let { id } = useParams();
   let userId: any | undefined = id;
 
   //To get contact list by id
   const [
     fetchContactsByUserID,
-    { data: contactList, loading: contactListLoading }
+    { data: contactList, loading: contactListLoading, refetch }
   ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
   userId = userId ? userId : userData ? userData.userId : undefined;
 
@@ -53,8 +55,29 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
   useEffect(() => {
     if (data) {
       mainProps.newDataUpdate();
+      if (userRole === 'careInstitution') {
+        history.push(
+          `${AppRoutes.CARE_INSTITUION_VIEW.replace(
+            ':id',
+            mainProps.Id
+          )}?tab=${encodeURIComponent('reminders/todos')}`
+        );
+      } else {
+        history.push(
+          `${AppRoutes.CARE_GIVER_VIEW.replace(
+            ':id',
+            mainProps.Id
+          )}?tab=${encodeURIComponent('reminders/todos')}`
+        );
+      }
     }
   }, [data]);
+
+  useEffect(() => {
+    if (refetch) {
+      refetch();
+    }
+  }, [mainProps.newContactAdded]);
 
   const handleSubmit = async (
     values: ICreateTodoFormValues,
@@ -79,15 +102,17 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
             toDoInput
           }
         });
+        toast.success(languageTranslation('TODO_UPDATE_SUCCESS'));
+        
       } else {
         await addToDo({
           variables: {
             toDoInput
           }
         });
+        toast.success(languageTranslation('TODO_ADD_SUCCESS'));
       }
       resetForm();
-      toast.success(languageTranslation('ADD_NEW_DEPARTMENT_CARE_INSTITUTION'));
       handleClose();
       setSubmitting(false);
     } catch (error) {
@@ -147,6 +172,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
       });
     } else {
       mainProps.setisnewDataUpdate();
+      mainProps.setnewContactAdded();
       setTodoValues({
         time: '',
         comment: '',

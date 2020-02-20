@@ -137,7 +137,8 @@ const Documents = () => {
       onCompleted({ updateDocument }) {
         refetch();
         setIsSubmit(false);
-        setFileObject(null);
+        resetFormValue();
+        setIsMissingDocEditable(false);
         setShowDocumentPopup(false);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
@@ -201,6 +202,17 @@ const Documents = () => {
     setFilename(null);
     setIsMissingDocEditable(false);
     // setErrorMsg(null);
+  };
+
+  //Reset form
+  const resetFormValue = () => {
+    setRemarkValue(null);
+    setDocumentType(undefined);
+    setDocumentUrl(null);
+    setStatusValue(true);
+    setDocumentIdUpdate(null);
+    setFileObject(null);
+    setFilename(null);
   };
   useEffect(() => {
     if (id) {
@@ -331,8 +343,6 @@ const Documents = () => {
   };
   //on save document detatils
   const handleSaveDocument = () => {
-    console.log('in handleSaveDocument');
-
     setIsSubmit(true);
     const queryPath = path.pathname;
     const res = queryPath.split('/');
@@ -528,6 +538,7 @@ const Documents = () => {
             <Button
               onClick={() => {
                 setStateValueNull();
+                setIsMissingDocEditable(false);
                 setShowDocumentPopup(true);
                 setDocumentType(
                   documentTypeList.filter(

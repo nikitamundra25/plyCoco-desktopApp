@@ -339,9 +339,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                   data.getToDos.result.map((list: any, index: number) => {
                     return (
                       <tr>
-                        <td className='sno-th-column text-center'>
-                          {index + 1}
-                        </td>
+                        <td className='sno-th-column text-center'>{count++}</td>
                         <td className='date-th-column'>
                           {' '}
                           {`${moment(list.date).format(defaultDateFormat)} ${
@@ -397,6 +395,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                               id='checkAll'
                               className=''
                               name={'juridiction'}
+                              disabled={list.juridiction === 'internally'}
                               checked={
                                 list.juridiction === 'externally' ? true : false
                               }

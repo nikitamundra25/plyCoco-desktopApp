@@ -265,6 +265,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                           id='checkAll'
                           className=''
                           name={'juridiction'}
+                          disabled={item.juridiction === 'internally'}
                           checked={
                             item.juridiction === 'externally' ? true : false
                           }

@@ -18,7 +18,7 @@ import { ToDoMutations } from "../../../../graphql/Mutations";
 const [, , UPDATE_CARE_INSTITUTION_TODO_STATUS, ,] = ToDoMutations;
 const [GET_TO_DOS] = ToDoQueries;
 let toastId: any = null;
-const ToDoList: FunctionComponent<RouteComponentProps & any> = (
+const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
   const { userRole } = mainProps;
@@ -45,6 +45,12 @@ const ToDoList: FunctionComponent<RouteComponentProps & any> = (
     status: string;
     priority: string;
   }>(UPDATE_CARE_INSTITUTION_TODO_STATUS);
+
+  useEffect(() => {
+    if (refetch) {
+      refetch();
+    }
+  }, [mainProps.isnewDataUpdate]);
 
   useEffect(() => {
     const query = qs.parse(search);

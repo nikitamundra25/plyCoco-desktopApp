@@ -120,6 +120,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     );
   }, [search]);
 
+  const [isnewDataUpdate, setisnewDataUpdate] = useState(false);
+
   // Set selected caregiver
   useEffect(() => {
     const currenCareGiver = careGiverOpt.filter(
@@ -294,7 +296,11 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                     />
                   ) : null}
                   {activeTab === 6 ? (
-                    <ToDo {...props} userRole="caregiver" />
+                    <ToDo
+                      {...props}
+                      userRole="caregiver"
+                      isnewDataUpdate={isnewDataUpdate}
+                    />
                   ) : null}
                   {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}
                   {activeTab === 8 ? <GroupedBelow /> : null}
@@ -310,6 +316,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         handleClose={() => setShowToDo(false)}
         name={selectUser ? selectUser.label : null}
         userRole={"careGiver"}
+        newDataUpdate={() => setisnewDataUpdate(true)}
+        setisnewDataUpdate={() => setisnewDataUpdate(false)}
       />
     </div>
   );

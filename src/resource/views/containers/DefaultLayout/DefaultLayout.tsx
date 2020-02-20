@@ -88,17 +88,20 @@ const DefaultLayout = (props: RouteComponentProps) => {
   let history = useHistory();
   let { pathname } = useLocation();
 
-  const [viewAdminProfile, { data }] = useLazyQuery(VIEW_PROFILE, {
-    fetchPolicy: 'no-cache',
-    onError: (error: ApolloError) => {
-      const message = errorFormatter(error);
-      if (!toast.isActive(toastId)) {
-        toastId = toast.error(message);
-      }
-      localStorage.removeItem('adminToken');
-      history.push(AppRoutes.LOGIN);
+  const [viewAdminProfile, { data, loading, called }] = useLazyQuery(
+    VIEW_PROFILE,
+    {
+      fetchPolicy: 'no-cache',
+      onError: (error: ApolloError) => {
+        const message = errorFormatter(error);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+        localStorage.removeItem('adminToken');
+        history.push(AppRoutes.LOGIN);
+      },
     },
-  });
+  );
 
   const [permission, setpermission] = useState<string>('');
   useEffect(() => {
@@ -195,39 +198,45 @@ const DefaultLayout = (props: RouteComponentProps) => {
           <AppSidebarMinimizer />
         </AppSidebar>
         <main className='main'>
-          <Container fluid>
-            <Suspense fallback={<Loader />}>
-              <Switch>
-                {routes.map((route: any, idx) => {
-                  return route.layout ? (
-                    route.layoutName === 'CareInstitutionTodoLayout' ? (
-                      <CareInstitutionTodoLayout
+          {!called || loading ? (
+            <div className={'detailview-loader'}>
+              <Loader />
+            </div>
+          ) : (
+            <Container fluid>
+              <Suspense fallback={<Loader />}>
+                <Switch>
+                  {routes.map((route: any, idx) => {
+                    return route.layout ? (
+                      route.layoutName === 'CareInstitutionTodoLayout' ? (
+                        <CareInstitutionTodoLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        />
+                      ) : route.layoutName === 'CareGiverTodoLayout' ? (
+                        <CareGiverTodoLayout
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.component}
+                        />
+                      ) : null
+                    ) : route.component ? (
+                      <Route
                         key={idx}
                         path={route.path}
                         exact={route.exact}
                         component={route.component}
                       />
-                    ) : route.layoutName === 'CareGiverTodoLayout' ? (
-                      <CareGiverTodoLayout
-                        key={idx}
-                        path={route.path}
-                        exact={route.exact}
-                        component={route.component}
-                      />
-                    ) : null
-                  ) : route.component ? (
-                    <Route
-                      key={idx}
-                      path={route.path}
-                      exact={route.exact}
-                      component={route.component}
-                    />
-                  ) : null;
-                })}
-                <Redirect from={AppRoutes.MAIN} to={AppRoutes.HOME} />
-              </Switch>
-            </Suspense>
-          </Container>
+                    ) : null;
+                  })}
+                  <Redirect from={AppRoutes.MAIN} to={AppRoutes.HOME} />
+                </Switch>
+              </Suspense>
+            </Container>
+          )}
         </main>
       </div>
       <AppFooter>

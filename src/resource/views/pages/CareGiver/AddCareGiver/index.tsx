@@ -344,80 +344,72 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       <div>
         <div className='common-detail-page'>
           <div className='common-detail-section'>
-            {loading ? (
-              <div className='overview-loader'>
-                <Loader />
-              </div>
-            ) : (
-              <>
-                <Suspense fallback={<Loader />}>
-                  <div className='sticky-common-header'>
-                    <div className='common-topheader d-flex align-items-center '>
-                      <div className='common-title'>Add New Caregiver</div>
+            <Suspense fallback={<Loader />}>
+              <div className='sticky-common-header'>
+                <div className='common-topheader d-flex align-items-center '>
+                  <div className='common-title'>Add New Caregiver</div>
 
-                      <div className='header-nav-item'>
-                        <span className='header-nav-icon'>
-                          <img src={reminder} alt='' />
-                        </span>
-                        <span
-                          className='header-nav-text'
-                          // onClick={() => {
-                          //   this.setState({ show: true });
-                          // }}
-                        >
-                          Create Todo/Reminder
-                        </span>
-                      </div>
-                      <div className='header-nav-item'>
-                        <span className='header-nav-icon'>
-                          <img src={password} alt='' />
-                        </span>
-                        <span className='header-nav-text'>New Password</span>
-                      </div>
-                      <div className='header-nav-item'>
-                        <span className='header-nav-icon'>
-                          <img src={appointment} alt='' />
-                        </span>
-                        <span className='header-nav-text'>
-                          Display Appointments
-                        </span>
-                      </div>
-                      <div className='header-nav-item'>
-                        <span className='header-nav-icon'>
-                          <img src={clear} alt='' />
-                        </span>
-                        <span className='header-nav-text'>Clear</span>
-                      </div>
-                    </div>
-                    <CareGiverSidebar
-                      tabs={CareGiverRoutesTabs}
-                      activeTab={activeTab}
-                    />
+                  <div className='header-nav-item'>
+                    <span className='header-nav-icon'>
+                      <img src={reminder} alt='' />
+                    </span>
+                    <span
+                      className='header-nav-text'
+                      // onClick={() => {
+                      //   this.setState({ show: true });
+                      // }}
+                    >
+                      Create Todo/Reminder
+                    </span>
                   </div>
-                </Suspense>
-                <Suspense fallback={''}>
-                  <div className='common-content flex-grow-1'>
-                    {activeTab === 0 ? (
-                      <Formik
-                        initialValues={initialValues}
-                        onSubmit={handleSubmit}
-                        validationSchema={CareGiverValidationSchema}
-                        render={(props: FormikProps<ICareGiverValues>) => {
-                          return (
-                            <CareGiverFormComponent
-                              {...props}
-                              setRemarksDetail={setRemarksDetail}
-                              remarksDetail={remarksDetail}
-                              caregiverAttrOpt={caregiverAttrOpt}
-                            />
-                          );
-                        }}
-                      />
-                    ) : null}
+                  <div className='header-nav-item'>
+                    <span className='header-nav-icon'>
+                      <img src={password} alt='' />
+                    </span>
+                    <span className='header-nav-text'>New Password</span>
                   </div>
-                </Suspense>
-              </>
-            )}
+                  <div className='header-nav-item'>
+                    <span className='header-nav-icon'>
+                      <img src={appointment} alt='' />
+                    </span>
+                    <span className='header-nav-text'>
+                      Display Appointments
+                    </span>
+                  </div>
+                  <div className='header-nav-item'>
+                    <span className='header-nav-icon'>
+                      <img src={clear} alt='' />
+                    </span>
+                    <span className='header-nav-text'>Clear</span>
+                  </div>
+                </div>
+                <CareGiverSidebar
+                  tabs={CareGiverRoutesTabs}
+                  activeTab={activeTab}
+                />
+              </div>
+            </Suspense>
+            <Suspense fallback={''}>
+              <div className='common-content flex-grow-1'>
+                {activeTab === 0 ? (
+                  <Formik
+                    initialValues={initialValues}
+                    onSubmit={handleSubmit}
+                    validationSchema={CareGiverValidationSchema}
+                    render={(props: FormikProps<ICareGiverValues>) => {
+                      return (
+                        <CareGiverFormComponent
+                          {...props}
+                          setRemarksDetail={setRemarksDetail}
+                          remarksDetail={remarksDetail}
+                          caregiverAttrOpt={caregiverAttrOpt}
+                        />
+                      );
+                    }}
+                  />
+                ) : null}
+              </div>
+            </Suspense>
           </div>
         </div>
       </div>

@@ -13,7 +13,12 @@ import moment from 'moment';
 import { languageTranslation, logger } from '../../../../helpers';
 import '../../pages/CareGiver/caregiver.scss';
 import Select from 'react-select';
-import { Priority, TodoStatus, PAGE_LIMIT } from '../../../../config';
+import {
+  Priority,
+  TodoStatus,
+  PAGE_LIMIT,
+  defaultDateFormat
+} from '../../../../config';
 import { FormikProps, Form } from 'formik';
 import {
   IReactSelectInterface,
@@ -43,6 +48,8 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
     data,
     isFilterApplied,
     onPageChanged,
+    handleStatusChange,
+    handlePriorityChange,
     currentPage
   } = props;
 
@@ -205,20 +212,39 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                     </td>
                     <td className='date-th-column'>
                       {' '}
-                      {moment(item.createdAt).format('DD.MM.YYYY')}
+                      {`${moment(item.date).format(defaultDateFormat)} ${
+                        item.time
+                      }`}
                     </td>
                     <td className='remark-col'>
                       <span className='word-wrap'>{item.comment}</span>
                     </td>
                     <td className='checkbox-th-column text-center'>
                       <span className='checkboxli checkbox-custom checkbox-default'>
-                        <input type='checkbox' id='checkAll' className='' />
+                        <input
+                          type='checkbox'
+                          id='check'
+                          className=''
+                          name={'status'}
+                          checked={item.status === 'completed' ? true : false}
+                          onChange={e =>
+                            handleStatusChange(item.id, item.status, null)
+                          }
+                        />
                         <label className=''> </label>
                       </span>
                     </td>
                     <td className='checkbox-th-column text-center'>
                       <span className='checkboxli checkbox-custom checkbox-default'>
-                        <input type='checkbox' id='checkAll' className='' />
+                        <input
+                          type='checkbox'
+                          id='checkAll'
+                          className=''
+                          name={'juridiction'}
+                          checked={
+                            item.juridiction === 'externally' ? true : false
+                          }
+                        />
                         <label className=''> </label>
                       </span>
                     </td>
@@ -228,6 +254,17 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                         options={Priority}
+                        value={
+                          item.priority
+                            ? {
+                                label:
+                                  item.priority.charAt(0).toUpperCase() +
+                                  item.priority.slice(1),
+                                value: item.priority
+                              }
+                            : null
+                        }
+                        onChange={e => handlePriorityChange(item.id, null, e)}
                       />
                     </td>
                   </tr>

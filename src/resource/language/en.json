@@ -718,5 +718,8 @@
   "JURIDICTION_REQUIRED": "Juridiction is required",
   "CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG": "This Todo will be marked as done",
   "CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG": "This Todo will be marked as undone",
-  "DELETE_CARE_INSTITUTION_TODO": "This Todo willl be deleted"
+  "DELETE_CARE_INSTITUTION_TODO": "This Todo willl be deleted",
+  "TODO_STATUS_UPDATED_SUCCESSFULLY": "Todo status has been updated successfully",
+  "TODO_PRIORITY_UPDATED_SUCCESSFULLY": "Todo priority has been updated successfully",
+  "CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG": "This Todo priority will be updated"
 }

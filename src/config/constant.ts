@@ -341,6 +341,11 @@ export const State: IReactSelectInterface[] = [
   { value: 'Saarland', label: 'Saarland' },
   { value: 'Saxony', label: 'Saxony' }
 ];
+
+export const DocumentTempSelect: IReactSelectInterface[] = [
+  { value: 'Working Proof', label: 'Working Proof' },
+  { value: 'Sick Note', label: 'Sick Note' }
+];
 export const Gender: IReactSelectInterface[] = [
   { value: 'Male', label: 'Male' },
   { value: 'Female', label: 'Female' }

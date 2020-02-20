@@ -1,8 +1,14 @@
 import gql from 'graphql-tag';
 
-const GET_DOCUMENT_LIST = gql`
-  query getDocumentTemplates($isDocumentTemplate: Boolean!) {
-    getDocumentTemplates(isDocumentTemplate: $isDocumentTemplate) {
+const GET_DOCUMENT_TEMPLATE = gql`
+  query getDocumentTemplates(
+    $documentUploadType: String
+    $isDocumentTemplate: Boolean!
+  ) {
+    getDocumentTemplates(
+      documentUploadType: $documentUploadType
+      isDocumentTemplate: $isDocumentTemplate
+    ) {
       id
       document
       fileName
@@ -49,7 +55,7 @@ const GET_REQUIRED_DOCUMENT_TYPES = gql`
   }
 `;
 export const DocumentQueries = [
-  GET_DOCUMENT_LIST,
+  GET_DOCUMENT_TEMPLATE,
   GET_DOCUMENTS,
   GET_DOCUMENT_TYPES,
   GET_REQUIRED_DOCUMENT_TYPES

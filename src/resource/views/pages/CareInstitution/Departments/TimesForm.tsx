@@ -33,7 +33,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
   const onDelete = async (timesData: any, index: number) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_DEPARTMENT_DELETE_MSG'),
+      text: languageTranslation('CONFIRM_DEPARTMENT_TIME_DELETE_MSG'),
     });
     if (!value) {
       return;
@@ -44,7 +44,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
       setTimesData(filteredTimes);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('DEPARTMENT_DELETE_SUCCESS_MSG'),
+          languageTranslation('TIME_DELETE_SUCCESS_MSG'),
         );
       }
     }

@@ -6,6 +6,10 @@ import { languageTranslation } from "../../../../../helpers";
 import MaskedInput from "react-text-mask";
 import { IAddTimeFormValues } from "../../../../../interfaces";
 import moment from 'moment';
+import { ConfirmBox } from "../../../components/ConfirmBox";
+import { toast } from "react-toastify";
+
+let toastId: any = '';
 
 const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
   props: FormikProps<IAddTimeFormValues> & any
@@ -25,6 +29,26 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
   let dtStart: any = new Date(d + " " + begin);
   let dtEnd: any = new Date(d + " " + end);
   let difference = dtEnd - dtStart;
+
+  const onDelete = async (timesData: any, index: number) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_DEPARTMENT_DELETE_MSG'),
+    });
+    if (!value) {
+      return;
+    } else {
+      const filteredTimes = timesData.filter(
+        (t: any, i: number) => i !== index
+      );
+      setTimesData(filteredTimes);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('DEPARTMENT_DELETE_SUCCESS_MSG'),
+        );
+      }
+    }
+  };
 
   return (
     <>
@@ -46,29 +70,30 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
           <tbody>
             {timesData && timesData.length
               ? timesData.map((item: any, index: number) => {
-                  return (
-                    <tr key={index}>
-                      <td>{item.begin}</td>
-                      <td>{item.end}</td>
-                      <td>{item.comment ? item.comment : "-"}</td>
-                      <td className="text-center">
-                        <div className="action-btn">
-                          <span
-                            className="btn-icon "
-                            onClick={() => {
-                              const filteredTimes = timesData.filter(
-                                (t: any, i: number) => i !== index
-                              );
-                              setTimesData(filteredTimes);
-                            }}
-                          >
-                            <i className="fa fa-trash"></i>
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
+                return (
+                  <tr key={index}>
+                    <td>{item.begin}</td>
+                    <td>{item.end}</td>
+                    <td>{item.comment ? item.comment : "-"}</td>
+                    <td className="text-center">
+                      <div className="action-btn">
+                        <span
+                          className="btn-icon "
+                          onClick={() => {
+                            onDelete(timesData, index);
+                            // const filteredTimes = timesData.filter(
+                            //   (t: any, i: number) => i !== index
+                            // );
+                            // setTimesData(filteredTimes);
+                          }}
+                        >
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
               : null}
           </tbody>
         </Table>

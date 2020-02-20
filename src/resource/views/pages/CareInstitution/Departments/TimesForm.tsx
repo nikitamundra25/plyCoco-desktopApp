@@ -158,7 +158,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                           )}
                           mask={TimeMask}
                           className={
-                            (errors.end && touched.end) || (difference < 0 || isNaN(difference))
+                            ((touched.end && errors.end) || (touched.end && difference <= 0))
                               ? "text-input error form-control"
                               : "text-input form-control"
                           }
@@ -168,14 +168,17 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                         />
                       )}
                     />
-                    {errors.end && touched.end && (
-                      <div className="required-tooltip">{errors.end}</div>
-                    )}
-                    {touched.end && (difference < 0 || isNaN(difference)) ?
-                      <div className="required-tooltip">{languageTranslation(
-                        "VALID_TIME_RANGE"
-                      )}</div>
-                      : null}
+                    {errors.end ?
+                      errors.end && touched.end && (
+                        <div className="required-tooltip">{errors.end}</div>
+                      )
+                      :
+                      touched.end && difference <= 0 ?
+                        <div className="required-tooltip">{languageTranslation(
+                          "VALID_TIME_RANGE"
+                        )}</div>
+                        : null
+                    }
                   </div>
                 </Col>
               </Row>
@@ -198,6 +201,7 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
                       onBlur={handleBlur}
                       value={comment}
                       rows="3"
+                      maxLength={500}
                       placeholder={languageTranslation("COMMENT")}
                       className="textarea-custom"
                     />

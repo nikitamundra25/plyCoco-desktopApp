@@ -93,6 +93,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           docType.label !== languageTranslation('VARIOUS_DOCUMENTS')
       )
     : undefined;
+  const [isExpand, setIsExpand] = useState<boolean>(false);
+  const [activeRow, setActiveRow] = useState<number>(-1);
+  const expandedText = (index: number) => {
+    setIsExpand(activeRow === index || activeRow === -1 ? !isExpand : isExpand);
+    setActiveRow(activeRow === index ? -1 : index);
+  };
   return (
     <>
       <div className='document-upload-section '>
@@ -209,7 +215,9 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   <tr
                     key={index}
                     className={
-                      list.status === 'approve' ? 'approve-bg' : 'table-danger'
+                      list.fileName && list.status === 'approve'
+                        ? 'approve-bg'
+                        : 'table-danger'
                     }
                   >
                     <td className='sno-th-column text-center'>{index + 1}</td>
@@ -241,7 +249,27 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       </span>
                     </td>
                     <td className='remark-col'>
-                      {list && list.remarks ? list.remarks : '-'}
+                      {list && list.remarks ? (
+                        list.remarks.length <= 100 ? (
+                          list.remarks
+                        ) : (
+                          <p className='mb-0'>
+                            {isExpand && activeRow === index
+                              ? list.remarks
+                              : list.remarks.substr(0, 100)}
+                            <span
+                              className='view-more-link'
+                              onClick={() => expandedText(index)}
+                            >
+                              {isExpand && activeRow === index
+                                ? '...Read less'
+                                : '...Read more'}
+                            </span>
+                          </p>
+                        )
+                      ) : (
+                        '-'
+                      )}
                     </td>
                     <td className='text-center'>
                       <span className=' checkbox-custom '>
@@ -397,7 +425,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 <FormGroup className='mb-0'>
                   <Select
                     menuPlacement={'top'}
-                    placeholder={languageTranslation('TYPE')}
+                    placeholder={'Please select type from list'}
                     value={addedDocumentType}
                     isMulti
                     options={explicitTypeDropdown}

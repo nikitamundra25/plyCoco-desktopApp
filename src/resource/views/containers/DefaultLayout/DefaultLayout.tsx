@@ -240,7 +240,7 @@ const DefaultLayout = (props: RouteComponentProps) => {
         </main>
       </div>
       <AppFooter>
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={''}>
           <DefaultFooter />
         </Suspense>
       </AppFooter>

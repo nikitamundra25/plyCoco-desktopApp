@@ -196,7 +196,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG')
+            languageTranslation('TODO_STATUS_UPDATED_SUCCESSFULLY')
           );
         }
       } catch (error) {
@@ -386,7 +386,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                           <td className='contact-th-column'>
                             <span className='view-more-link word-wrap'>
                               {list.contact
-                                ? `${list.contact.firstName} ${list.contact.surName}`
+                                ? `${list.contact.firstName} ${list.contact.surName} (${list.contact.contactType})`
                                 : '-'}
                             </span>
                           </td>

@@ -293,7 +293,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       }
                     />
                   ) : null}
-                  {activeTab === 6 ? <ToDo {...props} /> : null}
+                  {activeTab === 6 ? (
+                    <ToDo {...props} userRole='caregiver' />
+                  ) : null}
                   {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}
                   {activeTab === 8 ? <GroupedBelow /> : null}
                 </div>

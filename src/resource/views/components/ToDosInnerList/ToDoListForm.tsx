@@ -50,7 +50,8 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
     onPageChanged,
     handleStatusChange,
     handlePriorityChange,
-    currentPage
+    currentPage,
+    userRole
   } = props;
 
   // Custom function to handle react select fields
@@ -58,6 +59,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
     logger(selectOption, 'value');
     setFieldValue(name, selectOption);
   };
+  console.log(' careinstitution', userRole);
 
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
 
@@ -181,6 +183,13 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                 {languageTranslation('S_NO')}
               </th>
               <th className='date-th-column'>{languageTranslation('DATE')} </th>
+              {userRole === 'careinstitution' ? (
+                <th className='contact-th-column'>
+                  {languageTranslation('CONTACT')}
+                </th>
+              ) : (
+                ''
+              )}
               <th className='remark-col'>{languageTranslation('REMARKS')}</th>
               <th className='checkbox-th-column text-center'>
                 {' '}
@@ -216,6 +225,17 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                         item.time
                       }`}
                     </td>
+                    {userRole === 'careinstitution' ? (
+                      <td className='contact-th-column'>
+                        <span className='view-more-link word-wrap'>
+                          {item.contact
+                            ? `${item.contact.firstName} ${item.contact.surName} (${item.contact.contactType})`
+                            : '-'}
+                        </span>
+                      </td>
+                    ) : (
+                      ''
+                    )}
                     <td className='remark-col'>
                       <span className='word-wrap'>{item.comment}</span>
                     </td>

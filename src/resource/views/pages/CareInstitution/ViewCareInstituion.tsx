@@ -374,7 +374,9 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                       }
                     />
                   ) : null}
-                  {activeTab === 7 ? <Reminders {...props} /> : null}
+                  {activeTab === 7 ? (
+                    <Reminders {...props} userRole='careinstitution' />
+                  ) : null}
                 </div>
               </Suspense>
             </>

@@ -18,7 +18,8 @@ import { ToDoMutations } from '../../../../graphql/Mutations';
 const [, , UPDATE_CARE_INSTITUTION_TODO_STATUS, ,] = ToDoMutations;
 const [GET_TO_DOS] = ToDoQueries;
 let toastId: any = null;
-const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
+const ToDoList: FunctionComponent<RouteComponentProps> = (mainProps: any) => {
+  const { userRole } = mainProps;
   let { id } = useParams();
   const userId: any | undefined = id;
 
@@ -69,6 +70,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
         variables: {
           userId: parseInt(userId),
           searchBy,
+          userType: userRole,
           sortBy: search.sortBy === 'all' ? null : search.sortBy,
           priority: search.priority,
           futureOnly,
@@ -248,6 +250,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> = (props: any) => {
             handleStatusChange={handleStatusChange}
             handlePriorityChange={handlePriorityChange}
             currentPage={currentPage}
+            userRole={userRole}
           />
         )}
       />

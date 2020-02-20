@@ -66,7 +66,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         juridiction,
         userId: parseInt(userId),
         userType: userRole.toLowerCase(),
-        contactId: contact && contact.value ? contact.value : null
+        contactId: contact && contact.value ? parseInt(contact.value) : null
       };
       if (userData) {
         await editToDoList({

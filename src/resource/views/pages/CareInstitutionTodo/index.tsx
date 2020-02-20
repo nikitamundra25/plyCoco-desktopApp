@@ -29,7 +29,6 @@ import { ToDoQueries } from '../../../../graphql/queries';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
 import moment from 'moment';
-
 import CreateTodo from '../../components/CreateTodo';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import { toast } from 'react-toastify';

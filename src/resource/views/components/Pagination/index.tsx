@@ -36,7 +36,7 @@ class PaginationComponent extends Component<
       pageNeighbours = 1
     } = props;
     // PAGE LIMIT AND RECORDS
-    this.pageLimit = typeof pageLimit === 'number' ? pageLimit : 1;
+    this.pageLimit = typeof pageLimit === 'number' ? pageLimit : 10;
     this.totalRecords = typeof totalRecords === 'number' ? totalRecords : 0;
 
     // PAGE NEIGHBOURS CAN BE 0, 1 OR 2

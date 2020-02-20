@@ -25,7 +25,6 @@ import {
   ICreateTodoFormValues,
   IReactSelectInterface
 } from '../../../../interfaces';
-import moment from 'moment';
 import MaskedInput from 'react-text-mask';
 
 const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
@@ -164,7 +163,6 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                               />
                             )}
                           />
-
                           {errors.time && touched.time && (
                             <div className='required-tooltip'>
                               {errors.time}

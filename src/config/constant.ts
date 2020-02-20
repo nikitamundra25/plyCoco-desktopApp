@@ -5,7 +5,7 @@ export const taxNumberLimit: number = 11;
 export const taxBracket: number = 100;
 export const ssn: number = 12;
 export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi;
-export const PAGE_LIMIT: number = 1;
+export const PAGE_LIMIT: number = 10;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
 export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm:ss';
 export const defaultDateFormat: any = 'DD.MM.YYYY';

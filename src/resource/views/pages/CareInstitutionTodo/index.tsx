@@ -36,6 +36,7 @@ import { toast } from 'react-toastify';
 import { ToDoMutations } from '../../../../graphql/Mutations';
 import PaginationComponent from '../../components/Pagination';
 import * as qs from 'query-string';
+import { IReactSelectInterface } from '../../../../interfaces';
 
 const [GET_TO_DOS] = ToDoQueries;
 const [
@@ -89,10 +90,76 @@ const CareInstitutionTodo: FunctionComponent = () => {
         searchBy: '',
         priority: '',
         sortBy: '',
-        futureOnly: false
+        futureOnly: false,
+        limit: PAGE_LIMIT
       }
     });
   }, []);
+
+  //  useEffect for searching, filtering
+  useEffect(() => {
+    const query = qs.parse(search);
+    let searchBy: string = '';
+    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
+    let priority: IReactSelectInterface | undefined = { label: '', value: '' };
+    let futureOnly: boolean | undefined = false;
+
+    // To handle display and query param text
+    if (query) {
+      const current: string = history.location.search;
+      let search: any = {};
+      search = { ...qs.parse(current) };
+      if (search.searchBy) {
+        searchBy = search.searchBy;
+      }
+
+      if (search.futureOnly) {
+        futureOnly = JSON.parse(search.futureOnly);
+      }
+
+      setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+      const userRole: string =
+        path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution';
+      // call query
+      fetchToDoByUserID({
+        variables: {
+          userType: userRole,
+          userId: parseInt(userId),
+          searchBy,
+          sortBy: search.sortBy === 'all' ? null : search.sortBy,
+          priority: search.priority,
+          futureOnly,
+          limit: PAGE_LIMIT,
+          page: query.page ? parseInt(query.page as string) : 1
+        }
+      });
+
+      // if (search.sortBy) {
+      //   sortBy =
+      //     TodoStatus[
+      //       TodoStatus.map(item => {
+      //         return item.value;
+      //       }).indexOf(search.sortBy)
+      //     ];
+      // }
+
+      // if (search.priority) {
+      //   priority =
+      //     Priority[
+      //       Priority.map(item => {
+      //         return item.value;
+      //       }).indexOf(search.priority)
+      //     ];
+      // }
+
+      // setSearchValues({
+      //   searchBy,
+      //   futureOnly,
+      //   sortBy,
+      //   priority
+      // });
+    }
+  }, [search]);
 
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);

@@ -20,7 +20,6 @@ import { DocumentQueries } from '../../../../../graphql/queries';
 import { toast } from 'react-toastify';
 import ExplicitDocument from './ExplicitDocument';
 const [, , , , , , ADD_DOCUMENT_TYPE_CAREINST] = DocumentMutations;
-const [, , , GET_REQUIRED_DOCUMENT_TYPES] = DocumentQueries;
 let toastId: any = '';
 
 const DocumentsList: FunctionComponent<any> = (props: any) => {
@@ -43,7 +42,8 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     userId,
     onDeleteDocumentTypes,
     addedDocumentType,
-    setaddedDocumentType
+    setaddedDocumentType,
+    setDocumentType
   } = props;
   let allDocDisApp: boolean = true;
   //Add document type
@@ -87,7 +87,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     }
     setaddedDocumentType(selectedType);
   };
-
+  const explicitTypeDropdown = documentTypeList
+    ? documentTypeList.filter(
+        (docType: any) =>
+          docType.label !== languageTranslation('VARIOUS_DOCUMENTS')
+      )
+    : undefined;
   return (
     <>
       <div className='document-upload-section '>
@@ -147,6 +152,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               onClick={() => {
                 setStateValueNull();
                 setShowDocumentPopup(true);
+                setDocumentType(
+                  documentTypeList.filter(
+                    (docType: any) =>
+                      docType.label === languageTranslation('VARIOUS_DOCUMENTS')
+                  )[0]
+                );
               }}
               className='btn-common mb-3'
               color='primary'
@@ -243,6 +254,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                               ? true
                               : false
                           }
+                          disabled={list && !list.fileName}
                           onChange={(e: any) => {
                             handleCheckElement(e, list.id, list.status);
                           }}
@@ -388,7 +400,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     placeholder={languageTranslation('TYPE')}
                     value={addedDocumentType}
                     isMulti
-                    options={documentTypeList ? documentTypeList : ''}
+                    options={explicitTypeDropdown}
                     className='attribute-select'
                     classNamePrefix='attribute-inner-select'
                     onChange={handleDocumentType}

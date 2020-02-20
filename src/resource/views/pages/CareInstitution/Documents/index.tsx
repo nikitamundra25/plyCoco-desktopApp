@@ -221,12 +221,13 @@ const Documents = () => {
   //set state data null
   const setStateValueNull = () => {
     setRemarkValue(null);
-    setDocumentType({ value: 'Various documents', label: 'Various documents' });
+    setDocumentType(undefined);
     setDocumentUrl(null);
     setStatusValue(true);
     setDocumentIdUpdate(null);
     setFileObject(null);
     setFilename(null);
+    setIsMissingDocEditable(false);
     // setErrorMsg(null);
   };
   useEffect(() => {
@@ -264,6 +265,8 @@ const Documents = () => {
         ? { label: document_type.type, value: document_type.id }
         : undefined
     );
+    setRemarkValue(null);
+    setDocumentUrl(null);
     if (!isMissingDocEditable) {
       setRemarkValue(remarks);
       setDocumentUrl({
@@ -557,6 +560,7 @@ const Documents = () => {
         onDeleteDocumentTypes={onDeleteDocumentTypes}
         addedDocumentType={addedDocumentType}
         setaddedDocumentType={setaddedDocumentType}
+        setDocumentType={setDocumentType}
       />
       <DocumentUploadModal
         documentIdUpdate={documentIdUpdate}

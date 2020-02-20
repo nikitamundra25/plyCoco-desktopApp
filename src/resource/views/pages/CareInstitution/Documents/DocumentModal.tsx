@@ -3,7 +3,6 @@ import {
   Button,
   Modal,
   ModalHeader,
-  ModalTitle,
   ModalBody,
   ModalFooter,
   FormGroup,
@@ -16,7 +15,6 @@ import {
 import Select from 'react-select';
 import 'react-day-picker/lib/style.css';
 import { languageTranslation } from '../../../../../helpers';
-import { DocumentTypes } from '../../../../../config';
 import { useDropzone } from 'react-dropzone';
 import png from '../../../../assets/img/png.svg';
 import jpg from '../../../../assets/img/jpg.svg';
@@ -62,7 +60,8 @@ const DocumentUploadModal = (props: any) => {
   // To get file extension
   let splitName =
     documentUrls && documentUrls.name ? documentUrls.name.split('.') : [];
-  const extention = splitName && splitName[1];return (
+  const extention = splitName && splitName[1];
+  return (
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
         <ModalHeader close={externalCloseBtn}>
@@ -286,6 +285,7 @@ const DocumentUploadModal = (props: any) => {
           <Button
             color='primary'
             onClick={() => {
+              console.log('inside save');
               handleSaveDocument();
             }}
             disabled={addDocumentLoading || updateDocumentLoading}

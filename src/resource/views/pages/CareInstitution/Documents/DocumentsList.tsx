@@ -2,7 +2,6 @@ import React, { FunctionComponent, useState, useEffect } from 'react';
 import {
   Table,
   Button,
-  Input,
   UncontrolledTooltip,
   FormGroup,
   Row,
@@ -123,7 +122,13 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   allDocDisApp ||
                   (documentListing &&
                     documentListing.getDocuments &&
-                    !documentListing.getDocuments.length)
+                    !documentListing.getDocuments.length) ||
+                  // To check required document is submitted by caregive or not
+                  (documentListing &&
+                    documentListing.getDocuments &&
+                    documentListing.getDocuments.filter(
+                      (document: any) => !document.fileName
+                    ).length)
                 }
                 className='btn-common btn-active mb-3 mr-3 '
                 color='link'
@@ -188,9 +193,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               documentListing.getDocuments.length ? (
               documentListing.getDocuments.map((list: any, index: number) => {
                 const documentLength = documentListing.getDocuments.length;
-                const size = list.fileSize
-                  ? formatFileSize(list.fileSize)
-                  : '-';
+
                 return (
                   <tr
                     key={index}
@@ -249,7 +252,10 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       </span>
                     </td>
 
-                    <td>{size}</td>
+                    <td>
+                      {' '}
+                      {list.fileSize ? formatFileSize(list.fileSize) : '-'}
+                    </td>
                     <td>
                       <div
                         className={`action-btn ${
@@ -278,15 +284,20 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         <span
                           id={`delete${index}`}
                           className={`btn-icon mr-2 ${
-                            list.status === 'approve' ? 'disbale' : ''
+                            list.status === 'approve' ||
+                            (list && !list.fileName)
+                              ? 'disbale'
+                              : ''
                           }`}
                           onClick={() =>
+                            (list && !list.fileName) ||
                             list.status === 'approve'
                               ? ''
                               : onDeleteDocument(list.id)
                           }
                         >
-                          {list.status === 'approve' ? (
+                          {(list && !list.fileName) ||
+                          list.status === 'approve' ? (
                             ''
                           ) : (
                             <UncontrolledTooltip

@@ -69,10 +69,11 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   (documentListing &&
                     documentListing.getDocuments &&
                     !documentListing.getDocuments.length) ||
+                  // To check required document is submitted by caregive or not
                   (documentListing &&
                     documentListing.getDocuments &&
                     documentListing.getDocuments.filter(
-                      (document: any) => !document.fileName,
+                      (document: any) => !document.fileName
                     ).length)
                 }
                 className='btn-common btn-active mb-3 mr-3 '
@@ -213,7 +214,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                           onClick={() =>
                             onUpdateDocument(
                               list,
-                              list && list.fileName ? false : true, // To ensure user try to edit missing document
+                              list && list.fileName ? false : true // To ensure user try to edit missing document
                             )
                           }
                           // disable={list.status === 'approve'}

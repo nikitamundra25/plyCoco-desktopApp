@@ -106,13 +106,13 @@ const Documents = () => {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
-      },
+      }
     }
   );
 
   // To fecth document type list
   const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES);
-  
+
   // To set document type into label value pair
   const documentTypeList: IReactSelectInterface[] | undefined = [];
   if (documentTypeListData && documentTypeListData.getDocumentType) {
@@ -152,11 +152,18 @@ const Documents = () => {
       onCompleted({ updateDocument }) {
         refetch();
         setIsSubmit(false);
+        setFileObject(null);
         setShowDocumentPopup(false);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
             languageTranslation('DOCUMENT_UPDATED_SUCCESS')
           );
+        }
+      },
+      onError: (error: ApolloError) => {
+        const message = errorFormatter(error);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
         }
       }
     }
@@ -236,6 +243,7 @@ const Documents = () => {
 
   //on update document
   const onUpdateDocument = (data: any, isMissingDocEditable: boolean) => {
+    console.log('data', data);
     const {
       id = '',
       remarks = '',
@@ -263,7 +271,6 @@ const Documents = () => {
       setFilename(fileName);
     }
   };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
     const { checked, name, value } = target;
@@ -353,17 +360,26 @@ const Documents = () => {
     const queryPath = path.pathname;
     const res = queryPath.split('/');
     const id = parseInt(res[3]);
+    let documentInput = {
+      fileName: fileName ? fileName : '',
+      documentTypeId: documentType ? documentType.value : '',
+      remarks: remarkValue ? remarkValue : ''
+    };
+    console.log('documentIdUpdate', documentIdUpdate);
+
     if (documentIdUpdate) {
       if (fileName || isMissingDocEditable) {
         // To validate file name shoulb not be empty or is the missing document
         updateDocument({
           variables: {
             id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
-            documentInput: {
-              fileName: fileName ? fileName : '',
-              documentTypeId: documentType ? documentType.value : '',
-              remarks: remarkValue ? remarkValue : ''
-            }
+            documentInput: isMissingDocEditable
+              ? {
+                  ...documentInput,
+                  document: fileObject ? fileObject : null,
+                  status: statusValue ? 'approve' : 'notrequested'
+                }
+              : documentInput
           }
         });
       }
@@ -515,9 +531,6 @@ const Documents = () => {
       }
     }
   };
-
-  console.log(isMissingDocEditable, 'isMissingDocEditable+++');
-
   return (
     <div>
       <DocumentsList

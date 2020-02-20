@@ -67,7 +67,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
       const toDoInput: any = {
         time,
         comment,
-        date,
+        date: date ? date : new Date(),
         priority: priority && priority.value ? priority.value : null,
         juridiction,
         userId: parseInt(userId),
@@ -154,7 +154,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         comment: '',
         date: '',
         priority: undefined,
-        juridiction: '',
+        juridiction: 'internally',
         contact: undefined
       });
     }

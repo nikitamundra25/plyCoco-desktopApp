@@ -14,20 +14,29 @@ import {
   UncontrolledTooltip
 } from 'reactstrap';
 // import "./index.scss";
-import { RouteComponentProps, useParams, useLocation } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 // import EmailMenus from "../CareGiver/Emails/EmailMenus";
 import { languageTranslation } from '../../../../helpers';
 import Select from 'react-select';
-import { Priority, TodoFilter, defaultDateFormat } from '../../../../config';
+import {
+  Priority,
+  TodoFilter,
+  defaultDateFormat,
+  PAGE_LIMIT
+} from '../../../../config';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { ToDoQueries } from '../../../../graphql/queries';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
 import moment from 'moment';
+
 import CreateTodo from '../../components/CreateTodo';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import { toast } from 'react-toastify';
 import { ToDoMutations } from '../../../../graphql/Mutations';
+import PaginationComponent from '../../components/Pagination';
+import * as qs from 'query-string';
+
 const [GET_TO_DOS] = ToDoQueries;
 const [
   ,
@@ -39,12 +48,17 @@ let toastId: any = null;
 
 const CareInstitutionTodo: FunctionComponent = () => {
   let { id } = useParams();
+  let history = useHistory();
+
   const userId: any | undefined = id;
   const [showToDo, setShowToDo] = useState<boolean>(false);
   const [selectUser, setSelectUser] = useState<any>({});
-  const [status, setStatus] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   const location = useLocation();
   const { pathname } = location;
+  const { search } = useLocation();
+
   const path = pathname.split('/');
 
   //To get todo list by id
@@ -79,6 +93,14 @@ const CareInstitutionTodo: FunctionComponent = () => {
       }
     });
   }, []);
+
+  const onPageChanged = (currentPage: number) => {
+    const query = qs.parse(search);
+    const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
+      '?'
+    );
+    history.push(path);
+  };
 
   const editToDo = (list: any) => {
     setShowToDo(true);
@@ -155,6 +177,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
       }
     }
   };
+  let count = (currentPage - 1) * PAGE_LIMIT + 1;
 
   return (
     <>
@@ -395,6 +418,13 @@ const CareInstitutionTodo: FunctionComponent = () => {
                 )}
               </tbody>
             </Table>
+            {data && data.getToDos && data.getToDos.totalCount ? (
+              <PaginationComponent
+                totalRecords={data.getToDos.totalCount}
+                currentPage={currentPage}
+                onPageChanged={onPageChanged}
+              />
+            ) : null}
           </Col>
         </Row>
         <CreateTodo

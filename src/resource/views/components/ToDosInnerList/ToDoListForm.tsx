@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 import {
   Row,
   Col,
@@ -8,34 +8,32 @@ import {
   Input,
   UncontrolledTooltip,
   Button
-} from "reactstrap";
-import moment from "moment";
-import { languageTranslation, logger } from "../../../../helpers";
-import "../../pages/CareGiver/caregiver.scss";
-import Select from "react-select";
-import { Priority, TodoStatus, PAGE_LIMIT } from "../../../../config";
-import { FormikProps, Form } from "formik";
-import { IReactSelectInterface, ISearchToDoValues } from "../../../../interfaces";
-import { useHistory, useLocation } from "react-router-dom";
-import Loader from "../../containers/Loader/Loader";
-import { NoSearchFound } from "../SearchFilter/NoSearchFound";
+} from 'reactstrap';
+import moment from 'moment';
+import { languageTranslation, logger } from '../../../../helpers';
+import '../../pages/CareGiver/caregiver.scss';
+import Select from 'react-select';
+import { Priority, TodoStatus, PAGE_LIMIT } from '../../../../config';
+import { FormikProps, Form } from 'formik';
+import {
+  IReactSelectInterface,
+  ISearchToDoValues
+} from '../../../../interfaces';
+import { useHistory, useLocation } from 'react-router-dom';
+import Loader from '../../containers/Loader/Loader';
+import { NoSearchFound } from '../SearchFilter/NoSearchFound';
 import * as qs from 'query-string';
-import PaginationComponent from "../Pagination";
+import PaginationComponent from '../Pagination';
 
 const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
   props: FormikProps<ISearchToDoValues> & any
 ) => {
   let history = useHistory();
-  let { pathname } = useLocation();
-  const path = [pathname, qs.stringify({ tab: "reminders/todos" })].join('?');
+  const { search, pathname } = useLocation();
+  const path = [pathname, qs.stringify({ tab: 'reminders/todos' })].join('?');
 
   const {
-    values: {
-      searchBy,
-      sortBy,
-      priority,
-      futureOnly,
-    },
+    values: { searchBy, sortBy, priority, futureOnly },
     handleSubmit,
     handleChange,
     setFieldValue,
@@ -58,16 +56,16 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
 
   return (
     <>
-      <div className="todo-section">
-        <h5 className="content-title">
-          {languageTranslation("CG_SUB_MENU_REMINDER")}
+      <div className='todo-section'>
+        <h5 className='content-title'>
+          {languageTranslation('CG_SUB_MENU_REMINDER')}
         </h5>
-        <Form className="filter-form form-section" onSubmit={handleSubmit}>
+        <Form className='filter-form form-section' onSubmit={handleSubmit}>
           <Row>
-            <Col lg={"3"} md={"3"}>
-              <FormGroup className="mb-2">
-                <Label className="col-form-label">
-                  {languageTranslation("SEARCH_LABEL")} :
+            <Col lg={'3'} md={'3'}>
+              <FormGroup className='mb-2'>
+                <Label className='col-form-label'>
+                  {languageTranslation('SEARCH_LABEL')} :
                 </Label>
                 <Input
                   type='text'
@@ -75,19 +73,19 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                   id='search'
                   value={searchBy}
                   onChange={handleChange}
-                  placeholder={languageTranslation("SEARCH_LABEL")}
+                  placeholder={languageTranslation('SEARCH_LABEL')}
                 />
               </FormGroup>
             </Col>
-            <Col lg={"2"} md={"3"}>
+            <Col lg={'2'} md={'3'}>
               <FormGroup>
-                <Label className="col-form-label">
-                  {languageTranslation("STATUS_LABEL")} :
+                <Label className='col-form-label'>
+                  {languageTranslation('STATUS_LABEL')} :
                 </Label>
                 <Select
-                  placeholder={languageTranslation("STATUS_PLACEHOLDER")}
-                  classNamePrefix="custom-inner-reactselect"
-                  className={"custom-reactselect"}
+                  placeholder={languageTranslation('STATUS_PLACEHOLDER')}
+                  classNamePrefix='custom-inner-reactselect'
+                  className={'custom-reactselect'}
                   options={TodoStatus}
                   isSearchable={false}
                   isClearable={true}
@@ -96,15 +94,15 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                 />
               </FormGroup>
             </Col>
-            <Col lg={"2"} md={"3"}>
+            <Col lg={'2'} md={'3'}>
               <FormGroup>
-                <Label className="col-form-label">
-                  {languageTranslation("PRIORITY")} :
+                <Label className='col-form-label'>
+                  {languageTranslation('PRIORITY')} :
                 </Label>
                 <Select
-                  placeholder={languageTranslation("PRIORITY")}
-                  classNamePrefix="custom-inner-reactselect"
-                  className={"custom-reactselect"}
+                  placeholder={languageTranslation('PRIORITY')}
+                  classNamePrefix='custom-inner-reactselect'
+                  className={'custom-reactselect'}
                   options={Priority}
                   isSearchable={false}
                   isClearable={true}
@@ -113,37 +111,33 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                 />
               </FormGroup>
             </Col>
-            <Col lg={"1"} md={"3"}>
+            <Col lg={'1'} md={'3'}>
               <FormGroup>
-                <Label className="col-form-label">
-                  {languageTranslation("FUTURE_ONLY")} :
+                <Label className='col-form-label'>
+                  {languageTranslation('FUTURE_ONLY')} :
                 </Label>
-                <span className="checkboxli checkbox-custom checkbox-default">
+                <span className='checkboxli checkbox-custom checkbox-default'>
                   <input
-                    type="checkbox"
-                    id="check"
-                    className=""
-                    name={"futureOnly"}
+                    type='checkbox'
+                    id='check'
+                    className=''
+                    name={'futureOnly'}
                     checked={futureOnly}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       const {
                         target: { checked }
                       } = e;
-                      setFieldValue("futureOnly", checked);
+                      setFieldValue('futureOnly', checked);
                     }}
                   />
-                  <Label for="check"></Label>
+                  <Label for='check'></Label>
                 </span>
               </FormGroup>
             </Col>
             <Col lg={'2'} md={'3'}>
               <div className='label-height'></div>
               <div className='filter-btn-wrap'>
-                <Button
-                  className='btn-filter mr-2'
-                  type='submit'
-                  id='search1'
-                >
+                <Button className='btn-filter mr-2' type='submit' id='search1'>
                   <UncontrolledTooltip placement='top' target='search1'>
                     {languageTranslation('SEARCH_LABEL')}
                   </UncontrolledTooltip>
@@ -174,26 +168,25 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
         </Form>
 
         <Table bordered hover responsive>
-          <thead className="thead-bg">
+          <thead className='thead-bg'>
             <tr>
               <th className='sno-th-column text-center'>
                 {languageTranslation('S_NO')}
               </th>
-              <th className="date-th-column">{languageTranslation("DATE")} </th>
-              <th className="remark-col">{languageTranslation("REMARKS")}</th>
-              <th className="checkbox-th-column text-center">
-                {" "}
-                {languageTranslation("DONE")}
+              <th className='date-th-column'>{languageTranslation('DATE')} </th>
+              <th className='remark-col'>{languageTranslation('REMARKS')}</th>
+              <th className='checkbox-th-column text-center'>
+                {' '}
+                {languageTranslation('DONE')}
               </th>
-              <th className="checkbox-th-column text-center">
-                {" "}
-                {languageTranslation("EXTERNAL")}
+              <th className='checkbox-th-column text-center'>
+                {' '}
+                {languageTranslation('EXTERNAL')}
               </th>
-              <th className="prio-col"> {languageTranslation("PRIORITY")}</th>
+              <th className='prio-col'> {languageTranslation('PRIORITY')}</th>
             </tr>
           </thead>
           <tbody>
-
             {!called || loading ? (
               <tr>
                 <td className={'table-loader'} colSpan={8}>
@@ -204,72 +197,63 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
               data.getToDos &&
               data.getToDos.result &&
               data.getToDos.result.length ? (
-                  data.getToDos.result.map(
-                    (item: any, index: number) => {
-                      return (
-                        <tr key={index}>
-                          <td className='sno-th-column text-center'>
-                            <span>{count++}</span>
-                          </td>
-                          <td className="date-th-column"> {moment(item.createdAt).format(
-                            "DD.MM.YYYY"
-                          )}</td>
-                          <td className="remark-col">
-                            <span className="word-wrap">
-                              {item.comment}
-                            </span>
-                          </td>
-                          <td className="checkbox-th-column text-center">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input type="checkbox" id="checkAll" className="" />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td className="checkbox-th-column text-center">
-                            <span className="checkboxli checkbox-custom checkbox-default">
-                              <input type="checkbox" id="checkAll" className="" />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td className="priority-th-column">
-                            <Select
-                              placeholder="Select Priority"
-                              classNamePrefix="custom-inner-reactselect"
-                              className={"custom-reactselect"}
-                              options={Priority}
-                            />
-                          </td>
-                          <td>{item.priority}</td>
-                          <td>{item.status}</td>
-                        </tr>
-                      );
-                    }
-                  )
-                ) : (
-                  <tr className={'text-center no-hover-row'}>
-                    <td colSpan={8} className={'pt-5 pb-5'}>
-                      {isFilterApplied ? (
-                        <NoSearchFound />
-                      ) : (
-                          <div className='no-data-section'>
-                            <div className='no-data-icon'>
-                              <i className='icon-ban' />
-                            </div>
-                            <h4 className='mb-1'>
-                              Currently there are no todos added.{' '}
-                            </h4>
-                            <p>Please click above button to add new. </p>
-                          </div>
-                        )}
+              data.getToDos.result.map((item: any, index: number) => {
+                return (
+                  <tr key={index}>
+                    <td className='sno-th-column text-center'>
+                      <span>{count++}</span>
                     </td>
+                    <td className='date-th-column'>
+                      {' '}
+                      {moment(item.createdAt).format('DD.MM.YYYY')}
+                    </td>
+                    <td className='remark-col'>
+                      <span className='word-wrap'>{item.comment}</span>
+                    </td>
+                    <td className='checkbox-th-column text-center'>
+                      <span className='checkboxli checkbox-custom checkbox-default'>
+                        <input type='checkbox' id='checkAll' className='' />
+                        <label className=''> </label>
+                      </span>
+                    </td>
+                    <td className='checkbox-th-column text-center'>
+                      <span className='checkboxli checkbox-custom checkbox-default'>
+                        <input type='checkbox' id='checkAll' className='' />
+                        <label className=''> </label>
+                      </span>
+                    </td>
+                    <td className='priority-th-column'>
+                      <Select
+                        placeholder='Select Priority'
+                        classNamePrefix='custom-inner-reactselect'
+                        className={'custom-reactselect'}
+                        options={Priority}
+                      />
+                    </td>
+                    <td>{item.priority}</td>
+                    <td>{item.status}</td>
                   </tr>
-                )}
-
-
-
-
-
-
+                );
+              })
+            ) : (
+              <tr className={'text-center no-hover-row'}>
+                <td colSpan={8} className={'pt-5 pb-5'}>
+                  {isFilterApplied ? (
+                    <NoSearchFound />
+                  ) : (
+                    <div className='no-data-section'>
+                      <div className='no-data-icon'>
+                        <i className='icon-ban' />
+                      </div>
+                      <h4 className='mb-1'>
+                        Currently there are no todos added.{' '}
+                      </h4>
+                      <p>Please click above button to add new. </p>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            )}
           </tbody>
         </Table>
         {data && data.getToDos && data.getToDos.totalCount ? (

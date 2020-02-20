@@ -43,9 +43,9 @@ const DocumentUploadModal = (props: any) => {
     onDrop,
     show,
     handleClose,
-    setErrorMsg,
     addDocumentLoading,
-    updateDocumentLoading
+    updateDocumentLoading,
+    documentTypeList
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
@@ -57,7 +57,9 @@ const DocumentUploadModal = (props: any) => {
       <img src={closehover} alt="close" className="hover-img" />
     </button>
   );
-  let splitName = documentUrls && documentUrls.name.split(".");
+  // To extract file extension
+  let splitName =
+    documentUrls && documentUrls.name ? documentUrls.name.split(".") : [];
   const extention = splitName && splitName[1];
 
   return (
@@ -179,8 +181,7 @@ const DocumentUploadModal = (props: any) => {
                         <Select
                           name="type"
                           value={documentType}
-                          options={DocumentTypes}
-                          // placeholder={'Select type'}
+                          options={documentTypeList}
                           onChange={(type: any) => {
                             setDocumentType(type);
                           }}

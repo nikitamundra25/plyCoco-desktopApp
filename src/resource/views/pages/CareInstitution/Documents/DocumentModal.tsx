@@ -45,7 +45,8 @@ const DocumentUploadModal = (props: any) => {
     handleClose,
     setErrorMsg,
     addDocumentLoading,
-    updateDocumentLoading
+    updateDocumentLoading,
+    documentTypeList
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
@@ -179,9 +180,10 @@ const DocumentUploadModal = (props: any) => {
                         <Select
                           name="type"
                           value={documentType}
-                          options={DocumentTypes}
+                          options={documentTypeList ? documentTypeList : ""}
                           // placeholder={'Select type'}
                           onChange={(type: any) => {
+                            console.log("type", type);
                             setDocumentType(type);
                           }}
                           classNamePrefix="custom-inner-reactselect"

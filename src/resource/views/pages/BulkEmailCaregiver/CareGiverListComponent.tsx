@@ -20,6 +20,26 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
     bulkcareGivers
   } = props;
 
+  const handleChecked = (id: string) => {
+    if (selectedCareGiver && selectedCareGiver.length) {
+      const found = selectedCareGiver.some(
+        (el: any) => parseInt(el) === parseInt(id)
+      );
+      const e = {
+        target: {
+          checked: !found
+        }
+      };
+      handleCheckElement(e, id);
+    } else {
+      const e = {
+        target: {
+          checked: true
+        }
+      };
+      handleCheckElement(e, id);
+    }
+  };
   return (
     <Col lg={'5'}>
       <div id="scrollableDiv" className="caregiver-list custom-scroll">
@@ -86,7 +106,13 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
               ) : careGiverData && careGiverData.length ? (
                 careGiverData.map((careGivers: any, index: number) => {
                   return (
-                    <tr key={index}>
+                    <tr
+                      key={index}
+                      onClick={(e: any) => {
+                        handleChecked(careGivers.id);
+                      }}
+                      className='cursor-pointer'
+                    >
                       <td>
                         <span className=" checkbox-custom  ">
                           <input
@@ -103,7 +129,9 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                                 ? true
                                 : false
                             }
-                            onChange={(e: any) => {
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
                               handleCheckElement(e, careGivers.id);
                             }}
                           />

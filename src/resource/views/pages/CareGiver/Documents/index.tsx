@@ -1,10 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { DocumentMutations } from '../../../../../graphql/Mutations';
 import moment from 'moment';
-import { IDocumentUrls } from '../../../../../interfaces';
+import {
+  IDocumentUrls,
+  IReactSelectInterface
+} from '../../../../../interfaces';
 import DocumentUploadModal from './DocumentModal';
 import DocumentsList from './DocumentsList';
 import { DocumentQueries } from '../../../../../graphql/queries';
@@ -22,7 +25,8 @@ const [
   DISAPPROVE_DOCUMENT
 ] = DocumentMutations;
 const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
-const [, GET_DOCUMENTS] = DocumentQueries;
+const [, GET_DOCUMENTS, GET_DOCUMENT_TYPES] = DocumentQueries;
+
 let toastId: any = '';
 
 const Documents = () => {
@@ -39,9 +43,6 @@ const Documents = () => {
   const [documentData, setDocumentData] = useState<any>(null);
   const [documentIdUpdate, setDocumentIdUpdate] = useState<any>(null);
   const [fileName, setFilename] = useState<any>(null);
-  // const [errorMsg, setErrorMsg] = useState<string | null>(
-  //   'Document is required'
-  // );
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const [documentId, setDocumentId] = useState<{
@@ -61,6 +62,7 @@ const Documents = () => {
       refetch: careGiverDetailsRetch
     }
   ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
+
   //add document
   const [addDocument, { loading: addDocumentLoading }] = useMutation<any>(
     ADD_DOCUMENT,
@@ -77,6 +79,19 @@ const Documents = () => {
       }
     }
   );
+  // To fecth document type list
+  const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES);
+
+  // To set document type into label value pair
+  const documentTypeList: IReactSelectInterface[] | undefined = [];
+  if (documentTypeListData && documentTypeListData.getDocumentType) {
+    documentTypeListData.getDocumentType.forEach((type: any) => {
+      documentTypeList.push({
+        label: type.type,
+        value: type.id
+      });
+    });
+  }
 
   //disapprove document
   const [
@@ -168,8 +183,8 @@ const Documents = () => {
     setShowDocumentPopup(true);
     setRemarkValue(data.remarks);
     setDocumentType(
-      data.documentType
-        ? { label: data.documentType, value: data.documentType }
+      data && data.document_type && data.document_type.type
+        ? { label: data.document_type.type, value: data.document_type.id }
         : undefined
     );
     setDocumentUrl({
@@ -277,7 +292,7 @@ const Documents = () => {
             id: documentIdUpdate ? parseInt(documentIdUpdate) : '',
             documentInput: {
               fileName: fileName ? fileName : '',
-              documentType: documentType ? documentType.value : '',
+              documentTypeId: documentType ? documentType.value : '',
               remarks: remarkValue ? remarkValue : ''
             }
           }
@@ -289,10 +304,10 @@ const Documents = () => {
           variables: {
             documentInput: {
               userId: id ? id : '',
+              documentTypeId: documentType ? documentType.value : '',
               document: fileObject ? fileObject : null,
               remarks: remarkValue,
-              status: statusValue ? 'approve' : 'notrequested',
-              documentType: documentType ? documentType.value : ''
+              status: statusValue ? 'approve' : 'notrequested'
             }
           }
         });
@@ -438,8 +453,7 @@ const Documents = () => {
         setShowDocumentPopup={setShowDocumentPopup}
         addDocumentLoading={addDocumentLoading}
         updateDocumentLoading={updateDocumentLoading}
-        // setErrorMsg={setErrorMsg}
-        // errorMsg={errorMsg}
+        documentTypeList={documentTypeList}
       />
     </div>
   );

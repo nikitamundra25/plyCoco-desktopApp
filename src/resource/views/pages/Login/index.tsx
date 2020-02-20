@@ -36,7 +36,7 @@ export const Login: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    },
+    }
   });
 
   useEffect(() => {
@@ -47,13 +47,13 @@ export const Login: FunctionComponent = () => {
   // on login
   const handleSubmit = (
     { userName, password }: ILoginFormValues,
-    { setSubmitting }: FormikHelpers<ILoginFormValues>,
+    { setSubmitting }: FormikHelpers<ILoginFormValues>
   ) => {
     try {
       adminLogin({
         variables: {
-          authInput: { userName: userName ? userName.trim() : '', password },
-        },
+          authInput: { userName: userName ? userName.trim() : '', password }
+        }
       });
     } catch (error) {
       const message = errorFormatter(error);

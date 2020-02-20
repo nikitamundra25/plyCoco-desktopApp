@@ -36,9 +36,9 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
 
   return (
     <>
-      <div className="document-upload-section mb-3">
-        <div className="d-flex align-items-center justify-content-between flex-wrap">
-          <h5 className="content-title mb-3">
+      <div className='document-upload-section mb-3'>
+        <div className='d-flex align-items-center justify-content-between flex-wrap'>
+          <h5 className='content-title mb-3'>
             {languageTranslation('CG_SUB_MENU_DOCUMENTS')}
           </h5>
           <div>
@@ -53,12 +53,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 //     documentListing.getDocuments &&
                 //     !documentListing.getDocuments.length)
                 // }
-                className="btn-common btn-inactive mb-3 mr-3"
-                color="link"
+                className='btn-common btn-inactive mb-3 mr-3'
+                color='link'
               >
                 {disapproveLoading ? (
                   <>
-                    <i className="fa fa-spinner fa-spin " />{' '}
+                    <i className='fa fa-spinner fa-spin ' />{' '}
                     {languageTranslation('DISAPPROVE')}
                   </>
                 ) : (
@@ -76,12 +76,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     documentListing.getDocuments &&
                     !documentListing.getDocuments.length)
                 }
-                className="btn-common btn-active mb-3 mr-3 "
-                color="link"
+                className='btn-common btn-active mb-3 mr-3 '
+                color='link'
               >
                 {approveLoading ? (
                   <>
-                    <i className="fa fa-spinner fa-spin " />{' '}
+                    <i className='fa fa-spinner fa-spin ' />{' '}
                     {languageTranslation('APPROVE')}
                   </>
                 ) : (
@@ -94,8 +94,8 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 setStateValueNull();
                 setShowDocumentPopup(true);
               }}
-              className="btn-common mb-3"
-              color="primary"
+              className='btn-common mb-3'
+              color='primary'
             >
               <i className={'fa fa-upload'} />
               &nbsp;{languageTranslation('UPLOAD_DOCUMENT')}
@@ -104,23 +104,23 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
         </div>
 
         <Table bordered responsive>
-          <thead className="thead-bg">
+          <thead className='thead-bg'>
             <tr>
-              <th className="sno-th-column text-center">
+              <th className='sno-th-column text-center'>
                 {languageTranslation('S_NO')}
               </th>
-              <th className="date-th-column">{languageTranslation('DATE')}</th>
-              <th className="file-th-column">
+              <th className='date-th-column'>{languageTranslation('DATE')}</th>
+              <th className='file-th-column'>
                 {languageTranslation('FILE_NAME')}
               </th>
-              <th className="filetype-th-column">
+              <th className='filetype-th-column'>
                 {languageTranslation('TYPE')}
               </th>
               <th>{languageTranslation('REMARKS')}</th>
-              <th className="checkbox-th-column ">
+              <th className='checkbox-th-column '>
                 {languageTranslation('CHECKED')}
               </th>
-              <th className="filesize-th-column">
+              <th className='filesize-th-column'>
                 {languageTranslation('FILE_SIZE')}
               </th>
               <th className={'text-center action-th-column'}>
@@ -140,7 +140,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
               documentListing.getDocuments.length ? (
               documentListing.getDocuments.map((list: any, index: number) => {
                 const documentLength = documentListing.getDocuments.length;
-                const size = formatFileSize(list.fileSize);
+
                 return (
                   <tr
                     key={index}
@@ -148,9 +148,9 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       list.status === 'approve' ? 'approve-bg' : 'table-danger'
                     }
                   >
-                    <td className="sno-th-column text-center">{index + 1}</td>
-                    <td className="date-th-column">
-                      {list && list.createdAt
+                    <td className='sno-th-column text-center'>{index + 1}</td>
+                    <td className='date-th-column'>
+                      {list && list.createdAt && list.fileName // filename condition to manage missing document
                         ? moment(list.createdAt).format(defaultDateTimeFormat)
                         : '-'}
                     </td>
@@ -162,7 +162,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                             '_blank'
                           )
                         }
-                        className="view-more-link word-wrap"
+                        className='view-more-link word-wrap'
                       >
                         {list && list.fileName ? list.fileName : '-'}
                       </span>
@@ -172,13 +172,13 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         {list && list.documentType ? list.documentType : '-'}
                       </span>
                     </td>
-                    <td className="remark-col">
+                    <td className='remark-col'>
                       {list && list.remarks ? list.remarks : '-'}
                     </td>
-                    <td className="text-center">
-                      <span className=" checkbox-custom ">
+                    <td className='text-center'>
+                      <span className=' checkbox-custom '>
                         <input
-                          type="checkbox"
+                          type='checkbox'
                           checked={
                             documentId && documentId.id === list.id
                               ? documentId.checked
@@ -189,13 +189,15 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                           onChange={(e: any) => {
                             handleCheckElement(e, list.id, list.status);
                           }}
-                          className=""
+                          className=''
                         />
-                        <label className=""></label>
+                        <label className=''></label>
                       </span>
                     </td>
 
-                    <td>{size}</td>
+                    <td>
+                      {list.fileSize ? formatFileSize(list.fileSize) : '-'}
+                    </td>
                     <td>
                       <div
                         className={`action-btn ${
@@ -204,7 +206,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       >
                         <span
                           id={`edit${index}`}
-                          className="btn-icon mr-2"
+                          className='btn-icon mr-2'
                           onClick={() => onUpdateDocument(list)}
                           // disable={list.status === 'approve'}
                         >
@@ -214,7 +216,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                           >
                             {languageTranslation('DOCUMENT_EDIT')}
                           </UncontrolledTooltip>
-                          <i className="fa fa-pencil"></i>
+                          <i className='fa fa-pencil'></i>
                         </span>
                         <span
                           id={`delete${index}`}
@@ -237,7 +239,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                               {languageTranslation('DOCUMENT_DELETE')}
                             </UncontrolledTooltip>
                           )}
-                          <i className="fa fa-trash"></i>
+                          <i className='fa fa-trash'></i>
                         </span>
                       </div>
                     </td>
@@ -247,11 +249,11 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
             ) : (
               <tr className={'text-center no-hover-row'}>
                 <td colSpan={8} className={'pt-5 pb-5'}>
-                  <div className="no-data-section">
-                    <div className="no-data-icon">
-                      <i className="icon-ban" />
+                  <div className='no-data-section'>
+                    <div className='no-data-icon'>
+                      <i className='icon-ban' />
                     </div>
-                    <h4 className="mb-1">
+                    <h4 className='mb-1'>
                       Currently there are no documents added.{' '}
                     </h4>
                     <p>Please click above button to add new document. </p>

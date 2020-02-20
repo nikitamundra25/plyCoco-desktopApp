@@ -52,6 +52,12 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
     UPDATE_TO_DO
   );
 
+  useEffect(() => {
+    if (data) {
+      mainProps.newDataUpdate();
+    }
+  }, [data]);
+
   const handleSubmit = async (
     values: ICreateTodoFormValues,
     { setSubmitting, resetForm }: FormikHelpers<ICreateTodoFormValues>
@@ -61,7 +67,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
       const toDoInput: any = {
         time,
         comment,
-        date,
+        date: date ? date : new Date(),
         priority: priority && priority.value ? priority.value : null,
         juridiction,
         userId: parseInt(userId),
@@ -142,17 +148,17 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
           : undefined
       });
     } else {
+      mainProps.setisnewDataUpdate();
       setTodoValues({
         time: '',
         comment: '',
         date: '',
         priority: undefined,
-        juridiction: '',
+        juridiction: 'internally',
         contact: undefined
       });
     }
   }, [show]);
-
 
   return (
     <>

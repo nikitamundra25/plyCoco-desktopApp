@@ -110,6 +110,9 @@ body {
   .cursor-pointer {
     cursor: pointer;
   }
+  .cursor-notallowed {
+    cursor: not-allowed !important;
+  }
   button {
     &:focus {
       outline: none;

@@ -238,11 +238,11 @@ const CareGiver: FunctionComponent = () => {
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
-    <Row className='m-0'>
-      <Col xs={'12'} lg={'12'} className='p-0'>
+    <Row className="m-0">
+      <Col xs={'12'} lg={'12'} className="p-0">
         <Card>
           <CardHeader>
-            <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+            <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
 
             <Button
               color={'primary'}
@@ -282,13 +282,13 @@ const CareGiver: FunctionComponent = () => {
             </div>
 
             <Table bordered hover responsive>
-              <thead className='thead-bg'>
+              <thead className="thead-bg">
                 <tr>
                   {/* <th>
                   <div className='table-checkbox-wrap'>
                     <div className='btn-group btn-check-action-wrap'>
                       <span className='btn'>
-                        <span className='checkboxli checkbox-custom checkbox-default'>
+                        <span className=' checkbox-custom '>
                           <input type='checkbox' id='checkAll' className='' />
                           <label className=''></label>
                         </span>
@@ -306,18 +306,18 @@ const CareGiver: FunctionComponent = () => {
                     </div>
                   </div>
                 </th> */}
-                  <th className='sno-th-column text-center'>
+                  <th className="sno-th-column text-center">
                     {languageTranslation('S_NO')}
                   </th>
                   <th>{languageTranslation('TABEL_HEAD_CG_INFO')}</th>
-                  <th className='qualifications-th-column'>
+                  <th className="qualifications-th-column">
                     {languageTranslation('TABEL_HEAD_CG_QUALIFICATION')}
                   </th>
                   <th>{languageTranslation('TABEL_HEAD_CG_REGION')}</th>
-                  <th className='applying-th-column'>
+                  <th className="applying-th-column">
                     {languageTranslation('TABEL_HEAD_CG_APPLYING_AS')}
                   </th>
-                  <th className='date-th-column'>
+                  <th className="date-th-column">
                     {languageTranslation('CREATED_DATE')}
                   </th>
                   <th className={'text-center status-column'}>
@@ -347,14 +347,14 @@ const CareGiver: FunctionComponent = () => {
                       };
                       return (
                         <tr key={index}>
-                          <td className='sno-th-column text-center'>
+                          <td className="sno-th-column text-center">
                             <span>{count++}</span>
                           </td>
                           <td>
-                            <div className='info-column'>
-                              <div className='description-column '>
+                            <div className="info-column">
+                              <div className="description-column ">
                                 <div
-                                  className='info-title text-capitalize'
+                                  className="info-title text-capitalize"
                                   onClick={() =>
                                     history.push(
                                       AppRoutes.CARE_GIVER_VIEW.replace(
@@ -368,23 +368,23 @@ const CareGiver: FunctionComponent = () => {
                                 >
                                   {`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}
                                 </div>
-                                <p className='description-text'>
-                                  <i className='fa fa-user mr-2'></i>
-                                  <span className='align-middle'>
+                                <p className="description-text">
+                                  <i className="fa fa-user mr-2"></i>
+                                  <span className="align-middle">
                                     {careGiverData.userName}
                                   </span>
                                 </p>
-                                <p className='description-text'>
-                                  <i className='fa fa-envelope mr-2'></i>
-                                  <span className='align-middle'>
+                                <p className="description-text">
+                                  <i className="fa fa-envelope mr-2"></i>
+                                  <span className="align-middle">
                                     {careGiverData.email}
                                   </span>
                                 </p>
 
                                 {careGiverData.phoneNumber ? (
-                                  <p className='description-text'>
-                                    <i className='fa fa-phone mr-2'></i>
-                                    <span className='align-middle'>
+                                  <p className="description-text">
+                                    <i className="fa fa-phone mr-2"></i>
+                                    <span className="align-middle">
                                       {careGiverData.phoneNumber}
                                     </span>
                                   </p>
@@ -395,14 +395,14 @@ const CareGiver: FunctionComponent = () => {
                             </div>
                           </td>
                           <td>
-                            <div className='region-list  text-capitalize'>
+                            <div className="region-list  text-capitalize">
                               {careGiverData.qualifications &&
                               careGiverData.qualifications.length ? (
                                 careGiverData.qualifications.map(
                                   (qualification: any, index: number) => {
                                     return (
                                       <span
-                                        className='region-label'
+                                        className="region-label"
                                         key={index}
                                       >
                                         {qualification.name}
@@ -416,7 +416,7 @@ const CareGiver: FunctionComponent = () => {
                             </div>
                           </td>
                           <td>
-                            <div className=' text-capitalize'>
+                            <div className=" text-capitalize">
                               {careGiverData &&
                               careGiverData.regions &&
                               careGiverData.regions.length ? (
@@ -432,7 +432,7 @@ const CareGiver: FunctionComponent = () => {
                           </td>
                           <td>
                             <div>
-                              <span className='align-middle'>
+                              <span className="align-middle">
                                 {careGiverData &&
                                 careGiverData.caregiver &&
                                 careGiverData.caregiver.legalForm
@@ -442,7 +442,7 @@ const CareGiver: FunctionComponent = () => {
                             </div>
                           </td>
 
-                          <td className='date-th-column '>
+                          <td className="date-th-column ">
                             {careGiverData.createdAt
                               ? moment(careGiverData.createdAt).format(
                                   defaultDateTimeFormat
@@ -450,7 +450,7 @@ const CareGiver: FunctionComponent = () => {
                               : '-'}
                           </td>
 
-                          <td className='text-center'>
+                          <td className="text-center">
                             <span
                               className={`status-btn ${
                                 careGiverData.isActive ? 'active' : 'inactive'
@@ -467,8 +467,8 @@ const CareGiver: FunctionComponent = () => {
                                 : languageTranslation('DISABLE')}
                             </span>
                           </td>
-                          <td className='text-center'>
-                            <div className='action-btn'>
+                          <td className="text-center">
+                            <div className="action-btn">
                               <ButtonTooltip
                                 id={`edit${index}`}
                                 message={languageTranslation('CAREGIVER_EDIT')}
@@ -480,7 +480,7 @@ const CareGiver: FunctionComponent = () => {
                                 )}
                               >
                                 {' '}
-                                <i className='fa fa-pencil'></i>
+                                <i className="fa fa-pencil"></i>
                               </ButtonTooltip>
                               <ButtonTooltip
                                 id={`view${index}`}
@@ -493,11 +493,11 @@ const CareGiver: FunctionComponent = () => {
                                 )}
                               >
                                 {' '}
-                                <i className='fa fa-eye'></i>
+                                <i className="fa fa-eye"></i>
                               </ButtonTooltip>
                               <span
                                 id={`delete${index}`}
-                                className='btn-icon mr-2'
+                                className="btn-icon mr-2"
                                 onClick={() => onDelete(careGiverData.id)}
                               >
                                 <UncontrolledTooltip
@@ -506,7 +506,7 @@ const CareGiver: FunctionComponent = () => {
                                 >
                                   {languageTranslation('CAREGIVER_DELETE')}
                                 </UncontrolledTooltip>
-                                <i className='fa fa-trash'></i>
+                                <i className="fa fa-trash"></i>
                               </span>
                             </div>
                           </td>
@@ -520,11 +520,11 @@ const CareGiver: FunctionComponent = () => {
                       {isFilterApplied ? (
                         <NoSearchFound />
                       ) : (
-                        <div className='no-data-section'>
-                          <div className='no-data-icon'>
-                            <i className='icon-ban' />
+                        <div className="no-data-section">
+                          <div className="no-data-icon">
+                            <i className="icon-ban" />
                           </div>
-                          <h4 className='mb-1'>
+                          <h4 className="mb-1">
                             Currently there are no caregiver added.{' '}
                           </h4>
                           <p>Please click above button to add new. </p>

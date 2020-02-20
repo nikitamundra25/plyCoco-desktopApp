@@ -244,7 +244,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       {list && list.remarks ? list.remarks : '-'}
                     </td>
                     <td className='text-center'>
-                      <span className='checkboxli checkbox-custom checkbox-default'>
+                      <span className=' checkbox-custom '>
                         <input
                           type='checkbox'
                           checked={

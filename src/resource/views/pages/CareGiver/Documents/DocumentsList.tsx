@@ -4,7 +4,6 @@ import moment from 'moment';
 import { languageTranslation, formatFileSize } from '../../../../../helpers';
 import { AppConfig, defaultDateTimeFormat } from '../../../../../config';
 import Loader from '../../../containers/Loader/Loader';
-
 const DocumentsList: FunctionComponent<any> = (props: any) => {
   const {
     documentListing,
@@ -103,7 +102,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         <span
                           className='text-primary'
                           style={{
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => expandedText(index)}
                         >
@@ -151,7 +150,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       onClick={() =>
                         onUpdateDocument(
                           list,
-                          list.fileName ? false : true, // To ensure user try to edit missing document
+                          list.fileName ? false : true // To ensure user try to edit missing document
                         )
                       }
                       // disable={list.status === 'approve'}

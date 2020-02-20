@@ -11,3 +11,12 @@ export interface ISearchProps {
   searchPlacholderText?: string;
   setSearchValues?: any;
 }
+
+export interface ISearchToDoValues {
+  searchBy?: string;
+  searchValue?: string;
+  sortBy?: IReactSelectInterface;
+  priority?: IReactSelectInterface;
+  futureOnly?: boolean;
+  toDoFilter?: IReactSelectInterface;
+}

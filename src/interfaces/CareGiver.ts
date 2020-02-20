@@ -1,12 +1,12 @@
-import { Location } from "history";
-import * as H from "history";
-import { IReactSelectInterface } from "./Constant";
-import { ICareInstitutionRemarks } from "./CareInstitution";
-import { number } from "prop-types";
+import { Location } from 'history';
+import * as H from 'history';
+import { IReactSelectInterface } from './Constant';
+import { ICareInstitutionRemarks } from './CareInstitution';
+import { number } from 'prop-types';
 import {
   IEmailInputAttachmenttypes,
   IEmailAttachmentData
-} from "./EmailTemplate";
+} from './EmailTemplate';
 
 export interface ICareGiverInput {
   id?: string;
@@ -123,7 +123,7 @@ export interface ICareGiverValidationInterface {
 
 export interface IEmailMenus<
   Params extends { [K in keyof Params]?: string } = {}
-  > {
+> {
   history: H.History;
   location: H.Location;
 }
@@ -399,19 +399,24 @@ export interface IAttributeOptions {
   color: string | null;
 }
 
-
 export interface IToDoFormValues {
   timeOfDay: string;
   comment: string;
 }
 
 export interface ICreateTodoFormValues {
-  timeOfDay: string;
+  time: string;
   comment: string;
+  date: any;
+  priority: IReactSelectInterface | undefined;
+  juridiction: string;
+  contact: IReactSelectInterface | undefined;
 }
 
-
 export interface ICreateTodoFormValidationSchema {
-  timeOfDay: string;
+  time: string;
   comment: string;
+  priority: any;
+  juridiction: string;
+  contact?: any;
 }

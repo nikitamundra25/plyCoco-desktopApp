@@ -17,7 +17,7 @@ const Email: FunctionComponent<{
   userRole: string;
 }> = ({
   selectedUserName,
-  userRole,
+  userRole
 }: {
   selectedUserName: string;
   userRole: string;
@@ -32,9 +32,9 @@ const Email: FunctionComponent<{
 
   let [
     fetchEmails,
-    { data: emailList, loading, called, refetch },
+    { data: emailList, loading, called, refetch }
   ] = useLazyQuery<{ fetchEmails: any }, IEmailQueryVar>(GET_EMAILS, {
-    notifyOnNetworkStatusChange: true,
+    notifyOnNetworkStatusChange: true
   });
 
   useEffect(() => {
@@ -44,27 +44,27 @@ const Email: FunctionComponent<{
       senderUserId: id ? parseInt(id) : 0,
       receiverUserId: null,
       from: 'caregiver',
-      searchBy,
+      searchBy
     };
     if (query && query.q) {
       const { q }: any = query;
       const index: number = EmailMenusTab.findIndex(
         ({ name }: { name: string; icon: string }) =>
-          q && typeof q === 'string' && name.toUpperCase() === q.toUpperCase(),
+          q && typeof q === 'string' && name.toUpperCase() === q.toUpperCase()
       );
       setactiveTab(index);
       setSearchBy(query.searchBy ? query.searchBy.toString() : '');
       // update search by parameter in variables
       variables = {
         ...variables,
-        searchBy: query.searchBy ? query.searchBy.toString() : '',
+        searchBy: query.searchBy ? query.searchBy.toString() : ''
       };
       if (index === 1) {
         variables = {
           ...variables,
           from: 'plycoco',
           receiverUserId: id ? parseInt(id) : 0,
-          senderUserId: null,
+          senderUserId: null
         };
       }
       if (refetch) {
@@ -87,8 +87,8 @@ const Email: FunctionComponent<{
       pathname,
       qs.stringify({
         ...query,
-        q: EmailMenusTab[activeTab].name.toLowerCase(),
-      }),
+        q: EmailMenusTab[activeTab].name.toLowerCase()
+      })
     ].join('?');
     history.push(path);
   };
@@ -98,13 +98,13 @@ const Email: FunctionComponent<{
       senderUserId: from === 'caregiver' ? (id ? parseInt(id) : 0) : null,
       receiverUserId: from === 'plycoco' ? (id ? parseInt(id) : 0) : null,
       from,
-      searchBy,
+      searchBy
     };
     refetch(variables);
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { value },
+      target: { value }
     } = event;
     setSearchBy(value);
   };
@@ -115,7 +115,7 @@ const Email: FunctionComponent<{
     if (searchBy) {
       queryParam = {
         ...queryParam,
-        searchBy,
+        searchBy
       };
     }
     const path = [pathname, qs.stringify(queryParam)].join('?');
@@ -128,8 +128,8 @@ const Email: FunctionComponent<{
     const path = [
       pathname,
       qs.stringify({
-        ...query,
-      }),
+        ...query
+      })
     ].join('?');
     history.push(path);
   };

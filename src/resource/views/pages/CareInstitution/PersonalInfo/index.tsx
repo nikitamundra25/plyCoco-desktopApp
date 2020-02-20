@@ -10,13 +10,13 @@ import {
   IStates,
   IAttributeValues,
   IAttributeOptions,
-  IState,
+  IState
 } from '../../../../../interfaces';
 import { CareInstituionValidationSchema } from '../../../../validations';
 import { useParams } from 'react-router';
 import {
   CareInstitutionQueries,
-  CountryQueries,
+  CountryQueries
 } from '../../../../../graphql/queries';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
@@ -34,7 +34,7 @@ const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
   GET_DEPARTMENT_LIST,
-  GET_CAREINSTITUTION_ATTRIBUTES,
+  GET_CAREINSTITUTION_ATTRIBUTES
 ] = CareInstitutionQueries;
 
 const [
@@ -47,7 +47,7 @@ const [
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   ADD_NEW_CARE_INTITUTION,
   ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT,
+  DELETE_DEPARTMENT
 ] = CareInstitutionMutation;
 
 const PersonalInformation: any = (props: any) => {
@@ -62,7 +62,7 @@ const PersonalInformation: any = (props: any) => {
   // To get the care instituion details by id
   const [
     getCareInstitutionDetails,
-    { data: careInstituionDetails, error: detailsError, refetch },
+    { data: careInstituionDetails, error: detailsError, refetch }
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
 
   // Fetch attribute list from db
@@ -77,8 +77,8 @@ const PersonalInformation: any = (props: any) => {
         careInstitutionAttrOpt.push({
           label: name,
           value: id ? id.toString() : '',
-          color,
-        }),
+          color
+        })
     );
   }
 
@@ -87,26 +87,26 @@ const PersonalInformation: any = (props: any) => {
   //To get country details
   const { data: countries, loading } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   // To get region list
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
 
   useEffect(() => {
     // call query
     fetchRegionList({
       variables: {
-        limit: 25,
-      },
+        limit: 25
+      }
     });
   }, []);
 
   useEffect(() => {
     if (props.isUserChange) {
       getCareInstitutionDetails({
-        variables: { careInstitutionId: parseInt(Id) },
+        variables: { careInstitutionId: parseInt(Id) }
       });
       props.handleIsUserChange();
     }
@@ -116,7 +116,7 @@ const PersonalInformation: any = (props: any) => {
     // Fetch details by care institution id
     if (id) {
       getCareInstitutionDetails({
-        variables: { careInstitutionId: parseInt(Id) },
+        variables: { careInstitutionId: parseInt(Id) }
       });
     }
   }, []);
@@ -127,7 +127,7 @@ const PersonalInformation: any = (props: any) => {
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
       logger(
         careInstituionDetails.getCareInstitution,
-        'careInstituionDetails****',
+        'careInstituionDetails****'
       );
       const contactsData: any[] =
         careInstituionDetails.getCareInstitution.contact;
@@ -142,7 +142,7 @@ const PersonalInformation: any = (props: any) => {
           faxNumber: '',
           comments: '',
           groupAttributes: '',
-          attributeId: [],
+          attributeId: []
         });
       } else if (contactsData && contactsData[contactsData.length - 1].id) {
         contactsData.push({
@@ -155,7 +155,7 @@ const PersonalInformation: any = (props: any) => {
           faxNumber: '',
           comments: '',
           groupAttributes: '',
-          attributeId: [],
+          attributeId: []
         });
       }
       setContacts(contactsData);
@@ -183,8 +183,8 @@ const PersonalInformation: any = (props: any) => {
       if (canstitution && canstitution.countryId) {
         getStatesByCountry({
           variables: {
-            countryid: canstitution ? canstitution.countryId : '',
-          },
+            countryid: canstitution ? canstitution.countryId : ''
+          }
         });
       }
     }
@@ -192,13 +192,13 @@ const PersonalInformation: any = (props: any) => {
 
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
-    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
   ) => {
     //to set submit state to false after successful signup
     let AttributeData: string[] = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>
-        AttributeData.push(attribute.label),
+        AttributeData.push(attribute.label)
       );
     }
 
@@ -246,21 +246,21 @@ const PersonalInformation: any = (props: any) => {
           values.qualificationId && values.qualificationId.length
             ? values.qualificationId.map(
                 (qualification: IReactSelectInterface) =>
-                  parseInt(qualification.value),
+                  parseInt(qualification.value)
               )
             : null,
         attributes: AttributeData,
         leasingPriceListId:
           values.leasingPriceListId && values.leasingPriceListId.value
             ? values.leasingPriceListId.value
-            : null,
+            : null
       };
       toast.success(languageTranslation('CARE_INSTI_UPDATE_SUCCESS'));
       await updateCareInstitution({
         variables: {
           id: parseInt(Id),
-          careInstitutionInput: careInstitutionInput,
-        },
+          careInstitutionInput: careInstitutionInput
+        }
       });
     } catch (error) {
       const message = error.message
@@ -300,7 +300,7 @@ const PersonalInformation: any = (props: any) => {
         const element = states[index];
         stateDataF.push({
           label: element.name,
-          value: element.id,
+          value: element.id
         });
       }
       setstateOptions(stateDataF);
@@ -315,10 +315,10 @@ const PersonalInformation: any = (props: any) => {
           variables: {
             id: parseInt(Id),
             careInstitutionInput: {
-              remarks: remarksData ? remarksData : remarksDetail, // send remarksData in case of delete
+              remarks: remarksData ? remarksData : remarksDetail // send remarksData in case of delete
             },
-            isRemarkAdded: true,
-          },
+            isRemarkAdded: true
+          }
         });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(message);
@@ -350,13 +350,13 @@ const PersonalInformation: any = (props: any) => {
     let userSelectedCountry: any = {};
     if (countries && countries.countries) {
       const userCountry = countries.countries.filter(
-        (x: any) => parseInt(x.id) === countryData,
+        (x: any) => parseInt(x.id) === countryData
       );
 
       if (userCountry && userCountry.length) {
         userSelectedCountry = {
           label: userCountry[0].name,
-          value: userCountry[0].id,
+          value: userCountry[0].id
         };
       }
     }
@@ -369,13 +369,13 @@ const PersonalInformation: any = (props: any) => {
       RegionData.getRegions.regionData.length
     ) {
       const userRegion = RegionData.getRegions.regionData.filter(
-        (x: any) => x.id === regionId,
+        (x: any) => x.id === regionId
       );
 
       if (userRegion && userRegion.length) {
         userSelectedRegion = {
           label: userRegion[0].regionName,
-          value: userRegion[0].id,
+          value: userRegion[0].id
         };
       }
     }
@@ -385,7 +385,7 @@ const PersonalInformation: any = (props: any) => {
 
     if (props.CareInstitutionList) {
       const userSelectedLinkedTo = props.CareInstitutionList.filter(
-        (x: any) => x.value === linkedToId,
+        (x: any) => x.value === linkedToId
       );
       if (userSelectedLinkedTo && userSelectedLinkedTo.length) {
         UserSelectedLinkedTo = userSelectedLinkedTo[0];
@@ -398,16 +398,16 @@ const PersonalInformation: any = (props: any) => {
     let userSelectedState: any = {};
     if (statesData && statesData.states) {
       const userState = statesData.states.filter(
-        (x: any) => parseInt(x.id) === stateData,
+        (x: any) => parseInt(x.id) === stateData
       );
       if (userState && userState.length) {
         userSelectedState = {
           label: userState[0].name,
-          value: userState[0].id,
+          value: userState[0].id
         };
       }
       statesData.states.forEach(({ id, name }: IState) =>
-        statesOpt.push({ label: name, value: id }),
+        statesOpt.push({ label: name, value: id })
       );
     }
     let selectedAttributes: IAttributeOptions[] = [];
@@ -419,12 +419,12 @@ const PersonalInformation: any = (props: any) => {
     ) {
       getCareInstitution.canstitution.attributes.map((attData: string) => {
         const data = careInstitutionAttrOpt.filter(
-          ({ label }: IAttributeOptions) => label === attData,
+          ({ label }: IAttributeOptions) => label === attData
         )[0];
         selectedAttributes.push({
           label: data ? data.label : attData,
           value: data ? data.value : attData,
-          color: data ? data.color : null,
+          color: data ? data.color : null
         });
       });
     }
@@ -437,7 +437,7 @@ const PersonalInformation: any = (props: any) => {
       gender: getCareInstitution.gender
         ? {
             label: getCareInstitution ? getCareInstitution.gender : '',
-            value: getCareInstitution ? getCareInstitution.gender : null,
+            value: getCareInstitution ? getCareInstitution.gender : null
           }
         : undefined,
       userName: getCareInstitution.userName,
@@ -451,7 +451,7 @@ const PersonalInformation: any = (props: any) => {
           : '',
         value: getCareInstitution.salutation
           ? getCareInstitution.salutation
-          : '',
+          : ''
       },
       fax: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.fax
@@ -462,7 +462,7 @@ const PersonalInformation: any = (props: any) => {
       country: userSelectedCountry.value
         ? {
             label: userSelectedCountry.value ? userSelectedCountry.label : null,
-            value: userSelectedCountry.value ? userSelectedCountry.value : null,
+            value: userSelectedCountry.value ? userSelectedCountry.value : null
           }
         : undefined,
       state: userSelectedState.value
@@ -496,7 +496,7 @@ const PersonalInformation: any = (props: any) => {
               : '',
             value: getCareInstitution.canstitution
               ? getCareInstitution.canstitution.invoiceType
-              : '',
+              : ''
           }
         : undefined,
       emailInvoice: getCareInstitution.canstitution
@@ -512,7 +512,7 @@ const PersonalInformation: any = (props: any) => {
               : '',
             value: getCareInstitution.canstitution
               ? getCareInstitution.canstitution.interval
-              : '',
+              : ''
           }
         : undefined,
       doctorCommission: getCareInstitution.canstitution
@@ -521,7 +521,7 @@ const PersonalInformation: any = (props: any) => {
       leasingPriceListId: getCareInstitution.canstitution
         ? {
             label: getCareInstitution.canstitution.leasingPriceListId,
-            value: getCareInstitution.canstitution.leasingPriceListId,
+            value: getCareInstitution.canstitution.leasingPriceListId
           }
         : undefined,
       isArchive: getCareInstitution.canstitution
@@ -545,7 +545,7 @@ const PersonalInformation: any = (props: any) => {
         : '',
       linkedTo: UserSelectedLinkedTo ? UserSelectedLinkedTo : null,
       attributeId: selectedAttributes,
-      remarkData: '',
+      remarkData: ''
     };
     const qualificationsData: IReactSelectInterface[] | undefined = [];
     const attributeData: IReactSelectInterface[] = [];
@@ -553,7 +553,7 @@ const PersonalInformation: any = (props: any) => {
       getCareInstitution.qualifications.forEach(
         ({ name, id }: IQualification) => {
           qualificationsData.push({ label: name, value: id });
-        },
+        }
       );
     }
     values.qualificationId = qualificationsData;
@@ -562,7 +562,7 @@ const PersonalInformation: any = (props: any) => {
       label: `${getCareInstitution.firstName} ${''} ${
         getCareInstitution.lastName
       }`,
-      value: Id,
+      value: Id
     };
   } else {
     values = {
@@ -576,7 +576,7 @@ const PersonalInformation: any = (props: any) => {
       companyName: '',
       street: '',
       city: '',
-      remarkData: '',
+      remarkData: ''
     };
   }
 
@@ -592,7 +592,7 @@ const PersonalInformation: any = (props: any) => {
     // Fetch state details by country id
     if (countryData) {
       getStatesByCountry({
-        variables: { countryid: countryData ? countryData : '82' }, // default code is for germany
+        variables: { countryid: countryData ? countryData : '82' } // default code is for germany
       });
     }
   }, []);

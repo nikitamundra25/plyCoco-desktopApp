@@ -1165,6 +1165,12 @@ export const Without_Appointments: IReactSelectInterface[] = [
   { value: 'View All', label: languageTranslation('VIEW_ALL') }
 ];
 
+export const TodoStatus: IReactSelectInterface[] = [
+  { value: 'all', label: languageTranslation('ALL') },
+  { value: 'pending', label: languageTranslation('PENDING') },
+  { value: 'completed', label: languageTranslation('COMPLETED') },
+];
+
 export const SortOptions: IReactSelectInterface[] = [
   {
     label: languageTranslation('SORTBY_OPTION3'),

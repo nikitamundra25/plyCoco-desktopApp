@@ -271,7 +271,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                       </td>
                       {userRole === "careinstitution" ? (
                         <td className="contact-th-column">
-                          <span className="view-more-link word-wrap">
+                          <span className=" word-wrap">
                             {item.contact
                               ? `${item.contact.firstName} ${item.contact.surName} (${item.contact.contactType})`
                               : "-"}

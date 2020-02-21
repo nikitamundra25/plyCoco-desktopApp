@@ -12,6 +12,9 @@
   "STATUS": "Status",
   "TABLE_HEAD_ACTION": "Action",
   "EMP_VIEW": "View Employee",
+  "EDIT": "Edit",
+  "FUTURE": "Future",
+  "OPEN": "Open",
   "EMP_EDIT": "Edit Employee",
   "EMP_DELETE": "Move to trash",
   "REMARK_EDIT": "Edit Remark",
@@ -472,7 +475,8 @@
   "CHOOSE_IMAGE": "Upload your profile image",
   "CHOOSE_FILE": "Choose file",
   "BROWSE_FILE": "Browse",
-  "TIME_OF_DAY": "HH:mm",
+  "TIME_OF_DAY": "Time of day",
+  "TIME_FORMAT": "HH:MM",
   "JURIDICTION": "Juridiction",
   "EXTERNALLY": "Externally",
   "INTERNALLY": "Internally",
@@ -739,6 +743,6 @@
   "DOCUMENT_TYPE": "Select document type",
   "VARIOUS_DOCUMENTS": "Various documents",
   "TODO_ADD_SUCCESS": "To-do added successfully",
-  "TODO_UPDATE_SUCCESS": "To-do updated successfully"
-
+  "TODO_UPDATE_SUCCESS": "To-do updated successfully",
+  "TODO_SUCCESS_DELETE_MSG": "This To-do has been deleted successfully"
 }

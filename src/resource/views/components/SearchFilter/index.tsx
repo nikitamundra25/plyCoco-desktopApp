@@ -14,7 +14,8 @@ import {
   SortOptions,
   StatusOptions,
   TodoFilter,
-  Priority
+  Priority,
+  TodoDateFilter
 } from "../../../../config";
 import { languageTranslation, logger } from "../../../../helpers";
 import { FormikProps, Form } from "formik";
@@ -33,7 +34,15 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
   let history = useHistory();
   let { pathname } = useLocation();
   const {
-    values: { searchValue, sortBy, isActive, toDoFilter, priority, futureOnly },
+    values: {
+      searchValue,
+      sortBy,
+      isActive,
+      toDoFilter,
+      priority,
+      futureOnly,
+      sortByDate
+    },
     label,
     handleSubmit,
     handleChange,
@@ -142,6 +151,28 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
           {label === "toDos" ? (
             <Col lg={"2"} md={"3"}>
               <FormGroup>
+                <Label className="col-form-label">
+                  {languageTranslation("STATUS_LABEL")} :
+                </Label>
+                <Select
+                  placeholder={languageTranslation("DATE")}
+                  classNamePrefix="custom-inner-reactselect"
+                  className={"custom-reactselect"}
+                  options={TodoDateFilter}
+                  isSearchable={false}
+                  isClearable={true}
+                  value={
+                    sortByDate && sortByDate.value !== "" ? sortByDate : null
+                  }
+                  onChange={(value: any) => handleSelect(value, "sortByDate")}
+                />
+              </FormGroup>
+            </Col>
+          ) : null}
+
+          {label === "toDos" ? (
+            <Col lg={"2"} md={"3"}>
+              <FormGroup>
                 <Label for="Selectregion" className="col-form-label">
                   {languageTranslation("PRIORITY")} :
                 </Label>
@@ -155,32 +186,6 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
                   classNamePrefix="custom-inner-reactselect"
                   className={"custom-reactselect"}
                 />
-              </FormGroup>
-            </Col>
-          ) : null}
-
-          {label === "toDos" ? (
-            <Col lg={"1"} md={"3"}>
-              <FormGroup>
-                <Label className="col-form-label">
-                  {languageTranslation("FUTURE_ONLY")} :
-                </Label>
-                <span className=" checkbox-custom ">
-                  <input
-                    type="checkbox"
-                    id="check"
-                    className=""
-                    name={"futureOnly"}
-                    checked={futureOnly}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const {
-                        target: { checked }
-                      } = e;
-                      setFieldValue("futureOnly", checked);
-                    }}
-                  />
-                  <Label for="check"></Label>
-                </span>
               </FormGroup>
             </Col>
           ) : null}

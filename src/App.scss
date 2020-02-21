@@ -1992,6 +1992,9 @@ html:not([dir="rtl"]) {
       &.approve-bg {
         background-color: $approve_bg;
       }
+      &.done-bg{
+        opacity:0.5
+      }
     }
     th,
     td {

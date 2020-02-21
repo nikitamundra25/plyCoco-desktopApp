@@ -59,7 +59,7 @@ const Documents = () => {
   const [isMissingDocEditable, setIsMissingDocEditable] = useState<boolean>(
     false
   );
-
+  const [unsupportedFile, setUnsupportedFile] = useState<string | null>(null);
   const [documentId, setDocumentId] = useState<{
     id: string;
     checked: boolean;
@@ -229,6 +229,7 @@ const Documents = () => {
     setFileObject(null);
     setFilename(null);
     setIsMissingDocEditable(false);
+    setUnsupportedFile(null);
     // setErrorMsg(null);
   };
   useEffect(() => {
@@ -292,26 +293,32 @@ const Documents = () => {
 
   //convert document to binary format
   const onDrop = useCallback((acceptedFiles: File[]) => {
+    setUnsupportedFile(null);
     let temp: any = documentUrls ? documentUrls : {};
-    acceptedFiles.forEach((file: File) => {
-      setFileObject(file);
-      if (file) {
-        const reader = new FileReader();
-        reader.onabort = () => console.log('file reading was aborted');
-        reader.onerror = () => console.log('file reading has failed');
-        reader.onloadend = () => {
-          if (reader.result) {
-            temp = {
-              url: reader.result,
-              name: file.name,
-              date: moment().format('DD.MM.YYYY')
-            };
-            setDocumentUrl(temp);
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    });
+    if (acceptedFiles && acceptedFiles.length) {
+      acceptedFiles.forEach((file: File) => {
+        console.log('inside accepted files');
+        setFileObject(file);
+        if (file) {
+          const reader = new FileReader();
+          reader.onabort = () => console.log('file reading was aborted');
+          reader.onerror = () => console.log('file reading has failed');
+          reader.onloadend = () => {
+            if (reader.result) {
+              temp = {
+                url: reader.result,
+                name: file.name,
+                date: moment().format('DD.MM.YYYY')
+              };
+              setDocumentUrl(temp);
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    } else {
+      setUnsupportedFile(languageTranslation('UNSUPPORTED_FILE_FORMAT'));
+    }
   }, []);
 
   //approve disapprove checkbox
@@ -585,6 +592,7 @@ const Documents = () => {
         addDocumentLoading={addDocumentLoading}
         updateDocumentLoading={updateDocumentLoading}
         documentTypeList={documentTypeList}
+        unsupportedFile={unsupportedFile}
       />
     </div>
   );

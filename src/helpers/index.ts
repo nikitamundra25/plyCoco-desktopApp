@@ -6,3 +6,4 @@ export * from './HtmlToDraftConverter';
 export * from './FormatFIleSize';
 export * from './TimeValidator';
 export * from './ErrorFormatter';
+export * from './GermanNumberFormat';

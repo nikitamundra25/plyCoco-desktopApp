@@ -11,7 +11,8 @@ import {
   telMin,
   telMax,
   fee,
-  taxNumberLimit
+  taxNumberLimit,
+  NumberWithCommaRegex
 } from '../../config';
 export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -77,22 +78,30 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   userName: Yup.string()
     .trim()
     .required(languageTranslation('USERNAME_REQUIRED')),
-  fee: Yup.number()
-    .nullable()
-    .typeError('Fee must be number')
-    .max(10000, "Fee can't be greater than 10000"),
-  night: Yup.number()
-    .nullable()
-    .typeError('Fee must be number')
-    .max(10000, "Fee can't be greater than 10000"),
-  weekendAllowance: Yup.number()
-    .nullable()
-    .typeError('Fee must be number')
-    .max(10000, "Fee can't be greater than 10000"),
-  holiday: Yup.number()
-    .nullable()
-    .typeError('Fee must be number')
-    .max(10000, "Fee can't be greater than 10000"),
+  fee: Yup.mixed().test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || NumberWithCommaRegex.test(value)
+  ),
+  // .number()
+  //   .nullable()
+  //   .typeError('Fee must be number')
+  //   .max(10000, "Fee can't be greater than 10000"),
+  night: Yup.mixed().test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || NumberWithCommaRegex.test(value)
+  ),
+  weekendAllowance: Yup.mixed().test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || NumberWithCommaRegex.test(value)
+  ),
+  holiday: Yup.mixed().test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || NumberWithCommaRegex.test(value)
+  ),
   age: Yup.number()
     .nullable()
     .integer('Age must be a valid integer')

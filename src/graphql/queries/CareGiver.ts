@@ -133,6 +133,7 @@ const GET_CAREGIVERS = gql`
 const GET_CAREGIVER_BY_ID = gql`
   query getCaregiver($id: Int!) {
     getCaregiver(id: $id) {
+      id
       isApproved
       firstName
       lastName

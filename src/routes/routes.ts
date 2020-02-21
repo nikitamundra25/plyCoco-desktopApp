@@ -31,22 +31,8 @@ const CareGiverLayout = React.lazy(() =>
     '../resource/views/pages/CareGiver/Sidebar/SidebarLayout/CareGiverLayout'
   )
 );
-const ConstitutionLayout = React.lazy(() =>
-  import(
-    '../resource/views/pages/CareInstitution/Sidebar/SidebarLayout/CareInstitutionLayout'
-  )
-);
-const PersonalInformation = React.lazy(() =>
-  import('../resource/views/pages/CareGiver/PersonalInfo/PersonalInformation')
-);
-const QualificationAttribute = React.lazy(() =>
-  import('../resource/views/pages/CareGiver/GroupedBelow')
-);
 const BillingSetting = React.lazy(() =>
   import('../resource/views/pages/CareGiver/Billings/BillingSettings')
-);
-const Billing = React.lazy(() =>
-  import('../resource/views/pages/CareGiver/Billings')
 );
 const LeasingPersonalData = React.lazy(() =>
   import('../resource/views/pages/CareGiver/LeasingData')
@@ -354,14 +340,6 @@ const routes = [
     path: AppRoutes.OFFER,
     name: 'Offer',
     component: Offer,
-    exact: true,
-    layout: CareGiverLayout,
-    layoutName: 'CareGiver'
-  },
-  {
-    path: AppRoutes.PERSONAL_INFORMATION,
-    name: 'Personal Information',
-    component: PersonalInformation,
     exact: true,
     layout: CareGiverLayout,
     layoutName: 'CareGiver'

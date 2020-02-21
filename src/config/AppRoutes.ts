@@ -21,7 +21,6 @@ export const AppRoutes: IAppRoutes = {
   CAREGIVER_TODO: '/caregiver-todo',
   CARE_INSTITUTION_TODO: '/care-institution-todo',
   EDIT_CARE_GIVER: '/caregiver/edit/:id/:userName',
-  PERSONAL_INFORMATION: '/caregiver/personal-information/:id/:userName',
   CARE_GIVER_VIEW: '/caregiver/view/:id',
   QUALIFICATION_ATTRIBUTE: '/caregiver/qualification-attribute/:id/:userName',
   BILLING_SETTING: '/caregiver/billing-setting',

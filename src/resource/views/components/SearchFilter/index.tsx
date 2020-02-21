@@ -129,7 +129,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
               <Col lg={'2'} md={'3'}>
                 <FormGroup>
                   <Label for='Selectregion' className='col-form-label'>
-                    {languageTranslation('STATUS_LABEL')} :
+                    {languageTranslation('FILTER_BY_STATUS')} :
                   </Label>
                   <Select
                     placeholder={languageTranslation('STATUS_PLACEHOLDER')}
@@ -152,7 +152,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
             <Col lg={'2'} md={'3'}>
               <FormGroup>
                 <Label className='col-form-label'>
-                  {languageTranslation('STATUS_LABEL')} :
+                  {languageTranslation('FILTER_BY_DATE')} :
                 </Label>
                 <Select
                   placeholder={languageTranslation('DATE')}

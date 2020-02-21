@@ -94,7 +94,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
             <Col lg={'2'} md={'3'}>
               <FormGroup>
                 <Label className='col-form-label'>
-                  {languageTranslation('STATUS_LABEL')} :
+                  {languageTranslation('FILTER_BY_STATUS')} :
                 </Label>
                 <Select
                   placeholder={languageTranslation('STATUS_PLACEHOLDER')}
@@ -111,7 +111,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
             <Col lg={'2'} md={'3'}>
               <FormGroup>
                 <Label className='col-form-label'>
-                  {languageTranslation('STATUS_LABEL')} :
+                  {languageTranslation('FILTER_BY_DATE')} :
                 </Label>
                 <Select
                   placeholder={languageTranslation('DATE')}
@@ -208,7 +208,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                   {languageTranslation('S_NO')}
                 </th>
                 <th className='date-th-column'>
-                  {languageTranslation('DATE')}{' '}
+                  {languageTranslation('DATE_TIME')}{' '}
                 </th>
                 {userRole === 'careinstitution' ? (
                   <th className='contact-th-column'>

@@ -14,7 +14,7 @@
   "EMP_VIEW": "View Employee",
   "EDIT": "Edit",
   "FUTURE": "Future",
-  "OPEN": "Open",
+  "OPEN": "Past",
   "EMP_EDIT": "Edit Employee",
   "EMP_DELETE": "Move to trash",
   "REMARK_EDIT": "Edit Remark",
@@ -744,5 +744,8 @@
   "VARIOUS_DOCUMENTS": "Various documents",
   "TODO_ADD_SUCCESS": "To-do added successfully",
   "TODO_UPDATE_SUCCESS": "To-do updated successfully",
-  "TODO_SUCCESS_DELETE_MSG": "This To-do has been deleted successfully"
+  "TODO_SUCCESS_DELETE_MSG": "This To-do has been deleted successfully",
+  "FILTER_BY_STATUS": "Filter by status",
+  "FILTER_BY_DATE": "Filter by date",
+  "DATE_TIME": "Date & Time"
 }

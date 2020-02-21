@@ -7,7 +7,7 @@ const GET_TO_DOS = gql`
     $searchBy: String
     $sortBy: String
     $priority: String
-    $futureOnly: Boolean
+    $sortByDate: String
     $page: Int
     $limit: Int
   ) {
@@ -17,7 +17,7 @@ const GET_TO_DOS = gql`
       searchBy: $searchBy
       sortBy: $sortBy
       priority: $priority
-      futureOnly: $futureOnly
+      sortByDate: $sortByDate
       page: $page
       limit: $limit
     ) {

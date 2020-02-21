@@ -325,7 +325,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                     {languageTranslation('S_NO')}
                   </th>
                   <th className='date-th-column'>
-                    {languageTranslation('DATE_TIME')}{' '}
+                    {languageTranslation('DATE')}{' '}
                   </th>
                   <th className='file-th-column'>
                     {' '}

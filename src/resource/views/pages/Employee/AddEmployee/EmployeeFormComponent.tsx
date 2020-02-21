@@ -167,7 +167,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
             className={"btn-add"}
             onClick={handleSubmit}
           >
-            {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+            {isSubmitting ? <i className="fa fa-spinner fa-spin mr-2" /> : ""}
             {languageTranslation("SAVE_BUTTON")}
           </Button>
         </CardHeader>

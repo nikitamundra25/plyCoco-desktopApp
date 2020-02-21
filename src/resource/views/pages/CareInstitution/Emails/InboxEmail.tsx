@@ -71,12 +71,6 @@ const InboxEmail: FunctionComponent = () => {
               <div className="email-row-wrap email-heading-wrap ">
                 <div className="email-date-time-block ">
                   {languageTranslation("DATE")}
-                  {/* <Select
-                        placeholder="Select Region"
-                        options={this.options}
-                        classNamePrefix="react-select"
-                        className="hover-short-select"
-                      /> */}
                 </div>
                 <div className="email-text-wrap ">
                   {languageTranslation("SUBJECT")}

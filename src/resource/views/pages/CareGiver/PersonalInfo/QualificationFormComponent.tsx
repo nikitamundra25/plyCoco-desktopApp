@@ -76,37 +76,6 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
           </div>
         </div>
       </div>
-
-      {/* <div className="form-inner-list-section fix-height-section">
-        <h5 className="content-title">Qualifications</h5>
-        <Row className="custom-col">
-          <Col sm={12}>
-            <Card>
-              <div className="form-inner-list-wrap">
-                <h5 className="heading toggle-filter  ">Qualification</h5>
-                <div className="form-inner-list-content-wrap">
-                  <ul>
-                    {initialValues.qualifications &&
-                      initialValues.qualifications.map(quali => {
-                        return <li>{quali}</li>;
-                      })}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="custom-select-wrap">
-                <Select
-                  name={"selectedQualification"}
-                  placeholder={"Add Qualification"}
-                  options={qualificationList}
-                  onChange={handleQualification}
-                  className="w-100"
-                />
-              </div>
-            </Card>
-          </Col>
-        </Row>
-      </div> */}
     </>
   );
 };

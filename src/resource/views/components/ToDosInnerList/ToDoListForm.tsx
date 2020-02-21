@@ -146,24 +146,24 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
             </Col>
             {/* <Col lg={'1'} md={'3'}>
               <FormGroup>
-                <Label className='col-form-label'>
-                  {languageTranslation('FUTURE_ONLY')} :
+                <Label className="col-form-label">
+                  {languageTranslation("FUTURE_ONLY")} :
                 </Label>
-                <span className='checkboxli checkbox-custom checkbox-default'>
+                <span className=" checkbox-custom ">
                   <input
-                    type='checkbox'
-                    id='check'
-                    className=''
-                    name={'futureOnly'}
+                    type="checkbox"
+                    id="check"
+                    className=""
+                    name={"futureOnly"}
                     checked={futureOnly}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       const {
                         target: { checked }
                       } = e;
-                      setFieldValue('futureOnly', checked);
+                      setFieldValue("futureOnly", checked);
                     }}
                   />
-                  <Label for='check'></Label>
+                  <Label for="check"></Label>
                 </span>
               </FormGroup>
             </Col> */}
@@ -226,7 +226,11 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                   {' '}
                   {languageTranslation('EXTERNAL')}
                 </th>
-                <th className='prio-col'> {languageTranslation('PRIORITY')}</th>
+                <th className='prio-col text-center'>
+                  {' '}
+                  {languageTranslation('PRIORITY')}
+                </th>
+
                 <th className={'text-center action-th-column'}>
                   {languageTranslation('TABEL_HEAD_CG_ACTION')}
                 </th>
@@ -267,7 +271,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                       </td>
                       {userRole === 'careinstitution' ? (
                         <td className='contact-th-column'>
-                          <span className='view-more-link word-wrap'>
+                          <span className=' word-wrap'>
                             {item.contact
                               ? `${item.contact.firstName} ${item.contact.surName} (${item.contact.contactType})`
                               : '-'}
@@ -280,7 +284,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                         <span className='word-wrap'>{item.comment}</span>
                       </td>
                       <td className='checkbox-th-column text-center'>
-                        <span className='checkboxli checkbox-custom checkbox-default'>
+                        <span className=' checkbox-custom '>
                           <input
                             type='checkbox'
                             id='check'
@@ -295,7 +299,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                         </span>
                       </td>
                       <td className='checkbox-th-column text-center'>
-                        <span className='checkboxli checkbox-custom checkbox-default'>
+                        <span className=' checkbox-custom '>
                           <input
                             type='checkbox'
                             id='checkAll'

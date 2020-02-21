@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import InboxEmail from './InboxEmail';
-import SentEmail from './SentEmail';
-import NewEmail from './NewEmail';
-import { EmailMenus } from './EmailMenus';
+import React, { useState } from "react";
+import InboxEmail from "./InboxEmail";
+import SentEmail from "./SentEmail";
+import NewEmail from "./NewEmail";
+import { EmailMenus } from "./EmailMenus";
 
 const Email = () => {
   const [activeTab, setactiveTab] = useState<number>(0);
@@ -26,7 +26,7 @@ const Email = () => {
     }
   };
   return (
-    <div className='email-section'>
+    <div>
       <EmailMenus activeTab={activeTab} onTabChange={onTabChange} />
       {renderComponent()}
     </div>

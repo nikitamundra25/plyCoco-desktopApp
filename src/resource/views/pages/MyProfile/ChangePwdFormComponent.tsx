@@ -139,7 +139,7 @@ export const ChangePwdFormComponent: FunctionComponent<FormikProps<
                         disabled={changePwdLoading}
                       >
                         {changePwdLoading ? (
-                          <i className="fa fa-spinner fa-spin loader" />
+                          <i className="fa fa-spinner fa-spin mr-2" />
                         ) : null}{" "}
                         {languageTranslation("UPDATE_BUTTON")}
                       </Button>

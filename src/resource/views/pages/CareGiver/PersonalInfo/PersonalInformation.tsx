@@ -7,7 +7,10 @@ import React, {
 import { Button, Col, Row } from 'reactstrap';
 import { assignIn } from 'lodash';
 import { useParams, useHistory } from 'react-router';
-import { languageTranslation } from '../../../../../helpers';
+import {
+  languageTranslation,
+  germanNumberFormat,
+} from '../../../../../helpers';
 import PersonalInfoFormComponent from './PersonalInfoFormComponent';
 import BillingSettingsFormComponent from './BillingSettingsFormComponent';
 import QualificationFormComponent from './QualificationFormComponent';
@@ -263,14 +266,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         comments,
         status,
         remarks: remarksDetail,
-        fee: fee ? parseFloat(fee) : null,
+        fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
+        weekendAllowance: weekendAllowance
+          ? parseFloat(weekendAllowance.replace(/,/g, '.'))
+          : null,
+        holiday: holiday ? parseFloat(holiday.replace(/,/g, '.')) : null,
+        night: night ? parseFloat(night.replace(/,/g, '.')) : null,
         nightAllowance:
           nightAllowance && nightAllowance.value ? nightAllowance.label : null,
-        weekendAllowance: weekendAllowance
-          ? parseFloat(weekendAllowance)
-          : null,
-        holiday: holiday ? parseFloat(holiday) : null,
-        night: night ? parseFloat(night) : null,
         regionId: regionId && regionId.value ? parseInt(regionId.value) : null,
         invoiceInterval:
           invoiceInterval && invoiceInterval.value
@@ -339,6 +342,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     qualifications = [],
     caregiver = {},
   } = props.getCaregiver ? props.getCaregiver : {};
+  console.log(props.getCaregiver, '.getCaregiver');
 
   const {
     nightAllowance = undefined,
@@ -527,7 +531,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         }
       : undefined,
     qualifications: qualificationsData,
-    fee,
+    fee: fee ? germanNumberFormat(fee) : '',
+    weekendAllowance: weekendAllowance
+      ? germanNumberFormat(weekendAllowance)
+      : '',
+    holiday: holiday ? germanNumberFormat(holiday) : '',
+    night: night ? germanNumberFormat(night) : '',
     nightAllowance: nightAllowance
       ? {
           label: nightAllowance,
@@ -540,9 +549,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           value: leasingPricingList,
         }
       : undefined,
-    weekendAllowance,
-    holiday,
-    night,
     salutation:
       props.getCaregiver && props.getCaregiver.salutation
         ? {
@@ -686,7 +692,6 @@ class GetData extends Component<any, any> {
 
   render() {
     // const CareInstitutionLinkedTo = props.CareInstitutionList;
-
     return (
       <Query
         query={GET_CAREGIVER_BY_ID}

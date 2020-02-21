@@ -69,22 +69,10 @@ const SentEmail: FunctionComponent = () => {
               </div>
               <div className="email-row-wrap email-heading-wrap ">
                 <div className="email-date-time-block ">
-                  Date
-                  {/* <Select
-                      placeholder='Select Region'
-                      options={this.options}
-                      classNamePrefix='react-select'
-                      className='hover-short-select'
-                    /> */}
+                  {languageTranslation("DATE")}
                 </div>
                 <div className="email-subject-block ">
                   <span>{languageTranslation("TO")}</span>
-                  {/* <Select
-                      placeholder="Select Region"
-                      options={this.options}
-                      classNamePrefix="react-select"
-                      className="hover-short-select"
-                    /> */}
                 </div>
                 <div className="email-text-wrap">
                   <span>{languageTranslation("SUBJECT")}</span>

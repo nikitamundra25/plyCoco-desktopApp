@@ -285,98 +285,102 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                           </Dropzone>
                         </div>
                         <div className="document-list custom-scrollbar position-relative">
-                          <Table bordered hover responsive className="mb-0">
-                            <thead className="thead-bg thead-sticky">
-                              <tr>
-                                <th className="date-column">
-                                  {languageTranslation("DATE")}
-                                </th>
-                                <th className="file-col">
-                                  {languageTranslation("FILE_NAME")}
-                                </th>
-                                <th className="filesize-th-column">
-                                  {languageTranslation("FILE_SIZE")}
-                                </th>
-                                <th className={"text-center"}>
-                                  {languageTranslation("TABEL_HEAD_CG_ACTION")}
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {!props.loadingData ? (
-                                documentList.length > 0 ? (
-                                  documentList.map(
-                                    (item: any, index: number) => {
-                                      return (
-                                        <tr
-                                          key={index}
-                                          className={
-                                            rowIndex === index ? "active" : ""
-                                          }
-                                        >
-                                          <td className="date-column ">
-                                            {moment(item.createdAt).format(
-                                              "DD.MM.YYYY"
-                                            )}{" "}
-                                          </td>
-                                          <td
-                                            className="file-col cursor-pointer"
-                                            onClick={() => {
-                                              handlePreview(
-                                                item.document,
-                                                index
-                                              );
-                                            }}
-                                          >
-                                            <div className="view-more-link word-wrap">
-                                              {item.fileName}
-                                            </div>
-                                          </td>
-                                          <td>
-                                            {formatFileSize(item.fileSize)}
-                                          </td>
-                                          <td>
-                                            <div className={"action-btn"}>
-                                              <span
-                                                id={`delete${index}`}
-                                                className={"btn-icon mr-2"}
-                                                onClick={() => {
-                                                  onDelete(item.id);
-                                                }}
-                                              >
-                                                {item.status === "approve" ? (
-                                                  ""
-                                                ) : (
-                                                  <UncontrolledTooltip
-                                                    placement={"top"}
-                                                    target={`delete${index}`}
-                                                  >
-                                                    {languageTranslation(
-                                                      "DOCUMENT_DELETE"
-                                                    )}
-                                                  </UncontrolledTooltip>
-                                                )}
-                                                <i className="fa fa-trash"></i>
-                                              </span>
-                                            </div>
-                                          </td>
-                                        </tr>
-                                      );
-                                    }
-                                  )
-                                ) : null
-                              ) : (
+                          <div className="archieve-table-minheight ">
+                            <Table bordered hover responsive className="mb-0">
+                              <thead className="thead-bg thead-sticky">
                                 <tr>
-                                  <Loader />
+                                  <th className="date-column">
+                                    {languageTranslation("DATE")}
+                                  </th>
+                                  <th className="file-col">
+                                    {languageTranslation("FILE_NAME")}
+                                  </th>
+                                  <th className="filesize-th-column">
+                                    {languageTranslation("FILE_SIZE")}
+                                  </th>
+                                  <th className={"text-center"}>
+                                    {languageTranslation(
+                                      "TABEL_HEAD_CG_ACTION"
+                                    )}
+                                  </th>
                                 </tr>
-                              )}
-                            </tbody>
-                          </Table>
+                              </thead>
+                              <tbody>
+                                {!props.loadingData ? (
+                                  documentList.length > 0 ? (
+                                    documentList.map(
+                                      (item: any, index: number) => {
+                                        return (
+                                          <tr
+                                            key={index}
+                                            className={
+                                              rowIndex === index ? "active" : ""
+                                            }
+                                          >
+                                            <td className="date-column ">
+                                              {moment(item.createdAt).format(
+                                                "DD.MM.YYYY"
+                                              )}{" "}
+                                            </td>
+                                            <td
+                                              className="file-col cursor-pointer"
+                                              onClick={() => {
+                                                handlePreview(
+                                                  item.document,
+                                                  index
+                                                );
+                                              }}
+                                            >
+                                              <div className="view-more-link word-wrap">
+                                                {item.fileName}
+                                              </div>
+                                            </td>
+                                            <td>
+                                              {formatFileSize(item.fileSize)}
+                                            </td>
+                                            <td>
+                                              <div className={"action-btn"}>
+                                                <span
+                                                  id={`delete${index}`}
+                                                  className={"btn-icon mr-2"}
+                                                  onClick={() => {
+                                                    onDelete(item.id);
+                                                  }}
+                                                >
+                                                  {item.status === "approve" ? (
+                                                    ""
+                                                  ) : (
+                                                    <UncontrolledTooltip
+                                                      placement={"top"}
+                                                      target={`delete${index}`}
+                                                    >
+                                                      {languageTranslation(
+                                                        "DOCUMENT_DELETE"
+                                                      )}
+                                                    </UncontrolledTooltip>
+                                                  )}
+                                                  <i className="fa fa-trash"></i>
+                                                </span>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        );
+                                      }
+                                    )
+                                  ) : null
+                                ) : (
+                                  <tr>
+                                    <Loader />
+                                  </tr>
+                                )}
+                              </tbody>
+                            </Table>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </Col>
-                  <Col lg={"4"}>
+                  <Col lg={"4"} className="px-lg-0">
                     <DocumentPreview
                       documentUrls={documentUrls}
                       imageUrls={imageUrls}

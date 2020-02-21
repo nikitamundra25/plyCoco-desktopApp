@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import { FormikProps } from 'formik';
+import React, { FunctionComponent } from "react";
+import { FormikProps } from "formik";
 import {
   Button,
   FormGroup,
@@ -14,10 +14,10 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText
-} from 'reactstrap';
-import { ILoginFormValues } from '../../../../interfaces';
-import { languageTranslation } from '../../../../helpers';
-import logo from '../../../assets/img/plycoco-white.png';
+} from "reactstrap";
+import { ILoginFormValues } from "../../../../interfaces";
+import { languageTranslation } from "../../../../helpers";
+import logo from "../../../assets/img/plycoco-white.png";
 
 const LoginFormComponent: FunctionComponent<FormikProps<ILoginFormValues> & {
   loading: boolean;
@@ -32,101 +32,101 @@ const LoginFormComponent: FunctionComponent<FormikProps<ILoginFormValues> & {
     loading
   } = props;
   return (
-    <div className='app flex-row align-items-center auth-page'>
-      <div className='auth-bg'></div>
+    <div className="app flex-row align-items-center auth-page">
+      <div className="auth-bg"></div>
       <Container>
-        <Row className='justify-content-center'>
-          <Col md='12'>
-            <div className='logo'>
-              <img src={logo} alt='' />
+        <Row className="justify-content-center">
+          <Col md="12">
+            <div className="logo">
+              <img src={logo} alt="" />
             </div>
             <CardGroup>
-              <Card className='login-card p-4'>
-                <CardBody className='px-4 py-0'>
-                  <Form onSubmit={handleSubmit} className='form-section'>
-                    <h1 className='auth-title text-center'>
-                      {languageTranslation('SIGNIN')}
+              <Card className="login-card p-4">
+                <CardBody className="px-4 py-0">
+                  <Form onSubmit={handleSubmit} className="form-section">
+                    <h1 className="auth-title text-center">
+                      {languageTranslation("SIGNIN")}
                     </h1>
-                    <p className='sub-title text-center'>
-                      {languageTranslation('TOYOURACCOUNT')}
+                    <p className="sub-title text-center">
+                      {languageTranslation("TOYOURACCOUNT")}
                     </p>
 
-                    <FormGroup className='position-relative'>
+                    <FormGroup className="position-relative">
                       <InputGroup>
-                        <InputGroupAddon addonType='prepend'>
+                        <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            {' '}
-                            <i className='icon-user' />
+                            {" "}
+                            <i className="icon-user" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          type={'text'}
-                          name={'userName'}
+                          type={"text"}
+                          name={"userName"}
                           placeholder={languageTranslation(
-                            'USERNAME_PLACEHOLDER'
+                            "USERNAME_PLACEHOLDER"
                           )}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={userName}
                           className={
                             errors.userName && touched.userName
-                              ? 'text-input error'
-                              : 'text-input'
+                              ? "text-input error"
+                              : "text-input"
                           }
-                          autoComplete='username'
+                          autoComplete="username"
                         />
                       </InputGroup>
                       {errors.userName && touched.userName && (
-                        <div className='required-tooltip'>
+                        <div className="required-tooltip">
                           {errors.userName}
                         </div>
                       )}
                     </FormGroup>
 
-                    <FormGroup className='position-relative'>
+                    <FormGroup className="position-relative">
                       <InputGroup>
-                        <InputGroupAddon addonType='prepend'>
+                        <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className='icon-lock' />
+                            <i className="icon-lock" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          id='password'
-                          type={'password'}
-                          name={'password'}
-                          placeholder={languageTranslation('PASSWORD_LABEL')}
+                          id="password"
+                          type={"password"}
+                          name={"password"}
+                          placeholder={languageTranslation("PASSWORD_LABEL")}
                           value={password}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           className={
                             errors.password && touched.password
-                              ? 'text-input error'
-                              : 'text-input'
+                              ? "text-input error"
+                              : "text-input"
                           }
-                          autoComplete='current-password'
+                          autoComplete="current-password"
                         />
                       </InputGroup>
                       {errors.password && touched.password && (
-                        <div className='required-tooltip'>
+                        <div className="required-tooltip">
                           {errors.password}
                         </div>
                       )}
                     </FormGroup>
                     <Row>
-                      <Col md='8' className='mx-auto mb-3'>
+                      <Col md="8" className="mx-auto mb-3">
                         <Button
                           disabled={loading}
-                          type={'submit'}
-                          color='link'
+                          type={"submit"}
+                          color="link"
                           block
-                          className='px-4 login-btn'
+                          className="px-4 login-btn"
                         >
                           {loading ? (
-                            <i className='fa fa-spinner fa-spin loader' />
+                            <i className="fa fa-spinner fa-spin mr-2" />
                           ) : (
-                            ''
+                            ""
                           )}
-                          {languageTranslation('SIGNIN')}
+                          {languageTranslation("SIGNIN")}
                         </Button>
                       </Col>
                     </Row>

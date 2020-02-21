@@ -16,7 +16,7 @@ export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
 export const emailRegex: RegExp = /^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 export const IBANReplaceRegex: RegExp = /[^A-Z0-9]/gi;
-export const NumberWithCommaRegex: RegExp = /^\d{0,5}(?:,\d{1,2})?$/;
+export const NumberWithCommaRegex: RegExp = /^\d*(?:,\d{1,2})?$/;
 export const IBANlength: number = 22;
 export const workingHours: number = 4;
 export const fee: number = 10000;
@@ -1396,5 +1396,5 @@ export const AcceptedFileFormat = [
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   'application/msword',
   'text/plain',
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 ];

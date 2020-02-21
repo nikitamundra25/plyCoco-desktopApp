@@ -1,5 +1,9 @@
 import * as Yup from 'yup';
-import { languageTranslation, timeValidator } from '../../helpers';
+import {
+  languageTranslation,
+  timeValidator,
+  commentValidator
+} from '../../helpers';
 import {
   ICreateTodoFormValidationSchema,
   IDateResponse
@@ -21,7 +25,16 @@ export const CreateTodoFormValidationSchema: Yup.ObjectSchema<Yup.Shape<
         return !val || isValid || createError({ path, message });
       }
     }),
-  comment: Yup.string().required(languageTranslation('COMMENT_REQUIRED')),
+  comment: Yup.string()
+    .required(languageTranslation('COMMENT_REQUIRED'))
+    .test({
+      name: 'comment',
+      test: function(val) {
+        const { path, createError } = this;
+        const { isValid, message }: IDateResponse = commentValidator(val);
+        return !val || isValid || createError({ path, message });
+      }
+    }),
   priority: Yup.string().required(languageTranslation('PRIORITY_REQUIRED')),
   juridiction: Yup.string().required(
     languageTranslation('JURIDICTION_REQUIRED')

@@ -101,6 +101,10 @@ const CareInstitutionTodo: FunctionComponent = () => {
     const query = qs.parse(search);
     let searchBy: string = '';
     let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
+    let sortByDate: IReactSelectInterface | undefined = {
+      label: '',
+      value: ''
+    };
     let priority: IReactSelectInterface | undefined = { label: '', value: '' };
     let futureOnly: boolean | undefined = false;
 
@@ -116,12 +120,15 @@ const CareInstitutionTodo: FunctionComponent = () => {
       if (searchData && searchData.toDoFilter) {
         sortBy = searchData.toDoFilter;
       }
+      if (searchData && searchData.sortByDate) {
+        sortByDate = searchData.sortByDate;
+      }
       if (searchData && searchData.priority) {
         priority = searchData.priority;
       }
-      if (searchData.futureOnly) {
-        futureOnly = JSON.parse(searchData.futureOnly);
-      }
+      // if (searchData.futureOnly) {
+      //   futureOnly = JSON.parse(searchData.futureOnly);
+      // }
 
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       const userRole: string =
@@ -135,6 +142,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
           userId: parseInt(userId),
           searchBy: searchBy ? searchBy : '',
           sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
+          sortByDate: searchData.sortByDate ? searchData.sortByDate : null,
           priority: searchData.priority,
           futureOnly,
           limit: PAGE_LIMIT,
@@ -169,8 +177,6 @@ const CareInstitutionTodo: FunctionComponent = () => {
       params.search = values.searchValue;
     }
     if (values.toDoFilter && values.toDoFilter.value !== '') {
-      console.log('values.toDoFilter', values.toDoFilter);
-
       params.toDoFilter =
         values.toDoFilter.value !== '' ? values.toDoFilter.value : '';
     }
@@ -178,9 +184,13 @@ const CareInstitutionTodo: FunctionComponent = () => {
       params.priority =
         values.priority.value !== '' ? values.priority.value : '';
     }
-    if (values.futureOnly) {
-      params.futureOnly = values.futureOnly ? values.futureOnly : false;
+    if (values.sortByDate && values.sortByDate.value !== '') {
+      params.sortByDate =
+        values.sortByDate.value !== '' ? values.sortByDate.value : '';
     }
+    // if (values.futureOnly) {
+    //   params.futureOnly = values.futureOnly ? values.futureOnly : false;
+    // }
     const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);
   };
@@ -240,9 +250,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toast.success(
-            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG')
-          );
+          toast.success(languageTranslation('TODO_SUCCESS_DELETE_MSG'));
         }
       } catch (error) {
         const message = error.message
@@ -260,6 +268,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const {
     searchValue = '',
     sortBy = undefined,
+    sortByDate = undefined,
     toDoFilter = undefined,
     priority = undefined,
     futureOnly = false
@@ -268,6 +277,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const values: ISearchToDoValues = {
     searchValue,
     sortBy,
+    sortByDate,
     toDoFilter,
     priority,
     futureOnly
@@ -418,7 +428,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                                 placement='top'
                                 target={`edit${index}`}
                               >
-                                Edit
+                                {languageTranslation('EDIT')}
                               </UncontrolledTooltip>
                               <i className='fa fa-pencil'></i>
                             </span>
@@ -431,7 +441,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                                 placement='top'
                                 target={`delete${index}`}
                               >
-                                Move to trash
+                                {languageTranslation('DELETE')}
                               </UncontrolledTooltip>
                               <i className='fa fa-trash'></i>
                             </span>

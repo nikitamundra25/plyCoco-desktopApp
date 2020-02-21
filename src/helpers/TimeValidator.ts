@@ -62,3 +62,14 @@ export const timeValidator = (timeString: string): ITimeResponse => {
     message: 'Time is valid'
   };
 };
+
+export const commentValidator = (value: string): ITimeResponse => {
+  if (/[\%]/.test(value)) {
+    return {
+      isValid: false,
+      message: 'Please enter a valid time'
+    };
+  } else {
+    return { isValid: true, message: 'Comment is valid' };
+  }
+};

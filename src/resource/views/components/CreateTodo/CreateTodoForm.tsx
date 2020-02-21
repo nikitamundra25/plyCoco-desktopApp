@@ -116,6 +116,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
+                      disabledDays={{ before: new Date() }}
                     />
                   </div>
                 </Col>
@@ -127,6 +128,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
+                      disabledDays={{ before: new Date() }}
                     />
                   </div>
                 </Col>
@@ -150,7 +152,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                             render={({ field }: any) => (
                               <MaskedInput
                                 {...field}
-                                placeholder={languageTranslation('TIME_OF_DAY')}
+                                placeholder={languageTranslation('TIME_FORMAT')}
                                 mask={TimeMask}
                                 onChange={handleChange}
                                 onBlur={handleBlur}

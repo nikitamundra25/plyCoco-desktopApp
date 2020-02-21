@@ -20,6 +20,7 @@ import Select from 'react-select';
 import {
   Priority,
   TodoStatus,
+  TodoDateFilter,
   PAGE_LIMIT,
   defaultDateFormat
 } from '../../../../config';
@@ -42,7 +43,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
   const path = [pathname, qs.stringify({ tab: 'reminders/todos' })].join('?');
 
   const {
-    values: { searchBy, sortBy, priority, futureOnly },
+    values: { searchBy, sortBy, priority, futureOnly, sortByDate },
     handleSubmit,
     handleChange,
     setFieldValue,
@@ -54,16 +55,16 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
     onPageChanged,
     handleStatusChange,
     handlePriorityChange,
+    deleteToDo,
+    editToDo,
     currentPage,
     userRole
   } = props;
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
     setFieldValue(name, selectOption);
   };
-  console.log(' careinstitution', userRole);
 
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
 
@@ -110,6 +111,25 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
             <Col lg={'2'} md={'3'}>
               <FormGroup>
                 <Label className='col-form-label'>
+                  {languageTranslation('STATUS_LABEL')} :
+                </Label>
+                <Select
+                  placeholder={languageTranslation('DATE')}
+                  classNamePrefix='custom-inner-reactselect'
+                  className={'custom-reactselect'}
+                  options={TodoDateFilter}
+                  isSearchable={false}
+                  isClearable={true}
+                  value={
+                    sortByDate && sortByDate.value !== '' ? sortByDate : null
+                  }
+                  onChange={(value: any) => handleSelect(value, 'sortByDate')}
+                />
+              </FormGroup>
+            </Col>
+            <Col lg={'2'} md={'3'}>
+              <FormGroup>
+                <Label className='col-form-label'>
                   {languageTranslation('PRIORITY')} :
                 </Label>
                 <Select
@@ -124,7 +144,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                 />
               </FormGroup>
             </Col>
-            <Col lg={'1'} md={'3'}>
+            {/* <Col lg={'1'} md={'3'}>
               <FormGroup>
                 <Label className='col-form-label'>
                   {languageTranslation('FUTURE_ONLY')} :
@@ -146,7 +166,8 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                   <Label for='check'></Label>
                 </span>
               </FormGroup>
-            </Col>
+            </Col> */}
+
             <Col lg={'2'} md={'3'}>
               <div className='label-height'></div>
               <div className='filter-btn-wrap'>
@@ -206,6 +227,9 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                   {languageTranslation('EXTERNAL')}
                 </th>
                 <th className='prio-col'> {languageTranslation('PRIORITY')}</th>
+                <th className={'text-center action-th-column'}>
+                  {languageTranslation('TABEL_HEAD_CG_ACTION')}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -327,6 +351,36 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                               </DropdownItem>
                             </DropdownMenu>
                           </UncontrolledButtonDropdown>
+                        </div>
+                      </td>
+                      <td>
+                        <div className={`action-btn `}>
+                          <span
+                            className='btn-icon mr-2'
+                            id={`edit${index}`}
+                            onClick={() => editToDo(item)}
+                          >
+                            <UncontrolledTooltip
+                              placement='top'
+                              target={`edit${index}`}
+                            >
+                              {languageTranslation('EDIT')}
+                            </UncontrolledTooltip>
+                            <i className='fa fa-pencil'></i>
+                          </span>
+                          <span
+                            className={`btn-icon mr-2 `}
+                            id={`delete${index}`}
+                            onClick={() => deleteToDo(item.id)}
+                          >
+                            <UncontrolledTooltip
+                              placement='top'
+                              target={`delete${index}`}
+                            >
+                              {languageTranslation('DELETE')}
+                            </UncontrolledTooltip>
+                            <i className='fa fa-trash'></i>
+                          </span>
                         </div>
                       </td>
                     </tr>

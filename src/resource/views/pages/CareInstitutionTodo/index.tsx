@@ -17,7 +17,7 @@ import {
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 // import EmailMenus from "../CareGiver/Emails/EmailMenus";
 import { languageTranslation } from '../../../../helpers';
-import { defaultDateFormat, PAGE_LIMIT } from '../../../../config';
+import { defaultDateFormat, PAGE_LIMIT, AppRoutes } from '../../../../config';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { ToDoQueries } from '../../../../graphql/queries';
 import Loader from '../../containers/Loader/Loader';
@@ -106,7 +106,6 @@ const CareInstitutionTodo: FunctionComponent = () => {
       value: ''
     };
     let priority: IReactSelectInterface | undefined = { label: '', value: '' };
-    let futureOnly: boolean | undefined = false;
 
     // To handle display and query param text
     if (query) {
@@ -134,7 +133,6 @@ const CareInstitutionTodo: FunctionComponent = () => {
       const userRole: string =
         path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution';
       // call query
-      console.log('hereeee');
 
       fetchToDoByUserID({
         variables: {
@@ -144,7 +142,6 @@ const CareInstitutionTodo: FunctionComponent = () => {
           sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
           sortByDate: searchData.sortByDate ? searchData.sortByDate : null,
           priority: searchData.priority,
-          futureOnly,
           limit: PAGE_LIMIT,
           page: query.page ? parseInt(query.page as string) : 1
         }
@@ -263,6 +260,24 @@ const CareInstitutionTodo: FunctionComponent = () => {
       }
     }
   };
+  const handleUserRedirect = (id: any) => {
+    if (path[1] !== 'caregiver-todo') {
+      history.push(
+        `${AppRoutes.CARE_INSTITUION_VIEW.replace(
+          ':id',
+          id
+        )}?tab=${encodeURIComponent('reminders/todos')}`
+      );
+    } else {
+      history.push(
+        `${AppRoutes.CARE_GIVER_VIEW.replace(
+          ':id',
+          id
+        )}?tab=${encodeURIComponent('reminders/todos')}`
+      );
+    }
+  };
+
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
 
   const {
@@ -352,7 +367,17 @@ const CareInstitutionTodo: FunctionComponent = () => {
                   data.getToDos.result.length ? (
                   data.getToDos.result.map((list: any, index: number) => {
                     return (
-                      <tr>
+                      <tr
+                        className={
+                          list.status === 'completed'
+                            ? 'done-bg'
+                            : moment().format(defaultDateFormat) >=
+                              moment(list.date).format(defaultDateFormat)
+                            ? 'table-danger'
+                            : ''
+                        }
+                        key={index}
+                      >
                         <td className='sno-th-column text-center'>{count++}</td>
                         <td className='date-th-column'>
                           {' '}
@@ -361,7 +386,10 @@ const CareInstitutionTodo: FunctionComponent = () => {
                           }`}{' '}
                         </td>
                         <td className='file-th-column'>
-                          <span className='view-more-link word-wrap'>
+                          <span
+                            className='view-more-link word-wrap'
+                            onClick={() => handleUserRedirect(list.userId)}
+                          >
                             {list.user
                               ? `${list.user.firstName} ${list.user.lastName}`
                               : '-'}

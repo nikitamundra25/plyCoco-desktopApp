@@ -76,11 +76,16 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
+  let currentTime = new Date();
+  let month = currentTime.getFullYear();
+  let year: any = new Date(month);
+  const handleMonthChange = (mon: any) => {
+    year = mon;
+    console.log('month', year);
+  };
+
   const ContactError: any = errors.contact;
   const PriorityError: any = errors.priority;
-
-  let currentTime = new Date();
-  let year = currentTime.getFullYear();
 
   return (
     <div>
@@ -105,6 +110,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                       modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
                       disabledDays={{ before: new Date() }}
+                      onMonthChange={handleMonthChange}
                     />
                   </div>
                 </Col>

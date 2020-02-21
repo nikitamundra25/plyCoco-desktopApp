@@ -245,7 +245,17 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                 data.getToDos.result.length ? (
                 data.getToDos.result.map((item: any, index: number) => {
                   return (
-                    <tr key={index}>
+                    <tr
+                      key={index}
+                      className={
+                        item.status === 'completed'
+                          ? 'done-bg'
+                          : moment().format(defaultDateFormat) >=
+                            moment(item.date).format(defaultDateFormat)
+                          ? 'table-danger'
+                          : ''
+                      }
+                    >
                       <td className='sno-th-column text-center'>
                         <span>{count++}</span>
                       </td>

@@ -73,6 +73,8 @@ export const DateMask: maskArray = [
   /\d/
 ];
 
+//  /^(([0-1][0-9]|2[0-3]|[0-9])|([0-1][0-9]|2[0-3]|[0-9])(:|h)[0-5]?[0-9]?)$/
+
 export const TimeMask: maskArray = [/[0-2]/, /[0-9]/, ':', /[0-5]/, /[0-9]/];
 
 export const Status: IReactSelectInterface[] = [

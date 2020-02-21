@@ -67,7 +67,7 @@ export const commentValidator = (value: string): ITimeResponse => {
   if (/[\%]/.test(value)) {
     return {
       isValid: false,
-      message: 'Please enter a valid time'
+      message: '% special character is not allowed'
     };
   } else {
     return { isValid: true, message: 'Comment is valid' };

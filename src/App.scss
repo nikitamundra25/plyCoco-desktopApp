@@ -333,6 +333,9 @@ body {
   .employee-document-list {
     max-height: 135px;
     overflow-y: auto;
+    .table-responsive {
+      min-height: 100px;
+    }
   }
   .custom-caregiver-height {
     height: calc(100vh - 157px);
@@ -1973,7 +1976,14 @@ html:not([dir="rtl"]) {
   }
 }
 .table-minheight {
-  min-height: 150px;
+  .table-responsive {
+    min-height: 150px;
+  }
+}
+.archieve-table-minheight {
+  .table-responsive {
+    min-height: 100px;
+  }
 }
 .table {
   background: $white;
@@ -2233,7 +2243,7 @@ html:not([dir="rtl"]) {
 
 .mail-table {
   .size-col {
-    width: 60px;
+    width: 70px;
   }
   .file-description {
     padding-right: 30px;
@@ -2831,7 +2841,7 @@ html:not([dir="rtl"]) {
   }
   &.disable {
     cursor: not-allowed;
-    opacity: 0.2;
+    opacity: 0.7;
   }
   @media only screen and (max-width: 991px) {
     max-height: 300px;

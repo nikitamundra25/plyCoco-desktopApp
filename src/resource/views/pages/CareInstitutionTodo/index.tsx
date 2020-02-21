@@ -275,12 +275,12 @@ const CareInstitutionTodo: FunctionComponent = () => {
   return (
     <>
       <div>
-        <h5 className='content-title'>
+        <h5 className="content-title">
           {languageTranslation('MENU_TO_DO_INSTITUTION')}
         </h5>
         <Row>
           <Col lg={'12'}>
-            <div className='filter-form form-section'>
+            <div className="filter-form form-section">
               <Formik
                 initialValues={values}
                 enableReinitialize={true}
@@ -290,175 +290,180 @@ const CareInstitutionTodo: FunctionComponent = () => {
                 )}
               />
             </div>
-
-            <Table bordered hover responsive>
-              <thead className='thead-bg'>
-                <tr>
-                  <th className='sno-th-column text-center'>
-                    {languageTranslation('S_NO')}
-                  </th>
-                  <th className='date-th-column'>
-                    {languageTranslation('DATE')}{' '}
-                  </th>
-                  <th className='file-th-column'>
-                    {' '}
-                    {languageTranslation('NAME')}
-                  </th>
-                  {path[1] !== 'caregiver-todo' ? (
-                    <th className='contact-th-column'>
-                      {languageTranslation('CONTACT')}
-                    </th>
-                  ) : (
-                    ''
-                  )}
-                  <th className='remark-col'>
-                    {languageTranslation('REMARKS')}
-                  </th>
-                  <th className='checkbox-th-column text-center'>
-                    {' '}
-                    {languageTranslation('DONE')}
-                  </th>
-                  <th className='checkbox-th-column text-center'>
-                    {' '}
-                    {languageTranslation('EXTERNAL')}
-                  </th>
-                  <th className={'text-center action-th-column'}>
-                    {languageTranslation('TABEL_HEAD_CG_ACTION')}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {!called || loading ? (
+            <div className="archieve-table-minheight ">
+              <Table bordered hover responsive>
+                <thead className="thead-bg">
                   <tr>
-                    <td className={'table-loader'} colSpan={8}>
-                      <Loader />
-                    </td>
+                    <th className="sno-th-column text-center">
+                      {languageTranslation('S_NO')}
+                    </th>
+                    <th className="date-th-column">
+                      {languageTranslation('DATE')}{' '}
+                    </th>
+                    <th className="file-th-column">
+                      {' '}
+                      {languageTranslation('NAME')}
+                    </th>
+                    {path[1] !== 'caregiver-todo' ? (
+                      <th className="contact-th-column">
+                        {languageTranslation('CONTACT')}
+                      </th>
+                    ) : (
+                      ''
+                    )}
+                    <th className="remark-col">
+                      {languageTranslation('REMARKS')}
+                    </th>
+                    <th className="checkbox-th-column text-center">
+                      {' '}
+                      {languageTranslation('DONE')}
+                    </th>
+                    <th className="checkbox-th-column text-center">
+                      {' '}
+                      {languageTranslation('EXTERNAL')}
+                    </th>
+                    <th className={'text-center action-th-column'}>
+                      {languageTranslation('TABEL_HEAD_CG_ACTION')}
+                    </th>
                   </tr>
-                ) : data &&
-                  data.getToDos &&
-                  data.getToDos.result &&
-                  data.getToDos.result.length ? (
-                  data.getToDos.result.map((list: any, index: number) => {
-                    return (
-                      <tr>
-                        <td className='sno-th-column text-center'>{count++}</td>
-                        <td className='date-th-column'>
-                          {' '}
-                          {`${moment(list.date).format(defaultDateFormat)} ${
-                            list.time
-                          }`}{' '}
-                        </td>
-                        <td className='file-th-column'>
-                          <span className='view-more-link word-wrap'>
-                            {list.user
-                              ? `${list.user.firstName} ${list.user.lastName}`
-                              : '-'}
-                          </span>
-                        </td>
-                        {path[1] !== 'caregiver-todo' ? (
-                          <td className='contact-th-column'>
-                            <span className='view-more-link word-wrap'>
-                              {list.contact
-                                ? `${list.contact.firstName} ${list.contact.surName} (${list.contact.contactType})`
+                </thead>
+                <tbody>
+                  {!called || loading ? (
+                    <tr>
+                      <td className={'table-loader'} colSpan={8}>
+                        <Loader />
+                      </td>
+                    </tr>
+                  ) : data &&
+                    data.getToDos &&
+                    data.getToDos.result &&
+                    data.getToDos.result.length ? (
+                    data.getToDos.result.map((list: any, index: number) => {
+                      return (
+                        <tr>
+                          <td className="sno-th-column text-center">
+                            {count++}
+                          </td>
+                          <td className="date-th-column">
+                            {' '}
+                            {`${moment(list.date).format(defaultDateFormat)} ${
+                              list.time
+                            }`}{' '}
+                          </td>
+                          <td className="file-th-column">
+                            <span className="view-more-link word-wrap">
+                              {list.user
+                                ? `${list.user.firstName} ${list.user.lastName}`
                                 : '-'}
                             </span>
                           </td>
+                          {path[1] !== 'caregiver-todo' ? (
+                            <td className="contact-th-column">
+                              <span className="view-more-link word-wrap">
+                                {list.contact
+                                  ? `${list.contact.firstName} ${list.contact.surName} (${list.contact.contactType})`
+                                  : '-'}
+                              </span>
+                            </td>
+                          ) : (
+                            ''
+                          )}
+                          <td className="remark-col">
+                            <span className="word-wrap">{list.comment}</span>
+                          </td>
+                          <td className="checkbox-th-column text-center">
+                            <span className=" checkbox-custom ">
+                              <input
+                                type="checkbox"
+                                id="check"
+                                className=""
+                                name={'status'}
+                                checked={
+                                  list.status === 'completed' ? true : false
+                                }
+                                onChange={e =>
+                                  handleChange(
+                                    list.id,
+                                    list.status,
+                                    list.priority
+                                  )
+                                }
+                              />
+                              <label className=""> </label>
+                            </span>
+                          </td>
+                          <td className="checkbox-th-column text-center">
+                            <span className=" checkbox-custom ">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                className="cursor-notallowed"
+                                name={'juridiction'}
+                                disabled={list.juridiction === 'internally'}
+                                checked={
+                                  list.juridiction === 'externally'
+                                    ? true
+                                    : false
+                                }
+                              />
+                              <label className=""> </label>
+                            </span>
+                          </td>
+                          <td>
+                            <div className={`action-btn `}>
+                              <span
+                                className="btn-icon mr-2"
+                                id={`edit${index}`}
+                                onClick={() => editToDo(list)}
+                              >
+                                <UncontrolledTooltip
+                                  placement="top"
+                                  target={`edit${index}`}
+                                >
+                                  Edit
+                                </UncontrolledTooltip>
+                                <i className="fa fa-pencil"></i>
+                              </span>
+                              <span
+                                className={`btn-icon mr-2 `}
+                                id={`delete${index}`}
+                                onClick={() => deleteToDo(list.id)}
+                              >
+                                <UncontrolledTooltip
+                                  placement="top"
+                                  target={`delete${index}`}
+                                >
+                                  Move to trash
+                                </UncontrolledTooltip>
+                                <i className="fa fa-trash"></i>
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr className={'text-center no-hover-row'}>
+                      <td colSpan={8} className={'pt-5 pb-5'}>
+                        {search ? (
+                          <NoSearchFound />
                         ) : (
-                          ''
+                          <div className="no-data-section">
+                            <div className="no-data-icon">
+                              <i className="icon-ban" />
+                            </div>
+                            <h4 className="mb-1">
+                              Currently there are no todos added.{' '}
+                            </h4>
+                            <p>Please click above button to add new. </p>
+                          </div>
                         )}
-                        <td className='remark-col'>
-                          <span className='word-wrap'>{list.comment}</span>
-                        </td>
-                        <td className='checkbox-th-column text-center'>
-                          <span className=' checkbox-custom '>
-                            <input
-                              type='checkbox'
-                              id='check'
-                              className=''
-                              name={'status'}
-                              checked={
-                                list.status === 'completed' ? true : false
-                              }
-                              onChange={e =>
-                                handleChange(
-                                  list.id,
-                                  list.status,
-                                  list.priority
-                                )
-                              }
-                            />
-                            <label className=''> </label>
-                          </span>
-                        </td>
-                        <td className='checkbox-th-column text-center'>
-                          <span className=' checkbox-custom '>
-                            <input
-                              type='checkbox'
-                              id='checkAll'
-                              className='cursor-notallowed'
-                              name={'juridiction'}
-                              disabled={list.juridiction === 'internally'}
-                              checked={
-                                list.juridiction === 'externally' ? true : false
-                              }
-                            />
-                            <label className=''> </label>
-                          </span>
-                        </td>
-                        <td>
-                          <div className={`action-btn `}>
-                            <span
-                              className='btn-icon mr-2'
-                              id={`edit${index}`}
-                              onClick={() => editToDo(list)}
-                            >
-                              <UncontrolledTooltip
-                                placement='top'
-                                target={`edit${index}`}
-                              >
-                                Edit
-                              </UncontrolledTooltip>
-                              <i className='fa fa-pencil'></i>
-                            </span>
-                            <span
-                              className={`btn-icon mr-2 `}
-                              id={`delete${index}`}
-                              onClick={() => deleteToDo(list.id)}
-                            >
-                              <UncontrolledTooltip
-                                placement='top'
-                                target={`delete${index}`}
-                              >
-                                Move to trash
-                              </UncontrolledTooltip>
-                              <i className='fa fa-trash'></i>
-                            </span>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr className={'text-center no-hover-row'}>
-                    <td colSpan={8} className={'pt-5 pb-5'}>
-                      {search ? (
-                        <NoSearchFound />
-                      ) : (
-                        <div className='no-data-section'>
-                          <div className='no-data-icon'>
-                            <i className='icon-ban' />
-                          </div>
-                          <h4 className='mb-1'>
-                            Currently there are no todos added.{' '}
-                          </h4>
-                          <p>Please click above button to add new. </p>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            </div>
             {data && data.getToDos && data.getToDos.totalCount ? (
               <PaginationComponent
                 totalRecords={data.getToDos.totalCount}

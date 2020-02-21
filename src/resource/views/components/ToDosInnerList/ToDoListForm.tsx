@@ -69,21 +69,21 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
 
   return (
     <>
-      <div className='todo-section'>
-        <h5 className='content-title'>
+      <div className="todo-section">
+        <h5 className="content-title">
           {languageTranslation('CG_SUB_MENU_REMINDER')}
         </h5>
-        <Form className='filter-form form-section' onSubmit={handleSubmit}>
+        <Form className="filter-form form-section" onSubmit={handleSubmit}>
           <Row>
             <Col lg={'3'} md={'3'}>
-              <FormGroup className='mb-2'>
-                <Label className='col-form-label'>
+              <FormGroup className="mb-2">
+                <Label className="col-form-label">
                   {languageTranslation('SEARCH_LABEL')} :
                 </Label>
                 <Input
-                  type='text'
-                  name='searchBy'
-                  id='search'
+                  type="text"
+                  name="searchBy"
+                  id="search"
                   value={searchBy}
                   onChange={handleChange}
                   placeholder={languageTranslation('SEARCH_LABEL')}
@@ -92,12 +92,12 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
             </Col>
             <Col lg={'2'} md={'3'}>
               <FormGroup>
-                <Label className='col-form-label'>
+                <Label className="col-form-label">
                   {languageTranslation('STATUS_LABEL')} :
                 </Label>
                 <Select
                   placeholder={languageTranslation('STATUS_PLACEHOLDER')}
-                  classNamePrefix='custom-inner-reactselect'
+                  classNamePrefix="custom-inner-reactselect"
                   className={'custom-reactselect'}
                   options={TodoStatus}
                   isSearchable={false}
@@ -109,12 +109,12 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
             </Col>
             <Col lg={'2'} md={'3'}>
               <FormGroup>
-                <Label className='col-form-label'>
+                <Label className="col-form-label">
                   {languageTranslation('PRIORITY')} :
                 </Label>
                 <Select
                   placeholder={languageTranslation('PRIORITY')}
-                  classNamePrefix='custom-inner-reactselect'
+                  classNamePrefix="custom-inner-reactselect"
                   className={'custom-reactselect'}
                   options={Priority}
                   isSearchable={false}
@@ -126,14 +126,14 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
             </Col>
             <Col lg={'1'} md={'3'}>
               <FormGroup>
-                <Label className='col-form-label'>
+                <Label className="col-form-label">
                   {languageTranslation('FUTURE_ONLY')} :
                 </Label>
-                <span className='checkboxli checkbox-custom checkbox-default'>
+                <span className=" checkbox-custom ">
                   <input
-                    type='checkbox'
-                    id='check'
-                    className=''
+                    type="checkbox"
+                    id="check"
+                    className=""
                     name={'futureOnly'}
                     checked={futureOnly}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,35 +143,35 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                       setFieldValue('futureOnly', checked);
                     }}
                   />
-                  <Label for='check'></Label>
+                  <Label for="check"></Label>
                 </span>
               </FormGroup>
             </Col>
             <Col lg={'2'} md={'3'}>
-              <div className='label-height'></div>
-              <div className='filter-btn-wrap'>
-                <Button className='btn-filter mr-2' type='submit' id='search1'>
-                  <UncontrolledTooltip placement='top' target='search1'>
+              <div className="label-height"></div>
+              <div className="filter-btn-wrap">
+                <Button className="btn-filter mr-2" type="submit" id="search1">
+                  <UncontrolledTooltip placement="top" target="search1">
                     {languageTranslation('SEARCH_LABEL')}
                   </UncontrolledTooltip>
-                  <i className='fa fa-search'></i>
-                  <span className='search-text'>
+                  <i className="fa fa-search"></i>
+                  <span className="search-text">
                     {languageTranslation('SEARCH_LABEL')}
                   </span>
                 </Button>
                 <Button
-                  className='btn-filter mr-2'
-                  id='reset'
+                  className="btn-filter mr-2"
+                  id="reset"
                   onClick={() => {
                     resetForm();
                     history.push(path);
                   }}
                 >
-                  <UncontrolledTooltip placement='top' target='reset'>
+                  <UncontrolledTooltip placement="top" target="reset">
                     {languageTranslation('RESET_LABEL')}
                   </UncontrolledTooltip>
-                  <i className='fa fa-refresh '></i>
-                  <span className='search-text'>
+                  <i className="fa fa-refresh "></i>
+                  <span className="search-text">
                     {languageTranslation('RESET_LABEL')}
                   </span>
                 </Button>
@@ -179,33 +179,36 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
             </Col>
           </Row>
         </Form>
-        <div className='table-minheight'>
+        <div className="table-minheight">
           <Table bordered hover responsive>
-            <thead className='thead-bg'>
+            <thead className="thead-bg">
               <tr>
-                <th className='sno-th-column text-center'>
+                <th className="sno-th-column text-center">
                   {languageTranslation('S_NO')}
                 </th>
-                <th className='date-th-column'>
+                <th className="date-th-column">
                   {languageTranslation('DATE')}{' '}
                 </th>
                 {userRole === 'careinstitution' ? (
-                  <th className='contact-th-column'>
+                  <th className="contact-th-column">
                     {languageTranslation('CONTACT')}
                   </th>
                 ) : (
                   ''
                 )}
-                <th className='remark-col'>{languageTranslation('REMARKS')}</th>
-                <th className='checkbox-th-column text-center'>
+                <th className="remark-col">{languageTranslation('REMARKS')}</th>
+                <th className="checkbox-th-column text-center">
                   {' '}
                   {languageTranslation('DONE')}
                 </th>
-                <th className='checkbox-th-column text-center'>
+                <th className="checkbox-th-column text-center">
                   {' '}
                   {languageTranslation('EXTERNAL')}
                 </th>
-                <th className='prio-col'> {languageTranslation('PRIORITY')}</th>
+                <th className="prio-col text-center">
+                  {' '}
+                  {languageTranslation('PRIORITY')}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -222,18 +225,18 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                 data.getToDos.result.map((item: any, index: number) => {
                   return (
                     <tr key={index}>
-                      <td className='sno-th-column text-center'>
+                      <td className="sno-th-column text-center">
                         <span>{count++}</span>
                       </td>
-                      <td className='date-th-column'>
+                      <td className="date-th-column">
                         {' '}
                         {`${moment(item.date).format(defaultDateFormat)} ${
                           item.time
                         }`}
                       </td>
                       {userRole === 'careinstitution' ? (
-                        <td className='contact-th-column'>
-                          <span className='view-more-link word-wrap'>
+                        <td className="contact-th-column">
+                          <span className="view-more-link word-wrap">
                             {item.contact
                               ? `${item.contact.firstName} ${item.contact.surName} (${item.contact.contactType})`
                               : '-'}
@@ -242,39 +245,39 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                       ) : (
                         ''
                       )}
-                      <td className='remark-col'>
-                        <span className='word-wrap'>{item.comment}</span>
+                      <td className="remark-col">
+                        <span className="word-wrap">{item.comment}</span>
                       </td>
-                      <td className='checkbox-th-column text-center'>
-                        <span className='checkboxli checkbox-custom checkbox-default'>
+                      <td className="checkbox-th-column text-center">
+                        <span className=" checkbox-custom ">
                           <input
-                            type='checkbox'
-                            id='check'
-                            className=''
+                            type="checkbox"
+                            id="check"
+                            className=""
                             name={'status'}
                             checked={item.status === 'completed' ? true : false}
                             onChange={e =>
                               handleStatusChange(item.id, item.status, null)
                             }
                           />
-                          <label className=''> </label>
+                          <label className=""> </label>
                         </span>
                       </td>
-                      <td className='checkbox-th-column text-center'>
-                        <span className='checkboxli checkbox-custom checkbox-default'>
+                      <td className="checkbox-th-column text-center">
+                        <span className=" checkbox-custom ">
                           <input
-                            type='checkbox'
-                            id='checkAll'
-                            className=''
+                            type="checkbox"
+                            id="checkAll"
+                            className=""
                             name={'juridiction'}
                             checked={
                               item.juridiction === 'externally' ? true : false
                             }
                           />
-                          <label className=''> </label>
+                          <label className=""> </label>
                         </span>
                       </td>
-                      <td className='priority-th-column'>
+                      <td className="priority-th-column">
                         {/* <Select
                         placeholder='Select Priority'
                         classNamePrefix='custom-inner-reactselect'
@@ -292,12 +295,12 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                         }
                         onChange={e => handlePriorityChange(item.id, null, e)}
                       /> */}
-                        <div className='action-btn text-capitalize'>
-                          <UncontrolledButtonDropdown className='custom-dropdown'>
+                        <div className="action-btn text-capitalize">
+                          <UncontrolledButtonDropdown className="custom-dropdown">
                             <DropdownToggle
                               className={'text-capitalize m-width-72'}
                               caret
-                              size='sm'
+                              size="sm"
                             >
                               {item.priority}
                             </DropdownToggle>
@@ -336,11 +339,11 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                     {isFilterApplied ? (
                       <NoSearchFound />
                     ) : (
-                      <div className='no-data-section'>
-                        <div className='no-data-icon'>
-                          <i className='icon-ban' />
+                      <div className="no-data-section">
+                        <div className="no-data-icon">
+                          <i className="icon-ban" />
                         </div>
-                        <h4 className='mb-1'>
+                        <h4 className="mb-1">
                           Currently there are no todos added.{' '}
                         </h4>
                         <p>Please click above button to add new. </p>

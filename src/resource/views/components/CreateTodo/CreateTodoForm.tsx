@@ -63,9 +63,9 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
     outside: { backgroundColor: 'transparent' }
   };
   const externalCloseBtn = (
-    <button className='close modal-close' onClick={() => handleClose()}>
-      <img src={close} alt='close' className='main-img' />
-      <img src={closehover} alt='close' className='hover-img' />
+    <button className="close modal-close" onClick={() => handleClose()}>
+      <img src={close} alt="close" className="main-img" />
+      <img src={closehover} alt="close" className="hover-img" />
     </button>
   );
 
@@ -84,7 +84,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
 
   return (
     <div>
-      <Modal isOpen={show} className='reminder-modal' size='lg' centered>
+      <Modal isOpen={show} className="reminder-modal" size="lg" centered>
         <ModalHeader close={externalCloseBtn}>
           {' '}
           {!editToDo
@@ -94,8 +94,8 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
           for {name}{' '}
         </ModalHeader>
         <ModalBody>
-          <div className=''>
-            <div className='calender-wrapper mb-4'>
+          <div className="">
+            <div className="calender-wrapper mb-4">
               <Row>
                 <Col lg={'4'}>
                   <div>
@@ -132,18 +132,18 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                 </Col>
               </Row>
             </div>
-            <Form className='form-section forms-main-section'>
+            <Form className="form-section forms-main-section">
               <Row>
                 <Col lg={'6'}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
                           {languageTranslation('TIME_OF_DAY')}
-                          <span className='required'>*</span>
+                          <span className="required">*</span>
                         </Label>
                       </Col>
-                      <Col sm='8'>
+                      <Col sm="8">
                         <div>
                           <Field
                             name={'time'}
@@ -164,7 +164,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                             )}
                           />
                           {errors.time && touched.time && (
-                            <div className='required-tooltip'>
+                            <div className="required-tooltip">
                               {errors.time}
                             </div>
                           )}
@@ -176,19 +176,19 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                 <Col lg={'6'}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
                           {languageTranslation('JURIDICTION')}
-                          <span className='required'>*</span>
+                          <span className="required">*</span>
                         </Label>
                       </Col>
-                      <Col sm='8'>
-                        <div className='custom-radio-block'>
+                      <Col sm="8">
+                        <div className="custom-radio-block">
                           <FormGroup check inline>
                             <CustomInput
-                              type='radio'
-                              id='yes'
-                              name='juridiction'
+                              type="radio"
+                              id="yes"
+                              name="juridiction"
                               label={languageTranslation('INTERNALLY')}
                               value={'internally'}
                               checked={
@@ -199,9 +199,9 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                           </FormGroup>
                           <FormGroup check inline>
                             <CustomInput
-                              type='radio'
-                              id='no'
-                              name='juridiction'
+                              type="radio"
+                              id="no"
+                              name="juridiction"
                               label={languageTranslation('EXTERNALLY')}
                               value={'externally'}
                               checked={
@@ -212,7 +212,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                           </FormGroup>
                         </div>
                         {errors.juridiction && touched.juridiction && (
-                          <div className='required-tooltip'>
+                          <div className="required-tooltip">
                             {errors.juridiction}
                           </div>
                         )}
@@ -224,16 +224,16 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                   <Col lg={'6'}>
                     <FormGroup>
                       <Row>
-                        <Col sm='4'>
-                          <Label className='form-label col-form-label'>
+                        <Col sm="4">
+                          <Label className="form-label col-form-label">
                             {languageTranslation('CONTACT')}
                           </Label>
                         </Col>
-                        <Col sm='8'>
-                          <div className='required-input'>
+                        <Col sm="8">
+                          <div className="required-input">
                             <Select
                               options={contactOptions}
-                              classNamePrefix='custom-inner-reactselect'
+                              classNamePrefix="custom-inner-reactselect"
                               onChange={(value: any) =>
                                 handleSelect(value, 'contact')
                               }
@@ -251,14 +251,14 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                 <Col lg={'6'}>
                   <FormGroup>
                     <Row>
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
+                      <Col sm="4">
+                        <Label className="form-label col-form-label">
                           {languageTranslation('PRIORITY')}
-                          <span className='required'>*</span>
+                          <span className="required">*</span>
                         </Label>
                       </Col>
-                      <Col sm='8'>
-                        <div className='required-input'>
+                      <Col sm="8">
+                        <div className="required-input">
                           <Select
                             placeholder={languageTranslation('PRIORITY')}
                             options={Priority}
@@ -266,7 +266,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                             onChange={(value: any) =>
                               handleSelect(value, 'priority')
                             }
-                            classNamePrefix='custom-inner-reactselect'
+                            classNamePrefix="custom-inner-reactselect"
                             className={
                               errors.priority && touched.priority
                                 ? 'custom-reactselect error'
@@ -274,7 +274,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                             }
                           />
                           {errors.priority && touched.priority && (
-                            <div className='required-tooltip'>
+                            <div className="required-tooltip">
                               {PriorityError}
                             </div>
                           )}
@@ -286,22 +286,22 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                 <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm='2'>
-                        <Label className='form-label col-form-label'>
+                      <Col sm="2">
+                        <Label className="form-label col-form-label">
                           {languageTranslation('COMMENT')}{' '}
-                          <span className='required'>*</span>
+                          <span className="required">*</span>
                         </Label>
                       </Col>
-                      <Col sm='10'>
+                      <Col sm="10">
                         <div>
                           <Input
-                            type='textarea'
+                            type="textarea"
                             name={'comment'}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={comment ? comment : undefined}
                             placeholder={languageTranslation('COMMENT')}
-                            rows='4'
+                            rows="4"
                             maxLength={250}
                             className={
                               errors.comment && touched.comment
@@ -310,7 +310,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                             }
                           />
                           {errors.comment && touched.comment && (
-                            <div className='required-tooltip'>
+                            <div className="required-tooltip">
                               {errors.comment}
                             </div>
                           )}
@@ -326,15 +326,15 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
         <ModalFooter>
           <Button
             disabled={isSubmitting}
-            color='primary'
+            color="primary"
             onClick={handleSubmit}
           >
-            {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
+            {isSubmitting ? <i className="fa fa-spinner fa-spin mr-2" /> : ''}
             {!editToDo
               ? languageTranslation('ADD_REMINDER')
               : languageTranslation('EDIT_REMINDER')}
           </Button>
-          <Button color='secondary' onClick={handleClose}>
+          <Button color="secondary" onClick={handleClose}>
             {languageTranslation('CANCEL')}
           </Button>
         </ModalFooter>

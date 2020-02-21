@@ -132,76 +132,76 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
 
   return (
     <>
-      <div className='common-detail-page'>
-        <div className='common-detail-section'>
-          <div className='sticky-common-header'>
-            <div className='common-topheader d-flex align-items-center px-2 mb-1'>
-              <div className='header-nav-item'>
-                <span className='header-nav-icon'>
-                  <img src={upload} alt='' />
+      <div className="common-detail-page">
+        <div className="common-detail-section">
+          <div className="sticky-common-header">
+            <div className="common-topheader d-flex align-items-center px-2 mb-1">
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={upload} alt="" />
                 </span>
-                <span className='header-nav-text'>
+                <span className="header-nav-text">
                   Retrieve new work proofs
                 </span>
               </div>
-              <div className='header-nav-item'>
-                <span className='header-nav-icon'>
-                  <img src={displaydoc} alt='' />
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={displaydoc} alt="" />
                 </span>
-                <span className='header-nav-text'>
+                <span className="header-nav-text">
                   {languageTranslation('DISPLAY_DIFFRENT_HEADER')}
                 </span>
               </div>
-              <div className='header-nav-item'>
-                <span className='header-nav-icon'>
-                  <img src={hidemapped} alt='' />
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={hidemapped} alt="" />
                 </span>
-                <span className='header-nav-text'>
+                <span className="header-nav-text">
                   {languageTranslation('HIDE_MAPPED_HEADER')}
                 </span>
               </div>
-              <div className='header-nav-item'>
-                <span className='header-nav-icon'>
-                  <img src={locked_caregiver} alt='' />
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={locked_caregiver} alt="" />
                 </span>
-                <span className='header-nav-text'>
+                <span className="header-nav-text">
                   {languageTranslation('HIDE_LOCKED_CAREGIVER_HEADER')}
                 </span>
               </div>
-              <div className='header-nav-item'>
-                <span className='header-nav-icon'>
-                  <img src={hideoldfile} alt='' />
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={hideoldfile} alt="" />
                 </span>
-                <span className='header-nav-text'>
+                <span className="header-nav-text">
                   {languageTranslation('HIDE_OLD_FILES_HEADER')}
                 </span>
               </div>
             </div>
           </div>
-          <div className='common-content flex-grow-1'>
+          <div className="common-content flex-grow-1">
             <div>
-              <Form className='form-section '>
+              <Form className="form-section ">
                 <Row>
                   <Col lg={'4'}>
                     <div>
-                      <div className='align-items-center d-flex justify-content-between'>
-                        <h5 className='content-title'>
+                      <div className="align-items-center d-flex justify-content-between">
+                        <h5 className="content-title">
                           {languageTranslation('NEW_WORK_PROOF_HEADER')}
                         </h5>
-                        <div className='user-select'>
+                        <div className="user-select">
                           <Select
-                            placeholder='Select Type'
+                            placeholder="Select Type"
                             options={DocumentTempSelect}
                             value={documentType}
                             onChange={(value: any) => handleSelect(value)}
-                            classNamePrefix='custom-inner-reactselect'
+                            classNamePrefix="custom-inner-reactselect"
                             className={'custom-reactselect'}
                           />
                         </div>
                       </div>
 
-                      <div className='working-height'>
-                        <div className='form-section pt-2 px-3'>
+                      <div className="working-height">
+                        <div className="form-section pt-2 px-3">
                           {loading ? (
                             <div>
                               <Loader />
@@ -235,14 +235,14 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                 <section>
                                   <div
                                     {...getRootProps()}
-                                    className='dropzone-preview'
+                                    className="dropzone-preview"
                                   >
                                     <input
                                       {...getInputProps()}
-                                      className='dropzone-input-preview'
+                                      className="dropzone-input-preview"
                                     />
-                                    <div className='icon-upload'>
-                                      <i className='cui-cloud-upload'></i>
+                                    <div className="icon-upload">
+                                      <i className="cui-cloud-upload"></i>
                                     </div>
                                     <span>
                                       {!isDragActive &&
@@ -258,7 +258,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                     {isDragReject || !isValidFile ? (
                                       <>
                                         {(isDragReject || !isValidFile) && (
-                                          <div className='text-danger mt-2'>
+                                          <div className="text-danger mt-2">
                                             {languageTranslation(
                                               'VALIDATE_DOCUMENT_TYPE'
                                             )}
@@ -268,7 +268,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                     ) : (
                                       <>
                                         {isFileTooLarge && (
-                                          <div className='text-danger mt-2'>
+                                          <div className="text-danger mt-2">
                                             {languageTranslation(
                                               'VALIDATE_DOCUMENT_SIZE_MAX_10MB'
                                             )}
@@ -282,100 +282,104 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             }}
                           </Dropzone>
                         </div>
-                        <div className='document-list custom-scrollbar position-relative'>
-                          <Table bordered hover responsive className='mb-0'>
-                            <thead className='thead-bg thead-sticky'>
-                              <tr>
-                                <th className='date-column'>
-                                  {languageTranslation('DATE')}
-                                </th>
-                                <th className='file-col'>
-                                  {languageTranslation('FILE_NAME')}
-                                </th>
-                                <th className='filesize-th-column'>
-                                  {languageTranslation('FILE_SIZE')}
-                                </th>
-                                <th className={'text-center'}>
-                                  {languageTranslation('TABEL_HEAD_CG_ACTION')}
-                                </th>
-                              </tr>
-                            </thead>
-                            {console.log('loadingData', props.loadingData)}
-                            <tbody>
-                              {!props.loadingData ? (
-                                documentList.length > 0 ? (
-                                  documentList.map(
-                                    (item: any, index: number) => {
-                                      return (
-                                        <tr
-                                          key={index}
-                                          className={
-                                            rowIndex === index ? 'active' : ''
-                                          }
-                                        >
-                                          <td className='date-column '>
-                                            {moment(item.createdAt).format(
-                                              'DD.MM.YYYY'
-                                            )}{' '}
-                                          </td>
-                                          <td className='file-col '>
-                                            <div
-                                              className=' cursor-pointer word-wrap'
-                                              onClick={() => {
-                                                handlePreview(
-                                                  item.document,
-                                                  index
-                                                );
-                                              }}
-                                            >
-                                              {item.fileName}
-                                            </div>
-                                          </td>
-                                          <td>
-                                            {formatFileSize(item.fileSize)}
-                                          </td>
-                                          <td>
-                                            <div className={'action-btn'}>
-                                              <span
-                                                id={`delete${index}`}
-                                                className={'btn-icon mr-2'}
+                        <div className="document-list custom-scrollbar position-relative">
+                          <div className="archieve-table-minheight ">
+                            <Table bordered hover responsive className="mb-0">
+                              <thead className="thead-bg thead-sticky">
+                                <tr>
+                                  <th className="date-column">
+                                    {languageTranslation('DATE')}
+                                  </th>
+                                  <th className="file-col">
+                                    {languageTranslation('FILE_NAME')}
+                                  </th>
+                                  <th className="filesize-th-column">
+                                    {languageTranslation('FILE_SIZE')}
+                                  </th>
+                                  <th className={'text-center'}>
+                                    {languageTranslation(
+                                      'TABEL_HEAD_CG_ACTION'
+                                    )}
+                                  </th>
+                                </tr>
+                              </thead>
+                              {console.log('loadingData', props.loadingData)}
+                              <tbody>
+                                {!props.loadingData ? (
+                                  documentList.length > 0 ? (
+                                    documentList.map(
+                                      (item: any, index: number) => {
+                                        return (
+                                          <tr
+                                            key={index}
+                                            className={
+                                              rowIndex === index ? 'active' : ''
+                                            }
+                                          >
+                                            <td className="date-column ">
+                                              {moment(item.createdAt).format(
+                                                'DD.MM.YYYY'
+                                              )}{' '}
+                                            </td>
+                                            <td className="file-col ">
+                                              <div
+                                                className="view-more-link cursor-pointer word-wrap"
                                                 onClick={() => {
-                                                  onDelete(item.id);
+                                                  handlePreview(
+                                                    item.document,
+                                                    index
+                                                  );
                                                 }}
                                               >
-                                                {item.status === 'approve' ? (
-                                                  ''
-                                                ) : (
-                                                  <UncontrolledTooltip
-                                                    placement={'top'}
-                                                    target={`delete${index}`}
-                                                  >
-                                                    {languageTranslation(
-                                                      'DOCUMENT_DELETE'
-                                                    )}
-                                                  </UncontrolledTooltip>
-                                                )}
-                                                <i className='fa fa-trash'></i>
-                                              </span>
-                                            </div>
-                                          </td>
-                                        </tr>
-                                      );
-                                    }
-                                  )
-                                ) : null
-                              ) : (
-                                <tr>
-                                  <Loader />
-                                </tr>
-                              )}
-                            </tbody>
-                          </Table>
+                                                {item.fileName}
+                                              </div>
+                                            </td>
+                                            <td>
+                                              {formatFileSize(item.fileSize)}
+                                            </td>
+                                            <td>
+                                              <div className={'action-btn'}>
+                                                <span
+                                                  id={`delete${index}`}
+                                                  className={'btn-icon mr-2'}
+                                                  onClick={() => {
+                                                    onDelete(item.id);
+                                                  }}
+                                                >
+                                                  {item.status === 'approve' ? (
+                                                    ''
+                                                  ) : (
+                                                    <UncontrolledTooltip
+                                                      placement={'top'}
+                                                      target={`delete${index}`}
+                                                    >
+                                                      {languageTranslation(
+                                                        'DOCUMENT_DELETE'
+                                                      )}
+                                                    </UncontrolledTooltip>
+                                                  )}
+                                                  <i className="fa fa-trash"></i>
+                                                </span>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        );
+                                      }
+                                    )
+                                  ) : null
+                                ) : (
+                                  <tr>
+                                    <Loader />
+                                  </tr>
+                                )}
+                              </tbody>
+                            </Table>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </Col>
-                  <Col lg={'4'}>
+                  <Col lg={'4'} className="px-lg-0">
                     <DocumentPreview
                       documentUrls={documentUrls}
                       imageUrls={imageUrls}
@@ -383,27 +387,27 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                   </Col>
                   <Col lg={'4'}>
                     <div>
-                      <h5 className='content-title'>
+                      <h5 className="content-title">
                         {languageTranslation('PERFORMED_WORK_HEADING')}
                       </h5>
-                      <div className='working-height'>
-                        <div className='document-form py-2 px-3'>
+                      <div className="working-height">
+                        <div className="document-form py-2 px-3">
                           <Row>
                             <Col lg={'12'}>
                               <FormGroup>
-                                <Row className='align-items-center'>
-                                  <Col sm='4'>
-                                    <Label className='form-label col-form-label'>
+                                <Row className="align-items-center">
+                                  <Col sm="4">
+                                    <Label className="form-label col-form-label">
                                       {languageTranslation('ID')}
                                     </Label>
                                   </Col>
-                                  <Col sm='8'>
+                                  <Col sm="8">
                                     <div>
                                       <Input
-                                        type='text'
+                                        type="text"
                                         name={'lastName'}
                                         placeholder={languageTranslation('ID')}
-                                        className='width-common'
+                                        className="width-common"
                                       />
                                     </div>
                                   </Col>
@@ -412,18 +416,18 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             </Col>
                             <Col lg={'12'}>
                               <FormGroup>
-                                <Row className='align-items-center'>
-                                  <Col sm='4'>
-                                    <Label className='form-label col-form-label'>
+                                <Row className="align-items-center">
+                                  <Col sm="4">
+                                    <Label className="form-label col-form-label">
                                       Caregiver
                                     </Label>
                                   </Col>
-                                  <Col sm='8'>
+                                  <Col sm="8">
                                     <div>
                                       <Select
-                                        placeholder='Select Caregiver'
+                                        placeholder="Select Caregiver"
                                         options={State}
-                                        classNamePrefix='custom-inner-reactselect'
+                                        classNamePrefix="custom-inner-reactselect"
                                         className={'custom-reactselect'}
                                       />
                                     </div>
@@ -434,7 +438,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                           </Row>
                         </div>
                         <Table bordered hover responsive>
-                          <thead className='thead-bg'>
+                          <thead className="thead-bg">
                             <tr>
                               <td>Begin</td>
                               <td>Facility</td>
@@ -444,14 +448,14 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                           <tbody>
                             <tr>
                               <td>
-                                <div className='d-flex align-items-center'>
-                                  <span className=' checkbox-custom  mr-2'>
+                                <div className="d-flex align-items-center">
+                                  <span className=" checkbox-custom  mr-2">
                                     <input
-                                      type='checkbox'
-                                      id='checkAll'
-                                      className=''
+                                      type="checkbox"
+                                      id="checkAll"
+                                      className=""
                                     />
-                                    <label className=''></label>
+                                    <label className=""></label>
                                   </span>
                                   <div>20.08.2019</div>
                                 </div>
@@ -461,14 +465,14 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             </tr>
                             <tr>
                               <td>
-                                <div className='d-flex align-items-center'>
-                                  <span className=' checkbox-custom  mr-2'>
+                                <div className="d-flex align-items-center">
+                                  <span className=" checkbox-custom  mr-2">
                                     <input
-                                      type='checkbox'
-                                      id='checkAll'
-                                      className=''
+                                      type="checkbox"
+                                      id="checkAll"
+                                      className=""
                                     />
-                                    <label className=''></label>
+                                    <label className=""></label>
                                   </span>
                                   <div>20.08.2019</div>
                                 </div>
@@ -478,14 +482,14 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             </tr>
                             <tr>
                               <td>
-                                <div className='d-flex align-items-center'>
-                                  <span className=' checkbox-custom  mr-2'>
+                                <div className="d-flex align-items-center">
+                                  <span className=" checkbox-custom  mr-2">
                                     <input
-                                      type='checkbox'
-                                      id='checkAll'
-                                      className=''
+                                      type="checkbox"
+                                      id="checkAll"
+                                      className=""
                                     />
-                                    <label className=''></label>
+                                    <label className=""></label>
                                   </span>
                                   <div>20.08.2019</div>
                                 </div>
@@ -495,14 +499,14 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             </tr>
                             <tr>
                               <td>
-                                <div className='d-flex align-items-center'>
-                                  <span className=' checkbox-custom  mr-2'>
+                                <div className="d-flex align-items-center">
+                                  <span className=" checkbox-custom  mr-2">
                                     <input
-                                      type='checkbox'
-                                      id='checkAll'
-                                      className=''
+                                      type="checkbox"
+                                      id="checkAll"
+                                      className=""
                                     />
-                                    <label className=''></label>
+                                    <label className=""></label>
                                   </span>
                                   <div>20.08.2019</div>
                                 </div>
@@ -512,7 +516,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             </tr>
                           </tbody>
                         </Table>
-                        <div className='d-flex align-items-center justify-content-center  py-3 document-preview'>
+                        <div className="d-flex align-items-center justify-content-center  py-3 document-preview">
                           <span>Above data is static</span>
                         </div>
                       </div>

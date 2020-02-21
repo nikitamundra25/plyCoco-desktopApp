@@ -62,3 +62,14 @@ export const timeValidator = (timeString: string): ITimeResponse => {
     message: 'Time is valid'
   };
 };
+
+export const commentValidator = (value: string): ITimeResponse => {
+  if (/[\%]/.test(value)) {
+    return {
+      isValid: false,
+      message: '% special character is not allowed'
+    };
+  } else {
+    return { isValid: true, message: 'Comment is valid' };
+  }
+};

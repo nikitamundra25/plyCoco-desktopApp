@@ -1,4 +1,4 @@
-export const germanNumberFormat = (value: number) => {
+export const germanNumberFormat = (value: number | string) => {
   let n = new Number(value);
   let options: any = {
     maximumFractionDigits: '2',

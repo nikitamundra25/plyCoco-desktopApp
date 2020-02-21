@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent } from "react";
 import {
   Button,
   Modal,
@@ -12,20 +12,20 @@ import {
   Row,
   Form,
   CustomInput
-} from 'reactstrap';
-import Select from 'react-select';
-import DayPicker from 'react-day-picker';
-import { languageTranslation } from '../../../../helpers';
-import { Priority, TimeMask } from '../../../../config';
-import 'react-day-picker/lib/style.css';
-import close from '../../../assets/img/cancel.svg';
-import closehover from '../../../assets/img/cancel-hover.svg';
-import { FormikProps, Field } from 'formik';
+} from "reactstrap";
+import Select from "react-select";
+import DayPicker from "react-day-picker";
+import { languageTranslation } from "../../../../helpers";
+import { Priority, TimeMask } from "../../../../config";
+import "react-day-picker/lib/style.css";
+import close from "../../../assets/img/cancel.svg";
+import closehover from "../../../assets/img/cancel-hover.svg";
+import { FormikProps, Field } from "formik";
 import {
   ICreateTodoFormValues,
   IReactSelectInterface
-} from '../../../../interfaces';
-import MaskedInput from 'react-text-mask';
+} from "../../../../interfaces";
+import MaskedInput from "react-text-mask";
 
 const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   any> = (props: FormikProps<ICreateTodoFormValues> & any) => {
@@ -53,14 +53,14 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   };
   const modifiersStyles = {
     sundays: {
-      color: '#ff2d2d',
-      backgroundColor: 'transparent'
+      color: "#ff2d2d",
+      backgroundColor: "transparent"
     },
     saturdays: {
-      color: '#ff2d2d',
-      backgroundColor: 'transparent'
+      color: "#ff2d2d",
+      backgroundColor: "transparent"
     },
-    outside: { backgroundColor: 'transparent' }
+    outside: { backgroundColor: "transparent" }
   };
   const externalCloseBtn = (
     <button className="close modal-close" onClick={() => handleClose()}>
@@ -70,7 +70,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   );
 
   const handleDayClick = (day: any) => {
-    setFieldValue('date', day);
+    setFieldValue("date", day);
   };
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -86,18 +86,18 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
     <div>
       <Modal isOpen={show} className="reminder-modal" size="lg" centered>
         <ModalHeader close={externalCloseBtn}>
-          {' '}
+          {" "}
           {!editToDo
-            ? languageTranslation('CG_MENU_CREATE_TODO')
-            : languageTranslation('CG_MENU_EDIT_TODO')}{' '}
-          {''}
-          for {name}{' '}
+            ? languageTranslation("CG_MENU_CREATE_TODO")
+            : languageTranslation("CG_MENU_EDIT_TODO")}{" "}
+          {""}
+          for {name}{" "}
         </ModalHeader>
         <ModalBody>
           <div className="">
             <div className="calender-wrapper mb-4">
               <Row>
-                <Col lg={'4'}>
+                <Col lg={"4"}>
                   <div>
                     <DayPicker
                       selectedDays={date ? date : new Date()}
@@ -108,7 +108,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                     />
                   </div>
                 </Col>
-                <Col lg={'4'}>
+                <Col lg={"4"}>
                   <div>
                     <DayPicker
                       initialMonth={new Date(year, 2)}
@@ -119,7 +119,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                     />
                   </div>
                 </Col>
-                <Col lg={'4'}>
+                <Col lg={"4"}>
                   <div>
                     <DayPicker
                       initialMonth={new Date(year, 3)}
@@ -134,31 +134,31 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
             </div>
             <Form className="form-section forms-main-section">
               <Row>
-                <Col lg={'6'}>
+                <Col lg={"6"}>
                   <FormGroup>
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
-                          {languageTranslation('TIME_OF_DAY')}
+                          {languageTranslation("TIME_OF_DAY")}
                           <span className="required">*</span>
                         </Label>
                       </Col>
                       <Col sm="8">
                         <div>
                           <Field
-                            name={'time'}
+                            name={"time"}
                             render={({ field }: any) => (
                               <MaskedInput
                                 {...field}
-                                placeholder={languageTranslation('TIME_OF_DAY')}
+                                placeholder={languageTranslation("TIME_OF_DAY")}
                                 mask={TimeMask}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={time}
                                 className={
                                   errors.time && touched.time
-                                    ? 'error form-control'
-                                    : 'form-control'
+                                    ? "error form-control"
+                                    : "form-control"
                                 }
                               />
                             )}
@@ -173,12 +173,12 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'6'}>
+                <Col lg={"6"}>
                   <FormGroup>
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
-                          {languageTranslation('JURIDICTION')}
+                          {languageTranslation("JURIDICTION")}
                           <span className="required">*</span>
                         </Label>
                       </Col>
@@ -189,10 +189,10 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                               type="radio"
                               id="yes"
                               name="juridiction"
-                              label={languageTranslation('INTERNALLY')}
-                              value={'internally'}
+                              label={languageTranslation("INTERNALLY")}
+                              value={"internally"}
                               checked={
-                                juridiction === 'internally' ? true : false
+                                juridiction === "internally" ? true : false
                               }
                               onChange={handleChange}
                             />
@@ -202,10 +202,10 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                               type="radio"
                               id="no"
                               name="juridiction"
-                              label={languageTranslation('EXTERNALLY')}
-                              value={'externally'}
+                              label={languageTranslation("EXTERNALLY")}
+                              value={"externally"}
                               checked={
-                                juridiction === 'externally' ? true : false
+                                juridiction === "externally" ? true : false
                               }
                               onChange={handleChange}
                             />
@@ -220,13 +220,13 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                     </Row>
                   </FormGroup>
                 </Col>
-                {userRole === 'careInstitution' ? (
-                  <Col lg={'6'}>
+                {userRole === "careInstitution" ? (
+                  <Col lg={"6"}>
                     <FormGroup>
                       <Row>
                         <Col sm="4">
                           <Label className="form-label col-form-label">
-                            {languageTranslation('CONTACT')}
+                            {languageTranslation("CONTACT")}
                           </Label>
                         </Col>
                         <Col sm="8">
@@ -235,11 +235,11 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                               options={contactOptions}
                               classNamePrefix="custom-inner-reactselect"
                               onChange={(value: any) =>
-                                handleSelect(value, 'contact')
+                                handleSelect(value, "contact")
                               }
-                              className={'custom-reactselect'}
+                              className={"custom-reactselect"}
                               value={
-                                contact && contact.value !== '' ? contact : null
+                                contact && contact.value !== "" ? contact : null
                               }
                             />
                           </div>
@@ -248,29 +248,29 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                     </FormGroup>
                   </Col>
                 ) : null}
-                <Col lg={'6'}>
+                <Col lg={"6"}>
                   <FormGroup>
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
-                          {languageTranslation('PRIORITY')}
+                          {languageTranslation("PRIORITY")}
                           <span className="required">*</span>
                         </Label>
                       </Col>
                       <Col sm="8">
                         <div className="required-input">
                           <Select
-                            placeholder={languageTranslation('PRIORITY')}
+                            placeholder={languageTranslation("PRIORITY")}
                             options={Priority}
                             value={priority && priority.value ? priority : null}
                             onChange={(value: any) =>
-                              handleSelect(value, 'priority')
+                              handleSelect(value, "priority")
                             }
                             classNamePrefix="custom-inner-reactselect"
                             className={
                               errors.priority && touched.priority
-                                ? 'custom-reactselect error'
-                                : 'custom-reactselect'
+                                ? "custom-reactselect error"
+                                : "custom-reactselect"
                             }
                           />
                           {errors.priority && touched.priority && (
@@ -283,12 +283,12 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
                       <Col sm="2">
                         <Label className="form-label col-form-label">
-                          {languageTranslation('COMMENT')}{' '}
+                          {languageTranslation("COMMENT")}{" "}
                           <span className="required">*</span>
                         </Label>
                       </Col>
@@ -296,17 +296,17 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                         <div>
                           <Input
                             type="textarea"
-                            name={'comment'}
+                            name={"comment"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={comment ? comment : undefined}
-                            placeholder={languageTranslation('COMMENT')}
+                            placeholder={languageTranslation("COMMENT")}
                             rows="4"
                             maxLength={250}
                             className={
                               errors.comment && touched.comment
-                                ? 'textarea-custom error'
-                                : 'textarea-custom'
+                                ? "textarea-custom error"
+                                : "textarea-custom"
                             }
                           />
                           {errors.comment && touched.comment && (
@@ -329,13 +329,13 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
             color="primary"
             onClick={handleSubmit}
           >
-            {isSubmitting ? <i className="fa fa-spinner fa-spin mr-2" /> : ''}
+            {isSubmitting ? <i className="fa fa-spinner fa-spin mr-2" /> : ""}
             {!editToDo
-              ? languageTranslation('ADD_REMINDER')
-              : languageTranslation('EDIT_REMINDER')}
+              ? languageTranslation("ADD_REMINDER")
+              : languageTranslation("EDIT_REMINDER")}
           </Button>
           <Button color="secondary" onClick={handleClose}>
-            {languageTranslation('CANCEL')}
+            {languageTranslation("CANCEL")}
           </Button>
         </ModalFooter>
       </Modal>

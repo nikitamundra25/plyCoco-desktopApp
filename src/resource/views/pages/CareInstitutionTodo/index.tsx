@@ -3,7 +3,7 @@ import React, {
   FunctionComponent,
   useEffect,
   useState
-} from 'react';
+} from "react";
 import {
   Col,
   Row,
@@ -12,30 +12,30 @@ import {
   Table,
   Label,
   UncontrolledTooltip
-} from 'reactstrap';
+} from "reactstrap";
 // import "./index.scss";
-import { useHistory, useParams, useLocation } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from "react-router-dom";
 // import EmailMenus from "../CareGiver/Emails/EmailMenus";
-import { languageTranslation } from '../../../../helpers';
-import { defaultDateFormat, PAGE_LIMIT } from '../../../../config';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
-import { ToDoQueries } from '../../../../graphql/queries';
-import Loader from '../../containers/Loader/Loader';
-import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
-import moment from 'moment';
-import CreateTodo from '../../components/CreateTodo';
-import { ConfirmBox } from '../../components/ConfirmBox';
-import { toast } from 'react-toastify';
-import { ToDoMutations } from '../../../../graphql/Mutations';
-import PaginationComponent from '../../components/Pagination';
-import * as qs from 'query-string';
+import { languageTranslation } from "../../../../helpers";
+import { defaultDateFormat, PAGE_LIMIT } from "../../../../config";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { ToDoQueries } from "../../../../graphql/queries";
+import Loader from "../../containers/Loader/Loader";
+import { NoSearchFound } from "../../components/SearchFilter/NoSearchFound";
+import moment from "moment";
+import CreateTodo from "../../components/CreateTodo";
+import { ConfirmBox } from "../../components/ConfirmBox";
+import { toast } from "react-toastify";
+import { ToDoMutations } from "../../../../graphql/Mutations";
+import PaginationComponent from "../../components/Pagination";
+import * as qs from "query-string";
 import {
   ISearchValues,
   ISearchToDoValues,
   IReactSelectInterface
-} from '../../../../interfaces';
-import { Formik, FormikHelpers, FormikProps } from 'formik';
-import Search from '../../components/SearchFilter';
+} from "../../../../interfaces";
+import { Formik, FormikHelpers, FormikProps } from "formik";
+import Search from "../../components/SearchFilter";
 
 const [GET_TO_DOS] = ToDoQueries;
 const [
@@ -59,12 +59,12 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const { pathname } = location;
   const { search } = useLocation();
 
-  const path = pathname.split('/');
+  const path = pathname.split("/");
 
   //To get todo list by id
   const [fetchToDoByUserID, { data, called, loading, refetch }] = useLazyQuery<
     any
-  >(GET_TO_DOS);
+  >(GET_TO_DOS, { fetchPolicy: "no-cache" });
   const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
 
   // Mutation to update careInstitution todo status
@@ -82,14 +82,14 @@ const CareInstitutionTodo: FunctionComponent = () => {
   useEffect(() => {
     // Fetch TODO details by care institution id
     const userRole: string =
-      path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution';
+      path[1] === "caregiver-todo" ? "caregiver" : "careinstitution";
 
     fetchToDoByUserID({
       variables: {
         userType: userRole,
-        searchBy: '',
-        priority: '',
-        sortBy: '',
+        searchBy: "",
+        priority: "",
+        sortBy: "",
         futureOnly: false,
         limit: PAGE_LIMIT
       }
@@ -99,9 +99,9 @@ const CareInstitutionTodo: FunctionComponent = () => {
   //  useEffect for searching, filtering
   useEffect(() => {
     const query = qs.parse(search);
-    let searchBy: string = '';
-    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
-    let priority: IReactSelectInterface | undefined = { label: '', value: '' };
+    let searchBy: string = "";
+    let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
+    let priority: IReactSelectInterface | undefined = { label: "", value: "" };
     let futureOnly: boolean | undefined = false;
 
     // To handle display and query param text
@@ -109,7 +109,6 @@ const CareInstitutionTodo: FunctionComponent = () => {
       const current: string | any = history.location.search;
       let searchData: any = {};
       searchData = { ...qs.parse(current) };
-      console.log('search', searchData);
 
       if (searchData && searchData.search) {
         searchBy = searchData.search;
@@ -126,13 +125,15 @@ const CareInstitutionTodo: FunctionComponent = () => {
 
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       const userRole: string =
-        path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution';
+        path[1] === "caregiver-todo" ? "caregiver" : "careinstitution";
       // call query
+      console.log("hereeee");
+
       fetchToDoByUserID({
         variables: {
           userType: userRole,
           userId: parseInt(userId),
-          searchBy: searchBy ? searchBy : '',
+          searchBy: searchBy ? searchBy : "",
           sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
           priority: searchData.priority,
           futureOnly,
@@ -146,7 +147,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?'
+      "?"
     );
     history.push(path);
   };
@@ -167,30 +168,30 @@ const CareInstitutionTodo: FunctionComponent = () => {
     if (values.searchValue) {
       params.search = values.searchValue;
     }
-    if (values.toDoFilter && values.toDoFilter.value !== '') {
-      console.log('values.toDoFilter', values.toDoFilter);
+    if (values.toDoFilter && values.toDoFilter.value !== "") {
+      console.log("values.toDoFilter", values.toDoFilter);
 
       params.toDoFilter =
-        values.toDoFilter.value !== '' ? values.toDoFilter.value : '';
+        values.toDoFilter.value !== "" ? values.toDoFilter.value : "";
     }
-    if (values.priority && values.priority.value !== '') {
+    if (values.priority && values.priority.value !== "") {
       params.priority =
-        values.priority.value !== '' ? values.priority.value : '';
+        values.priority.value !== "" ? values.priority.value : "";
     }
     if (values.futureOnly) {
       params.futureOnly = values.futureOnly ? values.futureOnly : false;
     }
-    const path = [pathname, qs.stringify(params)].join('?');
+    const path = [pathname, qs.stringify(params)].join("?");
     history.push(path);
   };
 
   const handleChange = async (id: any, status: string, priority: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
+      title: languageTranslation("CONFIRM_LABEL"),
       text:
-        status === 'pending'
-          ? languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG')
-          : languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG')
+        status === "pending"
+          ? languageTranslation("CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG")
+          : languageTranslation("CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG")
     });
     if (!value) {
       return;
@@ -200,21 +201,21 @@ const CareInstitutionTodo: FunctionComponent = () => {
         await updateStatus({
           variables: {
             id: parseInt(id),
-            status: status === 'pending' ? 'completed' : 'pending',
+            status: status === "pending" ? "completed" : "pending",
             priority
           }
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('TODO_STATUS_UPDATED_SUCCESSFULLY')
+            languageTranslation("TODO_STATUS_UPDATED_SUCCESSFULLY")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -224,8 +225,8 @@ const CareInstitutionTodo: FunctionComponent = () => {
 
   const deleteToDo = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('DELETE_CARE_INSTITUTION_TODO')
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("DELETE_CARE_INSTITUTION_TODO")
     });
     if (!value) {
       return;
@@ -240,14 +241,14 @@ const CareInstitutionTodo: FunctionComponent = () => {
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG')
+            languageTranslation("CARE_INSTITUTION_STATUS_UPDATE_MSG")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -257,7 +258,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
 
   const {
-    searchValue = '',
+    searchValue = "",
     sortBy = undefined,
     toDoFilter = undefined,
     priority = undefined,
@@ -271,22 +272,23 @@ const CareInstitutionTodo: FunctionComponent = () => {
     priority,
     futureOnly
   };
-
   return (
     <>
       <div>
         <h5 className="content-title">
-          {languageTranslation('MENU_TO_DO_INSTITUTION')}
+          {path[1] === "caregiver-todo"
+            ? languageTranslation("MENU_TO_DO_CARE_GIVER")
+            : languageTranslation("MENU_TO_DO_INSTITUTION")}
         </h5>
         <Row>
-          <Col lg={'12'}>
+          <Col lg={"12"}>
             <div className="filter-form form-section">
               <Formik
                 initialValues={values}
                 enableReinitialize={true}
                 onSubmit={handleSubmit}
                 children={(props: FormikProps<ISearchToDoValues>) => (
-                  <Search {...props} label={'toDos'} />
+                  <Search {...props} label={"toDos"} />
                 )}
               />
             </div>
@@ -295,42 +297,42 @@ const CareInstitutionTodo: FunctionComponent = () => {
                 <thead className="thead-bg">
                   <tr>
                     <th className="sno-th-column text-center">
-                      {languageTranslation('S_NO')}
+                      {languageTranslation("S_NO")}
                     </th>
                     <th className="date-th-column">
-                      {languageTranslation('DATE')}{' '}
+                      {languageTranslation("DATE")}{" "}
                     </th>
                     <th className="file-th-column">
-                      {' '}
-                      {languageTranslation('NAME')}
+                      {" "}
+                      {languageTranslation("NAME")}
                     </th>
-                    {path[1] !== 'caregiver-todo' ? (
+                    {path[1] !== "caregiver-todo" ? (
                       <th className="contact-th-column">
-                        {languageTranslation('CONTACT')}
+                        {languageTranslation("CONTACT")}
                       </th>
                     ) : (
-                      ''
+                      ""
                     )}
                     <th className="remark-col">
-                      {languageTranslation('REMARKS')}
+                      {languageTranslation("REMARKS")}
                     </th>
                     <th className="checkbox-th-column text-center">
-                      {' '}
-                      {languageTranslation('DONE')}
+                      {" "}
+                      {languageTranslation("DONE")}
                     </th>
                     <th className="checkbox-th-column text-center">
-                      {' '}
-                      {languageTranslation('EXTERNAL')}
+                      {" "}
+                      {languageTranslation("EXTERNAL")}
                     </th>
-                    <th className={'text-center action-th-column'}>
-                      {languageTranslation('TABEL_HEAD_CG_ACTION')}
+                    <th className={"text-center action-th-column"}>
+                      {languageTranslation("TABEL_HEAD_CG_ACTION")}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {!called || loading ? (
                     <tr>
-                      <td className={'table-loader'} colSpan={8}>
+                      <td className={"table-loader"} colSpan={8}>
                         <Loader />
                       </td>
                     </tr>
@@ -345,28 +347,28 @@ const CareInstitutionTodo: FunctionComponent = () => {
                             {count++}
                           </td>
                           <td className="date-th-column">
-                            {' '}
+                            {" "}
                             {`${moment(list.date).format(defaultDateFormat)} ${
                               list.time
-                            }`}{' '}
+                            }`}{" "}
                           </td>
                           <td className="file-th-column">
                             <span className="view-more-link word-wrap">
                               {list.user
                                 ? `${list.user.firstName} ${list.user.lastName}`
-                                : '-'}
+                                : "-"}
                             </span>
                           </td>
-                          {path[1] !== 'caregiver-todo' ? (
+                          {path[1] !== "caregiver-todo" ? (
                             <td className="contact-th-column">
                               <span className="view-more-link word-wrap">
                                 {list.contact
                                   ? `${list.contact.firstName} ${list.contact.surName} (${list.contact.contactType})`
-                                  : '-'}
+                                  : "-"}
                               </span>
                             </td>
                           ) : (
-                            ''
+                            ""
                           )}
                           <td className="remark-col">
                             <span className="word-wrap">{list.comment}</span>
@@ -377,9 +379,9 @@ const CareInstitutionTodo: FunctionComponent = () => {
                                 type="checkbox"
                                 id="check"
                                 className=""
-                                name={'status'}
+                                name={"status"}
                                 checked={
-                                  list.status === 'completed' ? true : false
+                                  list.status === "completed" ? true : false
                                 }
                                 onChange={e =>
                                   handleChange(
@@ -398,10 +400,10 @@ const CareInstitutionTodo: FunctionComponent = () => {
                                 type="checkbox"
                                 id="checkAll"
                                 className="cursor-notallowed"
-                                name={'juridiction'}
-                                disabled={list.juridiction === 'internally'}
+                                name={"juridiction"}
+                                disabled={list.juridiction === "internally"}
                                 checked={
-                                  list.juridiction === 'externally'
+                                  list.juridiction === "externally"
                                     ? true
                                     : false
                                 }
@@ -443,8 +445,8 @@ const CareInstitutionTodo: FunctionComponent = () => {
                       );
                     })
                   ) : (
-                    <tr className={'text-center no-hover-row'}>
-                      <td colSpan={8} className={'pt-5 pb-5'}>
+                    <tr className={"text-center no-hover-row"}>
+                      <td colSpan={8} className={"pt-5 pb-5"}>
                         {search ? (
                           <NoSearchFound />
                         ) : (
@@ -453,7 +455,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                               <i className="icon-ban" />
                             </div>
                             <h4 className="mb-1">
-                              Currently there are no todos added.{' '}
+                              Currently there are no todos added.{" "}
                             </h4>
                             <p>Please click above button to add new. </p>
                           </div>
@@ -484,7 +486,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
           editToDo={true}
           userData={selectUser}
           userRole={
-            path[1] === 'caregiver-todo' ? 'caregiver' : 'careInstitution'
+            path[1] === "caregiver-todo" ? "caregiver" : "careInstitution"
           }
         />
       </div>

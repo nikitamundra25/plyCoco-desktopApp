@@ -177,7 +177,10 @@ export const DocumentFormComponent: FunctionComponent<{
                     {addDocumentLoading ? (
                       <>
                         <i className='fa fa-spinner fa-spin '></i>
-                        &nbsp; <span>{languageTranslation('BROWSE_FILE')}</span>
+                        &nbsp;{' '}
+                        <span className='cursor-notallowed'>
+                          {languageTranslation('BROWSE_FILE')}
+                        </span>
                       </>
                     ) : (
                       <>

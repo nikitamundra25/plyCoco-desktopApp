@@ -390,7 +390,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                 <Button
                   color="primary"
                   onClick={handleSendEmail}
-                  className="btn-email-save ml-auto mr-2 btn btn-primary"
+                  className="btn-email-save ml-auto mr-2 "
                 >
                   {bulkEmailLoading ? (
                     <i className="fa fa-spinner fa-spin mr-2" />

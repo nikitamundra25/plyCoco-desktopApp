@@ -116,16 +116,12 @@ body {
   button {
     &:focus {
       outline: none;
+      box-shadow: none;
     }
   }
-  .disbale {
+  .disabled-class {
     cursor: not-allowed !important;
-    opacity: 0.8;
-  }
-
-  .disbale {
-    cursor: not-allowed !important;
-    opacity: 0.8;
+    opacity: 0.7;
   }
 
   .status-btn {
@@ -274,11 +270,6 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .one-line-text {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
   .whitespace-normal {
     white-space: normal !important;
   }
@@ -396,98 +387,6 @@ body {
       background: $card_header_bg;
     }
   }
-
-  /* Form - Custom Checkbox */
-  // .checkbox-custom {
-  //   position: relative;
-  //   padding: 0 0 0 25px;
-  //   margin-bottom: 7px;
-  //   margin-top: 0;
-  // }
-
-  // .checkbox-custom.checkbox-inline {
-  //   display: inline-block;
-  //   vertical-align: middle;
-  // }
-
-  // .form-group .checkbox-custom.checkbox-inline {
-  //   margin-top: 7px;
-  //   padding-top: 0;
-  // }
-
-  // .checkbox-custom:last-child,
-  // .checkbox-custom:last-of-type {
-  //   margin-bottom: 0;
-  // }
-
-  // .checkbox-custom input[type='checkbox'] {
-  //   opacity: 0;
-  //   position: absolute;
-  //   top: 50%;
-  //   left: 3px;
-  //   margin: -6px 0 0 0;
-  //   z-index: 2;
-  //   cursor: pointer;
-  // }
-
-  // .checkbox-custom input[type='checkbox']:checked + label:after {
-  //   position: absolute;
-  //   display: inline-block;
-  //   font-family: 'FontAwesome';
-  //   font-weight: 400;
-  //   content: '\F00C';
-  //   top: 50%;
-  //   left: 4px;
-  //   margin-top: -5px;
-  //   font-size: $font_11;
-  //   line-height: 1;
-  //   width: 16px;
-  //   height: 16px;
-  //   color: $white;
-  // }
-
-  // .checkbox-custom input[type='checkbox']:disabled {
-  //   cursor: not-allowed;
-  // }
-
-  // .checkbox-custom input[type='checkbox']:disabled:checked + label:after {
-  //   color: #999;
-  // }
-
-  // .checkbox-custom input[type='checkbox']:disabled + label {
-  //   cursor: not-allowed;
-  // }
-
-  // .checkbox-custom input[type='checkbox']:disabled + label:before {
-  //   background-color: #eee;
-  // }
-
-  // .checkbox-custom label {
-  //   cursor: pointer;
-  //   margin-bottom: 0;
-  //   text-align: left;
-  //   line-height: 1.5;
-  //   font-weight: 600;
-  //   font-size: $font_12;
-  // }
-
-  // .checkbox-custom label:before {
-  //   content: '';
-  //   position: absolute;
-  //   top: 50%;
-  //   left: 0;
-  //   margin-top: -9px;
-  //   width: 19px;
-  //   height: 18px;
-  //   display: inline-block;
-  //   border-radius: 2px;
-  //   border: 1px solid #bbb;
-  //   background: #fff;
-  // }
-  // .checkbox-custom input[type='checkbox']:checked + label:before {
-  //   background: $theme_color;
-  //   border: 1px solid $theme_color;
-  // }
 }
 // new css
 .auth-page {
@@ -1043,7 +942,6 @@ html:not([dir='rtl']) {
   position: relative;
   // height: calc(100% - 47px);
   border: 1px solid $table_border;
-  // height: 100%;
   &.minheight-auto {
     min-height: auto;
     height: auto;
@@ -1914,6 +1812,7 @@ html:not([dir='rtl']) {
       }
     }
     .attribute-select {
+      text-transform: capitalize;
       .attribute-inner-select__control {
         border-radius: 0px;
         color: $light_black;
@@ -2722,10 +2621,7 @@ html:not([dir='rtl']) {
   &.sent-box {
     max-height: 420px;
   }
-  &.disable {
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
+
   @media only screen and (max-width: 991px) {
     max-height: 300px;
   }

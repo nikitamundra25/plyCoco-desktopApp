@@ -333,7 +333,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                             className={`btn-icon mr-2 ${
                               list.status === 'approve' ||
                               (list && !list.fileName)
-                                ? 'disbale'
+                                ? 'disabled-class'
                                 : ''
                             }`}
                             onClick={() =>

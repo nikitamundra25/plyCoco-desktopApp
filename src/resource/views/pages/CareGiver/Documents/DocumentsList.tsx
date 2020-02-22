@@ -171,7 +171,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         id={`delete${index}`}
                         className={`btn-icon mr-2 ${
                           list.status === 'approve' || !list.fileName
-                            ? 'disbale'
+                            ? 'disabled-class'
                             : ''
                         }`}
                         onClick={() =>

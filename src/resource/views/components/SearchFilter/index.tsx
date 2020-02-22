@@ -51,7 +51,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
     searchPlacholderText,
     resetForm
   } = props;
-  
+
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     logger(selectOption, 'value');

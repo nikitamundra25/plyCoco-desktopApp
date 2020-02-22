@@ -11,7 +11,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Button,
+  Button
 } from 'reactstrap';
 import moment from 'moment';
 import { languageTranslation, logger } from '../../../../helpers';
@@ -24,11 +24,12 @@ import {
   PAGE_LIMIT,
   defaultDateFormat,
   AppRoutes,
+  TODO_PAGE_LIMIT
 } from '../../../../config';
 import { FormikProps, Form, Formik } from 'formik';
 import {
   IReactSelectInterface,
-  ISearchToDoValues,
+  ISearchToDoValues
 } from '../../../../interfaces';
 import { useHistory, useLocation } from 'react-router-dom';
 import Loader from '../../containers/Loader/Loader';
@@ -38,7 +39,7 @@ import PaginationComponent from '../Pagination';
 import Search from '../SearchFilter';
 
 const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
-  props: FormikProps<ISearchToDoValues> & any,
+  props: FormikProps<ISearchToDoValues> & any
 ) => {
   let history = useHistory();
   const { search, pathname } = useLocation();
@@ -63,7 +64,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
     editToDo,
     currentPage,
     userRole,
-    Id,
+    Id
   } = props;
 
   // Custom function to handle react select fields
@@ -130,8 +131,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                       className={
                         item.status === 'completed'
                           ? 'done-bg'
-                          : moment().format(defaultDateFormat) >=
-                            moment(item.date).format(defaultDateFormat)
+                          : moment().isAfter(item.date)
                           ? 'table-danger'
                           : ''
                       }
@@ -306,6 +306,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
             totalRecords={data.getToDos.totalCount}
             currentPage={currentPage}
             onPageChanged={onPageChanged}
+            pageLimit={TODO_PAGE_LIMIT}
           />
         ) : null}
       </div>

@@ -249,8 +249,6 @@ export const EmailTemplateManagement: FunctionComponent = () => {
 
   //view a particular template by clicking on its menu entry
   useEffect(() => {
-    console.log('archiveEmailTemplate in use effect', archiveEmailTemplate);
-
     if (!archiveEmailTemplateLoading && archiveEmailTemplate) {
       viewArchivedMenuEntry();
     }
@@ -344,7 +342,6 @@ export const EmailTemplateManagement: FunctionComponent = () => {
 
   //view a particular archived template by clicking on its menu entry
   const viewArchivedMenuEntry = () => {
-    console.log('archiveEmailTemplate in function', archiveEmailTemplate);
     // if (!archiveEmailTemplateLoading && archiveEmailTemplate) {
     const { trashSingleEmailTemp = {} } = archiveEmailTemplate
       ? archiveEmailTemplate
@@ -358,67 +355,15 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       attachments = []
     } = trashSingleEmailTemp ? trashSingleEmailTemp : {};
     const { type = '' } = email_template_type ? email_template_type : {};
-    // dataModifier({
-    //   id,
-    //   menuEntry,
-    //   subject,
-    //   body,
-    //   email_template_type,
-    //   attachments,
-    //   type
-    // });
-
-    let editorState: any = '';
-    const contentBlock = body ? htmlToDraft(body) : '';
-    if (contentBlock) {
-      const contentState = ContentState.createFromBlockArray(
-        contentBlock.contentBlocks
-      );
-      editorState = EditorState.createWithContent(contentState);
-      const typeIdIndex: number = typeListOptions.findIndex(
-        (item: IReactSelectInterface) => item.label === type
-      );
-      const replaceType: any = {
-        label: type,
-        value: type
-      };
-      if (typeIdIndex > -1) {
-        setTypeId(parseInt(typeListOptions[typeIdIndex].value));
-      }
-      let temp: IEmailAttachmentData[] = [];
-      if (attachments && attachments.length) {
-        attachments.forEach(
-          ({
-            path,
-            name,
-            size,
-            id
-          }: {
-            path: string;
-            name: string;
-            size: number;
-            id: string;
-          }) => {
-            temp.push({
-              path,
-              fileName: name,
-              size,
-              file: null,
-              url: '',
-              id
-            });
-          }
-        );
-      }
-      setTemplateData({
-        type: replaceType,
-        menuEntry: menuEntry,
-        subject: subject,
-        body: editorState,
-        id: parseInt(id)
-      });
-      setAttachment(temp);
-    }
+    dataModifier({
+      id,
+      menuEntry,
+      subject,
+      body,
+      email_template_type,
+      attachments,
+      type
+    });
   };
   useEffect(() => {
     // call query
@@ -505,8 +450,6 @@ export const EmailTemplateManagement: FunctionComponent = () => {
     resetForm();
   };
   const onTemplateSelection = (id: string) => {
-    console.log('ontemplate selection');
-
     setActiveTemplate(id);
     toast.dismiss();
     // To update data when query result from the Apollo cache & previous one & this one is the same
@@ -530,7 +473,6 @@ export const EmailTemplateManagement: FunctionComponent = () => {
       : {};
 
     if (trashSingleEmailTemp && trashSingleEmailTemp.id === id) {
-      console.log('inside if of trash');
       viewArchivedMenuEntry();
     }
     fetchArchiveTemplateById({

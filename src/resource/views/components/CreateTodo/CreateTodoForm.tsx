@@ -310,7 +310,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                             value={comment ? comment : undefined}
                             placeholder={languageTranslation('COMMENT')}
                             rows='4'
-                            maxLength={250}
+                            maxLength={255}
                             className={
                               errors.comment && touched.comment
                                 ? 'textarea-custom error'

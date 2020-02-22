@@ -109,6 +109,11 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     setSelectUser(list);
   };
 
+  //  call refetch to update todo list
+  const handleRefetch = () => {
+    refetch();
+  };
+
   useEffect(() => {
     const query = qs.parse(search);
     let searchBy: string = '';
@@ -196,20 +201,31 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     params.page = 1;
     if (values.searchValue) {
       params.search = values.searchValue;
+    } else {
+      params.search = '';
     }
 
-    if (values.toDoFilter && values.toDoFilter.value !== '') {
+    if (values.toDoFilter && values.toDoFilter.value !== null) {
       params.toDoFilter =
         values.toDoFilter.value !== null ? values.toDoFilter.value : '';
+    } else {
+      params.toDoFilter = '';
     }
+
     if (values.priority && values.priority.value !== '') {
       params.priority =
         values.priority.value !== '' ? values.priority.value : '';
+    } else {
+      params.priority = '';
     }
+
     if (values.sortByDate && values.sortByDate.value !== '') {
       params.sortByDate =
         values.sortByDate.value !== '' ? values.sortByDate.value : '';
+    } else {
+      params.sortByDate = '';
     }
+
     const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);
   };
@@ -380,6 +396,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         editToDo={true}
         userData={selectUser}
         userRole={userRole === 'caregiver' ? 'caregiver' : 'careInstitution'}
+        handleRefetch={handleRefetch}
       />
     </>
   );

@@ -11,7 +11,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     handleCheckElement,
     onUpdateDocument,
     onDeleteDocument,
-    loading
+    loading,
   } = props;
   const [isExpand, setIsExpand] = useState<boolean>(false);
   const [activeRow, setActiveRow] = useState<number>(-1);
@@ -110,13 +110,14 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                           {isExpand && activeRow === index
                             ? list.remarks
                             : list.remarks.substr(0, 100)}
+                          ...
                           <span
                             className='view-more-link'
                             onClick={() => expandedText(index)}
                           >
                             {isExpand && activeRow === index
-                              ? '...Read less'
-                              : '...Read more'}
+                              ? 'Read less'
+                              : 'Read more'}
                           </span>
                         </p>
                       )
@@ -154,7 +155,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         onClick={() =>
                           onUpdateDocument(
                             list,
-                            list.fileName ? false : true // To ensure user try to edit missing document
+                            list.fileName ? false : true, // To ensure user try to edit missing document
                           )
                         }
                         // disable={list.status === 'approve'}

@@ -23,7 +23,7 @@ import {
 import { FormikTextField } from '../../../components/forms/FormikFields';
 import { languageTranslation, logger } from '../../../../../helpers';
 import MaskedInput from 'react-text-mask';
-import { useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/react-hooks';
 import { CountryQueries } from '../../../../../graphql/queries';
 import { useLocation } from 'react-router';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
@@ -39,24 +39,34 @@ const PersonalInfoFormComponent: any = (
     countriesOpt: IReactSelectInterface[] | undefined;
     statesOpt: IReactSelectInterface[] | undefined;
     getStatesByCountry: any;
+    userSelectedCountry: any;
   }
 ) => {
-  const { countriesOpt, statesOpt, getStatesByCountry } = props;
-  // const { data } = useQuery<ICountries>(GET_COUNTRIES);
-  // To fetch the states of selected contry & don't want to query on initial load
-  // const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-  //   GET_STATES_BY_COUNTRY,
-  // );
-  // const countriesOpt: IReactSelectInterface[] | undefined = [];
-  // const statesOpt: IReactSelectInterface[] | undefined = [];
-  // if (data && data.countries) {
-  //   data.countries.forEach(({ id, name }: ICountry) =>
-  //     countriesOpt.push({
-  //       label: name,
-  //       value: id,
-  //     }),
-  //   );
-  // }
+  const { countriesOpt, userSelectedCountry } = props;
+  const statesOpt: IReactSelectInterface[] | undefined = [];
+
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY,
+  );
+
+  useEffect(() => {
+    if (userSelectedCountry && userSelectedCountry.value) {
+      getStatesByCountry({
+        variables: {
+          countryid: userSelectedCountry ? userSelectedCountry.value : '',
+        },
+      });
+    }
+  }, [userSelectedCountry]);
+
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({
+        label: name,
+        value: id,
+      }),
+    );
+  }
 
   // Region Data
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
@@ -75,15 +85,6 @@ const PersonalInfoFormComponent: any = (
 
   let { pathname } = useLocation();
   let PathArray: string[] = pathname.split('/');
-
-  // if (statesData && statesData.states) {
-  //   statesData.states.forEach(({ id, name }: IState) =>
-  //     statesOpt.push({
-  //       label: name,
-  //       value: id,
-  //     }),
-  //   );
-  // }
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);

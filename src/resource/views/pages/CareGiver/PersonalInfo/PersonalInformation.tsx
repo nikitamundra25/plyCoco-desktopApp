@@ -108,10 +108,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     {
       id: number;
       careGiverInput:
-        | IPersonalObject
-        | {
-            remarks: any;
-          };
+      | IPersonalObject
+      | {
+        remarks: any;
+      };
       isRemarkAdded?: Boolean;
     }
   >(UPDATE_CAREGIVER);
@@ -228,8 +228,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         qualificationId:
           qualifications && qualifications.length
             ? qualifications.map((qualification: IReactSelectInterface) =>
-                parseInt(qualification.value),
-              )
+              parseInt(qualification.value),
+            )
             : null,
         street,
         attributes:
@@ -458,10 +458,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     driversLicense,
     driverLicenseNumber,
     country: userSelectedCountry,
-    //  countriesOpt.filter(
-    //   (country: IReactSelectInterface) => country.value === countryId,
-    // )[0],
-    // // userSelectedCountry,
     vehicleAvailable,
     street,
     city,
@@ -469,12 +465,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     countryId,
     regionId:
       props.getCaregiver &&
-      props.getCaregiver.regions &&
-      props.getCaregiver.regions.length
+        props.getCaregiver.regions &&
+        props.getCaregiver.regions.length
         ? {
-            label: props.getCaregiver.regions[0].regionName,
-            value: props.getCaregiver.regions[0].id,
-          }
+          label: props.getCaregiver.regions[0].regionName,
+          value: props.getCaregiver.regions[0].id,
+        }
         : undefined,
     fax,
     mobileNumber,
@@ -492,9 +488,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     belongTo: UserSelectedBelongsTo ? UserSelectedBelongsTo : null,
     legalForm: legalForm
       ? {
-          label: props.getCaregiver.caregiver.legalForm,
-          value: props.getCaregiver.caregiver.legalForm,
-        }
+        label: props.getCaregiver.caregiver.legalForm,
+        value: props.getCaregiver.caregiver.legalForm,
+      }
       : undefined,
     companyName,
     registerCourt,
@@ -507,18 +503,18 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       remarks && remarks.length
         ? remarks
         : [
-            {
-              data: '',
-              createdAt: '',
-              createdBy: '',
-            },
-          ],
+          {
+            data: '',
+            createdAt: '',
+            createdBy: '',
+          },
+        ],
     remarkData: '',
     invoiceInterval: invoiceInterval
       ? {
-          label: invoiceInterval,
-          value: invoiceInterval,
-        }
+        label: invoiceInterval,
+        value: invoiceInterval,
+      }
       : undefined,
     qualifications: qualificationsData,
     fee: fee ? germanNumberFormat(fee) : '',
@@ -529,29 +525,29 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     night: night ? germanNumberFormat(night) : '',
     nightAllowance: nightAllowance
       ? {
-          label: nightAllowance,
-          value: nightAllowance,
-        }
+        label: nightAllowance,
+        value: nightAllowance,
+      }
       : undefined,
     leasingPricingList: leasingPricingList
       ? {
-          label: leasingPricingList,
-          value: leasingPricingList,
-        }
+        label: leasingPricingList,
+        value: leasingPricingList,
+      }
       : undefined,
     salutation:
       props.getCaregiver && props.getCaregiver.salutation
         ? {
-            label: props.getCaregiver.salutation,
-            value: props.getCaregiver.salutation,
-          }
+          label: props.getCaregiver.salutation,
+          value: props.getCaregiver.salutation,
+        }
         : undefined,
     gender:
       props.getCaregiver && props.getCaregiver.gender
         ? {
-            label: props.getCaregiver.gender,
-            value: props.getCaregiver.gender,
-          }
+          label: props.getCaregiver.gender,
+          value: props.getCaregiver.gender,
+        }
         : undefined,
     attributeId: selectedAttributes,
   };
@@ -576,8 +572,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 {props.isSubmitting ? (
                   <i className='fa fa-spinner fa-spin mr-2' />
                 ) : (
-                  ''
-                )}
+                    ''
+                  )}
                 {languageTranslation('SAVE_BUTTON')}
               </Button>
             </div>
@@ -590,6 +586,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                   countriesOpt={countriesOpt}
                   statesOpt={statesOpt}
                   getStatesByCountry={getStatesByCountry}
+                  userSelectedCountry={userSelectedCountry}
                 />
               </Col>
               <Col lg={4} md={'12'} sm={'12'} className='px-lg-0'>

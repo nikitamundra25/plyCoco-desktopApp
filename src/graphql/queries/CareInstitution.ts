@@ -114,8 +114,8 @@ const GET_CARE_INSTITUION_BY_ID = gql`
 `;
 
 const GET_DEPARTMENT_LIST = gql`
-  query($userId: Int!) {
-    getDivision(userId: $userId) {
+  query($userId: Int!, $locked: Boolean) {
+    getDivision(userId: $userId, locked: $locked) {
       id
       userId
       name

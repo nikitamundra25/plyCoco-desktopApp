@@ -79,7 +79,7 @@ const DocumentUploadModal = (props: any) => {
         </ModalHeader>
         <ModalBody>
           <div className=''>
-            <Form className='form-section forms-main-section'>
+            <Form className='form-section '>
               <Row>
                 <Col lg={'12'}>
                   <FormGroup>

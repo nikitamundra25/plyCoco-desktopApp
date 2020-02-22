@@ -140,6 +140,9 @@
   }
 }
 
+.department-card-height {
+  min-height: calc(100vh - 195px);
+}
 .department-list {
   height: 525px !important;
   overflow-y: auto;

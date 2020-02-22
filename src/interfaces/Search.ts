@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from "./Constant";
+import { IReactSelectInterface } from './Constant';
 
 export interface ISearchValues {
   searchValue: string;
@@ -16,6 +16,7 @@ export interface ISearchToDoValues {
   searchBy?: string;
   searchValue?: string;
   sortBy?: IReactSelectInterface;
+  sortByDate?: IReactSelectInterface;
   priority?: IReactSelectInterface;
   futureOnly?: boolean;
   toDoFilter?: IReactSelectInterface;

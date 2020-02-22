@@ -301,6 +301,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       {...props}
                       userRole='caregiver'
                       isnewDataUpdate={isnewDataUpdate}
+                      Id={Id}
                     />
                   ) : null}
                   {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}

@@ -101,9 +101,9 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
   };
   return (
     <>
-      <div className='document-upload-section '>
-        <div className='d-flex align-items-center justify-content-between flex-wrap'>
-          <h5 className='content-title mb-3'>
+      <div className="document-upload-section ">
+        <div className="d-flex align-items-center justify-content-between flex-wrap">
+          <h5 className="content-title mb-3">
             {languageTranslation('CG_SUB_MENU_DOCUMENTS')}
           </h5>
           <div>
@@ -112,12 +112,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 onClick={() => {
                   onDisapprove();
                 }}
-                className='btn-common btn-inactive mb-3 mr-3'
-                color='link'
+                className="btn-common btn-inactive mb-3 mr-3"
+                color="link"
               >
                 {disapproveLoading ? (
                   <>
-                    <i className='fa fa-spinner fa-spin ' />{' '}
+                    <i className="fa fa-spinner fa-spin " />{' '}
                     {languageTranslation('DISAPPROVE')}
                   </>
                 ) : (
@@ -141,12 +141,12 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       (document: any) => !document.fileName
                     ).length)
                 }
-                className='btn-common btn-active mb-3 mr-3 '
-                color='link'
+                className="btn-common btn-active mb-3 mr-3 "
+                color="link"
               >
                 {approveLoading ? (
                   <>
-                    <i className='fa fa-spinner fa-spin ' />{' '}
+                    <i className="fa fa-spinner fa-spin " />{' '}
                     {languageTranslation('APPROVE')}
                   </>
                 ) : (
@@ -165,212 +165,214 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   )[0]
                 );
               }}
-              className='btn-common mb-3'
-              color='primary'
+              className="btn-common mb-3"
+              color="primary"
             >
               <i className={'fa fa-upload'} />
               &nbsp;{languageTranslation('UPLOAD_DOCUMENT')}
             </Button>
           </div>
         </div>
-        <Table bordered responsive>
-          <thead className='thead-bg'>
-            <tr>
-              <th className='sno-th-column text-center'>
-                {languageTranslation('S_NO')}
-              </th>
-              <th className='date-th-column'>{languageTranslation('DATE')}</th>
-              <th className='file-th-column'>
-                {languageTranslation('FILE_NAME')}
-              </th>
-              <th className='filetype-th-column'>
-                {languageTranslation('TYPE')}
-              </th>
-              <th>{languageTranslation('REMARKS')}</th>
-              <th className='checkbox-th-column '>
-                {languageTranslation('CHECKED')}
-              </th>
-              <th className='filesize-th-column'>
-                {languageTranslation('FILE_SIZE')}
-              </th>
-              <th className={'text-center action-th-column'}>
-                {languageTranslation('TABEL_HEAD_CG_ACTION')}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {!called || loading ? (
+        <div className="archieve-table-minheight ">
+          <Table bordered responsive>
+            <thead className="thead-bg">
               <tr>
-                <td className={'table-loader'} colSpan={8}>
-                  <Loader />
-                </td>
+                <th className="sno-th-column text-center">
+                  {languageTranslation('S_NO')}
+                </th>
+                <th className="date-th-column">
+                  {languageTranslation('DATE')}
+                </th>
+                <th className="file-th-column">
+                  {languageTranslation('FILE_NAME')}
+                </th>
+                <th className="filetype-th-column">
+                  {languageTranslation('TYPE')}
+                </th>
+                <th>{languageTranslation('REMARKS')}</th>
+                <th className="checkbox-th-column ">
+                  {languageTranslation('CHECKED')}
+                </th>
+                <th className="filesize-th-column">
+                  {languageTranslation('FILE_SIZE')}
+                </th>
+                <th className={'text-center action-th-column'}>
+                  {languageTranslation('TABEL_HEAD_CG_ACTION')}
+                </th>
               </tr>
-            ) : documentListing &&
-              documentListing.getDocuments &&
-              documentListing.getDocuments.length ? (
-              documentListing.getDocuments.map((list: any, index: number) => {
-                const documentLength = documentListing.getDocuments.length;
+            </thead>
+            <tbody>
+              {!called || loading ? (
+                <tr>
+                  <td className={'table-loader'} colSpan={8}>
+                    <Loader />
+                  </td>
+                </tr>
+              ) : documentListing &&
+                documentListing.getDocuments &&
+                documentListing.getDocuments.length ? (
+                documentListing.getDocuments.map((list: any, index: number) => {
+                  const documentLength = documentListing.getDocuments.length;
 
-                return (
-                  <tr
-                    key={index}
-                    className={
-                      list.fileName && list.status === 'approve'
-                        ? 'approve-bg'
-                        : 'table-danger'
-                    }
-                  >
-                    <td className='sno-th-column text-center'>{index + 1}</td>
-                    <td className='date-th-column'>
-                      {list && list.createdAt && list.fileName // filename condition to manage missing document
-                        ? moment(list.createdAt).format(defaultDateTimeFormat)
-                        : '-'}
-                    </td>
-                    <td>
-                      <span
-                        onClick={() =>
-                          window.open(
-                            `${AppConfig.FILES_ENDPOINT}${list.document}`,
-                            '_blank'
-                          )
-                        }
-                        className='view-more-link word-wrap'
-                      >
-                        {list && list.fileName
-                          ? list.fileName
-                          : `---${languageTranslation('DOCUMENT_MISSING')}---`}
-                      </span>
-                    </td>
-                    <td>
-                      <span>
-                        {list && list.document_type && list.document_type.type
-                          ? list.document_type.type
+                  return (
+                    <tr
+                      key={index}
+                      className={
+                        list.fileName && list.status === 'approve'
+                          ? 'approve-bg'
+                          : 'table-danger'
+                      }
+                    >
+                      <td className="sno-th-column text-center">{index + 1}</td>
+                      <td className="date-th-column">
+                        {list && list.createdAt && list.fileName // filename condition to manage missing document
+                          ? moment(list.createdAt).format(defaultDateTimeFormat)
                           : '-'}
-                      </span>
-                    </td>
-                    <td className='remark-col'>
-                      {list && list.remarks ? (
-                        list.remarks.length <= 100 ? (
-                          list.remarks
-                        ) : (
-                          <p className='mb-0'>
-                            {isExpand && activeRow === index
-                              ? list.remarks
-                              : list.remarks.substr(0, 100)}
-                            <span
-                              className='view-more-link'
-                              onClick={() => expandedText(index)}
-                            >
-                              {isExpand && activeRow === index
-                                ? '...Read less'
-                                : '...Read more'}
-                            </span>
-                          </p>
-                        )
-                      ) : (
-                        '-'
-                      )}
-                    </td>
-                    <td className='text-center'>
-                      <span className=' checkbox-custom '>
-                        <input
-                          type='checkbox'
-                          checked={
-                            documentId && documentId.id === list.id
-                              ? documentId.checked
-                              : list.status === 'approve'
-                              ? true
-                              : false
-                          }
-                          disabled={list && !list.fileName}
-                          onChange={(e: any) => {
-                            handleCheckElement(e, list.id, list.status);
-                          }}
-                          className=''
-                        />
-                        <label className=''></label>
-                      </span>
-                    </td>
-
-                    <td>
-                      {' '}
-                      {list.fileSize ? formatFileSize(list.fileSize) : '-'}
-                    </td>
-                    <td>
-                      <div
-                        className={`action-btn ${
-                          documentLength === 1 ? 'margin-tooltip' : ''
-                        }`}
-                      >
+                      </td>
+                      <td>
                         <span
-                          id={`edit${index}`}
-                          className='btn-icon mr-2'
                           onClick={() =>
-                            onUpdateDocument(
-                              list,
-                              list && list.fileName ? false : true // To ensure user try to edit missing document
+                            window.open(
+                              `${AppConfig.FILES_ENDPOINT}${list.document}`,
+                              '_blank'
                             )
                           }
-                          // disable={list.status === 'approve'}
+                          className="view-more-link word-wrap"
                         >
-                          <UncontrolledTooltip
-                            placement={'top'}
-                            target={`edit${index}`}
-                          >
-                            {languageTranslation('DOCUMENT_EDIT')}
-                          </UncontrolledTooltip>
-                          <i className='fa fa-pencil'></i>
+                          {list && list.fileName
+                            ? list.fileName
+                            : `---${languageTranslation(
+                                'DOCUMENT_MISSING'
+                              )}---`}
                         </span>
-                        <span
-                          id={`delete${index}`}
-                          className={`btn-icon mr-2 ${
-                            list.status === 'approve' ||
-                            (list && !list.fileName)
-                              ? 'disbale'
-                              : ''
-                          }`}
-                          onClick={() =>
-                            (list && !list.fileName) ||
-                            list.status === 'approve'
-                              ? ''
-                              : onDeleteDocument(list.id)
-                          }
-                        >
-                          {(list && !list.fileName) ||
-                          list.status === 'approve' ? (
-                            ''
+                      </td>
+                      <td>
+                        <span>
+                          {list && list.document_type && list.document_type.type
+                            ? list.document_type.type
+                            : '-'}
+                        </span>
+                      </td>
+                      <td className="remark-col">
+                        {list && list.remarks ? (
+                          list.remarks.length <= 100 ? (
+                            list.remarks
                           ) : (
+                            <p className="mb-0">
+                              {isExpand && activeRow === index
+                                ? list.remarks
+                                : list.remarks.substr(0, 100)}
+                              <span
+                                className="view-more-link"
+                                onClick={() => expandedText(index)}
+                              >
+                                {isExpand && activeRow === index
+                                  ? '...Read less'
+                                  : '...Read more'}
+                              </span>
+                            </p>
+                          )
+                        ) : (
+                          '-'
+                        )}
+                      </td>
+                      <td className="text-center">
+                        <span className=" checkbox-custom ">
+                          <input
+                            type="checkbox"
+                            checked={
+                              documentId && documentId.id === list.id
+                                ? documentId.checked
+                                : list.status === 'approve'
+                                ? true
+                                : false
+                            }
+                            disabled={list && !list.fileName}
+                            onChange={(e: any) => {
+                              handleCheckElement(e, list.id, list.status);
+                            }}
+                            className=""
+                          />
+                          <label className=""></label>
+                        </span>
+                      </td>
+
+                      <td>
+                        {' '}
+                        {list.fileSize ? formatFileSize(list.fileSize) : '-'}
+                      </td>
+                      <td>
+                        <div className={`action-btn`}>
+                          <span
+                            id={`edit${index}`}
+                            className="btn-icon mr-2"
+                            onClick={() =>
+                              onUpdateDocument(
+                                list,
+                                list && list.fileName ? false : true // To ensure user try to edit missing document
+                              )
+                            }
+                            // disable={list.status === 'approve'}
+                          >
                             <UncontrolledTooltip
                               placement={'top'}
-                              target={`delete${index}`}
+                              target={`edit${index}`}
                             >
-                              {languageTranslation('DOCUMENT_DELETE')}
+                              {languageTranslation('DOCUMENT_EDIT')}
                             </UncontrolledTooltip>
-                          )}
-                          <i className='fa fa-trash'></i>
-                        </span>
+                            <i className="fa fa-pencil"></i>
+                          </span>
+                          <span
+                            id={`delete${index}`}
+                            className={`btn-icon mr-2 ${
+                              list.status === 'approve' ||
+                              (list && !list.fileName)
+                                ? 'disbale'
+                                : ''
+                            }`}
+                            onClick={() =>
+                              (list && !list.fileName) ||
+                              list.status === 'approve'
+                                ? ''
+                                : onDeleteDocument(list.id)
+                            }
+                          >
+                            {(list && !list.fileName) ||
+                            list.status === 'approve' ? (
+                              ''
+                            ) : (
+                              <UncontrolledTooltip
+                                placement={'top'}
+                                target={`delete${index}`}
+                              >
+                                {languageTranslation('DOCUMENT_DELETE')}
+                              </UncontrolledTooltip>
+                            )}
+                            <i className="fa fa-trash"></i>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr className={'text-center no-hover-row'}>
+                  <td colSpan={8} className={'pt-5 pb-5'}>
+                    <div className="no-data-section">
+                      <div className="no-data-icon">
+                        <i className="icon-ban" />
                       </div>
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <tr className={'text-center no-hover-row'}>
-                <td colSpan={8} className={'pt-5 pb-5'}>
-                  <div className='no-data-section'>
-                    <div className='no-data-icon'>
-                      <i className='icon-ban' />
+                      <h4 className="mb-1">
+                        Currently there are no documents added.{' '}
+                      </h4>
+                      <p>Please click above button to add new document. </p>
                     </div>
-                    <h4 className='mb-1'>
-                      Currently there are no documents added.{' '}
-                    </h4>
-                    <p>Please click above button to add new document. </p>
-                  </div>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </div>
         {/* <ExplicitDocument
           userId={userId}
           onDeleteDocumentTypes={onDeleteDocumentTypes}
@@ -380,20 +382,20 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
         /> */}
         <Row>
           <Col lg={4} md={5} sm={12}>
-            <h5 className='content-title '>
+            <h5 className="content-title ">
               {languageTranslation('EXPLICITLY_DOCUMENT')}
             </h5>
-            <div className='common-list-wrap'>
-              <div className='common-list-header d-flex align-items-cente justify-content-between'>
-                <div className='common-list-title align-middle'>
+            <div className="common-list-wrap">
+              <div className="common-list-header d-flex align-items-cente justify-content-between">
+                <div className="common-list-title align-middle">
                   {languageTranslation('TYPE')}{' '}
                 </div>
-                <div className=' align-middle toggle-icon'>
-                  <i className='fa fa-angle-down'></i>
+                <div className=" align-middle toggle-icon">
+                  <i className="fa fa-angle-down"></i>
                 </div>
               </div>
-              <div className='common-list-body custom-scrollbar filetypelist'>
-                <ul className='common-list list-unstyled mb-0'>
+              <div className="common-list-body custom-scrollbar filetypelist">
+                <ul className="common-list list-unstyled mb-0">
                   {addedDocumentType
                     ? addedDocumentType.map((type: any, index: number) => {
                         return (
@@ -403,7 +405,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                             }
                             key={index}
                           >
-                            <span className='list-item-text'>
+                            <span className="list-item-text">
                               {type.label}{' '}
                             </span>
                             <span
@@ -411,9 +413,9 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                               onClick={() => {
                                 onDeleteDocumentTypes(type.value);
                               }}
-                              className='list-item-icon'
+                              className="list-item-icon"
                             >
-                              <i className='fa fa-trash'></i>
+                              <i className="fa fa-trash"></i>
                             </span>
                           </li>
                         );
@@ -421,16 +423,16 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     : null}
                 </ul>
               </div>
-              <div className='common-list-footer form-section '>
-                <FormGroup className='mb-0'>
+              <div className="common-list-footer form-section ">
+                <FormGroup className="mb-0">
                   <Select
                     menuPlacement={'top'}
                     placeholder={'Please select type from list'}
                     value={addedDocumentType}
                     isMulti
                     options={explicitTypeDropdown}
-                    className='attribute-select'
-                    classNamePrefix='attribute-inner-select'
+                    className="attribute-select"
+                    classNamePrefix="attribute-inner-select"
                     onChange={handleDocumentType}
                     styles={{
                       multiValue: (provided, state) => {

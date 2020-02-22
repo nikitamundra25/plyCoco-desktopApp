@@ -4,7 +4,7 @@ import { FormikProps } from 'formik';
 import { languageTranslation } from '../../../../../helpers';
 import {
   ICareInstitutionRemarks,
-  ICareGiverValues
+  ICareGiverValues,
 } from '../../../../../interfaces';
 import moment from 'moment';
 import { ConfirmBox } from '../../../components/ConfirmBox';
@@ -24,12 +24,16 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
     setRemarksDetail?: any;
     remarksDetail?: any;
     saveRemark?: (message: string, remarksData: any) => void;
-  }
+  },
 ) => {
   // To access data of loggedIn user
-  const userData: any = client.readQuery({
-    query: VIEW_PROFILE
-  });
+  let userData: any = '';
+  try {
+    userData = client.readQuery({
+      query: VIEW_PROFILE,
+    });
+  } catch (error) {}
+
   const { viewAdminProfile }: any = userData ? userData : {};
   const { firstName = '', lastName = '', id = '' } = viewAdminProfile
     ? viewAdminProfile
@@ -48,7 +52,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
   const onDelete = async (index: number) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('REMARK_DELETE_CONFIRMATION')
+      text: languageTranslation('REMARK_DELETE_CONFIRMATION'),
     });
     if (!value) {
       return;
@@ -64,7 +68,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
         } else {
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
-              languageTranslation('REMARK_DELETE_SUCCESS')
+              languageTranslation('REMARK_DELETE_SUCCESS'),
             );
           }
         }
@@ -77,7 +81,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
     setFieldValue,
     setRemarksDetail,
     remarksDetail,
-    handleChange
+    handleChange,
   } = props;
   return (
     <Col lg={4} md={'12'} sm={'12'}>
@@ -129,7 +133,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                               temp.unshift({
                                 data: remarkData,
                                 createdAt: moment().toISOString(),
-                                createdBy: [firstName, lastName].join(' ')
+                                createdBy: [firstName, lastName].join(' '),
                               });
                               if (setRemarksDetail) {
                                 setRemarksDetail(temp);
@@ -138,13 +142,13 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                               if (props.saveRemark) {
                                 props.saveRemark(
                                   languageTranslation('REMARK_ADDED_SUCCESS'),
-                                  undefined
+                                  undefined,
                                 );
                               } else {
                                 toast.dismiss(toastId);
                                 if (!toast.isActive(toastId)) {
                                   toastId = toast.success(
-                                    languageTranslation('REMARK_ADDED_SUCCESS')
+                                    languageTranslation('REMARK_ADDED_SUCCESS'),
                                   );
                                 }
                               }
@@ -201,7 +205,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                             <span>
                               <i className='fa fa-clock-o mr-2'></i>
                               {moment(remark.createdAt).format(
-                                defaultDateFormat
+                                defaultDateFormat,
                               )}
                             </span>
                             <span>
@@ -228,17 +232,17 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                         toast.dismiss();
                                         props.saveRemark(
                                           languageTranslation(
-                                            'REMARK_UPDATE_SUCCESS'
+                                            'REMARK_UPDATE_SUCCESS',
                                           ),
-                                          undefined
+                                          undefined,
                                         );
                                       } else {
                                         toast.dismiss();
                                         if (!toast.isActive(toastId)) {
                                           toastId = toast.success(
                                             languageTranslation(
-                                              'REMARK_UPDATE_SUCCESS'
-                                            )
+                                              'REMARK_UPDATE_SUCCESS',
+                                            ),
                                           );
                                         }
                                       }
@@ -285,7 +289,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                           <span className='activity-icon activity-set'></span>
                         </div>
                       );
-                    }
+                    },
                   )}
                 </>
               ) : (

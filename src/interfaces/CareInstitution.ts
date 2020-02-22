@@ -58,8 +58,8 @@ export interface ICareInstitutionValidationSchema {
   mobileNumber: number;
   phoneNumber?: number;
   companyName?: string;
-  careGiverCommission?: number | null;
-  doctorCommission?: number | null;
+  careGiverCommission?: string;
+  doctorCommission?: string;
   fax?: number;
   website?: string | null;
   remarksViewable?: string | null;

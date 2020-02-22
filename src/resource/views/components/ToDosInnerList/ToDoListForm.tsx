@@ -11,7 +11,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Button
+  Button,
 } from 'reactstrap';
 import moment from 'moment';
 import { languageTranslation, logger } from '../../../../helpers';
@@ -23,12 +23,12 @@ import {
   TodoDateFilter,
   PAGE_LIMIT,
   defaultDateFormat,
-  AppRoutes
+  AppRoutes,
 } from '../../../../config';
 import { FormikProps, Form, Formik } from 'formik';
 import {
   IReactSelectInterface,
-  ISearchToDoValues
+  ISearchToDoValues,
 } from '../../../../interfaces';
 import { useHistory, useLocation } from 'react-router-dom';
 import Loader from '../../containers/Loader/Loader';
@@ -38,7 +38,7 @@ import PaginationComponent from '../Pagination';
 import Search from '../SearchFilter';
 
 const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
-  props: FormikProps<ISearchToDoValues> & any
+  props: FormikProps<ISearchToDoValues> & any,
 ) => {
   let history = useHistory();
   const { search, pathname } = useLocation();
@@ -63,7 +63,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
     editToDo,
     currentPage,
     userRole,
-    Id
+    Id,
   } = props;
 
   // Custom function to handle react select fields

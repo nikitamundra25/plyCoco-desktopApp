@@ -207,14 +207,14 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         executiveDirector,
         socialSecurityContribution,
         taxNumber,
-        fee: fee ? parseFloat(fee) : null,
+        fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
+        weekendAllowance: weekendAllowance
+          ? parseFloat(weekendAllowance.replace(/,/g, '.'))
+          : null,
+        holiday: holiday ? parseFloat(holiday.replace(/,/g, '.')) : null,
+        night: night ? parseFloat(night.replace(/,/g, '.')) : null,
         nightAllowance:
           nightAllowance && nightAllowance.value ? nightAllowance.value : null,
-        weekendAllowance: weekendAllowance
-          ? parseFloat(weekendAllowance)
-          : null,
-        holiday: holiday ? parseFloat(holiday) : null,
-        night: night ? parseFloat(night) : null,
         invoiceInterval:
           invoiceInterval && invoiceInterval.value
             ? invoiceInterval.value

@@ -198,45 +198,45 @@ const DefaultLayout = (props: RouteComponentProps) => {
           <AppSidebarMinimizer />
         </AppSidebar>
         <main className='main'>
-          {!called || loading ? (
+          {/* {!called || loading ? (
             <div className={'detailview-loader'}>
               <Loader />
             </div>
-          ) : (
-            <Container fluid>
-              <Suspense fallback={<Loader />}>
-                <Switch>
-                  {routes.map((route: any, idx) => {
-                    return route.layout ? (
-                      route.layoutName === 'CareInstitutionTodoLayout' ? (
-                        <CareInstitutionTodoLayout
-                          key={idx}
-                          path={route.path}
-                          exact={route.exact}
-                          component={route.component}
-                        />
-                      ) : route.layoutName === 'CareGiverTodoLayout' ? (
-                        <CareGiverTodoLayout
-                          key={idx}
-                          path={route.path}
-                          exact={route.exact}
-                          component={route.component}
-                        />
-                      ) : null
-                    ) : route.component ? (
-                      <Route
+          ) : ( */}
+          <Container fluid>
+            <Suspense fallback={<Loader />}>
+              <Switch>
+                {routes.map((route: any, idx) => {
+                  return route.layout ? (
+                    route.layoutName === 'CareInstitutionTodoLayout' ? (
+                      <CareInstitutionTodoLayout
                         key={idx}
                         path={route.path}
                         exact={route.exact}
                         component={route.component}
                       />
-                    ) : null;
-                  })}
-                  <Redirect from={AppRoutes.MAIN} to={AppRoutes.HOME} />
-                </Switch>
-              </Suspense>
-            </Container>
-          )}
+                    ) : route.layoutName === 'CareGiverTodoLayout' ? (
+                      <CareGiverTodoLayout
+                        key={idx}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.component}
+                      />
+                    ) : null
+                  ) : route.component ? (
+                    <Route
+                      key={idx}
+                      path={route.path}
+                      exact={route.exact}
+                      component={route.component}
+                    />
+                  ) : null;
+                })}
+                <Redirect from={AppRoutes.MAIN} to={AppRoutes.HOME} />
+              </Switch>
+            </Suspense>
+          </Container>
+          {/* )} */}
         </main>
       </div>
       <AppFooter>

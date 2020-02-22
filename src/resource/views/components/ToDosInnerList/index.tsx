@@ -14,13 +14,15 @@ import {
   PAGE_LIMIT,
   TodoStatus,
   Priority,
-  TodoDateFilter
+  TodoDateFilter,
+  AppRoutes
 } from '../../../../config';
 import { ConfirmBox } from '../ConfirmBox';
 import { languageTranslation } from '../../../../helpers';
 import { toast } from 'react-toastify';
 import { ToDoMutations } from '../../../../graphql/Mutations';
 import CreateTodo from '../CreateTodo';
+import Search from '../SearchFilter';
 const [
   ,
   ,
@@ -121,14 +123,10 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     // To handle display and query param text
     if (query) {
       const current: string = history.location.search;
-      let search: any = {};
-      search = { ...qs.parse(current) };
-      if (search.searchBy) {
-        searchBy = search.searchBy;
-      }
-
-      if (search.futureOnly) {
-        futureOnly = JSON.parse(search.futureOnly);
+      let searchData: any = {};
+      searchData = { ...qs.parse(current) };
+      if (searchData.search) {
+        searchBy = searchData.search;
       }
 
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
@@ -138,39 +136,38 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           userId: parseInt(userId),
           searchBy,
           userType: userRole,
-          sortBy: search.sortBy === 'all' ? null : search.sortBy,
-          sortByDate: search.sortByDate,
-          priority: search.priority,
-          futureOnly,
+          sortBy: searchData.sortBy === 'all' ? null : searchData.sortBy,
+          sortByDate: searchData.sortByDate,
+          priority: searchData.priority,
           limit: PAGE_LIMIT,
           page: query.page ? parseInt(query.page as string) : 1
         }
       });
 
-      if (search.sortBy) {
+      if (searchData.sortBy) {
         sortBy =
           TodoStatus[
             TodoStatus.map(item => {
               return item.value;
-            }).indexOf(search.sortBy)
+            }).indexOf(searchData.sortBy)
           ];
       }
 
-      if (search.sortByDate) {
+      if (searchData.sortByDate) {
         sortByDate =
           TodoDateFilter[
             TodoDateFilter.map(item => {
               return item.value;
-            }).indexOf(search.sortByDate)
+            }).indexOf(searchData.sortByDate)
           ];
       }
 
-      if (search.priority) {
+      if (searchData.priority) {
         priority =
           Priority[
             Priority.map(item => {
               return item.value;
-            }).indexOf(search.priority)
+            }).indexOf(searchData.priority)
           ];
       }
 
@@ -188,23 +185,24 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     values: ISearchToDoValues,
     {}: FormikHelpers<ISearchToDoValues>
   ) => {
-    const { searchBy, sortBy, priority, futureOnly, sortByDate } = values;
     let params: any = qs.parse(search);
 
     // params.futureOnly = false;
     params.page = 1;
-
-    if (searchBy) {
-      params.searchBy = searchBy;
+    if (values.searchValue) {
+      params.search = values.searchValue;
     }
-    if (sortBy && sortBy.value !== '') {
-      params.sortBy = sortBy.value;
+    if (values.toDoFilter && values.toDoFilter.value !== '') {
+      params.toDoFilter =
+        values.toDoFilter.value !== '' ? values.toDoFilter.value : '';
     }
-    if (sortByDate && sortByDate.value !== '') {
-      params.sortByDate = sortByDate.value;
+    if (values.priority && values.priority.value !== '') {
+      params.priority =
+        values.priority.value !== '' ? values.priority.value : '';
     }
-    if (priority && priority.value !== '') {
-      params.priority = priority.value;
+    if (values.sortByDate && values.sortByDate.value !== '') {
+      params.sortByDate =
+        values.sortByDate.value !== '' ? values.sortByDate.value : '';
     }
 
     // if (futureOnly) {
@@ -317,10 +315,37 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
       }
     }
   };
-  console.log('sortByDate', sortByDate);
 
   return (
     <>
+      <h5 className='content-title'>
+        {languageTranslation('CG_SUB_MENU_REMINDER')}
+      </h5>
+      <div className='filter-form form-section'>
+        <Formik
+          initialValues={values}
+          enableReinitialize={true}
+          onSubmit={handleSubmit}
+          children={(props: FormikProps<ISearchToDoValues>) => (
+            <Search
+              {...props}
+              label={'toDos'}
+              isTab={true}
+              pushTo={
+                userRole === 'careinstitution'
+                  ? `${AppRoutes.CARE_INSTITUION_VIEW.replace(
+                      ':id',
+                      mainProps.Id
+                    )}?tab=${encodeURIComponent('reminders/todos')}`
+                  : `${AppRoutes.CARE_GIVER_VIEW.replace(
+                      ':id',
+                      mainProps.Id
+                    )}?tab=${encodeURIComponent('reminders/todos')}`
+              }
+            />
+          )}
+        />
+      </div>
       <Formik
         initialValues={values}
         enableReinitialize={true}
@@ -339,6 +364,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
             userRole={userRole}
             deleteToDo={deleteToDo}
             editToDo={editToDo}
+            Id={mainProps.Id}
           />
         )}
       />

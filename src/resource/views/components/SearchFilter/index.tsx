@@ -33,6 +33,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
 ) => {
   let history = useHistory();
   let { pathname } = useLocation();
+  let Location = useLocation();
   const {
     values: {
       searchValue,
@@ -50,7 +51,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
     searchPlacholderText,
     resetForm
   } = props;
-
+  
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     logger(selectOption, 'value');
@@ -209,13 +210,14 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
                   {languageTranslation('SEARCH_LABEL')}
                 </span>
               </Button>
+              {console.log('pathname', Location)}
               <Button
                 className='btn-filter mr-2'
                 id='reset'
                 onClick={() => {
                   resetForm();
                   // setSearchValues({ searchValues: {} });
-                  history.push(pathname);
+                  history.push(props.isTab ? props.pushTo : pathname);
                 }}
               >
                 <UncontrolledTooltip placement='top' target='reset'>

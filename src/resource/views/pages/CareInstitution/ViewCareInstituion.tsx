@@ -386,6 +386,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                       {...props}
                       userRole='careinstitution'
                       isnewDataUpdate={isnewDataUpdate}
+                      Id={Id}
                     />
                   ) : null}
                 </div>

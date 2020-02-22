@@ -3350,10 +3350,21 @@ html:not([dir='rtl']) {
     font-size: 16px;
     font-weight: 600;
   }
+  .daypicker1 {
+    .DayPicker-NavButton--next {
+      display: none;
+    }
+  }
+  .daypicker3 {
+    .DayPicker-NavButton--prev {
+      display: none;
+    }
+  }
   .DayPicker {
     display: block;
     background: #f1f0f0;
     font-size: 11px;
+    height: 100%;
   }
   .DayPicker-Day.DayPicker-Day--selected.DayPicker-Day--today {
     background: #d99119;

@@ -1,25 +1,20 @@
-import React, {
-  Component,
-  FunctionComponent,
-  useState,
-  useEffect,
-} from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Button, Col, Row } from 'reactstrap';
-import { assignIn } from 'lodash';
 import { useParams, useHistory } from 'react-router';
-import { languageTranslation } from '../../../../../helpers';
+import {
+  languageTranslation,
+  germanNumberFormat,
+} from '../../../../../helpers';
 import PersonalInfoFormComponent from './PersonalInfoFormComponent';
 import BillingSettingsFormComponent from './BillingSettingsFormComponent';
 import QualificationFormComponent from './QualificationFormComponent';
 import AttributeFormComponent from './AttributesFromComponent';
 import RemarkFormComponent from './RemarkFormComponent';
 import { Formik, FormikHelpers, Form, FormikProps } from 'formik';
-import { Query } from '@apollo/react-components';
 import { CareGiverQueries } from '../../../../../graphql/queries/CareGiver';
 import {
   ICareGiverValues,
   IPersonalObject,
-  IBillingSettingsValues,
   IReactSelectInterface,
   ICountries,
   IStates,
@@ -263,14 +258,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         comments,
         status,
         remarks: remarksDetail,
-        fee: fee ? parseFloat(fee) : null,
+        fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
+        weekendAllowance: weekendAllowance
+          ? parseFloat(weekendAllowance.replace(/,/g, '.'))
+          : null,
+        holiday: holiday ? parseFloat(holiday.replace(/,/g, '.')) : null,
+        night: night ? parseFloat(night.replace(/,/g, '.')) : null,
         nightAllowance:
           nightAllowance && nightAllowance.value ? nightAllowance.label : null,
-        weekendAllowance: weekendAllowance
-          ? parseFloat(weekendAllowance)
-          : null,
-        holiday: holiday ? parseFloat(holiday) : null,
-        night: night ? parseFloat(night) : null,
         regionId: regionId && regionId.value ? parseInt(regionId.value) : null,
         invoiceInterval:
           invoiceInterval && invoiceInterval.value
@@ -331,7 +326,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     userName = '',
     firstName = '',
     lastName = '',
-    countryId = '',
     email = '',
     socialSecurityContribution = false,
     password = '',
@@ -339,6 +333,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     qualifications = [],
     caregiver = {},
   } = props.getCaregiver ? props.getCaregiver : {};
+  console.log(props.getCaregiver, '.getCaregiver');
 
   const {
     nightAllowance = undefined,
@@ -354,6 +349,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     street = '',
     city = '',
     zipCode = '',
+    countryId = '',
     fax = '',
     mobileNumber = '',
     taxNumber = '',
@@ -370,6 +366,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     weekendAllowance = null,
     holiday = null,
     night = null,
+    attributes = [],
   } = caregiver ? caregiver : {};
 
   const qualificationsData: IReactSelectInterface[] | undefined = [];
@@ -388,12 +385,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   }
 
   let userSelectedCountry: any = {};
-
   if (countries && countries.countries) {
     const userCountry = countries.countries.filter(
       (x: any) => x.id === countryData,
     );
-
     if (userCountry && userCountry.length) {
       userSelectedCountry = {
         label: userCountry[0].name,
@@ -419,13 +414,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   }
 
   let selectedAttributes: IAttributeOptions[] = [];
-  if (
-    props.getCaregiver &&
-    props.getCaregiver.caregiver &&
-    props.getCaregiver.caregiver.attributes &&
-    props.getCaregiver.caregiver.attributes.length
-  ) {
-    props.getCaregiver.caregiver.attributes.map((attData: string) => {
+  if (attributes && attributes.length) {
+    attributes.map((attData: string) => {
       const data = caregiverAttrOpt.filter(
         (attr: any) => attr.label === attData,
       )[0];
@@ -467,7 +457,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     address2,
     driversLicense,
     driverLicenseNumber,
-    country: userSelectedCountry,
+    country: countriesOpt.filter(
+      (country: IReactSelectInterface) => country.value === countryId,
+    )[0],
+    // userSelectedCountry,
     vehicleAvailable,
     street,
     city,
@@ -527,7 +520,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         }
       : undefined,
     qualifications: qualificationsData,
-    fee,
+    fee: fee ? germanNumberFormat(fee) : '',
+    weekendAllowance: weekendAllowance
+      ? germanNumberFormat(weekendAllowance)
+      : '',
+    holiday: holiday ? germanNumberFormat(holiday) : '',
+    night: night ? germanNumberFormat(night) : '',
     nightAllowance: nightAllowance
       ? {
           label: nightAllowance,
@@ -540,9 +538,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           value: leasingPricingList,
         }
       : undefined,
-    weekendAllowance,
-    holiday,
-    night,
     salutation:
       props.getCaregiver && props.getCaregiver.salutation
         ? {
@@ -567,7 +562,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       onSubmit={handleSubmit}
       enableReinitialize={true}
       validationSchema={CareGiverValidationSchema}
-      render={(props: FormikProps<ICareGiverValues>) => {
+      children={(props: FormikProps<ICareGiverValues>) => {
         return (
           <Form className='form-section forms-main-section'>
             <div id={'caregiver-add-btn'}>
@@ -578,7 +573,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 className={`save-button`}
               >
                 {props.isSubmitting ? (
-                  <i className='fa fa-spinner fa-spin loader' />
+                  <i className='fa fa-spinner fa-spin mr-2' />
                 ) : (
                   ''
                 )}
@@ -624,92 +619,3 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     />
   );
 };
-
-class GetData extends Component<any, any> {
-  constructor(props: any) {
-    super(props);
-  }
-
-  formatData = (caregiverDetails: any) => {
-    assignIn(caregiverDetails, caregiverDetails.caregiverDetails);
-    assignIn(caregiverDetails, caregiverDetails.caregiverDetails);
-    if (caregiverDetails.bankDetails) {
-      assignIn(
-        caregiverDetails,
-        caregiverDetails,
-        caregiverDetails.bankDetails,
-      );
-    }
-    if (caregiverDetails.billingSettingDetails) {
-      assignIn(
-        caregiverDetails,
-        caregiverDetails,
-        caregiverDetails.billingSettingDetails,
-      );
-    } else {
-      assignIn(caregiverDetails, caregiverDetails, {
-        fee: '',
-        weekendAllowancePerHour: '',
-        holidayAllowancePerHourFee: '',
-        nightAllowancePerHour: '',
-        leasingPrice: '',
-        invoiceInterval: '',
-      });
-    }
-    caregiverDetails.salutation = {
-      value: caregiverDetails.salutation,
-      label: caregiverDetails.salutation,
-    };
-    caregiverDetails.state = {
-      value: caregiverDetails.state,
-      label: caregiverDetails.state,
-    };
-    caregiverDetails.legalForm = {
-      value: caregiverDetails.legalForm,
-      label: caregiverDetails.legalForm,
-    };
-    caregiverDetails.regionId = {
-      value: caregiverDetails.regions[0]._id,
-      label: caregiverDetails.regions[0].regionName,
-    };
-    caregiverDetails.workZones =
-      caregiverDetails.workZones && caregiverDetails.workZones.length
-        ? caregiverDetails.workZones.map((wz: String) => {
-            return { label: wz, value: wz };
-          })
-        : [];
-    delete caregiverDetails.bankDetails;
-    delete caregiverDetails.billingSettingDetails;
-    delete caregiverDetails.caregiverDetails;
-    return caregiverDetails;
-  };
-
-  render() {
-    // const CareInstitutionLinkedTo = props.CareInstitutionList;
-
-    return (
-      <Query
-        query={GET_CAREGIVER_BY_ID}
-        fetchPolicy='network-only'
-        variables={{ id: parseInt(this.props.Id) }}
-      >
-        {({ loading, error, data }: any) => {
-          if (loading)
-            return (
-              <div className='overview-loader'>
-                <Loader />
-              </div>
-            );
-          if (error) return <div>Caught error: {error.message}</div>;
-          return (
-            <PersonalInformation
-              {...this.props}
-              getCaregiver={data.getCaregiver}
-            />
-          );
-        }}
-      </Query>
-    );
-  }
-}
-export default GetData;

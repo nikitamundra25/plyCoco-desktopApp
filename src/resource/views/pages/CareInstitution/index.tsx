@@ -302,19 +302,19 @@ const CareInstitution = (props: RouteComponentProps) => {
                 </td>
 
                 <td>
-                  <div className='company-column text-capitalize'>
-                    <div className='company-text'>
-                      <i className='fa fa-building mr-2'></i>
-                      <span className='align-middle'>
+                  <div className="company-column text-capitalize">
+                    <div className="company-text">
+                      <i className="fa fa-building mr-2"></i>
+                      <span className="align-middle">
                         {' '}
                         {user.canstitution && user.canstitution.companyName
                           ? user.canstitution.companyName
                           : 'N/A'}
                       </span>
                     </div>
-                    <p className='company-text'>
-                      <i className='fa fa-id-card mr-2'></i>
-                      <span className='align-middle'>
+                    <p className="company-text">
+                      <i className="fa fa-id-card mr-2"></i>
+                      <span className="align-middle">
                         {' '}
                         {user.canstitution && user.canstitution.shortName
                           ? user.canstitution.shortName
@@ -324,10 +324,10 @@ const CareInstitution = (props: RouteComponentProps) => {
                   </div>
                 </td>
                 <td>
-                  <div className='info-column'>
-                    <div className='description-column'>
+                  <div className="info-column">
+                    <div className="description-column">
                       <div
-                        className='info-title text-capitalize'
+                        className="info-title text-capitalize"
                         onClick={() =>
                           history.push(
                             AppRoutes.CARE_INSTITUION_VIEW.replace(
@@ -343,19 +343,19 @@ const CareInstitution = (props: RouteComponentProps) => {
                       >
                         {`${user.firstName} ${user.lastName}`}
                       </div>
-                      <p className='description-text'>
-                        <i className='fa fa-envelope mr-2'></i>
-                        <span className='align-middle'>{user.email}</span>
+                      <p className="description-text">
+                        <i className="fa fa-envelope mr-2"></i>
+                        <span className="align-middle">{user.email}</span>
                       </p>
-                      <p className='description-text'>
-                        <i className='fa fa-user mr-2'></i>
-                        <span className='align-middle'>
+                      <p className="description-text">
+                        <i className="fa fa-user mr-2"></i>
+                        <span className="align-middle">
                           {user.userName ? user.userName : ''}
                         </span>
                       </p>
-                      <p className='description-text'>
-                        <i className='fa fa-phone mr-2'></i>
-                        <span className='align-middle'>
+                      <p className="description-text">
+                        <i className="fa fa-phone mr-2"></i>
+                        <span className="align-middle">
                           {user.phoneNumber ? user.phoneNumber : 'N/A'}
                         </span>
                       </p>
@@ -363,12 +363,12 @@ const CareInstitution = (props: RouteComponentProps) => {
                   </div>
                 </td>
 
-                <td className='date-th-column '>
+                <td className="date-th-column ">
                   {user.createdAt
                     ? moment(user.createdAt).format(defaultDateTimeFormat)
                     : ''}
                 </td>
-                <td className='text-center'>
+                <td className="text-center">
                   <span
                     className={`status-btn ${
                       user.isActive === true ? 'active' : 'inactive'
@@ -379,7 +379,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                   </span>
                 </td>
                 <td>
-                  <div className='action-btn'>
+                  <div className="action-btn">
                     <ButtonTooltip
                       id={`edit${index}`}
                       message={'Edit Care Institution'}
@@ -388,7 +388,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                         user.id.toString()
                       )}
                     >
-                      <i className='fa fa-pencil'></i>
+                      <i className="fa fa-pencil"></i>
                     </ButtonTooltip>
                     <ButtonTooltip
                       id={`view${index}`}
@@ -398,20 +398,20 @@ const CareInstitution = (props: RouteComponentProps) => {
                         user.id.toString()
                       )}
                     >
-                      <i className='fa fa-eye'></i>
+                      <i className="fa fa-eye"></i>
                     </ButtonTooltip>
                     <span
-                      className='btn-icon '
+                      className="btn-icon "
                       id={`delete${index}`}
                       onClick={() => onDelete(user.id)}
                     >
                       <UncontrolledTooltip
-                        placement='top'
+                        placement="top"
                         target={`delete${index}`}
                       >
                         Move to trash
                       </UncontrolledTooltip>
-                      <i className='fa fa-trash'></i>
+                      <i className="fa fa-trash"></i>
                     </span>
                   </div>
                 </td>
@@ -423,34 +423,34 @@ const CareInstitution = (props: RouteComponentProps) => {
           <tr className={'text-center no-hover-row'}>
             <td colSpan={6} className={'pt-5 pb-5'}>
               {!query.page ? (
-                <div className='no-data-section'>
-                  <div className='no-data-icon'>
-                    <i className='icon-ban' />
+                <div className="no-data-section">
+                  <div className="no-data-icon">
+                    <i className="icon-ban" />
                   </div>
-                  <h4 className='mb-1'>
+                  <h4 className="mb-1">
                     Currently there are no care institution added.{' '}
                   </h4>
                   <p>Please click above button to add new. </p>
                 </div>
               ) : (
-                <div className='no-search-section'>
-                  <div className='no-data-icon'>
-                    <i className='icon-magnifier' />
+                <div className="no-search-section">
+                  <div className="no-data-icon">
+                    <i className="icon-magnifier" />
                   </div>
-                  <h4 className='mb-1'>
+                  <h4 className="mb-1">
                     No details found related your search{' '}
                   </h4>
-                  <div className='text-left search-text'>
+                  <div className="text-left search-text">
                     <p>
-                      <span className='pr-2'>&#8226;</span>Try to simplify your
+                      <span className="pr-2">&#8226;</span>Try to simplify your
                       search
                     </p>
                     <p>
-                      <span className='pr-2'>&#8226;</span>Use different
+                      <span className="pr-2">&#8226;</span>Use different
                       keywords
                     </p>
                     <p>
-                      <span className='pr-2'>&#8226;</span>Make sure words are
+                      <span className="pr-2">&#8226;</span>Make sure words are
                       spelled correctly
                     </p>
                   </div>
@@ -469,7 +469,7 @@ const CareInstitution = (props: RouteComponentProps) => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
         <Button
           color={'primary'}
           className={'btn-add mr-3'}
@@ -503,33 +503,35 @@ const CareInstitution = (props: RouteComponentProps) => {
             )}
           />
         </div>
-        <Table bordered hover responsive>
-          <thead className='thead-bg'>
-            <tr>
-              <th className='sno-th-column text-center'>
-                {languageTranslation('S_NO')}
-              </th>
-              <th className='company-th-column'>Company Details</th>
-              <th>Care Institution Information</th>
-              <th className='date-th-column'>
-                {languageTranslation('CREATED_DATE')}
-              </th>
-              <th className='text-center status-column'>Status</th>
-              <th className='text-center'>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {!called || loading ? (
+        <div className="table-minheight ">
+          <Table bordered hover responsive>
+            <thead className="thead-bg">
               <tr>
-                <td className={'table-loader'} colSpan={7}>
-                  <Loader />
-                </td>
+                <th className="sno-th-column text-center">
+                  {languageTranslation('S_NO')}
+                </th>
+                <th className="company-th-column">Company Details</th>
+                <th>Care Institution Information</th>
+                <th className="date-th-column">
+                  {languageTranslation('CREATED_DATE')}
+                </th>
+                <th className="text-center status-column">Status</th>
+                <th className="text-center">Action</th>
               </tr>
-            ) : (
-              tableData
-            )}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {!called || loading ? (
+                <tr>
+                  <td className={'table-loader'} colSpan={7}>
+                    <Loader />
+                  </td>
+                </tr>
+              ) : (
+                tableData
+              )}
+            </tbody>
+          </Table>
+        </div>
         {data &&
         userData &&
         userData.length &&

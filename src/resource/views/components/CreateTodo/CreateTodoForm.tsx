@@ -76,11 +76,16 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
+  let currentTime = new Date();
+  let month = currentTime.getFullYear();
+  let year: any = new Date(month);
+  const handleMonthChange = (mon: any) => {
+    year = mon;
+    console.log('month', year);
+  };
+
   const ContactError: any = errors.contact;
   const PriorityError: any = errors.priority;
-
-  let currentTime = new Date();
-  let year = currentTime.getFullYear();
 
   return (
     <div>
@@ -105,6 +110,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                       modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
                       disabledDays={{ before: new Date() }}
+                      onMonthChange={handleMonthChange}
                     />
                   </div>
                 </Col>
@@ -116,6 +122,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
+                      disabledDays={{ before: new Date() }}
                     />
                   </div>
                 </Col>
@@ -127,12 +134,13 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
+                      disabledDays={{ before: new Date() }}
                     />
                   </div>
                 </Col>
               </Row>
             </div>
-            <Form className='form-section forms-main-section'>
+            <Form className='form-section '>
               <Row>
                 <Col lg={'6'}>
                   <FormGroup>
@@ -150,7 +158,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                             render={({ field }: any) => (
                               <MaskedInput
                                 {...field}
-                                placeholder={languageTranslation('TIME_OF_DAY')}
+                                placeholder={languageTranslation('TIME_FORMAT')}
                                 mask={TimeMask}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -302,7 +310,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                             value={comment ? comment : undefined}
                             placeholder={languageTranslation('COMMENT')}
                             rows='4'
-                            maxLength={250}
+                            maxLength={255}
                             className={
                               errors.comment && touched.comment
                                 ? 'textarea-custom error'

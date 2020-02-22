@@ -22,7 +22,15 @@ const [ADD_TO_DO, UPDATE_TO_DO] = ToDoMutations;
 const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
 
 const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
-  const { userRole, handleClose, userData, show, name, editToDo } = mainProps;
+  const {
+    userRole,
+    handleClose,
+    userData,
+    show,
+    name,
+    editToDo,
+    handleRefetch
+  } = mainProps;
 
   let history = useHistory();
 
@@ -101,6 +109,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
             toDoInput
           }
         });
+        handleRefetch();
         toast.success(languageTranslation('TODO_UPDATE_SUCCESS'));
       } else {
         await addToDo({

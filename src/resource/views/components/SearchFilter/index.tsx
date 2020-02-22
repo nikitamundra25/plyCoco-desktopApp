@@ -14,7 +14,8 @@ import {
   SortOptions,
   StatusOptions,
   TodoFilter,
-  Priority
+  Priority,
+  TodoDateFilter
 } from '../../../../config';
 import { languageTranslation, logger } from '../../../../helpers';
 import { FormikProps, Form } from 'formik';
@@ -32,8 +33,17 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
 ) => {
   let history = useHistory();
   let { pathname } = useLocation();
+  let Location = useLocation();
   const {
-    values: { searchValue, sortBy, isActive, toDoFilter, priority, futureOnly },
+    values: {
+      searchValue,
+      sortBy,
+      isActive,
+      toDoFilter,
+      priority,
+      futureOnly,
+      sortByDate
+    },
     label,
     handleSubmit,
     handleChange,
@@ -41,7 +51,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
     searchPlacholderText,
     resetForm
   } = props;
-
+  
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     logger(selectOption, 'value');
@@ -120,7 +130,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
               <Col lg={'2'} md={'3'}>
                 <FormGroup>
                   <Label for='Selectregion' className='col-form-label'>
-                    {languageTranslation('STATUS_LABEL')} :
+                    {languageTranslation('FILTER_BY_STATUS')} :
                   </Label>
                   <Select
                     placeholder={languageTranslation('STATUS_PLACEHOLDER')}
@@ -142,6 +152,28 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
           {label === 'toDos' ? (
             <Col lg={'2'} md={'3'}>
               <FormGroup>
+                <Label className='col-form-label'>
+                  {languageTranslation('FILTER_BY_DATE')} :
+                </Label>
+                <Select
+                  placeholder={languageTranslation('DATE')}
+                  classNamePrefix='custom-inner-reactselect'
+                  className={'custom-reactselect'}
+                  options={TodoDateFilter}
+                  isSearchable={false}
+                  isClearable={true}
+                  value={
+                    sortByDate && sortByDate.value !== '' ? sortByDate : null
+                  }
+                  onChange={(value: any) => handleSelect(value, 'sortByDate')}
+                />
+              </FormGroup>
+            </Col>
+          ) : null}
+
+          {label === 'toDos' ? (
+            <Col lg={'2'} md={'3'}>
+              <FormGroup>
                 <Label for='Selectregion' className='col-form-label'>
                   {languageTranslation('PRIORITY')} :
                 </Label>
@@ -155,32 +187,6 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
                   classNamePrefix='custom-inner-reactselect'
                   className={'custom-reactselect'}
                 />
-              </FormGroup>
-            </Col>
-          ) : null}
-
-          {label === 'toDos' ? (
-            <Col lg={'1'} md={'3'}>
-              <FormGroup>
-                <Label className='col-form-label'>
-                  {languageTranslation('FUTURE_ONLY')} :
-                </Label>
-                <span className='checkboxli checkbox-custom checkbox-default'>
-                  <input
-                    type='checkbox'
-                    id='check'
-                    className=''
-                    name={'futureOnly'}
-                    checked={futureOnly}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const {
-                        target: { checked }
-                      } = e;
-                      setFieldValue('futureOnly', checked);
-                    }}
-                  />
-                  <Label for='check'></Label>
-                </span>
               </FormGroup>
             </Col>
           ) : null}
@@ -204,13 +210,14 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
                   {languageTranslation('SEARCH_LABEL')}
                 </span>
               </Button>
+              {console.log('pathname', Location)}
               <Button
                 className='btn-filter mr-2'
                 id='reset'
                 onClick={() => {
                   resetForm();
                   // setSearchValues({ searchValues: {} });
-                  history.push(pathname);
+                  history.push(props.isTab ? props.pushTo : pathname);
                 }}
               >
                 <UncontrolledTooltip placement='top' target='reset'>

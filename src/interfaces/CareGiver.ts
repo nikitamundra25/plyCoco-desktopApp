@@ -1,12 +1,12 @@
-import { Location } from "history";
-import * as H from "history";
-import { IReactSelectInterface } from "./Constant";
-import { ICareInstitutionRemarks } from "./CareInstitution";
-import { number } from "prop-types";
+import { Location } from 'history';
+import * as H from 'history';
+import { IReactSelectInterface } from './Constant';
+import { ICareInstitutionRemarks } from './CareInstitution';
+import { number } from 'prop-types';
 import {
   IEmailInputAttachmenttypes,
-  IEmailAttachmentData
-} from "./EmailTemplate";
+  IEmailAttachmentData,
+} from './EmailTemplate';
 
 export interface ICareGiverInput {
   id?: string;
@@ -111,10 +111,10 @@ export interface ICareGiverValidationInterface {
   phoneNumber?: string;
   mobileNumber?: string;
   userName?: string;
-  fee?: number | null;
-  night?: number | null;
-  weekendAllowance?: number | null;
-  holiday?: number | null;
+  fee?: string;
+  night?: string;
+  weekendAllowance?: string;
+  holiday?: string;
   comments?: string;
   taxNumber?: string;
   age?: number | null;

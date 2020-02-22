@@ -17,11 +17,9 @@ import appointment from '../../../assets/img/appointment.svg';
 import clear from '../../../assets/img/clear.svg';
 
 const CareGiverSidebar = React.lazy(() =>
-  import('./Sidebar/SidebarLayout/CareGiverLayout')
+  import('./Sidebar/SidebarLayout/CareGiverLayout'),
 );
-const PersonalInformation = React.lazy(() =>
-  import('./PersonalInfo/PersonalInformation')
-);
+const PersonalInfo = React.lazy(() => import('./PersonalInfo'));
 const Offer = React.lazy(() => import('./Offers/Offer'));
 const LoginLogs = React.lazy(() => import('../../components/Logins'));
 const Invoices = React.lazy(() => import('./Invoices/Invoices'));
@@ -29,7 +27,7 @@ const ToDo = React.lazy(() => import('../../components/ToDosInnerList'));
 const Documents = React.lazy(() => import('./Documents'));
 const Email = React.lazy(() => import('./Emails'));
 const CreateTodo = React.lazy(() =>
-  import('../../components/CreateTodo/index')
+  import('../../components/CreateTodo/index'),
 );
 const LeasingPersonalData = React.lazy(() => import('./LeasingData'));
 const GroupedBelow = React.lazy(() => import('./GroupedBelow'));
@@ -38,7 +36,7 @@ const [GET_CAREGIVERS] = CareGiverQueries;
 const CareGiverRoutesTabs = careGiverRoutes;
 
 const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
-  props: RouteComponentProps
+  props: RouteComponentProps,
 ) => {
   let { id } = useParams();
   const Id: any | undefined = id;
@@ -46,14 +44,14 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   // To fetch the list of all caregiver
   const [
     fetchCareGivers,
-    { data: careGivers, loading, refetch }
+    { data: careGivers, loading, refetch },
   ] = useLazyQuery<any>(GET_CAREGIVERS, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: '',
-    value: ''
+    value: '',
   });
 
   const [activeTab, setactiveTab] = useState(0);
@@ -68,8 +66,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: ''
-      }
+        isActive: '',
+      },
     });
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -79,7 +77,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn'
+      'caregiver-add-btn',
     );
     if (buttonDiv) {
       if (scrollPositionY >= 12) {
@@ -98,14 +96,14 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   ) {
     careGiverOpt.push({
       label: languageTranslation('NAME'),
-      value: languageTranslation('ID')
+      value: languageTranslation('ID'),
     });
     careGivers.getCaregivers.result.forEach(
       ({ id, firstName, lastName }: any) =>
         careGiverOpt.push({
           label: `${firstName}${' '}${lastName}`,
-          value: id
-        })
+          value: id,
+        }),
     );
   }
   // It's used to set active tab
@@ -114,9 +112,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     setactiveTab(
       query.tab
         ? careGiverRoutes.findIndex(
-            d => d.name === decodeURIComponent(query.tab)
+            d => d.name === decodeURIComponent(query.tab),
           )
-        : 0
+        : 0,
     );
   }, [search]);
 
@@ -125,7 +123,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   // Set selected caregiver
   useEffect(() => {
     const currenCareGiver = careGiverOpt.filter(
-      (careGiver: any) => careGiver.value === id
+      (careGiver: any) => careGiver.value === id,
     )[0];
     setselectUser(currenCareGiver);
   }, [careGivers, pathname]);
@@ -134,8 +132,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   const onTabChange = (activeTab: number) => {
     props.history.push(
       `${AppRoutes.CARE_GIVER_VIEW.replace(':id', Id)}?tab=${encodeURIComponent(
-        careGiverRoutes[activeTab].name
-      )}`
+        careGiverRoutes[activeTab].name,
+      )}`,
     );
   };
   let [isUserChange, setisUserChange] = useState(false);
@@ -143,20 +141,20 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     if (e && e.value) {
       const data: IReactSelectInterface = {
         label: e.label,
-        value: e.value
+        value: e.value,
       };
       setselectUser((selectUser = data));
 
       if (e.value !== Id) {
         const {
-          location: { search }
+          location: { search },
         } = props;
         const query = qs.parse(search);
         props.history.push(
           [
             `${AppRoutes.CARE_GIVER_VIEW.replace(':id', e.value)}`,
-            qs.stringify({ ...query })
-          ].join('?')
+            qs.stringify({ ...query }),
+          ].join('?'),
         );
         // props.history.push(
         //   `${AppRoutes.CARE_GIVER_VIEW.replace(
@@ -260,18 +258,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
               >
                 <div className='common-content flex-grow-1'>
                   {activeTab === 0 ? (
-                    <PersonalInformation
-                      currentSelectuser={(Data: IReactSelectInterface) => {
-                        setselectUser((selectUser = Data));
-                      }}
-                      handleIsUserChange={() =>
-                        setisUserChange((isUserChange = false))
-                      }
-                      Id={Id}
-                      isUserChange={isUserChange}
-                      careGiverOpt={careGiverOpt}
-                      {...props}
-                    />
+                    <PersonalInfo careGiverOpt={careGiverOpt} />
                   ) : null}
                   {activeTab === 1 ? <Offer /> : null}
                   {activeTab === 2 ? <LoginLogs /> : null}
@@ -290,7 +277,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                         selectUser.value
                           ? careGivers.getCaregivers.result.find(
                               (careGiver: any) =>
-                                careGiver.id === selectUser.value
+                                careGiver.id === selectUser.value,
                             ).userRole
                           : ''
                       }
@@ -301,6 +288,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       {...props}
                       userRole='caregiver'
                       isnewDataUpdate={isnewDataUpdate}
+                      Id={Id}
                     />
                   ) : null}
                   {activeTab === 7 ? <LeasingPersonalData {...props} /> : null}

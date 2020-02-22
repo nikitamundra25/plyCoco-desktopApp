@@ -30,7 +30,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
   let userData: any = '';
   try {
     userData = client.readQuery({
-      query: VIEW_PROFILE,
+      query: VIEW_PROFILE
     });
   } catch (error) {}
 
@@ -57,6 +57,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
     if (!value) {
       return;
     } else {
+      toast.dismiss();
       let temp = remarksDetail ? remarksDetail : [];
       temp = temp.filter((_: any, i: number) => i !== index);
       if (setRemarksDetail) {
@@ -123,7 +124,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                       <div className='remark-action-btn'>
                         <div
                           className={`add-remark-btn ${
-                            !remarkData ? 'disabled-div' : ' '
+                            !remarkData ? 'disabled-class' : ' '
                           }`}
                           onClick={e => {
                             if (remarkData) {
@@ -140,12 +141,13 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                 setFieldValue('remarkData', '');
                               }
                               if (props.saveRemark) {
+                                toast.dismiss();
                                 props.saveRemark(
                                   languageTranslation('REMARK_ADDED_SUCCESS'),
                                   undefined,
                                 );
                               } else {
-                                toast.dismiss(toastId);
+                                toast.dismiss();
                                 if (!toast.isActive(toastId)) {
                                   toastId = toast.success(
                                     languageTranslation('REMARK_ADDED_SUCCESS'),

@@ -1,15 +1,15 @@
-import React, { FunctionComponent } from 'react';
-import { FormGroup } from 'reactstrap';
-import Select from 'react-select';
-import { FormikProps } from 'formik';
-import { languageTranslation } from '../../../../../../helpers';
+import React, { FunctionComponent } from "react";
+import { FormGroup } from "reactstrap";
+import Select from "react-select";
+import { FormikProps } from "formik";
+import { languageTranslation } from "../../../../../../helpers";
 import {
   ICareInstitutionFormValues,
   IHandleSelectInterface,
   IReactSelectInterface,
   IAttributeOptions
-} from '../../../../../../interfaces';
-import { CareInstitutionAttr } from '../../../../../../config';
+} from "../../../../../../interfaces";
+import { CareInstitutionAttr } from "../../../../../../config";
 
 const QuallificationAttribute: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -35,7 +35,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
         ...styles,
         backgroundColor: data.color,
         color:
-          data.color === '#6a0dad' || data.color === '#000000' ? '#fff' : '#000'
+          data.color === "#6a0dad" || data.color === "#000000" ? "#fff" : "#000"
       };
     }
   };
@@ -45,8 +45,8 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
         <div className="common-list-wrap">
           <div className="common-list-header d-flex align-items-cente justify-content-between">
             <div className="common-list-title align-middle">
-              {' '}
-              {languageTranslation('QUALIFICATION')}
+              {" "}
+              {languageTranslation("QUALIFICATION")}
             </div>
             <div className=" align-middle toggle-icon">
               <i className="fa fa-angle-down"></i>
@@ -56,7 +56,9 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
             {qualificationId && qualificationId.length ? (
               <ul className="common-list list-unstyled">
                 {qualificationId.map((qualification: IReactSelectInterface) => {
-                  return <li>{qualification.label}</li>;
+                  return (
+                    <li className="text-capitalize">{qualification.label}</li>
+                  );
                 })}
               </ul>
             ) : null}
@@ -65,16 +67,16 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
             <FormGroup className="mb-0">
               <Select
                 placeholder={languageTranslation(
-                  'CAREGIVER_QUALIFICATION_ATTRIBUTE_PLACEHOLDER'
+                  "CAREGIVER_QUALIFICATION_ATTRIBUTE_PLACEHOLDER"
                 )}
-                name={'qualificationId'}
+                name={"qualificationId"}
                 value={qualificationId ? qualificationId : undefined}
                 onChange={(value: any) =>
-                  handleSelect(value, 'qualificationId')
+                  handleSelect(value, "qualificationId")
                 }
                 isMulti
                 options={qualificationList}
-                menuPlacement={'top'}
+                menuPlacement={"top"}
                 className="attribute-select"
                 classNamePrefix="attribute-inner-select"
               />
@@ -86,8 +88,8 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
         <div className="common-list-wrap">
           <div className="common-list-header d-flex align-items-cente justify-content-between">
             <div className="common-list-title align-middle">
-              {' '}
-              {languageTranslation('ATTRIBUTES')}
+              {" "}
+              {languageTranslation("ATTRIBUTES")}
             </div>
             <div className=" align-middle toggle-icon">
               <i className="fa fa-angle-down"></i>
@@ -102,14 +104,14 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
                         <li
                           key={index}
                           style={{
-                            backgroundColor: color ? color : '',
+                            backgroundColor: color ? color : "",
                             color:
-                              color === '#6a0dad' || color === '#000000'
-                                ? '#fff'
-                                : '#000'
+                              color === "#6a0dad" || color === "#000000"
+                                ? "#fff"
+                                : "#000"
                           }}
                         >
-                          {label}{' '}
+                          {label}{" "}
                         </li>
                       );
                     }
@@ -120,13 +122,13 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
           <div className="common-list-footer  ">
             <FormGroup className="mb-0">
               <Select
-                placeholder={languageTranslation('ATTRIBUTE_PLACEHOLDER')}
+                placeholder={languageTranslation("ATTRIBUTE_PLACEHOLDER")}
                 value={attributeId ? attributeId : undefined}
-                onChange={(value: any) => handleSelect(value, 'attributeId')}
+                onChange={(value: any) => handleSelect(value, "attributeId")}
                 isMulti
                 options={props.careInstitutionAttrOpt}
                 // options={CareInstitutionAttr}
-                menuPlacement={'top'}
+                menuPlacement={"top"}
                 className="attribute-select"
                 classNamePrefix="attribute-inner-select"
                 styles={colourStyles}

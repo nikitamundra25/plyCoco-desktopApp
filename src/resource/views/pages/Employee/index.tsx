@@ -545,7 +545,7 @@ const Employee: FunctionComponent = () => {
                                 })
                               ) : (
                                 regions
-                                  .slice(0, 5)
+                                  .slice(0, 3)
                                   .map((region: any, index: number) => {
                                     return (
                                       <span
@@ -560,7 +560,7 @@ const Employee: FunctionComponent = () => {
                             ) : (
                               <div>-</div>
                             )}
-                            {regions && regions.length > 5 ? (
+                            {regions && regions.length > 3 ? (
                               <span
                                 onClick={() => readMoreRegionsData(index)}
                                 className='view-more-link theme-text'

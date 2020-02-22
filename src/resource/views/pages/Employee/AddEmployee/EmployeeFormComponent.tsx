@@ -334,6 +334,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={userName}
+                                      maxLength={120}
                                       className={
                                         errors.userName && touched.userName
                                           ? "text-input error"

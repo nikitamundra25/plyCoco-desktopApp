@@ -385,7 +385,7 @@ const Documents = () => {
       remarks: remarkValue ? remarkValue : ''
     };
     if (documentIdUpdate) {
-      if (fileObject && (fileName || isMissingDocEditable)) {
+      if ((isMissingDocEditable && fileObject) || fileName) {
         // To validate file name shoulb not be empty or is the missing document
         updateDocument({
           variables: {

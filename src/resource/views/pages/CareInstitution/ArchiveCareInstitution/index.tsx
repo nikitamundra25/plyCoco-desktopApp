@@ -183,7 +183,7 @@ const ArchiveCareInstitution: FunctionComponent = () => {
           }
         });
         refetch();
-
+        toast.dismiss();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
             languageTranslation('CAREINSTITUTION_RESTORED_SUCCESS')

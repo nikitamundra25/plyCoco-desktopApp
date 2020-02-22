@@ -250,9 +250,12 @@ const CareInstitution = (props: RouteComponentProps) => {
           }
         });
         refetch();
-        toast.success(
-          languageTranslation('CARE_INSTITUTION_DELETE_SUCCESS_MSG')
-        );
+        toast.dismiss();
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('CARE_INSTITUTION_DELETE_SUCCESS_MSG')
+          );
+        }
       } catch (error) {
         const message = error.message
           .replace('SequelizeValidationError: ', '')

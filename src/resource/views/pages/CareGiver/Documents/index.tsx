@@ -53,16 +53,17 @@ const Documents = () => {
   const [isMissingDocEditable, setIsMissingDocEditable] = useState<boolean>(
     false
   );
-
+  const [unsupportedFile, setUnsupportedFile] = useState<string | null>(null);
   const [documentId, setDocumentId] = useState<{
     id: string;
     checked: boolean;
   } | null>(null);
-
+  const [defaultDocument, setDefaultDocument] = useState<boolean | null>(null);
   const [fetchDocumentList, { data, loading, refetch, called }] = useLazyQuery<
     any
   >(GET_DOCUMENTS);
-
+  console.log('get doc data', data);
+  const { getDocuments = {} } = data ? data : {};
   const [
     fetchCaregiverDetails,
     {
@@ -201,6 +202,7 @@ const Documents = () => {
     setFileObject(null);
     setFilename(null);
     setIsMissingDocEditable(false);
+    setDefaultDocument(null);
     // setErrorMsg(null);
   };
 
@@ -237,12 +239,14 @@ const Documents = () => {
       document_type = {},
       document = '',
       fileName = '',
-      createdAt = ''
+      createdAt = '',
+      isDefault = null
     } = data ? data : {};
     //To set data in case of edit uploaded document
     setIsMissingDocEditable(isMissingDocEditable);
     setShowDocumentPopup(true);
     setDocumentIdUpdate(id);
+    setDefaultDocument(isDefault);
     setDocumentType(
       document_type && document_type.type
         ? { label: document_type.type, value: document_type.id }
@@ -275,26 +279,31 @@ const Documents = () => {
 
   //convert document to binary format
   const onDrop = useCallback((acceptedFiles: File[]) => {
+    setUnsupportedFile(null);
     let temp: any = documentUrls ? documentUrls : {};
-    acceptedFiles.forEach((file: File) => {
-      setFileObject(file);
-      if (file) {
-        const reader = new FileReader();
-        reader.onabort = () => console.log('file reading was aborted');
-        reader.onerror = () => console.log('file reading has failed');
-        reader.onloadend = () => {
-          if (reader.result) {
-            temp = {
-              url: reader.result,
-              name: file.name,
-              date: moment().format(regSinceDate)
-            };
-            setDocumentUrl(temp);
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    });
+    if (acceptedFiles && acceptedFiles.length) {
+      acceptedFiles.forEach((file: File) => {
+        setFileObject(file);
+        if (file) {
+          const reader = new FileReader();
+          reader.onabort = () => console.log('file reading was aborted');
+          reader.onerror = () => console.log('file reading has failed');
+          reader.onloadend = () => {
+            if (reader.result) {
+              temp = {
+                url: reader.result,
+                name: file.name,
+                date: moment().format(regSinceDate)
+              };
+              setDocumentUrl(temp);
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    } else {
+      setUnsupportedFile(languageTranslation('UNSUPPORTED_FILE_FORMAT'));
+    }
   }, []);
 
   //approve disapprove checkbox
@@ -587,6 +596,8 @@ const Documents = () => {
         isSubmit={isSubmit}
         loading={addDocumentLoading || updateDocumentLoading}
         documentTypeList={documentTypeList}
+        unsupportedFile={unsupportedFile}
+        defaultDocument={defaultDocument}
       />
     </div>
   );

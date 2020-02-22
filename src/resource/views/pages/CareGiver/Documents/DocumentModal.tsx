@@ -96,7 +96,7 @@ const DocumentUploadModal = (props: any) => {
                         <Col sm='10'>
                           <div
                             {...getRootProps()}
-                            className='dropzone-preview mb-0'
+                            className='dropzone-preview mb-3'
                           >
                             <input
                               {...getInputProps()}
@@ -139,7 +139,6 @@ const DocumentUploadModal = (props: any) => {
                               </span>
                             )}
                           </div>
-                          {console.log(documentUrls, 'documentUrls')}
                           {isSubmit && documentUrls === null ? (
                             <div className='required-error'>
                               Document is required

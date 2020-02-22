@@ -17,7 +17,12 @@ import {
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 // import EmailMenus from "../CareGiver/Emails/EmailMenus";
 import { languageTranslation } from '../../../../helpers';
-import { defaultDateFormat, PAGE_LIMIT, AppRoutes } from '../../../../config';
+import {
+  defaultDateFormat,
+  PAGE_LIMIT,
+  AppRoutes,
+  TODO_PAGE_LIMIT
+} from '../../../../config';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { ToDoQueries } from '../../../../graphql/queries';
 import Loader from '../../containers/Loader/Loader';
@@ -91,7 +96,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
         priority: '',
         sortBy: '',
         futureOnly: false,
-        limit: PAGE_LIMIT
+        limit: TODO_PAGE_LIMIT
       }
     });
   }, []);
@@ -142,7 +147,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
           sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
           sortByDate: searchData.sortByDate ? searchData.sortByDate : null,
           priority: searchData.priority,
-          limit: PAGE_LIMIT,
+          limit: TODO_PAGE_LIMIT,
           page: query.page ? parseInt(query.page as string) : 1
         }
       });
@@ -175,7 +180,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
       [key: string]: any;
     } = {};
     params.page = 1;
-    if (values.searchValue) {
+    if (values.searchValue && values.searchValue !== '%%%%%%') {
       params.search = values.searchValue;
     }
     if (values.toDoFilter && values.toDoFilter.value !== '') {
@@ -283,7 +288,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
     }
   };
 
-  let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  let count = (currentPage - 1) * TODO_PAGE_LIMIT + 1;
 
   const {
     searchValue = '',
@@ -302,6 +307,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
     priority,
     futureOnly
   };
+
   return (
     <>
       <div>
@@ -376,8 +382,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                           className={
                             list.status === 'completed'
                               ? 'done-bg'
-                              : moment().format(defaultDateFormat) >=
-                                moment(list.date).format(defaultDateFormat)
+                              : moment().isAfter(list.date)
                               ? 'table-danger'
                               : ''
                           }
@@ -514,6 +519,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                 totalRecords={data.getToDos.totalCount}
                 currentPage={currentPage}
                 onPageChanged={onPageChanged}
+                pageLimit={TODO_PAGE_LIMIT}
               />
             ) : null}
           </Col>

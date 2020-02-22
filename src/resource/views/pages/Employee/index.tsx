@@ -66,6 +66,8 @@ const Employee: FunctionComponent = () => {
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFilterApplied, setIsFilter] = useState<boolean>(false);
+  const [readMore, setreadMore] = useState<boolean>(false);
+  const [readMoreIndex, setreadMoreIndex] = useState<number>(-1);
 
   // To get employee list from db
   const [fetchEmployeeList, { data, called, loading, refetch }] = useLazyQuery<
@@ -189,6 +191,17 @@ const Employee: FunctionComponent = () => {
       // });
     }
   }, [location]);
+
+  //  Function to manage read more/less regions
+  const readMoreRegionsData = (index: number) => {
+    if (index !== readMoreIndex) {
+      setreadMore(true);
+      setreadMoreIndex(index);
+    } else {
+      setreadMore(!readMore);
+      setreadMoreIndex(index);
+    }
+  };
 
   const {
     searchValue = '',
@@ -358,7 +371,7 @@ const Employee: FunctionComponent = () => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
         <Button
           color={'primary'}
           className={'btn-add mr-3'}
@@ -394,28 +407,28 @@ const Employee: FunctionComponent = () => {
           />
           {/* <Search /> */}
         </div>
-        <div className="table-minheight ">
+        <div className='table-minheight '>
           <Table bordered hover responsive>
-            <thead className="thead-bg">
+            <thead className='thead-bg'>
               <tr>
-                <th className="sno-th-column text-center">
+                <th className='sno-th-column text-center'>
                   {languageTranslation('S_NO')}
                 </th>
                 <th>{languageTranslation('TABLE_HEAD_EMP_INFO')}</th>
-                <th className="region-th-column">
+                <th className='region-th-column'>
                   {languageTranslation('REGION')}
                 </th>
-                <th className="date-th-column">
+                <th className='date-th-column'>
                   {languageTranslation('CREATED_DATE')}
                 </th>
 
-                <th className="status-column one-line-text">
+                <th className='status-column one-line-text'>
                   {'Employee Rights'}
                 </th>
-                <th className="text-center status-column">
+                <th className='text-center status-column'>
                   {languageTranslation('STATUS')}
                 </th>
-                <th className="text-center">
+                <th className='text-center'>
                   {languageTranslation('TABLE_HEAD_ACTION')}
                 </th>
               </tr>
@@ -457,12 +470,12 @@ const Employee: FunctionComponent = () => {
 
                     return (
                       <tr key={index}>
-                        <td className="sno-th-column text-center">
+                        <td className='sno-th-column text-center'>
                           <span>{count++}</span>
                         </td>
                         <td>
-                          <div className="info-column">
-                            <div className="img-column">
+                          <div className='info-column'>
+                            <div className='img-column'>
                               <img
                                 src={`${
                                   profileThumbnailImage
@@ -475,13 +488,13 @@ const Employee: FunctionComponent = () => {
                                   e.target.onerror = null;
                                   e.target.src = defaultProfile;
                                 }}
-                                className="img-fluid"
-                                alt=""
+                                className='img-fluid'
+                                alt=''
                               />
                             </div>
-                            <div className="description-column">
+                            <div className='description-column'>
                               <div
-                                className="info-title text-capitalize"
+                                className='info-title text-capitalize'
                                 onClick={() =>
                                   history.push(
                                     AppRoutes.VIEW_EMPLOYEE.replace(
@@ -496,22 +509,22 @@ const Employee: FunctionComponent = () => {
                                 {elements.join(' ')}
                               </div>
 
-                              <p className="description-text">
-                                <i className="fa fa-envelope mr-2"></i>
-                                <span className="align-middle one-line-text">
+                              <p className='description-text'>
+                                <i className='fa fa-envelope mr-2'></i>
+                                <span className='align-middle one-line-text'>
                                   {email ? email : ''}
                                 </span>
                               </p>
-                              <p className="description-text">
-                                <i className="fa fa-user mr-2"></i>
-                                <span className="align-middle">
+                              <p className='description-text'>
+                                <i className='fa fa-user mr-2'></i>
+                                <span className='align-middle'>
                                   {userName ? userName : ''}
                                 </span>
                               </p>
                               {phoneNumber ? (
-                                <p className="description-text">
-                                  <i className="fa fa-phone mr-2"></i>
-                                  <span className="align-middle one-line-text">
+                                <p className='description-text'>
+                                  <i className='fa fa-phone mr-2'></i>
+                                  <span className='align-middle one-line-text'>
                                     {phoneNumber}
                                   </span>
                                 </p>
@@ -520,33 +533,58 @@ const Employee: FunctionComponent = () => {
                           </div>
                         </td>
                         <td>
-                          <div className="region-list text-capitalize">
+                          <div className='region-list text-capitalize'>
                             {regions && regions.length ? (
-                              regions.map((region: any, index: number) => {
-                                return (
-                                  <span className="region-label" key={index}>
-                                    {region ? region.regionName : '-'}
-                                  </span>
-                                );
-                              })
+                              readMore && readMoreIndex === index ? (
+                                regions.map((region: any, index: number) => {
+                                  return (
+                                    <span className='region-label' key={index}>
+                                      {region ? region.regionName : '-'}
+                                    </span>
+                                  );
+                                })
+                              ) : (
+                                regions
+                                  .slice(0, 5)
+                                  .map((region: any, index: number) => {
+                                    return (
+                                      <span
+                                        className='region-label'
+                                        key={index}
+                                      >
+                                        {region ? region.regionName : '-'}
+                                      </span>
+                                    );
+                                  })
+                              )
                             ) : (
                               <div>-</div>
                             )}
+                            {regions && regions.length > 5 ? (
+                              <span
+                                onClick={() => readMoreRegionsData(index)}
+                                className='view-more-link theme-text'
+                              >
+                                {readMore && readMoreIndex === index
+                                  ? 'Read less'
+                                  : 'Read more'}
+                              </span>
+                            ) : null}
                           </div>
                         </td>
-                        <td className="date-th-column ">
+                        <td className='date-th-column '>
                           {createdAt
                             ? moment(createdAt).format(defaultDateTimeFormat)
                             : ''}
                         </td>
                         <td>
-                          <div className="action-btn text-capitalize">
+                          <div className='action-btn text-capitalize'>
                             {accessLevel ? (
-                              <UncontrolledButtonDropdown className="custom-dropdown">
+                              <UncontrolledButtonDropdown className='custom-dropdown'>
                                 <DropdownToggle
                                   className={'text-capitalize m-width-72'}
                                   caret
-                                  size="sm"
+                                  size='sm'
                                 >
                                   {accessLevel ? accessLevel : '-'}
                                 </DropdownToggle>
@@ -579,7 +617,7 @@ const Employee: FunctionComponent = () => {
                             )}
                           </div>
                         </td>
-                        <td className="text-center">
+                        <td className='text-center'>
                           {isActive}
                           <span
                             className={`status-btn ${
@@ -593,7 +631,7 @@ const Employee: FunctionComponent = () => {
                           </span>
                         </td>
                         <td>
-                          <div className="action-btn">
+                          <div className='action-btn'>
                             {/* <Link
                             to={AppRoutes.EDIT_EMPLOYEE.replace(
                               /:id|:userName/gi,
@@ -624,7 +662,7 @@ const Employee: FunctionComponent = () => {
                               // }
                             >
                               {' '}
-                              <i className="fa fa-pencil"></i>
+                              <i className='fa fa-pencil'></i>
                             </ButtonTooltip>
                             {/* </Link> */}
                             <ButtonTooltip
@@ -648,11 +686,11 @@ const Employee: FunctionComponent = () => {
                               // }
                             >
                               {' '}
-                              <i className="fa fa-eye"></i>
+                              <i className='fa fa-eye'></i>
                             </ButtonTooltip>
                             <span
                               id={`delete${index}`}
-                              className="btn-icon mr-2"
+                              className='btn-icon mr-2'
                               onClick={() => onDelete(id)}
                             >
                               <UncontrolledTooltip
@@ -661,7 +699,7 @@ const Employee: FunctionComponent = () => {
                               >
                                 {languageTranslation('EMP_DELETE')}
                               </UncontrolledTooltip>
-                              <i className="fa fa-trash"></i>
+                              <i className='fa fa-trash'></i>
                             </span>
                           </div>
                         </td>
@@ -675,11 +713,11 @@ const Employee: FunctionComponent = () => {
                     {isFilterApplied ? (
                       <NoSearchFound />
                     ) : (
-                      <div className="no-data-section">
-                        <div className="no-data-icon">
-                          <i className="icon-ban" />
+                      <div className='no-data-section'>
+                        <div className='no-data-icon'>
+                          <i className='icon-ban' />
                         </div>
-                        <h4 className="mb-1">
+                        <h4 className='mb-1'>
                           Currently there are no employees added.{' '}
                         </h4>
                         <p>Please click above button to add new. </p>

@@ -41,7 +41,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
   let history = useHistory();
   const { search, pathname } = useLocation();
   const path = [pathname, qs.stringify({ tab: 'reminders/todos' })].join('?');
-
+  const query = qs.parse(search);
   const {
     values: { searchBy, sortBy, priority, futureOnly, sortByDate },
     handleSubmit,
@@ -67,6 +67,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
   };
 
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  console.log('query', query);
 
   return (
     <>
@@ -403,7 +404,10 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
               ) : (
                 <tr className={'text-center no-hover-row'}>
                   <td colSpan={8} className={'pt-5 pb-5'}>
-                    {search ? (
+                    {query.sortBy ||
+                    query.priority ||
+                    query.searchBy ||
+                    query.sortByDate ? (
                       <NoSearchFound />
                     ) : (
                       <div className='no-data-section'>

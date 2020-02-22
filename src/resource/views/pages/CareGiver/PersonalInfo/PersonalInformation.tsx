@@ -457,10 +457,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     address2,
     driversLicense,
     driverLicenseNumber,
-    country: countriesOpt.filter(
-      (country: IReactSelectInterface) => country.value === countryId,
-    )[0],
-    // userSelectedCountry,
+    country: userSelectedCountry,
+    //  countriesOpt.filter(
+    //   (country: IReactSelectInterface) => country.value === countryId,
+    // )[0],
+    // // userSelectedCountry,
     vehicleAvailable,
     street,
     city,

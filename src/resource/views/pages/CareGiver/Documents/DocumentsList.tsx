@@ -20,25 +20,25 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
     setActiveRow(activeRow === index ? -1 : index);
   };
   return (
-    <div className="archieve-table-minheight ">
+    <div className='archieve-table-minheight '>
       <Table bordered responsive>
-        <thead className="thead-bg">
+        <thead className='thead-bg'>
           <tr>
-            <th className="sno-th-column text-center">
+            <th className='sno-th-column text-center'>
               {languageTranslation('S_NO')}
             </th>
-            <th className="date-th-column">{languageTranslation('DATE')}</th>
-            <th className="file-th-column">
+            <th className='date-th-column'>{languageTranslation('DATE')}</th>
+            <th className='file-th-column'>
               {languageTranslation('FILE_NAME')}
             </th>
-            <th className="filetype-th-column">
+            <th className='filetype-th-column'>
               {languageTranslation('TYPE')}
             </th>
             <th>{languageTranslation('REMARKS')}</th>
-            <th className="checkbox-th-column ">
+            <th className='checkbox-th-column '>
               {languageTranslation('CHECKED')}
             </th>
-            <th className="filesize-th-column">
+            <th className='filesize-th-column'>
               {languageTranslation('FILE_SIZE')}
             </th>
             <th className={'text-center action-th-column'}>
@@ -67,8 +67,8 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       : 'table-danger'
                   }
                 >
-                  <td className="sno-th-column text-center">{index + 1}</td>
-                  <td className="date-th-column">
+                  <td className='sno-th-column text-center'>{index + 1}</td>
+                  <td className='date-th-column'>
                     {list.createdAt && list.fileName // filename condition to manage missing document
                       ? moment(list.createdAt).format(defaultDateTimeFormat)
                       : '-'}
@@ -76,12 +76,18 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   <td>
                     <span
                       onClick={() =>
-                        window.open(
-                          `${AppConfig.FILES_ENDPOINT}${list.document}`,
-                          '_blank'
-                        )
+                        list.fileName
+                          ? window.open(
+                              `${AppConfig.FILES_ENDPOINT}${list.document}`,
+                              '_blank'
+                            )
+                          : ''
                       }
-                      className="view-more-link word-wrap"
+                      className={`word-wrap ${
+                        list.fileName
+                          ? 'view-more-link'
+                          : 'text-black-50 font-weight-bold cursor-notallowed'
+                      }`}
                     >
                       {list.fileName
                         ? list.fileName
@@ -95,17 +101,17 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         : '-'}
                     </span>
                   </td>
-                  <td className="remark-col">
+                  <td className='remark-col'>
                     {list.remarks ? (
                       list.remarks.length <= 100 ? (
                         list.remarks
                       ) : (
-                        <p className="mb-0">
+                        <p className='mb-0'>
                           {isExpand && activeRow === index
                             ? list.remarks
                             : list.remarks.substr(0, 100)}
                           <span
-                            className="view-more-link"
+                            className='view-more-link'
                             onClick={() => expandedText(index)}
                           >
                             {isExpand && activeRow === index
@@ -118,10 +124,10 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                       '-'
                     )}
                   </td>
-                  <td className="text-center">
-                    <span className=" checkbox-custom ">
+                  <td className='text-center'>
+                    <span className=' checkbox-custom '>
                       <input
-                        type="checkbox"
+                        type='checkbox'
                         checked={
                           documentId && documentId.id === list.id
                             ? documentId.checked
@@ -133,9 +139,9 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         onChange={(e: any) => {
                           handleCheckElement(e, list.id, list.status);
                         }}
-                        className=""
+                        className=''
                       />
-                      <label className=""></label>
+                      <label className=''></label>
                     </span>
                   </td>
 
@@ -144,7 +150,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                     <div className={`action-btn`}>
                       <span
                         id={`edit${index}`}
-                        className="btn-icon mr-2"
+                        className='btn-icon mr-2'
                         onClick={() =>
                           onUpdateDocument(
                             list,
@@ -159,7 +165,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         >
                           {languageTranslation('DOCUMENT_EDIT')}
                         </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
+                        <i className='fa fa-pencil'></i>
                       </span>
                       <span
                         id={`delete${index}`}
@@ -182,7 +188,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                             {languageTranslation('DOCUMENT_DELETE')}
                           </UncontrolledTooltip>
                         )}
-                        <i className="fa fa-trash"></i>
+                        <i className='fa fa-trash'></i>
                       </span>
                     </div>
                   </td>
@@ -192,11 +198,11 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
           ) : (
             <tr className={'text-center no-hover-row'}>
               <td colSpan={8} className={'pt-5 pb-5'}>
-                <div className="no-data-section">
-                  <div className="no-data-icon">
-                    <i className="icon-ban" />
+                <div className='no-data-section'>
+                  <div className='no-data-icon'>
+                    <i className='icon-ban' />
                   </div>
-                  <h4 className="mb-1">
+                  <h4 className='mb-1'>
                     Currently there are no documents added.{' '}
                   </h4>
                   <p>Please click above button to add new document. </p>

@@ -748,5 +748,6 @@
   "TODO_SUCCESS_DELETE_MSG": "This To-do has been deleted successfully",
   "FILTER_BY_STATUS": "Filter by status",
   "FILTER_BY_DATE": "Filter by date",
-  "DATE_TIME": "Date & Time"
+  "DATE_TIME": "Date & Time",
+  "EMPLOYEE_USERROLE": "employee"
 }

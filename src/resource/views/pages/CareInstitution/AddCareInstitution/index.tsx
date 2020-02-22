@@ -180,8 +180,12 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
         title: values.title,
         email: values.email ? values.email.trim() : '',
         userName: values.userName ? values.userName.trim() : '',
-        careGiverCommission: values.careGiverCommission,
-        doctorCommission: values.doctorCommission,
+        careGiverCommission: values.careGiverCommission
+          ? values.careGiverCommission.replace(/,/g, '.')
+          : null,
+        doctorCommission: values.doctorCommission
+          ? values.doctorCommission.replace(/,/g, '.')
+          : null,
         invoiceType:
           values && values.invoiceType ? values.invoiceType.value : '',
         interval: values && values.interval ? values.interval.value : '',

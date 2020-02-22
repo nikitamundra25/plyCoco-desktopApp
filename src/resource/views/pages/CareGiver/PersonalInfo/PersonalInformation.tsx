@@ -3,19 +3,22 @@ import React, {
   FunctionComponent,
   useState,
   useEffect
-} from "react";
-import { Button, Col, Row } from "reactstrap";
-import { assignIn } from "lodash";
-import { useParams, useHistory } from "react-router";
-import { languageTranslation } from "../../../../../helpers";
-import PersonalInfoFormComponent from "./PersonalInfoFormComponent";
-import BillingSettingsFormComponent from "./BillingSettingsFormComponent";
-import QualificationFormComponent from "./QualificationFormComponent";
-import AttributeFormComponent from "./AttributesFromComponent";
-import RemarkFormComponent from "./RemarkFormComponent";
-import { Formik, FormikHelpers, Form, FormikProps } from "formik";
-import { Query } from "@apollo/react-components";
-import { CareGiverQueries } from "../../../../../graphql/queries/CareGiver";
+} from 'react';
+import { Button, Col, Row } from 'reactstrap';
+import { assignIn } from 'lodash';
+import { useParams, useHistory } from 'react-router';
+import {
+  languageTranslation,
+  germanNumberFormat
+} from '../../../../../helpers';
+import PersonalInfoFormComponent from './PersonalInfoFormComponent';
+import BillingSettingsFormComponent from './BillingSettingsFormComponent';
+import QualificationFormComponent from './QualificationFormComponent';
+import AttributeFormComponent from './AttributesFromComponent';
+import RemarkFormComponent from './RemarkFormComponent';
+import { Formik, FormikHelpers, Form, FormikProps } from 'formik';
+import { Query } from '@apollo/react-components';
+import { CareGiverQueries } from '../../../../../graphql/queries/CareGiver';
 import {
   ICareGiverValues,
   IPersonalObject,
@@ -27,23 +30,23 @@ import {
   IAttributeOptions,
   ICountry,
   IState
-} from "../../../../../interfaces";
-import { CareGiverValidationSchema } from "../../../../validations/CareGiverValidationSchema";
+} from '../../../../../interfaces';
+import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
 
-import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { toast } from "react-toastify";
-import "../caregiver.scss";
+import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { toast } from 'react-toastify';
+import '../caregiver.scss';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
   CountryQueries
-} from "../../../../../graphql/queries";
+} from '../../../../../graphql/queries';
 import {
   IQualifications,
   IQualification
-} from "../../../../../interfaces/qualification";
-import Loader from "../../../containers/Loader/Loader";
-import { CareGiverMutations } from "../../../../../graphql/Mutations";
-import { errorFormatter } from "../../../../../helpers";
+} from '../../../../../interfaces/qualification';
+import Loader from '../../../containers/Loader/Loader';
+import { CareGiverMutations } from '../../../../../graphql/Mutations';
+import { errorFormatter } from '../../../../../helpers';
 let toastId: any;
 
 const [
@@ -99,7 +102,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       ({ id, name, color }: IAttributeValues) =>
         caregiverAttrOpt.push({
           label: name,
-          value: id ? id.toString() : "",
+          value: id ? id.toString() : '',
           color
         })
     );
@@ -154,7 +157,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         variables: {
           countryid: props.getCaregiver
             ? props.getCaregiver.caregiver.countryId
-            : ""
+            : ''
         }
       });
     }
@@ -216,12 +219,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
     try {
       let careGiverInput: any = {
-        userName: userName ? userName.trim() : "",
-        gender: gender && gender.value ? gender.value : "",
+        userName: userName ? userName.trim() : '',
+        gender: gender && gender.value ? gender.value : '',
         title,
-        salutation: salutation && salutation.value ? salutation.value : "",
-        firstName: firstName ? firstName.trim() : "",
-        lastName: lastName ? lastName.trim() : "",
+        salutation: salutation && salutation.value ? salutation.value : '',
+        firstName: firstName ? firstName.trim() : '',
+        lastName: lastName ? lastName.trim() : '',
         dateOfBirth,
         age: age ? parseInt(age) : null,
         address1,
@@ -246,7 +249,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         phoneNumber,
         fax,
         mobileNumber,
-        email: email ? email.trim() : "",
+        email: email ? email.trim() : '',
         taxNumber,
         socialSecurityContribution,
         countryId: country && country.value ? country.value : null,
@@ -263,14 +266,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         comments,
         status,
         remarks: remarksDetail,
-        fee: fee ? parseFloat(fee) : null,
+        fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
+        weekendAllowance: weekendAllowance
+          ? parseFloat(weekendAllowance.replace(/,/g, '.'))
+          : null,
+        holiday: holiday ? parseFloat(holiday.replace(/,/g, '.')) : null,
+        night: night ? parseFloat(night.replace(/,/g, '.')) : null,
         nightAllowance:
           nightAllowance && nightAllowance.value ? nightAllowance.label : null,
-        weekendAllowance: weekendAllowance
-          ? parseFloat(weekendAllowance)
-          : null,
-        holiday: holiday ? parseFloat(holiday) : null,
-        night: night ? parseFloat(night) : null,
         regionId: regionId && regionId.value ? parseInt(regionId.value) : null,
         invoiceInterval:
           invoiceInterval && invoiceInterval.value
@@ -290,7 +293,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           }
         });
         if (!toast.isActive(toastId)) {
-          toast.success(languageTranslation("CARE_GIVER_UPDATED_SUCCESS"));
+          toast.success(languageTranslation('CARE_GIVER_UPDATED_SUCCESS'));
         }
       }
     } catch (error) {
@@ -328,17 +331,18 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   };
 
   const {
-    userName = "",
-    firstName = "",
-    lastName = "",
-    countryId = "",
-    email = "",
+    userName = '',
+    firstName = '',
+    lastName = '',
+    countryId = '',
+    email = '',
     socialSecurityContribution = false,
-    password = "",
-    status = "active",
+    password = '',
+    status = 'active',
     qualifications = [],
     caregiver = {}
   } = props.getCaregiver ? props.getCaregiver : {};
+  console.log(props.getCaregiver, '.getCaregiver');
 
   const {
     nightAllowance = undefined,
@@ -347,26 +351,26 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     title = null,
     dateOfBirth = null,
     age = null,
-    address1 = "",
-    address2 = "",
-    driversLicense = "",
-    driverLicenseNumber = "",
-    street = "",
-    city = "",
-    zipCode = "",
-    fax = "",
-    mobileNumber = "",
-    taxNumber = "",
-    vehicleAvailable = "",
+    address1 = '',
+    address2 = '',
+    driversLicense = '',
+    driverLicenseNumber = '',
+    street = '',
+    city = '',
+    zipCode = '',
+    fax = '',
+    mobileNumber = '',
+    taxNumber = '',
+    vehicleAvailable = '',
     legalForm = undefined,
-    companyName = "",
-    registerCourt = "",
-    registrationNumber = "",
-    executiveDirector = "",
+    companyName = '',
+    registerCourt = '',
+    registrationNumber = '',
+    executiveDirector = '',
     remarks = [],
     employed = false,
-    comments = "",
-    fee = "",
+    comments = '',
+    fee = '',
     weekendAllowance = null,
     holiday = null,
     night = null
@@ -405,7 +409,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const stateData =
     props.getCaregiver && props.getCaregiver.caregiver
       ? props.getCaregiver.caregiver.stateId
-      : "";
+      : '';
 
   let userSelectedState: any = null;
   if (statesData && statesData.states) {
@@ -460,7 +464,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     title,
     firstName,
     lastName,
-    phoneNumber: props.getCaregiver ? props.getCaregiver.phoneNumber : "",
+    phoneNumber: props.getCaregiver ? props.getCaregiver.phoneNumber : '',
     dateOfBirth,
     age,
     address1,
@@ -490,11 +494,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     bankName:
       props.getCaregiver && props.getCaregiver.bankDetails
         ? props.getCaregiver.bankDetails.bankName
-        : "",
+        : '',
     IBAN:
       props.getCaregiver && props.getCaregiver.bankDetails
         ? props.getCaregiver.bankDetails.IBAN
-        : "",
+        : '',
     belongTo: UserSelectedBelongsTo ? UserSelectedBelongsTo : null,
     legalForm: legalForm
       ? {
@@ -514,12 +518,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         ? remarks
         : [
             {
-              data: "",
-              createdAt: "",
-              createdBy: ""
+              data: '',
+              createdAt: '',
+              createdBy: ''
             }
           ],
-    remarkData: "",
+    remarkData: '',
     invoiceInterval: invoiceInterval
       ? {
           label: invoiceInterval,
@@ -527,7 +531,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         }
       : undefined,
     qualifications: qualificationsData,
-    fee,
+    fee: fee ? germanNumberFormat(fee) : '',
+    weekendAllowance: weekendAllowance
+      ? germanNumberFormat(weekendAllowance)
+      : '',
+    holiday: holiday ? germanNumberFormat(holiday) : '',
+    night: night ? germanNumberFormat(night) : '',
     nightAllowance: nightAllowance
       ? {
           label: nightAllowance,
@@ -540,9 +549,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           value: leasingPricingList
         }
       : undefined,
-    weekendAllowance,
-    holiday,
-    night,
     salutation:
       props.getCaregiver && props.getCaregiver.salutation
         ? {
@@ -569,25 +575,25 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       validationSchema={CareGiverValidationSchema}
       render={(props: FormikProps<ICareGiverValues>) => {
         return (
-          <Form className="form-section forms-main-section">
-            <div id={"caregiver-add-btn"}>
+          <Form className='form-section forms-main-section'>
+            <div id={'caregiver-add-btn'}>
               <Button
                 disabled={props.isSubmitting}
                 onClick={props.handleSubmit}
-                color={"primary"}
+                color={'primary'}
                 className={`save-button`}
               >
                 {props.isSubmitting ? (
-                  <i className="fa fa-spinner fa-spin mr-2" />
+                  <i className='fa fa-spinner fa-spin mr-2' />
                 ) : (
-                  ""
+                  ''
                 )}
-                {languageTranslation("SAVE_BUTTON")}
+                {languageTranslation('SAVE_BUTTON')}
               </Button>
             </div>
 
             <Row>
-              <Col lg={4} md={"12"} sm={"12"}>
+              <Col lg={4} md={'12'} sm={'12'}>
                 <PersonalInfoFormComponent
                   {...props}
                   CareInstitutionList={usersList}
@@ -596,10 +602,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                   getStatesByCountry={getStatesByCountry}
                 />
               </Col>
-              <Col lg={4} md={"12"} sm={"12"} className="px-lg-0">
-                <div className="common-col custom-caregiver-height  custom-scrollbar">
+              <Col lg={4} md={'12'} sm={'12'} className='px-lg-0'>
+                <div className='common-col custom-caregiver-height  custom-scrollbar'>
                   <BillingSettingsFormComponent {...props} />
-                  <div className="quality-attribute-section d-flex flex-column">
+                  <div className='quality-attribute-section d-flex flex-column'>
                     <QualificationFormComponent
                       {...props}
                       qualificationList={qualificationList}
@@ -648,12 +654,12 @@ class GetData extends Component<any, any> {
       );
     } else {
       assignIn(caregiverDetails, caregiverDetails, {
-        fee: "",
-        weekendAllowancePerHour: "",
-        holidayAllowancePerHourFee: "",
-        nightAllowancePerHour: "",
-        leasingPrice: "",
-        invoiceInterval: ""
+        fee: '',
+        weekendAllowancePerHour: '',
+        holidayAllowancePerHourFee: '',
+        nightAllowancePerHour: '',
+        leasingPrice: '',
+        invoiceInterval: ''
       });
     }
     caregiverDetails.salutation = {
@@ -686,17 +692,16 @@ class GetData extends Component<any, any> {
 
   render() {
     // const CareInstitutionLinkedTo = props.CareInstitutionList;
-
     return (
       <Query
         query={GET_CAREGIVER_BY_ID}
-        fetchPolicy="network-only"
+        fetchPolicy='network-only'
         variables={{ id: parseInt(this.props.Id) }}
       >
         {({ loading, error, data }: any) => {
           if (loading)
             return (
-              <div className="overview-loader">
+              <div className='overview-loader'>
                 <Loader />
               </div>
             );

@@ -29,9 +29,12 @@ const RemarkFormData: FunctionComponent<FormikProps<
   }
 ) => {
   // To access data of loggedIn user
-  const userData: any = client.readQuery({
-    query: VIEW_PROFILE
-  });
+  let userData: any = '';
+  try {
+    userData = client.readQuery({
+      query: VIEW_PROFILE
+    });
+  } catch (error) {}
   const { viewAdminProfile }: any = userData ? userData : {};
   const { firstName = '', lastName = '', id = '' } = viewAdminProfile
     ? viewAdminProfile
@@ -200,8 +203,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                                   : '...Read more'}
                               </span>
                             </p>
-                          )
-                          }
+                          )}
                         </div>
                       </div>
                       <div className=' activity-date position-relative'>

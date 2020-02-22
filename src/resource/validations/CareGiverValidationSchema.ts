@@ -3,7 +3,7 @@ import {
   CareGiverValues,
   IDateResponse,
   IRemark,
-  ICareGiverValidationInterface
+  ICareGiverValidationInterface,
 } from '../../interfaces';
 import { languageTranslation, dateValidator } from '../../helpers';
 import {
@@ -11,7 +11,8 @@ import {
   telMin,
   telMax,
   fee,
-  taxNumberLimit
+  taxNumberLimit,
+  NumberWithCommaRegex,
 } from '../../config';
 export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -37,62 +38,70 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
       const { path, createError } = this;
       const { isValid, message }: IDateResponse = dateValidator(val);
       return !val || isValid || createError({ path, message });
-    }
+    },
   }),
   phoneNumber: Yup.mixed()
     .test(
       'check-num',
       languageTranslation('PHONE_NUMERROR'),
-      value => !value || (value && !isNaN(value))
+      value => !value || (value && !isNaN(value)),
     )
     .test(
       'num-length',
       languageTranslation('PHONE_MAXLENGTH'),
       value =>
-        !value || (value && value.length >= telMin && value.length <= telMax)
+        !value || (value && value.length >= telMin && value.length <= telMax),
     ),
   mobileNumber: Yup.mixed()
     .test(
       'check-num',
       languageTranslation('MOB_NUMERROR'),
-      value => !value || (value && !isNaN(value))
+      value => !value || (value && !isNaN(value)),
     )
     .test(
       'num-length',
       languageTranslation('MOB_MAXLENGTH'),
       value =>
-        !value || (value && value.length >= telMin && value.length <= telMax)
+        !value || (value && value.length >= telMin && value.length <= telMax),
     ),
   taxNumber: Yup.mixed()
     .test(
       'check-num',
       languageTranslation('TAX_NUMERROR'),
-      value => !value || (value && !isNaN(value))
+      value => !value || (value && !isNaN(value)),
     )
     .test(
       'num-length',
       languageTranslation('TAX_MAXLENGTH'),
-      value => !value || (value && value.length <= taxNumberLimit)
+      value => !value || (value && value.length <= taxNumberLimit),
     ),
   userName: Yup.string()
     .trim()
     .required(languageTranslation('USERNAME_REQUIRED')),
-  fee: Yup.number()
-    .nullable()
-    .typeError('Fee must be number')
-    .max(10000, "Fee can't be greater than 10000"),
-  night: Yup.number()
-    .nullable()
-    .typeError('Fee must be number')
-    .max(10000, "Fee can't be greater than 10000"),
-  weekendAllowance: Yup.number()
-    .nullable()
-    .typeError('Fee must be number')
-    .max(10000, "Fee can't be greater than 10000"),
-  holiday: Yup.number()
-    .nullable()
-    .typeError('Fee must be number')
-    .max(10000, "Fee can't be greater than 10000"),
+  fee: Yup.mixed().test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || NumberWithCommaRegex.test(value),
+  ),
+  // .number()
+  //   .nullable()
+  //   .typeError('Fee must be number')
+  //   .max(10000, "Fee can't be greater than 10000"),
+  night: Yup.mixed().test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || NumberWithCommaRegex.test(value),
+  ),
+  weekendAllowance: Yup.mixed().test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || NumberWithCommaRegex.test(value),
+  ),
+  holiday: Yup.mixed().test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || NumberWithCommaRegex.test(value),
+  ),
   age: Yup.number()
     .nullable()
     .integer('Age must be a valid integer')
@@ -102,6 +111,6 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   fax: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value))
-  )
+    value => !value || (value && !isNaN(value)),
+  ),
 });

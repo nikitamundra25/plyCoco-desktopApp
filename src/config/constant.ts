@@ -16,6 +16,7 @@ export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
 export const emailRegex: RegExp = /^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 export const IBANReplaceRegex: RegExp = /[^A-Z0-9]/gi;
+export const NumberWithCommaRegex: RegExp = /^\d*(?:,\d{1,2})?$/;
 export const IBANlength: number = 22;
 export const workingHours: number = 4;
 export const fee: number = 10000;
@@ -1169,6 +1170,7 @@ export const Without_Appointments: IReactSelectInterface[] = [
 ];
 
 export const TodoStatus: IReactSelectInterface[] = [
+  { value: 'all', label: languageTranslation('ALL') },
   { value: 'pending', label: languageTranslation('PENDING') },
   { value: 'completed', label: languageTranslation('COMPLETED') }
 ];
@@ -1383,6 +1385,15 @@ export const AcceptedDocumentFile = [
   '.pdf',
   'application/pdf'
 ];
+export const maxFileSize1MB = 1048576;
+export const maxFileSize10MB = 10485760;
+export const sortFilter: IObjectType = {
+  3: 'name',
+  4: 'name-desc',
+  2: 'oldest',
+  1: 'newest'
+};
+
 export const AcceptedFileFormat = [
   'application/pdf',
   'image/jpg',
@@ -1393,11 +1404,3 @@ export const AcceptedFileFormat = [
   'text/plain',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 ];
-export const maxFileSize1MB = 1048576;
-export const maxFileSize10MB = 10485760;
-export const sortFilter: IObjectType = {
-  3: 'name',
-  4: 'name-desc',
-  2: 'oldest',
-  1: 'newest'
-};

@@ -27,9 +27,13 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
   }
 ) => {
   // To access data of loggedIn user
-  const userData: any = client.readQuery({
-    query: VIEW_PROFILE
-  });
+  let userData: any = '';
+  try {
+    userData = client.readQuery({
+      query: VIEW_PROFILE
+    });
+  } catch (error) {}
+
   const { viewAdminProfile }: any = userData ? userData : {};
   const { firstName = '', lastName = '', id = '' } = viewAdminProfile
     ? viewAdminProfile

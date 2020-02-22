@@ -43,7 +43,12 @@ const RemarkFormData: FunctionComponent<FormikProps<
   const [activeRemark, setActiveRemark] = useState(0);
   // To set field editable
   let [isEditRemark, setisEditRemark] = useState(false);
-
+  const [isExpand, setIsExpand] = useState<boolean>(false);
+  const [activeRow, setActiveRow] = useState<number>(-1);
+  const expandedText = (index: number) => {
+    setIsExpand(activeRow === index || activeRow === -1 ? !isExpand : isExpand);
+    setActiveRow(activeRow === index ? -1 : index);
+  };
   // Function to remove remark
   const onDelete = async (index: number) => {
     const { value } = await ConfirmBox({
@@ -182,8 +187,22 @@ const RemarkFormData: FunctionComponent<FormikProps<
                               maxLength={1000}
                               className='height-textarea '
                             />
-                          ) : (
+                          ) : remark.data && remark.data.length <= 100 ? (
                             remark.data
+                          ) : (
+                            <p className='mb-0'>
+                              {isExpand && activeRow === index
+                                ? remark.data
+                                : remark.data.substr(0, 100)}
+                              <span
+                                className='view-more-link'
+                                onClick={() => expandedText(index)}
+                              >
+                                {isExpand && activeRow === index
+                                  ? '...Read less'
+                                  : '...Read more'}
+                              </span>
+                            </p>
                           )}
                         </div>
                       </div>

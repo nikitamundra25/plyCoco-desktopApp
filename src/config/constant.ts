@@ -1378,7 +1378,6 @@ export const AcceptedDocumentFile = [
   '.pdf',
   'application/pdf',
 ];
-
 export const maxFileSize1MB = 1048576;
 export const maxFileSize10MB = 10485760;
 export const sortFilter: IObjectType = {

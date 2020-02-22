@@ -127,6 +127,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     )[0];
     setselectUser(currenCareGiver);
   }, [careGivers, pathname]);
+  const [newContactAdded, setnewContactAdded] = useState(false);
 
   const onTabChange = (activeTab: number) => {
     props.history.push(
@@ -305,6 +306,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         userRole={'careGiver'}
         newDataUpdate={() => setisnewDataUpdate(true)}
         setisnewDataUpdate={() => setisnewDataUpdate(false)}
+        Id={Id}
+        newContactAdded={false}
+        setnewContactAdded={() => setnewContactAdded(false)}
       />
     </div>
   );

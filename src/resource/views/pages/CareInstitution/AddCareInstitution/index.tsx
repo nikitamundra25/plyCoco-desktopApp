@@ -76,6 +76,8 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
     );
   }
 
+  const [newContactAdded, setnewContactAdded] = useState(false);
+
   const [updateCareInstitution, { error, data }] = useMutation<{
     updateCareInstitution: ICareInstitutionFormValues;
   }>(UPDATE_CARE_INSTITUTION);
@@ -325,6 +327,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
                     setContacts={(contacts: any) => {
                       setContacts((contacts = contacts));
                     }}
+                    neContactAdded={() => setnewContactAdded(false)}
                     {...props}
                   />
                 </div>

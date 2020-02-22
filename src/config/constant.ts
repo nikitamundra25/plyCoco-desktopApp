@@ -1403,5 +1403,16 @@ export const AcceptedFileFormat = [
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   'application/msword',
   'text/plain',
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+];
+export const ShiftTime: IReactSelectInterface[] = [
+  {
+    value: '06 - 2PM Early',
+    label: '06- 2PM Early'
+  },
+  {
+    value: '2PM - 10PM Late',
+    label: '2PM - 10PM Late'
+  },
+  { value: '10PM - 6AM Night', label: '10PM - 6AM Night' }
 ];

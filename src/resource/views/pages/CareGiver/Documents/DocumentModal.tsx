@@ -25,6 +25,7 @@ import ppt from '../../../../assets/img/ppt.svg';
 import txt from '../../../../assets/img/txt.svg';
 import defaultExtention from '../../../../assets/img/no-extension.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
+import { AcceptedFileFormat } from '../../../../../config';
 
 const DocumentUploadModal = (props: any) => {
   const {
@@ -43,10 +44,13 @@ const DocumentUploadModal = (props: any) => {
     show,
     handleClose,
     loading,
-    documentTypeList
+    documentTypeList,
+    unsupportedFile,
+    defaultDocument
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
+    accept: AcceptedFileFormat,
     multiple: false
   });
   const externalCloseBtn = (
@@ -112,8 +116,6 @@ const DocumentUploadModal = (props: any) => {
                                 <img src={xls} alt='' className='mb-2' />
                               ) : extention === 'doc' ? (
                                 <img src={doc} alt='' className='mb-2' />
-                              ) : extention === 'ppt' ? (
-                                <img src={ppt} alt='' className='mb-2' />
                               ) : extention === 'txt' ? (
                                 <img src={txt} alt='' className='mb-2' />
                               ) : (
@@ -137,11 +139,16 @@ const DocumentUploadModal = (props: any) => {
                               </span>
                             )}
                           </div>
+                          {console.log(documentUrls, 'documentUrls')}
                           {isSubmit && documentUrls === null ? (
                             <div className='required-error'>
                               Document is required
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className='required-error'>
+                              {unsupportedFile}
+                            </div>
+                          )}
                         </Col>
                       ) : (
                         <Col sm='10'>
@@ -188,7 +195,7 @@ const DocumentUploadModal = (props: any) => {
                           placeholder={languageTranslation('DOCUMENT_TYPE')}
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
-                          isDisabled={isMissingDocEditable}
+                          isDisabled={isMissingDocEditable || defaultDocument}
                         />
                       </Col>
                     </Row>

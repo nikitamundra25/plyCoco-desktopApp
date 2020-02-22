@@ -738,7 +738,7 @@
   "CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG": "This To-do's priority will be updated.",
   "DOCUMENT_TYPE": "Select document type",
   "VARIOUS_DOCUMENTS": "Various documents",
+  "UNSUPPORTED_FILE_FORMAT": "This file format is not supported",
   "TODO_ADD_SUCCESS": "To-do added successfully",
   "TODO_UPDATE_SUCCESS": "To-do updated successfully"
-
 }

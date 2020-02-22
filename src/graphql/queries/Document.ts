@@ -29,6 +29,7 @@ const GET_DOCUMENTS = gql`
       fileName
       status
       createdAt
+      isDefault
       document_type {
         id
         type
@@ -58,5 +59,5 @@ export const DocumentQueries = [
   GET_DOCUMENT_TEMPLATE,
   GET_DOCUMENTS,
   GET_DOCUMENT_TYPES,
-  GET_REQUIRED_DOCUMENT_TYPES,
+  GET_REQUIRED_DOCUMENT_TYPES
 ];

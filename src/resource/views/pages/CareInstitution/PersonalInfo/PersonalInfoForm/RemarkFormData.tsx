@@ -4,7 +4,7 @@ import { FormikProps } from 'formik';
 import { languageTranslation } from '../../../../../../helpers';
 import {
   ICareInstitutionFormValues,
-  ICareInstitutionRemarks,
+  ICareInstitutionRemarks
 } from '../../../../../../interfaces';
 import moment from 'moment';
 import { ConfirmBox } from '../../../../components/ConfirmBox';
@@ -26,11 +26,11 @@ const RemarkFormData: FunctionComponent<FormikProps<
     setRemarksDetail?: any;
     remarksDetail?: any;
     saveRemark?: (message: string, remarksData: any) => void;
-  },
+  }
 ) => {
   // To access data of loggedIn user
   const userData: any = client.readQuery({
-    query: VIEW_PROFILE,
+    query: VIEW_PROFILE
   });
   const { viewAdminProfile }: any = userData ? userData : {};
   const { firstName = '', lastName = '', id = '' } = viewAdminProfile
@@ -40,12 +40,17 @@ const RemarkFormData: FunctionComponent<FormikProps<
   const [activeRemark, setActiveRemark] = useState(0);
   // To set field editable
   let [isEditRemark, setisEditRemark] = useState(false);
-
+  const [isExpand, setIsExpand] = useState<boolean>(false);
+  const [activeRow, setActiveRow] = useState<number>(-1);
+  const expandedText = (index: number) => {
+    setIsExpand(activeRow === index || activeRow === -1 ? !isExpand : isExpand);
+    setActiveRow(activeRow === index ? -1 : index);
+  };
   // Function to remove remark
   const onDelete = async (index: number) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('REMARK_DELETE_CONFIRMATION'),
+      text: languageTranslation('REMARK_DELETE_CONFIRMATION')
     });
     if (!value) {
       return;
@@ -62,7 +67,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
         } else {
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
-              languageTranslation('REMARK_DELETE_SUCCESS'),
+              languageTranslation('REMARK_DELETE_SUCCESS')
             );
           }
         }
@@ -80,7 +85,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
     handleSubmit,
     setFieldValue,
     setRemarksDetail,
-    remarksDetail,
+    remarksDetail
   } = props;
 
   return (
@@ -129,7 +134,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                           temp.unshift({
                             data: remarkData,
                             createdAt: moment().toISOString(),
-                            createdBy: [firstName, lastName].join(' '),
+                            createdBy: [firstName, lastName].join(' ')
                           });
                           if (setRemarksDetail) {
                             setRemarksDetail(temp);
@@ -139,12 +144,12 @@ const RemarkFormData: FunctionComponent<FormikProps<
                             toast.dismiss();
                             props.saveRemark(
                               languageTranslation('REMARK_ADDED_SUCCESS'),
-                              undefined,
+                              undefined
                             );
                           } else {
                             if (!toast.isActive(toastId)) {
                               toastId = toast.success(
-                                languageTranslation('REMARK_ADDED_SUCCESS'),
+                                languageTranslation('REMARK_ADDED_SUCCESS')
                               );
                             }
                           }
@@ -179,9 +184,24 @@ const RemarkFormData: FunctionComponent<FormikProps<
                               maxLength={1000}
                               className='height-textarea '
                             />
-                          ) : (
+                          ) : remark.data && remark.data.length <= 100 ? (
                             remark.data
-                          )}
+                          ) : (
+                            <p className='mb-0'>
+                              {isExpand && activeRow === index
+                                ? remark.data
+                                : remark.data.substr(0, 100)}
+                              <span
+                                className='view-more-link'
+                                onClick={() => expandedText(index)}
+                              >
+                                {isExpand && activeRow === index
+                                  ? '...Read less'
+                                  : '...Read more'}
+                              </span>
+                            </p>
+                          )
+                          }
                         </div>
                       </div>
                       <div className=' activity-date position-relative'>
@@ -213,17 +233,17 @@ const RemarkFormData: FunctionComponent<FormikProps<
                                     toast.dismiss();
                                     props.saveRemark(
                                       languageTranslation(
-                                        'REMARK_UPDATE_SUCCESS',
+                                        'REMARK_UPDATE_SUCCESS'
                                       ),
-                                      undefined,
+                                      undefined
                                     );
                                   } else {
                                     toast.dismiss(toastId);
                                     if (!toast.isActive(toastId)) {
                                       toastId = toast.success(
                                         languageTranslation(
-                                          'REMARK_UPDATE_SUCCESS',
-                                        ),
+                                          'REMARK_UPDATE_SUCCESS'
+                                        )
                                       );
                                     }
                                   }
@@ -270,7 +290,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                       <span className='activity-icon activity-set'></span>
                     </div>
                   );
-                },
+                }
               )}
             </>
           ) : (

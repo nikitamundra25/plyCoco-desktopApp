@@ -41,7 +41,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
     }
   };
   return (
-    <Col lg={'5'}>
+    <Col lg={'5'} className="pr-lg-0">
       <div id="scrollableDiv" className="caregiver-list custom-scroll">
         <InfiniteScroll
           dataLength={
@@ -111,7 +111,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                       onClick={(e: any) => {
                         handleChecked(careGivers.id);
                       }}
-                      className='cursor-pointer'
+                      className="cursor-pointer"
                     >
                       <td>
                         <span className=" checkbox-custom  ">

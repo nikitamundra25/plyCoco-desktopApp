@@ -74,6 +74,8 @@ export const DateMask: maskArray = [
   /\d/,
 ];
 
+//  /^(([0-1][0-9]|2[0-3]|[0-9])|([0-1][0-9]|2[0-3]|[0-9])(:|h)[0-5]?[0-9]?)$/
+
 export const TimeMask: maskArray = [/[0-2]/, /[0-9]/, ':', /[0-5]/, /[0-9]/];
 
 export const Status: IReactSelectInterface[] = [
@@ -1171,6 +1173,11 @@ export const TodoStatus: IReactSelectInterface[] = [
   { value: 'all', label: languageTranslation('ALL') },
   { value: 'pending', label: languageTranslation('PENDING') },
   { value: 'completed', label: languageTranslation('COMPLETED') },
+];
+
+export const TodoDateFilter: IReactSelectInterface[] = [
+  { value: 'future', label: languageTranslation('FUTURE') },
+  { value: 'past', label: languageTranslation('OPEN') }
 ];
 
 export const SortOptions: IReactSelectInterface[] = [

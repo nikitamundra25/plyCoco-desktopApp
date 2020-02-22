@@ -93,32 +93,14 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                 <div className="email-row-wrap email-heading-wrap ">
                   <div className="email-date-time-block">
                     {languageTranslation("DATE")}
-                    {/* <Select
-                      placeholder='Select Region'
-                      options={this.options}
-                      classNamePrefix='react-select'
-                      className='hover-short-select'
-                    /> */}
                   </div>
                   {userRole === "canstitution" ? (
                     <div className="email-date-time-block">
                       {languageTranslation("To")}
-                      {/* <Select
-                    placeholder='Select Region'
-                    options={this.options}
-                    classNamePrefix='react-select'
-                    className='hover-short-select'
-                  /> */}
                     </div>
                   ) : null}
                   <div className="email-subject-block">
                     <span>{languageTranslation("OF")}</span>
-                    {/* <Select
-                      placeholder="Select Region"
-                      options={this.options}
-                      classNamePrefix="react-select"
-                      className="hover-short-select"
-                    /> */}
                   </div>
                   <div className="email-text-wrap">
                     <span>{languageTranslation("SUBJECT")}</span>

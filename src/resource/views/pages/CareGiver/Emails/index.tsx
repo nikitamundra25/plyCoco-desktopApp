@@ -1,14 +1,14 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
-import { useLazyQuery } from '@apollo/react-hooks';
-import { useParams, useLocation, useHistory } from 'react-router';
-import * as qs from 'query-string';
-import { EmailMenus } from './EmailMenus';
-import InboxEmail from './InboxEmail';
-import SentEmail from './SentEmail';
-import NewEmail from './NewEmail';
-import { CareGiverQueries } from '../../../../../graphql/queries';
-import { IEmailQueryVar } from '../../../../../interfaces';
-import { EmailMenusTab } from '../../../../../config';
+import React, { useState, useEffect, FunctionComponent } from "react";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { useParams, useLocation, useHistory } from "react-router";
+import * as qs from "query-string";
+import { EmailMenus } from "./EmailMenus";
+import InboxEmail from "./InboxEmail";
+import SentEmail from "./SentEmail";
+import NewEmail from "./NewEmail";
+import { CareGiverQueries } from "../../../../../graphql/queries";
+import { IEmailQueryVar } from "../../../../../interfaces";
+import { EmailMenusTab } from "../../../../../config";
 
 const [, , , GET_EMAILS] = CareGiverQueries;
 
@@ -27,8 +27,8 @@ const Email: FunctionComponent<{
   const query = qs.parse(search);
   const history = useHistory();
   const [activeTab, setactiveTab] = useState<number>(0);
-  const [emailData, setEmailData] = useState<any>('');
-  const [searchBy, setSearchBy] = useState<string>('');
+  const [emailData, setEmailData] = useState<any>("");
+  const [searchBy, setSearchBy] = useState<string>("");
 
   let [
     fetchEmails,
@@ -43,26 +43,26 @@ const Email: FunctionComponent<{
     let variables: IEmailQueryVar = {
       senderUserId: id ? parseInt(id) : 0,
       receiverUserId: null,
-      from: 'caregiver',
+      from: "caregiver",
       searchBy
     };
     if (query && query.q) {
       const { q }: any = query;
       const index: number = EmailMenusTab.findIndex(
         ({ name }: { name: string; icon: string }) =>
-          q && typeof q === 'string' && name.toUpperCase() === q.toUpperCase()
+          q && typeof q === "string" && name.toUpperCase() === q.toUpperCase()
       );
       setactiveTab(index);
-      setSearchBy(query.searchBy ? query.searchBy.toString() : '');
+      setSearchBy(query.searchBy ? query.searchBy.toString() : "");
       // update search by parameter in variables
       variables = {
         ...variables,
-        searchBy: query.searchBy ? query.searchBy.toString() : ''
+        searchBy: query.searchBy ? query.searchBy.toString() : ""
       };
       if (index === 1) {
         variables = {
           ...variables,
-          from: 'plycoco',
+          from: "plycoco",
           receiverUserId: id ? parseInt(id) : 0,
           senderUserId: null
         };
@@ -73,8 +73,8 @@ const Email: FunctionComponent<{
         fetchEmails({ variables });
       }
     } else {
-      setEmailData('');
-      console.log('in useEffect else');
+      setEmailData("");
+      console.log("in useEffect else");
 
       fetchEmails({ variables });
     }
@@ -89,14 +89,14 @@ const Email: FunctionComponent<{
         ...query,
         q: EmailMenusTab[activeTab].name.toLowerCase()
       })
-    ].join('?');
+    ].join("?");
     history.push(path);
   };
 
   const onRefresh = (from: string) => {
     let variables: IEmailQueryVar = {
-      senderUserId: from === 'caregiver' ? (id ? parseInt(id) : 0) : null,
-      receiverUserId: from === 'plycoco' ? (id ? parseInt(id) : 0) : null,
+      senderUserId: from === "caregiver" ? (id ? parseInt(id) : 0) : null,
+      receiverUserId: from === "plycoco" ? (id ? parseInt(id) : 0) : null,
       from,
       searchBy
     };
@@ -118,19 +118,19 @@ const Email: FunctionComponent<{
         searchBy
       };
     }
-    const path = [pathname, qs.stringify(queryParam)].join('?');
+    const path = [pathname, qs.stringify(queryParam)].join("?");
     history.push(path);
   };
 
   const onReset = () => {
-    setSearchBy('');
+    setSearchBy("");
     delete query.searchBy;
     const path = [
       pathname,
       qs.stringify({
         ...query
       })
-    ].join('?');
+    ].join("?");
     history.push(path);
   };
 
@@ -144,7 +144,7 @@ const Email: FunctionComponent<{
             onTabChange={onTabChange}
             selectedUserName={selectedUserName}
             loading={!called || loading}
-            onRefresh={() => onRefresh('caregiver')}
+            onRefresh={() => onRefresh("caregiver")}
             searchBy={searchBy}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
@@ -157,12 +157,12 @@ const Email: FunctionComponent<{
             emailList={emailList}
             selectedUserName={selectedUserName}
             loading={!called || loading}
-            onRefresh={() => onRefresh('plycoco')}
+            onRefresh={() => onRefresh("plycoco")}
             searchBy={searchBy}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             onReset={onReset}
-            userRole={userRole ? userRole : ''}
+            userRole={userRole ? userRole : ""}
           />
         );
       case 2:
@@ -170,7 +170,7 @@ const Email: FunctionComponent<{
           <NewEmail
             emailData={emailData}
             selectedUserName={selectedUserName}
-            userRole={userRole ? userRole : ''}
+            userRole={userRole ? userRole : ""}
           />
         );
 
@@ -179,7 +179,7 @@ const Email: FunctionComponent<{
     }
   };
   return (
-    <div className='email-section'>
+    <div>
       <EmailMenus activeTab={activeTab} onTabChange={onTabChange} />
       {renderComponent()}
     </div>

@@ -419,7 +419,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                 onClick={sendEmail}
               >
                 {adding ? (
-                  <i className='fa fa-spinner fa-spin loader' />
+                  <i className='fa fa-spinner fa-spin mr-2' />
                 ) : (
                   <i className='fa fa-paper-plane mr-2' aria-hidden='true'></i>
                 )}

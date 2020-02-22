@@ -1,11 +1,5 @@
-import React, {
-  Component,
-  FunctionComponent,
-  useState,
-  useEffect,
-} from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Button, Col, Row } from 'reactstrap';
-import { assignIn } from 'lodash';
 import { useParams, useHistory } from 'react-router';
 import {
   languageTranslation,
@@ -17,12 +11,10 @@ import QualificationFormComponent from './QualificationFormComponent';
 import AttributeFormComponent from './AttributesFromComponent';
 import RemarkFormComponent from './RemarkFormComponent';
 import { Formik, FormikHelpers, Form, FormikProps } from 'formik';
-import { Query } from '@apollo/react-components';
 import { CareGiverQueries } from '../../../../../graphql/queries/CareGiver';
 import {
   ICareGiverValues,
   IPersonalObject,
-  IBillingSettingsValues,
   IReactSelectInterface,
   ICountries,
   IStates,
@@ -581,7 +573,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 className={`save-button`}
               >
                 {props.isSubmitting ? (
-                  <i className='fa fa-spinner fa-spin loader' />
+                  <i className='fa fa-spinner fa-spin mr-2' />
                 ) : (
                   ''
                 )}

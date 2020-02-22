@@ -1,12 +1,12 @@
-import React, { FunctionComponent } from "react";
-import { Col, Row, FormGroup } from "reactstrap";
-import { Editor } from "react-draft-wysiwyg";
-import { convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import { IEmailFormComponentPorps } from "../../../../../interfaces";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { stripHtml, languageTranslation } from "../../../../../helpers";
-import { AttachmentFormComponent } from "../../EmailTemplateManagement/AddTemplate/AttachmentFormComponent";
+import React, { FunctionComponent } from 'react';
+import { Col, Row, FormGroup } from 'reactstrap';
+import { Editor } from 'react-draft-wysiwyg';
+import { convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import { IEmailFormComponentPorps } from '../../../../../interfaces';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { stripHtml, languageTranslation } from '../../../../../helpers';
+import { AttachmentFormComponent } from '../../EmailTemplateManagement/AddTemplate/AttachmentFormComponent';
 
 export const EmailFormComponent: FunctionComponent<IEmailFormComponentPorps> = (
   props: IEmailFormComponentPorps
@@ -18,12 +18,12 @@ export const EmailFormComponent: FunctionComponent<IEmailFormComponentPorps> = (
     uploadDocument,
     attachments
   } = props;
-  let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : "";
+  let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '';
   const result = stripHtml(content);
   return (
     <div>
       <Row>
-        <Col lg={"8"}>
+        <Col lg={'8'} className="pr-lg-0">
           <FormGroup className="mb-3">
             <div>
               <Editor
@@ -31,38 +31,38 @@ export const EmailFormComponent: FunctionComponent<IEmailFormComponentPorps> = (
                 toolbarClassName="toolbarClassName"
                 wrapperClassName="wrapperClassName"
                 editorClassName="editorClassName newemailheight"
-                placeholder={languageTranslation("EMAIL_BODY_PLACEHOLDER")}
+                placeholder={languageTranslation('EMAIL_BODY_PLACEHOLDER')}
                 toolbar={{
                   options: [
-                    "inline",
-                    "blockType",
-                    "fontSize",
-                    "list",
-                    "textAlign",
-                    "link"
+                    'inline',
+                    'blockType',
+                    'fontSize',
+                    'list',
+                    'textAlign',
+                    'link'
                   ],
                   inline: {
-                    options: ["bold", "italic", "underline"]
+                    options: ['bold', 'italic', 'underline']
                   },
                   fontSize: {
-                    className: "bordered-option-classname"
+                    className: 'bordered-option-classname'
                   },
                   fontFamily: {
-                    className: "bordered-option-classname"
+                    className: 'bordered-option-classname'
                   },
                   list: {
                     inDropdown: false,
-                    options: ["unordered"]
+                    options: ['unordered']
                   },
                   link: {
-                    options: ["link"]
+                    options: ['link']
                   }
                 }}
                 onEditorStateChange={onEditorStateChange}
               />
               {isSubmit && (!body || (result && result.length < 2)) ? (
                 <div className="required-error">
-                  {languageTranslation("REQUIRED_BODY")}
+                  {languageTranslation('REQUIRED_BODY')}
                 </div>
               ) : null}
             </div>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import {
   Button,
   Modal,
@@ -76,14 +76,30 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
-  let currentTime = new Date();
-  let month = currentTime.getFullYear();
-  let year: any = new Date(month);
+  let year: any = new Date();
+
+  let [now, setnow] = useState(new Date());
+  let [cal2, setcal2] = useState(
+    new Date(now.getFullYear(), now.getMonth() + 1, 1)
+  );
+  let [cal3, setcal3] = useState(
+    new Date(now.getFullYear(), now.getMonth() + 2, 1)
+  );
+
   const handleMonthChange = (mon: any) => {
-    year = mon;
-    console.log('month', year);
+    setnow(mon);
+    setcal2(new Date(mon.getFullYear(), mon.getMonth() + 1, 1));
+    setcal3(new Date(mon.getFullYear(), mon.getMonth() + 2, 1));
+  };
+  const handleLastMonthChange = (lastMon: any) => {
+    setcal3(lastMon);
+    setcal2(new Date(lastMon.getFullYear(), lastMon.getMonth() - 1, 1));
+    setnow(new Date(lastMon.getFullYear(), lastMon.getMonth() - 2, 1));
   };
 
+  console.log('****************', now);
+  console.log('****************', cal2);
+  console.log('****************', cal3);
   const ContactError: any = errors.contact;
   const PriorityError: any = errors.priority;
 
@@ -106,8 +122,9 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                   <div>
                     <DayPicker
                       selectedDays={date ? date : new Date()}
-                      modifiers={modifiers}
-                      modifiersStyles={modifiersStyles}
+                      // modifiers={modifiers}
+                      // modifiersStyles={modifiersStyles}
+                      month={now}
                       onDayClick={handleDayClick}
                       disabledDays={{ before: new Date() }}
                       onMonthChange={handleMonthChange}
@@ -117,10 +134,10 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                 <Col lg={'4'}>
                   <div>
                     <DayPicker
-                      initialMonth={new Date(year, 2)}
+                      month={cal2}
                       selectedDays={date ? date : new Date()}
-                      modifiers={modifiers}
-                      modifiersStyles={modifiersStyles}
+                      // modifiers={modifiers}
+                      // modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
                       canChangeMonth={false}
                       disabledDays={{ before: new Date() }}
@@ -130,11 +147,12 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                 <Col lg={'4'}>
                   <div>
                     <DayPicker
-                      initialMonth={new Date(year, 3)}
+                      month={cal3}
                       selectedDays={date ? date : new Date()}
-                      modifiers={modifiers}
-                      modifiersStyles={modifiersStyles}
+                      // modifiers={modifiers}
+                      // modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
+                      onMonthChange={handleLastMonthChange}
                       disabledDays={{ before: new Date() }}
                     />
                   </div>

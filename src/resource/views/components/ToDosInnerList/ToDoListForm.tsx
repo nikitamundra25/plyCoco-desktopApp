@@ -279,7 +279,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
               ) : (
                 <tr className={'text-center no-hover-row'}>
                   <td colSpan={8} className={'pt-5 pb-5'}>
-                    {query.sortBy ||
+                    {query.toDoFilter ||
                     query.priority ||
                     query.searchBy ||
                     query.sortByDate ? (

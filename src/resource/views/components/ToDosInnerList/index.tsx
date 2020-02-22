@@ -152,40 +152,39 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         }
       });
 
-      if (searchData.sortBy) {
-        sortBy =
-          TodoStatus[
-            TodoStatus.map(item => {
-              return item.value;
-            }).indexOf(searchData.sortBy)
-          ];
-      }
+      // if (searchData.sortBy) {
+      //   sortBy =
+      //     TodoStatus[
+      //       TodoStatus.map(item => {
+      //         return item.value;
+      //       }).indexOf(searchData.sortBy)
+      //     ];
+      // }
 
-      if (searchData.sortByDate) {
-        sortByDate =
-          TodoDateFilter[
-            TodoDateFilter.map(item => {
-              return item.value;
-            }).indexOf(searchData.sortByDate)
-          ];
-      }
+      // if (searchData.sortByDate) {
+      //   sortByDate =
+      //     TodoDateFilter[
+      //       TodoDateFilter.map(item => {
+      //         return item.value;
+      //       }).indexOf(searchData.sortByDate)
+      //     ];
+      // }
 
-      if (searchData.priority) {
-        priority =
-          Priority[
-            Priority.map(item => {
-              return item.value;
-            }).indexOf(searchData.priority)
-          ];
-      }
+      // if (searchData.priority) {
+      //   priority =
+      //     Priority[
+      //       Priority.map(item => {
+      //         return item.value;
+      //       }).indexOf(searchData.priority)
+      //     ];
+      // }
 
-      setSearchValues({
-        searchBy,
-        futureOnly,
-        sortBy,
-        sortByDate,
-        priority
-      });
+      // setSearchValues({
+      //   searchBy,
+      //   sortBy,
+      //   sortByDate,
+      //   priority
+      // });
     }
   }, [search]); // It will run when the search value gets changed
 
@@ -194,15 +193,14 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     {}: FormikHelpers<ISearchToDoValues>
   ) => {
     let params: any = qs.parse(search);
-
-    // params.futureOnly = false;
     params.page = 1;
     if (values.searchValue) {
       params.search = values.searchValue;
     }
+
     if (values.toDoFilter && values.toDoFilter.value !== '') {
       params.toDoFilter =
-        values.toDoFilter.value !== '' ? values.toDoFilter.value : '';
+        values.toDoFilter.value !== null ? values.toDoFilter.value : '';
     }
     if (values.priority && values.priority.value !== '') {
       params.priority =
@@ -212,11 +210,6 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
       params.sortByDate =
         values.sortByDate.value !== '' ? values.sortByDate.value : '';
     }
-
-    // if (futureOnly) {
-    //   params.futureOnly = futureOnly;
-    // }
-
     const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);
   };

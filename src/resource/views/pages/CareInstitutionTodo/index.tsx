@@ -162,6 +162,11 @@ const CareInstitutionTodo: FunctionComponent = () => {
     setSelectUser(list);
   };
 
+  //  call refetch to update todo list
+  const handleRefetch = () => {
+    refetch();
+  };
+
   const handleSubmit = async (
     values: ISearchToDoValues,
     { setSubmitting }: FormikHelpers<ISearchToDoValues>
@@ -526,6 +531,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
           userRole={
             path[1] === 'caregiver-todo' ? 'caregiver' : 'careInstitution'
           }
+          handleRefetch={handleRefetch}
         />
       </div>
     </>

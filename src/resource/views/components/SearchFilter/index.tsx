@@ -57,6 +57,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
     logger(selectOption, 'value');
     setFieldValue(name, selectOption);
   };
+
   return (
     <div className='filter-form form-section mb-2'>
       <Form onSubmit={handleSubmit}>

@@ -49,7 +49,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
 
   const modifiers = {
     sundays: { daysOfWeek: [0] },
-    saturdays: { daysOfWeek: [6] }
+    saturdays: { daysOfWeek: [7] }
   };
   const modifiersStyles = {
     sundays: {
@@ -62,6 +62,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
     },
     outside: { backgroundColor: 'transparent' }
   };
+
   const externalCloseBtn = (
     <button className='close modal-close' onClick={() => handleClose()}>
       <img src={close} alt='close' className='main-img' />
@@ -97,9 +98,6 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
     setnow(new Date(lastMon.getFullYear(), lastMon.getMonth() - 2, 1));
   };
 
-  console.log('****************', now);
-  console.log('****************', cal2);
-  console.log('****************', cal3);
   const ContactError: any = errors.contact;
   const PriorityError: any = errors.priority;
 
@@ -119,7 +117,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
             <div className='calender-wrapper mb-4'>
               <Row>
                 <Col lg={'4'}>
-                  <div>
+                  <div className='daypicker1 h-100'>
                     <DayPicker
                       selectedDays={date ? date : new Date()}
                       // modifiers={modifiers}
@@ -132,7 +130,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                   </div>
                 </Col>
                 <Col lg={'4'}>
-                  <div>
+                  <div className='daypicker2 h-100'>
                     <DayPicker
                       month={cal2}
                       selectedDays={date ? date : new Date()}
@@ -145,7 +143,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                   </div>
                 </Col>
                 <Col lg={'4'}>
-                  <div>
+                  <div className='daypicker3 h-100'>
                     <DayPicker
                       month={cal3}
                       selectedDays={date ? date : new Date()}

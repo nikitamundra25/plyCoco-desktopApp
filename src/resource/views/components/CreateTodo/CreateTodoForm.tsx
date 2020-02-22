@@ -122,6 +122,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                       modifiers={modifiers}
                       modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
+                      canChangeMonth={false}
                       disabledDays={{ before: new Date() }}
                     />
                   </div>

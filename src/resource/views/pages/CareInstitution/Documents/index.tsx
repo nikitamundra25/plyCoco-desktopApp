@@ -64,6 +64,7 @@ const Documents = () => {
     id: string;
     checked: boolean;
   } | null>(null);
+  const [defaultDocument, setDefaultDocument] = useState<boolean | null>(null);
 
   const [fetchDocumentList, { data, loading, refetch, called }] = useLazyQuery<
     any
@@ -230,6 +231,8 @@ const Documents = () => {
     setFilename(null);
     setIsMissingDocEditable(false);
     setUnsupportedFile(null);
+    setDefaultDocument(null);
+
     // setErrorMsg(null);
   };
   useEffect(() => {
@@ -256,12 +259,15 @@ const Documents = () => {
       document_type = {},
       document = '',
       fileName = '',
-      createdAt = ''
+      createdAt = '',
+      isDefault = null
+
     } = data ? data : {};
     //To set data in case of edit uploaded document
     setIsMissingDocEditable(isMissingDocEditable);
     setShowDocumentPopup(true);
     setDocumentIdUpdate(id);
+    setDefaultDocument(isDefault);
     setDocumentType(
       document_type && document_type.type
         ? { label: document_type.type, value: document_type.id }
@@ -593,6 +599,7 @@ const Documents = () => {
         updateDocumentLoading={updateDocumentLoading}
         documentTypeList={documentTypeList}
         unsupportedFile={unsupportedFile}
+        defaultDocument={defaultDocument}
       />
     </div>
   );

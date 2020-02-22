@@ -58,11 +58,12 @@ const Documents = () => {
     id: string;
     checked: boolean;
   } | null>(null);
-
+  const [defaultDocument, setDefaultDocument] = useState<boolean | null>(null);
   const [fetchDocumentList, { data, loading, refetch, called }] = useLazyQuery<
     any
   >(GET_DOCUMENTS);
-
+  console.log('get doc data', data);
+  const { getDocuments = {} } = data ? data : {};
   const [
     fetchCaregiverDetails,
     {
@@ -201,6 +202,7 @@ const Documents = () => {
     setFileObject(null);
     setFilename(null);
     setIsMissingDocEditable(false);
+    setDefaultDocument(null);
     // setErrorMsg(null);
   };
 
@@ -237,12 +239,14 @@ const Documents = () => {
       document_type = {},
       document = '',
       fileName = '',
-      createdAt = ''
+      createdAt = '',
+      isDefault = null
     } = data ? data : {};
     //To set data in case of edit uploaded document
     setIsMissingDocEditable(isMissingDocEditable);
     setShowDocumentPopup(true);
     setDocumentIdUpdate(id);
+    setDefaultDocument(isDefault);
     setDocumentType(
       document_type && document_type.type
         ? { label: document_type.type, value: document_type.id }
@@ -593,6 +597,7 @@ const Documents = () => {
         loading={addDocumentLoading || updateDocumentLoading}
         documentTypeList={documentTypeList}
         unsupportedFile={unsupportedFile}
+        defaultDocument={defaultDocument}
       />
     </div>
   );

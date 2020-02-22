@@ -106,7 +106,7 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
                   </Label>
                   <Select
                     placeholder={languageTranslation('STATUS_PLACEHOLDER')}
-                    options={TodoFilter}
+                    options={StatusOptions}
                     isClearable={true}
                     isSearchable={false}
                     value={isActive && isActive.value !== '' ? isActive : null}

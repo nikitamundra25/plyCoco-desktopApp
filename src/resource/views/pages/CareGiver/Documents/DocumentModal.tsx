@@ -45,7 +45,8 @@ const DocumentUploadModal = (props: any) => {
     handleClose,
     loading,
     documentTypeList,
-    unsupportedFile
+    unsupportedFile,
+    defaultDocument
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
@@ -194,7 +195,7 @@ const DocumentUploadModal = (props: any) => {
                           placeholder={languageTranslation('DOCUMENT_TYPE')}
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
-                          isDisabled={isMissingDocEditable}
+                          isDisabled={isMissingDocEditable || defaultDocument}
                         />
                       </Col>
                     </Row>

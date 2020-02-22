@@ -141,6 +141,7 @@ const CotactFormComponent: any = (
     handleSubmit,
     setFieldValue,
     careInstitutionAttrOpt,
+    contacttypeOpt,
     setFieldTouched
   } = props;
 
@@ -429,17 +430,17 @@ const CotactFormComponent: any = (
                                 handleSelect(value, 'contactType', '')
                               }
                               classNamePrefix='custom-inner-reactselect'
-                              onInputChange={(value: any) =>
-                                value && value !== ''
-                                  ? setnewContactType(value)
-                                  : null
-                              }
+                              onInputChange={(value: any) => {
+                                if (value) {
+                                  setnewContactType(value);
+                                }
+                              }}
                               className={
                                 errors.contactType && touched.contactType
                                   ? 'error custom-reactselect'
                                   : 'custom-reactselect'
                               }
-                              options={ContactType}
+                              options={contacttypeOpt}
                               menuPlacement={'auto'}
                             />
                             {errors.contactType && touched.contactType && (

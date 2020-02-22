@@ -41,6 +41,15 @@ const [
   CONTACT_ADD_ATTRIBUTE
 ] = CareInstitutionMutation;
 
+const [
+  GET_CARE_INSTITUTION_LIST,
+  GET_CARE_INSTITUION_BY_ID,
+  GET_DEPARTMENT_LIST,
+  GET_CAREINSTITUTION_ATTRIBUTES,
+  GET_CONTACT_LIST_BY_ID,
+  GET_CONTACT_TYPES
+] = CareInstitutionQueries;
+
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const CareInstitutionContacts: any = (props: any) => {
@@ -49,6 +58,34 @@ const CareInstitutionContacts: any = (props: any) => {
   const [selectedAttributes, setSelectedAttributes] = useState<
     IReactSelectInterface[]
   >([]);
+
+  const [fetchContactTypeList, { data: ContactTypeData }] = useLazyQuery<any>(
+    GET_CONTACT_TYPES
+  );
+
+  useEffect(() => {
+    fetchContactTypeList();
+  }, []);
+
+  const [contacttypeOpt, setcontacttypeOpt] = useState<IReactSelectInterface[]>(
+    []
+  );
+
+  useEffect(() => {
+    if (ContactTypeData) {
+      const { getContactType } = ContactTypeData;
+      if (getContactType && getContactType.length) {
+        getContactType.map((data: any) => {
+          contacttypeOpt.push({
+            label: data.contactType,
+            value: data.id
+          });
+          setcontacttypeOpt(contacttypeOpt);
+        });
+      }
+    }
+  }, [ContactTypeData]);
+
   // To set active contact
   useEffect(() => {
     if (contacts && contacts.length) {
@@ -117,17 +154,6 @@ const CareInstitutionContacts: any = (props: any) => {
           value: addContactAttribute.name
         }
       ]);
-      // setSelectedAttributes((prevArray: any) => [
-      //   ...prevArray,
-      //   {
-      //     label: addContactAttribute.name,
-      //     value: addContactAttribute.name,
-      //   },
-      // ]);
-      // selectedAttributes.push({
-      //   label: addContactAttribute.name,
-      //   value: addContactAttribute.name,
-      // });
     }
   });
 
@@ -222,6 +248,28 @@ const CareInstitutionContacts: any = (props: any) => {
       logger(error);
     }
   };
+  let selecContactType: IReactSelectInterface = { label: '', value: '' };
+
+  if (contacts && contacts[activeContact]) {
+    if (contacttypeOpt && contacttypeOpt.length) {
+      console.log(
+        'contacts[activeContact].contactType',
+        contacts[activeContact].contactType
+      );
+
+      const userContactType = contacttypeOpt.filter((x: any) => {
+        return (
+          parseInt(x.value) === parseInt(contacts[activeContact].contactType)
+        );
+      });
+      if (userContactType && userContactType.length) {
+        selecContactType = {
+          label: userContactType[0].label,
+          value: userContactType[0].value
+        };
+      }
+    }
+  }
 
   const {
     email = '',
@@ -275,8 +323,6 @@ const CareInstitutionContacts: any = (props: any) => {
     }
   }, [contacts[activeContact]]);
 
-  console.log(selectedAttributes, 'selectedAttributes in values');
-
   const contactFormValues: ICareInstitutionContact = {
     email: email ? email.trim() : '',
     firstName: firstName ? firstName.trim() : '',
@@ -292,10 +338,7 @@ const CareInstitutionContacts: any = (props: any) => {
     zipCode: zip,
     city,
     title,
-    contactType: {
-      label: contactType,
-      value: contactType
-    },
+    contactType: selecContactType,
     gender: {
       label: gender,
       value: gender
@@ -309,6 +352,7 @@ const CareInstitutionContacts: any = (props: any) => {
     remark,
     attributeId: selectedAttributes
   };
+  console.log('selecContactType', selecContactType);
 
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
@@ -348,6 +392,7 @@ const CareInstitutionContacts: any = (props: any) => {
           <Nav tabs className='contact-tabs pr-120'>
             {contacts && contacts.length
               ? contacts.map((contact: any, index: number) => {
+                  console.log('contacts', contacts);
                   return (
                     <NavItem className='text-capitalize mb-2' key={index}>
                       <NavLink
@@ -394,6 +439,7 @@ const CareInstitutionContacts: any = (props: any) => {
           <CotactFormComponent
             {...props}
             ContactFromAdd={ContactFromAdd}
+            contacttypeOpt={contacttypeOpt}
             addAttribute={(data: String) => {
               // attributes && !attributes.length
               //   ? setisNewAttribute(isNewAttribute.push(data))

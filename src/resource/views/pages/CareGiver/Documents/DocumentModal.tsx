@@ -96,7 +96,7 @@ const DocumentUploadModal = (props: any) => {
                         <Col sm='10'>
                           <div
                             {...getRootProps()}
-                            className='dropzone-preview mb-0'
+                            className='dropzone-preview mb-3'
                           >
                             <input
                               {...getInputProps()}

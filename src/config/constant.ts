@@ -1175,7 +1175,7 @@ export const TodoStatus: IReactSelectInterface[] = [
 
 export const TodoDateFilter: IReactSelectInterface[] = [
   { value: 'future', label: languageTranslation('FUTURE') },
-  { value: 'open', label: languageTranslation('OPEN') }
+  { value: 'past', label: languageTranslation('OPEN') }
 ];
 
 export const SortOptions: IReactSelectInterface[] = [

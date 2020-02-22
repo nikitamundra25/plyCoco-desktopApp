@@ -14,7 +14,7 @@
   "EMP_VIEW": "View Employee",
   "EDIT": "Edit",
   "FUTURE": "Future",
-  "OPEN": "Open",
+  "OPEN": "Past",
   "EMP_EDIT": "Edit Employee",
   "EMP_DELETE": "Move to trash",
   "REMARK_EDIT": "Edit Remark",
@@ -409,7 +409,7 @@
   "ADRESS": "Address Line 1",
   "ADDRESS2": "Address Line 2",
   "CONTACT_PERSON": "Contact Person",
-  "COMMENTS_VISIBLE_FOE_CARE-GIVER": "Comments (visible for care-giver)",
+  "COMMENTS_VISIBLE_FOE_CARE-GIVER": "Comments (visible for caregiver)",
   "COMMENTS": "Comments",
   "REMARKS_VISIBLE_TO_SPECIALIST": "Remarks (visible to specialist)",
   "COMMENTS_OFFER": "Comments Offer",
@@ -475,7 +475,7 @@
   "CHOOSE_IMAGE": "Upload your profile image",
   "CHOOSE_FILE": "Choose file",
   "BROWSE_FILE": "Browse",
-  "TIME_OF_DAY": "Time of day",
+  "TIME_OF_DAY": "Time",
   "TIME_FORMAT": "HH:MM",
   "JURIDICTION": "Juridiction",
   "EXTERNALLY": "Externally",
@@ -744,5 +744,8 @@
   "VARIOUS_DOCUMENTS": "Various documents",
   "TODO_ADD_SUCCESS": "To-do added successfully",
   "TODO_UPDATE_SUCCESS": "To-do updated successfully",
-  "TODO_SUCCESS_DELETE_MSG": "This To-do has been deleted successfully"
+  "TODO_SUCCESS_DELETE_MSG": "This To-do has been deleted successfully",
+  "FILTER_BY_STATUS": "Filter by status",
+  "FILTER_BY_DATE": "Filter by date",
+  "DATE_TIME": "Date & Time"
 }

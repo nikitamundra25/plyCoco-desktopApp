@@ -140,7 +140,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                 </Col>
               </Row>
             </div>
-            <Form className='form-section forms-main-section'>
+            <Form className='form-section '>
               <Row>
                 <Col lg={'6'}>
                   <FormGroup>

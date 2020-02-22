@@ -44,6 +44,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
   const { search, pathname } = useLocation();
   const path = [pathname, qs.stringify({ tab: 'reminders/todos' })].join('?');
   const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
+  const query = qs.parse(search);
 
   const {
     values: { searchBy },
@@ -83,7 +84,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                   {languageTranslation('S_NO')}
                 </th>
                 <th className='date-th-column'>
-                  {languageTranslation('DATE')}{' '}
+                  {languageTranslation('DATE_TIME')}{' '}
                 </th>
                 {userRole === 'careinstitution' ? (
                   <th className='contact-th-column'>
@@ -101,7 +102,11 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                   {' '}
                   {languageTranslation('EXTERNAL')}
                 </th>
-                <th className='prio-col'> {languageTranslation('PRIORITY')}</th>
+                <th className='prio-col text-center'>
+                  {' '}
+                  {languageTranslation('PRIORITY')}
+                </th>
+
                 <th className={'text-center action-th-column'}>
                   {languageTranslation('TABEL_HEAD_CG_ACTION')}
                 </th>
@@ -142,7 +147,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                       </td>
                       {userRole === 'careinstitution' ? (
                         <td className='contact-th-column'>
-                          <span className='view-more-link word-wrap'>
+                          <span className=' word-wrap'>
                             {item.contact
                               ? `${item.contact.firstName} ${item.contact.surName} (${item.contact.contactType})`
                               : '-'}
@@ -155,7 +160,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                         <span className='word-wrap'>{item.comment}</span>
                       </td>
                       <td className='checkbox-th-column text-center'>
-                        <span className='checkboxli checkbox-custom checkbox-default'>
+                        <span className=' checkbox-custom '>
                           <input
                             type='checkbox'
                             id='check'
@@ -170,7 +175,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                         </span>
                       </td>
                       <td className='checkbox-th-column text-center'>
-                        <span className='checkboxli checkbox-custom checkbox-default'>
+                        <span className=' checkbox-custom '>
                           <input
                             type='checkbox'
                             id='checkAll'
@@ -274,7 +279,10 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
               ) : (
                 <tr className={'text-center no-hover-row'}>
                   <td colSpan={8} className={'pt-5 pb-5'}>
-                    {search ? (
+                    {query.sortBy ||
+                    query.priority ||
+                    query.searchBy ||
+                    query.sortByDate ? (
                       <NoSearchFound />
                     ) : (
                       <div className='no-data-section'>

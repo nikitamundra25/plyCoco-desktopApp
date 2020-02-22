@@ -244,7 +244,7 @@ const ArchiveCareInstitution: FunctionComponent = () => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
         <Button
           color={'primary'}
           className={'btn-add'}
@@ -271,117 +271,121 @@ const ArchiveCareInstitution: FunctionComponent = () => {
           />
           {/* <Search /> */}
         </div>
-        <Table bordered hover responsive>
-          <thead className='thead-bg'>
-            <tr>
-              <th className='sno-th-column text-center'>
-                {languageTranslation('S_NO')}
-              </th>
-              <th>{languageTranslation('CARE_INSTITUTION_NAME')}</th>
-              <th>{languageTranslation('USERNAME')}</th>
-              <th>{languageTranslation('EMAIL')}</th>
-              <th className='date-th-column'>
-                {languageTranslation('DELETED_DATE')}
-              </th>
-              <th className='text-center'>
-                {languageTranslation('TABLE_HEAD_ACTION')}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {!called || loading ? (
+        <div className="archieve-table-minheight ">
+          <Table bordered hover responsive>
+            <thead className="thead-bg">
               <tr>
-                <td className={'table-loader'} colSpan={7}>
-                  <Loader />
-                </td>
+                <th className="sno-th-column text-center">
+                  {languageTranslation('S_NO')}
+                </th>
+                <th>{languageTranslation('CARE_INSTITUTION_NAME')}</th>
+                <th>{languageTranslation('USERNAME')}</th>
+                <th>{languageTranslation('EMAIL')}</th>
+                <th className="date-th-column">
+                  {languageTranslation('DELETED_DATE')}
+                </th>
+                <th className="text-center">
+                  {languageTranslation('TABLE_HEAD_ACTION')}
+                </th>
               </tr>
-            ) : data &&
-              data.trashUserList &&
-              data.trashUserList.result &&
-              data.trashUserList.result.length ? (
-              data.trashUserList.result.map((trashUser: any, index: number) => {
-                var elements = [trashUser.firstName, trashUser.lastName];
-                let trashLength = data.trashUserList.result.length;
-                return (
-                  <tr key={index}>
-                    <td className='sno-th-column text-center'>
-                      <span>{count++}</span>
-                    </td>
-                    <td>
-                      <div className='info-column'>{elements.join(' ')}</div>
-                    </td>
-                    <td className='word-wrap'>
-                      {trashUser.userName.split('-')[0]}
-                    </td>
-                    <td className='word-wrap'>
-                      {trashUser.email.split('-')[0]}
-                    </td>
-                    <td className='date-th-column '>
-                      {trashUser.deletedAt
-                        ? moment(trashUser.deletedAt).format(
-                            defaultDateTimeFormat
-                          )
-                        : ''}
-                    </td>
-                    <td>
-                      <div
-                        className={`action-btn ${
-                          trashLength === 1 ? 'margin-tooltip' : ''
-                        }`}
-                      >
-                        <span
-                          className='btn-icon mr-2'
-                          id={`restore${index}`}
-                          onClick={() => onRestoreEmployee(trashUser.id)}
-                        >
-                          <UncontrolledTooltip
-                            placement='top'
-                            target={`restore${index}`}
-                          >
-                            {languageTranslation('RESTORE_TOOLTIP')}
-                          </UncontrolledTooltip>
-                          <i className='fa fa-undo'></i>
-                        </span>
-                        <span
-                          className='btn-icon '
-                          id={`delete${index}`}
-                          onClick={() =>
-                            onPermanentlyDeleteEmployee(trashUser.id)
-                          }
-                        >
-                          <UncontrolledTooltip
-                            placement='top'
-                            target={`delete${index}`}
-                          >
-                            {languageTranslation('DELETE_PERMANENTALY_TOOLTIP')}
-                          </UncontrolledTooltip>
-                          <i className='fa fa-trash'></i>
-                        </span>
+            </thead>
+            <tbody>
+              {!called || loading ? (
+                <tr>
+                  <td className={'table-loader'} colSpan={7}>
+                    <Loader />
+                  </td>
+                </tr>
+              ) : data &&
+                data.trashUserList &&
+                data.trashUserList.result &&
+                data.trashUserList.result.length ? (
+                data.trashUserList.result.map(
+                  (trashUser: any, index: number) => {
+                    var elements = [trashUser.firstName, trashUser.lastName];
+                    let trashLength = data.trashUserList.result.length;
+                    return (
+                      <tr key={index}>
+                        <td className="sno-th-column text-center">
+                          <span>{count++}</span>
+                        </td>
+                        <td>
+                          <div className="info-column">
+                            {elements.join(' ')}
+                          </div>
+                        </td>
+                        <td className="word-wrap">
+                          {trashUser.userName.split('-')[0]}
+                        </td>
+                        <td className="word-wrap">
+                          {trashUser.email.split('-')[0]}
+                        </td>
+                        <td className="date-th-column ">
+                          {trashUser.deletedAt
+                            ? moment(trashUser.deletedAt).format(
+                                defaultDateTimeFormat
+                              )
+                            : ''}
+                        </td>
+                        <td>
+                          <div className={`action-btn`}>
+                            <span
+                              className="btn-icon mr-2"
+                              id={`restore${index}`}
+                              onClick={() => onRestoreEmployee(trashUser.id)}
+                            >
+                              <UncontrolledTooltip
+                                placement="top"
+                                target={`restore${index}`}
+                              >
+                                {languageTranslation('RESTORE_TOOLTIP')}
+                              </UncontrolledTooltip>
+                              <i className="fa fa-undo"></i>
+                            </span>
+                            <span
+                              className="btn-icon "
+                              id={`delete${index}`}
+                              onClick={() =>
+                                onPermanentlyDeleteEmployee(trashUser.id)
+                              }
+                            >
+                              <UncontrolledTooltip
+                                placement="top"
+                                target={`delete${index}`}
+                              >
+                                {languageTranslation(
+                                  'DELETE_PERMANENTALY_TOOLTIP'
+                                )}
+                              </UncontrolledTooltip>
+                              <i className="fa fa-trash"></i>
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  }
+                )
+              ) : (
+                <tr className={'text-center no-hover-row'}>
+                  <td colSpan={7} className={'pt-5 pb-5'}>
+                    {isFilterApplied ? (
+                      <NoSearchFound />
+                    ) : (
+                      <div className="no-data-section">
+                        <div className="no-data-icon">
+                          <i className="icon-ban" />
+                        </div>
+                        <h4 className="mb-1">
+                          Currently there is no data in trash.
+                        </h4>
                       </div>
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <tr className={'text-center no-hover-row'}>
-                <td colSpan={7} className={'pt-5 pb-5'}>
-                  {isFilterApplied ? (
-                    <NoSearchFound />
-                  ) : (
-                    <div className='no-data-section'>
-                      <div className='no-data-icon'>
-                        <i className='icon-ban' />
-                      </div>
-                      <h4 className='mb-1'>
-                        Currently there is no data in trash.
-                      </h4>
-                    </div>
-                  )}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+                    )}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </div>
         {data && data.trashUserList && data.trashUserList.totalCount ? (
           <PaginationComponent
             totalRecords={data.trashUserList.totalCount}

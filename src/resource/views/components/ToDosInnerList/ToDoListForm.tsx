@@ -86,7 +86,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                   id='search'
                   value={searchBy}
                   onChange={handleChange}
-                  placeholder={languageTranslation('SEARCH_LABEL')}
+                  placeholder={languageTranslation('SEARCH_BY_REMARKS')}
                 />
               </FormGroup>
             </Col>
@@ -113,7 +113,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                   {languageTranslation('PRIORITY')} :
                 </Label>
                 <Select
-                  placeholder={languageTranslation('PRIORITY')}
+                  placeholder={languageTranslation('PRIORIRY_PLACEHOLDER')}
                   classNamePrefix='custom-inner-reactselect'
                   className={'custom-reactselect'}
                   options={Priority}
@@ -227,7 +227,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                       </td>
                       <td className='date-th-column'>
                         {' '}
-                        {`${moment(item.date).format(defaultDateFormat)} ${
+                        {`${moment(item.date).format(defaultDateFormat)}, ${
                           item.time
                         }`}
                       </td>
@@ -265,7 +265,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                           <input
                             type='checkbox'
                             id='checkAll'
-                            className=''
+                            className='cursor-notallowed'
                             name={'juridiction'}
                             checked={
                               item.juridiction === 'externally' ? true : false
@@ -299,7 +299,9 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                               caret
                               size='sm'
                             >
-                              {item.priority}
+                              {item.priority === 'normal'
+                                ? languageTranslation('NORMAL')
+                                : item.priority}
                             </DropdownToggle>
                             <DropdownMenu>
                               <DropdownItem
@@ -333,7 +335,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
               ) : (
                 <tr className={'text-center no-hover-row'}>
                   <td colSpan={8} className={'pt-5 pb-5'}>
-                    {isFilterApplied ? (
+                    {search ? (
                       <NoSearchFound />
                     ) : (
                       <div className='no-data-section'>

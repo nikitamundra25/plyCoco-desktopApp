@@ -1,25 +1,22 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 
-import { useParams } from "react-router-dom";
-
-import CreateTodoForm from "./CreateTodoForm";
-import { Formik, FormikProps, FormikHelpers } from "formik";
+import CreateTodoForm from './CreateTodoForm';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
 import {
   ICreateTodoFormValues,
   IReactSelectInterface
-} from "../../../../interfaces";
-import { languageTranslation, logger } from "../../../../helpers";
-import { toast } from "react-toastify";
-import { CreateTodoFormValidationSchema } from "../../../validations";
-import { client } from "../../../../config";
+} from '../../../../interfaces';
+import { languageTranslation, logger } from '../../../../helpers';
+import { toast } from 'react-toastify';
+import { CreateTodoFormValidationSchema } from '../../../validations';
+import { AppRoutes } from '../../../../config';
 import {
   ProfileQueries,
   CareInstitutionQueries
-} from "../../../../graphql/queries";
-import { useMutation, useLazyQuery } from "@apollo/react-hooks";
-import { ToDoMutations } from "../../../../graphql/Mutations";
-import moment from "moment";
+} from '../../../../graphql/queries';
+import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { ToDoMutations } from '../../../../graphql/Mutations';
 const [VIEW_PROFILE] = ProfileQueries;
 const [ADD_TO_DO, UPDATE_TO_DO] = ToDoMutations;
 const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
@@ -27,19 +24,21 @@ const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
 const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
   const { userRole, handleClose, userData, show, name, editToDo } = mainProps;
 
+  let history = useHistory();
+
   let { id } = useParams();
   let userId: any | undefined = id;
 
   //To get contact list by id
   const [
     fetchContactsByUserID,
-    { data: contactList, loading: contactListLoading }
+    { data: contactList, loading: contactListLoading, refetch }
   ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
   userId = userId ? userId : userData ? userData.userId : undefined;
 
   useEffect(() => {
     // Fetch contact details by care institution id
-    if (userId && userRole === "careInstitution") {
+    if (userId && userRole === 'careInstitution') {
       fetchContactsByUserID({
         variables: { userId: parseInt(userId) }
       });
@@ -55,8 +54,29 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
   useEffect(() => {
     if (data) {
       mainProps.newDataUpdate();
+      if (userRole === 'careInstitution') {
+        history.push(
+          `${AppRoutes.CARE_INSTITUION_VIEW.replace(
+            ':id',
+            mainProps.Id
+          )}?tab=${encodeURIComponent('reminders/todos')}`
+        );
+      } else {
+        history.push(
+          `${AppRoutes.CARE_GIVER_VIEW.replace(
+            ':id',
+            mainProps.Id
+          )}?tab=${encodeURIComponent('reminders/todos')}`
+        );
+      }
     }
   }, [data]);
+
+  useEffect(() => {
+    if (refetch) {
+      refetch();
+    }
+  }, [mainProps.newContactAdded]);
 
   const handleSubmit = async (
     values: ICreateTodoFormValues,
@@ -81,22 +101,23 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
             toDoInput
           }
         });
+        toast.success(languageTranslation('TODO_UPDATE_SUCCESS'));
       } else {
         await addToDo({
           variables: {
             toDoInput
           }
         });
+        toast.success(languageTranslation('TODO_ADD_SUCCESS'));
       }
       resetForm();
-      toast.success(languageTranslation("ADD_NEW_DEPARTMENT_CARE_INSTITUTION"));
       handleClose();
       setSubmitting(false);
     } catch (error) {
       const message = error.message
-        .replace("SequelizeValidationError: ", "")
-        .replace("Validation error: ", "")
-        .replace("GraphQL error: ", "");
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
       toast.error(message);
       logger(error);
     }
@@ -104,11 +125,11 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
   };
 
   const [todoValues, setTodoValues] = useState<ICreateTodoFormValues>({
-    time: "",
-    comment: "",
-    date: "",
+    time: '',
+    comment: '',
+    date: '',
     priority: undefined,
-    juridiction: "",
+    juridiction: '',
     contact: undefined
   });
 
@@ -120,7 +141,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
       getContactsByUserID.map((list: any) => {
         return contactOptions.push({
           label: `${list.firstName} ${list.surName} (${list.contactType})`,
-          value: list.id ? list.id : ""
+          value: list.id ? list.id : ''
         });
       });
     }
@@ -135,7 +156,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         date: new Date(date),
         priority: priority
           ? {
-              label: priority.toUpperCase(),
+              label: priority.charAt(0).toUpperCase() + priority.slice(1),
               value: priority
             }
           : undefined,
@@ -143,18 +164,19 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         contact: contact
           ? {
               label: `${contact.firstName} ${contact.surName} (${contact.contactType})`,
-              value: contact.id ? contact.id : ""
+              value: contact.id ? contact.id : ''
             }
           : undefined
       });
     } else {
       mainProps.setisnewDataUpdate();
+      mainProps.setnewContactAdded();
       setTodoValues({
-        time: "",
-        comment: "",
-        date: "",
+        time: '',
+        comment: '',
+        date: '',
         priority: undefined,
-        juridiction: "internally",
+        juridiction: 'internally',
         contact: undefined
       });
     }

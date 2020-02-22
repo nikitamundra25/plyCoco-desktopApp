@@ -329,7 +329,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
             color='primary'
             onClick={handleSubmit}
           >
-            {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
+            {isSubmitting ? <i className='fa fa-spinner fa-spin mr-2' /> : ''}
             {!editToDo
               ? languageTranslation('ADD_REMINDER')
               : languageTranslation('EDIT_REMINDER')}

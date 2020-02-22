@@ -62,7 +62,6 @@ const Documents = () => {
   const [fetchDocumentList, { data, loading, refetch, called }] = useLazyQuery<
     any
   >(GET_DOCUMENTS);
-  console.log('get doc data', data);
   const { getDocuments = {} } = data ? data : {};
   const [
     fetchCaregiverDetails,
@@ -352,6 +351,8 @@ const Documents = () => {
   };
   //on save document detatils
   const handleSaveDocument = () => {
+    console.log('isMissingDocEditable', isMissingDocEditable);
+
     setIsSubmit(true);
     const queryPath = path.pathname;
     const res = queryPath.split('/');
@@ -362,7 +363,9 @@ const Documents = () => {
       remarks: remarkValue ? remarkValue : ''
     };
     if (documentIdUpdate) {
-      if (fileName || isMissingDocEditable) {
+      console.log('isMissingDocEditable', isMissingDocEditable);
+
+      if (fileObject && (fileName || isMissingDocEditable)) {
         // To validate file name shoulb not be empty or is the missing document
         updateDocument({
           variables: {

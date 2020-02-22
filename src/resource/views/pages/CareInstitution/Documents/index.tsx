@@ -261,7 +261,6 @@ const Documents = () => {
       fileName = '',
       createdAt = '',
       isDefault = null
-
     } = data ? data : {};
     //To set data in case of edit uploaded document
     setIsMissingDocEditable(isMissingDocEditable);
@@ -385,10 +384,8 @@ const Documents = () => {
       documentTypeId: documentType ? documentType.value : '',
       remarks: remarkValue ? remarkValue : ''
     };
-    console.log('documentIdUpdate', documentIdUpdate);
-
     if (documentIdUpdate) {
-      if (fileName || isMissingDocEditable) {
+      if (fileObject && (fileName || isMissingDocEditable)) {
         // To validate file name shoulb not be empty or is the missing document
         updateDocument({
           variables: {

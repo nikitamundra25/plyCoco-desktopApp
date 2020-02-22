@@ -139,7 +139,6 @@ const DocumentUploadModal = (props: any) => {
                               </span>
                             )}
                           </div>
-                          {console.log(documentUrls, 'documentUrls')}
                           {isSubmit && documentUrls === null ? (
                             <div className='required-error'>
                               Document is required

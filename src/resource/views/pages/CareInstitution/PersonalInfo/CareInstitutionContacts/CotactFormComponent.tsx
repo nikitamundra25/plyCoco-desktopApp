@@ -199,6 +199,19 @@ const CotactFormComponent: any = (
     }
   };
 
+  const handleAddNewContactType = (contactType: string) => {
+    if (contactType !== '') {
+      const newContactTypeData: IReactSelectInterface = {
+        label: contactType,
+        value: contactType
+      };
+      setFieldValue('contactType', newContactTypeData);
+      setnewContactType('');
+    }
+  };
+
+  const [newContactType, setnewContactType] = useState('');
+
   const ContactError: any = errors.contactType;
 
   return (
@@ -395,7 +408,7 @@ const CotactFormComponent: any = (
                 </Col>
               </Row>
             </div>
-            <div className='form-flex-tile'>
+            <div className='form-flex-tile contactform-flex-tile'>
               <Row>
                 <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
@@ -407,27 +420,52 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
-                        <div className='required-input'>
-                          <Select
-                            placeholder={languageTranslation('CONTACT_TYPE')}
-                            value={contactType ? contactType : undefined}
-                            onChange={(value: any) =>
-                              handleSelect(value, 'contactType', '')
+                        <div className='d-flex align-items-center'>
+                          <div className='required-input flex-grow-1 mr-2'>
+                            <Select
+                              placeholder={languageTranslation('CONTACT_TYPE')}
+                              value={contactType ? contactType : undefined}
+                              onChange={(value: any) =>
+                                handleSelect(value, 'contactType', '')
+                              }
+                              classNamePrefix='custom-inner-reactselect'
+                              onInputChange={(value: any) =>
+                                value && value !== ''
+                                  ? setnewContactType(value)
+                                  : null
+                              }
+                              className={
+                                errors.contactType && touched.contactType
+                                  ? 'error custom-reactselect'
+                                  : 'custom-reactselect'
+                              }
+                              options={ContactType}
+                              menuPlacement={'auto'}
+                            />
+                            {errors.contactType && touched.contactType && (
+                              <div className='required-tooltip'>
+                                {ContactError.value}
+                              </div>
+                            )}
+                          </div>
+                          <Button
+                            id={'addContact'}
+                            onClick={() =>
+                              handleAddNewContactType(newContactType)
                             }
-                            classNamePrefix='custom-inner-reactselect'
-                            className={
-                              errors.contactType && touched.contactType
-                                ? 'error custom-reactselect'
-                                : 'custom-reactselect'
-                            }
-                            options={ContactType}
-                            menuPlacement={'auto'}
-                          />
-                          {errors.contactType && touched.contactType && (
-                            <div className='required-tooltip'>
-                              {ContactError.value}
-                            </div>
-                          )}
+                            disabled={newContactType === ''}
+                            className={`add-new-btn d-inline-flex align-items-center justify-content-center ${
+                              newContactType === '' ? 'disabled-class' : ''
+                            }`}
+                          >
+                            <i className={'fa fa-plus'} />
+                          </Button>
+                          <UncontrolledTooltip
+                            placement='top'
+                            target='addContact'
+                          >
+                            Click To Add New Contact Type
+                          </UncontrolledTooltip>
                         </div>
                       </Col>
                     </Row>

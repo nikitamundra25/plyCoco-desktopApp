@@ -128,7 +128,15 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
       if (searchData.search) {
         searchBy = searchData.search;
       }
-
+      if (searchData && searchData.toDoFilter) {
+        sortBy = searchData.toDoFilter;
+      }
+      if (searchData && searchData.sortByDate) {
+        sortByDate = searchData.sortByDate;
+      }
+      if (searchData && searchData.priority) {
+        priority = searchData.priority;
+      }
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       // call query
       fetchToDoList({
@@ -136,8 +144,8 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           userId: parseInt(userId),
           searchBy,
           userType: userRole,
-          sortBy: searchData.sortBy === 'all' ? null : searchData.sortBy,
-          sortByDate: searchData.sortByDate,
+          sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
+          sortByDate: searchData.sortByDate ? searchData.sortByDate : null,
           priority: searchData.priority,
           limit: PAGE_LIMIT,
           page: query.page ? parseInt(query.page as string) : 1

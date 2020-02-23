@@ -37,7 +37,7 @@ const PersonalInfoFormComponent: any = (
     userSelectedCountry: any;
   }
 ) => {
-  const { countriesOpt,userSelectedCountry } = props;
+  const { countriesOpt, userSelectedCountry } = props;
   // To fetch the states of selected contry & don't want to query on initial load
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
@@ -71,13 +71,13 @@ const PersonalInfoFormComponent: any = (
     );
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     if (userSelectedCountry && userSelectedCountry.value) {
       getStatesByCountry({
-        variables: { countryid: userSelectedCountry.value}
+        variables: { countryid: userSelectedCountry.value }
       });
     }
-  },[userSelectedCountry])
+  }, [userSelectedCountry])
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
@@ -361,10 +361,9 @@ const PersonalInfoFormComponent: any = (
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <Row className="custom-col inner-no-padding-col">
                   <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
-                    <div className="required-input">
-                      <Field
-                        name={'dateOfBirth'}
-                        render={({ field }: any) => (
+                    <Field name="dateOfBirth">
+                      {({ field }: any) => (
+                        <div className={"required-input"}>
                           <MaskedInput
                             {...field}
                             placeholder={languageTranslation(
@@ -380,14 +379,13 @@ const PersonalInfoFormComponent: any = (
                             onBlur={handleBlur}
                             value={dateOfBirth}
                           />
-                        )}
-                      />
-                      {errors.dateOfBirth && touched.dateOfBirth && (
-                        <div className="required-tooltip left">
-                          {errors.dateOfBirth}
-                        </div>
-                      )}
-                    </div>
+                          {errors.dateOfBirth && touched.dateOfBirth && (
+                            <div className="required-tooltip left">
+                              {errors.dateOfBirth}
+                            </div>
+                          )}
+                        </div>)}
+                    </Field>
                   </Col>
                   <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                     <FormGroup>

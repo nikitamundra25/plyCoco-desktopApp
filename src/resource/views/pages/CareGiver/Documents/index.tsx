@@ -42,7 +42,7 @@ const Documents = () => {
   const [documentUrls, setDocumentUrl] = useState<IDocumentUrls | null>(null);
   const [fileObject, setFileObject] = useState<Object | null>(null);
   const [statusValue, setStatusValue] = useState<boolean>(true);
-  const [remarkValue, setRemarkValue] = useState<any>(null);
+  const [remarkValue, setRemarkValue] = useState<string>('');
   const [documentType, setDocumentType] = useState<
     IReactSelectInterface | undefined
   >(undefined);
@@ -62,7 +62,6 @@ const Documents = () => {
   const [fetchDocumentList, { data, loading, refetch, called }] = useLazyQuery<
     any
   >(GET_DOCUMENTS);
-  console.log('get doc data', data);
   const { getDocuments = {} } = data ? data : {};
   const [
     fetchCaregiverDetails,
@@ -194,7 +193,7 @@ const Documents = () => {
 
   //set state data null
   const setStateValueNull = () => {
-    setRemarkValue(null);
+    setRemarkValue('');
     setDocumentType(undefined);
     setDocumentUrl(null);
     setStatusValue(true);
@@ -208,7 +207,7 @@ const Documents = () => {
 
   //Reset form
   const resetFormValue = () => {
-    setRemarkValue(null);
+    setRemarkValue('');
     setDocumentType(undefined);
     setDocumentUrl(null);
     setStatusValue(true);
@@ -252,7 +251,7 @@ const Documents = () => {
         ? { label: document_type.type, value: document_type.id }
         : undefined,
     );
-    setRemarkValue(null);
+    setRemarkValue('');
     setDocumentUrl(null);
     if (!isMissingDocEditable) {
       setRemarkValue(remarks);
@@ -495,7 +494,7 @@ const Documents = () => {
       }
     });
   }
-
+  
   return (
     <div>
       <div className='document-upload-section mb-3'>
@@ -527,12 +526,12 @@ const Documents = () => {
                   (data && data.getDocuments && !data.getDocuments.length) ||
                   (data &&
                     data.getDocuments &&
-                    data.getDocuments.filter(
+                    !data.getDocuments.filter(
                       (document: any) => !document.fileName,
                     ).length) ||
                   (data &&
                     data.getDocuments &&
-                    data.getDocuments.filter(
+                    !data.getDocuments.filter(
                       (document: any) =>
                         document.isDefault && document.status !== 'approve',
                     ).length) // If any of the required document in not approved by admin

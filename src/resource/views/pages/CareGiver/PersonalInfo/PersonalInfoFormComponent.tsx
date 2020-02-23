@@ -148,11 +148,6 @@ const PersonalInfoFormComponent: any = (
     }, 200);
   }, [submitCount]);
 
-  const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
-  const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    regSinceDate
-  );
-
   return (
     <div
       className="form-card custom-caregiver-height custom-scrollbar"
@@ -193,12 +188,13 @@ const PersonalInfoFormComponent: any = (
                           </Col>
                           <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                             <div>
-                              {console.log('RegYear', RegYear)}
                               <Input
                                 type="text"
                                 name={'regSince'}
                                 disabled
-                                value={RegYear}
+                                value={moment(createdAt).format(
+                                  regSinceDate
+                                )}
                                 placeholder="Reg Since"
                                 className="width-common"
                               />

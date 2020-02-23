@@ -3,12 +3,12 @@ import { useHistory } from 'react-router';
 import { useMutation } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { ApolloError } from 'apollo-client';
 import { LoginValidationSchema } from '../../../validations/LoginValidationSchema';
 import { ILoginFormValues, ILoginResponse } from '../../../../interfaces';
 import LoginFormComponent from './LoginFormComponent';
-import { LOGIN } from '../../../../graphql/queries';
+import { LOGIN } from '../../../../graphql/Mutations';
 import { AppRoutes } from '../../../../config';
-import { ApolloError } from 'apollo-client';
 import { errorFormatter } from '../../../../helpers';
 
 let toastId: any = null;
@@ -63,7 +63,7 @@ export const Login: FunctionComponent = () => {
     }
   };
 
-  const values: ILoginFormValues = { email: '', password: '' };
+  const values: ILoginFormValues = { userName: '', password: '' };
   return (
     <Formik
       initialValues={values}

@@ -2,6 +2,8 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { FormGroup, Label, Input, Col, Row, Button } from 'reactstrap';
 import Select from 'react-select';
 import { FormikProps } from 'formik';
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import moment from 'moment';
 import { Salutation, Gender, regSinceDate } from '../../../../../../config';
 import { languageTranslation, logger } from '../../../../../../helpers';
 import {
@@ -9,12 +11,10 @@ import {
   IReactSelectInterface,
   ICountries,
   IStates,
-  ICountry,
   IState,
   IRegion
 } from '../../../../../../interfaces';
 import { CountryQueries } from '../../../../../../graphql/queries';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import CommissionFormData from './CommissionFormData';
 import InvoiceFormData from './InvoiceFormData';
 import QuallificationAttribute from './QuallificationAttribute';
@@ -22,13 +22,13 @@ import RemarkFormData from './RemarkFormData';
 import { RegionQueries } from '../../../../../../graphql/queries/Region';
 import CustomOption from '../../../../components/CustomOptions';
 
-import moment from 'moment';
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 const PersonalInformationForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 > &
   any> = (props: FormikProps<ICareInstitutionFormValues> & any) => {
+    const {userSelectedCountry,countriesOpt} = props;
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY
@@ -45,13 +45,13 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       })
     );
   }
-  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  // const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
-  if (data && data.countries) {
-    data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id })
-    );
-  }
+  // if (data && data.countries) {
+  //   data.countries.forEach(({ id, name }: ICountry) =>
+  //     countriesOpt.push({ label: name, value: id })
+  //   );
+  // }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
       statesOpt.push({ label: name, value: id })
@@ -97,10 +97,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     CareInstitutionList,
     setFieldError
   } = props;
-  const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
-  const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    regSinceDate
-  );
+
   const scrollParentToChild: any = () => {
     let parent = document.getElementById('care-profile');
     let child = document.getElementsByClassName('error')[0];
@@ -131,11 +128,21 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       }
     });
   }, []);
+  useEffect(()=>{
+    console.log("in user selected country use effect");
+    
+    if (userSelectedCountry && userSelectedCountry.value) {
+      getStatesByCountry({
+        variables: { countryid: userSelectedCountry.value}
+      });
+    }
+  },[userSelectedCountry])
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     logger(selectOption, 'value');
     setFieldValue(name, selectOption);
     if (name === 'country') {
+      setFieldValue('state', { label: '', value: '' });
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
@@ -143,15 +150,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     }
   };
 
-  const handleLinkedToSelect = (e: any) => {
-    if (e && e.value) {
-      const data: IReactSelectInterface = {
-        label: e.label,
-        value: e.value
-      };
-      setFieldValue('linkedTo', data);
-    }
-  };
   return (
     <Row className=" ">
       <div id={'caregiver-add-btn'}>
@@ -160,9 +158,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
           disabled={isSubmitting}
           className={'save-button'}
           onClick={handleSubmit}
-          // id={"caregiver-save-btn"}
         >
-          {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ''}
+          {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ''}&nbsp;
           {languageTranslation('SAVE_BUTTON')}
         </Button>
       </div>
@@ -209,7 +206,9 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                                   type="text"
                                   name={'regSince'}
                                   disabled
-                                  value={RegYear}
+                                  value={moment(createdAt).format(
+                                    regSinceDate
+                                  )}
                                   placeholder="Reg Since"
                                   className="width-common"
                                 />
@@ -624,8 +623,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder={languageTranslation('STATE')}
-                        options={props.stateOptions}
-                        value={state && state.value ? state : undefined}
+                        options={statesOpt}
+                        value={state && state.value !=='' ? state : null}
                         onChange={(value: any) => handleSelect(value, 'state')}
                         noOptionsMessage={() => {
                           return 'Select a country first';
@@ -862,7 +861,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                       <Select
                         placeholder={languageTranslation('LIKED_TO')}
                         options={CareInstitutionList}
-                        value={linkedTo}
+                        value={linkedTo && linkedTo.value !== '' ? linkedTo : null}
                         onChange={(value: any) =>
                           handleSelect(value, 'linkedTo')
                         }
@@ -873,17 +872,6 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                           option.value === languageTranslation('ID')
                         }
                       />
-
-                      {/* <Select
-                        placeholder={languageTranslation('LIKED_TO')}
-                        value={
-                          linkedTo && linkedTo.value ? linkedTo : undefined
-                        }
-                        onChange={(e: any) => handleLinkedToSelect(e)}
-                        options={CareInstitutionList}
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
-                      /> */}
                     </div>
                   </Col>
                 </Row>

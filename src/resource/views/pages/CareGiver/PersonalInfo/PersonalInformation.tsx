@@ -53,8 +53,6 @@ const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const {getCaregiver} = props
   let { id } = useParams();
-  let history = useHistory();
-  const [careGiverData, setCareGiverData] = useState<ICareGiverValues | null>();
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
 
   const { data: CountriesData } = useQuery<ICountries>(GET_COUNTRIES);
@@ -336,6 +334,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     regions = [],
     bankDetails={},
     caregiver = {},
+    createdAt=new Date()
   } = getCaregiver ? getCaregiver : {};
   console.log(getCaregiver, '.getCaregiver');
 
@@ -436,12 +435,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   const initialValues: ICareGiverValues = {
     id,
+    createdAt,
     userName,
     state: userSelectedState,
     title,
     firstName,
     lastName,
-    phoneNumber: getCaregiver ? getCaregiver.phoneNumber : '',
+    phoneNumber: phoneNumber ||'',
     dateOfBirth,
     age,
     address1,

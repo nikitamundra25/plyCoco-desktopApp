@@ -210,7 +210,6 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
                   {languageTranslation('SEARCH_LABEL')}
                 </span>
               </Button>
-              {console.log('pathname', Location)}
               <Button
                 className='btn-filter mr-2'
                 id='reset'

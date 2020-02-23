@@ -8,9 +8,6 @@ import {
   useLocation
 } from 'react-router-dom';
 import { Container } from 'reactstrap';
-import { AppRoutes } from '../../../../config';
-import routes from '../../../../routes/routes';
-import navigation from '../../../../_nav';
 import {
   AppFooter,
   AppHeader,
@@ -21,25 +18,19 @@ import {
   AppSidebarMinimizer,
   AppSidebarNav
 } from '@coreui/react';
-import { useLazyQuery } from '@apollo/react-hooks';
-import Loader from '../Loader/Loader';
-import { ProfileQueries } from '../../../../graphql/queries';
-import logo from '../../../assets/img/plycoco-white.png';
 import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
+import { useLazyQuery } from '@apollo/react-hooks';
+import { AppRoutes } from '../../../../config';
+import routes from '../../../../routes/routes';
+import navigation from '../../../../_nav';
+import Loader from '../Loader/Loader';
+import { ProfileQueries } from '../../../../graphql/queries';
 import { errorFormatter } from '../../../../helpers';
+import logo from '../../../assets/img/plycoco-white.png';
 
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
-// const CareInstitutionTodoLayoutComponent = React.lazy(() =>
-//   import(
-//     '../../pages/CareInstitutionTodo/Sidebar/SidebarLayout/CareInstitutionTodoLayout'
-//   )
-// );
-// const CareGiverTodoLayoutComponent = React.lazy(() =>
-//   import('../../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout')
-// );
-
 //Caregiver Todo Layout
 const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
   return (

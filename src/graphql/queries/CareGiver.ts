@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const CAREGIVER_PERSONAL_INFO_FIELDS = `
 {
@@ -306,5 +306,5 @@ export const CareGiverQueries = [
   GET_EMAILS,
   GET_BELONGS_TO,
   GET_CAREGIVER_ATTRIBUTES,
-  GET_CAREGIVERS_FOR_BULK_EMAIL
+  GET_CAREGIVERS_FOR_BULK_EMAIL,
 ];

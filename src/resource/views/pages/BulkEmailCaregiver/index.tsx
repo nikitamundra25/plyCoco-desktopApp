@@ -29,6 +29,7 @@ import { errorFormatter } from '../../../../helpers';
 import filter from '../../../assets/img/filter.svg';
 import refresh from '../../../assets/img/refresh.svg';
 import './index.scss';
+import { useHistory, useLocation } from 'react-router';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
@@ -37,6 +38,11 @@ let toastId: any = null;
 
 const BulkEmailCaregiver: FunctionComponent = () => {
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
+  const history = useHistory();
+  const location = useLocation();
+  const { pathname } = location;
+  console.log('pathname', pathname);
+
   // To get caregiver list from db
   const [
     fetchCareGiverList,
@@ -78,6 +84,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       setIsSubmit(false);
       setTemplate({ label: '', value: '' });
       setselectedCareGiver([]);
+      setBulkCareGivers(false);
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -393,7 +400,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   className='btn-email-save ml-auto mr-2 btn btn-primary'
                 >
                   {bulkEmailLoading ? (
-                    <i className='fa fa-spinner fa-spin loader' />
+                    <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
                     <i
                       className='fa fa-paper-plane mr-2'

@@ -5,7 +5,7 @@ import {
   Redirect,
   RouteComponentProps,
   useHistory,
-  useLocation,
+  useLocation
 } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { AppRoutes } from '../../../../config';
@@ -19,7 +19,7 @@ import {
   AppSidebarForm,
   AppSidebarHeader,
   AppSidebarMinimizer,
-  AppSidebarNav,
+  AppSidebarNav
 } from '@coreui/react';
 import { useLazyQuery } from '@apollo/react-hooks';
 import Loader from '../Loader/Loader';
@@ -31,14 +31,14 @@ import { errorFormatter } from '../../../../helpers';
 
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
-const CareInstitutionTodoLayoutComponent = React.lazy(() =>
-  import(
-    '../../pages/CareInstitutionTodo/Sidebar/SidebarLayout/CareInstitutionTodoLayout'
-  ),
-);
-const CareGiverTodoLayoutComponent = React.lazy(() =>
-  import('../../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout'),
-);
+// const CareInstitutionTodoLayoutComponent = React.lazy(() =>
+//   import(
+//     '../../pages/CareInstitutionTodo/Sidebar/SidebarLayout/CareInstitutionTodoLayout'
+//   )
+// );
+// const CareGiverTodoLayoutComponent = React.lazy(() =>
+//   import('../../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout')
+// );
 
 //Caregiver Todo Layout
 const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
@@ -49,7 +49,7 @@ const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
         <div className='common-detail-page'>
           <div className='common-detail-section'>
             <div className='sticky-common-header'>
-              <CareGiverTodoLayoutComponent />
+              {/* <CareGiverTodoLayoutComponent /> */}
             </div>
             <div className='common-content flex-grow-1'>
               <Component {...props} />
@@ -68,7 +68,7 @@ const CareInstitutionTodoLayout = ({ component: Component, ...rest }: any) => {
         <div className='common-detail-page'>
           <div className='common-detail-section'>
             <div className='sticky-common-header'>
-              <CareInstitutionTodoLayoutComponent />
+              {/* <CareInstitutionTodoLayoutComponent /> */}
             </div>
             <div className='common-content flex-grow-1'>
               <Component {...props} />
@@ -99,8 +99,8 @@ const DefaultLayout = (props: RouteComponentProps) => {
         }
         localStorage.removeItem('adminToken');
         history.push(AppRoutes.LOGIN);
-      },
-    },
+      }
+    }
   );
 
   const [permission, setpermission] = useState<string>('');
@@ -159,7 +159,7 @@ const DefaultLayout = (props: RouteComponentProps) => {
 
   const navigationFunction = (permissions: any) => {
     const navItems: any = {
-      items: [],
+      items: []
     };
     navigation.items.forEach((nav: any | string) => {
       if (nav) {

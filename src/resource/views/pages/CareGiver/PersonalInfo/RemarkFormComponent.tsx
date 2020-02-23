@@ -30,7 +30,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
   let userData: any = '';
   try {
     userData = client.readQuery({
-      query: VIEW_PROFILE,
+      query: VIEW_PROFILE
     });
   } catch (error) {}
 
@@ -42,6 +42,12 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
   const [activeRemark, setActiveRemark] = useState(0);
   // To set field editable
   let [isEditRemark, setisEditRemark] = useState(false);
+  const [isExpand, setIsExpand] = useState<boolean>(false);
+  const [activeRow, setActiveRow] = useState<number>(-1);
+  const expandedText = (index: number) => {
+    setIsExpand(activeRow === index || activeRow === -1 ? !isExpand : isExpand);
+    setActiveRow(activeRow === index ? -1 : index);
+  };
   // Function to remove remark
   const onDelete = async (index: number) => {
     const { value } = await ConfirmBox({
@@ -51,6 +57,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
     if (!value) {
       return;
     } else {
+      toast.dismiss();
       let temp = remarksDetail ? remarksDetail : [];
       temp = temp.filter((_: any, i: number) => i !== index);
       if (setRemarksDetail) {
@@ -117,7 +124,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                       <div className='remark-action-btn'>
                         <div
                           className={`add-remark-btn ${
-                            !remarkData ? 'disabled-div' : ' '
+                            !remarkData ? 'disabled-class' : ' '
                           }`}
                           onClick={e => {
                             if (remarkData) {
@@ -134,12 +141,13 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                 setFieldValue('remarkData', '');
                               }
                               if (props.saveRemark) {
+                                toast.dismiss();
                                 props.saveRemark(
                                   languageTranslation('REMARK_ADDED_SUCCESS'),
                                   undefined,
                                 );
                               } else {
-                                toast.dismiss(toastId);
+                                toast.dismiss();
                                 if (!toast.isActive(toastId)) {
                                   toastId = toast.success(
                                     languageTranslation('REMARK_ADDED_SUCCESS'),
@@ -176,8 +184,22 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                   className='height-textarea '
                                   maxLength={1000}
                                 />
-                              ) : (
+                              ) : remark.data && remark.data.length <= 100 ? (
                                 remark.data
+                              ) : (
+                                <p className='mb-0'>
+                                  {isExpand && activeRow === index
+                                    ? remark.data
+                                    : remark.data.substr(0, 100)}
+                                  <span
+                                    className='view-more-link'
+                                    onClick={() => expandedText(index)}
+                                  >
+                                    {isExpand && activeRow === index
+                                      ? '...Read less'
+                                      : '...Read more'}
+                                  </span>
+                                </p>
                               )}
                             </div>
                           </div>

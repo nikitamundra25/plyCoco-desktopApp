@@ -1,15 +1,9 @@
-import React, {
-  Component,
-  FunctionComponent,
-  useState,
-  useEffect,
-} from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Button, Col, Row } from 'reactstrap';
-import { assignIn } from 'lodash';
 import { useParams, useHistory } from 'react-router';
 import {
   languageTranslation,
-  germanNumberFormat,
+  germanNumberFormat
 } from '../../../../../helpers';
 import PersonalInfoFormComponent from './PersonalInfoFormComponent';
 import BillingSettingsFormComponent from './BillingSettingsFormComponent';
@@ -17,19 +11,17 @@ import QualificationFormComponent from './QualificationFormComponent';
 import AttributeFormComponent from './AttributesFromComponent';
 import RemarkFormComponent from './RemarkFormComponent';
 import { Formik, FormikHelpers, Form, FormikProps } from 'formik';
-import { Query } from '@apollo/react-components';
 import { CareGiverQueries } from '../../../../../graphql/queries/CareGiver';
 import {
   ICareGiverValues,
   IPersonalObject,
-  IBillingSettingsValues,
   IReactSelectInterface,
   ICountries,
   IStates,
   IAttributeValues,
   IAttributeOptions,
   ICountry,
-  IState,
+  IState
 } from '../../../../../interfaces';
 import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
 
@@ -38,11 +30,11 @@ import { toast } from 'react-toastify';
 import '../caregiver.scss';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
-  CountryQueries,
+  CountryQueries
 } from '../../../../../graphql/queries';
 import {
   IQualifications,
-  IQualification,
+  IQualification
 } from '../../../../../interfaces/qualification';
 import Loader from '../../../containers/Loader/Loader';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
@@ -55,7 +47,7 @@ const [
   ,
   ,
   ,
-  GET_CAREGIVER_ATTRIBUTES,
+  GET_CAREGIVER_ATTRIBUTES
 ] = CareGiverQueries;
 const [, UPDATE_CAREGIVER] = CareGiverMutations;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -69,7 +61,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const { data: CountriesData } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
@@ -77,8 +69,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     CountriesData.countries.forEach(({ id, name }: ICountry) =>
       countriesOpt.push({
         label: name,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
 
@@ -86,8 +78,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     statesData.states.forEach(({ id, name }: IState) =>
       statesOpt.push({
         label: name,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
 
@@ -103,8 +95,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         caregiverAttrOpt.push({
           label: name,
           value: id ? id.toString() : '',
-          color,
-        }),
+          color
+        })
     );
   }
 
@@ -131,14 +123,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     data.getQualifications.forEach((quali: any) => {
       qualificationList.push({
         label: quali.name,
-        value: quali.id,
+        value: quali.id
       });
     });
   }
 
   //To get country details
   const { data: countries, loading: countryLoading } = useQuery<ICountries>(
-    GET_COUNTRIES,
+    GET_COUNTRIES
   );
 
   useEffect(() => {
@@ -157,15 +149,15 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         variables: {
           countryid: props.getCaregiver
             ? props.getCaregiver.caregiver.countryId
-            : '',
-        },
+            : ''
+        }
       });
     }
   }, [props.getCaregiver]);
 
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
   ) => {
     const {
       userName,
@@ -214,7 +206,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       night,
       holiday,
       leasingPricingList,
-      invoiceInterval,
+      invoiceInterval
     } = values;
 
     try {
@@ -236,7 +228,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         qualificationId:
           qualifications && qualifications.length
             ? qualifications.map((qualification: IReactSelectInterface) =>
-                parseInt(qualification.value),
+                parseInt(qualification.value)
               )
             : null,
         street,
@@ -282,15 +274,15 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         leasingPricingList:
           leasingPricingList && leasingPricingList.value
             ? leasingPricingList.label
-            : null,
+            : null
       };
       // Edit employee details
       if (id) {
         await updateCaregiver({
           variables: {
             id: parseInt(id),
-            careGiverInput,
-          },
+            careGiverInput
+          }
         });
         if (!toast.isActive(toastId)) {
           toast.success(languageTranslation('CARE_GIVER_UPDATED_SUCCESS'));
@@ -313,10 +305,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           variables: {
             id: parseInt(id),
             careGiverInput: {
-              remarks: remarksData ? remarksData : remarksDetail, // send remarksData in case of delete
+              remarks: remarksData ? remarksData : remarksDetail // send remarksData in case of delete
             },
-            isRemarkAdded: true,
-          },
+            isRemarkAdded: true
+          }
         });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(message);
@@ -334,13 +326,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     userName = '',
     firstName = '',
     lastName = '',
-    countryId = '',
     email = '',
     socialSecurityContribution = false,
     password = '',
     status = 'active',
     qualifications = [],
-    caregiver = {},
+    caregiver = {}
   } = props.getCaregiver ? props.getCaregiver : {};
   console.log(props.getCaregiver, '.getCaregiver');
 
@@ -358,6 +349,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     street = '',
     city = '',
     zipCode = '',
+    countryId = '',
     fax = '',
     mobileNumber = '',
     taxNumber = '',
@@ -374,6 +366,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     weekendAllowance = null,
     holiday = null,
     night = null,
+    attributes = []
   } = caregiver ? caregiver : {};
 
   const qualificationsData: IReactSelectInterface[] | undefined = [];
@@ -381,7 +374,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     qualifications.forEach(({ name, id }: IQualification) => {
       qualificationsData.push({
         label: name,
-        value: id,
+        value: id
       });
     });
   }
@@ -392,16 +385,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   }
 
   let userSelectedCountry: any = {};
-
   if (countries && countries.countries) {
     const userCountry = countries.countries.filter(
-      (x: any) => x.id === countryData,
+      (x: any) => x.id === countryData
     );
-
     if (userCountry && userCountry.length) {
       userSelectedCountry = {
         label: userCountry[0].name,
-        value: userCountry[0].id,
+        value: userCountry[0].id
       };
     }
   }
@@ -417,26 +408,21 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     if (userState && userState.length) {
       userSelectedState = {
         label: userState[0].name,
-        value: userState[0].id,
+        value: userState[0].id
       };
     }
   }
 
   let selectedAttributes: IAttributeOptions[] = [];
-  if (
-    props.getCaregiver &&
-    props.getCaregiver.caregiver &&
-    props.getCaregiver.caregiver.attributes &&
-    props.getCaregiver.caregiver.attributes.length
-  ) {
-    props.getCaregiver.caregiver.attributes.map((attData: string) => {
+  if (attributes && attributes.length) {
+    attributes.map((attData: string) => {
       const data = caregiverAttrOpt.filter(
-        (attr: any) => attr.label === attData,
+        (attr: any) => attr.label === attData
       )[0];
       selectedAttributes.push({
         label: data ? data.label : attData,
         value: data ? data.value : attData,
-        color: data ? data.color : null,
+        color: data ? data.color : null
       });
     });
   }
@@ -449,7 +435,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   if (props.careGiverOpt && props.careGiverOpt.length) {
     const userBelongTo = props.careGiverOpt.filter(
-      (x: any) => parseInt(x.value) === belongToId,
+      (x: any) => parseInt(x.value) === belongToId
     );
 
     if (userBelongTo && userBelongTo.length) {
@@ -472,6 +458,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     driversLicense,
     driverLicenseNumber,
     country: userSelectedCountry,
+    //  countriesOpt.filter(
+    //   (country: IReactSelectInterface) => country.value === countryId,
+    // )[0],
+    // // userSelectedCountry,
     vehicleAvailable,
     street,
     city,
@@ -483,7 +473,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       props.getCaregiver.regions.length
         ? {
             label: props.getCaregiver.regions[0].regionName,
-            value: props.getCaregiver.regions[0].id,
+            value: props.getCaregiver.regions[0].id
           }
         : undefined,
     fax,
@@ -503,7 +493,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     legalForm: legalForm
       ? {
           label: props.getCaregiver.caregiver.legalForm,
-          value: props.getCaregiver.caregiver.legalForm,
+          value: props.getCaregiver.caregiver.legalForm
         }
       : undefined,
     companyName,
@@ -520,14 +510,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
             {
               data: '',
               createdAt: '',
-              createdBy: '',
-            },
+              createdBy: ''
+            }
           ],
     remarkData: '',
     invoiceInterval: invoiceInterval
       ? {
           label: invoiceInterval,
-          value: invoiceInterval,
+          value: invoiceInterval
         }
       : undefined,
     qualifications: qualificationsData,
@@ -540,30 +530,30 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     nightAllowance: nightAllowance
       ? {
           label: nightAllowance,
-          value: nightAllowance,
+          value: nightAllowance
         }
       : undefined,
     leasingPricingList: leasingPricingList
       ? {
           label: leasingPricingList,
-          value: leasingPricingList,
+          value: leasingPricingList
         }
       : undefined,
     salutation:
       props.getCaregiver && props.getCaregiver.salutation
         ? {
             label: props.getCaregiver.salutation,
-            value: props.getCaregiver.salutation,
+            value: props.getCaregiver.salutation
           }
         : undefined,
     gender:
       props.getCaregiver && props.getCaregiver.gender
         ? {
             label: props.getCaregiver.gender,
-            value: props.getCaregiver.gender,
+            value: props.getCaregiver.gender
           }
         : undefined,
-    attributeId: selectedAttributes,
+    attributeId: selectedAttributes
   };
 
   const usersList = props.careGiverOpt;
@@ -573,7 +563,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       onSubmit={handleSubmit}
       enableReinitialize={true}
       validationSchema={CareGiverValidationSchema}
-      render={(props: FormikProps<ICareGiverValues>) => {
+      children={(props: FormikProps<ICareGiverValues>) => {
         return (
           <Form className='form-section forms-main-section'>
             <div id={'caregiver-add-btn'}>
@@ -584,7 +574,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 className={`save-button`}
               >
                 {props.isSubmitting ? (
-                  <i className='fa fa-spinner fa-spin loader' />
+                  <i className='fa fa-spinner fa-spin mr-2' />
                 ) : (
                   ''
                 )}
@@ -630,91 +620,3 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     />
   );
 };
-
-class GetData extends Component<any, any> {
-  constructor(props: any) {
-    super(props);
-  }
-
-  formatData = (caregiverDetails: any) => {
-    assignIn(caregiverDetails, caregiverDetails.caregiverDetails);
-    assignIn(caregiverDetails, caregiverDetails.caregiverDetails);
-    if (caregiverDetails.bankDetails) {
-      assignIn(
-        caregiverDetails,
-        caregiverDetails,
-        caregiverDetails.bankDetails,
-      );
-    }
-    if (caregiverDetails.billingSettingDetails) {
-      assignIn(
-        caregiverDetails,
-        caregiverDetails,
-        caregiverDetails.billingSettingDetails,
-      );
-    } else {
-      assignIn(caregiverDetails, caregiverDetails, {
-        fee: '',
-        weekendAllowancePerHour: '',
-        holidayAllowancePerHourFee: '',
-        nightAllowancePerHour: '',
-        leasingPrice: '',
-        invoiceInterval: '',
-      });
-    }
-    caregiverDetails.salutation = {
-      value: caregiverDetails.salutation,
-      label: caregiverDetails.salutation,
-    };
-    caregiverDetails.state = {
-      value: caregiverDetails.state,
-      label: caregiverDetails.state,
-    };
-    caregiverDetails.legalForm = {
-      value: caregiverDetails.legalForm,
-      label: caregiverDetails.legalForm,
-    };
-    caregiverDetails.regionId = {
-      value: caregiverDetails.regions[0]._id,
-      label: caregiverDetails.regions[0].regionName,
-    };
-    caregiverDetails.workZones =
-      caregiverDetails.workZones && caregiverDetails.workZones.length
-        ? caregiverDetails.workZones.map((wz: String) => {
-            return { label: wz, value: wz };
-          })
-        : [];
-    delete caregiverDetails.bankDetails;
-    delete caregiverDetails.billingSettingDetails;
-    delete caregiverDetails.caregiverDetails;
-    return caregiverDetails;
-  };
-
-  render() {
-    // const CareInstitutionLinkedTo = props.CareInstitutionList;
-    return (
-      <Query
-        query={GET_CAREGIVER_BY_ID}
-        fetchPolicy='network-only'
-        variables={{ id: parseInt(this.props.Id) }}
-      >
-        {({ loading, error, data }: any) => {
-          if (loading)
-            return (
-              <div className='overview-loader'>
-                <Loader />
-              </div>
-            );
-          if (error) return <div>Caught error: {error.message}</div>;
-          return (
-            <PersonalInformation
-              {...this.props}
-              getCaregiver={data.getCaregiver}
-            />
-          );
-        }}
-      </Query>
-    );
-  }
-}
-export default GetData;

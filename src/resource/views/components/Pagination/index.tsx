@@ -161,25 +161,25 @@ class PaginationComponent extends Component<
     const pages = this.fetchPageNumbers();
 
     return (
-      <div className={'float-right'}>
+      <div className={'d-flex align-items-center justify-content-end'}>
         <Pagination className={'custom-pagination'}>
           {pages.map((page, index) => {
             return page === LEFT_PAGE ? (
               <PaginationItem key={index} onClick={this.handleMoveLeft}>
-                <PaginationLink previous tag='button'>
-                  <span aria-hidden='true'>«</span> Prev
+                <PaginationLink previous tag="button">
+                  <span aria-hidden="true">«</span> Prev
                 </PaginationLink>
               </PaginationItem>
             ) : page === RIGHT_PAGE ? (
               <PaginationItem key={index} onClick={this.handleMoveRight}>
-                <PaginationLink next tag='button'>
-                  Next <span aria-hidden='true'>»</span>
+                <PaginationLink next tag="button">
+                  Next <span aria-hidden="true">»</span>
                 </PaginationLink>
               </PaginationItem>
             ) : page === FIRST_PAGE ? (
               <PaginationItem key={index} onClick={this.handleClick(1)}>
-                <PaginationLink next tag='button'>
-                  First <span aria-hidden='true'>«</span>
+                <PaginationLink next tag="button">
+                  First <span aria-hidden="true">«</span>
                 </PaginationLink>
               </PaginationItem>
             ) : page === LAST_PAGE ? (
@@ -187,8 +187,8 @@ class PaginationComponent extends Component<
                 key={index}
                 onClick={this.handleClick(this.totalPages)}
               >
-                <PaginationLink next tag='button'>
-                  Last <span aria-hidden='true'>»</span>
+                <PaginationLink next tag="button">
+                  Last <span aria-hidden="true">»</span>
                 </PaginationLink>
               </PaginationItem>
             ) : (
@@ -197,7 +197,7 @@ class PaginationComponent extends Component<
                 onClick={this.handleClick(page)}
                 active={currentPage === page}
               >
-                <PaginationLink tag='button'>{page}</PaginationLink>
+                <PaginationLink tag="button">{page}</PaginationLink>
               </PaginationItem>
             );
           })}

@@ -85,7 +85,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                 !weeklyWorkingHrs)
             }
           >
-            {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+            {isSubmitting ? <i className="fa fa-spinner fa-spin mr-2" /> : ""}
             {languageTranslation("SAVE_BUTTON")}
           </Button>
         </div>

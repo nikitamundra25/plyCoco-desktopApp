@@ -13,7 +13,6 @@ import {
   Form
 } from 'reactstrap';
 import Select from 'react-select';
-import 'react-day-picker/lib/style.css';
 import { languageTranslation } from '../../../../../helpers';
 import { useDropzone } from 'react-dropzone';
 import png from '../../../../assets/img/png.svg';
@@ -26,6 +25,10 @@ import ppt from '../../../../assets/img/ppt.svg';
 import txt from '../../../../assets/img/txt.svg';
 import defaultExtention from '../../../../assets/img/no-extension.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
+import {
+  AcceptedFileFormat,
+  AcceptedDocumentFile
+} from '../../../../../config';
 
 const DocumentUploadModal = (props: any) => {
   const {
@@ -45,10 +48,13 @@ const DocumentUploadModal = (props: any) => {
     handleClose,
     addDocumentLoading,
     updateDocumentLoading,
-    documentTypeList
+    documentTypeList,
+    unsupportedFile,
+    defaultDocument
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
+    accept: AcceptedFileFormat,
     multiple: false
   });
   const externalCloseBtn = (
@@ -57,10 +63,12 @@ const DocumentUploadModal = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
+
   // To get file extension
   let splitName =
     documentUrls && documentUrls.name ? documentUrls.name.split('.') : [];
   const extention = splitName && splitName[1];
+
   return (
     <div>
       <Modal isOpen={show} className='reminder-modal' size='lg' centered>
@@ -71,7 +79,7 @@ const DocumentUploadModal = (props: any) => {
         </ModalHeader>
         <ModalBody>
           <div className=''>
-            <Form className='form-section forms-main-section'>
+            <Form className='form-section '>
               <Row>
                 <Col lg={'12'}>
                   <FormGroup>
@@ -93,7 +101,7 @@ const DocumentUploadModal = (props: any) => {
                         <Col sm='10'>
                           <div
                             {...getRootProps()}
-                            className='dropzone-preview mb-0'
+                            className='dropzone-preview mb-3'
                           >
                             <input
                               {...getInputProps()}
@@ -142,7 +150,11 @@ const DocumentUploadModal = (props: any) => {
                             <div className='required-error'>
                               Document is required
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className='required-error'>
+                              {unsupportedFile}
+                            </div>
+                          )}
                         </Col>
                       ) : (
                         <Col sm='10'>
@@ -159,12 +171,12 @@ const DocumentUploadModal = (props: any) => {
                                   : 'text-input my-2 my-sm-0'
                               }
                             />
+                            {isSubmit && !fileName ? (
+                              <div className='required-tooltip'>
+                                File name is required
+                              </div>
+                            ) : null}
                           </div>
-                          {isSubmit && !fileName ? (
-                            <div className='required-error'>
-                              File name is required
-                            </div>
-                          ) : null}
                         </Col>
                       )}
                     </Row>
@@ -190,7 +202,7 @@ const DocumentUploadModal = (props: any) => {
                           }}
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
-                          isDisabled={isMissingDocEditable}
+                          isDisabled={isMissingDocEditable || defaultDocument}
                         />
                       </Col>
                     </Row>

@@ -2,7 +2,7 @@ import React, {
   FunctionComponent,
   useState,
   ChangeEvent,
-  useEffect,
+  useEffect
 } from 'react';
 import { useParams } from 'react-router';
 import { Col, FormGroup, Label, Row, Input } from 'reactstrap';
@@ -30,8 +30,9 @@ export const DocumentFormComponent: FunctionComponent<{
   const { data, loading, refetch, called } = useQuery<any>(GET_DOCUMENTS, {
     variables: {
       userId: id ? parseInt(id) : '',
+      userRole: languageTranslation('EMPLOYEE_USERROLE')
     },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'cache-and-network'
   });
   //mutation to add documents of employee
   const [addDocument, { loading: addDocumentLoading }] = useMutation<any>(
@@ -42,19 +43,19 @@ export const DocumentFormComponent: FunctionComponent<{
           fileSize: size = 0,
           fileName = '',
           document: path = '',
-          id = '',
+          id = ''
         } = addUserDocuments ? addUserDocuments : {};
         setAttachment((prevArray: any) => [
           { size, path, fileName, url: null, file: null, id },
-          ...prevArray,
+          ...prevArray
         ]);
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('DOCUMENT_ADDED_SUCCESS'),
+            languageTranslation('DOCUMENT_ADDED_SUCCESS')
           );
         }
-      },
-    },
+      }
+    }
   );
 
   // Mutation to delete Component
@@ -62,11 +63,11 @@ export const DocumentFormComponent: FunctionComponent<{
     onCompleted({ deleteDocument }) {
       const { id } = deleteDocument;
       setAttachment((prevArray: any) =>
-        prevArray.filter((item: any) => item.id !== id),
+        prevArray.filter((item: any) => item.id !== id)
       );
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('DOCUMENT_DELETION_SUCCESS'),
+          languageTranslation('DOCUMENT_DELETION_SUCCESS')
         );
       }
     },
@@ -75,9 +76,8 @@ export const DocumentFormComponent: FunctionComponent<{
       if (!toast.isActive(toastId)) {
         toast.error(message);
       }
-    },
+    }
   });
-
   useEffect(() => {
     if (data) {
       let temp: IEmailAttachmentData[] = [];
@@ -87,7 +87,7 @@ export const DocumentFormComponent: FunctionComponent<{
           document: path,
           fileName,
           fileSize: size,
-          id,
+          id
         }: {
           document: string;
           fileName: string;
@@ -100,9 +100,9 @@ export const DocumentFormComponent: FunctionComponent<{
             size,
             file: null,
             url: '',
-            id,
+            id
           });
-        },
+        }
       );
       setAttachment(temp);
     }
@@ -111,7 +111,7 @@ export const DocumentFormComponent: FunctionComponent<{
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const {
-      target: { files },
+      target: { files }
     } = e;
     if (files) {
       for (let index = 0; index < files.length; index++) {
@@ -124,9 +124,9 @@ export const DocumentFormComponent: FunctionComponent<{
               documentInput: {
                 userId: id ? id : '',
                 document: file,
-                documentTypeId: null,
-              },
-            },
+                documentTypeId: null
+              }
+            }
           });
         };
       }
@@ -136,7 +136,7 @@ export const DocumentFormComponent: FunctionComponent<{
   const onDeleteDocument = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_DOCUMENT_DELETE_MSG'),
+      text: languageTranslation('CONFIRM_DOCUMENT_DELETE_MSG')
     });
     if (!value) {
       return;
@@ -145,8 +145,8 @@ export const DocumentFormComponent: FunctionComponent<{
         if (id) {
           deleteDocument({
             variables: {
-              id: parseInt(id),
-            },
+              id: parseInt(id)
+            }
           });
         }
       } catch (error) {
@@ -172,12 +172,26 @@ export const DocumentFormComponent: FunctionComponent<{
                   multiple
                   onChange={handleImageChange}
                   className='custom-input-file'
+                  disable={addDocumentLoading}
                 />
-
-                <Label className='custom-label-file' for='FileBrowser'>
+                <Label
+                  className={`custom-label-file ${
+                    addDocumentLoading ? 'cursor-notallowed' : ''
+                  }`}
+                  for='FileBrowser'
+                >
                   <span className='choosefile-label'>
-                    <i className='fa fa-folder-open mr-2'></i>
-                    <span>{languageTranslation('BROWSE_FILE')}</span>
+                    {addDocumentLoading ? (
+                      <>
+                        <i className='fa fa-spinner fa-spin '></i>
+                        &nbsp; <span>{languageTranslation('BROWSE_FILE')}</span>
+                      </>
+                    ) : (
+                      <>
+                        <i className='fa fa-folder-open mr-2'></i>
+                        <span>{languageTranslation('BROWSE_FILE')}</span>
+                      </>
+                    )}
                   </span>
                   <span className='upload-doc-name'>
                     {languageTranslation('CHOOSE_FILE')}

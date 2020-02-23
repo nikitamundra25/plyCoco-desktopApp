@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import {
   Button,
   Modal,
@@ -49,7 +49,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
 
   const modifiers = {
     sundays: { daysOfWeek: [0] },
-    saturdays: { daysOfWeek: [6] }
+    saturdays: { daysOfWeek: [7] }
   };
   const modifiersStyles = {
     sundays: {
@@ -62,6 +62,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
     },
     outside: { backgroundColor: 'transparent' }
   };
+
   const externalCloseBtn = (
     <button className='close modal-close' onClick={() => handleClose()}>
       <img src={close} alt='close' className='main-img' />
@@ -76,11 +77,29 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
+  let year: any = new Date();
+
+  let [now, setnow] = useState(new Date());
+  let [cal2, setcal2] = useState(
+    new Date(now.getFullYear(), now.getMonth() + 1, 1)
+  );
+  let [cal3, setcal3] = useState(
+    new Date(now.getFullYear(), now.getMonth() + 2, 1)
+  );
+
+  const handleMonthChange = (mon: any) => {
+    setnow(mon);
+    setcal2(new Date(mon.getFullYear(), mon.getMonth() + 1, 1));
+    setcal3(new Date(mon.getFullYear(), mon.getMonth() + 2, 1));
+  };
+  const handleLastMonthChange = (lastMon: any) => {
+    setcal3(lastMon);
+    setcal2(new Date(lastMon.getFullYear(), lastMon.getMonth() - 1, 1));
+    setnow(new Date(lastMon.getFullYear(), lastMon.getMonth() - 2, 1));
+  };
+
   const ContactError: any = errors.contact;
   const PriorityError: any = errors.priority;
-
-  let currentTime = new Date();
-  let year = currentTime.getFullYear();
 
   return (
     <div>
@@ -98,41 +117,47 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
             <div className='calender-wrapper mb-4'>
               <Row>
                 <Col lg={'4'}>
-                  <div>
+                  <div className='daypicker1 h-100'>
                     <DayPicker
                       selectedDays={date ? date : new Date()}
-                      modifiers={modifiers}
-                      modifiersStyles={modifiersStyles}
+                      // modifiers={modifiers}
+                      // modifiersStyles={modifiersStyles}
+                      month={now}
                       onDayClick={handleDayClick}
+                      disabledDays={{ before: new Date() }}
+                      onMonthChange={handleMonthChange}
+                    />
+                  </div>
+                </Col>
+                <Col lg={'4'}>
+                  <div className='daypicker2 h-100'>
+                    <DayPicker
+                      month={cal2}
+                      selectedDays={date ? date : new Date()}
+                      // modifiers={modifiers}
+                      // modifiersStyles={modifiersStyles}
+                      onDayClick={handleDayClick}
+                      canChangeMonth={false}
                       disabledDays={{ before: new Date() }}
                     />
                   </div>
                 </Col>
                 <Col lg={'4'}>
-                  <div>
+                  <div className='daypicker3 h-100'>
                     <DayPicker
-                      initialMonth={new Date(year, 2)}
+                      month={cal3}
                       selectedDays={date ? date : new Date()}
-                      modifiers={modifiers}
-                      modifiersStyles={modifiersStyles}
+                      // modifiers={modifiers}
+                      // modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
-                    />
-                  </div>
-                </Col>
-                <Col lg={'4'}>
-                  <div>
-                    <DayPicker
-                      initialMonth={new Date(year, 3)}
-                      selectedDays={date ? date : new Date()}
-                      modifiers={modifiers}
-                      modifiersStyles={modifiersStyles}
-                      onDayClick={handleDayClick}
+                      onMonthChange={handleLastMonthChange}
+                      disabledDays={{ before: new Date() }}
                     />
                   </div>
                 </Col>
               </Row>
             </div>
-            <Form className='form-section forms-main-section'>
+            <Form className='form-section '>
               <Row>
                 <Col lg={'6'}>
                   <FormGroup>
@@ -150,7 +175,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                             render={({ field }: any) => (
                               <MaskedInput
                                 {...field}
-                                placeholder={languageTranslation('TIME_OF_DAY')}
+                                placeholder={languageTranslation('TIME_FORMAT')}
                                 mask={TimeMask}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -302,7 +327,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                             value={comment ? comment : undefined}
                             placeholder={languageTranslation('COMMENT')}
                             rows='4'
-                            maxLength={250}
+                            maxLength={255}
                             className={
                               errors.comment && touched.comment
                                 ? 'textarea-custom error'
@@ -329,7 +354,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
             color='primary'
             onClick={handleSubmit}
           >
-            {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
+            {isSubmitting ? <i className='fa fa-spinner fa-spin mr-2' /> : ''}
             {!editToDo
               ? languageTranslation('ADD_REMINDER')
               : languageTranslation('EDIT_REMINDER')}

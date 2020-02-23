@@ -17,7 +17,12 @@ import {
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 // import EmailMenus from "../CareGiver/Emails/EmailMenus";
 import { languageTranslation } from '../../../../helpers';
-import { defaultDateFormat, PAGE_LIMIT } from '../../../../config';
+import {
+  defaultDateFormat,
+  PAGE_LIMIT,
+  AppRoutes,
+  TODO_PAGE_LIMIT
+} from '../../../../config';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { ToDoQueries } from '../../../../graphql/queries';
 import Loader from '../../containers/Loader/Loader';
@@ -64,7 +69,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   //To get todo list by id
   const [fetchToDoByUserID, { data, called, loading, refetch }] = useLazyQuery<
     any
-  >(GET_TO_DOS);
+  >(GET_TO_DOS, { fetchPolicy: 'no-cache' });
   const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
 
   // Mutation to update careInstitution todo status
@@ -91,7 +96,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
         priority: '',
         sortBy: '',
         futureOnly: false,
-        limit: PAGE_LIMIT
+        limit: TODO_PAGE_LIMIT
       }
     });
   }, []);
@@ -101,15 +106,17 @@ const CareInstitutionTodo: FunctionComponent = () => {
     const query = qs.parse(search);
     let searchBy: string = '';
     let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
+    let sortByDate: IReactSelectInterface | undefined = {
+      label: '',
+      value: ''
+    };
     let priority: IReactSelectInterface | undefined = { label: '', value: '' };
-    let futureOnly: boolean | undefined = false;
 
     // To handle display and query param text
     if (query) {
       const current: string | any = history.location.search;
       let searchData: any = {};
       searchData = { ...qs.parse(current) };
-      console.log('search', searchData);
 
       if (searchData && searchData.search) {
         searchBy = searchData.search;
@@ -117,26 +124,30 @@ const CareInstitutionTodo: FunctionComponent = () => {
       if (searchData && searchData.toDoFilter) {
         sortBy = searchData.toDoFilter;
       }
+      if (searchData && searchData.sortByDate) {
+        sortByDate = searchData.sortByDate;
+      }
       if (searchData && searchData.priority) {
         priority = searchData.priority;
       }
-      if (searchData.futureOnly) {
-        futureOnly = JSON.parse(searchData.futureOnly);
-      }
+      // if (searchData.futureOnly) {
+      //   futureOnly = JSON.parse(searchData.futureOnly);
+      // }
 
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       const userRole: string =
         path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution';
       // call query
+
       fetchToDoByUserID({
         variables: {
           userType: userRole,
           userId: parseInt(userId),
           searchBy: searchBy ? searchBy : '',
           sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
+          sortByDate: searchData.sortByDate ? searchData.sortByDate : null,
           priority: searchData.priority,
-          futureOnly,
-          limit: PAGE_LIMIT,
+          limit: TODO_PAGE_LIMIT,
           page: query.page ? parseInt(query.page as string) : 1
         }
       });
@@ -156,6 +167,11 @@ const CareInstitutionTodo: FunctionComponent = () => {
     setSelectUser(list);
   };
 
+  //  call refetch to update todo list
+  const handleRefetch = () => {
+    refetch();
+  };
+
   const handleSubmit = async (
     values: ISearchToDoValues,
     { setSubmitting }: FormikHelpers<ISearchToDoValues>
@@ -164,12 +180,10 @@ const CareInstitutionTodo: FunctionComponent = () => {
       [key: string]: any;
     } = {};
     params.page = 1;
-    if (values.searchValue) {
+    if (values.searchValue && values.searchValue !== '%%%%%%') {
       params.search = values.searchValue;
     }
     if (values.toDoFilter && values.toDoFilter.value !== '') {
-      console.log('values.toDoFilter', values.toDoFilter);
-
       params.toDoFilter =
         values.toDoFilter.value !== '' ? values.toDoFilter.value : '';
     }
@@ -177,9 +191,13 @@ const CareInstitutionTodo: FunctionComponent = () => {
       params.priority =
         values.priority.value !== '' ? values.priority.value : '';
     }
-    if (values.futureOnly) {
-      params.futureOnly = values.futureOnly ? values.futureOnly : false;
+    if (values.sortByDate && values.sortByDate.value !== '') {
+      params.sortByDate =
+        values.sortByDate.value !== '' ? values.sortByDate.value : '';
     }
+    // if (values.futureOnly) {
+    //   params.futureOnly = values.futureOnly ? values.futureOnly : false;
+    // }
     const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);
   };
@@ -239,9 +257,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toast.success(
-            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG')
-          );
+          toast.success(languageTranslation('TODO_SUCCESS_DELETE_MSG'));
         }
       } catch (error) {
         const message = error.message
@@ -254,11 +270,30 @@ const CareInstitutionTodo: FunctionComponent = () => {
       }
     }
   };
-  let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  const handleUserRedirect = (id: any) => {
+    if (path[1] !== 'caregiver-todo') {
+      history.push(
+        `${AppRoutes.CARE_INSTITUION_VIEW.replace(
+          ':id',
+          id
+        )}?tab=${encodeURIComponent('reminders/todos')}`
+      );
+    } else {
+      history.push(
+        `${AppRoutes.CARE_GIVER_VIEW.replace(
+          ':id',
+          id
+        )}?tab=${encodeURIComponent('reminders/todos')}`
+      );
+    }
+  };
+
+  let count = (currentPage - 1) * TODO_PAGE_LIMIT + 1;
 
   const {
     searchValue = '',
     sortBy = undefined,
+    sortByDate = undefined,
     toDoFilter = undefined,
     priority = undefined,
     futureOnly = false
@@ -267,6 +302,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const values: ISearchToDoValues = {
     searchValue,
     sortBy,
+    sortByDate,
     toDoFilter,
     priority,
     futureOnly
@@ -276,7 +312,9 @@ const CareInstitutionTodo: FunctionComponent = () => {
     <>
       <div>
         <h5 className='content-title'>
-          {languageTranslation('MENU_TO_DO_INSTITUTION')}
+          {path[1] === 'caregiver-todo'
+            ? languageTranslation('MENU_TO_DO_CARE_GIVER')
+            : languageTranslation('MENU_TO_DO_INSTITUTION')}
         </h5>
         <Row>
           <Col lg={'12'}>
@@ -290,180 +328,198 @@ const CareInstitutionTodo: FunctionComponent = () => {
                 )}
               />
             </div>
-
-            <Table bordered hover responsive>
-              <thead className='thead-bg'>
-                <tr>
-                  <th className='sno-th-column text-center'>
-                    {languageTranslation('S_NO')}
-                  </th>
-                  <th className='date-th-column'>
-                    {languageTranslation('DATE')}{' '}
-                  </th>
-                  <th className='file-th-column'>
-                    {' '}
-                    {languageTranslation('NAME')}
-                  </th>
-                  {path[1] !== 'caregiver-todo' ? (
-                    <th className='contact-th-column'>
-                      {languageTranslation('CONTACT')}
-                    </th>
-                  ) : (
-                    ''
-                  )}
-                  <th className='remark-col'>
-                    {languageTranslation('REMARKS')}
-                  </th>
-                  <th className='checkbox-th-column text-center'>
-                    {' '}
-                    {languageTranslation('DONE')}
-                  </th>
-                  <th className='checkbox-th-column text-center'>
-                    {' '}
-                    {languageTranslation('EXTERNAL')}
-                  </th>
-                  <th className={'text-center action-th-column'}>
-                    {languageTranslation('TABEL_HEAD_CG_ACTION')}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {!called || loading ? (
+            <div className='archieve-table-minheight '>
+              <Table bordered hover responsive>
+                <thead className='thead-bg'>
                   <tr>
-                    <td className={'table-loader'} colSpan={8}>
-                      <Loader />
-                    </td>
+                    <th className='sno-th-column text-center'>
+                      {languageTranslation('S_NO')}
+                    </th>
+                    <th className='date-th-column'>
+                      {languageTranslation('DATE_TIME')}{' '}
+                    </th>
+                    <th className='file-th-column'>
+                      {' '}
+                      {languageTranslation('NAME')}
+                    </th>
+                    {path[1] !== 'caregiver-todo' ? (
+                      <th className='contact-th-column'>
+                        {languageTranslation('CONTACT')}
+                      </th>
+                    ) : (
+                      ''
+                    )}
+                    <th className='remark-col'>
+                      {languageTranslation('REMARKS')}
+                    </th>
+                    <th className='checkbox-th-column text-center'>
+                      {' '}
+                      {languageTranslation('DONE')}
+                    </th>
+                    <th className='checkbox-th-column text-center'>
+                      {' '}
+                      {languageTranslation('EXTERNAL')}
+                    </th>
+                    <th className={'text-center action-th-column'}>
+                      {languageTranslation('TABEL_HEAD_CG_ACTION')}
+                    </th>
                   </tr>
-                ) : data &&
-                  data.getToDos &&
-                  data.getToDos.result &&
-                  data.getToDos.result.length ? (
-                  data.getToDos.result.map((list: any, index: number) => {
-                    return (
-                      <tr>
-                        <td className='sno-th-column text-center'>{count++}</td>
-                        <td className='date-th-column'>
-                          {' '}
-                          {`${moment(list.date).format(defaultDateFormat)} ${
-                            list.time
-                          }`}{' '}
-                        </td>
-                        <td className='file-th-column'>
-                          <span className='view-more-link word-wrap'>
-                            {list.user
-                              ? `${list.user.firstName} ${list.user.lastName}`
-                              : '-'}
-                          </span>
-                        </td>
-                        {path[1] !== 'caregiver-todo' ? (
-                          <td className='contact-th-column'>
-                            <span className='view-more-link word-wrap'>
-                              {list.contact
-                                ? `${list.contact.firstName} ${list.contact.surName} (${list.contact.contactType})`
+                </thead>
+                <tbody>
+                  {!called || loading ? (
+                    <tr>
+                      <td className={'table-loader'} colSpan={8}>
+                        <Loader />
+                      </td>
+                    </tr>
+                  ) : data &&
+                    data.getToDos &&
+                    data.getToDos.result &&
+                    data.getToDos.result.length ? (
+                    data.getToDos.result.map((list: any, index: number) => {
+                      return (
+                        <tr
+                          className={
+                            list.status === 'completed'
+                              ? 'done-bg'
+                              : moment().isAfter(list.date)
+                              ? 'table-danger'
+                              : ''
+                          }
+                          key={index}
+                        >
+                          <td className='sno-th-column text-center'>
+                            {count++}
+                          </td>
+                          <td className='date-th-column'>
+                            {' '}
+                            {`${moment(list.date).format(defaultDateFormat)}, ${
+                              list.time
+                            }`}{' '}
+                          </td>
+                          <td className='file-th-column'>
+                            <span
+                              className='view-more-link word-wrap'
+                              onClick={() => handleUserRedirect(list.userId)}
+                            >
+                              {list.user
+                                ? `${list.user.firstName} ${list.user.lastName}`
                                 : '-'}
                             </span>
                           </td>
+                          {path[1] !== 'caregiver-todo' ? (
+                            <td className='contact-th-column'>
+                              <span className=' word-wrap'>
+                                {list.contact
+                                  ? `${list.contact.firstName} ${list.contact.surName} (${list.contact.contactType})`
+                                  : '-'}
+                              </span>
+                            </td>
+                          ) : (
+                            ''
+                          )}
+                          <td className='remark-col'>
+                            <span className='word-wrap'>{list.comment}</span>
+                          </td>
+                          <td className='checkbox-th-column text-center'>
+                            <span className=' checkbox-custom '>
+                              <input
+                                type='checkbox'
+                                id='check'
+                                className=''
+                                name={'status'}
+                                checked={
+                                  list.status === 'completed' ? true : false
+                                }
+                                onChange={e =>
+                                  handleChange(
+                                    list.id,
+                                    list.status,
+                                    list.priority
+                                  )
+                                }
+                              />
+                              <label className=''> </label>
+                            </span>
+                          </td>
+                          <td className='checkbox-th-column text-center'>
+                            <span className=' checkbox-custom '>
+                              <input
+                                type='checkbox'
+                                id='checkAll'
+                                className='cursor-notallowed'
+                                name={'juridiction'}
+                                disabled={list.juridiction === 'internally'}
+                                checked={
+                                  list.juridiction === 'externally'
+                                    ? true
+                                    : false
+                                }
+                              />
+                              <label className=''> </label>
+                            </span>
+                          </td>
+                          <td>
+                            <div className={`action-btn `}>
+                              <span
+                                className='btn-icon mr-2'
+                                id={`edit${index}`}
+                                onClick={() => editToDo(list)}
+                              >
+                                <UncontrolledTooltip
+                                  placement='top'
+                                  target={`edit${index}`}
+                                >
+                                  {languageTranslation('EDIT')}
+                                </UncontrolledTooltip>
+                                <i className='fa fa-pencil'></i>
+                              </span>
+                              <span
+                                className={`btn-icon mr-2 `}
+                                id={`delete${index}`}
+                                onClick={() => deleteToDo(list.id)}
+                              >
+                                <UncontrolledTooltip
+                                  placement='top'
+                                  target={`delete${index}`}
+                                >
+                                  {languageTranslation('DELETE')}
+                                </UncontrolledTooltip>
+                                <i className='fa fa-trash'></i>
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr className={'text-center no-hover-row'}>
+                      <td colSpan={8} className={'pt-5 pb-5'}>
+                        {search ? (
+                          <NoSearchFound />
                         ) : (
-                          ''
+                          <div className='no-data-section'>
+                            <div className='no-data-icon'>
+                              <i className='icon-ban' />
+                            </div>
+                            <h4 className='mb-1'>
+                              Currently there are no todos added.{' '}
+                            </h4>
+                            <p>Please click above button to add new. </p>
+                          </div>
                         )}
-                        <td className='remark-col'>
-                          <span className='word-wrap'>{list.comment}</span>
-                        </td>
-                        <td className='checkbox-th-column text-center'>
-                          <span className=' checkbox-custom '>
-                            <input
-                              type='checkbox'
-                              id='check'
-                              className=''
-                              name={'status'}
-                              checked={
-                                list.status === 'completed' ? true : false
-                              }
-                              onChange={e =>
-                                handleChange(
-                                  list.id,
-                                  list.status,
-                                  list.priority
-                                )
-                              }
-                            />
-                            <label className=''> </label>
-                          </span>
-                        </td>
-                        <td className='checkbox-th-column text-center'>
-                          <span className=' checkbox-custom '>
-                            <input
-                              type='checkbox'
-                              id='checkAll'
-                              className='cursor-notallowed'
-                              name={'juridiction'}
-                              disabled={list.juridiction === 'internally'}
-                              checked={
-                                list.juridiction === 'externally' ? true : false
-                              }
-                            />
-                            <label className=''> </label>
-                          </span>
-                        </td>
-                        <td>
-                          <div className={`action-btn `}>
-                            <span
-                              className='btn-icon mr-2'
-                              id={`edit${index}`}
-                              onClick={() => editToDo(list)}
-                            >
-                              <UncontrolledTooltip
-                                placement='top'
-                                target={`edit${index}`}
-                              >
-                                Edit
-                              </UncontrolledTooltip>
-                              <i className='fa fa-pencil'></i>
-                            </span>
-                            <span
-                              className={`btn-icon mr-2 `}
-                              id={`delete${index}`}
-                              onClick={() => deleteToDo(list.id)}
-                            >
-                              <UncontrolledTooltip
-                                placement='top'
-                                target={`delete${index}`}
-                              >
-                                Move to trash
-                              </UncontrolledTooltip>
-                              <i className='fa fa-trash'></i>
-                            </span>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr className={'text-center no-hover-row'}>
-                    <td colSpan={8} className={'pt-5 pb-5'}>
-                      {search ? (
-                        <NoSearchFound />
-                      ) : (
-                        <div className='no-data-section'>
-                          <div className='no-data-icon'>
-                            <i className='icon-ban' />
-                          </div>
-                          <h4 className='mb-1'>
-                            Currently there are no todos added.{' '}
-                          </h4>
-                          <p>Please click above button to add new. </p>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            </div>
             {data && data.getToDos && data.getToDos.totalCount ? (
               <PaginationComponent
                 totalRecords={data.getToDos.totalCount}
                 currentPage={currentPage}
                 onPageChanged={onPageChanged}
+                pageLimit={TODO_PAGE_LIMIT}
               />
             ) : null}
           </Col>
@@ -481,6 +537,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
           userRole={
             path[1] === 'caregiver-todo' ? 'caregiver' : 'careInstitution'
           }
+          handleRefetch={handleRefetch}
         />
       </div>
     </>

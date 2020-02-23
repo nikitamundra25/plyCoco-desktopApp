@@ -250,11 +250,11 @@ const CareGiver: FunctionComponent = () => {
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
-    <Row className='m-0'>
-      <Col xs={'12'} lg={'12'} className='p-0'>
+    <Row className="m-0">
+      <Col xs={'12'} lg={'12'} className="p-0">
         <Card>
           <CardHeader>
-            <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+            <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
 
             <Button
               color={'primary'}
@@ -292,11 +292,11 @@ const CareGiver: FunctionComponent = () => {
                 )}
               />
             </div>
-
-            <Table bordered hover responsive>
-              <thead className='thead-bg'>
-                <tr>
-                  {/* <th>
+            <div className="table-minheight ">
+              <Table bordered hover responsive>
+                <thead className="thead-bg">
+                  <tr>
+                    {/* <th>
                   <div className='table-checkbox-wrap'>
                     <div className='btn-group btn-check-action-wrap'>
                       <span className='btn'>
@@ -318,119 +318,104 @@ const CareGiver: FunctionComponent = () => {
                     </div>
                   </div>
                 </th> */}
-                  <th className='sno-th-column text-center'>
-                    {languageTranslation('S_NO')}
-                  </th>
-                  <th>{languageTranslation('TABEL_HEAD_CG_INFO')}</th>
-                  <th className='qualifications-th-column'>
-                    {languageTranslation('TABEL_HEAD_CG_QUALIFICATION')}
-                  </th>
-                  <th>{languageTranslation('TABEL_HEAD_CG_REGION')}</th>
-                  <th className='applying-th-column'>
-                    {languageTranslation('TABEL_HEAD_CG_APPLYING_AS')}
-                  </th>
-                  <th className='date-th-column'>
-                    {languageTranslation('CREATED_DATE')}
-                  </th>
-                  <th className={'text-center status-column'}>
-                    {languageTranslation('TABEL_HEAD_CG_STATUS')}
-                  </th>
-                  <th className={'text-center'}>
-                    {languageTranslation('TABEL_HEAD_CG_ACTION')}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {!called || loading ? (
-                  <tr>
-                    <td className={'table-loader'} colSpan={8}>
-                      <Loader />
-                    </td>
+                    <th className="sno-th-column text-center">
+                      {languageTranslation('S_NO')}
+                    </th>
+                    <th>{languageTranslation('TABEL_HEAD_CG_INFO')}</th>
+                    <th className="qualifications-th-column">
+                      {languageTranslation('TABEL_HEAD_CG_QUALIFICATION')}
+                    </th>
+                    <th>{languageTranslation('TABEL_HEAD_CG_REGION')}</th>
+                    <th className="applying-th-column">
+                      {languageTranslation('TABEL_HEAD_CG_APPLYING_AS')}
+                    </th>
+                    <th className="date-th-column">
+                      {languageTranslation('CREATED_DATE')}
+                    </th>
+                    <th className={'text-center status-column'}>
+                      {languageTranslation('TABEL_HEAD_CG_STATUS')}
+                    </th>
+                    <th className={'text-center'}>
+                      {languageTranslation('TABEL_HEAD_CG_ACTION')}
+                    </th>
                   </tr>
-                ) : data &&
-                  data.getCaregivers &&
-                  data.getCaregivers.result &&
-                  data.getCaregivers.result.length ? (
-                  data.getCaregivers.result.map(
-                    (careGiverData: any, index: number) => {
-                      const replaceObj: any = {
-                        ':id': careGiverData.id,
-                        ':userName': careGiverData.userName
-                      };
-                      return (
-                        <tr key={index}>
-                          <td className='sno-th-column text-center'>
-                            <span>{count++}</span>
-                          </td>
-                          <td>
-                            <div className='info-column'>
-                              <div className='description-column '>
-                                <div
-                                  className='info-title text-capitalize'
-                                  onClick={() =>
-                                    history.push(
-                                      AppRoutes.CARE_GIVER_VIEW.replace(
-                                        /:id/gi,
-                                        function(matched) {
-                                          return replaceObj[matched];
-                                        }
+                </thead>
+                <tbody>
+                  {!called || loading ? (
+                    <tr>
+                      <td className={'table-loader'} colSpan={8}>
+                        <Loader />
+                      </td>
+                    </tr>
+                  ) : data &&
+                    data.getCaregivers &&
+                    data.getCaregivers.result &&
+                    data.getCaregivers.result.length ? (
+                    data.getCaregivers.result.map(
+                      (careGiverData: any, index: number) => {
+                        const replaceObj: any = {
+                          ':id': careGiverData.id,
+                          ':userName': careGiverData.userName
+                        };
+                        return (
+                          <tr key={index}>
+                            <td className="sno-th-column text-center">
+                              <span>{count++}</span>
+                            </td>
+                            <td>
+                              <div className="info-column">
+                                <div className="description-column ">
+                                  <div
+                                    className="info-title text-capitalize"
+                                    onClick={() =>
+                                      history.push(
+                                        AppRoutes.CARE_GIVER_VIEW.replace(
+                                          /:id/gi,
+                                          function(matched) {
+                                            return replaceObj[matched];
+                                          }
+                                        )
                                       )
-                                    )
-                                  }
-                                >
-                                  {`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}
-                                </div>
-                                <p className='description-text'>
-                                  <i className='fa fa-user mr-2'></i>
-                                  <span className='align-middle'>
-                                    {careGiverData.userName}
-                                  </span>
-                                </p>
-                                <p className='description-text'>
-                                  <i className='fa fa-envelope mr-2'></i>
-                                  <span className='align-middle'>
-                                    {careGiverData.email}
-                                  </span>
-                                </p>
-
-                                {careGiverData.phoneNumber ? (
-                                  <p className='description-text'>
-                                    <i className='fa fa-phone mr-2'></i>
-                                    <span className='align-middle'>
-                                      {careGiverData.phoneNumber}
+                                    }
+                                  >
+                                    {`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}
+                                  </div>
+                                  <p className="description-text">
+                                    <i className="fa fa-user mr-2"></i>
+                                    <span className="align-middle">
+                                      {careGiverData.userName}
                                     </span>
                                   </p>
-                                ) : (
-                                  ''
-                                )}
+                                  <p className="description-text">
+                                    <i className="fa fa-envelope mr-2"></i>
+                                    <span className="align-middle">
+                                      {careGiverData.email}
+                                    </span>
+                                  </p>
+
+                                  {careGiverData.phoneNumber ? (
+                                    <p className="description-text">
+                                      <i className="fa fa-phone mr-2"></i>
+                                      <span className="align-middle">
+                                        {careGiverData.phoneNumber}
+                                      </span>
+                                    </p>
+                                  ) : (
+                                    ''
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div className='region-list  text-capitalize'>
-                              {careGiverData.qualifications &&
-                              careGiverData.qualifications.length ? (
-                                readMore && readMoreIndex === index ? (
-                                  careGiverData.qualifications.map(
-                                    (qualification: any, index: number) => {
-                                      return (
-                                        <span
-                                          className='region-label'
-                                          key={index}
-                                        >
-                                          {qualification.name}
-                                        </span>
-                                      );
-                                    }
-                                  )
-                                ) : (
-                                  careGiverData.qualifications
-                                    .slice(0, 5)
-                                    .map(
+                            </td>
+                            <td>
+                              <div className="region-list  text-capitalize">
+                                {careGiverData.qualifications &&
+                                careGiverData.qualifications.length ? (
+                                  readMore && readMoreIndex === index ? (
+                                    careGiverData.qualifications.map(
                                       (qualification: any, index: number) => {
                                         return (
                                           <span
-                                            className='region-label'
+                                            className="region-label"
                                             key={index}
                                           >
                                             {qualification.name}
@@ -438,145 +423,165 @@ const CareGiver: FunctionComponent = () => {
                                         );
                                       }
                                     )
-                                )
-                              ) : (
-                                <div>-</div>
-                              )}
-                              {careGiverData.qualifications &&
-                              careGiverData.qualifications.length > 5 ? (
-                                <span
-                                  onClick={() =>
-                                    readMoreQualificationData(index)
-                                  }
-                                  className='view-more-link theme-text'
-                                >
-                                  {readMore && readMoreIndex === index
-                                    ? 'Read less'
-                                    : 'Read more'}
-                                </span>
-                              ) : null}
-                            </div>
-                          </td>
-                          <td>
-                            <div className=' text-capitalize'>
-                              {careGiverData &&
-                              careGiverData.regions &&
-                              careGiverData.regions.length ? (
-                                careGiverData.regions.map(
-                                  (wZ: any, index: number) => (
-                                    <span key={index}>{wZ.regionName}</span>
+                                  ) : (
+                                    careGiverData.qualifications
+                                      .slice(0, 5)
+                                      .map(
+                                        (qualification: any, index: number) => {
+                                          return (
+                                            <span
+                                              className="region-label"
+                                              key={index}
+                                            >
+                                              {qualification.name}
+                                            </span>
+                                          );
+                                        }
+                                      )
                                   )
-                                )
-                              ) : (
-                                <div>-</div>
-                              )}
-                            </div>
-                          </td>
-                          <td>
-                            <div>
-                              <span className='align-middle'>
+                                ) : (
+                                  <div>-</div>
+                                )}
+                                {careGiverData.qualifications &&
+                                careGiverData.qualifications.length > 5 ? (
+                                  <span
+                                    onClick={() =>
+                                      readMoreQualificationData(index)
+                                    }
+                                    className="view-more-link theme-text"
+                                  >
+                                    {readMore && readMoreIndex === index
+                                      ? 'Read less'
+                                      : 'Read more'}
+                                  </span>
+                                ) : null}
+                              </div>
+                            </td>
+                            <td>
+                              <div className=" text-capitalize">
                                 {careGiverData &&
-                                careGiverData.caregiver &&
-                                careGiverData.caregiver.legalForm
-                                  ? careGiverData.caregiver.legalForm
-                                  : 'N/A'}
-                              </span>
-                            </div>
-                          </td>
-
-                          <td className='date-th-column '>
-                            {careGiverData.createdAt
-                              ? moment(careGiverData.createdAt).format(
-                                  defaultDateTimeFormat
-                                )
-                              : '-'}
-                          </td>
-
-                          <td className='text-center'>
-                            <span
-                              className={`status-btn ${
-                                careGiverData.isActive ? 'active' : 'inactive'
-                              }`}
-                              onClick={() =>
-                                onStatusUpdate(
-                                  careGiverData.id,
-                                  !careGiverData.isActive
-                                )
-                              }
-                            >
-                              {careGiverData.isActive
-                                ? languageTranslation('ACTIVE')
-                                : languageTranslation('DISABLE')}
-                            </span>
-                          </td>
-                          <td className='text-center'>
-                            <div className='action-btn'>
-                              <ButtonTooltip
-                                id={`edit${index}`}
-                                message={languageTranslation('CAREGIVER_EDIT')}
-                                redirectUrl={AppRoutes.CARE_GIVER_VIEW.replace(
-                                  /:id/gi,
-                                  function(matched) {
-                                    return replaceObj[matched];
-                                  }
+                                careGiverData.regions &&
+                                careGiverData.regions.length ? (
+                                  careGiverData.regions.map(
+                                    (wZ: any, index: number) => (
+                                      <span key={index}>{wZ.regionName}</span>
+                                    )
+                                  )
+                                ) : (
+                                  <div>-</div>
                                 )}
-                              >
-                                {' '}
-                                <i className='fa fa-pencil'></i>
-                              </ButtonTooltip>
-                              <ButtonTooltip
-                                id={`view${index}`}
-                                message={languageTranslation('CAREGIVER_VIEW')}
-                                redirectUrl={AppRoutes.CARE_GIVER_VIEW.replace(
-                                  /:id/gi,
-                                  function(matched) {
-                                    return replaceObj[matched];
-                                  }
-                                )}
-                              >
-                                {' '}
-                                <i className='fa fa-eye'></i>
-                              </ButtonTooltip>
+                              </div>
+                            </td>
+                            <td>
+                              <div>
+                                <span className="align-middle">
+                                  {careGiverData &&
+                                  careGiverData.caregiver &&
+                                  careGiverData.caregiver.legalForm
+                                    ? careGiverData.caregiver.legalForm
+                                    : 'N/A'}
+                                </span>
+                              </div>
+                            </td>
+
+                            <td className="date-th-column ">
+                              {careGiverData.createdAt
+                                ? moment(careGiverData.createdAt).format(
+                                    defaultDateTimeFormat
+                                  )
+                                : '-'}
+                            </td>
+
+                            <td className="text-center">
                               <span
-                                id={`delete${index}`}
-                                className='btn-icon mr-2'
-                                onClick={() => onDelete(careGiverData.id)}
+                                className={`status-btn ${
+                                  careGiverData.isActive ? 'active' : 'inactive'
+                                }`}
+                                onClick={() =>
+                                  onStatusUpdate(
+                                    careGiverData.id,
+                                    !careGiverData.isActive
+                                  )
+                                }
                               >
-                                <UncontrolledTooltip
-                                  placement={'top'}
-                                  target={`delete${index}`}
-                                >
-                                  {languageTranslation('CAREGIVER_DELETE')}
-                                </UncontrolledTooltip>
-                                <i className='fa fa-trash'></i>
+                                {careGiverData.isActive
+                                  ? languageTranslation('ACTIVE')
+                                  : languageTranslation('DISABLE')}
                               </span>
+                            </td>
+                            <td className="text-center">
+                              <div className="action-btn">
+                                <ButtonTooltip
+                                  id={`edit${index}`}
+                                  message={languageTranslation(
+                                    'CAREGIVER_EDIT'
+                                  )}
+                                  redirectUrl={AppRoutes.CARE_GIVER_VIEW.replace(
+                                    /:id/gi,
+                                    function(matched) {
+                                      return replaceObj[matched];
+                                    }
+                                  )}
+                                >
+                                  {' '}
+                                  <i className="fa fa-pencil"></i>
+                                </ButtonTooltip>
+                                <ButtonTooltip
+                                  id={`view${index}`}
+                                  message={languageTranslation(
+                                    'CAREGIVER_VIEW'
+                                  )}
+                                  redirectUrl={AppRoutes.CARE_GIVER_VIEW.replace(
+                                    /:id/gi,
+                                    function(matched) {
+                                      return replaceObj[matched];
+                                    }
+                                  )}
+                                >
+                                  {' '}
+                                  <i className="fa fa-eye"></i>
+                                </ButtonTooltip>
+                                <span
+                                  id={`delete${index}`}
+                                  className="btn-icon mr-2"
+                                  onClick={() => onDelete(careGiverData.id)}
+                                >
+                                  <UncontrolledTooltip
+                                    placement={'top'}
+                                    target={`delete${index}`}
+                                  >
+                                    {languageTranslation('CAREGIVER_DELETE')}
+                                  </UncontrolledTooltip>
+                                  <i className="fa fa-trash"></i>
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      }
+                    )
+                  ) : (
+                    <tr className={'text-center no-hover-row'}>
+                      <td colSpan={8} className={'pt-5 pb-5'}>
+                        {isFilterApplied ? (
+                          <NoSearchFound />
+                        ) : (
+                          <div className="no-data-section">
+                            <div className="no-data-icon">
+                              <i className="icon-ban" />
                             </div>
-                          </td>
-                        </tr>
-                      );
-                    }
-                  )
-                ) : (
-                  <tr className={'text-center no-hover-row'}>
-                    <td colSpan={8} className={'pt-5 pb-5'}>
-                      {isFilterApplied ? (
-                        <NoSearchFound />
-                      ) : (
-                        <div className='no-data-section'>
-                          <div className='no-data-icon'>
-                            <i className='icon-ban' />
+                            <h4 className="mb-1">
+                              Currently there are no caregiver added.{' '}
+                            </h4>
+                            <p>Please click above button to add new. </p>
                           </div>
-                          <h4 className='mb-1'>
-                            Currently there are no caregiver added.{' '}
-                          </h4>
-                          <p>Please click above button to add new. </p>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
+                        )}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            </div>
             {data && data.getCaregivers && data.getCaregivers.totalCount ? (
               <PaginationComponent
                 totalRecords={data.getCaregivers.totalCount}

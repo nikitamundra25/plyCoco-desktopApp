@@ -1,92 +1,92 @@
 // Styles
 // CoreUI Icons Set
-@import "~@coreui/icons/css/coreui-icons.css";
+@import '~@coreui/icons/css/coreui-icons.css';
 // Import Flag Icons Set
-@import "~flag-icon-css/css/flag-icon.min.css";
+@import '~flag-icon-css/css/flag-icon.min.css';
 // Import Font Awesome Icons Set
-@import "~font-awesome/css/font-awesome.min.css";
+@import '~font-awesome/css/font-awesome.min.css';
 // Import Simple Line Icons Set
-@import "~simple-line-icons/css/simple-line-icons.css";
+@import '~simple-line-icons/css/simple-line-icons.css';
 // Import Main styles for this application
-@import "./resource/assets/scss/style.scss";
+@import './resource/assets/scss/style.scss';
 
-@import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap');
 
 @font-face {
   font-family: TechniqueBRKNormal;
-  src: url("./resource/assets/fonts/techniqu-webfont.eot");
-  src: url("./resource/assets/fonts/techniqu-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("./resource/assets/fonts/techniqu-webfont.woff") format("woff"),
-    url("./resource/assets/fonts/techniqu-webfont.ttf") format("truetype"),
-    url("./resource/assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal")
-      format("svg");
+  src: url('./resource/assets/fonts/techniqu-webfont.eot');
+  src: url('./resource/assets/fonts/techniqu-webfont.eot?#iefix')
+      format('embedded-opentype'),
+    url('./resource/assets/fonts/techniqu-webfont.woff') format('woff'),
+    url('./resource/assets/fonts/techniqu-webfont.ttf') format('truetype'),
+    url('./resource/assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal')
+      format('svg');
 
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Regular";
-  src: url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
-    format("truetype");
-  src: url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
-      format("embedded-opentype"),
-    url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
-      format("woff2"),
-    url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
-      format("woff");
+  font-family: 'FrutigerNeueLTPro-Regular';
+  src: url('./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf')
+    format('truetype');
+  src: url('./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix')
+      format('embedded-opentype'),
+    url('./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2')
+      format('woff2'),
+    url('./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff')
+      format('woff');
   //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Medium";
-  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
-  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
-      format("embedded-opentype"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
-      format("woff2"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
-      format("woff"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
-      format("truetype");
+  font-family: 'FrutigerNeueLTPro-Medium';
+  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot');
+  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix')
+      format('embedded-opentype'),
+    url('./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2')
+      format('woff2'),
+    url('./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff')
+      format('woff'),
+    url('./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf')
+      format('truetype');
   // url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Bold";
-  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
-  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
-      format("embedded-opentype"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
-      format("woff2"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
-      format("woff"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
-      format("truetype");
+  font-family: 'FrutigerNeueLTPro-Bold';
+  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot');
+  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix')
+      format('embedded-opentype'),
+    url('./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2')
+      format('woff2'),
+    url('./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff')
+      format('woff'),
+    url('./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf')
+      format('truetype');
   // url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
 }
 
 @font-face {
-  font-family: "FrutigerNeueLTPro-Light";
-  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
-  src: url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
-      format("embedded-opentype"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
-      format("woff2"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
-      format("woff"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
-      format("truetype");
+  font-family: 'FrutigerNeueLTPro-Light';
+  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot');
+  src: url('./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix')
+      format('embedded-opentype'),
+    url('./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2')
+      format('woff2'),
+    url('./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff')
+      format('woff'),
+    url('./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf')
+      format('truetype');
   //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -95,7 +95,7 @@ body {
   background: $white;
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
   a {
@@ -116,16 +116,12 @@ body {
   button {
     &:focus {
       outline: none;
+      box-shadow: none;
     }
   }
-  .disbale {
+  .disabled-class {
     cursor: not-allowed !important;
-    opacity: 0.8;
-  }
-
-  .disbale {
-    cursor: not-allowed !important;
-    opacity: 0.8;
+    opacity: 0.7;
   }
 
   .status-btn {
@@ -274,11 +270,6 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .one-line-text {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
   .whitespace-normal {
     white-space: normal !important;
   }
@@ -333,6 +324,9 @@ body {
   .employee-document-list {
     max-height: 135px;
     overflow-y: auto;
+    .table-responsive {
+      min-height: 100px;
+    }
   }
   .custom-caregiver-height {
     height: calc(100vh - 157px);
@@ -393,98 +387,6 @@ body {
       background: $card_header_bg;
     }
   }
-
-  /* Form - Custom Checkbox */
-  // .checkbox-custom {
-  //   position: relative;
-  //   padding: 0 0 0 25px;
-  //   margin-bottom: 7px;
-  //   margin-top: 0;
-  // }
-
-  // .checkbox-custom.checkbox-inline {
-  //   display: inline-block;
-  //   vertical-align: middle;
-  // }
-
-  // .form-group .checkbox-custom.checkbox-inline {
-  //   margin-top: 7px;
-  //   padding-top: 0;
-  // }
-
-  // .checkbox-custom:last-child,
-  // .checkbox-custom:last-of-type {
-  //   margin-bottom: 0;
-  // }
-
-  // .checkbox-custom input[type='checkbox'] {
-  //   opacity: 0;
-  //   position: absolute;
-  //   top: 50%;
-  //   left: 3px;
-  //   margin: -6px 0 0 0;
-  //   z-index: 2;
-  //   cursor: pointer;
-  // }
-
-  // .checkbox-custom input[type='checkbox']:checked + label:after {
-  //   position: absolute;
-  //   display: inline-block;
-  //   font-family: 'FontAwesome';
-  //   font-weight: 400;
-  //   content: '\F00C';
-  //   top: 50%;
-  //   left: 4px;
-  //   margin-top: -5px;
-  //   font-size: $font_11;
-  //   line-height: 1;
-  //   width: 16px;
-  //   height: 16px;
-  //   color: $white;
-  // }
-
-  // .checkbox-custom input[type='checkbox']:disabled {
-  //   cursor: not-allowed;
-  // }
-
-  // .checkbox-custom input[type='checkbox']:disabled:checked + label:after {
-  //   color: #999;
-  // }
-
-  // .checkbox-custom input[type='checkbox']:disabled + label {
-  //   cursor: not-allowed;
-  // }
-
-  // .checkbox-custom input[type='checkbox']:disabled + label:before {
-  //   background-color: #eee;
-  // }
-
-  // .checkbox-custom label {
-  //   cursor: pointer;
-  //   margin-bottom: 0;
-  //   text-align: left;
-  //   line-height: 1.5;
-  //   font-weight: 600;
-  //   font-size: $font_12;
-  // }
-
-  // .checkbox-custom label:before {
-  //   content: '';
-  //   position: absolute;
-  //   top: 50%;
-  //   left: 0;
-  //   margin-top: -9px;
-  //   width: 19px;
-  //   height: 18px;
-  //   display: inline-block;
-  //   border-radius: 2px;
-  //   border: 1px solid #bbb;
-  //   background: #fff;
-  // }
-  // .checkbox-custom input[type='checkbox']:checked + label:before {
-  //   background: $theme_color;
-  //   border: 1px solid $theme_color;
-  // }
 }
 // new css
 .auth-page {
@@ -622,7 +524,7 @@ body {
         border-bottom: 7px solid #ccc;
         border-left: 7px solid transparent;
         border-bottom-color: #c8ced3;
-        content: "";
+        content: '';
       }
 
       &:after {
@@ -633,7 +535,7 @@ body {
         border-right: 6px solid transparent;
         border-bottom: 6px solid #ffffff;
         border-left: 6px solid transparent;
-        content: "";
+        content: '';
       }
       .dropdown-item {
         &:active,
@@ -982,7 +884,7 @@ body {
         z-index: 1018;
         width: 100%;
         height: 100%;
-        content: "";
+        content: '';
         background: rgba(0, 0, 0, 0.7);
         -webkit-animation: opacity 0.25s;
         animation: opacity 0.25s;
@@ -990,9 +892,11 @@ body {
     }
   }
 }
-
+.app-footer {
+  flex: 0 0 35px;
+}
 @media (max-width: 991.98px) {
-  html:not([dir="rtl"]) {
+  html:not([dir='rtl']) {
     .sidebar-lg-show {
       &.sidebar-fixed {
         .main {
@@ -1003,7 +907,7 @@ body {
     }
   }
 }
-html:not([dir="rtl"]) {
+html:not([dir='rtl']) {
   .sidebar-lg-show {
     &.sidebar-fixed {
       .main {
@@ -1036,9 +940,8 @@ html:not([dir="rtl"]) {
   padding: 8px 12px;
   margin-bottom: 8px;
   position: relative;
-  height: calc(100% - 47px);
+  // height: calc(100% - 47px);
   border: 1px solid $table_border;
-  // height: 100%;
   &.minheight-auto {
     min-height: auto;
     height: auto;
@@ -1085,7 +988,7 @@ html:not([dir="rtl"]) {
     }
   }
 }
-
+// texteditor css
 .wrapperClassName {
   .toolbarClassName {
     margin-bottom: 0px;
@@ -1103,16 +1006,16 @@ html:not([dir="rtl"]) {
     }
     a {
       font-weight: 400;
-      color: #d99119 !important;
+      color: $theme_color !important;
       text-decoration: none;
       span {
-        color: #d99119 !important;
+        color: $theme_color !important;
       }
       &:hover {
-        color: #d99119 !important;
+        color: $theme_color_hover !important;
         text-decoration: underline;
         span {
-          color: #d99119 !important;
+          color: $theme_color_hover !important;
         }
       }
     }
@@ -1192,7 +1095,6 @@ html:not([dir="rtl"]) {
       font-size: $font_12;
       padding: 0px 6px;
       font-weight: 700;
-
       height: 25px;
       border-radius: 4px;
       display: flex;
@@ -1223,7 +1125,7 @@ html:not([dir="rtl"]) {
     margin-bottom: 10px;
     font-family: $font_Frutiger_Medium;
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       height: 2px;
       width: 55px;
@@ -1280,7 +1182,7 @@ html:not([dir="rtl"]) {
         }
       }
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         top: 100%;
         left: 50%;
@@ -1499,99 +1401,98 @@ html:not([dir="rtl"]) {
       display: none;
     }
   }
-  .custom-file-div {
+}
+// custom file input css
+.custom-file-div {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 25px;
+  margin-bottom: 0;
+  .custom-input-file {
     position: relative;
-    display: inline-block;
+    z-index: -1;
     width: 100%;
     height: 25px;
-    margin-bottom: 0;
-    .custom-input-file {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      height: 25px;
-      margin: 0;
-      opacity: 0;
-    }
-    .custom-label-file {
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: 0;
-      z-index: 1;
-      font-weight: 400;
-      background-color: $white;
-      color: $light_black;
+    margin: 0;
+    opacity: 0;
+  }
+  .custom-label-file {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    font-weight: 400;
+    background-color: $white;
+    color: $light_black;
+    font-size: $font_12;
+    height: 25px;
+    border: 1px solid $light_gray;
+    padding: 0px 0px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-radius: 0px;
+    margin-bottom: 0px;
+    cursor: pointer;
+    .choosefile-label {
       font-size: $font_12;
+      background: $light_gray;
       height: 25px;
-      border: 1px solid $light_gray;
-      padding: 0px 0px;
-      line-height: 19px;
+      color: $light_black;
+      padding: 0px 20px;
+      font-weight: 600;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      border-radius: 0px;
-      margin-bottom: 0px;
-      .file-text {
-        padding-left: 8px;
-      }
-      .choosefile-label {
-        font-size: $font_12;
-        background: $light_gray;
-        height: 25px;
-        color: $light_black;
-        padding: 0px 20px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-      }
-    }
-    .upload-doc-name {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: 8px;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      z-index: 1;
-      width: calc(100% - 140px);
-      font-size: $font_12;
-      color: $gray_color;
     }
   }
-  .custom-radio-block {
-    .custom-control {
-      display: flex;
-      align-items: center;
-      .custom-control-label {
-        font-family: $font_Frutiger_Bold;
-        font-size: $font_12;
-        cursor: pointer;
-        &:after,
-        &:before {
-          top: 1px;
-        }
+  .upload-doc-name {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 8px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    z-index: 1;
+    width: calc(100% - 140px);
+    font-size: $font_12;
+    color: $gray_color;
+  }
+}
+// custom radiobtn css
+.custom-radio-block {
+  .custom-control {
+    display: flex;
+    align-items: center;
+    .custom-control-label {
+      font-family: $font_Frutiger_Bold;
+      font-size: $font_12;
+      cursor: pointer;
+      &:after,
+      &:before {
+        top: 1px;
       }
-      .custom-control-input {
-        &:checked {
-          & ~ {
-            .custom-control-label {
-              &:before {
-                color: $white;
-                border-color: $theme_color;
-                background-color: $theme_color;
-              }
+    }
+    .custom-control-input {
+      &:checked {
+        & ~ {
+          .custom-control-label {
+            &:before {
+              color: $white;
+              border-color: $theme_color;
+              background-color: $theme_color;
             }
           }
         }
-        &:focus {
-          & ~ {
-            .custom-control-label {
-              &:before {
-                box-shadow: 0 0 0 0.2rem rgba(255, 108, 0, 0.25);
-              }
+      }
+      &:focus {
+        & ~ {
+          .custom-control-label {
+            &:before {
+              box-shadow: 0 0 0 0.2rem rgba(255, 108, 0, 0.25);
             }
           }
         }
@@ -1599,7 +1500,7 @@ html:not([dir="rtl"]) {
     }
   }
 }
-// custom checkbox
+// custom checkbox css
 .checkbox-custom {
   position: relative;
   padding: 0 0 0 30px;
@@ -1616,9 +1517,9 @@ html:not([dir="rtl"]) {
     line-height: 1.5;
     font-weight: 600;
     font-size: $font_12;
-
+    font-family: $font_Frutiger_Bold;
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -1632,7 +1533,7 @@ html:not([dir="rtl"]) {
       background: #fff;
     }
   }
-  input[type="checkbox"] {
+  input[type='checkbox'] {
     opacity: 0;
     position: absolute;
     top: 50%;
@@ -1676,9 +1577,9 @@ html:not([dir="rtl"]) {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-family: "FontAwesome";
+            font-family: 'FontAwesome';
             font-weight: 400;
-            content: "\F00C";
+            content: '\F00C';
             top: 50%;
             left: 0px;
             transform: translateY(-50%);
@@ -1911,6 +1812,7 @@ html:not([dir="rtl"]) {
       }
     }
     .attribute-select {
+      text-transform: capitalize;
       .attribute-inner-select__control {
         border-radius: 0px;
         color: $light_black;
@@ -1961,7 +1863,6 @@ html:not([dir="rtl"]) {
           }
         }
       }
-
       .attribute-inner-select__indicator {
         padding: 3px;
         svg {
@@ -1973,7 +1874,14 @@ html:not([dir="rtl"]) {
   }
 }
 .table-minheight {
-  min-height: 150px;
+  .table-responsive {
+    min-height: 150px;
+  }
+}
+.archieve-table-minheight {
+  .table-responsive {
+    min-height: 100px;
+  }
 }
 .table {
   background: $white;
@@ -1981,6 +1889,9 @@ html:not([dir="rtl"]) {
     tr {
       &.approve-bg {
         background-color: $approve_bg;
+      }
+      &.done-bg {
+        background: #e6e6e6f7;
       }
     }
     th,
@@ -2003,6 +1914,12 @@ html:not([dir="rtl"]) {
         &.active {
           background: $theme_color;
           color: $white;
+          .view-more-link {
+            color: $white;
+            &:hover {
+              color: $white;
+            }
+          }
         }
       }
     }
@@ -2183,30 +2100,27 @@ html:not([dir="rtl"]) {
       }
     }
 
-    .status-btn {
-      padding: 3px 10px;
-      font-size: $font_12;
-      border-radius: 4px;
-      display: inline-block;
-      cursor: pointer;
-      min-width: 65px;
-      &.active {
-        background: $active_green;
-        color: $white;
-      }
-      &.inactive {
-        background: $red;
-        color: $white;
-      }
-    }
+    // .status-btn {
+    //   padding: 3px 10px;
+    //   font-size: $font_12;
+    //   border-radius: 4px;
+    //   display: inline-block;
+    //   cursor: pointer;
+    //   min-width: 65px;
+    //   &.active {
+    //     background: $active_green;
+    //     color: $white;
+    //   }
+    //   &.inactive {
+    //     background: $red;
+    //     color: $white;
+    //   }
+    // }
     .action-btn {
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      &.margin-tooltip {
-        margin: 12px 0px;
-      }
       .btn-icon {
         width: 25px;
         height: 25px;
@@ -2233,7 +2147,7 @@ html:not([dir="rtl"]) {
 
 .mail-table {
   .size-col {
-    width: 60px;
+    width: 70px;
   }
   .file-description {
     padding-right: 30px;
@@ -2258,7 +2172,7 @@ html:not([dir="rtl"]) {
     font-weight: 600;
     margin-bottom: 10px;
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       height: 2px;
       width: 55px;
@@ -2290,7 +2204,7 @@ html:not([dir="rtl"]) {
       position: relative;
       padding-left: 12px;
       &::before {
-        content: ":";
+        content: ':';
         position: absolute;
         left: 0px;
       }
@@ -2408,18 +2322,15 @@ html:not([dir="rtl"]) {
         top: 34px;
       }
     }
-    .username-header {
-      color: $black;
-      font-size: $font_14;
-      font-weight: 700;
-      padding: 4px 8px;
-    }
+    // .username-header {
+    //   color: $black;
+    //   font-size: $font_14;
+    //   font-weight: 700;
+    //   padding: 4px 8px;
+    // }
     .common-topheader {
       background: $white;
       padding-top: 4px;
-      .user-select {
-        text-transform: capitalize;
-      }
       .common-title {
         color: $black;
         font-size: $font_14;
@@ -2428,7 +2339,7 @@ html:not([dir="rtl"]) {
         font-weight: 400;
         font-family: $font_Frutiger_Medium;
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           height: 2px;
           width: 55px;
@@ -2650,14 +2561,14 @@ html:not([dir="rtl"]) {
           }
         }
       }
-      .btn-add {
-        position: absolute;
-        top: 5px;
-        right: 8px;
-        padding: 4px 30px;
-        font-weight: 600;
-        font-size: $font_13;
-      }
+      // .btn-add {
+      //   position: absolute;
+      //   top: 5px;
+      //   right: 8px;
+      //   padding: 4px 30px;
+      //   font-weight: 600;
+      //   font-size: $font_13;
+      // }
     }
 
     .common-content {
@@ -2674,7 +2585,7 @@ html:not([dir="rtl"]) {
         font-family: $font_Frutiger_Medium;
         margin-bottom: 15px;
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           height: 2px;
           width: 55px;
@@ -2686,153 +2597,31 @@ html:not([dir="rtl"]) {
     }
   }
 }
+// custom col
+.custom-col {
+  margin-left: -7.5px;
+  margin-right: -7.5px;
+  [class*='col-'] {
+    padding: 0 7.5px;
+  }
+}
 
-.faq-section {
-  .faq-item {
-    margin-bottom: 16px;
-    border-radius: 4px;
-    background: $white;
-    border: 1px solid $transparent;
-    .faq-header {
-      color: $faq_icon_color;
-      background-color: $white;
-      border-color: $transparent;
-      padding: 8px 35px 8px 15px;
-      font-size: $font_13;
-      line-height: 20px;
-      font-weight: 600;
-      border-bottom: none;
-      position: relative;
-      cursor: pointer;
-      letter-spacing: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      .faq-icon {
-        position: absolute;
-        right: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: $font_18;
-        -webkit-transition: all 0.3s ease;
-        transition: all 0.3s ease;
-        color: $faq_icon_color;
-      }
-      &.active {
-        color: $black;
-        .faq-icon {
-          -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
-          color: $black;
-        }
-      }
-      &:hover {
-        text-decoration: none;
-      }
-    }
-    .faq-body {
-      padding: 10px 20px;
-      color: $faq_bg;
-      font-size: $font_13;
-      font-weight: 400;
-      letter-spacing: 0;
-    }
-  }
-}
-.dropzone-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0px 20px;
-  border-width: 2px;
-  border-radius: 2px;
-  border-color: $card_header_border;
-  border-style: dashed;
-  background-color: $card_header_bg;
-  color: $gray_color;
-  transition: border 0.24s ease-in-out;
-  text-align: center;
-  width: 100%;
-  height: 100px;
-  &:focus {
-    border-color: $theme_color;
-  }
-
-  .file-text {
-    font-size: $font_12;
-    margin-bottom: 0px;
-    text-align: center;
-  }
-}
-.document-upload-section {
-  .document-item {
-    border-bottom: 1px solid $table_border;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-    h5 {
-      font-size: $font_13;
-      font-weight: 600;
-      color: $black;
-    }
-    .sub-title {
-      font-size: $font_13;
-      font-weight: 400;
-      font-family: $font_Frutiger_Medium;
-      color: $dark_gray;
-      margin-bottom: 4px;
-      cursor: pointer;
-    }
-    .document-text {
-      font-size: $font_12;
-      font-weight: 400;
-      color: $dark_gray;
-    }
-  }
-}
-.file-section {
-  .file-icon {
-    flex: 0 0 50px;
-    font-size: 45px;
-  }
-  .file-content {
-    flex: 1;
-    margin-left: 10px;
-    h5 {
-      font-size: $font_14;
-      font-weight: 600;
-      color: $black;
-    }
-    .sub-title {
-      font-size: $font_13;
-      font-weight: 600;
-      color: $dark_gray;
-      margin-bottom: 4px;
-    }
-  }
-}
 .email-section {
   .email-content {
     padding: 15px 0px;
   }
 }
-
+// mail preview css
 .mail-details {
   height: 100%;
   border: 1px solid $table_border;
   max-height: calc(100vh - 210px);
-
   background: $white;
   margin-bottom: 12px;
   &.sent-box {
     max-height: 420px;
   }
-  &.disable {
-    cursor: not-allowed;
-    opacity: 0.2;
-  }
+
   @media only screen and (max-width: 991px) {
     max-height: 300px;
   }
@@ -2854,7 +2643,6 @@ html:not([dir="rtl"]) {
     font-size: $font_13;
     color: $black;
     height: 100%;
-
     overflow-y: auto;
     overflow-x: hidden;
     .subject-title {
@@ -2865,19 +2653,7 @@ html:not([dir="rtl"]) {
   }
 }
 
-// oFFer
-.caregiver-content {
-  height: 100%;
-}
-.custom-col {
-  margin-left: -7.5px;
-  margin-right: -7.5px;
-  [class*="col-"] {
-    padding: 0 7.5px;
-  }
-}
-
-// email-section
+// email list css
 .email-inbox-section {
   ul {
     list-style: none;
@@ -2911,7 +2687,7 @@ html:not([dir="rtl"]) {
         display: inline-block;
         margin-left: 0.255em;
         vertical-align: 0.255em;
-        content: "";
+        content: '';
         border-top: 0.3em solid;
         border-right: 0.3em solid transparent;
         border-bottom: 0;
@@ -3022,77 +2798,6 @@ html:not([dir="rtl"]) {
     font-weight: 700;
   }
 }
-.toggle-filter {
-  position: relative;
-  &::before {
-    cursor: pointer;
-    display: inline-block;
-    margin-left: 0.255em;
-    vertical-align: 0.255em;
-    content: "";
-    border-top: 0.3em solid;
-    border-right: 0.3em solid transparent;
-    border-bottom: 0;
-    border-left: 0.3em solid transparent;
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    transform: translateY(-50%) rotate(0deg);
-    transition: all 0.5s;
-  }
-  &.offer-filtered::before {
-    transform: translateY(-50%) rotate(180deg);
-  }
-}
-
-.hover-short-select {
-  display: none;
-  position: absolute !important;
-  top: 50%;
-  right: 5px;
-  transform: translateY(-50%);
-  border: none;
-  width: 24px;
-  background: #f1f1f1;
-  height: 100%;
-  z-index: 9;
-  .react-select__control {
-    background: transparent;
-    border: none;
-    min-height: unset;
-    height: 100%;
-    z-index: 1;
-    .css-b8ldur-Input {
-      display: none;
-    }
-    .react-select__indicators {
-      height: 100%;
-    }
-  }
-  .react-select__value-container {
-    display: none;
-  }
-  .react-select__indicator-separator {
-    display: none;
-  }
-  .react-select__menu {
-    width: unset;
-  }
-  .react-select__option {
-    white-space: nowrap;
-  }
-}
-.toggle-filter {
-  .hover-short-select {
-    right: 18px;
-  }
-}
-.hover-short-select-section {
-  position: relative;
-  &:hover .hover-short-select {
-    display: block;
-  }
-}
 
 .new-email-select-wrap {
   width: 500px;
@@ -3104,9 +2809,9 @@ html:not([dir="rtl"]) {
   @media only screen and (max-width: 767px) {
     margin-left: 0px;
   }
-  .new-email-select {
-    width: 100%;
-  }
+  // .new-email-select {
+  //   width: 100%;
+  // }
 }
 .gray-color {
   color: $gray_color;
@@ -3118,7 +2823,7 @@ html:not([dir="rtl"]) {
     .form-group {
       margin-bottom: 0px;
     }
-    [class*="col-"] {
+    [class*='col-'] {
       padding: 0px;
       label {
         padding-left: 7px;
@@ -3141,16 +2846,6 @@ html:not([dir="rtl"]) {
     .activity-title {
       font-size: 15px;
       font-weight: 700;
-    }
-    .edit-remark {
-      cursor: pointer;
-      background: $profile_bg;
-      padding: 3px 6px;
-      color: $light_black;
-      border-radius: 2px;
-      &:hover {
-        background: $profile_bg_hover;
-      }
     }
   }
   .remark-body {
@@ -3258,156 +2953,6 @@ html:not([dir="rtl"]) {
   }
 }
 
-.user-select,
-.region-select {
-  width: 180px;
-  margin: 0px 8px;
-  &.footer-select {
-    width: 300px;
-  }
-  // .custom-reactselect {
-  //   .custom-inner-reactselect__control {
-  //      border-radius: 0px;
-  //   color: $light_black;
-  //   font-size: $font_12;
-  //   min-height: 25px;
-  //   padding: 0px 8px;
-  //   line-height: normal;
-  //   border: 1px solid $light_gray;
-  //   box-shadow: none;
-  //   font-family: $font_Frutiger_Regular;
-  //     .custom-inner-reactselect__multi-value {
-  //       line-height: normal;
-  //     }
-  //     .custom-inner-reactselect__value-container {
-  //       padding: 0px 0px;
-  //     }
-  //     .custom-inner-reactselect__value-container--is-multi {
-  //       max-height: 68px;
-  //       overflow-y: auto;
-  //       position:static;
-  //     }
-  //   }
-  //   .custom-inner-reactselect__menu {
-  //     z-index: 9;
-  //     width: 400px;
-  //     border-radius: 0px;
-  //     .custom-inner-reactselect__menu-list{
-  //       padding-bottom: 0px;
-  //       padding-top: 0px;
-  //     }
-  //     .custom-select-options{
-  //       display:flex;
-  //       align-items:center;
-  //       padding:0px 5px;
-  //       border-bottom: 1px solid $table_border;
-  //       .custom-name-option{
-  //         flex:1;
-  //         padding:2px 0px;
-  //       }
-  //       .custom-id-option{
-  //         flex: 0 0 50px;
-  //         text-align:right;
-  //         padding:2px 0px;
-  //         border-left: 1px solid $table_border;
-  //       }
-  //     }
-  //   }
-
-  //   .custom-inner-reactselect__multi-value__label {
-  //     font-size: 12px;
-  //     padding: 2px 3px;
-  //   }
-  //   .custom-inner-reactselect__indicator {
-  //     padding: 2px;
-  //     svg {
-  //       height: 16px;
-  //       width: 16px;
-  //     }
-  //   }
-
-  // }
-}
-
-.custom-menu {
-  padding: 4px 10px;
-  font-size: $font_12;
-  color: $black;
-  cursor: pointer;
-  line-height: normal;
-  transition: all 0.3s ease;
-  border: 1px solid $common_tab_border;
-  margin: 0 2px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: FrutigerNeueLTPro-Medium;
-  border-radius: 2px;
-  background: $common_tab_bg;
-  .custom-menu-icon {
-    padding-right: 8px;
-    vertical-align: middle;
-    img {
-      width: 15px;
-      height: 15px;
-    }
-  }
-  .custom-menu-icon {
-    vertical-align: middle;
-  }
-  &:hover,
-  &.active {
-    color: $light_black;
-    background: $common_tab_hoverbg;
-  }
-}
-
-.custom-switch-block {
-  .custom-control-label {
-    font-family: $font_Frutiger_Bold;
-    font-size: $font_12;
-    cursor: pointer;
-  }
-  .custom-control-input {
-    &:checked {
-      & ~ {
-        .custom-control-label {
-          &:before {
-            color: $white;
-            border-color: $theme_color;
-            background-color: $theme_color;
-          }
-        }
-      }
-    }
-    &:focus {
-      & ~ {
-        .custom-control-label {
-          &:before {
-            box-shadow: 0 0 0 0.2rem rgba(255, 108, 0, 0.25);
-          }
-        }
-      }
-    }
-  }
-}
-
-.app-footer {
-  flex: 0 0 35px;
-  .footer-nav {
-    .nav .nav-item {
-      border-right: 1px solid $footer_nav_text;
-      .nav-link {
-        padding: 0px 8px;
-        color: $footer_nav_text;
-        &:hover {
-          color: $light_black;
-        }
-      }
-    }
-  }
-}
-
 // form-flex-block
 .form-flex-block {
   margin: 0 -7.5px;
@@ -3448,6 +2993,115 @@ html:not([dir="rtl"]) {
   }
 }
 
+.user-select,
+.region-select {
+  text-transform: capitalize;
+  width: 180px;
+  margin: 0px 8px;
+  &.footer-select {
+    width: 300px;
+  }
+}
+
+// custom menu css
+.custom-menu {
+  padding: 4px 10px;
+  font-size: $font_12;
+  color: $black;
+  cursor: pointer;
+  line-height: normal;
+  transition: all 0.3s ease;
+  border: 1px solid $common_tab_border;
+  margin: 0 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: FrutigerNeueLTPro-Medium;
+  border-radius: 2px;
+  background: $common_tab_bg;
+  .custom-menu-icon {
+    padding-right: 8px;
+    vertical-align: middle;
+    img {
+      width: 15px;
+      height: 15px;
+    }
+  }
+  .custom-menu-icon {
+    vertical-align: middle;
+  }
+  &:hover,
+  &.active {
+    color: $light_black;
+    background: $common_tab_hoverbg;
+  }
+}
+// custom switch css
+.custom-switch-block {
+  .custom-control-label {
+    font-family: $font_Frutiger_Bold;
+    font-size: $font_12;
+    cursor: pointer;
+  }
+  .custom-control-input {
+    &:checked {
+      & ~ {
+        .custom-control-label {
+          &:before {
+            color: $white;
+            border-color: $theme_color;
+            background-color: $theme_color;
+          }
+        }
+      }
+    }
+    &:focus {
+      & ~ {
+        .custom-control-label {
+          &:before {
+            box-shadow: 0 0 0 0.2rem rgba(255, 108, 0, 0.25);
+          }
+        }
+      }
+    }
+  }
+}
+// dropzone design
+.dropzone-preview {
+  border: 1px dotted $light_gray;
+  padding: 30px 20px;
+  width: 100%;
+  height: 130px;
+  position: relative;
+  text-align: center;
+  background-color: $white;
+  color: $btn_hover_gray;
+  outline: none;
+  transition: border 0.24s ease-in-out;
+  margin-bottom: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: $font_13;
+  cursor: pointer;
+  &.email-dropzone-height {
+    @media only screen and (min-width: 992px) {
+      height: calc(100% - 16px);
+    }
+  }
+  .icon-upload {
+    font-size: 35px;
+    img {
+      width: 40px;
+    }
+  }
+  .document-name {
+    color: $theme_color;
+    font-weight: 600;
+  }
+}
 //tooltip icon
 .tooltip-icon {
   width: 18px;
@@ -3551,9 +3205,9 @@ html:not([dir="rtl"]) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          background-image: url("./resource/assets/img/success-toaster.svg");
+          background-image: url('./resource/assets/img/success-toaster.svg');
           position: absolute;
-          content: "";
+          content: '';
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
@@ -3579,10 +3233,10 @@ html:not([dir="rtl"]) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          background: url("./resource/assets/img/error-toaster.svg") no-repeat;
+          background: url('./resource/assets/img/error-toaster.svg') no-repeat;
           background-size: 35px;
           position: absolute;
-          content: "";
+          content: '';
           top: 50%;
           transform: translate(50%, -50%);
           left: -13px;
@@ -3607,8 +3261,8 @@ html:not([dir="rtl"]) {
         position: relative;
         font-family: $font_open_sans;
         &::before {
-          content: "";
-          background: url("./resource/assets/img/warning-toaster.svg") no-repeat;
+          content: '';
+          background: url('./resource/assets/img/warning-toaster.svg') no-repeat;
           background-size: 35px;
           position: absolute;
           top: 50%;
@@ -3630,8 +3284,8 @@ html:not([dir="rtl"]) {
     width: 10px;
     height: 10px;
     &::after {
-      content: "";
-      background: url("./resource/assets/img/close-toaster.svg") no-repeat;
+      content: '';
+      background: url('./resource/assets/img/close-toaster.svg') no-repeat;
       background-size: 10px;
       position: absolute;
       top: 50%;
@@ -3642,16 +3296,17 @@ html:not([dir="rtl"]) {
     }
   }
 }
-.loader {
-  margin-left: -12px;
-  margin-right: 8px;
-}
+// .loader {
+//   margin-left: -12px;
+//   margin-right: 8px;
+// }
 
+// modal css
 .reminder-modal {
   .modal-header {
     background-color: #323232;
     padding: 12px 16px;
-    color: #fff;
+    color: $white;
     .modal-close {
       opacity: 1;
       box-shadow: none;
@@ -3695,10 +3350,21 @@ html:not([dir="rtl"]) {
     font-size: 16px;
     font-weight: 600;
   }
+  .daypicker1 {
+    .DayPicker-NavButton--next {
+      display: none;
+    }
+  }
+  .daypicker3 {
+    .DayPicker-NavButton--prev {
+      display: none;
+    }
+  }
   .DayPicker {
     display: block;
     background: #f1f0f0;
     font-size: 11px;
+    height: 100%;
   }
   .DayPicker-Day.DayPicker-Day--selected.DayPicker-Day--today {
     background: #d99119;
@@ -3708,7 +3374,7 @@ html:not([dir="rtl"]) {
   .pagination {
     .page-item {
       .page-link {
-        color: $theme_color;
+        color: $gray_color;
         box-shadow: none;
         &:hover {
           color: $theme_color;
@@ -3761,6 +3427,17 @@ html:not([dir="rtl"]) {
     margin-bottom: 0px;
   }
 }
+// no list  section css
+.no-list-section {
+  .no-img {
+    width: 116px;
+    margin-bottom: 10px;
+  }
+  .no-text {
+    font-size: 15px;
+    color: $no_search_text_color;
+  }
+}
 
 // sweet alert  css
 .swal2-popup {
@@ -3811,44 +3488,9 @@ html:not([dir="rtl"]) {
   }
 }
 
-// CARE GIVE TO DO LIST
-
-.care-giver-todo {
-  th {
-    border: 1px solid $table_border;
-  }
-  td {
-    padding: 0px;
-    border-top: 0px;
-  }
-  .inner-care-giver-todo {
-    margin-bottom: 0px;
-    th,
-    td {
-      padding: 4px;
-    }
-  }
-  .date-col {
-    width: 125px;
-  }
-
-  .external-col {
-    width: 68px;
-  }
-  .name-col {
-    width: 342px;
-  }
-  .remarks-col {
-    width: 300px;
-  }
-  .comment-col {
-    width: 362px;
-  }
-}
 // 404 page
-
 .page-404 {
-  background: #fff;
+  background: $white;
   max-width: 100%;
   margin: auto;
   text-align: center;
@@ -3929,53 +3571,5 @@ html:not([dir="rtl"]) {
         max-width: 100%;
       }
     }
-  }
-}
-
-// dropzone design
-.dropzone-preview {
-  border: 1px dotted $light_gray;
-  padding: 30px 20px;
-  width: 100%;
-  height: 130px;
-  position: relative;
-  text-align: center;
-  background-color: $white;
-  color: $btn_hover_gray;
-  outline: none;
-  transition: border 0.24s ease-in-out;
-  margin-bottom: 15px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: $font_13;
-  cursor: pointer;
-  &.email-dropzone-height {
-    @media only screen and (min-width: 992px) {
-      height: calc(100% - 16px);
-    }
-  }
-  .icon-upload {
-    font-size: 35px;
-    img {
-      width: 40px;
-    }
-  }
-  .document-name {
-    color: $theme_color;
-    font-weight: 600;
-  }
-}
-
-.no-list-section {
-  .no-img {
-    width: 116px;
-    margin-bottom: 10px;
-  }
-  .no-text {
-    font-size: 15px;
-    color: $no_search_text_color;
   }
 }

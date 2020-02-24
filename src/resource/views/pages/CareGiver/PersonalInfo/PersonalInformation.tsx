@@ -491,12 +491,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         }
       : undefined,
     qualifications: qualificationsData,
-    fee: fee ? germanNumberFormat(fee) : '',
-    weekendAllowance: weekendAllowance
-      ? germanNumberFormat(weekendAllowance)
-      : '',
-    holiday: holiday ? germanNumberFormat(holiday) : '',
-    night: night ? germanNumberFormat(night) : '',
+    fee: fee !== null ? germanNumberFormat(fee) : '',
+    weekendAllowance:
+      weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : '',
+    holiday: holiday !== null ? germanNumberFormat(holiday) : '',
+    night: night !== null ? germanNumberFormat(night) : '',
     nightAllowance: nightAllowance
       ? {
           label: nightAllowance,

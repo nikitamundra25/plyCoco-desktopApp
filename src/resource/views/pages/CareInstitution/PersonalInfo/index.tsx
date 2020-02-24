@@ -505,12 +505,12 @@ const PersonalInformation: any = (props: any) => {
       addressInvoice: addressInvoice || '',
       interval: convertintoLabelValue(interval),
       // Fees related fields
-      careGiverCommission: careGiverCommission
-        ? germanNumberFormat(careGiverCommission)
-        : '',
-      doctorCommission: doctorCommission
-        ? germanNumberFormat(doctorCommission)
-        : '',
+      careGiverCommission:
+        careGiverCommission !== null
+          ? germanNumberFormat(careGiverCommission)
+          : '',
+      doctorCommission:
+        doctorCommission !== null ? germanNumberFormat(doctorCommission) : '',
       leasingPriceListId: convertintoLabelValue(leasingPriceListId)
     };
     // values.qualificationId = qualificationsData;

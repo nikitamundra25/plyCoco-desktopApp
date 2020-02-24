@@ -224,8 +224,8 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     preoccupation,
     payrollIBAN: payrollIBAN ? payrollIBAN : '',
     status,
-    firstDay,
-    lastDay,
+    firstDay:firstDay||'',
+    lastDay:lastDay||'',
     monthlyWorkingHrs,
     weeklyWorkingHrs
   };
@@ -243,7 +243,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
             enableReinitialize={true}
             onSubmit={handleSubmit}
             validationSchema={LeasingDataValidationSchema}
-            render={(props: FormikProps<ILeasingValues>) => {
+            children={(props: FormikProps<ILeasingValues>) => {
               return <LeasingPersonalDataFormComponent {...props} />;
             }}
           />

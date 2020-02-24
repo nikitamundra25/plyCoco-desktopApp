@@ -478,7 +478,7 @@ export const EmployeeForm: FunctionComponent<{
     address2,
     city,
     zip,
-    joiningDate,
+    joiningDate:joiningDate||'',
     accessLevel,
     country,
     region,

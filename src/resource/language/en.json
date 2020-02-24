@@ -501,6 +501,7 @@
   "COMPLETED": "Completed",
   "FUTURE_ONLY": "Future Only",
   "LOCKED": "Locked",
+  "UNLOCKED": "Unlocked",
   "REQUIREMENT": "Requirement",
   "EMPLOYEE_ADD_SUCCESS_MSG": "Employee added successfully.",
   "EMPLOYEE_UPDATE_SUCCESS_MSG": "Employee details updated successfully.",

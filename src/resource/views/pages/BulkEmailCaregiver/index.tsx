@@ -29,7 +29,8 @@ import { errorFormatter } from '../../../../helpers';
 import filter from '../../../assets/img/filter.svg';
 import refresh from '../../../assets/img/refresh.svg';
 import './index.scss';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
+import { AppRoutes } from '../../../../config';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
@@ -39,16 +40,13 @@ let toastId: any = null;
 const BulkEmailCaregiver: FunctionComponent = () => {
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const history = useHistory();
-  const location = useLocation();
-  const { pathname } = location;
-  console.log('pathname', pathname);
 
   // To get caregiver list from db
   const [
     fetchCareGiverList,
     { data: careGivers, called, loading, refetch, fetchMore }
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
-    fetchPolicy: 'no-cache'
+    notifyOnNetworkStatusChange: true
   });
 
   // To get all the types of email template
@@ -141,6 +139,19 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   //     }
   //   });
   // };
+
+  // Refresh component
+  const onRefresh = () => {
+    refetch();
+    setSubject('');
+    setBody(undefined);
+    setAttachments([]);
+    setIsSubmit(false);
+    setPage(page);
+    setTemplate({ label: '', value: '' });
+    setselectedCareGiver([]);
+    setBulkCareGivers(false);
+  };
 
   const handleInfiniteScroll = () => {
     setPage(page + 1);
@@ -377,7 +388,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
         <div className='common-detail-section'>
           <div className='sticky-common-header'>
             <div className='common-topheader d-flex align-items-center px-2 mb-1'>
-              <div className='header-nav-item'>
+              <div className='header-nav-item' onClick={onRefresh}>
                 <span className='header-nav-icon'>
                   <img src={refresh} alt='' />
                 </span>

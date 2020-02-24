@@ -76,12 +76,18 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   <td>
                     <span
                       onClick={() =>
-                        window.open(
-                          `${AppConfig.FILES_ENDPOINT}${list.document}`,
-                          '_blank',
-                        )
+                        list.fileName
+                          ? window.open(
+                              `${AppConfig.FILES_ENDPOINT}${list.document}`,
+                              '_blank'
+                            )
+                          : ''
                       }
-                      className='view-more-link word-wrap'
+                      className={`word-wrap ${
+                        list.fileName
+                          ? 'view-more-link'
+                          : 'text-black-50 font-weight-bold cursor-notallowed'
+                      }`}
                     >
                       {list.fileName
                         ? list.fileName
@@ -166,7 +172,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         id={`delete${index}`}
                         className={`btn-icon mr-2 ${
                           list.status === 'approve' || !list.fileName
-                            ? 'disbale'
+                            ? 'disabled-class'
                             : ''
                         }`}
                         onClick={() =>

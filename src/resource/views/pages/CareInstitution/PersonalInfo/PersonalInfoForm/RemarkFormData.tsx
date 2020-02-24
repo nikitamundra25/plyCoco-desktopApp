@@ -32,7 +32,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
   let userData: any = '';
   try {
     userData = client.readQuery({
-      query: VIEW_PROFILE,
+      query: VIEW_PROFILE
     });
   } catch (error) {}
   const { viewAdminProfile }: any = userData ? userData : {};
@@ -129,7 +129,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                   <div className='remark-action-btn'>
                     <div
                       className={`add-remark-btn ${
-                        !remarkData ? 'disabled-div' : ' '
+                        !remarkData ? 'disabled-class' : ' '
                       }`}
                       onClick={e => {
                         if (remarkData) {

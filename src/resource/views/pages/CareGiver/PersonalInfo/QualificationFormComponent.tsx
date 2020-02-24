@@ -51,7 +51,11 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
               <ul className="common-list list-unstyled mb-0 text-capitalize">
                 {qualifications.map(
                   (qualification: IReactSelectInterface, index: number) => {
-                    return <li key={index}>{qualification.label}</li>;
+                    return (
+                      <li key={index} className="text-capitalize">
+                        {qualification.label}
+                      </li>
+                    );
                   }
                 )}
               </ul>

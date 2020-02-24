@@ -51,12 +51,13 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
     searchPlacholderText,
     resetForm
   } = props;
-  
+
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     logger(selectOption, 'value');
     setFieldValue(name, selectOption);
   };
+
   return (
     <div className='filter-form form-section mb-2'>
       <Form onSubmit={handleSubmit}>

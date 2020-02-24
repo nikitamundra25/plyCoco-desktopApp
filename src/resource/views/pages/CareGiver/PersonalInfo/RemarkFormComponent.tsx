@@ -30,7 +30,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
   let userData: any = '';
   try {
     userData = client.readQuery({
-      query: VIEW_PROFILE,
+      query: VIEW_PROFILE
     });
   } catch (error) {}
 
@@ -124,7 +124,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                       <div className='remark-action-btn'>
                         <div
                           className={`add-remark-btn ${
-                            !remarkData ? 'disabled-div' : ' '
+                            !remarkData ? 'disabled-class' : ' '
                           }`}
                           onClick={e => {
                             if (remarkData) {

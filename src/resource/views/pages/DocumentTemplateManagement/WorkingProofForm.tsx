@@ -183,9 +183,9 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                     <div>
                       <div className="align-items-center d-flex justify-content-between">
                         <h5 className="content-title">
-                          {languageTranslation("NEW_WORK_PROOF_HEADER")}
+                          {languageTranslation("MENU_DOCUMENT_UPLOADS")}
                         </h5>
-                        <div className="user-select">
+                        {/* <div className="user-select">
                           <Select
                             placeholder="Select Type"
                             options={DocumentTempSelect}
@@ -199,11 +199,38 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             classNamePrefix="custom-inner-reactselect"
                             className={"custom-reactselect"}
                           />
-                        </div>
+                        </div> */}
                       </div>
 
                       <div className="working-height">
                         <div className="form-section pt-2 px-3">
+                          <FormGroup>
+                            <Row className="align-items-center">
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  Document Type
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div>
+                                  <Select
+                                    placeholder="Select Type"
+                                    options={DocumentTempSelect}
+                                    value={documentType}
+                                    onChange={(value: any) => {
+                                      handleSelect(value);
+                                      setRowIndex(-1);
+                                      setImageUrl("");
+                                      setDocumentUrl("");
+                                    }}
+                                    classNamePrefix="custom-inner-reactselect"
+                                    className={"custom-reactselect"}
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+
                           {loading ? (
                             <div>
                               <Loader />
@@ -370,7 +397,9 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                   ) : null
                                 ) : (
                                   <tr>
-                                    <Loader />
+                                    <td className={"table-loader"} colSpan={4}>
+                                      <Loader />
+                                    </td>
                                   </tr>
                                 )}
                               </tbody>

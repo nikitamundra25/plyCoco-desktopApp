@@ -11,7 +11,7 @@ import {
 } from '../../../../interfaces';
 import { FormikHelpers, FormikProps, Formik } from 'formik';
 import {
-  PAGE_LIMIT,
+  TODO_PAGE_LIMIT,
   TodoStatus,
   Priority,
   TodoDateFilter,
@@ -152,7 +152,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
           sortByDate: searchData.sortByDate ? searchData.sortByDate : null,
           priority: searchData.priority,
-          limit: PAGE_LIMIT,
+          limit: TODO_PAGE_LIMIT,
           page: query.page ? parseInt(query.page as string) : 1
         }
       });

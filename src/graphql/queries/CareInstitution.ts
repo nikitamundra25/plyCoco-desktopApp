@@ -41,6 +41,7 @@ const GET_CARE_INSTITUTION_LIST = gql`
 const GET_CARE_INSTITUION_BY_ID = gql`
   query getCareInstitution($careInstitutionId: Int!) {
     getCareInstitution(careInstitutionId: $careInstitutionId) {
+      createdAt
       firstName
       lastName
       salutation
@@ -50,6 +51,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
       id
       userRole
       gender
+      isApproved
       canstitution {
         city
         zipCode
@@ -114,8 +116,8 @@ const GET_CARE_INSTITUION_BY_ID = gql`
 `;
 
 const GET_DEPARTMENT_LIST = gql`
-  query($userId: Int!) {
-    getDivision(userId: $userId) {
+  query($userId: Int!, $locked: Boolean) {
+    getDivision(userId: $userId, locked: $locked) {
       id
       userId
       name
@@ -160,10 +162,20 @@ const GET_CONTACT_LIST_BY_ID = gql`
   }
 `;
 
+const GET_CONTACT_TYPES = gql`
+  query getContactType {
+    getContactType {
+      id
+      contactType
+    }
+  }
+`;
+
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
   GET_DEPARTMENT_LIST,
   GET_CAREINSTITUTION_ATTRIBUTES,
-  GET_CONTACT_LIST_BY_ID
+  GET_CONTACT_LIST_BY_ID,
+  GET_CONTACT_TYPES
 ];

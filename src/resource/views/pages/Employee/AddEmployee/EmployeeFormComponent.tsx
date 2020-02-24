@@ -732,7 +732,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                           'EMPLOYEE_ADD_PROFILE_IMAGE_LABEL'
                         )}
                       </h5>
-                      <div className=' file-preview-section p-0 mb-2'>
+                      <div className=' file-preview-section p-0 mb-3'>
                         <div className='fileinput-preview d-flex align-items-center justify-content-center'>
                           <div className='file-upload'>
                             <label

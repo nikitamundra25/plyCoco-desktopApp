@@ -141,6 +141,19 @@ body {
       color: $white;
     }
   }
+  .add-new-btn {
+    cursor: pointer;
+    background: $profile_bg;
+    color: $black;
+    width: 25px;
+    height: 25px;
+    font-size: $font_12;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    &:hover {
+      background: $profile_bg_hover;
+    }
+  }
   .btn-primary {
     background: $theme_color;
     border-color: $theme_color;
@@ -2996,8 +3009,11 @@ html:not([dir="rtl"]) {
     @media only screen and (max-width: 991px) {
       flex: 1 1 100%;
     }
+    &.contactform-flex-tile {
+      flex: 1 1 28%;
+    }
     &.form-attribute-remark-section {
-      flex: 1 1 40%;
+      flex: 1 1 32%;
       display: flex;
       @media only screen and (max-width: 767px) {
         flex-wrap: wrap;
@@ -3013,7 +3029,7 @@ html:not([dir="rtl"]) {
       }
       .attribute-div {
         flex: 1;
-        min-width: 290px;
+        min-width: 275px;
       }
     }
     .col-form-label {

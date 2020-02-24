@@ -381,6 +381,13 @@ export const Salutation: IReactSelectInterface[] = [
   { value: 'Sir', label: 'Sir' },
   { value: 'Madam', label: 'Madam' }
 ];
+
+export const LockedOptions: any[] = [
+  { value: null, label: languageTranslation('ALL') },
+  { value: true, label: languageTranslation('LOCKED') },
+  { value: false, label: languageTranslation('UNLOCKED') }
+];
+
 export const Country: IReactSelectInterface[] = [
   { value: 'Denmark', label: 'Denmark' },
   { value: 'Poland', label: 'Poland' },

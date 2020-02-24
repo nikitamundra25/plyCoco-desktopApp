@@ -296,7 +296,7 @@ const CareInstitution = (props: RouteComponentProps) => {
       ? userData.map(
           (user: ICareInstitutionListDataInterface, index: number) => {
             return tableData.push(
-              <tr>
+              <tr key={index}>
                 <td className={'sno-th-column text-center'}>
                   <span>{count++}</span>
                 </td>

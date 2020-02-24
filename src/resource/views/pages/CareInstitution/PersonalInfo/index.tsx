@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'reactstrap';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
+import { toast } from 'react-toastify';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import '../careinstitution.scss';
 import PersonalInfoForm from './PersonalInfoForm';
 import {
   ICareInstitutionFormValues,
@@ -11,34 +12,37 @@ import {
   IAttributeValues,
   IAttributeOptions,
   IState,
+  ICountry
 } from '../../../../../interfaces';
 import { CareInstituionValidationSchema } from '../../../../validations';
 import { useParams } from 'react-router';
 import {
   CareInstitutionQueries,
-  CountryQueries,
+  CountryQueries
 } from '../../../../../graphql/queries';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
-import { toast } from 'react-toastify';
 import {
   logger,
   languageTranslation,
-  germanNumberFormat,
+  germanNumberFormat
 } from '../../../../../helpers';
 import CareInstitutionContacts from './CareInstitutionContacts';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
 import { CareInstitutionMutation } from '../../../../../graphql/Mutations';
 import { IQualification } from '../../../../../interfaces/qualification';
 import { errorFormatter } from '../../../../../helpers';
+import Loader from '../../../containers/Loader/Loader';
+import '../careinstitution.scss';
+import { RemarkMutations } from '../../../../../graphql/Mutations';
 
 let toastId: any;
 
+const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 const [, GET_REGIONS] = RegionQueries;
 const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
   GET_DEPARTMENT_LIST,
-  GET_CAREINSTITUTION_ATTRIBUTES,
+  GET_CAREINSTITUTION_ATTRIBUTES
 ] = CareInstitutionQueries;
 
 const [
@@ -51,8 +55,9 @@ const [
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   ADD_NEW_CARE_INTITUTION,
   ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT,
+  DELETE_DEPARTMENT
 ] = CareInstitutionMutation;
+const [UPDATE_REMARKS] = RemarkMutations;
 
 const PersonalInformation: any = (props: any) => {
   let { id } = useParams();
@@ -66,7 +71,7 @@ const PersonalInformation: any = (props: any) => {
   // To get the care instituion details by id
   const [
     getCareInstitutionDetails,
-    { data: careInstituionDetails, error: detailsError, refetch },
+    { data: careInstituionDetails, loading, refetch }
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
 
   // Fetch attribute list from db
@@ -81,36 +86,44 @@ const PersonalInformation: any = (props: any) => {
         careInstitutionAttrOpt.push({
           label: name,
           value: id ? id.toString() : '',
-          color,
-        }),
+          color
+        })
     );
   }
 
-  const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
   //To get country details
-  const { data: countries, loading } = useQuery<ICountries>(GET_COUNTRIES);
+  const { data: countries } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
+  // to update remarks
+  const [updateRemark, { data: remarkData }] = useMutation<any>(UPDATE_REMARKS);
+
+  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  if (countries && countries.countries) {
+    countries.countries.forEach(({ id, name }: ICountry) =>
+      countriesOpt.push({ label: name, value: id })
+    );
+  }
   // To get region list
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
 
   useEffect(() => {
     // call query
     fetchRegionList({
       variables: {
-        limit: 25,
-      },
+        limit: 25
+      }
     });
   }, []);
 
   useEffect(() => {
     if (props.isUserChange) {
       getCareInstitutionDetails({
-        variables: { careInstitutionId: parseInt(Id) },
+        variables: { careInstitutionId: parseInt(Id) }
       });
       props.handleIsUserChange();
     }
@@ -120,7 +133,7 @@ const PersonalInformation: any = (props: any) => {
     // Fetch details by care institution id
     if (id) {
       getCareInstitutionDetails({
-        variables: { careInstitutionId: parseInt(Id) },
+        variables: { careInstitutionId: parseInt(Id) }
       });
     }
   }, []);
@@ -131,7 +144,7 @@ const PersonalInformation: any = (props: any) => {
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
       logger(
         careInstituionDetails.getCareInstitution,
-        'careInstituionDetails****',
+        'careInstituionDetails****'
       );
       const contactsData: any[] =
         careInstituionDetails.getCareInstitution.contact;
@@ -146,7 +159,7 @@ const PersonalInformation: any = (props: any) => {
           faxNumber: '',
           comments: '',
           groupAttributes: '',
-          attributeId: [],
+          attributeId: []
         });
       } else if (contactsData && contactsData[contactsData.length - 1].id) {
         contactsData.push({
@@ -159,7 +172,7 @@ const PersonalInformation: any = (props: any) => {
           faxNumber: '',
           comments: '',
           groupAttributes: '',
-          attributeId: [],
+          attributeId: []
         });
       }
       setContacts(contactsData);
@@ -181,14 +194,16 @@ const PersonalInformation: any = (props: any) => {
   // }, [careInstituionDetails]);
 
   useEffect(() => {
+    console.log('in use effect care instituion');
+
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
       const { getCareInstitution } = careInstituionDetails;
       const { canstitution } = getCareInstitution;
       if (canstitution && canstitution.countryId) {
         getStatesByCountry({
           variables: {
-            countryid: canstitution ? canstitution.countryId : '',
-          },
+            countryid: canstitution ? canstitution.countryId : ''
+          }
         });
       }
     }
@@ -196,13 +211,13 @@ const PersonalInformation: any = (props: any) => {
 
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
-    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
   ) => {
     //to set submit state to false after successful signup
     let AttributeData: string[] = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>
-        AttributeData.push(attribute.label),
+        AttributeData.push(attribute.label)
       );
     }
 
@@ -254,38 +269,33 @@ const PersonalInformation: any = (props: any) => {
           values.qualificationId && values.qualificationId.length
             ? values.qualificationId.map(
                 (qualification: IReactSelectInterface) =>
-                  parseInt(qualification.value),
+                  parseInt(qualification.value)
               )
             : null,
         attributes: AttributeData,
         leasingPriceListId:
           values.leasingPriceListId && values.leasingPriceListId.value
             ? values.leasingPriceListId.value
-            : null,
+            : null
       };
-      toast.success(languageTranslation('CARE_INSTI_UPDATE_SUCCESS'));
       await updateCareInstitution({
         variables: {
           id: parseInt(Id),
-          careInstitutionInput: careInstitutionInput,
-        },
+          careInstitutionInput: careInstitutionInput
+        }
       });
+      toastId = toast.success(languageTranslation('CARE_INSTI_UPDATE_SUCCESS'));
     } catch (error) {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      // setFieldError('email', message);
-      toast.error(message);
-      logger(error);
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
     }
     setSubmitting(false);
   };
   let Data: IReactSelectInterface;
   let values: ICareInstitutionFormValues;
-  let countryData: Number;
   let regionId: String;
-  let linkedToId: String;
 
   useEffect(() => {
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
@@ -296,37 +306,15 @@ const PersonalInformation: any = (props: any) => {
     }
   }, [careInstituionDetails]);
 
-  const [stateOptions, setstateOptions] = useState<
-    IReactSelectInterface[] | undefined
-  >([]);
-
-  useEffect(() => {
-    if (statesData) {
-      const { states }: any = statesData;
-      let stateDataF: IReactSelectInterface[] = [];
-      for (let index = 0; index < states.length; index++) {
-        const element = states[index];
-        stateDataF.push({
-          label: element.name,
-          value: element.id,
-        });
-      }
-      setstateOptions(stateDataF);
-    }
-  }, [statesData]);
-
   // Save remarks into DB
   const saveRemark = async (message: string, remarksData: any) => {
     if (id) {
       try {
-        await updateCareInstitution({
+        await updateRemark({
           variables: {
-            id: parseInt(Id),
-            careInstitutionInput: {
-              remarks: remarksData ? remarksData : remarksDetail, // send remarksData in case of delete
-            },
-            isRemarkAdded: true,
-          },
+            id: parseInt(id),
+            remarks: remarksData ? remarksData : remarksDetail // send remarksData in case of delete
+          }
         });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(message);
@@ -339,32 +327,69 @@ const PersonalInformation: any = (props: any) => {
       }
     }
   };
-
+  let userSelectedCountry: any = {};
+  const convertintoLabelValue = (data: string) => {
+    return data
+      ? {
+          label: data,
+          value: data
+        }
+      : undefined;
+  };
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
+    const {
+      createdAt = new Date(),
+      email = '',
+      firstName = '',
+      lastName = '',
+      gender = '',
+      userName = '',
+      phoneNumber = '',
+      salutation = '',
+      canstitution = {},
+      qualifications = [],
+      regions = []
+    } = getCareInstitution ? getCareInstitution : {};
+    const {
+      title = '',
+      shortName = '',
+      companyName = '',
+      anonymousName = '',
+      anonymousName2 = '',
+      countryId = '',
+      stateId = '',
+      street = '',
+      city = '',
+      zipCode = '',
+      fax = '',
+      mobileNumber = '',
+      website = '',
+      remarks = '',
+      careGiverCommission = '',
+      doctorCommission = '',
+      leasingPriceListId = '',
+      remarksViewable = '',
+      defaultQualification = '',
+      invoiceType = '',
+      interval = '',
+      emailInvoice = '',
+      addressInvoice = '',
+      linkedTo = '',
+      attributes = []
+    } = canstitution ? canstitution : {};
 
-    countryData = getCareInstitution.canstitution
-      ? getCareInstitution.canstitution.countryId
-      : '';
-    regionId =
-      getCareInstitution.regions && getCareInstitution.regions.length
-        ? getCareInstitution.regions[0].id
-        : '';
+    regionId = regions && regions.length ? regions[0].id : '';
 
-    linkedToId = getCareInstitution.canstitution
-      ? getCareInstitution.canstitution.linkedTo
-      : '';
-
-    let userSelectedCountry: any = {};
-    if (countries && countries.countries) {
+    if (countries && countries.countries && countryId) {
       const userCountry = countries.countries.filter(
-        (x: any) => parseInt(x.id) === countryData,
+        (x: any) => parseInt(x.id) === countryId
       );
 
       if (userCountry && userCountry.length) {
         userSelectedCountry = {
           label: userCountry[0].name,
-          value: userCountry[0].id,
+          value: userCountry[0].id
         };
       }
     }
@@ -377,205 +402,128 @@ const PersonalInformation: any = (props: any) => {
       RegionData.getRegions.regionData.length
     ) {
       const userRegion = RegionData.getRegions.regionData.filter(
-        (x: any) => x.id === regionId,
+        (x: any) => x.id === regionId
       );
 
       if (userRegion && userRegion.length) {
         userSelectedRegion = {
           label: userRegion[0].regionName,
-          value: userRegion[0].id,
+          value: userRegion[0].id
         };
       }
     }
 
-    let UserSelectedLinkedTo: any = {};
+    let UserSelectedLinkedTo: IReactSelectInterface | undefined = undefined;
     const statesOpt: IReactSelectInterface[] | undefined = [];
 
-    if (props.CareInstitutionList) {
+    if (props.CareInstitutionList && linkedTo) {
       const userSelectedLinkedTo = props.CareInstitutionList.filter(
-        (x: any) => x.value === linkedToId,
+        (x: any) => x.value === linkedTo
       );
       if (userSelectedLinkedTo && userSelectedLinkedTo.length) {
         UserSelectedLinkedTo = userSelectedLinkedTo[0];
       }
     }
-
-    const stateData = getCareInstitution.canstitution
-      ? getCareInstitution.canstitution.stateId
-      : '';
-    let userSelectedState: any = {};
-    if (statesData && statesData.states) {
+    let userSelectedState: IReactSelectInterface | undefined = undefined;
+    if (statesData && statesData.states && stateId) {
       const userState = statesData.states.filter(
-        (x: any) => parseInt(x.id) === stateData,
+        (x: any) => parseInt(x.id) === stateId
       );
       if (userState && userState.length) {
         userSelectedState = {
           label: userState[0].name,
-          value: userState[0].id,
+          value: userState[0].id
         };
       }
       statesData.states.forEach(({ id, name }: IState) =>
-        statesOpt.push({ label: name, value: id }),
+        statesOpt.push({ label: name, value: id })
       );
     }
     let selectedAttributes: IAttributeOptions[] = [];
-    if (
-      getCareInstitution &&
-      getCareInstitution.canstitution &&
-      getCareInstitution.canstitution.attributes &&
-      getCareInstitution.canstitution.attributes.length
-    ) {
-      getCareInstitution.canstitution.attributes.map((attData: string) => {
+    if (attributes && attributes.length) {
+      attributes.map((attData: string) => {
         const data = careInstitutionAttrOpt.filter(
-          ({ label }: IAttributeOptions) => label === attData,
+          ({ label }: IAttributeOptions) => label === attData
         )[0];
         selectedAttributes.push({
           label: data ? data.label : attData,
           value: data ? data.value : attData,
-          color: data ? data.color : null,
+          color: data ? data.color : null
         });
       });
     }
 
     values = {
       id: Id,
-      email: getCareInstitution.email,
-      firstName: getCareInstitution.firstName,
-      lastName: getCareInstitution.lastName,
-      gender: getCareInstitution.gender
-        ? {
-            label: getCareInstitution ? getCareInstitution.gender : '',
-            value: getCareInstitution ? getCareInstitution.gender : null,
-          }
-        : undefined,
-      userName: getCareInstitution.userName,
-      phoneNumber: getCareInstitution.phoneNumber,
-      salutation: {
-        label: getCareInstitution.salutation
-          ? getCareInstitution.salutation
-          : '',
-        value: getCareInstitution.salutation
-          ? getCareInstitution.salutation
-          : '',
-      },
-      fax: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.fax
-        : '',
-      zipCode: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.zipCode
-        : '',
+      createdAt,
+      email,
+      firstName,
+      lastName,
+      gender: convertintoLabelValue(gender),
+      userName,
+      phoneNumber: phoneNumber || '',
+      salutation: convertintoLabelValue(salutation),
+      title,
+      shortName,
+      companyName,
+      anonymousName: anonymousName || '',
+      anonymousName2: anonymousName2 || '',
+      street,
+      city,
+      zipCode: zipCode || '',
+      mobileNumber: mobileNumber || '',
+      fax: fax || '',
+      website: website || '',
+      remarksViewable: remarksViewable || '',
       country: userSelectedCountry.value
         ? {
             label: userSelectedCountry.value ? userSelectedCountry.label : null,
-            value: userSelectedCountry.value ? userSelectedCountry.value : null,
+            value: userSelectedCountry.value ? userSelectedCountry.value : null
           }
         : undefined,
-      state: userSelectedState.value
-        ? { label: userSelectedState.label, value: userSelectedState.value }
-        : undefined,
+      state:
+        userSelectedState && userSelectedState.value
+          ? { label: userSelectedState.label, value: userSelectedState.value }
+          : undefined,
       stateId: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.stateId
         : '',
-      // remarks: getCareInstitution.canstitution
-      //   ? getCareInstitution.canstitution.remarks
-      //   : "",
-      title: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.title
-        : '',
-      anonymousName: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.anonymousName
-        : '',
-      anonymousName2: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.anonymousName2
-        : '',
-      mobileNumber: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.mobileNumber
-        : '',
-      remarksViewable: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.remarksViewable
-        : '',
-      invoiceType: getCareInstitution.canstitution.invoiceType
-        ? {
-            label: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.invoiceType
-              : '',
-            value: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.invoiceType
-              : '',
-          }
-        : undefined,
-      emailInvoice: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.emailInvoice
-        : '',
-      addressInvoice: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.addressInvoice
-        : '',
-      interval: getCareInstitution.canstitution.interval
-        ? {
-            label: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.interval
-              : '',
-            value: getCareInstitution.canstitution
-              ? getCareInstitution.canstitution.interval
-              : '',
-          }
-        : undefined,
-      careGiverCommission: getCareInstitution.canstitution
-        ? germanNumberFormat(
-            getCareInstitution.canstitution.careGiverCommission,
-          )
-        : '',
-      doctorCommission: getCareInstitution.canstitution
-        ? germanNumberFormat(getCareInstitution.canstitution.doctorCommission)
-        : '',
-      leasingPriceListId: getCareInstitution.canstitution
-        ? {
-            label: getCareInstitution.canstitution.leasingPriceListId,
-            value: getCareInstitution.canstitution.leasingPriceListId,
-          }
-        : undefined,
       isArchive: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.isArchive
         : '',
-      shortName: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.shortName
-        : '',
-      companyName: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.companyName
-        : '',
-      street: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.street
-        : '',
       regionId: userSelectedRegion.value ? userSelectedRegion : undefined,
-      city: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.city
-        : '',
-      website: getCareInstitution.canstitution
-        ? getCareInstitution.canstitution.website
-        : '',
-      linkedTo: UserSelectedLinkedTo ? UserSelectedLinkedTo : null,
+      linkedTo: UserSelectedLinkedTo ? UserSelectedLinkedTo : undefined,
+      qualificationId: qualifications.map(({ name, id }: IQualification) => ({
+        label: name,
+        value: id
+      })),
       attributeId: selectedAttributes,
       remarkData: '',
+      // Invoice related fields
+      invoiceType: convertintoLabelValue(invoiceType),
+      emailInvoice,
+      addressInvoice: addressInvoice || '',
+      interval: convertintoLabelValue(interval),
+      // Fees related fields
+      careGiverCommission: careGiverCommission
+        ? germanNumberFormat(careGiverCommission)
+        : '',
+      doctorCommission: doctorCommission
+        ? germanNumberFormat(doctorCommission)
+        : '',
+      leasingPriceListId: convertintoLabelValue(leasingPriceListId)
     };
-    const qualificationsData: IReactSelectInterface[] | undefined = [];
-    const attributeData: IReactSelectInterface[] = [];
-    if (getCareInstitution.qualifications) {
-      getCareInstitution.qualifications.forEach(
-        ({ name, id }: IQualification) => {
-          qualificationsData.push({ label: name, value: id });
-        },
-      );
-    }
-    values.qualificationId = qualificationsData;
+    // values.qualificationId = qualificationsData;
 
     Data = {
       label: `${getCareInstitution.firstName} ${''} ${
         getCareInstitution.lastName
       }`,
-      value: Id,
+      value: Id
     };
   } else {
     values = {
+      createdAt: new Date(),
       email: '',
       firstName: '',
       lastName: '',
@@ -586,7 +534,7 @@ const PersonalInformation: any = (props: any) => {
       companyName: '',
       street: '',
       city: '',
-      remarkData: '',
+      remarkData: ''
     };
   }
 
@@ -598,18 +546,13 @@ const PersonalInformation: any = (props: any) => {
     }
   }, [careInstituionDetails && careInstituionDetails.getCareInstitution]);
 
-  useEffect(() => {
-    // Fetch state details by country id
-    if (countryData) {
-      getStatesByCountry({
-        variables: { countryid: countryData ? countryData : '82' }, // default code is for germany
-      });
-    }
-  }, []);
-
   const { qualificationList } = props;
   const CareInstitutionLinkedTo = props.CareInstitutionList;
-  return (
+  return loading ? (
+    <div className='overview-loader'>
+      <Loader />
+    </div>
+  ) : (
     <Form className='form-section forms-main-section'>
       <Formik
         initialValues={values}
@@ -624,7 +567,8 @@ const PersonalInformation: any = (props: any) => {
             remarksDetail={remarksDetail}
             saveRemark={saveRemark}
             careInstitutionAttrOpt={careInstitutionAttrOpt}
-            stateOptions={stateOptions}
+            countriesOpt={countriesOpt}
+            userSelectedCountry={userSelectedCountry}
           />
         )}
         validationSchema={CareInstituionValidationSchema}
@@ -641,14 +585,6 @@ const PersonalInformation: any = (props: any) => {
           neContactAdded={() => props.neContactAdded()}
         />
       </div>
-      {/* <Formik
-        initialValues={contactFormValues}
-        onSubmit={handleContactSubmit}
-        children={(props: FormikProps<ICareInstitutionContact>) => (
-          <CareInstitutionContact {...props} />
-        )}
-        validationSchema={CareInstituionContactValidationSchema}
-      /> */}
     </Form>
   );
 };

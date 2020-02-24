@@ -78,8 +78,6 @@ const CotactFormComponent: any = (
     name: string,
     type: string
   ) => {
-    console.log('namename', name);
-
     if (type === 'newAttribute' && name === 'attributeId') {
       // To check if it's already exist on options or not
       const index: number = attributeId.findIndex(
@@ -146,13 +144,6 @@ const CotactFormComponent: any = (
   } = props;
 
   useEffect(() => {
-    console.log(contacttypeOpt, contactType);
-    console.log(
-      contacttypeOpt.filter(
-        (element: IReactSelectInterface) => element.label === contactType.label
-      )[0],
-      'in use effect contact type'
-    );
     setFieldValue(
       'contactType',
       contacttypeOpt.filter(
@@ -180,7 +171,6 @@ const CotactFormComponent: any = (
         data.push(selectOption);
       }
       setnewAttributeValue(null);
-      console.log('Data', data);
 
       setFieldValue(name, data);
     }
@@ -233,7 +223,6 @@ const CotactFormComponent: any = (
   const [newContactType, setnewContactType] = useState('');
 
   const ContactError: any = errors.contactType;
-  console.log(contactType, 'contactType+++++ formik');
 
   return (
     <>
@@ -456,6 +445,10 @@ const CotactFormComponent: any = (
                               onInputChange={(value: any) => {
                                 if (value) {
                                   setnewContactType(value);
+                                  setFieldValue('contactType', {
+                                    label: value,
+                                    value: value
+                                  });
                                 }
                               }}
                               className={

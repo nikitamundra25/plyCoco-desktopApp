@@ -24,7 +24,7 @@ import {
   IState
 } from '../../../../../interfaces';
 import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
-
+import { RemarkMutations } from '../../../../../graphql/Mutations';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
 import {
@@ -42,11 +42,15 @@ let toastId: any;
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [, UPDATE_CAREGIVER] = CareGiverMutations;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+const [UPDATE_REMARKS] = RemarkMutations;
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const { getCaregiver } = props;
   let { id } = useParams();
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
+
+  // to update remarks
+  const [updateRemark, { data: remarkData }] = useMutation<any>(UPDATE_REMARKS);
 
   const { data: CountriesData } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
@@ -287,15 +291,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   // Save remarks into DB
   const saveRemark = async (message: string, remarksData: any) => {
+    console.log(remarksDetail, 'remarksDetail++++');
     if (id) {
       try {
-        await updateCaregiver({
+        await updateRemark({
           variables: {
             id: parseInt(id),
-            careGiverInput: {
-              remarks: remarksData ? remarksData : remarksDetail // send remarksData in case of delete
-            },
-            isRemarkAdded: true
+            remarks: remarksData ? remarksData : remarksDetail // send remarksData in case of delete
           }
         });
         if (!toast.isActive(toastId)) {
@@ -524,6 +526,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   };
 
   const usersList = props.careGiverOpt;
+  console.log(remarksDetail, 'remarksDetails in render++++');
   return (
     <Formik
       initialValues={initialValues}

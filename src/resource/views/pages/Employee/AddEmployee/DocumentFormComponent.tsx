@@ -16,6 +16,7 @@ import { AttachmentList } from '../../../components/Attachments';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import { errorFormatter } from '../../../../../helpers';
 import { ApolloError } from 'apollo-client';
+import { AcceptedFileFormat } from '../../../../../config';
 
 const [, GET_DOCUMENTS] = DocumentQueries;
 const [ADD_DOCUMENT, , UPDATE_DOCUMENT, DELETE_DOCUMENT] = DocumentMutations;
@@ -26,6 +27,9 @@ export const DocumentFormComponent: FunctionComponent<{
   id: string;
 }> = ({ id }: { id: string }) => {
   const [attachment, setAttachment] = useState<IEmailAttachmentData[]>([]);
+  const [filetypeError, setFiletypeError] = useState<string | undefined>(
+    undefined
+  );
   // Query to fetch documents
   const { data, loading, refetch, called } = useQuery<any>(GET_DOCUMENTS, {
     variables: {
@@ -109,26 +113,46 @@ export const DocumentFormComponent: FunctionComponent<{
   }, [data]);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFiletypeError(undefined);
     e.preventDefault();
     const {
       target: { files }
     } = e;
-    if (files) {
-      for (let index = 0; index < files.length; index++) {
-        let reader = new FileReader();
-        let file = files[index];
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-          addDocument({
-            variables: {
-              documentInput: {
-                userId: id ? id : '',
-                document: file,
-                documentTypeId: null
+    if (files && files.length) {
+      console.log(files);
+      const fileType = files && files[0].type ? files[0].type.split('/') : '';
+      console.log('fileType', fileType[1]);
+      if (
+        fileType[1] !== 'jpeg' &&
+        fileType[1] !== 'pdf' &&
+        fileType[1] !== 'jpg' &&
+        fileType[1] !== 'png' &&
+        fileType[1] !== 'xlsx' &&
+        fileType[1] !==
+          'vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
+        fileType[1] !==
+          'vnd.openxmlformats-officedocument.wordprocessingml.document' &&
+        fileType[1] !== 'msword'
+      ) {
+        setFiletypeError(languageTranslation('UNSUPPORTED_FILE_FORMAT'));
+      } else {
+        console.log('inside else');
+        for (let index = 0; index < files.length; index++) {
+          let reader = new FileReader();
+          let file = files[index];
+          reader.readAsDataURL(file);
+          reader.onloadend = () => {
+            addDocument({
+              variables: {
+                documentInput: {
+                  userId: id ? id : '',
+                  document: file,
+                  documentTypeId: null
+                }
               }
-            }
-          });
-        };
+            });
+          };
+        }
       }
     }
   };
@@ -163,42 +187,43 @@ export const DocumentFormComponent: FunctionComponent<{
       <Col lg={'12'} md={'12'} sm={'12'}>
         <div>
           <h5 className='main-title'>{languageTranslation('DOCUMENTS')}</h5>
-          <FormGroup className='mb-2'>
-            <div>
-              <div className='custom-file-div position-relative'>
-                <Input
-                  id='FileBrowser'
-                  type='file'
-                  multiple
-                  onChange={handleImageChange}
-                  className='custom-input-file'
-                  disable={addDocumentLoading}
-                />
-                <Label
-                  className={`custom-label-file ${
-                    addDocumentLoading ? 'cursor-notallowed' : ''
-                  }`}
-                  for='FileBrowser'
-                >
-                  <span className='choosefile-label'>
-                    {addDocumentLoading ? (
-                      <>
-                        <i className='fa fa-spinner fa-spin '></i>
-                        &nbsp; <span>{languageTranslation('BROWSE_FILE')}</span>
-                      </>
-                    ) : (
-                      <>
-                        <i className='fa fa-folder-open mr-2'></i>
-                        <span>{languageTranslation('BROWSE_FILE')}</span>
-                      </>
-                    )}
-                  </span>
-                  <span className='upload-doc-name'>
-                    {languageTranslation('CHOOSE_FILE')}
-                  </span>
-                </Label>
-              </div>
+          <FormGroup className='mb-0 position-relative'>
+            <div className='custom-file-div position-relative mb-3 '>
+              <Input
+                id='FileBrowser'
+                type='file'
+                multiple
+                onChange={handleImageChange}
+                className='custom-input-file'
+                disabled={addDocumentLoading}
+                accept={AcceptedFileFormat}
+              />
+              <Label
+                className={`custom-label-file ${
+                  addDocumentLoading ? 'cursor-notallowed' : ''
+                }`}
+                for='FileBrowser'
+              >
+                <span className='choosefile-label'>
+                  {addDocumentLoading ? (
+                    <>
+                      <i className='fa fa-spinner fa-spin '></i>
+                      &nbsp; <span>{languageTranslation('BROWSE_FILE')}</span>
+                    </>
+                  ) : (
+                    <>
+                      <i className='fa fa-folder-open mr-2'></i>
+                      <span>{languageTranslation('BROWSE_FILE')}</span>
+                    </>
+                  )}
+                </span>
+                <span className='upload-doc-name'>
+                  {languageTranslation('CHOOSE_FILE')}
+                </span>
+              </Label>
             </div>
+
+            <div className='required-error'>{filetypeError}</div>
           </FormGroup>
         </div>
         {/* <FormGroup className={`col-sm-6`}>

@@ -381,6 +381,13 @@ export const Salutation: IReactSelectInterface[] = [
   { value: 'Sir', label: 'Sir' },
   { value: 'Madam', label: 'Madam' }
 ];
+
+export const LockedOptions: any[] = [
+  { value: null, label: languageTranslation('ALL') },
+  { value: true, label: languageTranslation('LOCKED') },
+  { value: false, label: languageTranslation('UNLOCKED') }
+];
+
 export const Country: IReactSelectInterface[] = [
   { value: 'Denmark', label: 'Denmark' },
   { value: 'Poland', label: 'Poland' },
@@ -1156,12 +1163,6 @@ export const Priority: IReactSelectInterface[] = [
 export const TodoFilter: IReactSelectInterface[] = [
   { value: 'pending', label: languageTranslation('HIDE_DONE') },
   { value: 'completed', label: languageTranslation('HIDE_FUTURE_ONES') }
-];
-
-export const LockedOptions: any[] = [
-  { value: null, label: languageTranslation('ALL') },
-  { value: true, label: languageTranslation('LOCKED') },
-  { value: false, label: languageTranslation('UNLOCKED') }
 ];
 
 export const Without_Appointments: IReactSelectInterface[] = [

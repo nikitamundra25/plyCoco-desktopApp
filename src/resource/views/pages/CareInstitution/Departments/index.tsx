@@ -27,6 +27,8 @@ import { GET_QUALIFICATION_ATTRIBUTE } from "../../../../../graphql/queries";
 import { ConfirmBox } from "../../../components/ConfirmBox";
 import { CareInstitutionMutation } from "../../../../../graphql/Mutations";
 import Loader from "../../../containers/Loader/Loader";
+import Select from 'react-select';
+import { LockedOptions } from '../../../../../config';
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -56,7 +58,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   let [qualifications, setQualifications] = useState<any>([]);
   let [attributes, setAttributes] = useState<any>([]);
   let [userId, setUserId] = useState<string>('');
-  let [refreshList, setRefreshList] = useState<boolean>(false);
 
   let { id } = useParams();
   const Id: any | undefined = id;
@@ -75,12 +76,14 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   );
 
   // To get caregiver list from db
-  const [getDepartmentList, { data: departmentList, refetch }] = useLazyQuery<
+  const [getDepartmentList, { data: departmentList, refetch, loading }] = useLazyQuery<
     any
   >(GET_DEPARTMENT_LIST);
 
   const [departmentDetails, setDepartmentDetails] = useState<any>();
   const [isActive, setIsActive] = useState<any>();
+
+  const [filterValue, setFilterValue] = useState<any>(null);
 
   // To fecth qualification attributes list
   const { data: qualificationData } = useQuery<IQualifications>(
@@ -119,20 +122,20 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     getDepartmentList({
       variables: {
         userId: parseInt(Id),
+        locked: filterValue
       },
     });
     setUserId(Id);
   }, [departmentList]);
 
   if (userId && userId !== Id) {
-    setRefreshList(true);
     setUserId(Id);
     getDepartmentList({
       variables: {
         userId: parseInt(Id),
+        locked: filterValue
       },
     });
-    setRefreshList(false);
   }
 
   const handleSubmit = async (
@@ -309,7 +312,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     setQualifications([]);
     setAttributes([]);
     setIsActive(-1);
-    setInterval(function() {
+    setInterval(function () {
       setIsLoading(false);
     }, 1000);
   };
@@ -357,12 +360,43 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     }
   };
 
+  const onFilter = async (value: any) => {
+    await getDepartmentList({
+      variables: {
+        userId: parseInt(Id),
+        locked: value
+      },
+    });
+    setDepartmentDetails({
+      id: '',
+      userId: parseInt(Id),
+      name: '',
+      anonymousName: '',
+      anonymousName2: '',
+      address: '',
+      contactPerson: '',
+      phoneNumber: '',
+      faxNumber: '',
+      email: '',
+      commentsOffer: '',
+      commentsCareGiver: '',
+      commentsVisibleInternally: '',
+      locked: false,
+      times: [],
+    });
+    setTimesData([]);
+    setQualifications([]);
+    setAttributes([]);
+    setIsActive(-1);
+    refetch();
+  };
+
   return (
     <>
       <Form className='form-section forms-main-section'>
         <Row className=''>
           <Col lg={'4'}>
-            {refreshList ? (
+            {loading ? (
               <div>
                 <Loader />
               </div>
@@ -374,7 +408,19 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
             </div>
 
             <div className='form-card p-0 department-card-height minheight-auto'>
-              <div className='d-flex align-items-center justify-content-end department-list-header pt-2 px-2'>
+              <div className='d-flex align-items-center justify-content-between department-list-header pt-2 px-2'>
+                <div className="select-box mb-2">
+                  <Select
+                    placeholder={languageTranslation("LOCKED")}
+                    classNamePrefix="custom-inner-reactselect"
+                    className="custom-reactselect"
+                    options={LockedOptions}
+                    onChange={(item: any) => {
+                      onFilter(item.value);
+                      setFilterValue(item.value);
+                    }}
+                  />
+                </div>
                 <Button
                   color={'primary'}
                   className={'btn-department mb-2 '}
@@ -401,44 +447,44 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                     <ul className='common-list list-unstyled mb-0'>
                       {departmentList && departmentList.getDivision.length
                         ? departmentList.getDivision.map(
-                            (item: any, index: number) => {
-                              return (
-                                <li
-                                  key={index}
-                                  className={
-                                    'cursor-pointer list-item text-capitalize' +
-                                    (isActive === index ? ' active' : '')
-                                  }
+                          (item: any, index: number) => {
+                            return (
+                              <li
+                                key={index}
+                                className={
+                                  'cursor-pointer list-item text-capitalize' +
+                                  (isActive === index ? ' active' : '')
+                                }
+                              >
+                                <span
+                                  onClick={() => {
+                                    setDepartmentDetails(item);
+                                    setTimesData(item.times);
+                                    setQualifications(item.qualifications);
+                                    setAttributes(item.attributes);
+                                    setIsActive(index);
+                                  }}
+                                  className='list-item-text'
                                 >
-                                  <span
-                                    onClick={() => {
-                                      setDepartmentDetails(item);
-                                      setTimesData(item.times);
-                                      setQualifications(item.qualifications);
-                                      setAttributes(item.attributes);
-                                      setIsActive(index);
-                                    }}
-                                    className='list-item-text'
+                                  {item.name}
+                                </span>{' '}
+                                <span
+                                  id={`delete${index}`}
+                                  className='list-item-icon'
+                                  onClick={() => onDelete(item.id)}
+                                >
+                                  <UncontrolledTooltip
+                                    placement={'top'}
+                                    target={`delete${index}`}
                                   >
-                                    {item.name}
-                                  </span>{' '}
-                                  <span
-                                    id={`delete${index}`}
-                                    className='list-item-icon'
-                                    onClick={() => onDelete(item.id)}
-                                  >
-                                    <UncontrolledTooltip
-                                      placement={'top'}
-                                      target={`delete${index}`}
-                                    >
-                                      {languageTranslation('DEPARTMENT_DELETE')}
-                                    </UncontrolledTooltip>
-                                    <i className='fa fa-trash'></i>
-                                  </span>
-                                </li>
-                              );
-                            },
-                          )
+                                    {languageTranslation('DEPARTMENT_DELETE')}
+                                  </UncontrolledTooltip>
+                                  <i className='fa fa-trash'></i>
+                                </span>
+                              </li>
+                            );
+                          },
+                        )
                         : null}
                     </ul>
                   </div>

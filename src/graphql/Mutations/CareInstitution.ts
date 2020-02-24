@@ -47,6 +47,7 @@ const UPDATE_CARE_INSTITUTION = gql`
       userName
       phoneNumber
       id
+      createdAt
       gender
       canstitution {
         city
@@ -250,5 +251,5 @@ export const CareInstitutionMutation = [
   ADD_DEPARTMENT_CARE_INSTITUTION,
   DELETE_DEPARTMENT,
   DELETE_CONTACT,
-  CONTACT_ADD_ATTRIBUTE
+  CONTACT_ADD_ATTRIBUTE,
 ];

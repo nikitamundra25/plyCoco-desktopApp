@@ -29,7 +29,8 @@ export const DocumentFormComponent: FunctionComponent<{
   // Query to fetch documents
   const { data, loading, refetch, called } = useQuery<any>(GET_DOCUMENTS, {
     variables: {
-      userId: id ? parseInt(id) : ''
+      userId: id ? parseInt(id) : '',
+      userRole: languageTranslation('EMPLOYEE_USERROLE')
     },
     fetchPolicy: 'cache-and-network'
   });
@@ -171,16 +172,19 @@ export const DocumentFormComponent: FunctionComponent<{
                   multiple
                   onChange={handleImageChange}
                   className='custom-input-file'
+                  disable={addDocumentLoading}
                 />
-                <Label className='custom-label-file' for='FileBrowser'>
+                <Label
+                  className={`custom-label-file ${
+                    addDocumentLoading ? 'cursor-notallowed' : ''
+                  }`}
+                  for='FileBrowser'
+                >
                   <span className='choosefile-label'>
                     {addDocumentLoading ? (
                       <>
                         <i className='fa fa-spinner fa-spin '></i>
-                        &nbsp;{' '}
-                        <span className='cursor-notallowed'>
-                          {languageTranslation('BROWSE_FILE')}
-                        </span>
+                        &nbsp; <span>{languageTranslation('BROWSE_FILE')}</span>
                       </>
                     ) : (
                       <>
@@ -191,8 +195,6 @@ export const DocumentFormComponent: FunctionComponent<{
                   </span>
                   <span className='upload-doc-name'>
                     {languageTranslation('CHOOSE_FILE')}
-
-                    {/* {languageTranslation('CHOOSE_FILE')} */}
                   </span>
                 </Label>
               </div>

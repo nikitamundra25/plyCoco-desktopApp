@@ -24,7 +24,8 @@ import { languageTranslation } from "../../../../helpers";
 import {
   State,
   NightAllowancePerHour,
-  Without_Appointments
+  Without_Appointments,
+  ShiftTime
 } from "../../../../config";
 
 import right_arrow from "../../../assets/img/rightarrow.svg";
@@ -3420,11 +3421,10 @@ const Appointment: FunctionComponent = () => {
                                     className={"form-control mb-2"}
                                   />
                                 </div>
-                              </Col>
-                              <Col sm="12">
+
                                 <div>
                                   <FormGroup check inline>
-                                    <div className=" checkbox-custom mb-0">
+                                    <div className=" checkbox-custom mb-1">
                                       <input
                                         type="checkbox"
                                         id="check"
@@ -3438,7 +3438,7 @@ const Appointment: FunctionComponent = () => {
                                     </div>
                                   </FormGroup>
                                   <FormGroup check inline>
-                                    <div className=" checkbox-custom mb-0">
+                                    <div className=" checkbox-custom mb-1">
                                       <input
                                         type="checkbox"
                                         id="check1"
@@ -3451,7 +3451,7 @@ const Appointment: FunctionComponent = () => {
                                     </div>
                                   </FormGroup>
                                   <FormGroup check inline>
-                                    <div className=" checkbox-custom mb-0">
+                                    <div className=" checkbox-custom mb-1">
                                       <input
                                         type="checkbox"
                                         id="check2"
@@ -3504,36 +3504,7 @@ const Appointment: FunctionComponent = () => {
                             <Row>
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation("NIGHT")}
-                                </Label>
-                              </Col>
-                              <Col sm="7">
-                                <div className="required-input">
-                                  <InputGroup>
-                                    <Input
-                                      type="text"
-                                      placeholder={languageTranslation("NIGHT")}
-                                    />
-                                    <InputGroupAddon addonType="append">
-                                      <InputGroupText>
-                                        <i
-                                          className="fa fa-euro"
-                                          aria-hidden="true"
-                                        ></i>
-                                      </InputGroupText>
-                                    </InputGroupAddon>
-                                  </InputGroup>
-                                </div>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                        </Col>
-                        <Col lg={"12"}>
-                          <FormGroup>
-                            <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("WEEKEND")}
+                                  {languageTranslation("NIGHT_FEE")}
                                 </Label>
                               </Col>
                               <Col sm="7">
@@ -3542,7 +3513,7 @@ const Appointment: FunctionComponent = () => {
                                     <Input
                                       type="text"
                                       placeholder={languageTranslation(
-                                        "WEEKEND"
+                                        "NIGHT_FEE"
                                       )}
                                     />
                                     <InputGroupAddon addonType="append">
@@ -3564,7 +3535,7 @@ const Appointment: FunctionComponent = () => {
                             <Row>
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation("HOLIDAY")}
+                                  {languageTranslation("WEEKEND_FEE")}
                                 </Label>
                               </Col>
                               <Col sm="7">
@@ -3573,7 +3544,38 @@ const Appointment: FunctionComponent = () => {
                                     <Input
                                       type="text"
                                       placeholder={languageTranslation(
-                                        "HOLIDAY"
+                                        "WEEKEND_FEE"
+                                      )}
+                                    />
+                                    <InputGroupAddon addonType="append">
+                                      <InputGroupText>
+                                        <i
+                                          className="fa fa-euro"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                  </InputGroup>
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="5">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("HOLIDAY_FEE")}
+                                </Label>
+                              </Col>
+                              <Col sm="7">
+                                <div className="required-input">
+                                  <InputGroup>
+                                    <Input
+                                      type="text"
+                                      placeholder={languageTranslation(
+                                        "HOLIDAY_FEE"
                                       )}
                                     />
                                     <InputGroupAddon addonType="append">
@@ -3618,7 +3620,7 @@ const Appointment: FunctionComponent = () => {
                             <Row>
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation("MILEAGE_ALLOWANCE")}
+                                  {languageTranslation("FEE_PER_KM")}
                                 </Label>
                               </Col>
                               <Col sm="7">
@@ -3627,7 +3629,7 @@ const Appointment: FunctionComponent = () => {
                                     <Input
                                       type="text"
                                       placeholder={languageTranslation(
-                                        "MILEAGE_ALLOWANCE"
+                                        "FEE_PER_KM"
                                       )}
                                     />
                                     <InputGroupAddon addonType="append">
@@ -3778,7 +3780,9 @@ const Appointment: FunctionComponent = () => {
                             <Row>
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation("DLN_REQUIRED")}
+                                  {languageTranslation(
+                                    "WORKING_PROOF_NECESSARY"
+                                  )}
                                 </Label>
                               </Col>
                               <Col sm="7">
@@ -3806,7 +3810,7 @@ const Appointment: FunctionComponent = () => {
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation(
-                                    "REMARKS_VISIBLE_TO_SPECIALIST"
+                                    "REMARKS_VISIBLE_FOR_CAREGIVER"
                                   )}
                                 </Label>
                               </Col>
@@ -3830,7 +3834,7 @@ const Appointment: FunctionComponent = () => {
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation(
-                                    "COMMENT_VISIBLE_INTERNALLY"
+                                    "REMARKS_VISIBLE_INTERNALLY"
                                   )}
                                 </Label>
                               </Col>
@@ -3851,7 +3855,7 @@ const Appointment: FunctionComponent = () => {
                         <Col lg={"12"}>
                           <div className="d-flex align-items-center justify-content-between">
                             <Button className="btn-save" color="danger">
-                              {languageTranslation("CLEAR")}
+                              {languageTranslation("DELETE")}
                             </Button>
                             <Button className="btn-save" color="primary">
                               {languageTranslation("SAVE_BUTTON")}
@@ -3956,7 +3960,7 @@ const Appointment: FunctionComponent = () => {
                                 <div>
                                   <Select
                                     placeholder="Select"
-                                    options={NightAllowancePerHour}
+                                    options={ShiftTime}
                                     classNamePrefix="custom-inner-reactselect"
                                     className={"custom-reactselect"}
                                   />
@@ -4072,7 +4076,7 @@ const Appointment: FunctionComponent = () => {
                             <Row>
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation("DEPARTMENTS")}
+                                  {languageTranslation("DEPARTMENT")}
                                 </Label>
                               </Col>
                               <Col sm="7">
@@ -4139,7 +4143,7 @@ const Appointment: FunctionComponent = () => {
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation(
-                                    "COMMENTS_OFFER_DEPARTMENT"
+                                    "REMARKS_OFFER_DEPARTMENT"
                                   )}
                                 </Label>
                               </Col>
@@ -4163,7 +4167,7 @@ const Appointment: FunctionComponent = () => {
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation(
-                                    "COMMETS_POSTED_DEPARTEMENT"
+                                    "REMARKS_BOOKING_DEPARTEMENT"
                                   )}
                                 </Label>
                               </Col>
@@ -4187,7 +4191,7 @@ const Appointment: FunctionComponent = () => {
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation(
-                                    "COMMENT_DEPARTMENT_ONLY_VISIBLE_INTERNALLY"
+                                    "REMARK_DEPARTMENT_VISIBLE_INTERNALLY"
                                   )}
                                 </Label>
                               </Col>
@@ -4210,7 +4214,9 @@ const Appointment: FunctionComponent = () => {
                             <Row>
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation("DLN_REQUIRED")}
+                                  {languageTranslation(
+                                    "WORKING_PROOF_NECESSARY"
+                                  )}
                                 </Label>
                               </Col>
                               <Col sm="7">
@@ -4258,7 +4264,7 @@ const Appointment: FunctionComponent = () => {
                             <Row>
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
-                                  {languageTranslation("COMMENTS_POSTED")}
+                                  {languageTranslation("REMARK_BOOKING")}
                                 </Label>
                               </Col>
                               <Col sm="7">
@@ -4281,7 +4287,7 @@ const Appointment: FunctionComponent = () => {
                               <Col sm="5">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation(
-                                    "COMMENT_VISIBLE_INTERNALLY"
+                                    "COMMENT_ONLY_VISIBLE_INTERNALLY"
                                   )}
                                 </Label>
                               </Col>

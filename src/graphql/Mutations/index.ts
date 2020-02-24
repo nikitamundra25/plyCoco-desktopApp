@@ -9,3 +9,4 @@ export * from './Document';
 export * from './WorkingProofForm';
 export * from './BulkEmailCareGivers';
 export * from './ToDo';
+export * from './Remark';

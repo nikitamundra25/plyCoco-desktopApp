@@ -9,14 +9,14 @@ import {
   Gender,
   DateMask,
   IBANRegex,
-  regSinceDate
+  regSinceDate,
 } from '../../../../../config';
 import {
   IReactSelectInterface,
   IStates,
   IState,
   IRegion,
-  ICareGiverValues
+  ICareGiverValues,
 } from '../../../../../interfaces';
 import { FormikTextField } from '../../../components/forms/FormikFields';
 import { languageTranslation, logger } from '../../../../../helpers';
@@ -35,7 +35,7 @@ const PersonalInfoFormComponent: any = (
     CareInstitutionList: IReactSelectInterface[] | undefined;
     countriesOpt: IReactSelectInterface[] | undefined;
     userSelectedCountry: any;
-  }
+  },
 ) => {
   const { countriesOpt, userSelectedCountry } = props;
   // To fetch the states of selected contry & don't want to query on initial load
@@ -46,7 +46,7 @@ const PersonalInfoFormComponent: any = (
 
   // Region Data
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS
+    GET_REGIONS,
   );
   //Region List Data
   const regionOptions: IReactSelectInterface[] | undefined = [];
@@ -54,8 +54,8 @@ const PersonalInfoFormComponent: any = (
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id
-      })
+        value: id,
+      }),
     );
   }
 
@@ -74,7 +74,7 @@ const PersonalInfoFormComponent: any = (
   useEffect(() => {
     if (userSelectedCountry && userSelectedCountry.value) {
       getStatesByCountry({
-        variables: { countryid: userSelectedCountry.value }
+        variables: { countryid: userSelectedCountry.value },
       });
     }
   }, [userSelectedCountry]);
@@ -84,7 +84,7 @@ const PersonalInfoFormComponent: any = (
     if (name === 'country') {
       setFieldValue('state', { label: '', value: '' });
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
       });
     }
   };
@@ -94,8 +94,8 @@ const PersonalInfoFormComponent: any = (
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3
-      }
+        sortBy: 3,
+      },
     });
   }, []);
 
@@ -117,14 +117,14 @@ const PersonalInfoFormComponent: any = (
       legalForm,
       vehicleAvailable,
       comments,
-      belongTo
+      belongTo,
     },
     submitCount,
     handleChange,
     handleBlur,
     errors,
     setFieldValue,
-    touched
+    touched,
   } = props;
 
   const scrollParentToChild: any = () => {
@@ -365,7 +365,7 @@ const PersonalInfoFormComponent: any = (
                           <MaskedInput
                             {...field}
                             placeholder={languageTranslation(
-                              'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
+                              'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
                             )}
                             mask={DateMask}
                             className={
@@ -412,7 +412,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
@@ -457,7 +456,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
@@ -478,7 +476,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
@@ -526,7 +523,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
@@ -671,7 +667,7 @@ const PersonalInfoFormComponent: any = (
                           className={'form-control'}
                           value={IBAN}
                           placeholder={languageTranslation(
-                            'BANK_IBAN_PLACEHOLDER'
+                            'BANK_IBAN_PLACEHOLDER',
                           )}
                           name={'IBAN'}
                           mask={IBANRegex}
@@ -968,7 +964,7 @@ const PersonalInfoFormComponent: any = (
                       checked={employed}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const {
-                          target: { checked }
+                          target: { checked },
                         } = e;
                         setFieldValue('employed', checked);
                       }}

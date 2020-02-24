@@ -49,7 +49,9 @@ const AttributeManageMent: FunctionComponent = () => {
       called,
       refetch: attributeListRefetch
     }
-  ] = useLazyQuery<any>(GET_ATTRIBUTES_BY_TYPE);
+  ] = useLazyQuery<any>(GET_ATTRIBUTES_BY_TYPE, {
+    fetchPolicy: 'cache-and-network'
+  });
   // To add attributes into db
   const [addAttribute] = useMutation<
     {
@@ -59,6 +61,7 @@ const AttributeManageMent: FunctionComponent = () => {
       attributeInput: IAttributeInput;
     }
   >(ADD_ATTRIBUTE, {
+    // fetchPolicy: 'cache-and-network',
     onCompleted() {
       attributeListRefetch();
       setIsSubmit(false);
@@ -130,7 +133,7 @@ const AttributeManageMent: FunctionComponent = () => {
   };
 
   const replace = attributeName ? attributeName.replace('Attributes', ' ') : '';
-   return (
+  return (
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />

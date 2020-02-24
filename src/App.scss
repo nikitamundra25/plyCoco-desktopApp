@@ -145,6 +145,19 @@ body {
       color: $white;
     }
   }
+  .add-new-btn {
+    cursor: pointer;
+    background: $profile_bg;
+    color: $black;
+    width: 25px;
+    height: 25px;
+    font-size: $font_12;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    &:hover {
+      background: $profile_bg_hover;
+    }
+  }
   .btn-primary {
     background: $theme_color;
     border-color: $theme_color;
@@ -3186,14 +3199,38 @@ html:not([dir='rtl']) {
   margin-bottom: 15px;
   flex: 1;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: $font_13;
-  cursor: pointer;
-  &.email-dropzone-height {
-    @media only screen and (min-width: 992px) {
-      height: calc(100% - 16px);
+  flex-wrap: wrap;
+  @media only screen and (max-width: 991px) {
+    flex-flow: column;
+  }
+  .form-flex-tile {
+    padding: 0 7.5px;
+    flex: 1 1 20%;
+    @media only screen and (max-width: 991px) {
+      flex: 1 1 100%;
+    }
+    &.contactform-flex-tile {
+      flex: 1 1 28%;
+    }
+    &.form-attribute-remark-section {
+      flex: 1 1 32%;
+      display: flex;
+      @media only screen and (max-width: 767px) {
+        flex-wrap: wrap;
+      }
+      .remark-div {
+        margin-right: 15px;
+        min-width: 150px;
+        @media only screen and (max-width: 767px) {
+          margin-right: 0px;
+          width: 100%;
+          margin-bottom: 18px;
+        }
+      }
+      .attribute-div {
+        flex: 1;
+        min-width: 275px;
+      }
     }
   }
   .icon-upload {

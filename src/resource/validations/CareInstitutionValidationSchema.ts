@@ -139,10 +139,10 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
     languageTranslation('INVALID_NUMBER'),
     value => !value || (value && !isNaN(value)),
   ),
-  contactType: Yup.object().shape({
-    value: Yup.string().required(languageTranslation('CONTACT_REQUIRED')),
-    label: Yup.string().required(languageTranslation('CONTACT_REQUIRED')),
-  }),
+  // contactType: Yup.object().shape({
+  //   value: Yup.string().required(languageTranslation('CONTACT_REQUIRED')),
+  //   label: Yup.string().required(languageTranslation('CONTACT_REQUIRED')),
+  // }),
 });
 
 export const AddDepartmentValidationSchema: Yup.ObjectSchema<Yup.Shape<

@@ -96,14 +96,15 @@ const CareInstitutionContacts: any = (props: any) => {
   useEffect(() => {
     if (ContactTypeData) {
       const { getContactType } = ContactTypeData;
+      let temp: IReactSelectInterface[] = [];
       if (getContactType && getContactType.length) {
         getContactType.map((data: any) => {
-          contacttypeOpt.push({
+          temp.push({
             label: data.contactType,
             value: data.id
           });
-          setcontacttypeOpt(contacttypeOpt);
         });
+        setcontacttypeOpt(temp);
       }
     }
   }, [ContactTypeData]);

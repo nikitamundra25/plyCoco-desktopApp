@@ -12,18 +12,18 @@ import {
   IAttributeValues,
   IAttributeOptions,
   IState,
-  ICountry,
+  ICountry
 } from '../../../../../interfaces';
 import { CareInstituionValidationSchema } from '../../../../validations';
 import { useParams } from 'react-router';
 import {
   CareInstitutionQueries,
-  CountryQueries,
+  CountryQueries
 } from '../../../../../graphql/queries';
 import {
   logger,
   languageTranslation,
-  germanNumberFormat,
+  germanNumberFormat
 } from '../../../../../helpers';
 import CareInstitutionContacts from './CareInstitutionContacts';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
@@ -32,6 +32,7 @@ import { IQualification } from '../../../../../interfaces/qualification';
 import { errorFormatter } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
 import '../careinstitution.scss';
+import { RemarkMutations } from '../../../../../graphql/Mutations';
 
 let toastId: any;
 
@@ -41,7 +42,7 @@ const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
   GET_DEPARTMENT_LIST,
-  GET_CAREINSTITUTION_ATTRIBUTES,
+  GET_CAREINSTITUTION_ATTRIBUTES
 ] = CareInstitutionQueries;
 
 const [
@@ -54,8 +55,9 @@ const [
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   ADD_NEW_CARE_INTITUTION,
   ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT,
+  DELETE_DEPARTMENT
 ] = CareInstitutionMutation;
+const [UPDATE_REMARKS] = RemarkMutations;
 
 const PersonalInformation: any = (props: any) => {
   let { id } = useParams();
@@ -69,7 +71,7 @@ const PersonalInformation: any = (props: any) => {
   // To get the care instituion details by id
   const [
     getCareInstitutionDetails,
-    { data: careInstituionDetails, loading, refetch },
+    { data: careInstituionDetails, loading, refetch }
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
 
   // Fetch attribute list from db
@@ -84,8 +86,8 @@ const PersonalInformation: any = (props: any) => {
         careInstitutionAttrOpt.push({
           label: name,
           value: id ? id.toString() : '',
-          color,
-        }),
+          color
+        })
     );
   }
 
@@ -93,8 +95,11 @@ const PersonalInformation: any = (props: any) => {
   //To get country details
   const { data: countries } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
+  // to update remarks
+  const [updateRemark, { data: remarkData }] = useMutation<any>(UPDATE_REMARKS);
+
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   if (countries && countries.countries) {
     countries.countries.forEach(({ id, name }: ICountry) =>
@@ -103,22 +108,22 @@ const PersonalInformation: any = (props: any) => {
   }
   // To get region list
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
 
   useEffect(() => {
     // call query
     fetchRegionList({
       variables: {
-        limit: 25,
-      },
+        limit: 25
+      }
     });
   }, []);
 
   useEffect(() => {
     if (props.isUserChange) {
       getCareInstitutionDetails({
-        variables: { careInstitutionId: parseInt(Id) },
+        variables: { careInstitutionId: parseInt(Id) }
       });
       props.handleIsUserChange();
     }
@@ -128,7 +133,7 @@ const PersonalInformation: any = (props: any) => {
     // Fetch details by care institution id
     if (id) {
       getCareInstitutionDetails({
-        variables: { careInstitutionId: parseInt(Id) },
+        variables: { careInstitutionId: parseInt(Id) }
       });
     }
   }, []);
@@ -139,7 +144,7 @@ const PersonalInformation: any = (props: any) => {
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
       logger(
         careInstituionDetails.getCareInstitution,
-        'careInstituionDetails****',
+        'careInstituionDetails****'
       );
       const contactsData: any[] =
         careInstituionDetails.getCareInstitution.contact;
@@ -154,7 +159,7 @@ const PersonalInformation: any = (props: any) => {
           faxNumber: '',
           comments: '',
           groupAttributes: '',
-          attributeId: [],
+          attributeId: []
         });
       } else if (contactsData && contactsData[contactsData.length - 1].id) {
         contactsData.push({
@@ -167,7 +172,7 @@ const PersonalInformation: any = (props: any) => {
           faxNumber: '',
           comments: '',
           groupAttributes: '',
-          attributeId: [],
+          attributeId: []
         });
       }
       setContacts(contactsData);
@@ -189,16 +194,16 @@ const PersonalInformation: any = (props: any) => {
   // }, [careInstituionDetails]);
 
   useEffect(() => {
-    console.log("in use effect care instituion");
-    
+    console.log('in use effect care instituion');
+
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
       const { getCareInstitution } = careInstituionDetails;
       const { canstitution } = getCareInstitution;
       if (canstitution && canstitution.countryId) {
         getStatesByCountry({
           variables: {
-            countryid: canstitution ? canstitution.countryId : '',
-          },
+            countryid: canstitution ? canstitution.countryId : ''
+          }
         });
       }
     }
@@ -206,13 +211,13 @@ const PersonalInformation: any = (props: any) => {
 
   const handleSubmit = async (
     values: ICareInstitutionFormValues,
-    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
   ) => {
     //to set submit state to false after successful signup
     let AttributeData: string[] = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>
-        AttributeData.push(attribute.label),
+        AttributeData.push(attribute.label)
       );
     }
 
@@ -264,20 +269,20 @@ const PersonalInformation: any = (props: any) => {
           values.qualificationId && values.qualificationId.length
             ? values.qualificationId.map(
                 (qualification: IReactSelectInterface) =>
-                  parseInt(qualification.value),
+                  parseInt(qualification.value)
               )
             : null,
         attributes: AttributeData,
         leasingPriceListId:
           values.leasingPriceListId && values.leasingPriceListId.value
             ? values.leasingPriceListId.value
-            : null,
+            : null
       };
       await updateCareInstitution({
         variables: {
           id: parseInt(Id),
-          careInstitutionInput: careInstitutionInput,
-        },
+          careInstitutionInput: careInstitutionInput
+        }
       });
       toastId = toast.success(languageTranslation('CARE_INSTI_UPDATE_SUCCESS'));
     } catch (error) {
@@ -305,14 +310,11 @@ const PersonalInformation: any = (props: any) => {
   const saveRemark = async (message: string, remarksData: any) => {
     if (id) {
       try {
-        await updateCareInstitution({
+        await updateRemark({
           variables: {
-            id: parseInt(Id),
-            careInstitutionInput: {
-              remarks: remarksData ? remarksData : remarksDetail, // send remarksData in case of delete
-            },
-            isRemarkAdded: true,
-          },
+            id: parseInt(id),
+            remarks: remarksData ? remarksData : remarksDetail // send remarksData in case of delete
+          }
         });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(message);
@@ -326,57 +328,68 @@ const PersonalInformation: any = (props: any) => {
     }
   };
   let userSelectedCountry: any = {};
-  const convertintoLabelValue = (data:string) => {
-    return data ? {
-      label:data,
-      value:data
-    }:undefined
-  }
+  const convertintoLabelValue = (data: string) => {
+    return data
+      ? {
+          label: data,
+          value: data
+        }
+      : undefined;
+  };
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
-    const {createdAt=new Date(),email='', firstName='', lastName='', gender='', userName='', phoneNumber='', salutation='',canstitution={},qualifications=[],regions=[]} =getCareInstitution ? getCareInstitution : {}
-    const  {
-      title='',     
-      shortName='',
-      companyName='',
-      anonymousName='',
-      anonymousName2='',
-      countryId='',
-      stateId='',
-      street='',
-      city='',
-      zipCode='',
-      fax='',
-      mobileNumber='',
-      website='',
-      remarks='',
-      careGiverCommission='',        
-      doctorCommission='',  
-      leasingPriceListId='',
-      remarksViewable='',
-      defaultQualification='',
-      invoiceType='',
-      interval='',
-      emailInvoice='',
-      addressInvoice='',
-      linkedTo='',
-      attributes=[]
-    } = canstitution?canstitution:{}
+    const {
+      createdAt = new Date(),
+      email = '',
+      firstName = '',
+      lastName = '',
+      gender = '',
+      userName = '',
+      phoneNumber = '',
+      salutation = '',
+      canstitution = {},
+      qualifications = [],
+      regions = []
+    } = getCareInstitution ? getCareInstitution : {};
+    const {
+      title = '',
+      shortName = '',
+      companyName = '',
+      anonymousName = '',
+      anonymousName2 = '',
+      countryId = '',
+      stateId = '',
+      street = '',
+      city = '',
+      zipCode = '',
+      fax = '',
+      mobileNumber = '',
+      website = '',
+      remarks = '',
+      careGiverCommission = '',
+      doctorCommission = '',
+      leasingPriceListId = '',
+      remarksViewable = '',
+      defaultQualification = '',
+      invoiceType = '',
+      interval = '',
+      emailInvoice = '',
+      addressInvoice = '',
+      linkedTo = '',
+      attributes = []
+    } = canstitution ? canstitution : {};
 
-    regionId =
-      regions && regions.length
-        ? regions[0].id
-        : '';
+    regionId = regions && regions.length ? regions[0].id : '';
 
     if (countries && countries.countries && countryId) {
       const userCountry = countries.countries.filter(
-        (x: any) => parseInt(x.id) === countryId,
+        (x: any) => parseInt(x.id) === countryId
       );
 
       if (userCountry && userCountry.length) {
         userSelectedCountry = {
           label: userCountry[0].name,
-          value: userCountry[0].id,
+          value: userCountry[0].id
         };
       }
     }
@@ -389,56 +402,53 @@ const PersonalInformation: any = (props: any) => {
       RegionData.getRegions.regionData.length
     ) {
       const userRegion = RegionData.getRegions.regionData.filter(
-        (x: any) => x.id === regionId,
+        (x: any) => x.id === regionId
       );
 
       if (userRegion && userRegion.length) {
         userSelectedRegion = {
           label: userRegion[0].regionName,
-          value: userRegion[0].id,
+          value: userRegion[0].id
         };
       }
     }
 
-    let UserSelectedLinkedTo: IReactSelectInterface|undefined = undefined;
+    let UserSelectedLinkedTo: IReactSelectInterface | undefined = undefined;
     const statesOpt: IReactSelectInterface[] | undefined = [];
 
     if (props.CareInstitutionList && linkedTo) {
       const userSelectedLinkedTo = props.CareInstitutionList.filter(
-        (x: any) => x.value === linkedTo,
+        (x: any) => x.value === linkedTo
       );
       if (userSelectedLinkedTo && userSelectedLinkedTo.length) {
         UserSelectedLinkedTo = userSelectedLinkedTo[0];
       }
     }
-    let userSelectedState: IReactSelectInterface|undefined = undefined
+    let userSelectedState: IReactSelectInterface | undefined = undefined;
     if (statesData && statesData.states && stateId) {
       const userState = statesData.states.filter(
-        (x: any) => parseInt(x.id) === stateId,
+        (x: any) => parseInt(x.id) === stateId
       );
       if (userState && userState.length) {
         userSelectedState = {
           label: userState[0].name,
-          value: userState[0].id,
+          value: userState[0].id
         };
       }
       statesData.states.forEach(({ id, name }: IState) =>
-        statesOpt.push({ label: name, value: id }),
+        statesOpt.push({ label: name, value: id })
       );
     }
     let selectedAttributes: IAttributeOptions[] = [];
-    if (
-      attributes &&
-      attributes.length
-    ) {
+    if (attributes && attributes.length) {
       attributes.map((attData: string) => {
         const data = careInstitutionAttrOpt.filter(
-          ({ label }: IAttributeOptions) => label === attData,
+          ({ label }: IAttributeOptions) => label === attData
         )[0];
         selectedAttributes.push({
           label: data ? data.label : attData,
           value: data ? data.value : attData,
-          color: data ? data.color : null,
+          color: data ? data.color : null
         });
       });
     }
@@ -451,29 +461,30 @@ const PersonalInformation: any = (props: any) => {
       lastName,
       gender: convertintoLabelValue(gender),
       userName,
-      phoneNumber:phoneNumber||'',
+      phoneNumber: phoneNumber || '',
       salutation: convertintoLabelValue(salutation),
       title,
       shortName,
       companyName,
-      anonymousName:anonymousName||'',
-      anonymousName2:anonymousName2||'',
+      anonymousName: anonymousName || '',
+      anonymousName2: anonymousName2 || '',
       street,
       city,
-      zipCode:zipCode||'',
-      mobileNumber:mobileNumber || '',
-      fax:fax || '',
-      website:website||'',
-      remarksViewable:remarksViewable||'',
+      zipCode: zipCode || '',
+      mobileNumber: mobileNumber || '',
+      fax: fax || '',
+      website: website || '',
+      remarksViewable: remarksViewable || '',
       country: userSelectedCountry.value
         ? {
             label: userSelectedCountry.value ? userSelectedCountry.label : null,
-            value: userSelectedCountry.value ? userSelectedCountry.value : null,
+            value: userSelectedCountry.value ? userSelectedCountry.value : null
           }
         : undefined,
-      state: userSelectedState && userSelectedState.value
-        ? { label: userSelectedState.label, value: userSelectedState.value }
-        : undefined,
+      state:
+        userSelectedState && userSelectedState.value
+          ? { label: userSelectedState.label, value: userSelectedState.value }
+          : undefined,
       stateId: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.stateId
         : '',
@@ -482,25 +493,25 @@ const PersonalInformation: any = (props: any) => {
         : '',
       regionId: userSelectedRegion.value ? userSelectedRegion : undefined,
       linkedTo: UserSelectedLinkedTo ? UserSelectedLinkedTo : undefined,
-      qualificationId:qualifications.map(
-        ({ name, id }: IQualification) => ({
-          label: name, value: id
-        })),
+      qualificationId: qualifications.map(({ name, id }: IQualification) => ({
+        label: name,
+        value: id
+      })),
       attributeId: selectedAttributes,
       remarkData: '',
       // Invoice related fields
       invoiceType: convertintoLabelValue(invoiceType),
       emailInvoice,
-      addressInvoice:addressInvoice||'',
+      addressInvoice: addressInvoice || '',
       interval: convertintoLabelValue(interval),
       // Fees related fields
-      careGiverCommission:careGiverCommission ? germanNumberFormat(
-        careGiverCommission,
-      ) : '',
-      doctorCommission:doctorCommission ? germanNumberFormat(
-        doctorCommission,
-      ) : '',
-      leasingPriceListId: convertintoLabelValue(leasingPriceListId),
+      careGiverCommission: careGiverCommission
+        ? germanNumberFormat(careGiverCommission)
+        : '',
+      doctorCommission: doctorCommission
+        ? germanNumberFormat(doctorCommission)
+        : '',
+      leasingPriceListId: convertintoLabelValue(leasingPriceListId)
     };
     // values.qualificationId = qualificationsData;
 
@@ -508,11 +519,11 @@ const PersonalInformation: any = (props: any) => {
       label: `${getCareInstitution.firstName} ${''} ${
         getCareInstitution.lastName
       }`,
-      value: Id,
+      value: Id
     };
   } else {
     values = {
-      createdAt : new Date(),
+      createdAt: new Date(),
       email: '',
       firstName: '',
       lastName: '',
@@ -523,7 +534,7 @@ const PersonalInformation: any = (props: any) => {
       companyName: '',
       street: '',
       city: '',
-      remarkData: '',
+      remarkData: ''
     };
   }
 
@@ -537,9 +548,12 @@ const PersonalInformation: any = (props: any) => {
 
   const { qualificationList } = props;
   const CareInstitutionLinkedTo = props.CareInstitutionList;
-  return loading ? <div className='overview-loader'>
+  return loading ? (
+    <div className='overview-loader'>
       <Loader />
-    </div>: <Form className='form-section forms-main-section'>
+    </div>
+  ) : (
+    <Form className='form-section forms-main-section'>
       <Formik
         initialValues={values}
         enableReinitialize={true}
@@ -572,5 +586,6 @@ const PersonalInformation: any = (props: any) => {
         />
       </div>
     </Form>
+  );
 };
 export default PersonalInformation;

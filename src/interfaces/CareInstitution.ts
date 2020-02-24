@@ -73,7 +73,7 @@ export interface ICareInstitutionContactValidationSchema {
   phoneNumber: number;
   phoneNumber2: number;
   faxNumber: number;
-  contactType: IReactSelectInterface;
+  contactType?: IReactSelectInterface;
 }
 
 export interface ICareInstitutionContact {

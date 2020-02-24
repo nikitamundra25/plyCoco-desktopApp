@@ -30,7 +30,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
   let userData: any = '';
   try {
     userData = client.readQuery({
-      query: VIEW_PROFILE
+      query: VIEW_PROFILE,
     });
   } catch (error) {}
 
@@ -144,7 +144,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                                 toast.dismiss();
                                 props.saveRemark(
                                   languageTranslation('REMARK_ADDED_SUCCESS'),
-                                  undefined,
+                                  temp,
                                 );
                               } else {
                                 toast.dismiss();

@@ -154,7 +154,6 @@ const PersonalInfoFormComponent: any = (
       id={'care-profile'}
     >
       <Row className={'caregiver-form'}>
-        2345{' '}
         {PathArray && PathArray[2] !== 'add' ? (
           <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
             <FormGroup>

@@ -162,10 +162,20 @@ const GET_CONTACT_LIST_BY_ID = gql`
   }
 `;
 
+const GET_CONTACT_TYPES = gql`
+  query getContactType {
+    getContactType {
+      id
+      contactType
+    }
+  }
+`;
+
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
   GET_DEPARTMENT_LIST,
   GET_CAREINSTITUTION_ATTRIBUTES,
-  GET_CONTACT_LIST_BY_ID
+  GET_CONTACT_LIST_BY_ID,
+  GET_CONTACT_TYPES
 ];

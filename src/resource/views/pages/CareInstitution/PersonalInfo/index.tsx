@@ -98,7 +98,7 @@ const PersonalInformation: any = (props: any) => {
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   if (countries && countries.countries) {
     countries.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id })
+      countriesOpt.push({ label: name, value: id }),
     );
   }
   // To get region list
@@ -189,8 +189,8 @@ const PersonalInformation: any = (props: any) => {
   // }, [careInstituionDetails]);
 
   useEffect(() => {
-    console.log("in use effect care instituion");
-    
+    console.log('in use effect care instituion');
+
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
       const { getCareInstitution } = careInstituionDetails;
       const { canstitution } = getCareInstitution;
@@ -326,47 +326,58 @@ const PersonalInformation: any = (props: any) => {
     }
   };
   let userSelectedCountry: any = {};
-  const convertintoLabelValue = (data:string) => {
-    return data ? {
-      label:data,
-      value:data
-    }:undefined
-  }
+  const convertintoLabelValue = (data: string) => {
+    return data
+      ? {
+          label: data,
+          value: data,
+        }
+      : undefined;
+  };
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
-    const {createdAt=new Date(),email='', firstName='', lastName='', gender='', userName='', phoneNumber='', salutation='',canstitution={},qualifications=[],regions=[]} =getCareInstitution ? getCareInstitution : {}
-    const  {
-      title='',     
-      shortName='',
-      companyName='',
-      anonymousName='',
-      anonymousName2='',
-      countryId='',
-      stateId='',
-      street='',
-      city='',
-      zipCode='',
-      fax='',
-      mobileNumber='',
-      website='',
-      remarks='',
-      careGiverCommission='',        
-      doctorCommission='',  
-      leasingPriceListId='',
-      remarksViewable='',
-      defaultQualification='',
-      invoiceType='',
-      interval='',
-      emailInvoice='',
-      addressInvoice='',
-      linkedTo='',
-      attributes=[]
-    } = canstitution?canstitution:{}
+    const {
+      createdAt = new Date(),
+      email = '',
+      firstName = '',
+      lastName = '',
+      gender = '',
+      userName = '',
+      phoneNumber = '',
+      salutation = '',
+      canstitution = {},
+      qualifications = [],
+      regions = [],
+    } = getCareInstitution ? getCareInstitution : {};
+    const {
+      title = '',
+      shortName = '',
+      companyName = '',
+      anonymousName = '',
+      anonymousName2 = '',
+      countryId = '',
+      stateId = '',
+      street = '',
+      city = '',
+      zipCode = '',
+      fax = '',
+      mobileNumber = '',
+      website = '',
+      remarks = '',
+      careGiverCommission = '',
+      doctorCommission = '',
+      leasingPriceListId = '',
+      remarksViewable = '',
+      defaultQualification = '',
+      invoiceType = '',
+      interval = '',
+      emailInvoice = '',
+      addressInvoice = '',
+      linkedTo = '',
+      attributes = [],
+    } = canstitution ? canstitution : {};
 
-    regionId =
-      regions && regions.length
-        ? regions[0].id
-        : '';
+    regionId = regions && regions.length ? regions[0].id : '';
 
     if (countries && countries.countries && countryId) {
       const userCountry = countries.countries.filter(
@@ -400,7 +411,7 @@ const PersonalInformation: any = (props: any) => {
       }
     }
 
-    let UserSelectedLinkedTo: IReactSelectInterface|undefined = undefined;
+    let UserSelectedLinkedTo: IReactSelectInterface | undefined = undefined;
     const statesOpt: IReactSelectInterface[] | undefined = [];
 
     if (props.CareInstitutionList && linkedTo) {
@@ -411,7 +422,7 @@ const PersonalInformation: any = (props: any) => {
         UserSelectedLinkedTo = userSelectedLinkedTo[0];
       }
     }
-    let userSelectedState: IReactSelectInterface|undefined = undefined
+    let userSelectedState: IReactSelectInterface | undefined = undefined;
     if (statesData && statesData.states && stateId) {
       const userState = statesData.states.filter(
         (x: any) => parseInt(x.id) === stateId,
@@ -427,10 +438,7 @@ const PersonalInformation: any = (props: any) => {
       );
     }
     let selectedAttributes: IAttributeOptions[] = [];
-    if (
-      attributes &&
-      attributes.length
-    ) {
+    if (attributes && attributes.length) {
       attributes.map((attData: string) => {
         const data = careInstitutionAttrOpt.filter(
           ({ label }: IAttributeOptions) => label === attData,
@@ -451,29 +459,30 @@ const PersonalInformation: any = (props: any) => {
       lastName,
       gender: convertintoLabelValue(gender),
       userName,
-      phoneNumber:phoneNumber||'',
+      phoneNumber: phoneNumber || '',
       salutation: convertintoLabelValue(salutation),
       title,
       shortName,
       companyName,
-      anonymousName:anonymousName||'',
-      anonymousName2:anonymousName2||'',
+      anonymousName: anonymousName || '',
+      anonymousName2: anonymousName2 || '',
       street,
       city,
-      zipCode:zipCode||'',
-      mobileNumber:mobileNumber || '',
-      fax:fax || '',
-      website:website||'',
-      remarksViewable:remarksViewable||'',
+      zipCode: zipCode || '',
+      mobileNumber: mobileNumber || '',
+      fax: fax || '',
+      website: website || '',
+      remarksViewable: remarksViewable || '',
       country: userSelectedCountry.value
         ? {
             label: userSelectedCountry.value ? userSelectedCountry.label : null,
             value: userSelectedCountry.value ? userSelectedCountry.value : null,
           }
         : undefined,
-      state: userSelectedState && userSelectedState.value
-        ? { label: userSelectedState.label, value: userSelectedState.value }
-        : undefined,
+      state:
+        userSelectedState && userSelectedState.value
+          ? { label: userSelectedState.label, value: userSelectedState.value }
+          : undefined,
       stateId: getCareInstitution.canstitution
         ? getCareInstitution.canstitution.stateId
         : '',
@@ -482,24 +491,24 @@ const PersonalInformation: any = (props: any) => {
         : '',
       regionId: userSelectedRegion.value ? userSelectedRegion : undefined,
       linkedTo: UserSelectedLinkedTo ? UserSelectedLinkedTo : undefined,
-      qualificationId:qualifications.map(
-        ({ name, id }: IQualification) => ({
-          label: name, value: id
-        })),
+      qualificationId: qualifications.map(({ name, id }: IQualification) => ({
+        label: name,
+        value: id,
+      })),
       attributeId: selectedAttributes,
       remarkData: '',
       // Invoice related fields
       invoiceType: convertintoLabelValue(invoiceType),
       emailInvoice,
-      addressInvoice:addressInvoice||'',
+      addressInvoice: addressInvoice || '',
       interval: convertintoLabelValue(interval),
       // Fees related fields
-      careGiverCommission:careGiverCommission ? germanNumberFormat(
-        careGiverCommission,
-      ) : '',
-      doctorCommission:doctorCommission ? germanNumberFormat(
-        doctorCommission,
-      ) : '',
+      careGiverCommission:
+        careGiverCommission !== null
+          ? germanNumberFormat(careGiverCommission)
+          : '',
+      doctorCommission:
+        doctorCommission !== null ? germanNumberFormat(doctorCommission) : '',
       leasingPriceListId: convertintoLabelValue(leasingPriceListId),
     };
     // values.qualificationId = qualificationsData;
@@ -512,7 +521,7 @@ const PersonalInformation: any = (props: any) => {
     };
   } else {
     values = {
-      createdAt : new Date(),
+      createdAt: new Date(),
       email: '',
       firstName: '',
       lastName: '',
@@ -537,9 +546,12 @@ const PersonalInformation: any = (props: any) => {
 
   const { qualificationList } = props;
   const CareInstitutionLinkedTo = props.CareInstitutionList;
-  return loading ? <div className='overview-loader'>
+  return loading ? (
+    <div className='overview-loader'>
       <Loader />
-    </div>: <Form className='form-section forms-main-section'>
+    </div>
+  ) : (
+    <Form className='form-section forms-main-section'>
       <Formik
         initialValues={values}
         enableReinitialize={true}
@@ -572,5 +584,6 @@ const PersonalInformation: any = (props: any) => {
         />
       </div>
     </Form>
+  );
 };
 export default PersonalInformation;

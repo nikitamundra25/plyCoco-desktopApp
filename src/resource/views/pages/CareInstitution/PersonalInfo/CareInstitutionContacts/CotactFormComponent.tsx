@@ -145,6 +145,22 @@ const CotactFormComponent: any = (
     setFieldTouched
   } = props;
 
+  useEffect(() => {
+    console.log(contacttypeOpt, contactType);
+    console.log(
+      contacttypeOpt.filter(
+        (element: IReactSelectInterface) => element.label === contactType.label
+      )[0],
+      'in use effect contact type'
+    );
+    setFieldValue(
+      'contactType',
+      contacttypeOpt.filter(
+        (element: IReactSelectInterface) => element.label === contactType.label
+      )[0]
+    );
+  }, [contacttypeOpt]);
+
   const handleAttributeSelectContarct = (
     selectOption: IReactSelectInterface,
     name: string
@@ -207,6 +223,9 @@ const CotactFormComponent: any = (
         value: contactType
       };
       setFieldValue('contactType', newContactTypeData);
+      props.addContactType({
+        variables: { contactType }
+      });
       setnewContactType('');
     }
   };
@@ -214,6 +233,7 @@ const CotactFormComponent: any = (
   const [newContactType, setnewContactType] = useState('');
 
   const ContactError: any = errors.contactType;
+  console.log(contactType, 'contactType+++++ formik');
 
   return (
     <>
@@ -424,7 +444,11 @@ const CotactFormComponent: any = (
                           <div className='required-input flex-grow-1 mr-2'>
                             <Select
                               placeholder={languageTranslation('CONTACT_TYPE')}
-                              value={contactType ? contactType : undefined}
+                              value={
+                                contactType && contactType.value !== ''
+                                  ? contactType
+                                  : null
+                              }
                               onChange={(value: any) =>
                                 handleSelect(value, 'contactType', '')
                               }

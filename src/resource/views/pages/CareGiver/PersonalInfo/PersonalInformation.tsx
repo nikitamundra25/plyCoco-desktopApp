@@ -291,6 +291,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   // Save remarks into DB
   const saveRemark = async (message: string, remarksData: any) => {
+    console.log(remarksDetail, 'remarksDetail++++');
     if (id) {
       try {
         await updateRemark({
@@ -525,6 +526,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   };
 
   const usersList = props.careGiverOpt;
+  console.log(remarksDetail, 'remarksDetails in render++++');
   return (
     <Formik
       initialValues={initialValues}

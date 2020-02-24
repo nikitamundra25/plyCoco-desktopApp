@@ -38,17 +38,11 @@ const [
   ,
   ,
   DELETE_CONTACT,
-  CONTACT_ADD_ATTRIBUTE
+  CONTACT_ADD_ATTRIBUTE,
+  ADD_CUSTOM_CONTACT_TYPE
 ] = CareInstitutionMutation;
 
-const [
-  GET_CARE_INSTITUTION_LIST,
-  GET_CARE_INSTITUION_BY_ID,
-  GET_DEPARTMENT_LIST,
-  GET_CAREINSTITUTION_ATTRIBUTES,
-  GET_CONTACT_LIST_BY_ID,
-  GET_CONTACT_TYPES
-] = CareInstitutionQueries;
+const [, , , , , GET_CONTACT_TYPES] = CareInstitutionQueries;
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
@@ -58,6 +52,32 @@ const CareInstitutionContacts: any = (props: any) => {
   const [selectedAttributes, setSelectedAttributes] = useState<
     IReactSelectInterface[]
   >([]);
+  // Mutation to add custom contact type
+  const [addContactType] = useMutation<{
+    addContactType: ICareInstitutionFormValues;
+  }>(ADD_CUSTOM_CONTACT_TYPE, {
+    update(cache, customData: any) {
+      console.log(customData);
+      const { data } = customData;
+      const { addContactType = {} } = data ? data : {};
+      if (addContactType && addContactType.id) {
+        setcontacttypeOpt((prevArray: any) => [
+          ...prevArray,
+          {
+            label: addContactType.contactType,
+            value: addContactType.id
+          }
+        ]);
+        const { getContactType }: any = cache.readQuery({
+          query: GET_CONTACT_TYPES
+        });
+        cache.writeQuery({
+          query: GET_CONTACT_TYPES,
+          data: { getContactType: getContactType.push(addContactType) }
+        });
+      }
+    }
+  });
 
   const [fetchContactTypeList, { data: ContactTypeData }] = useLazyQuery<any>(
     GET_CONTACT_TYPES
@@ -388,6 +408,8 @@ const CareInstitutionContacts: any = (props: any) => {
     }
   }, [props]);
 
+  console.log(contacts, 'contacts in sdsd');
+
   return (
     <>
       <div className={'form-section position-relative flex-grow-1'}>
@@ -395,7 +417,13 @@ const CareInstitutionContacts: any = (props: any) => {
           <Nav tabs className='contact-tabs pr-120'>
             {contacts && contacts.length
               ? contacts.map((contact: any, index: number) => {
-                  console.log('contacts', contacts);
+                  const contactTypeData:
+                    | IReactSelectInterface
+                    | undefined = contacttypeOpt.filter(
+                    (element: IReactSelectInterface) =>
+                      element.value === contact.contactType
+                  )[0];
+
                   return (
                     <NavItem className='text-capitalize mb-2' key={index}>
                       <NavLink
@@ -407,7 +435,9 @@ const CareInstitutionContacts: any = (props: any) => {
                         onClick={() => setActiveContact(index)}
                       >
                         {contact && contact.contactType ? (
-                          contact.contactType
+                          contactTypeData ? (
+                            contactTypeData.label
+                          ) : null
                         ) : (
                           <>
                             <span className='align-middle'>
@@ -453,6 +483,7 @@ const CareInstitutionContacts: any = (props: any) => {
                 }
               });
             }}
+            addContactType={addContactType}
             addAttriContactData={addAttriContact}
             careInstitutionAttrOpt={contactAttributeOpt}
           />

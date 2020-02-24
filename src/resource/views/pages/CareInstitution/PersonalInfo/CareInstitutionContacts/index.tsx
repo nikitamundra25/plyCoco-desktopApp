@@ -14,7 +14,6 @@ import {
 } from '../../../../../../interfaces';
 import {
   CountryQueries,
-  CareInstitutionQueries
 } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { CareInstituionContactValidationSchema } from '../../../../../validations';
@@ -249,7 +248,7 @@ const CareInstitutionContacts: any = (props: any) => {
 
   let countryData: Number;
   countryData = countryId ? countryId : '';
-  let userSelectedCountry: any = {};
+  let userSelectedCountry: IReactSelectInterface|undefined = undefined;
   if (data && data.countries) {
     const userCountry = data.countries.filter((x: any) => x.id === countryData);
 
@@ -263,7 +262,6 @@ const CareInstitutionContacts: any = (props: any) => {
 
   useEffect(() => {
     let attributesData: IReactSelectInterface[] = [];
-    console.log(attributes, 'attributes');
     if (attributes && attributes.length) {
       attributes.map((attData: string) => {
         attributesData.push({
@@ -274,8 +272,6 @@ const CareInstitutionContacts: any = (props: any) => {
       setSelectedAttributes(attributesData);
     }
   }, [contacts[activeContact]]);
-
-  console.log(selectedAttributes, 'selectedAttributes in values');
 
   const contactFormValues: ICareInstitutionContact = {
     email: email ? email.trim() : '',
@@ -296,14 +292,14 @@ const CareInstitutionContacts: any = (props: any) => {
       label: contactType,
       value: contactType
     },
-    gender: {
+    gender: gender ?{
       label: gender,
       value: gender
-    },
-    salutation: {
+    }:undefined,
+    salutation: salutation ?{
       label: salutation,
       value: salutation
-    },
+    }:undefined,
     id,
     country: userSelectedCountry,
     remark,

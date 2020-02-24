@@ -41,6 +41,7 @@ const GET_CARE_INSTITUTION_LIST = gql`
 const GET_CARE_INSTITUION_BY_ID = gql`
   query getCareInstitution($careInstitutionId: Int!) {
     getCareInstitution(careInstitutionId: $careInstitutionId) {
+      createdAt
       firstName
       lastName
       salutation

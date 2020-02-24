@@ -29,8 +29,7 @@ export interface IProxyLoginActionData {
   id: string;
 }
 export interface ILoginFormValues {
-  email?: string;
-  userName?: string;
+  userName: string;
   password: string;
 }
 

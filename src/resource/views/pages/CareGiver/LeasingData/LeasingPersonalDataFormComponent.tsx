@@ -12,13 +12,13 @@ import {
   DateMask
 } from "../../../../../config";
 import { FormikProps, Field } from "formik";
+import MaskedInput from "react-text-mask";
 import { ILeasingValues } from "../../../../../interfaces";
 import {
   FormikTextField,
   FormikSelectField
 } from "../../../components/forms/FormikFields";
 import { languageTranslation } from "../../../../../helpers";
-import MaskedInput from "react-text-mask";
 import "../caregiver.scss";
 
 const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<

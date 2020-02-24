@@ -200,7 +200,7 @@ const CotactFormComponent: any = (
   };
 
   const ContactError: any = errors.contactType;
-
+  
   return (
     <>
       <Button
@@ -236,7 +236,6 @@ const CotactFormComponent: any = (
                           <div>
                             <Input
                               type="text"
-                              disable
                               disabled
                               value={id}
                               placeholder={languageTranslation("ID")}
@@ -410,7 +409,7 @@ const CotactFormComponent: any = (
                         <div className="required-input">
                           <Select
                             placeholder={languageTranslation("CONTACT_TYPE")}
-                            value={contactType ? contactType : undefined}
+                            value={contactType && contactType.value ? contactType : null}
                             onChange={(value: any) =>
                               handleSelect(value, "contactType", "")
                             }
@@ -519,7 +518,7 @@ const CotactFormComponent: any = (
                           <Select
                             placeholder={languageTranslation("COUNTRY")}
                             options={countriesOpt}
-                            value={country ? country : undefined}
+                            value={country && country.value !=='' ? country : null}
                             onChange={(value: any) =>
                               handleSelect(value, "country", "")
                             }

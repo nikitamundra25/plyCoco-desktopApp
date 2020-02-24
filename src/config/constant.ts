@@ -1158,6 +1158,12 @@ export const TodoFilter: IReactSelectInterface[] = [
   { value: 'completed', label: languageTranslation('HIDE_FUTURE_ONES') }
 ];
 
+export const LockedOptions: any[] = [
+  { value: null, label: languageTranslation('ALL') },
+  { value: true, label: languageTranslation('LOCKED') },
+  { value: false, label: languageTranslation('UNLOCKED') }
+];
+
 export const Without_Appointments: IReactSelectInterface[] = [
   {
     value: 'Show with appointment',

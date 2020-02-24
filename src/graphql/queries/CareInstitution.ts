@@ -51,6 +51,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
       id
       userRole
       gender
+      isApproved
       canstitution {
         city
         zipCode

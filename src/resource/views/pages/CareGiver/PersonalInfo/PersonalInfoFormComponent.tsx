@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import Select from 'react-select';
 import { Label, Col, Row, CustomInput, FormGroup, Input } from 'reactstrap';
+import { FormikProps, Field } from 'formik';
+import MaskedInput from 'react-text-mask';
 import {
-  State,
   Salutation,
   LegalForm,
   Gender,
@@ -10,20 +11,16 @@ import {
   IBANRegex,
   regSinceDate
 } from '../../../../../config';
-import { FormikProps, Field } from 'formik';
 import {
   IReactSelectInterface,
   IStates,
-  ICountries,
-  ICountry,
   IState,
   IRegion,
   ICareGiverValues
 } from '../../../../../interfaces';
 import { FormikTextField } from '../../../components/forms/FormikFields';
 import { languageTranslation, logger } from '../../../../../helpers';
-import MaskedInput from 'react-text-mask';
-import { useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/react-hooks';
 import { CountryQueries } from '../../../../../graphql/queries';
 import { useLocation } from 'react-router';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
@@ -31,32 +28,21 @@ import moment from 'moment';
 import CustomOption from '../../../components/CustomOptions';
 
 const [, GET_REGIONS] = RegionQueries;
-const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+const [, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const PersonalInfoFormComponent: any = (
   props: FormikProps<ICareGiverValues> & {
     CareInstitutionList: IReactSelectInterface[] | undefined;
     countriesOpt: IReactSelectInterface[] | undefined;
-    statesOpt: IReactSelectInterface[] | undefined;
-    getStatesByCountry: any;
+    userSelectedCountry: any;
   }
 ) => {
-  const { countriesOpt, statesOpt, getStatesByCountry } = props;
-  // const { data } = useQuery<ICountries>(GET_COUNTRIES);
+  const { countriesOpt, userSelectedCountry } = props;
   // To fetch the states of selected contry & don't want to query on initial load
-  // const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-  //   GET_STATES_BY_COUNTRY,
-  // );
-  // const countriesOpt: IReactSelectInterface[] | undefined = [];
-  // const statesOpt: IReactSelectInterface[] | undefined = [];
-  // if (data && data.countries) {
-  //   data.countries.forEach(({ id, name }: ICountry) =>
-  //     countriesOpt.push({
-  //       label: name,
-  //       value: id,
-  //     }),
-  //   );
-  // }
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY
+  );
+  const statesOpt: IReactSelectInterface[] | undefined = [];
 
   // Region Data
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
@@ -76,14 +62,22 @@ const PersonalInfoFormComponent: any = (
   let { pathname } = useLocation();
   let PathArray: string[] = pathname.split('/');
 
-  // if (statesData && statesData.states) {
-  //   statesData.states.forEach(({ id, name }: IState) =>
-  //     statesOpt.push({
-  //       label: name,
-  //       value: id,
-  //     }),
-  //   );
-  // }
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({
+        label: name,
+        value: id
+      })
+    );
+  }
+
+  useEffect(() => {
+    if (userSelectedCountry && userSelectedCountry.value) {
+      getStatesByCountry({
+        variables: { countryid: userSelectedCountry.value }
+      });
+    }
+  }, [userSelectedCountry]);
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
@@ -154,11 +148,6 @@ const PersonalInfoFormComponent: any = (
     }, 200);
   }, [submitCount]);
 
-  const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
-  const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    regSinceDate
-  );
-
   return (
     <div
       className='form-card custom-caregiver-height custom-scrollbar'
@@ -199,12 +188,11 @@ const PersonalInfoFormComponent: any = (
                           </Col>
                           <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                             <div>
-                              {console.log('RegYear', RegYear)}
                               <Input
                                 type='text'
                                 name={'regSince'}
                                 disabled
-                                value={RegYear}
+                                value={moment(createdAt).format(regSinceDate)}
                                 placeholder='Reg Since'
                                 className='width-common'
                               />
@@ -371,10 +359,9 @@ const PersonalInfoFormComponent: any = (
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <Row className='custom-col inner-no-padding-col'>
                   <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
-                    <div className='required-input'>
-                      <Field
-                        name={'dateOfBirth'}
-                        render={({ field }: any) => (
+                    <Field name='dateOfBirth'>
+                      {({ field }: any) => (
+                        <div className={'required-input'}>
                           <MaskedInput
                             {...field}
                             placeholder={languageTranslation(
@@ -390,14 +377,14 @@ const PersonalInfoFormComponent: any = (
                             onBlur={handleBlur}
                             value={dateOfBirth}
                           />
-                        )}
-                      />
-                      {errors.dateOfBirth && touched.dateOfBirth && (
-                        <div className='required-tooltip left'>
-                          {errors.dateOfBirth}
+                          {errors.dateOfBirth && touched.dateOfBirth && (
+                            <div className='required-tooltip left'>
+                              {errors.dateOfBirth}
+                            </div>
+                          )}
                         </div>
                       )}
-                    </div>
+                    </Field>
                   </Col>
                   <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                     <FormGroup>

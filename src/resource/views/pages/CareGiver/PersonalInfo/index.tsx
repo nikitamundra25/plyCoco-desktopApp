@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { useQuery } from '@apollo/react-hooks';
+import { useParams } from 'react-router';
 import { IReactSelectInterface } from './../../../../../interfaces';
 import { CareGiverQueries } from '../../../../../graphql/queries';
 import { PersonalInformation } from './PersonalInformation';
-import { useParams } from 'react-router';
 import Loader from '../../../containers/Loader/Loader';
+import '../caregiver.scss';
 
 const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
 

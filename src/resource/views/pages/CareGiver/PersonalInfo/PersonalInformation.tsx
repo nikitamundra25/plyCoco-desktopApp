@@ -327,7 +327,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     caregiver = {},
     createdAt = new Date()
   } = getCaregiver ? getCaregiver : {};
-  console.log(getCaregiver, '.getCaregiver');
 
   const {
     nightAllowance = undefined,

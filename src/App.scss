@@ -3378,10 +3378,6 @@ html:not([dir="rtl"]) {
         }
       }
     }
-
-    .DayPicker-Day {
-      font-size: 12px;
-    }
   }
   .modal-body {
     background-color: #f9f9f9;
@@ -3395,6 +3391,23 @@ html:not([dir="rtl"]) {
     font-size: 16px;
     font-weight: 600;
   }
+}
+
+//daypicker css{
+.customdatepicker-section {
+  .DayPicker-Day {
+    font-size: 12px;
+    .DayPicker-Day--today {
+      background: #d99119;
+    }
+  }
+  .DayPicker {
+    display: block;
+    background: #f1f0f0;
+    font-size: 11px;
+    height: 100%;
+  }
+
   .daypicker1 {
     .DayPicker-NavButton--next {
       display: none;
@@ -3404,15 +3417,6 @@ html:not([dir="rtl"]) {
     .DayPicker-NavButton--prev {
       display: none;
     }
-  }
-  .DayPicker {
-    display: block;
-    background: #f1f0f0;
-    font-size: 11px;
-    height: 100%;
-  }
-  .DayPicker-Day.DayPicker-Day--selected.DayPicker-Day--today {
-    background: #d99119;
   }
 }
 .custom-pagination {

@@ -205,6 +205,8 @@ const CotactFormComponent: any = (
   };
   // To add custom contact type
   const handleAddNewContactType = (contactType: string) => {
+    console.log('inside add');
+
     if (contactType !== '') {
       const newContactTypeData: IReactSelectInterface = {
         label: contactType,
@@ -449,11 +451,13 @@ const CotactFormComponent: any = (
                               }
                               classNamePrefix='custom-inner-reactselect'
                               onInputChange={(value: any) => {
-                                setnewContactType(value);
                                 setFieldValue('contactType', {
                                   label: value,
                                   value: value
                                 });
+                                if (value) {
+                                  setnewContactType(value);
+                                }
                               }}
                               className={
                                 errors.contactType && touched.contactType

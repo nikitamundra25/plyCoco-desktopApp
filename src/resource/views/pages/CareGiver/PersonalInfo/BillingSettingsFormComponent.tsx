@@ -150,7 +150,7 @@ const BillingSettingsFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  {languageTranslation('Invoice interval')}
+                  {languageTranslation('INVOICE_INTERVAL')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>

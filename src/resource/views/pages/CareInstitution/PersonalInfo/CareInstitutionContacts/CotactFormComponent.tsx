@@ -203,17 +203,25 @@ const CotactFormComponent: any = (
       setFieldValue('attributeId', newAttributeList);
     }
   };
-
+  // To add custom contact type
   const handleAddNewContactType = (contactType: string) => {
     if (contactType !== '') {
       const newContactTypeData: IReactSelectInterface = {
         label: contactType,
         value: contactType,
       };
-      setFieldValue('contactType', newContactTypeData);
-      props.addContactType({
-        variables: { contactType },
-      });
+      // TO check if it is already exists
+      const index: number = contacttypeOpt.findIndex(
+        (element: IReactSelectInterface) => element.label === contactType,
+      );
+      if (index > -1) {
+        setFieldValue('contactType', contacttypeOpt[index]);
+      } else {
+        setFieldValue('contactType', newContactTypeData);
+        props.addContactType({
+          variables: { contactType },
+        });
+      }
       setnewContactType('');
     }
   };
@@ -483,7 +491,9 @@ const CotactFormComponent: any = (
                             placement='top'
                             target='addContact'
                           >
-                            Click To Add New Contact Type
+                            {languageTranslation(
+                              'NEW_CONTACT_TYPE_TOOLTIP_MSG',
+                            )}
                           </UncontrolledTooltip>
                         </div>
                       </Col>

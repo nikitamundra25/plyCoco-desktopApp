@@ -8,16 +8,11 @@ import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
 import htmlToDraft from 'html-to-draftjs';
-import {
-  languageTranslation,
-  HtmlToDraftConverter,
-  logger,
-  stripHtml
-} from '../../../../../helpers';
+import { languageTranslation, logger, stripHtml } from '../../../../../helpers';
 import {
   EmailTemplateQueries,
   ProfileQueries,
-  CareInstitutionQueries
+  CareInstitutionQueries,
 } from '../../../../../graphql/queries';
 import {
   IReactSelectInterface,
@@ -25,7 +20,7 @@ import {
   IEmailTemplateData,
   INewEmailProps,
   IEmailAttachmentData,
-  INewEmailAttachments
+  INewEmailAttachments,
 } from '../../../../../interfaces';
 import { EmailFormComponent } from './EmailFormComponent';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
@@ -34,6 +29,7 @@ import { ConfirmBox } from '../../../components/ConfirmBox';
 import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
 import { client } from '../../../../../config';
 import logo from '../../../../assets/img/plycoco-orange.png';
+
 const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , NEW_EMAIL] = CareGiverMutations;
@@ -44,10 +40,10 @@ let toastId: any = null;
 const NewEmail: FunctionComponent<INewEmailProps> = ({
   emailData,
   selectedUserName,
-  userRole
+  userRole,
 }: INewEmailProps) => {
   const userData: any = client.readQuery({
-    query: VIEW_PROFILE
+    query: VIEW_PROFILE,
   });
 
   const { viewAdminProfile }: any = userData ? userData : {};
@@ -57,7 +53,6 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     : {};
 
   let { id: Id } = useParams();
-  let { pathname } = useLocation();
 
   const [subject, setSubject] = useState<string>('');
   const [body, setBody] = useState<any>('');
@@ -74,28 +69,28 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
         type: languageTranslation(
           userRole === 'canstitution'
             ? 'CAREINSTITUTION_EMAIL_TEMPLATE_TYPE'
-            : 'CAREGIVER_EMAIL_TEMPLATE_TYPE'
-        )
-      }
-    }
+            : 'CAREGIVER_EMAIL_TEMPLATE_TYPE',
+        ),
+      },
+    },
   );
 
   //To get contact list by id
   const [
     fetchContactsByUserID,
-    { data: contactList, loading: contactListLoading }
+    { data: contactList, loading: contactListLoading },
   ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
 
   useEffect(() => {
     // Fetch contact details by care institution id
     if (Id && userRole === 'canstitution') {
       fetchContactsByUserID({
-        variables: { userId: parseInt(Id) }
+        variables: { userId: parseInt(Id) },
       });
     }
   }, []);
 
-  const [addNewEmail, { loading: adding }] = useMutation<
+  const [addNewEmail, { loading: sending }] = useMutation<
     {
       addNewEmail: any;
     },
@@ -119,20 +114,20 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    }
+    },
   });
 
   // set template list options
   const templateOptions: IReactSelectInterface[] | undefined = [];
   if (data && data.getEmailtemplate) {
     const {
-      getEmailtemplate: { email_templates }
+      getEmailtemplate: { email_templates },
     } = data;
     if (email_templates && email_templates.length) {
       email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
         templateOptions.push({
           label: menuEntry,
-          value: id ? id.toString() : ''
+          value: id ? id.toString() : '',
         });
       });
     }
@@ -146,7 +141,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       getContactsByUserID.map((list: any) => {
         return contactOptions.push({
           label: `${list.firstName} ${list.surName} (${list.contactType})`,
-          value: list.id ? list.id : ''
+          value: list.id ? list.id : '',
         });
       });
     }
@@ -155,12 +150,12 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   const setDefaultSignature = (body: any) => {
     const contentBlock = htmlToDraft(
       `<div><span style="font-size:15px;">Hello ${selectedUserName}</span>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
-        'BEST_WISHES'
-      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-644 99 444" style="color: #000; text-decoration: none;">+49-30-644 99 444</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-644 99 445" style="color: #000; text-decoration: none;">+49-30-644 99 445</a></span><br><span><strong>E-Mail:</strong> <a href="mailto:kontakt@plycoco.de" style="color: #000; text-decoration: none;">kontakt@plycoco.de</a></span><br><span><a href="https://www.plycoco.de/" style="color: #000; text-decoration: none;">www.plycoco.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;">Plycoco GmbH, Welfenallee 3-7, 13465 Berlin</span><br><span style="font-size: 12px;color: #b5b4b4;">Vertreten durch: Maren Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;">Eintragung im Handelsregister Amtsgericht Berlin-Charlottenburg, Registernummer: HRB 150746</span><br><span style="font-size: 12px;color: #b5b4b4;">Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz DE290375287</span></div></div>`
+        'BEST_WISHES',
+      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-644 99 444" style="color: #000; text-decoration: none;">+49-30-644 99 444</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-644 99 445" style="color: #000; text-decoration: none;">+49-30-644 99 445</a></span><br><span><strong>E-Mail:</strong> <a href="mailto:kontakt@plycoco.de" style="color: #000; text-decoration: none;">kontakt@plycoco.de</a></span><br><span><a href="https://www.plycoco.de/" style="color: #000; text-decoration: none;">www.plycoco.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;">Plycoco GmbH, Welfenallee 3-7, 13465 Berlin</span><br><span style="font-size: 12px;color: #b5b4b4;">Vertreten durch: Maren Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;">Eintragung im Handelsregister Amtsgericht Berlin-Charlottenburg, Registernummer: HRB 150746</span><br><span style="font-size: 12px;color: #b5b4b4;">Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz DE290375287</span></div></div>`,
     );
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(
-        contentBlock.contentBlocks
+        contentBlock.contentBlocks,
       );
       const editorState = EditorState.createWithContent(contentState);
       return editorState;
@@ -200,11 +195,11 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
     const {
-      getEmailtemplate: { email_templates }
+      getEmailtemplate: { email_templates },
     } = data;
     setTemplate(selectedOption);
     const templateData = email_templates.filter(
-      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value)
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value),
     )[0];
     if (templateData) {
       const { subject, body, attachments } = templateData;
@@ -221,10 +216,10 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                 fileName: name,
                 id,
                 path,
-                size
-              })
+                size,
+              }),
             )
-          : []
+          : [],
       );
     }
   };
@@ -256,7 +251,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           attachments:
             attachments && attachments.length
               ? attachments.filter(
-                  (attachment: IEmailAttachmentData) => attachment.path
+                  (attachment: IEmailAttachmentData) => attachment.path,
                 )
               : [],
           files:
@@ -264,7 +259,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
               ? attachments
                   .map((item: IEmailAttachmentData) => item.file)
                   .filter((file: File | null) => file)
-              : null
+              : null,
         };
         addNewEmail({ variables: { emailInput } });
       }
@@ -283,17 +278,17 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   const onDelteDocument = async (
     attachmentId: string,
-    attachmentIndex?: number
+    attachmentIndex?: number,
   ) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG')
+      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG'),
     });
     if (!value) {
       return;
     } else {
       setAttachments((prevArray: any) =>
-        prevArray.filter((_: any, index: number) => attachmentIndex !== index)
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index),
       );
     }
   };
@@ -417,8 +412,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                 type='submit'
                 className='btn-submit'
                 onClick={sendEmail}
+                disabled={sending}
               >
-                {adding ? (
+                {sending ? (
                   <i className='fa fa-spinner fa-spin mr-2' />
                 ) : (
                   <i className='fa fa-paper-plane mr-2' aria-hidden='true'></i>

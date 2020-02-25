@@ -8,15 +8,11 @@ import {
   Button,
   UncontrolledTooltip
 } from "reactstrap";
-import { languageTranslation, logger } from "../../../../../../helpers";
 import Select from "react-select";
-import {
-  Gender,
-  Salutation,
-  ContactType,
-  CareInstitutionContactAttribute
-} from "../../../../../../config";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { FormikProps } from "formik";
+import { languageTranslation, logger } from "../../../../../../helpers";
+import { Gender, Salutation } from "../../../../../../config";
 import {
   ICareInstitutionContact,
   IReactSelectInterface,
@@ -27,8 +23,6 @@ import {
   IAttributeOptions
 } from "../../../../../../interfaces";
 import { CountryQueries } from "../../../../../../graphql/queries";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
-import { toast } from "react-toastify";
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
@@ -63,12 +57,12 @@ const CotactFormComponent: any = (
       statesOpt.push({ label: name, value: id })
     );
   }
-  const [AttOpt, setAttOpt] = useState<any>([]);
+  // const [AttOpt, setAttOpt] = useState<any>([]);
 
-  useEffect(() => {
-    const Data: any = CareInstitutionContactAttribute;
-    setAttOpt(Data);
-  }, []);
+  // useEffect(() => {
+  //   const Data: any = CareInstitutionContactAttribute;
+  //   setAttOpt(Data);
+  // }, []);
 
   let [newAttributeValue, setnewAttributeValue] = useState();
   let [newValue, setnewValue] = useState({});
@@ -140,16 +134,20 @@ const CotactFormComponent: any = (
     setFieldValue,
     careInstitutionAttrOpt,
     contacttypeOpt,
-    setFieldTouched
+    setFieldTouched,
+    addingtype
   } = props;
 
   useEffect(() => {
-    setFieldValue(
-      "contactType",
-      contacttypeOpt.filter(
-        (element: IReactSelectInterface) => element.label === contactType.label
-      )[0]
-    );
+    if (contacttypeOpt && contacttypeOpt.length) {
+      setFieldValue(
+        "contactType",
+        contacttypeOpt.filter(
+          (element: IReactSelectInterface) =>
+            element.label === contactType.label
+        )[0]
+      );
+    }
   }, [contacttypeOpt]);
 
   const handleAttributeSelectContarct = (
@@ -188,8 +186,8 @@ const CotactFormComponent: any = (
 
   const handleAddNewAttributevalue = () => {
     if (newAttributeValue && newAttributeValue.value) {
-      AttOpt.push(newAttributeValue);
-      setAttOpt(AttOpt);
+      // AttOpt.push(newAttributeValue);
+      // setAttOpt(AttOpt);
       const addNewAttribute: any[] = [];
       addNewAttribute.push(...attributeId, newAttributeValue);
       handleSelect(addNewAttribute, "attributeId", "newAttribute");
@@ -475,7 +473,11 @@ const CotactFormComponent: any = (
                               newContactType === "" ? "disabled-class" : ""
                             }`}
                           >
-                            <i className={"fa fa-plus"} />
+                            {addingtype ? (
+                              <i className="fa fa-spinner fa-spin" />
+                            ) : (
+                              <i className={"fa fa-plus"} />
+                            )}
                           </Button>
                           <UncontrolledTooltip
                             placement="top"

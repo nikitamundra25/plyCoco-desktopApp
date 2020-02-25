@@ -111,6 +111,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
                                 ? '#fff'
                                 : '#000',
                           }}
+                          className="text-capitalize"
                         >
                           {label}{' '}
                         </li>

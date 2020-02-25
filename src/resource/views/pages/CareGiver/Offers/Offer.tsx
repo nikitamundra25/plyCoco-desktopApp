@@ -12,6 +12,8 @@ import Select from "react-select";
 import { languageTranslation } from "../../../../../helpers";
 import { State } from "../../../../../config";
 import "../caregiver.scss";
+import positive from "../../../../assets/img/positive.svg";
+import negative from "../../../../assets/img/negative.svg";
 const Offer: FunctionComponent = () => {
   return (
     <div className="common-offer-section">
@@ -28,7 +30,10 @@ const Offer: FunctionComponent = () => {
               </div>
               <div>
                 <UncontrolledDropdown className="custom-dropdown">
-                  <DropdownToggle className={"text-capitalize"} size="sm">
+                  <DropdownToggle
+                    className={"text-capitalize btn-more"}
+                    size="sm"
+                  >
                     <i className="icon-options-vertical" />
                   </DropdownToggle>
                   <DropdownMenu right>
@@ -50,22 +55,22 @@ const Offer: FunctionComponent = () => {
                 <li
                   className={"cursor-pointer list-item text-capitalize active"}
                 >
-                  <span className="list-item-text">Dialysis</span>
-                  <span className="list-item-icon">
+                  <div className="list-item-text">Dialysis</div>
+                  <div className="list-item-icon">
                     <i className="fa fa-trash"></i>
-                  </span>
+                  </div>
                 </li>
                 <li className={"cursor-pointer list-item text-capitalize"}>
-                  <span className="list-item-text">Nurse/carer</span>
-                  <span className="list-item-icon">
+                  <div className="list-item-text">Nurse/carer</div>
+                  <div className="list-item-icon">
                     <i className="fa fa-trash"></i>
-                  </span>
+                  </div>
                 </li>
                 <li className={"cursor-pointer list-item text-capitalize"}>
-                  <span className="list-item-text">Home Management</span>
-                  <span className="list-item-icon">
+                  <div className="list-item-text">Home Management</div>
+                  <div className="list-item-icon">
                     <i className="fa fa-trash"></i>
-                  </span>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -94,7 +99,10 @@ const Offer: FunctionComponent = () => {
               </div>
               <div>
                 <UncontrolledDropdown className="custom-dropdown">
-                  <DropdownToggle className={"text-capitalize"} size="sm">
+                  <DropdownToggle
+                    className={"text-capitalize btn-more"}
+                    size="sm"
+                  >
                     <i className="icon-options-vertical" />
                   </DropdownToggle>
                   <DropdownMenu right>
@@ -119,22 +127,22 @@ const Offer: FunctionComponent = () => {
                 <li
                   className={"cursor-pointer list-item text-capitalize active"}
                 >
-                  <span className="list-item-text">Dialysis</span>
-                  <span className="list-item-icon">
+                  <div className="list-item-text">Dialysis</div>
+                  <div className="list-item-icon">
                     <i className="fa fa-trash"></i>
-                  </span>
+                  </div>
                 </li>
                 <li className={"cursor-pointer list-item text-capitalize"}>
-                  <span className="list-item-text">Nurse/carer</span>
-                  <span className="list-item-icon">
+                  <div className="list-item-text">Nurse/carer</div>
+                  <div className="list-item-icon">
                     <i className="fa fa-trash"></i>
-                  </span>
+                  </div>
                 </li>
                 <li className={"cursor-pointer list-item text-capitalize"}>
-                  <span className="list-item-text">Home Management</span>
-                  <span className="list-item-icon">
+                  <div className="list-item-text">Home Management</div>
+                  <div className="list-item-icon">
                     <i className="fa fa-trash"></i>
-                  </span>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -160,17 +168,24 @@ const Offer: FunctionComponent = () => {
               </div>
               <div>
                 <UncontrolledDropdown className="custom-dropdown">
-                  <DropdownToggle className={"text-capitalize"} size="sm">
+                  <DropdownToggle
+                    className={"text-capitalize btn-more"}
+                    size="sm"
+                  >
                     <i className="icon-options-vertical" />
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      <i className="fa fa-user-plus mr-2" />
-                      Add all to the positive list
+                      <img src={positive} className="mr-2" alt="" />
+                      <span className="align-middle">
+                        Add all to the positive list
+                      </span>
                     </DropdownItem>
                     <DropdownItem>
-                      <i className="fa fa-user-times mr-2" />
-                      Add all to negative list
+                      <img src={negative} className="mr-2" alt="" />
+                      <span className="align-middle">
+                        Add all to negative list
+                      </span>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -178,9 +193,39 @@ const Offer: FunctionComponent = () => {
             </div>
             <div className="common-list-body">
               <ul className="common-list list-unstyled">
-                <li>Dialysis </li>
-                <li>Home Management</li>
-                <li>Nurse/carer</li>
+                <li className={"cursor-pointer list-item text-capitalize "}>
+                  <div className="list-item-text">Dialysis</div>
+                  <div className="list-item-icon d-flex">
+                    <div className="list-item-img mr-2">
+                      <img src={positive} alt="" />
+                    </div>
+                    <div className="list-item-img">
+                      <img src={negative} alt="" />{" "}
+                    </div>
+                  </div>
+                </li>
+                <li className={"cursor-pointer list-item text-capitalize"}>
+                  <div className="list-item-text">Nurse/carer</div>
+                  <div className="list-item-icon d-flex">
+                    <div className="list-item-img mr-2">
+                      <img src={positive} alt="" />
+                    </div>
+                    <div className="list-item-img">
+                      <img src={negative} alt="" />{" "}
+                    </div>
+                  </div>
+                </li>
+                <li className={"cursor-pointer list-item text-capitalize"}>
+                  <div className="list-item-text">Home Management</div>
+                  <div className="list-item-icon d-flex">
+                    <div className="list-item-img mr-2">
+                      <img src={positive} alt="" />
+                    </div>
+                    <div className="list-item-img">
+                      <img src={negative} alt="" />{" "}
+                    </div>
+                  </div>
+                </li>
               </ul>
             </div>
             <div className="common-list-footer form-section ">

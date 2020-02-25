@@ -55,6 +55,7 @@ const UPDATE_CAREGIVER = gql`
         registrationNumber
         driversLicense
         driverLicenseNumber
+        vehicleAvailable
         city
         street
         title

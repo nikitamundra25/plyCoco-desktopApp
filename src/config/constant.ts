@@ -147,6 +147,15 @@ export const InvoiceType: IReactSelectInterface[] = [
   },
 ];
 
+export const InvoiceInterval: IReactSelectInterface[] = [
+  { value: 'Monthly for the 1st', label: 'Monthly for the 1st' },
+  { value: 'Semimonthly for 1 and 16', label: 'Semimonthly for 1 and 16' },
+  {
+    value: 'Weekly Mondays',
+    label: 'Weekly Mondays',
+  },
+];
+
 export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
   {
     label: 'Acquire block 1 - 5',
@@ -190,162 +199,6 @@ export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
   },
 ];
 
-export const CareGiveAttributes: IReactSelectInterface[] = [
-  { label: 'Car available', value: 'Car available' },
-  { label: 'Cumulative surcharges ', value: 'Cumulative surcharges ' },
-  {
-    label: 'Do not create an invoice ',
-    value: 'Do not create an invoice ',
-  },
-  {
-    label: 'Do not send the invoice ',
-    value: 'Do not send the invoice ',
-  },
-  {
-    label: "Driver's license available",
-    value: "Driver's license available",
-  },
-  {
-    label: 'Entry certificate of good conduct',
-    value: 'Entry certificate of good conduct',
-  },
-  { label: 'Factoring blocked', value: 'Factoring blocked' },
-  { label: 'Factoring unlocked ', value: 'Factoring unlocked ' },
-  { label: 'Invoice excluding VAT ', value: 'Invoice excluding VAT ' },
-  { label: 'Invoice with VAT', value: 'Invoice with VAT ' },
-  { label: 'Leasing is not possible', value: 'Leasing is not possible' },
-  { label: 'Login possible', value: 'Login possible' },
-  { label: 'Man', value: 'Man' },
-  {
-    label: 'Man (is set automatically after registration)',
-    value: 'Man (is set automatically after registration)',
-  },
-  { label: 'Nationwide', value: 'Nationwide' },
-  {
-    label:
-      'Nursing assistant (former household manager) / Care professional (formerly nurse) / doctor',
-    value:
-      'Nursing assistant (former household manager) / Care professional (formerly nurse) / doctor',
-  },
-  { label: 'Offers', value: 'Offers' },
-  { label: 'Permanent employment', value: 'Permanent employment' },
-  { label: 'Prepayment Leasing', value: 'Prepayment Leasing' },
-  {
-    label:
-      'Signed TIMyoCY (automatically starts when the framework contract is signed)',
-    value:
-      'Signed TIMyoCY (automatically starts when the framework contract is signed)',
-  },
-  { label: 'Single-book button', value: 'Single-book button' },
-  {
-    label: 'Small business regulation',
-    value: 'Small business regulation',
-  },
-  { label: 'Supplements exclusive ', value: 'Supplements exclusive ' },
-  { label: 'TIMyoCY', value: 'TIMyoCY' },
-  { label: 'Unlocked', value: 'Unlocked' },
-  { label: 'Woman', value: 'Woman' },
-  {
-    label: 'Woman (is set automatically after registration)',
-    value: 'Woman (is set automatically after registration)',
-  },
-];
-export const CareInstitutionAttr: IReactSelectInterface[] = [
-  {
-    value: "doctor's office (should automatically register when registering)",
-    label: "doctor's office (should automatically register when registering)",
-  },
-  {
-    value:
-      'Dormitories and shared apartments (should be set automatically when registering)',
-    label:
-      'Dormitories and shared apartments (should be set automatically when registering)',
-  },
-  {
-    value: 'Expense billing not possible',
-    label: 'Expense billing not possible',
-  },
-  { value: 'Factoring blocked', label: 'Factoring blocked' },
-  { value: 'Factoring unlocked', label: 'Factoring unlocked' },
-  {
-    value: 'Forward invoices factoring only with DLN',
-    label: 'Forward invoices factoring only with DLN',
-  },
-  {
-    value: 'Hospital (should be set automatically when registering)',
-    label: 'Hospital (should be set automatically when registering)',
-  },
-  {
-    value: 'Inactive (settles automatically after 2 months of inactivity)',
-    label: 'Inactive (settles automatically after 2 months of inactivity)',
-  },
-  {
-    value: 'kilometer money billing not possible',
-    label: 'kilometer money billing not possible',
-  },
-  { value: 'Leasing externally', label: 'Leasing externally' },
-  {
-    value: 'Leasing to bill each specialist separately',
-    label: 'Leasing to bill each specialist separately',
-  },
-  {
-    value: 'Private household (settles automatically when registering)',
-    label: 'Private household (settles automatically when registering)',
-  },
-  {
-    value:
-      'Rehabilitation clinic (should be set automatically when registering)',
-    label:
-      'Rehabilitation clinic (should be set automatically when registering)',
-  },
-  {
-    value: 'Settle the department separately',
-    label: 'Settle the department separately',
-  },
-  {
-    value: 'Setup (settles automatically when registering)',
-    label: 'Setup (settles automatically when registering)',
-  },
-  {
-    label: 'Currently no appointment requirements',
-    value: 'Currently no appointment requirements',
-  },
-  { label: 'Login possible', value: 'Login possible' },
-  {
-    label:
-      'no status e-mails (when we search, the institution…e an email that we search or are still searching)',
-    value:
-      'no status e-mails (when we search, the institution… an email that we search or are still searching) ',
-  },
-  {
-    label: 'Plycoco → Orange as from the logo',
-    value: 'Plycoco → Orange as from the logo',
-  },
-  { label: 'Single-book button', value: 'Single-book button' },
-  { label: 'TIM by post', value: 'TIM by post' },
-  {
-    label: 'TIMyoCY → Pink / Fuchsia',
-    value: 'TIMyoCY → Pink / Fuchsia',
-  },
-  { label: 'Unlocked', value: 'Unlocked' },
-];
-
-export const InvoiceInterval: IReactSelectInterface[] = [
-  { value: 'Monthly for the 1st', label: 'Monthly for the 1st' },
-  { value: 'Semimonthly for 1 and 16', label: 'Semimonthly for 1 and 16' },
-  {
-    value: 'Weekly Mondays',
-    label: 'Weekly Mondays',
-  },
-];
-export const State: IReactSelectInterface[] = [
-  { value: 'Thuringia', label: 'Thuringia' },
-  { value: 'Bavaria', label: 'Bavaria' },
-  { value: 'Hamburg', label: 'Hamburg' },
-  { value: 'Saarland', label: 'Saarland' },
-  { value: 'Saxony', label: 'Saxony' },
-];
-
 export const DocumentTempSelect: IReactSelectInterface[] = [
   { value: 'Working Proof', label: 'Working Proof' },
   { value: 'Sick Note', label: 'Sick Note' },
@@ -354,29 +207,14 @@ export const Gender: IReactSelectInterface[] = [
   { value: 'Male', label: 'Male' },
   { value: 'Female', label: 'Female' },
 ];
-export const Department: IReactSelectInterface[] = [
+export const State: IReactSelectInterface[] = [
   { value: 'Sales', label: 'Sales' },
   { value: 'Marketing', label: 'Marketing' },
   { value: 'Designing', label: 'Designing' },
   { value: 'Development', label: 'Development' },
   { value: 'HR', label: 'HR' },
 ];
-export const Region: IReactSelectInterface[] = [
-  { value: 'Central Germany', label: 'Central Germany' },
-  { value: 'Cologne', label: 'Cologne' },
-  { value: 'Frankfurt', label: 'Frankfurt' },
-  { value: 'Northern Germany', label: 'Northern Germany' },
-  { value: 'Lower Saxony', label: 'Lower Saxony' },
-  { value: 'Munich', label: 'Munich' },
-];
-export const City: IReactSelectInterface[] = [
-  { value: 'Dortmund', label: 'Dortmund' },
-  { value: 'Wiesbaden', label: 'Wiesbaden' },
-  { value: 'Bochum', label: 'Bochum' },
-  { value: 'Kiel', label: 'Kiel' },
-  { value: 'Lower Saxony', label: 'Lower Saxony' },
-  { value: 'Berlin', label: 'Berlin' },
-];
+
 export const Salutation: IReactSelectInterface[] = [
   { value: 'Sir', label: 'Sir' },
   { value: 'Madam', label: 'Madam' },
@@ -397,53 +235,6 @@ export const LegalForm: IReactSelectInterface[] = [
   { value: 'GbR', label: 'GbR' },
 ];
 
-export const QualificationAttributes: IReactSelectInterface[] = [
-  { value: 'Caregiver', label: 'Caregiver' },
-  { value: 'Anesthesia Assistance', label: 'Anesthesia Assistance' },
-  {
-    value: 'Doctor Attention commission',
-    label: 'Doctor Attention commission',
-  },
-  { value: 'Medical Assistance', label: 'Medical Assistance' },
-  { value: 'Dialysis', label: 'Dialysis' },
-  { value: 'Individual', label: 'Individual' },
-  { value: 'Endoscopy', label: 'Endoscopy' },
-  { value: 'Obstetrics', label: 'Obstetrics' },
-  { value: 'HKP (Home nursing)', label: 'HKP (Home nursing)' },
-  { value: 'Midwife/Delivery', label: 'Midwife/Delivery' },
-  { value: 'Heilerizehungspfleger', label: 'Heilerizehungspfleger' },
-  { value: 'Home ventilation all', label: 'Home ventilation all' },
-  { value: 'Home ventilation KS', label: 'Home ventilation KS' },
-  { value: 'Home Management', label: 'Home Management' },
-  {
-    value: 'Cardiac Catheterization Laboratory',
-    label: 'Cardiac catheterization laboratory',
-  },
-  { value: 'Hygiene', label: 'Hygiene' },
-  { value: 'Intensive', label: 'Intensive' },
-  { value: 'IMC (Intermediate care)', label: 'IMC (Intermediate care)' },
-  { value: 'Children Intensive', label: 'Children intensive' },
-  { value: 'Nurse/carer', label: 'Nurse/carer' },
-  {
-    value: 'MTRA (Medical – technical radiology assistant)',
-    label: 'MTRA (Medical – technical radiology assistant)',
-  },
-  { value: 'Neonatology', label: 'Neonatology' },
-  { value: 'OP', label: 'OP' },
-  { value: 'OTA', label: 'OTA' },
-  { value: 'Palliative Care', label: 'Palliative care' },
-  { value: 'PDL', label: 'PDL' },
-  {
-    value: 'Nursing Assistant (Former household manager)',
-    label: 'Nursing assistant (Former household manager)',
-  },
-  { value: 'Physiotherapist', label: 'Physiotherapist' },
-  { value: 'Psychiatry', label: 'Psychiatry' },
-  { value: 'Paramedic', label: 'Paramedic' },
-  { value: 'Emergency Department', label: 'Emergency department' },
-  { value: 'Wohnbereichsleitung', label: 'Wohnbereichsleitung' },
-  { value: 'Wound Management', label: 'Wound Management' },
-];
 export const Hours: IReactSelectInterface[] = [
   { value: '12', label: '12' },
   { value: '1', label: '1' },
@@ -1132,19 +923,6 @@ export const NightAllowancePerHour: IReactSelectInterface[] = [
   { value: 'From 8 p.m.', label: 'From 8 p.m.' },
   { value: 'From 8:45 p.m.', label: 'From 8:45 p.m.' },
   { value: 'From 9 p.m', label: 'From 9 p.m.' },
-];
-
-export const CareGiver: IReactSelectInterface[] = [
-  { value: 'us10', label: 'Freida Morby' },
-  { value: 'us7', label: 'Gerhard Reinhard' },
-  { value: 'us8', label: 'Hazlett Kite' },
-  { value: 'us1', label: 'John Doe' },
-  { value: 'us3', label: 'Lisa Hayde' },
-  { value: 'us4', label: 'melita Giraldez' },
-  { value: 'us9', label: 'Obed Helian' },
-  { value: 'us2', label: 'Stark Smith' },
-  { value: 'us6', label: 'Tierney St. Louis' },
-  { value: 'us5', label: 'Ula Luckin' },
 ];
 
 export const Priority: IReactSelectInterface[] = [

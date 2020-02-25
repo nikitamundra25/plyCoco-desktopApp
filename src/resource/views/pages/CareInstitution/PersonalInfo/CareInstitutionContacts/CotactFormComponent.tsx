@@ -449,12 +449,12 @@ const CotactFormComponent: any = (
                               }
                               classNamePrefix='custom-inner-reactselect'
                               onInputChange={(value: any) => {
+                                setFieldValue('contactType', {
+                                  label: value,
+                                  value: value,
+                                });
                                 if (value) {
                                   setnewContactType(value);
-                                  setFieldValue('contactType', {
-                                    label: value,
-                                    value: value,
-                                  });
                                 }
                               }}
                               className={

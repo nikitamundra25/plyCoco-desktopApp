@@ -103,7 +103,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
 
   return (
     <div>
-      <Modal isOpen={show} className="reminder-modal" size="lg" centered>
+      <Modal isOpen={show} className="common-modal" size="lg" centered>
         <ModalHeader close={externalCloseBtn}>
           {" "}
           {!editToDo

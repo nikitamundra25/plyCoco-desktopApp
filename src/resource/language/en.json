@@ -753,5 +753,8 @@
   "FILTER_BY_STATUS": "Filter by status",
   "FILTER_BY_DATE": "Filter by date",
   "EMPLOYEE_USERROLE": "employee",
-  "DATE_TIME": "Date and Time"
+  "DATE_TIME": "Date and Time",
+  "WEEKEND": "Weekend",
+  "HOLIDAY": "Holiday",
+  "INVOICE_INTERVAL": "Invoice Interval"
 }

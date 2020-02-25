@@ -417,6 +417,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                 type='submit'
                 className='btn-submit'
                 onClick={sendEmail}
+                disabled={adding}
               >
                 {adding ? (
                   <i className='fa fa-spinner fa-spin mr-2' />

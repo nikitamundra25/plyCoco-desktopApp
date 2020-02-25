@@ -1264,9 +1264,12 @@ html:not([dir="rtl"]) {
         resize: none;
       }
       &.textarea-care-institution {
-        height: 130px;
+        height: 122px;
         overflow-y: auto;
         resize: none;
+        &.with_id {
+          height: 153px;
+        }
       }
       &.error {
         border-color: $red;
@@ -1663,6 +1666,11 @@ html:not([dir="rtl"]) {
       overflow-y: auto;
       position: static;
     }
+    &:hover {
+      box-shadow: none;
+      outline: none;
+      border-color: $border_hover_color;
+    }
   }
   .custom-inner-reactselect__menu {
     z-index: 9;
@@ -1781,8 +1789,11 @@ html:not([dir="rtl"]) {
   .common-list-body {
     background: $white;
     border: 1px solid $table_border;
-    height: 90px;
+    height: 87px;
     overflow-y: auto;
+    &.with_id {
+      height: 118px;
+    }
     .common-list {
       li {
         padding: 3px 5px;
@@ -3347,7 +3358,7 @@ html:not([dir="rtl"]) {
 // }
 
 // modal css
-.reminder-modal {
+.common-modal {
   .modal-header {
     background-color: #323232;
     padding: 12px 16px;

@@ -150,6 +150,7 @@ body {
     font-size: $font_12;
     border-radius: 4px;
     transition: all 0.3s ease;
+    padding: 0px;
     &:hover {
       background: $profile_bg_hover;
     }
@@ -3008,24 +3009,57 @@ html:not([dir="rtl"]) {
 
 // form-flex-block
 .form-flex-block {
-  margin: 0 -7.5px;
+  margin: 0 -6px;
   display: flex;
   flex-wrap: wrap;
   @media only screen and (max-width: 991px) {
     flex-flow: column;
   }
   .form-flex-tile {
-    padding: 0 7.5px;
+    padding: 0 6px;
     flex: 1 1 20%;
+    max-width: 20%;
+    @media (min-width: 992px) and (max-width: 1366px) {
+      flex: 1 1 18%;
+      max-width: 18%;
+    }
     @media only screen and (max-width: 991px) {
       flex: 1 1 100%;
+      max-width: 100%;
     }
     &.contactform-flex-tile {
       flex: 1 1 28%;
+      max-width: 28%;
+      @media (min-width: 992px) and (max-width: 1366px) {
+        flex: 1 1 25%;
+        max-width: 25%;
+      }
+      @media only screen and (max-width: 991px) {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+      .contact-type {
+        padding-right: 30px;
+        position: relative;
+        .add-new-btn {
+          position: absolute;
+          top: 0px;
+          right: 0px;
+        }
+      }
     }
     &.form-attribute-remark-section {
       flex: 1 1 32%;
+      max-width: 32%;
       display: flex;
+      @media (min-width: 992px) and (max-width: 1366px) {
+        flex: 1 1 39%;
+        max-width: 39%;
+      }
+      @media only screen and (max-width: 991px) {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
       @media only screen and (max-width: 767px) {
         flex-wrap: wrap;
       }
@@ -3040,7 +3074,13 @@ html:not([dir="rtl"]) {
       }
       .attribute-div {
         flex: 1;
-        min-width: 275px;
+        // min-width: 275px;
+      }
+    }
+    .row {
+      margin: 0px -6px;
+      .col-12 {
+        padding: 0px 6px;
       }
     }
     .col-form-label {

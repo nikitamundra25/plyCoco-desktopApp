@@ -12,7 +12,7 @@ import {
   ICountries,
   IStates,
   IState,
-  IRegion,
+  IRegion
 } from '../../../../../../interfaces';
 import { CountryQueries } from '../../../../../../graphql/queries';
 import CommissionFormData from './CommissionFormData';
@@ -31,18 +31,18 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   const { userSelectedCountry, countriesOpt } = props;
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS,
+    GET_REGIONS
   );
   const regionOptions: IReactSelectInterface[] | undefined = [];
   if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
   // const countriesOpt: IReactSelectInterface[] | undefined = [];
@@ -54,7 +54,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
   // }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
@@ -84,7 +84,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       id,
       regionId,
       createdAt,
-      remarksViewable,
+      remarksViewable
     },
     touched,
     errors,
@@ -95,7 +95,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldValue,
     submitCount,
     CareInstitutionList,
-    setFieldError,
+    setFieldError
   } = props;
 
   const scrollParentToChild: any = () => {
@@ -124,8 +124,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3,
-      },
+        sortBy: 3
+      }
     });
   }, []);
   useEffect(() => {
@@ -133,7 +133,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
 
     if (userSelectedCountry && userSelectedCountry.value) {
       getStatesByCountry({
-        variables: { countryid: userSelectedCountry.value },
+        variables: { countryid: userSelectedCountry.value }
       });
     }
   }, [userSelectedCountry]);
@@ -144,7 +144,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     if (name === 'country') {
       setFieldValue('state', { label: '', value: '' });
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
     }
@@ -758,7 +758,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                             : '';
                           const username = setUsername.replace(
                             /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi,
-                            '',
+                            ''
                           );
                           setFieldError('userName', ' ');
                           setFieldValue('userName', username);

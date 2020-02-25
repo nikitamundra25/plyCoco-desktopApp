@@ -58,7 +58,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
       }
     }
   });
-
   // Get added document types list
   if (
     documentListing &&
@@ -130,16 +129,14 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   onApprove();
                 }}
                 disabled={
-                  allDocDisApp ||
-                  (documentListing &&
-                    documentListing.getDocuments &&
-                    !documentListing.getDocuments.length) ||
-                  // To check required document is submitted by caregive or not
-                  (documentListing &&
-                    documentListing.getDocuments &&
-                    documentListing.getDocuments.filter(
-                      (document: any) => !document.fileName
-                    ).length)
+                  documentListing &&
+                  documentListing.getDocuments &&
+                  documentListing.getDocuments.filter(
+                    (document: any) =>
+                      document.isDefault && document.status !== 'approve'
+                  ).length
+                    ? true
+                    : false // If any of the required document in not approved by admin
                 }
                 className='btn-common btn-active mb-3 mr-3 '
                 color='link'

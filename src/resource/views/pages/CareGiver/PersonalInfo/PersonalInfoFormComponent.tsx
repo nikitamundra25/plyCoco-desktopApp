@@ -40,7 +40,7 @@ const PersonalInfoFormComponent: any = (
   const { countriesOpt, userSelectedCountry } = props;
   // To fetch the states of selected contry & don't want to query on initial load
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
   const statesOpt: IReactSelectInterface[] | undefined = [];
 
@@ -66,8 +66,8 @@ const PersonalInfoFormComponent: any = (
     statesData.states.forEach(({ id, name }: IState) =>
       statesOpt.push({
         label: name,
-        value: id,
-      }),
+        value: id
+      })
     );
   }
 
@@ -412,7 +412,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
@@ -457,7 +456,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
@@ -478,7 +476,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
@@ -526,7 +523,6 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>

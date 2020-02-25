@@ -6,7 +6,7 @@ import {
   Col,
   Row,
   Button,
-  UncontrolledTooltip,
+  UncontrolledTooltip
 } from 'reactstrap';
 import { languageTranslation, logger } from '../../../../../../helpers';
 import Select from 'react-select';
@@ -14,7 +14,7 @@ import {
   Gender,
   Salutation,
   ContactType,
-  CareInstitutionContactAttribute,
+  CareInstitutionContactAttribute
 } from '../../../../../../config';
 import { FormikProps } from 'formik';
 import {
@@ -24,7 +24,7 @@ import {
   IStates,
   ICountry,
   IState,
-  IAttributeOptions,
+  IAttributeOptions
 } from '../../../../../../interfaces';
 import { CountryQueries } from '../../../../../../graphql/queries';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
@@ -38,29 +38,29 @@ const colourStyles = {
       ...styles,
       backgroundColor: data.color,
       color:
-        data.color === '#6a0dad' || data.color === '#000000' ? '#fff' : '#000',
+        data.color === '#6a0dad' || data.color === '#000000' ? '#fff' : '#000'
     };
-  },
+  }
 };
 
 const CotactFormComponent: any = (
-  props: FormikProps<ICareInstitutionContact> & any,
+  props: FormikProps<ICareInstitutionContact> & any
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
   const [AttOpt, setAttOpt] = useState<any>([]);
@@ -76,10 +76,8 @@ const CotactFormComponent: any = (
   const handleSelect = (
     selectOption: IReactSelectInterface | any,
     name: string,
-    type: string,
+    type: string
   ) => {
-    console.log('namename', name);
-
     if (type === 'newAttribute' && name === 'attributeId') {
       // To check if it's already exist on options or not
       const index: number = attributeId.findIndex(
@@ -88,19 +86,19 @@ const CotactFormComponent: any = (
             attribute.label.toLowerCase() ===
             selectOption[selectOption.length - 1].label.toLowerCase()
           );
-        },
+        }
       );
       if (index < 0) {
         setFieldValue(name, selectOption);
         props.addAttribute(
           newAttributeValue && newAttributeValue.value
             ? newAttributeValue.value
-            : '',
+            : ''
         );
       }
     } else if (name === 'country') {
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' }, // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
       setFieldValue(name, selectOption);
@@ -131,7 +129,7 @@ const CotactFormComponent: any = (
       faxNumber,
       id,
       createdAt,
-      attributeId,
+      attributeId
     },
     touched,
     errors,
@@ -142,34 +140,30 @@ const CotactFormComponent: any = (
     setFieldValue,
     careInstitutionAttrOpt,
     contacttypeOpt,
-    setFieldTouched,
+    setFieldTouched
   } = props;
 
   useEffect(() => {
-    console.log(contacttypeOpt, contactType);
-    console.log(
-      contacttypeOpt.filter(
-        (element: IReactSelectInterface) => element.label === contactType.label,
-      )[0],
-      'in use effect contact type',
-    );
-    setFieldValue(
-      'contactType',
-      contacttypeOpt.filter(
-        (element: IReactSelectInterface) => element.label === contactType.label,
-      )[0],
-    );
+    if (contacttypeOpt && contacttypeOpt.length) {
+      setFieldValue(
+        'contactType',
+        contacttypeOpt.filter(
+          (element: IReactSelectInterface) =>
+            element.label === contactType.label
+        )[0]
+      );
+    }
   }, [contacttypeOpt]);
 
   const handleAttributeSelectContarct = (
     selectOption: IReactSelectInterface,
-    name: string,
+    name: string
   ) => {
     let index: number = -1;
     if (attributeId && attributeId.length) {
       index = attributeId.findIndex(
         (attribute: IReactSelectInterface) =>
-          attribute.value === selectOption.value,
+          attribute.value === selectOption.value
       );
     }
     if (index < 0) {
@@ -180,7 +174,6 @@ const CotactFormComponent: any = (
         data.push(selectOption);
       }
       setnewAttributeValue(null);
-      console.log('Data', data);
 
       setFieldValue(name, data);
     }
@@ -190,7 +183,7 @@ const CotactFormComponent: any = (
     setnewValue(value);
     const Data = {
       label: newValue,
-      value: newValue,
+      value: newValue
     };
     setnewAttributeValue((newAttributeValue = Data));
   };
@@ -220,11 +213,11 @@ const CotactFormComponent: any = (
     if (contactType !== '') {
       const newContactTypeData: IReactSelectInterface = {
         label: contactType,
-        value: contactType,
+        value: contactType
       };
       setFieldValue('contactType', newContactTypeData);
       props.addContactType({
-        variables: { contactType },
+        variables: { contactType }
       });
       setnewContactType('');
     }
@@ -233,7 +226,6 @@ const CotactFormComponent: any = (
   const [newContactType, setnewContactType] = useState('');
 
   const ContactError: any = errors.contactType;
-  console.log(contactType, 'contactType+++++ formik');
 
   return (
     <>
@@ -456,6 +448,10 @@ const CotactFormComponent: any = (
                               onInputChange={(value: any) => {
                                 if (value) {
                                   setnewContactType(value);
+                                  setFieldValue('contactType', {
+                                    label: value,
+                                    value: value
+                                  });
                                 }
                               }}
                               className={
@@ -814,7 +810,7 @@ const CotactFormComponent: any = (
                         ? attributeId.map(
                             (
                               { label, color }: IAttributeOptions,
-                              index: number,
+                              index: number
                             ) => {
                               return (
                                 <li
@@ -827,7 +823,7 @@ const CotactFormComponent: any = (
                                     color:
                                       color === '#6a0dad' || color === '#000000'
                                         ? '#fff'
-                                        : '#000',
+                                        : '#000'
                                   }}
                                 >
                                   <>
@@ -846,7 +842,7 @@ const CotactFormComponent: any = (
                                   </>
                                 </li>
                               );
-                            },
+                            }
                           )
                         : null}
                     </ul>
@@ -864,7 +860,7 @@ const CotactFormComponent: any = (
                               ? {
                                   label:
                                     'Please select Attribute or type to add new',
-                                  value: '',
+                                  value: ''
                                 }
                               : undefined
                           }

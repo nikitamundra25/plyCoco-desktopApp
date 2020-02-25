@@ -3397,8 +3397,15 @@ html:not([dir="rtl"]) {
 .customdatepicker-section {
   .DayPicker-Day {
     font-size: 12px;
-    .DayPicker-Day--today {
-      background: #d99119;
+    &.DayPicker-Day--today {
+      background: $theme_color !important;
+      color: $white !important;
+    }
+
+    &.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+      position: relative;
+      background-color: #323232;
+      color: #f0f8ff;
     }
   }
   .DayPicker {

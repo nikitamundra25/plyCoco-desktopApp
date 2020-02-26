@@ -139,10 +139,15 @@ const CareInstitutionTodo: FunctionComponent = () => {
           : undefined,
         searchValue: searchData.search,
         priority: searchData.priority
-          ? {
-              label: searchData.priority,
-              value: searchData.priority
-            }
+          ? searchData.priority === 'normal'
+            ? {
+                label: languageTranslation('NORMAL'),
+                value: searchData.priority
+              }
+            : {
+                label: searchData.priority,
+                value: searchData.priority
+              }
           : undefined,
         sortByDate: searchData.sortByDate
           ? {
@@ -423,7 +428,13 @@ const CareInstitutionTodo: FunctionComponent = () => {
                             <td className='contact-th-column'>
                               <span className=' word-wrap'>
                                 {list.contact
-                                  ? `${list.contact.firstName} ${list.contact.surName} (${list.contact.contactType})`
+                                  ? `${list.contact.firstName} ${
+                                      list.contact.surName
+                                    }  ${
+                                      list.contact.contact_type
+                                        ? `(${list.contact.contact_type.contactType})`
+                                        : ''
+                                    }`
                                   : '-'}
                               </span>
                             </td>

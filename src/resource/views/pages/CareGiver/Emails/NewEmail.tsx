@@ -108,6 +108,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       setParentId(null);
       setIsSubmit(false);
       setTemplate({ label: '', value: '' });
+      setContact({ label: '', value: '' });
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -140,7 +141,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     if (getContactsByUserID && getContactsByUserID.length) {
       getContactsByUserID.map((list: any) => {
         return contactOptions.push({
-          label: `${list.firstName} ${list.surName} (${list.contactType})`,
+          label: `${list.firstName} ${list.surName} ${
+            list.contact_type ? `(${list.contact_type.contactType})` : ''
+          }`,
           value: list.id ? list.id : ''
         });
       });

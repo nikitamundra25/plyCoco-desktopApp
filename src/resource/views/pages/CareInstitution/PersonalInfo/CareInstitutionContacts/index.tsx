@@ -243,6 +243,8 @@ const CareInstitutionContacts: any = (props: any) => {
       );
     }
     try {
+      console.log('contactType', contactType);
+
       //to set submit state to false after successful signup
       const contactInput: any = {
         userId: parseInt(careInstId),
@@ -251,7 +253,7 @@ const CareInstitutionContacts: any = (props: any) => {
         salutation: values && values.salutation ? values.salutation.value : '',
         firstName: values.firstName,
         surName: values.lastName,
-        contactType:
+        contactTypeId:
           values && values.contactType ? values.contactType.value : '',
         street: values.street,
         city: values.city,
@@ -442,6 +444,8 @@ const CareInstitutionContacts: any = (props: any) => {
             <Nav tabs className='contact-tabs pr-120'>
               {contacts && contacts.length
                 ? contacts.map((contact: any, index: number) => {
+                    console.log('contact', contact);
+
                     const contactTypeData:
                       | IReactSelectInterface
                       | undefined = contacttypeOpt.filter(

@@ -252,8 +252,10 @@ const GET_EMAILS = gql`
       contact {
         firstName
         surName
-        contactType
         id
+        contact_type {
+          contactType
+        }
       }
     }
   }

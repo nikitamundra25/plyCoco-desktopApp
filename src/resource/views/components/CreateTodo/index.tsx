@@ -42,6 +42,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
     fetchContactsByUserID,
     { data: contactList, loading: contactListLoading, refetch }
   ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
+
   userId = userId ? userId : userData ? userData.userId : undefined;
 
   useEffect(() => {
@@ -149,7 +150,9 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
     if (getContactsByUserID && getContactsByUserID.length) {
       getContactsByUserID.map((list: any) => {
         return contactOptions.push({
-          label: `${list.firstName} ${list.surName} (${list.contactType})`,
+          label: `${list.firstName} ${list.surName} ${
+            list.contact_type ? `(${list.contact_type.contactType})` : ''
+          }`,
           value: list.id ? list.id : ''
         });
       });
@@ -175,7 +178,11 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         juridiction,
         contact: contact
           ? {
-              label: `${contact.firstName} ${contact.surName} (${contact.contactType})`,
+              label: `${contact.firstName} ${contact.surName} ${
+                contact.contact_type
+                  ? `(${contact.contact_type.contactType})`
+                  : ''
+              }`,
               value: contact.id ? contact.id : ''
             }
           : undefined

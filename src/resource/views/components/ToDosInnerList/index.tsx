@@ -158,10 +158,15 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           : undefined,
         searchValue: searchData.search,
         priority: searchData.priority
-          ? {
-              label: searchData.priority,
-              value: searchData.priority
-            }
+          ? searchData.priority === 'normal'
+            ? {
+                label: languageTranslation('NORMAL'),
+                value: searchData.priority
+              }
+            : {
+                label: searchData.priority,
+                value: searchData.priority
+              }
           : undefined,
         sortByDate: searchData.sortByDate
           ? {

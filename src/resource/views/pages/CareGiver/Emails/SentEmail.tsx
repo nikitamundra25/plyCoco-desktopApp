@@ -150,7 +150,13 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                             {userRole === 'canstitution' ? (
                               <div className='email-date-time-block'>
                                 {email.contact
-                                  ? `${email.contact.firstName} ${email.contact.surName} (${email.contact.contactType})`
+                                  ? `${email.contact.firstName} ${
+                                      email.contact.surName
+                                    } ${
+                                      email.contact.contact_type
+                                        ? `(${email.contact.contact_type.contactType})`
+                                        : ''
+                                    }`
                                   : '-'}
                               </div>
                             ) : null}

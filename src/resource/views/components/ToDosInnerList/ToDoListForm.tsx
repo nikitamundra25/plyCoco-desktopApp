@@ -117,7 +117,13 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                         <td className='contact-th-column'>
                           <span className=' word-wrap'>
                             {item.contact
-                              ? `${item.contact.firstName} ${item.contact.surName} (${item.contact.contactType})`
+                              ? `${item.contact.firstName} ${
+                                  item.contact.surName
+                                }  ${
+                                  item.contact.contact_type
+                                    ? `(${item.contact.contact_type.contactType})`
+                                    : ''
+                                }`
                               : '-'}
                           </span>
                         </td>

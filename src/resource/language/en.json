@@ -756,5 +756,14 @@
   "DATE_TIME": "Date and Time",
   "WEEKEND": "Weekend",
   "HOLIDAY": "Holiday",
-  "INVOICE_INTERVAL": "Invoice Interval"
+  "INVOICE_INTERVAL": "Invoice Interval",
+  "STREET_AND_HOUSE": "Street and House Number",
+  "MOBILE_NUMBER": "Mobile Number",
+  "BANK": "Bank",
+  "BELONGS_TO": "Belongs to",
+  "EMPLOYED": "Employed",
+  "COMMENTS_INTERNALLY": "Comments (Internally)",
+  "COUNTRY_REQUIRED": "Country is required",
+  "STATE_REQUIRED": "State is required",
+  "SELECT_COUNTRY_FIRST":"Select a country first"
 }

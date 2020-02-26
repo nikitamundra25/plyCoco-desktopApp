@@ -63,6 +63,8 @@ export interface ICareInstitutionValidationSchema {
   fax?: number;
   website?: string | null;
   remarksViewable?: string | null;
+  country?: IReactSelectInterface;
+  state?: IReactSelectInterface;
 }
 
 export interface ICareInstitutionContactValidationSchema {

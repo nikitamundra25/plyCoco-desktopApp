@@ -453,6 +453,7 @@
   "ROUTE_CARE_INSTITUTION_DEPARTMENT": "/care-institution/department",
   "ROUTE_CARE_INSTITUTION_EMAIL": "/care-institution/email",
   "ROUTE_CARE_INSTITUTION_REMINDER": "/care-institution/todo",
+  "NEW_CONTACT_TYPE_TOOLTIP_MSG": "Click To Add New Contact Type",
   "NAME_MINLENGTH": "Please enter atleast 3 characters",
   "NAME_MAXLENGTH": "Name must be less than 20 characters",
   "NAME_REQUIRED": "Name is required",
@@ -754,5 +755,8 @@
   "EMPLOYEE_USERROLE": "employee",
   "DATE_TIME": "Date and Time",
   "NO_TODO_LIST": "Currently there are no todos added.",
-  "NO_TODO_LIST_MESSAGE": "Please click above button to add new. "
+  "NO_TODO_LIST_MESSAGE": "Please click above button to add new. ",
+  "WEEKEND": "Weekend",
+  "HOLIDAY": "Holiday",
+  "INVOICE_INTERVAL": "Invoice Interval"
 }

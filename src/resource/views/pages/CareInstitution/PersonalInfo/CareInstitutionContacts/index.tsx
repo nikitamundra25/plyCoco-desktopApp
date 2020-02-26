@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, NavItem, NavLink } from 'reactstrap';
-import { languageTranslation, logger } from '../../../../../../helpers';
+import { toast } from 'react-toastify';
 import { FormikProps, Formik, FormikHelpers } from 'formik';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { languageTranslation, logger } from '../../../../../../helpers';
 import {
   ICareInstitutionContact,
   IReactSelectInterface,
@@ -16,14 +18,12 @@ import {
   CountryQueries,
   CareInstitutionQueries
 } from '../../../../../../graphql/queries';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { CareInstitutionMutation } from '../../../../../../graphql/Mutations';
 import { CareInstituionContactValidationSchema } from '../../../../../validations';
 import CotactFormComponent from './CotactFormComponent';
-import { toast } from 'react-toastify';
-import { CareInstitutionMutation } from '../../../../../../graphql/Mutations';
 import { ConfirmBox } from '../../../../components/ConfirmBox';
-import close from '../../../../../assets/img/close.svg';
 import Loader from '../../../../containers/Loader/Loader';
+import close from '../../../../../assets/img/close.svg';
 
 let toastId: any;
 
@@ -43,7 +43,14 @@ const [
   ADD_CUSTOM_CONTACT_TYPE
 ] = CareInstitutionMutation;
 
-const [, , , , , GET_CONTACT_TYPES] = CareInstitutionQueries;
+const [
+  ,
+  ,
+  ,
+  GET_CAREINSTITUTION_ATTRIBUTES,
+  ,
+  GET_CONTACT_TYPES
+] = CareInstitutionQueries;
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
@@ -54,7 +61,7 @@ const CareInstitutionContacts: any = (props: any) => {
     IReactSelectInterface[]
   >([]);
   // Mutation to add custom contact type
-  const [addContactType] = useMutation<{
+  const [addContactType, { loading: addingtype }] = useMutation<{
     addContactType: ICareInstitutionFormValues;
   }>(ADD_CUSTOM_CONTACT_TYPE, {
     update(cache, customData: any) {
@@ -74,7 +81,7 @@ const CareInstitutionContacts: any = (props: any) => {
         });
         cache.writeQuery({
           query: GET_CONTACT_TYPES,
-          data: { getContactType: getContactType.push(addContactType) }
+          data: { getContactType: [...getContactType, addContactType] }
         });
       }
     }
@@ -164,12 +171,30 @@ const CareInstitutionContacts: any = (props: any) => {
     { id: number }
   >(DELETE_CONTACT);
   // let selectedAttributes: IReactSelectInterface[] = [];
-  // Mutation to delete contact
+  // Mutation to add new attributes in contact
   const [addAttribute, { data: addAttriContact }] = useMutation<{
     name: string;
   }>(CONTACT_ADD_ATTRIBUTE, {
+    update(cache, customData: any) {
+      const { data } = customData;
+      const { addContactAttribute = {} } = data ? data : {};
+      if (addContactAttribute && addContactAttribute.id) {
+        const { getCareInstitutionAtrribute }: any = cache.readQuery({
+          query: GET_CAREINSTITUTION_ATTRIBUTES
+        });
+        // Update cache with new value
+        cache.writeQuery({
+          query: GET_CAREINSTITUTION_ATTRIBUTES,
+          data: {
+            getCareInstitutionAtrribute: [
+              ...getCareInstitutionAtrribute,
+              addContactAttribute
+            ]
+          }
+        });
+      }
+    },
     onCompleted({ addContactAttribute }: any) {
-      console.log(addContactAttribute, 'addAttribute');
       setcontactAttributeOpt((prevArray: any) => [
         ...prevArray,
         {
@@ -405,6 +430,8 @@ const CareInstitutionContacts: any = (props: any) => {
     }
   }, [props]);
 
+  console.log(addingtype, 'addingtype in index file');
+
   return (
     <>
       {contacttypeOpt && contacttypeOpt.length <= 0 ? (
@@ -483,6 +510,7 @@ const CareInstitutionContacts: any = (props: any) => {
               });
             }}
             addContactType={addContactType}
+            addingtype={addingtype}
             addAttriContactData={addAttriContact}
             careInstitutionAttrOpt={contactAttributeOpt}
           />

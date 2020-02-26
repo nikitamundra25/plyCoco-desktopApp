@@ -5,22 +5,22 @@ import { FormikProps, Field } from 'formik';
 import {
   NightAllowancePerHour,
   InvoiceInterval,
-  LeasingPriceList,
+  LeasingPriceList
 } from '../../../../../config';
 import {
   CareGiverValues,
-  IReactSelectInterface,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import { FormikTextField } from '../../../components/forms/FormikFields';
-import { logger } from '../../../../../helpers';
+import { logger, languageTranslation } from '../../../../../helpers';
 
 const BillingSettingsFormComponent: any = (
-  props: FormikProps<CareGiverValues>,
+  props: FormikProps<CareGiverValues>
 ) => {
   const {
     values: { nightAllowance, invoiceInterval, leasingPricingList },
     setFieldValue,
-    errors,
+    errors
   } = props;
   logger(props.values, 'values');
   // Custom function to handle react select fields
@@ -53,7 +53,7 @@ const BillingSettingsFormComponent: any = (
                       <Row className='custom-col inner-no-padding-col align-items-center'>
                         <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                           <Label className='form-label col-form-label inner-label'>
-                            Night
+                            {languageTranslation('NIGHT')}
                           </Label>
                         </Col>
                         <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
@@ -77,7 +77,9 @@ const BillingSettingsFormComponent: any = (
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Weekend</Label>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('WEEKEND')}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <Row className='custom-col inner-no-padding-col'>
@@ -95,7 +97,7 @@ const BillingSettingsFormComponent: any = (
                       <Row className='custom-col inner-no-padding-col align-items-center'>
                         <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                           <Label className='form-label col-form-label inner-label'>
-                            Holiday
+                            {languageTranslation('HOLIDAY')}
                             {/* <span className="required">*</span> */}
                           </Label>
                         </Col>
@@ -121,7 +123,7 @@ const BillingSettingsFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Night Allowance
+                  {languageTranslation('NIGHT_ALLOWANCE')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -135,6 +137,7 @@ const BillingSettingsFormComponent: any = (
                     value={nightAllowance}
                     classNamePrefix='custom-inner-reactselect'
                     className={'custom-reactselect'}
+                    defaultValue={NightAllowancePerHour[0]}
                   />
                 </div>
               </Col>
@@ -147,7 +150,7 @@ const BillingSettingsFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Invoice interval
+                  {languageTranslation('INVOICE_INTERVAL')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -161,6 +164,7 @@ const BillingSettingsFormComponent: any = (
                     value={invoiceInterval}
                     classNamePrefix='custom-inner-reactselect'
                     className={'custom-reactselect'}
+                    defaultValue={InvoiceInterval[0]}
                   />
                 </div>
               </Col>
@@ -172,7 +176,7 @@ const BillingSettingsFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Leasing Price List
+                  {languageTranslation('LEASING_PRICE_LIST')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>

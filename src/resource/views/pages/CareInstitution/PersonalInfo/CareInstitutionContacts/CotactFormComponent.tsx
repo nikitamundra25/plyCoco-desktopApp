@@ -8,15 +8,11 @@ import {
   Button,
   UncontrolledTooltip
 } from 'reactstrap';
-import { languageTranslation, logger } from '../../../../../../helpers';
 import Select from 'react-select';
-import {
-  Gender,
-  Salutation,
-  ContactType,
-  CareInstitutionContactAttribute
-} from '../../../../../../config';
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import { FormikProps } from 'formik';
+import { languageTranslation, logger } from '../../../../../../helpers';
+import { Gender, Salutation } from '../../../../../../config';
 import {
   ICareInstitutionContact,
   IReactSelectInterface,
@@ -27,8 +23,6 @@ import {
   IAttributeOptions
 } from '../../../../../../interfaces';
 import { CountryQueries } from '../../../../../../graphql/queries';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
-import { toast } from 'react-toastify';
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
@@ -63,12 +57,12 @@ const CotactFormComponent: any = (
       statesOpt.push({ label: name, value: id })
     );
   }
-  const [AttOpt, setAttOpt] = useState<any>([]);
+  // const [AttOpt, setAttOpt] = useState<any>([]);
 
-  useEffect(() => {
-    const Data: any = CareInstitutionContactAttribute;
-    setAttOpt(Data);
-  }, []);
+  // useEffect(() => {
+  //   const Data: any = CareInstitutionContactAttribute;
+  //   setAttOpt(Data);
+  // }, []);
 
   let [newAttributeValue, setnewAttributeValue] = useState();
   let [newValue, setnewValue] = useState({});
@@ -140,7 +134,8 @@ const CotactFormComponent: any = (
     setFieldValue,
     careInstitutionAttrOpt,
     contacttypeOpt,
-    setFieldTouched
+    setFieldTouched,
+    addingtype
   } = props;
 
   useEffect(() => {
@@ -191,8 +186,8 @@ const CotactFormComponent: any = (
 
   const handleAddNewAttributevalue = () => {
     if (newAttributeValue && newAttributeValue.value) {
-      AttOpt.push(newAttributeValue);
-      setAttOpt(AttOpt);
+      // AttOpt.push(newAttributeValue);
+      // setAttOpt(AttOpt);
       const addNewAttribute: any[] = [];
       addNewAttribute.push(...attributeId, newAttributeValue);
       handleSelect(addNewAttribute, 'attributeId', 'newAttribute');
@@ -208,17 +203,27 @@ const CotactFormComponent: any = (
       setFieldValue('attributeId', newAttributeList);
     }
   };
-
+  // To add custom contact type
   const handleAddNewContactType = (contactType: string) => {
+    console.log('inside add');
+
     if (contactType !== '') {
       const newContactTypeData: IReactSelectInterface = {
         label: contactType,
         value: contactType
       };
-      setFieldValue('contactType', newContactTypeData);
-      props.addContactType({
-        variables: { contactType }
-      });
+      // TO check if it is already exists
+      const index: number = contacttypeOpt.findIndex(
+        (element: IReactSelectInterface) => element.label === contactType
+      );
+      if (index > -1) {
+        setFieldValue('contactType', contacttypeOpt[index]);
+      } else {
+        setFieldValue('contactType', newContactTypeData);
+        props.addContactType({
+          variables: { contactType }
+        });
+      }
       setnewContactType('');
     }
   };
@@ -432,8 +437,8 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
-                        <div className='d-flex align-items-center'>
-                          <div className='required-input flex-grow-1 mr-2'>
+                        <div className='contact-type '>
+                          <div className='required-input'>
                             <Select
                               placeholder={languageTranslation('CONTACT_TYPE')}
                               value={
@@ -448,10 +453,6 @@ const CotactFormComponent: any = (
                               onInputChange={(value: any) => {
                                 if (value) {
                                   setnewContactType(value);
-                                  setFieldValue('contactType', {
-                                    label: value,
-                                    value: value
-                                  });
                                 }
                               }}
                               className={
@@ -478,13 +479,19 @@ const CotactFormComponent: any = (
                               newContactType === '' ? 'disabled-class' : ''
                             }`}
                           >
-                            <i className={'fa fa-plus'} />
+                            {addingtype ? (
+                              <i className='fa fa-spinner fa-spin' />
+                            ) : (
+                              <i className={'fa fa-plus'} />
+                            )}
                           </Button>
                           <UncontrolledTooltip
                             placement='top'
                             target='addContact'
                           >
-                            Click To Add New Contact Type
+                            {languageTranslation(
+                              'NEW_CONTACT_TYPE_TOOLTIP_MSG'
+                            )}
                           </UncontrolledTooltip>
                         </div>
                       </Col>
@@ -773,7 +780,7 @@ const CotactFormComponent: any = (
                   <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                     <FormGroup className='mb-0'>
                       <Row>
-                        <Col sm='12'>
+                        <Col sm='12' xs={'12'}>
                           <div>
                             <Input
                               type='textarea'
@@ -782,7 +789,9 @@ const CotactFormComponent: any = (
                               onBlur={handleBlur}
                               value={remark}
                               placeholder={languageTranslation('REMARKS')}
-                              className='textarea-care-institution'
+                              className={`textarea-care-institution ${
+                                id ? 'with_id' : ''
+                              }`}
                               rows='4'
                               maxLength={250}
                             />
@@ -804,7 +813,11 @@ const CotactFormComponent: any = (
                       <i className='fa fa-angle-down'></i>
                     </div>
                   </div>
-                  <div className='common-list-body custom-scrollbar'>
+                  <div
+                    className={`common-list-body custom-scrollbar ${
+                      id ? 'with_id' : ''
+                    }`}
+                  >
                     <ul className='common-list list-unstyled mb-0'>
                       {attributeId && attributeId.length
                         ? attributeId.map(

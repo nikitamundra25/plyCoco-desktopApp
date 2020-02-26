@@ -124,7 +124,6 @@ export const DocumentFormComponent: FunctionComponent<{
       console.log('fileType', fileType[1]);
       if (
         fileType[1] !== 'jpeg' &&
-        fileType[1] !== 'pdf' &&
         fileType[1] !== 'jpg' &&
         fileType[1] !== 'png' &&
         fileType[1] !== 'xlsx' &&

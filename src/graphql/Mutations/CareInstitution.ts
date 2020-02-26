@@ -235,6 +235,8 @@ const CONTACT_ADD_ATTRIBUTE = gql`
   mutation addContactAttribute($name: String) {
     addContactAttribute(name: $name) {
       name
+      id
+      color
     }
   }
 `;

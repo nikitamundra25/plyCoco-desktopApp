@@ -773,5 +773,6 @@
   "ADD_ALL_NEGATIVE_LIST": "Add all to negative list",
   "ADD": "Add",
   "SEARCH_POPUP_TITLE": "Add By Keyword",
-  "SEARCH_POPUP_LABEL_CAREINSTITUTION": "Enter Search Keyword for Care Institution Name"
+  "SEARCH_POPUP_LABEL_CAREINSTITUTION": "Enter Search Keyword for Care Institution Name",
+  "NEW_CAREINSTITUTION": "New Care Institution"
 }

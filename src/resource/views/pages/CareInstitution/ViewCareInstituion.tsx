@@ -287,7 +287,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                         </span>
                       )}
                       <span className='header-nav-text'>
-                        New Care Institution
+                        {languageTranslation('NEW_CAREINSTITUTION')}
                       </span>
                     </Button>
                     <div className='header-nav-item'>
@@ -298,21 +298,23 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                         className='header-nav-text'
                         onClick={() => setShowToDo(true)}
                       >
-                        Create Todo/Reminder
+                        {languageTranslation('CG_MENU_CREATE_TODO')}
                       </span>
                     </div>
                     <div className='header-nav-item'>
                       <span className='header-nav-icon'>
                         <img src={password} alt='' />
                       </span>
-                      <span className='header-nav-text'>New Password</span>
+                      <span className='header-nav-text'>
+                        {languageTranslation('CG_MENU_NEW_PASSWORD')}
+                      </span>
                     </div>
                     <div className='header-nav-item'>
                       <span className='header-nav-icon'>
                         <img src={appointment} alt='' />
                       </span>
                       <span className='header-nav-text'>
-                        Display Appointments
+                        {languageTranslation('CG_MENU_DISPLAY_APPOINTMENTS_')}
                       </span>
                     </div>
                     <div className='header-nav-item'>

@@ -165,7 +165,10 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         date: new Date(date),
         priority: priority
           ? {
-              label: priority.charAt(0).toUpperCase() + priority.slice(1),
+              label:
+                priority === 'normal'
+                  ? 'Medium'
+                  : priority.charAt(0).toUpperCase() + priority.slice(1),
               value: priority
             }
           : undefined,

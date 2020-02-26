@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import {
   FormGroup,
   Col,
@@ -14,7 +14,11 @@ import { State } from "../../../../../config";
 import "../caregiver.scss";
 import positive from "../../../../assets/img/positive.svg";
 import negative from "../../../../assets/img/negative.svg";
-const Offer: FunctionComponent = () => {
+import SearchPopup from "./SearchPopup";
+
+const Offer: FunctionComponent = any => {
+  const [showSearch, setShowSearch] = useState<boolean>(false);
+
   return (
     <div className="common-offer-section">
       <h5 className="content-title">{languageTranslation("OFFERS")}</h5>
@@ -106,7 +110,7 @@ const Offer: FunctionComponent = () => {
                     <i className="icon-options-vertical" />
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem>
+                    <DropdownItem onClick={() => setShowSearch(true)}>
                       <i className="fa fa-plus mr-2" />
                       Add all by keyword
                     </DropdownItem>
@@ -242,6 +246,10 @@ const Offer: FunctionComponent = () => {
           </div>
         </Col>
       </Row>
+      <SearchPopup
+        show={showSearch ? true : false}
+        handleClose={() => setShowSearch(false)}
+      />
     </div>
   );
 };

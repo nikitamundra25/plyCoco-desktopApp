@@ -39,4 +39,5 @@ export interface IAppRoutes {
   CAREGIVER_ARCHIVE: string;
   CAREINSTITUTION_ARCHIVE: string;
   EMPLOYEE_LOGIN_HISTORY: string;
+  GLOBAL_CALENDAR: string;
 }

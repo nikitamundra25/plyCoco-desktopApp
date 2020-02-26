@@ -756,5 +756,9 @@
   "DATE_TIME": "Date and Time",
   "WEEKEND": "Weekend",
   "HOLIDAY": "Holiday",
-  "INVOICE_INTERVAL": "Invoice Interval"
+  "INVOICE_INTERVAL": "Invoice Interval",
+
+  "MENU_GLOBAL_CALENDAR": "Global Calendar",
+  "UPDATE_CALEDAR": "Update Calendar",
+  "DATE_AND_EVENT": "Date & Eve"
 }

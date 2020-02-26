@@ -20,7 +20,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
   handleChange,
   handleSubmit,
   onReset,
-  userRole,
+  userRole
 }: IEmailListProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [opened, setIsOpened] = useState<boolean>(true);
@@ -144,11 +144,15 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                           >
                             <div className='email-date-time-block'>
                               {moment(email.createdAt).format(
-                                'DD.MM.YYYY HH:mm:ss',
+                                'DD.MM.YYYY HH:mm:ss'
                               )}
                             </div>
                             {userRole === 'canstitution' ? (
-                              <div className='email-date-time-block'>to</div>
+                              <div className='email-date-time-block'>
+                                {email.contact
+                                  ? `${email.contact.firstName} ${email.contact.surName} (${email.contact.contactType})`
+                                  : '-'}
+                              </div>
                             ) : null}
                             <div className='email-subject-block'>
                               {languageTranslation('SUPER_ADMIN')}

@@ -249,6 +249,12 @@ const GET_EMAILS = gql`
       body
       attachments
       createdAt
+      contact {
+        firstName
+        surName
+        contactType
+        id
+      }
     }
   }
 `;
@@ -306,5 +312,5 @@ export const CareGiverQueries = [
   GET_EMAILS,
   GET_BELONGS_TO,
   GET_CAREGIVER_ATTRIBUTES,
-  GET_CAREGIVERS_FOR_BULK_EMAIL,
+  GET_CAREGIVERS_FOR_BULK_EMAIL
 ];

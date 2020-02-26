@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import {
   FormGroup,
   Col,
@@ -14,7 +14,11 @@ import { State } from "../../../../../config";
 import "../caregiver.scss";
 import positive from "../../../../assets/img/positive.svg";
 import negative from "../../../../assets/img/negative.svg";
-const Offer: FunctionComponent = () => {
+import SearchPopup from "./SearchPopup";
+
+const Offer: FunctionComponent = any => {
+  const [showSearch, setShowSearch] = useState<boolean>(false);
+
   return (
     <div className="common-offer-section">
       <h5 className="content-title">{languageTranslation("OFFERS")}</h5>
@@ -39,12 +43,12 @@ const Offer: FunctionComponent = () => {
                   <DropdownMenu right>
                     <DropdownItem>
                       <i className="fa fa-plus mr-2" />
-                      Add all by keyword
+                      {languageTranslation("ADD_ALL_KEYWORD")}
                     </DropdownItem>
 
                     <DropdownItem>
                       <i className="fa fa-trash mr-2" />
-                      Remove all
+                      {languageTranslation("REMOVE_ALL")}
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -106,17 +110,17 @@ const Offer: FunctionComponent = () => {
                     <i className="icon-options-vertical" />
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem>
+                    <DropdownItem onClick={() => setShowSearch(true)}>
                       <i className="fa fa-plus mr-2" />
-                      Add all by keyword
+                      {languageTranslation("ADD_ALL_KEYWORD")}
                     </DropdownItem>
                     <DropdownItem>
                       <i className="fa fa-plus mr-2" />
-                      Add all leasing facilities
+                      {languageTranslation("ADD_ALL_LEASING_FACILITY")}
                     </DropdownItem>
                     <DropdownItem>
                       <i className="fa fa-trash mr-2" />
-                      Remove all
+                      {languageTranslation("REMOVE_ALL")}
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -178,13 +182,13 @@ const Offer: FunctionComponent = () => {
                     <DropdownItem>
                       <img src={positive} className="mr-2" alt="" />
                       <span className="align-middle">
-                        Add all to the positive list
+                        {languageTranslation("ADD_ALL_POSITIVE_LIST")}
                       </span>
                     </DropdownItem>
                     <DropdownItem>
                       <img src={negative} className="mr-2" alt="" />
                       <span className="align-middle">
-                        Add all to negative list
+                        {languageTranslation("ADD_ALL_NEGATIVE_LIST")}
                       </span>
                     </DropdownItem>
                   </DropdownMenu>
@@ -242,6 +246,10 @@ const Offer: FunctionComponent = () => {
           </div>
         </Col>
       </Row>
+      <SearchPopup
+        show={showSearch ? true : false}
+        handleClose={() => setShowSearch(false)}
+      />
     </div>
   );
 };

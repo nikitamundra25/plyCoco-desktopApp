@@ -765,5 +765,13 @@
   "COMMENTS_INTERNALLY": "Comments (Internally)",
   "COUNTRY_REQUIRED": "Country is required",
   "STATE_REQUIRED": "State is required",
-  "SELECT_COUNTRY_FIRST":"Select a country first"
+  "SELECT_COUNTRY_FIRST": "Select a country first",
+  "ADD_ALL_KEYWORD": "Add all by keyword",
+  "REMOVE_ALL": "Remove all",
+  "ADD_ALL_LEASING_FACILITY": "Add all leasing facilities",
+  "ADD_ALL_POSITIVE_LIST": "Add all to the positive list",
+  "ADD_ALL_NEGATIVE_LIST": "Add all to negative list",
+  "ADD": "Add",
+  "SEARCH_POPUP_TITLE": "Add By Keyword",
+  "SEARCH_POPUP_LABEL_CAREINSTITUTION": "Enter Search Keyword for Care Institution Name"
 }

@@ -8,7 +8,7 @@ export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\
 export const PAGE_LIMIT: number = 10;
 export const TODO_PAGE_LIMIT: number = 14;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
-export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm';
+export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm:ss';
 export const defaultDateFormat: any = 'DD.MM.YYYY';
 export const dbAcceptableFormat: any = 'YYYY/MM/DD';
 export const dateFormat: any = 'MMM, Do YYYY';

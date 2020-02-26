@@ -3271,8 +3271,10 @@ html:not([dir="rtl"]) {
       justify-content: center;
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
+      background: #dadada;
+      height: 26px;
       img {
-        width: 10px;
+        width: 8px;
       }
       &:hover {
         background: rgba(255, 0, 0, 0.4);
@@ -3399,48 +3401,52 @@ html:not([dir="rtl"]) {
 
 // modal css
 .common-modal {
-  .modal-header {
-    background-color: #323232;
-    padding: 12px 16px;
-    color: $white;
-    .modal-close {
-      opacity: 1;
-      box-shadow: none;
-      img {
-        width: 14px;
+  .modal-content {
+    border: 0px;
+    .modal-header {
+      background-color: #323232;
+      padding: 12px 16px;
+      color: $white;
+      .modal-title {
+        line-height: normal;
+        font-size: 16px;
+        font-weight: 600;
       }
-      .main-img {
+      .modal-close {
         opacity: 1;
-        display: inline-block;
-      }
-      .hover-img {
-        opacity: 0;
-        display: none;
-      }
-      &:hover {
-        opacity: 1;
-        .main-img {
-          opacity: 0;
-          display: none;
+        box-shadow: none;
+        img {
+          width: 14px;
         }
-        .hover-img {
+        .main-img {
           opacity: 1;
           display: inline-block;
         }
+        .hover-img {
+          opacity: 0;
+          display: none;
+        }
+        &:hover {
+          opacity: 1;
+          .main-img {
+            opacity: 0;
+            display: none;
+          }
+          .hover-img {
+            opacity: 1;
+            display: inline-block;
+          }
+        }
       }
     }
-  }
-  .modal-body {
-    background-color: #f9f9f9;
-    padding: 25px;
-  }
-  .modal-footer {
-    border-top: 1px solid #ebedf2;
-  }
-  .modal-title {
-    line-height: normal;
-    font-size: 16px;
-    font-weight: 600;
+    .modal-body {
+      background-color: #f9f9f9;
+      padding: 25px;
+      border-bottom: 1px solid #ebedf2;
+    }
+    .modal-footer {
+      border: 1px solid $white;
+    }
   }
 }
 
@@ -3455,8 +3461,8 @@ html:not([dir="rtl"]) {
 
     &.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
       position: relative;
-      background-color: #323232;
-      color: #f0f8ff;
+      background-color: #323232 !important;
+      color: #f0f8ff !important;
     }
   }
   .DayPicker {

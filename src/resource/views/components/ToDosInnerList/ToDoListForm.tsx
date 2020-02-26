@@ -1,62 +1,35 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import {
-  Row,
-  Col,
   Table,
-  FormGroup,
-  Label,
-  Input,
   UncontrolledTooltip,
   UncontrolledButtonDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
-  Button
+  DropdownItem
 } from 'reactstrap';
 import moment from 'moment';
-import { languageTranslation, logger } from '../../../../helpers';
+import { languageTranslation } from '../../../../helpers';
 import '../../pages/CareGiver/caregiver.scss';
-import Select from 'react-select';
-import {
-  Priority,
-  TodoStatus,
-  TodoDateFilter,
-  PAGE_LIMIT,
-  defaultDateFormat,
-  AppRoutes,
-  TODO_PAGE_LIMIT
-} from '../../../../config';
-import { FormikProps, Form, Formik } from 'formik';
-import {
-  IReactSelectInterface,
-  ISearchToDoValues
-} from '../../../../interfaces';
-import { useHistory, useLocation } from 'react-router-dom';
+import { defaultDateFormat, TODO_PAGE_LIMIT } from '../../../../config';
+import { FormikProps } from 'formik';
+import { ISearchToDoValues } from '../../../../interfaces';
+import { useLocation } from 'react-router-dom';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../SearchFilter/NoSearchFound';
 import * as qs from 'query-string';
 import PaginationComponent from '../Pagination';
-import Search from '../SearchFilter';
 
 const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
   props: FormikProps<ISearchToDoValues> & any
 ) => {
-  let history = useHistory();
-  const { search, pathname } = useLocation();
-  const path = [pathname, qs.stringify({ tab: 'reminders/todos' })].join('?');
-  const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
+  const { search } = useLocation();
+  // const path = [pathname, qs.stringify({ tab: 'reminders/todos' })].join('?');
   const query = qs.parse(search);
 
   const {
-    values: { searchBy },
-    handleSubmit,
-    handleChange,
-    setFieldValue,
-    resetForm,
     called,
     loading,
     data,
-    isFilterApplied,
     onPageChanged,
     handleStatusChange,
     handlePriorityChange,
@@ -67,12 +40,7 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
     Id
   } = props;
 
-  // Custom function to handle react select fields
-  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    setFieldValue(name, selectOption);
-  };
-
-  let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  let count = (currentPage - 1) * TODO_PAGE_LIMIT + 1;
 
   return (
     <>
@@ -189,23 +157,6 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                         </span>
                       </td>
                       <td className='priority-th-column'>
-                        {/* <Select
-                        placeholder='Select Priority'
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
-                        options={Priority}
-                        value={
-                          item.priority
-                            ? {
-                                label:
-                                  item.priority.charAt(0).toUpperCase() +
-                                  item.priority.slice(1),
-                                value: item.priority
-                              }
-                            : null
-                        }
-                        onChange={e => handlePriorityChange(item.id, null, e)}
-                      /> */}
                         <div className='action-btn text-capitalize'>
                           <UncontrolledButtonDropdown className='custom-dropdown'>
                             <DropdownToggle
@@ -290,9 +241,9 @@ const ToDoListForm: FunctionComponent<FormikProps<ISearchToDoValues> & any> = (
                           <i className='icon-ban' />
                         </div>
                         <h4 className='mb-1'>
-                          Currently there are no todos added.{' '}
+                          {languageTranslation('NO_TODO_LIST')}{' '}
                         </h4>
-                        <p>Please click above button to add new. </p>
+                        <p>{languageTranslation('NO_TODO_LIST_MESSAGE')} </p>
                       </div>
                     )}
                   </td>

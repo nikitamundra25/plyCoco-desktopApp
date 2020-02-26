@@ -10,13 +10,7 @@ import {
   ISearchToDoValues
 } from '../../../../interfaces';
 import { FormikHelpers, FormikProps, Formik } from 'formik';
-import {
-  TODO_PAGE_LIMIT,
-  TodoStatus,
-  Priority,
-  TodoDateFilter,
-  AppRoutes
-} from '../../../../config';
+import { TODO_PAGE_LIMIT, AppRoutes } from '../../../../config';
 import { ConfirmBox } from '../ConfirmBox';
 import { languageTranslation } from '../../../../helpers';
 import { toast } from 'react-toastify';
@@ -36,13 +30,12 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
 ) => {
   const { userRole } = mainProps;
   let { id } = useParams();
-  const userId: any | undefined = id;
+  const userId: string | undefined = id;
 
   let history = useHistory();
   const { search, pathname } = useLocation();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
-  const [isFilterApplied, setIsFilter] = useState<boolean>(false);
   const [showToDo, setShowToDo] = useState<boolean>(false);
   const [selectUser, setSelectUser] = useState<any>({});
 
@@ -123,7 +116,6 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
       value: ''
     };
     let priority: IReactSelectInterface | undefined = { label: '', value: '' };
-    let futureOnly: boolean | undefined = false;
 
     // To handle display and query param text
     if (query) {
@@ -146,7 +138,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
       // call query
       fetchToDoList({
         variables: {
-          userId: parseInt(userId),
+          userId: userId ? parseInt(userId) : null,
           searchBy,
           userType: userRole,
           sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
@@ -157,6 +149,27 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         }
       });
 
+      setSearchValues({
+        toDoFilter: searchData.toDoFilter
+          ? {
+              label: searchData.toDoFilter,
+              value: searchData.toDoFilter
+            }
+          : undefined,
+        searchValue: searchData.search,
+        priority: searchData.priority
+          ? {
+              label: searchData.priority,
+              value: searchData.priority
+            }
+          : undefined,
+        sortByDate: searchData.sortByDate
+          ? {
+              label: searchData.sortByDate,
+              value: searchData.sortByDate
+            }
+          : undefined
+      });
       // if (searchData.sortBy) {
       //   sortBy =
       //     TodoStatus[
@@ -374,7 +387,6 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
             called={called}
             loading={loading}
             data={data}
-            isFilterApplied={isFilterApplied}
             handleStatusChange={handleStatusChange}
             handlePriorityChange={handlePriorityChange}
             currentPage={currentPage}

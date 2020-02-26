@@ -13,9 +13,7 @@ import {
   Label,
   UncontrolledTooltip
 } from 'reactstrap';
-// import "./index.scss";
 import { useHistory, useParams, useLocation } from 'react-router-dom';
-// import EmailMenus from "../CareGiver/Emails/EmailMenus";
 import { languageTranslation } from '../../../../helpers';
 import {
   defaultDateFormat,
@@ -54,23 +52,22 @@ let toastId: any = null;
 const CareInstitutionTodo: FunctionComponent = () => {
   let { id } = useParams();
   let history = useHistory();
+  const { pathname, search } = useLocation();
 
-  const userId: any | undefined = id;
+  const userId: string | undefined = id;
   const [showToDo, setShowToDo] = useState<boolean>(false);
   const [selectUser, setSelectUser] = useState<any>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
-
-  const location = useLocation();
-  const { pathname } = location;
-  const { search } = useLocation();
+  const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
 
   const path = pathname.split('/');
+  const userRole: string =
+    path[1] === AppRoutes.CAREGIVER_TODO ? 'caregiver' : 'careinstitution';
 
   //To get todo list by id
   const [fetchToDoByUserID, { data, called, loading, refetch }] = useLazyQuery<
     any
   >(GET_TO_DOS, { fetchPolicy: 'no-cache' });
-  const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
 
   // Mutation to update careInstitution todo status
   const [updateStatus] = useMutation<{
@@ -85,10 +82,11 @@ const CareInstitutionTodo: FunctionComponent = () => {
   }>(DELETE_CARE_INSTITUTION_TODO_STATUS);
 
   useEffect(() => {
-    // Fetch TODO details by care institution id
-    const userRole: string =
-      path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution';
-
+    const query = qs.parse(search);
+    const current: string | any = history.location.search;
+    let searchData: any = {};
+    searchData = { ...qs.parse(current) };
+    // Fetch TODO details by care giver or care institution according to path
     fetchToDoByUserID({
       variables: {
         userType: userRole,
@@ -104,6 +102,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   //  useEffect for searching, filtering
   useEffect(() => {
     const query = qs.parse(search);
+
     let searchBy: string = '';
     let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
     let sortByDate: IReactSelectInterface | undefined = {
@@ -130,19 +129,36 @@ const CareInstitutionTodo: FunctionComponent = () => {
       if (searchData && searchData.priority) {
         priority = searchData.priority;
       }
-      // if (searchData.futureOnly) {
-      //   futureOnly = JSON.parse(searchData.futureOnly);
-      // }
+
+      setSearchValues({
+        toDoFilter: searchData.toDoFilter
+          ? {
+              label: searchData.toDoFilter,
+              value: searchData.toDoFilter
+            }
+          : undefined,
+        searchValue: searchData.search,
+        priority: searchData.priority
+          ? {
+              label: searchData.priority,
+              value: searchData.priority
+            }
+          : undefined,
+        sortByDate: searchData.sortByDate
+          ? {
+              label: searchData.sortByDate,
+              value: searchData.sortByDate
+            }
+          : undefined
+      });
 
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
-      const userRole: string =
-        path[1] === 'caregiver-todo' ? 'caregiver' : 'careinstitution';
       // call query
 
       fetchToDoByUserID({
         variables: {
           userType: userRole,
-          userId: parseInt(userId),
+          userId: userId ? parseInt(userId) : null,
           searchBy: searchBy ? searchBy : '',
           sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
           sortByDate: searchData.sortByDate ? searchData.sortByDate : null,
@@ -173,31 +189,26 @@ const CareInstitutionTodo: FunctionComponent = () => {
   };
 
   const handleSubmit = async (
-    values: ISearchToDoValues,
+    { searchValue, toDoFilter, priority, sortByDate }: ISearchToDoValues,
     { setSubmitting }: FormikHelpers<ISearchToDoValues>
   ) => {
     let params: {
       [key: string]: any;
     } = {};
     params.page = 1;
-    if (values.searchValue && values.searchValue !== '%%%%%%') {
-      params.search = values.searchValue;
+    if (searchValue && searchValue !== '') {
+      params.search = searchValue;
     }
-    if (values.toDoFilter && values.toDoFilter.value !== '') {
-      params.toDoFilter =
-        values.toDoFilter.value !== '' ? values.toDoFilter.value : '';
+    if (toDoFilter && toDoFilter.value !== '') {
+      params.toDoFilter = toDoFilter.value !== '' ? toDoFilter.value : '';
     }
-    if (values.priority && values.priority.value !== '') {
-      params.priority =
-        values.priority.value !== '' ? values.priority.value : '';
+    if (priority && priority.value !== '') {
+      params.priority = priority.value !== '' ? priority.value : '';
     }
-    if (values.sortByDate && values.sortByDate.value !== '') {
-      params.sortByDate =
-        values.sortByDate.value !== '' ? values.sortByDate.value : '';
+    if (sortByDate && sortByDate.value !== '') {
+      params.sortByDate = sortByDate.value !== '' ? sortByDate.value : '';
     }
-    // if (values.futureOnly) {
-    //   params.futureOnly = values.futureOnly ? values.futureOnly : false;
-    // }
+
     const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);
   };
@@ -307,6 +318,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
     priority,
     futureOnly
   };
+  console.log('values', values);
 
   return (
     <>
@@ -342,7 +354,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                       {' '}
                       {languageTranslation('NAME')}
                     </th>
-                    {path[1] !== 'caregiver-todo' ? (
+                    {userRole !== 'caregiver' ? (
                       <th className='contact-th-column'>
                         {languageTranslation('CONTACT')}
                       </th>
@@ -407,7 +419,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                                 : '-'}
                             </span>
                           </td>
-                          {path[1] !== 'caregiver-todo' ? (
+                          {userRole !== 'caregiver' ? (
                             <td className='contact-th-column'>
                               <span className=' word-wrap'>
                                 {list.contact
@@ -503,9 +515,8 @@ const CareInstitutionTodo: FunctionComponent = () => {
                               <i className='icon-ban' />
                             </div>
                             <h4 className='mb-1'>
-                              Currently there are no todos added.{' '}
+                              {languageTranslation('NO_TODO_LIST')}
                             </h4>
-                            <p>Please click above button to add new. </p>
                           </div>
                         )}
                       </td>
@@ -535,7 +546,9 @@ const CareInstitutionTodo: FunctionComponent = () => {
           editToDo={true}
           userData={selectUser}
           userRole={
-            path[1] === 'caregiver-todo' ? 'caregiver' : 'careInstitution'
+            path[1] === AppRoutes.CAREGIVER_TODO
+              ? 'caregiver'
+              : 'careInstitution'
           }
           handleRefetch={handleRefetch}
         />

@@ -68,6 +68,8 @@
   "MARITAL_STATUS_REQUIRED": "Please select your marital status",
   "TELEPHONE_REQUIRED": "Telephone number is not valid",
   "USERNAME_REQUIRED": "Username is required",
+  "COUNTRY_REQUIRED": "Country is required",
+  "STATE_REQUIRED": "State is required",
   "INVALID_NUMBER": "Please enter valid number",
   "INVALID_HRS": "Please enter valid hours",
   "INVALID_NUM": "Numbers only",

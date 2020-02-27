@@ -174,7 +174,9 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           : undefined,
         sortByDate: searchData.sortByDate
           ? {
-              label: searchData.sortByDate,
+              label:
+                searchData.sortByDate.charAt(0).toUpperCase() +
+                searchData.sortByDate.slice(1),
               value: searchData.sortByDate
             }
           : undefined

@@ -62,7 +62,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
 
   const path = pathname.split('/');
   const userRole: string =
-    path[1] === "caregiver-todo" ? 'caregiver' : 'canstitution';
+    path[1] === 'caregiver-todo' ? 'caregiver' : 'canstitution';
 
   //To get todo list by id
   const [fetchToDoByUserID, { data, called, loading, refetch }] = useLazyQuery<
@@ -133,7 +133,9 @@ const CareInstitutionTodo: FunctionComponent = () => {
       setSearchValues({
         toDoFilter: searchData.toDoFilter
           ? {
-              label: searchData.toDoFilter,
+              label:
+                searchData.toDoFilter.charAt(0).toUpperCase() +
+                searchData.toDoFilter.slice(1),
               value: searchData.toDoFilter
             }
           : undefined,
@@ -151,7 +153,9 @@ const CareInstitutionTodo: FunctionComponent = () => {
           : undefined,
         sortByDate: searchData.sortByDate
           ? {
-              label: searchData.sortByDate,
+              label:
+                searchData.sortByDate.charAt(0).toUpperCase() +
+                searchData.sortByDate.slice(1),
               value: searchData.sortByDate
             }
           : undefined

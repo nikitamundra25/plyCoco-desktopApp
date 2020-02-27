@@ -332,13 +332,14 @@ const CareInstitutionContacts: any = (props: any) => {
     city = '',
     zip = '',
     title = '',
-    contactType = undefined,
+    contactType = { label: '', value: '' },
     gender = undefined,
     attributes = [],
     salutation = '',
     countryId = undefined
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
 
+  
   let countryData: Number;
   countryData = countryId ? countryId : '';
   let userSelectedCountry: IReactSelectInterface | undefined = undefined;
@@ -399,7 +400,6 @@ const CareInstitutionContacts: any = (props: any) => {
     remark,
     attributeId: selectedAttributes
   };
-  console.log('selecContactType', selecContactType);
 
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
@@ -431,8 +431,7 @@ const CareInstitutionContacts: any = (props: any) => {
       setcontactAttributeOpt(props.careInstitutionAttrOpt);
     }
   }, [props]);
-
-  console.log(addingtype, 'addingtype in index file');
+  
 
   return (
     <>
@@ -497,25 +496,27 @@ const CareInstitutionContacts: any = (props: any) => {
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}
         children={(props: FormikProps<ICareInstitutionContact> & any) => (
-          <CotactFormComponent
-            {...props}
-            ContactFromAdd={ContactFromAdd}
-            contacttypeOpt={contacttypeOpt}
-            addAttribute={(data: String) => {
-              // attributes && !attributes.length
-              //   ? setisNewAttribute(isNewAttribute.push(data))
-              //   : null;
-              addAttribute({
-                variables: {
-                  name: data
-                }
-              });
-            }}
-            addContactType={addContactType}
-            addingtype={addingtype}
-            addAttriContactData={addAttriContact}
-            careInstitutionAttrOpt={contactAttributeOpt}
-          />
+          <>
+            <CotactFormComponent
+              {...props}
+              ContactFromAdd={ContactFromAdd}
+              contacttypeOpt={contacttypeOpt}
+              addAttribute={(data: String) => {
+                // attributes && !attributes.length
+                //   ? setisNewAttribute(isNewAttribute.push(data))
+                //   : null;
+                addAttribute({
+                  variables: {
+                    name: data
+                  }
+                });
+              }}
+              addContactType={addContactType}
+              addingtype={addingtype}
+              addAttriContactData={addAttriContact}
+              careInstitutionAttrOpt={contactAttributeOpt}
+            />
+          </>
         )}
         validationSchema={CareInstituionContactValidationSchema}
       />

@@ -62,7 +62,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     fetchCareGiverList,
     { data: careGivers, called, loading, refetch, fetchMore }
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
-    notifyOnNetworkStatusChange: true
+    fetchPolicy: 'no-cache'
   });
 
   // To get all the types of email template
@@ -158,7 +158,16 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
   // Refresh component
   const onRefresh = () => {
-    refetch();
+    // refetch();
+    fetchCareGiverList({
+      variables: {
+        searchBy: '',
+        sortBy: 3,
+        limit: 30,
+        page: 1,
+        isActive: ''
+      }
+    });
     setSubject('');
     setBody(undefined);
     setAttachments([]);
@@ -167,6 +176,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     setTemplate({ label: '', value: '' });
     setselectedCareGiver([]);
     setBulkCareGivers(false);
+    setcareGiverData([]);
   };
 
   const handleInfiniteScroll = () => {
@@ -374,7 +384,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
             subject: subject /* .replace(/AW:/g, '') */,
             body: body ? content : '',
             parentId: null,
-            status: 'new',
+            status: 'unread',
             attachments:
               attachments && attachments.length
                 ? attachments.filter((attachment: any) => attachment.path)

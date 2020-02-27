@@ -29,10 +29,11 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
   const { userRole } = mainProps;
-  const userType = userRole === "careinstitution" ? "canstitution" : "caregiver" 
+  const userType =
+    userRole === 'careinstitution' ? 'canstitution' : 'caregiver';
   let { id } = useParams();
   const userId: string | undefined = id;
-  
+
   let history = useHistory();
   const { search, pathname } = useLocation();
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -153,7 +154,9 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
       setSearchValues({
         toDoFilter: searchData.toDoFilter
           ? {
-              label: searchData.toDoFilter,
+              label:
+                searchData.toDoFilter.charAt(0).toUpperCase() +
+                searchData.toDoFilter.slice(1),
               value: searchData.toDoFilter
             }
           : undefined,

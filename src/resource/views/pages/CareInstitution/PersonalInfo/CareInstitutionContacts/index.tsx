@@ -243,8 +243,6 @@ const CareInstitutionContacts: any = (props: any) => {
       );
     }
     try {
-      console.log('contactType', contactType);
-
       //to set submit state to false after successful signup
       const contactInput: any = {
         userId: parseInt(careInstId),
@@ -298,13 +296,14 @@ const CareInstitutionContacts: any = (props: any) => {
       logger(error);
     }
   };
+
   let selecContactType: IReactSelectInterface = { label: '', value: '' };
 
   if (contacts && contacts[activeContact]) {
     if (contacttypeOpt && contacttypeOpt.length) {
       const userContactType = contacttypeOpt.filter((x: any) => {
         return (
-          parseInt(x.value) === parseInt(contacts[activeContact].contactType)
+          parseInt(x.value) === parseInt(contacts[activeContact].contactTypeId)
         );
       });
       if (userContactType && userContactType.length) {
@@ -400,6 +399,7 @@ const CareInstitutionContacts: any = (props: any) => {
     remark,
     attributeId: selectedAttributes
   };
+  console.log('selecContactType', selecContactType);
 
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
@@ -444,26 +444,24 @@ const CareInstitutionContacts: any = (props: any) => {
             <Nav tabs className='contact-tabs pr-120'>
               {contacts && contacts.length
                 ? contacts.map((contact: any, index: number) => {
-                    console.log('contact', contact);
-
                     const contactTypeData:
                       | IReactSelectInterface
                       | undefined = contacttypeOpt.filter(
                       (element: IReactSelectInterface) =>
-                        element.value === contact.contactType
+                        element.value === contact.contactTypeId
                     )[0];
 
                     return (
                       <NavItem className='text-capitalize mb-2' key={index}>
                         <NavLink
                           className={`${
-                            contact && contact.contactType
+                            contact && contact.contactTypeId
                               ? 'contact-right'
                               : 'new-contact'
                           }  ${index === activeContact ? 'active' : ''}`}
                           onClick={() => setActiveContact(index)}
                         >
-                          {contact && contact.contactType ? (
+                          {contact && contact.contactTypeId ? (
                             contactTypeData ? (
                               contactTypeData.label
                             ) : null
@@ -476,7 +474,7 @@ const CareInstitutionContacts: any = (props: any) => {
                             </>
                           )}{' '}
                         </NavLink>
-                        {contact && contact.contactType ? (
+                        {contact && contact.contactTypeId ? (
                           <span
                             className='tab-close cursor-pointer'
                             onClick={() => {

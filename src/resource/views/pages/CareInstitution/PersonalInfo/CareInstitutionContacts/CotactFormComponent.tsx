@@ -150,6 +150,8 @@ const CotactFormComponent: any = (
     }
   }, [contacttypeOpt]);
 
+  console.log('contactType', contactType);
+
   const handleAttributeSelectContarct = (
     selectOption: IReactSelectInterface,
     name: string

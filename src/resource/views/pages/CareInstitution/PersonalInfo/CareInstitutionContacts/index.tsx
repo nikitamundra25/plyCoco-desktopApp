@@ -251,7 +251,7 @@ const CareInstitutionContacts: any = (props: any) => {
         salutation: values && values.salutation ? values.salutation.value : '',
         firstName: values.firstName,
         surName: values.lastName,
-        contactType:
+        contactTypeId:
           values && values.contactType ? values.contactType.value : '',
         street: values.street,
         city: values.city,
@@ -296,13 +296,14 @@ const CareInstitutionContacts: any = (props: any) => {
       logger(error);
     }
   };
+
   let selecContactType: IReactSelectInterface = { label: '', value: '' };
 
   if (contacts && contacts[activeContact]) {
     if (contacttypeOpt && contacttypeOpt.length) {
       const userContactType = contacttypeOpt.filter((x: any) => {
         return (
-          parseInt(x.value) === parseInt(contacts[activeContact].contactType)
+          parseInt(x.value) === parseInt(contacts[activeContact].contactTypeId)
         );
       });
       if (userContactType && userContactType.length) {
@@ -331,13 +332,14 @@ const CareInstitutionContacts: any = (props: any) => {
     city = '',
     zip = '',
     title = '',
-    contactType = undefined,
+    contactType = { label: '', value: '' },
     gender = undefined,
     attributes = [],
     salutation = '',
     countryId = undefined
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
 
+  
   let countryData: Number;
   countryData = countryId ? countryId : '';
   let userSelectedCountry: IReactSelectInterface | undefined = undefined;
@@ -429,8 +431,7 @@ const CareInstitutionContacts: any = (props: any) => {
       setcontactAttributeOpt(props.careInstitutionAttrOpt);
     }
   }, [props]);
-
-  console.log(addingtype, 'addingtype in index file');
+  
 
   return (
     <>
@@ -446,20 +447,20 @@ const CareInstitutionContacts: any = (props: any) => {
                       | IReactSelectInterface
                       | undefined = contacttypeOpt.filter(
                       (element: IReactSelectInterface) =>
-                        element.value === contact.contactType
+                        element.value === contact.contactTypeId
                     )[0];
 
                     return (
                       <NavItem className='text-capitalize mb-2' key={index}>
                         <NavLink
                           className={`${
-                            contact && contact.contactType
+                            contact && contact.contactTypeId
                               ? 'contact-right'
                               : 'new-contact'
                           }  ${index === activeContact ? 'active' : ''}`}
                           onClick={() => setActiveContact(index)}
                         >
-                          {contact && contact.contactType ? (
+                          {contact && contact.contactTypeId ? (
                             contactTypeData ? (
                               contactTypeData.label
                             ) : null
@@ -472,7 +473,7 @@ const CareInstitutionContacts: any = (props: any) => {
                             </>
                           )}{' '}
                         </NavLink>
-                        {contact && contact.contactType ? (
+                        {contact && contact.contactTypeId ? (
                           <span
                             className='tab-close cursor-pointer'
                             onClick={() => {
@@ -495,25 +496,27 @@ const CareInstitutionContacts: any = (props: any) => {
         initialValues={contactFormValues}
         onSubmit={handleContactSubmit}
         children={(props: FormikProps<ICareInstitutionContact> & any) => (
-          <CotactFormComponent
-            {...props}
-            ContactFromAdd={ContactFromAdd}
-            contacttypeOpt={contacttypeOpt}
-            addAttribute={(data: String) => {
-              // attributes && !attributes.length
-              //   ? setisNewAttribute(isNewAttribute.push(data))
-              //   : null;
-              addAttribute({
-                variables: {
-                  name: data
-                }
-              });
-            }}
-            addContactType={addContactType}
-            addingtype={addingtype}
-            addAttriContactData={addAttriContact}
-            careInstitutionAttrOpt={contactAttributeOpt}
-          />
+          <>
+            <CotactFormComponent
+              {...props}
+              ContactFromAdd={ContactFromAdd}
+              contacttypeOpt={contacttypeOpt}
+              addAttribute={(data: String) => {
+                // attributes && !attributes.length
+                //   ? setisNewAttribute(isNewAttribute.push(data))
+                //   : null;
+                addAttribute({
+                  variables: {
+                    name: data
+                  }
+                });
+              }}
+              addContactType={addContactType}
+              addingtype={addingtype}
+              addAttriContactData={addAttriContact}
+              careInstitutionAttrOpt={contactAttributeOpt}
+            />
+          </>
         )}
         validationSchema={CareInstituionContactValidationSchema}
       />

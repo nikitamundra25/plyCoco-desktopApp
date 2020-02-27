@@ -565,6 +565,7 @@ const Employee: FunctionComponent = () => {
                                 onClick={() => readMoreRegionsData(index)}
                                 className='view-more-link theme-text'
                               >
+                                <br />
                                 {readMore && readMoreIndex === index
                                   ? 'Read less'
                                   : 'Read more'}

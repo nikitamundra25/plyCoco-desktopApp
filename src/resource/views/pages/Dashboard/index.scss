@@ -1,0 +1,23 @@
+@import "../../../assets/scss/variables";
+.dashboard-section {
+  padding: 10px 0px;
+  .card {
+    border-radius: 0px;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    .card-header {
+      border-radius: 0;
+      border-bottom: 0px;
+      .card-title {
+        margin: 0;
+        font-weight: 600;
+        color: #232323;
+        font-size: $font_15;
+      }
+    }
+    .card-body {
+      background: $white;
+      padding: 0px;
+    }
+  }
+}

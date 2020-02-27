@@ -349,6 +349,11 @@ body {
       }
     }
   }
+  .common-label {
+    font-size: $font_12;
+    color: $black;
+    font-weight: bold;
+  }
 
   .custom-careinstitution-height {
     height: calc(100vh - 385px);
@@ -1983,17 +1988,19 @@ html:not([dir="rtl"]) {
     &.thead-bg {
       background: $th_bg;
     }
-    &.thead-sticky {
-      position: -webkit-sticky;
-      position: sticky;
-      z-index: 1;
-      top: 0px;
-      background: $th_bg;
-    }
+
     th {
       border-bottom-width: 1px !important;
       font-weight: 700;
       vertical-align: middle;
+      &.thead-sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        z-index: 1;
+        top: 0px;
+        background: $th_bg;
+        border-top: 0px;
+      }
     }
   }
 

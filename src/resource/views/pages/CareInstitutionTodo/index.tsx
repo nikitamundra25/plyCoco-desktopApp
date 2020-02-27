@@ -62,7 +62,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
 
   const path = pathname.split('/');
   const userRole: string =
-    path[1] === AppRoutes.CAREGIVER_TODO ? 'caregiver' : 'careinstitution';
+    path[1] === "caregiver-todo" ? 'caregiver' : 'canstitution';
 
   //To get todo list by id
   const [fetchToDoByUserID, { data, called, loading, refetch }] = useLazyQuery<

@@ -29,9 +29,10 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
   const { userRole } = mainProps;
+  const userType = userRole === "careinstitution" ? "canstitution" : "caregiver" 
   let { id } = useParams();
   const userId: string | undefined = id;
-
+  
   let history = useHistory();
   const { search, pathname } = useLocation();
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -140,7 +141,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         variables: {
           userId: userId ? parseInt(userId) : null,
           searchBy,
-          userType: userRole,
+          userType: userType,
           sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
           sortByDate: searchData.sortByDate ? searchData.sortByDate : null,
           priority: searchData.priority,

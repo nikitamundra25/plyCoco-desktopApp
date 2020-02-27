@@ -100,7 +100,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         priority: priority && priority.value ? priority.value : null,
         juridiction,
         userId: parseInt(userId),
-        userType: userRole.toLowerCase(),
+        userType: userRole=== "careInstitution" ? "canstitution":"caregiver",
         contactId: contact && contact.value ? parseInt(contact.value) : null
       };
       if (userData) {

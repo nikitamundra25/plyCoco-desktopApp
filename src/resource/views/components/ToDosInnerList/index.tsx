@@ -181,42 +181,10 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
             }
           : undefined
       });
-      // if (searchData.sortBy) {
-      //   sortBy =
-      //     TodoStatus[
-      //       TodoStatus.map(item => {
-      //         return item.value;
-      //       }).indexOf(searchData.sortBy)
-      //     ];
-      // }
-
-      // if (searchData.sortByDate) {
-      //   sortByDate =
-      //     TodoDateFilter[
-      //       TodoDateFilter.map(item => {
-      //         return item.value;
-      //       }).indexOf(searchData.sortByDate)
-      //     ];
-      // }
-
-      // if (searchData.priority) {
-      //   priority =
-      //     Priority[
-      //       Priority.map(item => {
-      //         return item.value;
-      //       }).indexOf(searchData.priority)
-      //     ];
-      // }
-
-      // setSearchValues({
-      //   searchBy,
-      //   sortBy,
-      //   sortByDate,
-      //   priority
-      // });
     }
   }, [search]); // It will run when the search value gets changed
 
+  // To search data
   const handleSubmit = async (
     values: ISearchToDoValues,
     {}: FormikHelpers<ISearchToDoValues>

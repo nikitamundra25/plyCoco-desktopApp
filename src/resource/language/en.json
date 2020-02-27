@@ -764,5 +764,14 @@
   "ADD_ALL_NEGATIVE_LIST": "Add all to negative list",
   "ADD": "Add",
   "SEARCH_POPUP_TITLE": "Add By Keyword",
-  "SEARCH_POPUP_LABEL_CAREINSTITUTION": "Enter Search Keyword for Care Institution Name"
+  "SEARCH_POPUP_LABEL_CAREINSTITUTION": "Enter Search Keyword for Care Institution Name",
+  "SHOW_DAY": "Show Days",
+  "NEW_REGISTRATION": "New Registration",
+  "NEW_DOCUMENT": "New Documents",
+  "NEW_APPOINTMENTS": "New Appointments",
+  "CONFIRM_APPOINTMENTS": "Confirm Booking",
+  "INCORRECT_LOGIN": "Incorrect Login",
+  "SUCCESSFUL_LOGIN": "Successful Login",
+  "BOOKING_DATE": "Booking Date",
+  "LOGIN": "login"
 }

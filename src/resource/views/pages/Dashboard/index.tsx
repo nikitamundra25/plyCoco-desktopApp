@@ -8,9 +8,11 @@ import {
   CardTitle,
   Table
 } from "reactstrap";
+import Select from "react-select";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../../routes/routes";
 import "./index.scss";
+import { languageTranslation } from "../../../../helpers";
 
 const Dashboard: FunctionComponent = () => {
   return (
@@ -23,7 +25,19 @@ const Dashboard: FunctionComponent = () => {
     // </div>
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} />
+        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+        <div className="d-flex align-items-center">
+          <div className="common-label one-line-text mr-3">
+            {languageTranslation("SHOW_DAY")}
+          </div>
+          <div className="day-select">
+            <Select
+              classNamePrefix="custom-inner-reactselect"
+              className={"custom-reactselect "}
+              placeholder="1"
+            />
+          </div>
+        </div>
       </CardHeader>
       <CardBody>
         <div className="dashboard-section">
@@ -31,30 +45,41 @@ const Dashboard: FunctionComponent = () => {
             <Col lg="4">
               <Card>
                 <CardHeader>
-                  <CardTitle>New Registration</CardTitle>
+                  <CardTitle>
+                    {" "}
+                    {languageTranslation("NEW_REGISTRATION")}
+                  </CardTitle>
                 </CardHeader>
-                <CardBody>
+                <CardBody className="custom-scrollbar">
                   <div>
-                    <Table hover responsive>
+                    <Table hover>
                       <thead className="thead-bg">
                         <tr>
-                          <th>Date</th>
-                          <th>Name</th>
-                          <th>Username</th>
-                          <th>Type</th>
+                          <th className="thead-sticky">
+                            {languageTranslation("DATE")}
+                          </th>
+                          <th className="thead-sticky">
+                            {languageTranslation("NAME")}
+                          </th>
+                          <th className="thead-sticky">
+                            {languageTranslation("USERNAME")}
+                          </th>
+                          <th className="thead-sticky">
+                            {languageTranslation("TYPE")}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>12.02.2018</td>
                           <td>John Doe</td>
-                          <td>John+_c247</td>
+                          <td>John_c247</td>
                           <td>Caregiver</td>
                         </tr>
                         <tr>
                           <td>12.02.2018</td>
-                          <td>John Doe</td>
-                          <td>John+_c247</td>
+                          <td>Michale clark</td>
+                          <td>michale_c247</td>
                           <td>Care Institution</td>
                         </tr>
                       </tbody>
@@ -65,28 +90,35 @@ const Dashboard: FunctionComponent = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>New Documents</CardTitle>
+                  <CardTitle> {languageTranslation("NEW_DOCUMENT")}</CardTitle>
                 </CardHeader>
-                <CardBody>
+                <CardBody className="custom-scrollbar">
                   <div>
-                    <Table hover responsive>
+                    <Table hover>
                       <thead className="thead-bg">
                         <tr>
-                          <th>Date</th>
-                          <th>Name</th>
-                          <th>Type</th>
+                          <th className="thead-sticky">
+                            {" "}
+                            {languageTranslation("DATE")}
+                          </th>
+                          <th className="thead-sticky">
+                            {languageTranslation("NAME")}
+                          </th>
+                          <th className="thead-sticky">
+                            {languageTranslation("TYPE")}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>12.02.2018</td>
                           <td>John Doe</td>
-                          <td>Diverse Documnent</td>
+                          <td>Diverse Document</td>
                         </tr>
                         <tr>
                           <td>12.02.2018</td>
-                          <td>John Doe</td>
-                          <td>Diverse Documnent</td>
+                          <td>Nick Stone</td>
+                          <td>Licence Document</td>
                         </tr>
                       </tbody>
                     </Table>
@@ -97,16 +129,27 @@ const Dashboard: FunctionComponent = () => {
             <Col lg="4">
               <Card>
                 <CardHeader>
-                  <CardTitle>New Appointments</CardTitle>
+                  <CardTitle>
+                    {" "}
+                    {languageTranslation("NEW_APPOINTMENTS")}
+                  </CardTitle>
                 </CardHeader>
-                <CardBody>
+                <CardBody className="custom-scrollbar">
                   <div>
-                    <Table hover responsive>
+                    <Table hover>
                       <thead className="thead-bg">
                         <tr>
-                          <th>Date</th>
-                          <th>Name</th>
-                          <th>Booking Date</th>
+                          <th className="thead-sticky">
+                            {" "}
+                            {languageTranslation("DATE")}
+                          </th>
+                          <th className="thead-sticky">
+                            {languageTranslation("NAME")}
+                          </th>
+                          <th className="thead-sticky">
+                            {" "}
+                            {languageTranslation("BOOKING_DATE")}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -117,7 +160,7 @@ const Dashboard: FunctionComponent = () => {
                         </tr>
                         <tr>
                           <td>28.02.2020</td>
-                          <td>John Doe</td>
+                          <td>Anna Strong</td>
                           <td>02.03.2020</td>
                         </tr>
                       </tbody>
@@ -128,16 +171,27 @@ const Dashboard: FunctionComponent = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Confirmed Booking</CardTitle>
+                  <CardTitle>
+                    {" "}
+                    {languageTranslation("CONFIRM_APPOINTMENTS")}
+                  </CardTitle>
                 </CardHeader>
-                <CardBody>
+                <CardBody className="custom-scrollbar">
                   <div>
-                    <Table hover responsive>
+                    <Table hover>
                       <thead className="thead-bg">
                         <tr>
-                          <th>Date</th>
-                          <th>Name</th>
-                          <th>Booking Date</th>
+                          <th className="thead-sticky">
+                            {" "}
+                            {languageTranslation("DATE")}
+                          </th>
+                          <th className="thead-sticky">
+                            {languageTranslation("NAME")}
+                          </th>
+                          <th className="thead-sticky">
+                            {" "}
+                            {languageTranslation("BOOKING_DATE")}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -148,7 +202,7 @@ const Dashboard: FunctionComponent = () => {
                         </tr>
                         <tr>
                           <td>28.02.2020</td>
-                          <td>John Doe</td>
+                          <td>Justin Nicole</td>
                           <td>02.03.2020</td>
                         </tr>
                       </tbody>
@@ -160,30 +214,42 @@ const Dashboard: FunctionComponent = () => {
             <Col lg="4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Incorrect Login</CardTitle>
+                  <CardTitle>
+                    {" "}
+                    {languageTranslation("INCORRECT_LOGIN")}
+                  </CardTitle>
                 </CardHeader>
-                <CardBody>
+                <CardBody className="custom-scrollbar">
                   <div>
-                    <Table hover responsive>
+                    <Table hover>
                       <thead className="thead-bg">
                         <tr>
-                          <th>Date</th>
-                          <th>Name</th>
-                          <th>Login</th>
-                          <th>Computer</th>
+                          <th className="thead-sticky">
+                            {" "}
+                            {languageTranslation("DATE")}
+                          </th>
+                          <th className="thead-sticky">
+                            {languageTranslation("NAME")}
+                          </th>
+                          <th className="thead-sticky">
+                            {languageTranslation("LOGIN")}
+                          </th>
+                          <th className="thead-sticky">
+                            {languageTranslation("IP_ADDRESS")}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr className="table-danger">
                           <td>28.02.2020</td>
                           <td>John Doe</td>
-                          <td>Username</td>
+                          <td>john_c345</td>
                           <td>94.138.88.227</td>
                         </tr>
                         <tr className="table-danger">
                           <td>28.02.2020</td>
-                          <td>John Doe</td>
-                          <td>Username</td>
+                          <td>Milano Esco</td>
+                          <td>milano_987</td>
                           <td>94.138.88.227</td>
                         </tr>
                       </tbody>
@@ -194,17 +260,26 @@ const Dashboard: FunctionComponent = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Successful Login</CardTitle>
+                  <CardTitle>
+                    {" "}
+                    {languageTranslation("SUCCESSFUL_LOGIN")}
+                  </CardTitle>
                 </CardHeader>
-                <CardBody>
+                <CardBody className="custom-scrollbar">
                   <div>
-                    <Table hover responsive>
+                    <Table hover>
                       <thead className="thead-bg">
                         <tr>
-                          <th>Date</th>
-                          <th>Name</th>
+                          <th className="thead-sticky">
+                            {languageTranslation("DATE")}
+                          </th>
+                          <th className="thead-sticky">
+                            {languageTranslation("NAME")}
+                          </th>
 
-                          <th>Computer</th>
+                          <th className="thead-sticky">
+                            {languageTranslation("IP_ADDRESS")}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -216,7 +291,7 @@ const Dashboard: FunctionComponent = () => {
                         </tr>
                         <tr>
                           <td>28.02.2020</td>
-                          <td>John Doe</td>
+                          <td>Wilter Delton</td>
                           <td>94.138.88.227</td>
                         </tr>
                       </tbody>

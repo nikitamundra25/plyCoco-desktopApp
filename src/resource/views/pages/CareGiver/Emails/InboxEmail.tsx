@@ -10,6 +10,7 @@ import Loader from '../../../containers/Loader/Loader';
 import { EmailSearchFilter } from './EmailSearchFilter';
 import { NoSearchFound } from '../../../components/SearchFilter/NoSearchFound';
 import * as qs from 'query-string';
+import { defaultDateTimeFormat } from '../../../../../config';
 
 const InboxEmail: FunctionComponent<IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
@@ -147,7 +148,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                           <div className='email-row-wrap inner-content-wrap'>
                             <div className='email-date-time-block'>
                               {moment(email.createdAt).format(
-                                'DD.MM.YYYY HH:mm:ss',
+                                defaultDateTimeFormat,
                               )}
                             </div>
                             <div className='email-text-wrap'>

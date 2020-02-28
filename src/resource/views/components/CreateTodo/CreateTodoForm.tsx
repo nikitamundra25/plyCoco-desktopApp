@@ -49,7 +49,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
 
   const modifiers = {
     sundays: { daysOfWeek: [0] },
-    saturdays: { daysOfWeek: [7] }
+    saturdays: { daysOfWeek: [6] }
   };
   const modifiersStyles = {
     sundays: {
@@ -120,8 +120,8 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                   <div className="daypicker1 h-100">
                     <DayPicker
                       selectedDays={date ? date : new Date()}
-                      // modifiers={modifiers}
-                      // modifiersStyles={modifiersStyles}
+                      modifiers={modifiers}
+                      modifiersStyles={modifiersStyles}
                       month={now}
                       onDayClick={handleDayClick}
                       disabledDays={{ before: new Date() }}
@@ -134,8 +134,8 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                     <DayPicker
                       month={cal2}
                       selectedDays={date ? date : new Date()}
-                      // modifiers={modifiers}
-                      // modifiersStyles={modifiersStyles}
+                      modifiers={modifiers}
+                      modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
                       canChangeMonth={false}
                       disabledDays={{ before: new Date() }}
@@ -147,8 +147,8 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
                     <DayPicker
                       month={cal3}
                       selectedDays={date ? date : new Date()}
-                      // modifiers={modifiers}
-                      // modifiersStyles={modifiersStyles}
+                      modifiers={modifiers}
+                      modifiersStyles={modifiersStyles}
                       onDayClick={handleDayClick}
                       onMonthChange={handleLastMonthChange}
                       disabledDays={{ before: new Date() }}

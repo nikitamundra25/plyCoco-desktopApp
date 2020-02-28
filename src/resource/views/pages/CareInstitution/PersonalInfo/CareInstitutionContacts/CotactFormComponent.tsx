@@ -140,15 +140,15 @@ const CotactFormComponent: any = (
 
   useEffect(() => {
     if (contacttypeOpt && contacttypeOpt.length) {
-      setFieldValue(
-        'contactType',
-        contacttypeOpt.filter(
-          (element: IReactSelectInterface) =>
-            element.label === contactType.label
-        )[0]
-      );
+      const contactTypeValue = contacttypeOpt.filter(
+        (element: IReactSelectInterface) => element.label === contactType.label
+      )[0];
+      if (contactTypeValue) {
+        setFieldValue('contactType', contactTypeValue);
+      }
     }
   }, [contacttypeOpt]);
+
 
   const handleAttributeSelectContarct = (
     selectOption: IReactSelectInterface,

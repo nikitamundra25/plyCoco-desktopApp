@@ -83,6 +83,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   }>(GET_CAREGIVER_ATTRIBUTES);
 
   const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
+
   if (attributeData && attributeData.getCaregiverAtrribute) {
     attributeData.getCaregiverAtrribute.forEach(
       ({ id, name, color }: IAttributeValues) =>
@@ -102,10 +103,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     {
       id: number;
       careGiverInput:
-        | IPersonalObject
-        | {
-            remarks: any;
-          };
+      | IPersonalObject
+      | {
+        remarks: any;
+      };
       isRemarkAdded?: Boolean;
     }
   >(UPDATE_CAREGIVER);
@@ -220,8 +221,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         qualificationId:
           qualifications && qualifications.length
             ? qualifications.map((qualification: IReactSelectInterface) =>
-                parseInt(qualification.value)
-              )
+              parseInt(qualification.value)
+            )
             : null,
         street,
         attributes:
@@ -291,7 +292,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   // Save remarks into DB
   const saveRemark = async (message: string, remarksData: any) => {
-    console.log(remarksDetail, 'remarksDetail++++');
     if (id) {
       try {
         await updateRemark({
@@ -449,9 +449,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     regionId:
       regions && regions.length
         ? {
-            label: regions[0].regionName,
-            value: regions[0].id
-          }
+          label: regions[0].regionName,
+          value: regions[0].id
+        }
         : undefined,
     fax,
     mobileNumber,
@@ -463,9 +463,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     belongTo: UserSelectedBelongsTo ? UserSelectedBelongsTo : undefined,
     legalForm: legalForm
       ? {
-          label: legalForm,
-          value: legalForm
-        }
+        label: legalForm,
+        value: legalForm
+      }
       : undefined,
     companyName,
     registerCourt,
@@ -478,18 +478,18 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       remarks && remarks.length
         ? remarks
         : [
-            {
-              data: '',
-              createdAt: '',
-              createdBy: ''
-            }
-          ],
+          {
+            data: '',
+            createdAt: '',
+            createdBy: ''
+          }
+        ],
     remarkData: '',
     invoiceInterval: invoiceInterval
       ? {
-          label: invoiceInterval,
-          value: invoiceInterval
-        }
+        label: invoiceInterval,
+        value: invoiceInterval
+      }
       : undefined,
     qualifications: qualificationsData,
     fee: fee !== null ? germanNumberFormat(fee) : '',
@@ -499,33 +499,32 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     night: night !== null ? germanNumberFormat(night) : '',
     nightAllowance: nightAllowance
       ? {
-          label: nightAllowance,
-          value: nightAllowance
-        }
+        label: nightAllowance,
+        value: nightAllowance
+      }
       : undefined,
     leasingPricingList: leasingPricingList
       ? {
-          label: leasingPricingList,
-          value: leasingPricingList
-        }
+        label: leasingPricingList,
+        value: leasingPricingList
+      }
       : undefined,
     salutation: salutation
       ? {
-          label: salutation,
-          value: salutation
-        }
+        label: salutation,
+        value: salutation
+      }
       : undefined,
     gender: gender
       ? {
-          label: gender,
-          value: gender
-        }
+        label: gender,
+        value: gender
+      }
       : undefined,
     attributeId: selectedAttributes
   };
 
   const usersList = props.careGiverOpt;
-  console.log(remarksDetail, 'remarksDetails in render++++');
   return (
     <Formik
       initialValues={initialValues}
@@ -545,8 +544,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 {props.isSubmitting ? (
                   <i className='fa fa-spinner fa-spin mr-2' />
                 ) : (
-                  ''
-                )}
+                    ''
+                  )}
                 {languageTranslation('SAVE_BUTTON')}
               </Button>
             </div>

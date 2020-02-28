@@ -5,9 +5,10 @@ import {
   Redirect,
   RouteComponentProps,
   useHistory,
-  useLocation
+  useLocation,
 } from 'react-router-dom';
 import { Container } from 'reactstrap';
+import moment from 'moment';
 import {
   AppFooter,
   AppHeader,
@@ -16,11 +17,11 @@ import {
   AppSidebarForm,
   AppSidebarHeader,
   AppSidebarMinimizer,
-  AppSidebarNav
+  AppSidebarNav,
 } from '@coreui/react';
 import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { AppRoutes } from '../../../../config';
 import routes from '../../../../routes/routes';
 import navigation from '../../../../_nav';
@@ -28,6 +29,7 @@ import Loader from '../Loader/Loader';
 import { ProfileQueries } from '../../../../graphql/queries';
 import { errorFormatter } from '../../../../helpers';
 import logo from '../../../assets/img/plycoco-white.png';
+import { REFRESH_TOKEN } from '../../../../graphql/Mutations';
 
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
@@ -74,6 +76,7 @@ const CareInstitutionTodoLayout = ({ component: Component, ...rest }: any) => {
 const [VIEW_PROFILE] = ProfileQueries;
 
 let toastId: any = null;
+let timeInterval: any = null;
 
 const DefaultLayout = (props: RouteComponentProps) => {
   let history = useHistory();
@@ -90,9 +93,11 @@ const DefaultLayout = (props: RouteComponentProps) => {
         }
         localStorage.removeItem('adminToken');
         history.push(AppRoutes.LOGIN);
-      }
-    }
+      },
+    },
   );
+
+  const [refreshToken] = useMutation(REFRESH_TOKEN);
 
   const [permission, setpermission] = useState<string>('');
   useEffect(() => {
@@ -115,6 +120,17 @@ const DefaultLayout = (props: RouteComponentProps) => {
   useEffect(() => {
     if (!localStorage.getItem('adminToken')) {
       history.push(AppRoutes.LOGIN);
+    } else {
+      timeInterval = setInterval(() => {
+        let expirationTime: string | null = localStorage.getItem(
+          'expirationTime',
+        );
+        var currentTime: number = moment().unix();
+        if (expirationTime && parseInt(expirationTime) - currentTime === 10) {
+          refreshToken();
+        }
+      }, 1000);
+      viewAdminProfile();
     }
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -150,7 +166,7 @@ const DefaultLayout = (props: RouteComponentProps) => {
 
   const navigationFunction = (permissions: any) => {
     const navItems: any = {
-      items: []
+      items: [],
     };
     navigation.items.forEach((nav: any | string) => {
       if (nav) {

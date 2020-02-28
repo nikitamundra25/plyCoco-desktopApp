@@ -100,9 +100,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         countryId
         street
         city
-        contact_type {
-          contactType
-        }
+        contactTypeId
         phoneNumber
         zip
         phoneNumber2
@@ -112,6 +110,9 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         remark
         id
         attributes
+        contact_type {
+          contactType
+        }
       }
     }
   }
@@ -157,7 +158,10 @@ const GET_CONTACT_LIST_BY_ID = gql`
       gender
       firstName
       surName
-      contactType
+      contactTypeId
+      contact_type {
+        contactType
+      }
       id
       email
     }

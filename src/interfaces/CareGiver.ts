@@ -5,7 +5,7 @@ import { ICareInstitutionRemarks } from './CareInstitution';
 import { number } from 'prop-types';
 import {
   IEmailInputAttachmenttypes,
-  IEmailAttachmentData,
+  IEmailAttachmentData
 } from './EmailTemplate';
 
 export interface ICareGiverInput {
@@ -119,6 +119,8 @@ export interface ICareGiverValidationInterface {
   taxNumber?: string;
   age?: number | null;
   fax?: string;
+  country?:IReactSelectInterface;
+  state?:IReactSelectInterface;
 }
 
 export interface IEmailMenus<
@@ -324,6 +326,7 @@ export interface IAddEmailVariables {
   status: string;
   attachments: IEmailInputAttachmenttypes[];
   files: any;
+  contactId?: number | null;
 }
 
 export interface INewEmailProps {

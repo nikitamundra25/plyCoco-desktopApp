@@ -8,7 +8,8 @@ export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\
 export const PAGE_LIMIT: number = 10;
 export const TODO_PAGE_LIMIT: number = 14;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
-export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm';
+export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm:ss';
+export const defaultDateTimeFormatForDashboard: any = 'DD.MM.YYYY HH:mm';
 export const defaultDateFormat: any = 'DD.MM.YYYY';
 export const dbAcceptableFormat: any = 'YYYY/MM/DD';
 export const dateFormat: any = 'MMM, Do YYYY';
@@ -223,6 +224,16 @@ export const LockedOptions: any[] = [
   { value: null, label: languageTranslation('ALL') },
   { value: true, label: languageTranslation('LOCKED') },
   { value: false, label: languageTranslation('UNLOCKED') }
+];
+
+export const DayOptions: any[] = [
+  { value: 1, label: '1' },
+  { value: 2, label: '2' },
+  { value: 3, label: '3' },
+  { value: 5, label: '5' },
+  { value: 7, label: '7' },
+  { value: 14, label: '14' },
+  { value: 31, label: '31' }
 ];
 
 export const Country: IReactSelectInterface[] = [

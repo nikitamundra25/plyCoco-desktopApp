@@ -1757,7 +1757,7 @@ const Appointment: FunctionComponent = () => {
                             S
                           </div>
                           <div className="custom-appointment-col u-col text-center">
-                            U
+                            A
                           </div>
                           <div className="custom-appointment-col v-col text-center">
                             V

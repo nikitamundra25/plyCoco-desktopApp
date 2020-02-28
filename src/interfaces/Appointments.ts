@@ -1,3 +1,5 @@
+import { IReactSelectInterface } from './Constant';
+
 export interface IDaysArray {
   date: string;
   day: string;
@@ -15,4 +17,5 @@ export interface IAppointmentNav {
   handlePrevious: () => void;
   handleNext: () => void;
   daysData: IGetDaysArrayByMonthRes | null;
+  qualificationList: IReactSelectInterface[] | undefined;
 }

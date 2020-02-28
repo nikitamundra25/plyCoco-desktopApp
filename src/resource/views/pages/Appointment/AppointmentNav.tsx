@@ -17,7 +17,7 @@ import moment from 'moment';
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
 ) => {
-  const { handleNext, handlePrevious, daysData } = props;
+  const { handleNext, handlePrevious, daysData, qualificationList } = props;
   const { month = '', year = '' } = daysData ? daysData : {};
   return (
     <>
@@ -65,7 +65,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect custom-reactselect-menu-width'}
               placeholder='Select Qualifications'
-              options={State}
+              options={qualificationList}
               isClearable={true}
             />
           </div>

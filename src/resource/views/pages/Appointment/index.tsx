@@ -59,7 +59,6 @@ const Appointment: FunctionComponent = () => {
       });
     });
   }
-  // console.log('qualificationList', qualificationList);
 
   // To set initial month and year
   useEffect(() => {
@@ -110,6 +109,7 @@ const Appointment: FunctionComponent = () => {
             handlePrevious={handlePrevious}
             handleNext={handleNext}
             daysData={daysData}
+            qualificationList={qualificationList}
           />
 
           <div className='common-content flex-grow-1'>

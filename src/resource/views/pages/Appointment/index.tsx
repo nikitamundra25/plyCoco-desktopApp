@@ -1,7 +1,7 @@
 import React, {
   Component,
   FunctionComponent,
-  useCallback,
+  useEffect,
   useState
 } from 'react';
 import {
@@ -20,7 +20,7 @@ import {
 import MaskedInput from 'react-text-mask';
 
 import Select from 'react-select';
-import { languageTranslation } from '../../../../helpers';
+import { languageTranslation, getDaysArrayByMonth } from '../../../../helpers';
 import {
   State,
   NightAllowancePerHour,
@@ -31,13 +31,86 @@ import {
 import './index.scss';
 import { LanguageAction } from '../../../../store/actions';
 import AppointmentNav from './AppointmentNav';
+import {
+  IGetDaysArrayByMonthRes,
+  IQualifications,
+  IReactSelectInterface
+} from '../../../../interfaces';
+import moment from 'moment';
+import { useQuery } from '@apollo/react-hooks';
+import { GET_QUALIFICATION_ATTRIBUTE } from '../../../../graphql/queries';
 
 const Appointment: FunctionComponent = () => {
+  const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
+    null
+  );
+  const [activeMonth, setActiveMonth] = useState<number>(moment().month());
+  const [activeYear, setActiveYear] = useState<number>(moment().year());
+  // const [activeDate, setActiveDate] = useState<string>('');
+
+  // To fecth qualification attributes list
+  const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
+  const qualificationList: IReactSelectInterface[] | undefined = [];
+  if (data && data.getQualifications) {
+    data.getQualifications.forEach((quali: any) => {
+      qualificationList.push({
+        label: quali.name,
+        value: quali.id
+      });
+    });
+  }
+  // console.log('qualificationList', qualificationList);
+
+  // To set initial month and year
+  useEffect(() => {
+    const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(
+      moment().month(),
+      moment().year()
+    );
+    setDaysData(res);
+  }, []);
+
+  // On previous month click
+  const handlePrevious = () => {
+    let month: number = activeMonth - 1;
+    let year: number = activeYear;
+
+    // To check if active month is january than set month to december & year to previous year
+    if (activeMonth === 0) {
+      month = 11;
+      year = activeYear - 1;
+    }
+    const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(month, year);
+    setActiveMonth(month);
+    setActiveYear(year);
+    setDaysData(res);
+  };
+
+  // On next month click
+  const handleNext = () => {
+    let month: number = activeMonth + 1;
+    let year: number = activeYear;
+    // To check if active month is december than set month to january & year to next year
+    if (activeMonth === 11) {
+      month = 0;
+      year = activeYear + 1;
+    }
+    const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(month, year);
+    setActiveMonth(month);
+    setActiveYear(year);
+    setDaysData(res);
+  };
+  const { daysArr = [] } = daysData ? daysData : {};
+
   return (
     <>
       <div className='common-detail-page'>
         <div className='common-detail-section'>
-          <AppointmentNav />
+          <AppointmentNav
+            handlePrevious={handlePrevious}
+            handleNext={handleNext}
+            daysData={daysData}
+          />
 
           <div className='common-content flex-grow-1'>
             <div>
@@ -4003,7 +4076,7 @@ const Appointment: FunctionComponent = () => {
                                     type='text'
                                     name={'id'}
                                     placeholder={languageTranslation('ADDRESS')}
-                                    class='width-common'
+                                    className='width-common'
                                   />
                                 </div>
                               </Col>
@@ -4026,7 +4099,7 @@ const Appointment: FunctionComponent = () => {
                                     placeholder={languageTranslation(
                                       'CONTACT_PERSON'
                                     )}
-                                    classNmae='width-common'
+                                    className='width-common'
                                   />
                                 </div>
                               </Col>

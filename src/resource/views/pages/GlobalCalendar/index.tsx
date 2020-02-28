@@ -8,7 +8,8 @@ import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 // import { useHistory } from "react-router-dom";
 import { ICountries, IStates, IState } from "../../../../interfaces";
 import { CountryQueries } from "../../../../graphql/queries";
-import CalendarView from "./CalendarHead";
+import CalendarView from "./CalendarView";
+import AddHolidays from "./AddHolidays";
 
 const GlobalCalendar: FunctionComponent = (): JSX.Element => {
   const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -48,6 +49,9 @@ const GlobalCalendar: FunctionComponent = (): JSX.Element => {
       setStates(statesData.states);
     }
   }, [statesData, statesLoading]);
+  // handle add modal
+  const [showAddModal, setAddModal] = useState<boolean>(false);
+
   // returns JSX
   return (
     <Card>
@@ -57,7 +61,7 @@ const GlobalCalendar: FunctionComponent = (): JSX.Element => {
           color={"primary"}
           className={"btn-add"}
           id={"add-new-pm-tooltip"}
-          // onClick={() => history.push(AppRoutes.ADD_EMPLOYEE)}
+          onClick={() => setAddModal(true)}
         >
           <i className={"fa fa-refresh"} />
           &nbsp;{languageTranslation("UPDATE_CALEDAR")}
@@ -66,6 +70,12 @@ const GlobalCalendar: FunctionComponent = (): JSX.Element => {
       <CardBody>
         <CalendarView
           isLoading={statesLoading || countriesLoading}
+          states={states}
+        />
+        {/*  */}
+        <AddHolidays
+          isOpen={showAddModal}
+          handleClose={() => setAddModal(false)}
           states={states}
         />
       </CardBody>

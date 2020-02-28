@@ -3680,3 +3680,27 @@ html:not([dir="rtl"]) {
     }
   }
 }
+/* add holiday block css starts here */
+.holiday-add-block {
+  border: 1px solid;
+  margin-bottom: 15px;
+  padding: 10px;
+  position: relative;
+  a.remove-icon {
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    background: #000;
+    display: flex;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    &:hover {
+      color: #fff;
+    }
+  }
+}

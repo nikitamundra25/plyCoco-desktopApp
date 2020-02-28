@@ -760,5 +760,11 @@
 
   "MENU_GLOBAL_CALENDAR": "Global Calendar",
   "UPDATE_CALEDAR": "Update Calendar",
-  "DATE_AND_EVENT": "Date & Eve"
+  "DATE_AND_EVENT": "Date & Eve",
+  "HOLIDAY_DATE": "Choose Date",
+  "HOLIDAY_DATE_PLACEHOLDER": "DD.MM.YYYY",
+  "HOLIDAY_NOTE": "Enter Note",
+  "HOLIDAY_NOTE_PLACEHOLDER": "Describe the reason(Optional)",
+  "HOLIDAY_STATES": "Applicable States",
+  "HOLIDAY_STATES_PLACEHOLDER": "Applicable States"
 }

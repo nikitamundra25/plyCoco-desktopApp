@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useMutation } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
+import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { ApolloError } from 'apollo-client';
 import { LoginValidationSchema } from '../../../validations/LoginValidationSchema';
@@ -22,12 +23,14 @@ export const Login: FunctionComponent = () => {
     },
     { authInput: ILoginFormValues }
   >(LOGIN, {
-    onCompleted({ adminLogin: { token, message, status } }) {
+    onCompleted({ adminLogin: { token, message, sessionExpire, status } }) {
       toast.dismiss();
       if (status === 'failed') {
         toast.error(message);
       } else {
+        let expirationTime: number = moment().unix() + sessionExpire;
         localStorage.setItem('adminToken', token);
+        localStorage.setItem('expirationTime', expirationTime.toString());
         history.push(AppRoutes.MAIN);
       }
     },
@@ -36,9 +39,9 @@ export const Login: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    }
+    },
   });
-
+  // If user is already logged In then it will be redirect to dashboard
   useEffect(() => {
     if (localStorage.getItem('adminToken')) {
       history.push(AppRoutes.HOME);
@@ -47,13 +50,13 @@ export const Login: FunctionComponent = () => {
   // on login
   const handleSubmit = (
     { userName, password }: ILoginFormValues,
-    { setSubmitting }: FormikHelpers<ILoginFormValues>
+    { setSubmitting }: FormikHelpers<ILoginFormValues>,
   ) => {
     try {
       adminLogin({
         variables: {
-          authInput: { userName: userName ? userName.trim() : '', password }
-        }
+          authInput: { userName: userName ? userName.trim() : '', password },
+        },
       });
     } catch (error) {
       const message = errorFormatter(error);

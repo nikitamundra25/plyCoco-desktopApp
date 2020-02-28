@@ -1,5 +1,5 @@
-import { IReactSelectInterface } from './Constant';
-import { IAttributeOptions } from './CareGiver';
+import { IReactSelectInterface } from "./Constant";
+import { IAttributeOptions } from "./CareGiver";
 
 export interface ICareInstitutionFormValues {
   salutation?: IReactSelectInterface;
@@ -63,8 +63,8 @@ export interface ICareInstitutionValidationSchema {
   fax?: number;
   website?: string | null;
   remarksViewable?: string | null;
-  country?:IReactSelectInterface;
-  state?:IReactSelectInterface;
+  country?: IReactSelectInterface;
+  state?: IReactSelectInterface;
 }
 
 export interface ICareInstitutionContactValidationSchema {

@@ -37,8 +37,10 @@ import careinstitution from "../../../assets/img/careinstitution.svg";
 import close from "../../../assets/img/close.svg";
 import "./index.scss";
 import { LanguageAction } from "../../../../store/actions";
+import AttributePopup from "./AttributePopup";
 
-const Appointment: FunctionComponent = () => {
+const Appointment: FunctionComponent = any => {
+  const [attributeSearch, setShowAttribute] = useState<boolean>(false);
   return (
     <>
       <div className="common-detail-page">
@@ -96,7 +98,10 @@ const Appointment: FunctionComponent = () => {
                   <img src={caregiver} alt="" />
                 </span>
               </div>
-              <div className="header-nav-item">
+              <div
+                className="header-nav-item"
+                onClick={() => setShowAttribute(true)}
+              >
                 <span className="header-nav-icon">
                   <img src={filter} alt="" />
                 </span>
@@ -117,11 +122,14 @@ const Appointment: FunctionComponent = () => {
                   <img src={careinstitution} alt="" />
                 </span>
               </div>
-              <div className="header-nav-item">
+              <div
+                className="header-nav-item"
+                onClick={() => setShowAttribute(true)}
+              >
                 <span className="header-nav-icon">
                   <img src={filter} alt="" />
                 </span>
-                <span className="header-nav-text">Attibutes</span>
+                <span className="header-nav-text">Attributes</span>
               </div>
               <div className="user-select mx-1">
                 <Select
@@ -4324,6 +4332,10 @@ const Appointment: FunctionComponent = () => {
           </div>
         </div>
       </div>
+      <AttributePopup
+        show={attributeSearch ? true : false}
+        handleClose={() => setShowAttribute(false)}
+      />
     </>
   );
 };

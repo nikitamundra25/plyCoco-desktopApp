@@ -102,3 +102,35 @@
   height: calc(100vh - 164px);
   overflow-x: hidden;
 }
+
+.attribute-modal {
+  &.modal-xl {
+    max-width: 1280px;
+  }
+  .modal-content {
+    .modal-body {
+      padding: 12px 10px 0px;
+      .common-list-wrap {
+        .common-list-body {
+          height: calc(100vh - 235px);
+          .attribute-title {
+            font-weight: 600;
+            font-size: $font_12;
+            color: $black;
+            margin: 3px 8px;
+          }
+          .attribute-list {
+            li {
+              border-bottom: 0px;
+              .checkbox-custom {
+                label {
+                  font-family: $font_open_sans;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

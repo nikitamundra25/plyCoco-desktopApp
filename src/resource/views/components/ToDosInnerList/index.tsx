@@ -10,13 +10,7 @@ import {
   ISearchToDoValues
 } from '../../../../interfaces';
 import { FormikHelpers, FormikProps, Formik } from 'formik';
-import {
-  TODO_PAGE_LIMIT,
-  TodoStatus,
-  Priority,
-  TodoDateFilter,
-  AppRoutes
-} from '../../../../config';
+import { TODO_PAGE_LIMIT, AppRoutes } from '../../../../config';
 import { ConfirmBox } from '../ConfirmBox';
 import { languageTranslation } from '../../../../helpers';
 import { toast } from 'react-toastify';
@@ -35,14 +29,15 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
   const { userRole } = mainProps;
+  const userType =
+    userRole === 'careinstitution' ? 'canstitution' : 'caregiver';
   let { id } = useParams();
-  const userId: any | undefined = id;
+  const userId: string | undefined = id;
 
   let history = useHistory();
   const { search, pathname } = useLocation();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
-  const [isFilterApplied, setIsFilter] = useState<boolean>(false);
   const [showToDo, setShowToDo] = useState<boolean>(false);
   const [selectUser, setSelectUser] = useState<any>({});
 
@@ -123,7 +118,6 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
       value: ''
     };
     let priority: IReactSelectInterface | undefined = { label: '', value: '' };
-    let futureOnly: boolean | undefined = false;
 
     // To handle display and query param text
     if (query) {
@@ -146,9 +140,9 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
       // call query
       fetchToDoList({
         variables: {
-          userId: parseInt(userId),
+          userId: userId ? parseInt(userId) : null,
           searchBy,
-          userType: userRole,
+          userType: userType,
           sortBy: searchData.toDoFilter ? searchData.toDoFilter : null,
           sortByDate: searchData.sortByDate ? searchData.sortByDate : null,
           priority: searchData.priority,
@@ -157,42 +151,40 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         }
       });
 
-      // if (searchData.sortBy) {
-      //   sortBy =
-      //     TodoStatus[
-      //       TodoStatus.map(item => {
-      //         return item.value;
-      //       }).indexOf(searchData.sortBy)
-      //     ];
-      // }
-
-      // if (searchData.sortByDate) {
-      //   sortByDate =
-      //     TodoDateFilter[
-      //       TodoDateFilter.map(item => {
-      //         return item.value;
-      //       }).indexOf(searchData.sortByDate)
-      //     ];
-      // }
-
-      // if (searchData.priority) {
-      //   priority =
-      //     Priority[
-      //       Priority.map(item => {
-      //         return item.value;
-      //       }).indexOf(searchData.priority)
-      //     ];
-      // }
-
-      // setSearchValues({
-      //   searchBy,
-      //   sortBy,
-      //   sortByDate,
-      //   priority
-      // });
+      setSearchValues({
+        toDoFilter: searchData.toDoFilter
+          ? {
+              label:
+                searchData.toDoFilter.charAt(0).toUpperCase() +
+                searchData.toDoFilter.slice(1),
+              value: searchData.toDoFilter
+            }
+          : undefined,
+        searchValue: searchData.search,
+        priority: searchData.priority
+          ? searchData.priority === 'normal'
+            ? {
+                label: languageTranslation('NORMAL'),
+                value: searchData.priority
+              }
+            : {
+                label: searchData.priority,
+                value: searchData.priority
+              }
+          : undefined,
+        sortByDate: searchData.sortByDate
+          ? {
+              label:
+                searchData.sortByDate.charAt(0).toUpperCase() +
+                searchData.sortByDate.slice(1),
+              value: searchData.sortByDate
+            }
+          : undefined
+      });
     }
   }, [search]); // It will run when the search value gets changed
 
+  // To search data
   const handleSubmit = async (
     values: ISearchToDoValues,
     {}: FormikHelpers<ISearchToDoValues>
@@ -374,7 +366,6 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
             called={called}
             loading={loading}
             data={data}
-            isFilterApplied={isFilterApplied}
             handleStatusChange={handleStatusChange}
             handlePriorityChange={handlePriorityChange}
             currentPage={currentPage}

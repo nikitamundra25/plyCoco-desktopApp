@@ -326,6 +326,7 @@ export interface IAddEmailVariables {
   status: string;
   attachments: IEmailInputAttachmenttypes[];
   files: any;
+  contactId?: number | null;
 }
 
 export interface INewEmailProps {

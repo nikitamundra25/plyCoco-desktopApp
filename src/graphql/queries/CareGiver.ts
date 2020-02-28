@@ -249,6 +249,14 @@ const GET_EMAILS = gql`
       body
       attachments
       createdAt
+      contact {
+        firstName
+        surName
+        id
+        contact_type {
+          contactType
+        }
+      }
     }
   }
 `;

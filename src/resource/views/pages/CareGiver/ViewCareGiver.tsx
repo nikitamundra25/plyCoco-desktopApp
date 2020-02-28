@@ -64,7 +64,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       variables: {
         searchBy: '',
         sortBy: 3,
-        limit: 200,
+        limit: 500,
         page: 1,
         isActive: ''
       }

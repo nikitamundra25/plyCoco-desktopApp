@@ -465,7 +465,6 @@ const Offer: FunctionComponent = any => {
                   isOptionDisabled={option =>
                     option.value === languageTranslation("ID")
                   }
-                  menuIsOpen
                 />
               </FormGroup>
             </div>

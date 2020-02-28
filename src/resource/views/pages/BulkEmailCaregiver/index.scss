@@ -7,12 +7,7 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-.bulk-email-form {
-  background: $white;
-  margin-bottom: 8px;
-  position: relative;
-  border: 1px solid $table_border;
-}
+
 .bulk-email-header {
   .bulk-email-label {
     font-size: $font_12;
@@ -27,11 +22,6 @@
     width: 300px;
   }
 }
-.mail-table {
-  .size-col {
-    width: 60px;
-  }
-}
 .required {
-  color: #ff2e4b !important;
+  color: $red;
 }

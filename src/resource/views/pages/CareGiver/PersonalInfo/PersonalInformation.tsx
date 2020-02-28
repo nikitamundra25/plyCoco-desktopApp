@@ -83,6 +83,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   }>(GET_CAREGIVER_ATTRIBUTES);
 
   const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
+
   if (attributeData && attributeData.getCaregiverAtrribute) {
     attributeData.getCaregiverAtrribute.forEach(
       ({ id, name, color }: IAttributeValues) =>

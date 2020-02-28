@@ -102,3 +102,75 @@
   height: calc(100vh - 164px);
   overflow-x: hidden;
 }
+
+.custom-header-nav-item {
+  padding: 4px 5px;
+  font-size: $font_12;
+  color: $black;
+  cursor: pointer;
+  line-height: normal;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  border: 1px solid $common_tab_border;
+  margin: 0 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: FrutigerNeueLTPro-Medium;
+  border-radius: 2px;
+  background: $common_tab_bg;
+  .custom-header-nav-icon {
+    padding-right: 8px;
+    vertical-align: middle;
+    @media only screen and (max-width: 865px) {
+      padding-right: 0px;
+    }
+    img {
+      width: 15px;
+      height: 15px;
+    }
+  }
+  .custom-header-nav-text {
+    vertical-align: middle;
+    @media only screen and (max-width: 865px) {
+      display: none;
+    }
+  }
+  &:hover,
+  &.active {
+    color: $light_black;
+    background: $common_tab_hoverbg;
+  }
+}
+
+.attribute-modal {
+  &.modal-xl {
+    max-width: 1280px;
+  }
+  .modal-content {
+    .modal-body {
+      padding: 12px 10px 0px;
+      .common-list-wrap {
+        .common-list-body {
+          height: calc(100vh - 235px);
+          .attribute-title {
+            font-weight: 600;
+            font-size: $font_12;
+            color: $black;
+            margin: 3px 8px;
+          }
+          .attribute-list {
+            li {
+              border-bottom: 0px;
+              .checkbox-custom {
+                label {
+                  font-family: $font_open_sans;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

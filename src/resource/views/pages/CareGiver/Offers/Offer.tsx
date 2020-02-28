@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from "react";
 import {
   FormGroup,
   Col,
@@ -8,26 +8,26 @@ import {
   DropdownMenu,
   DropdownItem,
   UncontrolledTooltip
-} from 'reactstrap';
-import Select from 'react-select';
-import { languageTranslation, errorFormatter } from '../../../../../helpers';
-import { State } from '../../../../../config';
-import '../caregiver.scss';
-import positive from '../../../../assets/img/positive.svg';
-import negative from '../../../../assets/img/negative.svg';
-import SearchPopup from './SearchPopup';
+} from "reactstrap";
+import Select from "react-select";
+import { languageTranslation, errorFormatter } from "../../../../../helpers";
+import { State } from "../../../../../config";
+import "../caregiver.scss";
+import positive from "../../../../assets/img/positive.svg";
+import negative from "../../../../assets/img/negative.svg";
+import SearchPopup from "./SearchPopup";
 import {
   CareInstitutionQueries,
   CareGiverQueries
-} from '../../../../../graphql/queries';
-import { CareGiverMutations } from '../../../../../graphql/Mutations';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
-import { useParams } from 'react-router-dom';
-import CareInstCustomOption from '../../../components/CustomOptions/CustomCareInstOptions';
-import { toast } from 'react-toastify';
-import { ApolloError } from 'apollo-client';
-import { ConfirmBox } from '../../../components/ConfirmBox';
-let toastId: any = '';
+} from "../../../../../graphql/queries";
+import { CareGiverMutations } from "../../../../../graphql/Mutations";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { useParams } from "react-router-dom";
+import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
+import { toast } from "react-toastify";
+import { ApolloError } from "apollo-client";
+import { ConfirmBox } from "../../../components/ConfirmBox";
+let toastId: any = "";
 
 const Offer: FunctionComponent = any => {
   const [showSearch, setShowSearch] = useState<boolean>(false);
@@ -69,7 +69,7 @@ const Offer: FunctionComponent = any => {
             }
           );
           const value = await ConfirmBox({
-            title: languageTranslation('CONFIRM_LABEL'),
+            title: languageTranslation("CONFIRM_LABEL"),
             text: `You want to add ${careInstituition.getCareInstitutions.totalCount} user`
           });
           if (!value) {
@@ -78,7 +78,7 @@ const Offer: FunctionComponent = any => {
             try {
               await addNegativeUser({
                 variables: {
-                  id: userId ? parseInt(userId) : '',
+                  id: userId ? parseInt(userId) : "",
                   negativeIds: [
                     ...negativeUsersList.map((list: any) => parseInt(list.id)),
                     ...temp
@@ -88,7 +88,7 @@ const Offer: FunctionComponent = any => {
               refetch();
               if (!toast.isActive(toastId)) {
                 toastId = toast.success(
-                  languageTranslation('NEGATIVE_USER_DELETED')
+                  languageTranslation("NEGATIVE_USER_DELETED")
                 );
               }
             } catch (error) {
@@ -99,7 +99,7 @@ const Offer: FunctionComponent = any => {
             }
           }
         } else {
-          toast.error('no search found');
+          toast.error("no search found");
         }
         setShowSearch(false);
       }
@@ -114,7 +114,7 @@ const Offer: FunctionComponent = any => {
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: ''
+        isActive: ""
       }
     });
   }, [userId]);
@@ -128,19 +128,19 @@ const Offer: FunctionComponent = any => {
       !careInstOptions.length
     ) {
       careInstituition.getCareInstitutions.careInstitutionData.filter(
-          (item: any) =>
-            negativeUsersList.findIndex((ele: any) => ele.id === item.id) < 0
-        )
+        (item: any) =>
+          negativeUsersList.findIndex((ele: any) => ele.id === item.id) < 0
+      );
       let temp: any = [];
       temp.push({
-        label: languageTranslation('NAME'),
-        value: languageTranslation('ID'),
-        companyName: languageTranslation('COMPANY_NAME')
+        label: languageTranslation("NAME"),
+        value: languageTranslation("ID"),
+        companyName: languageTranslation("COMPANY_NAME")
       });
       careInstituition.getCareInstitutions.careInstitutionData.forEach(
         ({ id, firstName, lastName, canstitution }: any) =>
           temp.push({
-            label: `${firstName}${' '}${lastName}`,
+            label: `${firstName}${" "}${lastName}`,
             value: id,
             companyName: canstitution && canstitution.companyName
           })
@@ -154,10 +154,10 @@ const Offer: FunctionComponent = any => {
     any
   >(ADD_NEGATIVE_USER, {
     onCompleted({ addNegativeUser }) {
-      console.log('in add careInstOptions', careInstOptions);
+      console.log("in add careInstOptions", careInstOptions);
       negativeListRefetch();
       if (!toast.isActive(toastId)) {
-        toastId = toast.success(languageTranslation('NEGATIVE_USER_ADDED'));
+        toastId = toast.success(languageTranslation("NEGATIVE_USER_ADDED"));
       }
     },
     onError: (error: ApolloError) => {
@@ -187,8 +187,8 @@ const Offer: FunctionComponent = any => {
   });
 
   useEffect(() => {
-    console.log('negativeUserslistbvfgf', negativeUsersList);
-    console.log('careinstopt bdf', careInstOptions);
+    console.log("negativeUserslistbvfgf", negativeUsersList);
+    console.log("careinstopt bdf", careInstOptions);
 
     // const myArray = [...negativeUsersList];
     // const filteredArray = careInstOptions.filter(
@@ -206,7 +206,7 @@ const Offer: FunctionComponent = any => {
   useEffect(() => {
     fetchNegativeUserList({
       variables: {
-        id: userId ? parseInt(userId) : ''
+        id: userId ? parseInt(userId) : ""
       }
     });
     const { getNegativeList = {} } = negativeUser ? negativeUser : {};
@@ -239,7 +239,7 @@ const Offer: FunctionComponent = any => {
 
   //on selecting care insitution from drop down
   const handleSelect = (careInstId: any) => {
-    console.log('careInstId in handle', careInstId);
+    console.log("careInstId in handle", careInstId);
     const temp = careInstOptions.splice(
       careInstOptions.findIndex(function(i: any) {
         return i.value === careInstId.value;
@@ -247,13 +247,13 @@ const Offer: FunctionComponent = any => {
       1
     );
     setCareInstOptions(careInstOptions);
-    console.log('temp', temp);
-    console.log('careInstOptions', careInstOptions);
+    console.log("temp", temp);
+    console.log("careInstOptions", careInstOptions);
 
     if (careInstId && careInstId.value) {
       addNegativeUser({
         variables: {
-          id: userId ? parseInt(userId) : '',
+          id: userId ? parseInt(userId) : "",
           negativeIds: careInstId
             ? [
                 ...negativeUsersList.map((list: any) => parseInt(list.id)),
@@ -271,11 +271,11 @@ const Offer: FunctionComponent = any => {
     negativeUsersList.map((item: any) => {
       temp.push(parseInt(item.id));
     });
-    console.log('stemp', temp);
+    console.log("stemp", temp);
 
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('USER_DELETE_MSG')
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("USER_DELETE_MSG")
     });
     if (!value) {
       return;
@@ -283,13 +283,13 @@ const Offer: FunctionComponent = any => {
       try {
         await deleteNegativeUser({
           variables: {
-            id: userId ? userId : '',
+            id: userId ? userId : "",
             negativeIds: temp
           }
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success(languageTranslation('NEGATIVE_USER_DELETED'));
+          toastId = toast.success(languageTranslation("NEGATIVE_USER_DELETED"));
         }
       } catch (error) {
         const message = errorFormatter(error);
@@ -304,7 +304,7 @@ const Offer: FunctionComponent = any => {
     const temp = negativeUsersList.findIndex(function(i: any) {
       return i.id === careInstId;
     });
-    console.log('temp in careopt', temp);
+    console.log("temp in careopt", temp);
     const rec = careInstOptions[temp];
     // console.log(rec, 'rec');
 
@@ -324,8 +324,8 @@ const Offer: FunctionComponent = any => {
 
     // const temp1=careInstOptions.push()
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('USER_DELETE_MSG')
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("USER_DELETE_MSG")
     });
     if (!value) {
       return;
@@ -333,13 +333,13 @@ const Offer: FunctionComponent = any => {
       try {
         await deleteNegativeUser({
           variables: {
-            id: userId ? userId : '',
-            negativeIds: [careInstId ? parseInt(careInstId) : '']
+            id: userId ? userId : "",
+            negativeIds: [careInstId ? parseInt(careInstId) : ""]
           }
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success(languageTranslation('NEGATIVE_USER_DELETED'));
+          toastId = toast.success(languageTranslation("NEGATIVE_USER_DELETED"));
         }
       } catch (error) {
         const message = errorFormatter(error);
@@ -352,7 +352,7 @@ const Offer: FunctionComponent = any => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
     const { value } = target;
-    console.log('searchValue', value);
+    console.log("searchValue", value);
     setSearch(value);
   };
   const onSearch = async () => {
@@ -362,55 +362,55 @@ const Offer: FunctionComponent = any => {
         sortBy: 0,
         limit: 0,
         page: 0,
-        isActive: ''
+        isActive: ""
       }
     });
   };
 
   return (
-    <div className='common-offer-section'>
-      <h5 className='content-title'>{languageTranslation('OFFERS')}</h5>
-      <Row className='common-offer-row'>
-        <Col md={6} className='px-md-0'>
-          <div className='common-list-wrap'>
-            <div className='common-list-header d-flex align-items-center justify-content-between'>
-              <div className='common-list-title '>
-                {languageTranslation('NO_OFFER_FOR')}{' '}
-                <span className='font-weight-bold'>
-                  ({languageTranslation('NEGATIVE')})
+    <div className="common-offer-section">
+      <h5 className="content-title">{languageTranslation("OFFERS")}</h5>
+      <Row className="common-offer-row custom-col">
+        <Col md={6}>
+          <div className="common-list-wrap">
+            <div className="common-list-header d-flex align-items-center justify-content-between">
+              <div className="common-list-title ">
+                {languageTranslation("NO_OFFER_FOR")}{" "}
+                <span className="font-weight-bold">
+                  ({languageTranslation("NEGATIVE")})
                 </span>
               </div>
               <div>
-                <UncontrolledDropdown className='custom-dropdown'>
+                <UncontrolledDropdown className="custom-dropdown">
                   <DropdownToggle
-                    className={'text-capitalize btn-more'}
-                    size='sm'
+                    className={"text-capitalize btn-more"}
+                    size="sm"
                   >
-                    <i className='icon-options-vertical' />
+                    <i className="icon-options-vertical" />
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem onClick={() => setShowSearch(true)}>
-                      <i className='fa fa-plus mr-2' />
-                      {languageTranslation('ADD_ALL_KEYWORD')}
+                      <i className="fa fa-plus mr-2" />
+                      {languageTranslation("ADD_ALL_KEYWORD")}
                     </DropdownItem>
                     <DropdownItem>
-                      <i className='fa fa-plus mr-2' />
-                      {languageTranslation('ADD_ALL_LEASING_FACILITY')}
+                      <i className="fa fa-plus mr-2" />
+                      {languageTranslation("ADD_ALL_LEASING_FACILITY")}
                     </DropdownItem>
                     <DropdownItem>
                       <span
                         onClick={() => handleRemoveAll(careInstOptions.value)}
                       >
-                        <i className='fa fa-trash mr-2' />
-                        {languageTranslation('REMOVE_ALL')}
+                        <i className="fa fa-trash mr-2" />
+                        {languageTranslation("REMOVE_ALL")}
                       </span>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </div>
             </div>
-            <div className='common-list-body'>
-              <ul className='common-list list-unstyled'>
+            <div className="common-list-body">
+              <ul className="common-list list-unstyled">
                 {negativeUser &&
                 negativeUser.getNegativeList &&
                 negativeUser.getNegativeList.negativeList
@@ -420,26 +420,26 @@ const Offer: FunctionComponent = any => {
                           <li
                             key={index}
                             className={
-                              'cursor-pointer list-item text-capitalize active'
+                              "cursor-pointer list-item text-capitalize active"
                             }
                           >
-                            <div className='list-item-text'>
-                              {item && item.firstName + ' ' + item.lastName}
+                            <div className="list-item-text">
+                              {item && item.firstName + " " + item.lastName}
                             </div>
-                            <div className='list-item-icon'>
+                            <div className="list-item-icon">
                               <span
                                 id={`delete${index}`}
                                 className={`btn-icon mr-2`}
                                 onClick={() => onDeleteNegativeUser(item.id)}
                               >
                                 <UncontrolledTooltip
-                                  placement={'top'}
+                                  placement={"top"}
                                   target={`delete${index}`}
                                 >
-                                  {languageTranslation('DELETE_USER')}
+                                  {languageTranslation("DELETE_USER")}
                                 </UncontrolledTooltip>
 
-                                <i className='fa fa-trash'></i>
+                                <i className="fa fa-trash"></i>
                               </span>
                             </div>
                           </li>
@@ -449,104 +449,104 @@ const Offer: FunctionComponent = any => {
                   : null}
               </ul>
             </div>
-            <div className='common-list-footer form-section '>
-              <FormGroup className='mb-0'>
+            <div className="common-list-footer form-section ">
+              <FormGroup className="mb-0">
                 <Select
-                  placeholder={'Select Care Institution'}
+                  placeholder={"Select Care Institution"}
                   options={careInstOptions}
-                  menuPlacement={'top'}
-                  // isMulti
-                  className={'custom-reactselect custom-reactselect-menu-width'}
-                  classNamePrefix='attribute-inner-select'
+                  menuPlacement={"top"}
+                  className="attribute-select"
+                  classNamePrefix="attribute-inner-select"
                   onChange={selectedOption => {
-                    console.log('careInstOptions.id', selectedOption);
+                    console.log("careInstOptions.id", selectedOption);
                     handleSelect(selectedOption);
                   }}
                   components={{ Option: CareInstCustomOption }}
                   isOptionDisabled={option =>
-                    option.value === languageTranslation('ID')
+                    option.value === languageTranslation("ID")
                   }
+                  menuIsOpen
                 />
               </FormGroup>
             </div>
           </div>
         </Col>
         <Col md={6}>
-          <div className='common-list-wrap'>
-            <div className='common-list-header d-flex align-items-center justify-content-between'>
-              <div className='common-list-title '>
-                {languageTranslation('WORKED_AT')}
+          <div className="common-list-wrap">
+            <div className="common-list-header d-flex align-items-center justify-content-between">
+              <div className="common-list-title ">
+                {languageTranslation("WORKED_AT")}
               </div>
               <div>
-                <UncontrolledDropdown className='custom-dropdown'>
+                <UncontrolledDropdown className="custom-dropdown">
                   <DropdownToggle
-                    className={'text-capitalize btn-more'}
-                    size='sm'
+                    className={"text-capitalize btn-more"}
+                    size="sm"
                   >
-                    <i className='icon-options-vertical' />
+                    <i className="icon-options-vertical" />
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      <img src={positive} className='mr-2' alt='' />
-                      <span className='align-middle'>
-                        {languageTranslation('ADD_ALL_POSITIVE_LIST')}
+                      <img src={positive} className="mr-2" alt="" />
+                      <span className="align-middle">
+                        {languageTranslation("ADD_ALL_POSITIVE_LIST")}
                       </span>
                     </DropdownItem>
                     <DropdownItem>
-                      <img src={negative} className='mr-2' alt='' />
-                      <span className='align-middle'>
-                        {languageTranslation('ADD_ALL_NEGATIVE_LIST')}
+                      <img src={negative} className="mr-2" alt="" />
+                      <span className="align-middle">
+                        {languageTranslation("ADD_ALL_NEGATIVE_LIST")}
                       </span>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </div>
             </div>
-            <div className='common-list-body'>
-              <ul className='common-list list-unstyled'>
-                <li className={'cursor-pointer list-item text-capitalize '}>
-                  <div className='list-item-text'>Dialysis</div>
-                  <div className='list-item-icon d-flex'>
-                    <div className='list-item-img mr-2'>
-                      <img src={positive} alt='' />
+            <div className="common-list-body">
+              <ul className="common-list list-unstyled">
+                <li className={"cursor-pointer list-item text-capitalize "}>
+                  <div className="list-item-text">Dialysis</div>
+                  <div className="list-item-icon d-flex">
+                    <div className="list-item-img mr-2">
+                      <img src={positive} alt="" />
                     </div>
-                    <div className='list-item-img'>
-                      <img src={negative} alt='' />{' '}
-                    </div>
-                  </div>
-                </li>
-                <li className={'cursor-pointer list-item text-capitalize'}>
-                  <div className='list-item-text'>Nurse/carer</div>
-                  <div className='list-item-icon d-flex'>
-                    <div className='list-item-img mr-2'>
-                      <img src={positive} alt='' />
-                    </div>
-                    <div className='list-item-img'>
-                      <img src={negative} alt='' />{' '}
+                    <div className="list-item-img">
+                      <img src={negative} alt="" />{" "}
                     </div>
                   </div>
                 </li>
-                <li className={'cursor-pointer list-item text-capitalize'}>
-                  <div className='list-item-text'>Home Management</div>
-                  <div className='list-item-icon d-flex'>
-                    <div className='list-item-img mr-2'>
-                      <img src={positive} alt='' />
+                <li className={"cursor-pointer list-item text-capitalize"}>
+                  <div className="list-item-text">Nurse/carer</div>
+                  <div className="list-item-icon d-flex">
+                    <div className="list-item-img mr-2">
+                      <img src={positive} alt="" />
                     </div>
-                    <div className='list-item-img'>
-                      <img src={negative} alt='' />{' '}
+                    <div className="list-item-img">
+                      <img src={negative} alt="" />{" "}
+                    </div>
+                  </div>
+                </li>
+                <li className={"cursor-pointer list-item text-capitalize"}>
+                  <div className="list-item-text">Home Management</div>
+                  <div className="list-item-icon d-flex">
+                    <div className="list-item-img mr-2">
+                      <img src={positive} alt="" />
+                    </div>
+                    <div className="list-item-img">
+                      <img src={negative} alt="" />{" "}
                     </div>
                   </div>
                 </li>
               </ul>
             </div>
-            <div className='common-list-footer form-section '>
-              <FormGroup className='mb-0'>
+            <div className="common-list-footer form-section ">
+              <FormGroup className="mb-0">
                 <Select
-                  placeholder={languageTranslation('REGION', 'STATE')}
+                  placeholder={languageTranslation("REGION", "STATE")}
                   options={State}
-                  menuPlacement={'top'}
-                  className='attribute-select'
-                  classNamePrefix='attribute-inner-select'
+                  menuPlacement={"top"}
+                  className="attribute-select"
+                  classNamePrefix="attribute-inner-select"
                 />
               </FormGroup>
             </div>

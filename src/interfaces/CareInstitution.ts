@@ -1,5 +1,5 @@
-import { IReactSelectInterface } from './Constant';
-import { IAttributeOptions } from './CareGiver';
+import { IReactSelectInterface } from "./Constant";
+import { IAttributeOptions } from "./CareGiver";
 
 export interface ICareInstitutionFormValues {
   salutation?: IReactSelectInterface;

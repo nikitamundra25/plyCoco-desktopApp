@@ -774,5 +774,9 @@
   "ADD": "Add",
   "SEARCH_POPUP_TITLE": "Add By Keyword",
   "SEARCH_POPUP_LABEL_CAREINSTITUTION": "Enter Search Keyword for Care Institution Name",
-  "NEW_CAREINSTITUTION": "New Care Institution"
+  "NEW_CAREINSTITUTION": "New Care Institution",
+  "NEGATIVE_USER_ADDED": "User added sucessfully",
+  "NEGATIVE_USER_DELETED": "User deleted sucessfully",
+  "USER_DELETE_MSG":"This user will be deleted from negative list",
+  "DELETE_USER":"Delete User"
 }

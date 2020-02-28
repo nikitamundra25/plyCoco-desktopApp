@@ -102,10 +102,10 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
   const regionOptions: IReactSelectInterface[] | undefined = [];
   if (RegionData && RegionData.getRegions && RegionData.getRegions.regionData) {
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
-      regionOptions.push({
-        label: regionName,
-        value: id
-      })
+    regionOptions.push({
+      label: regionName,
+      value: id
+    })
     );
   }
   useEffect(() => {
@@ -120,7 +120,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     const {
       target: { files }
     } = e;
-
+    
     let reader = new FileReader();
     let file: File | null = null;
     if (files) {
@@ -148,7 +148,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     logger(selectOption, 'selectOptionvalue');
     setFieldValue(name, selectOption);
     if (name === 'country') {
-      setFieldValue('state', { label: '', value: '' });
+      countryError = undefined;
+      // setFieldValue('state', { label: '', value: '' });
       getStatesByCountry({
         variables: {
           countryid: selectOption ? selectOption.value : '82'
@@ -156,6 +157,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       });
     }
   };
+  let countryError: any = errors && errors.country;
+  const stateError: any = errors && errors.state;
   return (
     <div>
       <Card>
@@ -522,18 +525,18 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                 <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                                   <Label className='form-label col-form-label'>
                                     {languageTranslation('COUNTRY')}
+                                    <span className='required'>*</span>
+
                                   </Label>
                                 </Col>
                                 <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                                   <div>
                                     <Select
                                       placeholder={languageTranslation(
-                                        'COUNTRY_PLACEHOLDER'
+                                        'COUNTRY'
                                       )}
-                                      options={countriesOpt}
-                                      isClearable={true}
                                       value={
-                                        country && country.value
+                                        country && country.value !== ''
                                           ? country
                                           : undefined
                                       }
@@ -541,8 +544,19 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         handleSelect(value, 'country')
                                       }
                                       classNamePrefix='custom-inner-reactselect'
-                                      className={'custom-reactselect'}
+                                      options={countriesOpt}
+                                      // isClearable={true}
+                                      className={
+                                        errors.country && touched.country
+                                          ? 'error custom-reactselect text-capitalize'
+                                          : 'custom-reactselect text-capitalize'
+                                      }
                                     />
+                                    {errors.country && touched.country && (
+                                      <div className='required-tooltip'>
+                                        {countryError.value}
+                                      </div>
+                                    )}
                                   </div>
                                 </Col>
                               </Row>
@@ -556,6 +570,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                     {languageTranslation(
                                       'EMPLOYEE_STATE_LABEL'
                                     )}
+                                    <span className='required'>*</span>
+
                                   </Label>
                                 </Col>
                                 <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -565,7 +581,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         'EMPLOYEE_STATE_LABEL'
                                       )}
                                       options={statesOpt}
-                                      isClearable={true}
+                                      // isClearable={true}
                                       value={
                                         state && state.value !== ''
                                           ? state
@@ -575,11 +591,22 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         handleSelect(value, 'state')
                                       }
                                       noOptionsMessage={() => {
-                                        return 'Select a country first';
+                                        return languageTranslation(
+                                          'SELECT_COUNTRY_FIRST'
+                                        );
                                       }}
                                       classNamePrefix='custom-inner-reactselect'
-                                      className={'custom-reactselect'}
+                                      className={
+                                        errors.state && touched.state
+                                          ? 'error custom-reactselect'
+                                          : 'custom-reactselect'
+                                      }
                                     />
+                                    {errors.state && touched.state && (
+                                      <div className='required-tooltip'>
+                                        {stateError.value}
+                                      </div>
+                                    )}
                                   </div>
                                 </Col>
                               </Row>

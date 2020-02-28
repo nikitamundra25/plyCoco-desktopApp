@@ -42,6 +42,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
     fetchContactsByUserID,
     { data: contactList, loading: contactListLoading, refetch }
   ] = useLazyQuery<any>(GET_CONTACT_LIST_BY_ID);
+
   userId = userId ? userId : userData ? userData.userId : undefined;
 
   useEffect(() => {
@@ -99,7 +100,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         priority: priority && priority.value ? priority.value : null,
         juridiction,
         userId: parseInt(userId),
-        userType: userRole.toLowerCase(),
+        userType: userRole=== "careInstitution" ? "canstitution":"caregiver",
         contactId: contact && contact.value ? parseInt(contact.value) : null
       };
       if (userData) {
@@ -149,7 +150,9 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
     if (getContactsByUserID && getContactsByUserID.length) {
       getContactsByUserID.map((list: any) => {
         return contactOptions.push({
-          label: `${list.firstName} ${list.surName} (${list.contactType})`,
+          label: `${list.firstName} ${list.surName} ${
+            list.contact_type ? `(${list.contact_type.contactType})` : ''
+          }`,
           value: list.id ? list.id : ''
         });
       });
@@ -165,14 +168,21 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         date: new Date(date),
         priority: priority
           ? {
-              label: priority.charAt(0).toUpperCase() + priority.slice(1),
+              label:
+                priority === 'normal'
+                  ? 'Medium'
+                  : priority.charAt(0).toUpperCase() + priority.slice(1),
               value: priority
             }
           : undefined,
         juridiction,
         contact: contact
           ? {
-              label: `${contact.firstName} ${contact.surName} (${contact.contactType})`,
+              label: `${contact.firstName} ${contact.surName} ${
+                contact.contact_type
+                  ? `(${contact.contact_type.contactType})`
+                  : ''
+              }`,
               value: contact.id ? contact.id : ''
             }
           : undefined

@@ -58,7 +58,9 @@ const Documents = () => {
     id: string;
     checked: boolean;
   } | null>(null);
-  const [defaultDocument, setDefaultDocument] = useState<boolean | null>(null);
+  const [defaultDocument, setDefaultDocument] = useState<boolean | undefined>(
+    undefined
+  );
   const [fetchDocumentList, { data, loading, refetch, called }] = useLazyQuery<
     any
   >(GET_DOCUMENTS);
@@ -201,7 +203,7 @@ const Documents = () => {
     setFileObject(null);
     setFilename(null);
     setIsMissingDocEditable(false);
-    setDefaultDocument(null);
+    setDefaultDocument(undefined);
     // setErrorMsg(null);
   };
 
@@ -209,7 +211,7 @@ const Documents = () => {
   const resetFormValue = () => {
     setRemarkValue('');
     setDocumentType(undefined);
-    setDocumentUrl(null);
+    setDocumentUrl(null)
     setStatusValue(true);
     setDocumentIdUpdate(null);
     setFileObject(null);

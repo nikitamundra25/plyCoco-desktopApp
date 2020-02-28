@@ -20,6 +20,7 @@ import { languageTranslation } from "../../../../helpers";
 import { State } from "../../../../config";
 import close from "../../../assets/img/cancel.svg";
 import closehover from "../../../assets/img/cancel-hover.svg";
+import filter from "../../../assets/img/filter.svg";
 
 const AttributeFilter = (props: any) => {
   const { show, handleClose } = props;
@@ -47,6 +48,26 @@ const AttributeFilter = (props: any) => {
           {languageTranslation("ATTRIBUTES")}
         </ModalHeader>
         <ModalBody>
+          <div className="d-flex align-items-center mb-2">
+            <div className="custom-header-nav-item mr-3">
+              <span className="custom-header-nav-icon">
+                <img src={filter} alt="" />
+              </span>
+              <span className="custom-header-nav-text">Apply filters</span>
+            </div>
+
+            <div>
+              <span className=" checkbox-custom ">
+                <input
+                  type="checkbox"
+                  id="checkAll"
+                  name="checkbox"
+                  className=""
+                />
+                <label className="">Show All</label>
+              </span>
+            </div>
+          </div>
           <div className="common-attribute-section">
             <Row className="common-attribute-row">
               <Col md={4}>
@@ -78,9 +99,12 @@ const AttributeFilter = (props: any) => {
                   </div>
                   <div className="common-list-body custom-scrollbar">
                     <div>
-                      <div onClick={toggle1} className="attribute-title">
+                      <div
+                        onClick={toggle1}
+                        className="attribute-title cursor-pointer"
+                      >
                         <span className="align-middle">
-                          <i className="fa fa-plus mr-2" />
+                          <i className="fa fa-minus mr-2" />
                         </span>
                         <span className="align-middle">General</span>
                       </div>
@@ -134,8 +158,14 @@ const AttributeFilter = (props: any) => {
                       </Collapse>
                     </div>
                     <div>
-                      <div onClick={toggle2} className="attribute-title">
-                        Caregivers
+                      <div
+                        onClick={toggle2}
+                        className="attribute-title cursor-pointer"
+                      >
+                        <span className="align-middle">
+                          <i className="fa fa-minus mr-2" />
+                        </span>
+                        <span className="align-middle">Caregivers</span>
                       </div>
                       <Collapse isOpen={collapse2}>
                         <ul className="common-list list-unstyled mb-0 pl-3 attribute-list">
@@ -197,24 +227,131 @@ const AttributeFilter = (props: any) => {
                       Negative Attribute(must not have)
                     </div>
                   </div>
-                  <div className="common-list-body">
-                    <ul className="common-list list-unstyled">
-                      <li>Dialysis </li>
-                      <li>Home Management</li>
-                      <li>Nurse/carer</li>
-                    </ul>
+                  <div className="common-list-body custom-scrollbar">
+                    <div>
+                      <div
+                        onClick={toggle1}
+                        className="attribute-title cursor-pointer"
+                      >
+                        <span className="align-middle">
+                          <i className="fa fa-minus mr-2" />
+                        </span>
+                        <span className="align-middle">General</span>
+                      </div>
+                      <Collapse isOpen={collapse1}>
+                        <ul className="common-list list-unstyled mb-0  pl-3 attribute-list">
+                          <li>
+                            <span className=" checkbox-custom ">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                name="checkbox"
+                                className=""
+                              />
+                              <label className="">Artz</label>
+                            </span>
+                          </li>
+                          <li>
+                            <span className=" checkbox-custom ">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                name="checkbox"
+                                className=""
+                              />
+                              <label className="">Inaktiv</label>
+                            </span>
+                          </li>
+                          <li>
+                            <span className=" checkbox-custom ">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                name="checkbox"
+                                className=""
+                              />
+                              <label className="">Login moglisch</label>
+                            </span>
+                          </li>
+                          <li>
+                            <span className=" checkbox-custom ">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                name="checkbox"
+                                className=""
+                              />
+                              <label className="">Loschen</label>
+                            </span>
+                          </li>
+                        </ul>
+                      </Collapse>
+                    </div>
+                    <div>
+                      <div
+                        onClick={toggle2}
+                        className="attribute-title cursor-pointer"
+                      >
+                        <span className="align-middle">
+                          <i className="fa fa-minus mr-2" />
+                        </span>
+                        <span className="align-middle">Caregivers</span>
+                      </div>
+                      <Collapse isOpen={collapse2}>
+                        <ul className="common-list list-unstyled mb-0 pl-3 attribute-list">
+                          <li>
+                            <span className=" checkbox-custom ">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                name="checkbox"
+                                className=""
+                              />
+                              <label className="">Artz</label>
+                            </span>
+                          </li>
+                          <li>
+                            <span className=" checkbox-custom ">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                name="checkbox"
+                                className=""
+                              />
+                              <label className="">Inaktiv</label>
+                            </span>
+                          </li>
+                          <li>
+                            <span className=" checkbox-custom ">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                name="checkbox"
+                                className=""
+                              />
+                              <label className="">Login moglisch</label>
+                            </span>
+                          </li>
+                          <li>
+                            <span className=" checkbox-custom ">
+                              <input
+                                type="checkbox"
+                                id="checkAll"
+                                name="checkbox"
+                                className=""
+                              />
+                              <label className="">Loschen</label>
+                            </span>
+                          </li>
+                        </ul>
+                      </Collapse>
+                    </div>
                   </div>
                 </div>
               </Col>
             </Row>
           </div>
         </ModalBody>
-        <ModalFooter>
-          <Button color="primary">{languageTranslation("ADD")}</Button>
-          <Button color="secondary" onClick={handleClose}>
-            {languageTranslation("CANCEL")}
-          </Button>
-        </ModalFooter>
       </Modal>
     </div>
   );

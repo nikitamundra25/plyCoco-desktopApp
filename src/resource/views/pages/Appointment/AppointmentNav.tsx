@@ -1,44 +1,24 @@
-import React, {
-  Component,
-  FunctionComponent,
-  useCallback,
-  useState
-} from 'react';
-import {
-  FormGroup,
-  Label,
-  Input,
-  Col,
-  Row,
-  Form,
-  Button,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Table
-} from 'reactstrap';
-import MaskedInput from 'react-text-mask';
-
+import React, { FunctionComponent, useState } from 'react';
+import { Input } from 'reactstrap';
 import Select from 'react-select';
-import { languageTranslation } from '../../../../helpers';
-import {
-  State,
-  NightAllowancePerHour,
-  Without_Appointments,
-  ShiftTime
-} from '../../../../config';
-
+import { languageTranslation, getDaysArrayByMonth } from '../../../../helpers';
+import { State, Without_Appointments } from '../../../../config';
 import right_arrow from '../../../assets/img/rightarrow.svg';
 import left_arrow from '../../../assets/img/leftarrow.svg';
 import refresh from '../../../assets/img/refresh.svg';
 import filter from '../../../assets/img/filter.svg';
 import caregiver from '../../../assets/img/caregiver.svg';
 import careinstitution from '../../../assets/img/careinstitution.svg';
-import close from '../../../assets/img/close.svg';
 import './index.scss';
-import { LanguageAction } from '../../../../store/actions';
+import { IAppointmentNav } from '../../../../interfaces';
+import { defaultDateFormat } from '../../../../config';
+import moment from 'moment';
 
-const AppointmentNav: FunctionComponent = () => {
+const AppointmentNav: FunctionComponent<IAppointmentNav> = (
+  props: IAppointmentNav
+) => {
+  const { handleNext, handlePrevious, daysData } = props;
+  const { month = '', year = '' } = daysData ? daysData : {};
   return (
     <>
       <div className='sticky-common-header'>
@@ -52,7 +32,7 @@ const AppointmentNav: FunctionComponent = () => {
             </span>
           </div>
           <div className='common-label px-1'>Today</div>
-          <div className='header-nav-item'>
+          <div className='header-nav-item' onClick={handlePrevious}>
             <span className='header-nav-icon pr-0'>
               <img src={left_arrow} alt='' />
             </span>
@@ -62,10 +42,11 @@ const AppointmentNav: FunctionComponent = () => {
               className='form-control'
               placeholder={'February 2020'}
               type='input'
+              value={`${month} ${year}`}
               name='text'
             />
           </div>
-          <div className='header-nav-item'>
+          <div className='header-nav-item' onClick={handleNext}>
             <span className='header-nav-icon pr-0'>
               <img src={right_arrow} alt='' />
             </span>

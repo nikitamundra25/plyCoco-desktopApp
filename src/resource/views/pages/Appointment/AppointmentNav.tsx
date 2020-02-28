@@ -11,13 +11,21 @@ import caregiver from '../../../assets/img/caregiver.svg';
 import careinstitution from '../../../assets/img/careinstitution.svg';
 import './index.scss';
 import { IAppointmentNav } from '../../../../interfaces';
-import { defaultDateFormat } from '../../../../config';
-import moment from 'moment';
+import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
 ) => {
-  const { handleNext, handlePrevious, daysData, qualificationList } = props;
+  const {
+    handleNext,
+    handlePrevious,
+    daysData,
+    qualificationList,
+    handleQualification,
+    careGiversList,
+    careInstitutionList
+  } = props;
+
   const { month = '', year = '' } = daysData ? daysData : {};
   return (
     <>
@@ -61,12 +69,25 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           </div>
 
           <div className='user-select mx-1'>
-            <Select
+            {/* <Select
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect custom-reactselect-menu-width'}
-              placeholder='Select Qualifications'
+              placeholder={languageTranslation(
+                'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+              )}
               options={qualificationList}
+              isMulti={true}
               isClearable={true}
+              onChange={handleQualification}
+            /> */}
+            <ReactMultiSelectCheckboxes
+              options={qualificationList}
+              placeholder={languageTranslation(
+                'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+              )}
+              className={'custom-reactselect custom-reactselect-menu-width'}
+              classNamePrefix='custom-inner-reactselect'
+              onChange={handleQualification}
             />
           </div>
 
@@ -87,7 +108,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect custom-reactselect-menu-width'}
               placeholder='Select Caregiver'
-              options={State}
+              options={careGiversList}
               isClearable={true}
             />
           </div>
@@ -107,7 +128,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect custom-reactselect-menu-width'}
               placeholder='Select Care Institution'
-              options={State}
+              options={careInstitutionList}
               isClearable={true}
             />
           </div>

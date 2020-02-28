@@ -15,7 +15,22 @@ export interface IGetDaysArrayByMonthRes {
 
 export interface IAppointmentNav {
   handlePrevious: () => void;
+  handleQualification: (value: any) => void;
   handleNext: () => void;
   daysData: IGetDaysArrayByMonthRes | null;
   qualificationList: IReactSelectInterface[] | undefined;
+  careInstitutionList: any;
+  careGiversList: any;
+}
+
+export interface IAppointmentCareGiverList {
+  daysData: IGetDaysArrayByMonthRes | null;
+  careGiversList: any;
+  loading: boolean;
+}
+
+export interface IAppointmentCareInstitutionList {
+  daysData: IGetDaysArrayByMonthRes | null;
+  careInstitutionList: any;
+  loading: boolean;
 }

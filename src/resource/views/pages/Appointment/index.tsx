@@ -37,18 +37,38 @@ import {
   IReactSelectInterface
 } from '../../../../interfaces';
 import moment from 'moment';
-import { useQuery } from '@apollo/react-hooks';
-import { GET_QUALIFICATION_ATTRIBUTE } from '../../../../graphql/queries';
-
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import {
+  GET_QUALIFICATION_ATTRIBUTE,
+  AppointmentsQueries
+} from '../../../../graphql/queries';
+const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const Appointment: FunctionComponent = () => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
     null
   );
   const [activeMonth, setActiveMonth] = useState<number>(moment().month());
   const [activeYear, setActiveYear] = useState<number>(moment().year());
+  const [qualification, setqualification] = useState<any>([]);
   // const [activeDate, setActiveDate] = useState<string>('');
 
-  // To fecth qualification attributes list
+  // To fetch caregivers by qualification id
+  const [
+    fetchCaregiverList,
+    { data: careGiversList, loading: caregiverLoading }
+  ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
+    fetchPolicy: 'no-cache'
+  });
+
+  // To fetch careinstitution by qualification id
+  const [
+    fetchCareinstitutionList,
+    { data: careInstitutionList, loading: careinstitutionLoading }
+  ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
+    fetchPolicy: 'no-cache'
+  });
+
+  // To fetch qualification attributes list
   const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
   const qualificationList: IReactSelectInterface[] | undefined = [];
   if (data && data.getQualifications) {
@@ -60,6 +80,60 @@ const Appointment: FunctionComponent = () => {
     });
   }
 
+  // Select qualification attribute
+  const handleQualification = (selectedOption: IReactSelectInterface[]) => {
+    setqualification(selectedOption);
+  };
+
+  // To fetch users according to qualification selected
+  useEffect(() => {
+    let temp: any = [];
+    qualification.map((key: any, index: number) => {
+      temp.push(parseInt(key.value));
+    });
+    // get careGivers list
+    fetchCaregiverList({
+      variables: {
+        qualificationId: temp ? temp : null,
+        userRole: 'caregiver'
+      }
+    });
+    // get careInstitution list
+    fetchCareinstitutionList({
+      variables: {
+        qualificationId: temp ? temp : null,
+        userRole: 'canstitution'
+      }
+    });
+  }, [qualification]);
+
+  // set careGivers list options
+  const careGiversOptions: IReactSelectInterface[] | undefined = [];
+  if (careGiversList && careGiversList.getUserByQualifications) {
+    const { getUserByQualifications } = careGiversList;
+    if (getUserByQualifications && getUserByQualifications.length) {
+      getUserByQualifications.map((list: any) => {
+        return careGiversOptions.push({
+          label: `${list.firstName} ${list.lastName} `,
+          value: list.id ? list.id : ''
+        });
+      });
+    }
+  }
+
+  // set careInstitution list options
+  const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
+  if (careInstitutionList && careInstitutionList.getUserByQualifications) {
+    const { getUserByQualifications } = careInstitutionList;
+    if (getUserByQualifications && getUserByQualifications.length) {
+      getUserByQualifications.map((list: any) => {
+        return careInstitutionOptions.push({
+          label: `${list.firstName} ${list.lastName} `,
+          value: list.id ? list.id : ''
+        });
+      });
+    }
+  }
   // To set initial month and year
   useEffect(() => {
     const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(
@@ -99,7 +173,6 @@ const Appointment: FunctionComponent = () => {
     setActiveYear(year);
     setDaysData(res);
   };
-  const { daysArr = [] } = daysData ? daysData : {};
 
   return (
     <>
@@ -110,14 +183,35 @@ const Appointment: FunctionComponent = () => {
             handleNext={handleNext}
             daysData={daysData}
             qualificationList={qualificationList}
+            handleQualification={handleQualification}
+            careInstitutionList={careInstitutionOptions}
+            careGiversList={careGiversOptions}
           />
 
           <div className='common-content flex-grow-1'>
             <div>
               <Row>
                 <Col lg={'6'}>
-                  <CaregiverListView />
-                  <CarinstituionListView />
+                  <CaregiverListView
+                    daysData={daysData}
+                    loading={caregiverLoading}
+                    careGiversList={
+                      careGiversList
+                        ? careGiversList &&
+                          careGiversList.getUserByQualifications
+                        : []
+                    }
+                  />
+                  <CarinstituionListView
+                    daysData={daysData}
+                    loading={careinstitutionLoading}
+                    careInstitutionList={
+                      careInstitutionList
+                        ? careInstitutionList &&
+                          careInstitutionList.getUserByQualifications
+                        : []
+                    }
+                  />
                 </Col>
                 <Col lg={'3'} className='px-lg-0'>
                   <div>

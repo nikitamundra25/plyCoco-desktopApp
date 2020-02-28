@@ -10,3 +10,4 @@ export * from './qualification';
 export * from './Attribute';
 export * from './Document';
 export * from './ToDo';
+export * from './Appointments';

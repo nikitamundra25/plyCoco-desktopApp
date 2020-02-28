@@ -14,6 +14,7 @@ declare interface String {
 }
 declare module 'draftjs-to-html';
 declare module 'html-to-draftjs';
+declare module 'react-multiselect-checkboxes';
 
 function createRef<T>(): RefObject<T>;
 interface RefObject<T> {

@@ -81,8 +81,8 @@ const PersonalInfoFormComponent: any = (
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
-    if (name === "country") {
-      setFieldValue("state", { label: "", value: "" });
+    if (name === 'country') {
+      setFieldValue('state', undefined);
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
       });
@@ -478,21 +478,34 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup>
-            <Row className="align-items-center">
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                <Label className="form-label col-form-label ">Country</Label>
+            <Row className='align-items-center'>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                <Label className='form-label col-form-label '>
+                  {languageTranslation('COUNTRY')}
+                  <span className='required'>*</span>
+                </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                <div>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                <div className={'required-input'}>
                   <Select
                     placeholder={languageTranslation("COUNTRY")}
                     options={countriesOpt}
                     isClearable={true}
                     value={country && country.value ? country : undefined}
-                    onChange={(value: any) => handleSelect(value, "country")}
-                    classNamePrefix="custom-inner-reactselect"
-                    className={"custom-reactselect"}
+                    onChange={(value: any) => handleSelect(value, 'country')}
+                    classNamePrefix='custom-inner-reactselect'
+                    onBlur={handleBlur}
+                    className={
+                      errors.country
+                        ? 'error custom-reactselect'
+                        : 'custom-reactselect'
+                    }
                   />
+                  {errors.country && (
+                    <div className='required-tooltip left'>
+                      {errors.country}
+                    </div>
+                  )}
                 </div>
               </Col>
             </Row>
@@ -500,12 +513,15 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
           <FormGroup>
-            <Row className="align-items-center">
-              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                <Label className="form-label col-form-label ">State</Label>
+            <Row className='align-items-center'>
+              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('STATE')}
+                  <span className='required'>*</span>
+                </Label>
               </Col>
-              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                <div>
+              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                <div className={'required-input'}>
                   <Select
                     placeholder={languageTranslation("STATE")}
                     isClearable={true}
@@ -515,9 +531,19 @@ const PersonalInfoFormComponent: any = (
                     noOptionsMessage={() => {
                       return "Select a country first";
                     }}
-                    classNamePrefix="custom-inner-reactselect"
-                    className={"custom-reactselect"}
+                    classNamePrefix='custom-inner-reactselect'
+                    onBlur={handleBlur}
+                    className={
+                      country && errors.state
+                        ? 'error custom-reactselect'
+                        : 'custom-reactselect'
+                    }
                   />
+                  {country && errors.state ? (
+                    <div className='required-tooltip left'>
+                      {errors.state}
+                    </div>
+                  ) : null}
                 </div>
               </Col>
             </Row>

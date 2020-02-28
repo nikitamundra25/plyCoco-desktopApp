@@ -43,12 +43,12 @@ const Offer: FunctionComponent = any => {
                   <DropdownMenu right>
                     <DropdownItem>
                       <i className="fa fa-plus mr-2" />
-                      Add all by keyword
+                      {languageTranslation("ADD_ALL_KEYWORD")}
                     </DropdownItem>
 
                     <DropdownItem>
                       <i className="fa fa-trash mr-2" />
-                      Remove all
+                      {languageTranslation("REMOVE_ALL")}
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -112,15 +112,15 @@ const Offer: FunctionComponent = any => {
                   <DropdownMenu right>
                     <DropdownItem onClick={() => setShowSearch(true)}>
                       <i className="fa fa-plus mr-2" />
-                      Add all by keyword
+                      {languageTranslation("ADD_ALL_KEYWORD")}
                     </DropdownItem>
                     <DropdownItem>
                       <i className="fa fa-plus mr-2" />
-                      Add all leasing facilities
+                      {languageTranslation("ADD_ALL_LEASING_FACILITY")}
                     </DropdownItem>
                     <DropdownItem>
                       <i className="fa fa-trash mr-2" />
-                      Remove all
+                      {languageTranslation("REMOVE_ALL")}
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -182,13 +182,13 @@ const Offer: FunctionComponent = any => {
                     <DropdownItem>
                       <img src={positive} className="mr-2" alt="" />
                       <span className="align-middle">
-                        Add all to the positive list
+                        {languageTranslation("ADD_ALL_POSITIVE_LIST")}
                       </span>
                     </DropdownItem>
                     <DropdownItem>
                       <img src={negative} className="mr-2" alt="" />
                       <span className="align-middle">
-                        Add all to negative list
+                        {languageTranslation("ADD_ALL_NEGATIVE_LIST")}
                       </span>
                     </DropdownItem>
                   </DropdownMenu>

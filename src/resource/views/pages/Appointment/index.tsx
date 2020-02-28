@@ -1750,14 +1750,14 @@ const Appointment: FunctionComponent = () => {
                       <div className="custom-appointment-calendar-head">
                         <div className="custom-appointment-row ">
                           <div className="custom-appointment-col name-col">
-                            Caregiver
+                            Care Institution
                           </div>
                           <div className="custom-appointment-col h-col">H</div>
                           <div className="custom-appointment-col s-col text-center">
                             S
                           </div>
                           <div className="custom-appointment-col u-col text-center">
-                            U
+                            A
                           </div>
                           <div className="custom-appointment-col v-col text-center">
                             V

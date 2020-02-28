@@ -119,6 +119,8 @@ export interface ICareGiverValidationInterface {
   taxNumber?: string;
   age?: number | null;
   fax?: string;
+  country?:IReactSelectInterface;
+  state?:IReactSelectInterface;
 }
 
 export interface IEmailMenus<

@@ -19,11 +19,7 @@
     }
   }
 }
-.common-label {
-  font-size: $font_12;
-  color: $black;
-  font-weight: bold;
-}
+
 // calendar table css
 .calender-section {
   position: relative;
@@ -77,28 +73,30 @@
           .custom-appointment-calendar-date {
             text-transform: capitalize;
           }
-          &.appointment-color1 {
-            background: #d3d3d3;
-          }
-          &.appointment-color2 {
-            background: #ffff00;
-          }
-          &.appointment-color3 {
-            background: #6a0dad;
-          }
-          &.appointment-color4 {
-            background: #f6cfca;
-          }
-          &.appointment-color5 {
-            background: #a1f5bd;
-          }
-          &.appointment-color6 {
-            background: #07e651;
-          }
         }
       }
     }
   }
+}
+
+// custom-color for matching
+.appointment-color1 {
+  background: #d3d3d3 !important;
+}
+.appointment-color2 {
+  background: #ffff00 !important;
+}
+.appointment-color3 {
+  background: #6a0dad !important;
+}
+.appointment-color4 {
+  background: #f6cfca !important;
+}
+.appointment-color5 {
+  background: #a1f5bd !important;
+}
+.appointment-color6 {
+  background: #07e651 !important;
 }
 .custom-height {
   height: calc(100vh - 164px);

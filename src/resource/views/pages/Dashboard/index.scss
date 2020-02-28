@@ -24,6 +24,12 @@
       padding: 0px;
       overflow-x: hidden;
       overflow-y: auto;
+      table {
+        td,
+        th {
+          font-size: $font_11;
+        }
+      }
     }
   }
 }

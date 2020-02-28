@@ -100,7 +100,9 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         countryId
         street
         city
-        contactType
+        contact_type {
+          contactType
+        }
         phoneNumber
         zip
         phoneNumber2
@@ -177,5 +179,5 @@ export const CareInstitutionQueries = [
   GET_DEPARTMENT_LIST,
   GET_CAREINSTITUTION_ATTRIBUTES,
   GET_CONTACT_LIST_BY_ID,
-  GET_CONTACT_TYPES
+  GET_CONTACT_TYPES,
 ];

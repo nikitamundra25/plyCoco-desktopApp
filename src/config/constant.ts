@@ -227,13 +227,13 @@ export const LockedOptions: any[] = [
 ];
 
 export const DayOptions: any[] = [
-  { value: 1, label: '1' },
-  { value: 2, label: '2' },
-  { value: 3, label: '3' },
-  { value: 5, label: '5' },
-  { value: 7, label: '7' },
-  { value: 14, label: '14' },
-  { value: 31, label: '31' }
+  { value: 1, label: '1 Day' },
+  { value: 2, label: '2 Days' },
+  { value: 3, label: '3 Days' },
+  { value: 5, label: '5 Days' },
+  { value: 7, label: '7 Days' },
+  { value: 14, label: '14 Days' },
+  { value: 31, label: '31 Days' }
 ];
 
 export const Country: IReactSelectInterface[] = [

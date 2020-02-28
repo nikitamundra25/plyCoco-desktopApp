@@ -119,6 +119,7 @@ const GET_CAREGIVERS = gql`
           city
           street
           title
+          attributes
         }
         regions {
           id
@@ -314,5 +315,5 @@ export const CareGiverQueries = [
   GET_EMAILS,
   GET_BELONGS_TO,
   GET_CAREGIVER_ATTRIBUTES,
-  GET_CAREGIVERS_FOR_BULK_EMAIL
+  GET_CAREGIVERS_FOR_BULK_EMAIL,
 ];

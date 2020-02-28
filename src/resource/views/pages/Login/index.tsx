@@ -28,7 +28,7 @@ export const Login: FunctionComponent = () => {
       if (status === 'failed') {
         toast.error(message);
       } else {
-        let expirationTime: number = moment().unix() + 120 /* sessionExpire */;
+        let expirationTime: number = moment().unix() + 20 /* sessionExpire */;
         localStorage.setItem('adminToken', token);
         localStorage.setItem('expirationTime', expirationTime.toString());
         history.push(AppRoutes.MAIN);

@@ -3,8 +3,8 @@ import { ICareInstitutionFormValues } from './CareInstitution';
 export interface IReactSelectInterface {
   label: string;
   value: string;
+  color?: string;
 }
-
 
 export interface IHandleSelectInterface {
   handleSelect: (selectOption: IReactSelectInterface, name: string) => void;

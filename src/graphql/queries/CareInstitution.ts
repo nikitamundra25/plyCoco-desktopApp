@@ -32,6 +32,7 @@ const GET_CARE_INSTITUTION_LIST = gql`
           title
           companyName
           shortName
+          attributes
         }
       }
     }

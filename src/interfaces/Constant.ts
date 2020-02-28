@@ -4,6 +4,7 @@ export interface IReactSelectInterface {
   label: string;
   value: string;
   color?: string;
+  companyName?: string;
 }
 
 export interface IHandleSelectInterface {

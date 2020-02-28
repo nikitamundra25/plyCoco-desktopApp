@@ -761,6 +761,13 @@
   "WEEKEND": "Weekend",
   "HOLIDAY": "Holiday",
   "INVOICE_INTERVAL": "Invoice Interval",
+  "STREET_AND_HOUSE": "Street and House Number",
+  "MOBILE_NUMBER": "Mobile Number",
+  "BANK": "Bank",
+  "BELONGS_TO": "Belongs to",
+  "EMPLOYED": "Employed",
+  "COMMENTS_INTERNALLY": "Comments (Internally)",
+  "SELECT_COUNTRY_FIRST": "Select a country first",
   "ADD_ALL_KEYWORD": "Add all by keyword",
   "REMOVE_ALL": "Remove all",
   "ADD_ALL_LEASING_FACILITY": "Add all leasing facilities",
@@ -778,5 +785,10 @@
   "INCORRECT_LOGIN": "Incorrect Login",
   "SUCCESSFUL_LOGIN": "Successful Login",
   "BOOKING_DATE": "Booking Date",
-  "LOGIN": "login"
+  "LOGIN": "login",
+  "NEW_CAREINSTITUTION": "New Care Institution",
+  "NEGATIVE_USER_ADDED": "User added sucessfully",
+  "NEGATIVE_USER_DELETED": "User deleted sucessfully",
+  "USER_DELETE_MSG": "This user will be deleted from negative list",
+  "DELETE_USER": "Delete User"
 }

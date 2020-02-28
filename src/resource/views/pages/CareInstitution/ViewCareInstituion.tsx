@@ -31,6 +31,7 @@ import reminder from '../../../assets/img/reminder.svg';
 import password from '../../../assets/img/password.svg';
 import appointment from '../../../assets/img/appointment.svg';
 import clear from '../../../assets/img/clear.svg';
+import CareInstCustomOption from '../../components/CustomOptions/CustomCareInstOptions';
 
 const PersonalInformation = React.lazy(() => import('./PersonalInfo'));
 const Offers = React.lazy(() => import('./Offers'));
@@ -146,11 +147,13 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     CareInstitutionList.push({
       label: languageTranslation('NAME'),
       value: languageTranslation('ID'),
-      color: '',
+      companyName: languageTranslation('COMPANY_NAME'),
     });
     careInstitutionData.map((data: any, index: any) => {
       const { canstitution } = data;
-      const { attributes = [] } = canstitution ? canstitution : {};
+      const { attributes = [], companyName = '' } = canstitution
+        ? canstitution
+        : {};
       CareInstitutionList.push({
         label: `${data.firstName}${' '}${data.lastName}`,
         value: data.id,
@@ -161,6 +164,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
           : attributes.includes('Plycoco')
           ? selfEmployesListColor
           : '',
+        companyName,
       });
       return true;
     });
@@ -276,14 +280,14 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                       <Select
                         classNamePrefix='custom-inner-reactselect'
                         className={
-                          'custom-reactselect custom-reactselect-menu-width'
+                          'custom-reactselect custom-reactselect-careinst-menu-width'
                         }
                         defaultValue={selectUser}
                         placeholder='Select Caregiver'
                         value={selectUser}
                         onChange={(e: any) => handleSelect(e)}
                         options={CareInstitutionList}
-                        components={{ Option: CustomOption }}
+                        components={{ Option: CareInstCustomOption }}
                         isOptionDisabled={(option: any) =>
                           option.value === languageTranslation('ID')
                         }
@@ -304,7 +308,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                         </span>
                       )}
                       <span className='header-nav-text'>
-                        New Care Institution
+                        {languageTranslation('NEW_CAREINSTITUTION')}
                       </span>
                     </Button>
                     <div className='header-nav-item'>
@@ -315,21 +319,23 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                         className='header-nav-text'
                         onClick={() => setShowToDo(true)}
                       >
-                        Create Todo/Reminder
+                        {languageTranslation('CG_MENU_CREATE_TODO')}
                       </span>
                     </div>
                     <div className='header-nav-item'>
                       <span className='header-nav-icon'>
                         <img src={password} alt='' />
                       </span>
-                      <span className='header-nav-text'>New Password</span>
+                      <span className='header-nav-text'>
+                        {languageTranslation('CG_MENU_NEW_PASSWORD')}
+                      </span>
                     </div>
                     <div className='header-nav-item'>
                       <span className='header-nav-icon'>
                         <img src={appointment} alt='' />
                       </span>
                       <span className='header-nav-text'>
-                        Display Appointments
+                        {languageTranslation('CG_MENU_DISPLAY_APPOINTMENTS_')}
                       </span>
                     </div>
                     <div className='header-nav-item'>

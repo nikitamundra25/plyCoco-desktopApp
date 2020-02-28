@@ -307,7 +307,26 @@ const GET_CAREGIVERS_FOR_BULK_EMAIL = gql`
     }
   }
 `;
-
+const GET_NEGATIVE_USERS_LIST = gql`
+  query GetNegativeList($id: ID!) {
+    getNegativeList(id: $id) {
+      negativeList {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+// query {
+//   getNegativeList(id: 1419){
+//     blackList{
+//       firstName
+//       lastName
+//     }
+//   }
+//  }
+//  getNegativeList(id: ID!): User
 export const CareGiverQueries = [
   GET_CAREGIVERS,
   GET_CAREGIVER_BY_ID,
@@ -316,4 +335,5 @@ export const CareGiverQueries = [
   GET_BELONGS_TO,
   GET_CAREGIVER_ATTRIBUTES,
   GET_CAREGIVERS_FOR_BULK_EMAIL,
+  GET_NEGATIVE_USERS_LIST,
 ];

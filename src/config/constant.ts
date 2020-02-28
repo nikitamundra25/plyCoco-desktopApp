@@ -1212,6 +1212,6 @@ export const ShiftTime: IReactSelectInterface[] = [
   { value: '10PM - 6AM Night', label: '10PM - 6AM Night' },
 ];
 
-export const deactivatedListColor: string = 'grey';
-export const leasingListColor: string = 'yellow';
-export const selfEmployesListColor: string = 'blue';
+export const deactivatedListColor: string = '#cacaca';
+export const leasingListColor: string = '#f7d158';
+export const selfEmployesListColor: string = '#ebebff';

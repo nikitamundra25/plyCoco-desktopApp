@@ -227,7 +227,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       <span className='header-nav-icon'>
                         <img src={add} alt='' />
                       </span>
-                      <span className='header-nav-text'>New Caregiver</span>
+                      <span className='header-nav-text'>
+                        {languageTranslation('CG_MENU_NEW_CAREGIVER')}
+                      </span>
                     </div>
                     <div
                       className='header-nav-item'
@@ -237,28 +239,32 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                         <img src={reminder} alt='' />
                       </span>
                       <span className='header-nav-text'>
-                        Create Todo/Reminder
+                        {languageTranslation('CG_MENU_CREATE_TODO')}
                       </span>
                     </div>
                     <div className='header-nav-item'>
                       <span className='header-nav-icon'>
                         <img src={password} alt='' />
                       </span>
-                      <span className='header-nav-text'>New Password</span>
+                      <span className='header-nav-text'>
+                        {languageTranslation('CG_MENU_NEW_PASSWORD')}
+                      </span>
                     </div>
                     <div className='header-nav-item'>
                       <span className='header-nav-icon'>
                         <img src={appointment} alt='' />
                       </span>
                       <span className='header-nav-text'>
-                        Display Appointments
+                        {languageTranslation('CG_MENU_DISPLAY_APPOINTMENTS_')}
                       </span>
                     </div>
                     <div className='header-nav-item'>
                       <span className='header-nav-icon'>
                         <img src={clear} alt='' />
                       </span>
-                      <span className='header-nav-text'>Clear</span>
+                      <span className='header-nav-text'>
+                        {languageTranslation('CLEAR')}
+                      </span>
                     </div>
                   </div>
                   <CareGiverSidebar

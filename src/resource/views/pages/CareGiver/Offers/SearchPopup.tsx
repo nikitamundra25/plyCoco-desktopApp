@@ -30,40 +30,45 @@ const OfferSearch = (props: any) => {
         <ModalHeader close={externalCloseBtn}>
           {languageTranslation('SEARCH_POPUP_TITLE')}{' '}
         </ModalHeader>
-        <ModalBody>
-          <div className=''>
-            <Form className='form-section forms-main-section'>
-              <Row>
-                <Col lg={'12'}>
-                  <FormGroup>
-                    <Label className='form-label col-form-label mb-1'>
-                      {languageTranslation(
-                        'SEARCH_POPUP_LABEL_CAREINSTITUTION'
-                      )}
-                    </Label>
-                    <div>
-                      <Input
-                        type='text'
-                        name={'firstName'}
-                        value={searchValue}
-                        placeholder={languageTranslation('SEARCH_LABEL')}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </Form>
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button color='primary' onClick={onSearch}>
-            {languageTranslation('ADD')}
-          </Button>
-          <Button color='secondary' onClick={handleClose}>
-            {languageTranslation('CANCEL')}
-          </Button>
-        </ModalFooter>
+        <Form onSubmit={(e: any) => {
+          e.preventDefault();
+          onSearch();
+        }}>
+          <ModalBody>
+            <div className=''>
+              <div className='form-section forms-main-section'>
+                <Row>
+                  <Col lg={'12'}>
+                    <FormGroup>
+                      <Label className='form-label col-form-label mb-1'>
+                        {languageTranslation(
+                          'SEARCH_POPUP_LABEL_CAREINSTITUTION'
+                        )}
+                      </Label>
+                      <div>
+                        <Input
+                          type='text'
+                          name={'firstName'}
+                          value={searchValue}
+                          placeholder={languageTranslation('SEARCH_LABEL')}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </div>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color='primary' type='submit'>
+              {languageTranslation('ADD')}
+            </Button>
+            <Button color='secondary' onClick={handleClose}>
+              {languageTranslation('CANCEL')}
+            </Button>
+          </ModalFooter>
+        </Form>
       </Modal>
     </div>
   );

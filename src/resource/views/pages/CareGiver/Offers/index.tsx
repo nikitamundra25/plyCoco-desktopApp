@@ -26,7 +26,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   const [selectedOption, setSelectedOption] = useState<any>(null);
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [negativeUsersList, setNegativeUsersList] = useState<any>([]);
-  const [searchValue, setSearch] = useState<any>(null);
+  const [searchValue, setSearch] = useState<any>('');
   const [GET_CARE_INSTITUTION_LIST] = CareInstitutionQueries;
   const [
     ,
@@ -44,12 +44,9 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   let userId: any | undefined = id;
   const [careInstOptions, setCareInstOptions] = useState<any>([]);
   // get care institution lists
-  const [
-    fetchCareInstitutionList,
-    { data: careInstituition, refetch }
-  ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
+  const [fetchCareInstitutionList, { data: careInstituition, refetch }] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
     onCompleted: async () => {
-      if (searchValue != null) {
+      if (searchValue != '') {
         if (
           careInstituition &&
           careInstituition.getCareInstitutions &&
@@ -87,6 +84,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
               }
             }
             setShowSearch(false);
+            setSearch('');
           }
         } else {
           if (!toast.isActive(toastId)) {
@@ -283,6 +281,8 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   };
 
   const onSearch = async () => {
+    console.log('ssssssss ');
+
     await fetchCareInstitutionList({
       variables: {
         searchBy: searchValue,
@@ -319,7 +319,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
         show={showSearch ? true : false}
         handleClose={() => {
           setShowSearch(false);
-          setSearch(null);
+          setSearch('');
         }}
         handleChange={handleChange}
         onSearch={onSearch}

@@ -8,8 +8,12 @@ export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\
 export const PAGE_LIMIT: number = 10;
 export const TODO_PAGE_LIMIT: number = 14;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
-export const defaultDateTimeFormat: any = "DD.MM.YYYY HH:mm:ss";
 export const defaultDateTimeFormatForDashboard: any = "DD.MM.YYYY HH:mm";
+export const appointmentDayFormat: string = "dd";
+export const appointmentDateFormat: string = "DD";
+export const appointmentMonthFormat: string = "MMMM";
+export const appointmentYearFormat: string = "YYYY";
+export const defaultDateTimeFormat: any = "DD.MM.YYYY HH:mm:ss";
 export const defaultDateFormat: any = "DD.MM.YYYY";
 export const dbAcceptableFormat: any = "YYYY/MM/DD";
 export const dateFormat: any = "MMM, Do YYYY";
@@ -962,7 +966,7 @@ export const Without_Appointments: IReactSelectInterface[] = [
     value: "Show without appointment",
     label: languageTranslation("SHOW_WITHOUT_APPOINTMENT")
   },
-  { value: "View All", label: languageTranslation("VIEW_ALL") }
+  { value: "Show All", label: languageTranslation("SHOW_ALL") }
 ];
 
 export const TodoStatus: IReactSelectInterface[] = [

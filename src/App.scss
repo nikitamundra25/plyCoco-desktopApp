@@ -1813,6 +1813,28 @@ html:not([dir="rtl"]) {
   }
 }
 
+//custom select checkbox
+.custom-select-checkbox {
+  font-family: $font_Frutiger_Regular;
+  button {
+    border-radius: 0px;
+    color: $light_black;
+    font-size: $font_12;
+    min-height: 25px;
+    padding: 0px 8px;
+    line-height: normal;
+    border: 1px solid $light_gray;
+    box-shadow: none;
+    font-family: $font_Frutiger_Regular;
+    width: 100%;
+    &:hover {
+      box-shadow: none;
+      outline: none;
+      border-color: $border_hover_color;
+    }
+  }
+}
+
 .common-list-wrap {
   margin-bottom: 12px;
   position: relative;

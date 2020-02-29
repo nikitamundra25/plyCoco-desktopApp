@@ -268,9 +268,9 @@ const PersonalInformation: any = (props: any) => {
         qualificationId:
           values.qualificationId && values.qualificationId.length
             ? values.qualificationId.map(
-                (qualification: IReactSelectInterface) =>
-                  parseInt(qualification.value),
-              )
+              (qualification: IReactSelectInterface) =>
+                parseInt(qualification.value),
+            )
             : null,
         attributes: AttributeData,
         leasingPriceListId:
@@ -331,9 +331,9 @@ const PersonalInformation: any = (props: any) => {
   const convertintoLabelValue = (data: string) => {
     return data
       ? {
-          label: data,
-          value: data,
-        }
+        label: data,
+        value: data,
+      }
       : undefined;
   };
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
@@ -477,9 +477,9 @@ const PersonalInformation: any = (props: any) => {
       remarksViewable: remarksViewable || '',
       country: userSelectedCountry.value
         ? {
-            label: userSelectedCountry.value ? userSelectedCountry.label : null,
-            value: userSelectedCountry.value ? userSelectedCountry.value : null,
-          }
+          label: userSelectedCountry.value ? userSelectedCountry.label : null,
+          value: userSelectedCountry.value ? userSelectedCountry.value : null,
+        }
         : undefined,
       state:
         userSelectedState && userSelectedState.value
@@ -518,11 +518,12 @@ const PersonalInformation: any = (props: any) => {
     Data = {
       label: `${getCareInstitution.firstName} ${''} ${
         getCareInstitution.lastName
-      }`,
+        }`,
       value: Id,
     };
   } else {
     values = {
+      countryId: '',
       createdAt: new Date(),
       email: '',
       firstName: '',
@@ -553,39 +554,39 @@ const PersonalInformation: any = (props: any) => {
       <Loader />
     </div>
   ) : (
-    <Form className='form-section forms-main-section'>
-      <Formik
-        initialValues={values}
-        enableReinitialize={true}
-        onSubmit={handleSubmit}
-        children={(props: FormikProps<ICareInstitutionFormValues>) => (
-          <PersonalInfoForm
-            CareInstitutionList={CareInstitutionLinkedTo}
-            {...props}
-            qualificationList={qualificationList}
-            setRemarksDetail={setRemarksDetail}
-            remarksDetail={remarksDetail}
-            saveRemark={saveRemark}
-            careInstitutionAttrOpt={careInstitutionAttrOpt}
-            countriesOpt={countriesOpt}
-            userSelectedCountry={userSelectedCountry}
-          />
-        )}
-        validationSchema={CareInstituionValidationSchema}
-      />
-      <div className='position-relative'>
-        <CareInstitutionContacts
-          contacts={contacts}
-          careInstId={id}
-          careInstitutionAttrOpt={careInstitutionAttrOpt}
-          refetch={() => refetch()}
-          setContacts={(contacts: any) => {
-            setContacts((contacts = contacts));
-          }}
-          neContactAdded={() => props.neContactAdded()}
+      <Form className='form-section forms-main-section'>
+        <Formik
+          initialValues={values}
+          enableReinitialize={true}
+          onSubmit={handleSubmit}
+          children={(props: FormikProps<ICareInstitutionFormValues>) => (
+            <PersonalInfoForm
+              CareInstitutionList={CareInstitutionLinkedTo}
+              {...props}
+              qualificationList={qualificationList}
+              setRemarksDetail={setRemarksDetail}
+              remarksDetail={remarksDetail}
+              saveRemark={saveRemark}
+              careInstitutionAttrOpt={careInstitutionAttrOpt}
+              countriesOpt={countriesOpt}
+              userSelectedCountry={userSelectedCountry}
+            />
+          )}
+          validationSchema={CareInstituionValidationSchema}
         />
-      </div>
-    </Form>
-  );
+        <div className='position-relative'>
+          <CareInstitutionContacts
+            contacts={contacts}
+            careInstId={id}
+            careInstitutionAttrOpt={careInstitutionAttrOpt}
+            refetch={() => refetch()}
+            setContacts={(contacts: any) => {
+              setContacts((contacts = contacts));
+            }}
+            neContactAdded={() => props.neContactAdded()}
+          />
+        </div>
+      </Form>
+    );
 };
 export default PersonalInformation;

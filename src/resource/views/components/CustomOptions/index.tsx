@@ -6,12 +6,14 @@ const CustomOption: FunctionComponent = (props: any) => {
   let style = {
     backgroundColor: data.color,
   };
+  console.log(data, 'data+6++++++');
+
   return (
     <div
       {...innerProps}
       className={`custom-select-options ${
         data.value === languageTranslation('ID') ? 'custom-sticky-head' : ''
-      } ${isSelected ? 'active' : ''}`}
+      } ${isSelected ? (data.color ? 'text-black' : 'active') : ''}`}
       style={style}
     >
       <span

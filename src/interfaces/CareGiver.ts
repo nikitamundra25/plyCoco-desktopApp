@@ -1,12 +1,12 @@
-import { Location } from "history";
-import * as H from "history";
-import { IReactSelectInterface } from "./Constant";
-import { ICareInstitutionRemarks } from "./CareInstitution";
-import { number } from "prop-types";
+import { Location } from 'history';
+import * as H from 'history';
+import { IReactSelectInterface } from './Constant';
+import { ICareInstitutionRemarks } from './CareInstitution';
+import { number } from 'prop-types';
 import {
   IEmailInputAttachmenttypes,
-  IEmailAttachmentData
-} from "./EmailTemplate";
+  IEmailAttachmentData,
+} from './EmailTemplate';
 
 export interface ICareGiverInput {
   id?: string;
@@ -399,7 +399,7 @@ export interface IAttributeValues {
 export interface IAttributeOptions {
   label: string;
   value: string;
-  color: string | null;
+  color: string;
 }
 
 export interface IToDoFormValues {

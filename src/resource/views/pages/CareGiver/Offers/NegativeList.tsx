@@ -13,10 +13,25 @@ import CareInstCustomOption from "../../../components/CustomOptions/CustomCareIn
 
 import { INegativeListInterface } from "../../../../../interfaces";
 
-const NegativeList: FunctionComponent<INegativeListInterface> = (props: INegativeListInterface) => {
-  let { negativeUser, handleRemoveAll, careInstOptions, setShowSearch, onDeleteNegativeUser, handleSelect, selectedOption, setSelectedOption } = props;
+const NegativeList: FunctionComponent<INegativeListInterface> = (
+  props: INegativeListInterface
+) => {
+  let {
+    negativeUser,
+    handleRemoveAll,
+    careInstOptions,
+    setShowSearch,
+    onDeleteNegativeUser,
+    handleSelect,
+    selectedOption,
+    setSelectedOption
+  } = props;
 
-  if (negativeUser && negativeUser.getNegativeList && negativeUser.getNegativeList.negativeList) {
+  if (
+    negativeUser &&
+    negativeUser.getNegativeList &&
+    negativeUser.getNegativeList.negativeList
+  ) {
     careInstOptions = careInstOptions.filter((g: any) => {
       return !negativeUser.getNegativeList.negativeList.find((d: any) => {
         if (d.id === g.value) {
@@ -33,14 +48,11 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (props: INegativ
           {languageTranslation("NO_OFFER_FOR")}{" "}
           <span className="font-weight-bold">
             ({languageTranslation("NEGATIVE")})
-        </span>
+          </span>
         </div>
         <div>
           <UncontrolledDropdown className="custom-dropdown">
-            <DropdownToggle
-              className={"text-capitalize btn-more"}
-              size="sm"
-            >
+            <DropdownToggle className={"text-capitalize btn-more"} size="sm">
               <i className="icon-options-vertical" />
             </DropdownToggle>
             <DropdownMenu right>
@@ -52,7 +64,13 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (props: INegativ
                 <i className="fa fa-plus mr-2" />
                 {languageTranslation("ADD_ALL_LEASING_FACILITY")}
               </DropdownItem> */}
-              <DropdownItem disabled={negativeUser && negativeUser.getNegativeList && negativeUser.getNegativeList.negativeList.length === 0}>
+              <DropdownItem
+                disabled={
+                  negativeUser &&
+                  negativeUser.getNegativeList &&
+                  negativeUser.getNegativeList.negativeList.length === 0
+                }
+              >
                 <span onClick={handleRemoveAll}>
                   <i className="fa fa-trash mr-2" />
                   {languageTranslation("REMOVE_ALL")}
@@ -62,42 +80,40 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (props: INegativ
           </UncontrolledDropdown>
         </div>
       </div>
-      <div className="common-list-body">
-        <ul className="common-list list-unstyled">
+      <div className="common-list-body custom-scrollbar">
+        <ul className="common-list list-unstyled mb-0">
           {negativeUser &&
-            negativeUser.getNegativeList &&
-            negativeUser.getNegativeList.negativeList
+          negativeUser.getNegativeList &&
+          negativeUser.getNegativeList.negativeList
             ? negativeUser.getNegativeList.negativeList.map(
-              (item: any, index: number) => {
-                return (
-                  <li
-                    key={index}
-                    className={
-                      "cursor-pointer list-item text-capitalize active"
-                    }
-                  >
-                    <div className="list-item-text">
-                      {item && item.firstName + " " + item.lastName}
-                    </div>
-                    <div className="list-item-icon">
-                      <span
-                        id={`delete${index}`}
-                        className={`btn-icon mr-2`}
-                        onClick={() => onDeleteNegativeUser(item.id)}
-                      >
-                        <UncontrolledTooltip
-                          placement={"top"}
-                          target={`delete${index}`}
+                (item: any, index: number) => {
+                  return (
+                    <li
+                      key={index}
+                      className={"cursor-pointer list-item text-capitalize"}
+                    >
+                      <div className="list-item-text">
+                        {item && item.firstName + " " + item.lastName}
+                      </div>
+                      <div className="list-item-icon">
+                        <span
+                          id={`delete${index}`}
+                          className={`btn-icon mr-2`}
+                          onClick={() => onDeleteNegativeUser(item.id)}
                         >
-                          {languageTranslation("DELETE_USER")}
-                        </UncontrolledTooltip>
-                        <i className="fa fa-trash"></i>
-                      </span>
-                    </div>
-                  </li>
-                );
-              }
-            )
+                          <UncontrolledTooltip
+                            placement={"top"}
+                            target={`delete${index}`}
+                          >
+                            {languageTranslation("DELETE_USER")}
+                          </UncontrolledTooltip>
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </li>
+                  );
+                }
+              )
             : null}
         </ul>
       </div>

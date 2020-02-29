@@ -20,7 +20,7 @@ const CareGiverSidebar = React.lazy(() =>
   import('./Sidebar/SidebarLayout/CareGiverLayout')
 );
 const PersonalInfo = React.lazy(() => import('./PersonalInfo'));
-const Offer = React.lazy(() => import('./Offers/Offer'));
+const Offer = React.lazy(() => import('./Offers'));
 const LoginLogs = React.lazy(() => import('../../components/Logins'));
 const Invoices = React.lazy(() => import('./Invoices/Invoices'));
 const ToDo = React.lazy(() => import('../../components/ToDosInnerList'));
@@ -266,7 +266,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                   {activeTab === 0 ? (
                     <PersonalInfo careGiverOpt={careGiverOpt} />
                   ) : null}
-                  {activeTab === 1 ? <Offer /> : null}
+                  {activeTab === 1 ? <Offer {...props} /> : null}
                   {activeTab === 2 ? <LoginLogs /> : null}
                   {activeTab === 3 ? <Invoices /> : null}
                   {activeTab === 4 ? <Documents /> : null}

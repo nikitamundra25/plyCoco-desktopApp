@@ -779,6 +779,7 @@
   "NEW_CAREINSTITUTION": "New Care Institution",
   "NEGATIVE_USER_ADDED": "User added sucessfully",
   "NEGATIVE_USER_DELETED": "User deleted sucessfully",
+  "SEARCH_RECORD_NOT_FOUND": "Search record not found",
   "USER_DELETE_MSG": "This user will be deleted from negative list",
   "DELETE_USER": "Delete User",
   "SELECT_DAY": "Days",

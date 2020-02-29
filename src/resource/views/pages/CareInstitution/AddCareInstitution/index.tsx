@@ -243,6 +243,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   const values: ICareInstitutionFormValues = {
     email: '',
     firstName: '',
+    countryId:'',
     lastName: '',
     userName: '',
     fax: '',

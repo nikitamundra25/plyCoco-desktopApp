@@ -496,12 +496,12 @@ const PersonalInfoFormComponent: any = (
                     onChange={(value: any) => handleSelect(value, "country")}
                     classNamePrefix="custom-inner-reactselect"
                     className={
-                      errors.country
+                      touched.countryId && errors.country && !country
                         ? "error custom-reactselect"
                         : "custom-reactselect"
                     }
                   />
-                  {errors.country && (
+                  {touched.countryId && errors.country && !country && (
                     <div className="required-tooltip left">
                       {errors.country}
                     </div>
@@ -528,7 +528,7 @@ const PersonalInfoFormComponent: any = (
                     value={state && state.value !== '' ? state : null}
                     onChange={(value: any) => handleSelect(value, 'state')}
                     noOptionsMessage={() => {
-                      return 'Select a country first';
+                      return country && country.value ? 'No options' : 'Select a country first';
                     }}
                     classNamePrefix="custom-inner-reactselect"
                     onBlur={handleBlur}

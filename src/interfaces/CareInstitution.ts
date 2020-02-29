@@ -76,6 +76,7 @@ export interface ICareInstitutionContactValidationSchema {
   phoneNumber2: number;
   faxNumber: number;
   contactType?: IReactSelectInterface;
+  country?: IReactSelectInterface;
 }
 
 export interface ICareInstitutionContact {
@@ -185,4 +186,4 @@ export interface IAddTimeFormValidationSchema {
   comment?: string;
 }
 
-export interface IQuallificationAttribute {}
+export interface IQuallificationAttribute { }

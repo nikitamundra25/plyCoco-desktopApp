@@ -440,7 +440,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     address2,
     driversLicense,
     driverLicenseNumber,
-    country: userSelectedCountry,
+    country: userSelectedCountry && userSelectedCountry.value ? userSelectedCountry : null,
     vehicleAvailable,
     street,
     city,

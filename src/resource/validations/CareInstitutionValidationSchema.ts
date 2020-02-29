@@ -147,7 +147,9 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
   contactType: Yup.object().shape({
     value: Yup.string().required(languageTranslation('CONTACT_REQUIRED')),
     label: Yup.string().required(languageTranslation('CONTACT_REQUIRED'))
-  })
+  }),
+  country: Yup.mixed()
+    .required(languageTranslation('COUNTRY_REQUIRED'))
 });
 
 export const AddDepartmentValidationSchema: Yup.ObjectSchema<Yup.Shape<

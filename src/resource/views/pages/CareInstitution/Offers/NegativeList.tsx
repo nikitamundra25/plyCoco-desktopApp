@@ -14,10 +14,10 @@ import CareInstCustomOption from "../../../components/CustomOptions/CustomCareIn
 import { INegativeListInterface } from "../../../../../interfaces";
 
 const NegativeList: FunctionComponent<INegativeListInterface> = (props: INegativeListInterface) => {
-  let { negativeUser, handleRemoveAll, careInstOptions, setShowSearch, onDeleteNegativeUser, handleSelect, selectedOption, setSelectedOption } = props;
+  let { negativeUser, handleRemoveAll, caregiverOptions, onDeleteNegativeUser, handleSelect, selectedOption, setSelectedOption } = props;
 
   if (negativeUser && negativeUser.getNegativeList && negativeUser.getNegativeList.negativeList) {
-    careInstOptions = careInstOptions.filter((g: any) => {
+    caregiverOptions = caregiverOptions.filter((g: any) => {
       return !negativeUser.getNegativeList.negativeList.find((d: any) => {
         if (d.id === g.value) {
           return g;
@@ -44,16 +44,10 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (props: INegativ
               <i className="icon-options-vertical" />
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem onClick={() => setShowSearch(true)}>
-                <i className="fa fa-plus mr-2" />
-                {languageTranslation("ADD_ALL_KEYWORD")}
-              </DropdownItem>
-              {/* <DropdownItem>
-                <i className="fa fa-plus mr-2" />
-                {languageTranslation("ADD_ALL_LEASING_FACILITY")}
-              </DropdownItem> */}
               <DropdownItem disabled={negativeUser && negativeUser.getNegativeList && negativeUser.getNegativeList.negativeList.length === 0}>
-                <span onClick={handleRemoveAll}>
+                <span
+                  onClick={handleRemoveAll}
+                >
                   <i className="fa fa-trash mr-2" />
                   {languageTranslation("REMOVE_ALL")}
                 </span>
@@ -104,8 +98,8 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (props: INegativ
       <div className="common-list-footer form-section ">
         <FormGroup className="mb-0">
           <Select
-            placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
-            options={careInstOptions}
+            placeholder={languageTranslation("SELECT_CAREGIVER")}
+            options={caregiverOptions}
             menuPlacement={"top"}
             className="attribute-select"
             classNamePrefix="attribute-inner-select"

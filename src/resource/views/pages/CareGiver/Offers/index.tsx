@@ -215,7 +215,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   };
 
   //remove all
-  const handleRemoveAll = async (careInstId: any) => {
+  const handleRemoveAll = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation("CONFIRM_LABEL"),
       text: languageTranslation("USER_DELETE_MSG")

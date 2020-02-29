@@ -362,6 +362,8 @@
   "REMARKS": "Remarks",
   "FOR_CANSTITUTION_VIEWBLE": "For Care Institution viewable",
   "HEALTH_CARE_FEE": "Health care fee",
+  "SELECT_CARE_INSTITUTION": "Select Care Institution",
+  "SELECT_CAREGIVER": "Select Caregiver",
   "DOCTOR_FEE": "Doctor fee",
   "LEASING_PRICE_LIST": "Leasing Price List",
   "INVOICE_TYPE": "Invoice type",

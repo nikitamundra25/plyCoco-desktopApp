@@ -6,6 +6,9 @@
   height: calc(100vh - 125px);
   overflow-y: auto;
   overflow-x: hidden;
+  @media only screen and (max-width: 991px) {
+    max-height: 500px;
+  }
 }
 
 .bulk-email-header {

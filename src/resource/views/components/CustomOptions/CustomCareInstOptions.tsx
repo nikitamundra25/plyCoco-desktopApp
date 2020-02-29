@@ -4,14 +4,14 @@ import { languageTranslation } from '../../../../helpers';
 const CareInstCustomOption: FunctionComponent = (props: any) => {
   const { data, innerProps, isSelected } = props;
   let style = {
-    backgroundColor: data.color
+    backgroundColor: data.color,
   };
   return (
     <div
       {...innerProps}
       className={`custom-select-options ${
         data.value === languageTranslation('ID') ? 'custom-sticky-head' : ''
-      } ${isSelected ? 'active' : ''}`}
+      } ${isSelected ? (data.color ? 'text-black' : 'active') : ''}`}
       style={style}
     >
       <span
@@ -22,18 +22,18 @@ const CareInstCustomOption: FunctionComponent = (props: any) => {
         {data.label}
       </span>
       <span
-        className={`custom-id-option text-center ${
+        className={`custom-companyname-option one-line-text  ${
           data.value === languageTranslation('ID') ? 'custom-head' : ''
         }`}
       >
-        {data.value}
+        {data.companyName}
       </span>
       <span
         className={`custom-id-option text-center ${
           data.value === languageTranslation('ID') ? 'custom-head' : ''
         }`}
       >
-        {data.companyName}
+        {data.value}
       </span>
     </div>
   );

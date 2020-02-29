@@ -5,7 +5,7 @@ import { ICareInstitutionRemarks } from './CareInstitution';
 import { number } from 'prop-types';
 import {
   IEmailInputAttachmenttypes,
-  IEmailAttachmentData
+  IEmailAttachmentData,
 } from './EmailTemplate';
 
 export interface ICareGiverInput {
@@ -399,7 +399,7 @@ export interface IAttributeValues {
 export interface IAttributeOptions {
   label: string;
   value: string;
-  color: string | null;
+  color: string;
 }
 
 export interface IToDoFormValues {

@@ -790,5 +790,6 @@
   "INCORRECT_LOGIN": "Incorrect Login",
   "SUCCESSFUL_LOGIN": "Successful Login",
   "BOOKING_DATE": "Booking Date",
-  "LOGIN": "login"
+  "LOGIN": "login",
+  "FILE_MUST_BE_LESS_THAN_25_MB": "File size must be less than 25 mb"
 }

@@ -59,4 +59,5 @@ export interface IDocumentModelInterface {
   documentTypeList: IReactSelectInterface[];
   unsupportedFile: string | null;
   defaultDocument: boolean | undefined;
+  setRequiredDoc: any;
 }

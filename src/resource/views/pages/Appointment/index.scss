@@ -47,7 +47,7 @@
     }
     .custom-appointment-row {
       display: flex;
-      font-size: 12px;
+      font-size: $font_12;
       color: $black;
       border-left: 1px solid $table_border;
 
@@ -109,7 +109,6 @@
   color: $black;
   cursor: pointer;
   line-height: normal;
-  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
   border: 1px solid $common_tab_border;
   margin: 0 2px;

@@ -32,7 +32,7 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
   return (
     <Col lg={"7"}>
       <div className="">
-        <div className="form-section py-2 px-3 bulk-email-form">
+        <div className="form-section py-2 px-3 form-card">
           <div className="d-flex align-items-end justify-content-between bulk-email-header">
             <Label className="bulk-email-label">
               {languageTranslation("SUBJECT")} {languageTranslation("EMAIL")}

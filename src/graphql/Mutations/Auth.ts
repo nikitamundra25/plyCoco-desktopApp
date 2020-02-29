@@ -6,6 +6,16 @@ export const LOGIN = gql`
       token
       message
       status
+      sessionExpire
+    }
+  }
+`;
+
+export const REFRESH_TOKEN = gql`
+  mutation refreshToken {
+    refreshToken {
+      token
+      sessionExpire
     }
   }
 `;

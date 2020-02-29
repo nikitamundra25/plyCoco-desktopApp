@@ -10,8 +10,9 @@ import { languageTranslation } from "../../../../../helpers";
 import negative from "../../../../assets/img/negative.svg";
 import { IWorkedListInterface } from "../../../../../interfaces";
 
-const WorkedList: FunctionComponent<IWorkedListInterface> = (props: IWorkedListInterface) => {
-
+const WorkedList: FunctionComponent<IWorkedListInterface> = (
+  props: IWorkedListInterface
+) => {
   return (
     <div className="common-list-wrap">
       <div className="common-list-header d-flex align-items-center justify-content-between">
@@ -20,10 +21,7 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (props: IWorkedListI
         </div>
         <div>
           <UncontrolledDropdown className="custom-dropdown">
-            <DropdownToggle
-              className={"text-capitalize btn-more"}
-              size="sm"
-            >
+            <DropdownToggle className={"text-capitalize btn-more"} size="sm">
               <i className="icon-options-vertical" />
             </DropdownToggle>
             <DropdownMenu right>
@@ -43,8 +41,8 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (props: IWorkedListI
           </UncontrolledDropdown>
         </div>
       </div>
-      <div className="common-list-body">
-        <ul className="common-list list-unstyled">
+      <div className="common-list-body custom-scrollbar worked-list">
+        <ul className="common-list list-unstyled mb-0">
           <li className={"cursor-pointer list-item text-capitalize "}>
             <div className="list-item-text">Dialysis</div>
             <div className="list-item-icon d-flex">

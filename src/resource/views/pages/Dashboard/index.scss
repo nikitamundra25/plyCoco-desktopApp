@@ -28,6 +28,15 @@
         td,
         th {
           font-size: $font_11;
+          &.date-column {
+            width: 100px;
+          }
+          &.name-column {
+          }
+          &.username-column {
+          }
+          &.type-column {
+          }
         }
       }
     }

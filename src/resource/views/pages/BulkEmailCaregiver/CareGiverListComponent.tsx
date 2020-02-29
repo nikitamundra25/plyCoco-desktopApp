@@ -143,7 +143,16 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                     </tr>
                   );
                 })
-              ) : null}
+              ) : (
+                <div className='no-data-section'>
+                  <div className='no-data-icon'>
+                    <i className='icon-ban' />
+                  </div>
+                  <h4 className='mb-1'>
+                    Currently there are no caregiver added.{' '}
+                  </h4>
+                </div>
+              )}
             </tbody>
           </Table>
         </InfiniteScroll>

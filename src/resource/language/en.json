@@ -214,6 +214,7 @@
   "CAREGIVER_REMARKS_PLACEHOLDER": "Remarks",
   "CAREGIVER_QUALIFICATION_ATTRIBUTE_LABEL": "Qualification Attributes",
   "CAREGIVER_QUALIFICATION_ATTRIBUTE_PLACEHOLDER": "Please select Qualification from the dropdown",
+  "CAREGIVER_QUALIFICATION_PLACEHOLDER": "Select Qualification",
   "ATTRIBUTE_PLACEHOLDER": "Please select Attribute from the dropdown",
   "CAREGIVER_FEE_PER_HOUR_LABEL": "Feeper hour",
   "CAREGIVER_FEE_PER_HOUR": "feePerHour",

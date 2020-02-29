@@ -50,7 +50,9 @@
       font-size: $font_12;
       color: $black;
       border-left: 1px solid $table_border;
-
+      &:last-child {
+        border-bottom: 1px solid $table_border;
+      }
       .custom-appointment-col {
         flex: 0 0 30px;
         max-width: 30px;
@@ -59,6 +61,7 @@
         border-top: 1px solid $table_border;
         vertical-align: middle;
         background: $white;
+
         &.name-col {
           flex: 0 0 200px;
           max-width: 200px;

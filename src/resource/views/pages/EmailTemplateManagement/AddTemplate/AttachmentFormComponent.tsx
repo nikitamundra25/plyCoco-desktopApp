@@ -9,11 +9,8 @@ export const AttachmentFormComponent: FunctionComponent<any> = ({
   attachment
 }: any) => {
   const [fileSize, setfileSize] = useState<string | any>(null);
-  console.log('attachment', attachment);
-
   //to get size of all the files
   let totalFileSize = attachment.reduce((a: any, b: any) => +a + +b.size, 0);
-  console.log('totalFileSize++++++++', totalFileSize);
 
   // convert document to binary format
   // if (totalFileSize < 25)
@@ -24,8 +21,6 @@ export const AttachmentFormComponent: FunctionComponent<any> = ({
         if (file) {
           totalFileSize += file.size;
           if (totalFileSize < 25000000) {
-            console.log('totalFileSize in on drop', totalFileSize);
-            console.log(' inside sucesss');
             const reader = new FileReader();
             reader.onabort = () => console.log('file reading was aborted');
             reader.onerror = () => console.log('file reading has failed');
@@ -62,7 +57,7 @@ export const AttachmentFormComponent: FunctionComponent<any> = ({
         {...getRootProps()}
         className={
           newEmailPortion
-            ? 'dropzone-preview email-dropzone-height'
+            ? 'dropzone-preview email-dropzone-height mb-2'
             : 'dropzone-preview mb-2 '
         }
       >
@@ -72,10 +67,7 @@ export const AttachmentFormComponent: FunctionComponent<any> = ({
         </div>
         <span>Drag 'n' drop files here, or click here to upload files</span>
       </div>
-      <div className='required-error'>
-        {console.log('totalFileSize in render', totalFileSize)}
-        {fileSize}
-      </div>
+      <div className='required-file-error'>{fileSize}</div>
     </Col>
   );
 };

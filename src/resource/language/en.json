@@ -759,5 +759,6 @@
   "NO_TODO_LIST_MESSAGE": "Please click above button to add new. ",
   "WEEKEND": "Weekend",
   "HOLIDAY": "Holiday",
-  "INVOICE_INTERVAL": "Invoice Interval"
+  "INVOICE_INTERVAL": "Invoice Interval",
+  "SELECT_CONTACT_PLACEHOLDER": "Select Contact"
 }

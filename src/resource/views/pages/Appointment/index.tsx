@@ -50,6 +50,9 @@ const Appointment: FunctionComponent = () => {
   const [activeMonth, setActiveMonth] = useState<number>(moment().month());
   const [activeYear, setActiveYear] = useState<number>(moment().year());
   const [qualification, setqualification] = useState<any>([]);
+  const [caregiversList, setcaregiversList] = useState<any>([]);
+  const [careinstitutionList, setcareinstitutionList] = useState<any>([]);
+
   // const [activeDate, setActiveDate] = useState<string>('');
 
   // To fetch caregivers by qualification id
@@ -174,6 +177,15 @@ const Appointment: FunctionComponent = () => {
     setDaysData(res);
   };
 
+  const handleDayClick = (selectedDay: any) => {
+    let year: number = selectedDay.getFullYear();
+    let month: number = selectedDay.getMonth();
+    const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(month, year);
+    setActiveMonth(month);
+    setActiveYear(year);
+    setDaysData(res);
+  };
+
   return (
     <>
       <div className='common-detail-page'>
@@ -186,6 +198,7 @@ const Appointment: FunctionComponent = () => {
             handleQualification={handleQualification}
             careInstitutionList={careInstitutionOptions}
             careGiversList={careGiversOptions}
+            handleDayClick={handleDayClick}
           />
 
           <div className='common-content flex-grow-1'>

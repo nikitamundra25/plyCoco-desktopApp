@@ -12,6 +12,8 @@ import careinstitution from '../../../assets/img/careinstitution.svg';
 import './index.scss';
 import { IAppointmentNav } from '../../../../interfaces';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
@@ -23,10 +25,15 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     qualificationList,
     handleQualification,
     careGiversList,
-    careInstitutionList
+    careInstitutionList,
+    handleDayClick
   } = props;
 
   const { month = '', year = '' } = daysData ? daysData : {};
+  // let date = newDate()
+  console.log('month', month);
+  console.log('year', year);
+
   return (
     <>
       <div className='sticky-common-header'>
@@ -46,12 +53,16 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             </span>
           </div>
           <div className='common-header-input pr-1'>
-            <Input
+            {/* <Input
               className='form-control'
               placeholder={'February 2020'}
               type='input'
               value={`${month} ${year}`}
               name='text'
+            /> */}
+            <DayPickerInput
+              onDayChange={handleDayClick}
+              value={`${month} ${year}`}
             />
           </div>
           <div className='header-nav-item' onClick={handleNext}>
@@ -69,17 +80,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           </div>
 
           <div className='user-select mx-1'>
-            {/* <Select
-              classNamePrefix='custom-inner-reactselect'
-              className={'custom-reactselect custom-reactselect-menu-width'}
-              placeholder={languageTranslation(
-                'CAREGIVER_QUALIFICATION_PLACEHOLDER'
-              )}
-              options={qualificationList}
-              isMulti={true}
-              isClearable={true}
-              onChange={handleQualification}
-            /> */}
             <ReactMultiSelectCheckboxes
               options={qualificationList}
               placeholder={languageTranslation(

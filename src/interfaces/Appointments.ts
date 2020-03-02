@@ -17,6 +17,7 @@ export interface IAppointmentNav {
   handlePrevious: () => void;
   handleQualification: (value: any) => void;
   handleNext: () => void;
+  handleDayClick: (selectedDay: Date) => void;
   daysData: IGetDaysArrayByMonthRes | null;
   qualificationList: IReactSelectInterface[] | undefined;
   careInstitutionList: any;

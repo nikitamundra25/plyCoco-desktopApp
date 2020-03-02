@@ -30,7 +30,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   index: number
                 ) => {
                   return (
-                    <div className='custom-appointment-col calender-col text-center'>
+                    <div
+                      className='custom-appointment-col calender-col text-center'
+                      key={index}
+                    >
                       <div className='custom-appointment-calendar-date'>
                         {' '}
                         {date}
@@ -52,7 +55,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             ) : careGiversList && careGiversList.length ? (
               careGiversList.map((list: any, index: number) => {
                 return (
-                  <div className='custom-appointment-row'>
+                  <div className='custom-appointment-row' key={index}>
                     <div className='custom-appointment-col name-col appointment-color1 text-capitalize'>
                       {`${list.firstName} ${list.lastName}`}
                     </div>
@@ -66,93 +69,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     <div className='custom-appointment-col v-col text-center'>
                       <i className='fa fa-arrow-down' />
                     </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color5'></div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color2'></div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color5'></div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>s</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>f</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>n</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>s</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>f</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>n</div>
-                    </div>{' '}
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>s</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>f</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>n</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>s</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>f</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color2'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>s</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>f</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>fsn</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>s</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div>f</div>
-                    </div>
-                    <div className='custom-appointment-col calender-col text-center appointment-color6'>
-                      <div></div>
-                    </div>
+                    {daysArr.map((key: any, i: number) => {
+                      return (
+                        <div
+                          className='custom-appointment-col calender-col text-center'
+                          key={i}
+                        ></div>
+                      );
+                    })}
                   </div>
                 );
               })

@@ -111,7 +111,7 @@ const DefaultLayout = (props: RouteComponentProps) => {
       localStorage.removeItem('expirationTime');
       localStorage.removeItem('adminToken');
       history.push(AppRoutes.LOGIN);
-    },
+    }
   });
 
   const [permission, setpermission] = useState<string>('');

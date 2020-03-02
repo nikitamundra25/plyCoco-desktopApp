@@ -6,21 +6,29 @@ import {
   ICalendarViewProps,
   IHolidayData
 } from "../../../../interfaces";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { GlobalHolidaysQueries } from "../../../../graphql/queries";
 import moment from "moment";
 import { defaultDateFormat } from "../../../../config";
 import classnames from "classnames";
+import { GlobalCalendarMutations } from "../../../../graphql/Mutations";
 const CalendarView: FunctionComponent<ICalendarViewProps> = ({
   isLoading,
   states,
   refresh
 }): JSX.Element => {
   const [GET_GLOBAL_HOLIDAYS] = GlobalHolidaysQueries;
+  const [DELETE_HOLIDAY] = GlobalCalendarMutations;
   const [
     getGlobalHolidays,
     { data: holidays, loading, refetch }
   ] = useLazyQuery<any>(GET_GLOBAL_HOLIDAYS);
+  const [
+    deleteGlobalCalendarHoliday,
+    { data: deletedRecordData, loading: isDeleting }
+  ] = useMutation<{ deleteGlobalCalendarHoliday: any }, { id: number }>(
+    DELETE_HOLIDAY
+  );
   const [holidaysData, setHolidaysData] = useState<IHolidayData[]>([]);
   // check if get states are loaded
   useEffect(() => {
@@ -35,6 +43,16 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
       setHolidaysData(holidays.getGlobalHolidays);
     }
   }, [holidays, loading]);
+  //
+  const deleteHoliday = async (id: number): Promise<void> => {
+    console.log(id);
+    await deleteGlobalCalendarHoliday({
+      variables: {
+        id
+      }
+    });
+    refetch();
+  };
   return (
     <div className="sticky-table table-responsive">
       <table className={"main-table table table-hover"}>
@@ -75,6 +93,17 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                     <th>
                       {moment(holiday.date).format(defaultDateFormat)}
                       {holiday.note ? ` - ${holiday.note}` : null}
+                      &nbsp;&nbsp;&nbsp;
+                      <a
+                        href=""
+                        onClick={(e: any) => {
+                          e.preventDefault();
+                          deleteHoliday(holiday.id);
+                        }}
+                        className={"text-right"}
+                      >
+                        <i className={"fa fa-trash"} />
+                      </a>
                     </th>
                     {states.map((state: IState, index: number) => (
                       <td

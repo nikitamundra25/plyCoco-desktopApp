@@ -18,10 +18,12 @@ export interface IAddHolidaysFormValues {
   note?: string;
   states?: number[];
 }
-
+export interface IAddHolidayFormikProps {
+  inputs: IAddHolidaysFormValues[];
+}
 export interface IAddHolidaysFormProps {
   states: IState[];
-  fieldsInfo: FormikProps<IAddHolidaysFormValues[]>;
-  addNewHoliday: (values: IAddHolidaysFormValues[]) => void;
-  removeHoliday: (index: number) => void;
+  fieldsInfo: FormikProps<IAddHolidayFormikProps>;
+  addNewHoliday: (values: IAddHolidayFormikProps) => void;
+  removeHoliday: (values: IAddHolidayFormikProps, index: number) => void;
 }

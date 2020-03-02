@@ -1,79 +1,78 @@
-import { IDateResponse } from '../interfaces';
-import moment from 'moment';
-import { logger } from './Logger';
+import { defaultDateFormat } from "./../config/constant";
+import { IDateValidatorOptions } from "./../interfaces/DateFunction";
+import { IDateResponse } from "../interfaces";
+import moment from "moment";
+import { languageTranslation } from "./LangauageTranslation";
 
 export const dateValidator = (
   dateString: string,
-  label?: string
-): IDateResponse => {
-  const date = dateString ? dateString.replace(/\D+/g, '') : '';
-  // First check for the pattern
-  console.log('date', date);
-
-  if (date !== '') {
-    console.log('dateString', dateString);
-    if (!/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(dateString))
-      return {
-        isValid: false,
-        message: 'Please enter a valid date'
-      };
+  options: IDateValidatorOptions = {
+    seperator: ".",
+    minDate: moment()
+      .subtract(100, "years")
+      .format(),
+    maxDate: moment().format(),
+    label: ""
   }
+): IDateResponse => {
+  const date = dateString ? dateString.replace(/\D+/g, "") : "";
   // Parse the date parts to integers
-  var parts: string[] = dateString ? dateString.split('.') : [];
-  console.log('parts', parts);
-
-  var day: number = parseInt(parts[0], 10);
-  var month: number = parseInt(parts[1], 10);
-  var year: number = parseInt(parts[2], 10);
-
-  const getCurrentYear = new Date().getFullYear();
-  const getDifference = getCurrentYear - 100;
+  const parts: string[] = dateString ? dateString.split(".") : [];
+  const day: number = Number(parts[0]);
+  const month: number = Number(parts[1]);
+  const year: number = Number(parts[2]);
   if (month > 12 || month === 0) {
     return {
       isValid: false,
-      message: 'Please enter a valid month'
+      message: "Please enter a valid month"
     };
   }
-  if (
-    label !== 'leasing' &&
-    moment(new Date(dateString)) > moment(new Date())
-  ) {
+  const maxTimestamp = moment(options.maxDate || "").unix();
+  const minTimeStamp = moment(options.minDate || "").unix();
+  if (options.maxDate && moment(new Date(dateString)).unix() > maxTimestamp) {
     return {
       isValid: false,
-      message: 'Date cannot be in the future'
+      message: languageTranslation("MIN_DATE_VALIDATION", {
+        date: moment(options.maxDate).format(defaultDateFormat)
+      })
     };
   }
-  logger(moment(new Date(dateString)) > moment(new Date()));
-
-  if (
-    year < getDifference ||
-    (label !== 'leasing' && year > getCurrentYear) ||
-    (label === 'leasing' && year > 2050)
-  )
+  if (options.minDate && moment(new Date(dateString)).unix() < minTimeStamp) {
     return {
       isValid: false,
-      message: 'Please enter a valid year'
+      message: languageTranslation("MAX_DATE_VALIDATION", {
+        date: moment(options.minDate).format(defaultDateFormat)
+      })
     };
-  // if (year < 1950 || year > 2010) {
-  //   return {
-  //     isValid: false,
-  //     message: 'Date must be between a range of 1950 to 2010',
-  //   };
-  // }
+  }
 
-  var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const monthLength: number[] = [
+    31,
+    28,
+    31,
+    30,
+    31,
+    30,
+    31,
+    31,
+    30,
+    31,
+    30,
+    31
+  ];
 
-  if (date !== '') {
+  if (date !== "") {
+    // To check leap year
     if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
       monthLength[1] = 29;
     return {
       isValid: day > 0 && day <= monthLength[month - 1],
-      message: 'Please enter a valid date'
+      message: "Please enter a valid date"
     };
   } else {
     return {
       isValid: true,
-      message: 'Date is valid'
+      message: "Date is valid"
     };
   }
 };

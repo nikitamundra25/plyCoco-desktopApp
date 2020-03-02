@@ -1,14 +1,29 @@
-import { IAddHolidaysFormValues } from "./../../interfaces/GlobalCalendar";
+import {
+  IAddHolidaysFormValues,
+  IAddHolidayFormikProps
+} from "./../../interfaces/GlobalCalendar";
 import * as Yup from "yup";
-import { languageTranslation } from "../../helpers";
+import { dateValidator, languageTranslation } from "../../helpers";
+import { IDateResponse } from "../../interfaces";
 
-export const AddHolidayValidations: Yup.ArraySchema<Yup.Shape<
+export const AddHolidayValidations: Yup.ObjectSchema<Yup.Shape<
   object,
-  IAddHolidaysFormValues
->> = Yup.array().of(
-  Yup.object().shape<IAddHolidaysFormValues>({
-    date: Yup.string().required(languageTranslation("USERNAME_REQUIRED")),
-    note: Yup.string().required(languageTranslation("USERNAME_REQUIRED")),
-    states: Yup.mixed().required(languageTranslation("USERNAME_REQUIRED"))
-  })
-);
+  IAddHolidayFormikProps
+>> = Yup.object().shape<IAddHolidayFormikProps>({
+  inputs: Yup.array().of(
+    Yup.object().shape<IAddHolidaysFormValues>({
+      date: Yup.mixed().test({
+        name: "validate-date",
+        test: function(val) {
+          const { path, createError } = this;
+          const { isValid, message }: IDateResponse = dateValidator(val);
+          return !val || isValid || createError({ path, message });
+        }
+      }),
+      note: Yup.string().notRequired(),
+      states: Yup.array()
+        .of(Yup.number().required())
+        .notRequired()
+    })
+  )
+});

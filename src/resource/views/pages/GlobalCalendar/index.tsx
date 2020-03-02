@@ -63,7 +63,7 @@ const GlobalCalendar: FunctionComponent = (): JSX.Element => {
           id={"add-new-pm-tooltip"}
           onClick={() => setAddModal(true)}
         >
-          <i className={"fa fa-refresh"} />
+          <i className={"fa fa-plus"} />
           &nbsp;{languageTranslation("UPDATE_CALEDAR")}
         </Button>
       </CardHeader>

@@ -1,22 +1,22 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { useParams, useHistory } from "react-router-dom";
 
-import CreateTodoForm from './CreateTodoForm';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import CreateTodoForm from "./CreateTodoForm";
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import {
   ICreateTodoFormValues,
   IReactSelectInterface
-} from '../../../../interfaces';
-import { languageTranslation, logger } from '../../../../helpers';
-import { toast } from 'react-toastify';
-import { CreateTodoFormValidationSchema } from '../../../validations';
-import { AppRoutes } from '../../../../config';
+} from "../../../../interfaces";
+import { languageTranslation, logger } from "../../../../helpers";
+import { toast } from "react-toastify";
+import { CreateTodoFormValidationSchema } from "../../../validations";
+import { AppRoutes } from "../../../../config";
 import {
   ProfileQueries,
   CareInstitutionQueries
-} from '../../../../graphql/queries';
-import { useMutation, useLazyQuery } from '@apollo/react-hooks';
-import { ToDoMutations } from '../../../../graphql/Mutations';
+} from "../../../../graphql/queries";
+import { useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { ToDoMutations } from "../../../../graphql/Mutations";
 const [VIEW_PROFILE] = ProfileQueries;
 const [ADD_TO_DO, UPDATE_TO_DO] = ToDoMutations;
 const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
@@ -46,7 +46,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
 
   useEffect(() => {
     // Fetch contact details by care institution id
-    if (userId && userRole === 'careInstitution') {
+    if (userId && userRole === "careInstitution") {
       fetchContactsByUserID({
         variables: { userId: parseInt(userId) }
       });
@@ -62,19 +62,19 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
   useEffect(() => {
     if (data) {
       mainProps.newDataUpdate();
-      if (userRole === 'careInstitution') {
+      if (userRole === "careInstitution") {
         history.push(
           `${AppRoutes.CARE_INSTITUION_VIEW.replace(
-            ':id',
+            ":id",
             mainProps.Id
-          )}?tab=${encodeURIComponent('reminders/todos')}`
+          )}?tab=${encodeURIComponent("reminders/todos")}`
         );
       } else {
         history.push(
           `${AppRoutes.CARE_GIVER_VIEW.replace(
-            ':id',
+            ":id",
             mainProps.Id
-          )}?tab=${encodeURIComponent('reminders/todos')}`
+          )}?tab=${encodeURIComponent("reminders/todos")}`
         );
       }
     }
@@ -110,23 +110,23 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
           }
         });
         handleRefetch();
-        toast.success(languageTranslation('TODO_UPDATE_SUCCESS'));
+        toast.success(languageTranslation("TODO_UPDATE_SUCCESS"));
       } else {
         await addToDo({
           variables: {
             toDoInput
           }
         });
-        toast.success(languageTranslation('TODO_ADD_SUCCESS'));
+        toast.success(languageTranslation("TODO_ADD_SUCCESS"));
       }
       resetForm();
       handleClose();
       setSubmitting(false);
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       toast.error(message);
       logger(error);
     }
@@ -134,11 +134,11 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
   };
 
   const [todoValues, setTodoValues] = useState<ICreateTodoFormValues>({
-    time: '',
-    comment: '',
-    date: '',
+    time: "",
+    comment: "",
+    date: "",
     priority: undefined,
-    juridiction: '',
+    juridiction: "",
     contact: undefined
   });
 
@@ -150,7 +150,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
       getContactsByUserID.map((list: any) => {
         return contactOptions.push({
           label: `${list.firstName} ${list.surName} (${list.contactType})`,
-          value: list.id ? list.id : ''
+          value: list.id ? list.id : ""
         });
       });
     }
@@ -173,7 +173,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         contact: contact
           ? {
               label: `${contact.firstName} ${contact.surName} (${contact.contactType})`,
-              value: contact.id ? contact.id : ''
+              value: contact.id ? contact.id : ""
             }
           : undefined
       });
@@ -181,11 +181,11 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
       mainProps.setisnewDataUpdate();
       mainProps.setnewContactAdded();
       setTodoValues({
-        time: '',
-        comment: '',
-        date: '',
+        time: "",
+        comment: "",
+        date: "",
         priority: undefined,
-        juridiction: 'internally',
+        juridiction: "internally",
         contact: undefined
       });
     }

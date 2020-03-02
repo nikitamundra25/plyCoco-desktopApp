@@ -9,11 +9,21 @@ import {
   IAddHolidaysFormProps
 } from "../../../../../interfaces";
 import Select, { ValueType } from "react-select";
+import MaskedInput from "react-text-mask";
+import { DateMask } from "../../../../../config";
 const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
   props: IAddHolidaysFormProps
 ): JSX.Element => {
   const { states, fieldsInfo, addNewHoliday, removeHoliday } = props;
-  const { values, handleBlur, handleChange, setFieldValue } = fieldsInfo;
+  const {
+    values,
+    errors: formErrors,
+    touched: formTouch,
+    handleBlur,
+    handleChange,
+    setFieldValue
+  } = fieldsInfo;
+  console.log(formErrors, formTouch);
   const handleStateChange = (
     value: ValueType<IReactSelectInterface[]>,
     index: number
@@ -39,7 +49,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
     value: state.id,
     label: state.name
   }));
-  // push all on the first index
+  // push all at the first index
   stateOptions.unshift({
     label: "All",
     value: "all"
@@ -47,9 +57,9 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
   return (
     <>
       <FieldArray
-        name={"values"}
+        name={"inputs"}
         render={() => {
-          return values.map(
+          return values.inputs.map(
             (holidaysData: IAddHolidaysFormValues, index: number) => {
               return (
                 <React.Fragment key={index}>
@@ -64,34 +74,32 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                             </Label>
                           </Col>
                           <Col sm="8">
-                            <Field name={`[${index}].date`}>
+                            <Field name={`inputs.${index}.date`}>
                               {({
                                 field,
                                 form: { touched, errors },
                                 meta
                               }: any) => {
-                                console.log(meta);
                                 return (
                                   <>
-                                    <Input
-                                      type="text"
+                                    <MaskedInput
+                                      {...field}
                                       placeholder={languageTranslation(
                                         "HOLIDAY_DATE_PLACEHOLDER"
                                       )}
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      rows="4"
-                                      maxLength={255}
+                                      mask={DateMask}
                                       className={
                                         meta.touched && meta.error
-                                          ? "error"
-                                          : ""
+                                          ? "error form-control"
+                                          : "form-control"
                                       }
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
                                       value={holidaysData.date}
                                       {...field}
                                     />
                                     {meta.touched && meta.error && (
-                                      <div className="required-tooltip">
+                                      <div className="required-tooltip text-danger">
                                         {meta.error}
                                       </div>
                                     )}
@@ -113,7 +121,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                             </Label>
                           </Col>
                           <Col sm="8">
-                            <Field name={`[${index}].note`}>
+                            <Field name={`inputs.${index}.note`}>
                               {({
                                 field,
                                 form: { touched, errors },
@@ -136,7 +144,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                                     {...field}
                                   />
                                   {meta.touched && meta.error && (
-                                    <div className="required-tooltip">
+                                    <div className="required-tooltip text-danger">
                                       {meta.error}
                                     </div>
                                   )}
@@ -178,7 +186,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                     {index > 0 ? (
                       <a
                         className={"remove-icon"}
-                        onClick={() => removeHoliday(index)}
+                        onClick={() => removeHoliday(values, index)}
                       >
                         <i className={"fa fa-trash"} />
                       </a>

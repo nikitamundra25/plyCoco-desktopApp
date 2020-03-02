@@ -12,13 +12,15 @@ import moment from "moment";
 import { defaultDateFormat } from "../../../../config";
 import classnames from "classnames";
 import { GlobalCalendarMutations } from "../../../../graphql/Mutations";
+import { ConfirmBox } from "../../components/ConfirmBox";
+import { toast } from "react-toastify";
 const CalendarView: FunctionComponent<ICalendarViewProps> = ({
   isLoading,
   states,
   refresh
 }): JSX.Element => {
   const [GET_GLOBAL_HOLIDAYS] = GlobalHolidaysQueries;
-  const [DELETE_HOLIDAY] = GlobalCalendarMutations;
+  const [_, DELETE_HOLIDAY] = GlobalCalendarMutations;
   const [
     getGlobalHolidays,
     { data: holidays, loading, refetch }
@@ -45,12 +47,24 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
   }, [holidays, loading]);
   //
   const deleteHoliday = async (id: number): Promise<void> => {
-    console.log(id);
+    toast.dismiss();
+    const { value } = await ConfirmBox({
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("HOLIDAY_DELETE_CONFIRMATION")
+    });
+    if (!value) {
+      return;
+    }
     await deleteGlobalCalendarHoliday({
       variables: {
         id
       }
     });
+    toast.success(
+      languageTranslation("DELETED_SUCCESSFULLY", {
+        item: languageTranslation("HOLIDAY")
+      })
+    );
     refetch();
   };
   return (

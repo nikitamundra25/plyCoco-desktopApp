@@ -3,7 +3,7 @@ import React, {
   FunctionComponent,
   useEffect,
   useState
-} from "react";
+} from 'react';
 import {
   FormGroup,
   Label,
@@ -15,33 +15,33 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText
-} from "reactstrap";
-import MaskedInput from "react-text-mask";
+} from 'reactstrap';
+import MaskedInput from 'react-text-mask';
 
-import Select from "react-select";
-import { languageTranslation, getDaysArrayByMonth } from "../../../../helpers";
+import Select from 'react-select';
+import { languageTranslation, getDaysArrayByMonth } from '../../../../helpers';
 import {
   State,
   NightAllowancePerHour,
   Without_Appointments,
   ShiftTime
-} from "../../../../config";
+} from '../../../../config';
 
-import "./index.scss";
-import AppointmentNav from "./AppointmentNav";
-import CaregiverListView from "./Caregiver/CaregiverListView";
-import CarinstituionListView from "./Careinstituion/CareinstituionListView";
+import './index.scss';
+import AppointmentNav from './AppointmentNav';
+import CaregiverListView from './Caregiver/CaregiverListView';
+import CarinstituionListView from './Careinstituion/CareinstituionListView';
 import {
   IGetDaysArrayByMonthRes,
   IQualifications,
   IReactSelectInterface
-} from "../../../../interfaces";
-import moment from "moment";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+} from '../../../../interfaces';
+import moment from 'moment';
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
   AppointmentsQueries
-} from "../../../../graphql/queries";
+} from '../../../../graphql/queries';
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const Appointment: FunctionComponent = () => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
@@ -60,7 +60,7 @@ const Appointment: FunctionComponent = () => {
     fetchCaregiverList,
     { data: careGiversList, loading: caregiverLoading }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: "no-cache"
+    fetchPolicy: 'no-cache'
   });
 
   // To fetch careinstitution by qualification id
@@ -68,7 +68,7 @@ const Appointment: FunctionComponent = () => {
     fetchCareinstitutionList,
     { data: careInstitutionList, loading: careinstitutionLoading }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: "no-cache"
+    fetchPolicy: 'no-cache'
   });
 
   // To fetch qualification attributes list
@@ -114,14 +114,14 @@ const Appointment: FunctionComponent = () => {
     fetchCaregiverList({
       variables: {
         qualificationId: temp ? temp : null,
-        userRole: "caregiver"
+        userRole: 'caregiver'
       }
     });
     // get careInstitution list
     fetchCareinstitutionList({
       variables: {
         qualificationId: temp ? temp : null,
-        userRole: "canstitution"
+        userRole: 'canstitution'
       }
     });
   }, [qualification]);
@@ -134,7 +134,7 @@ const Appointment: FunctionComponent = () => {
       getUserByQualifications.map((list: any) => {
         return careGiversOptions.push({
           label: `${list.firstName} ${list.lastName} `,
-          value: list.id ? list.id : ""
+          value: list.id ? list.id : ''
         });
       });
     }
@@ -148,7 +148,7 @@ const Appointment: FunctionComponent = () => {
       getUserByQualifications.map((list: any) => {
         return careInstitutionOptions.push({
           label: `${list.firstName} ${list.lastName} `,
-          value: list.id ? list.id : ""
+          value: list.id ? list.id : ''
         });
       });
     }
@@ -207,24 +207,22 @@ const Appointment: FunctionComponent = () => {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     name: string
   ) => {
-    e.preventDefault();
-
-    if (name === 'caregiver') {
-      let temp: any = [...caregiversList];
-      let stemp: any = {};
-      console.log('dfgdfg');
-      temp = [...temp, stemp];
-      console.log('temp', temp);
-
-      // caregiversList(temp);
-    } else {
-    }
+    //   e.preventDefault();
+    //   if (name === 'caregiver') {
+    //     let temp: any = [...caregiversList];
+    //     let stemp: any = {};
+    //     console.log('dfgdfg');
+    //     temp = [...temp, stemp];
+    //     console.log('temp', temp);
+    //     // caregiversList(temp);
+    //   } else {
+    //   }
   };
 
   return (
     <>
-      <div className="common-detail-page">
-        <div className="common-detail-section">
+      <div className='common-detail-page'>
+        <div className='common-detail-section'>
           <AppointmentNav
             handlePrevious={handlePrevious}
             handleNext={handleNext}
@@ -236,10 +234,10 @@ const Appointment: FunctionComponent = () => {
             handleDayClick={handleDayClick}
           />
 
-          <div className="common-content flex-grow-1">
+          <div className='common-content flex-grow-1'>
             <div>
               <Row>
-                <Col lg={"6"}>
+                <Col lg={'6'}>
                   <CaregiverListView
                     daysData={daysData}
                     loading={caregiverLoading}
@@ -257,57 +255,57 @@ const Appointment: FunctionComponent = () => {
                     }
                   />
                 </Col>
-                <Col lg={"3"} className="px-lg-0">
+                <Col lg={'3'} className='px-lg-0'>
                   <div>
-                    <h5 className="content-title">
-                      {languageTranslation("MENU_CAREGIVER")}
+                    <h5 className='content-title'>
+                      {languageTranslation('MENU_CAREGIVER')}
                     </h5>
                   </div>
-                  <div className="form-section">
-                    <div className="form-card custom-height custom-scrollbar">
+                  <div className='form-section'>
+                    <div className='form-card custom-height custom-scrollbar'>
                       <Row>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("APPOINTMENT_ID")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('APPOINTMENT_ID')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    type="text"
+                                    type='text'
                                     placeholder={languageTranslation(
-                                      "APPOINTMENT_ID"
+                                      'APPOINTMENT_ID'
                                     )}
-                                    className="width-common"
+                                    className='width-common'
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("NAME")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('NAME')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <InputGroup>
                                     <Input
-                                      type="text"
-                                      placeholder={languageTranslation("NAME")}
+                                      type='text'
+                                      placeholder={languageTranslation('NAME')}
                                     />
-                                    <InputGroupAddon addonType="append">
+                                    <InputGroupAddon addonType='append'>
                                       <InputGroupText>
                                         <i
-                                          className="fa fa-star"
-                                          aria-hidden="true"
+                                          className='fa fa-star'
+                                          aria-hidden='true'
                                         ></i>
                                       </InputGroupText>
                                     </InputGroupAddon>
@@ -317,62 +315,62 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("DATE")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('DATE')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <MaskedInput
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
+                                      'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
                                     )}
-                                    className={"form-control mb-2"}
+                                    className={'form-control mb-2'}
                                   />
                                 </div>
 
                                 <div>
                                   <FormGroup check inline>
-                                    <div className=" checkbox-custom mb-1">
+                                    <div className=' checkbox-custom mb-1'>
                                       <input
-                                        type="checkbox"
-                                        id="check"
-                                        className=""
-                                        name={"early"}
+                                        type='checkbox'
+                                        id='check'
+                                        className=''
+                                        name={'early'}
                                         checked
                                       />
-                                      <Label for="check">
-                                        {languageTranslation("EARLY")}
+                                      <Label for='check'>
+                                        {languageTranslation('EARLY')}
                                       </Label>
                                     </div>
                                   </FormGroup>
                                   <FormGroup check inline>
-                                    <div className=" checkbox-custom mb-1">
+                                    <div className=' checkbox-custom mb-1'>
                                       <input
-                                        type="checkbox"
-                                        id="check1"
-                                        className=""
-                                        name={"late"}
+                                        type='checkbox'
+                                        id='check1'
+                                        className=''
+                                        name={'late'}
                                       />
-                                      <Label for="check1">
-                                        {languageTranslation("LATE")}
+                                      <Label for='check1'>
+                                        {languageTranslation('LATE')}
                                       </Label>
                                     </div>
                                   </FormGroup>
                                   <FormGroup check inline>
-                                    <div className=" checkbox-custom mb-1">
+                                    <div className=' checkbox-custom mb-1'>
                                       <input
-                                        type="checkbox"
-                                        id="check2"
-                                        className=""
-                                        name={"night"}
+                                        type='checkbox'
+                                        id='check2'
+                                        className=''
+                                        name={'night'}
                                       />
-                                      <Label for="check2">
-                                        {languageTranslation("NIGHT")}
+                                      <Label for='check2'>
+                                        {languageTranslation('NIGHT')}
                                       </Label>
                                     </div>
                                   </FormGroup>
@@ -382,26 +380,26 @@ const Appointment: FunctionComponent = () => {
                           </FormGroup>
                         </Col>
 
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("FEE")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('FEE')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <InputGroup>
                                     <Input
-                                      type="text"
-                                      placeholder={languageTranslation("FEE")}
+                                      type='text'
+                                      placeholder={languageTranslation('FEE')}
                                     />
-                                    <InputGroupAddon addonType="append">
+                                    <InputGroupAddon addonType='append'>
                                       <InputGroupText>
                                         <i
-                                          className="fa fa-euro"
-                                          aria-hidden="true"
+                                          className='fa fa-euro'
+                                          aria-hidden='true'
                                         ></i>
                                       </InputGroupText>
                                     </InputGroupAddon>
@@ -412,28 +410,28 @@ const Appointment: FunctionComponent = () => {
                           </FormGroup>
                         </Col>
 
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("NIGHT_FEE")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('NIGHT_FEE')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <InputGroup>
                                     <Input
-                                      type="text"
+                                      type='text'
                                       placeholder={languageTranslation(
-                                        "NIGHT_FEE"
+                                        'NIGHT_FEE'
                                       )}
                                     />
-                                    <InputGroupAddon addonType="append">
+                                    <InputGroupAddon addonType='append'>
                                       <InputGroupText>
                                         <i
-                                          className="fa fa-euro"
-                                          aria-hidden="true"
+                                          className='fa fa-euro'
+                                          aria-hidden='true'
                                         ></i>
                                       </InputGroupText>
                                     </InputGroupAddon>
@@ -443,28 +441,28 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("WEEKEND_FEE")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('WEEKEND_FEE')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <InputGroup>
                                     <Input
-                                      type="text"
+                                      type='text'
                                       placeholder={languageTranslation(
-                                        "WEEKEND_FEE"
+                                        'WEEKEND_FEE'
                                       )}
                                     />
-                                    <InputGroupAddon addonType="append">
+                                    <InputGroupAddon addonType='append'>
                                       <InputGroupText>
                                         <i
-                                          className="fa fa-euro"
-                                          aria-hidden="true"
+                                          className='fa fa-euro'
+                                          aria-hidden='true'
                                         ></i>
                                       </InputGroupText>
                                     </InputGroupAddon>
@@ -474,28 +472,28 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("HOLIDAY_FEE")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('HOLIDAY_FEE')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <InputGroup>
                                     <Input
-                                      type="text"
+                                      type='text'
                                       placeholder={languageTranslation(
-                                        "HOLIDAY_FEE"
+                                        'HOLIDAY_FEE'
                                       )}
                                     />
-                                    <InputGroupAddon addonType="append">
+                                    <InputGroupAddon addonType='append'>
                                       <InputGroupText>
                                         <i
-                                          className="fa fa-euro"
-                                          aria-hidden="true"
+                                          className='fa fa-euro'
+                                          aria-hidden='true'
                                         ></i>
                                       </InputGroupText>
                                     </InputGroupAddon>
@@ -505,47 +503,47 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col sm={"12"} lg={"12"}>
+                        <Col sm={'12'} lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm={"5"}>
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("NIGHT_ALLOWANCE")}
+                              <Col sm={'5'}>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('NIGHT_ALLOWANCE')}
                                 </Label>
                               </Col>
-                              <Col sm={"7"}>
+                              <Col sm={'7'}>
                                 <div>
                                   <Select
                                     placeholder={languageTranslation(
-                                      "NIGHT_ALLOWANCE"
+                                      'NIGHT_ALLOWANCE'
                                     )}
                                     options={NightAllowancePerHour}
-                                    classNamePrefix="custom-inner-reactselect"
-                                    className={"custom-reactselect"}
+                                    classNamePrefix='custom-inner-reactselect'
+                                    className={'custom-reactselect'}
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("FEE_PER_KM")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('FEE_PER_KM')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <InputGroup>
                                     <Input
-                                      type="text"
+                                      type='text'
                                       placeholder={languageTranslation(
-                                        "FEE_PER_KM"
+                                        'FEE_PER_KM'
                                       )}
                                     />
-                                    <InputGroupAddon addonType="append">
+                                    <InputGroupAddon addonType='append'>
                                       <InputGroupText>km</InputGroupText>
                                     </InputGroupAddon>
                                   </InputGroup>
@@ -554,26 +552,26 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("a")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('a')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <InputGroup>
                                     <Input
-                                      type="text"
-                                      placeholder={languageTranslation("a")}
+                                      type='text'
+                                      placeholder={languageTranslation('a')}
                                     />
-                                    <InputGroupAddon addonType="append">
+                                    <InputGroupAddon addonType='append'>
                                       <InputGroupText>
                                         <i
-                                          className="fa fa-euro"
-                                          aria-hidden="true"
+                                          className='fa fa-euro'
+                                          aria-hidden='true'
                                         ></i>
                                       </InputGroupText>
                                     </InputGroupAddon>
@@ -583,20 +581,20 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("EXPENSES")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('EXPENSES')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    type="text"
+                                    type='text'
                                     placeholder={languageTranslation(
-                                      "EXPENSES"
+                                      'EXPENSES'
                                     )}
                                   />
                                 </div>
@@ -604,38 +602,38 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm={"5"}>
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("WORKING_HOURS")}
+                              <Col sm={'5'}>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('WORKING_HOURS')}
                                 </Label>
                               </Col>
 
-                              <Col sm={"7"}>
-                                <div className="required-input">
-                                  <div className="custom-col inner-no-padding-col row">
-                                    <Col sm={"6"}>
+                              <Col sm={'7'}>
+                                <div className='required-input'>
+                                  <div className='custom-col inner-no-padding-col row'>
+                                    <Col sm={'6'}>
                                       <div>
                                         <Select
-                                          classNamePrefix="custom-inner-reactselect"
+                                          classNamePrefix='custom-inner-reactselect'
                                           className={
-                                            "custom-reactselect custom-reactselect-menu-width"
+                                            'custom-reactselect custom-reactselect-menu-width'
                                           }
-                                          placeholder=""
+                                          placeholder=''
                                           options={State}
                                         />
                                       </div>
                                     </Col>
-                                    <Col sm={"6"}>
+                                    <Col sm={'6'}>
                                       <div>
                                         <Select
-                                          classNamePrefix="custom-inner-reactselect"
+                                          classNamePrefix='custom-inner-reactselect'
                                           className={
-                                            "custom-reactselect custom-reactselect-menu-width"
+                                            'custom-reactselect custom-reactselect-menu-width'
                                           }
-                                          placeholder=""
+                                          placeholder=''
                                           options={State}
                                         />
                                       </div>
@@ -646,38 +644,38 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm={"5"}>
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("BREAK")}
+                              <Col sm={'5'}>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('BREAK')}
                                 </Label>
                               </Col>
 
-                              <Col sm={"7"}>
-                                <div className="required-input">
-                                  <div className="custom-col inner-no-padding-col row">
-                                    <Col sm={"6"}>
+                              <Col sm={'7'}>
+                                <div className='required-input'>
+                                  <div className='custom-col inner-no-padding-col row'>
+                                    <Col sm={'6'}>
                                       <div>
                                         <Select
-                                          classNamePrefix="custom-inner-reactselect"
+                                          classNamePrefix='custom-inner-reactselect'
                                           className={
-                                            "custom-reactselect custom-reactselect-menu-width"
+                                            'custom-reactselect custom-reactselect-menu-width'
                                           }
-                                          placeholder=""
+                                          placeholder=''
                                           options={State}
                                         />
                                       </div>
                                     </Col>
-                                    <Col sm={"6"}>
+                                    <Col sm={'6'}>
                                       <div>
                                         <Select
-                                          classNamePrefix="custom-inner-reactselect"
+                                          classNamePrefix='custom-inner-reactselect'
                                           className={
-                                            "custom-reactselect custom-reactselect-menu-width"
+                                            'custom-reactselect custom-reactselect-menu-width'
                                           }
-                                          placeholder=""
+                                          placeholder=''
                                           options={State}
                                         />
                                       </div>
@@ -688,27 +686,27 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "WORKING_PROOF_NECESSARY"
+                                    'WORKING_PROOF_NECESSARY'
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <FormGroup check inline>
-                                    <div className=" checkbox-custom mb-0">
+                                    <div className=' checkbox-custom mb-0'>
                                       <input
-                                        type="checkbox"
-                                        id="check1"
-                                        className=""
-                                        name={""}
+                                        type='checkbox'
+                                        id='check1'
+                                        className=''
+                                        name={''}
                                       />
-                                      <Label for="check1"></Label>
+                                      <Label for='check1'></Label>
                                     </div>
                                   </FormGroup>
                                 </div>
@@ -717,61 +715,61 @@ const Appointment: FunctionComponent = () => {
                           </FormGroup>
                         </Col>
 
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "REMARKS_VISIBLE_FOR_CAREGIVER"
+                                    'REMARKS_VISIBLE_FOR_CAREGIVER'
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    className="textarea-custom form-control"
-                                    rows="3"
-                                    type="textarea"
-                                    name="text"
-                                    id="exampleText"
+                                    className='textarea-custom form-control'
+                                    rows='3'
+                                    type='textarea'
+                                    name='text'
+                                    id='exampleText'
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "REMARKS_VISIBLE_INTERNALLY"
+                                    'REMARKS_VISIBLE_INTERNALLY'
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    className="textarea-custom form-control"
-                                    rows="3"
-                                    type="textarea"
-                                    name="text"
-                                    id="exampleText"
+                                    className='textarea-custom form-control'
+                                    rows='3'
+                                    type='textarea'
+                                    name='text'
+                                    id='exampleText'
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
-                          <div className="d-flex align-items-center justify-content-between">
-                            <Button className="btn-save" color="danger">
-                              {languageTranslation("DELETE")}
+                        <Col lg={'12'}>
+                          <div className='d-flex align-items-center justify-content-between'>
+                            <Button className='btn-save' color='danger'>
+                              {languageTranslation('DELETE')}
                             </Button>
-                            <Button className="btn-save" color="primary">
-                              {languageTranslation("SAVE_BUTTON")}
+                            <Button className='btn-save' color='primary'>
+                              {languageTranslation('SAVE_BUTTON')}
                             </Button>
                           </div>
                         </Col>
@@ -779,30 +777,30 @@ const Appointment: FunctionComponent = () => {
                     </div>
                   </div>
                 </Col>
-                <Col lg={"3"}>
+                <Col lg={'3'}>
                   <div>
-                    <h5 className="content-title">
-                      {languageTranslation("MENU_INSTITUTION")}
+                    <h5 className='content-title'>
+                      {languageTranslation('MENU_INSTITUTION')}
                     </h5>
                   </div>
-                  <div className="form-section ">
-                    <div className="form-card custom-height custom-scrollbar">
+                  <div className='form-section '>
+                    <div className='form-card custom-height custom-scrollbar'>
                       <Row>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("APPOINTMENT_ID")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('APPOINTMENT_ID')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    type="text"
-                                    name={"id"}
+                                    type='text'
+                                    name={'id'}
                                     placeholder={languageTranslation(
-                                      "APPOINTMENT_ID"
+                                      'APPOINTMENT_ID'
                                     )}
                                   />
                                 </div>
@@ -810,27 +808,27 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("NAME")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('NAME')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <InputGroup>
                                     <Input
-                                      type="text"
-                                      name={"id"}
-                                      placeholder={languageTranslation("NAME")}
+                                      type='text'
+                                      name={'id'}
+                                      placeholder={languageTranslation('NAME')}
                                     />
-                                    <InputGroupAddon addonType="append">
+                                    <InputGroupAddon addonType='append'>
                                       <InputGroupText>
                                         <i
-                                          className="fa fa-star"
-                                          aria-hidden="true"
+                                          className='fa fa-star'
+                                          aria-hidden='true'
                                         ></i>
                                       </InputGroupText>
                                     </InputGroupAddon>
@@ -840,67 +838,67 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("DATE")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('DATE')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <MaskedInput
                                     placeholder={languageTranslation(
-                                      "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
+                                      'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
                                     )}
-                                    className={"form-control "}
+                                    className={'form-control '}
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col sm={"12"} lg={"12"}>
+                        <Col sm={'12'} lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm={"5"}>
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("SHIFT")}
+                              <Col sm={'5'}>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('SHIFT')}
                                 </Label>
                               </Col>
-                              <Col sm={"7"}>
+                              <Col sm={'7'}>
                                 <div>
                                   <Select
-                                    placeholder="Select"
+                                    placeholder='Select'
                                     options={ShiftTime}
-                                    classNamePrefix="custom-inner-reactselect"
-                                    className={"custom-reactselect"}
+                                    classNamePrefix='custom-inner-reactselect'
+                                    className={'custom-reactselect'}
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("START_WORKING")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('START_WORKING')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <InputGroup>
                                     <Input
-                                      type="text"
-                                      name={"id"}
+                                      type='text'
+                                      name={'id'}
                                       placeholder={languageTranslation(
-                                        "START_WORKING"
+                                        'START_WORKING'
                                       )}
                                     />
-                                    <InputGroupAddon addonType="append">
+                                    <InputGroupAddon addonType='append'>
                                       <InputGroupText>Uhr</InputGroupText>
                                     </InputGroupAddon>
                                   </InputGroup>
@@ -909,25 +907,25 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("END_WORKING")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('END_WORKING')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <InputGroup>
                                     <Input
-                                      type="text"
-                                      name={"id"}
+                                      type='text'
+                                      name={'id'}
                                       placeholder={languageTranslation(
-                                        "END_WORKING"
+                                        'END_WORKING'
                                       )}
                                     />
-                                    <InputGroupAddon addonType="append">
+                                    <InputGroupAddon addonType='append'>
                                       <InputGroupText>Uhr</InputGroupText>
                                     </InputGroupAddon>
                                   </InputGroup>
@@ -936,21 +934,21 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("QUALIFICATION")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('QUALIFICATION')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Select
-                                    placeholder="Select Qualifications"
+                                    placeholder='Select Qualifications'
                                     options={State}
-                                    classNamePrefix="custom-inner-reactselect"
-                                    className={"custom-reactselect"}
+                                    classNamePrefix='custom-inner-reactselect'
+                                    className={'custom-reactselect'}
                                   />
                                 </div>
                               </Col>
@@ -958,24 +956,24 @@ const Appointment: FunctionComponent = () => {
                           </FormGroup>
                         </Col>
 
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "QUALIFICATION_FOR_BILLING"
+                                    'QUALIFICATION_FOR_BILLING'
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
-                                  <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
+                                  <div className='required-input'>
                                     <Select
-                                      placeholder="Select Qualifications"
+                                      placeholder='Select Qualifications'
                                       options={State}
-                                      classNamePrefix="custom-inner-reactselect"
-                                      className={"custom-reactselect"}
+                                      classNamePrefix='custom-inner-reactselect'
+                                      className={'custom-reactselect'}
                                     />
                                   </div>
                                 </div>
@@ -984,21 +982,21 @@ const Appointment: FunctionComponent = () => {
                           </FormGroup>
                         </Col>
 
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("DEPARTMENT")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('DEPARTMENT')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Select
-                                    placeholder="Select Qualifications"
+                                    placeholder='Select Qualifications'
                                     options={State}
-                                    classNamePrefix="custom-inner-reactselect"
-                                    className={"custom-reactselect"}
+                                    classNamePrefix='custom-inner-reactselect'
+                                    className={'custom-reactselect'}
                                   />
                                 </div>
                               </Col>
@@ -1006,143 +1004,143 @@ const Appointment: FunctionComponent = () => {
                           </FormGroup>
                         </Col>
 
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("ADDRESS")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('ADDRESS')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    type="text"
-                                    name={"id"}
-                                    placeholder={languageTranslation("ADDRESS")}
-                                    className="width-common"
+                                    type='text'
+                                    name={'id'}
+                                    placeholder={languageTranslation('ADDRESS')}
+                                    className='width-common'
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("CONTACT_PERSON")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('CONTACT_PERSON')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    type="text"
-                                    name={"id"}
+                                    type='text'
+                                    name={'id'}
                                     placeholder={languageTranslation(
-                                      "CONTACT_PERSON"
+                                      'CONTACT_PERSON'
                                     )}
-                                    className="width-common"
+                                    className='width-common'
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "REMARKS_OFFER_DEPARTMENT"
+                                    'REMARKS_OFFER_DEPARTMENT'
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    className="textarea-custom form-control"
-                                    rows="3"
-                                    type="textarea"
-                                    name="text"
-                                    id="exampleText"
+                                    className='textarea-custom form-control'
+                                    rows='3'
+                                    type='textarea'
+                                    name='text'
+                                    id='exampleText'
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "REMARKS_BOOKING_DEPARTEMENT"
+                                    'REMARKS_BOOKING_DEPARTEMENT'
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    className="textarea-custom form-control"
-                                    rows="3"
-                                    type="textarea"
-                                    name="text"
-                                    id="exampleText"
+                                    className='textarea-custom form-control'
+                                    rows='3'
+                                    type='textarea'
+                                    name='text'
+                                    id='exampleText'
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "REMARK_DEPARTMENT_VISIBLE_INTERNALLY"
+                                    'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    className="textarea-custom form-control"
-                                    rows="3"
-                                    type="textarea"
-                                    name="text"
-                                    id="exampleText"
+                                    className='textarea-custom form-control'
+                                    rows='3'
+                                    type='textarea'
+                                    name='text'
+                                    id='exampleText'
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "WORKING_PROOF_NECESSARY"
+                                    'WORKING_PROOF_NECESSARY'
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <FormGroup check inline>
-                                    <div className=" checkbox-custom mb-0">
+                                    <div className=' checkbox-custom mb-0'>
                                       <input
-                                        type="checkbox"
-                                        id="check1"
-                                        className=""
-                                        name={""}
+                                        type='checkbox'
+                                        id='check1'
+                                        className=''
+                                        name={''}
                                       />
-                                      <Label for="check1"></Label>
+                                      <Label for='check1'></Label>
                                     </div>
                                   </FormGroup>
                                 </div>
@@ -1150,81 +1148,81 @@ const Appointment: FunctionComponent = () => {
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("REMARK_OFFER")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('REMARK_OFFER')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    className="textarea-custom form-control"
-                                    rows="3"
-                                    type="textarea"
-                                    name="text"
-                                    id="exampleText"
+                                    className='textarea-custom form-control'
+                                    rows='3'
+                                    type='textarea'
+                                    name='text'
+                                    id='exampleText'
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("REMARK_BOOKING")}
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('REMARK_BOOKING')}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    className="textarea-custom form-control"
-                                    rows="3"
-                                    type="textarea"
-                                    name="text"
-                                    id="exampleText"
+                                    className='textarea-custom form-control'
+                                    rows='3'
+                                    type='textarea'
+                                    name='text'
+                                    id='exampleText'
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="5">
-                                <Label className="form-label col-form-label">
+                              <Col sm='5'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "COMMENT_ONLY_VISIBLE_INTERNALLY"
+                                    'COMMENT_ONLY_VISIBLE_INTERNALLY'
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="7">
-                                <div className="required-input">
+                              <Col sm='7'>
+                                <div className='required-input'>
                                   <Input
-                                    className="textarea-custom form-control"
-                                    rows="3"
-                                    type="textarea"
-                                    name="text"
-                                    id="exampleText"
+                                    className='textarea-custom form-control'
+                                    rows='3'
+                                    type='textarea'
+                                    name='text'
+                                    id='exampleText'
                                   />
                                 </div>
                               </Col>
                             </Row>
                           </FormGroup>
                         </Col>
-                        <Col lg={"12"}>
-                          <div className="d-flex align-items-center justify-content-between">
-                            <Button className="btn-save" color="danger">
-                              {languageTranslation("CLEAR")}
+                        <Col lg={'12'}>
+                          <div className='d-flex align-items-center justify-content-between'>
+                            <Button className='btn-save' color='danger'>
+                              {languageTranslation('CLEAR')}
                             </Button>
-                            <Button className="btn-save" color="primary">
-                              {languageTranslation("SAVE_BUTTON")}
+                            <Button className='btn-save' color='primary'>
+                              {languageTranslation('SAVE_BUTTON')}
                             </Button>
                           </div>
                         </Col>

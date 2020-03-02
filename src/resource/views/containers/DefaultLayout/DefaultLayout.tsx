@@ -5,7 +5,7 @@ import {
   Redirect,
   RouteComponentProps,
   useHistory,
-  useLocation,
+  useLocation
 } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import moment from 'moment';
@@ -17,7 +17,7 @@ import {
   AppSidebarForm,
   AppSidebarHeader,
   AppSidebarMinimizer,
-  AppSidebarNav,
+  AppSidebarNav
 } from '@coreui/react';
 import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
@@ -94,8 +94,8 @@ const DefaultLayout = (props: RouteComponentProps) => {
         localStorage.removeItem('adminToken');
         localStorage.removeItem('expirationTime');
         history.push(AppRoutes.LOGIN);
-      },
-    },
+      }
+    }
   );
 
   const [refreshToken] = useMutation(REFRESH_TOKEN, {
@@ -138,14 +138,9 @@ const DefaultLayout = (props: RouteComponentProps) => {
     } else {
       timeInterval = setInterval(() => {
         let expirationTime: string | null = localStorage.getItem(
-          'expirationTime',
+          'expirationTime'
         );
         var currentTime: number = moment().unix();
-        console.log(
-          expirationTime && parseInt(expirationTime) - currentTime,
-          '++++',
-        );
-
         if (expirationTime && parseInt(expirationTime) - currentTime === 10) {
           refreshToken();
         }
@@ -186,7 +181,7 @@ const DefaultLayout = (props: RouteComponentProps) => {
 
   const navigationFunction = (permissions: any) => {
     const navItems: any = {
-      items: [],
+      items: []
     };
     navigation.items.forEach((nav: any | string) => {
       if (nav) {

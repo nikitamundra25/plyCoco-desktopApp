@@ -764,6 +764,7 @@
   "WEEKEND": "Weekend",
   "HOLIDAY": "Holiday",
   "INVOICE_INTERVAL": "Invoice Interval",
+  "SELECT_CONTACT_PLACEHOLDER": "Select Contact",
   "STREET_AND_HOUSE": "Street and House Number",
   "MOBILE_NUMBER": "Mobile Number",
   "BANK": "Bank",

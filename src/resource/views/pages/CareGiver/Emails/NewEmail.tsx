@@ -330,7 +330,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                       <div className='form-section w-100'>
                         <FormGroup className='mb-0 '>
                           <Select
-                            placeholder='Select Department'
+                            placeholder={languageTranslation(
+                              'SELECT_CONTACT_PLACEHOLDER'
+                            )}
                             options={contactOptions}
                             classNamePrefix='custom-inner-reactselect'
                             className={'custom-reactselect'}

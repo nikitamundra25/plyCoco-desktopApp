@@ -65,7 +65,6 @@ const CareInstitutionContacts: any = (props: any) => {
     addContactType: ICareInstitutionFormValues;
   }>(ADD_CUSTOM_CONTACT_TYPE, {
     update(cache, customData: any) {
-      console.log(customData);
       const { data } = customData;
       const { addContactType = {} } = data ? data : {};
       if (addContactType && addContactType.id) {
@@ -115,13 +114,6 @@ const CareInstitutionContacts: any = (props: any) => {
       }
     }
   }, [ContactTypeData]);
-
-  // To set active contact
-  useEffect(() => {
-    if (contacts && contacts.length) {
-      setActiveContact(0);
-    }
-  }, [contacts]);
 
   // To reset selected attribute on contact change
   useEffect(() => {
@@ -337,10 +329,10 @@ const CareInstitutionContacts: any = (props: any) => {
     gender = undefined,
     attributes = [],
     salutation = '',
+    stateId = undefined,
     countryId = undefined
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
 
-  
   let countryData: Number;
   countryData = countryId ? countryId : '';
   let userSelectedCountry: IReactSelectInterface | undefined = undefined;
@@ -351,6 +343,17 @@ const CareInstitutionContacts: any = (props: any) => {
       userSelectedCountry = {
         label: userCountry[0].name,
         value: userCountry[0].id
+      };
+    }
+  }
+
+  let userSelectedState: IReactSelectInterface | undefined = undefined;
+  if (statesData && statesData.states && stateId) {
+    const userState = statesData.states.filter((x: any) => x.id === stateId);
+    if (userState && userState.length) {
+      userSelectedState = {
+        label: userState[0].name,
+        value: userState[0].id,
       };
     }
   }
@@ -367,6 +370,18 @@ const CareInstitutionContacts: any = (props: any) => {
       setSelectedAttributes(attributesData);
     }
   }, [contacts[activeContact]]);
+
+  // To set active contact
+  useEffect(() => {
+    if (contacts && contacts.length) {
+      setActiveContact(0);
+      getStatesByCountry({
+        variables: {
+          countryid: userSelectedCountry ? userSelectedCountry.value : '',
+        },
+      });
+    }
+  }, [contacts]);
 
   const contactFormValues: ICareInstitutionContact = {
     email: email ? email.trim() : '',
@@ -386,18 +401,19 @@ const CareInstitutionContacts: any = (props: any) => {
     contactType: selecContactType,
     gender: gender
       ? {
-          label: gender,
-          value: gender
-        }
+        label: gender,
+        value: gender
+      }
       : undefined,
     salutation: salutation
       ? {
-          label: salutation,
-          value: salutation
-        }
+        label: salutation,
+        value: salutation
+      }
       : undefined,
     id,
     country: userSelectedCountry,
+    state: userSelectedState,
     remark,
     attributeId: selectedAttributes
   };
@@ -432,24 +448,23 @@ const CareInstitutionContacts: any = (props: any) => {
       setcontactAttributeOpt(props.careInstitutionAttrOpt);
     }
   }, [props]);
-  
 
   return (
     <>
       {contacttypeOpt && contacttypeOpt.length <= 0 ? (
         <Loader />
       ) : (
-        <div className={'form-section position-relative flex-grow-1'}>
-          <div className='d-flex align-items-center justify-content-between  '>
-            <Nav tabs className='contact-tabs pr-120'>
-              {contacts && contacts.length
-                ? contacts.map((contact: any, index: number) => {
+          <div className={'form-section position-relative flex-grow-1'}>
+            <div className='d-flex align-items-center justify-content-between  '>
+              <Nav tabs className='contact-tabs pr-120'>
+                {contacts && contacts.length
+                  ? contacts.map((contact: any, index: number) => {
                     const contactTypeData:
                       | IReactSelectInterface
                       | undefined = contacttypeOpt.filter(
-                      (element: IReactSelectInterface) =>
-                        element.value === contact.contactTypeId
-                    )[0];
+                        (element: IReactSelectInterface) =>
+                          element.value === contact.contactTypeId
+                      )[0];
 
                     return (
                       <NavItem className='text-capitalize mb-2' key={index}>
@@ -458,7 +473,7 @@ const CareInstitutionContacts: any = (props: any) => {
                             contact && contact.contactTypeId
                               ? 'contact-right'
                               : 'new-contact'
-                          }  ${index === activeContact ? 'active' : ''}`}
+                            }  ${index === activeContact ? 'active' : ''}`}
                           onClick={() => setActiveContact(index)}
                         >
                           {contact && contact.contactTypeId ? (
@@ -466,13 +481,13 @@ const CareInstitutionContacts: any = (props: any) => {
                               contactTypeData.label
                             ) : null
                           ) : (
-                            <>
-                              <span className='align-middle'>
-                                <i className='fa fa-plus mr-1'></i>
-                              </span>
-                              <span className='align-middle'>New contact</span>
-                            </>
-                          )}{' '}
+                              <>
+                                <span className='align-middle'>
+                                  <i className='fa fa-plus mr-1'></i>
+                                </span>
+                                <span className='align-middle'>New contact</span>
+                              </>
+                            )}{' '}
                         </NavLink>
                         {contact && contact.contactTypeId ? (
                           <span
@@ -487,11 +502,11 @@ const CareInstitutionContacts: any = (props: any) => {
                       </NavItem>
                     );
                   })
-                : null}
-            </Nav>
+                  : null}
+              </Nav>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       <Formik
         enableReinitialize={true}
         initialValues={contactFormValues}
@@ -516,6 +531,7 @@ const CareInstitutionContacts: any = (props: any) => {
               addingtype={addingtype}
               addAttriContactData={addAttriContact}
               careInstitutionAttrOpt={contactAttributeOpt}
+              userSelectedCountry={userSelectedCountry}
             />
           </>
         )}

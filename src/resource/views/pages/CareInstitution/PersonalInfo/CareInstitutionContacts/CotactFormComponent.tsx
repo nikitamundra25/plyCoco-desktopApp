@@ -136,7 +136,8 @@ const CotactFormComponent: any = (
     careInstitutionAttrOpt,
     contacttypeOpt,
     setFieldTouched,
-    addingtype
+    addingtype,
+    userSelectedCountry
   } = props;
 
   useEffect(() => {
@@ -150,6 +151,13 @@ const CotactFormComponent: any = (
     }
   }, [contacttypeOpt]);
 
+  useEffect(() => {
+    if (userSelectedCountry && userSelectedCountry.value) {
+      getStatesByCountry({
+        variables: { countryid: userSelectedCountry.value }
+      });
+    }
+  }, [userSelectedCountry]);
 
   const handleAttributeSelectContarct = (
     selectOption: IReactSelectInterface,
@@ -206,8 +214,6 @@ const CotactFormComponent: any = (
   };
   // To add custom contact type
   const handleAddNewContactType = (contactType: string) => {
-    console.log('inside add');
-
     if (contactType !== '') {
       const newContactTypeData: IReactSelectInterface = {
         label: contactType,

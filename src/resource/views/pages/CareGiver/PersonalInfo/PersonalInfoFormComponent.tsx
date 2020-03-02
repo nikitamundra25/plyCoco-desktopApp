@@ -494,8 +494,8 @@ const PersonalInfoFormComponent: any = (
                     isClearable={true}
                     onBlur={handleBlur}
                     value={country && country.value ? country : undefined}
-                    onChange={(value: any) => handleSelect(value, "country")}
-                    classNamePrefix="custom-inner-reactselect"
+                    onChange={(value: any) => handleSelect(value, 'country')}
+                    classNamePrefix='custom-inner-reactselect'
                     className={
                       touched.countryId && errors.country && !country
                         ? "error custom-reactselect"

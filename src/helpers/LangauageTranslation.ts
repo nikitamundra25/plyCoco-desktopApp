@@ -21,6 +21,5 @@ export const languageTranslation = (
       languageMessages = languageMessages.replace(`:${k}`, `${value}`);
     }
   }
-  console.log(languageMessages);
   return languageMessages;
 };

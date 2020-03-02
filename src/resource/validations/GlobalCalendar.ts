@@ -3,8 +3,9 @@ import {
   IAddHolidayFormikProps
 } from "./../../interfaces/GlobalCalendar";
 import * as Yup from "yup";
-import { dateValidator, languageTranslation } from "../../helpers";
+import { dateValidator } from "../../helpers";
 import { IDateResponse } from "../../interfaces";
+import moment from "moment";
 
 export const AddHolidayValidations: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -16,7 +17,12 @@ export const AddHolidayValidations: Yup.ObjectSchema<Yup.Shape<
         name: "validate-date",
         test: function(val) {
           const { path, createError } = this;
-          const { isValid, message }: IDateResponse = dateValidator(val);
+          const { isValid, message }: IDateResponse = dateValidator(val, {
+            minDate: moment().format(),
+            maxDate: moment()
+              .add(100, "years")
+              .format()
+          });
           return !val || isValid || createError({ path, message });
         }
       }),

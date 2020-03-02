@@ -2,16 +2,14 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Button, Card, CardHeader, CardBody } from "reactstrap";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../../routes/routes";
-// import { AppRoutes } from "../../../../config";
 import { languageTranslation } from "../../../../helpers";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-// import { useHistory } from "react-router-dom";
 import { ICountries, IStates, IState } from "../../../../interfaces";
 import { CountryQueries } from "../../../../graphql/queries";
 import CalendarView from "./CalendarView";
 import AddHolidays from "./AddHolidays";
-
-const GlobalCalendar: FunctionComponent = (): JSX.Element => {
+let refreshList: any = undefined;
+const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
   const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
   // initial states
   const [states, setStates] = useState<IState[]>([]);
@@ -51,7 +49,6 @@ const GlobalCalendar: FunctionComponent = (): JSX.Element => {
   }, [statesData, statesLoading]);
   // handle add modal
   const [showAddModal, setAddModal] = useState<boolean>(false);
-
   // returns JSX
   return (
     <Card>
@@ -71,12 +68,18 @@ const GlobalCalendar: FunctionComponent = (): JSX.Element => {
         <CalendarView
           isLoading={statesLoading || countriesLoading}
           states={states}
+          refresh={(refetch: (variables?: any) => void): void => {
+            if (!refreshList) {
+              refreshList = refetch;
+            }
+          }}
         />
         {/*  */}
         <AddHolidays
           isOpen={showAddModal}
           handleClose={() => setAddModal(false)}
           states={states}
+          refresh={refreshList}
         />
       </CardBody>
     </Card>

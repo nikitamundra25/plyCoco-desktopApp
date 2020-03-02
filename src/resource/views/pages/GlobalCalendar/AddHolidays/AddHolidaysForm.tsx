@@ -15,15 +15,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
   props: IAddHolidaysFormProps
 ): JSX.Element => {
   const { states, fieldsInfo, addNewHoliday, removeHoliday } = props;
-  const {
-    values,
-    errors: formErrors,
-    touched: formTouch,
-    handleBlur,
-    handleChange,
-    setFieldValue
-  } = fieldsInfo;
-  console.log(formErrors, formTouch);
+  const { values, handleBlur, handleChange, setFieldValue } = fieldsInfo;
   const handleStateChange = (
     value: ValueType<IReactSelectInterface[]>,
     index: number
@@ -42,7 +34,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
           Number(val.value)
         );
     // set field value in formik
-    setFieldValue(`[${index}]states`, valueToSet);
+    setFieldValue(`inputs.${index}.states`, valueToSet);
   };
   // create options for react-select
   const stateOptions: IReactSelectInterface[] = states.map(state => ({
@@ -117,7 +109,6 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                           <Col sm="4">
                             <Label className="form-label col-form-label">
                               {languageTranslation("HOLIDAY_NOTE")}{" "}
-                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="8">
@@ -161,7 +152,6 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                           <Col sm="2">
                             <Label className="form-label col-form-label">
                               {languageTranslation("HOLIDAY_STATES")}{" "}
-                              <span className="required">*</span>
                             </Label>
                           </Col>
                           <Col sm="10">

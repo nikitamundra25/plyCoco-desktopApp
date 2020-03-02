@@ -11,13 +11,14 @@ export const dateValidator = (
     minDate: moment()
       .subtract(100, "years")
       .format(),
-    maxDate: moment().format(),
-    label: ""
+    maxDate: moment().format()
   }
 ): IDateResponse => {
   const date = dateString ? dateString.replace(/\D+/g, "") : "";
   // Parse the date parts to integers
-  const parts: string[] = dateString ? dateString.split(".") : [];
+  const parts: string[] = dateString
+    ? dateString.split(options.seperator || ".")
+    : [];
   const day: number = Number(parts[0]);
   const month: number = Number(parts[1]);
   const year: number = Number(parts[2]);
@@ -29,7 +30,17 @@ export const dateValidator = (
   }
   const maxTimestamp = moment(options.maxDate || "").unix();
   const minTimeStamp = moment(options.minDate || "").unix();
-  if (options.maxDate && moment(new Date(dateString)).unix() > maxTimestamp) {
+  const currentTimeStamp = moment()
+    .set({
+      dates: day,
+      months: month - 1,
+      years: year,
+      hours: 0,
+      minutes: 0,
+      seconds: 0
+    })
+    .unix();
+  if (options.maxDate && currentTimeStamp > maxTimestamp) {
     return {
       isValid: false,
       message: languageTranslation("MIN_DATE_VALIDATION", {
@@ -37,7 +48,7 @@ export const dateValidator = (
       })
     };
   }
-  if (options.minDate && moment(new Date(dateString)).unix() < minTimeStamp) {
+  if (options.minDate && currentTimeStamp < minTimeStamp) {
     return {
       isValid: false,
       message: languageTranslation("MAX_DATE_VALIDATION", {

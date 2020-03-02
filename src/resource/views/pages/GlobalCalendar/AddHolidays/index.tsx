@@ -14,7 +14,7 @@ import {
   logger,
   errorFormatter
 } from "../../../../../helpers";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { GlobalCalendarMutations } from "../../../../../graphql/Mutations";
 import moment from "moment";
 import { toast } from "react-toastify";
@@ -22,7 +22,8 @@ import { toast } from "react-toastify";
 const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
   isOpen,
   handleClose,
-  states
+  states,
+  refresh
 }): JSX.Element => {
   const [ADD_GLOBAL_HOLIDAYS] = GlobalCalendarMutations;
   const initialHolidayData: IAddHolidayFormikProps = {
@@ -46,14 +47,35 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
     data: FormikHelpers<IAddHolidayFormikProps>
   ) => {
     try {
+      console.log(values.inputs);
+
       await AddGlobalHolidays({
         variables: {
           globalCalendarInput: values.inputs.map(
-            (v: IAddHolidaysFormValues) => ({
-              date: moment(v.date).format("DD/MM/YYYY"),
-              applicableStates: v.states,
-              note: v.note
-            })
+            (v: IAddHolidaysFormValues) => {
+              // Parse the date parts to integers
+              const parts: string[] =
+                v.date && typeof v.date === "string" ? v.date.split(".") : [];
+              const day: number = Number(parts[0]);
+              const month: number = Number(parts[1]);
+              const year: number = Number(parts[2]);
+              const date = moment()
+                .set({
+                  dates: day,
+                  months: month - 1,
+                  years: year,
+                  hours: 0,
+                  minutes: 0,
+                  seconds: 0
+                })
+                .format();
+              console.log(date);
+              return {
+                date,
+                applicableStates: v.states,
+                note: v.note
+              };
+            }
           )
         }
       });
@@ -62,6 +84,14 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
           n: values.inputs.length > 1 ? "s" : ""
         })
       );
+      // reset form
+      data.resetForm();
+      // reset to initial data
+      setHolidayData(initialHolidayData);
+      // close the popup
+      handleClose ? handleClose() : undefined;
+      refresh();
+      // refetch the list
     } catch (error) {
       console.log(error);
       const message = errorFormatter(error.message);
@@ -95,7 +125,6 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
       onSubmit={handleSubmit}
       validationSchema={AddHolidayValidations}
       children={(props: FormikProps<IAddHolidayFormikProps>) => {
-        console.log(props);
         const footerButtons: IPycButtonProps[] = [
           {
             text: languageTranslation("CLOSE"),

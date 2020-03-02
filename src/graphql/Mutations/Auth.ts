@@ -13,6 +13,9 @@ export const LOGIN = gql`
 
 export const REFRESH_TOKEN = gql`
   mutation refreshToken {
-    token
+    refreshToken {
+      token
+      sessionExpire
+    }
   }
 `;

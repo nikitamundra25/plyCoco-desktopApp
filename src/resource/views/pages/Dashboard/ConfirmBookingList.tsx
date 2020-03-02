@@ -1,25 +1,18 @@
 import React, { FunctionComponent } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Table
-} from "reactstrap";
+import { Card, CardHeader, CardBody, CardTitle, Table } from "reactstrap";
 import { languageTranslation } from "../../../../helpers";
 import Loader from "../../containers/Loader/Loader";
 import { RouteComponentProps } from "react-router-dom";
 
-const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (props: any) => {
+const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (
+  props: any
+) => {
   const { confirmBookingListLoading } = props;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>
-          {" "}
-          {languageTranslation("CONFIRM_APPOINTMENTS")}
-        </CardTitle>
+        <CardTitle> {languageTranslation("CONFIRM_APPOINTMENTS")}</CardTitle>
       </CardHeader>
       {confirmBookingListLoading ? (
         <div>
@@ -28,16 +21,11 @@ const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (props: any) 
       ) : null}
       <CardBody className="custom-scrollbar">
         <div>
-          <Table hover>
+          <Table hover className="mb-0">
             <thead className="thead-bg">
               <tr>
-                <th className="thead-sticky">
-                  {" "}
-                  {languageTranslation("DATE")}
-                </th>
-                <th className="thead-sticky">
-                  {languageTranslation("NAME")}
-                </th>
+                <th className="thead-sticky"> {languageTranslation("DATE")}</th>
+                <th className="thead-sticky">{languageTranslation("NAME")}</th>
                 <th className="thead-sticky">
                   {" "}
                   {languageTranslation("BOOKING_DATE")}

@@ -92,12 +92,27 @@ const DefaultLayout = (props: RouteComponentProps) => {
           toastId = toast.error(message);
         }
         localStorage.removeItem('adminToken');
+        localStorage.removeItem('expirationTime');
         history.push(AppRoutes.LOGIN);
       }
     }
   );
 
-  const [refreshToken] = useMutation(REFRESH_TOKEN);
+  const [refreshToken] = useMutation(REFRESH_TOKEN, {
+    onCompleted({ refreshToken }) {
+      if (refreshToken) {
+        const { sessionExpire, token } = refreshToken;
+        let expirationTime: number = moment().unix() + sessionExpire;
+        localStorage.setItem('adminToken', token);
+        localStorage.setItem('expirationTime', expirationTime.toString());
+      }
+    },
+    onError() {
+      localStorage.removeItem('expirationTime');
+      localStorage.removeItem('adminToken');
+      history.push(AppRoutes.LOGIN);
+    },
+  });
 
   const [permission, setpermission] = useState<string>('');
   useEffect(() => {

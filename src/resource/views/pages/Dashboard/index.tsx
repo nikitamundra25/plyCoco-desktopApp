@@ -31,7 +31,7 @@ const [
 
 const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
 
-  const [daysValue, setDaysValue] = useState<any>({ value: 1, label: "1" });
+  const [daysValue, setDaysValue] = useState<any>({ value: 1, label: "1 Day" });
 
   const appointmentListLoading = false;
   const confirmBookingListLoading = false;

@@ -594,12 +594,12 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                           classNamePrefix="custom-inner-reactselect"
                           onBlur={handleBlur}
                           className={
-                            errors.country
+                            touched.countryId && errors.country && !country
                               ? 'error custom-reactselect'
                               : 'custom-reactselect'
                           }
                         />
-                        {errors.country && (
+                        {touched.countryId && errors.country && !country && (
                           <div className='required-tooltip left'>
                             {errors.country}
                           </div>
@@ -626,7 +626,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                           value={state && state.value !== '' ? state : null}
                           onChange={(value: any) => handleSelect(value, "state")}
                           noOptionsMessage={() => {
-                            return "Select a country first";
+                            return country && country.value ? 'No options' : 'Select a country first';
                           }}
                           classNamePrefix="custom-inner-reactselect"
                           onBlur={handleBlur}

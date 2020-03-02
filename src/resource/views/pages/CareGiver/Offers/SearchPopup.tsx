@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from 'react';
 import {
   Button,
   Modal,
@@ -10,57 +10,65 @@ import {
   Input,
   Col,
   Row,
-  Form,
-  CustomInput
-} from "reactstrap";
-import Select from "react-select";
-import logger from "redux-logger";
-import { languageTranslation } from "../../../../../helpers";
-import { State } from "../../../../../config";
-
+  Form
+} from 'reactstrap';
+import { languageTranslation } from '../../../../../helpers';
+import close from '../../../../assets/img/cancel.svg';
+import closehover from '../../../../assets/img/cancel-hover.svg';
 const OfferSearch = (props: any) => {
-  const { show, handleClose } = props;
+  const { show, handleClose, handleChange, onSearch, searchValue } = props;
 
+  const externalCloseBtn = (
+    <button className='close modal-close' onClick={() => handleClose()}>
+      <img src={close} alt='close' className='main-img' />
+      <img src={closehover} alt='close' className='hover-img' />
+    </button>
+  );
   return (
     <div>
-      <Modal isOpen={show} className="common-modal" size="lg" centered>
-        <ModalHeader> Create Todo/Reminder for John Doe </ModalHeader>
-        <ModalBody>
-          <div className="">
-            <Form className="form-section forms-main-section">
-              <Row>
-                <Col lg={"12"}>
-                  <FormGroup>
-                    <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("TIME_OF_DAY")}
-                          <span className="required">*</span>
-                        </Label>
-                      </Col>
-                      <Col sm="8">
-                        <div>
-                          <Input
-                            type="text"
-                            name={"firstName"}
-                            placeholder={languageTranslation("TIME_OF_DAY")}
-                            className="width-common"
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </Form>
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary">{languageTranslation("ADD_REMINDER")}</Button>
-          <Button color="secondary" onClick={handleClose}>
-            {languageTranslation("CANCEL")}
-          </Button>
-        </ModalFooter>
+      <Modal isOpen={show} className='common-modal' centered>
+        <ModalHeader close={externalCloseBtn}>
+          {languageTranslation('SEARCH_POPUP_TITLE')}{' '}
+        </ModalHeader>
+        <Form onSubmit={(e: any) => {
+          e.preventDefault();
+          onSearch();
+        }}>
+          <ModalBody>
+            <div className=''>
+              <div className='form-section forms-main-section'>
+                <Row>
+                  <Col lg={'12'}>
+                    <FormGroup>
+                      <Label className='form-label col-form-label mb-1'>
+                        {languageTranslation(
+                          'SEARCH_POPUP_LABEL_CAREINSTITUTION'
+                        )}
+                      </Label>
+                      <div>
+                        <Input
+                          type='text'
+                          name={'firstName'}
+                          value={searchValue}
+                          placeholder={languageTranslation('SEARCH_LABEL')}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </div>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color='primary' type='submit'>
+              {languageTranslation('ADD')}
+            </Button>
+            <Button color='secondary' onClick={handleClose}>
+              {languageTranslation('CANCEL')}
+            </Button>
+          </ModalFooter>
+        </Form>
       </Modal>
     </div>
   );

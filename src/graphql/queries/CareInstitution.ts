@@ -32,6 +32,7 @@ const GET_CARE_INSTITUTION_LIST = gql`
           title
           companyName
           shortName
+          attributes
         }
       }
     }
@@ -183,5 +184,5 @@ export const CareInstitutionQueries = [
   GET_DEPARTMENT_LIST,
   GET_CAREINSTITUTION_ATTRIBUTES,
   GET_CONTACT_LIST_BY_ID,
-  GET_CONTACT_TYPES
+  GET_CONTACT_TYPES,
 ];

@@ -228,6 +228,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],
         status,
+        transmission: { email: true, website: true, app: false },
       };
       await addCaregiver({
         variables: {

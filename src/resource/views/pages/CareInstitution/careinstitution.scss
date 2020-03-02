@@ -70,11 +70,12 @@
 }
 .common-offer-section {
   .common-offer-row {
-    min-height: calc(100vh - 220px);
     .common-list-wrap {
-      height: 100%;
       .common-list-body {
-        height: calc(100% - 57px);
+        height: calc(100vh - 262px);
+        &.worked-list {
+          height: calc(100vh - 231px);
+        }
       }
     }
   }

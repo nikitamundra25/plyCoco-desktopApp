@@ -14,6 +14,7 @@ import { IAppointmentNav } from '../../../../interfaces';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
+import AttributePopup from './AttributePopup';
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
@@ -30,10 +31,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   } = props;
 
   const { month = '', year = '' } = daysData ? daysData : {};
-  // let date = newDate()
-  console.log('month', month);
-  console.log('year', year);
 
+  const [attributeSearch, setShowAttribute] = useState<boolean>(false);
   return (
     <>
       <div className='sticky-common-header'>
@@ -73,22 +72,24 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           <div className='user-select mx-1'>
             <Select
               classNamePrefix='custom-inner-reactselect'
-              className={'custom-reactselect custom-reactselect-menu-width'}
+              className={'custom-reactselect '}
               placeholder='Select'
               options={Without_Appointments}
             />
           </div>
 
           <div className='user-select mx-1'>
-            <ReactMultiSelectCheckboxes
-              options={qualificationList}
-              placeholder={languageTranslation(
-                'CAREGIVER_QUALIFICATION_PLACEHOLDER'
-              )}
-              className={'custom-reactselect custom-reactselect-menu-width'}
-              classNamePrefix='custom-inner-reactselect'
-              onChange={handleQualification}
-            />
+            <div className='custom-select-checkbox'>
+              <ReactMultiSelectCheckboxes
+                options={qualificationList}
+                placeholder={languageTranslation(
+                  'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                )}
+                className={'custom-reactselect custom-reactselect-menu-width'}
+                classNamePrefix='custom-inner-reactselect'
+                onChange={handleQualification}
+              />
+            </div>
           </div>
 
           <div className='header-nav-item'>
@@ -96,11 +97,16 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               <img src={caregiver} alt='' />
             </span>
           </div>
-          <div className='header-nav-item'>
+          <div
+            className='header-nav-item'
+            onClick={() => setShowAttribute(true)}
+          >
             <span className='header-nav-icon'>
               <img src={filter} alt='' />
             </span>
-            <span className='header-nav-text'>Attibutes</span>
+            <span className='header-nav-text'>
+              {languageTranslation('ATTRIBUTES')}
+            </span>
           </div>
 
           <div className='user-select mx-1'>
@@ -117,11 +123,16 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               <img src={careinstitution} alt='' />
             </span>
           </div>
-          <div className='header-nav-item'>
+          <div
+            className='header-nav-item'
+            onClick={() => setShowAttribute(true)}
+          >
             <span className='header-nav-icon'>
               <img src={filter} alt='' />
             </span>
-            <span className='header-nav-text'>Attibutes</span>
+            <span className='header-nav-text'>
+              {languageTranslation('ATTRIBUTES')}
+            </span>
           </div>
           <div className='user-select mx-1'>
             <Select
@@ -142,6 +153,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           </div>
         </div>
       </div>
+      <AttributePopup
+        show={attributeSearch ? true : false}
+        handleClose={() => setShowAttribute(false)}
+      />
     </>
   );
 };

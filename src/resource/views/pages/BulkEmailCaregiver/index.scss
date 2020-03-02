@@ -6,13 +6,11 @@
   height: calc(100vh - 125px);
   overflow-y: auto;
   overflow-x: hidden;
+  @media only screen and (max-width: 991px) {
+    max-height: 500px;
+  }
 }
-.bulk-email-form {
-  background: $white;
-  margin-bottom: 8px;
-  position: relative;
-  border: 1px solid $table_border;
-}
+
 .bulk-email-header {
   .bulk-email-label {
     font-size: $font_12;
@@ -27,11 +25,6 @@
     width: 300px;
   }
 }
-.mail-table {
-  .size-col {
-    width: 60px;
-  }
-}
 .required {
-  color: #ff2e4b !important;
+  color: $red;
 }

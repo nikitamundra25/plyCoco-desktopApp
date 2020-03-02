@@ -9,7 +9,7 @@ import {
   telMax,
   IBANReplaceRegex,
   userNameReplaceRegex,
-  emailRegex,
+  emailRegex
 } from '../../config';
 import { languageTranslation, logger, dateValidator } from '../../helpers';
 export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -55,18 +55,18 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
       const { path, createError } = this;
       const { isValid, message }: IDateResponse = dateValidator(val);
       return !val || isValid || createError({ path, message });
-    },
+    }
   }),
   image: Yup.mixed()
     .test(
       'fileFormat',
       languageTranslation('UNSUPPORTED_FORMAT'),
-      value => !value || (value && SupportedFormats.includes(value.type)),
+      value => !value || (value && SupportedFormats.includes(value.type))
     )
     .test(
       'fileSize',
       languageTranslation('FILE_SIZE_TO_LARGE'),
-      value => !value || (value && value.size <= fileSize),
+      value => !value || (value && value.size <= fileSize)
     ),
   IBAN: Yup.mixed().test(
     'len',
@@ -74,19 +74,27 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
     value =>
       !value ||
       !value.replace(IBANReplaceRegex, '') ||
-      (value && value.replace(IBANReplaceRegex, '').length === IBANlength),
+      (value && value.replace(IBANReplaceRegex, '').length === IBANlength)
   ),
   telephoneNumber: Yup.mixed()
     .test(
       'check-num',
       languageTranslation('TEL_NUMERROR'),
-      value => !value || (value && !isNaN(value)),
+      value => !value || (value && !isNaN(value))
     )
     .test(
       'num-length',
       languageTranslation('TEL_MINLENGTH'),
       value =>
-        !value || (value && value.length >= telMin && value.length <= telMax),
+        !value || (value && value.length >= telMin && value.length <= telMax)
     ),
   city: Yup.string(),
+  country: Yup.object().shape({
+    value: Yup.string().required(languageTranslation('COUNTRY_REQUIRED')),
+    label: Yup.string().required(languageTranslation('COUNTRY_REQUIRED'))
+  }),
+  state: Yup.object().shape({
+    value: Yup.string().required(languageTranslation('STATE_REQUIRED')),
+    label: Yup.string().required(languageTranslation('STATE_REQUIRED'))
+  })
 });

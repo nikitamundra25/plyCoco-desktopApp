@@ -4,9 +4,10 @@ import {
   Row,
 } from "reactstrap";
 import { languageTranslation, errorFormatter } from "../../../../../helpers";
-import '../careinstitution.scss';
-// import SearchPopup from "./SearchPopup";
+import "../caregiver.scss";
+import SearchPopup from "./SearchPopup";
 import {
+  CareInstitutionQueries,
   CareGiverQueries
 } from "../../../../../graphql/queries";
 import { CareGiverMutations } from "../../../../../graphql/Mutations";
@@ -23,7 +24,10 @@ let toastId: any = "";
 const Offer: FunctionComponent<RouteComponentProps> = () => {
 
   const [selectedOption, setSelectedOption] = useState<any>(null);
+  const [showSearch, setShowSearch] = useState<boolean>(false);
   const [negativeUsersList, setNegativeUsersList] = useState<any>([]);
+  const [searchValue, setSearch] = useState<any>('');
+  const [GET_CARE_INSTITUTION_LIST] = CareInstitutionQueries;
   const [
     ,
     ,
@@ -35,16 +39,67 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
     ADD_NEGATIVE_USER,
     DELETE_BLACKLIST_USER
   ] = CareGiverMutations;
-  const [GET_CAREGIVERS, , , , , , , GET_NEGATIVE_USERS_LIST] = CareGiverQueries;
+  const [, , , , , , , GET_NEGATIVE_USERS_LIST] = CareGiverQueries;
   let { id } = useParams();
   let userId: any | undefined = id;
-  const [caregiverOptions, setCaregiverOptions] = useState<any>([]);
+  const [careInstOptions, setCareInstOptions] = useState<any>([]);
   // get care institution lists
-  const [fetchCaregiverList, { data: caregiver, refetch }] = useLazyQuery<any>(GET_CAREGIVERS);
+  const [fetchCareInstitutionList, { data: careInstituition, refetch }] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
+    onCompleted: async () => {
+      if (searchValue != '') {
+        if (
+          careInstituition &&
+          careInstituition.getCareInstitutions &&
+          careInstituition.getCareInstitutions.careInstitutionData &&
+          careInstituition.getCareInstitutions.totalCount > 0
+        ) {
+          const { value } = await ConfirmBox({
+            title: languageTranslation("CONFIRM_LABEL"),
+            text: `You want to add ${careInstituition.getCareInstitutions.totalCount} user`
+          });
+          if (!value) {
+            return;
+          } else {
+            try {
+              let temp: any = [];
+              careInstituition.getCareInstitutions.careInstitutionData.map(
+                (item: any) => {
+                  temp.push(parseInt(item.id));
+                }
+              );
+              await addNegativeUser({
+                variables: {
+                  id: userId ? parseInt(userId) : "",
+                  negativeIds: [
+                    ...negativeUsersList.map((list: any) => parseInt(list.id)),
+                    ...temp
+                  ]
+                }
+              });
+              refetch();
+            } catch (error) {
+              const message = errorFormatter(error);
+              if (!toast.isActive(toastId)) {
+                toastId = toast.error(message);
+              }
+            }
+            setShowSearch(false);
+            setSearch('');
+          }
+        } else {
+          if (!toast.isActive(toastId)) {
+            toastId = toast.error(
+              languageTranslation("SEARCH_RECORD_NOT_FOUND")
+            );
+          }
+        }
+      }
+    }
+  });
 
   // to get list of care institution
   useEffect(() => {
-    fetchCaregiverList({
+    fetchCareInstitutionList({
       variables: {
         searchBy: null,
         sortBy: 3,
@@ -56,8 +111,13 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   }, [userId]);
 
   useEffect(() => {
-    if (caregiver && caregiver.getCaregivers && caregiver.getCaregivers.result && !caregiverOptions.length) {
-      caregiver.getCaregivers.result.filter(
+    if (
+      careInstituition &&
+      careInstituition.getCareInstitutions &&
+      careInstituition.getCareInstitutions.careInstitutionData &&
+      !careInstOptions.length
+    ) {
+      careInstituition.getCareInstitutions.careInstitutionData.filter(
         (item: any) =>
           negativeUsersList.findIndex((ele: any) => ele.id === item.id) < 0
       );
@@ -67,17 +127,17 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
         value: languageTranslation("ID"),
         companyName: languageTranslation("COMPANY_NAME")
       });
-      caregiver.getCaregivers.result.forEach(
-        ({ id, firstName, lastName, caregiver }: any) =>
+      careInstituition.getCareInstitutions.careInstitutionData.forEach(
+        ({ id, firstName, lastName, canstitution }: any) =>
           temp.push({
             label: `${firstName}${" "}${lastName}`,
             value: id,
-            companyName: caregiver && caregiver.companyName
+            companyName: canstitution && canstitution.companyName
           })
       );
-      setCaregiverOptions(temp);
+      setCareInstOptions(temp);
     }
-  }, [caregiver]);
+  }, [careInstituition]);
 
   //add negative user
   const [addNegativeUser] = useMutation<any>(ADD_NEGATIVE_USER, {
@@ -186,7 +246,6 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
       }
     }
   };
-
   // deleting nagative User
   const onDeleteNegativeUser = async (careInstId: string) => {
     const { value } = await ConfirmBox({
@@ -215,6 +274,26 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
       }
     }
   };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { target } = e;
+    const { value } = target;
+    setSearch(value);
+  };
+
+  const onSearch = async () => {
+    console.log('ssssssss ');
+
+    await fetchCareInstitutionList({
+      variables: {
+        searchBy: searchValue,
+        sortBy: 0,
+        limit: 0,
+        page: 0,
+        isActive: ""
+      }
+    });
+    refetch();
+  };
 
   return (
     <div className="common-offer-section">
@@ -224,7 +303,8 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
           <NegativeList
             negativeUser={negativeUser}
             handleRemoveAll={handleRemoveAll}
-            caregiverOptions={caregiverOptions}
+            careInstOptions={careInstOptions}
+            setShowSearch={setShowSearch}
             onDeleteNegativeUser={onDeleteNegativeUser}
             handleSelect={handleSelect}
             selectedOption={selectedOption}
@@ -235,6 +315,16 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
           <WorkedList />
         </Col>
       </Row>
+      <SearchPopup
+        show={showSearch ? true : false}
+        handleClose={() => {
+          setShowSearch(false);
+          setSearch('');
+        }}
+        handleChange={handleChange}
+        onSearch={onSearch}
+        searchValue={searchValue}
+      />
     </div>
   );
 };

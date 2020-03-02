@@ -257,6 +257,7 @@ const CareInstitutionContacts: any = (props: any) => {
         city: values.city,
         zip: values.zipCode,
         countryId: values && values.country ? values.country.value : '',
+        stateId: values && values.state ? values.state.value : '',
         phoneNumber: values.phoneNumber,
         phoneNumber2: values.phoneNumber,
         fax: values.faxNumber,

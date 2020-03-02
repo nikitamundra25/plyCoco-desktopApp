@@ -10,7 +10,7 @@ import Loader from '../../../containers/Loader/Loader';
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList
 ) => {
-  const { daysData, careGiversList, loading } = props;
+  const { daysData, careGiversList, loading, onAddingRow } = props;
   const { daysArr = [] } = daysData ? daysData : {};
   return (
     <>
@@ -56,7 +56,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               careGiversList.map((list: any, index: number) => {
                 return (
                   <div className='custom-appointment-row' key={index}>
-                    <div className='custom-appointment-col name-col appointment-color1 text-capitalize'>
+                    <div className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link'>
                       {`${list.firstName} ${list.lastName}`}
                     </div>
                     <div className='custom-appointment-col h-col appointment-color2'></div>
@@ -66,7 +66,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     <div className='custom-appointment-col u-col text-center'>
                       <i className='fa fa-star-o' />
                     </div>
-                    <div className='custom-appointment-col v-col text-center'>
+                    <div
+                      className='custom-appointment-col v-col text-center'
+                      onClick={e => onAddingRow(e, 'caregiver')}
+                    >
                       <i className='fa fa-arrow-down' />
                     </div>
                     {daysArr.map((key: any, i: number) => {

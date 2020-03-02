@@ -28,6 +28,10 @@ export interface IAppointmentCareGiverList {
   daysData: IGetDaysArrayByMonthRes | null;
   careGiversList: any;
   loading: boolean;
+  onAddingRow: (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    name: string
+  ) => void | undefined;
 }
 
 export interface IAppointmentCareInstitutionList {

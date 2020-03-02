@@ -55,7 +55,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
               careInstitutionList.map((list: any, index: number) => {
                 return (
                   <div className='custom-appointment-row' key={index}>
-                    <div className='custom-appointment-col name-col appointment-color1 text-capitalize'>
+                    <div className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link'>
                       {`${list.firstName} ${list.lastName}`}
                     </div>
                     <div className='custom-appointment-col h-col appointment-color2'></div>

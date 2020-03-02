@@ -50,8 +50,8 @@ const Appointment: FunctionComponent = () => {
   const [activeMonth, setActiveMonth] = useState<number>(moment().month());
   const [activeYear, setActiveYear] = useState<number>(moment().year());
   const [qualification, setqualification] = useState<any>([]);
-  const [caregiversList, setcaregiversList] = useState<any>([]);
-  const [careinstitutionList, setcareinstitutionList] = useState<any>([]);
+  const [caregiversList, setcaregiversList] = useState<Object[]>([]);
+  const [careinstitutionList, setcareinstitutionList] = useState<Object[]>([]);
 
   // const [activeDate, setActiveDate] = useState<string>('');
 
@@ -82,6 +82,22 @@ const Appointment: FunctionComponent = () => {
       });
     });
   }
+
+  // To store users list into state
+  useEffect(() => {
+    if (careGiversList && careGiversList.getUserByQualifications) {
+      const { getUserByQualifications } = careGiversList;
+      if (getUserByQualifications && getUserByQualifications.length) {
+        setcaregiversList(getUserByQualifications);
+      }
+    }
+    if (careInstitutionList && careInstitutionList.getUserByQualifications) {
+      const { getUserByQualifications } = careInstitutionList;
+      if (getUserByQualifications && getUserByQualifications.length) {
+        setcareinstitutionList(getUserByQualifications);
+      }
+    }
+  }, [careGiversList, careInstitutionList]);
 
   // Select qualification attribute
   const handleQualification = (selectedOption: IReactSelectInterface[]) => {
@@ -186,6 +202,25 @@ const Appointment: FunctionComponent = () => {
     setDaysData(res);
   };
 
+  // Adding Row into table
+  const onAddingRow = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    name: string
+  ) => {
+    e.preventDefault();
+
+    if (name === 'caregiver') {
+      let temp: any = [...caregiversList];
+      let stemp: any = {};
+      console.log('dfgdfg');
+      temp = [...temp, stemp];
+      console.log('temp', temp);
+
+      // caregiversList(temp);
+    } else {
+    }
+  };
+
   return (
     <>
       <div className='common-detail-page'>
@@ -208,12 +243,8 @@ const Appointment: FunctionComponent = () => {
                   <CaregiverListView
                     daysData={daysData}
                     loading={caregiverLoading}
-                    careGiversList={
-                      careGiversList
-                        ? careGiversList &&
-                          careGiversList.getUserByQualifications
-                        : []
-                    }
+                    careGiversList={caregiversList ? caregiversList : []}
+                    onAddingRow={onAddingRow}
                   />
                   <CarinstituionListView
                     daysData={daysData}

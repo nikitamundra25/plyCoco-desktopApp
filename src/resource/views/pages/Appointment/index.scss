@@ -220,6 +220,14 @@
     }
   }
 }
-.isSelected {
-  background-color: red;
+body {
+  .custom-row-selector {
+    margin: 0;
+    .selected-cell {
+      background-color: #8c38d6;
+    }
+    .selecting-cell {
+      background-color: #8c38d6;
+    }
+  }
 }

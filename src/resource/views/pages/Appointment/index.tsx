@@ -1,28 +1,28 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Col, Row } from 'reactstrap';
-import { getDaysArrayByMonth, germanNumberFormat } from '../../../../helpers';
-import './index.scss';
-import AppointmentNav from './AppointmentNav';
-import CaregiverListView from './Caregiver/CaregiverListView';
-import CarinstituionListView from './Careinstituion/CareinstituionListView';
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { Col, Row } from "reactstrap";
+import { getDaysArrayByMonth, germanNumberFormat } from "../../../../helpers";
+import "./index.scss";
+import AppointmentNav from "./AppointmentNav";
+import CaregiverListView from "./Caregiver/CaregiverListView";
+import CarinstituionListView from "./Careinstituion/CareinstituionListView";
 import {
   IGetDaysArrayByMonthRes,
   IQualifications,
   IReactSelectInterface,
   ICaregiverFormValue,
   ICareinstitutionFormValue
-} from '../../../../interfaces';
-import moment from 'moment';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+} from "../../../../interfaces";
+import moment from "moment";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import {
   GET_QUALIFICATION_ATTRIBUTE,
   AppointmentsQueries
-} from '../../../../graphql/queries';
-import CaregiverFormView from './Caregiver/CaregiverForm';
-import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { CareGiverValidationSchema } from '../../../validations/AppointmentsFormValidationSchema';
-import { toast } from 'react-toastify';
+} from "../../../../graphql/queries";
+import CaregiverFormView from "./Caregiver/CaregiverForm";
+import CareinstitutionFormView from "./Careinstituion/CareinstitutionForm";
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import { CareGiverValidationSchema } from "../../../validations/AppointmentsFormValidationSchema";
+import { toast } from "react-toastify";
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const Appointment: FunctionComponent = () => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
@@ -45,7 +45,7 @@ const Appointment: FunctionComponent = () => {
     fetchCaregiverList,
     { data: careGiversList, loading: caregiverLoading }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: "no-cache"
   });
 
   // To fetch careinstitution by qualification id
@@ -53,7 +53,7 @@ const Appointment: FunctionComponent = () => {
     fetchCareinstitutionList,
     { data: careInstitutionList, loading: careinstitutionLoading }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: "no-cache"
   });
 
   // To fetch qualification attributes list
@@ -86,7 +86,7 @@ const Appointment: FunctionComponent = () => {
 
   // Reset the users list
   const handleReset = (name: string) => {
-    if (name === 'caregiver') {
+    if (name === "caregiver") {
       if (careGiversList && careGiversList.getUserByQualifications) {
         const { getUserByQualifications } = careGiversList;
         if (getUserByQualifications && getUserByQualifications.length) {
@@ -118,14 +118,14 @@ const Appointment: FunctionComponent = () => {
     fetchCaregiverList({
       variables: {
         qualificationId: temp ? temp : null,
-        userRole: 'caregiver'
+        userRole: "caregiver"
       }
     });
     // get careInstitution list
     fetchCareinstitutionList({
       variables: {
         qualificationId: temp ? temp : null,
-        userRole: 'canstitution'
+        userRole: "canstitution"
       }
     });
   }, [qualification]);
@@ -138,7 +138,7 @@ const Appointment: FunctionComponent = () => {
       getUserByQualifications.map((list: any) => {
         return careGiversOptions.push({
           label: `${list.firstName} ${list.lastName} `,
-          value: list.id ? list.id : ''
+          value: list.id ? list.id : ""
         });
       });
     }
@@ -152,7 +152,7 @@ const Appointment: FunctionComponent = () => {
       getUserByQualifications.map((list: any) => {
         return careInstitutionOptions.push({
           label: `${list.firstName} ${list.lastName} `,
-          value: list.id ? list.id : ''
+          value: list.id ? list.id : ""
         });
       });
     }
@@ -213,7 +213,7 @@ const Appointment: FunctionComponent = () => {
     index: number
   ) => {
     e.preventDefault();
-    if (name === 'caregiver') {
+    if (name === "caregiver") {
       let temp: any = [...caregiversList];
       temp.splice(index + 1, 0, {});
       setcaregiversList(temp);
@@ -226,7 +226,7 @@ const Appointment: FunctionComponent = () => {
 
   // select careGiver or careinstitution
   const handleSelectedUser = (list: object, name: string) => {
-    if (name === 'caregiver') {
+    if (name === "caregiver") {
       setselectedCareGiver(list);
     } else {
       setselectedCareinstitution(list);
@@ -237,7 +237,7 @@ const Appointment: FunctionComponent = () => {
   const handleSecondStar = (list: object, index: number, name: string) => {
     let temp: any = [];
     temp.push(list);
-    if (name === 'caregiver') {
+    if (name === "caregiver") {
       setcaregiversList(temp);
     } else {
       setcareinstitutionList(temp);
@@ -249,7 +249,7 @@ const Appointment: FunctionComponent = () => {
     values: ICaregiverFormValue,
     { setSubmitting, setFieldError }: FormikHelpers<ICaregiverFormValue>
   ) => {
-    console.log('insideeee');
+    console.log("insideeee");
 
     const {
       firstName,
@@ -276,36 +276,36 @@ const Appointment: FunctionComponent = () => {
     } = values;
     try {
       let careGiverInput: any = {
-        firstName: firstName ? firstName.trim() : '',
-        lastName: lastName ? lastName.trim() : '',
-        fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
+        firstName: firstName ? firstName.trim() : "",
+        lastName: lastName ? lastName.trim() : "",
+        fee: fee ? parseFloat(fee.replace(/,/g, ".")) : null,
         weekendAllowance: weekendAllowance
-          ? parseFloat(weekendAllowance.replace(/,/g, '.'))
+          ? parseFloat(weekendAllowance.replace(/,/g, "."))
           : null,
         holidayAllowance: holidayAllowance
-          ? parseFloat(holidayAllowance.replace(/,/g, '.'))
+          ? parseFloat(holidayAllowance.replace(/,/g, "."))
           : null,
-        nightFee: nightFee ? parseFloat(nightFee.replace(/,/g, '.')) : null,
+        nightFee: nightFee ? parseFloat(nightFee.replace(/,/g, ".")) : null,
         nightAllowance:
           nightAllowance && nightAllowance.value ? nightAllowance.value : null,
         workingProofRecieved: workingProofRecieved ? true : false,
         distanceInKM: distanceInKM ? distanceInKM : null,
         feePerKM: feePerKM ? feePerKM : null,
         otherExpenses: otherExpenses
-          ? parseFloat(otherExpenses.replace(/,/g, '.'))
+          ? parseFloat(otherExpenses.replace(/,/g, "."))
           : null,
         remarksCareGiver: remarksCareGiver ? remarksCareGiver : null,
         remarksInternal: remarksInternal ? remarksInternal : null,
-        f: f ? 'available' : 'default',
-        s: s ? 'available' : 'default',
-        n: n ? 'available' : 'default'
+        f: f ? "available" : "default",
+        s: s ? "available" : "default",
+        n: n ? "available" : "default"
       };
-      console.log('careGiverInput', careGiverInput);
+      console.log("careGiverInput", careGiverInput);
     } catch (error) {
       const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
+        .replace("SequelizeValidationError: ", "")
+        .replace("Validation error: ", "")
+        .replace("GraphQL error: ", "");
       // setFieldError('email', message);
       toast.error(message);
     }
@@ -317,19 +317,19 @@ const Appointment: FunctionComponent = () => {
 
   // Fetch values in case of edit by default it will be null or undefined
   const {
-    firstName = '',
-    lastName = '',
+    firstName = "",
+    lastName = "",
     workingProofRecieved = false,
-    distanceInKM = '',
-    feePerKM = '',
-    travelAllowance = '',
-    otherExpenses = '',
-    workingHoursFrom = '',
-    workingHoursTo = '',
-    breakFrom = '',
-    breakTo = '',
-    remarksCareGiver = '',
-    remarksInternal = '',
+    distanceInKM = "",
+    feePerKM = "",
+    travelAllowance = "",
+    otherExpenses = "",
+    workingHoursFrom = "",
+    workingHoursTo = "",
+    breakFrom = "",
+    breakTo = "",
+    remarksCareGiver = "",
+    remarksInternal = "",
     caregiver = {},
     f = false,
     s = false,
@@ -347,14 +347,14 @@ const Appointment: FunctionComponent = () => {
   const valuesForCaregiver: ICaregiverFormValue = {
     firstName,
     lastName,
-    fee: fee !== null ? germanNumberFormat(caregiver.fee) : '',
-    nightFee: nightFee !== null ? germanNumberFormat(nightFee) : '',
+    fee: fee !== null ? germanNumberFormat(caregiver.fee) : "",
+    nightFee: nightFee !== null ? germanNumberFormat(nightFee) : "",
     nightAllowance: nightAllowance
       ? { value: caregiver.nightAllowance, label: caregiver.nightAllowance }
       : undefined,
-    holidayAllowance: holiday !== null ? germanNumberFormat(holiday) : '',
+    holidayAllowance: holiday !== null ? germanNumberFormat(holiday) : "",
     weekendAllowance:
-      weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : '',
+      weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : "",
     workingProofRecieved,
     distanceInKM,
     feePerKM,
@@ -377,8 +377,8 @@ const Appointment: FunctionComponent = () => {
   };
   return (
     <>
-      <div className='common-detail-page'>
-        <div className='common-detail-section'>
+      <div className="common-detail-page">
+        <div className="common-detail-section">
           <AppointmentNav
             handlePrevious={handlePrevious}
             handleNext={handleNext}
@@ -390,10 +390,10 @@ const Appointment: FunctionComponent = () => {
             handleDayClick={handleDayClick}
           />
 
-          <div className='common-content flex-grow-1'>
+          <div className="common-content flex-grow-1">
             <div>
               <Row>
-                <Col lg={'5'}>
+                <Col lg={"5"}>
                   <CaregiverListView
                     daysData={daysData}
                     loading={caregiverLoading}
@@ -415,15 +415,15 @@ const Appointment: FunctionComponent = () => {
                     handleReset={handleReset}
                   />
                 </Col>
-                <Col lg={'7'}>
+                <Col lg={"7"}>
                   <Row>
-                    <Col lg={'6'} className='px-lg-0'>
+                    <Col lg={"6"} className="px-lg-0">
                       <Formik
                         initialValues={valuesForCaregiver}
                         onSubmit={handleSubmitCaregiverForm}
                         enableReinitialize={true}
                         validationSchema={CareGiverValidationSchema}
-                        render={(props: FormikProps<ICaregiverFormValue>) => {
+                        children={(props: FormikProps<ICaregiverFormValue>) => {
                           return (
                             <CaregiverFormView
                               {...props}
@@ -433,13 +433,13 @@ const Appointment: FunctionComponent = () => {
                         }}
                       />
                     </Col>
-                    <Col lg={'6'}>
+                    <Col lg={"6"}>
                       <Formik
                         initialValues={valuesForCareinstitution}
                         onSubmit={handleSubmitCareinstitutionForm}
                         enableReinitialize={true}
                         // validationSchema={CareGiverValidationSchema}
-                        render={(
+                        children={(
                           props: FormikProps<ICareinstitutionFormValue>
                         ) => {
                           return (

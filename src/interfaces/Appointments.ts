@@ -75,6 +75,9 @@ export interface ICaregiverFormValue {
   breakTo?: string;
   remarksCareGiver?: string;
   remarksInternal?: string;
+  f?: boolean;
+  s?: boolean;
+  n?: boolean;
 }
 
 export interface ICaregiverValidationFormValue {

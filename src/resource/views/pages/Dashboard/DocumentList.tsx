@@ -24,9 +24,16 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
           <Table hover className="mb-0">
             <thead className="thead-bg">
               <tr>
-                <th className="thead-sticky"> {languageTranslation("DATE")}</th>
-                <th className="thead-sticky">{languageTranslation("NAME")}</th>
-                <th className="thead-sticky">{languageTranslation("TYPE")}</th>
+                <th className="thead-sticky date-column ">
+                  {" "}
+                  {languageTranslation("DATE")}
+                </th>
+                <th className="thead-sticky name-column ">
+                  {languageTranslation("NAME")}
+                </th>
+                <th className="thead-sticky doctype-column ">
+                  {languageTranslation("TYPE")}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -42,7 +49,7 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
                   (item: any, index: number) => {
                     return (
                       <tr key={index}>
-                        <td>
+                        <td className="date-column">
                           {" "}
                           {moment(item.createdAt).format(
                             defaultDateTimeFormatForDashboard
@@ -50,7 +57,7 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
                         </td>
                         <td>
                           <div
-                            className="text-capitalize view-more-link word-wrap"
+                            className="text-capitalize view-more-link word-wrap name-column"
                             onClick={() =>
                               history.push(
                                 item.user.userRole === "caregiver"
@@ -68,7 +75,7 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
                             {item.user.firstName} {item.user.lastName}
                           </div>
                         </td>
-                        <td>
+                        <td className="doctype-column">
                           {item.document_type ? item.document_type.type : null}
                         </td>
                       </tr>

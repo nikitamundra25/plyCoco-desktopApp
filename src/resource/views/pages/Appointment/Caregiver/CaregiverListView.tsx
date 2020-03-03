@@ -1,5 +1,12 @@
 import React, { FunctionComponent, useState } from "react";
-
+import {
+  Table,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledTooltip
+} from "reactstrap";
 import "../index.scss";
 import {
   IAppointmentCareGiverList,
@@ -8,7 +15,6 @@ import {
 import Loader from "../../../containers/Loader/Loader";
 import "../index.scss";
 import { SelectableGroup, SelectAll, DeselectAll } from "react-selectable-fast";
-import { Row } from "reactstrap";
 import Cell from "./Cell";
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList & any
@@ -49,14 +55,76 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   return (
     <>
       <div className="calender-section custom-scrollbar">
-        <div className="custom-appointment-calendar">
-          <div className="custom-appointment-calendar-head">
-            <div className="custom-appointment-row ">
-              <div className="custom-appointment-col name-col">Caregiver</div>
-              <div className="custom-appointment-col h-col">H</div>
-              <div className="custom-appointment-col s-col text-center">S</div>
-              <div className="custom-appointment-col u-col text-center">U</div>
-              <div className="custom-appointment-col v-col text-center">V</div>
+        <Table hover bordered className="mb-0 appointment-table">
+          <thead className="thead-bg">
+            <tr>
+              <th className="thead-sticky name-col custom-appointment-col zindex2 ">
+                Caregiver
+                <UncontrolledDropdown className="custom-dropdown options-dropdown">
+                  <DropdownToggle
+                    className={"text-capitalize btn-more"}
+                    size="sm"
+                  >
+                    <i className="icon-options-vertical" />
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem>
+                      <span>New appointment</span>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <span>Reserve</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Delete free and reserved calender entries</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Detailed List</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Filter by qualifications of caregiver</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Offer all available calendar entries</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Connect availabilities</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Disconnect availabilities</span>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <span>Confirmed appointments</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Set on confirmed</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Set on not confirmed</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Request temporary leasing contract</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Create termination agreement</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Refresh</span>
+                    </DropdownItem>{" "}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </th>
+              <th className="thead-sticky h-col custom-appointment-col text-center">
+                H
+              </th>
+              <th className="thead-sticky s-col custom-appointment-col text-center">
+                S
+              </th>
+              <th className="thead-sticky u-col custom-appointment-col text-center">
+                U
+              </th>
+              <th className="thead-sticky v-col custom-appointment-col text-center">
+                V
+              </th>
               {/* array for showing day */}
               {daysArr.map(
                 (
@@ -64,8 +132,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   index: number
                 ) => {
                   return (
-                    <div
-                      className="custom-appointment-col calender-col text-center"
+                    <th
+                      className="thead-sticky calender-col custom-appointment-col text-center"
                       key={index}
                     >
                       <div className="custom-appointment-calendar-date">
@@ -75,32 +143,36 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                       <div className="custom-appointment-calendar-day">
                         {day}
                       </div>
-                    </div>
+                    </th>
                   );
                 }
               )}
-            </div>
-          </div>
-
-          {/* array for showing list */}
-          <div className="custom-appointment-calendar-body">
+            </tr>
+          </thead>
+          <tbody>
             {loading ? (
-              <Loader />
+              <tr>
+                <td className={"table-loader"} colSpan={40}>
+                  <Loader />
+                </td>
+              </tr>
             ) : careGiversList && careGiversList.length ? (
               careGiversList.map((list: any, index: number) => {
                 return (
-                  <div className="custom-appointment-row" key={index}>
-                    <div
-                      className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link"
-                      onClick={() => handleSelectedUser(list, "caregiver")}
-                    >
-                      {`${list.firstName ? list.firstName : ""} ${
-                        list.lastName ? list.lastName : ""
-                      }`}
-                    </div>
-                    <div className="custom-appointment-col h-col appointment-color2"></div>
-                    <div
-                      className="custom-appointment-col s-col text-center"
+                  <tr key={`${list.id}-${index}`}>
+                    <td className="name-col custom-appointment-col">
+                      <div
+                        className="text-capitalize view-more-link"
+                        onClick={() => handleSelectedUser(list, "caregiver")}
+                      >
+                        {`${list.firstName ? list.firstName : ""} ${
+                          list.lastName ? list.lastName : ""
+                        }`}
+                      </div>
+                    </td>
+                    <td className="h-col custom-appointment-col text-center"></td>
+                    <td
+                      className="s-col custom-appointment-col text-center"
                       onClick={() => handleFirstStar(list, index, "caregiver")}
                     >
                       {starMarkIndex === index || starMark ? (
@@ -108,9 +180,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                       ) : (
                         <i className="fa fa-star-o" />
                       )}
-                    </div>
-                    <div
-                      className="custom-appointment-col u-col text-center"
+                    </td>
+                    <td
+                      className="u-col custom-appointment-col text-center"
                       onClick={() =>
                         onhandleSecondStar(list, index, "caregiver")
                       }
@@ -120,42 +192,40 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                       ) : (
                         <i className="fa fa-star-o" />
                       )}
-                    </div>
-                    <div
-                      className="custom-appointment-col v-col text-center"
+                    </td>
+                    <td
+                      className="v-col custom-appointment-col text-center"
                       onClick={e => onAddingRow(e, "caregiver", index)}
                     >
                       <i className="fa fa-arrow-down" />
-                    </div>
-
-                    <SelectableGroup
-                      className="main"
-                      clickClassName="tick"
-                      allowClickWithoutSelected
-                      onSelectionFinish={(data: any) => {
-                        console.log("fasdf", data);
-                      }}
-                    >
-                      {daysArr.map((key: any, i: number) => {
-                        return <Cell key={`${i}-${key}`} />;
-                      })}
-                    </SelectableGroup>
-                  </div>
+                    </td>
+                    {daysArr.map((key: any, i: number) => {
+                      return (
+                        <td
+                          className="calender-col text-center custom-appointment-col text-center"
+                          key={`${key}-${i}`}
+                        ></td>
+                      );
+                    })}
+                  </tr>
                 );
               })
             ) : (
-              <div className="no-data-section pt-5 pb-5 bg-white text-center">
-                <div className="no-data-icon">
-                  <i className="icon-ban" />
-                </div>
-                <h4 className="mb-1">
-                  Currently there are no CareGiver added.{" "}
-                </h4>
-              </div>
+              <tr className={"text-center no-hover-row"}>
+                <td colSpan={40} className={"pt-5 pb-5"}>
+                  <div className="no-data-section">
+                    <div className="no-data-icon">
+                      <i className="icon-ban" />
+                    </div>
+                    <h4 className="mb-1">
+                      Currently there are no CareGiver added.{" "}
+                    </h4>
+                  </div>
+                </td>
+              </tr>
             )}
-            {/* end array here */}
-          </div>
-        </div>
+          </tbody>
+        </Table>
       </div>
     </>
   );

@@ -51,7 +51,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       breakFrom,
       breakTo,
       remarksCareGiver,
-      remarksInternal
+      remarksInternal,
+      f,
+      s,
+      n
     },
     touched,
     errors,
@@ -69,31 +72,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
-
-  // Custom function to handle checkbox fields
-  const handleCheckedValue = (value: string, checked: boolean) => {
-    // const fsnChecked: any = [];
-    // if (checked) {
-    //   employmentType.push(value);
-    //   setFieldValue('employmentType', fsnChecked);
-    // } else {
-    //   const indexOf: number = employmentType.findIndex(
-    //     (data: string) => data === value
-    //   );
-    //   fsnChecked.splice(indexOf);
-    //   setFieldValue('employmentType', fsnChecked);
-    // }
-  };
+  console.log('nightAllowance', nightAllowance);
 
   return (
     <>
-      <div>
-        <h5 className='content-title'>
-          {languageTranslation('MENU_CAREGIVER')}
-        </h5>
-      </div>
       <div className='form-section'>
         <div className='form-card custom-height custom-scrollbar'>
+          <h5 className='content-title'>
+            {languageTranslation('MENU_CAREGIVER')}
+          </h5>
           <Row>
             <Col lg={'12'}>
               <FormGroup>
@@ -172,10 +159,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             id='1'
                             className=''
                             name={'f'}
-                            checked
-                            onChange={(e: any) =>
-                              handleCheckedValue('f', e.target.checked)
-                            }
+                            checked={f ? true : false}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              const {
+                                target: { checked }
+                              } = e;
+                              setFieldValue('f', checked);
+                            }}
                           />
                           <Label for='check'>
                             {languageTranslation('EARLY')}
@@ -189,6 +181,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             id='check1'
                             className=''
                             name={'s'}
+                            checked={s}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              const {
+                                target: { checked }
+                              } = e;
+                              setFieldValue('s', checked);
+                            }}
                           />
                           <Label for='check1'>
                             {languageTranslation('LATE')}
@@ -201,7 +202,16 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             type='checkbox'
                             id='check2'
                             className=''
-                            name={'night'}
+                            name={'n'}
+                            checked={n}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              const {
+                                target: { checked }
+                              } = e;
+                              setFieldValue('n', checked);
+                            }}
                           />
                           <Label for='check2'>
                             {languageTranslation('NIGHT')}
@@ -660,7 +670,17 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 <Button className='btn-save' color='danger'>
                   {languageTranslation('DELETE')}
                 </Button>
-                <Button className='btn-save' color='primary'>
+                <Button
+                  className='btn-save'
+                  color='primary'
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <i className='fa fa-spinner fa-spin mr-2' />
+                  ) : (
+                    ''
+                  )}
                   {languageTranslation('SAVE_BUTTON')}
                 </Button>
               </div>

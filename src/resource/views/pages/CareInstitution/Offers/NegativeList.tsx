@@ -96,7 +96,7 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
                             placement={"top"}
                             target={`delete${index}`}
                           >
-                            {languageTranslation("DELETE_USER")}
+                            {languageTranslation("DELETE")}
                           </UncontrolledTooltip>
                           <i className="fa fa-trash"></i>
                         </span>

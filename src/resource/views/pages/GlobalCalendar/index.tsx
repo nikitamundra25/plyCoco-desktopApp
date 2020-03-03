@@ -1,0 +1,110 @@
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { Button, Card, CardHeader, CardBody } from "reactstrap";
+import { AppBreadcrumb } from "@coreui/react";
+import routes from "../../../../routes/routes";
+import { languageTranslation } from "../../../../helpers";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import {
+  ICountries,
+  IStates,
+  IState,
+  IAddHolidaysFormValues
+} from "../../../../interfaces";
+import { CountryQueries } from "../../../../graphql/queries";
+import CalendarView from "./CalendarView";
+import AddHolidays from "./AddHolidays";
+let refreshList: any = undefined;
+const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
+  const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+  // initial states
+  const [states, setStates] = useState<IState[]>([]);
+  const defaultEditInfo: IAddHolidaysFormValues = {
+    date: ""
+  };
+  const [editInfo, setEditInfo] = useState<IAddHolidaysFormValues>(
+    defaultEditInfo
+  );
+  // fech country list
+  const { data: allCountries, loading: countriesLoading } = useQuery<
+    ICountries
+  >(GET_COUNTRIES);
+  // To fetch the states of selected contry & don't want to query on initial load
+  const [
+    getStatesByCountry,
+    { data: statesData, loading: statesLoading }
+  ] = useLazyQuery<IStates>(GET_STATES_BY_COUNTRY);
+  // check if companies are loaded
+  useEffect(() => {
+    // check if allCountries are set
+    if (allCountries) {
+      const { countries: resCountries } = allCountries;
+      // get index of Germany for initial load
+      const germenyIndex: number = resCountries.findIndex(
+        d => d.name.toLowerCase() === "Germany".toLowerCase()
+      );
+      if (germenyIndex > -1) {
+        // get states of Germany
+        getStatesByCountry({
+          variables: {
+            countryid: (resCountries as any)[germenyIndex].id
+          }
+        });
+      }
+    }
+  }, [countriesLoading, allCountries]);
+  // handles the state data
+  useEffect(() => {
+    if (statesData && !statesLoading) {
+      setStates(statesData.states);
+    }
+  }, [statesData, statesLoading]);
+  // editCalendar
+  const editHoliday = (details: IAddHolidaysFormValues): void => {
+    setEditInfo(details);
+    setAddModal(true);
+  };
+  // handle add modal
+  const [showAddModal, setAddModal] = useState<boolean>(false);
+  // returns JSX
+  return (
+    <Card>
+      <CardHeader>
+        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
+        <Button
+          color={"primary"}
+          className={"btn-add"}
+          id={"add-new-pm-tooltip"}
+          onClick={() => setAddModal(true)}
+        >
+          <i className={"fa fa-plus"} />
+          &nbsp;{languageTranslation("UPDATE_CALEDAR")}
+        </Button>
+      </CardHeader>
+      <CardBody>
+        <CalendarView
+          isLoading={statesLoading || countriesLoading}
+          states={states}
+          refresh={(refetch: (variables?: any) => void): void => {
+            if (!refreshList) {
+              refreshList = refetch;
+            }
+          }}
+          onEdit={editHoliday}
+        />
+        {/*  */}
+        <AddHolidays
+          isOpen={showAddModal}
+          handleClose={() => {
+            setEditInfo(defaultEditInfo);
+            setAddModal(false);
+          }}
+          states={states}
+          refresh={refreshList}
+          editInfo={editInfo}
+        />
+      </CardBody>
+    </Card>
+  );
+};
+
+export default GlobalCalendar;

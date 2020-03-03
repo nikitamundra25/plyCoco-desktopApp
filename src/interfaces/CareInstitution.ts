@@ -77,6 +77,7 @@ export interface ICareInstitutionContactValidationSchema {
   faxNumber: number;
   contactType?: IReactSelectInterface;
   country?: IReactSelectInterface;
+  state?: IReactSelectInterface;
 }
 
 export interface ICareInstitutionContact {

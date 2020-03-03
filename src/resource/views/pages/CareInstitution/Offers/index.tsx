@@ -83,9 +83,8 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   const [addNegativeUser] = useMutation<any>(ADD_NEGATIVE_USER, {
     onCompleted() {
       negativeListRefetch();
-      if (!toast.isActive(toastId)) {
-        toastId = toast.success(languageTranslation("NEGATIVE_USER_ADDED"));
-      }
+      toast.dismiss();
+      toastId = toast.success(languageTranslation("NEGATIVE_CAREGIVER_ADDED"));
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -156,7 +155,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   const handleRemoveAll = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation("USER_DELETE_MSG")
+      text: languageTranslation("CAREGIVER_ALL_DELETE_MSG")
     });
     if (!value) {
       return;
@@ -175,9 +174,8 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
           }
         });
         refetch();
-        if (!toast.isActive(toastId)) {
-          toastId = toast.success(languageTranslation("NEGATIVE_USER_DELETED"));
-        }
+        toast.dismiss();
+        toastId = toast.success(languageTranslation("NEGATIVE_CAREGIVER_DELETED"));
       } catch (error) {
         const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {
@@ -191,7 +189,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   const onDeleteNegativeUser = async (careInstId: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation("USER_DELETE_MSG")
+      text: languageTranslation("CAREGIVER_ONE_DELETE_MSG")
     });
     if (!value) {
       return;
@@ -204,9 +202,8 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
           }
         });
         refetch();
-        if (!toast.isActive(toastId)) {
-          toastId = toast.success(languageTranslation("NEGATIVE_USER_DELETED"));
-        }
+        toast.dismiss();
+        toastId = toast.success(languageTranslation("NEGATIVE_CAREGIVER_DELETED"));
       } catch (error) {
         const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {

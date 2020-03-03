@@ -83,8 +83,8 @@ const RegistrationList: FunctionComponent<RouteComponentProps> = (
                             {item.firstName} {item.lastName}
                           </div>
                         </td>
-                        <td>{item.userName}</td>
-                        <td>{item.userRole}</td>
+                        <td className="username-column">{item.userName}</td>
+                        <td className="type-column">{item.userRole}</td>
                       </tr>
                     );
                   }

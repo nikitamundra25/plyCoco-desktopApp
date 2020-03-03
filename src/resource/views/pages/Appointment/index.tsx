@@ -3,7 +3,7 @@ import React, {
   FunctionComponent,
   useEffect,
   useState
-} from 'react';
+} from "react";
 import {
   FormGroup,
   Label,
@@ -15,22 +15,22 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText
-} from 'reactstrap';
-import MaskedInput from 'react-text-mask';
+} from "reactstrap";
+import MaskedInput from "react-text-mask";
 
-import Select from 'react-select';
-import { languageTranslation, getDaysArrayByMonth } from '../../../../helpers';
+import Select from "react-select";
+import { languageTranslation, getDaysArrayByMonth } from "../../../../helpers";
 import {
   State,
   NightAllowancePerHour,
   Without_Appointments,
   ShiftTime
-} from '../../../../config';
+} from "../../../../config";
 
-import './index.scss';
-import AppointmentNav from './AppointmentNav';
-import CaregiverListView from './Caregiver/CaregiverListView';
-import CarinstituionListView from './Careinstituion/CareinstituionListView';
+import "./index.scss";
+import AppointmentNav from "./AppointmentNav";
+import CaregiverListView from "./Caregiver/CaregiverListView";
+import CarinstituionListView from "./Careinstituion/CareinstituionListView";
 import {
   IGetDaysArrayByMonthRes,
   IQualifications,
@@ -39,17 +39,17 @@ import {
   IAppointmentCareGiverForm,
   ICaregiverFormValue,
   ICareinstitutionFormValue
-} from '../../../../interfaces';
-import moment from 'moment';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+} from "../../../../interfaces";
+import moment from "moment";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import {
   GET_QUALIFICATION_ATTRIBUTE,
   AppointmentsQueries
-} from '../../../../graphql/queries';
-import { log } from 'util';
-import CaregiverFormView from './Caregiver/CaregiverForm';
-import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
-import { Formik, FormikProps } from 'formik';
+} from "../../../../graphql/queries";
+import { log } from "util";
+import CaregiverFormView from "./Caregiver/CaregiverForm";
+import CareinstitutionFormView from "./Careinstituion/CareinstitutionForm";
+import { Formik, FormikProps } from "formik";
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const Appointment: FunctionComponent = () => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
@@ -72,7 +72,7 @@ const Appointment: FunctionComponent = () => {
     fetchCaregiverList,
     { data: careGiversList, loading: caregiverLoading }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: "no-cache"
   });
 
   // To fetch careinstitution by qualification id
@@ -80,7 +80,7 @@ const Appointment: FunctionComponent = () => {
     fetchCareinstitutionList,
     { data: careInstitutionList, loading: careinstitutionLoading }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: "no-cache"
   });
 
   // To fetch qualification attributes list
@@ -113,7 +113,7 @@ const Appointment: FunctionComponent = () => {
 
   // Reset the users list
   const handleReset = (name: string) => {
-    if (name === 'caregiver') {
+    if (name === "caregiver") {
       if (careGiversList && careGiversList.getUserByQualifications) {
         const { getUserByQualifications } = careGiversList;
         if (getUserByQualifications && getUserByQualifications.length) {
@@ -145,14 +145,14 @@ const Appointment: FunctionComponent = () => {
     fetchCaregiverList({
       variables: {
         qualificationId: temp ? temp : null,
-        userRole: 'caregiver'
+        userRole: "caregiver"
       }
     });
     // get careInstitution list
     fetchCareinstitutionList({
       variables: {
         qualificationId: temp ? temp : null,
-        userRole: 'canstitution'
+        userRole: "canstitution"
       }
     });
   }, [qualification]);
@@ -165,7 +165,7 @@ const Appointment: FunctionComponent = () => {
       getUserByQualifications.map((list: any) => {
         return careGiversOptions.push({
           label: `${list.firstName} ${list.lastName} `,
-          value: list.id ? list.id : ''
+          value: list.id ? list.id : ""
         });
       });
     }
@@ -179,7 +179,7 @@ const Appointment: FunctionComponent = () => {
       getUserByQualifications.map((list: any) => {
         return careInstitutionOptions.push({
           label: `${list.firstName} ${list.lastName} `,
-          value: list.id ? list.id : ''
+          value: list.id ? list.id : ""
         });
       });
     }
@@ -240,7 +240,7 @@ const Appointment: FunctionComponent = () => {
     index: number
   ) => {
     e.preventDefault();
-    if (name === 'caregiver') {
+    if (name === "caregiver") {
       let temp: any = [...caregiversList];
       temp.splice(index + 1, 0, {});
       setcaregiversList(temp);
@@ -253,7 +253,7 @@ const Appointment: FunctionComponent = () => {
 
   // select careGiver
   const handleSelectedUser = (list: object, name: string) => {
-    if (name === 'caregiver') {
+    if (name === "caregiver") {
       setselectedCareGiver(list);
     } else {
       setselectedCareinstitution(list);
@@ -264,7 +264,7 @@ const Appointment: FunctionComponent = () => {
   const handleSecondStar = (list: object, index: number, name: string) => {
     let temp: any = [];
     temp.push(list);
-    if (name === 'caregiver') {
+    if (name === "caregiver") {
       setcaregiversList(temp);
     } else {
       setcareinstitutionList(temp);
@@ -276,7 +276,7 @@ const Appointment: FunctionComponent = () => {
   // submit careinstitution form
   const handleSubmitCareinstitutionForm = () => {};
   // Fetch values in case of edit by default it will be null or undefined
-  const { firstName = '', lastName = '' } = selectedCareGiver
+  const { firstName = "", lastName = "" } = selectedCareGiver
     ? selectedCareGiver
     : {};
 
@@ -291,8 +291,8 @@ const Appointment: FunctionComponent = () => {
   };
   return (
     <>
-      <div className='common-detail-page'>
-        <div className='common-detail-section'>
+      <div className="common-detail-page">
+        <div className="common-detail-section">
           <AppointmentNav
             handlePrevious={handlePrevious}
             handleNext={handleNext}
@@ -304,10 +304,10 @@ const Appointment: FunctionComponent = () => {
             handleDayClick={handleDayClick}
           />
 
-          <div className='common-content flex-grow-1'>
+          <div className="common-content flex-grow-1">
             <div>
               <Row>
-                <Col lg={'6'}>
+                <Col lg={"5"}>
                   <CaregiverListView
                     daysData={daysData}
                     loading={caregiverLoading}
@@ -329,40 +329,46 @@ const Appointment: FunctionComponent = () => {
                     handleReset={handleReset}
                   />
                 </Col>
-                <Col lg={'3'} className='px-lg-0'>
-                  <Formik
-                    initialValues={valuesForCaregiver}
-                    onSubmit={handleSubmitCareinstitutionForm}
-                    enableReinitialize={true}
-                    // validationSchema={CareGiverValidationSchema}
-                    render={(props: FormikProps<ICaregiverFormValue>) => {
-                      return (
-                        <CaregiverFormView
-                          {...props}
-                          selectedCareGiver={selectedCareGiver}
-                        />
-                      );
-                    }}
-                  />
-                </Col>
-                <Col lg={'3'}>
-                  {/* <CareinstitutionFormView
+                <Col lg={"7"}>
+                  <Row>
+                    <Col lg={"6"} className="px-lg-0">
+                      <Formik
+                        initialValues={valuesForCaregiver}
+                        onSubmit={handleSubmitCareinstitutionForm}
+                        enableReinitialize={true}
+                        // validationSchema={CareGiverValidationSchema}
+                        render={(props: FormikProps<ICaregiverFormValue>) => {
+                          return (
+                            <CaregiverFormView
+                              {...props}
+                              selectedCareGiver={selectedCareGiver}
+                            />
+                          );
+                        }}
+                      />
+                    </Col>
+                    <Col lg={"6"}>
+                      {/* <CareinstitutionFormView
                     selectedCareinstitution={selectedCareinstitution}
                   /> */}
-                  <Formik
-                    initialValues={valuesForCareinstitution}
-                    onSubmit={handleSubmitCaregiverForm}
-                    enableReinitialize={true}
-                    // validationSchema={CareGiverValidationSchema}
-                    render={(props: FormikProps<ICareinstitutionFormValue>) => {
-                      return (
-                        <CareinstitutionFormView
-                          {...props}
-                          selectedCareinstitution={selectedCareinstitution}
-                        />
-                      );
-                    }}
-                  />
+                      <Formik
+                        initialValues={valuesForCareinstitution}
+                        onSubmit={handleSubmitCaregiverForm}
+                        enableReinitialize={true}
+                        // validationSchema={CareGiverValidationSchema}
+                        render={(
+                          props: FormikProps<ICareinstitutionFormValue>
+                        ) => {
+                          return (
+                            <CareinstitutionFormView
+                              {...props}
+                              selectedCareinstitution={selectedCareinstitution}
+                            />
+                          );
+                        }}
+                      />
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </div>

@@ -72,22 +72,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
-  console.log('ffffff', f, s, n);
-
-  // Custom function to handle checkbox fields
-  const handleCheckedValue = (value: string, checked: boolean) => {
-    // const fsnChecked: any = [];
-    // if (checked) {
-    //   employmentType.push(value);
-    //   setFieldValue('employmentType', fsnChecked);
-    // } else {
-    //   const indexOf: number = employmentType.findIndex(
-    //     (data: string) => data === value
-    //   );
-    //   fsnChecked.splice(indexOf);
-    //   setFieldValue('employmentType', fsnChecked);
-    // }
-  };
+  console.log('nightAllowance', nightAllowance);
 
   return (
     <>
@@ -177,9 +162,14 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             className=''
                             name={'f'}
                             checked={f ? true : false}
-                            onChange={(e: any) =>
-                              handleCheckedValue('f', e.target.checked)
-                            }
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              const {
+                                target: { checked }
+                              } = e;
+                              setFieldValue('f', checked);
+                            }}
                           />
                           <Label for='check'>
                             {languageTranslation('EARLY')}
@@ -194,9 +184,14 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             className=''
                             name={'s'}
                             checked={s}
-                            onChange={(e: any) =>
-                              handleCheckedValue('s', e.target.checked)
-                            }
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              const {
+                                target: { checked }
+                              } = e;
+                              setFieldValue('s', checked);
+                            }}
                           />
                           <Label for='check1'>
                             {languageTranslation('LATE')}
@@ -211,9 +206,14 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             className=''
                             name={'n'}
                             checked={n}
-                            onChange={(e: any) =>
-                              handleCheckedValue('n', e.target.checked)
-                            }
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              const {
+                                target: { checked }
+                              } = e;
+                              setFieldValue('n', checked);
+                            }}
                           />
                           <Label for='check2'>
                             {languageTranslation('NIGHT')}
@@ -672,7 +672,17 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 <Button className='btn-save' color='danger'>
                   {languageTranslation('DELETE')}
                 </Button>
-                <Button className='btn-save' color='primary'>
+                <Button
+                  className='btn-save'
+                  color='primary'
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <i className='fa fa-spinner fa-spin mr-2' />
+                  ) : (
+                    ''
+                  )}
                   {languageTranslation('SAVE_BUTTON')}
                 </Button>
               </div>

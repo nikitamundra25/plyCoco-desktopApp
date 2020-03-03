@@ -15,7 +15,7 @@ declare interface String {
 declare module 'draftjs-to-html';
 declare module 'html-to-draftjs';
 declare module 'react-multiselect-checkboxes';
-
+// declare module 'react-day-picker/DayPickerInput';
 function createRef<T>(): RefObject<T>;
 interface RefObject<T> {
   // immutable

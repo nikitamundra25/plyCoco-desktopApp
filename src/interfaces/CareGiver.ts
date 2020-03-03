@@ -343,6 +343,7 @@ export interface IEmailData {
   to: string;
   userId: number;
   attachments: IEmailInputAttachmenttypes[];
+  contact?: any;
 }
 
 export interface IEmailPreviewProps {
@@ -350,6 +351,7 @@ export interface IEmailPreviewProps {
   selectedUserName: string;
   sendBy?: string;
   length?: any;
+  userRole?: string;
 }
 
 export interface IEmailFormComponentPorps {

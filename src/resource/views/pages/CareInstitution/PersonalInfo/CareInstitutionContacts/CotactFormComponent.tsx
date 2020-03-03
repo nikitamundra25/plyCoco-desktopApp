@@ -632,6 +632,7 @@ const CotactFormComponent: any = (
                             placeholder={languageTranslation("STATE")}
                             options={statesOpt}
                             isClearable={true}
+                            menuPlacement={'top'}
                             value={state && state.value !== '' ? state : null}
                             onChange={(value: any) => handleSelect(value, "state", "")}
                             noOptionsMessage={() => {

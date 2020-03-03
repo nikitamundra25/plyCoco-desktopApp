@@ -425,7 +425,7 @@ const CareGiver: FunctionComponent = () => {
                                     )
                                   ) : (
                                     careGiverData.qualifications
-                                      .slice(0, 5)
+                                      .slice(0, 3)
                                       .map(
                                         (qualification: any, index: number) => {
                                           return (
@@ -443,13 +443,14 @@ const CareGiver: FunctionComponent = () => {
                                   <div>-</div>
                                 )}
                                 {careGiverData.qualifications &&
-                                careGiverData.qualifications.length > 5 ? (
+                                careGiverData.qualifications.length > 3 ? (
                                   <span
                                     onClick={() =>
                                       readMoreQualificationData(index)
                                     }
                                     className="view-more-link theme-text"
                                   >
+                                    <br />
                                     {readMore && readMoreIndex === index
                                       ? "Read less"
                                       : "Read more"}

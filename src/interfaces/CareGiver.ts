@@ -119,6 +119,8 @@ export interface ICareGiverValidationInterface {
   taxNumber?: string;
   age?: number | null;
   fax?: string;
+  country?: IReactSelectInterface;
+  state?: IReactSelectInterface;
 }
 
 export interface IEmailMenus<
@@ -324,6 +326,7 @@ export interface IAddEmailVariables {
   status: string;
   attachments: IEmailInputAttachmenttypes[];
   files: any;
+  contactId?: number | null;
 }
 
 export interface INewEmailProps {
@@ -340,6 +343,7 @@ export interface IEmailData {
   to: string;
   userId: number;
   attachments: IEmailInputAttachmenttypes[];
+  contact?: any;
 }
 
 export interface IEmailPreviewProps {
@@ -347,6 +351,7 @@ export interface IEmailPreviewProps {
   selectedUserName: string;
   sendBy?: string;
   length?: any;
+  userRole?: string;
 }
 
 export interface IEmailFormComponentPorps {
@@ -396,7 +401,7 @@ export interface IAttributeValues {
 export interface IAttributeOptions {
   label: string;
   value: string;
-  color: string | null;
+  color: string;
 }
 
 export interface IToDoFormValues {

@@ -9,12 +9,14 @@ declare module "js-object-validation";
 declare module "reactstrap";
 declare module "react-datepicker";
 declare module "react-apollo";
+declare module "draftjs-to-html";
+declare module "html-to-draftjs";
+declare module "react-multiselect-checkboxes";
+
 declare interface String {
   truncate(n: number, decorator: string): string;
 }
-declare module "draftjs-to-html";
-declare module "html-to-draftjs";
-
+// declare module 'react-day-picker/DayPickerInput';
 function createRef<T>(): RefObject<T>;
 interface RefObject<T> {
   // immutable

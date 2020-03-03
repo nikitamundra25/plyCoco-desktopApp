@@ -83,6 +83,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   }>(GET_CAREGIVER_ATTRIBUTES);
 
   const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
+
   if (attributeData && attributeData.getCaregiverAtrribute) {
     attributeData.getCaregiverAtrribute.forEach(
       ({ id, name, color }: IAttributeValues) =>
@@ -291,7 +292,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   // Save remarks into DB
   const saveRemark = async (message: string, remarksData: any) => {
-    console.log(remarksDetail, 'remarksDetail++++');
     if (id) {
       try {
         await updateRemark({
@@ -411,7 +411,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       selectedAttributes.push({
         label: data ? data.label : attData,
         value: data ? data.value : attData,
-        color: data ? data.color : null
+        color: data ? data.color : ''
       });
     });
   }
@@ -422,7 +422,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     UserSelectedBelongsTo = props.careGiverOpt.filter(
       (caregiver: IReactSelectInterface) =>
         parseInt(caregiver.value) === belongTo
-    );
+    )[0];
   }
 
   const initialValues: ICareGiverValues = {
@@ -440,7 +440,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     address2,
     driversLicense,
     driverLicenseNumber,
-    country: userSelectedCountry,
+    country:
+      userSelectedCountry && userSelectedCountry.value
+        ? userSelectedCountry
+        : null,
     vehicleAvailable,
     street,
     city,
@@ -525,7 +528,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   };
 
   const usersList = props.careGiverOpt;
-  console.log(remarksDetail, 'remarksDetails in render++++');
   return (
     <Formik
       initialValues={initialValues}

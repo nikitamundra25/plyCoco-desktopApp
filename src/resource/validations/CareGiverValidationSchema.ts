@@ -112,5 +112,10 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     'check-num',
     languageTranslation('INVALID_NUMBER'),
     value => !value || (value && !isNaN(value))
-  )
+  ),
+  country: Yup.mixed()
+  .required(languageTranslation('COUNTRY_REQUIRED'))
+  ,
+  state: Yup.mixed()
+  .required(languageTranslation('STATE_REQUIRED'))
 });

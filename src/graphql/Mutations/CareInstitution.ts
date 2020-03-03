@@ -117,7 +117,7 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
       id
       firstName
       surName
-      contactType
+      contactTypeId
       salutation
       gender
       title
@@ -132,6 +132,9 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
       email
       remark
       attributes
+      contact_type {
+        contactType
+      }
     }
   }
 `;
@@ -141,13 +144,14 @@ const UPDATE_NEW_CONTACT_CARE_INSTITUTION = gql`
       id
       firstName
       surName
-      contactType
+      contactTypeId
       gender
       title
       street
       city
       zip
       countryId
+      stateId
       phoneNumber
       phoneNumber2
       fax
@@ -155,6 +159,9 @@ const UPDATE_NEW_CONTACT_CARE_INSTITUTION = gql`
       email
       remark
       attributes
+      contact_type {
+        contactType
+      }
     }
   }
 `;
@@ -263,5 +270,5 @@ export const CareInstitutionMutation = [
   DELETE_DEPARTMENT,
   DELETE_CONTACT,
   CONTACT_ADD_ATTRIBUTE,
-  ADD_CUSTOM_CONTACT_TYPE,
+  ADD_CUSTOM_CONTACT_TYPE
 ];

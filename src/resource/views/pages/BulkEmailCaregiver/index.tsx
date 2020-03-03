@@ -12,7 +12,8 @@ import {
 } from '../../../../helpers';
 import {
   CareGiverQueries,
-  EmailTemplateQueries
+  EmailTemplateQueries,
+  ProfileQueries
 } from '../../../../graphql/queries';
 import { BulkEmailCareGivers } from '../../../../graphql/Mutations';
 import {
@@ -30,23 +31,38 @@ import filter from '../../../assets/img/filter.svg';
 import refresh from '../../../assets/img/refresh.svg';
 import './index.scss';
 import { useHistory } from 'react-router';
-import { AppRoutes } from '../../../../config';
+import { AppRoutes, client } from '../../../../config';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
 const [BULK_EMAILS] = BulkEmailCareGivers;
+const [VIEW_PROFILE] = ProfileQueries;
+
 let toastId: any = null;
 
 const BulkEmailCaregiver: FunctionComponent = () => {
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const history = useHistory();
 
+  // To access data of loggedIn user
+  let userData: any = '';
+  try {
+    userData = client.readQuery({
+      query: VIEW_PROFILE
+    });
+  } catch (error) {}
+
+  const { viewAdminProfile }: any = userData ? userData : {};
+  const { firstName = '', lastName = '', id = '' } = viewAdminProfile
+    ? viewAdminProfile
+    : {};
+
   // To get caregiver list from db
   const [
     fetchCareGiverList,
     { data: careGivers, called, loading, refetch, fetchMore }
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
-    notifyOnNetworkStatusChange: true
+    fetchPolicy: 'no-cache'
   });
 
   // To get all the types of email template
@@ -142,7 +158,16 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
   // Refresh component
   const onRefresh = () => {
-    refetch();
+    // refetch();
+    fetchCareGiverList({
+      variables: {
+        searchBy: '',
+        sortBy: 3,
+        limit: 30,
+        page: 1,
+        isActive: ''
+      }
+    });
     setSubject('');
     setBody(undefined);
     setAttachments([]);
@@ -151,6 +176,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     setTemplate({ label: '', value: '' });
     setselectedCareGiver([]);
     setBulkCareGivers(false);
+    setcareGiverData([]);
   };
 
   const handleInfiniteScroll = () => {
@@ -332,12 +358,25 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       let careGiverIdList: any = [];
 
       if (selectedCareGiver && selectedCareGiver.length) {
-        selectedCareGiver.map((careGiverId: number) => {
+        // Remove duplicate values from an array of objects
+        let uniqueUser = selectedCareGiver.reduce((unique: any, key: any) => {
+          if (
+            !unique.some(
+              (obj: any) => obj.label === key.label && obj.value === key.value
+            )
+          ) {
+            unique.push(key);
+          }
+          return unique;
+        }, []);
+
+        uniqueUser.map((careGiverId: number) => {
           careGiverIdList = [
             ...careGiverIdList,
             { receiverUserId: careGiverId }
           ];
         });
+
         if (subject && body && result && result.length >= 2) {
           const bulkEmailsInput: IBulkEmailVariables = {
             to: 'caregiver',
@@ -345,24 +384,19 @@ const BulkEmailCaregiver: FunctionComponent = () => {
             subject: subject /* .replace(/AW:/g, '') */,
             body: body ? content : '',
             parentId: null,
-            status: 'new',
+            status: 'unread',
             attachments:
               attachments && attachments.length
                 ? attachments.filter((attachment: any) => attachment.path)
                 : [],
-            // attachments.map(
-            //   ({ path, fileName }: IEmailAttachmentData) => ({
-            //     path,
-            //     fileName
-            //   })
-            // ),
             files:
               attachments && attachments.length
                 ? attachments
                     .map((item: IEmailAttachmentData) => item.file)
                     .filter((file: File | null) => file)
                 : null,
-            caregiver: careGiverIdList
+            caregiver: careGiverIdList,
+            senderUserId: id ? parseInt(id) : null
           };
           bulkEmails({ variables: { bulkEmailsInput } });
         }

@@ -81,10 +81,10 @@ const PersonalInfoFormComponent: any = (
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
-    if (name === 'country') {
-      setFieldValue('state', { label: '', value: '' });
+    if (name === "country") {
+      setFieldValue("state", undefined);
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '' } // default code is for germany
       });
     }
   };
@@ -147,7 +147,6 @@ const PersonalInfoFormComponent: any = (
       scrollParentToChild();
     }, 200);
   }, [submitCount]);
-
   return (
     <div
       className='form-card custom-caregiver-height custom-scrollbar'
@@ -414,10 +413,10 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label '>
-                  Street and House Number
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label ">
+                  {languageTranslation("STREET_AND_HOUSE")}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -436,10 +435,10 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label '>
-                  Postal Code
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label ">
+                  {languageTranslation("EMPLOYEE_ZIP_LABEL")}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -458,9 +457,11 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label '>City</Label>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label ">
+                  {languageTranslation("CITY")}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -478,21 +479,34 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label '>Country</Label>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label ">
+                  {languageTranslation("COUNTRY")}
+                  <span className="required">*</span>
+                </Label>
               </Col>
-              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                <div>
+              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                <div className={"required-input"}>
                   <Select
                     placeholder={languageTranslation('COUNTRY')}
                     options={countriesOpt}
                     isClearable={true}
+                    onBlur={handleBlur}
                     value={country && country.value ? country : undefined}
                     onChange={(value: any) => handleSelect(value, 'country')}
                     classNamePrefix='custom-inner-reactselect'
-                    className={'custom-reactselect'}
+                    className={
+                      touched.countryId && errors.country && !country
+                        ? "error custom-reactselect"
+                        : "custom-reactselect"
+                    }
                   />
+                  {touched.countryId && errors.country && !country && (
+                    <div className="required-tooltip left">
+                      {errors.country}
+                    </div>
+                  )}
                 </div>
               </Col>
             </Row>
@@ -500,24 +514,35 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label '>State</Label>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("STATE")}
+                  <span className="required">*</span>
+                </Label>
               </Col>
-              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                <div>
+              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                <div className={"required-input"}>
                   <Select
-                    placeholder={languageTranslation('STATE')}
-                    isClearable={true}
+                    placeholder={languageTranslation("STATE")}
                     options={statesOpt}
+                    isClearable={true}
                     value={state && state.value !== '' ? state : null}
                     onChange={(value: any) => handleSelect(value, 'state')}
                     noOptionsMessage={() => {
-                      return 'Select a country first';
+                      return country && country.value ? 'No options' : 'Select a country first';
                     }}
-                    classNamePrefix='custom-inner-reactselect'
-                    className={'custom-reactselect'}
+                    classNamePrefix="custom-inner-reactselect"
+                    onBlur={handleBlur}
+                    className={
+                      country && errors.state
+                        ? "error custom-reactselect"
+                        : "custom-reactselect"
+                    }
                   />
+                  {country && errors.state ? (
+                    <div className="required-tooltip left">{errors.state}</div>
+                  ) : null}
                 </div>
               </Col>
             </Row>
@@ -525,9 +550,11 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Phone</Label>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("PHONE_NUMBER")}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -545,9 +572,11 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Fax</Label>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("FAX")}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -565,10 +594,10 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>
-                  Mobile Number
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("MOBILE_NUMBER")}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -587,11 +616,11 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>
-                  Email
-                  <span className='required'>*</span>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("EMAIL")}
+                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -613,9 +642,11 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Tax Number</Label>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("CAREGIVER_TAX_NUMBER_LABEL")}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -633,9 +664,11 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Bank</Label>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("BANK")}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -653,9 +686,11 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>IBAN</Label>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("BANK_IBAN_LABEL")}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className='required-input'>
@@ -687,11 +722,11 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>
-                  Username
-                  <span className='required'>*</span>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("CAREGIVER_USERNAME_LABEL")}
+                  <span className="required">*</span>
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -710,9 +745,11 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Belongs to</Label>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("BELONGS_TO")}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -735,10 +772,10 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>
-                  Driver's license
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("CAREGIVER_DRIVER_LICENSE_LABEL")}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -772,10 +809,10 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>
-                  Driver's License Number
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("CAREGIVER_DRIVER_LICENSE_NUMBER_LABEL")}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -795,10 +832,10 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>
-                  Own vehicle available
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("CAREGIVER_OWN_VEHICLE_AVAILABLE_LABEL")}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -832,9 +869,11 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Legal Form</Label>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("CAREGIVER_LEGAL_FORM_LABEL")}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -853,10 +892,10 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>
-                  Company Name
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("CAREGIVER_COMPANY_NAME_LABEL")}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -875,10 +914,10 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>
-                  Register Court
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("CAREGIVER_REGISTER_COURT_LABEL")}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -897,10 +936,10 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>
-                  Registration Number
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("CAREGIVER_REGISTRATION_NUMBER_LABEL")}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -919,10 +958,10 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>
-                  Executive Director
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("CAREGIVER_EXECUTIVE_DIRECTOR_LABEL")}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -941,9 +980,11 @@ const PersonalInfoFormComponent: any = (
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Employed</Label>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("EMPLOYED")}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -979,9 +1020,9 @@ const PersonalInfoFormComponent: any = (
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>
-                  Comments (Internally)
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("COMMENTS_INTERNALLY")}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>

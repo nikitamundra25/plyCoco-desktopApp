@@ -32,6 +32,7 @@ const GET_CARE_INSTITUTION_LIST = gql`
           title
           companyName
           shortName
+          attributes
         }
       }
     }
@@ -98,9 +99,10 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         firstName
         surName
         countryId
+        stateId
         street
         city
-        contactType
+        contactTypeId
         phoneNumber
         zip
         phoneNumber2
@@ -110,6 +112,9 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         remark
         id
         attributes
+        contact_type {
+          contactType
+        }
       }
     }
   }
@@ -155,7 +160,10 @@ const GET_CONTACT_LIST_BY_ID = gql`
       gender
       firstName
       surName
-      contactType
+      contactTypeId
+      contact_type {
+        contactType
+      }
       id
       email
     }
@@ -177,5 +185,5 @@ export const CareInstitutionQueries = [
   GET_DEPARTMENT_LIST,
   GET_CAREINSTITUTION_ATTRIBUTES,
   GET_CONTACT_LIST_BY_ID,
-  GET_CONTACT_TYPES
+  GET_CONTACT_TYPES,
 ];

@@ -19,11 +19,7 @@
     }
   }
 }
-.common-label {
-  font-size: $font_12;
-  color: $black;
-  font-weight: bold;
-}
+
 // calendar table css
 .calender-section {
   position: relative;
@@ -51,10 +47,12 @@
     }
     .custom-appointment-row {
       display: flex;
-      font-size: 12px;
+      font-size: $font_12;
       color: $black;
       border-left: 1px solid $table_border;
-
+      &:last-child {
+        border-bottom: 1px solid $table_border;
+      }
       .custom-appointment-col {
         flex: 0 0 30px;
         max-width: 30px;
@@ -63,6 +61,7 @@
         border-top: 1px solid $table_border;
         vertical-align: middle;
         background: $white;
+
         &.name-col {
           flex: 0 0 200px;
           max-width: 200px;
@@ -77,30 +76,103 @@
           .custom-appointment-calendar-date {
             text-transform: capitalize;
           }
-          &.appointment-color1 {
-            background: #d3d3d3;
-          }
-          &.appointment-color2 {
-            background: #ffff00;
-          }
-          &.appointment-color3 {
-            background: #6a0dad;
-          }
-          &.appointment-color4 {
-            background: #f6cfca;
-          }
-          &.appointment-color5 {
-            background: #a1f5bd;
-          }
-          &.appointment-color6 {
-            background: #07e651;
-          }
         }
       }
     }
   }
 }
+
+// custom-color for matching
+.appointment-color1 {
+  background: #d3d3d3 !important;
+}
+.appointment-color2 {
+  background: #ffff00 !important;
+}
+.appointment-color3 {
+  background: #6a0dad !important;
+}
+.appointment-color4 {
+  background: #f6cfca !important;
+}
+.appointment-color5 {
+  background: #a1f5bd !important;
+}
+.appointment-color6 {
+  background: #07e651 !important;
+}
 .custom-height {
   height: calc(100vh - 164px);
   overflow-x: hidden;
+}
+
+.custom-header-nav-item {
+  padding: 4px 5px;
+  font-size: $font_12;
+  color: $black;
+  cursor: pointer;
+  line-height: normal;
+  transition: all 0.3s ease;
+  border: 1px solid $common_tab_border;
+  margin: 0 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: FrutigerNeueLTPro-Medium;
+  border-radius: 2px;
+  background: $common_tab_bg;
+  .custom-header-nav-icon {
+    padding-right: 8px;
+    vertical-align: middle;
+    @media only screen and (max-width: 865px) {
+      padding-right: 0px;
+    }
+    img {
+      width: 15px;
+      height: 15px;
+    }
+  }
+  .custom-header-nav-text {
+    vertical-align: middle;
+    @media only screen and (max-width: 865px) {
+      display: none;
+    }
+  }
+  &:hover,
+  &.active {
+    color: $light_black;
+    background: $common_tab_hoverbg;
+  }
+}
+
+.attribute-modal {
+  &.modal-xl {
+    max-width: 1280px;
+  }
+  .modal-content {
+    .modal-body {
+      padding: 12px 10px 0px;
+      .common-list-wrap {
+        .common-list-body {
+          height: calc(100vh - 235px);
+          .attribute-title {
+            font-weight: 600;
+            font-size: $font_12;
+            color: $black;
+            margin: 3px 8px;
+          }
+          .attribute-list {
+            li {
+              border-bottom: 0px;
+              .checkbox-custom {
+                label {
+                  font-family: $font_open_sans;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

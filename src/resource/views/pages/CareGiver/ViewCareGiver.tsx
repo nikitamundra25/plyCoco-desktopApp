@@ -3,7 +3,12 @@ import { RouteComponentProps, useLocation, useParams } from 'react-router';
 import Select from 'react-select';
 import qs from 'query-string';
 import { useLazyQuery } from '@apollo/react-hooks';
-import { AppRoutes } from '../../../../config';
+import {
+  AppRoutes,
+  deactivatedListColor,
+  leasingListColor,
+  selfEmployesListColor,
+} from '../../../../config';
 import { careGiverRoutes } from './Sidebar/SidebarRoutes/CareGiverRoutes';
 import { IReactSelectInterface } from '../../../../interfaces';
 import Loader from '../../containers/Loader/Loader';
@@ -20,7 +25,7 @@ const CareGiverSidebar = React.lazy(() =>
   import('./Sidebar/SidebarLayout/CareGiverLayout'),
 );
 const PersonalInfo = React.lazy(() => import('./PersonalInfo'));
-const Offer = React.lazy(() => import('./Offers/Offer'));
+const Offer = React.lazy(() => import('./Offers'));
 const LoginLogs = React.lazy(() => import('../../components/Logins'));
 const Invoices = React.lazy(() => import('./Invoices/Invoices'));
 const ToDo = React.lazy(() => import('../../components/ToDosInnerList'));
@@ -52,6 +57,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: '',
     value: '',
+    color: '',
   });
 
   const [activeTab, setactiveTab] = useState(0);
@@ -64,7 +70,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       variables: {
         searchBy: '',
         sortBy: 3,
-        limit: 200,
+        limit: 500,
         page: 1,
         isActive: '',
       },
@@ -97,13 +103,25 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     careGiverOpt.push({
       label: languageTranslation('NAME'),
       value: languageTranslation('ID'),
+      color: '',
     });
     careGivers.getCaregivers.result.forEach(
-      ({ id, firstName, lastName }: any) =>
+      ({ id, firstName, lastName, isActive, caregiver }: any) => {
+        let { attributes = [] } = caregiver ? caregiver : {};
+        // To check null values
+        attributes = attributes ? attributes : [];
         careGiverOpt.push({
           label: `${firstName}${' '}${lastName}`,
           value: id,
-        }),
+          color: !isActive
+            ? deactivatedListColor
+            : attributes.includes('TIMyoCY')
+            ? leasingListColor
+            : attributes.includes('Plycoco')
+            ? selfEmployesListColor
+            : '',
+        });
+      },
     );
   }
   // It's used to set active tab
@@ -142,6 +160,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       const data: IReactSelectInterface = {
         label: e.label,
         value: e.value,
+        color: e.color,
       };
       setselectUser((selectUser = data));
 
@@ -208,7 +227,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       <span className='header-nav-icon'>
                         <img src={add} alt='' />
                       </span>
-                      <span className='header-nav-text'>New Caregiver</span>
+                      <span className='header-nav-text'>
+                        {languageTranslation('CG_MENU_NEW_CAREGIVER')}
+                      </span>
                     </div>
                     <div
                       className='header-nav-item'
@@ -218,28 +239,32 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                         <img src={reminder} alt='' />
                       </span>
                       <span className='header-nav-text'>
-                        Create Todo/Reminder
+                        {languageTranslation('CG_MENU_CREATE_TODO')}
                       </span>
                     </div>
                     <div className='header-nav-item'>
                       <span className='header-nav-icon'>
                         <img src={password} alt='' />
                       </span>
-                      <span className='header-nav-text'>New Password</span>
+                      <span className='header-nav-text'>
+                        {languageTranslation('CG_MENU_NEW_PASSWORD')}
+                      </span>
                     </div>
                     <div className='header-nav-item'>
                       <span className='header-nav-icon'>
                         <img src={appointment} alt='' />
                       </span>
                       <span className='header-nav-text'>
-                        Display Appointments
+                        {languageTranslation('CG_MENU_DISPLAY_APPOINTMENTS_')}
                       </span>
                     </div>
                     <div className='header-nav-item'>
                       <span className='header-nav-icon'>
                         <img src={clear} alt='' />
                       </span>
-                      <span className='header-nav-text'>Clear</span>
+                      <span className='header-nav-text'>
+                        {languageTranslation('CLEAR')}
+                      </span>
                     </div>
                   </div>
                   <CareGiverSidebar
@@ -260,7 +285,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                   {activeTab === 0 ? (
                     <PersonalInfo careGiverOpt={careGiverOpt} />
                   ) : null}
-                  {activeTab === 1 ? <Offer /> : null}
+                  {activeTab === 1 ? <Offer {...props} /> : null}
                   {activeTab === 2 ? <LoginLogs /> : null}
                   {activeTab === 3 ? <Invoices /> : null}
                   {activeTab === 4 ? <Documents /> : null}

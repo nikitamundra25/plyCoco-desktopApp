@@ -38,6 +38,7 @@ const Documents = () => {
   const queryPath = path.pathname;
   const res = queryPath.split('/');
   const id = parseInt(res[3]);
+  const [requiredDoc, setRequiredDoc] = useState<any>(null);
   const [showDocumentPopup, setShowDocumentPopup] = useState<boolean>(false);
   const [documentUrls, setDocumentUrl] = useState<IDocumentUrls | null>(null);
   const [fileObject, setFileObject] = useState<Object | null>(null);
@@ -58,7 +59,9 @@ const Documents = () => {
     id: string;
     checked: boolean;
   } | null>(null);
-  const [defaultDocument, setDefaultDocument] = useState<boolean | null>(null);
+  const [defaultDocument, setDefaultDocument] = useState<boolean | undefined>(
+    undefined
+  );
   const [fetchDocumentList, { data, loading, refetch, called }] = useLazyQuery<
     any
   >(GET_DOCUMENTS);
@@ -201,7 +204,7 @@ const Documents = () => {
     setFileObject(null);
     setFilename(null);
     setIsMissingDocEditable(false);
-    setDefaultDocument(null);
+    setDefaultDocument(undefined);
     // setErrorMsg(null);
   };
 
@@ -593,6 +596,7 @@ const Documents = () => {
         documentTypeList={documentTypeList}
         unsupportedFile={unsupportedFile}
         defaultDocument={defaultDocument}
+        setRequiredDoc={setRequiredDoc}
       />
     </div>
   );

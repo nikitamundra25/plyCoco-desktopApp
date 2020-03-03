@@ -77,7 +77,12 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
       message: languageTranslation('ENTER_VALID_WEB_URL'),
       excludeEmptyString: true
     })
-    .nullable()
+    .nullable(),
+  country: Yup.mixed()
+    .required(languageTranslation('COUNTRY_REQUIRED'))
+  ,
+  state: Yup.mixed()
+    .required(languageTranslation('STATE_REQUIRED'))
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -142,7 +147,11 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
   contactType: Yup.object().shape({
     value: Yup.string().required(languageTranslation('CONTACT_REQUIRED')),
     label: Yup.string().required(languageTranslation('CONTACT_REQUIRED'))
-  })
+  }),
+  country: Yup.mixed()
+    .required(languageTranslation('COUNTRY_REQUIRED')),
+  state: Yup.mixed()
+    .required(languageTranslation('STATE_REQUIRED'))
 });
 
 export const AddDepartmentValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -190,7 +199,7 @@ export const AddTimeValidationSchema: Yup.ObjectSchema<Yup.Shape<
 >> = Yup.object().shape<IAddTimeFormValidationSchema>({
   begin: Yup.mixed().test({
     name: 'validate-time',
-    test: function(val) {
+    test: function (val) {
       const { path, createError } = this;
       const { isValid, message }: ITimeResponse = timeValidator(val);
       return !val || isValid || createError({ path, message });
@@ -198,7 +207,7 @@ export const AddTimeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   }),
   end: Yup.mixed().test({
     name: 'validate-time',
-    test: function(val) {
+    test: function (val) {
       const { path, createError } = this;
       const { isValid, message }: ITimeResponse = timeValidator(val);
       return !val || isValid || createError({ path, message });

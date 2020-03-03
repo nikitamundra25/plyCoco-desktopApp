@@ -35,7 +35,9 @@ const BillingSettingsFormComponent: any = (
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Fee</Label>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('FEE')}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <Row className='custom-col inner-no-padding-col'>

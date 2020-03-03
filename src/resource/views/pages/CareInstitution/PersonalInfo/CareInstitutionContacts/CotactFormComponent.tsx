@@ -91,11 +91,12 @@ const CotactFormComponent: any = (
         );
       }
     } else if (name === 'country') {
+      setFieldValue(name, selectOption);
+      setFieldValue('state', undefined);
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '' } // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
-      setFieldValue(name, selectOption);
     } else {
       setFieldValue(name, selectOption);
     }
@@ -135,20 +136,28 @@ const CotactFormComponent: any = (
     careInstitutionAttrOpt,
     contacttypeOpt,
     setFieldTouched,
-    addingtype
+    addingtype,
+    userSelectedCountry
   } = props;
 
   useEffect(() => {
     if (contacttypeOpt && contacttypeOpt.length) {
-      setFieldValue(
-        'contactType',
-        contacttypeOpt.filter(
-          (element: IReactSelectInterface) =>
-            element.label === contactType.label
-        )[0]
-      );
+      const contactTypeValue = contacttypeOpt.filter(
+        (element: IReactSelectInterface) => element.label === contactType.label
+      )[0];
+      if (contactTypeValue) {
+        setFieldValue('contactType', contactTypeValue);
+      }
     }
   }, [contacttypeOpt]);
+
+  useEffect(() => {
+    if (userSelectedCountry && userSelectedCountry.value) {
+      getStatesByCountry({
+        variables: { countryid: userSelectedCountry.value }
+      });
+    }
+  }, [userSelectedCountry]);
 
   const handleAttributeSelectContarct = (
     selectOption: IReactSelectInterface,
@@ -205,8 +214,6 @@ const CotactFormComponent: any = (
   };
   // To add custom contact type
   const handleAddNewContactType = (contactType: string) => {
-    console.log('inside add');
-
     if (contactType !== '') {
       const newContactTypeData: IReactSelectInterface = {
         label: contactType,
@@ -477,13 +484,13 @@ const CotactFormComponent: any = (
                             disabled={newContactType === ''}
                             className={`add-new-btn d-inline-flex align-items-center justify-content-center ${
                               newContactType === '' ? 'disabled-class' : ''
-                            }`}
+                              }`}
                           >
                             {addingtype ? (
                               <i className='fa fa-spinner fa-spin' />
                             ) : (
-                              <i className={'fa fa-plus'} />
-                            )}
+                                <i className={'fa fa-plus'} />
+                              )}
                           </Button>
                           <UncontrolledTooltip
                             placement='top'
@@ -577,23 +584,73 @@ const CotactFormComponent: any = (
                       <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('COUNTRY')}
+                          <span className="required">*</span>
                         </Label>
                       </Col>
                       <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
-                        <div>
+                        <div className={"required-input"}>
                           <Select
                             placeholder={languageTranslation('COUNTRY')}
                             options={countriesOpt}
                             value={
-                              country && country.value !== '' ? country : null
+                              country && country.value !== '' ? country : undefined
                             }
                             onChange={(value: any) =>
                               handleSelect(value, 'country', '')
                             }
+                            isClearable={true}
                             menuPlacement={'top'}
                             classNamePrefix='custom-inner-reactselect'
-                            className={'custom-reactselect'}
+                            className={
+                              touched.country && errors.country && !country
+                                ? "error custom-reactselect"
+                                : "custom-reactselect"
+                            }
                           />
+                          {touched.country && errors.country && !country && (
+                            <div className="required-tooltip left">
+                              {errors.country}
+                            </div>
+                          )}
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+                  <FormGroup>
+                    <Row className="align-items-center">
+                      <Col xs={"12"} sm={"5"} md={"5"} lg={"5"}>
+                        <Label className="form-label col-form-label ">
+                          {languageTranslation("STATE")}
+                          <span className='required'>*</span>
+                        </Label>
+                      </Col>
+                      <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
+                        <div className={'required-input'}>
+                          <Select
+                            placeholder={languageTranslation("STATE")}
+                            options={statesOpt}
+                            isClearable={true}
+                            menuPlacement={'top'}
+                            value={state && state.value !== '' ? state : null}
+                            onChange={(value: any) => handleSelect(value, "state", "")}
+                            noOptionsMessage={() => {
+                              return country && country.value ? 'No options' : 'Select a country first';
+                            }}
+                            classNamePrefix="custom-inner-reactselect"
+                            onBlur={handleBlur}
+                            className={
+                              country && errors.state
+                                ? 'error custom-reactselect'
+                                : 'custom-reactselect'
+                            }
+                          />
+                          {country && errors.state ? (
+                            <div className='required-tooltip left'>
+                              {errors.state}
+                            </div>
+                          ) : null}
                         </div>
                       </Col>
                     </Row>
@@ -791,7 +848,7 @@ const CotactFormComponent: any = (
                               placeholder={languageTranslation('REMARKS')}
                               className={`textarea-care-institution ${
                                 id ? 'with_id' : ''
-                              }`}
+                                }`}
                               rows='4'
                               maxLength={250}
                             />
@@ -816,47 +873,47 @@ const CotactFormComponent: any = (
                   <div
                     className={`common-list-body custom-scrollbar ${
                       id ? 'with_id' : ''
-                    }`}
+                      }`}
                   >
                     <ul className='common-list list-unstyled mb-0'>
                       {attributeId && attributeId.length
                         ? attributeId.map(
-                            (
-                              { label, color }: IAttributeOptions,
-                              index: number
-                            ) => {
-                              return (
-                                <li
-                                  className={
-                                    'cursor-pointer list-item text-capitalize'
-                                  }
-                                  key={index}
-                                  style={{
-                                    backgroundColor: color ? color : '',
-                                    color:
-                                      color === '#6a0dad' || color === '#000000'
-                                        ? '#fff'
-                                        : '#000'
-                                  }}
-                                >
-                                  <>
-                                    <span className='list-item-text'>
-                                      {label}{' '}
-                                    </span>
-                                    <span
-                                      id='delete0'
-                                      onClick={() =>
-                                        handleRemoveAttribute(index)
-                                      }
-                                      className='list-item-icon'
-                                    >
-                                      <i className='fa fa-trash'></i>
-                                    </span>
-                                  </>
-                                </li>
-                              );
-                            }
-                          )
+                          (
+                            { label, color }: IAttributeOptions,
+                            index: number
+                          ) => {
+                            return (
+                              <li
+                                className={
+                                  'cursor-pointer list-item text-capitalize'
+                                }
+                                key={index}
+                                style={{
+                                  backgroundColor: color ? color : '',
+                                  color:
+                                    color === '#6a0dad' || color === '#000000'
+                                      ? '#fff'
+                                      : '#000'
+                                }}
+                              >
+                                <>
+                                  <span className='list-item-text'>
+                                    {label}{' '}
+                                  </span>
+                                  <span
+                                    id='delete0'
+                                    onClick={() =>
+                                      handleRemoveAttribute(index)
+                                    }
+                                    className='list-item-icon'
+                                  >
+                                    <i className='fa fa-trash'></i>
+                                  </span>
+                                </>
+                              </li>
+                            );
+                          }
+                        )
                         : null}
                     </ul>
                   </div>
@@ -871,10 +928,10 @@ const CotactFormComponent: any = (
                           value={
                             contactAttribute
                               ? {
-                                  label:
-                                    'Please select Attribute or type to add new',
-                                  value: ''
-                                }
+                                label:
+                                  'Please select Attribute or type to add new',
+                                value: ''
+                              }
                               : undefined
                           }
                           onChange={(value: any) => {

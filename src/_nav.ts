@@ -37,7 +37,7 @@ export default {
     {
       name: languageTranslation("MENU_APPOINTMENTS"),
       icon: "icon-appointment",
-      url: AppRoutes.HOME,
+      url: AppRoutes.APPOINTMENT,
       authKey: ["all", "superadmin", "basic", "invoice"]
     },
     // {

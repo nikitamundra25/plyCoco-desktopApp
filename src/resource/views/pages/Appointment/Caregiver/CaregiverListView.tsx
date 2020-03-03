@@ -9,7 +9,7 @@ import Loader from '../../../containers/Loader/Loader';
 import '../index.scss';
 
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
-  props: IAppointmentCareGiverList
+  props: IAppointmentCareGiverList & any
 ) => {
   const {
     daysData,

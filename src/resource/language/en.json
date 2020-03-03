@@ -764,6 +764,7 @@
   "WEEKEND": "Weekend",
   "HOLIDAY": "Holiday",
   "INVOICE_INTERVAL": "Invoice Interval",
+  "SELECT_CONTACT_PLACEHOLDER": "Select Contact",
   "STREET_AND_HOUSE": "Street and House Number",
   "MOBILE_NUMBER": "Mobile Number",
   "BANK": "Bank",
@@ -794,5 +795,12 @@
   "INCORRECT_LOGIN": "Incorrect Login",
   "SUCCESSFUL_LOGIN": "Successful Login",
   "BOOKING_DATE": "Booking Date",
-  "LOGIN": "login"
+  "LOGIN": "login",
+  "FILE_MUST_BE_LESS_THAN_25_MB": "File size must be less than 25 mb",
+  "APPLY_FILTER":"Apply filters",
+  "PRESETS":"Presets",
+  "POSITIVE_ATTRIBUTE":"Positive Attribute(must have)",
+  "NEGATIVE_ATTRIBUTE":"Negative Attribute(must not have)",
+  "GENERAL":"General",
+  "CAREGIVERS":"Caregivers"
 }

@@ -146,15 +146,15 @@ const DocumentUploadModal = (props: any) => {
                               </span>
                             )}
                           </div>
-                          {isSubmit && documentUrls === null ? (
-                            <div className="required-error">
-                              Document is required
-                            </div>
-                          ) : (
-                            <div className="required-error">
+                          {unsupportedFile ? (
+                            <div className='required-error'>
                               {unsupportedFile}
                             </div>
-                          )}
+                          ) : isSubmit && documentUrls === null ? (
+                            <div className='required-error'>
+                              Document is required
+                            </div>
+                          ) : null}
                         </Col>
                       ) : (
                         <Col sm="10">

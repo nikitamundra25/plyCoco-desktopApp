@@ -17,6 +17,7 @@ export interface IAppointmentNav {
   handlePrevious: () => void;
   handleQualification: (value: any) => void;
   handleNext: () => void;
+  handleDayClick: (selectedDay: Date) => void;
   daysData: IGetDaysArrayByMonthRes | null;
   qualificationList: IReactSelectInterface[] | undefined;
   careInstitutionList: any;
@@ -27,6 +28,10 @@ export interface IAppointmentCareGiverList {
   daysData: IGetDaysArrayByMonthRes | null;
   careGiversList: any;
   loading: boolean;
+  onAddingRow: (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    name: string
+  ) => void | undefined;
 }
 
 export interface IAppointmentCareInstitutionList {

@@ -181,6 +181,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
             </Col>
             <EmailPreview
               emailData={emailData}
+              userRole={userRole}
               selectedUserName={selectedUserName}
               sendBy={'Super Admin'}
               length={

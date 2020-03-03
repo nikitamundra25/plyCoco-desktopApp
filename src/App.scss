@@ -3326,6 +3326,12 @@ html:not([dir='rtl']) {
     font-weight: 600;
   }
 }
+.required-file-error {
+  color: $red;
+  font-size: $font_11;
+  position: absolute;
+  bottom: -8px;
+}
 //tooltip icon
 .tooltip-icon {
   width: 18px;

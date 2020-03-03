@@ -1,6 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Col, Row } from 'reactstrap';
-import { getDaysArrayByMonth, germanNumberFormat } from '../../../../helpers';
+import {
+  getDaysArrayByMonth,
+  germanNumberFormat,
+  languageTranslation
+} from '../../../../helpers';
 import './index.scss';
 import AppointmentNav from './AppointmentNav';
 import CaregiverListView from './Caregiver/CaregiverListView';
@@ -10,19 +14,23 @@ import {
   IQualifications,
   IReactSelectInterface,
   ICaregiverFormValue,
-  ICareinstitutionFormValue
+  ICareinstitutionFormValue,
+  IAddCargiverAppointmentRes
 } from '../../../../interfaces';
 import moment from 'moment';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
   AppointmentsQueries
 } from '../../../../graphql/queries';
+const [ADD_CAREGIVER_AVABILITY] = AppointmentMutations;
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { CareGiverValidationSchema } from '../../../validations/AppointmentsFormValidationSchema';
 import { toast } from 'react-toastify';
+import { defaultDateFormat } from '../../../../config';
+import { AppointmentMutations } from '../../../../graphql/Mutations';
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const Appointment: FunctionComponent = () => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
@@ -37,8 +45,15 @@ const Appointment: FunctionComponent = () => {
   const [selectedCareinstitution, setselectedCareinstitution] = useState<any>(
     {}
   );
+  const [activeDateCaregiver, setactiveDateCaregiver] = useState<any>(
+    undefined
+  );
 
-  // const [activeDate, setActiveDate] = useState<string>('');
+  // Mutation to add careGiver data
+  const [addCaregiver, { error, data: addCaregiverRes }] = useMutation<
+    { addCareGiverAvability: IAddCargiverAppointmentRes },
+    { careGiverAvabilityInput: any }
+  >(ADD_CAREGIVER_AVABILITY);
 
   // To fetch caregivers by qualification id
   const [
@@ -225,9 +240,12 @@ const Appointment: FunctionComponent = () => {
   };
 
   // select careGiver or careinstitution
-  const handleSelectedUser = (list: object, name: string) => {
+  const handleSelectedUser = (list: object, date: any, name: string) => {
     if (name === 'caregiver') {
       setselectedCareGiver(list);
+      if (date) {
+        setactiveDateCaregiver({ date: date.isoString, month: date.day });
+      }
     } else {
       setselectedCareinstitution(list);
     }
@@ -275,9 +293,9 @@ const Appointment: FunctionComponent = () => {
       n
     } = values;
     try {
-      let careGiverInput: any = {
-        firstName: firstName ? firstName.trim() : '',
-        lastName: lastName ? lastName.trim() : '',
+      let CareGiverAvabilityInput: any = {
+        userId: selectedCareGiver ? parseInt(selectedCareGiver.id) : '',
+        date: activeDateCaregiver ? activeDateCaregiver.date : '',
         fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
         weekendAllowance: weekendAllowance
           ? parseFloat(weekendAllowance.replace(/,/g, '.'))
@@ -289,8 +307,8 @@ const Appointment: FunctionComponent = () => {
         nightAllowance:
           nightAllowance && nightAllowance.value ? nightAllowance.value : null,
         workingProofRecieved: workingProofRecieved ? true : false,
-        distanceInKM: distanceInKM ? distanceInKM : null,
-        feePerKM: feePerKM ? feePerKM : null,
+        distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
+        feePerKM: feePerKM ? parseFloat(feePerKM) : null,
         otherExpenses: otherExpenses
           ? parseFloat(otherExpenses.replace(/,/g, '.'))
           : null,
@@ -298,9 +316,16 @@ const Appointment: FunctionComponent = () => {
         remarksInternal: remarksInternal ? remarksInternal : null,
         f: f ? 'available' : 'default',
         s: s ? 'available' : 'default',
-        n: n ? 'available' : 'default'
+        n: n ? 'available' : 'default',
+        status: 'default'
       };
-      console.log('careGiverInput', careGiverInput);
+      console.log('CareGiverAvabilityInput', CareGiverAvabilityInput);
+      await addCaregiver({
+        variables: {
+          careGiverAvabilityInput: [{ ...CareGiverAvabilityInput }]
+        }
+      });
+      toast.success(languageTranslation('CARE_INSTITUTION_ADD_SUCCESS_MSG'));
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
@@ -339,7 +364,7 @@ const Appointment: FunctionComponent = () => {
   const {
     nightAllowance = undefined,
     fee = null,
-    nightFee = caregiver.night ? caregiver.night : null,
+    nightFee = caregiver && caregiver.night ? caregiver.night : null,
     weekendAllowance = null,
     holiday = null
   } = caregiver ? caregiver : {};
@@ -428,6 +453,13 @@ const Appointment: FunctionComponent = () => {
                             <CaregiverFormView
                               {...props}
                               selectedCareGiver={selectedCareGiver}
+                              activeDateCaregiver={activeDateCaregiver}
+                              addCaregiverRes={
+                                addCaregiverRes &&
+                                addCaregiverRes.addCareGiverAvability
+                                  ? addCaregiverRes.addCareGiverAvability
+                                  : ''
+                              }
                             />
                           );
                         }}

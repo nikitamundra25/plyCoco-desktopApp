@@ -22,10 +22,15 @@ import {
 import '../index.scss';
 import { languageTranslation } from '../../../../../helpers';
 import MaskedInput from 'react-text-mask';
-import { NightAllowancePerHour, State } from '../../../../../config';
+import {
+  NightAllowancePerHour,
+  State,
+  defaultDateFormat
+} from '../../../../../config';
 import Select from 'react-select';
 import { FormikProps } from 'formik';
 import { FormikTextField } from '../../../components/forms/FormikFields';
+import moment from 'moment';
 
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm> = (
@@ -65,14 +70,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     setFieldValue,
     setFieldTouched,
     setFieldError,
-    selectedCareGiver
+    selectedCareGiver,
+    activeDateCaregiver,
+    addCaregiverRes
   } = props;
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
-  console.log('nightAllowance', nightAllowance);
 
   return (
     <>
@@ -95,6 +101,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <Input
                         type='text'
                         disabled={true}
+                        value={
+                          addCaregiverRes && addCaregiverRes[0].userId
+                            ? addCaregiverRes[0].userId
+                            : ''
+                        }
                         placeholder={languageTranslation('APPOINTMENT_ID')}
                         className='width-common'
                       />
@@ -143,11 +154,19 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   </Col>
                   <Col sm='7'>
                     <div className='required-input'>
-                      <MaskedInput
+                      <Input
                         placeholder={languageTranslation(
                           'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
                         )}
+                        disabled={true}
                         className={'form-control mb-2'}
+                        value={
+                          activeDateCaregiver
+                            ? `${moment(activeDateCaregiver.date).format(
+                                defaultDateFormat
+                              )}, ${activeDateCaregiver.month}`
+                            : null
+                        }
                       />
                     </div>
 

@@ -1,17 +1,17 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState } from 'react';
 import {
   Table,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem
-} from "reactstrap";
-import "../index.scss";
+} from 'reactstrap';
+import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
   IDaysArray
-} from "../../../../../interfaces";
-import Loader from "../../../containers/Loader/Loader";
+} from '../../../../../interfaces';
+import Loader from '../../../containers/Loader/Loader';
 
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> = (
   props: IAppointmentCareInstitutionList
@@ -31,7 +31,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
   const handleFirstStar = (list: object, index: number, name: string) => {
     if (starMarkIndex !== index) {
       setstarMarkIndex(index);
-      handleSelectedUser(list, name);
+      handleSelectedUser(list, null, name);
     } else {
       setstarMarkIndex(-1);
     }
@@ -51,18 +51,18 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
   const { daysArr = [] } = daysData ? daysData : {};
   return (
     <>
-      <div className="calender-section custom-scrollbar  mt-3">
-        <Table hover bordered className="mb-0 appointment-table">
-          <thead className="thead-bg">
+      <div className='calender-section custom-scrollbar  mt-3'>
+        <Table hover bordered className='mb-0 appointment-table'>
+          <thead className='thead-bg'>
             <tr>
-              <th className="thead-sticky name-col custom-appointment-col zindex2">
+              <th className='thead-sticky name-col custom-appointment-col zindex2'>
                 CareInstitution
-                <UncontrolledDropdown className="custom-dropdown options-dropdown">
+                <UncontrolledDropdown className='custom-dropdown options-dropdown'>
                   <DropdownToggle
-                    className={"text-capitalize btn-more"}
-                    size="sm"
+                    className={'text-capitalize btn-more'}
+                    size='sm'
                   >
-                    <i className="icon-options-vertical" />
+                    <i className='icon-options-vertical' />
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
@@ -70,32 +70,32 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                     </DropdownItem>
                     <DropdownItem>
                       <span>Delete free appointments</span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Select all appointments of the caregiver</span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Detailed List</span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>
                         Select available caregivers, offer them appointments and
                         set them on offered (sorted by division)
                       </span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>
                         Select available caregivers, offer them appointments and
                         set them on offered (sorted by day)
                       </span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>
                         Select available caregivers, offer them appointments and
                         set them on offered (no direct booking; sorted by
                         division)
                       </span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>
                         Select available caregivers, offer them appointments and
@@ -104,50 +104,50 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                     </DropdownItem>
                     <DropdownItem>
                       <span>Set on offered</span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Link appointments</span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Unlink appointments</span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Offer caregivers (ordered by day)</span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Offer appointments (ordered by department)</span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Confirm appointments (ordered by day) </span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Confirm appointments (ordered by department) </span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Set on confirmed </span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Reset confirmed</span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Create prepayment invoice</span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                     <DropdownItem>
                       <span>Refresh </span>
-                    </DropdownItem>{" "}
+                    </DropdownItem>{' '}
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </th>
-              <th className="thead-sticky h-col custom-appointment-col text-center">
+              <th className='thead-sticky h-col custom-appointment-col text-center'>
                 H
               </th>
-              <th className="thead-sticky s-col custom-appointment-col text-center">
+              <th className='thead-sticky s-col custom-appointment-col text-center'>
                 S
               </th>
-              <th className="thead-sticky u-col custom-appointment-col text-center">
+              <th className='thead-sticky u-col custom-appointment-col text-center'>
                 A
               </th>
-              <th className="thead-sticky v-col custom-appointment-col text-center">
+              <th className='thead-sticky v-col custom-appointment-col text-center'>
                 V
               </th>
               {/* array for showing day */}
@@ -158,13 +158,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                 ) => {
                   return (
                     <th
-                      className="thead-sticky calender-col custom-appointment-col text-center"
+                      className='thead-sticky calender-col custom-appointment-col text-center'
                       key={index}
                     >
-                      <div className="custom-appointment-calendar-date">
+                      <div className='custom-appointment-calendar-date'>
                         {date}
                       </div>
-                      <div className="custom-appointment-calendar-day">
+                      <div className='custom-appointment-calendar-day'>
                         {day}
                       </div>
                     </th>
@@ -176,7 +176,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
           <tbody>
             {loading ? (
               <tr>
-                <td className={"table-loader"} colSpan={40}>
+                <td className={'table-loader'} colSpan={40}>
                   <Loader />
                 </td>
               </tr>
@@ -184,55 +184,58 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
               careInstitutionList.map((list: any, index: number) => {
                 return (
                   <tr key={index}>
-                    <td className="name-col custom-appointment-col">
+                    <td className='name-col custom-appointment-col'>
                       <div
-                        className="text-capitalize view-more-link"
+                        className='text-capitalize view-more-link'
                         onClick={() =>
-                          handleSelectedUser(list, "careinstitution")
+                          handleSelectedUser(list, null, 'careinstitution')
                         }
                       >
-                        {`${list.firstName ? list.firstName : ""} ${
-                          list.lastName ? list.lastName : ""
+                        {`${list.firstName ? list.firstName : ''} ${
+                          list.lastName ? list.lastName : ''
                         }`}
                       </div>
                     </td>
-                    <td className="h-col custom-appointment-col text-center"></td>
+                    <td className='h-col custom-appointment-col text-center'></td>
                     <td
-                      className="s-col custom-appointment-col text-center"
+                      className='s-col custom-appointment-col text-center'
                       onClick={() =>
-                        handleFirstStar(list, index, "careinstitution")
+                        handleFirstStar(list, index, 'careinstitution')
                       }
                     >
                       {starMarkIndex === index || starMark ? (
-                        <i className="fa fa-star-o icon-d" />
+                        <i className='fa fa-star-o icon-d' />
                       ) : (
-                        <i className="fa fa-star-o" />
+                        <i className='fa fa-star-o' />
                       )}
                     </td>
                     <td
-                      className="u-col custom-appointment-col text-center"
+                      className='u-col custom-appointment-col text-center'
                       onClick={() =>
-                        onhandleSecondStar(list, index, "careinstitution")
+                        onhandleSecondStar(list, index, 'careinstitution')
                       }
                     >
                       {starMark ? (
-                        <i className="fa fa-star-o icon-d" />
+                        <i className='fa fa-star-o icon-d' />
                       ) : (
-                        <i className="fa fa-star-o" />
+                        <i className='fa fa-star-o' />
                       )}
                     </td>
                     <td
-                      className="v-col custom-appointment-col text-center"
-                      onClick={e => onAddingRow(e, "careinstitution", index)}
+                      className='v-col custom-appointment-col text-center'
+                      onClick={e => onAddingRow(e, 'careinstitution', index)}
                     >
-                      <i className="fa fa-arrow-down" />
+                      <i className='fa fa-arrow-down' />
                     </td>
                     {/* map */}
-                    {daysArr.map((key: any, i: number) => {
+                    {daysArr.map((date: any, i: number) => {
                       return (
                         <td
-                          className="custom-appointment-col calender-col text-center "
+                          className='custom-appointment-col calender-col text-center '
                           key={i}
+                          onClick={() =>
+                            handleSelectedUser(list, date, 'careinstitution')
+                          }
                         ></td>
                       );
                     })}
@@ -240,14 +243,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                 );
               })
             ) : (
-              <tr className={"text-center no-hover-row"}>
-                <td colSpan={40} className={"pt-5 pb-5"}>
-                  <div className="no-data-section">
-                    <div className="no-data-icon">
-                      <i className="icon-ban" />
+              <tr className={'text-center no-hover-row'}>
+                <td colSpan={40} className={'pt-5 pb-5'}>
+                  <div className='no-data-section'>
+                    <div className='no-data-icon'>
+                      <i className='icon-ban' />
                     </div>
-                    <h4 className="mb-1">
-                      Currently there are no CareGiver added.{" "}
+                    <h4 className='mb-1'>
+                      Currently there are no CareGiver added.{' '}
                     </h4>
                   </div>
                 </td>

@@ -22,3 +22,8 @@ export interface IObjectType {
 export interface IReplaceObjectInterface {
   [key: string]: string;
 }
+
+export interface IMatchingColorInterface {
+  status: string;
+  color: string;
+}

@@ -1,4 +1,8 @@
-import { IReactSelectInterface, IObjectType } from '../interfaces';
+import {
+  IReactSelectInterface,
+  IObjectType,
+  IMatchingColorInterface
+} from '../interfaces';
 import { languageTranslation } from '../helpers';
 import { maskArray } from 'react-text-mask';
 export const taxNumberLimit: number = 11;
@@ -1220,3 +1224,31 @@ export const ShiftTime: IReactSelectInterface[] = [
 export const deactivatedListColor: string = '#cacaca';
 export const leasingListColor: string = '#f7d158';
 export const selfEmployesListColor: string = '#ebebff';
+export const matchingColorCaregiver: IMatchingColorInterface[] = [
+  {
+    status: 'default',
+    color: '#c1f3c1ba'
+  },
+  {
+    status: 'linked',
+    color: 'yellow'
+  },
+  {
+    status: 'contract',
+    color: 'green'
+  }
+];
+export const matchingColorCareinstituion: IMatchingColorInterface[] = [
+  {
+    status: 'default',
+    color: '#c1f3c1ba'
+  },
+  {
+    status: 'linked',
+    color: 'yellow'
+  },
+  {
+    status: 'contract',
+    color: 'green'
+  }
+];

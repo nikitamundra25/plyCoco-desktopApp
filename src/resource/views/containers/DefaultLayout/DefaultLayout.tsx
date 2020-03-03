@@ -141,7 +141,6 @@ const DefaultLayout = (props: RouteComponentProps) => {
           'expirationTime'
         );
         var currentTime: number = moment().unix();
-
         if (expirationTime && parseInt(expirationTime) - currentTime === 10) {
           refreshToken();
         }

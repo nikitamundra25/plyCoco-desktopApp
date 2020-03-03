@@ -14,7 +14,7 @@ import { IAppointmentNav } from '../../../../interfaces';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import AttributePopup from './AttributePopup';
+import AttributeFilter from './Attribute';
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
@@ -153,7 +153,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           </div>
         </div>
       </div>
-      <AttributePopup
+      <AttributeFilter
         show={attributeSearch ? true : false}
         handleClose={() => setShowAttribute(false)}
       />

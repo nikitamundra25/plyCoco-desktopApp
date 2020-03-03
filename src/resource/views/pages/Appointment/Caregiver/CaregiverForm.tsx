@@ -76,13 +76,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
   return (
     <>
-      <div>
-        <h5 className='content-title'>
-          {languageTranslation('MENU_CAREGIVER')}
-        </h5>
-      </div>
       <div className='form-section'>
         <div className='form-card custom-height custom-scrollbar'>
+          <h5 className='content-title'>
+            {languageTranslation('MENU_CAREGIVER')}
+          </h5>
           <Row>
             <Col lg={'12'}>
               <FormGroup>

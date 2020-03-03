@@ -47,7 +47,8 @@ const DocumentUploadModal = (props: IDocumentModelInterface) => {
     loading,
     documentTypeList,
     unsupportedFile,
-    defaultDocument
+    defaultDocument,
+    setRequiredDoc
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
@@ -140,15 +141,15 @@ const DocumentUploadModal = (props: IDocumentModelInterface) => {
                               </span>
                             )}
                           </div>
-                          {isSubmit && documentUrls === null ? (
-                            <div className='required-error'>
-                              Document is required
-                            </div>
-                          ) : (
+                          {unsupportedFile ? (
                             <div className='required-error'>
                               {unsupportedFile}
                             </div>
-                          )}
+                          ) : isSubmit && documentUrls === null ? (
+                            <div className='required-error'>
+                              Document is required
+                            </div>
+                          ) : null}
                         </Col>
                       ) : (
                         <Col sm='10'>

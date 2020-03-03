@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState } from "react";
 
-import '../index.scss';
+import "../index.scss";
 import {
   IAppointmentCareInstitutionForm,
   IDaysArray,
   ICareinstitutionFormValue
-} from '../../../../../interfaces';
+} from "../../../../../interfaces";
 import {
   FormGroup,
   Label,
@@ -17,13 +17,13 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText
-} from 'reactstrap';
-import '../index.scss';
-import { languageTranslation } from '../../../../../helpers';
-import MaskedInput from 'react-text-mask';
-import { NightAllowancePerHour, State, ShiftTime } from '../../../../../config';
-import Select from 'react-select';
-import { FormikProps } from 'formik';
+} from "reactstrap";
+import "../index.scss";
+import { languageTranslation } from "../../../../../helpers";
+import MaskedInput from "react-text-mask";
+import { NightAllowancePerHour, State, ShiftTime } from "../../../../../config";
+import Select from "react-select";
+import { FormikProps } from "formik";
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
@@ -47,66 +47,64 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   } = props;
   return (
     <>
-      <div>
-        <h5 className='content-title'>
-          {languageTranslation('MENU_INSTITUTION')}
-        </h5>
-      </div>
-      <div className='form-section '>
-        <div className='form-card custom-height custom-scrollbar'>
+      <div className="form-section ">
+        <div className="form-card custom-height custom-scrollbar">
+          <h5 className="content-title">
+            {languageTranslation("MENU_INSTITUTION")}
+          </h5>
           <Row>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('APPOINTMENT_ID')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("APPOINTMENT_ID")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <Input
-                        type='text'
-                        name={'id'}
-                        placeholder={languageTranslation('APPOINTMENT_ID')}
+                        type="text"
+                        name={"id"}
+                        placeholder={languageTranslation("APPOINTMENT_ID")}
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('NAME')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("NAME")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <InputGroup>
                         <Input
-                          type='text'
-                          name={'id'}
-                          placeholder={languageTranslation('NAME')}
+                          type="text"
+                          name={"id"}
+                          placeholder={languageTranslation("NAME")}
                           value={
                             selectedCareinstitution
                               ? `${
                                   selectedCareinstitution.firstName
                                     ? selectedCareinstitution.firstName
-                                    : ''
+                                    : ""
                                 } ${
                                   selectedCareinstitution.lastName
                                     ? selectedCareinstitution.lastName
-                                    : ''
+                                    : ""
                                 }`
-                              : ''
+                              : ""
                           }
                         />
-                        <InputGroupAddon addonType='append'>
+                        <InputGroupAddon addonType="append">
                           <InputGroupText>
-                            <i className='fa fa-star' aria-hidden='true'></i>
+                            <i className="fa fa-star" aria-hidden="true"></i>
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -115,65 +113,65 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('DATE')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("DATE")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <MaskedInput
                         placeholder={languageTranslation(
-                          'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
+                          "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
                         )}
-                        className={'form-control '}
+                        className={"form-control "}
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col sm={'12'} lg={'12'}>
+            <Col sm={"12"} lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm={'5'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('SHIFT')}
+                  <Col sm={"5"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("SHIFT")}
                     </Label>
                   </Col>
-                  <Col sm={'7'}>
+                  <Col sm={"7"}>
                     <div>
                       <Select
-                        placeholder='Select'
+                        placeholder="Select"
                         options={ShiftTime}
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
+                        classNamePrefix="custom-inner-reactselect"
+                        className={"custom-reactselect"}
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('START_WORKING')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("START_WORKING")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <InputGroup>
                         <Input
-                          type='text'
-                          name={'id'}
-                          placeholder={languageTranslation('START_WORKING')}
+                          type="text"
+                          name={"id"}
+                          placeholder={languageTranslation("START_WORKING")}
                         />
-                        <InputGroupAddon addonType='append'>
+                        <InputGroupAddon addonType="append">
                           <InputGroupText>Uhr</InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -182,23 +180,23 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('END_WORKING')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("END_WORKING")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <InputGroup>
                         <Input
-                          type='text'
-                          name={'id'}
-                          placeholder={languageTranslation('END_WORKING')}
+                          type="text"
+                          name={"id"}
+                          placeholder={languageTranslation("END_WORKING")}
                         />
-                        <InputGroupAddon addonType='append'>
+                        <InputGroupAddon addonType="append">
                           <InputGroupText>Uhr</InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -207,21 +205,21 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('QUALIFICATION')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("QUALIFICATION")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <Select
-                        placeholder='Select Qualifications'
+                        placeholder="Select Qualifications"
                         options={State}
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
+                        classNamePrefix="custom-inner-reactselect"
+                        className={"custom-reactselect"}
                       />
                     </div>
                   </Col>
@@ -229,22 +227,22 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
               </FormGroup>
             </Col>
 
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('QUALIFICATION_FOR_BILLING')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("QUALIFICATION_FOR_BILLING")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
-                      <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
+                      <div className="required-input">
                         <Select
-                          placeholder='Select Qualifications'
+                          placeholder="Select Qualifications"
                           options={State}
-                          classNamePrefix='custom-inner-reactselect'
-                          className={'custom-reactselect'}
+                          classNamePrefix="custom-inner-reactselect"
+                          className={"custom-reactselect"}
                         />
                       </div>
                     </div>
@@ -253,21 +251,21 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
               </FormGroup>
             </Col>
 
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('DEPARTMENT')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("DEPARTMENT")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <Select
-                        placeholder='Select Qualifications'
+                        placeholder="Select Qualifications"
                         options={State}
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
+                        classNamePrefix="custom-inner-reactselect"
+                        className={"custom-reactselect"}
                       />
                     </div>
                   </Col>
@@ -275,135 +273,135 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
               </FormGroup>
             </Col>
 
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('ADDRESS')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("ADDRESS")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <Input
-                        type='text'
-                        name={'id'}
-                        placeholder={languageTranslation('ADDRESS')}
-                        className='width-common'
+                        type="text"
+                        name={"id"}
+                        placeholder={languageTranslation("ADDRESS")}
+                        className="width-common"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('CONTACT_PERSON')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("CONTACT_PERSON")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <Input
-                        type='text'
-                        name={'id'}
-                        placeholder={languageTranslation('CONTACT_PERSON')}
-                        className='width-common'
+                        type="text"
+                        name={"id"}
+                        placeholder={languageTranslation("CONTACT_PERSON")}
+                        className="width-common"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARKS_OFFER_DEPARTMENT')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REMARKS_OFFER_DEPARTMENT")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <Input
-                        className='textarea-custom form-control'
-                        rows='3'
-                        type='textarea'
-                        name='text'
-                        id='exampleText'
+                        className="textarea-custom form-control"
+                        rows="3"
+                        type="textarea"
+                        name="text"
+                        id="exampleText"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARKS_BOOKING_DEPARTEMENT')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REMARKS_BOOKING_DEPARTEMENT")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <Input
-                        className='textarea-custom form-control'
-                        rows='3'
-                        type='textarea'
-                        name='text'
-                        id='exampleText'
+                        className="textarea-custom form-control"
+                        rows="3"
+                        type="textarea"
+                        name="text"
+                        id="exampleText"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
                       {languageTranslation(
-                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
+                        "REMARK_DEPARTMENT_VISIBLE_INTERNALLY"
                       )}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <Input
-                        className='textarea-custom form-control'
-                        rows='3'
-                        type='textarea'
-                        name='text'
-                        id='exampleText'
+                        className="textarea-custom form-control"
+                        rows="3"
+                        type="textarea"
+                        name="text"
+                        id="exampleText"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('WORKING_PROOF_NECESSARY')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("WORKING_PROOF_NECESSARY")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <FormGroup check inline>
-                        <div className=' checkbox-custom mb-0'>
+                        <div className=" checkbox-custom mb-0">
                           <input
-                            type='checkbox'
-                            id='check1'
-                            className=''
-                            name={''}
+                            type="checkbox"
+                            id="check1"
+                            className=""
+                            name={""}
                           />
-                          <Label for='check1'></Label>
+                          <Label for="check1"></Label>
                         </div>
                       </FormGroup>
                     </div>
@@ -411,79 +409,79 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARK_OFFER')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REMARK_OFFER")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <Input
-                        className='textarea-custom form-control'
-                        rows='3'
-                        type='textarea'
-                        name='text'
-                        id='exampleText'
+                        className="textarea-custom form-control"
+                        rows="3"
+                        type="textarea"
+                        name="text"
+                        id="exampleText"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARK_BOOKING')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REMARK_BOOKING")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <Input
-                        className='textarea-custom form-control'
-                        rows='3'
-                        type='textarea'
-                        name='text'
-                        id='exampleText'
+                        className="textarea-custom form-control"
+                        rows="3"
+                        type="textarea"
+                        name="text"
+                        id="exampleText"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('COMMENT_ONLY_VISIBLE_INTERNALLY')}
+                  <Col sm="5">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("COMMENT_ONLY_VISIBLE_INTERNALLY")}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
+                  <Col sm="7">
+                    <div className="required-input">
                       <Input
-                        className='textarea-custom form-control'
-                        rows='3'
-                        type='textarea'
-                        name='text'
-                        id='exampleText'
+                        className="textarea-custom form-control"
+                        rows="3"
+                        type="textarea"
+                        name="text"
+                        id="exampleText"
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
-              <div className='d-flex align-items-center justify-content-between'>
-                <Button className='btn-save' color='danger'>
-                  {languageTranslation('CLEAR')}
+            <Col lg={"12"}>
+              <div className="d-flex align-items-center justify-content-between">
+                <Button className="btn-save" color="danger">
+                  {languageTranslation("CLEAR")}
                 </Button>
-                <Button className='btn-save' color='primary'>
-                  {languageTranslation('SAVE_BUTTON')}
+                <Button className="btn-save" color="primary">
+                  {languageTranslation("SAVE_BUTTON")}
                 </Button>
               </div>
             </Col>

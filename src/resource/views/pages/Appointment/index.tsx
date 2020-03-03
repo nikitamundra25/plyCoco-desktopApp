@@ -393,7 +393,7 @@ const Appointment: FunctionComponent = () => {
           <div className='common-content flex-grow-1'>
             <div>
               <Row>
-                <Col lg={'6'}>
+                <Col lg={'5'}>
                   <CaregiverListView
                     daysData={daysData}
                     loading={caregiverLoading}
@@ -415,37 +415,43 @@ const Appointment: FunctionComponent = () => {
                     handleReset={handleReset}
                   />
                 </Col>
-                <Col lg={'3'} className='px-lg-0'>
-                  <Formik
-                    initialValues={valuesForCaregiver}
-                    onSubmit={handleSubmitCaregiverForm}
-                    enableReinitialize={true}
-                    validationSchema={CareGiverValidationSchema}
-                    render={(props: FormikProps<ICaregiverFormValue>) => {
-                      return (
-                        <CaregiverFormView
-                          {...props}
-                          selectedCareGiver={selectedCareGiver}
-                        />
-                      );
-                    }}
-                  />
-                </Col>
-                <Col lg={'3'}>
-                  <Formik
-                    initialValues={valuesForCareinstitution}
-                    onSubmit={handleSubmitCareinstitutionForm}
-                    enableReinitialize={true}
-                    // validationSchema={CareGiverValidationSchema}
-                    render={(props: FormikProps<ICareinstitutionFormValue>) => {
-                      return (
-                        <CareinstitutionFormView
-                          {...props}
-                          selectedCareinstitution={selectedCareinstitution}
-                        />
-                      );
-                    }}
-                  />
+                <Col lg={'7'}>
+                  <Row>
+                    <Col lg={'6'} className='px-lg-0'>
+                      <Formik
+                        initialValues={valuesForCaregiver}
+                        onSubmit={handleSubmitCaregiverForm}
+                        enableReinitialize={true}
+                        validationSchema={CareGiverValidationSchema}
+                        render={(props: FormikProps<ICaregiverFormValue>) => {
+                          return (
+                            <CaregiverFormView
+                              {...props}
+                              selectedCareGiver={selectedCareGiver}
+                            />
+                          );
+                        }}
+                      />
+                    </Col>
+                    <Col lg={'6'}>
+                      <Formik
+                        initialValues={valuesForCareinstitution}
+                        onSubmit={handleSubmitCareinstitutionForm}
+                        enableReinitialize={true}
+                        // validationSchema={CareGiverValidationSchema}
+                        render={(
+                          props: FormikProps<ICareinstitutionFormValue>
+                        ) => {
+                          return (
+                            <CareinstitutionFormView
+                              {...props}
+                              selectedCareinstitution={selectedCareinstitution}
+                            />
+                          );
+                        }}
+                      />
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </div>

@@ -1,11 +1,17 @@
-import React, { FunctionComponent, useState } from 'react';
-
-import '../index.scss';
+import React, { FunctionComponent, useState } from "react";
+import {
+  Table,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "reactstrap";
+import "../index.scss";
 import {
   IAppointmentCareInstitutionList,
   IDaysArray
-} from '../../../../../interfaces';
-import Loader from '../../../containers/Loader/Loader';
+} from "../../../../../interfaces";
+import Loader from "../../../containers/Loader/Loader";
 
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> = (
   props: IAppointmentCareInstitutionList
@@ -45,112 +51,210 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
   const { daysArr = [] } = daysData ? daysData : {};
   return (
     <>
-      <div className='calender-section custom-scrollbar mt-3'>
-        <div className='custom-appointment-calendar'>
-          <div className='custom-appointment-calendar-head'>
-            <div className='custom-appointment-row '>
-              <div className='custom-appointment-col name-col'>
+      <div className="calender-section custom-scrollbar  mt-3">
+        <Table hover bordered className="mb-0 appointment-table">
+          <thead className="thead-bg">
+            <tr>
+              <th className="thead-sticky name-col custom-appointment-col zindex2">
                 CareInstitution
-              </div>
-              <div className='custom-appointment-col h-col'>H</div>
-              <div className='custom-appointment-col s-col text-center'>S</div>
-              <div className='custom-appointment-col u-col text-center'>U</div>
-              <div className='custom-appointment-col v-col text-center'>V</div>
+                <UncontrolledDropdown className="custom-dropdown options-dropdown">
+                  <DropdownToggle
+                    className={"text-capitalize btn-more"}
+                    size="sm"
+                  >
+                    <i className="icon-options-vertical" />
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem>
+                      <span>New appointment</span>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <span>Delete free appointments</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Select all appointments of the caregiver</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Detailed List</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>
+                        Select available caregivers, offer them appointments and
+                        set them on offered (sorted by division)
+                      </span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>
+                        Select available caregivers, offer them appointments and
+                        set them on offered (sorted by day)
+                      </span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>
+                        Select available caregivers, offer them appointments and
+                        set them on offered (no direct booking; sorted by
+                        division)
+                      </span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>
+                        Select available caregivers, offer them appointments and
+                        set them on offered (no direct booking; sorted by day)
+                      </span>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <span>Set on offered</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Link appointments</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Unlink appointments</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Offer caregivers (ordered by day)</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Offer appointments (ordered by department)</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Confirm appointments (ordered by day) </span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Confirm appointments (ordered by department) </span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Set on confirmed </span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Reset confirmed</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Create prepayment invoice</span>
+                    </DropdownItem>{" "}
+                    <DropdownItem>
+                      <span>Refresh </span>
+                    </DropdownItem>{" "}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </th>
+              <th className="thead-sticky h-col custom-appointment-col text-center">
+                H
+              </th>
+              <th className="thead-sticky s-col custom-appointment-col text-center">
+                S
+              </th>
+              <th className="thead-sticky u-col custom-appointment-col text-center">
+                A
+              </th>
+              <th className="thead-sticky v-col custom-appointment-col text-center">
+                V
+              </th>
+              {/* array for showing day */}
               {daysArr.map(
                 (
                   { date, day, isoString, isWeekend }: IDaysArray,
                   index: number
                 ) => {
                   return (
-                    <div
-                      className='custom-appointment-col calender-col text-center'
+                    <th
+                      className="thead-sticky calender-col custom-appointment-col text-center"
                       key={index}
                     >
-                      <div className='custom-appointment-calendar-date'>
-                        {' '}
+                      <div className="custom-appointment-calendar-date">
                         {date}
                       </div>
-                      <div className='custom-appointment-calendar-day'>
+                      <div className="custom-appointment-calendar-day">
                         {day}
                       </div>
-                    </div>
+                    </th>
                   );
                 }
               )}
-            </div>
-          </div>
-          <div className='custom-appointment-calendar-body'>
+            </tr>
+          </thead>
+          <tbody>
             {loading ? (
-              <Loader />
+              <tr>
+                <td className={"table-loader"} colSpan={40}>
+                  <Loader />
+                </td>
+              </tr>
             ) : careInstitutionList && careInstitutionList.length ? (
               careInstitutionList.map((list: any, index: number) => {
                 return (
-                  <div className='custom-appointment-row' key={index}>
-                    <div
-                      className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link'
+                  <tr key={index}>
+                    <td className="name-col custom-appointment-col">
+                      <div
+                        className="text-capitalize view-more-link"
+                        onClick={() =>
+                          handleSelectedUser(list, "careinstitution")
+                        }
+                      >
+                        {`${list.firstName ? list.firstName : ""} ${
+                          list.lastName ? list.lastName : ""
+                        }`}
+                      </div>
+                    </td>
+                    <td className="h-col custom-appointment-col text-center"></td>
+                    <td
+                      className="s-col custom-appointment-col text-center"
                       onClick={() =>
-                        handleSelectedUser(list, 'careinstitution')
-                      }
-                    >
-                      {`${list.firstName ? list.firstName : ''} ${
-                        list.lastName ? list.lastName : ''
-                      }`}
-                    </div>
-                    <div className='custom-appointment-col h-col appointment-color2'></div>
-                    <div
-                      className='custom-appointment-col s-col text-center'
-                      onClick={() =>
-                        handleFirstStar(list, index, 'careinstitution')
+                        handleFirstStar(list, index, "careinstitution")
                       }
                     >
                       {starMarkIndex === index || starMark ? (
-                        <i className='fa fa-star-o icon-d' />
+                        <i className="fa fa-star-o icon-d" />
                       ) : (
-                        <i className='fa fa-star-o' />
+                        <i className="fa fa-star-o" />
                       )}
-                    </div>
-                    <div
-                      className='custom-appointment-col u-col text-center'
+                    </td>
+                    <td
+                      className="u-col custom-appointment-col text-center"
                       onClick={() =>
-                        onhandleSecondStar(list, index, 'careinstitution')
+                        onhandleSecondStar(list, index, "careinstitution")
                       }
                     >
                       {starMark ? (
-                        <i className='fa fa-star-o icon-d' />
+                        <i className="fa fa-star-o icon-d" />
                       ) : (
-                        <i className='fa fa-star-o' />
+                        <i className="fa fa-star-o" />
                       )}
-                    </div>
-                    <div
-                      className='custom-appointment-col v-col text-center'
-                      onClick={e => onAddingRow(e, 'careinstitution', index)}
+                    </td>
+                    <td
+                      className="v-col custom-appointment-col text-center"
+                      onClick={e => onAddingRow(e, "careinstitution", index)}
                     >
-                      <i className='fa fa-arrow-down' />
-                    </div>
+                      <i className="fa fa-arrow-down" />
+                    </td>
                     {/* map */}
                     {daysArr.map((key: any, i: number) => {
                       return (
-                        <div
-                          className='custom-appointment-col calender-col text-center '
+                        <td
+                          className="custom-appointment-col calender-col text-center "
                           key={i}
-                        ></div>
+                        ></td>
                       );
                     })}
-                  </div>
+                  </tr>
                 );
               })
             ) : (
-              <div className='no-data-section pt-5 pb-5 bg-white text-center'>
-                <div className='no-data-icon'>
-                  <i className='icon-ban' />
-                </div>
-                <h4 className='mb-1'>
-                  Currently there are no CareInstitution added.{' '}
-                </h4>
-              </div>
+              <tr className={"text-center no-hover-row"}>
+                <td colSpan={40} className={"pt-5 pb-5"}>
+                  <div className="no-data-section">
+                    <div className="no-data-icon">
+                      <i className="icon-ban" />
+                    </div>
+                    <h4 className="mb-1">
+                      Currently there are no CareGiver added.{" "}
+                    </h4>
+                  </div>
+                </td>
+              </tr>
             )}
-          </div>
-        </div>
+          </tbody>
+        </Table>
       </div>
     </>
   );

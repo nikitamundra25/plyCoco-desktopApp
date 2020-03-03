@@ -162,9 +162,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         className={'form-control mb-2'}
                         value={
                           activeDateCaregiver
-                            ? `${moment(activeDateCaregiver.date).format(
+                            ? `${moment(activeDateCaregiver.isoString).format(
                                 defaultDateFormat
-                              )}, ${activeDateCaregiver.month}`
+                              )}, ${activeDateCaregiver.day}`
                             : null
                         }
                       />

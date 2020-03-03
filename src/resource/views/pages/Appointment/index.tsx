@@ -15,7 +15,8 @@ import {
   IReactSelectInterface,
   ICaregiverFormValue,
   ICareinstitutionFormValue,
-  IAddCargiverAppointmentRes
+  IAddCargiverAppointmentRes,
+  IDate
 } from '../../../../interfaces';
 import moment from 'moment';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -45,9 +46,7 @@ const Appointment: FunctionComponent = () => {
   const [selectedCareinstitution, setselectedCareinstitution] = useState<any>(
     {}
   );
-  const [activeDateCaregiver, setactiveDateCaregiver] = useState<any>(
-    undefined
-  );
+  const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
 
   // Mutation to add careGiver data
   const [addCaregiver, { error, data: addCaregiverRes }] = useMutation<
@@ -244,7 +243,7 @@ const Appointment: FunctionComponent = () => {
     if (name === 'caregiver') {
       setselectedCareGiver(list);
       if (date) {
-        setactiveDateCaregiver({ date: date.isoString, month: date.day });
+        setactiveDateCaregiver(date);
       }
     } else {
       setselectedCareinstitution(list);
@@ -295,7 +294,10 @@ const Appointment: FunctionComponent = () => {
     try {
       let CareGiverAvabilityInput: any = {
         userId: selectedCareGiver ? parseInt(selectedCareGiver.id) : '',
-        date: activeDateCaregiver ? activeDateCaregiver.date : '',
+        date:
+          activeDateCaregiver && activeDateCaregiver.length
+            ? activeDateCaregiver[0].isoString
+            : '',
         fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
         weekendAllowance: weekendAllowance
           ? parseFloat(weekendAllowance.replace(/,/g, '.'))
@@ -453,7 +455,12 @@ const Appointment: FunctionComponent = () => {
                             <CaregiverFormView
                               {...props}
                               selectedCareGiver={selectedCareGiver}
-                              activeDateCaregiver={activeDateCaregiver}
+                              activeDateCaregiver={
+                                activeDateCaregiver &&
+                                activeDateCaregiver.length
+                                  ? activeDateCaregiver[0]
+                                  : undefined
+                              }
                               addCaregiverRes={
                                 addCaregiverRes &&
                                 addCaregiverRes.addCareGiverAvability

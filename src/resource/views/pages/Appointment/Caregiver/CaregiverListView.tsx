@@ -56,16 +56,21 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
   const onSelectFinish = (selectedCells: any[]) => {
     const selected = [];
+    let list: any = [];
     for (let i = 0; i < selectedCells.length; i++) {
       const { props: cellProps } = selectedCells[i];
       selected.push(cellProps.day);
+      if (selectedCells[0].props.list) {
+        list = selectedCells[0].props.list;
+      }
       setSelectedDays(selected);
     }
+
+    handleSelectedUser(list, selected, 'caregiver');
   };
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
-  console.log(selectedDays);
   return (
     <>
       <SelectableGroup
@@ -186,7 +191,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                       <td className='name-col custom-appointment-col'>
                         <div
                           className='text-capitalize view-more-link'
-                          onClick={() => handleSelectedUser(list, 'caregiver')}
+                          onClick={() =>
+                            handleSelectedUser(list, null, 'caregiver')
+                          }
                         >
                           {`${list.firstName ? list.firstName : ''} ${
                             list.lastName ? list.lastName : ''
@@ -225,7 +232,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         <i className='fa fa-arrow-down' />
                       </td>
                       {daysArr.map((key: any, i: number) => {
-                        return <Cell key={`${key}-${i}`} day={key} />;
+                        return (
+                          <Cell
+                            key={`${key}-${i}`}
+                            day={key}
+                            list={list}
+                            handleSelectedUser={handleSelectedUser}
+                          />
+                        );
                       })}
                     </tr>
                   );

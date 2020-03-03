@@ -68,8 +68,11 @@ export interface IAppointmentCareGiverForm {
 
 export interface IDate {
   date: any;
-  month: string;
+  day: string;
+  isWeekend: boolean;
+  isoString: any;
 }
+
 export interface ICaregiverFormValue {
   firstName: string;
   lastName: string;

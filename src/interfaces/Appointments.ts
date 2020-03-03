@@ -59,6 +59,30 @@ export interface IAppointmentCareGiverForm {
 export interface ICaregiverFormValue {
   firstName: string;
   lastName: string;
+  fee?: string;
+  nightAllowance?: IReactSelectInterface;
+  weekendAllowance?: string;
+  holidayAllowance?: string;
+  nightFee?: string;
+  workingProofRecieved?: boolean;
+  distanceInKM?: string;
+  feePerKM?: string;
+  travelAllowance?: string;
+  otherExpenses?: string;
+  workingHoursFrom?: string;
+  workingHoursTo?: string;
+  breakFrom?: string;
+  breakTo?: string;
+  remarksCareGiver?: string;
+  remarksInternal?: string;
+}
+
+export interface ICaregiverValidationFormValue {
+  fee?: string;
+  nightAllowance?: IReactSelectInterface;
+  weekendAllowance?: string;
+  holidayAllowance?: string;
+  nightFee?: string;
 }
 export interface ICareinstitutionFormValue {
   firstName: string;

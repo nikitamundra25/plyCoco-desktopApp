@@ -4,7 +4,8 @@ import '../index.scss';
 import {
   IAppointmentCareGiverForm,
   IDaysArray,
-  ICaregiverFormValue
+  ICaregiverFormValue,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import {
   FormGroup,
@@ -24,6 +25,7 @@ import MaskedInput from 'react-text-mask';
 import { NightAllowancePerHour, State } from '../../../../../config';
 import Select from 'react-select';
 import { FormikProps } from 'formik';
+import { FormikTextField } from '../../../components/forms/FormikFields';
 
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm> = (
@@ -31,7 +33,26 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 ) => {
   // const { selectedCareGiver } = props;
   const {
-    values: { firstName, lastName },
+    values: {
+      firstName,
+      lastName,
+      fee,
+      nightFee,
+      nightAllowance,
+      holidayAllowance,
+      weekendAllowance,
+      workingProofRecieved,
+      distanceInKM,
+      feePerKM,
+      travelAllowance,
+      otherExpenses,
+      workingHoursFrom,
+      workingHoursTo,
+      breakFrom,
+      breakTo,
+      remarksCareGiver,
+      remarksInternal
+    },
     touched,
     errors,
     isSubmitting,
@@ -43,6 +64,26 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     setFieldError,
     selectedCareGiver
   } = props;
+
+  // Custom function to handle react select fields
+  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
+    setFieldValue(name, selectOption);
+  };
+
+  // Custom function to handle checkbox fields
+  const handleCheckedValue = (value: string, checked: boolean) => {
+    // const fsnChecked: any = [];
+    // if (checked) {
+    //   employmentType.push(value);
+    //   setFieldValue('employmentType', fsnChecked);
+    // } else {
+    //   const indexOf: number = employmentType.findIndex(
+    //     (data: string) => data === value
+    //   );
+    //   fsnChecked.splice(indexOf);
+    //   setFieldValue('employmentType', fsnChecked);
+    // }
+  };
 
   return (
     <>
@@ -66,6 +107,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     <div className='required-input'>
                       <Input
                         type='text'
+                        disabled={true}
                         placeholder={languageTranslation('APPOINTMENT_ID')}
                         className='width-common'
                       />
@@ -87,6 +129,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <InputGroup>
                         <Input
                           type='text'
+                          disabled={true}
                           placeholder={languageTranslation('NAME')}
                           value={`${firstName ? firstName : ''} ${
                             lastName ? lastName : ''
@@ -126,10 +169,13 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <div className=' checkbox-custom mb-1'>
                           <input
                             type='checkbox'
-                            id='check'
+                            id='1'
                             className=''
-                            name={'early'}
+                            name={'f'}
                             checked
+                            onChange={(e: any) =>
+                              handleCheckedValue('f', e.target.checked)
+                            }
                           />
                           <Label for='check'>
                             {languageTranslation('EARLY')}
@@ -142,7 +188,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             type='checkbox'
                             id='check1'
                             className=''
-                            name={'late'}
+                            name={'s'}
                           />
                           <Label for='check1'>
                             {languageTranslation('LATE')}
@@ -181,6 +227,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <InputGroup>
                         <Input
                           type='text'
+                          name={'fee'}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={fee}
+                          className={
+                            errors.fee && touched.fee
+                              ? 'width-common error'
+                              : 'width-common'
+                          }
                           placeholder={languageTranslation('FEE')}
                         />
                         <InputGroupAddon addonType='append'>
@@ -188,6 +243,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             <i className='fa fa-euro' aria-hidden='true'></i>
                           </InputGroupText>
                         </InputGroupAddon>
+                        {errors.fee && touched.fee && (
+                          <div className='required-tooltip bottom-tooltip'>
+                            {errors.fee}
+                          </div>
+                        )}
                       </InputGroup>
                     </div>
                   </Col>
@@ -208,6 +268,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <InputGroup>
                         <Input
                           type='text'
+                          name={'nightFee'}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={nightFee}
+                          className={
+                            errors.nightFee && touched.nightFee
+                              ? 'width-common error'
+                              : 'width-common'
+                          }
                           placeholder={languageTranslation('NIGHT_FEE')}
                         />
                         <InputGroupAddon addonType='append'>
@@ -215,6 +284,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             <i className='fa fa-euro' aria-hidden='true'></i>
                           </InputGroupText>
                         </InputGroupAddon>
+                        {errors.nightFee && touched.nightFee && (
+                          <div className='required-tooltip bottom-tooltip'>
+                            {errors.nightFee}
+                          </div>
+                        )}
                       </InputGroup>
                     </div>
                   </Col>
@@ -234,6 +308,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <InputGroup>
                         <Input
                           type='text'
+                          name={'weekendAllowance'}
+                          value={weekendAllowance}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          className={
+                            errors.weekendAllowance && touched.weekendAllowance
+                              ? 'width-common error'
+                              : 'width-common'
+                          }
                           placeholder={languageTranslation('WEEKEND_FEE')}
                         />
                         <InputGroupAddon addonType='append'>
@@ -241,6 +324,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             <i className='fa fa-euro' aria-hidden='true'></i>
                           </InputGroupText>
                         </InputGroupAddon>
+                        {errors.weekendAllowance &&
+                          touched.weekendAllowance && (
+                            <div className='required-tooltip bottom-tooltip'>
+                              {errors.weekendAllowance}
+                            </div>
+                          )}
                       </InputGroup>
                     </div>
                   </Col>
@@ -260,6 +349,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <InputGroup>
                         <Input
                           type='text'
+                          name={'holidayAllowance'}
+                          value={holidayAllowance}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          className={
+                            errors.holidayAllowance && touched.holidayAllowance
+                              ? 'width-common error'
+                              : 'width-common'
+                          }
                           placeholder={languageTranslation('HOLIDAY_FEE')}
                         />
                         <InputGroupAddon addonType='append'>
@@ -267,6 +365,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             <i className='fa fa-euro' aria-hidden='true'></i>
                           </InputGroupText>
                         </InputGroupAddon>
+                        {errors.holidayAllowance &&
+                          touched.holidayAllowance && (
+                            <div className='required-tooltip bottom-tooltip'>
+                              {errors.holidayAllowance}
+                            </div>
+                          )}
                       </InputGroup>
                     </div>
                   </Col>
@@ -286,6 +390,14 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <Select
                         placeholder={languageTranslation('NIGHT_ALLOWANCE')}
                         options={NightAllowancePerHour}
+                        onChange={(value: any) =>
+                          handleSelect(value, 'nightAllowance')
+                        }
+                        value={
+                          nightAllowance
+                            ? nightAllowance
+                            : NightAllowancePerHour[0]
+                        }
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                       />
@@ -307,7 +419,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <InputGroup>
                         <Input
                           type='text'
+                          name={'distanceInKM'}
+                          value={distanceInKM}
                           placeholder={languageTranslation('FEE_PER_KM')}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>km</InputGroupText>
@@ -331,7 +447,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <InputGroup>
                         <Input
                           type='text'
+                          name={'feePerKM'}
+                          value={feePerKM}
                           placeholder={languageTranslation('a')}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
@@ -356,6 +476,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     <div className='required-input'>
                       <Input
                         type='text'
+                        name={'otherExpenses'}
+                        value={otherExpenses}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                         placeholder={languageTranslation('EXPENSES')}
                       />
                     </div>
@@ -461,9 +585,18 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <div className=' checkbox-custom mb-0'>
                           <input
                             type='checkbox'
-                            id='check1'
+                            id='check'
                             className=''
-                            name={''}
+                            name={'workingProofRecieved'}
+                            checked={workingProofRecieved}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              const {
+                                target: { checked }
+                              } = e;
+                              setFieldValue('workingProofRecieved', checked);
+                            }}
                           />
                           <Label for='check1'></Label>
                         </div>
@@ -488,8 +621,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         className='textarea-custom form-control'
                         rows='3'
                         type='textarea'
-                        name='text'
-                        id='exampleText'
+                        name='remarksCareGiver'
+                        value={remarksCareGiver ? remarksCareGiver : undefined}
+                        onChange={handleChange}
+                        id='exampleText1'
                       />
                     </div>
                   </Col>
@@ -510,8 +645,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         className='textarea-custom form-control'
                         rows='3'
                         type='textarea'
-                        name='text'
-                        id='exampleText'
+                        name='remarksInternal'
+                        value={remarksInternal ? remarksInternal : undefined}
+                        onChange={handleChange}
+                        id='exampleText2'
                       />
                     </div>
                   </Col>

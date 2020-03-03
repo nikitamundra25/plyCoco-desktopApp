@@ -50,6 +50,7 @@ import { log } from 'util';
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
 import { Formik, FormikProps } from 'formik';
+import { CareGiverValidationSchema } from '../../../validations/AppointmentsFormValidationSchema';
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const Appointment: FunctionComponent = () => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
@@ -251,7 +252,7 @@ const Appointment: FunctionComponent = () => {
     }
   };
 
-  // select careGiver
+  // select careGiver or careinstitution
   const handleSelectedUser = (list: object, name: string) => {
     if (name === 'caregiver') {
       setselectedCareGiver(list);
@@ -273,16 +274,55 @@ const Appointment: FunctionComponent = () => {
 
   // submit caregiver form
   const handleSubmitCaregiverForm = () => {};
+
   // submit careinstitution form
   const handleSubmitCareinstitutionForm = () => {};
-  // Fetch values in case of edit by default it will be null or undefined
-  const { firstName = '', lastName = '' } = selectedCareGiver
-    ? selectedCareGiver
-    : {};
 
-  const valuesForCaregiver: any = {
+  // Fetch values in case of edit by default it will be null or undefined
+  const {
+    firstName = '',
+    lastName = '',
+    workingProofRecieved = false,
+    distanceInKM = '',
+    feePerKM = '',
+    travelAllowance = '',
+    otherExpenses = '',
+    workingHoursFrom = '',
+    workingHoursTo = '',
+    breakFrom = '',
+    breakTo = '',
+    remarksCareGiver = '',
+    remarksInternal = '',
+    caregiver = {}
+  } = selectedCareGiver ? selectedCareGiver : {};
+
+  const {
+    nightAllowance = undefined,
+    fee = '',
+    nightFee = caregiver.night ? caregiver.night : '',
+    weekendAllowance = null,
+    holidayAllowance = caregiver.holiday ? caregiver.holiday : ''
+  } = caregiver ? caregiver : {};
+
+  const valuesForCaregiver: ICaregiverFormValue = {
     firstName,
-    lastName
+    lastName,
+    fee,
+    nightFee,
+    nightAllowance,
+    holidayAllowance,
+    weekendAllowance,
+    workingProofRecieved,
+    distanceInKM,
+    feePerKM,
+    travelAllowance,
+    otherExpenses,
+    workingHoursFrom,
+    workingHoursTo,
+    breakFrom,
+    breakTo,
+    remarksCareGiver,
+    remarksInternal
   };
 
   const valuesForCareinstitution: any = {
@@ -334,7 +374,7 @@ const Appointment: FunctionComponent = () => {
                     initialValues={valuesForCaregiver}
                     onSubmit={handleSubmitCareinstitutionForm}
                     enableReinitialize={true}
-                    // validationSchema={CareGiverValidationSchema}
+                    validationSchema={CareGiverValidationSchema}
                     render={(props: FormikProps<ICaregiverFormValue>) => {
                       return (
                         <CaregiverFormView
@@ -346,9 +386,6 @@ const Appointment: FunctionComponent = () => {
                   />
                 </Col>
                 <Col lg={'3'}>
-                  {/* <CareinstitutionFormView
-                    selectedCareinstitution={selectedCareinstitution}
-                  /> */}
                   <Formik
                     initialValues={valuesForCareinstitution}
                     onSubmit={handleSubmitCaregiverForm}

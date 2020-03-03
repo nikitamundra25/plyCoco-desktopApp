@@ -1,4 +1,4 @@
-import { ICareInstitutionFormValues } from './CareInstitution';
+import { ICareInstitutionFormValues } from "./CareInstitution";
 
 export interface IReactSelectInterface {
   label: string;

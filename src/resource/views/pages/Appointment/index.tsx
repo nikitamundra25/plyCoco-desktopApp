@@ -448,7 +448,7 @@ const Appointment: FunctionComponent = () => {
                         onSubmit={handleSubmitCaregiverForm}
                         enableReinitialize={true}
                         validationSchema={CareGiverValidationSchema}
-                        render={(props: FormikProps<ICaregiverFormValue>) => {
+                        children={(props: FormikProps<ICaregiverFormValue>) => {
                           return (
                             <CaregiverFormView
                               {...props}
@@ -471,7 +471,7 @@ const Appointment: FunctionComponent = () => {
                         onSubmit={handleSubmitCareinstitutionForm}
                         enableReinitialize={true}
                         // validationSchema={CareGiverValidationSchema}
-                        render={(
+                        children={(
                           props: FormikProps<ICareinstitutionFormValue>
                         ) => {
                           return (

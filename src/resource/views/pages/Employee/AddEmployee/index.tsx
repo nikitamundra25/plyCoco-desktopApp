@@ -137,7 +137,7 @@ export const EmployeeForm: FunctionComponent<{
       getStatesByCountry({
         variables: {
           countryid:
-            countriesOpt && index > -1 ? countriesOpt[index].value : '82',
+            countriesOpt && index > -1 ? countriesOpt[index].value : '',
         }, // default code is for germany
       });
     }
@@ -171,7 +171,7 @@ export const EmployeeForm: FunctionComponent<{
         getStatesByCountry({
           variables: {
             countryid:
-              countriesOpt && index > -1 ? countriesOpt[index].value : '82',
+              countriesOpt && index > -1 ? countriesOpt[index].value : '',
           }, // default code is for germany
         });
       }
@@ -265,7 +265,7 @@ export const EmployeeForm: FunctionComponent<{
         getStatesByCountry({
           variables: {
             countryid:
-              countriesOpt && index > -1 ? countriesOpt[index].value : '82',
+              countriesOpt && index > -1 ? countriesOpt[index].value : '',
           }, // default code is for germany
         });
       }

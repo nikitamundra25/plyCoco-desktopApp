@@ -16,4 +16,22 @@ const DELETE_HOLIDAY = gql`
   }
 `;
 
-export const GlobalCalendarMutations = [ADD_GLOBAL_HOLIDAYS, DELETE_HOLIDAY];
+const UPDATE_GLOBAL_HOLIDAY = gql`
+  mutation UpdateGlobalCalendarHoliday(
+    $id: ID!
+    $globalCalendarInput: GlobalCalendarInput!
+  ) {
+    updateGlobalCalendarHoliday(
+      id: $id
+      globalCalendarInput: $globalCalendarInput
+    ) {
+      note
+    }
+  }
+`;
+
+export const GlobalCalendarMutations = [
+  ADD_GLOBAL_HOLIDAYS,
+  DELETE_HOLIDAY,
+  UPDATE_GLOBAL_HOLIDAY
+];

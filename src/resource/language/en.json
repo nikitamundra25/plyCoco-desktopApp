@@ -774,5 +774,6 @@
   "MIN_DATE_VALIDATION": "Date should be less than :date",
   "MAX_DATE_VALIDATION": "Date should be greater than :date",
   "DELETED_SUCCESSFULLY": ":item deleted successfully.",
-  "HOLIDAY_DELETE_CONFIRMATION": "This day will be removed from holiday. This may effect the upcoming invoices."
+  "HOLIDAY_DELETE_CONFIRMATION": "This day will be removed from holiday. This may effect the upcoming invoices.",
+  "UPDATE_SUCCESSFULLY": ":item details updated successfully."
 }

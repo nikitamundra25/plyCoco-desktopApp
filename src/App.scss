@@ -3820,3 +3820,91 @@ html:not([dir='rtl']) {
     }
   }
 }
+/* add holiday block css starts here */
+.holiday-add-block {
+  border: 1px solid;
+  margin-bottom: 15px;
+  padding: 10px;
+  position: relative;
+  a.remove-icon {
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    background: #000;
+    display: flex;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+// sticky first col and header table css starts here
+.sticky-table {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  margin: auto;
+  overflow: auto;
+  max-height: 80vh;
+  table {
+    width: 100%;
+    min-width: 1280px;
+    margin: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .table-wrap {
+    position: relative;
+  }
+  th,
+  td {
+    padding: 5px 10px;
+    border: 1px solid #f7f3f3;
+    background: #fff;
+    vertical-align: top;
+    &.leave-applicable {
+      background-color: #22a226cc;
+    }
+  }
+  thead {
+    th {
+      background: #ccc;
+      color: #000;
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+    }
+  }
+
+  th:first-child {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: #ccc;
+    min-width: 200px;
+  }
+  thead th:first-child,
+  tfoot th:first-child {
+    z-index: 5;
+  }
+  /* safari and ios need the tfoot itself to be position:sticky also */
+  tfoot,
+  tfoot th,
+  tfoot td {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+    background: #666;
+    color: #fff;
+    z-index: 4;
+    min-width: 200px;
+  }
+}

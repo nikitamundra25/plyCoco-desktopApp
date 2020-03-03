@@ -14,7 +14,7 @@ import { IAppointmentNav } from '../../../../interfaces';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import AttributeFilter from './Attribute';
+import AttributeFilter from './AttributeFilter';
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav

@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
-import { Modal, ModalHeader, ModalBody, Col, Row, Collapse } from 'reactstrap';
-import Select from 'react-select';
-import logger from 'redux-logger';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Col,
+  Row,
+  Collapse,
+  Button
+} from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
-import { State } from '../../../../../config';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import filter from '../../../../assets/img/filter.svg';
+import { IAttributeFilterPage } from '../../../../../interfaces';
 
-const AttributeFilterPage = (props: any) => {
+const AttributeFilterPage = (props: IAttributeFilterPage) => {
   const [collapse1, setCollapse1] = useState(true);
   const [collapse2, setCollapse2] = useState(true);
+  const [collapse3, setCollapse3] = useState(true);
+  const [collapse4, setCollapse4] = useState(true);
 
   const toggle1 = () => setCollapse1(!collapse1);
   const toggle2 = () => setCollapse2(!collapse2);
+  const toggle3 = () => setCollapse3(!collapse3);
+  const toggle4 = () => setCollapse4(!collapse4);
   const {
     show,
     handleClose,
@@ -21,7 +31,11 @@ const AttributeFilterPage = (props: any) => {
     handleCheckPositiveElement,
     handleCheckNegativeElement,
     isPositive,
-    isNegative
+    isNegative,
+    onApplyingFilter,
+    handleCheckAllElements,
+    setIsPositive,
+    setIsNegative
   } = props;
   const externalCloseBtn = (
     <button className='close modal-close' onClick={() => handleClose()}>
@@ -29,7 +43,6 @@ const AttributeFilterPage = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-
   return (
     <div>
       <Modal
@@ -47,7 +60,10 @@ const AttributeFilterPage = (props: any) => {
               <span className='custom-header-nav-icon'>
                 <img src={filter} alt='' />
               </span>
-              <span className='custom-header-nav-text'>
+              <span
+                className='custom-header-nav-text'
+                onClick={onApplyingFilter}
+              >
                 {languageTranslation('APPLY_FILTER')}
               </span>
             </div>
@@ -106,6 +122,15 @@ const AttributeFilterPage = (props: any) => {
                           {languageTranslation('GENERAL')}
                         </span>
                       </div>
+                      {/* <Button
+                        onClick={() => handleCheckAllElements('positive')}
+                        className='mr-2'
+                      >
+                        Select all positive
+                      </Button>
+                      <Button onClick={() => setIsPositive([])}>
+                        Unselect all positive
+                      </Button> */}
                       <Collapse isOpen={collapse1}>
                         <ul className='common-list list-unstyled mb-0  pl-3 attribute-list'>
                           {attributeData && attributeData.getCaregiverAtrribute
@@ -124,7 +149,11 @@ const AttributeFilterPage = (props: any) => {
                                               ? true
                                               : false
                                           }
-                                          onChange={(e: any) =>
+                                          onChange={(
+                                            e: React.ChangeEvent<
+                                              HTMLInputElement
+                                            >
+                                          ) =>
                                             handleCheckPositiveElement(
                                               e,
                                               list.id
@@ -218,7 +247,7 @@ const AttributeFilterPage = (props: any) => {
                   <div className='common-list-body custom-scrollbar'>
                     <div>
                       <div
-                        onClick={toggle1}
+                        onClick={toggle3}
                         className='attribute-title cursor-pointer'
                       >
                         <span className='align-middle'>
@@ -228,7 +257,16 @@ const AttributeFilterPage = (props: any) => {
                           {languageTranslation('GENERAL')}
                         </span>
                       </div>
-                      <Collapse isOpen={collapse1}>
+                      {/* <Button
+                        onClick={() => handleCheckAllElements('negative')}
+                        className='mr-2'
+                      >
+                        select all
+                      </Button>
+                      <Button onClick={() => setIsNegative([])}>
+                        Unselect all
+                      </Button> */}
+                      <Collapse isOpen={collapse3}>
                         <ul className='common-list list-unstyled mb-0  pl-3 attribute-list'>
                           {attributeData && attributeData.getCaregiverAtrribute
                             ? attributeData.getCaregiverAtrribute.map(
@@ -246,7 +284,11 @@ const AttributeFilterPage = (props: any) => {
                                               ? true
                                               : false
                                           }
-                                          onChange={(e: any) =>
+                                          onChange={(
+                                            e: React.ChangeEvent<
+                                              HTMLInputElement
+                                            >
+                                          ) =>
                                             handleCheckNegativeElement(
                                               e,
                                               list.id
@@ -265,7 +307,7 @@ const AttributeFilterPage = (props: any) => {
                     </div>
                     <div>
                       <div
-                        onClick={toggle2}
+                        onClick={toggle4}
                         className='attribute-title cursor-pointer'
                       >
                         <span className='align-middle'>
@@ -275,7 +317,7 @@ const AttributeFilterPage = (props: any) => {
                           {languageTranslation('CAREGIVERS')}
                         </span>
                       </div>
-                      <Collapse isOpen={collapse2}>
+                      <Collapse isOpen={collapse4}>
                         <ul className='common-list list-unstyled mb-0 pl-3 attribute-list'>
                           <li>
                             <span className=' checkbox-custom '>

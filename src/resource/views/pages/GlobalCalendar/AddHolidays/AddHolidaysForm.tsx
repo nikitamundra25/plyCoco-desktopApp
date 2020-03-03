@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { FormGroup, Col, Label, Row, Input, Button } from "reactstrap";
 import { languageTranslation } from "../../../../../helpers";
 import { FieldArray, Field } from "formik";
@@ -6,7 +6,8 @@ import {
   IAddHolidaysFormValues,
   IReactSelectInterface,
   IAddHolidayProps,
-  IAddHolidaysFormProps
+  IAddHolidaysFormProps,
+  IState
 } from "../../../../../interfaces";
 import Select, { ValueType } from "react-select";
 import MaskedInput from "react-text-mask";
@@ -14,8 +15,15 @@ import { DateMask } from "../../../../../config";
 const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
   props: IAddHolidaysFormProps
 ): JSX.Element => {
-  const { states, fieldsInfo, addNewHoliday, removeHoliday } = props;
+  const {
+    states,
+    fieldsInfo,
+    addNewHoliday,
+    removeHoliday,
+    isEditMode
+  } = props;
   const { values, handleBlur, handleChange, setFieldValue } = fieldsInfo;
+
   const handleStateChange = (
     value: ValueType<IReactSelectInterface[]>,
     index: number
@@ -37,15 +45,36 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
     setFieldValue(`inputs.${index}.states`, valueToSet);
   };
   // create options for react-select
-  const stateOptions: IReactSelectInterface[] = states.map(state => ({
+  const stateOptions: IReactSelectInterface[] = states.map((state: IState) => ({
     value: state.id,
     label: state.name
   }));
   // push all at the first index
-  stateOptions.unshift({
+  const allOption: IReactSelectInterface = {
     label: "All",
     value: "all"
-  });
+  };
+  stateOptions.unshift(allOption);
+  const getSelectedStates = (index: number): IReactSelectInterface[] => {
+    let selectedOptions: IReactSelectInterface[] = [];
+    const selectedStates = values.inputs[index].states || [];
+    states.forEach((state: IState) => {
+      if (
+        selectedStates
+          .map((selectedState: number) => Number(selectedState))
+          .indexOf(Number(state.id)) > -1
+      ) {
+        selectedOptions.push({
+          label: state.name,
+          value: state.id
+        });
+      }
+    });
+    if (states.length === selectedOptions.length) {
+      selectedOptions = [allOption];
+    }
+    return selectedOptions;
+  };
   return (
     <>
       <FieldArray
@@ -167,13 +196,14 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                                   "HOLIDAY_STATES_PLACEHOLDER"
                                 )}
                                 isMulti
+                                value={getSelectedStates(index)}
                               />
                             </>
                           </Col>
                         </Row>
                       </FormGroup>
                     </Col>
-                    {index > 0 ? (
+                    {index > 0 && !isEditMode ? (
                       <a
                         className={"remove-icon"}
                         onClick={() => removeHoliday(values, index)}
@@ -189,10 +219,12 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
           );
         }}
       />
-      <Button color={"primary"} onClick={() => addNewHoliday(values)}>
-        <i className={"fa fa-plus"} />
-        &nbsp;&nbsp;New
-      </Button>
+      {isEditMode ? null : (
+        <Button color={"primary"} onClick={() => addNewHoliday(values)}>
+          <i className={"fa fa-plus"} />
+          &nbsp;&nbsp;New
+        </Button>
+      )}
     </>
   );
 };

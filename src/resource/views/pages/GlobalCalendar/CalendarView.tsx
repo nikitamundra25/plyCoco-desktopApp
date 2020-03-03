@@ -17,7 +17,8 @@ import { toast } from "react-toastify";
 const CalendarView: FunctionComponent<ICalendarViewProps> = ({
   isLoading,
   states,
-  refresh
+  refresh,
+  onEdit
 }): JSX.Element => {
   const [GET_GLOBAL_HOLIDAYS] = GlobalHolidaysQueries;
   const [_, DELETE_HOLIDAY] = GlobalCalendarMutations;
@@ -25,12 +26,10 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
     getGlobalHolidays,
     { data: holidays, loading, refetch }
   ] = useLazyQuery<any>(GET_GLOBAL_HOLIDAYS);
-  const [
-    deleteGlobalCalendarHoliday,
-    { data: deletedRecordData, loading: isDeleting }
-  ] = useMutation<{ deleteGlobalCalendarHoliday: any }, { id: number }>(
-    DELETE_HOLIDAY
-  );
+  const [deleteGlobalCalendarHoliday] = useMutation<
+    { deleteGlobalCalendarHoliday: any },
+    { id: number }
+  >(DELETE_HOLIDAY);
   const [holidaysData, setHolidaysData] = useState<IHolidayData[]>([]);
   // check if get states are loaded
   useEffect(() => {
@@ -91,13 +90,13 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
         <tbody>
           {isLoading || loading ? (
             <tr className="text-center">
-              <td colSpan={8}>
+              <td colSpan={states.length || 8}>
                 <Loader />
               </td>
             </tr>
           ) : !holidaysData.length ? (
             <tr className="text-center">
-              <td colSpan={8}>No data</td>
+              <td colSpan={states.length || 8}>No data</td>
             </tr>
           ) : (
             holidaysData.map((holiday: IHolidayData) => {
@@ -107,6 +106,24 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                     <th>
                       {moment(holiday.date).format(defaultDateFormat)}
                       {holiday.note ? ` - ${holiday.note}` : null}
+                      &nbsp;&nbsp;&nbsp;
+                      <a
+                        href=""
+                        onClick={(e: any) => {
+                          e.preventDefault();
+                          onEdit
+                            ? onEdit({
+                                id: holiday.id,
+                                date: holiday.date,
+                                note: holiday.note,
+                                states: holiday.applicableStates
+                              })
+                            : undefined;
+                        }}
+                        className={"text-right"}
+                      >
+                        <i className={"fa fa-edit"} />
+                      </a>
                       &nbsp;&nbsp;&nbsp;
                       <a
                         href=""

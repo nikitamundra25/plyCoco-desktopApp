@@ -6,19 +6,24 @@ export interface ICalendarViewProps {
   isLoading: boolean;
   states: IState[];
   refresh: (refetch: (variables?: any) => void) => void;
+  onEdit?: (info: IAddHolidaysFormValues) => void;
 }
+
+//
+export interface IAddHolidaysFormValues {
+  id?: number;
+  date: string;
+  note?: string;
+  states?: number[];
+}
+
 // props for add holiday
 export interface IAddHolidayProps {
   isOpen: boolean;
   handleClose?: () => void;
   states: IState[];
   refresh: () => void;
-}
-//
-export interface IAddHolidaysFormValues {
-  date: Date | string;
-  note?: string;
-  states?: number[];
+  editInfo?: IAddHolidaysFormValues;
 }
 export interface IAddHolidayFormikProps {
   inputs: IAddHolidaysFormValues[];
@@ -28,6 +33,7 @@ export interface IAddHolidaysFormProps {
   fieldsInfo: FormikProps<IAddHolidayFormikProps>;
   addNewHoliday: (values: IAddHolidayFormikProps) => void;
   removeHoliday: (values: IAddHolidayFormikProps, index: number) => void;
+  isEditMode?: boolean;
 }
 
 export interface IHolidayData {

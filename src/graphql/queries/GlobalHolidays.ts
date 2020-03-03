@@ -6,6 +6,7 @@ const GET_GLOBAL_HOLIDAYS = gql`
       id
       date
       note
+      applicableStates
       states {
         id
         name

@@ -4,7 +4,8 @@ import {
   IAddHolidayProps,
   IPycButtonProps,
   IAddHolidaysFormValues,
-  IAddHolidayFormikProps
+  IAddHolidayFormikProps,
+  IState
 } from "../../../../../interfaces";
 import { Formik, FormikHelpers, FormikProps } from "formik";
 import AddHolidaysForm from "./AddHolidaysForm";
@@ -18,12 +19,14 @@ import { useMutation } from "@apollo/react-hooks";
 import { GlobalCalendarMutations } from "../../../../../graphql/Mutations";
 import moment from "moment";
 import { toast } from "react-toastify";
-
+import { defaultDateFormat } from "../../../../../config";
+let isEditValueSet = false;
 const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
   isOpen,
   handleClose,
   states,
-  refresh
+  refresh,
+  editInfo
 }): JSX.Element => {
   const [ADD_GLOBAL_HOLIDAYS] = GlobalCalendarMutations;
   const initialHolidayData: IAddHolidayFormikProps = {
@@ -41,14 +44,14 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
   const [AddGlobalHolidays, { loading, error, data: resp }] = useMutation(
     ADD_GLOBAL_HOLIDAYS
   );
+  const isEditMode: boolean = editInfo && editInfo.id ? true : false;
+
   // save holidays
   const handleSubmit = async (
     values: IAddHolidayFormikProps,
     data: FormikHelpers<IAddHolidayFormikProps>
   ) => {
     try {
-      console.log(values.inputs);
-
       await AddGlobalHolidays({
         variables: {
           globalCalendarInput: values.inputs.map(
@@ -69,7 +72,6 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
                   seconds: 0
                 })
                 .format();
-              console.log(date);
               return {
                 date,
                 applicableStates: v.states,
@@ -116,7 +118,19 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
     values.inputs.splice(index, 1);
     setHolidayData(values || []);
   };
-
+  if (editInfo && editInfo.id && !isEditValueSet) {
+    setHolidayData({
+      inputs: [
+        {
+          id: editInfo.id,
+          date: moment(editInfo.date).format(defaultDateFormat),
+          note: editInfo.note,
+          states: editInfo.states
+        }
+      ]
+    });
+    isEditValueSet = true;
+  }
   return (
     <Formik
       key={"add-holiday"}
@@ -131,6 +145,7 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
             color: "secondary",
             onClick: () => {
               props.resetForm();
+              isEditValueSet = false;
               setHolidayData(initialHolidayData);
               handleClose ? handleClose() : undefined;
             }
@@ -163,6 +178,7 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
               }}
               states={states}
               fieldsInfo={props}
+              isEditMode={isEditMode}
             />
           </PycModal>
         );

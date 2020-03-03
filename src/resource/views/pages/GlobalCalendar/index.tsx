@@ -4,7 +4,12 @@ import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../../routes/routes";
 import { languageTranslation } from "../../../../helpers";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { ICountries, IStates, IState } from "../../../../interfaces";
+import {
+  ICountries,
+  IStates,
+  IState,
+  IAddHolidaysFormValues
+} from "../../../../interfaces";
 import { CountryQueries } from "../../../../graphql/queries";
 import CalendarView from "./CalendarView";
 import AddHolidays from "./AddHolidays";
@@ -13,6 +18,12 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
   const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
   // initial states
   const [states, setStates] = useState<IState[]>([]);
+  const defaultEditInfo: IAddHolidaysFormValues = {
+    date: ""
+  };
+  const [editInfo, setEditInfo] = useState<IAddHolidaysFormValues>(
+    defaultEditInfo
+  );
   // fech country list
   const { data: allCountries, loading: countriesLoading } = useQuery<
     ICountries
@@ -47,6 +58,11 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
       setStates(statesData.states);
     }
   }, [statesData, statesLoading]);
+  // editCalendar
+  const editHoliday = (details: IAddHolidaysFormValues): void => {
+    setEditInfo(details);
+    setAddModal(true);
+  };
   // handle add modal
   const [showAddModal, setAddModal] = useState<boolean>(false);
   // returns JSX
@@ -73,13 +89,18 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
               refreshList = refetch;
             }
           }}
+          onEdit={editHoliday}
         />
         {/*  */}
         <AddHolidays
           isOpen={showAddModal}
-          handleClose={() => setAddModal(false)}
+          handleClose={() => {
+            setEditInfo(defaultEditInfo);
+            setAddModal(false);
+          }}
           states={states}
           refresh={refreshList}
+          editInfo={editInfo}
         />
       </CardBody>
     </Card>

@@ -293,11 +293,19 @@ const Appointment: FunctionComponent = () => {
     breakTo = '',
     remarksCareGiver = '',
     remarksInternal = '',
-    caregiver = {}
+    caregiver = {},
+    f = '',
+    s = '',
+    n = ''
   } = selectedCareGiver ? selectedCareGiver : {};
 
   const {
-    nightAllowance = undefined,
+    nightAllowance = caregiver.nightAllowance
+      ? {
+          label: caregiver.nightAllowance,
+          value: caregiver.nightAllowance
+        }
+      : undefined,
     fee = '',
     nightFee = caregiver.night ? caregiver.night : '',
     weekendAllowance = null,
@@ -322,7 +330,10 @@ const Appointment: FunctionComponent = () => {
     breakFrom,
     breakTo,
     remarksCareGiver,
-    remarksInternal
+    remarksInternal,
+    f,
+    s,
+    n
   };
 
   const valuesForCareinstitution: any = {

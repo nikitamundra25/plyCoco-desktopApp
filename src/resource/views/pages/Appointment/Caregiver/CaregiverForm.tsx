@@ -51,7 +51,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       breakFrom,
       breakTo,
       remarksCareGiver,
-      remarksInternal
+      remarksInternal,
+      f,
+      s,
+      n
     },
     touched,
     errors,
@@ -69,6 +72,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
+  console.log('ffffff', f, s, n);
 
   // Custom function to handle checkbox fields
   const handleCheckedValue = (value: string, checked: boolean) => {
@@ -172,7 +176,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             id='1'
                             className=''
                             name={'f'}
-                            checked
+                            checked={f ? true : false}
                             onChange={(e: any) =>
                               handleCheckedValue('f', e.target.checked)
                             }
@@ -189,6 +193,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             id='check1'
                             className=''
                             name={'s'}
+                            checked={s}
+                            onChange={(e: any) =>
+                              handleCheckedValue('s', e.target.checked)
+                            }
                           />
                           <Label for='check1'>
                             {languageTranslation('LATE')}
@@ -201,7 +209,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             type='checkbox'
                             id='check2'
                             className=''
-                            name={'night'}
+                            name={'n'}
+                            checked={n}
+                            onChange={(e: any) =>
+                              handleCheckedValue('n', e.target.checked)
+                            }
                           />
                           <Label for='check2'>
                             {languageTranslation('NIGHT')}

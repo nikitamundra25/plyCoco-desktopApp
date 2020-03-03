@@ -1,32 +1,6 @@
-import React, {
-  Component,
-  FunctionComponent,
-  useEffect,
-  useState
-} from 'react';
-import {
-  FormGroup,
-  Label,
-  Input,
-  Col,
-  Row,
-  Form,
-  Button,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText
-} from 'reactstrap';
-import MaskedInput from 'react-text-mask';
-
-import Select from 'react-select';
-import { languageTranslation, getDaysArrayByMonth } from '../../../../helpers';
-import {
-  State,
-  NightAllowancePerHour,
-  Without_Appointments,
-  ShiftTime
-} from '../../../../config';
-
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Col, Row } from 'reactstrap';
+import { getDaysArrayByMonth } from '../../../../helpers';
 import './index.scss';
 import AppointmentNav from './AppointmentNav';
 import CaregiverListView from './Caregiver/CaregiverListView';
@@ -35,8 +9,6 @@ import {
   IGetDaysArrayByMonthRes,
   IQualifications,
   IReactSelectInterface,
-  IEmployeeFormValues,
-  IAppointmentCareGiverForm,
   ICaregiverFormValue,
   ICareinstitutionFormValue
 } from '../../../../interfaces';
@@ -46,7 +18,6 @@ import {
   GET_QUALIFICATION_ATTRIBUTE,
   AppointmentsQueries
 } from '../../../../graphql/queries';
-import { log } from 'util';
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
 import { Formik, FormikProps } from 'formik';
@@ -300,16 +271,16 @@ const Appointment: FunctionComponent = () => {
   } = selectedCareGiver ? selectedCareGiver : {};
 
   const {
-    nightAllowance = caregiver.nightAllowance
+    nightAllowance = caregiver && caregiver.nightAllowance
       ? {
           label: caregiver.nightAllowance,
           value: caregiver.nightAllowance
         }
       : undefined,
     fee = '',
-    nightFee = caregiver.night ? caregiver.night : '',
+    nightFee = caregiver && caregiver.night ? caregiver.night : '',
     weekendAllowance = null,
-    holidayAllowance = caregiver.holiday ? caregiver.holiday : ''
+    holidayAllowance = caregiver && caregiver.holiday ? caregiver.holiday : ''
   } = caregiver ? caregiver : {};
 
   const valuesForCaregiver: ICaregiverFormValue = {

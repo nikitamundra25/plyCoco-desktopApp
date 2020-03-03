@@ -30,12 +30,40 @@ export interface IAppointmentCareGiverList {
   loading: boolean;
   onAddingRow: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    name: string
+    name: string,
+    index: number
   ) => void | undefined;
+  handleSelectedUser: (value: object, name: string) => void;
+  handleSecondStar: (list: object, index: number, name: string) => void;
+  handleReset: (name: string) => void;
 }
 
 export interface IAppointmentCareInstitutionList {
   daysData: IGetDaysArrayByMonthRes | null;
   careInstitutionList: any;
   loading: boolean;
+  onAddingRow: (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    name: string,
+    index: number
+  ) => void | undefined;
+  handleSelectedUser: (value: object, name: string) => void;
+  handleSecondStar: (list: object, index: number, name: string) => void;
+  handleReset: (name: string) => void;
+}
+
+export interface IAppointmentCareGiverForm {
+  selectedCareGiver?: any;
+}
+
+export interface ICaregiverFormValue {
+  firstName: string;
+  lastName: string;
+}
+export interface ICareinstitutionFormValue {
+  firstName: string;
+  lastName: string;
+}
+export interface IAppointmentCareInstitutionForm {
+  selectedCareinstitution: any;
 }

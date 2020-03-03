@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 
 import '../index.scss';
 import {
@@ -6,11 +6,43 @@ import {
   IDaysArray
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
+import '../index.scss';
 
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList
 ) => {
-  const { daysData, careGiversList, loading, onAddingRow } = props;
+  const {
+    daysData,
+    careGiversList,
+    loading,
+    onAddingRow,
+    handleSelectedUser,
+    handleSecondStar,
+    handleReset
+  } = props;
+
+  const [starMark, setstarMark] = useState<boolean>(false);
+  const [starMarkIndex, setstarMarkIndex] = useState<number>(-1);
+
+  const handleFirstStar = (list: object, index: number, name: string) => {
+    if (starMarkIndex !== index) {
+      setstarMarkIndex(index);
+      handleSelectedUser(list, name);
+    } else {
+      setstarMarkIndex(-1);
+    }
+  };
+  const onhandleSecondStar = (list: object, index: number, name: string) => {
+    if (!starMark) {
+      if (starMarkIndex === index) {
+        setstarMark(!starMark);
+        handleSecondStar(list, index, name);
+      }
+    } else {
+      setstarMark(!starMark);
+      handleReset(name);
+    }
+  };
   const { daysArr = [] } = daysData ? daysData : {};
   return (
     <>
@@ -56,19 +88,40 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               careGiversList.map((list: any, index: number) => {
                 return (
                   <div className='custom-appointment-row' key={index}>
-                    <div className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link'>
-                      {`${list.firstName} ${list.lastName}`}
+                    <div
+                      className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link'
+                      onClick={() => handleSelectedUser(list, 'caregiver')}
+                    >
+                      {`${list.firstName ? list.firstName : ''} ${
+                        list.lastName ? list.lastName : ''
+                      }`}
                     </div>
                     <div className='custom-appointment-col h-col appointment-color2'></div>
-                    <div className='custom-appointment-col s-col text-center'>
-                      <i className='fa fa-star-o' />
+                    <div
+                      className='custom-appointment-col s-col text-center'
+                      onClick={() => handleFirstStar(list, index, 'caregiver')}
+                    >
+                      {starMarkIndex === index || starMark ? (
+                        <i className='fa fa-star-o icon-d' />
+                      ) : (
+                        <i className='fa fa-star-o' />
+                      )}
                     </div>
-                    <div className='custom-appointment-col u-col text-center'>
-                      <i className='fa fa-star-o' />
+                    <div
+                      className='custom-appointment-col u-col text-center'
+                      onClick={() =>
+                        onhandleSecondStar(list, index, 'caregiver')
+                      }
+                    >
+                      {starMark ? (
+                        <i className='fa fa-star-o icon-d' />
+                      ) : (
+                        <i className='fa fa-star-o' />
+                      )}
                     </div>
                     <div
                       className='custom-appointment-col v-col text-center'
-                      onClick={e => onAddingRow(e, 'caregiver')}
+                      onClick={e => onAddingRow(e, 'caregiver', index)}
                     >
                       <i className='fa fa-arrow-down' />
                     </div>

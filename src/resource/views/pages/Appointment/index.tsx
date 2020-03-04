@@ -343,11 +343,23 @@ const Appointment: FunctionComponent = () => {
   // Change time shift option
   useEffect(() => {
     let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
+    console.log('timeData', timeData);
+    let time = timeData && !timeData.data ? timeData.value.split('-') : '';
+    console.log('time', timeData ? timeData.data : '');
+
     let temp: any = {
       ...valuesForCareinstitution,
       shift: careInstituionShift,
-      startTime: timeData && timeData.data ? timeData.data.begin : '',
-      endTime: timeData && timeData.data ? timeData.data.end : ''
+      startTime: timeData
+        ? timeData.data && timeData.data.begin
+          ? timeData.data.begin
+          : time[0]
+        : '',
+      endTime: timeData
+        ? timeData.data && timeData.data.begin
+          ? timeData.data.end
+          : time[1]
+        : ''
     };
     setvaluesForCareinstitution(temp);
   }, [careInstituionShift]);

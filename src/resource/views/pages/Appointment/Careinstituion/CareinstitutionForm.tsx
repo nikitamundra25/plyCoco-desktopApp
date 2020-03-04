@@ -71,7 +71,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     careInstitutionTimesOptions,
     setcareInstituionShift
   } = props;
-  console.log('department', department);
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -207,6 +206,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           type='text'
                           name={'id'}
                           value={startTime}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                           placeholder={languageTranslation('START_WORKING')}
                         />
                         <InputGroupAddon addonType='append'>
@@ -233,6 +234,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           type='text'
                           name={'id'}
                           value={endTime}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                           placeholder={languageTranslation('END_WORKING')}
                         />
                         <InputGroupAddon addonType='append'>

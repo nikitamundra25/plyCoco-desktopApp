@@ -1211,14 +1211,14 @@ export const AcceptedFileFormat = [
 ];
 export const ShiftTime: IReactSelectInterface[] = [
   {
-    value: '06 - 2PM Early',
-    label: '06- 2PM Early'
+    value: '06 - 14 ',
+    label: '06- 14 '
   },
   {
-    value: '2PM - 10PM Late',
-    label: '2PM - 10PM Late'
+    value: '14 - 22 ',
+    label: '14 - 22 '
   },
-  { value: '10PM - 6AM Night', label: '10PM - 6AM Night' }
+  { value: '22 - 06 ', label: '22 - 06 ' }
 ];
 
 export const deactivatedListColor: string = '#cacaca';

@@ -9,18 +9,21 @@ const Cell = ({
   list,
   handleSelectedUser
 }: any) => (
-  <td
-    className={classnames({
-      'calender-col': true,
-      'text-center': true,
-      'custom-appointment-col': true,
-      'cursor-pointer': true,
-      'selected-cell': isSelected,
-      'selecting-cell': isSelecting
-    })}
-    ref={selectableRef}
-    // onClick={() => handleSelectedUser(list, day, 'caregiver')}
-  ></td>
+  <>
+    {console.log(list.firstName === 'Aayushi' ? list : null, 'list')}
+    <td
+      className={classnames({
+        'calender-col': true,
+        'text-center': true,
+        'custom-appointment-col': true,
+        'cursor-pointer': true,
+        'selected-cell': isSelected,
+        'selecting-cell': isSelecting
+      })}
+      ref={selectableRef}
+      // onClick={() => handleSelectedUser(list, day, 'caregiver')}
+    ></td>
+  </>
 );
 
 export default createSelectable(Cell);

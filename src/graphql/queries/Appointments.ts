@@ -17,6 +17,12 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         holiday
         night
       }
+      caregiver_avabilities {
+        f
+        s
+        n
+        date
+      }
       canstitution {
         city
         zipCode

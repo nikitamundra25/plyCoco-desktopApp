@@ -61,12 +61,16 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     activeDateCareinstitution,
     selectedCareinstitution,
     qualificationList,
-    careInstitutionDepartment
+    careInstitutionDepartment,
+    setcareInstituionDept
   } = props;
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
+    if (name === 'department') {
+      setcareInstituionDept(selectOption);
+    }
   };
 
   return (

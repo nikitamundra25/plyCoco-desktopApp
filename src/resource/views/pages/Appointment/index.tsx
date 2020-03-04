@@ -51,6 +51,10 @@ const Appointment: FunctionComponent = () => {
   const [selectedCareinstitution, setselectedCareinstitution] = useState<any>(
     {}
   );
+
+  //state for care institution department
+  const [careInstituionDept, setcareInstituionDept] = useState<Object>({});
+
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
     IDate[]
@@ -260,6 +264,11 @@ const Appointment: FunctionComponent = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("careInstituionDept",careInstituionDept);
+    
+  }, [careInstituionDept]);
+
   // select careGiver or careinstitution
   const handleSelectedUser = (list: object, date: any, name: string) => {
     if (name === 'caregiver') {
@@ -458,7 +467,7 @@ const Appointment: FunctionComponent = () => {
     weekendAllowance:
       weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : '',
     workingProofRecieved,
-    distanceInKM,
+    distanceInKM: '',
     feePerKM,
     travelAllowance,
     otherExpenses,
@@ -482,7 +491,6 @@ const Appointment: FunctionComponent = () => {
     begin = '',
     end = '',
     qualificationId = qualificationList ? qualificationList[0] : undefined,
-    department = undefined,
     address = '',
     contactPerson = '',
     workingProof = false
@@ -495,13 +503,12 @@ const Appointment: FunctionComponent = () => {
     begin,
     end,
     qualificationId,
-    department,
+    department: undefined,
     address,
     contactPerson,
     workingProofRecieved: workingProof ? true : false
   };
 
-  console.log('department', department);
   console.log(
     'valuesForCareinstitution.department',
     valuesForCareinstitution.department
@@ -611,6 +618,9 @@ const Appointment: FunctionComponent = () => {
                                 activeDateCareinstitution.length
                                   ? activeDateCareinstitution[0]
                                   : undefined
+                              }
+                              setcareInstituionDept={(deptData: any) =>
+                                setcareInstituionDept(deptData)
                               }
                               selectedCareinstitution={selectedCareinstitution}
                               qualificationList={qualificationList}

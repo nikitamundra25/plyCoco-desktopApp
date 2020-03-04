@@ -24,13 +24,16 @@ import MaskedInput from "react-text-mask";
 import { NightAllowancePerHour, State, ShiftTime } from "../../../../../config";
 import Select from "react-select";
 import { FormikProps } from "formik";
+import moment from "moment";
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
 > &
-  IAppointmentCareInstitutionForm> = (
+  IAppointmentCareInstitutionForm &
+  any> = (
   props: FormikProps<ICareinstitutionFormValue> &
-    IAppointmentCareInstitutionForm
+    IAppointmentCareInstitutionForm &
+    any
 ) => {
   const {
     values: { firstName, lastName },
@@ -43,8 +46,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     setFieldValue,
     setFieldTouched,
     setFieldError,
+    activeDateCareinstitution,
     selectedCareinstitution
   } = props;
+
   return (
     <>
       <div className="form-section ">
@@ -66,6 +71,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <Input
                         type="text"
                         name={"id"}
+                        disabled
                         placeholder={languageTranslation("APPOINTMENT_ID")}
                       />
                     </div>
@@ -88,6 +94,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           type="text"
                           name={"id"}
                           placeholder={languageTranslation("NAME")}
+                          disabled
                           value={
                             selectedCareinstitution
                               ? `${
@@ -122,7 +129,15 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="7">
-                    <div className="text-value mb-1">SUN 08.03.2020</div>
+                    <div className="text-value mb-1">
+                      {activeDateCareinstitution
+                        ? moment(
+                            activeDateCareinstitution
+                              ? activeDateCareinstitution.isoString
+                              : null
+                          ).format("dd DD.MM.YYYY")
+                        : null}
+                    </div>
                   </Col>
                 </Row>
               </FormGroup>
@@ -220,29 +235,29 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
               </FormGroup>
             </Col>
 
-            <Col lg={"12"}>
+            {/* <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("QUALIFICATION_FOR_BILLING")}
+                  <Col sm='5'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('QUALIFICATION_FOR_BILLING')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input">
-                      <div className="required-input">
+                  <Col sm='7'>
+                    <div className='required-input'>
+                      <div className='required-input'>
                         <Select
-                          placeholder="Select Qualifications"
+                          placeholder='Select Qualifications'
                           options={State}
-                          classNamePrefix="custom-inner-reactselect"
-                          className={"custom-reactselect"}
+                          classNamePrefix='custom-inner-reactselect'
+                          className={'custom-reactselect'}
                         />
                       </div>
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
-            </Col>
+            </Col> */}
 
             <Col lg={"12"}>
               <FormGroup>
@@ -277,7 +292,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm="7">
                     <div className="required-input">
                       <Input
-                        type="text"
+                        type="textarea"
                         name={"id"}
                         placeholder={languageTranslation("ADDRESS")}
                         className="width-common"

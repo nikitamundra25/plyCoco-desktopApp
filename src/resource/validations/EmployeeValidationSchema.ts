@@ -51,7 +51,7 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   zip: Yup.string(),
   joiningDate: Yup.mixed().test({
     name: 'validate-date',
-    test: function(val) {
+    test: function (val) {
       const { path, createError } = this;
       const { isValid, message }: IDateResponse = dateValidator(val);
       return !val || isValid || createError({ path, message });
@@ -89,12 +89,9 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
         !value || (value && value.length >= telMin && value.length <= telMax)
     ),
   city: Yup.string(),
-  country: Yup.object().shape({
-    value: Yup.string().required(languageTranslation('COUNTRY_REQUIRED')),
-    label: Yup.string().required(languageTranslation('COUNTRY_REQUIRED'))
-  }),
-  state: Yup.object().shape({
-    value: Yup.string().required(languageTranslation('STATE_REQUIRED')),
-    label: Yup.string().required(languageTranslation('STATE_REQUIRED'))
-  })
+  country: Yup.mixed()
+    .required(languageTranslation('COUNTRY_REQUIRED'))
+  ,
+  state: Yup.mixed()
+    .required(languageTranslation('STATE_REQUIRED'))
 });

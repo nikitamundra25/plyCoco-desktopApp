@@ -74,7 +74,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
       if (name === "country") {
         setFieldValue('state', undefined);
         getStatesByCountry({
-          variables: { countryid: selectOption ? selectOption.value : "82" } // default code is for germany
+          variables: { countryid: selectOption ? selectOption.value : "" } // default code is for germany
         });
         logger(statesData, "sdsdsdsd");
       }
@@ -587,6 +587,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         <Select
                           placeholder={languageTranslation("COUNTRY")}
                           options={countriesOpt}
+                          isClearable={true}
                           value={country && country.value ? country : undefined}
                           onChange={(value: any) =>
                             handleSelect(value, "country")
@@ -623,6 +624,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         <Select
                           placeholder={languageTranslation("STATE")}
                           options={statesOpt}
+                          isClearable={true}
                           value={state && state.value !== '' ? state : null}
                           onChange={(value: any) => handleSelect(value, "state")}
                           noOptionsMessage={() => {

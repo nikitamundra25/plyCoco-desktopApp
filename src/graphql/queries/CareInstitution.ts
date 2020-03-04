@@ -99,6 +99,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         firstName
         surName
         countryId
+        stateId
         street
         city
         contactTypeId

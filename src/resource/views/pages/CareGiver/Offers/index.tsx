@@ -55,7 +55,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
         ) {
           const { value } = await ConfirmBox({
             title: languageTranslation("CONFIRM_LABEL"),
-            text: `You want to add ${careInstituition.getCareInstitutions.totalCount} user`
+            text: `You want to add ${careInstituition.getCareInstitutions.totalCount} care institution`
           });
           if (!value) {
             return;
@@ -87,11 +87,10 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
             setSearch('');
           }
         } else {
-          if (!toast.isActive(toastId)) {
-            toastId = toast.error(
-              languageTranslation("SEARCH_RECORD_NOT_FOUND")
-            );
-          }
+          toast.dismiss();
+          toastId = toast.error(
+            languageTranslation("SEARCH_RECORD_NOT_FOUND")
+          );
         }
       }
     }
@@ -143,9 +142,8 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   const [addNegativeUser] = useMutation<any>(ADD_NEGATIVE_USER, {
     onCompleted() {
       negativeListRefetch();
-      if (!toast.isActive(toastId)) {
-        toastId = toast.success(languageTranslation("NEGATIVE_USER_ADDED"));
-      }
+      toast.dismiss();
+      toastId = toast.success(languageTranslation("NEGATIVE_CAREINSTITUTION_ADDED"));
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -216,7 +214,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   const handleRemoveAll = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation("USER_DELETE_MSG")
+      text: languageTranslation("CAREINSTITUTION_ALL_DELETE_MSG")
     });
     if (!value) {
       return;
@@ -235,9 +233,8 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
           }
         });
         refetch();
-        if (!toast.isActive(toastId)) {
-          toastId = toast.success(languageTranslation("NEGATIVE_USER_DELETED"));
-        }
+        toast.dismiss();
+        toastId = toast.success(languageTranslation("NEGATIVE_CAREINSTITUTION_DELETED"));
       } catch (error) {
         const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {
@@ -250,7 +247,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   const onDeleteNegativeUser = async (careInstId: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation("USER_DELETE_MSG")
+      text: languageTranslation("CAREINSTITUTION_ONE_DELETE_MSG")
     });
     if (!value) {
       return;
@@ -263,9 +260,8 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
           }
         });
         refetch();
-        if (!toast.isActive(toastId)) {
-          toastId = toast.success(languageTranslation("NEGATIVE_USER_DELETED"));
-        }
+        toast.dismiss();
+        toastId = toast.success(languageTranslation("NEGATIVE_CAREINSTITUTION_DELETED"));
       } catch (error) {
         const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {

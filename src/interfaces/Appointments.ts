@@ -33,7 +33,11 @@ export interface IAppointmentCareGiverList {
     name: string,
     index: number
   ) => void | undefined;
-  handleSelectedUser: (value: object, name: string) => void;
+  handleSelectedUser: (
+    value: object,
+    date: IDaysArray[] | null,
+    name: string
+  ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
   handleReset: (name: string) => void;
 }
@@ -47,13 +51,27 @@ export interface IAppointmentCareInstitutionList {
     name: string,
     index: number
   ) => void | undefined;
-  handleSelectedUser: (value: object, name: string) => void;
+  handleSelectedUser: (
+    value: object,
+    date: IDaysArray[] | null,
+    name: string
+  ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
   handleReset: (name: string) => void;
 }
 
 export interface IAppointmentCareGiverForm {
   selectedCareGiver?: any;
+  activeDateCaregiver?: IDate | undefined;
+  addCaregiverRes?: any;
+  timeSlotError?: string;
+}
+
+export interface IDate {
+  date: any;
+  day: string;
+  isWeekend: boolean;
+  isoString: any;
 }
 
 export interface ICaregiverFormValue {
@@ -86,6 +104,9 @@ export interface ICaregiverValidationFormValue {
   weekendAllowance?: string;
   holidayAllowance?: string;
   nightFee?: string;
+  distanceInKM?: string;
+  feePerKM?: string;
+  otherExpenses?: string;
 }
 export interface ICareinstitutionFormValue {
   firstName: string;
@@ -93,4 +114,8 @@ export interface ICareinstitutionFormValue {
 }
 export interface IAppointmentCareInstitutionForm {
   selectedCareinstitution: any;
+}
+export interface IAddCargiverAppointmentRes {
+  userId: string;
+  status: string;
 }

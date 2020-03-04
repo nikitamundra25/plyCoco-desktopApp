@@ -20,5 +20,7 @@ export * from "./Document";
 export * from "./WorkingProof";
 export * from "./qualification";
 export * from "./TimeFunction";
+export * from "./GlobalCalendar";
+export * from "./PycModal";
 export * from "./Appointments";
 export * from "./Offer";

@@ -148,7 +148,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='7'>
-                    <div>
+                    <div className='text-value mb-1'>
                       {activeDateCareinstitution
                         ? moment(
                             activeDateCareinstitution

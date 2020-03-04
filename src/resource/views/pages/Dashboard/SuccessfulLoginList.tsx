@@ -59,9 +59,9 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
                             defaultDateTimeFormatForDashboard
                           )}
                         </td>
-                        <td className="date-column">
+                        <td className="name-column">
                           <div
-                            className="text-capitalize view-more-link word-wrap "
+                            className="text-capitalize view-more-link word-wrap one-line-text "
                             onClick={() =>
                               history.push(
                                 item.user.userRole === "caregiver"
@@ -79,7 +79,7 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
                             {item.user.firstName} {item.user.lastName}
                           </div>
                         </td>
-                        <td className="username-column">
+                        <td className="username-column word-wrap one-line-text  ">
                           {item.user.userName}
                         </td>
                         <td className="ipaddress-column">

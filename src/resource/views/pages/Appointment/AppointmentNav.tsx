@@ -150,12 +150,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             />
           </div>
           <div className='common-header-input pr-1'>
-            <Input
-              className='form-control'
-              placeholder={''}
-              type='input'
-              name='text'
-            />
+            <Input placeholder={''} type='input' name='text' />
           </div>
         </div>
       </div>

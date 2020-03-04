@@ -55,9 +55,9 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
                             defaultDateTimeFormatForDashboard
                           )}
                         </td>
-                        <td>
+                        <td className="name-column">
                           <div
-                            className="text-capitalize view-more-link word-wrap name-column"
+                            className="text-capitalize view-more-link word-wrap  one-line-text"
                             onClick={() =>
                               history.push(
                                 item.user.userRole === "caregiver"

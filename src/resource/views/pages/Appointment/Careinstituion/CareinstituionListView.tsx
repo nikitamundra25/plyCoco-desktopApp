@@ -25,7 +25,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
     onAddingRow,
     handleSelectedUser,
     handleSecondStar,
-    handleReset
+    handleReset,
+    handleFirstStarCanstitution
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
   const [starMarkIndex, setstarMarkIndex] = useState<number>(-1);
@@ -235,9 +236,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                       <td className='h-col custom-appointment-col text-center'></td>
                       <td
                         className='s-col custom-appointment-col text-center'
-                        onClick={() =>
-                          handleFirstStar(list, index, 'careinstitution')
-                        }
+                        onClick={() => handleFirstStarCanstitution(list.id)}
                       >
                         {starMarkIndex === index || starMark ? (
                           <i className='fa fa-star-o icon-d' />

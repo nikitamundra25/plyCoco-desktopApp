@@ -38,16 +38,21 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 ) => {
   const {
     values: {
-      firstName,
-      lastName,
+      name,
       shift,
-      begin,
-      end,
+      startTime,
+      endTime,
       qualificationId,
       department,
       address,
       contactPerson,
-      workingProofRecieved
+      isWorkingProof,
+      departmentBookingRemarks,
+      departmentOfferRemarks,
+      departmentRemarks,
+      offerRemarks,
+      bookingRemarks,
+      comments
     },
     touched,
     errors,
@@ -62,7 +67,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     selectedCareinstitution,
     qualificationList,
     careInstitutionDepartment,
-    setcareInstituionDept
+    setcareInstituionDept,
+    careInstitutionTimesOptions,
+    setcareInstituionShift
   } = props;
 
   // Custom function to handle react select fields
@@ -70,6 +77,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     setFieldValue(name, selectOption);
     if (name === 'department') {
       setcareInstituionDept(selectOption);
+    }
+    if (name === 'shift') {
+      setcareInstituionShift(selectOption);
     }
   };
 
@@ -118,19 +128,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           name={'id'}
                           placeholder={languageTranslation('NAME')}
                           disabled
-                          value={
-                            selectedCareinstitution
-                              ? `${
-                                  selectedCareinstitution.firstName
-                                    ? selectedCareinstitution.firstName
-                                    : ''
-                                } ${
-                                  selectedCareinstitution.lastName
-                                    ? selectedCareinstitution.lastName
-                                    : ''
-                                }`
-                              : ''
-                          }
+                          value={name ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
@@ -177,9 +175,16 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     <div>
                       <Select
                         placeholder='Select'
-                        options={ShiftTime}
+                        options={
+                          careInstitutionTimesOptions &&
+                          careInstitutionTimesOptions.length
+                            ? careInstitutionTimesOptions
+                            : ShiftTime
+                        }
+                        value={shift}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
+                        onChange={(value: any) => handleSelect(value, 'shift')}
                       />
                     </div>
                   </Col>
@@ -200,6 +205,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         <Input
                           type='text'
                           name={'id'}
+                          value={startTime}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                           placeholder={languageTranslation('START_WORKING')}
                         />
                         <InputGroupAddon addonType='append'>
@@ -225,6 +233,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         <Input
                           type='text'
                           name={'id'}
+                          value={endTime}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                           placeholder={languageTranslation('END_WORKING')}
                         />
                         <InputGroupAddon addonType='append'>
@@ -249,9 +260,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <Select
                         placeholder='Select Qualifications'
                         options={qualificationList}
+                        isMulti={true}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                         value={qualificationId}
+                        onChange={(value: any) =>
+                          handleSelect(value, 'qualificationId')
+                        }
                       />
                     </div>
                   </Col>
@@ -321,10 +336,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     <div className='required-input'>
                       <Input
                         type='textarea'
-                        name={'id'}
+                        name={'address'}
                         disabled={true}
                         placeholder={languageTranslation('ADDRESS')}
                         className='width-common'
+                        value={address}
                       />
                     </div>
                   </Col>
@@ -344,9 +360,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <Input
                         type='text'
                         disabled={true}
-                        name={'id'}
+                        name={'contactPerson'}
                         placeholder={languageTranslation('CONTACT_PERSON')}
                         className='width-common'
+                        value={contactPerson}
                       />
                     </div>
                   </Col>
@@ -368,8 +385,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         rows='3'
                         disabled={true}
                         type='textarea'
-                        name='text'
+                        name='departmentOfferRemarks'
                         id='exampleText'
+                        value={departmentOfferRemarks}
                       />
                     </div>
                   </Col>
@@ -391,8 +409,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         rows='3'
                         disabled={true}
                         type='textarea'
-                        name='text'
+                        name='departmentBookingRemarks'
                         id='exampleText'
+                        value={departmentBookingRemarks}
                       />
                     </div>
                   </Col>
@@ -416,8 +435,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         rows='3'
                         disabled={true}
                         type='textarea'
-                        name='text'
+                        name='departmentRemarks'
                         id='exampleText'
+                        value={departmentRemarks}
                       />
                     </div>
                   </Col>
@@ -439,16 +459,16 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           <input
                             type='checkbox'
                             id='check1'
-                            name={'workingProofRecieved'}
+                            name={'isWorkingProof'}
                             className=''
-                            checked={workingProofRecieved}
+                            checked={isWorkingProof}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
                                 target: { checked }
                               } = e;
-                              setFieldValue('workingProofRecieved', checked);
+                              setFieldValue('isWorkingProof', checked);
                             }}
                           />
                           <Label for='check1'></Label>
@@ -473,8 +493,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         className='textarea-custom form-control'
                         rows='3'
                         type='textarea'
-                        name='text'
+                        name='offerRemarks'
                         id='exampleText'
+                        value={offerRemarks}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </div>
                   </Col>
@@ -495,8 +518,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         className='textarea-custom form-control'
                         rows='3'
                         type='textarea'
-                        name='text'
+                        name='bookingRemarks'
                         id='exampleText'
+                        value={bookingRemarks}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </div>
                   </Col>
@@ -517,8 +543,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         className='textarea-custom form-control'
                         rows='3'
                         type='textarea'
-                        name='text'
+                        name='comments'
                         id='exampleText'
+                        value={comments}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </div>
                   </Col>
@@ -530,7 +559,17 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                 <Button className='btn-save' color='danger'>
                   {languageTranslation('CLEAR')}
                 </Button>
-                <Button className='btn-save' color='primary'>
+                <Button
+                  className='btn-save'
+                  color='primary'
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <i className='fa fa-spinner fa-spin mr-2' />
+                  ) : (
+                    ''
+                  )}
                   {languageTranslation('SAVE_BUTTON')}
                 </Button>
               </div>

@@ -35,7 +35,7 @@ export interface IAppointmentCareGiverList {
   ) => void | undefined;
   handleSelectedUser: (
     value: object,
-    date: IGetDaysArrayByMonthRes | null,
+    date: IDaysArray[] | null,
     name: string
   ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
@@ -53,7 +53,7 @@ export interface IAppointmentCareInstitutionList {
   ) => void | undefined;
   handleSelectedUser: (
     value: object,
-    date: IGetDaysArrayByMonthRes | null,
+    date: IDaysArray[] | null,
     name: string
   ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
@@ -64,6 +64,7 @@ export interface IAppointmentCareGiverForm {
   selectedCareGiver?: any;
   activeDateCaregiver?: IDate | undefined;
   addCaregiverRes?: any;
+  timeSlotError?: string;
 }
 
 export interface IDate {
@@ -103,6 +104,9 @@ export interface ICaregiverValidationFormValue {
   weekendAllowance?: string;
   holidayAllowance?: string;
   nightFee?: string;
+  distanceInKM?: string;
+  feePerKM?: string;
+  otherExpenses?: string;
 }
 export interface ICareinstitutionFormValue {
   firstName: string;

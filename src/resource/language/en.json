@@ -834,5 +834,7 @@
   "FEE_REQUIRED": "Fee is required",
   "NIGHT_FEE_REQUIRED": "Night fee required",
   "WEEKEND_ALLOWANCE_REQUIRED": "Weekend allowance required",
-  "HOLIDAY_ALLOWANCE_REQUIRED": "Holiday allowance required"
+  "HOLIDAY_ALLOWANCE_REQUIRED": "Holiday allowance required",
+  "CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG": "Caregiver requirement added successfully",
+  "CAREGIVER_TIME_SLOT_ERROR_MSG": "Please select atleast one working hour."
 }

@@ -34,5 +34,23 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
       'check-num',
       languageTranslation('INVALID_NUMBER'),
       value => !value || NumberWithCommaRegex.test(value)
-    )
+    ),
+  distanceInKM: Yup.mixed()
+  .test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || NumberWithCommaRegex.test(value)
+  ),
+  feePerKM: Yup.mixed()
+  .test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || NumberWithCommaRegex.test(value)
+  ),
+  otherExpenses: Yup.mixed()
+  .test(
+    'check-num',
+    languageTranslation('INVALID_NUMBER'),
+    value => !value || NumberWithCommaRegex.test(value)
+  )
 });

@@ -1224,6 +1224,13 @@ export const ShiftTime: IReactSelectInterface[] = [
 export const deactivatedListColor: string = '#cacaca';
 export const leasingListColor: string = '#f7d158';
 export const selfEmployesListColor: string = '#ebebff';
+
+// color: #ffff00; yellow
+// color: #ff00ff; magenta/pink
+// color: #d7ffe5; light green
+// color: #ffd7b0; peach
+// color: #97beff; blue
+
 export const matchingColorCaregiver: IMatchingColorInterface[] = [
   {
     status: 'default',

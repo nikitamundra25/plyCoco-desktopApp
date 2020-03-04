@@ -32,7 +32,11 @@ import { CareGiverValidationSchema } from '../../../validations/AppointmentsForm
 import { toast } from 'react-toastify';
 import { defaultDateFormat } from '../../../../config';
 import { AppointmentMutations } from '../../../../graphql/Mutations';
+import { ConfirmBox } from '../../components/ConfirmBox';
+
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
+
+let toastId: any = null;
 const Appointment: FunctionComponent = () => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
     null
@@ -47,7 +51,10 @@ const Appointment: FunctionComponent = () => {
     {}
   );
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
-
+  const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
+    IDate[]
+  >([]);
+  const [timeSlotError, setTimeSlotError] = useState<string>('');
   // Mutation to add careGiver data
   const [addCaregiver, { error, data: addCaregiverRes }] = useMutation<
     { addCareGiverAvability: IAddCargiverAppointmentRes },
@@ -247,6 +254,9 @@ const Appointment: FunctionComponent = () => {
       }
     } else {
       setselectedCareinstitution(list);
+      if (date) {
+        setactiveDateCareinstitution(date);
+      }
     }
   };
 
@@ -269,8 +279,6 @@ const Appointment: FunctionComponent = () => {
     console.log('insideeee');
 
     const {
-      firstName,
-      lastName,
       fee,
       nightFee,
       nightAllowance,
@@ -292,49 +300,63 @@ const Appointment: FunctionComponent = () => {
       n
     } = values;
     try {
-      let CareGiverAvabilityInput: any = {
-        userId: selectedCareGiver ? parseInt(selectedCareGiver.id) : '',
-        date:
-          activeDateCaregiver && activeDateCaregiver.length
-            ? activeDateCaregiver[0].isoString
-            : '',
-        fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
-        weekendAllowance: weekendAllowance
-          ? parseFloat(weekendAllowance.replace(/,/g, '.'))
-          : null,
-        holidayAllowance: holidayAllowance
-          ? parseFloat(holidayAllowance.replace(/,/g, '.'))
-          : null,
-        nightFee: nightFee ? parseFloat(nightFee.replace(/,/g, '.')) : null,
-        nightAllowance:
-          nightAllowance && nightAllowance.value ? nightAllowance.value : null,
-        workingProofRecieved: workingProofRecieved ? true : false,
-        distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
-        feePerKM: feePerKM ? parseFloat(feePerKM) : null,
-        otherExpenses: otherExpenses
-          ? parseFloat(otherExpenses.replace(/,/g, '.'))
-          : null,
-        remarksCareGiver: remarksCareGiver ? remarksCareGiver : null,
-        remarksInternal: remarksInternal ? remarksInternal : null,
-        f: f ? 'available' : 'default',
-        s: s ? 'available' : 'default',
-        n: n ? 'available' : 'default',
-        status: 'default'
-      };
-      console.log('CareGiverAvabilityInput', CareGiverAvabilityInput);
-      await addCaregiver({
-        variables: {
-          careGiverAvabilityInput: [{ ...CareGiverAvabilityInput }]
+      if (f || s || n) {
+        setTimeSlotError('');
+        let CareGiverAvabilityInput: any = {
+          userId: selectedCareGiver ? parseInt(selectedCareGiver.id) : '',
+          date:
+            activeDateCaregiver && activeDateCaregiver.length
+              ? activeDateCaregiver[0].isoString
+              : '',
+          fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
+          weekendAllowance: weekendAllowance
+            ? parseFloat(weekendAllowance.replace(/,/g, '.'))
+            : null,
+          holidayAllowance: holidayAllowance
+            ? parseFloat(holidayAllowance.replace(/,/g, '.'))
+            : null,
+          nightFee: nightFee ? parseFloat(nightFee.replace(/,/g, '.')) : null,
+          nightAllowance:
+            nightAllowance && nightAllowance.value
+              ? nightAllowance.value
+              : null,
+          workingProofRecieved: workingProofRecieved ? true : false,
+          distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
+          feePerKM: feePerKM ? parseFloat(feePerKM) : null,
+          otherExpenses: otherExpenses
+            ? parseFloat(otherExpenses.replace(/,/g, '.'))
+            : null,
+          remarksCareGiver: remarksCareGiver ? remarksCareGiver : null,
+          remarksInternal: remarksInternal ? remarksInternal : null,
+          f: f ? 'available' : 'default',
+          s: s ? 'available' : 'default',
+          n: n ? 'available' : 'default',
+          status: 'default'
+        };
+        console.log('CareGiverAvabilityInput', CareGiverAvabilityInput);
+        await addCaregiver({
+          variables: {
+            careGiverAvabilityInput: [{ ...CareGiverAvabilityInput }]
+          }
+        });
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
+          );
         }
-      });
-      toast.success(languageTranslation('CARE_INSTITUTION_ADD_SUCCESS_MSG'));
+      } else {
+        setTimeSlotError(languageTranslation('CAREGIVER_TIME_SLOT_ERROR_MSG'));
+        return;
+      }
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
         .replace('Validation error: ', '')
         .replace('GraphQL error: ', '');
       // setFieldError('email', message);
-      toast.error(message);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
     }
     setSubmitting(false);
   };
@@ -467,6 +489,7 @@ const Appointment: FunctionComponent = () => {
                                   ? addCaregiverRes.addCareGiverAvability
                                   : ''
                               }
+                              timeSlotError={timeSlotError}
                             />
                           );
                         }}

@@ -72,7 +72,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     setFieldError,
     selectedCareGiver,
     activeDateCaregiver,
-    addCaregiverRes
+    addCaregiverRes,
+    timeSlotError
   } = props;
 
   // Custom function to handle react select fields
@@ -237,6 +238,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           </Label>
                         </div>
                       </FormGroup>
+                      {timeSlotError && (
+                        <div className='required'>{timeSlotError}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -453,10 +457,20 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           placeholder={languageTranslation('FEE_PER_KM')}
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          className={
+                            errors.distanceInKM && touched.distanceInKM
+                              ? 'width-common error'
+                              : 'width-common'
+                          }
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>km</InputGroupText>
                         </InputGroupAddon>
+                        {errors.distanceInKM && touched.distanceInKM && (
+                          <div className='required-tooltip bottom-tooltip'>
+                            {errors.distanceInKM}
+                          </div>
+                        )}
                       </InputGroup>
                     </div>
                   </Col>
@@ -481,12 +495,22 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           placeholder={languageTranslation('a')}
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          className={
+                            errors.feePerKM && touched.feePerKM
+                              ? 'width-common error'
+                              : 'width-common'
+                          }
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
                             <i className='fa fa-euro' aria-hidden='true'></i>
                           </InputGroupText>
                         </InputGroupAddon>
+                        {errors.feePerKM && touched.feePerKM && (
+                          <div className='required-tooltip bottom-tooltip'>
+                            {errors.feePerKM}
+                          </div>
+                        )}
                       </InputGroup>
                     </div>
                   </Col>
@@ -510,7 +534,17 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         onChange={handleChange}
                         onBlur={handleBlur}
                         placeholder={languageTranslation('EXPENSES')}
+                        className={
+                          errors.otherExpenses && touched.otherExpenses
+                            ? 'width-common error'
+                            : 'width-common'
+                        }
                       />
+                      {errors.otherExpenses && touched.otherExpenses && (
+                        <div className='required-tooltip bottom-tooltip'>
+                          {errors.otherExpenses}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>

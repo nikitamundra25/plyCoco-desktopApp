@@ -42,10 +42,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   };
   const onhandleSecondStar = (list: object, index: number, name: string) => {
     if (!starMark) {
-      if (starMarkIndex === index) {
-        setstarMark(!starMark);
-        handleSecondStar(list, index, name);
-      }
+      setstarMark(!starMark);
+      handleSecondStar(list, index, name);
     } else {
       setstarMark(!starMark);
       handleReset(name);
@@ -204,7 +202,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                       <td
                         className='s-col custom-appointment-col text-center'
                         onClick={() =>
-                          handleFirstStar(list, index, 'caregiver')
+                          onhandleSecondStar(list, index, 'caregiver')
                         }
                       >
                         {starMarkIndex === index || starMark ? (
@@ -233,12 +231,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                       </td>
                       {daysArr.map((key: any, i: number) => {
                         return (
-                          <Cell
-                            key={`${key}-${i}`}
-                            day={key}
-                            list={list}
-                            handleSelectedUser={handleSelectedUser}
-                          />
+                          <Cell key={`${key}-${i}`} day={key} list={list} />
                         );
                       })}
                     </tr>

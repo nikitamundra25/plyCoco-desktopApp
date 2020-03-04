@@ -1234,28 +1234,28 @@ export const selfEmployesListColor: string = '#ebebff';
 export const matchingColorCaregiver: IMatchingColorInterface[] = [
   {
     status: 'default',
-    color: '#c1f3c1ba'
+    color: '#d7ffe5'
   },
   {
     status: 'linked',
-    color: 'yellow'
+    color: '#ffff00'
   },
   {
     status: 'contract',
-    color: 'green'
+    color: '#ffd7b0'
   }
 ];
 export const matchingColorCareinstituion: IMatchingColorInterface[] = [
   {
     status: 'default',
-    color: '#c1f3c1ba'
+    color: '#ff00ff'
   },
   {
     status: 'linked',
-    color: 'yellow'
+    color: '#ffff00'
   },
   {
     status: 'contract',
-    color: 'green'
+    color: '#ffd7b0'
   }
 ];

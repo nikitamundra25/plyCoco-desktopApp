@@ -154,8 +154,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     </Label>
                   </Col>
                   <Col sm='7'>
-                    <div className='required-input'>
-                      <Input
+                    {/* <div className='required-input'> */}
+                    {/* <Input
                         placeholder={languageTranslation(
                           'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
                         )}
@@ -168,8 +168,17 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               )}, ${activeDateCaregiver.day}`
                             : null
                         }
-                      />
+                      /> */}
+                    <div className='mt-2 mb-2'>
+                      {activeDateCaregiver
+                        ? moment(
+                            activeDateCaregiver
+                              ? activeDateCaregiver.isoString
+                              : null
+                          ).format('dd DD.MM.YYYY')
+                        : null}
                     </div>
+                    {/* </div> */}
 
                     <div>
                       <FormGroup check inline>

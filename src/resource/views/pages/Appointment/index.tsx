@@ -187,6 +187,14 @@ const Appointment: FunctionComponent = () => {
     setDaysData(res);
   }, []);
 
+  // On click Today
+  const handleToday = () => {
+    const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(
+      moment().month(),
+      moment().year()
+    );
+    setDaysData(res);
+  };
   // On previous month click
   const handlePrevious = () => {
     let month: number = activeMonth - 1;
@@ -236,11 +244,11 @@ const Appointment: FunctionComponent = () => {
     e.preventDefault();
     if (name === 'caregiver') {
       let temp: any = [...caregiversList];
-      temp.splice(index + 1, 0, {});
+      temp.splice(index + 1, 0, { ...temp[index], newRow: true });
       setcaregiversList(temp);
     } else {
       let temp: any = [...careinstitutionList];
-      temp.splice(index + 1, 0, {});
+      temp.splice(index + 1, 0, { ...temp[index], newRow: true });
       setcareinstitutionList(temp);
     }
   };
@@ -437,6 +445,7 @@ const Appointment: FunctionComponent = () => {
             careInstitutionList={careInstitutionOptions}
             careGiversList={careGiversOptions}
             handleDayClick={handleDayClick}
+            handleToday={handleToday}
           />
 
           <div className='common-content flex-grow-1'>

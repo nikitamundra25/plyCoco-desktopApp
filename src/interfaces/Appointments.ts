@@ -15,6 +15,7 @@ export interface IGetDaysArrayByMonthRes {
 
 export interface IAppointmentNav {
   handlePrevious: () => void;
+  handleToday: () => void;
   handleQualification: (value: any) => void;
   handleNext: () => void;
   handleDayClick: (selectedDay: Date) => void;

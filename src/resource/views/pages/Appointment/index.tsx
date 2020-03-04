@@ -100,7 +100,7 @@ const Appointment: FunctionComponent = () => {
   >(ADD_CAREGIVER_AVABILITY);
 
   // Mutation to add careinstitution data
-  const [addCareinstitution, { data: addCareinstitutionRes }] = useMutation<
+  const [addCareinstitutionRequirment, { data: addCareinstitutionRes }] = useMutation<
     { addCareGiverAvability: IAddCargiverAppointmentRes },
     { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue }
   >(ADD_INSTITUTION_REQUIREMENT);
@@ -581,7 +581,7 @@ const Appointment: FunctionComponent = () => {
         comments
       };
       console.log('addCareinstitution', careInstitutionRequirementInput);
-      await addCareinstitution({
+      await addCareinstitutionRequirment({
         variables: {
           careInstitutionRequirementInput
         }

@@ -18,7 +18,7 @@ const ADD_INSTITUTION_REQUIREMENT = gql`
   mutation AddCareInstitutionRequirement(
     $careInstitutionRequirementInput: CareInstitutionRequirementInput
   ) {
-    careInstitutionRequirementInput(
+    addCareInstitutionRequirement(
       careInstitutionRequirementInput: $careInstitutionRequirementInput
     ) {
       userId

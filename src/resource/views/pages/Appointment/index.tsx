@@ -308,9 +308,7 @@ const Appointment: FunctionComponent = () => {
       }
     });
     if (id) {
-      console.log('fhjbjfdb', departmentList);
       if (departmentList && departmentList.getDivision.length) {
-        console.log('departmentList');
         const { getDivision } = departmentList;
         setcareinstitutionList(getDivision);
       }

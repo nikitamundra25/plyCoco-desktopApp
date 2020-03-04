@@ -110,10 +110,11 @@ export interface ICaregiverValidationFormValue {
   feePerKM?: string;
   otherExpenses?: string;
 }
-export interface ICareinstitutionFormValue {
-  firstName: string;
-  lastName: string;
-}
+// export interface ICareinstitutionFormValue {
+//   firstName: string;
+//   lastName: string;
+//   careInstitutionTimesOptions: IReactSelectTimeInterface[] | undefined;
+// }
 export interface IAppointmentCareInstitutionForm {
   selectedCareinstitution: any;
   qualificationList: IReactSelectInterface[] | undefined;
@@ -122,4 +123,48 @@ export interface IAppointmentCareInstitutionForm {
 export interface IAddCargiverAppointmentRes {
   userId: string;
   status: string;
+}
+
+export interface IReactSelectTimeInterface {
+  label: string;
+  value: string;
+  data: any;
+}
+
+export interface ICareinstitutionFormValue {
+  name: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  qualificationId: IReactSelectInterface[] | undefined;
+  address: string;
+  contactPerson: string;
+  departmentOfferRemarks?: string;
+  departmentBookingRemarks: string;
+  departmentRemarks: string;
+  isWorkingProof: boolean;
+  offerRemarks: string;
+  bookingRemarks: string;
+  shift?: IReactSelectTimeInterface | undefined;
+  department?: IReactSelectInterface | undefined;
+  comments: string;
+}
+
+export interface ICareinstitutionFormSubmitValue {
+  userId: number;
+  name: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  divisionId: number;
+  qualificationId: number[];
+  address: string;
+  contactPerson: string;
+  departmentOfferRemarks: string | null;
+  departmentBookingRemarks: string;
+  departmentRemarks: string;
+  isWorkingProof: boolean;
+  offerRemarks: string;
+  bookingRemarks: string;
+  comments?: string;
 }

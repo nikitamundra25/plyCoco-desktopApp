@@ -14,4 +14,30 @@ const ADD_CAREGIVER_AVABILITY = gql`
   }
 `;
 
-export const AppointmentMutations = [ADD_CAREGIVER_AVABILITY];
+const ADD_INSTITUTION_REQUIREMENT = gql`
+  mutation AddCareInstitutionRequirement(
+    $careInstitutionRequirementInput: CareInstitutionRequirementInput
+  ) {
+    careInstitutionRequirementInput(
+      careInstitutionRequirementInput: $careInstitutionRequirementInput
+    ) {
+      userId
+      name
+      date
+      startTime
+      endTime
+      divisionId
+      address
+      contactPerson
+      departmentBookingRemarks
+      departmentRemarks
+      isWorkingProof
+      offerRemarks
+      bookingRemarks
+    }
+  }
+`;
+export const AppointmentMutations = [
+  ADD_CAREGIVER_AVABILITY,
+  ADD_INSTITUTION_REQUIREMENT
+];

@@ -10,7 +10,7 @@ const Cell = ({
   handleSelectedUser
 }: any) => (
   <>
-    {console.log(list.firstName === 'Aayushi' ? list : null, 'list')}
+    {/* {console.log(list.firstName === 'Aayushi' ? list : null, 'list')} */}
     <td
       className={classnames({
         'calender-col': true,
@@ -22,9 +22,7 @@ const Cell = ({
       })}
       ref={selectableRef}
       // onClick={() => handleSelectedUser(list, day, 'caregiver')}
-    >
-      {list && list.caregiver_avabilities && list.caregiver_avabilities}
-    </td>
+    ></td>
   </>
 );
 

@@ -284,8 +284,6 @@ const Appointment: FunctionComponent = () => {
     values: ICaregiverFormValue,
     { setSubmitting, setFieldError }: FormikHelpers<ICaregiverFormValue>
   ) => {
-    console.log('insideeee');
-
     const {
       fee,
       nightFee,
@@ -516,6 +514,12 @@ const Appointment: FunctionComponent = () => {
                           return (
                             <CareinstitutionFormView
                               {...props}
+                              activeDateCareinstitution={
+                                activeDateCareinstitution &&
+                                activeDateCareinstitution.length
+                                  ? activeDateCareinstitution[0]
+                                  : undefined
+                              }
                               selectedCareinstitution={selectedCareinstitution}
                             />
                           );

@@ -266,7 +266,6 @@ const Appointment: FunctionComponent = () => {
 
   useEffect(() => {
     console.log("careInstituionDept",careInstituionDept);
-    
   }, [careInstituionDept]);
 
   // select careGiver or careinstitution

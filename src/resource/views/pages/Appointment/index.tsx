@@ -249,7 +249,6 @@ const Appointment: FunctionComponent = () => {
     values: ICaregiverFormValue,
     { setSubmitting, setFieldError }: FormikHelpers<ICaregiverFormValue>
   ) => {
-    console.log('insideeee');
 
     const {
       firstName,
@@ -301,6 +300,7 @@ const Appointment: FunctionComponent = () => {
         n: n ? 'available' : 'default'
       };
       console.log('careGiverInput', careGiverInput);
+      
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')

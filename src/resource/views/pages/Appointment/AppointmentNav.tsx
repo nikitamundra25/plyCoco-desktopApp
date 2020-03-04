@@ -33,6 +33,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   const { month = '', year = '' } = daysData ? daysData : {};
 
   const [attributeSearch, setShowAttribute] = useState<boolean>(false);
+  const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
   return (
     <>
       <div className='sticky-common-header'>
@@ -99,7 +100,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           </div>
           <div
             className='header-nav-item'
-            onClick={() => setShowAttribute(true)}
+            onClick={() => {
+              setShowAttribute(true);
+              setAttributeFilter('caregiver');
+            }}
           >
             <span className='header-nav-icon'>
               <img src={filter} alt='' />
@@ -125,7 +129,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           </div>
           <div
             className='header-nav-item'
-            onClick={() => setShowAttribute(true)}
+            onClick={() => {
+              setShowAttribute(true);
+              setAttributeFilter('careInstitution');
+            }}
           >
             <span className='header-nav-icon'>
               <img src={filter} alt='' />
@@ -155,7 +162,12 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
       </div>
       <AttributeFilter
         show={attributeSearch ? true : false}
-        handleClose={() => setShowAttribute(false)}
+        handleClose={() => {
+          setShowAttribute(false);
+          setAttributeFilter(null);
+        }}
+        setAttributeFilter={setAttributeFilter}
+        attributeFilter={attributeFilter}
       />
     </>
   );

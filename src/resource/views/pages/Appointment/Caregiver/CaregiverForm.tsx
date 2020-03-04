@@ -31,6 +31,7 @@ import Select from 'react-select';
 import { FormikProps } from 'formik';
 import { FormikTextField } from '../../../components/forms/FormikFields';
 import moment from 'moment';
+import classnames from 'classnames';
 
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm> = (
@@ -75,16 +76,29 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     addCaregiverRes,
     timeSlotError
   } = props;
+  console.log('selectedCareGiver', selectedCareGiver);
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
 
+ /*  let isAvailability: boolean = false,
+    isMatching: boolean = false,
+    isContract: boolean = false;
+    if (selectedCareGiver && selectedCareGiver.caregiver_avabilities) {
+      
+    } */
+
   return (
     <>
       <div className='form-section'>
-        <div className='form-card custom-height custom-scrollbar'>
+        <div
+          className={classnames({
+            'form-card custom-height custom-scrollbar': true,
+            'availability-bg': false
+          })}
+        >
           <h5 className='content-title'>
             {languageTranslation('MENU_CAREGIVER')}
           </h5>

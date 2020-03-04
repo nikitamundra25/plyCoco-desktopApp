@@ -1489,6 +1489,50 @@ html:not([dir="rtl"]) {
     }
   }
 }
+
+//custom day picker
+.DayPickerInput {
+  input {
+    border-radius: 0px;
+    color: $light_black;
+    font-size: $font_12;
+    height: 25px;
+    padding: 0px 8px;
+    line-height: 30px;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 100%;
+    background: $white;
+    border: 1px solid $light_gray;
+    font-family: $font_Frutiger_Regular;
+    &:focus {
+      box-shadow: none;
+      outline: none;
+      border-color: $theme_color;
+    }
+  }
+  .DayPicker {
+    display: block;
+    font-size: $font_12;
+    font-family: $font_Frutiger_Regular;
+    .DayPicker-Day {
+      font-size: $font_12;
+      &.DayPicker-Day--today {
+        background: $theme_color !important;
+        color: $white !important;
+      }
+
+      &.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+        position: relative;
+        background-color: #323232 !important;
+        color: #f0f8ff !important;
+      }
+    }
+  }
+}
+
 // custom file input css
 .custom-file-div {
   position: relative;

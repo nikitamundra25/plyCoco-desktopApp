@@ -299,6 +299,24 @@ const Appointment: FunctionComponent = () => {
     );
   }
 
+  // handle first star of careinstitution and show department list
+  const handleFirstStarCanstitution = async (id: string) => {
+    await getDepartmentList({
+      variables: {
+        userId: parseInt(id),
+        locked: null
+      }
+    });
+    if (id) {
+      console.log('fhjbjfdb', departmentList);
+      if (departmentList && departmentList.getDivision.length) {
+        console.log('departmentList');
+        const { getDivision } = departmentList;
+        setcareinstitutionList(getDivision);
+      }
+    }
+  };
+
   // Select single user from list and hide the rest
   const handleSecondStar = (list: object, index: number, name: string) => {
     let temp: any = [];
@@ -544,6 +562,7 @@ const Appointment: FunctionComponent = () => {
                     handleSelectedUser={handleSelectedUser}
                     handleSecondStar={handleSecondStar}
                     handleReset={handleReset}
+                    handleFirstStarCanstitution={handleFirstStarCanstitution}
                   />
                 </Col>
                 <Col lg={'7'}>

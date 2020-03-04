@@ -58,6 +58,7 @@ export interface IAppointmentCareInstitutionList {
     name: string
   ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
+  handleFirstStarCanstitution: (id: string) => void;
   handleReset: (name: string) => void;
 }
 

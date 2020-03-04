@@ -55,7 +55,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
         <Table hover bordered className="mb-0 appointment-table">
           <thead className="thead-bg">
             <tr>
-              <th className="thead-sticky name-col custom-appointment-col zindex2">
+              <th className=" name-col custom-appointment-col zindex2">
                 CareInstitution
                 <UncontrolledDropdown className="custom-dropdown options-dropdown">
                   <DropdownToggle
@@ -138,18 +138,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </th>
-              <th className="thead-sticky h-col custom-appointment-col text-center">
-                H
-              </th>
-              <th className="thead-sticky s-col custom-appointment-col text-center">
-                S
-              </th>
-              <th className="thead-sticky u-col custom-appointment-col text-center">
-                A
-              </th>
-              <th className="thead-sticky v-col custom-appointment-col text-center">
-                V
-              </th>
+              <th className=" h-col custom-appointment-col text-center">H</th>
+              <th className=" s-col custom-appointment-col text-center">S</th>
+              <th className=" u-col custom-appointment-col text-center">A</th>
+              <th className=" v-col custom-appointment-col text-center">V</th>
               {/* array for showing day */}
               {daysArr.map(
                 (
@@ -158,7 +150,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                 ) => {
                   return (
                     <th
-                      className="thead-sticky calender-col custom-appointment-col text-center"
+                      className=" calender-col custom-appointment-col text-center"
                       key={index}
                     >
                       <div className="custom-appointment-calendar-date">
@@ -184,9 +176,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
               careInstitutionList.map((list: any, index: number) => {
                 return (
                   <tr key={index}>
-                    <td className="name-col custom-appointment-col">
+                    <th className=" name-col custom-appointment-col">
                       <div
-                        className="text-capitalize view-more-link"
+                        className="text-capitalize view-more-link one-line-text word-wrap"
                         onClick={() =>
                           handleSelectedUser(list, "careinstitution")
                         }
@@ -195,7 +187,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                           list.lastName ? list.lastName : ""
                         }`}
                       </div>
-                    </td>
+                    </th>
                     <td className="h-col custom-appointment-col text-center"></td>
                     <td
                       className="s-col custom-appointment-col text-center"

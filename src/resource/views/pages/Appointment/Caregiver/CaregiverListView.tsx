@@ -57,73 +57,67 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         <Table hover bordered className="mb-0 appointment-table">
           <thead className="thead-bg">
             <tr>
-              <th className="thead-sticky name-col custom-appointment-col zindex2 ">
-                Caregiver
-                <UncontrolledDropdown className="custom-dropdown options-dropdown">
-                  <DropdownToggle
-                    className={"text-capitalize btn-more"}
-                    size="sm"
-                  >
-                    <i className="icon-options-vertical" />
-                  </DropdownToggle>
-                  <DropdownMenu right>
-                    <DropdownItem>
-                      <span>New appointment</span>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <span>Reserve</span>
-                    </DropdownItem>{" "}
-                    <DropdownItem>
-                      <span>Delete free and reserved calender entries</span>
-                    </DropdownItem>{" "}
-                    <DropdownItem>
-                      <span>Detailed List</span>
-                    </DropdownItem>{" "}
-                    <DropdownItem>
-                      <span>Filter by qualifications of caregiver</span>
-                    </DropdownItem>{" "}
-                    <DropdownItem>
-                      <span>Offer all available calendar entries</span>
-                    </DropdownItem>{" "}
-                    <DropdownItem>
-                      <span>Connect availabilities</span>
-                    </DropdownItem>{" "}
-                    <DropdownItem>
-                      <span>Disconnect availabilities</span>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <span>Confirmed appointments</span>
-                    </DropdownItem>{" "}
-                    <DropdownItem>
-                      <span>Set on confirmed</span>
-                    </DropdownItem>{" "}
-                    <DropdownItem>
-                      <span>Set on not confirmed</span>
-                    </DropdownItem>{" "}
-                    <DropdownItem>
-                      <span>Request temporary leasing contract</span>
-                    </DropdownItem>{" "}
-                    <DropdownItem>
-                      <span>Create termination agreement</span>
-                    </DropdownItem>{" "}
-                    <DropdownItem>
-                      <span>Refresh</span>
-                    </DropdownItem>{" "}
-                  </DropdownMenu>
-                </UncontrolledDropdown>
+              <th className=" name-col custom-appointment-col zindex2 ">
+                <div className="position-relative">
+                  Caregiver
+                  <UncontrolledDropdown className="custom-dropdown options-dropdown">
+                    <DropdownToggle
+                      className={"text-capitalize btn-more"}
+                      size="sm"
+                    >
+                      <i className="icon-options-vertical" />
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem>
+                        <span>New appointment</span>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <span>Reserve</span>
+                      </DropdownItem>{" "}
+                      <DropdownItem>
+                        <span>Delete free and reserved calender entries</span>
+                      </DropdownItem>{" "}
+                      <DropdownItem>
+                        <span>Detailed List</span>
+                      </DropdownItem>{" "}
+                      <DropdownItem>
+                        <span>Filter by qualifications of caregiver</span>
+                      </DropdownItem>{" "}
+                      <DropdownItem>
+                        <span>Offer all available calendar entries</span>
+                      </DropdownItem>{" "}
+                      <DropdownItem>
+                        <span>Connect availabilities</span>
+                      </DropdownItem>{" "}
+                      <DropdownItem>
+                        <span>Disconnect availabilities</span>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <span>Confirmed appointments</span>
+                      </DropdownItem>{" "}
+                      <DropdownItem>
+                        <span>Set on confirmed</span>
+                      </DropdownItem>{" "}
+                      <DropdownItem>
+                        <span>Set on not confirmed</span>
+                      </DropdownItem>{" "}
+                      <DropdownItem>
+                        <span>Request temporary leasing contract</span>
+                      </DropdownItem>{" "}
+                      <DropdownItem>
+                        <span>Create termination agreement</span>
+                      </DropdownItem>{" "}
+                      <DropdownItem>
+                        <span>Refresh</span>
+                      </DropdownItem>{" "}
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                </div>
               </th>
-              <th className="thead-sticky h-col custom-appointment-col text-center">
-                H
-              </th>
-              <th className="thead-sticky s-col custom-appointment-col text-center">
-                S
-              </th>
-              <th className="thead-sticky u-col custom-appointment-col text-center">
-                U
-              </th>
-              <th className="thead-sticky v-col custom-appointment-col text-center">
-                V
-              </th>
+              <th className=" h-col custom-appointment-col text-center">H</th>
+              <th className=" s-col custom-appointment-col text-center">S</th>
+              <th className=" u-col custom-appointment-col text-center">U</th>
+              <th className=" v-col custom-appointment-col text-center">V</th>
               {/* array for showing day */}
               {daysArr.map(
                 (
@@ -132,7 +126,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 ) => {
                   return (
                     <th
-                      className="thead-sticky calender-col custom-appointment-col text-center"
+                      className=" calender-col custom-appointment-col text-center"
                       key={index}
                     >
                       <div className="custom-appointment-calendar-date">
@@ -159,16 +153,16 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               careGiversList.map((list: any, index: number) => {
                 return (
                   <tr>
-                    <td className="name-col custom-appointment-col">
+                    <th className=" name-col custom-appointment-col">
                       <div
-                        className="text-capitalize view-more-link"
+                        className="text-capitalize view-more-link one-line-text word-wrap"
                         onClick={() => handleSelectedUser(list, "caregiver")}
                       >
                         {`${list.firstName ? list.firstName : ""} ${
                           list.lastName ? list.lastName : ""
                         }`}
                       </div>
-                    </td>
+                    </th>
                     <td className="h-col custom-appointment-col text-center"></td>
                     <td
                       className="s-col custom-appointment-col text-center"

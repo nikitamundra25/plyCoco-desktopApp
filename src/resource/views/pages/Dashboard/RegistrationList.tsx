@@ -65,7 +65,7 @@ const RegistrationList: FunctionComponent<RouteComponentProps> = (
                         </td>
                         <td className="name-column">
                           <div
-                            className="text-capitalize view-more-link word-wrap"
+                            className="text-capitalize view-more-link word-wrap one-line-text"
                             onClick={() =>
                               history.push(
                                 item.userRole === "caregiver"
@@ -83,7 +83,9 @@ const RegistrationList: FunctionComponent<RouteComponentProps> = (
                             {item.firstName} {item.lastName}
                           </div>
                         </td>
-                        <td className="username-column">{item.userName}</td>
+                        <td className="username-column word-wrap one-line-text">
+                          {item.userName}
+                        </td>
                         <td className="type-column">{item.userRole}</td>
                       </tr>
                     );

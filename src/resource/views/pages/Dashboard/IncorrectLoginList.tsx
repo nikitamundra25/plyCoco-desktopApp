@@ -26,12 +26,17 @@ const IncorrectLoginList: FunctionComponent<RouteComponentProps> = (
           <Table hover className="mb-0">
             <thead className="thead-bg">
               <tr>
-                <th className="thead-sticky"> {languageTranslation("DATE")}</th>
-                <th className="thead-sticky">{languageTranslation("NAME")}</th>
-                <th className="thead-sticky">
+                <th className="thead-sticky date-column">
+                  {" "}
+                  {languageTranslation("DATE")}
+                </th>
+                <th className="thead-sticky name-column">
+                  {languageTranslation("NAME")}
+                </th>
+                <th className="thead-sticky uesrname-column">
                   {languageTranslation("USERNAME")}
                 </th>
-                <th className="thead-sticky">
+                <th className="thead-sticky ipaddress-column">
                   {languageTranslation("IP_ADDRESS")}
                 </th>
               </tr>
@@ -49,7 +54,7 @@ const IncorrectLoginList: FunctionComponent<RouteComponentProps> = (
                   (item: any, index: number) => {
                     return (
                       <tr className="table-danger" key={index}>
-                        <td>
+                        <td className="date-column">
                           {" "}
                           {moment(item.createdAt).format(
                             defaultDateTimeFormatForDashboard
@@ -57,7 +62,7 @@ const IncorrectLoginList: FunctionComponent<RouteComponentProps> = (
                         </td>
                         <td>
                           <div
-                            className="text-capitalize view-more-link word-wrap"
+                            className="text-capitalize view-more-link word-wrap one-line-text"
                             onClick={() =>
                               history.push(
                                 item.user.userRole === "caregiver"
@@ -75,8 +80,10 @@ const IncorrectLoginList: FunctionComponent<RouteComponentProps> = (
                             {item.user.firstName} {item.user.lastName}
                           </div>
                         </td>
-                        <td>{item.user.userName}</td>
-                        <td>
+                        <td className="username-column word-wrap one-line-text  ">
+                          {item.user.userName}
+                        </td>
+                        <td className="ipaddress-column">
                           {item.loggedInIP
                             ? item.loggedInIP.replace("::ffff:", "")
                             : "-"}

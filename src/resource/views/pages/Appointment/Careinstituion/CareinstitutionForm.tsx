@@ -122,14 +122,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="7">
-                    <div className="required-input">
-                      <MaskedInput
-                        placeholder={languageTranslation(
-                          "EMPLOYEE_JOINING_DATE_PLACEHOLDER"
-                        )}
-                        className={"form-control "}
-                      />
-                    </div>
+                    <div className="text-value mb-1">SUN 08.03.2020</div>
                   </Col>
                 </Row>
               </FormGroup>

@@ -36,9 +36,7 @@ import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { CareGiverValidationSchema } from '../../../validations/AppointmentsFormValidationSchema';
 import { toast } from 'react-toastify';
-import { defaultDateFormat } from '../../../../config';
 import { AppointmentMutations } from '../../../../graphql/Mutations';
-import { ConfirmBox } from '../../components/ConfirmBox';
 const [, , GET_DEPARTMENT_LIST, ,] = CareInstitutionQueries;
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 
@@ -348,8 +346,8 @@ const Appointment: FunctionComponent = () => {
     let temp: any = {
       ...valuesForCareinstitution,
       shift: careInstituionShift,
-      startTime: timeData ? timeData.data.begin : '',
-      endTime: timeData ? timeData.data.end : ''
+      startTime: timeData && timeData.data ? timeData.data.begin : '',
+      endTime: timeData && timeData.data ? timeData.data.end : ''
     };
     setvaluesForCareinstitution(temp);
   }, [careInstituionShift]);

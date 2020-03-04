@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import AttributeFilterPage from './AttributeFilter';
 import { CareGiverQueries } from '../../../../../graphql/queries';
-import { IAttributeValues, IAttributeFilter } from '../../../../../interfaces';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
-import {
-  AppointmentsQueries,
-  AttributeFilterQueries
-} from '../../../../../graphql/queries';
+import { IAttributeFilter } from '../../../../../interfaces';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { AttributeFilterQueries } from '../../../../../graphql/queries';
+import { AttributeFilterMutations } from '../../../../../graphql/Mutations';
 import { languageTranslation, errorFormatter } from '../../../../../helpers';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import { toast } from 'react-toastify';
-import { element } from 'prop-types';
-const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
-const [GET_CAREGIVER_ATTRIBUTES_WITH_CATEGORY] = AttributeFilterQueries;
+import { ApolloError } from 'apollo-client';
+const [
+  GET_CAREGIVER_ATTRIBUTES_WITH_CATEGORY,
+  GET_PRESETS_LIST,
+  GET_PRESETS_BY_ID
+] = AttributeFilterQueries;
+const [
+  ADD_PRESET_ATTRIBUTE,
+  DELETE_PRESET_ATTRIBUTE
+] = AttributeFilterMutations;
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 let toastId: any = '';
 const AttributeFilter = (props: IAttributeFilter) => {
@@ -23,7 +28,22 @@ const AttributeFilter = (props: IAttributeFilter) => {
   const [presetNames, setPresetNames] = useState<any>(null);
   const { show, handleClose, setAttributeFilter, attributeFilter } = props;
 
-  console.log('attributeFilter', attributeFilter);
+  // To get list of presets
+  const [
+    getPresetAttributeList,
+    { data: presetList, loading, refetch }
+  ] = useLazyQuery<any>(GET_PRESETS_LIST);
+  console.log('presetList', presetList);
+  useEffect(() => {
+    getPresetAttributeList({
+      variables: {
+        userRole:
+          attributeFilter && attributeFilter === 'caregiver'
+            ? 'caregiver'
+            : 'careInstitution'
+      }
+    });
+  }, [attributeFilter]);
 
   // Fetch attribute list from db
   const { data: attributeData } = useQuery<any>(
@@ -37,6 +57,69 @@ const AttributeFilter = (props: IAttributeFilter) => {
       }
     }
   );
+  //to add the preset in db
+  const [addPreset, { loading: addPresetLoading }] = useMutation<any>(
+    ADD_PRESET_ATTRIBUTE,
+    {
+      onCompleted({ addPreset }) {
+        setShowPreset(false);
+        // setIsSubmit(false);
+        refetch();
+        toast.dismiss();
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(languageTranslation('PRESET_ADDED_SUCCESS'));
+        }
+      },
+      onError: (error: ApolloError) => {
+        const message = errorFormatter(error);
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(message);
+        }
+      }
+    }
+  );
+
+  // to delete presets from db
+  const [deletePreset] = useMutation<any>(DELETE_PRESET_ATTRIBUTE, {
+    onCompleted({ deletePreset }) {
+      setShowPreset(false);
+    },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
+    }
+  });
+  // To get presets detail by clicking on them
+  const [
+    fetchPresetAttributes,
+    { data, loading: presetAttributeLoading }
+  ] = useLazyQuery<any>(GET_PRESETS_BY_ID);
+
+  useEffect(() => {
+    const { getPresetAttributeDetails = {} } = data ? data : {};
+    const { positiveAttributeIds = [] } = getPresetAttributeDetails
+      ? getPresetAttributeDetails
+      : {};
+    const { negativeAttributeIds = [] } = getPresetAttributeDetails
+      ? getPresetAttributeDetails
+      : {};
+    setIsPositive(positiveAttributeIds.map((e: any) => parseInt(e)));
+    setIsNegative(negativeAttributeIds.map((e: any) => parseInt(e)));
+  }, [data]);
+
+  //view a particular template by clicking on its menu entry
+  console.log('data    data   data', data);
+  // To get presets detail by clicking on them
+  const OnPresetClick = (id: number) => {
+    fetchPresetAttributes({
+      variables: {
+        id: id ? id : null
+      }
+    });
+    console.log('data inside on preset', data);
+  };
   // if any element in positive list is checked
   const handleCheckPositiveElement = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -112,13 +195,16 @@ const AttributeFilter = (props: IAttributeFilter) => {
 
   console.log('isnegative', isNegative);
   console.log('ispositive', isPositive);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('inside handle change');
     const { target } = e;
     const { value } = target;
-    setPreset(value);
+    setPresetNames(value);
   };
 
-  const onAddingPreset = async (positive: number[], negative: number[]) => {
+  //on clicking on button save as current preset
+  const onAddingPreset = (positive: number[], negative: number[]) => {
     let positiveNamesArr: any = [];
     let negativeNamesArr: any = [];
     // to get selcted positive attributes name
@@ -133,6 +219,7 @@ const AttributeFilter = (props: IAttributeFilter) => {
           });
         })
       : [];
+
     // to get selcted negative attributes name
     attributeData && attributeData.getCaregiverAtrributeWithCategory
       ? attributeData.getCaregiverAtrributeWithCategory.map((category: any) => {
@@ -145,6 +232,7 @@ const AttributeFilter = (props: IAttributeFilter) => {
           });
         })
       : [];
+
     let positiveName;
     let negativeName;
     // to join negative elements using -
@@ -164,7 +252,25 @@ const AttributeFilter = (props: IAttributeFilter) => {
     setPresetNames(elements);
   };
 
-  const onDeletingPreset = async () => {
+  // on saving the current preset
+  const onSavingPreset = async () => {
+    console.log('inside save preset');
+
+    await addPreset({
+      variables: {
+        presetAttributeInput: {
+          name: presetNames,
+          positiveAttributeIds: isPositive ? isPositive : [],
+          negativeAttributeIds: isNegative ? isNegative : [],
+          userRole:
+            attributeFilter && attributeFilter === 'caregiver'
+              ? 'caregiver'
+              : 'careInstitution'
+        }
+      }
+    });
+  };
+  const onDeletingPreset = async (id: number) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
       text: languageTranslation('CONFIRM_PRESET_DELETE_MSG')
@@ -173,12 +279,12 @@ const AttributeFilter = (props: IAttributeFilter) => {
       return;
     } else {
       try {
-        // await deleteDocument({
-        //   variables: {
-        //     id: id ? parseInt(id) : null
-        //   }
-        // });
-        // refetch();
+        await deletePreset({
+          variables: {
+            id: id ? id : null
+          }
+        });
+        refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
             languageTranslation('PRESET_DELETED_SUCCESS')
@@ -203,6 +309,7 @@ const AttributeFilter = (props: IAttributeFilter) => {
       preset={preset}
       presetNames={presetNames}
       attributeFilter={attributeFilter}
+      presetList={presetList}
       // function
       setPresetNames={setPresetNames}
       setIsNegative={setIsNegative}
@@ -216,39 +323,11 @@ const AttributeFilter = (props: IAttributeFilter) => {
       setPreset={setPreset}
       onAddingPreset={onAddingPreset}
       setAttributeFilter={setAttributeFilter}
+      onSavingPreset={onSavingPreset}
+      handleChange={handleChange}
+      onDeletingPreset={onDeletingPreset}
+      OnPresetClick={OnPresetClick}
     />
   );
 };
 export default AttributeFilter;
-// const [,GET_PRESETS_LIST,GET_PRESETS_BY_ID]=AppointmentsQueries
-
-// To get list of presets
-//  const [
-//     getPresetList,
-//     {
-//       data: attributeList,
-//       loading: listLoading,
-//       called,
-//       refetch: attributeListRefetch
-//     }
-//   ] = useLazyQuery<any>(GET_PRESETS_LIST);
-
-// useEffect(()=>
-// {
-// getPresetList({
-//     variables:{
-
-//     }
-// })
-// },[])
-
-// To get presets detail by clicking on them
-//  const [
-//     getAttributesName,
-//     {
-//       data: attributeList,
-//       loading: listLoading,
-//       called,
-//       refetch: attributeListRefetch
-//     }
-//   ] = useLazyQuery<any>(GET_PRESETS_BY_ID);

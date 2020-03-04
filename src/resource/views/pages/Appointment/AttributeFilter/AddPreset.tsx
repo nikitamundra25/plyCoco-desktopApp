@@ -20,10 +20,10 @@ const AddPreset = (props: any) => {
     show,
     handleClose,
     handleChange,
-    onSearch,
     preset,
     presetNames,
-    setPresetNames
+    setPresetNames,
+    onSavingPreset
   } = props;
 
   const externalCloseBtn = (
@@ -41,7 +41,7 @@ const AddPreset = (props: any) => {
         <Form
           onSubmit={(e: any) => {
             e.preventDefault();
-            onSearch();
+            onSavingPreset();
           }}
         >
           <ModalBody>
@@ -57,8 +57,7 @@ const AddPreset = (props: any) => {
                         <Input
                           type='text'
                           name={'preset'}
-                          value={presetNames}
-                          placeholder={languageTranslation('SEARCH_LABEL')}
+                          value={presetNames ? presetNames : ''}
                           onChange={handleChange}
                         />
                       </div>
@@ -69,7 +68,11 @@ const AddPreset = (props: any) => {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color='primary' type='submit' /* disabled={} */>
+            <Button
+              color='primary'
+              type='submit'
+              disabled={!presetNames ? true : false}
+            >
               {languageTranslation('OK')}
             </Button>
             <Button color='secondary' onClick={handleClose}>

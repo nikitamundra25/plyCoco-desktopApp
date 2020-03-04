@@ -28,9 +28,14 @@ export interface IAttributeFilterPage {
   showPreset: boolean;
   preset: string | null;
   setPreset: React.Dispatch<React.SetStateAction<string | null>>;
-  onAddingPreset: (positive: number[], negative: number[]) => Promise<void>;
+  onAddingPreset: (positive: number[], negative: number[]) => void;
   presetNames: any;
   setPresetNames: React.Dispatch<any>;
   setAttributeFilter: React.Dispatch<React.SetStateAction<string | null>>;
   attributeFilter: string | null;
+  onSavingPreset: () => Promise<void>;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  presetList: any;
+  onDeletingPreset: (id: number) => Promise<void>;
+  OnPresetClick: (id: number) => void;
 }

@@ -51,7 +51,12 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
     setPreset,
     onAddingPreset,
     presetNames,
-    setPresetNames
+    setPresetNames,
+    onSavingPreset,
+    handleChange,
+    presetList,
+    onDeletingPreset,
+    OnPresetClick
   } = props;
   const externalCloseBtn = (
     <button
@@ -114,22 +119,41 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                   </div>
                   <div className='common-list-body custom-scrollbar'>
                     <ul className='common-list list-unstyled mb-0'>
-                      <li
-                        className={'cursor-pointer list-item text-capitalize'}
-                      >
-                        <div className='list-item-text'>Dialysis</div>
-                        <div className='list-item-icon'>
-                          <span id={`delete`} className={`btn-icon `}>
-                            <UncontrolledTooltip
-                              placement={'top'}
-                              target={`delete`}
-                            >
-                              {languageTranslation('DELETE_PRESET')}
-                            </UncontrolledTooltip>
-                            <i className='fa fa-trash'></i>
-                          </span>
-                        </div>
-                      </li>
+                      {presetList && presetList.getPresetAttribute
+                        ? presetList.getPresetAttribute.map(
+                            (item: any, index: number) => {
+                              return (
+                                <li
+                                  className={
+                                    'cursor-pointer list-item text-capitalize'
+                                  }
+                                >
+                                  <div
+                                    className='list-item-text one-line-text'
+                                    onClick={() => OnPresetClick(item.id)}
+                                  >
+                                    {item.name}
+                                  </div>
+                                  <div className='list-item-icon'>
+                                    <span
+                                      id={`delete${index}`}
+                                      className={`btn-icon `}
+                                      onClick={() => onDeletingPreset(item.id)}
+                                    >
+                                      <UncontrolledTooltip
+                                        placement={'top'}
+                                        target={`delete${index}`}
+                                      >
+                                        {languageTranslation('DELETE_PRESET')}
+                                      </UncontrolledTooltip>
+                                      <i className='fa fa-trash'></i>
+                                    </span>
+                                  </div>
+                                </li>
+                              );
+                            }
+                          )
+                        : null}
                     </ul>
                   </div>
                 </div>
@@ -150,9 +174,22 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                         </DropdownToggle>
                         <DropdownMenu right>
                           <DropdownItem
+                            className={
+                              (isNegative && isNegative.length) ||
+                              (isPositive && isPositive.length)
+                                ? ''
+                                : 'disabled-class'
+                            }
                             onClick={() => {
-                              setShowPreset(true),
+                              if (
+                                (isNegative && isNegative.length) ||
+                                (isPositive && isPositive.length)
+                              ) {
+                                setShowPreset(true);
                                 onAddingPreset(isPositive, isNegative);
+                              } else {
+                                setShowPreset(false);
+                              }
                             }}
                           >
                             <i className='fa fa-plus mr-2' />
@@ -227,7 +264,12 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                             )
                                           }
                                         />
-                                        <label className=''>{list.name}</label>
+                                        <label
+                                          className=''
+                                          htmlFor={`positive${list.name}`}
+                                        >
+                                          {list.name}
+                                        </label>
                                       </span>
                                     </li>
                                   );
@@ -289,7 +331,12 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                             )
                                           }
                                         />
-                                        <label className=''>{list.name}</label>
+                                        <label
+                                          className=''
+                                          htmlFor={`positive${list.name}`}
+                                        >
+                                          {list.name}
+                                        </label>
                                       </span>
                                     </li>
                                   );
@@ -353,7 +400,12 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                             )
                                           }
                                         />
-                                        <label className=''>{list.name}</label>
+                                        <label
+                                          className=''
+                                          htmlFor={`positive${list.name}`}
+                                        >
+                                          {list.name}
+                                        </label>
                                       </span>
                                     </li>
                                   );
@@ -382,7 +434,25 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                           <i className='icon-options-vertical' />
                         </DropdownToggle>
                         <DropdownMenu right>
-                          <DropdownItem onClick={() => setShowPreset(true)}>
+                          <DropdownItem
+                            className={
+                              (isNegative && isNegative.length) ||
+                              (isPositive && isPositive.length)
+                                ? ''
+                                : 'disabled-class'
+                            }
+                            onClick={() => {
+                              if (
+                                (isNegative && isNegative.length) ||
+                                (isPositive && isPositive.length)
+                              ) {
+                                setShowPreset(true);
+                                onAddingPreset(isPositive, isNegative);
+                              } else {
+                                setShowPreset(false);
+                              }
+                            }}
+                          >
                             <i className='fa fa-plus mr-2' />
                             {languageTranslation('ADD_PRESET')}
                           </DropdownItem>
@@ -453,7 +523,12 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                             )
                                           }
                                         />
-                                        <label className=''>{list.name}</label>
+                                        <label
+                                          className=''
+                                          htmlFor={`negative${list.name}`}
+                                        >
+                                          {list.name}
+                                        </label>
                                       </span>
                                     </li>
                                   );
@@ -491,8 +566,8 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                             ? attributeData.getCaregiverAtrributeWithCategory[1].attribute_managements.map(
                                 (list: any, index: number) => {
                                   return (
-                                    <li key={index} >
-                                      <span className=' checkbox-custom ' >
+                                    <li key={index}>
+                                      <span className=' checkbox-custom '>
                                         <input
                                           type='checkbox'
                                           id={`negative${list.name}`}
@@ -503,18 +578,23 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                               ? true
                                               : false
                                           }
-                                          // onChange={(
-                                          //   e: React.ChangeEvent<
-                                          //     HTMLInputElement
-                                          //   >
-                                          // ) =>
-                                          //   handleCheckNegativeElement(
-                                          //     e,
-                                          //     list.id
-                                          //   )
-                                          // }
+                                          onChange={(
+                                            e: React.ChangeEvent<
+                                              HTMLInputElement
+                                            >
+                                          ) =>
+                                            handleCheckNegativeElement(
+                                              e,
+                                              list.id
+                                            )
+                                          }
                                         />
-                                        <label className=''>{list.name}</label>
+                                        <label
+                                          className=''
+                                          htmlFor={`negative${list.name}`}
+                                        >
+                                          {list.name}
+                                        </label>
                                       </span>
                                     </li>
                                   );
@@ -577,7 +657,12 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                             )
                                           }
                                         />
-                                        <label className=''>{list.name}</label>
+                                        <label
+                                          className=''
+                                          htmlFor={`negative${list.name}`}
+                                        >
+                                          {list.name}
+                                        </label>
                                       </span>
                                     </li>
                                   );
@@ -603,6 +688,8 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
         }}
         presetNames={presetNames}
         setPresetNames={setPresetNames}
+        onSavingPreset={onSavingPreset}
+        handleChange={handleChange}
       />
     </div>
   );

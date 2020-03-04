@@ -811,5 +811,6 @@
   "SET_PRESET_NAME": "Set presetname",
   "PRESETNAME": "Presetname",
   "OK": "Ok",
-  "DELETE_PRESET": "Delete Preset"
+  "DELETE_PRESET": "Delete Preset",
+  "PRESET_ADDED_SUCCESS": "Preset Added Successfully"
 }

@@ -225,9 +225,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                             handleSelectedUser(list, null, 'careinstitution')
                           }
                         >
-                          {`${list.firstName ? list.firstName : ''} ${
-                            list.lastName ? list.lastName : ''
-                          }`}
+                          {!list.newRow
+                            ? `${list.firstName ? list.firstName : ''} ${
+                                list.lastName ? list.lastName : ''
+                              }`
+                            : ''}
                         </div>
                       </td>
                       <td className='h-col custom-appointment-col text-center'></td>

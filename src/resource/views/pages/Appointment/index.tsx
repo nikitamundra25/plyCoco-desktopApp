@@ -22,7 +22,8 @@ import moment from 'moment';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
-  AppointmentsQueries
+  AppointmentsQueries,
+  CareInstitutionQueries
 } from '../../../../graphql/queries';
 const [ADD_CAREGIVER_AVABILITY] = AppointmentMutations;
 import CaregiverFormView from './Caregiver/CaregiverForm';
@@ -33,7 +34,7 @@ import { toast } from 'react-toastify';
 import { defaultDateFormat } from '../../../../config';
 import { AppointmentMutations } from '../../../../graphql/Mutations';
 import { ConfirmBox } from '../../components/ConfirmBox';
-
+const [, , GET_DEPARTMENT_LIST, ,] = CareInstitutionQueries;
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 
 let toastId: any = null;
@@ -60,6 +61,12 @@ const Appointment: FunctionComponent = () => {
     { addCareGiverAvability: IAddCargiverAppointmentRes },
     { careGiverAvabilityInput: any }
   >(ADD_CAREGIVER_AVABILITY);
+
+  // To get caregiver list from db
+  const [
+    getDepartmentList,
+    { data: departmentList, refetch, loading }
+  ] = useLazyQuery<any>(GET_DEPARTMENT_LIST);
 
   // To fetch caregivers by qualification id
   const [
@@ -187,6 +194,14 @@ const Appointment: FunctionComponent = () => {
     setDaysData(res);
   }, []);
 
+  // On click Today
+  const handleToday = () => {
+    const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(
+      moment().month(),
+      moment().year()
+    );
+    setDaysData(res);
+  };
   // On previous month click
   const handlePrevious = () => {
     let month: number = activeMonth - 1;
@@ -236,11 +251,11 @@ const Appointment: FunctionComponent = () => {
     e.preventDefault();
     if (name === 'caregiver') {
       let temp: any = [...caregiversList];
-      temp.splice(index + 1, 0, {});
+      temp.splice(index + 1, 0, { ...temp[index], newRow: true });
       setcaregiversList(temp);
     } else {
       let temp: any = [...careinstitutionList];
-      temp.splice(index + 1, 0, {});
+      temp.splice(index + 1, 0, { ...temp[index], newRow: true });
       setcareinstitutionList(temp);
     }
   };
@@ -259,6 +274,30 @@ const Appointment: FunctionComponent = () => {
       }
     }
   };
+
+  useEffect(() => {
+    // call query
+    let userId: string = selectedCareinstitution
+      ? selectedCareinstitution.id
+      : '';
+    getDepartmentList({
+      variables: {
+        userId: parseInt(userId),
+        locked: null
+      }
+    });
+  }, [selectedCareinstitution]);
+
+  const careInstitutionDepartment: IReactSelectInterface[] | undefined = [];
+  if (departmentList && departmentList.getDivision.length) {
+    const { getDivision } = departmentList;
+    getDivision.forEach((dept: any) =>
+      careInstitutionDepartment.push({
+        label: dept.name,
+        value: dept && dept.id ? dept.id.toString() : ''
+      })
+    );
+  }
 
   // Select single user from list and hide the rest
   const handleSecondStar = (list: object, index: number, name: string) => {
@@ -418,10 +457,54 @@ const Appointment: FunctionComponent = () => {
     n
   };
 
+  // For careinstitution fields
+
+  const {
+    // firstName = '',
+    // lastName = '',
+    shift = '',
+    begin = '',
+    end = '',
+    qualificationId = qualificationList ? qualificationList[0] : undefined,
+    department = undefined,
+    address = '',
+    contactPerson = '',
+    workingProof = false
+  } = selectedCareinstitution ? selectedCareinstitution : {};
+
   const valuesForCareinstitution: any = {
     firstName,
-    lastName
+    lastName,
+    shift,
+    begin,
+    end,
+    qualificationId,
+    department,
+    address,
+    contactPerson,
+    workingProofRecieved: workingProof ? true : false
   };
+
+  console.log('department', department);
+  console.log(
+    'valuesForCareinstitution.department',
+    valuesForCareinstitution.department
+  );
+
+  useEffect(() => {
+    let deptId = valuesForCareinstitution.department
+      ? valuesForCareinstitution.department.value
+      : '';
+    let departmentData: Object = {};
+    if (deptId) {
+      if (departmentList && departmentList.getDivision.length) {
+        const { getDivision } = departmentList;
+        departmentData = getDivision.filter((dept: any) => dept.id === deptId);
+      }
+    }
+    console.log('departmentData', departmentData);
+  }, [valuesForCareinstitution.department]);
+
   return (
     <>
       <div className='common-detail-page'>
@@ -435,6 +518,7 @@ const Appointment: FunctionComponent = () => {
             careInstitutionList={careInstitutionOptions}
             careGiversList={careGiversOptions}
             handleDayClick={handleDayClick}
+            handleToday={handleToday}
           />
 
           <div className='common-content flex-grow-1'>
@@ -512,6 +596,10 @@ const Appointment: FunctionComponent = () => {
                                   : undefined
                               }
                               selectedCareinstitution={selectedCareinstitution}
+                              qualificationList={qualificationList}
+                              careInstitutionDepartment={
+                                careInstitutionDepartment
+                              }
                             />
                           );
                         }}

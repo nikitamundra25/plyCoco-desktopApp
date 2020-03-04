@@ -4,7 +4,8 @@ import '../index.scss';
 import {
   IAppointmentCareInstitutionForm,
   IDaysArray,
-  ICareinstitutionFormValue
+  ICareinstitutionFormValue,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import {
   FormGroup,
@@ -36,7 +37,18 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     any
 ) => {
   const {
-    values: { firstName, lastName },
+    values: {
+      firstName,
+      lastName,
+      shift,
+      begin,
+      end,
+      qualificationId,
+      department,
+      address,
+      contactPerson,
+      workingProofRecieved
+    },
     touched,
     errors,
     isSubmitting,
@@ -47,9 +59,16 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     setFieldTouched,
     setFieldError,
     activeDateCareinstitution,
-    selectedCareinstitution
+    selectedCareinstitution,
+    qualificationList,
+    careInstitutionDepartment
   } = props;
-  
+
+  // Custom function to handle react select fields
+  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
+    setFieldValue(name, selectOption);
+  };
+
   return (
     <>
       <div className='form-section '>
@@ -129,12 +148,14 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='7'>
-                    <div>
-                      {activeDateCareinstitution?moment(
-                        activeDateCareinstitution
-                          ? activeDateCareinstitution.isoString
-                          : null
-                      ).format('dd DD.MM.YYYY'):null}
+                    <div className='text-value mb-1'>
+                      {activeDateCareinstitution
+                        ? moment(
+                            activeDateCareinstitution
+                              ? activeDateCareinstitution.isoString
+                              : null
+                          ).format('dd DD.MM.YYYY')
+                        : null}
                     </div>
                   </Col>
                 </Row>
@@ -223,9 +244,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     <div className='required-input'>
                       <Select
                         placeholder='Select Qualifications'
-                        options={State}
+                        options={qualificationList}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
+                        value={qualificationId}
                       />
                     </div>
                   </Col>
@@ -268,10 +290,14 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='7'>
                     <div className='required-input'>
                       <Select
-                        placeholder='Select Qualifications'
-                        options={State}
+                        placeholder='Select Department'
+                        options={careInstitutionDepartment}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
+                        onChange={(value: any) =>
+                          handleSelect(value, 'department')
+                        }
+                        value={department ? department : undefined}
                       />
                     </div>
                   </Col>
@@ -292,6 +318,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <Input
                         type='textarea'
                         name={'id'}
+                        disabled={true}
                         placeholder={languageTranslation('ADDRESS')}
                         className='width-common'
                       />
@@ -312,6 +339,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     <div className='required-input'>
                       <Input
                         type='text'
+                        disabled={true}
                         name={'id'}
                         placeholder={languageTranslation('CONTACT_PERSON')}
                         className='width-common'
@@ -334,6 +362,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <Input
                         className='textarea-custom form-control'
                         rows='3'
+                        disabled={true}
                         type='textarea'
                         name='text'
                         id='exampleText'
@@ -356,6 +385,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <Input
                         className='textarea-custom form-control'
                         rows='3'
+                        disabled={true}
                         type='textarea'
                         name='text'
                         id='exampleText'
@@ -380,6 +410,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <Input
                         className='textarea-custom form-control'
                         rows='3'
+                        disabled={true}
                         type='textarea'
                         name='text'
                         id='exampleText'
@@ -404,8 +435,17 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           <input
                             type='checkbox'
                             id='check1'
+                            name={'workingProofRecieved'}
                             className=''
-                            name={''}
+                            checked={workingProofRecieved}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              const {
+                                target: { checked }
+                              } = e;
+                              setFieldValue('workingProofRecieved', checked);
+                            }}
                           />
                           <Label for='check1'></Label>
                         </div>

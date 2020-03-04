@@ -22,7 +22,9 @@ const Cell = ({
       })}
       ref={selectableRef}
       // onClick={() => handleSelectedUser(list, day, 'caregiver')}
-    ></td>
+    >
+      {list && list.caregiver_avabilities && list.caregiver_avabilities}
+    </td>
   </>
 );
 

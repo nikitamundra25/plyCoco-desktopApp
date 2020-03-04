@@ -15,6 +15,7 @@ export interface IGetDaysArrayByMonthRes {
 
 export interface IAppointmentNav {
   handlePrevious: () => void;
+  handleToday: () => void;
   handleQualification: (value: any) => void;
   handleNext: () => void;
   handleDayClick: (selectedDay: Date) => void;
@@ -114,6 +115,8 @@ export interface ICareinstitutionFormValue {
 }
 export interface IAppointmentCareInstitutionForm {
   selectedCareinstitution: any;
+  qualificationList: IReactSelectInterface[] | undefined;
+  careInstitutionDepartment: IReactSelectInterface[] | undefined;
 }
 export interface IAddCargiverAppointmentRes {
   userId: string;

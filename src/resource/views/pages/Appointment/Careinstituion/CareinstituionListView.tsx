@@ -86,91 +86,95 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
           <Table hover bordered className="mb-0 appointment-table">
             <thead className="thead-bg">
               <tr>
-                <th className="thead-sticky name-col custom-appointment-col zindex2">
-                  CareInstitution
-                  <UncontrolledDropdown className="custom-dropdown options-dropdown">
-                    <DropdownToggle
-                      className={"text-capitalize btn-more"}
-                      size="sm"
-                    >
-                      <i className="icon-options-vertical" />
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>
-                        <span>New appointment</span>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <span>Delete free appointments</span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>Select all appointments of the caregiver</span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>Detailed List</span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>
-                          Select available caregivers, offer them appointments
-                          and set them on offered (sorted by division)
-                        </span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>
-                          Select available caregivers, offer them appointments
-                          and set them on offered (sorted by day)
-                        </span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>
-                          Select available caregivers, offer them appointments
-                          and set them on offered (no direct booking; sorted by
-                          division)
-                        </span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>
-                          Select available caregivers, offer them appointments
-                          and set them on offered (no direct booking; sorted by
-                          day)
-                        </span>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <span>Set on offered</span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>Link appointments</span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>Unlink appointments</span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>Offer caregivers (ordered by day)</span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>Offer appointments (ordered by department)</span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>Confirm appointments (ordered by day) </span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>
-                          Confirm appointments (ordered by department){" "}
-                        </span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>Set on confirmed </span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>Reset confirmed</span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>Create prepayment invoice</span>
-                      </DropdownItem>{" "}
-                      <DropdownItem>
-                        <span>Refresh </span>
-                      </DropdownItem>{" "}
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
+                <th className="thead-sticky name-col custom-appointment-col ">
+                  <div className="position-relative">
+                    CareInstitution
+                    <UncontrolledDropdown className="custom-dropdown options-dropdown">
+                      <DropdownToggle
+                        className={"text-capitalize btn-more"}
+                        size="sm"
+                      >
+                        <i className="icon-options-vertical" />
+                      </DropdownToggle>
+                      <DropdownMenu right>
+                        <DropdownItem>
+                          <span>New appointment</span>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <span>Delete free appointments</span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>Select all appointments of the caregiver</span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>Detailed List</span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>
+                            Select available caregivers, offer them appointments
+                            and set them on offered (sorted by division)
+                          </span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>
+                            Select available caregivers, offer them appointments
+                            and set them on offered (sorted by day)
+                          </span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>
+                            Select available caregivers, offer them appointments
+                            and set them on offered (no direct booking; sorted
+                            by division)
+                          </span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>
+                            Select available caregivers, offer them appointments
+                            and set them on offered (no direct booking; sorted
+                            by day)
+                          </span>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <span>Set on offered</span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>Link appointments</span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>Unlink appointments</span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>Offer caregivers (ordered by day)</span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>
+                            Offer appointments (ordered by department)
+                          </span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>Confirm appointments (ordered by day) </span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>
+                            Confirm appointments (ordered by department){" "}
+                          </span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>Set on confirmed </span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>Reset confirmed</span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>Create prepayment invoice</span>
+                        </DropdownItem>{" "}
+                        <DropdownItem>
+                          <span>Refresh </span>
+                        </DropdownItem>{" "}
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                  </div>
                 </th>
                 <th className="thead-sticky h-col custom-appointment-col text-center">
                   H
@@ -218,7 +222,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                 careInstitutionList.map((list: any, index: number) => {
                   return (
                     <tr key={index}>
-                      <td className="name-col custom-appointment-col">
+                      <th className="thead-sticky name-col custom-appointment-col">
                         <div
                           className="text-capitalize view-more-link"
                           onClick={() =>
@@ -229,7 +233,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                             list.lastName ? list.lastName : ""
                           }`}
                         </div>
-                      </td>
+                      </th>
                       <td className="h-col custom-appointment-col text-center"></td>
                       <td
                         className="s-col custom-appointment-col text-center"

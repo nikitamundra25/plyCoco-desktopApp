@@ -28,20 +28,15 @@
   overflow-x: auto;
   font-family: $font_open_sans;
   background: $white;
+  border: 1px solid $table_border;
   height: calc(50vh - 73px);
   .appointment-table {
+    border: 0px;
     th,
     td {
       padding: 4px;
       vertical-align: middle;
       font-size: 12px;
-      &.thead-sticky {
-        vertical-align: top;
-        top: -1px;
-        &.zindex2 {
-          z-index: 2;
-        }
-      }
 
       &.custom-appointment-col {
         width: 30px;
@@ -74,8 +69,19 @@
     }
     th {
       &:first-child {
-        left: 0;
-        z-index: 2;
+        left: 0px;
+        position: sticky;
+        background: $white;
+        border-left: 0px;
+      }
+    }
+    thead {
+      th {
+        &:first-child {
+          z-index: 2;
+          vertical-align: top;
+          background: $th_bg;
+        }
       }
     }
   }

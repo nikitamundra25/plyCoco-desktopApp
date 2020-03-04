@@ -65,14 +65,14 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
       temp.push({
         label: languageTranslation("NAME"),
         value: languageTranslation("ID"),
-        companyName: languageTranslation("COMPANY_NAME")
+        // companyName: languageTranslation("COMPANY_NAME")
       });
       caregiver.getCaregivers.result.forEach(
         ({ id, firstName, lastName, caregiver }: any) =>
           temp.push({
             label: `${firstName}${" "}${lastName}`,
             value: id,
-            companyName: caregiver && caregiver.companyName
+            // companyName: caregiver && caregiver.companyName
           })
       );
       setCaregiverOptions(temp);

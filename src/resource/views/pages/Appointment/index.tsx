@@ -43,7 +43,7 @@ import { AppointmentMutations } from '../../../../graphql/Mutations';
 import { defaultDateFormat } from '../../../../config';
 const [, , GET_DEPARTMENT_LIST, ,] = CareInstitutionQueries;
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
-
+let careinstitutionDepartmentResponse: boolean = false;
 let toastId: any = null;
 const Appointment: FunctionComponent = () => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
@@ -73,7 +73,7 @@ const Appointment: FunctionComponent = () => {
     updateCanstitutionFormikValues,
     setupdateCanstitutionFormikValues
   ] = useState<any>();
-  const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>({});
+  const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
     IDate[]
@@ -82,7 +82,16 @@ const Appointment: FunctionComponent = () => {
   //For selected Availability
   const [selctedAvailability, setselctedAvailability] = useState({});
   /*  */
+  //For selected Requirement
+  const [selctedRequirement, setselctedRequirement] = useState({});
+  /*  */
   const [timeSlotError, setTimeSlotError] = useState<string>('');
+  // maintain star mark for careinstitution
+  const [starCanstitution, setstarCanstitution] = useState<boolean>(false);
+  const [secondStarCanstitution, setsecondStarCanstitution] = useState<boolean>(
+    false
+  );
+
   // For careinstitution fields
   const [valuesForCareinstitution, setvaluesForCareinstitution] = useState<
     ICareinstitutionFormValue
@@ -123,12 +132,15 @@ const Appointment: FunctionComponent = () => {
   // To get caregiver list from db
   const [
     getDepartmentList,
-    { data: departmentList, refetch, loading }
+    { data: departmentList, refetch, loading: deptLoading }
   ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
     onCompleted({ addDocument }) {
-      if (departmentList && departmentList.getDivision.length) {
-        const { getDivision } = departmentList;
-        setcareInstituionDeptData(getDivision);
+      if (
+        departmentList &&
+        departmentList.getDivision.length &&
+        starCanstitution
+      ) {
+        careinstitutionDepartmentResponse = true;
       }
     }
   });
@@ -411,11 +423,20 @@ const Appointment: FunctionComponent = () => {
         setactiveDateCaregiver(date);
       }
     } else {
-      setselectedCareinstitution(list);
-      let temp: ICareinstitutionFormValue = {
-        ...valuesForCareinstitution,
-        name: `${list.firstName} ${list.lastName}`
-      };
+      let temp: ICareinstitutionFormValue;
+      setselctedRequirement(selctedAvailability);
+      if (!starCanstitution) {
+        setselectedCareinstitution(list);
+        temp = {
+          ...valuesForCareinstitution,
+          name: `${list.firstName} ${list.lastName}`
+        };
+      } else {
+        temp = {
+          ...valuesForCareinstitution,
+          name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
+        };
+      }
 
       setvaluesForCareinstitution(temp);
       if (date) {
@@ -447,21 +468,47 @@ const Appointment: FunctionComponent = () => {
       })
     );
   }
+  // useEffect for filtering department data in careinstitution list
+  useEffect(() => {
+    if (
+      departmentList &&
+      departmentList.getDivision.length &&
+      starCanstitution
+    ) {
+      const { getDivision } = departmentList;
+      setcareInstituionDeptData(getDivision);
+    }
+  }, [departmentList]);
 
   // handle first star of careinstitution and show department list
-  const handleFirstStarCanstitution = async (id: string) => {
-    await getDepartmentList({
-      variables: {
-        userId: parseInt(id),
-        locked: null
-      }
-    });
-    // if (id) {
-    //   if (departmentList && departmentList.getDivision.length) {
-    //     const { getDivision } = departmentList;
-    //     setcareinstitutionList(getDivision);
-    //   }
-    // }
+  const handleFirstStarCanstitution = async (list: any) => {
+    setselectedCareinstitution(list);
+    setstarCanstitution(!starCanstitution);
+    if (list) {
+      await getDepartmentList({
+        variables: {
+          userId: parseInt(list.id),
+          locked: null
+        }
+      });
+    } else {
+      setcareInstituionDeptData([]);
+    }
+  };
+
+  //  handle second star of careinstitution and autoselect department
+  const onhandleSecondStarCanstitution = (dept: any) => {
+    setsecondStarCanstitution(!setsecondStarCanstitution);
+    let data: any = [];
+    data.push(dept);
+
+    setcareInstituionDeptData(data);
+    let initialData: ICareinstitutionFormValue = {
+      ...valuesForCareinstitution,
+      department: { label: dept.name, value: dept.id }
+    };
+
+    setvaluesForCareinstitution(initialData);
   };
 
   // Select single user from list and hide the rest
@@ -525,6 +572,7 @@ const Appointment: FunctionComponent = () => {
           workingProofRecieved: workingProofRecieved ? true : false,
           distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
           feePerKM: feePerKM ? parseFloat(feePerKM) : null,
+          travelAllowance: travelAllowance ? parseFloat(travelAllowance) : null,
           otherExpenses: otherExpenses
             ? parseFloat(otherExpenses.replace(/,/g, '.'))
             : null,
@@ -623,7 +671,6 @@ const Appointment: FunctionComponent = () => {
         bookingRemarks,
         comments
       };
-      console.log('addCareinstitution', careInstitutionRequirementInput);
       await addCareinstitutionRequirment({
         variables: {
           careInstitutionRequirementInput
@@ -632,7 +679,7 @@ const Appointment: FunctionComponent = () => {
 
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
+          languageTranslation('CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG')
         );
       }
     } catch (error) {
@@ -728,6 +775,12 @@ const Appointment: FunctionComponent = () => {
                     handleSecondStar={handleSecondStar}
                     handleReset={handleReset}
                     handleFirstStarCanstitution={handleFirstStarCanstitution}
+                    careInstituionDeptData={careInstituionDeptData}
+                    starCanstitution={starCanstitution}
+                    deptLoading={deptLoading}
+                    onhandleSecondStarCanstitution={
+                      onhandleSecondStarCanstitution
+                    }
                   />
                 </Col>
                 <Col lg={'7'}>
@@ -806,6 +859,9 @@ const Appointment: FunctionComponent = () => {
                                 careInstitutionDepartment
                               }
                               careInstitutionTimesOptions={shiftOption}
+                              setsecondStarCanstitution={
+                                setsecondStarCanstitution
+                              }
                             />
                           );
                         }}

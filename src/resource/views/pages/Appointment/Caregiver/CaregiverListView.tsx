@@ -65,23 +65,32 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
       setSelectedDays(selected);
     }
-    let selctedAvailability: any;
+    let selctedAvailability: any = [];
     if (
       list &&
       list.caregiver_avabilities &&
       list.caregiver_avabilities.length
     ) {
-      selctedAvailability = list.caregiver_avabilities.filter(
-        (avabilityData: any, index: number) => {
-          return (
-            moment(selected[0].isoString).format('DD.MM.YYYY') ===
-              moment(avabilityData.date).format('DD.MM.YYYY') &&
-            (avabilityData.f === 'available' ||
-              avabilityData.s === 'available' ||
-              avabilityData.n === 'available')
+      if (selected && selected.length) {
+        for (let index = 0; index < selected.length; index++) {
+          const element = selected[index];
+          const availability = list.caregiver_avabilities.filter(
+            (avabilityData: any, index: number) => {
+              return (
+                moment(element.isoString).format('DD.MM.YYYY') ===
+                  moment(avabilityData.date).format('DD.MM.YYYY') &&
+                (avabilityData.f === 'available' ||
+                  avabilityData.s === 'available' ||
+                  avabilityData.n === 'available')
+              );
+            }
           );
+          if (availability && availability.length) {
+            selctedAvailability.push(availability[0]);
+          } else {
+          }
         }
-      );
+      }
     }
 
     handleSelectedUser(

@@ -486,7 +486,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             <Col lg={"12"}>
               <div className="d-flex align-items-center justify-content-between">
                 <Button className="btn-save" color="danger">
-                  {languageTranslation("CLEAR")}
+                  {languageTranslation("DELETE")}
                 </Button>
                 <Button className="btn-save" color="primary">
                   {languageTranslation("SAVE_BUTTON")}

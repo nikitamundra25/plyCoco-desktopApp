@@ -764,7 +764,6 @@
   "WEEKEND": "Weekend",
   "HOLIDAY": "Holiday",
   "INVOICE_INTERVAL": "Invoice Interval",
-
   "MENU_GLOBAL_CALENDAR": "Global Calendar",
   "UPDATE_CALEDAR": "Add New Holiday(s)",
   "DATE_AND_EVENT": "Date & Eve",
@@ -843,5 +842,15 @@
   "ALWAYS_IN_BACKGROUND": "Always in background",
   "DLN": "DLN",
   "DLN_REQUIRED": "DLN Required",
-  "DLN_AVAILABLE": "DLN Available"
+  "DLN_AVAILABLE": "DLN Available",
+  "CONFIRM_PRESET_DELETE_MSG": "This preset will be deleted.",
+  "PRESET_DELETED_SUCCESS": "Preset deleted successfully",
+  "ADD_PRESET": "Save current attribue as new preset",
+  "SELECT_ALL": "Select all",
+  "UNSELECT": "Unselect all",
+  "SET_PRESET_NAME": "Set presetname",
+  "PRESETNAME": "Presetname",
+  "OK": "Ok",
+  "DELETE_PRESET": "Delete Preset",
+  "PRESET_ADDED_SUCCESS": "Preset Added Successfully"
 }

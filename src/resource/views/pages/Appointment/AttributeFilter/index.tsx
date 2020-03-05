@@ -34,7 +34,6 @@ const AttributeFilter = (props: IAttributeFilter) => {
     getPresetAttributeList,
     { data: presetList, loading, refetch }
   ] = useLazyQuery<any>(GET_PRESETS_LIST);
-  console.log('presetList', presetList);
   useEffect(() => {
     getPresetAttributeList({
       variables: {
@@ -177,11 +176,7 @@ const AttributeFilter = (props: IAttributeFilter) => {
     }
   };
 
-  console.log('isnegative', isNegative);
-  console.log('ispositive', isPositive);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('inside handle change');
     const { target } = e;
     const { value } = target;
     setPresetNames(value);

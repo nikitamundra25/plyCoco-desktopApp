@@ -74,21 +74,23 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     let selctedAvailability: any;
     if (
       list &&
-      list.caregiver_avabilities &&
-      list.caregiver_avabilities.length
+      list.careinstitution_requirements &&
+      list.careinstitution_requirements.length
     ) {
-      selctedAvailability = list.caregiver_avabilities.filter(
+      selctedAvailability = list.careinstitution_requirements.filter(
         (avabilityData: any, index: number) => {
           return (
             moment(selected[0].isoString).format('DD.MM.YYYY') ===
               moment(avabilityData.date).format('DD.MM.YYYY') &&
-            (avabilityData.f === 'available' ||
+            (avabilityData.f === 'Available' ||
               avabilityData.s === 'available' ||
               avabilityData.n === 'available')
           );
         }
       );
     }
+    console.log('dgdshjb', selctedAvailability);
+
     handleSelectedUser(
       list,
       selected,
@@ -279,7 +281,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         >
                           {starCanstitution.setIndex === index ||
                           starCanstitution.isStar ? (
-                            <i className='fa fa-star-o icon-d' />
+                            <i className='fa fa-star theme-text' />
                           ) : (
                             <i className='fa fa-star-o' />
                           )}
@@ -291,7 +293,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           }
                         >
                           {secondStarCanstitution ? (
-                            <i className='fa fa-star-o icon-d' />
+                            <i className='fa fa-star theme-text' />
                           ) : (
                             <i className='fa fa-star-o' />
                           )}
@@ -360,7 +362,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         >
                           {starCanstitution.setIndex === index ||
                           starCanstitution.isStar ? (
-                            <i className='fa fa-star-o icon-d' />
+                            <i className='fa fa-star theme-text' />
                           ) : (
                             <i className='fa fa-star-o' />
                           )}
@@ -370,7 +372,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           onClick={() => onhandleSecondStarCanstitution(dept)}
                         >
                           {secondStarCanstitution ? (
-                            <i className='fa fa-star-o icon-d' />
+                            <i className='fa fa-star theme-text' />
                           ) : (
                             <i className='fa fa-star-o' />
                           )}

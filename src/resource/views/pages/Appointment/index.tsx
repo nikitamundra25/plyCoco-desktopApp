@@ -95,53 +95,26 @@ const Appointment: FunctionComponent = () => {
     false
   );
 
-  // Fetch values in case of edit by default it will be null or undefined
-  const {
-    id = '',
-    userId = '',
-    name = '',
-    date = '',
-    startTime = '',
-    endTime = '',
-    qualificationId = [],
-    divisionId = '',
-    address = '',
-    contactPerson = '',
-    bookingRemarks = '',
-    departmentOfferRemarks = '',
-    departmentBookingRemarks = '',
-    departmentRemarks = '',
-    f = '',
-    n,
-    s = null,
-    isWorkingProof,
-    offerRemarks = '',
-    comments = null
-  } = selectedCareinstitution;
   // For careinstitution fields
   const [valuesForCareinstitution, setvaluesForCareinstitution] = useState<
     ICareinstitutionFormValue
   >({
-    name: name ? name : '',
-    date: date ? date : '',
+    name: '',
+    date: '',
     shift: undefined,
-    endTime: endTime ? endTime : '',
-    startTime: startTime ? startTime : '',
+    endTime: '',
+    startTime: '',
     qualificationId: undefined,
     department: undefined,
-    address: address ? address : '',
-    contactPerson: contactPerson ? contactPerson : '',
-    departmentOfferRemarks: departmentOfferRemarks
-      ? departmentOfferRemarks
-      : '',
-    departmentBookingRemarks: departmentBookingRemarks
-      ? departmentBookingRemarks
-      : '',
-    departmentRemarks: departmentRemarks ? departmentRemarks : '',
-    isWorkingProof: isWorkingProof ? true : false,
-    offerRemarks: offerRemarks ? offerRemarks : '',
-    bookingRemarks: bookingRemarks ? bookingRemarks : '',
-    comments: comments ? comments : ''
+    address: '',
+    contactPerson: '',
+    departmentOfferRemarks: '',
+    departmentBookingRemarks: '',
+    departmentRemarks: '',
+    isWorkingProof: false,
+    offerRemarks: '',
+    bookingRemarks: '',
+    comments: ''
   });
 
   // Mutation to add careGiver data
@@ -445,11 +418,61 @@ const Appointment: FunctionComponent = () => {
     } else {
       let temp: ICareinstitutionFormValue;
       setselctedRequirement(selctedAvailability);
+      console.log('selctedAvailability', selctedAvailability);
+
       if (!starCanstitution.isStar) {
+        // Fetch values in case of edit by default it will be null or undefined
+        const {
+          id = '',
+          userId = '',
+          name = '',
+          date = '',
+          startTime = '',
+          endTime = '',
+          qualificationId = [],
+          divisionId = '',
+          address = '',
+          contactPerson = '',
+          bookingRemarks = '',
+          departmentOfferRemarks = '',
+          departmentBookingRemarks = '',
+          departmentRemarks = '',
+          f = '',
+          n = '',
+          s = '',
+          isWorkingProof = false,
+          offerRemarks = '',
+          comments = ''
+        } = selectedCareinstitution ? selectedCareinstitution : {};
+
         setselectedCareinstitution(list);
         temp = {
           ...valuesForCareinstitution,
-          name: `${list.firstName} ${list.lastName}`
+          name: name ? name : `${list.firstName} ${list.lastName}`,
+          date: date ? date : valuesForCareinstitution.date,
+          startTime: startTime ? startTime : valuesForCareinstitution.startTime,
+          endTime: endTime ? endTime : valuesForCareinstitution.endTime,
+          // qualificationId : [],
+          // department : '',
+          address: address ? address : valuesForCareinstitution.address,
+          contactPerson: contactPerson
+            ? contactPerson
+            : valuesForCareinstitution.contactPerson,
+          bookingRemarks: bookingRemarks
+            ? bookingRemarks
+            : valuesForCareinstitution.bookingRemarks,
+          departmentOfferRemarks: departmentOfferRemarks
+            ? departmentOfferRemarks
+            : valuesForCareinstitution.departmentOfferRemarks,
+          departmentBookingRemarks: departmentBookingRemarks
+            ? departmentBookingRemarks
+            : valuesForCareinstitution.departmentBookingRemarks,
+          departmentRemarks: departmentRemarks
+            ? departmentRemarks
+            : valuesForCareinstitution.departmentRemarks,
+          isWorkingProof: isWorkingProof ? true : false,
+          offerRemarks: '',
+          comments: ''
         };
       } else {
         temp = {
@@ -722,17 +745,45 @@ const Appointment: FunctionComponent = () => {
     setSubmitting(false);
   };
 
-  // Fetch values in case of edit by default it will be null or undefined
-  const { firstName = '', lastName = '', caregiver = {} } = selectedCareGiver
-    ? selectedCareGiver
-    : {};
+  // Fetch values in case of edit by default it will be null or undefined selctedAvailability
+
+  let firstName: string = '',
+    lastName: string = '',
+    caregiver: any = {};
+
+  if (selctedAvailability) {
+    // {date: "2020-03-04T12:39:44.875Z"
+    // distanceInKM: 121
+    // f: "available"
+    // fee: 9999.99
+    // feePerKM: 44
+    // holidayAllowance: 12
+    // id: "41"
+    // n: "default"
+    // nightAllowance: "From 8:45 p.m."
+    // nightFee: 85
+    // otherExpenses: 44
+    // remarksCareGiver: "hello"
+    // remarksInternal: "world"
+    // s: "available"
+    // status: "default"
+    // weekendAllowance: 32
+    // workingProofRecieved: false} = selctedAvailability
+    caregiver = selctedAvailability ? selctedAvailability : {};
+  } else {
+    (firstName = selectedCareGiver ? selectedCareGiver.firstName : ''),
+      (lastName = selectedCareGiver ? selectedCareGiver.lastName : ''),
+      (caregiver = selectedCareGiver ? selectedCareGiver.caregiver : {});
+  }
+  console.log('selectedCareGiver', caregiver);
 
   const {
     nightAllowance = undefined,
     fee = null,
     nightFee = caregiver && caregiver.night ? caregiver.night : null,
     weekendAllowance = null,
-    holiday = null
+    holiday = null,
+    distanceInKM = caregiver ? caregiver.distanceInKM : ''
   } = caregiver ? caregiver : {};
 
   const valuesForCaregiver: ICaregiverFormValue = {
@@ -747,7 +798,7 @@ const Appointment: FunctionComponent = () => {
     weekendAllowance:
       weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : '',
     workingProofRecieved: false,
-    distanceInKM: '',
+    distanceInKM,
     feePerKM: '',
     travelAllowance: '',
     otherExpenses: '',

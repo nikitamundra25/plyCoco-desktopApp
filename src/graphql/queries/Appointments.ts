@@ -24,6 +24,17 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         s
         n
         date
+        fee
+        weekendAllowance
+        holidayAllowance
+        nightFee
+        nightAllowance
+        workingProofRecieved
+        distanceInKM
+        feePerKM
+        otherExpenses
+        remarksCareGiver
+        remarksInternal
       }
       canstitution {
         city

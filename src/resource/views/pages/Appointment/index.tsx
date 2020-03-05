@@ -661,6 +661,8 @@ const Appointment: FunctionComponent = () => {
     holiday = null
   } = caregiver ? caregiver : {};
 
+  
+
   const valuesForCaregiver: ICaregiverFormValue = {
     firstName,
     lastName,

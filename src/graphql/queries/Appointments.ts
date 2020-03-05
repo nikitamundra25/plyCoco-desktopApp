@@ -17,7 +17,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         holiday
         night
       }
-      caregiver_avabilities{
+      caregiver_avabilities {
         id
         status
         f
@@ -35,6 +35,29 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         otherExpenses
         remarksCareGiver
         remarksInternal
+      }
+      careinstitution_requirements {
+        id
+        name
+        f
+        s
+        n
+        address
+        bookingRemarks
+        comments
+        contactPerson
+        date
+        departmentBookingRemarks
+        departmentOfferRemarks
+        departmentRemarks
+        divisionId
+        endTime
+        isWorkingProof
+        name
+        offerRemarks
+        qualificationId
+        startTime
+        userId
       }
       canstitution {
         city

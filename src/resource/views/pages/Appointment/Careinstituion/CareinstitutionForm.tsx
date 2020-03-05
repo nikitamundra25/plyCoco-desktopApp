@@ -78,7 +78,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     setcareInstituionShift,
     addCareinstitutionRes,
     selctedAvailability,
-    setsecondStarCanstitution
+    secondStarCanstitution
   } = props;
 
   // Custom function to handle react select fields
@@ -370,7 +370,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <Select
                         placeholder='Select Department'
                         options={careInstitutionDepartment}
-                        isDisabled={setsecondStarCanstitution ? true : false}
+                        isDisabled={secondStarCanstitution ? true : false}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                         onChange={(value: any) =>

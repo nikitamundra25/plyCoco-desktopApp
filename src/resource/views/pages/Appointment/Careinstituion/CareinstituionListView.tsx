@@ -30,7 +30,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     careInstituionDeptData,
     starCanstitution,
     deptLoading,
-    onhandleSecondStarCanstitution
+    onhandleSecondStarCanstitution,
+    secondStarCanstitution
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
   const [starMarkIndex, setstarMarkIndex] = useState<number>(-1);
@@ -250,7 +251,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 </tr>
               ) : careInstituionDeptData &&
                 !careInstituionDeptData.length &&
-                !starCanstitution ? (
+                !starCanstitution.isStar ? (
                 careInstitutionList && careInstitutionList.length ? (
                   careInstitutionList.map((list: any, index: number) => {
                     return (
@@ -272,9 +273,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         <td className='h-col custom-appointment-col text-center'></td>
                         <td
                           className='s-col custom-appointment-col text-center'
-                          onClick={() => handleFirstStarCanstitution(list)}
+                          onClick={() =>
+                            handleFirstStarCanstitution(list, index)
+                          }
                         >
-                          {starMarkIndex === index || starCanstitution ? (
+                          {starCanstitution.setIndex === index ||
+                          starCanstitution.isStar ? (
                             <i className='fa fa-star-o icon-d' />
                           ) : (
                             <i className='fa fa-star-o' />
@@ -286,7 +290,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             onhandleSecondStar(list, index, 'careinstitution')
                           }
                         >
-                          {starMark ? (
+                          {secondStarCanstitution ? (
                             <i className='fa fa-star-o icon-d' />
                           ) : (
                             <i className='fa fa-star-o' />
@@ -354,7 +358,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           className='s-col custom-appointment-col text-center'
                           onClick={() => handleFirstStarCanstitution(null)}
                         >
-                          {starMark ? (
+                          {starCanstitution.setIndex === index ||
+                          starCanstitution.isStar ? (
                             <i className='fa fa-star-o icon-d' />
                           ) : (
                             <i className='fa fa-star-o' />
@@ -364,7 +369,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           className='u-col custom-appointment-col text-center'
                           onClick={() => onhandleSecondStarCanstitution(dept)}
                         >
-                          {starMark ? (
+                          {secondStarCanstitution ? (
                             <i className='fa fa-star-o icon-d' />
                           ) : (
                             <i className='fa fa-star-o' />

@@ -18,7 +18,8 @@ import {
   IAddCargiverAppointmentRes,
   IDate,
   IReactSelectTimeInterface,
-  ICareinstitutionFormSubmitValue
+  ICareinstitutionFormSubmitValue,
+  IStarInterface
 } from '../../../../interfaces';
 import moment from 'moment';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -43,7 +44,6 @@ import { AppointmentMutations } from '../../../../graphql/Mutations';
 import { defaultDateFormat } from '../../../../config';
 const [, , GET_DEPARTMENT_LIST, ,] = CareInstitutionQueries;
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
-let careinstitutionDepartmentResponse: boolean = false;
 let toastId: any = null;
 const Appointment: FunctionComponent = () => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
@@ -87,31 +87,61 @@ const Appointment: FunctionComponent = () => {
   /*  */
   const [timeSlotError, setTimeSlotError] = useState<string>('');
   // maintain star mark for careinstitution
-  const [starCanstitution, setstarCanstitution] = useState<boolean>(false);
+  const [starCanstitution, setstarCanstitution] = useState<IStarInterface>({
+    isStar: false,
+    setIndex: -1
+  });
   const [secondStarCanstitution, setsecondStarCanstitution] = useState<boolean>(
     false
   );
 
+  // Fetch values in case of edit by default it will be null or undefined
+  const {
+    id = '',
+    userId = '',
+    name = '',
+    date = '',
+    startTime = '',
+    endTime = '',
+    qualificationId = [],
+    divisionId = '',
+    address = '',
+    contactPerson = '',
+    bookingRemarks = '',
+    departmentOfferRemarks = '',
+    departmentBookingRemarks = '',
+    departmentRemarks = '',
+    f = '',
+    n,
+    s = null,
+    isWorkingProof,
+    offerRemarks = '',
+    comments = null
+  } = selectedCareinstitution;
   // For careinstitution fields
   const [valuesForCareinstitution, setvaluesForCareinstitution] = useState<
     ICareinstitutionFormValue
   >({
-    name: '',
-    date: '',
+    name: name ? name : '',
+    date: date ? date : '',
     shift: undefined,
-    endTime: '',
-    startTime: '',
+    endTime: endTime ? endTime : '',
+    startTime: startTime ? startTime : '',
     qualificationId: undefined,
     department: undefined,
-    address: '',
-    contactPerson: '',
-    departmentOfferRemarks: '',
-    departmentBookingRemarks: '',
-    departmentRemarks: '',
-    isWorkingProof: false,
-    offerRemarks: '',
-    bookingRemarks: '',
-    comments: ''
+    address: address ? address : '',
+    contactPerson: contactPerson ? contactPerson : '',
+    departmentOfferRemarks: departmentOfferRemarks
+      ? departmentOfferRemarks
+      : '',
+    departmentBookingRemarks: departmentBookingRemarks
+      ? departmentBookingRemarks
+      : '',
+    departmentRemarks: departmentRemarks ? departmentRemarks : '',
+    isWorkingProof: isWorkingProof ? true : false,
+    offerRemarks: offerRemarks ? offerRemarks : '',
+    bookingRemarks: bookingRemarks ? bookingRemarks : '',
+    comments: comments ? comments : ''
   });
 
   // Mutation to add careGiver data
@@ -133,17 +163,7 @@ const Appointment: FunctionComponent = () => {
   const [
     getDepartmentList,
     { data: departmentList, refetch, loading: deptLoading }
-  ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
-    onCompleted({ addDocument }) {
-      if (
-        departmentList &&
-        departmentList.getDivision.length &&
-        starCanstitution
-      ) {
-        careinstitutionDepartmentResponse = true;
-      }
-    }
-  });
+  ] = useLazyQuery<any>(GET_DEPARTMENT_LIST);
 
   // To fetch caregivers by qualification id
   const [
@@ -425,7 +445,7 @@ const Appointment: FunctionComponent = () => {
     } else {
       let temp: ICareinstitutionFormValue;
       setselctedRequirement(selctedAvailability);
-      if (!starCanstitution) {
+      if (!starCanstitution.isStar) {
         setselectedCareinstitution(list);
         temp = {
           ...valuesForCareinstitution,
@@ -468,12 +488,13 @@ const Appointment: FunctionComponent = () => {
       })
     );
   }
+
   // useEffect for filtering department data in careinstitution list
   useEffect(() => {
     if (
       departmentList &&
       departmentList.getDivision.length &&
-      starCanstitution
+      starCanstitution.isStar
     ) {
       const { getDivision } = departmentList;
       setcareInstituionDeptData(getDivision);
@@ -481,9 +502,20 @@ const Appointment: FunctionComponent = () => {
   }, [departmentList]);
 
   // handle first star of careinstitution and show department list
-  const handleFirstStarCanstitution = async (list: any) => {
+  const handleFirstStarCanstitution = async (list: any, index: number) => {
     setselectedCareinstitution(list);
-    setstarCanstitution(!starCanstitution);
+    console.log('starCanstitution', starCanstitution);
+    if (!starCanstitution.isStar) {
+      setstarCanstitution({
+        isStar: true,
+        setIndex: index
+      });
+    } else {
+      setstarCanstitution({
+        isStar: false,
+        setIndex: -1
+      });
+    }
     if (list) {
       await getDepartmentList({
         variables: {
@@ -498,17 +530,12 @@ const Appointment: FunctionComponent = () => {
 
   //  handle second star of careinstitution and autoselect department
   const onhandleSecondStarCanstitution = (dept: any) => {
-    setsecondStarCanstitution(!setsecondStarCanstitution);
+    setsecondStarCanstitution(!secondStarCanstitution);
     let data: any = [];
     data.push(dept);
-
+    console.log('dept', dept);
     setcareInstituionDeptData(data);
-    let initialData: ICareinstitutionFormValue = {
-      ...valuesForCareinstitution,
-      department: { label: dept.name, value: dept.id }
-    };
-
-    setvaluesForCareinstitution(initialData);
+    setcareInstituionDept({ label: dept.name, value: dept.id });
   };
 
   // Select single user from list and hide the rest
@@ -708,8 +735,6 @@ const Appointment: FunctionComponent = () => {
     holiday = null
   } = caregiver ? caregiver : {};
 
-  
-
   const valuesForCaregiver: ICaregiverFormValue = {
     firstName,
     lastName,
@@ -779,6 +804,7 @@ const Appointment: FunctionComponent = () => {
                     handleFirstStarCanstitution={handleFirstStarCanstitution}
                     careInstituionDeptData={careInstituionDeptData}
                     starCanstitution={starCanstitution}
+                    secondStarCanstitution={secondStarCanstitution}
                     deptLoading={deptLoading}
                     onhandleSecondStarCanstitution={
                       onhandleSecondStarCanstitution
@@ -861,9 +887,7 @@ const Appointment: FunctionComponent = () => {
                                 careInstitutionDepartment
                               }
                               careInstitutionTimesOptions={shiftOption}
-                              setsecondStarCanstitution={
-                                setsecondStarCanstitution
-                              }
+                              secondStarCanstitution={secondStarCanstitution}
                             />
                           );
                         }}

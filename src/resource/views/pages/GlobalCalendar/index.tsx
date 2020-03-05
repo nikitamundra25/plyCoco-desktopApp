@@ -13,6 +13,8 @@ import {
 import { CountryQueries } from "../../../../graphql/queries";
 import CalendarView from "./CalendarView";
 import AddHolidays from "./AddHolidays";
+import UpdateWeekends from "./UpdateWeekends";
+
 let refreshList: any = undefined;
 const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
   const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -65,6 +67,8 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
   };
   // handle add modal
   const [showAddModal, setAddModal] = useState<boolean>(false);
+  // handle add modal
+  const [showWeekendModal, setShowWeekendModal] = useState<boolean>(false);
   // returns JSX
   return (
     <Card>
@@ -73,11 +77,19 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
         <Button
           color={"primary"}
           className={"btn-add"}
-          id={"add-new-pm-tooltip"}
           onClick={() => setAddModal(true)}
         >
           <i className={"fa fa-plus"} />
           &nbsp;{languageTranslation("UPDATE_CALEDAR")}
+        </Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <Button
+          color={"primary"}
+          className={"btn-add"}
+          onClick={() => setShowWeekendModal(true)}
+        >
+          <i className={"fa fa-refresh"} />
+          &nbsp;{languageTranslation("UPDATE_WEEKENDS")}
         </Button>
       </CardHeader>
       <CardBody>
@@ -101,6 +113,14 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
           states={states}
           refresh={refreshList}
           editInfo={editInfo}
+        />
+        <UpdateWeekends
+          isOpen={showWeekendModal}
+          handleClose={() => {
+            setShowWeekendModal(false);
+          }}
+          states={states}
+          refresh={refreshList}
         />
       </CardBody>
     </Card>

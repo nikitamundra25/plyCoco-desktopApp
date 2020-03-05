@@ -1,5 +1,5 @@
-import { defaultDateFormat } from "./../config/constant";
-import { IDateValidatorOptions } from "./../interfaces/DateFunction";
+import { defaultDateFormat } from "../config/constant";
+import { IDateValidatorOptions } from "../interfaces/DateFunction";
 import { IDateResponse } from "../interfaces";
 import moment from "moment";
 import { languageTranslation } from "./LangauageTranslation";
@@ -86,4 +86,16 @@ export const dateValidator = (
       message: "Date is valid"
     };
   }
+};
+
+/**
+ * get next n years
+ */
+export const getYears = (n: number = 10): number[] => {
+  const years: number[] = [];
+  const currentYear: number = moment().get("year");
+  for (let i = 0; i < n; i++) {
+    years.push(currentYear + i);
+  }
+  return years;
 };

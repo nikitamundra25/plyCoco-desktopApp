@@ -4,8 +4,7 @@ import {
   IAddHolidayProps,
   IPycButtonProps,
   IAddHolidaysFormValues,
-  IAddHolidayFormikProps,
-  IState
+  IAddHolidayFormikProps
 } from "../../../../../interfaces";
 import { Formik, FormikHelpers, FormikProps } from "formik";
 import AddHolidaysForm from "./AddHolidaysForm";
@@ -27,7 +26,7 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
   states,
   refresh,
   editInfo
-}): JSX.Element => {
+}: IAddHolidayProps): JSX.Element => {
   const [
     ADD_GLOBAL_HOLIDAYS,
     _,
@@ -133,10 +132,9 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
       refresh();
       // refetch the list
     } catch (error) {
-      console.log(error);
-      const message = errorFormatter(error.message);
-      toast.error(message);
       logger(error);
+      const message = errorFormatter(error);
+      toast.error(message);
     }
   };
   // add form for holiday
@@ -192,7 +190,8 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
             text: languageTranslation("SUBMIT"),
             color: "primary",
             onClick: props.handleSubmit,
-            loading: loading || isUpdating
+            loading: loading || isUpdating,
+            type: "submit"
           }
         ];
         return (

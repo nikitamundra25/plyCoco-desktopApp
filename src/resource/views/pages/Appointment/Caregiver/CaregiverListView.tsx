@@ -16,6 +16,7 @@ import Loader from '../../../containers/Loader/Loader';
 import '../index.scss';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import Cell from './Cell';
+import moment from 'moment';
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList & any
 ) => {
@@ -53,7 +54,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
   const onSelectFinish = (selectedCells: any[]) => {
-    const selected = [];
+    const selected: any = [];
     let list: any = [];
     for (let i = 0; i < selectedCells.length; i++) {
       const { props: cellProps } = selectedCells[i];
@@ -63,8 +64,32 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
       setSelectedDays(selected);
     }
-
-    handleSelectedUser(list, selected, 'caregiver');
+    let selctedAvailability: any;
+    if (
+      list &&
+      list.caregiver_avabilities &&
+      list.caregiver_avabilities.length
+    ) {
+      selctedAvailability = list.caregiver_avabilities.filter(
+        (avabilityData: any, index: number) => {
+          return (
+            moment(selected[0].isoString).format('DD.MM.YYYY') ===
+              moment(avabilityData.date).format('DD.MM.YYYY') &&
+            (avabilityData.f === 'available' ||
+              avabilityData.s === 'available' ||
+              avabilityData.n === 'available')
+          );
+        }
+      );
+    }
+    handleSelectedUser(
+      list,
+      selected,
+      'caregiver',
+      selctedAvailability && selctedAvailability.length
+        ? selctedAvailability[0]
+        : {}
+    );
   };
   const onSelectionClear = () => {
     setSelectedDays([]);
@@ -235,7 +260,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                       </td>
                       {daysArr.map((key: any, i: number) => {
                         return (
-                          <Cell key={`${key}-${i}`} day={key} list={list} />
+                          <Cell
+                            key={`${key}-${i}`}
+                            day={key}
+                            list={list}
+                            handleSelectedAvailability
+                          />
                         );
                       })}
                     </tr>

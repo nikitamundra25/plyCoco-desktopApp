@@ -77,6 +77,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     setFieldValue(name, selectOption);
     if (name === 'department') {
       setcareInstituionDept(selectOption);
+      
     }
     if (name === 'shift') {
       setcareInstituionShift(selectOption);

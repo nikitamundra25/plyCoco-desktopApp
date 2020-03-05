@@ -70,6 +70,10 @@ const Appointment: FunctionComponent = () => {
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
     IDate[]
   >([]);
+
+  //For selected Availability
+  const [selctedAvailability, setselctedAvailability] = useState({});
+  /*  */
   const [timeSlotError, setTimeSlotError] = useState<string>('');
   // For careinstitution fields
   const [valuesForCareinstitution, setvaluesForCareinstitution] = useState<
@@ -100,7 +104,10 @@ const Appointment: FunctionComponent = () => {
   >(ADD_CAREGIVER_AVABILITY);
 
   // Mutation to add careinstitution data
-  const [addCareinstitutionRequirment, { data: addCareinstitutionRes }] = useMutation<
+  const [
+    addCareinstitutionRequirment,
+    { data: addCareinstitutionRes }
+  ] = useMutation<
     { addCareGiverAvability: IAddCargiverAppointmentRes },
     { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue }
   >(ADD_INSTITUTION_REQUIREMENT);
@@ -365,8 +372,14 @@ const Appointment: FunctionComponent = () => {
   }, [careInstituionShift]);
 
   // select careGiver or careinstitution
-  const handleSelectedUser = (list: any, date: any, name: string) => {
+  const handleSelectedUser = (
+    list: any,
+    date: any,
+    name: string,
+    selctedAvailability: any
+  ) => {
     if (name === 'caregiver') {
+      setselctedAvailability(selctedAvailability);
       setselectedCareGiver(list);
       if (date) {
         setactiveDateCaregiver(date);
@@ -729,6 +742,7 @@ const Appointment: FunctionComponent = () => {
                                   : ''
                               }
                               timeSlotError={timeSlotError}
+                              selctedAvailability={selctedAvailability}
                             />
                           );
                         }}

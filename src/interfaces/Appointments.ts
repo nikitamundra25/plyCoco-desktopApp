@@ -37,7 +37,8 @@ export interface IAppointmentCareGiverList {
   handleSelectedUser: (
     value: object,
     date: IDaysArray[] | null,
-    name: string
+    name: string,
+    handleSelectedAvailability: any
   ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
   handleReset: (name: string) => void;

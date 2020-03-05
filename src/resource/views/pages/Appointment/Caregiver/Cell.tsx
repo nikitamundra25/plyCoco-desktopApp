@@ -8,7 +8,7 @@ const Cell = ({
   isSelecting,
   day,
   list,
-  handleSelectedUser
+  handleSelectedAvailability
 }: any) => (
   <>
     <td
@@ -40,7 +40,6 @@ const Cell = ({
           : false
       })}
       ref={selectableRef}
-      // onClick={() => handleSelectedUser(list, day, 'caregiver')}
     >
       {list && list.caregiver_avabilities && list.caregiver_avabilities.length
         ? list.caregiver_avabilities.map(

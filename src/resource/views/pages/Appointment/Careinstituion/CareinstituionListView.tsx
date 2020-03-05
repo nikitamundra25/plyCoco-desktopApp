@@ -15,9 +15,8 @@ import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
 
-const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> = (
-  props: IAppointmentCareInstitutionList
-) => {
+const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
+  any> = (props: IAppointmentCareInstitutionList & any) => {
   const {
     daysData,
     careInstitutionList,
@@ -273,6 +272,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                             key={`${key}-${i}`}
                             day={key}
                             list={list}
+                            handleSelectedAvailability
                           />
                         );
                       })}

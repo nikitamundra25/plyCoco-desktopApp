@@ -34,8 +34,9 @@ import moment from 'moment';
 import classnames from 'classnames';
 
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
-  IAppointmentCareGiverForm> = (
-  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm
+  IAppointmentCareGiverForm &
+  any> = (
+  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
   // const { selectedCareGiver } = props;
   const {
@@ -74,29 +75,44 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     selectedCareGiver,
     activeDateCaregiver,
     addCaregiverRes,
-    timeSlotError
+    timeSlotError,
+    selctedAvailability
   } = props;
-  console.log('selectedCareGiver', selectedCareGiver);
-
+  
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
 
- /*  let isAvailability: boolean = false,
+  let isAvailability: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false;
-    if (selectedCareGiver && selectedCareGiver.caregiver_avabilities) {
-      
-    } */
+  if (selctedAvailability) {
+    if (selctedAvailability.status === 'default') {
+      isAvailability = true;
+    } else if (selctedAvailability.status === 'linked') {
+      isMatching = true;
+    } else if (selctedAvailability.status === 'contract') {
+      isContract = true;
+    }
+  }
 
+  let appintmentId: any = null;
+  if (addCaregiverRes && addCaregiverRes[0].userId) {
+    appintmentId = addCaregiverRes[0].userId;
+  } else if (selctedAvailability && selctedAvailability.id) {
+    appintmentId = selctedAvailability.id;
+  }
+ 
   return (
     <>
       <div className='form-section'>
         <div
           className={classnames({
             'form-card custom-height custom-scrollbar': true,
-            'availability-bg': false
+            'availability-bg': isAvailability,
+            'matching-bg': isMatching,
+            'contract-bg': isContract
           })}
         >
           <h5 className='content-title'>
@@ -116,11 +132,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <Input
                         type='text'
                         disabled={true}
-                        value={
-                          addCaregiverRes && addCaregiverRes[0].userId
-                            ? addCaregiverRes[0].userId
-                            : ''
-                        }
+                        value={appintmentId ? appintmentId : null}
                         placeholder={languageTranslation('APPOINTMENT_ID')}
                         className='width-common'
                       />

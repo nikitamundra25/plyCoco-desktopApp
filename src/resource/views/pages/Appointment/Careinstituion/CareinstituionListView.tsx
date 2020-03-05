@@ -15,7 +15,7 @@ import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
 import moment from 'moment';
-
+import DetaillistCareinstitutionPopup from '../DetailListCareinstitution';
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
   const {
@@ -101,7 +101,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
-
+  const [showList, setShowList] = useState<boolean>(false);
   return (
     <>
       <SelectableGroup
@@ -137,7 +137,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         <DropdownItem>
                           <span>Select all appointments of the caregiver</span>
                         </DropdownItem>{' '}
-                        <DropdownItem>
+                        <DropdownItem onClick={() => setShowList(true)}>
                           <span>Detailed List</span>
                         </DropdownItem>{' '}
                         <DropdownItem>
@@ -414,6 +414,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           </Table>
         </div>
       </SelectableGroup>
+
+      <DetaillistCareinstitutionPopup
+        show={showList ? true : false}
+        handleClose={() => setShowList(false)}
+      />
     </>
   );
 };

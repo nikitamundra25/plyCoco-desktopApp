@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Col, Row } from 'reactstrap';
+import { Col, Row, Button } from 'reactstrap';
 import {
   getDaysArrayByMonth,
   germanNumberFormat,
@@ -892,6 +892,24 @@ const Appointment: FunctionComponent = () => {
                           );
                         }}
                       />
+                    </Col>
+                    <Col lg={'12'}>
+                      <div className='d-flex align-items-center justify-content-center'>
+                        <Button
+                          className='btn-common  mt-0 mb-2 mx-2'
+                          color='primary'
+                        >
+                          <i className='fa fa-save mr-2' />
+                          {languageTranslation('SAVE_BOTH')}
+                        </Button>
+                        <Button
+                          className='btn-common mt-0 mb-2 mx-2'
+                          color='secondary'
+                        >
+                          <i className='fa fa-link mr-2' />
+                          {languageTranslation('LINK')}
+                        </Button>
+                      </div>
                     </Col>
                   </Row>
                 </Col>

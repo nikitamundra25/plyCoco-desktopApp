@@ -24,3 +24,4 @@ export * from "./GlobalCalendar";
 export * from "./PycModal";
 export * from "./Appointments";
 export * from "./Offer";
+export * from './AttributeFilter';

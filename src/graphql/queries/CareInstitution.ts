@@ -89,6 +89,10 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         id
         regionName
       }
+      attributes{
+        id
+        name
+      }
       contact {
         salutation
         firstName
@@ -178,7 +182,33 @@ const GET_CONTACT_TYPES = gql`
     }
   }
 `;
-
+// query{
+//   getDivisionsDetails(id:13){
+//     id
+//     userId
+//     name
+//     anonymousName
+//     anonymousName2
+//     address
+//     contactPerson
+//     phoneNumber
+//     faxNumber
+//     email
+//     remarks
+//     commentsOffer
+//     commentsCareGiver
+//     commentsVisibleInternally
+//     locked
+//     times
+//     attributes
+//     qualifications
+//     createdBy
+//     updatedBy
+//     createdAt
+//     updatedAt
+//     deletedAt
+//   }
+//  }
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,

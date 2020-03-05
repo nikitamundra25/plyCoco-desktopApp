@@ -303,20 +303,22 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="7">
-                    <div className="custom-select-checkbox">
-                      <ReactMultiSelectCheckboxes
-                        options={qualificationList}
-                        placeholder="Select Qualifications"
-                        className={
-                          "custom-reactselect custom-reactselect-menu-width"
-                        }
-                        classNamePrefix="custom-inner-reactselect"
-                        value={qualificationId}
-                        onChange={(value: any) =>
-                          handleSelect(value, "qualificationId")
-                        }
-                      />
-                      {/* <Select
+                    <div className="postion-relative">
+                      <Button className="add-new-btn arrow-btn" color="">
+                        <i className="fa fa-arrow-up" aria-hidden="true" />
+                      </Button>
+                      <div className="custom-select-checkbox">
+                        <ReactMultiSelectCheckboxes
+                          options={qualificationList}
+                          placeholder="Select Qualifications"
+                          className={"custom-reactselect "}
+                          classNamePrefix="custom-inner-reactselect"
+                          value={qualificationId}
+                          onChange={(value: any) =>
+                            handleSelect(value, "qualificationId")
+                          }
+                        />
+                        {/* <Select
                         placeholder='Select Qualifications'
                         options={qualificationList}
                         isMulti={true}
@@ -327,6 +329,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           handleSelect(value, 'qualificationId')
                         }
                       /> */}
+                      </div>
                     </div>
                   </Col>
                 </Row>

@@ -856,5 +856,7 @@
   "CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG": "Careinstitution requirement added successfully",
   "CAREGIVER_TIME_SLOT_ERROR_MSG": "Please select atleast one working hour.",
   "START_TIME_REQUIRED": "Starttime is required",
-  "END_TIME_REQUIRED": "Endtime is required"
+  "END_TIME_REQUIRED": "Endtime is required",
+  "SAVE_BOTH": "Save Both",
+  "LINK": "Link"
 }

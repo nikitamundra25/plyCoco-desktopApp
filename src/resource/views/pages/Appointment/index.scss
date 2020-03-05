@@ -100,17 +100,17 @@
 .contract-bg {
   background: $contract_color !important;
 }
+.confirmation-bg {
+  background: $confirmation_color !important;
+}
+
 .invoice-bg {
   background: $invoice_color !important;
 }
 
 .custom-height {
-  height: calc(100vh - 130px);
+  height: calc(100vh - 165px);
   overflow-x: hidden;
-}
-.icon-d {
-  color: #d9901a !important;
-  -webkit-text-stroke-width: 1px;
 }
 
 .custom-header-nav-item {
@@ -166,14 +166,19 @@
       }
     }
     .text-value {
-      font-size: 12px;
+      font-size: $font_12;
       font-weight: 400;
-      color: #000;
+      color: $black;
       text-align: left;
       display: block;
       padding: 0px;
       font-family: "FrutigerNeueLTPro-Bold", sans-serif;
     }
+  }
+  .arrow-btn {
+    position: absolute;
+    left: -15px;
+    top: 0px;
   }
   .distance-section {
     .fee-input {
@@ -227,13 +232,13 @@ body {
   .custom-row-selector {
     margin: 0;
     .selected-cell {
-      background-color: #8c38d6;
+      background-color: $selected_color;
     }
-    .cell-available{
-      background-color: rgb(67, 201, 67); 
+    .cell-available {
+      background-color: $available_color;
     }
     .selecting-cell {
-      background-color: #8c38d6;
+      background-color: $selecting_color;
     }
   }
 }

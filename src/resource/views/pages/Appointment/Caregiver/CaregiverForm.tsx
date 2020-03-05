@@ -104,6 +104,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     appintmentId = selctedAvailability.id;
   }
 
+  const handleTravelAllowance = () => {
+    let total = distanceInKM * feePerKM;
+    setFieldValue('travelAllowance', total);
+  };
+
   return (
     <>
       <div className='form-section'>
@@ -533,18 +538,23 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 <FormGroup className='totalbtn-input'>
                   <div className='label-height'></div>
 
-                  <Button className='add-new-btn' color=''>
+                  <Button
+                    className='add-new-btn'
+                    color=''
+                    onClick={handleTravelAllowance}
+                  >
                     <i className='fa fa-arrow-right' aria-hidden='true' />
                   </Button>
                 </FormGroup>
                 <FormGroup className='total-input flex-grow-1'>
                   <Label className='form-label col-form-label'>Total</Label>
-
                   <div className='required-input'>
                     <Input
                       type='text'
                       disabled={true}
+                      name={'travelAllowance'}
                       className='width-common'
+                      value={travelAllowance}
                     />
                   </div>
                 </FormGroup>

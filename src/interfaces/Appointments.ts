@@ -58,9 +58,12 @@ export interface IAppointmentCareInstitutionList {
     date: IDaysArray[] | null,
     name: string
   ) => void;
-  handleSecondStar: (list: object, index: number, name: string) => void;
+  onhandleSecondStarCanstitution: (list: any) => void;
   handleFirstStarCanstitution: (id: string) => void;
   handleReset: (name: string) => void;
+  careInstituionDeptData: any;
+  starCanstitution: boolean;
+  deptLoading: boolean;
 }
 
 export interface IAppointmentCareGiverForm {
@@ -126,6 +129,7 @@ export interface IAppointmentCareInstitutionForm {
   qualificationList: IReactSelectInterface[] | undefined;
   careInstitutionDepartment: IReactSelectInterface[] | undefined;
   addCareinstitutionRes: any;
+  setsecondStarCanstitution: boolean;
 }
 export interface IAddCargiverAppointmentRes {
   userId: string;

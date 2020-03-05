@@ -26,8 +26,7 @@ import {
   NightAllowancePerHour,
   State,
   ShiftTime,
-  TimeMask,
-  TimeCanstitutionRequirementMask
+  TimeMask
 } from '../../../../../config';
 import Select from 'react-select';
 import { FormikProps, Field } from 'formik';
@@ -77,7 +76,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     setcareInstituionDept,
     careInstitutionTimesOptions,
     setcareInstituionShift,
-    addCareinstitutionRes
+    addCareinstitutionRes,
+    selctedAvailability,
+    setsecondStarCanstitution
   } = props;
 
   // Custom function to handle react select fields
@@ -90,6 +91,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       setcareInstituionShift(selectOption, props.values);
     }
   };
+
+  let appintmentId: any = null;
+  if (addCareinstitutionRes && addCareinstitutionRes.id) {
+    appintmentId = addCareinstitutionRes.id;
+  } else if (selctedAvailability && selctedAvailability.id) {
+    appintmentId = selctedAvailability.id;
+  }
 
   return (
     <>
@@ -113,6 +121,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='text'
                         name={'id'}
                         disabled
+                        value={appintmentId ? appintmentId : null}
                         placeholder={languageTranslation('APPOINTMENT_ID')}
                       />
                     </div>
@@ -216,7 +225,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             <MaskedInput
                               {...field}
                               placeholder={languageTranslation('START_WORKING')}
-                              mask={TimeCanstitutionRequirementMask}
+                              mask={TimeMask}
                               className={
                                 errors.startTime && touched.startTime
                                   ? 'text-input error form-control'
@@ -259,7 +268,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             <MaskedInput
                               {...field}
                               placeholder={languageTranslation('END_WORKING')}
-                              mask={TimeCanstitutionRequirementMask}
+                              mask={TimeMask}
                               className={
                                 errors.endTime && touched.endTime
                                   ? 'text-input error form-control'
@@ -361,6 +370,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <Select
                         placeholder='Select Department'
                         options={careInstitutionDepartment}
+                        isDisabled={setsecondStarCanstitution ? true : false}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                         onChange={(value: any) =>

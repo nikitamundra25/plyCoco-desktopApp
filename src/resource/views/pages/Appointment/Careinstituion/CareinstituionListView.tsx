@@ -14,6 +14,7 @@ import {
 import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
+import moment from 'moment';
 
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
@@ -25,7 +26,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     handleSelectedUser,
     handleSecondStar,
     handleReset,
-    handleFirstStarCanstitution
+    handleFirstStarCanstitution,
+    careInstituionDeptData,
+    starCanstitution,
+    deptLoading,
+    onhandleSecondStarCanstitution
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
   const [starMarkIndex, setstarMarkIndex] = useState<number>(-1);
@@ -55,7 +60,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
   const onSelectFinish = (selectedCells: any[]) => {
-    const selected = [];
+    const selected: any = [];
     let list: any = [];
     for (let i = 0; i < selectedCells.length; i++) {
       const { props: cellProps } = selectedCells[i];
@@ -65,7 +70,32 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       }
       setSelectedDays(selected);
     }
-    handleSelectedUser(list, selected, 'careinstitution');
+    let selctedAvailability: any;
+    if (
+      list &&
+      list.caregiver_avabilities &&
+      list.caregiver_avabilities.length
+    ) {
+      selctedAvailability = list.caregiver_avabilities.filter(
+        (avabilityData: any, index: number) => {
+          return (
+            moment(selected[0].isoString).format('DD.MM.YYYY') ===
+              moment(avabilityData.date).format('DD.MM.YYYY') &&
+            (avabilityData.f === 'available' ||
+              avabilityData.s === 'available' ||
+              avabilityData.n === 'available')
+          );
+        }
+      );
+    }
+    handleSelectedUser(
+      list,
+      selected,
+      'careinstitution',
+      selctedAvailability && selctedAvailability.length
+        ? selctedAvailability[0]
+        : {}
+    );
   };
   const onSelectionClear = () => {
     setSelectedDays([]);
@@ -218,66 +248,147 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     <Loader />
                   </td>
                 </tr>
-              ) : careInstitutionList && careInstitutionList.length ? (
-                careInstitutionList.map((list: any, index: number) => {
-                  return (
-                    <tr key={index}>
-                      <th className='thead-sticky name-col custom-appointment-col'>
-                        <div
-                          className='text-capitalize view-more-link one-line-text'
+              ) : careInstituionDeptData &&
+                !careInstituionDeptData.length &&
+                !starCanstitution ? (
+                careInstitutionList && careInstitutionList.length ? (
+                  careInstitutionList.map((list: any, index: number) => {
+                    return (
+                      <tr key={index}>
+                        <th className='thead-sticky name-col custom-appointment-col'>
+                          <div
+                            className='text-capitalize view-more-link one-line-text'
+                            onClick={() =>
+                              handleSelectedUser(list, null, 'careinstitution')
+                            }
+                          >
+                            {!list.newRow
+                              ? `${list.firstName ? list.firstName : ''} ${
+                                  list.lastName ? list.lastName : ''
+                                }`
+                              : ''}
+                          </div>
+                        </th>
+                        <td className='h-col custom-appointment-col text-center'></td>
+                        <td
+                          className='s-col custom-appointment-col text-center'
+                          onClick={() => handleFirstStarCanstitution(list)}
+                        >
+                          {starMarkIndex === index || starCanstitution ? (
+                            <i className='fa fa-star-o icon-d' />
+                          ) : (
+                            <i className='fa fa-star-o' />
+                          )}
+                        </td>
+                        <td
+                          className='u-col custom-appointment-col text-center'
                           onClick={() =>
-                            handleSelectedUser(list, null, 'careinstitution')
+                            onhandleSecondStar(list, index, 'careinstitution')
                           }
                         >
-                          {!list.newRow
-                            ? `${list.firstName ? list.firstName : ''} ${
-                                list.lastName ? list.lastName : ''
-                              }`
-                            : ''}
+                          {starMark ? (
+                            <i className='fa fa-star-o icon-d' />
+                          ) : (
+                            <i className='fa fa-star-o' />
+                          )}
+                        </td>
+                        <td
+                          className='v-col custom-appointment-col text-center'
+                          onClick={e =>
+                            onAddingRow(e, 'careinstitution', index)
+                          }
+                        >
+                          <i className='fa fa-arrow-down' />
+                        </td>
+                        {/* map */}
+                        {daysArr.map((key: any, i: number) => {
+                          return (
+                            <CellCareinstitution
+                              key={`${key}-${i}`}
+                              day={key}
+                              list={list}
+                              handleSelectedAvailability
+                            />
+                          );
+                        })}
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr className={'text-center no-hover-row'}>
+                    <td colSpan={40} className={'pt-5 pb-5'}>
+                      <div className='no-data-section'>
+                        <div className='no-data-icon'>
+                          <i className='icon-ban' />
                         </div>
-                      </th>
-                      <td className='h-col custom-appointment-col text-center'></td>
-                      <td
-                        className='s-col custom-appointment-col text-center'
-                        onClick={() => handleFirstStarCanstitution(list.id)}
-                      >
-                        {starMarkIndex === index || starMark ? (
-                          <i className='fa fa-star-o icon-d' />
-                        ) : (
-                          <i className='fa fa-star-o' />
-                        )}
-                      </td>
-                      <td
-                        className='u-col custom-appointment-col text-center'
-                        onClick={() =>
-                          onhandleSecondStar(list, index, 'careinstitution')
-                        }
-                      >
-                        {starMark ? (
-                          <i className='fa fa-star-o icon-d' />
-                        ) : (
-                          <i className='fa fa-star-o' />
-                        )}
-                      </td>
-                      <td
-                        className='v-col custom-appointment-col text-center'
-                        onClick={e => onAddingRow(e, 'careinstitution', index)}
-                      >
-                        <i className='fa fa-arrow-down' />
-                      </td>
-                      {/* map */}
-                      {daysArr.map((key: any, i: number) => {
-                        return (
-                          <CellCareinstitution
-                            key={`${key}-${i}`}
-                            day={key}
-                            list={list}
-                            handleSelectedAvailability
-                          />
-                        );
-                      })}
-                    </tr>
-                  );
+                        <h4 className='mb-1'>
+                          Currently there are no CareGiver added.{' '}
+                        </h4>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              ) : deptLoading ? (
+                <tr>
+                  <td className={'table-loader'} colSpan={40}>
+                    <Loader />
+                  </td>
+                </tr>
+              ) : careInstituionDeptData && careInstituionDeptData.length ? (
+                careInstituionDeptData.map((dept: any, index: number) => {
+                  if (!dept.locked) {
+                    return (
+                      <tr key={`${dept.id}-${index}`}>
+                        <th className='name-col custom-appointment-col thead-sticky'>
+                          <div
+                            className='text-capitalize view-more-link one-line-text'
+                            // onClick={() =>
+                            //   handleSelectedUser(list, null, 'caregiver')
+                            // }
+                          >
+                            {!dept.newRow ? (dept.name ? dept.name : '') : ''}
+                          </div>
+                        </th>
+                        <td className='h-col custom-appointment-col text-center'></td>
+                        <td
+                          className='s-col custom-appointment-col text-center'
+                          onClick={() => handleFirstStarCanstitution(null)}
+                        >
+                          {starMark ? (
+                            <i className='fa fa-star-o icon-d' />
+                          ) : (
+                            <i className='fa fa-star-o' />
+                          )}
+                        </td>
+                        <td
+                          className='u-col custom-appointment-col text-center'
+                          onClick={() => onhandleSecondStarCanstitution(dept)}
+                        >
+                          {starMark ? (
+                            <i className='fa fa-star-o icon-d' />
+                          ) : (
+                            <i className='fa fa-star-o' />
+                          )}
+                        </td>
+                        <td
+                          className='v-col custom-appointment-col text-center'
+                          onClick={e => onAddingRow(e, 'caregiver', index)}
+                        >
+                          <i className='fa fa-arrow-down' />
+                        </td>
+                        {daysArr.map((key: any, i: number) => {
+                          return (
+                            <CellCareinstitution
+                              key={`${key}-${i}`}
+                              day={key}
+                              list={dept}
+                              handleSelectedAvailability
+                            />
+                          );
+                        })}
+                      </tr>
+                    );
+                  }
                 })
               ) : (
                 <tr className={'text-center no-hover-row'}>
@@ -287,7 +398,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         <i className='icon-ban' />
                       </div>
                       <h4 className='mb-1'>
-                        Currently there are no CareGiver added.{' '}
+                        Currently there are no Department added for this care
+                        institution.{' '}
                       </h4>
                     </div>
                   </td>

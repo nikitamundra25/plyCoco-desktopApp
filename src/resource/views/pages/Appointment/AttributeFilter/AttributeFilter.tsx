@@ -56,12 +56,17 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
     handleChange,
     presetList,
     onDeletingPreset,
-    OnPresetClick
+    OnPresetClick,
+    activePreset,
+    addPresetLoading,
+
+    setActivePreset
   } = props;
   const externalCloseBtn = (
     <button
       className='close modal-close'
       onClick={() => {
+        setActivePreset(null);
         setIsPositive([]);
         setIsNegative([]);
         handleClose();
@@ -124,13 +129,13 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                             (item: any, index: number) => {
                               return (
                                 <li
-                                  className={
-                                    'cursor-pointer list-item text-capitalize'
-                                  }
+                                  className={`cursor-pointer list-item text-capitalize ${
+                                    activePreset === item.id ? 'active' : ''
+                                  }`}
                                 >
                                   <div
                                     className='list-item-text one-line-text'
-                                    onClick={() => OnPresetClick(item.id)}
+                                    onClick={() => OnPresetClick(item)}
                                   >
                                     {item.name}
                                   </div>
@@ -690,6 +695,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
         setPresetNames={setPresetNames}
         onSavingPreset={onSavingPreset}
         handleChange={handleChange}
+        addPresetLoading={addPresetLoading}
       />
     </div>
   );

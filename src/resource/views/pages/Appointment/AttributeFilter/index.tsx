@@ -27,6 +27,7 @@ const AttributeFilter = (props: IAttributeFilter) => {
   const [showPreset, setShowPreset] = useState<boolean>(false);
   const [presetNames, setPresetNames] = useState<any>(null);
   const { show, handleClose, setAttributeFilter, attributeFilter } = props;
+  const [activePreset, setActivePreset] = useState<number | null>(null);
 
   // To get list of presets
   const [
@@ -63,7 +64,9 @@ const AttributeFilter = (props: IAttributeFilter) => {
     {
       onCompleted({ addPreset }) {
         setShowPreset(false);
-        // setIsSubmit(false);
+        setIsNegative([]);
+        setIsPositive([]);
+        setActivePreset(null);
         refetch();
         toast.dismiss();
         if (!toast.isActive(toastId)) {
@@ -83,6 +86,9 @@ const AttributeFilter = (props: IAttributeFilter) => {
   const [deletePreset] = useMutation<any>(DELETE_PRESET_ATTRIBUTE, {
     onCompleted({ deletePreset }) {
       setShowPreset(false);
+      setIsNegative([]);
+      setIsPositive([]);
+      setActivePreset(null);
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -91,34 +97,12 @@ const AttributeFilter = (props: IAttributeFilter) => {
       }
     }
   });
-  // To get presets detail by clicking on them
-  const [
-    fetchPresetAttributes,
-    { data, loading: presetAttributeLoading }
-  ] = useLazyQuery<any>(GET_PRESETS_BY_ID);
-
-  useEffect(() => {
-    const { getPresetAttributeDetails = {} } = data ? data : {};
-    const { positiveAttributeIds = [] } = getPresetAttributeDetails
-      ? getPresetAttributeDetails
-      : {};
-    const { negativeAttributeIds = [] } = getPresetAttributeDetails
-      ? getPresetAttributeDetails
-      : {};
-    setIsPositive(positiveAttributeIds.map((e: any) => parseInt(e)));
-    setIsNegative(negativeAttributeIds.map((e: any) => parseInt(e)));
-  }, [data]);
 
   //view a particular template by clicking on its menu entry
-  console.log('data    data   data', data);
-  // To get presets detail by clicking on them
-  const OnPresetClick = (id: number) => {
-    fetchPresetAttributes({
-      variables: {
-        id: id ? id : null
-      }
-    });
-    console.log('data inside on preset', data);
+  const OnPresetClick = (data: any) => {
+    setActivePreset(data.id);
+    setIsPositive(data.positiveAttributeIds.map((e: any) => parseInt(e)));
+    setIsNegative(data.negativeAttributeIds.map((e: any) => parseInt(e)));
   };
   // if any element in positive list is checked
   const handleCheckPositiveElement = (
@@ -310,6 +294,8 @@ const AttributeFilter = (props: IAttributeFilter) => {
       presetNames={presetNames}
       attributeFilter={attributeFilter}
       presetList={presetList}
+      activePreset={activePreset}
+      addPresetLoading={addPresetLoading}
       // function
       setPresetNames={setPresetNames}
       setIsNegative={setIsNegative}
@@ -327,6 +313,7 @@ const AttributeFilter = (props: IAttributeFilter) => {
       handleChange={handleChange}
       onDeletingPreset={onDeletingPreset}
       OnPresetClick={OnPresetClick}
+      setActivePreset={setActivePreset}
     />
   );
 };

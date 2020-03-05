@@ -19,6 +19,8 @@ const GET_PRESETS_LIST = gql`
     getPresetAttribute(userRole: $userRole) {
       id
       name
+      positiveAttributeIds
+      negativeAttributeIds
     }
   }
 `;

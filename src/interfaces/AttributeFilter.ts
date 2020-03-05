@@ -38,4 +38,7 @@ export interface IAttributeFilterPage {
   presetList: any;
   onDeletingPreset: (id: number) => Promise<void>;
   OnPresetClick: (id: number) => void;
+  activePreset: number | null;
+  addPresetLoading: boolean;
+  setActivePreset:React.Dispatch<React.SetStateAction<number | null>>
 }

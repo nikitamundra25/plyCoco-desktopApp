@@ -20,10 +20,9 @@ const AddPreset = (props: any) => {
     show,
     handleClose,
     handleChange,
-    preset,
     presetNames,
-    setPresetNames,
-    onSavingPreset
+    onSavingPreset,
+    addPresetLoading
   } = props;
 
   const externalCloseBtn = (
@@ -71,9 +70,16 @@ const AddPreset = (props: any) => {
             <Button
               color='primary'
               type='submit'
-              disabled={!presetNames ? true : false}
+              disabled={!presetNames || addPresetLoading ? true : false}
             >
-              {languageTranslation('OK')}
+              {addPresetLoading ? (
+                <>
+                  <i className='fa fa-spinner' /> &nbsp;
+                  {languageTranslation('OK')}
+                </>
+              ) : (
+                languageTranslation('OK')
+              )}
             </Button>
             <Button color='secondary' onClick={handleClose}>
               {languageTranslation('CANCEL')}

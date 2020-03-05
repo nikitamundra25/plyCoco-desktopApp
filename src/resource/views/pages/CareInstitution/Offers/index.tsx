@@ -18,6 +18,11 @@ import { ApolloError } from "apollo-client";
 import { ConfirmBox } from "../../../components/ConfirmBox";
 import NegativeList from "./NegativeList";
 import WorkedList from "./WorkedList";
+import {
+  deactivatedListColor,
+  leasingListColor,
+  selfEmployesListColor,
+} from '../../../../../config';
 let toastId: any = "";
 
 const Offer: FunctionComponent<RouteComponentProps> = () => {
@@ -64,16 +69,29 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
       let temp: any = [];
       temp.push({
         label: languageTranslation("NAME"),
-        value: languageTranslation("ID"),
-        // companyName: languageTranslation("COMPANY_NAME")
+        value: languageTranslation("ID")
       });
       caregiver.getCaregivers.result.forEach(
-        ({ id, firstName, lastName, caregiver }: any) =>
+        ({ id, firstName, lastName, caregiver, isActive }: any) => {
+          let attributes: any = [];
+          if (caregiver) {
+            attributes = caregiver.attributes;
+            if (!attributes) {
+              attributes = [];
+            }
+          }
           temp.push({
             label: `${firstName}${" "}${lastName}`,
             value: id,
-            // companyName: caregiver && caregiver.companyName
+            color: !isActive
+              ? deactivatedListColor
+              : attributes.includes('TIMyoCY')
+                ? leasingListColor
+                : attributes.includes('Plycoco')
+                  ? selfEmployesListColor
+                  : ''
           })
+        }
       );
       setCaregiverOptions(temp);
     }

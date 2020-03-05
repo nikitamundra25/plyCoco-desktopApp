@@ -1,5 +1,8 @@
 import * as Yup from 'yup';
-import { ICaregiverValidationFormValue } from '../../interfaces';
+import {
+  ICaregiverValidationFormValue,
+  ICareinstituionValidationFormValue
+} from '../../interfaces';
 import { languageTranslation } from '../../helpers';
 import { NumberWithCommaRegex } from '../../config';
 
@@ -35,22 +38,27 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
       languageTranslation('INVALID_NUMBER'),
       value => !value || NumberWithCommaRegex.test(value)
     ),
-  distanceInKM: Yup.mixed()
-  .test(
+  distanceInKM: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
     value => !value || NumberWithCommaRegex.test(value)
   ),
-  feePerKM: Yup.mixed()
-  .test(
+  feePerKM: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
     value => !value || NumberWithCommaRegex.test(value)
   ),
-  otherExpenses: Yup.mixed()
-  .test(
+  otherExpenses: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
     value => !value || NumberWithCommaRegex.test(value)
   )
+});
+
+export const CareInstitutionValidationSchema: Yup.ObjectSchema<Yup.Shape<
+  object,
+  ICareinstituionValidationFormValue
+>> = Yup.object().shape<ICareinstituionValidationFormValue>({
+  startTime: Yup.string().required(languageTranslation('START_TIME_REQUIRED')),
+  endTime: Yup.string().required(languageTranslation('END_TIME_REQUIRED'))
 });

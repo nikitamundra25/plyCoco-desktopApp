@@ -34,9 +34,13 @@ const [
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { CareGiverValidationSchema } from '../../../validations/AppointmentsFormValidationSchema';
+import {
+  CareGiverValidationSchema,
+  CareInstitutionValidationSchema
+} from '../../../validations/AppointmentsFormValidationSchema';
 import { toast } from 'react-toastify';
 import { AppointmentMutations } from '../../../../graphql/Mutations';
+import { defaultDateFormat } from '../../../../config';
 const [, , GET_DEPARTMENT_LIST, ,] = CareInstitutionQueries;
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 
@@ -64,7 +68,11 @@ const Appointment: FunctionComponent = () => {
   const [careInstituionDept, setcareInstituionDept] = useState<
     IReactSelectInterface
   >();
-
+  // set field to update formik values
+  const [
+    updateCanstitutionFormikValues,
+    setupdateCanstitutionFormikValues
+  ] = useState<any>();
   const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>({});
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
@@ -100,8 +108,11 @@ const Appointment: FunctionComponent = () => {
   >(ADD_CAREGIVER_AVABILITY);
 
   // Mutation to add careinstitution data
-  const [addCareinstitutionRequirment, { data: addCareinstitutionRes }] = useMutation<
-    { addCareGiverAvability: IAddCargiverAppointmentRes },
+  const [
+    addCareinstitutionRequirment,
+    { data: addCareinstitutionRes }
+  ] = useMutation<
+    { addCareInstitutionRequirement: IAddCargiverAppointmentRes },
     { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue }
   >(ADD_INSTITUTION_REQUIREMENT);
 
@@ -109,7 +120,14 @@ const Appointment: FunctionComponent = () => {
   const [
     getDepartmentList,
     { data: departmentList, refetch, loading }
-  ] = useLazyQuery<any>(GET_DEPARTMENT_LIST);
+  ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
+    onCompleted({ addDocument }) {
+      if (departmentList && departmentList.getDivision.length) {
+        const { getDivision } = departmentList;
+        setcareInstituionDeptData(getDivision);
+      }
+    }
+  });
 
   // To fetch caregivers by qualification id
   const [
@@ -245,6 +263,7 @@ const Appointment: FunctionComponent = () => {
     );
     setDaysData(res);
   };
+
   // On previous month click
   const handlePrevious = () => {
     let month: number = activeMonth - 1;
@@ -310,11 +329,20 @@ const Appointment: FunctionComponent = () => {
     const careInstitutionTimesOptions:
       | IReactSelectTimeInterface[]
       | undefined = [];
+    let values = updateCanstitutionFormikValues;
+    let startTime: string = '';
+    let endTime: string = '';
     if (deptId) {
       if (departmentList && departmentList.getDivision.length) {
         const { getDivision } = departmentList;
         departmentData = getDivision.filter((dept: any) => dept.id === deptId);
         if (departmentData[0] && departmentData[0].times) {
+          startTime = departmentData[0].times[0]
+            ? departmentData[0].times[0].begin
+            : '';
+          endTime = departmentData[0].times[0]
+            ? departmentData[0].times[0].end
+            : '';
           departmentData[0].times.map((list: any) => {
             return careInstitutionTimesOptions.push({
               label: `${list.begin} - ${list.end} `,
@@ -322,17 +350,20 @@ const Appointment: FunctionComponent = () => {
               data: list
             });
           });
-          setcareInstituionShift(careInstitutionTimesOptions[0]);
+          // setcareInstituionShift(careInstitutionTimesOptions[0]);
         }
         setshiftOption(careInstitutionTimesOptions);
         let temp: ICareinstitutionFormValue = {
-          ...valuesForCareinstitution,
+          ...values,
           department: careInstituionDept,
           address: departmentData[0].address,
           contactPerson: departmentData[0].contactPerson,
           departmentOfferRemarks: departmentData[0].commentsOffer,
           departmentRemarks: departmentData[0].commentsVisibleInternally,
-          departmentBookingRemarks: departmentData[0].commentsCareGiver
+          departmentBookingRemarks: departmentData[0].commentsCareGiver,
+          shift: careInstitutionTimesOptions[0],
+          startTime,
+          endTime
         };
 
         setvaluesForCareinstitution(temp);
@@ -343,12 +374,10 @@ const Appointment: FunctionComponent = () => {
   // Change time shift option
   useEffect(() => {
     let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
-    console.log('timeData', timeData);
+    let values = updateCanstitutionFormikValues;
     let time = timeData && !timeData.data ? timeData.value.split('-') : '';
-    console.log('time', timeData ? timeData.data : '');
-
     let temp: any = {
-      ...valuesForCareinstitution,
+      ...values,
       shift: careInstituionShift,
       startTime: timeData
         ? timeData.data && timeData.data.begin
@@ -377,6 +406,7 @@ const Appointment: FunctionComponent = () => {
         ...valuesForCareinstitution,
         name: `${list.firstName} ${list.lastName}`
       };
+
       setvaluesForCareinstitution(temp);
       if (date) {
         setactiveDateCareinstitution(date);
@@ -416,12 +446,12 @@ const Appointment: FunctionComponent = () => {
         locked: null
       }
     });
-    if (id) {
-      if (departmentList && departmentList.getDivision.length) {
-        const { getDivision } = departmentList;
-        setcareinstitutionList(getDivision);
-      }
-    }
+    // if (id) {
+    //   if (departmentList && departmentList.getDivision.length) {
+    //     const { getDivision } = departmentList;
+    //     setcareinstitutionList(getDivision);
+    //   }
+    // }
   };
 
   // Select single user from list and hide the rest
@@ -553,6 +583,7 @@ const Appointment: FunctionComponent = () => {
         quali.push(parseInt(key.value));
       });
     }
+
     try {
       let careInstitutionRequirementInput: ICareinstitutionFormSubmitValue = {
         userId: selectedCareinstitution
@@ -561,12 +592,14 @@ const Appointment: FunctionComponent = () => {
         name,
         date:
           activeDateCareinstitution && activeDateCareinstitution.length
-            ? activeDateCareinstitution[0].isoString
+            ? moment(activeDateCareinstitution[0].isoString).format(
+                defaultDateFormat
+              )
             : '',
         startTime,
         endTime,
         divisionId:
-          department && department.value ? parseInt(department.value) : 0,
+          department && department.value ? parseInt(department.value) : null,
         qualificationId: quali,
         address,
         contactPerson,
@@ -606,25 +639,9 @@ const Appointment: FunctionComponent = () => {
   };
 
   // Fetch values in case of edit by default it will be null or undefined
-  const {
-    firstName = '',
-    lastName = '',
-    workingProofRecieved = false,
-    distanceInKM = '',
-    feePerKM = '',
-    travelAllowance = '',
-    otherExpenses = '',
-    workingHoursFrom = '',
-    workingHoursTo = '',
-    breakFrom = '',
-    breakTo = '',
-    remarksCareGiver = '',
-    remarksInternal = '',
-    caregiver = {},
-    f = false,
-    s = false,
-    n = false
-  } = selectedCareGiver ? selectedCareGiver : {};
+  const { firstName = '', lastName = '', caregiver = {} } = selectedCareGiver
+    ? selectedCareGiver
+    : {};
 
   const {
     nightAllowance = undefined,
@@ -645,20 +662,20 @@ const Appointment: FunctionComponent = () => {
     holidayAllowance: holiday !== null ? germanNumberFormat(holiday) : '',
     weekendAllowance:
       weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : '',
-    workingProofRecieved,
+    workingProofRecieved: false,
     distanceInKM: '',
-    feePerKM,
-    travelAllowance,
-    otherExpenses,
-    workingHoursFrom,
-    workingHoursTo,
-    breakFrom,
-    breakTo,
-    remarksCareGiver,
-    remarksInternal,
-    f,
-    s,
-    n
+    feePerKM: '',
+    travelAllowance: '',
+    otherExpenses: '',
+    workingHoursFrom: '',
+    workingHoursTo: '',
+    breakFrom: '',
+    breakTo: '',
+    remarksCareGiver: '',
+    remarksInternal: '',
+    f: false,
+    s: false,
+    n: false
   };
 
   return (
@@ -739,7 +756,7 @@ const Appointment: FunctionComponent = () => {
                         initialValues={valuesForCareinstitution}
                         onSubmit={handleSubmitCareinstitutionForm}
                         enableReinitialize={true}
-                        // validationSchema={CareGiverValidationSchema}
+                        validationSchema={CareInstitutionValidationSchema}
                         children={(
                           props: FormikProps<ICareinstitutionFormValue>
                         ) => {
@@ -752,12 +769,20 @@ const Appointment: FunctionComponent = () => {
                                   ? activeDateCareinstitution[0]
                                   : undefined
                               }
-                              setcareInstituionDept={(deptData: any) =>
-                                setcareInstituionDept(deptData)
-                              }
-                              setcareInstituionShift={(shiftData: any) =>
-                                setcareInstituionShift(shiftData)
-                              }
+                              setcareInstituionDept={(
+                                deptData: any,
+                                values: any
+                              ) => {
+                                setcareInstituionDept(deptData);
+                                setupdateCanstitutionFormikValues(values);
+                              }}
+                              setcareInstituionShift={(
+                                shiftData: any,
+                                values: any
+                              ) => {
+                                setcareInstituionShift(shiftData);
+                                setupdateCanstitutionFormikValues(values);
+                              }}
                               selectedCareinstitution={selectedCareinstitution}
                               qualificationList={qualificationList}
                               careInstitutionDepartment={

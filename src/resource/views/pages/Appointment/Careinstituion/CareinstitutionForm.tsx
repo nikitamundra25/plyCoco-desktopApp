@@ -22,10 +22,17 @@ import {
 import '../index.scss';
 import { languageTranslation } from '../../../../../helpers';
 import MaskedInput from 'react-text-mask';
-import { NightAllowancePerHour, State, ShiftTime } from '../../../../../config';
+import {
+  NightAllowancePerHour,
+  State,
+  ShiftTime,
+  TimeMask,
+  TimeCanstitutionRequirementMask
+} from '../../../../../config';
 import Select from 'react-select';
-import { FormikProps } from 'formik';
+import { FormikProps, Field } from 'formik';
 import moment from 'moment';
+import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
@@ -76,10 +83,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
     if (name === 'department') {
-      setcareInstituionDept(selectOption);
+      setcareInstituionDept(selectOption, props.values);
     }
     if (name === 'shift') {
-      setcareInstituionShift(selectOption);
+      setcareInstituionShift(selectOption, props.values);
     }
   };
 
@@ -202,14 +209,29 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='7'>
                     <div className='required-input'>
                       <InputGroup>
-                        <Input
-                          type='text'
-                          name={'id'}
-                          value={startTime}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          placeholder={languageTranslation('START_WORKING')}
+                        <Field
+                          name={'startTime'}
+                          render={({ field }: any) => (
+                            <MaskedInput
+                              {...field}
+                              placeholder={languageTranslation('START_WORKING')}
+                              mask={TimeCanstitutionRequirementMask}
+                              className={
+                                errors.startTime && touched.startTime
+                                  ? 'text-input error form-control'
+                                  : 'text-input form-control'
+                              }
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={startTime}
+                            />
+                          )}
                         />
+                        {errors.startTime && touched.startTime && (
+                          <div className='required-tooltip'>
+                            {errors.startTime}
+                          </div>
+                        )}
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>Uhr</InputGroupText>
                         </InputGroupAddon>
@@ -230,14 +252,29 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='7'>
                     <div className='required-input'>
                       <InputGroup>
-                        <Input
-                          type='text'
-                          name={'id'}
-                          value={endTime}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          placeholder={languageTranslation('END_WORKING')}
+                        <Field
+                          name={'endTime'}
+                          render={({ field }: any) => (
+                            <MaskedInput
+                              {...field}
+                              placeholder={languageTranslation('END_WORKING')}
+                              mask={TimeCanstitutionRequirementMask}
+                              className={
+                                errors.endTime && touched.endTime
+                                  ? 'text-input error form-control'
+                                  : 'text-input form-control'
+                              }
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={endTime}
+                            />
+                          )}
                         />
+                        {errors.endTime && touched.endTime && (
+                          <div className='required-tooltip'>
+                            {errors.endTime}
+                          </div>
+                        )}
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>Uhr</InputGroupText>
                         </InputGroupAddon>
@@ -256,8 +293,20 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='7'>
-                    <div className='required-input'>
-                      <Select
+                    <div className='custom-select-checkbox'>
+                      <ReactMultiSelectCheckboxes
+                        options={qualificationList}
+                        placeholder='Select Qualifications'
+                        className={
+                          'custom-reactselect custom-reactselect-menu-width'
+                        }
+                        classNamePrefix='custom-inner-reactselect'
+                        value={qualificationId}
+                        onChange={(value: any) =>
+                          handleSelect(value, 'qualificationId')
+                        }
+                      />
+                      {/* <Select
                         placeholder='Select Qualifications'
                         options={qualificationList}
                         isMulti={true}
@@ -267,7 +316,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         onChange={(value: any) =>
                           handleSelect(value, 'qualificationId')
                         }
-                      />
+                      /> */}
                     </div>
                   </Col>
                 </Row>

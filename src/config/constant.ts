@@ -89,6 +89,8 @@ export const DateMask: maskArray = [
 
 export const TimeMask: maskArray = [/[0-2]/, /[0-9]/, ':', /[0-5]/, /[0-9]/];
 
+export const TimeCanstitutionRequirementMask: maskArray = [/[0-2]/, /[0-9]/];
+
 export const Status: IReactSelectInterface[] = [
   { value: 'true', label: languageTranslation('ACTIVE') },
   { value: 'false', label: languageTranslation('DISABLE') }

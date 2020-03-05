@@ -110,6 +110,11 @@ export interface ICaregiverValidationFormValue {
   feePerKM?: string;
   otherExpenses?: string;
 }
+
+export interface ICareinstituionValidationFormValue {
+  startTime: string;
+  endTime: string;
+}
 // export interface ICareinstitutionFormValue {
 //   firstName: string;
 //   lastName: string;
@@ -156,7 +161,7 @@ export interface ICareinstitutionFormSubmitValue {
   date: string;
   startTime: string;
   endTime: string;
-  divisionId: number;
+  divisionId: number | null;
   qualificationId: number[];
   address: string;
   contactPerson: string;

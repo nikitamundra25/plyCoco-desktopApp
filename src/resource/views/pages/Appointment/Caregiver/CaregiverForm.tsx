@@ -78,7 +78,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     timeSlotError,
     selctedAvailability
   } = props;
-  
+
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
@@ -98,12 +98,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   }
 
   let appintmentId: any = null;
-  if (addCaregiverRes && addCaregiverRes[0].userId) {
-    appintmentId = addCaregiverRes[0].userId;
+  if (addCaregiverRes && addCaregiverRes[0].id) {
+    appintmentId = addCaregiverRes[0].id;
   } else if (selctedAvailability && selctedAvailability.id) {
     appintmentId = selctedAvailability.id;
   }
- 
+
   return (
     <>
       <div className='form-section'>

@@ -6,6 +6,7 @@ const ADD_CAREGIVER_AVABILITY = gql`
   ) {
     addCareGiverAvability(careGiverAvabilityInput: $careGiverAvabilityInput) {
       userId
+      id
       f
       s
       n
@@ -21,6 +22,7 @@ const ADD_INSTITUTION_REQUIREMENT = gql`
     addCareInstitutionRequirement(
       careInstitutionRequirementInput: $careInstitutionRequirementInput
     ) {
+      id
       userId
       name
       date

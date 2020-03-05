@@ -125,6 +125,7 @@ export interface IAppointmentCareInstitutionForm {
   selectedCareinstitution: any;
   qualificationList: IReactSelectInterface[] | undefined;
   careInstitutionDepartment: IReactSelectInterface[] | undefined;
+  addCareinstitutionRes: any;
 }
 export interface IAddCargiverAppointmentRes {
   userId: string;

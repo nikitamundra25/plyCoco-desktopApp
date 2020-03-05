@@ -76,7 +76,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     careInstitutionDepartment,
     setcareInstituionDept,
     careInstitutionTimesOptions,
-    setcareInstituionShift
+    setcareInstituionShift,
+    addCareinstitutionRes
   } = props;
 
   // Custom function to handle react select fields

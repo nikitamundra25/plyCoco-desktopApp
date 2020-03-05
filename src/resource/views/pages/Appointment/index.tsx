@@ -795,6 +795,12 @@ const Appointment: FunctionComponent = () => {
                                 setupdateCanstitutionFormikValues(values);
                               }}
                               selectedCareinstitution={selectedCareinstitution}
+                              addCareinstitutionRes={
+                                addCareinstitutionRes &&
+                                addCareinstitutionRes.addCareInstitutionRequirement
+                                  ? addCareinstitutionRes.addCareInstitutionRequirement
+                                  : ''
+                              }
                               qualificationList={qualificationList}
                               careInstitutionDepartment={
                                 careInstitutionDepartment

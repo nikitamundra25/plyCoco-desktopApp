@@ -91,11 +91,12 @@ const CotactFormComponent: any = (
         );
       }
     } else if (name === 'country') {
+      setFieldValue(name, selectOption);
+      setFieldValue('state', undefined);
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '' } // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
-      setFieldValue(name, selectOption);
     } else {
       setFieldValue(name, selectOption);
     }
@@ -135,7 +136,8 @@ const CotactFormComponent: any = (
     careInstitutionAttrOpt,
     contacttypeOpt,
     setFieldTouched,
-    addingtype
+    addingtype,
+    userSelectedCountry
   } = props;
 
   useEffect(() => {
@@ -149,6 +151,13 @@ const CotactFormComponent: any = (
     }
   }, [contacttypeOpt]);
 
+  useEffect(() => {
+    if (userSelectedCountry && userSelectedCountry.value) {
+      getStatesByCountry({
+        variables: { countryid: userSelectedCountry.value }
+      });
+    }
+  }, [userSelectedCountry]);
 
   const handleAttributeSelectContarct = (
     selectOption: IReactSelectInterface,
@@ -205,8 +214,6 @@ const CotactFormComponent: any = (
   };
   // To add custom contact type
   const handleAddNewContactType = (contactType: string) => {
-    console.log('inside add');
-
     if (contactType !== '') {
       const newContactTypeData: IReactSelectInterface = {
         label: contactType,
@@ -591,6 +598,7 @@ const CotactFormComponent: any = (
                             onChange={(value: any) =>
                               handleSelect(value, 'country', '')
                             }
+                            isClearable={true}
                             menuPlacement={'top'}
                             classNamePrefix='custom-inner-reactselect'
                             className={
@@ -604,6 +612,45 @@ const CotactFormComponent: any = (
                               {errors.country}
                             </div>
                           )}
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+                  <FormGroup>
+                    <Row className="align-items-center">
+                      <Col xs={"12"} sm={"5"} md={"5"} lg={"5"}>
+                        <Label className="form-label col-form-label ">
+                          {languageTranslation("STATE")}
+                          <span className='required'>*</span>
+                        </Label>
+                      </Col>
+                      <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
+                        <div className={'required-input'}>
+                          <Select
+                            placeholder={languageTranslation("STATE")}
+                            options={statesOpt}
+                            isClearable={true}
+                            menuPlacement={'top'}
+                            value={state && state.value !== '' ? state : null}
+                            onChange={(value: any) => handleSelect(value, "state", "")}
+                            noOptionsMessage={() => {
+                              return country && country.value ? 'No options' : 'Select a country first';
+                            }}
+                            classNamePrefix="custom-inner-reactselect"
+                            onBlur={handleBlur}
+                            className={
+                              country && errors.state
+                                ? 'error custom-reactselect'
+                                : 'custom-reactselect'
+                            }
+                          />
+                          {country && errors.state ? (
+                            <div className='required-tooltip left'>
+                              {errors.state}
+                            </div>
+                          ) : null}
                         </div>
                       </Col>
                     </Row>

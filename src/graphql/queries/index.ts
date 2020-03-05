@@ -13,3 +13,4 @@ export * from './ToDo';
 export * from './Dashboard';
 export * from './Appointments';
 export * from './AttributeFilter';
+export * from "./GlobalHolidays";

@@ -149,7 +149,9 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
     label: Yup.string().required(languageTranslation('CONTACT_REQUIRED'))
   }),
   country: Yup.mixed()
-    .required(languageTranslation('COUNTRY_REQUIRED'))
+    .required(languageTranslation('COUNTRY_REQUIRED')),
+  state: Yup.mixed()
+    .required(languageTranslation('STATE_REQUIRED'))
 });
 
 export const AddDepartmentValidationSchema: Yup.ObjectSchema<Yup.Shape<

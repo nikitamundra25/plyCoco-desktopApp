@@ -11,3 +11,4 @@ export * from './BulkEmailCareGivers';
 export * from './ToDo';
 export * from './Remark';
 export * from './AttributeFilter';
+export * from "./GlobalCalendar";

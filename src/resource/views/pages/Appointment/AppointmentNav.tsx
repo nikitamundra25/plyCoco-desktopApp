@@ -27,7 +27,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     handleQualification,
     careGiversList,
     careInstitutionList,
-    handleDayClick
+    handleDayClick,
+    handleToday
   } = props;
 
   const { month = "", year = "" } = daysData ? daysData : {};
@@ -46,7 +47,12 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               {languageTranslation("REFRESH")}
             </span>
           </div>
-          <div className="common-label px-1">Today</div>
+          <div
+            className="common-label px-1 cursor-pointer"
+            onClick={handleToday}
+          >
+            Today
+          </div>
           <div className="header-nav-item" onClick={handlePrevious}>
             <span className="header-nav-icon pr-0">
               <img src={left_arrow} alt="" />

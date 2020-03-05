@@ -17,6 +17,25 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         holiday
         night
       }
+      caregiver_avabilities{
+        id
+        status
+        f
+        s
+        n
+        date
+        fee
+        weekendAllowance
+        holidayAllowance
+        nightFee
+        nightAllowance
+        workingProofRecieved
+        distanceInKM
+        feePerKM
+        otherExpenses
+        remarksCareGiver
+        remarksInternal
+      }
       canstitution {
         city
         zipCode

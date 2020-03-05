@@ -1,12 +1,12 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState } from 'react';
 
-import "../index.scss";
+import '../index.scss';
 import {
   IAppointmentCareGiverForm,
   IDaysArray,
   ICaregiverFormValue,
   IReactSelectInterface
-} from "../../../../../interfaces";
+} from '../../../../../interfaces';
 import {
   FormGroup,
   Label,
@@ -18,23 +18,25 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText
-} from "reactstrap";
-import "../index.scss";
-import { languageTranslation } from "../../../../../helpers";
-import MaskedInput from "react-text-mask";
+} from 'reactstrap';
+import '../index.scss';
+import { languageTranslation } from '../../../../../helpers';
+import MaskedInput from 'react-text-mask';
 import {
   NightAllowancePerHour,
   State,
   defaultDateFormat
-} from "../../../../../config";
-import Select from "react-select";
-import { FormikProps } from "formik";
-import { FormikTextField } from "../../../components/forms/FormikFields";
-import moment from "moment";
+} from '../../../../../config';
+import Select from 'react-select';
+import { FormikProps } from 'formik';
+import { FormikTextField } from '../../../components/forms/FormikFields';
+import moment from 'moment';
+import classnames from 'classnames';
 
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
-  IAppointmentCareGiverForm> = (
-  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm
+  IAppointmentCareGiverForm &
+  any> = (
+  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
   // const { selectedCareGiver } = props;
   const {
@@ -73,7 +75,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     selectedCareGiver,
     activeDateCaregiver,
     addCaregiverRes,
-    timeSlotError
+    timeSlotError,
+    selctedAvailability
   } = props;
 
   // Custom function to handle react select fields
@@ -81,62 +84,90 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     setFieldValue(name, selectOption);
   };
 
+  let isAvailability: boolean = false,
+    isMatching: boolean = false,
+    isContract: boolean = false;
+  if (selctedAvailability) {
+    if (selctedAvailability.status === 'default') {
+      isAvailability = true;
+    } else if (selctedAvailability.status === 'linked') {
+      isMatching = true;
+    } else if (selctedAvailability.status === 'contract') {
+      isContract = true;
+    }
+  }
+
+  let appintmentId: any = null;
+  if (addCaregiverRes && addCaregiverRes[0].id) {
+    appintmentId = addCaregiverRes[0].id;
+  } else if (selctedAvailability && selctedAvailability.id) {
+    appintmentId = selctedAvailability.id;
+  }
+
+  const handleTravelAllowance = () => {
+    let total = distanceInKM * feePerKM;
+    setFieldValue('travelAllowance', total);
+  };
+
   return (
     <>
-      <div className="form-section">
-        <div className="form-card custom-height custom-scrollbar">
-          <h5 className="content-title">
-            {languageTranslation("MENU_CAREGIVER")}
+      <div className='form-section'>
+        <div
+          className={classnames({
+            'form-card custom-height custom-scrollbar': true,
+            'availability-bg': isAvailability,
+            'matching-bg': isMatching,
+            'contract-bg': isContract
+          })}
+        >
+          <h5 className='content-title'>
+            {languageTranslation('MENU_CAREGIVER')}
           </h5>
           <Row>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("APPOINTMENT_ID")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('APPOINTMENT_ID')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         disabled={true}
-                        value={
-                          addCaregiverRes && addCaregiverRes[0].userId
-                            ? addCaregiverRes[0].userId
-                            : ""
-                        }
-                        placeholder={languageTranslation("APPOINTMENT_ID")}
-                        className="width-common"
+                        value={appintmentId ? appintmentId : null}
+                        placeholder={languageTranslation('APPOINTMENT_ID')}
+                        className='width-common'
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("NAME")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('NAME')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <InputGroup>
                         <Input
-                          type="text"
+                          type='text'
                           disabled={true}
-                          placeholder={languageTranslation("NAME")}
-                          value={`${firstName ? firstName : ""} ${
-                            lastName ? lastName : ""
+                          placeholder={languageTranslation('NAME')}
+                          value={`${firstName ? firstName : ''} ${
+                            lastName ? lastName : ''
                           }`}
                         />
-                        <InputGroupAddon addonType="append">
+                        <InputGroupAddon addonType='append'>
                           <InputGroupText>
-                            <i className="fa fa-star" aria-hidden="true"></i>
+                            <i className='fa fa-star' aria-hidden='true'></i>
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -145,15 +176,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("DATE")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('DATE')}
                     </Label>
                   </Col>
-                  <Col sm="7">
+                  <Col sm='7'>
                     {/* <div className='required-input'>
                       <Input
                         placeholder={languageTranslation(
@@ -168,17 +199,26 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               )}, ${activeDateCaregiver.day}`
                             : null
                         }
-                      />
-                    </div> */}
-                    <div className="text-value mb-1">SUN 08.03.2020</div>
+                      /> */}
+                    <div className='text-value mb-1'>
+                      {activeDateCaregiver
+                        ? moment(
+                            activeDateCaregiver
+                              ? activeDateCaregiver.isoString
+                              : null
+                          ).format('dd DD.MM.YYYY')
+                        : null}
+                    </div>
+                    {/* </div> */}
+
                     <div>
                       <FormGroup check inline>
-                        <div className=" checkbox-custom mb-1">
+                        <div className=' checkbox-custom mb-1'>
                           <input
-                            type="checkbox"
-                            id="1"
-                            className=""
-                            name={"f"}
+                            type='checkbox'
+                            id='1'
+                            className=''
+                            name={'f'}
                             checked={f ? true : false}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
@@ -186,21 +226,21 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               const {
                                 target: { checked }
                               } = e;
-                              setFieldValue("f", checked);
+                              setFieldValue('f', checked);
                             }}
                           />
-                          <Label for="check">
-                            {languageTranslation("EARLY")}
+                          <Label for='check'>
+                            {languageTranslation('EARLY')}
                           </Label>
                         </div>
                       </FormGroup>
                       <FormGroup check inline>
-                        <div className=" checkbox-custom mb-1">
+                        <div className=' checkbox-custom mb-1'>
                           <input
-                            type="checkbox"
-                            id="check1"
-                            className=""
-                            name={"s"}
+                            type='checkbox'
+                            id='check1'
+                            className=''
+                            name={'s'}
                             checked={s}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
@@ -208,21 +248,21 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               const {
                                 target: { checked }
                               } = e;
-                              setFieldValue("s", checked);
+                              setFieldValue('s', checked);
                             }}
                           />
-                          <Label for="check1">
-                            {languageTranslation("LATE")}
+                          <Label for='check1'>
+                            {languageTranslation('LATE')}
                           </Label>
                         </div>
                       </FormGroup>
                       <FormGroup check inline>
-                        <div className=" checkbox-custom mb-1">
+                        <div className=' checkbox-custom mb-1'>
                           <input
-                            type="checkbox"
-                            id="check2"
-                            className=""
-                            name={"n"}
+                            type='checkbox'
+                            id='check2'
+                            className=''
+                            name={'n'}
                             checked={n}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
@@ -230,16 +270,16 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               const {
                                 target: { checked }
                               } = e;
-                              setFieldValue("n", checked);
+                              setFieldValue('n', checked);
                             }}
                           />
-                          <Label for="check2">
-                            {languageTranslation("NIGHT")}
+                          <Label for='check2'>
+                            {languageTranslation('NIGHT')}
                           </Label>
                         </div>
                       </FormGroup>
                       {timeSlotError && (
-                        <div className="required">{timeSlotError}</div>
+                        <div className='required'>{timeSlotError}</div>
                       )}
                     </div>
                   </Col>
@@ -247,43 +287,43 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
               </FormGroup>
             </Col>
 
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("FEE")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('FEE')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap">
-                      <div className="required-input nightfee-input mb-1">
-                        <InputGroup className="flex-nowrap">
+                  <Col sm='8'>
+                    <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                      <div className='required-input nightfee-input mb-1'>
+                        <InputGroup className='flex-nowrap'>
                           <Input
-                            type="text"
-                            name={"fee"}
+                            type='text'
+                            name={'fee'}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={fee}
                             className={
                               errors.fee && touched.fee
-                                ? "fee-width error"
-                                : "fee-width"
+                                ? 'fee-width error'
+                                : 'fee-width'
                             }
                           />
-                          <InputGroupAddon addonType="append">
+                          <InputGroupAddon addonType='append'>
                             <InputGroupText>
-                              <i className="fa fa-euro" aria-hidden="true"></i>
+                              <i className='fa fa-euro' aria-hidden='true'></i>
                             </InputGroupText>
                           </InputGroupAddon>
                           {errors.fee && touched.fee && (
-                            <div className="required-tooltip bottom-tooltip">
+                            <div className='required-tooltip bottom-tooltip'>
                               {errors.fee}
                             </div>
                           )}
                         </InputGroup>
                       </div>
-                      <span className="d-flex align-items-center edit-remark whitespace-nowrap mb-1">
+                      <span className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'>
                         Last Time
                       </span>
                     </div>
@@ -292,56 +332,56 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
               </FormGroup>
             </Col>
 
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("NIGHT_FEE")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('NIGHT_FEE')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="d-flex align-items-center flex-wrap justify-content-between">
-                      <div className="required-input nightfee-input mb-1">
-                        <InputGroup className="flex-nowrap">
+                  <Col sm='8'>
+                    <div className='d-flex align-items-center flex-wrap justify-content-between'>
+                      <div className='required-input nightfee-input mb-1'>
+                        <InputGroup className='flex-nowrap'>
                           <Input
-                            type="text"
-                            name={"nightFee"}
+                            type='text'
+                            name={'nightFee'}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={nightFee}
                             className={
                               errors.nightFee && touched.nightFee
-                                ? "fee-width error"
-                                : "fee-width"
+                                ? 'fee-width error'
+                                : 'fee-width'
                             }
                           />
-                          <InputGroupAddon addonType="append">
+                          <InputGroupAddon addonType='append'>
                             <InputGroupText>
-                              <i className="fa fa-euro" aria-hidden="true"></i>
+                              <i className='fa fa-euro' aria-hidden='true'></i>
                             </InputGroupText>
                           </InputGroupAddon>
                           {errors.nightFee && touched.nightFee && (
-                            <div className="required-tooltip bottom-tooltip">
+                            <div className='required-tooltip bottom-tooltip'>
                               {errors.nightFee}
                             </div>
                           )}
                         </InputGroup>
                       </div>
-                      <div className="flex-grow-1 nightallowance-input mb-1">
+                      <div className='flex-grow-1 nightallowance-input mb-1'>
                         <Select
-                          placeholder={languageTranslation("NIGHT_ALLOWANCE")}
+                          placeholder={languageTranslation('NIGHT_ALLOWANCE')}
                           options={NightAllowancePerHour}
                           onChange={(value: any) =>
-                            handleSelect(value, "nightAllowance")
+                            handleSelect(value, 'nightAllowance')
                           }
                           value={
                             nightAllowance
                               ? nightAllowance
                               : NightAllowancePerHour[0]
                           }
-                          classNamePrefix="custom-inner-reactselect"
-                          className={"custom-reactselect"}
+                          classNamePrefix='custom-inner-reactselect'
+                          className={'custom-reactselect'}
                         />
                       </div>
                     </div>
@@ -349,37 +389,37 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("WEEKEND_FEE")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('WEEKEND_FEE')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input nightfee-input">
+                  <Col sm='8'>
+                    <div className='required-input nightfee-input'>
                       <InputGroup>
                         <Input
-                          type="text"
-                          name={"weekendAllowance"}
+                          type='text'
+                          name={'weekendAllowance'}
                           value={weekendAllowance}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           className={
                             errors.weekendAllowance && touched.weekendAllowance
-                              ? "fee-width error"
-                              : "fee-width"
+                              ? 'fee-width error'
+                              : 'fee-width'
                           }
                         />
-                        <InputGroupAddon addonType="append">
+                        <InputGroupAddon addonType='append'>
                           <InputGroupText>
-                            <i className="fa fa-euro" aria-hidden="true"></i>
+                            <i className='fa fa-euro' aria-hidden='true'></i>
                           </InputGroupText>
                         </InputGroupAddon>
                         {errors.weekendAllowance &&
                           touched.weekendAllowance && (
-                            <div className="required-tooltip bottom-tooltip">
+                            <div className='required-tooltip bottom-tooltip'>
                               {errors.weekendAllowance}
                             </div>
                           )}
@@ -389,37 +429,37 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("HOLIDAY_FEE")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('HOLIDAY_FEE')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input nightfee-input">
+                  <Col sm='8'>
+                    <div className='required-input nightfee-input'>
                       <InputGroup>
                         <Input
-                          type="text"
-                          name={"holidayAllowance"}
+                          type='text'
+                          name={'holidayAllowance'}
                           value={holidayAllowance}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           className={
                             errors.holidayAllowance && touched.holidayAllowance
-                              ? "fee-width error"
-                              : "fee-width"
+                              ? 'fee-width error'
+                              : 'fee-width'
                           }
                         />
-                        <InputGroupAddon addonType="append">
+                        <InputGroupAddon addonType='append'>
                           <InputGroupText>
-                            <i className="fa fa-euro" aria-hidden="true"></i>
+                            <i className='fa fa-euro' aria-hidden='true'></i>
                           </InputGroupText>
                         </InputGroupAddon>
                         {errors.holidayAllowance &&
                           touched.holidayAllowance && (
-                            <div className="required-tooltip bottom-tooltip">
+                            <div className='required-tooltip bottom-tooltip'>
                               {errors.holidayAllowance}
                             </div>
                           )}
@@ -429,87 +469,92 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
-              <div className="d-flex align-items-center flex-wrap distance-section">
-                <FormGroup className="fee-input">
-                  <Label className="form-label col-form-label">
-                    {languageTranslation("FEE_PER_KM")}
+            <Col lg={'12'}>
+              <div className='d-flex align-items-center flex-wrap distance-section'>
+                <FormGroup className='fee-input'>
+                  <Label className='form-label col-form-label'>
+                    {languageTranslation('FEE_PER_KM')}
                   </Label>
 
-                  <div className="required-input">
+                  <div className='required-input'>
                     <InputGroup>
                       <Input
-                        type="text"
-                        name={"distanceInKM"}
+                        type='text'
+                        name={'distanceInKM'}
                         value={distanceInKM}
-                        placeholder={languageTranslation("FEE_PER_KM")}
+                        placeholder={languageTranslation('FEE_PER_KM')}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className={
                           errors.distanceInKM && touched.distanceInKM
-                            ? "fee-width error"
-                            : "fee-width"
+                            ? 'fee-width error'
+                            : 'fee-width'
                         }
                       />
-                      <InputGroupAddon addonType="append">
+                      <InputGroupAddon addonType='append'>
                         <InputGroupText>km</InputGroupText>
                       </InputGroupAddon>
                       {errors.distanceInKM && touched.distanceInKM && (
-                        <div className="required-tooltip bottom-tooltip">
+                        <div className='required-tooltip bottom-tooltip'>
                           {errors.distanceInKM}
                         </div>
                       )}
                     </InputGroup>
                   </div>
                 </FormGroup>
-                <FormGroup className="a-input">
-                  <Label className="form-label col-form-label">
-                    {languageTranslation("a")}
+                <FormGroup className='a-input'>
+                  <Label className='form-label col-form-label'>
+                    {languageTranslation('a')}
                   </Label>
 
-                  <div className="required-input">
+                  <div className='required-input'>
                     <InputGroup>
                       <Input
-                        type="text"
-                        name={"feePerKM"}
+                        type='text'
+                        name={'feePerKM'}
                         value={feePerKM}
-                        placeholder={languageTranslation("a")}
+                        placeholder={languageTranslation('a')}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className={
                           errors.feePerKM && touched.feePerKM
-                            ? "fee-width error"
-                            : "fee-width"
+                            ? 'fee-width error'
+                            : 'fee-width'
                         }
                       />
-                      <InputGroupAddon addonType="append">
+                      <InputGroupAddon addonType='append'>
                         <InputGroupText>
-                          <i className="fa fa-euro" aria-hidden="true"></i>
+                          <i className='fa fa-euro' aria-hidden='true'></i>
                         </InputGroupText>
                       </InputGroupAddon>
                       {errors.feePerKM && touched.feePerKM && (
-                        <div className="required-tooltip bottom-tooltip">
+                        <div className='required-tooltip bottom-tooltip'>
                           {errors.feePerKM}
                         </div>
                       )}
                     </InputGroup>
                   </div>
                 </FormGroup>
-                <FormGroup className="totalbtn-input">
-                  <div className="label-height"></div>
+                <FormGroup className='totalbtn-input'>
+                  <div className='label-height'></div>
 
-                  <Button className="add-new-btn" color="">
-                    <i className="fa fa-arrow-right" aria-hidden="true" />
+                  <Button
+                    className='add-new-btn'
+                    color=''
+                    onClick={handleTravelAllowance}
+                  >
+                    <i className='fa fa-arrow-right' aria-hidden='true' />
                   </Button>
                 </FormGroup>
-                <FormGroup className="total-input flex-grow-1">
-                  <Label className="form-label col-form-label">Total</Label>
-
-                  <div className="required-input">
+                <FormGroup className='total-input flex-grow-1'>
+                  <Label className='form-label col-form-label'>Total</Label>
+                  <div className='required-input'>
                     <Input
-                      type="text"
+                      type='text'
                       disabled={true}
-                      className="width-common"
+                      name={'travelAllowance'}
+                      className='width-common'
+                      value={travelAllowance}
                     />
                   </div>
                 </FormGroup>
@@ -595,31 +640,31 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
               </FormGroup>
             </Col>*/}
 
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("EXPENSES")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('EXPENSES')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
-                        type="text"
-                        name={"otherExpenses"}
+                        type='text'
+                        name={'otherExpenses'}
                         value={otherExpenses}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        placeholder={languageTranslation("EXPENSES")}
+                        placeholder={languageTranslation('EXPENSES')}
                         className={
                           errors.otherExpenses && touched.otherExpenses
-                            ? "width-common error"
-                            : "width-common"
+                            ? 'width-common error'
+                            : 'width-common'
                         }
                       />
                       {errors.otherExpenses && touched.otherExpenses && (
-                        <div className="required-tooltip bottom-tooltip">
+                        <div className='required-tooltip bottom-tooltip'>
                           {errors.otherExpenses}
                         </div>
                       )}
@@ -628,38 +673,38 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm={"4"}>
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("WORKING_HOURS")}
+                  <Col sm={'4'}>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('WORKING_HOURS')}
                     </Label>
                   </Col>
 
-                  <Col sm={"8"}>
-                    <div className="required-input">
-                      <div className="custom-col inner-no-padding-col row">
-                        <Col sm={"6"}>
+                  <Col sm={'8'}>
+                    <div className='required-input'>
+                      <div className='custom-col inner-no-padding-col row'>
+                        <Col sm={'6'}>
                           <div>
                             <Select
-                              classNamePrefix="custom-inner-reactselect"
+                              classNamePrefix='custom-inner-reactselect'
                               className={
-                                "custom-reactselect custom-reactselect-menu-width"
+                                'custom-reactselect custom-reactselect-menu-width'
                               }
-                              placeholder=""
+                              placeholder=''
                               options={State}
                             />
                           </div>
                         </Col>
-                        <Col sm={"6"}>
+                        <Col sm={'6'}>
                           <div>
                             <Select
-                              classNamePrefix="custom-inner-reactselect"
+                              classNamePrefix='custom-inner-reactselect'
                               className={
-                                "custom-reactselect custom-reactselect-menu-width"
+                                'custom-reactselect custom-reactselect-menu-width'
                               }
-                              placeholder=""
+                              placeholder=''
                               options={State}
                             />
                           </div>
@@ -670,38 +715,38 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm={"4"}>
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("BREAK")}
+                  <Col sm={'4'}>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('BREAK')}
                     </Label>
                   </Col>
 
-                  <Col sm={"8"}>
-                    <div className="required-input">
-                      <div className="custom-col inner-no-padding-col row">
-                        <Col sm={"6"}>
+                  <Col sm={'8'}>
+                    <div className='required-input'>
+                      <div className='custom-col inner-no-padding-col row'>
+                        <Col sm={'6'}>
                           <div>
                             <Select
-                              classNamePrefix="custom-inner-reactselect"
+                              classNamePrefix='custom-inner-reactselect'
                               className={
-                                "custom-reactselect custom-reactselect-menu-width"
+                                'custom-reactselect custom-reactselect-menu-width'
                               }
-                              placeholder=""
+                              placeholder=''
                               options={State}
                             />
                           </div>
                         </Col>
-                        <Col sm={"6"}>
+                        <Col sm={'6'}>
                           <div>
                             <Select
-                              classNamePrefix="custom-inner-reactselect"
+                              classNamePrefix='custom-inner-reactselect'
                               className={
-                                "custom-reactselect custom-reactselect-menu-width"
+                                'custom-reactselect custom-reactselect-menu-width'
                               }
-                              placeholder=""
+                              placeholder=''
                               options={State}
                             />
                           </div>
@@ -712,23 +757,23 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("WORKING_PROOF_NECESSARY")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('WORKING_PROOF_NECESSARY')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <FormGroup check inline>
-                        <div className=" checkbox-custom mb-0">
+                        <div className=' checkbox-custom mb-0'>
                           <input
-                            type="checkbox"
-                            id="check"
-                            className=""
-                            name={"workingProofRecieved"}
+                            type='checkbox'
+                            id='check'
+                            className=''
+                            name={'workingProofRecieved'}
                             checked={workingProofRecieved}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
@@ -736,10 +781,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               const {
                                 target: { checked }
                               } = e;
-                              setFieldValue("workingProofRecieved", checked);
+                              setFieldValue('workingProofRecieved', checked);
                             }}
                           />
-                          <Label for="check1"></Label>
+                          <Label for='check1'></Label>
                         </div>
                       </FormGroup>
                     </div>
@@ -748,71 +793,71 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
               </FormGroup>
             </Col>
 
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("REMARKS_VISIBLE_FOR_CAREGIVER")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('REMARKS_VISIBLE_FOR_CAREGIVER')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
-                        className="textarea-custom form-control"
-                        rows="3"
-                        type="textarea"
-                        name="remarksCareGiver"
+                        className='textarea-custom form-control'
+                        rows='3'
+                        type='textarea'
+                        name='remarksCareGiver'
                         value={remarksCareGiver ? remarksCareGiver : undefined}
                         onChange={handleChange}
-                        id="exampleText1"
+                        id='exampleText1'
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("REMARKS_VISIBLE_INTERNALLY")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('REMARKS_VISIBLE_INTERNALLY')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
-                        className="textarea-custom form-control"
-                        rows="3"
-                        type="textarea"
-                        name="remarksInternal"
+                        className='textarea-custom form-control'
+                        rows='3'
+                        type='textarea'
+                        name='remarksInternal'
                         value={remarksInternal ? remarksInternal : undefined}
                         onChange={handleChange}
-                        id="exampleText2"
+                        id='exampleText2'
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
-              <div className="d-flex align-items-center justify-content-between">
-                <Button className="btn-save" color="danger">
-                  {languageTranslation("DELETE")}
+            <Col lg={'12'}>
+              <div className='d-flex align-items-center justify-content-between'>
+                <Button className='btn-save' color='danger'>
+                  {languageTranslation('DELETE')}
                 </Button>
                 <Button
-                  className="btn-save"
-                  color="primary"
+                  className='btn-save'
+                  color='primary'
                   onClick={handleSubmit}
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
-                    <i className="fa fa-spinner fa-spin mr-2" />
+                    <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
-                    ""
+                    ''
                   )}
-                  {languageTranslation("SAVE_BUTTON")}
+                  {languageTranslation('SAVE_BUTTON')}
                 </Button>
               </div>
             </Col>

@@ -88,24 +88,22 @@
 }
 
 // custom-color for matching
-.appointment-color1 {
-  background: #d3d3d3 !important;
+.availability-bg {
+  background: $availability_color !important;
 }
-.appointment-color2 {
-  background: #ffff00 !important;
+.requirement-bg {
+  background: $requirement_color !important;
 }
-.appointment-color3 {
-  background: #6a0dad !important;
+.matching-bg {
+  background: $matching_color !important;
 }
-.appointment-color4 {
-  background: #f6cfca !important;
+.contract-bg {
+  background: $contract_color !important;
 }
-.appointment-color5 {
-  background: #a1f5bd !important;
+.invoice-bg {
+  background: $invoice_color !important;
 }
-.appointment-color6 {
-  background: #07e651 !important;
-}
+
 .custom-height {
   height: calc(100vh - 130px);
   overflow-x: hidden;
@@ -230,6 +228,9 @@ body {
     margin: 0;
     .selected-cell {
       background-color: #8c38d6;
+    }
+    .cell-available{
+      background-color: rgb(67, 201, 67); 
     }
     .selecting-cell {
       background-color: #8c38d6;

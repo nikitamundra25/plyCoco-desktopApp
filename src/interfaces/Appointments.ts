@@ -15,6 +15,7 @@ export interface IGetDaysArrayByMonthRes {
 
 export interface IAppointmentNav {
   handlePrevious: () => void;
+  handleToday: () => void;
   handleQualification: (value: any) => void;
   handleNext: () => void;
   handleDayClick: (selectedDay: Date) => void;
@@ -36,7 +37,8 @@ export interface IAppointmentCareGiverList {
   handleSelectedUser: (
     value: object,
     date: IDaysArray[] | null,
-    name: string
+    name: string,
+    handleSelectedAvailability: any
   ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
   handleReset: (name: string) => void;
@@ -56,8 +58,12 @@ export interface IAppointmentCareInstitutionList {
     date: IDaysArray[] | null,
     name: string
   ) => void;
-  handleSecondStar: (list: object, index: number, name: string) => void;
+  onhandleSecondStarCanstitution: (list: any) => void;
+  handleFirstStarCanstitution: (id: string) => void;
   handleReset: (name: string) => void;
+  careInstituionDeptData: any;
+  starCanstitution: boolean;
+  deptLoading: boolean;
 }
 
 export interface IAppointmentCareGiverForm {
@@ -108,14 +114,68 @@ export interface ICaregiverValidationFormValue {
   feePerKM?: string;
   otherExpenses?: string;
 }
-export interface ICareinstitutionFormValue {
-  firstName: string;
-  lastName: string;
+
+export interface ICareinstituionValidationFormValue {
+  startTime: string;
+  endTime: string;
 }
+// export interface ICareinstitutionFormValue {
+//   firstName: string;
+//   lastName: string;
+//   careInstitutionTimesOptions: IReactSelectTimeInterface[] | undefined;
+// }
 export interface IAppointmentCareInstitutionForm {
   selectedCareinstitution: any;
+  qualificationList: IReactSelectInterface[] | undefined;
+  careInstitutionDepartment: IReactSelectInterface[] | undefined;
+  addCareinstitutionRes: any;
+  setsecondStarCanstitution: boolean;
 }
 export interface IAddCargiverAppointmentRes {
   userId: string;
   status: string;
+}
+
+export interface IReactSelectTimeInterface {
+  label: string;
+  value: string;
+  data: any;
+}
+
+export interface ICareinstitutionFormValue {
+  name: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  qualificationId: IReactSelectInterface[] | undefined;
+  address: string;
+  contactPerson: string;
+  departmentOfferRemarks?: string;
+  departmentBookingRemarks: string;
+  departmentRemarks: string;
+  isWorkingProof: boolean;
+  offerRemarks: string;
+  bookingRemarks: string;
+  shift?: IReactSelectTimeInterface | undefined;
+  department?: IReactSelectInterface | undefined;
+  comments: string;
+}
+
+export interface ICareinstitutionFormSubmitValue {
+  userId: number;
+  name: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  divisionId: number | null;
+  qualificationId: number[];
+  address: string;
+  contactPerson: string;
+  departmentOfferRemarks: string | null;
+  departmentBookingRemarks: string;
+  departmentRemarks: string;
+  isWorkingProof: boolean;
+  offerRemarks: string;
+  bookingRemarks: string;
+  comments?: string;
 }

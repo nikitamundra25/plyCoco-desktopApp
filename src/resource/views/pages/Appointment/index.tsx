@@ -16,26 +16,34 @@ import {
   ICaregiverFormValue,
   ICareinstitutionFormValue,
   IAddCargiverAppointmentRes,
-  IDate
+  IDate,
+  IReactSelectTimeInterface,
+  ICareinstitutionFormSubmitValue
 } from '../../../../interfaces';
 import moment from 'moment';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
-  AppointmentsQueries
+  AppointmentsQueries,
+  CareInstitutionQueries
 } from '../../../../graphql/queries';
-const [ADD_CAREGIVER_AVABILITY] = AppointmentMutations;
+const [
+  ADD_CAREGIVER_AVABILITY,
+  ADD_INSTITUTION_REQUIREMENT
+] = AppointmentMutations;
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { CareGiverValidationSchema } from '../../../validations/AppointmentsFormValidationSchema';
+import {
+  CareGiverValidationSchema,
+  CareInstitutionValidationSchema
+} from '../../../validations/AppointmentsFormValidationSchema';
 import { toast } from 'react-toastify';
-import { defaultDateFormat } from '../../../../config';
 import { AppointmentMutations } from '../../../../graphql/Mutations';
-import { ConfirmBox } from '../../components/ConfirmBox';
-
+import { defaultDateFormat } from '../../../../config';
+const [, , GET_DEPARTMENT_LIST, ,] = CareInstitutionQueries;
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
-
+let careinstitutionDepartmentResponse: boolean = false;
 let toastId: any = null;
 const Appointment: FunctionComponent = () => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
@@ -50,16 +58,92 @@ const Appointment: FunctionComponent = () => {
   const [selectedCareinstitution, setselectedCareinstitution] = useState<any>(
     {}
   );
+  const [shiftOption, setshiftOption] = useState<
+    IReactSelectTimeInterface[] | undefined
+  >([]);
+  const [careInstituionShift, setcareInstituionShift] = useState<
+    IReactSelectTimeInterface
+  >();
+  //state for care institution department
+  const [careInstituionDept, setcareInstituionDept] = useState<
+    IReactSelectInterface
+  >();
+  // set field to update formik values
+  const [
+    updateCanstitutionFormikValues,
+    setupdateCanstitutionFormikValues
+  ] = useState<any>();
+  const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
     IDate[]
   >([]);
+
+  //For selected Availability
+  const [selctedAvailability, setselctedAvailability] = useState({});
+  /*  */
+  //For selected Requirement
+  const [selctedRequirement, setselctedRequirement] = useState({});
+  /*  */
   const [timeSlotError, setTimeSlotError] = useState<string>('');
+  // maintain star mark for careinstitution
+  const [starCanstitution, setstarCanstitution] = useState<boolean>(false);
+  const [secondStarCanstitution, setsecondStarCanstitution] = useState<boolean>(
+    false
+  );
+
+  // For careinstitution fields
+  const [valuesForCareinstitution, setvaluesForCareinstitution] = useState<
+    ICareinstitutionFormValue
+  >({
+    name: '',
+    date: '',
+    shift: undefined,
+    endTime: '',
+    startTime: '',
+    qualificationId: undefined,
+    department: undefined,
+    address: '',
+    contactPerson: '',
+    departmentOfferRemarks: '',
+    departmentBookingRemarks: '',
+    departmentRemarks: '',
+    isWorkingProof: false,
+    offerRemarks: '',
+    bookingRemarks: '',
+    comments: ''
+  });
+
   // Mutation to add careGiver data
   const [addCaregiver, { error, data: addCaregiverRes }] = useMutation<
     { addCareGiverAvability: IAddCargiverAppointmentRes },
     { careGiverAvabilityInput: any }
   >(ADD_CAREGIVER_AVABILITY);
+
+  // Mutation to add careinstitution data
+  const [
+    addCareinstitutionRequirment,
+    { data: addCareinstitutionRes }
+  ] = useMutation<
+    { addCareInstitutionRequirement: IAddCargiverAppointmentRes },
+    { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue }
+  >(ADD_INSTITUTION_REQUIREMENT);
+
+  // To get caregiver list from db
+  const [
+    getDepartmentList,
+    { data: departmentList, refetch, loading: deptLoading }
+  ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
+    onCompleted({ addDocument }) {
+      if (
+        departmentList &&
+        departmentList.getDivision.length &&
+        starCanstitution
+      ) {
+        careinstitutionDepartmentResponse = true;
+      }
+    }
+  });
 
   // To fetch caregivers by qualification id
   const [
@@ -187,6 +271,15 @@ const Appointment: FunctionComponent = () => {
     setDaysData(res);
   }, []);
 
+  // On click Today
+  const handleToday = () => {
+    const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(
+      moment().month(),
+      moment().year()
+    );
+    setDaysData(res);
+  };
+
   // On previous month click
   const handlePrevious = () => {
     let month: number = activeMonth - 1;
@@ -236,28 +329,186 @@ const Appointment: FunctionComponent = () => {
     e.preventDefault();
     if (name === 'caregiver') {
       let temp: any = [...caregiversList];
-      temp.splice(index + 1, 0, {});
+      temp.splice(index + 1, 0, { ...temp[index], newRow: true });
       setcaregiversList(temp);
     } else {
       let temp: any = [...careinstitutionList];
-      temp.splice(index + 1, 0, {});
+      temp.splice(index + 1, 0, { ...temp[index], newRow: true });
       setcareinstitutionList(temp);
     }
   };
 
+  // change department
+  useEffect(() => {
+    let deptId = careInstituionDept ? careInstituionDept.value : '';
+    let departmentData: any = {};
+    const careInstitutionTimesOptions:
+      | IReactSelectTimeInterface[]
+      | undefined = [];
+    let values = updateCanstitutionFormikValues;
+    let startTime: string = '';
+    let endTime: string = '';
+    if (deptId) {
+      if (departmentList && departmentList.getDivision.length) {
+        const { getDivision } = departmentList;
+        departmentData = getDivision.filter((dept: any) => dept.id === deptId);
+        if (departmentData[0] && departmentData[0].times) {
+          startTime = departmentData[0].times[0]
+            ? departmentData[0].times[0].begin
+            : '';
+          endTime = departmentData[0].times[0]
+            ? departmentData[0].times[0].end
+            : '';
+          departmentData[0].times.map((list: any) => {
+            return careInstitutionTimesOptions.push({
+              label: `${list.begin} - ${list.end} `,
+              value: `${list.begin} - ${list.end} `,
+              data: list
+            });
+          });
+          // setcareInstituionShift(careInstitutionTimesOptions[0]);
+        }
+        setshiftOption(careInstitutionTimesOptions);
+        let temp: ICareinstitutionFormValue = {
+          ...values,
+          department: careInstituionDept,
+          address: departmentData[0].address,
+          contactPerson: departmentData[0].contactPerson,
+          departmentOfferRemarks: departmentData[0].commentsOffer,
+          departmentRemarks: departmentData[0].commentsVisibleInternally,
+          departmentBookingRemarks: departmentData[0].commentsCareGiver,
+          shift: careInstitutionTimesOptions[0],
+          startTime,
+          endTime
+        };
+
+        setvaluesForCareinstitution(temp);
+      }
+    }
+  }, [careInstituionDept]);
+
+  // Change time shift option
+  useEffect(() => {
+    let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
+    let values = updateCanstitutionFormikValues;
+    let time = timeData && !timeData.data ? timeData.value.split('-') : '';
+    let temp: any = {
+      ...values,
+      shift: careInstituionShift,
+      startTime: timeData
+        ? timeData.data && timeData.data.begin
+          ? timeData.data.begin
+          : time[0]
+        : '',
+      endTime: timeData
+        ? timeData.data && timeData.data.begin
+          ? timeData.data.end
+          : time[1]
+        : ''
+    };
+    setvaluesForCareinstitution(temp);
+  }, [careInstituionShift]);
+
   // select careGiver or careinstitution
-  const handleSelectedUser = (list: object, date: any, name: string) => {
+  const handleSelectedUser = (
+    list: any,
+    date: any,
+    name: string,
+    selctedAvailability: any
+  ) => {
     if (name === 'caregiver') {
+      setselctedAvailability(selctedAvailability);
       setselectedCareGiver(list);
       if (date) {
         setactiveDateCaregiver(date);
       }
     } else {
-      setselectedCareinstitution(list);
+      let temp: ICareinstitutionFormValue;
+      setselctedRequirement(selctedAvailability);
+      if (!starCanstitution) {
+        setselectedCareinstitution(list);
+        temp = {
+          ...valuesForCareinstitution,
+          name: `${list.firstName} ${list.lastName}`
+        };
+      } else {
+        temp = {
+          ...valuesForCareinstitution,
+          name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
+        };
+      }
+
+      setvaluesForCareinstitution(temp);
       if (date) {
         setactiveDateCareinstitution(date);
       }
     }
+  };
+
+  useEffect(() => {
+    // call query
+    let userId: string = selectedCareinstitution
+      ? selectedCareinstitution.id
+      : '';
+    getDepartmentList({
+      variables: {
+        userId: parseInt(userId),
+        locked: null
+      }
+    });
+  }, [selectedCareinstitution]);
+
+  const careInstitutionDepartment: IReactSelectInterface[] | undefined = [];
+  if (departmentList && departmentList.getDivision.length) {
+    const { getDivision } = departmentList;
+    getDivision.forEach((dept: any) =>
+      careInstitutionDepartment.push({
+        label: dept.name,
+        value: dept && dept.id ? dept.id.toString() : ''
+      })
+    );
+  }
+  // useEffect for filtering department data in careinstitution list
+  useEffect(() => {
+    if (
+      departmentList &&
+      departmentList.getDivision.length &&
+      starCanstitution
+    ) {
+      const { getDivision } = departmentList;
+      setcareInstituionDeptData(getDivision);
+    }
+  }, [departmentList]);
+
+  // handle first star of careinstitution and show department list
+  const handleFirstStarCanstitution = async (list: any) => {
+    setselectedCareinstitution(list);
+    setstarCanstitution(!starCanstitution);
+    if (list) {
+      await getDepartmentList({
+        variables: {
+          userId: parseInt(list.id),
+          locked: null
+        }
+      });
+    } else {
+      setcareInstituionDeptData([]);
+    }
+  };
+
+  //  handle second star of careinstitution and autoselect department
+  const onhandleSecondStarCanstitution = (dept: any) => {
+    setsecondStarCanstitution(!setsecondStarCanstitution);
+    let data: any = [];
+    data.push(dept);
+
+    setcareInstituionDeptData(data);
+    let initialData: ICareinstitutionFormValue = {
+      ...valuesForCareinstitution,
+      department: { label: dept.name, value: dept.id }
+    };
+
+    setvaluesForCareinstitution(initialData);
   };
 
   // Select single user from list and hide the rest
@@ -321,6 +572,7 @@ const Appointment: FunctionComponent = () => {
           workingProofRecieved: workingProofRecieved ? true : false,
           distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
           feePerKM: feePerKM ? parseFloat(feePerKM) : null,
+          travelAllowance: travelAllowance ? parseFloat(travelAllowance) : null,
           otherExpenses: otherExpenses
             ? parseFloat(otherExpenses.replace(/,/g, '.'))
             : null,
@@ -360,28 +612,93 @@ const Appointment: FunctionComponent = () => {
   };
 
   // submit careinstitution form
-  const handleSubmitCareinstitutionForm = () => {};
+  const handleSubmitCareinstitutionForm = async (
+    values: ICareinstitutionFormValue,
+    { setSubmitting, setFieldError }: FormikHelpers<ICareinstitutionFormValue>
+  ) => {
+    const {
+      name,
+      date,
+      shift,
+      endTime,
+      startTime,
+      qualificationId,
+      department,
+      address,
+      contactPerson,
+      departmentOfferRemarks,
+      offerRemarks,
+      bookingRemarks,
+      isWorkingProof,
+      departmentBookingRemarks,
+      departmentRemarks,
+      comments
+    } = values;
+
+    let quali: number[] = [];
+    if (qualificationId) {
+      qualificationId.map((key: any, index: number) => {
+        quali.push(parseInt(key.value));
+      });
+    }
+
+    try {
+      let careInstitutionRequirementInput: ICareinstitutionFormSubmitValue = {
+        userId: selectedCareinstitution
+          ? parseInt(selectedCareinstitution.id)
+          : 0,
+        name,
+        date:
+          activeDateCareinstitution && activeDateCareinstitution.length
+            ? moment(activeDateCareinstitution[0].isoString).format(
+                defaultDateFormat
+              )
+            : '',
+        startTime,
+        endTime,
+        divisionId:
+          department && department.value ? parseInt(department.value) : null,
+        qualificationId: quali,
+        address,
+        contactPerson,
+        departmentOfferRemarks: departmentOfferRemarks
+          ? departmentOfferRemarks
+          : '',
+        departmentBookingRemarks,
+        departmentRemarks,
+        isWorkingProof,
+        offerRemarks,
+        bookingRemarks,
+        comments
+      };
+      await addCareinstitutionRequirment({
+        variables: {
+          careInstitutionRequirementInput
+        }
+      });
+
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG')
+        );
+      }
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      // setFieldError('email', message);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
+    }
+    setSubmitting(false);
+  };
 
   // Fetch values in case of edit by default it will be null or undefined
-  const {
-    firstName = '',
-    lastName = '',
-    workingProofRecieved = false,
-    distanceInKM = '',
-    feePerKM = '',
-    travelAllowance = '',
-    otherExpenses = '',
-    workingHoursFrom = '',
-    workingHoursTo = '',
-    breakFrom = '',
-    breakTo = '',
-    remarksCareGiver = '',
-    remarksInternal = '',
-    caregiver = {},
-    f = false,
-    s = false,
-    n = false
-  } = selectedCareGiver ? selectedCareGiver : {};
+  const { firstName = '', lastName = '', caregiver = {} } = selectedCareGiver
+    ? selectedCareGiver
+    : {};
 
   const {
     nightAllowance = undefined,
@@ -390,6 +707,8 @@ const Appointment: FunctionComponent = () => {
     weekendAllowance = null,
     holiday = null
   } = caregiver ? caregiver : {};
+
+  
 
   const valuesForCaregiver: ICaregiverFormValue = {
     firstName,
@@ -402,26 +721,22 @@ const Appointment: FunctionComponent = () => {
     holidayAllowance: holiday !== null ? germanNumberFormat(holiday) : '',
     weekendAllowance:
       weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : '',
-    workingProofRecieved,
-    distanceInKM,
-    feePerKM,
-    travelAllowance,
-    otherExpenses,
-    workingHoursFrom,
-    workingHoursTo,
-    breakFrom,
-    breakTo,
-    remarksCareGiver,
-    remarksInternal,
-    f,
-    s,
-    n
+    workingProofRecieved: false,
+    distanceInKM: '',
+    feePerKM: '',
+    travelAllowance: '',
+    otherExpenses: '',
+    workingHoursFrom: '',
+    workingHoursTo: '',
+    breakFrom: '',
+    breakTo: '',
+    remarksCareGiver: '',
+    remarksInternal: '',
+    f: false,
+    s: false,
+    n: false
   };
 
-  const valuesForCareinstitution: any = {
-    firstName,
-    lastName
-  };
   return (
     <>
       <div className='common-detail-page'>
@@ -435,6 +750,7 @@ const Appointment: FunctionComponent = () => {
             careInstitutionList={careInstitutionOptions}
             careGiversList={careGiversOptions}
             handleDayClick={handleDayClick}
+            handleToday={handleToday}
           />
 
           <div className='common-content flex-grow-1'>
@@ -460,6 +776,13 @@ const Appointment: FunctionComponent = () => {
                     handleSelectedUser={handleSelectedUser}
                     handleSecondStar={handleSecondStar}
                     handleReset={handleReset}
+                    handleFirstStarCanstitution={handleFirstStarCanstitution}
+                    careInstituionDeptData={careInstituionDeptData}
+                    starCanstitution={starCanstitution}
+                    deptLoading={deptLoading}
+                    onhandleSecondStarCanstitution={
+                      onhandleSecondStarCanstitution
+                    }
                   />
                 </Col>
                 <Col lg={'7'}>
@@ -488,6 +811,7 @@ const Appointment: FunctionComponent = () => {
                                   : ''
                               }
                               timeSlotError={timeSlotError}
+                              selctedAvailability={selctedAvailability}
                             />
                           );
                         }}
@@ -498,7 +822,7 @@ const Appointment: FunctionComponent = () => {
                         initialValues={valuesForCareinstitution}
                         onSubmit={handleSubmitCareinstitutionForm}
                         enableReinitialize={true}
-                        // validationSchema={CareGiverValidationSchema}
+                        validationSchema={CareInstitutionValidationSchema}
                         children={(
                           props: FormikProps<ICareinstitutionFormValue>
                         ) => {
@@ -511,7 +835,35 @@ const Appointment: FunctionComponent = () => {
                                   ? activeDateCareinstitution[0]
                                   : undefined
                               }
+                              setcareInstituionDept={(
+                                deptData: any,
+                                values: any
+                              ) => {
+                                setcareInstituionDept(deptData);
+                                setupdateCanstitutionFormikValues(values);
+                              }}
+                              setcareInstituionShift={(
+                                shiftData: any,
+                                values: any
+                              ) => {
+                                setcareInstituionShift(shiftData);
+                                setupdateCanstitutionFormikValues(values);
+                              }}
                               selectedCareinstitution={selectedCareinstitution}
+                              addCareinstitutionRes={
+                                addCareinstitutionRes &&
+                                addCareinstitutionRes.addCareInstitutionRequirement
+                                  ? addCareinstitutionRes.addCareInstitutionRequirement
+                                  : ''
+                              }
+                              qualificationList={qualificationList}
+                              careInstitutionDepartment={
+                                careInstitutionDepartment
+                              }
+                              careInstitutionTimesOptions={shiftOption}
+                              setsecondStarCanstitution={
+                                setsecondStarCanstitution
+                              }
                             />
                           );
                         }}

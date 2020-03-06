@@ -63,7 +63,8 @@ export interface IAppointmentCareInstitutionList {
   handleFirstStarCanstitution: (id: string) => void;
   handleReset: (name: string) => void;
   careInstituionDeptData: any;
-  starCanstitution: boolean;
+  starCanstitution: IStarInterface;
+  secondStarCanstitution: boolean;
   deptLoading: boolean;
 }
 
@@ -81,7 +82,13 @@ export interface IDate {
   isoString: any;
 }
 
+export interface IStarInterface {
+  isStar: boolean;
+  setIndex: number;
+}
+
 export interface ICaregiverFormValue {
+  appointmentId: string | null;
   firstName: string;
   lastName: string;
   fee?: string;
@@ -130,9 +137,10 @@ export interface IAppointmentCareInstitutionForm {
   qualificationList: IReactSelectInterface[] | undefined;
   careInstitutionDepartment: IReactSelectInterface[] | undefined;
   addCareinstitutionRes: any;
-  setsecondStarCanstitution: boolean;
+  secondStarCanstitution: boolean;
 }
 export interface IAddCargiverAppointmentRes {
+  id: string;
   userId: string;
   status: string;
 }
@@ -144,6 +152,7 @@ export interface IReactSelectTimeInterface {
 }
 
 export interface ICareinstitutionFormValue {
+  appointmentId: string;
   name: string;
   date: string;
   startTime: string;

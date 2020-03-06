@@ -107,6 +107,9 @@ body {
       color: $theme_color_hover;
     }
   }
+  .theme-text {
+    color: $theme_color;
+  }
   .cursor-pointer {
     cursor: pointer;
   }
@@ -347,6 +350,15 @@ body {
           color: $theme_color;
           i {
             color: $theme_color;
+          }
+        }
+        &.disabled-class {
+          &:hover {
+            color: $black;
+            background-color: $transparent;
+            i {
+              color: $black;
+            }
           }
         }
       }

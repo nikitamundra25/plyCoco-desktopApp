@@ -32,6 +32,7 @@ import Select from 'react-select';
 import { FormikProps, Field } from 'formik';
 import moment from 'moment';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import classnames from 'classnames';
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
@@ -44,6 +45,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 ) => {
   const {
     values: {
+      appointmentId,
       name,
       shift,
       startTime,
@@ -77,8 +79,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     careInstitutionTimesOptions,
     setcareInstituionShift,
     addCareinstitutionRes,
-    selctedAvailability,
-    setsecondStarCanstitution
+    selctedRequirement,
+    secondStarCanstitution
   } = props;
 
   // Custom function to handle react select fields
@@ -95,20 +97,41 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let appintmentId: any = null;
   if (addCareinstitutionRes && addCareinstitutionRes.id) {
     appintmentId = addCareinstitutionRes.id;
-  } else if (selctedAvailability && selctedAvailability.id) {
-    appintmentId = selctedAvailability.id;
+  } else if (selctedRequirement && selctedRequirement.id) {
+    appintmentId = selctedRequirement.id;
   }
 
+  let isRequirment: boolean = false,
+    isMatching: boolean = false,
+    isContract: boolean = false;
+
+  if (selctedRequirement) {
+    if (selctedRequirement.status === 'requirement') {
+      isRequirment = true;
+    } else if (selctedRequirement.status === 'linked') {
+      isMatching = true;
+    } else if (selctedRequirement.status === 'contract') {
+      isContract = true;
+    }
+  }
+  console.log('appointmentId', appointmentId);
   return (
     <>
       <div className='form-section '>
-        <div className='form-card custom-height custom-scrollbar'>
+        <div
+          className={classnames({
+            'form-card custom-height custom-scrollbar': true,
+            'requirement-bg': isRequirment,
+            'matching-bg': isMatching,
+            'contract-bg': isContract
+          })}
+        >
           <h5 className='content-title'>
             {languageTranslation('MENU_INSTITUTION')}
           </h5>
           <Row>
             <Col lg={'12'}>
-              <FormGroup>
+              <FormGroup>                                                                                                                                           
                 <Row>
                   <Col sm='5'>
                     <Label className='form-label col-form-label'>
@@ -121,7 +144,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='text'
                         name={'id'}
                         disabled
-                        value={appintmentId ? appintmentId : null}
+                        value={appointmentId ? appointmentId : null}
                         placeholder={languageTranslation('APPOINTMENT_ID')}
                       />
                     </div>
@@ -303,20 +326,22 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='7'>
-                    <div className='custom-select-checkbox'>
-                      <ReactMultiSelectCheckboxes
-                        options={qualificationList}
-                        placeholder='Select Qualifications'
-                        className={
-                          'custom-reactselect custom-reactselect-menu-width'
-                        }
-                        classNamePrefix='custom-inner-reactselect'
-                        value={qualificationId}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'qualificationId')
-                        }
-                      />
-                      {/* <Select
+                    <div className='postion-relative'>
+                      <Button className='add-new-btn arrow-btn' color=''>
+                        <i className='fa fa-arrow-up' aria-hidden='true' />
+                      </Button>
+                      <div className='custom-select-checkbox'>
+                        <ReactMultiSelectCheckboxes
+                          options={qualificationList}
+                          placeholder='Select Qualifications'
+                          className={'custom-reactselect '}
+                          classNamePrefix='custom-inner-reactselect'
+                          // value={qualificationId}
+                          onChange={(value: any) =>
+                            handleSelect(value, 'qualificationId')
+                          }
+                        />
+                        {/* <Select
                         placeholder='Select Qualifications'
                         options={qualificationList}
                         isMulti={true}
@@ -327,6 +352,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           handleSelect(value, 'qualificationId')
                         }
                       /> */}
+                      </div>
                     </div>
                   </Col>
                 </Row>
@@ -370,7 +396,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <Select
                         placeholder='Select Department'
                         options={careInstitutionDepartment}
-                        isDisabled={setsecondStarCanstitution ? true : false}
+                        isDisabled={secondStarCanstitution ? true : false}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                         onChange={(value: any) =>
@@ -617,7 +643,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             <Col lg={'12'}>
               <div className='d-flex align-items-center justify-content-between'>
                 <Button className='btn-save' color='danger'>
-                  {languageTranslation('CLEAR')}
+                  {languageTranslation('DELETE')}
                 </Button>
                 <Button
                   className='btn-save'

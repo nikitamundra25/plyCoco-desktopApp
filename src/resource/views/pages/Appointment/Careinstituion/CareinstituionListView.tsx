@@ -15,7 +15,7 @@ import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
 import moment from 'moment';
-
+import DetaillistCareinstitutionPopup from '../DetailListCareinstitution';
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
   const {
@@ -30,7 +30,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     careInstituionDeptData,
     starCanstitution,
     deptLoading,
-    onhandleSecondStarCanstitution
+    onhandleSecondStarCanstitution,
+    secondStarCanstitution
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
   const [starMarkIndex, setstarMarkIndex] = useState<number>(-1);
@@ -73,10 +74,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     let selctedAvailability: any;
     if (
       list &&
-      list.caregiver_avabilities &&
-      list.caregiver_avabilities.length
+      list.careinstitution_requirements &&
+      list.careinstitution_requirements.length
     ) {
-      selctedAvailability = list.caregiver_avabilities.filter(
+      selctedAvailability = list.careinstitution_requirements.filter(
         (avabilityData: any, index: number) => {
           return (
             moment(selected[0].isoString).format('DD.MM.YYYY') ===
@@ -88,6 +89,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         }
       );
     }
+
     handleSelectedUser(
       list,
       selected,
@@ -100,14 +102,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
-
+  const [showList, setShowList] = useState<boolean>(false);
   return (
     <>
       <SelectableGroup
         allowClickWithoutSelected
         className='custom-row-selector'
         clickClassName='tick'
-        // resetOnStart
+        resetOnStart={true}
         onSelectionFinish={onSelectFinish}
         onSelectionClear={onSelectionClear}
         ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
@@ -136,7 +138,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         <DropdownItem>
                           <span>Select all appointments of the caregiver</span>
                         </DropdownItem>{' '}
-                        <DropdownItem>
+                        <DropdownItem onClick={() => setShowList(true)}>
                           <span>Detailed List</span>
                         </DropdownItem>{' '}
                         <DropdownItem>
@@ -250,7 +252,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 </tr>
               ) : careInstituionDeptData &&
                 !careInstituionDeptData.length &&
-                !starCanstitution ? (
+                !starCanstitution.isStar ? (
                 careInstitutionList && careInstitutionList.length ? (
                   careInstitutionList.map((list: any, index: number) => {
                     return (
@@ -272,10 +274,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         <td className='h-col custom-appointment-col text-center'></td>
                         <td
                           className='s-col custom-appointment-col text-center'
-                          onClick={() => handleFirstStarCanstitution(list)}
+                          onClick={() =>
+                            handleFirstStarCanstitution(list, index)
+                          }
                         >
-                          {starMarkIndex === index || starCanstitution ? (
-                            <i className='fa fa-star-o icon-d' />
+                          {starCanstitution.setIndex === index ||
+                          starCanstitution.isStar ? (
+                            <i className='fa fa-star theme-text' />
                           ) : (
                             <i className='fa fa-star-o' />
                           )}
@@ -286,8 +291,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             onhandleSecondStar(list, index, 'careinstitution')
                           }
                         >
-                          {starMark ? (
-                            <i className='fa fa-star-o icon-d' />
+                          {secondStarCanstitution ? (
+                            <i className='fa fa-star theme-text' />
                           ) : (
                             <i className='fa fa-star-o' />
                           )}
@@ -354,8 +359,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           className='s-col custom-appointment-col text-center'
                           onClick={() => handleFirstStarCanstitution(null)}
                         >
-                          {starMark ? (
-                            <i className='fa fa-star-o icon-d' />
+                          {starCanstitution.setIndex === index ||
+                          starCanstitution.isStar ? (
+                            <i className='fa fa-star theme-text' />
                           ) : (
                             <i className='fa fa-star-o' />
                           )}
@@ -364,8 +370,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           className='u-col custom-appointment-col text-center'
                           onClick={() => onhandleSecondStarCanstitution(dept)}
                         >
-                          {starMark ? (
-                            <i className='fa fa-star-o icon-d' />
+                          {secondStarCanstitution ? (
+                            <i className='fa fa-star theme-text' />
                           ) : (
                             <i className='fa fa-star-o' />
                           )}
@@ -409,6 +415,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           </Table>
         </div>
       </SelectableGroup>
+
+      <DetaillistCareinstitutionPopup
+        show={showList ? true : false}
+        handleClose={() => setShowList(false)}
+      />
     </>
   );
 };

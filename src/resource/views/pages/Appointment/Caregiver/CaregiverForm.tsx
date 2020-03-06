@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 
 import '../index.scss';
 import {
@@ -42,6 +42,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const {
     values: {
       firstName,
+      appointmentId,
       lastName,
       fee,
       nightFee,
@@ -97,11 +98,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     }
   }
 
-  let appintmentId: any = null;
+  let appointmentid: any = null;
   if (addCaregiverRes && addCaregiverRes[0].id) {
-    appintmentId = addCaregiverRes[0].id;
+    appointmentid = addCaregiverRes[0].id;
+    // setFieldValue('appointmentid', appointmentid);
   } else if (selctedAvailability && selctedAvailability.id) {
-    appintmentId = selctedAvailability.id;
+    appointmentid = selctedAvailability.id;
   }
 
   const handleTravelAllowance = () => {
@@ -137,7 +139,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <Input
                         type='text'
                         disabled={true}
-                        value={appintmentId ? appintmentId : null}
+                        name={'appointmentId'}
+                        value={appointmentId ? appointmentId : null}
                         placeholder={languageTranslation('APPOINTMENT_ID')}
                         className='width-common'
                       />
@@ -241,7 +244,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             id='check1'
                             className=''
                             name={'s'}
-                            checked={s}
+                            checked={s ? true : false}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => {
@@ -263,7 +266,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             id='check2'
                             className=''
                             name={'n'}
-                            checked={n}
+                            checked={n ? true : false}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => {
@@ -857,7 +860,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   ) : (
                     ''
                   )}
-                  {languageTranslation('SAVE_BUTTON')}
+                  {appointmentId
+                    ? languageTranslation('UPDATE_BUTTON')
+                    : languageTranslation('SAVE_BUTTON')}
                 </Button>
               </div>
             </Col>

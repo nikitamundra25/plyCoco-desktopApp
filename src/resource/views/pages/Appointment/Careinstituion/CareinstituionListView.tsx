@@ -34,70 +34,73 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     secondStarCanstitution
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
-  const [starMarkIndex, setstarMarkIndex] = useState<number>(-1);
 
-  const handleFirstStar = (list: object, index: number, name: string) => {
-    if (starMarkIndex !== index) {
-      setstarMarkIndex(index);
-      handleSelectedUser(list, null, name);
-    } else {
-      setstarMarkIndex(-1);
-    }
-  };
+  // const handleFirstStar = (list: object, index: number, name: string) => {
+  //   if (starMarkIndex !== index) {
+  //     setstarMarkIndex(index);
+  //     handleSelectedUser(list, null, name);
+  //   } else {
+  //     setstarMarkIndex(-1);
+  //   }
+  // };
 
-  const onhandleSecondStar = (list: object, index: number, name: string) => {
-    if (!starMark) {
-      if (starMarkIndex === index) {
-        setstarMark(!starMark);
-        handleSecondStar(list, index, name);
-      }
-    } else {
-      setstarMark(!starMark);
-      handleReset(name);
-    }
-  };
+  // const onhandleSecondStar = (list: object, index: number, name: string) => {
+  //   if (!starMark) {
+  //     if (starMarkIndex === index) {
+  //       setstarMark(!starMark);
+  //       handleSecondStar(list, index, name);
+  //     }
+  //   } else {
+  //     setstarMark(!starMark);
+  //     handleReset(name);
+  //   }
+  // };
   const { daysArr = [] } = daysData ? daysData : {};
 
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
   const onSelectFinish = (selectedCells: any[]) => {
+    console.log('fdhgfh');
+
     const selected: any = [];
     let list: any = [];
-    for (let i = 0; i < selectedCells.length; i++) {
-      const { props: cellProps } = selectedCells[i];
-      selected.push(cellProps.day);
-      if (selectedCells[0].props.list) {
-        list = selectedCells[0].props.list;
-      }
-      setSelectedDays(selected);
-    }
-    let selctedAvailability: any;
-    if (
-      list &&
-      list.careinstitution_requirements &&
-      list.careinstitution_requirements.length
-    ) {
-      selctedAvailability = list.careinstitution_requirements.filter(
-        (avabilityData: any, index: number) => {
-          return (
-            moment(selected[0].isoString).format('DD.MM.YYYY') ===
-              moment(avabilityData.date).format('DD.MM.YYYY') &&
-            (avabilityData.f === 'available' ||
-              avabilityData.s === 'available' ||
-              avabilityData.n === 'available')
-          );
+    if (selectedCells && selectedCells.length) {
+      for (let i = 0; i < selectedCells.length; i++) {
+        const { props: cellProps } = selectedCells[i];
+        selected.push(cellProps.day);
+        if (selectedCells[0].props.list) {
+          list = selectedCells[0].props.list;
         }
+        setSelectedDays(selected);
+      }
+      let selctedAvailability: any;
+      if (
+        list &&
+        list.careinstitution_requirements &&
+        list.careinstitution_requirements.length
+      ) {
+        selctedAvailability = list.careinstitution_requirements.filter(
+          (avabilityData: any, index: number) => {
+            return (
+              moment(selected[0].isoString).format('DD.MM.YYYY') ===
+                moment(avabilityData.date).format('DD.MM.YYYY') &&
+              (avabilityData.f === 'available' ||
+                avabilityData.s === 'available' ||
+                avabilityData.n === 'available')
+            );
+          }
+        );
+      }
+
+      handleSelectedUser(
+        list,
+        selected,
+        'careinstitution',
+        selctedAvailability && selctedAvailability.length
+          ? selctedAvailability[0]
+          : {}
       );
     }
-
-    handleSelectedUser(
-      list,
-      selected,
-      'careinstitution',
-      selctedAvailability && selctedAvailability.length
-        ? selctedAvailability[0]
-        : {}
-    );
   };
   const onSelectionClear = () => {
     setSelectedDays([]);
@@ -287,9 +290,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         </td>
                         <td
                           className='u-col custom-appointment-col text-center'
-                          onClick={() =>
-                            onhandleSecondStar(list, index, 'careinstitution')
-                          }
+                          // onClick={() =>
+                          //   onhandleSecondStar(list, index, 'careinstitution')
+                          // }
                         >
                           {secondStarCanstitution ? (
                             <i className='fa fa-star theme-text' />

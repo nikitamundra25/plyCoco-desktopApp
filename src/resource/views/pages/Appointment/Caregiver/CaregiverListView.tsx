@@ -32,16 +32,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
-  const [starMarkIndex, setstarMarkIndex] = useState<number>(-1);
 
-  const handleFirstStar = (list: object, index: number, name: string) => {
-    if (starMarkIndex !== index) {
-      setstarMarkIndex(index);
-      handleSelectedUser(list, null, name);
-    } else {
-      setstarMarkIndex(-1);
-    }
-  };
   const onhandleSecondStar = (list: object, index: number, name: string) => {
     if (!starMark) {
       setstarMark(!starMark);
@@ -228,9 +219,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                       <th className='name-col custom-appointment-col thead-sticky'>
                         <div
                           className='text-capitalize view-more-link one-line-text'
-                          onClick={() =>
-                            handleSelectedUser(list, null, 'caregiver')
-                          }
+                          // onClick={() =>
+                          //   handleSelectedUser(list, null, 'caregiver')
+                          // }
                         >
                           {!list.newRow
                             ? `${list.firstName ? list.firstName : ''} ${

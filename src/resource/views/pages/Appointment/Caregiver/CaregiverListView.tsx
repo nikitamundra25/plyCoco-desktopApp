@@ -5,12 +5,12 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  UncontrolledTooltip,
+  UncontrolledTooltip
 } from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareGiverList,
-  IDaysArray,
+  IDaysArray
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import '../index.scss';
@@ -18,8 +18,9 @@ import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import Cell from './Cell';
 import moment from 'moment';
 import DetaillistCaregiverPopup from '../DetailListCaregiver';
+import { AppRoutes } from '../../../../../config';
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
-  props: IAppointmentCareGiverList & any,
+  props: IAppointmentCareGiverList & any
 ) => {
   const {
     daysData,
@@ -28,7 +29,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onAddingRow,
     handleSelectedUser,
     handleSecondStar,
-    handleReset,
+    handleReset
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -84,7 +85,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     avabilityData.s === 'available' ||
                     avabilityData.n === 'available')
                 );
-              },
+              }
             );
             if (availability && availability.length) {
               selctedAvailability.push(availability[0]);
@@ -99,7 +100,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         'caregiver',
         selctedAvailability && selctedAvailability.length
           ? selctedAvailability[0]
-          : {},
+          : {}
       );
     }
   };
@@ -108,9 +109,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   };
   const [showList, setShowList] = useState<boolean>(false);
 
-  const handleBulkEmailOpen = () =>{
-    window.open()
-  }
+  const handleBulkEmailOpen = (h: number, w: number, URL: string) => {
+    const leftOffset = screen.width / 2 - w / 2;
+    const topOffset = screen.height / 2 - h / 2;
+    window.open(
+      URL,
+      AppRoutes.APPOINTMENT,
+      'left=' +
+        leftOffset +
+        ',top=' +
+        topOffset +
+        ',width=' +
+        w +
+        ',height=' +
+        h +
+        ',resizable,scrollbars=yes'
+    );
+  };
 
   return (
     <>
@@ -153,7 +168,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         <DropdownItem>
                           <span>Filter by qualifications of caregiver</span>
                         </DropdownItem>{' '}
-                        <DropdownItem onClick={()=> handleBulkEmailOpen()}>
+                        <DropdownItem
+                          onClick={() =>
+                            handleBulkEmailOpen(
+                              900,
+                              1000,
+                              AppRoutes.BULK_EMAIL_CAREGIVER
+                            )
+                          }
+                        >
                           <span>Offer all available calendar entries</span>
                         </DropdownItem>{' '}
                         <DropdownItem>
@@ -200,7 +223,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 {daysArr.map(
                   (
                     { date, day, isoString, isWeekend }: IDaysArray,
-                    index: number,
+                    index: number
                   ) => {
                     return (
                       <th
@@ -216,7 +239,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         </div>
                       </th>
                     );
-                  },
+                  }
                 )}
               </tr>
             </thead>

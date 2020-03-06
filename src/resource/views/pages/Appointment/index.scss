@@ -1,4 +1,4 @@
-@import "../../../assets/scss/variables";
+@import '../../../assets/scss/variables';
 
 .common-header-input {
   .form-control {
@@ -172,7 +172,7 @@
       text-align: left;
       display: block;
       padding: 0px;
-      font-family: "FrutigerNeueLTPro-Bold", sans-serif;
+      font-family: 'FrutigerNeueLTPro-Bold', sans-serif;
     }
   }
   .distance-section {
@@ -229,8 +229,11 @@ body {
     .selected-cell {
       background-color: #8c38d6;
     }
-    .cell-available{
-      background-color: rgb(67, 201, 67); 
+    .cell-available {
+      background-color: rgb(67, 201, 67);
+    }
+    .cell-block {
+      background-color: $red;
     }
     .selecting-cell {
       background-color: #8c38d6;

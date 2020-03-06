@@ -89,7 +89,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         }
       );
     }
-    console.log('dgdshjb', selctedAvailability);
 
     handleSelectedUser(
       list,

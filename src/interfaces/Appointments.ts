@@ -151,6 +151,7 @@ export interface IReactSelectTimeInterface {
 }
 
 export interface ICareinstitutionFormValue {
+  appointmentId: string;
   name: string;
   date: string;
   startTime: string;

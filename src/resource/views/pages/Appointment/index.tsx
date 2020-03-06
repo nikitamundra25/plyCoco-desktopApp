@@ -84,7 +84,7 @@ const Appointment: FunctionComponent = () => {
   const [selctedAvailability, setselctedAvailability] = useState<any>({});
   /*  */
   //For selected Requirement
-  const [selctedRequirement, setselctedRequirement] = useState({});
+  const [selctedRequirement, setselctedRequirement] = useState<any>({});
   /*  */
   const [timeSlotError, setTimeSlotError] = useState<string>('');
   // maintain star mark for careinstitution
@@ -97,9 +97,11 @@ const Appointment: FunctionComponent = () => {
   );
 
   // For careinstitution fields
+
   const [valuesForCareinstitution, setvaluesForCareinstitution] = useState<
     ICareinstitutionFormValue
   >({
+    appointmentId: '',
     name: '',
     date: '',
     shift: undefined,
@@ -451,6 +453,8 @@ const Appointment: FunctionComponent = () => {
         } = selectedCareinstitution ? selectedCareinstitution : {};
 
         setselectedCareinstitution(list);
+        console.log('hereeeeeee');
+
         temp = {
           ...valuesForCareinstitution,
           name: name ? name : `${list.firstName} ${list.lastName}`,
@@ -766,8 +770,7 @@ const Appointment: FunctionComponent = () => {
     setSubmitting(false);
   };
 
-  // Fetch values in case of edit by default it will be null or undefined selctedAvailability
-
+  // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
   let firstName: string = '',
     lastName: string = '',
     caregiver: any = {};
@@ -782,6 +785,7 @@ const Appointment: FunctionComponent = () => {
           ? selectedCareGiver.caregiver
           : {});
   }
+  // end
 
   const {
     id = null,

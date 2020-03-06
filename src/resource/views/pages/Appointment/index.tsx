@@ -945,6 +945,7 @@ const Appointment: FunctionComponent = () => {
                               }
                               careInstitutionTimesOptions={shiftOption}
                               secondStarCanstitution={secondStarCanstitution}
+                              selctedRequirement={selctedRequirement}
                             />
                           );
                         }}

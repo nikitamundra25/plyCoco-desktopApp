@@ -43,6 +43,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         s
         n
         address
+        status
         bookingRemarks
         comments
         contactPerson

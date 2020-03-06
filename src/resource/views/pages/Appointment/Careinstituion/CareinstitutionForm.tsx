@@ -103,8 +103,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false;
+  console.log('selctedRequirement', selctedRequirement);
+
   if (selctedRequirement) {
-    if (selctedRequirement.status === 'default') {
+    if (selctedRequirement.status === 'requirement') {
       isRequirment = true;
     } else if (selctedRequirement.status === 'linked') {
       isMatching = true;
@@ -119,7 +121,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
         <div
           className={classnames({
             'form-card custom-height custom-scrollbar': true,
-            'availability-bg': isRequirment,
+            'requirement-bg': isRequirment,
             'matching-bg': isMatching,
             'contract-bg': isContract
           })}

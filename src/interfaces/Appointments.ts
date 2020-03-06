@@ -87,6 +87,7 @@ export interface IStarInterface {
 }
 
 export interface ICaregiverFormValue {
+  appointmentId: string | null;
   firstName: string;
   lastName: string;
   fee?: string;
@@ -138,6 +139,7 @@ export interface IAppointmentCareInstitutionForm {
   secondStarCanstitution: boolean;
 }
 export interface IAddCargiverAppointmentRes {
+  id: string;
   userId: string;
   status: string;
 }
@@ -149,6 +151,7 @@ export interface IReactSelectTimeInterface {
 }
 
 export interface ICareinstitutionFormValue {
+  appointmentId: string;
   name: string;
   date: string;
   startTime: string;

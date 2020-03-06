@@ -26,6 +26,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         date
         fee
         weekendAllowance
+        travelAllowance
         holidayAllowance
         nightFee
         nightAllowance

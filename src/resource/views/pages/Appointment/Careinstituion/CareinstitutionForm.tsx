@@ -45,6 +45,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 ) => {
   const {
     values: {
+      appointmentId,
       name,
       shift,
       startTime,
@@ -103,7 +104,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false;
-  console.log('selctedRequirement', selctedRequirement);
 
   if (selctedRequirement) {
     if (selctedRequirement.status === 'requirement') {
@@ -114,7 +114,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       isContract = true;
     }
   }
-
+  console.log('appointmentId', appointmentId);
   return (
     <>
       <div className='form-section '>
@@ -131,7 +131,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
           </h5>
           <Row>
             <Col lg={'12'}>
-              <FormGroup>
+              <FormGroup>                                                                                                                                           
                 <Row>
                   <Col sm='5'>
                     <Label className='form-label col-form-label'>
@@ -144,7 +144,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='text'
                         name={'id'}
                         disabled
-                        value={appintmentId ? appintmentId : null}
+                        value={appointmentId ? appointmentId : null}
                         placeholder={languageTranslation('APPOINTMENT_ID')}
                       />
                     </div>
@@ -336,7 +336,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           placeholder='Select Qualifications'
                           className={'custom-reactselect '}
                           classNamePrefix='custom-inner-reactselect'
-                          value={qualificationId}
+                          // value={qualificationId}
                           onChange={(value: any) =>
                             handleSelect(value, 'qualificationId')
                           }

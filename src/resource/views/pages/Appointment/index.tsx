@@ -451,72 +451,24 @@ const Appointment: FunctionComponent = () => {
     } else {
       let temp: ICareinstitutionFormValue;
       setselctedRequirement(selctedAvailability);
-      console.log('list', list);
-
-      setselectedCareinstitution(list);
       if (date) {
         setactiveDateCareinstitution(date);
       }
-      // if (selctedAvailability !== null) {
-      //   if (!starCanstitution.isStar) {
-      //     // Fetch values in case of edit by default it will be null or undefined
-      //     // const {
-      //     //   name = '',
-      //     //   date = '',
-      //     //   startTime = '',
-      //     //   endTime = '',
-      //     //   address = '',
-      //     //   contactPerson = '',
-      //     //   bookingRemarks = '',
-      //     //   departmentOfferRemarks = '',
-      //     //   departmentBookingRemarks = '',
-      //     //   departmentRemarks = '',
-      //     //   f = '',
-      //     //   n = '',
-      //     //   s = '',
-      //     //   isWorkingProof = false
-      //     // } = selectedCareinstitution ? selectedCareinstitution : {};
-      //     setselectedCareinstitution(list);
-
-      //     temp = {
-      //       ...valuesForCareinstitution,
-      //       appointmentId: '',
-      //       name: name ? name : `${list.firstName} ${list.lastName}`
-      //       // date: date ? date : valuesForCareinstitution.date,
-      //       // startTime: startTime
-      //       //   ? startTime
-      //       //   : valuesForCareinstitution.startTime,
-      //       // endTime: endTime ? endTime : valuesForCareinstitution.endTime,
-      //       // address: address ? address : valuesForCareinstitution.address,
-      //       // contactPerson: contactPerson
-      //       //   ? contactPerson
-      //       //   : valuesForCareinstitution.contactPerson,
-      //       // bookingRemarks: bookingRemarks
-      //       //   ? bookingRemarks
-      //       //   : valuesForCareinstitution.bookingRemarks,
-      //       // departmentOfferRemarks: departmentOfferRemarks
-      //       //   ? departmentOfferRemarks
-      //       //   : valuesForCareinstitution.departmentOfferRemarks,
-      //       // departmentBookingRemarks: departmentBookingRemarks
-      //       //   ? departmentBookingRemarks
-      //       //   : valuesForCareinstitution.departmentBookingRemarks,
-      //       // departmentRemarks: departmentRemarks
-      //       //   ? departmentRemarks
-      //       //   : valuesForCareinstitution.departmentRemarks,
-      //       // isWorkingProof: isWorkingProof ? true : false,
-      //       // offerRemarks: '',
-      //       // comments: ''
-      //     };
-      //     console.log('list', list);
-      //   } else {
-      //     temp = {
-      //       ...valuesForCareinstitution,
-      //       name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
-      //     };
-      //     console.log('temp', temp);
-      //     setvaluesForCareinstitution(temp);
-      //   }
-      // }
+      if (!starCanstitution.isStar) {
+        // Fetch values in case of edit by default it will be null or undefined
+        setselectedCareinstitution(list);
+        setselectedCareinstitution(list);
+        temp = {
+          ...valuesForCareinstitution,
+          name: name ? name : `${list.firstName} ${list.lastName}`
+        };
+      } else {
+        temp = {
+          ...valuesForCareinstitution,
+          name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
+        };
+        setvaluesForCareinstitution(temp);
+      }
     }
   };
 
@@ -585,7 +537,7 @@ const Appointment: FunctionComponent = () => {
         ? name
         : selectedCareinstitution && selectedCareinstitution.firstName
         ? `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
-        : 'gfdg',
+        : ' ',
       offerRemarks,
       qualificationId
     });

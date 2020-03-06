@@ -64,44 +64,44 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
     const selected: any = [];
     let list: any = [];
-    if (selectedCells && selectedCells.length) {
-      for (let i = 0; i < selectedCells.length; i++) {
-        const { props: cellProps } = selectedCells[i];
-        selected.push(cellProps.day);
-        if (selectedCells[0].props.list) {
-          list = selectedCells[0].props.list;
-        }
-        setSelectedDays(selected);
-      }
-      let selctedAvailability: any;
-      if (
-        list &&
-        list.careinstitution_requirements &&
-        list.careinstitution_requirements.length
-      ) {
-        selctedAvailability = list.careinstitution_requirements.filter(
-          (avabilityData: any, index: number) => {
-            return (
-              moment(selected[0].isoString).format('DD.MM.YYYY') ===
-                moment(avabilityData.date).format('DD.MM.YYYY') &&
-              (avabilityData.f === 'available' ||
-                avabilityData.s === 'available' ||
-                avabilityData.n === 'available')
-            );
-          }
-        );
-      }
 
-      handleSelectedUser(
-        list,
-        selected,
-        'careinstitution',
-        selctedAvailability && selctedAvailability.length
-          ? selctedAvailability[0]
-          : {}
+    for (let i = 0; i < selectedCells.length; i++) {
+      const { props: cellProps } = selectedCells[i];
+      selected.push(cellProps.day);
+      if (selectedCells[0].props.list) {
+        list = selectedCells[0].props.list;
+      }
+      setSelectedDays(selected);
+    }
+    let selctedAvailability: any;
+    if (
+      list &&
+      list.careinstitution_requirements &&
+      list.careinstitution_requirements.length
+    ) {
+      selctedAvailability = list.careinstitution_requirements.filter(
+        (avabilityData: any, index: number) => {
+          return (
+            moment(selected[0].isoString).format('DD.MM.YYYY') ===
+              moment(avabilityData.date).format('DD.MM.YYYY') &&
+            (avabilityData.f === 'available' ||
+              avabilityData.s === 'available' ||
+              avabilityData.n === 'available')
+          );
+        }
       );
     }
+
+    handleSelectedUser(
+      list,
+      selected,
+      'careinstitution',
+      selctedAvailability && selctedAvailability.length
+        ? selctedAvailability[0]
+        : {}
+    );
   };
+
   const onSelectionClear = () => {
     setSelectedDays([]);
   };

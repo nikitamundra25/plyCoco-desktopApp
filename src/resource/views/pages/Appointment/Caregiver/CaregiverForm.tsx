@@ -241,7 +241,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             id='check1'
                             className=''
                             name={'s'}
-                            checked={s}
+                            checked={s ? true : false}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => {
@@ -263,7 +263,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             id='check2'
                             className=''
                             name={'n'}
-                            checked={n}
+                            checked={n ? true : false}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => {

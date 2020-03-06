@@ -855,6 +855,7 @@
   "CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG": "Caregiver appointment added successfully",
   "CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG": "Caregiver appointment updated successfully",
   "CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG": "Careinstitution requirement added successfully",
+  "CARE_INSTITUTION_REQUIREMENT_UPDATE_SUCCESS_MSG": "Careinstitution requirement updated successfully",
   "CAREGIVER_TIME_SLOT_ERROR_MSG": "Please select atleast one working hour.",
   "START_TIME_REQUIRED": "Starttime is required",
   "END_TIME_REQUIRED": "Endtime is required",

@@ -59,8 +59,28 @@ const UPDATE_CAREGIVER_AVABILITY = gql`
   }
 `;
 
+const UPDATE_INSTITUTION_REQUIREMENT = gql`
+  mutation UpdateCareInstitutionRequirement(
+    $id: ID!
+    $careInstitutionRequirementInput: CareInstitutionRequirementInput
+  ) {
+    updateCareInstitutionRequirement(
+      id: $id
+      careInstitutionRequirementInput: $careInstitutionRequirementInput
+    ) {
+      userId
+      id
+      f
+      s
+      n
+      status
+    }
+  }
+`;
+
 export const AppointmentMutations = [
   ADD_CAREGIVER_AVABILITY,
   ADD_INSTITUTION_REQUIREMENT,
-  UPDATE_CAREGIVER_AVABILITY
+  UPDATE_CAREGIVER_AVABILITY,
+  UPDATE_INSTITUTION_REQUIREMENT
 ];

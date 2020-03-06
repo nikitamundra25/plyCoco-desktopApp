@@ -42,7 +42,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const {
     values: {
       firstName,
-      appintmentId,
+      appointmentId,
       lastName,
       fee,
       nightFee,
@@ -98,12 +98,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     }
   }
 
-  let appintmentid: any = null;
+  let appointmentid: any = null;
   if (addCaregiverRes && addCaregiverRes[0].id) {
-    appintmentid = addCaregiverRes[0].id;
-    // setFieldValue('appintmentId', appintmentId);
+    appointmentid = addCaregiverRes[0].id;
+    // setFieldValue('appointmentid', appointmentid);
   } else if (selctedAvailability && selctedAvailability.id) {
-    appintmentid = selctedAvailability.id;
+    appointmentid = selctedAvailability.id;
   }
 
   const handleTravelAllowance = () => {
@@ -139,8 +139,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <Input
                         type='text'
                         disabled={true}
-                        name={'appintmentId'}
-                        value={appintmentId ? appintmentId : null}
+                        name={'appointmentId'}
+                        value={appointmentId ? appointmentId : null}
                         placeholder={languageTranslation('APPOINTMENT_ID')}
                         className='width-common'
                       />
@@ -860,7 +860,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   ) : (
                     ''
                   )}
-                  {appintmentId
+                  {appointmentId
                     ? languageTranslation('UPDATE_BUTTON')
                     : languageTranslation('SAVE_BUTTON')}
                 </Button>

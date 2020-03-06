@@ -87,7 +87,7 @@ export interface IStarInterface {
 }
 
 export interface ICaregiverFormValue {
-  appintmentId: string | null;
+  appointmentId: string | null;
   firstName: string;
   lastName: string;
   fee?: string;

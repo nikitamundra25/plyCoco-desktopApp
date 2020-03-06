@@ -31,7 +31,8 @@ import {
 const [
   ADD_CAREGIVER_AVABILITY,
   ADD_INSTITUTION_REQUIREMENT,
-  UPDATE_CAREGIVER_AVABILITY
+  UPDATE_CAREGIVER_AVABILITY,
+  UPDATE_INSTITUTION_REQUIREMENT
 ] = AppointmentMutations;
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
@@ -140,6 +141,16 @@ const Appointment: FunctionComponent = () => {
     { addCareInstitutionRequirement: IAddCargiverAppointmentRes },
     { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue }
   >(ADD_INSTITUTION_REQUIREMENT);
+
+  // updateCareinstitutionRequirment
+  // Mutation to update careGiver data
+  const [
+    updateCareinstitutionRequirment,
+    { data: updateCareinstitutionRes }
+  ] = useMutation<
+    { CareInstitutionRequirementType: IAddCargiverAppointmentRes },
+    { id: number; careInstitutionRequirementInput: any }
+  >(UPDATE_INSTITUTION_REQUIREMENT);
 
   // To get caregiver list from db
   const [
@@ -264,6 +275,18 @@ const Appointment: FunctionComponent = () => {
       });
     }
   }
+  // Options to show department data
+  const careInstitutionDepartment: IReactSelectInterface[] | undefined = [];
+  if (departmentList && departmentList.getDivision.length) {
+    const { getDivision } = departmentList;
+    getDivision.forEach((dept: any) =>
+      careInstitutionDepartment.push({
+        label: dept.name,
+        value: dept && dept.id ? dept.id.toString() : ''
+      })
+    );
+  }
+
   // To set initial month and year
   useEffect(() => {
     const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(
@@ -383,6 +406,7 @@ const Appointment: FunctionComponent = () => {
           startTime,
           endTime
         };
+        console.log('deptttt');
 
         setvaluesForCareinstitution(temp);
       }
@@ -408,6 +432,8 @@ const Appointment: FunctionComponent = () => {
           : time[1]
         : ''
     };
+    console.log('shiftttttt');
+
     setvaluesForCareinstitution(temp);
   }, [careInstituionShift]);
 
@@ -426,100 +452,151 @@ const Appointment: FunctionComponent = () => {
       }
     } else {
       let temp: ICareinstitutionFormValue;
+      console.log('selctedAvailability', selctedAvailability);
       setselctedRequirement(selctedAvailability);
-      if (!starCanstitution.isStar) {
-        // Fetch values in case of edit by default it will be null or undefined
-        const {
-          id = '',
-          userId = '',
-          name = '',
-          date = '',
-          startTime = '',
-          endTime = '',
-          qualificationId = [],
-          divisionId = '',
-          address = '',
-          contactPerson = '',
-          bookingRemarks = '',
-          departmentOfferRemarks = '',
-          departmentBookingRemarks = '',
-          departmentRemarks = '',
-          f = '',
-          n = '',
-          s = '',
-          isWorkingProof = false,
-          offerRemarks = '',
-          comments = ''
-        } = selectedCareinstitution ? selectedCareinstitution : {};
 
-        setselectedCareinstitution(list);
-        console.log('hereeeeeee');
+      if (selctedAvailability !== null) {
+        if (!starCanstitution.isStar) {
+          // Fetch values in case of edit by default it will be null or undefined
+          // const {
+          //   name = '',
+          //   date = '',
+          //   startTime = '',
+          //   endTime = '',
+          //   address = '',
+          //   contactPerson = '',
+          //   bookingRemarks = '',
+          //   departmentOfferRemarks = '',
+          //   departmentBookingRemarks = '',
+          //   departmentRemarks = '',
+          //   f = '',
+          //   n = '',
+          //   s = '',
+          //   isWorkingProof = false
+          // } = selectedCareinstitution ? selectedCareinstitution : {};
 
-        temp = {
-          ...valuesForCareinstitution,
-          name: name ? name : `${list.firstName} ${list.lastName}`,
-          date: date ? date : valuesForCareinstitution.date,
-          startTime: startTime ? startTime : valuesForCareinstitution.startTime,
-          endTime: endTime ? endTime : valuesForCareinstitution.endTime,
-          // qualificationId : [],
-          // department : '',
-          address: address ? address : valuesForCareinstitution.address,
-          contactPerson: contactPerson
-            ? contactPerson
-            : valuesForCareinstitution.contactPerson,
-          bookingRemarks: bookingRemarks
-            ? bookingRemarks
-            : valuesForCareinstitution.bookingRemarks,
-          departmentOfferRemarks: departmentOfferRemarks
-            ? departmentOfferRemarks
-            : valuesForCareinstitution.departmentOfferRemarks,
-          departmentBookingRemarks: departmentBookingRemarks
-            ? departmentBookingRemarks
-            : valuesForCareinstitution.departmentBookingRemarks,
-          departmentRemarks: departmentRemarks
-            ? departmentRemarks
-            : valuesForCareinstitution.departmentRemarks,
-          isWorkingProof: isWorkingProof ? true : false,
-          offerRemarks: '',
-          comments: ''
-        };
-      } else {
-        temp = {
-          ...valuesForCareinstitution,
-          name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
-        };
+          setselectedCareinstitution(list);
+          temp = {
+            ...valuesForCareinstitution,
+            appointmentId: '',
+            name: name ? name : `${list.firstName} ${list.lastName}`
+            // date: date ? date : valuesForCareinstitution.date,
+            // startTime: startTime
+            //   ? startTime
+            //   : valuesForCareinstitution.startTime,
+            // endTime: endTime ? endTime : valuesForCareinstitution.endTime,
+            // address: address ? address : valuesForCareinstitution.address,
+            // contactPerson: contactPerson
+            //   ? contactPerson
+            //   : valuesForCareinstitution.contactPerson,
+            // bookingRemarks: bookingRemarks
+            //   ? bookingRemarks
+            //   : valuesForCareinstitution.bookingRemarks,
+            // departmentOfferRemarks: departmentOfferRemarks
+            //   ? departmentOfferRemarks
+            //   : valuesForCareinstitution.departmentOfferRemarks,
+            // departmentBookingRemarks: departmentBookingRemarks
+            //   ? departmentBookingRemarks
+            //   : valuesForCareinstitution.departmentBookingRemarks,
+            // departmentRemarks: departmentRemarks
+            //   ? departmentRemarks
+            //   : valuesForCareinstitution.departmentRemarks,
+            // isWorkingProof: isWorkingProof ? true : false,
+            // offerRemarks: '',
+            // comments: ''
+          };
+          console.log('list', list);
+        } else {
+          temp = {
+            ...valuesForCareinstitution,
+            name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
+          };
+          console.log('temp', temp);
+          setvaluesForCareinstitution(temp);
+        }
       }
+      console.log('fgf');
 
-      setvaluesForCareinstitution(temp);
       if (date) {
         setactiveDateCareinstitution(date);
       }
     }
   };
 
+  // To edit careinstitution data when select particular cell
   useEffect(() => {
-    // call query
+    const {
+      Id = selctedRequirement ? selctedRequirement.id : null,
+      address = null,
+      bookingRemarks = null,
+      comments = null,
+      contactPerson = null,
+      date = null,
+      departmentBookingRemarks = null,
+      departmentOfferRemarks = null,
+      departmentRemarks = null,
+      divisionId = null,
+      startTime = null,
+      endTime = null,
+      isWorkingProof = null,
+      // f = null ,
+      // n = null ,
+      // s = null ,
+      name = null,
+      offerRemarks = null,
+      qualificationId = null
+    } = selctedRequirement ? selctedRequirement : {};
+    let qualification: any = [];
+    if (data && data.getQualifications && qualificationId) {
+      qualification = data.getQualifications.find(val =>
+        qualificationId.includes(val.id)
+      );
+      console.log('qualification', qualification);
+    }
+
+    if (careInstitutionDepartment && careInstitutionDepartment.length) {
+      const { getDivision } = departmentList;
+      let departmentData = careInstitutionDepartment.filter(
+        (dept: any) => dept.id === divisionId
+      );
+    }
+    setvaluesForCareinstitution({
+      appointmentId: Id,
+      address,
+      bookingRemarks,
+      comments,
+      contactPerson,
+      date,
+      departmentBookingRemarks,
+      departmentOfferRemarks,
+      departmentRemarks,
+      // department,
+      startTime,
+      endTime,
+      isWorkingProof,
+      // f ,
+      // n ,
+      // s ,
+      name,
+      offerRemarks,
+      qualificationId
+    });
+  }, [selctedRequirement]);
+
+  //  call department list query with every selection of care institution
+  useEffect(() => {
     let userId: string = selectedCareinstitution
       ? selectedCareinstitution.id
       : '';
-    getDepartmentList({
-      variables: {
-        userId: parseInt(userId),
-        locked: null
-      }
-    });
+    if (userId) {
+      getDepartmentList({
+        variables: {
+          userId: parseInt(userId),
+          locked: null
+        }
+      });
+    }
   }, [selectedCareinstitution]);
-
-  const careInstitutionDepartment: IReactSelectInterface[] | undefined = [];
-  if (departmentList && departmentList.getDivision.length) {
-    const { getDivision } = departmentList;
-    getDivision.forEach((dept: any) =>
-      careInstitutionDepartment.push({
-        label: dept.name,
-        value: dept && dept.id ? dept.id.toString() : ''
-      })
-    );
-  }
 
   // useEffect for filtering department data in careinstitution list
   useEffect(() => {
@@ -536,7 +613,6 @@ const Appointment: FunctionComponent = () => {
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     setselectedCareinstitution(list);
-    console.log('starCanstitution', starCanstitution);
     if (!starCanstitution.isStar) {
       setstarCanstitution({
         isStar: true,
@@ -549,12 +625,14 @@ const Appointment: FunctionComponent = () => {
       });
     }
     if (list) {
-      await getDepartmentList({
-        variables: {
-          userId: parseInt(list.id),
-          locked: null
-        }
-      });
+      if (list.id) {
+        await getDepartmentList({
+          variables: {
+            userId: parseInt(list.id),
+            locked: null
+          }
+        });
+      }
     } else {
       setcareInstituionDeptData([]);
     }
@@ -565,7 +643,6 @@ const Appointment: FunctionComponent = () => {
     setsecondStarCanstitution(!secondStarCanstitution);
     let data: any = [];
     data.push(dept);
-    console.log('dept', dept);
     setcareInstituionDeptData(data);
     setcareInstituionDept({ label: dept.name, value: dept.id });
   };
@@ -576,8 +653,6 @@ const Appointment: FunctionComponent = () => {
     temp.push(list);
     if (name === 'caregiver') {
       setcaregiversList(temp);
-    } else {
-      setcareinstitutionList(temp);
     }
   };
 
@@ -587,7 +662,7 @@ const Appointment: FunctionComponent = () => {
     { setSubmitting, setFieldError }: FormikHelpers<ICaregiverFormValue>
   ) => {
     const {
-      appintmentId,
+      appointmentId,
       fee,
       nightFee,
       nightAllowance,
@@ -644,10 +719,10 @@ const Appointment: FunctionComponent = () => {
           n: n ? 'available' : 'default',
           status: 'default'
         };
-        if (appintmentId) {
+        if (appointmentId) {
           await updateCaregiver({
             variables: {
-              id: parseInt(appintmentId),
+              id: parseInt(appointmentId),
               careGiverAvabilityInput: CareGiverAvabilityInput
             }
           });
@@ -692,6 +767,7 @@ const Appointment: FunctionComponent = () => {
     { setSubmitting, setFieldError }: FormikHelpers<ICareinstitutionFormValue>
   ) => {
     const {
+      appointmentId,
       name,
       date,
       shift,
@@ -746,16 +822,32 @@ const Appointment: FunctionComponent = () => {
         bookingRemarks,
         comments
       };
-      await addCareinstitutionRequirment({
-        variables: {
-          careInstitutionRequirementInput
-        }
-      });
+      if (appointmentId || selctedRequirement.id) {
+        await updateCareinstitutionRequirment({
+          variables: {
+            id: parseInt(selctedRequirement.id),
+            careInstitutionRequirementInput
+          }
+        });
 
-      if (!toast.isActive(toastId)) {
-        toastId = toast.success(
-          languageTranslation('CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG')
-        );
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation(
+              'CARE_INSTITUTION_REQUIREMENT_UPDATE_SUCCESS_MSG'
+            )
+          );
+        }
+      } else {
+        await addCareinstitutionRequirment({
+          variables: {
+            careInstitutionRequirementInput
+          }
+        });
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG')
+          );
+        }
       }
     } catch (error) {
       const message = error.message
@@ -809,7 +901,7 @@ const Appointment: FunctionComponent = () => {
   } = caregiver ? caregiver : {};
 
   const valuesForCaregiver: ICaregiverFormValue = {
-    appintmentId: id ? id : null,
+    appointmentId: id ? id : null,
     firstName: selectedCareGiver ? selectedCareGiver.firstName : '',
     lastName: selectedCareGiver ? selectedCareGiver.lastName : '',
     fee: fee ? germanNumberFormat(fee) : '',

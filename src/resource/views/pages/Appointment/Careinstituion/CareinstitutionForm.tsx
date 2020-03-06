@@ -32,6 +32,7 @@ import Select from 'react-select';
 import { FormikProps, Field } from 'formik';
 import moment from 'moment';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import classnames from 'classnames';
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
@@ -77,7 +78,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     careInstitutionTimesOptions,
     setcareInstituionShift,
     addCareinstitutionRes,
-    selctedAvailability,
+    selctedRequirement,
     secondStarCanstitution
   } = props;
 
@@ -95,14 +96,34 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let appintmentId: any = null;
   if (addCareinstitutionRes && addCareinstitutionRes.id) {
     appintmentId = addCareinstitutionRes.id;
-  } else if (selctedAvailability && selctedAvailability.id) {
-    appintmentId = selctedAvailability.id;
+  } else if (selctedRequirement && selctedRequirement.id) {
+    appintmentId = selctedRequirement.id;
+  }
+
+  let isRequirment: boolean = false,
+    isMatching: boolean = false,
+    isContract: boolean = false;
+  if (selctedRequirement) {
+    if (selctedRequirement.status === 'default') {
+      isRequirment = true;
+    } else if (selctedRequirement.status === 'linked') {
+      isMatching = true;
+    } else if (selctedRequirement.status === 'contract') {
+      isContract = true;
+    }
   }
 
   return (
     <>
       <div className='form-section '>
-        <div className='form-card custom-height custom-scrollbar'>
+        <div
+          className={classnames({
+            'form-card custom-height custom-scrollbar': true,
+            'availability-bg': isRequirment,
+            'matching-bg': isMatching,
+            'contract-bg': isContract
+          })}
+        >
           <h5 className='content-title'>
             {languageTranslation('MENU_INSTITUTION')}
           </h5>

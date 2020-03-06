@@ -82,7 +82,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           return (
             moment(selected[0].isoString).format('DD.MM.YYYY') ===
               moment(avabilityData.date).format('DD.MM.YYYY') &&
-            (avabilityData.f === 'Available' ||
+            (avabilityData.f === 'available' ||
               avabilityData.s === 'available' ||
               avabilityData.n === 'available')
           );
@@ -110,7 +110,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         allowClickWithoutSelected
         className='custom-row-selector'
         clickClassName='tick'
-        // resetOnStart
+        resetOnStart={true}
         onSelectionFinish={onSelectFinish}
         onSelectionClear={onSelectionClear}
         ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}

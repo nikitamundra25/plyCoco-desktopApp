@@ -41,7 +41,24 @@ const CellCareinstitution = ({
     })}
     ref={selectableRef}
     // onClick={() => handleSelectedUser(list, day, 'caregiver')}
-  ></td>
+  >
+    {list &&
+    list.careinstitution_requirements &&
+    list.careinstitution_requirements.length
+      ? list.careinstitution_requirements.map(
+          (avabilityData: any, index: number) => {
+            return moment(day.isoString).format('DD.MM.YYYY') ===
+              moment(avabilityData.date).format('DD.MM.YYYY') ? (
+              <>
+                {avabilityData.f === 'available' ? 'f' : null}
+                {avabilityData.s === 'available' ? 's' : null}
+                {avabilityData.n === 'available' ? 'n' : null}
+              </>
+            ) : null;
+          }
+        )
+      : null}
+  </td>
 );
 
 export default createSelectable(CellCareinstitution);

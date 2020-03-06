@@ -761,69 +761,62 @@ const Appointment: FunctionComponent = () => {
           ? selectedCareGiver.caregiver
           : {});
   }
-  console.log('caregiver', caregiver);
 
   const {
-    fee = caregiver && caregiver.fee ? germanNumberFormat(caregiver.fee) : '',
-    nightFee = caregiver && caregiver.night
-      ? germanNumberFormat(caregiver.night)
-      : caregiver.nightFee
-      ? germanNumberFormat(caregiver.nightFee)
-      : '',
-    holidayAllowance = caregiver && caregiver.holidayAllowance
-      ? germanNumberFormat(caregiver.holidayAllowance)
-      : caregiver.holiday
-      ? germanNumberFormat(caregiver.holiday)
-      : '',
-    weekendAllowance = caregiver && caregiver.weekendAllowance
-      ? germanNumberFormat(caregiver.weekendAllowance)
-      : '',
-    distanceInKM = caregiver && caregiver.distanceInKM
-      ? caregiver.distanceInKM
-      : '',
-    feePerKM = caregiver && caregiver.feePerKM ? caregiver.feePerKM : '',
-    travelAllowance = caregiver && caregiver.travelAllowance
-      ? caregiver.travelAllowance
-      : '',
-    otherExpenses = caregiver && caregiver.otherExpenses
-      ? caregiver.otherExpenses
-      : '',
-    remarksCareGiver = caregiver && caregiver.remarksCareGiver
-      ? caregiver.remarksCareGiver
-      : '',
-    remarksInternal = caregiver && caregiver.remarksInternal
-      ? caregiver.remarksInternal
-      : '',
-    f = caregiver && caregiver.f === 'available' ? true : false,
-    s = caregiver && caregiver.s === 'available' ? true : false,
-    n = caregiver && caregiver.n === 'available' ? true : false
+    fee = null,
+    night = null,
+    nightFee = null,
+    nightAllowance = undefined,
+    holiday = null,
+    holidayAllowance = null,
+    weekendAllowance = null,
+    distanceInKM = null,
+    feePerKM = null,
+    travelAllowance = null,
+    otherExpenses = null,
+    workingProofRecieved = false,
+    remarksCareGiver = null,
+    remarksInternal = null,
+    f = null,
+    s = null,
+    n = null
   } = caregiver ? caregiver : {};
 
   const valuesForCaregiver: ICaregiverFormValue = {
     firstName: selectedCareGiver ? selectedCareGiver.firstName : '',
     lastName: selectedCareGiver ? selectedCareGiver.lastName : '',
-    fee,
-    nightFee,
+    fee: fee ? germanNumberFormat(fee) : '',
+    nightFee: night
+      ? germanNumberFormat(night)
+      : nightFee
+      ? germanNumberFormat(nightFee)
+      : '',
     nightAllowance:
-      caregiver && caregiver.nightAllowance
-        ? { value: caregiver.nightAllowance, label: caregiver.nightAllowance }
+      caregiver && nightAllowance
+        ? { value: nightAllowance, label: nightAllowance }
         : undefined,
-    holidayAllowance,
-    weekendAllowance,
-    workingProofRecieved: false,
-    distanceInKM,
-    feePerKM,
-    travelAllowance,
-    otherExpenses,
+    holidayAllowance: holidayAllowance
+      ? germanNumberFormat(holidayAllowance)
+      : holiday
+      ? germanNumberFormat(holiday)
+      : '',
+    weekendAllowance: weekendAllowance
+      ? germanNumberFormat(weekendAllowance)
+      : '',
+    workingProofRecieved: workingProofRecieved ? true : false,
+    distanceInKM: distanceInKM ? distanceInKM : '',
+    feePerKM: feePerKM ? feePerKM : '',
+    travelAllowance: travelAllowance ? travelAllowance : '',
+    otherExpenses: otherExpenses ? otherExpenses : '',
     workingHoursFrom: '',
     workingHoursTo: '',
     breakFrom: '',
     breakTo: '',
-    remarksCareGiver,
-    remarksInternal,
-    f: caregiver && caregiver.f === 'available' ? true : false,
-    s: caregiver && caregiver.s === 'available' ? true : false,
-    n: caregiver && caregiver.n === 'available' ? true : false
+    remarksCareGiver: caregiver && remarksCareGiver ? remarksCareGiver : '',
+    remarksInternal: caregiver && remarksInternal ? remarksInternal : '',
+    f: f === 'available' ? true : false,
+    s: s === 'available' ? true : false,
+    n: n === 'available' ? true : false
   };
 
   return (

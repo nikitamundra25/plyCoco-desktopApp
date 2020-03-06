@@ -30,7 +30,8 @@ import {
 } from '../../../../graphql/queries';
 const [
   ADD_CAREGIVER_AVABILITY,
-  ADD_INSTITUTION_REQUIREMENT
+  ADD_INSTITUTION_REQUIREMENT,
+  UPDATE_CAREGIVER_AVABILITY
 ] = AppointmentMutations;
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
@@ -123,6 +124,12 @@ const Appointment: FunctionComponent = () => {
     { careGiverAvabilityInput: any }
   >(ADD_CAREGIVER_AVABILITY);
 
+  // Mutation to update careGiver data
+  const [updateCaregiver, { data: updateCaregiverRes }] = useMutation<
+    { CareGiverAvability: IAddCargiverAppointmentRes },
+    { id: number; careGiverAvabilityInput: any }
+  >(UPDATE_CAREGIVER_AVABILITY);
+
   // Mutation to add careinstitution data
   const [
     addCareinstitutionRequirment,
@@ -135,13 +142,13 @@ const Appointment: FunctionComponent = () => {
   // To get caregiver list from db
   const [
     getDepartmentList,
-    { data: departmentList, refetch, loading: deptLoading }
+    { data: departmentList, loading: deptLoading }
   ] = useLazyQuery<any>(GET_DEPARTMENT_LIST);
 
   // To fetch caregivers by qualification id
   const [
     fetchCaregiverList,
-    { data: careGiversList, loading: caregiverLoading }
+    { data: careGiversList, loading: caregiverLoading, refetch }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache'
   });
@@ -418,8 +425,6 @@ const Appointment: FunctionComponent = () => {
     } else {
       let temp: ICareinstitutionFormValue;
       setselctedRequirement(selctedAvailability);
-      console.log('selctedAvailability', selctedAvailability);
-
       if (!starCanstitution.isStar) {
         // Fetch values in case of edit by default it will be null or undefined
         const {
@@ -578,6 +583,7 @@ const Appointment: FunctionComponent = () => {
     { setSubmitting, setFieldError }: FormikHelpers<ICaregiverFormValue>
   ) => {
     const {
+      appintmentId,
       fee,
       nightFee,
       nightAllowance,
@@ -598,6 +604,7 @@ const Appointment: FunctionComponent = () => {
       s,
       n
     } = values;
+
     try {
       if (f || s || n) {
         setTimeSlotError('');
@@ -633,16 +640,30 @@ const Appointment: FunctionComponent = () => {
           n: n ? 'available' : 'default',
           status: 'default'
         };
-        console.log('CareGiverAvabilityInput', CareGiverAvabilityInput);
-        await addCaregiver({
-          variables: {
-            careGiverAvabilityInput: [{ ...CareGiverAvabilityInput }]
+        if (appintmentId) {
+          await updateCaregiver({
+            variables: {
+              id: parseInt(appintmentId),
+              careGiverAvabilityInput: CareGiverAvabilityInput
+            }
+          });
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation('CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG')
+            );
           }
-        });
-        if (!toast.isActive(toastId)) {
-          toastId = toast.success(
-            languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
-          );
+          refetch();
+        } else {
+          await addCaregiver({
+            variables: {
+              careGiverAvabilityInput: [{ ...CareGiverAvabilityInput }]
+            }
+          });
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
+            );
+          }
         }
       } else {
         setTimeSlotError(languageTranslation('CAREGIVER_TIME_SLOT_ERROR_MSG'));
@@ -763,6 +784,7 @@ const Appointment: FunctionComponent = () => {
   }
 
   const {
+    id = null,
     fee = null,
     night = null,
     nightFee = null,
@@ -783,6 +805,7 @@ const Appointment: FunctionComponent = () => {
   } = caregiver ? caregiver : {};
 
   const valuesForCaregiver: ICaregiverFormValue = {
+    appintmentId: id ? id : null,
     firstName: selectedCareGiver ? selectedCareGiver.firstName : '',
     lastName: selectedCareGiver ? selectedCareGiver.lastName : '',
     fee: fee ? germanNumberFormat(fee) : '',

@@ -131,7 +131,7 @@ const BillingSettingsFormComponent: any = (
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
                   <Select
-                    placeholder={'Night Allowance'}
+                    placeholder={languageTranslation('NIGHT_ALLOWANCE')}
                     options={NightAllowancePerHour}
                     onChange={(value: any) =>
                       handleSelect(value, 'nightAllowance')

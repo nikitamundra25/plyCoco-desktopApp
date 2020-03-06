@@ -84,7 +84,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
             (holidaysData: IAddHolidaysFormValues, index: number) => {
               return (
                 <React.Fragment key={index}>
-                  <Row className={"holiday-add-block"}>
+                  <Row className={"holiday-add-block form-section"}>
                     <Col sm="6">
                       <FormGroup>
                         <Row>

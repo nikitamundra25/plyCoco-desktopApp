@@ -28,54 +28,59 @@
   overflow-x: auto;
   font-family: $font_open_sans;
   background: $white;
-  .custom-appointment-calendar-body {
-    // max-height: 190px;
-    width: 100%;
-  }
-  .custom-appointment-col.calender-col.text-center {
-    background: $white;
-  }
+  border: 1px solid $table_border;
+  height: calc(50vh - 73px);
+  .appointment-table {
+    border: 0px;
+    th,
+    td {
+      padding: 4px;
+      vertical-align: middle;
+      font-size: 12px;
 
-  .custom-appointment-calendar {
-    height: calc(50vh - 80px);
-    .custom-appointment-calendar-head {
-      position: sticky;
-      top: 0;
-      background: $white;
-      width: 100%;
-      font-weight: 600;
-    }
-    .custom-appointment-row {
-      display: flex;
-      font-size: $font_12;
-      color: $black;
-      border-left: 1px solid $table_border;
-      &:last-child {
-        border-bottom: 1px solid $table_border;
-      }
-      .custom-appointment-col {
-        flex: 0 0 30px;
+      &.custom-appointment-col {
+        width: 30px;
+        min-width: 30px;
         max-width: 30px;
-        padding: 4px;
-        border-right: 1px solid $table_border;
-        border-top: 1px solid $table_border;
-        vertical-align: middle;
-        background: $white;
-
+        .options-dropdown {
+          position: absolute;
+          top: -1px;
+          right: 0px;
+        }
         &.name-col {
-          flex: 0 0 200px;
-          max-width: 200px;
+          width: 150px;
+          min-width: 150px;
+          min-width: 150px;
         }
         &.h-col {
-          flex: 0 0 70px;
-          max-width: 70px;
+          width: 30px;
+          min-width: 30px;
+          max-width: 30px;
         }
         &.calender-col {
-          flex: 0 0 40px;
-          max-width: 40px;
+          width: 40px;
+          min-width: 40px;
+          max-width: 30px;
           .custom-appointment-calendar-date {
             text-transform: capitalize;
           }
+        }
+      }
+    }
+    th {
+      &:first-child {
+        left: 0px;
+        position: sticky;
+        background: $white;
+        border-left: 0px;
+      }
+    }
+    thead {
+      th {
+        &:first-child {
+          z-index: 2;
+          vertical-align: top;
+          background: $th_bg;
         }
       }
     }
@@ -83,26 +88,28 @@
 }
 
 // custom-color for matching
-.appointment-color1 {
-  background: #d3d3d3 !important;
+.availability-bg {
+  background: $availability_color !important;
 }
-.appointment-color2 {
-  background: #ffff00 !important;
+.requirement-bg {
+  background: $requirement_color !important;
 }
-.appointment-color3 {
-  background: #6a0dad !important;
+.matching-bg {
+  background: $matching_color !important;
 }
-.appointment-color4 {
-  background: #f6cfca !important;
+.contract-bg {
+  background: $contract_color !important;
 }
-.appointment-color5 {
-  background: #a1f5bd !important;
+.confirmation-bg {
+  background: $confirmation_color !important;
 }
-.appointment-color6 {
-  background: #07e651 !important;
+
+.invoice-bg {
+  background: $invoice_color !important;
 }
+
 .custom-height {
-  height: calc(100vh - 164px);
+  height: calc(100vh - 165px);
   overflow-x: hidden;
 }
 
@@ -145,6 +152,51 @@
   }
 }
 
+.form-section {
+  .form-group {
+    .nightfee-input {
+      width: 98px;
+    }
+    .nightallowance-input {
+      min-width: 140px;
+    }
+    .form-control {
+      &.fee-width {
+        flex: 0 0 60px;
+      }
+    }
+    .text-value {
+      font-size: $font_12;
+      font-weight: 400;
+      color: $black;
+      text-align: left;
+      display: block;
+      padding: 0px;
+      font-family: "FrutigerNeueLTPro-Bold", sans-serif;
+    }
+  }
+  .arrow-btn {
+    position: absolute;
+    left: -15px;
+    top: 0px;
+  }
+  .distance-section {
+    .fee-input {
+      width: 113px;
+    }
+    .a-input {
+      width: 103px;
+    }
+    .totalbtn-input {
+      width: 33px;
+    }
+    .total-input {
+      min-width: 70px;
+      width: 70px;
+    }
+  }
+}
+
 .attribute-modal {
   &.modal-xl {
     max-width: 1280px;
@@ -173,6 +225,20 @@
           }
         }
       }
+    }
+  }
+}
+body {
+  .custom-row-selector {
+    margin: 0;
+    .selected-cell {
+      background-color: $selected_color;
+    }
+    .cell-available {
+      background-color: $available_color;
+    }
+    .selecting-cell {
+      background-color: $selecting_color;
     }
   }
 }

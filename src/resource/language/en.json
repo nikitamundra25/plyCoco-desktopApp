@@ -839,5 +839,7 @@
   "PRESETNAME": "Presetname",
   "OK": "Ok",
   "DELETE_PRESET": "Delete Preset",
-  "PRESET_ADDED_SUCCESS": "Preset Added Successfully"
+  "PRESET_ADDED_SUCCESS": "Preset Added Successfully",
+  "ENTER_VALID_DATE":"Please enter a valid date",
+  "ENTER_VALID_MONTH":"Please enter a valid month"
 }

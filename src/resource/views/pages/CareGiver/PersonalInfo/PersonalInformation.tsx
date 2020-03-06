@@ -408,7 +408,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       const data = caregiverAttrOpt.filter((attr: any) => {
         return parseInt(attr.value) === attData;
       })[0];
-      console.log('data', data && data.label);
       selectedAttributes.push({
         label: data ? data.label : attData,
         value: data ? data.value : attData,

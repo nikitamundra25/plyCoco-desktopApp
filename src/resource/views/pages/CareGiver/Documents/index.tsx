@@ -354,8 +354,6 @@ const Documents = () => {
   };
   //on save document detatils
   const handleSaveDocument = () => {
-    console.log('isMissingDocEditable', isMissingDocEditable);
-
     setIsSubmit(true);
     const queryPath = path.pathname;
     const res = queryPath.split('/');
@@ -366,8 +364,6 @@ const Documents = () => {
       remarks: remarkValue ? remarkValue : ''
     };
     if (documentIdUpdate) {
-      console.log('isMissingDocEditable', isMissingDocEditable);
-
       if ((isMissingDocEditable && fileObject) || fileName) {
         // To validate file name shoulb not be empty or is the missing document
         updateDocument({

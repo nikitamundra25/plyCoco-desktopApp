@@ -89,7 +89,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         id
         regionName
       }
-      attributes{
+      attributes {
         id
         name
       }
@@ -115,7 +115,10 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         email
         remark
         id
-        attributes
+        attributes{
+          id
+          name
+        }
         contact_type {
           contactType
         }
@@ -138,7 +141,7 @@ const GET_DEPARTMENT_LIST = gql`
       faxNumber
       email
       commentsOffer
-      commentsCareGiver
+      commentsCareGiver 
       commentsVisibleInternally
       locked
       times
@@ -182,6 +185,37 @@ const GET_CONTACT_TYPES = gql`
     }
   }
 `;
+
+const GET_DIVISION_DETAILS_BY_ID = gql`
+  query GetDivisionsDetails($id: ID) {
+    getDivisionsDetails(id: $id) {
+      id
+      userId
+      name
+      anonymousName
+      anonymousName2
+      address
+      contactPerson
+      phoneNumber
+      faxNumber
+      email
+      remarks
+      commentsOffer
+      commentsCareGiver
+      commentsVisibleInternally
+      locked
+      times
+      attributes
+      qualifications
+      createdBy
+      updatedBy
+      createdAt
+      updatedAt
+      deletedAt
+    }
+  }
+`;
+
 // query{
 //   getDivisionsDetails(id:13){
 //     id
@@ -216,4 +250,5 @@ export const CareInstitutionQueries = [
   GET_CAREINSTITUTION_ATTRIBUTES,
   GET_CONTACT_LIST_BY_ID,
   GET_CONTACT_TYPES,
+  GET_DIVISION_DETAILS_BY_ID
 ];

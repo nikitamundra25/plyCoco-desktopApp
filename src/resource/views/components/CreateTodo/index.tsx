@@ -150,7 +150,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
     if (getContactsByUserID && getContactsByUserID.length) {
       getContactsByUserID.map((list: any) => {
         return contactOptions.push({
-          label: `${list.firstName} ${list.surName} ${
+          label: `${list.surName} ${list.firstName} ${
             list.contact_type ? `(${list.contact_type.contactType})` : ""
           }`,
           value: list.id ? list.id : ""
@@ -178,7 +178,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         juridiction,
         contact: contact
           ? {
-              label: `${contact.firstName} ${contact.surName} ${
+              label: `${contact.surName} ${contact.firstName} ${
                 contact.contact_type
                   ? `(${contact.contact_type.contactType})`
                   : ""

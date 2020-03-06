@@ -72,7 +72,7 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
                               )
                             }
                           >
-                            {item.user.firstName} {item.user.lastName}
+                            {item.user.lastName} {item.user.firstName}
                           </div>
                         </td>
                         <td>{item.user.userName}</td>

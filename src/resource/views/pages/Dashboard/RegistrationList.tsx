@@ -80,7 +80,7 @@ const RegistrationList: FunctionComponent<RouteComponentProps> = (
                               )
                             }
                           >
-                            {item.firstName} {item.lastName}
+                            {item.lastName} {item.firstName}
                           </div>
                         </td>
                         <td>{item.userName}</td>

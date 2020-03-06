@@ -56,7 +56,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList> 
                 return (
                   <div className='custom-appointment-row' key={index}>
                     <div className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link'>
-                      {`${list.firstName} ${list.lastName}`}
+                      {`${list.lastName} ${list.firstName} `}
                     </div>
                     <div className='custom-appointment-col h-col appointment-color2'></div>
                     <div className='custom-appointment-col s-col text-center'>

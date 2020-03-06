@@ -133,7 +133,7 @@ const Appointment: FunctionComponent = () => {
     if (getUserByQualifications && getUserByQualifications.length) {
       getUserByQualifications.map((list: any) => {
         return careGiversOptions.push({
-          label: `${list.firstName} ${list.lastName} `,
+          label: `${list.lastName} ${list.firstName} `,
           value: list.id ? list.id : ''
         });
       });
@@ -147,7 +147,7 @@ const Appointment: FunctionComponent = () => {
     if (getUserByQualifications && getUserByQualifications.length) {
       getUserByQualifications.map((list: any) => {
         return careInstitutionOptions.push({
-          label: `${list.firstName} ${list.lastName} `,
+          label: `${list.lastName} ${list.firstName}`,
           value: list.id ? list.id : ''
         });
       });
@@ -207,16 +207,6 @@ const Appointment: FunctionComponent = () => {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     name: string
   ) => {
-    //   e.preventDefault();
-    //   if (name === 'caregiver') {
-    //     let temp: any = [...caregiversList];
-    //     let stemp: any = {};
-    //     console.log('dfgdfg');
-    //     temp = [...temp, stemp];
-    //     console.log('temp', temp);
-    //     // caregiversList(temp);
-    //   } else {
-    //   }
   };
 
   return (

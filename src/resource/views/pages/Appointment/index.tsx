@@ -80,7 +80,7 @@ const Appointment: FunctionComponent = () => {
   >([]);
 
   //For selected Availability
-  const [selctedAvailability, setselctedAvailability] = useState({});
+  const [selctedAvailability, setselctedAvailability] = useState<any>({});
   /*  */
   //For selected Requirement
   const [selctedRequirement, setselctedRequirement] = useState({});
@@ -751,66 +751,79 @@ const Appointment: FunctionComponent = () => {
     lastName: string = '',
     caregiver: any = {};
 
-  if (selctedAvailability) {
-    // {date: "2020-03-04T12:39:44.875Z"
-    // distanceInKM: 121
-    // f: "available"
-    // fee: 9999.99
-    // feePerKM: 44
-    // holidayAllowance: 12
-    // id: "41"
-    // n: "default"
-    // nightAllowance: "From 8:45 p.m."
-    // nightFee: 85
-    // otherExpenses: 44
-    // remarksCareGiver: "hello"
-    // remarksInternal: "world"
-    // s: "available"
-    // status: "default"
-    // weekendAllowance: 32
-    // workingProofRecieved: false} = selctedAvailability
+  if (selctedAvailability && selctedAvailability.id) {
     caregiver = selctedAvailability ? selctedAvailability : {};
   } else {
     (firstName = selectedCareGiver ? selectedCareGiver.firstName : ''),
       (lastName = selectedCareGiver ? selectedCareGiver.lastName : ''),
-      (caregiver = selectedCareGiver ? selectedCareGiver.caregiver : {});
+      (caregiver =
+        selectedCareGiver && selectedCareGiver.caregiver
+          ? selectedCareGiver.caregiver
+          : {});
   }
-  console.log('selectedCareGiver', caregiver);
+  console.log('caregiver', caregiver);
 
   const {
-    nightAllowance = undefined,
-    fee = null,
-    nightFee = caregiver && caregiver.night ? caregiver.night : null,
-    weekendAllowance = null,
-    holiday = null,
-    distanceInKM = caregiver ? caregiver.distanceInKM : ''
+    fee = caregiver && caregiver.fee ? germanNumberFormat(caregiver.fee) : '',
+    nightFee = caregiver && caregiver.night
+      ? germanNumberFormat(caregiver.night)
+      : caregiver.nightFee
+      ? germanNumberFormat(caregiver.nightFee)
+      : '',
+    holidayAllowance = caregiver && caregiver.holidayAllowance
+      ? germanNumberFormat(caregiver.holidayAllowance)
+      : caregiver.holiday
+      ? germanNumberFormat(caregiver.holiday)
+      : '',
+    weekendAllowance = caregiver && caregiver.weekendAllowance
+      ? germanNumberFormat(caregiver.weekendAllowance)
+      : '',
+    distanceInKM = caregiver && caregiver.distanceInKM
+      ? caregiver.distanceInKM
+      : '',
+    feePerKM = caregiver && caregiver.feePerKM ? caregiver.feePerKM : '',
+    travelAllowance = caregiver && caregiver.travelAllowance
+      ? caregiver.travelAllowance
+      : '',
+    otherExpenses = caregiver && caregiver.otherExpenses
+      ? caregiver.otherExpenses
+      : '',
+    remarksCareGiver = caregiver && caregiver.remarksCareGiver
+      ? caregiver.remarksCareGiver
+      : '',
+    remarksInternal = caregiver && caregiver.remarksInternal
+      ? caregiver.remarksInternal
+      : '',
+    f = caregiver && caregiver.f === 'available' ? true : false,
+    s = caregiver && caregiver.s === 'available' ? true : false,
+    n = caregiver && caregiver.n === 'available' ? true : false
   } = caregiver ? caregiver : {};
 
   const valuesForCaregiver: ICaregiverFormValue = {
-    firstName,
-    lastName,
-    fee: fee !== null ? germanNumberFormat(caregiver.fee) : '',
-    nightFee: nightFee !== null ? germanNumberFormat(nightFee) : '',
-    nightAllowance: nightAllowance
-      ? { value: caregiver.nightAllowance, label: caregiver.nightAllowance }
-      : undefined,
-    holidayAllowance: holiday !== null ? germanNumberFormat(holiday) : '',
-    weekendAllowance:
-      weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : '',
+    firstName: selectedCareGiver ? selectedCareGiver.firstName : '',
+    lastName: selectedCareGiver ? selectedCareGiver.lastName : '',
+    fee,
+    nightFee,
+    nightAllowance:
+      caregiver && caregiver.nightAllowance
+        ? { value: caregiver.nightAllowance, label: caregiver.nightAllowance }
+        : undefined,
+    holidayAllowance,
+    weekendAllowance,
     workingProofRecieved: false,
     distanceInKM,
-    feePerKM: '',
-    travelAllowance: '',
-    otherExpenses: '',
+    feePerKM,
+    travelAllowance,
+    otherExpenses,
     workingHoursFrom: '',
     workingHoursTo: '',
     breakFrom: '',
     breakTo: '',
-    remarksCareGiver: '',
-    remarksInternal: '',
-    f: false,
-    s: false,
-    n: false
+    remarksCareGiver,
+    remarksInternal,
+    f: caregiver && caregiver.f === 'available' ? true : false,
+    s: caregiver && caregiver.s === 'available' ? true : false,
+    n: caregiver && caregiver.n === 'available' ? true : false
   };
 
   return (

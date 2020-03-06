@@ -106,6 +106,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     setSelectedDays([]);
   };
   const [showList, setShowList] = useState<boolean>(false);
+
+  const handleBulkEmailOpen = () =>{
+    window.open()
+  }
+
   return (
     <>
       <SelectableGroup
@@ -147,7 +152,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         <DropdownItem>
                           <span>Filter by qualifications of caregiver</span>
                         </DropdownItem>{' '}
-                        <DropdownItem>
+                        <DropdownItem onClick={()=> handleBulkEmailOpen()}>
                           <span>Offer all available calendar entries</span>
                         </DropdownItem>{' '}
                         <DropdownItem>

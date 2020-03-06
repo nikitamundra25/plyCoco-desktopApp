@@ -321,6 +321,7 @@ const Appointment: FunctionComponent = () => {
   ) => {
     e.preventDefault();
     if (name === 'caregiver') {
+      console.log('caregiversList', caregiversList);
       let temp: any = [...caregiversList];
       temp.splice(index + 1, 0, { ...temp[index], newRow: true });
       setcaregiversList(temp);

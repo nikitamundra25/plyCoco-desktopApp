@@ -878,5 +878,6 @@
   "DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS": "This careinstitution requirement has been deleted successfully",
   "CONFIRM_DELETE_CAREGIVER_AVABILITY": "This caregiver avability will be deleted.",
   "DELETE_CAREGIVER_AVABILITY_SUCCESS": "This caregiver avability has been deleted successfully",
-  "NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST": "Currently there are no department added for this careinstitution."
+  "NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST": "Currently there are no department added for this careinstitution.",
+  "ENTER_DATE": "Please enter date."
 }

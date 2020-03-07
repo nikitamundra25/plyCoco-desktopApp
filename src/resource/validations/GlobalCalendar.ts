@@ -18,6 +18,12 @@ export const AddHolidayValidations: Yup.ObjectSchema<Yup.Shape<
         name: "validate-date",
         test: function(val) {
           const { path, createError } = this;
+          if (!val) {
+            return createError({
+              path,
+              message: languageTranslation("ENTER_DATE")
+            });
+          }
           const { isValid, message }: IDateResponse = dateValidator(val, {
             minDate: moment().format(),
             maxDate: moment()

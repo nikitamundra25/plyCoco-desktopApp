@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState } from "react";
 import {
   Table,
   UncontrolledDropdown,
@@ -138,7 +138,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     handleSelectedUser(
       list,
       selected,
-      'careinstitution',
+      "careinstitution",
       selctedAvailability && selctedAvailability.length
         ? selctedAvailability[0]
         : {}
@@ -153,12 +153,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     <>
       <SelectableGroup
         allowClickWithoutSelected
-        className='custom-row-selector'
-        clickClassName='tick'
+        className="custom-row-selector"
+        clickClassName="tick"
         resetOnStart={true}
         onSelectionFinish={onSelectFinish}
         onSelectionClear={onSelectionClear}
-        ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
+        ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
       >
         <div
           className={classnames({

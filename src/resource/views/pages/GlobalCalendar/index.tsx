@@ -17,7 +17,7 @@ import UpdateWeekends from "./UpdateWeekends";
 
 let refreshList: any = undefined;
 const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
-  const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+  const [GET_COUNTRIES, , GET_STATES_BY_COUNTRY] = CountryQueries;
   // initial states
   const [states, setStates] = useState<IState[]>([]);
   const defaultEditInfo: IAddHolidaysFormValues = {
@@ -41,14 +41,17 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
     if (allCountries) {
       const { countries: resCountries } = allCountries;
       // get index of Germany for initial load
-      const germenyIndex: number = resCountries.findIndex(
-        d => d.name.toLowerCase() === "Germany".toLowerCase()
+      const countryIds: string[] = resCountries.findInfo(
+        "sortname",
+        ["AT", "DE"],
+        "id"
       );
-      if (germenyIndex > -1) {
+      console.log(countryIds);
+      if (countryIds.length) {
         // get states of Germany
         getStatesByCountry({
           variables: {
-            countryid: (resCountries as any)[germenyIndex].id
+            countryid: countryIds
           }
         });
       }
@@ -56,8 +59,8 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
   }, [countriesLoading, allCountries]);
   // handles the state data
   useEffect(() => {
-    if (statesData && !statesLoading) {
-      setStates(statesData.states);
+    if (statesData && !statesLoading && statesData.statesByIds) {
+      setStates(statesData.statesByIds);
     }
   }, [statesData, statesLoading]);
   // editCalendar

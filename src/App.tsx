@@ -1,31 +1,33 @@
-import React, { Suspense, Component } from 'react';
-import { Router } from 'react-router-dom';
-import { Switch, Route } from 'react-router';
-import { Provider } from 'react-redux';
-import { Store } from 'redux';
-import { createBrowserHistory } from 'history';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { ToastContainer, Slide } from 'react-toastify';
-import { AppRoutes } from './config';
-import { client } from './config';
-import configureStore from './store';
-import FullPageLoader from './resource/views/containers/Loader/FullPageLoader';
-import 'react-toastify/dist/ReactToastify.css';
-import './App.scss';
+import React, { Suspense, Component } from "react";
+import { Router } from "react-router-dom";
+import { Switch, Route } from "react-router";
+import { Provider } from "react-redux";
+import { Store } from "redux";
+import { createBrowserHistory } from "history";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { ToastContainer, Slide } from "react-toastify";
+import { AppRoutes } from "./config";
+import { client } from "./config";
+import configureStore from "./store";
+import FullPageLoader from "./resource/views/containers/Loader/FullPageLoader";
+import "react-toastify/dist/ReactToastify.css";
+import "./App.scss";
+import { Login } from "./resource/views/pages";
+import "./properties/String";
+import "./properties/Array";
 
-import { Login } from './resource/views/pages';
 const DefaultLayout = React.lazy(() =>
-  import('./resource/views/containers/DefaultLayout/DefaultLayout'),
+  import("./resource/views/containers/DefaultLayout/DefaultLayout")
 );
 
 // Create browser history
-const history = createBrowserHistory({ basename: '/superadmin' });
+const history = createBrowserHistory({ basename: "/superadmin" });
 // Configure store
 const store: Store = configureStore(history);
 
 class App extends Component<any, any> {
   componentDidMount() {
-    localStorage.setItem('language', 'en');
+    localStorage.setItem("language", "en");
   }
   render() {
     return (
@@ -58,7 +60,7 @@ class App extends Component<any, any> {
               pauseOnHover={false}
               transition={Slide}
               newestOnTop
-              className='custom-toaster'
+              className="custom-toaster"
             />
           </Provider>
         </ApolloProvider>

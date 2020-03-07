@@ -8,11 +8,7 @@ import {
 } from "../../../../../interfaces";
 import { FormikHelpers, Formik, FormikProps } from "formik";
 import UpdateWeekendForm from "./UpdateWeekendForm";
-import {
-  languageTranslation,
-  errorFormatter,
-  logger
-} from "../../../../../helpers";
+import { languageTranslation, errorFormatter } from "../../../../../helpers";
 import { UpdateWeekendFormValidation } from "../../../../validations";
 import { GlobalCalendarMutations } from "../../../../../graphql/Mutations";
 import { useMutation } from "@apollo/react-hooks";
@@ -31,7 +27,7 @@ const UpdateWeekends: FunctionComponent<IUpdateWeekendProps> = ({
   const [defaultValues, setDefaultValues] = useState<IUpdateWeekendFormValues>(
     initialValues
   );
-  const [a, b, c, ADD_WEEKEND] = GlobalCalendarMutations;
+  const [, , , ADD_WEEKEND] = GlobalCalendarMutations;
   const [markWeekend, { error, loading }] = useMutation<{
     markWeekend: any;
   }>(ADD_WEEKEND);

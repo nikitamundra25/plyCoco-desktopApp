@@ -214,8 +214,8 @@ export const DocumentTempSelect: IReactSelectInterface[] = [
   { value: 'Sick Note', label: 'Sick Note' },
 ];
 export const Gender: IReactSelectInterface[] = [
-  { value: 'Male', label: 'Male' },
-  { value: 'Female', label: 'Female' },
+  { value: 'Man', label: 'Male' },
+  { value: 'Woman', label: 'Female' },
 ];
 export const State: IReactSelectInterface[] = [
   { value: 'Sales', label: 'Sales' },

@@ -78,9 +78,26 @@ const UPDATE_INSTITUTION_REQUIREMENT = gql`
   }
 `;
 
+const DELETE_CAREGIVER_AVABILITY = gql`
+  mutation deleteCareGiver($id: Int!) {
+    deleteCareGiver(id: $id) {
+      id
+    }
+  }
+`;
+
+const DELETE_CAREINSTITUTION_REQUIREMENT = gql`
+  mutation DeleteCareInstitutionRequirement($id: Int!) {
+    deleteCareInstitutionRequirement(id: $id) {
+      id
+    }
+  }
+`;
+
 export const AppointmentMutations = [
   ADD_CAREGIVER_AVABILITY,
   ADD_INSTITUTION_REQUIREMENT,
   UPDATE_CAREGIVER_AVABILITY,
-  UPDATE_INSTITUTION_REQUIREMENT
+  UPDATE_INSTITUTION_REQUIREMENT,
+  DELETE_CAREINSTITUTION_REQUIREMENT
 ];

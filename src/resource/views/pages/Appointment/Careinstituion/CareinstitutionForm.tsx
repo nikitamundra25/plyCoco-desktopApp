@@ -80,7 +80,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     setcareInstituionShift,
     addCareinstitutionRes,
     selctedRequirement,
-    secondStarCanstitution
+    secondStarCanstitution,
+    handleQualification,
+    onhandleDelete
   } = props;
 
   // Custom function to handle react select fields
@@ -114,7 +116,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       isContract = true;
     }
   }
-  console.log('appointmentId', appointmentId);
+
   return (
     <>
       <div className='form-section '>
@@ -131,7 +133,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
           </h5>
           <Row>
             <Col lg={'12'}>
-              <FormGroup>                                                                                                                                           
+              <FormGroup>
                 <Row>
                   <Col sm='5'>
                     <Label className='form-label col-form-label'>
@@ -327,9 +329,22 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   </Col>
                   <Col sm='7'>
                     <div className='postion-relative'>
-                      <Button className='add-new-btn arrow-btn' color=''>
+                      <Button
+                        className={
+                          qualificationId && qualificationId.length
+                            ? 'add-new-btn arrow-btn'
+                            : 'add-new-btn arrow-btn disabled-class'
+                        }
+                        color=''
+                        onClick={
+                          qualificationId && qualificationId.length
+                            ? () => handleQualification(qualificationId)
+                            : ''
+                        }
+                      >
                         <i className='fa fa-arrow-up' aria-hidden='true' />
                       </Button>
+
                       <div className='custom-select-checkbox'>
                         <ReactMultiSelectCheckboxes
                           options={qualificationList}
@@ -642,7 +657,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             </Col>
             <Col lg={'12'}>
               <div className='d-flex align-items-center justify-content-between'>
-                <Button className='btn-save' color='danger'>
+                <Button
+                  className='btn-save'
+                  color='danger'
+                  onClick={() =>
+                    onhandleDelete('careinstitution', appointmentId)
+                  }
+                >
                   {languageTranslation('DELETE')}
                 </Button>
                 <Button

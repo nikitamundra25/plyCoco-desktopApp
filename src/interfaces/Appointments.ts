@@ -23,6 +23,7 @@ export interface IAppointmentNav {
   qualificationList: IReactSelectInterface[] | undefined;
   careInstitutionList: any;
   careGiversList: any;
+  qualification: IReactSelectInterface[] | undefined;
 }
 
 export interface IAppointmentCareGiverList {
@@ -137,6 +138,8 @@ export interface IAppointmentCareInstitutionForm {
   careInstitutionDepartment: IReactSelectInterface[] | undefined;
   addCareinstitutionRes: any;
   secondStarCanstitution: boolean;
+  handleQualification: (value: any) => void;
+  onhandleDelete: (name: string, id: string) => void;
 }
 export interface IAddCargiverAppointmentRes {
   id: string;
@@ -187,4 +190,7 @@ export interface ICareinstitutionFormSubmitValue {
   offerRemarks: string;
   bookingRemarks: string;
   comments?: string;
+  f: string;
+  s: string;
+  n: string;
 }

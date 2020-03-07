@@ -33,7 +33,8 @@ const [
   ADD_CAREGIVER_AVABILITY,
   ADD_INSTITUTION_REQUIREMENT,
   UPDATE_CAREGIVER_AVABILITY,
-  UPDATE_INSTITUTION_REQUIREMENT
+  UPDATE_INSTITUTION_REQUIREMENT,
+  DELETE_CAREINSTITUTION_REQUIREMENT
 ] = AppointmentMutations;
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
@@ -364,6 +365,9 @@ const Appointment: FunctionComponent = () => {
     }
   };
 
+  // Delete caregiver or careinstitution data
+  const onhandleDelete = (name: string, id: string) => {};
+
   // change department
   useEffect(() => {
     let deptId = careInstituionDept ? careInstituionDept.value : '';
@@ -407,8 +411,6 @@ const Appointment: FunctionComponent = () => {
           startTime,
           endTime
         };
-        console.log('deptttt');
-
         setvaluesForCareinstitution(temp);
       }
     }
@@ -433,8 +435,6 @@ const Appointment: FunctionComponent = () => {
           : time[1]
         : ''
     };
-    console.log('shiftttttt');
-
     setvaluesForCareinstitution(temp);
   }, [careInstituionShift]);
 
@@ -446,8 +446,8 @@ const Appointment: FunctionComponent = () => {
     selctedAvailability: any
   ) => {
     if (name === 'caregiver') {
-      setselctedAvailability(selctedAvailability);
       setselectedCareGiver(list);
+      setselctedAvailability(selctedAvailability);
       if (date) {
         setactiveDateCaregiver(date);
       }
@@ -460,7 +460,7 @@ const Appointment: FunctionComponent = () => {
           temp = {
             ...valuesForCareinstitution,
             appointmentId: '',
-            name: name ? name : `${list.firstName} ${list.lastName}`
+            name: `${list.firstName} ${list.lastName}`
           };
         } else {
           temp = {
@@ -513,6 +513,8 @@ const Appointment: FunctionComponent = () => {
         (dept: any) => dept.id === divisionId
       );
     }
+    console.log('selectedCareinstitution', selectedCareinstitution);
+
     setvaluesForCareinstitution({
       appointmentId: Id,
       address,
@@ -530,7 +532,11 @@ const Appointment: FunctionComponent = () => {
       // f ,
       // n ,
       // s ,
-      name,
+      name: name
+        ? name
+        : selectedCareinstitution && selectedCareinstitution.firstName
+        ? `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
+        : '',
       offerRemarks,
       qualificationId
     });
@@ -745,11 +751,32 @@ const Appointment: FunctionComponent = () => {
         quali.push(parseInt(key.value));
       });
     }
-    console.log(startTime, ' parseFloat(startTime)', parseFloat(startTime));
-    console.log(endTime, 'parseFloat(endTime)', parseFloat(endTime));
 
+    /*  Time slot condition for f,s, n
+     */
+    let fvar: string = '';
+    let svar: string = '';
+    let nvar: string = '';
     let difference: string = timeDiffernce(startTime, endTime);
-    console.log('difference', difference);
+    if (parseInt(startTime) >= 0) {
+      if (parseInt(difference) > 8) {
+        fvar = `f${parseInt(difference)}`;
+      } else {
+        fvar = 'f';
+      }
+    } else if (parseInt(startTime) >= 12) {
+      if (parseInt(difference) > 8) {
+        svar = `s${parseInt(difference)}`;
+      } else {
+        svar = 's';
+      }
+    } else if (parseInt(startTime) >= 18) {
+      if (parseInt(difference) > 8) {
+        nvar = `n${parseInt(difference)}`;
+      } else {
+        nvar = 'n';
+      }
+    }
 
     try {
       let careInstitutionRequirementInput: ICareinstitutionFormSubmitValue = {
@@ -778,15 +805,18 @@ const Appointment: FunctionComponent = () => {
         isWorkingProof,
         offerRemarks,
         bookingRemarks,
-        comments
+        comments,
+        f: fvar,
+        s: svar,
+        n: nvar
       };
       if (appointmentId || selctedRequirement.id) {
-        // await updateCareinstitutionRequirment({
-        //   variables: {
-        //     id: parseInt(selctedRequirement.id),
-        //     careInstitutionRequirementInput
-        //   }
-        // });
+        await updateCareinstitutionRequirment({
+          variables: {
+            id: parseInt(selctedRequirement.id),
+            careInstitutionRequirementInput
+          }
+        });
 
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
@@ -796,11 +826,11 @@ const Appointment: FunctionComponent = () => {
           );
         }
       } else {
-        // await addCareinstitutionRequirment({
-        //   variables: {
-        //     careInstitutionRequirementInput
-        //   }
-        // });
+        await addCareinstitutionRequirment({
+          variables: {
+            careInstitutionRequirementInput
+          }
+        });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
             languageTranslation('CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG')
@@ -836,7 +866,6 @@ const Appointment: FunctionComponent = () => {
           : {});
   }
   // end
-
   const {
     id = null,
     fee = null,
@@ -859,7 +888,7 @@ const Appointment: FunctionComponent = () => {
   } = caregiver ? caregiver : {};
 
   const valuesForCaregiver: ICaregiverFormValue = {
-    appointmentId: id ? id : null,
+    appointmentId: id !== null ? id : null,
     firstName: selectedCareGiver ? selectedCareGiver.firstName : '',
     lastName: selectedCareGiver ? selectedCareGiver.lastName : '',
     fee: fee ? germanNumberFormat(fee) : '',
@@ -910,6 +939,7 @@ const Appointment: FunctionComponent = () => {
             careGiversList={careGiversOptions}
             handleDayClick={handleDayClick}
             handleToday={handleToday}
+            qualification={qualification}
           />
 
           <div className='common-content flex-grow-1'>
@@ -1023,6 +1053,7 @@ const Appointment: FunctionComponent = () => {
                               careInstitutionTimesOptions={shiftOption}
                               secondStarCanstitution={secondStarCanstitution}
                               selctedRequirement={selctedRequirement}
+                              handleQualification={handleQualification}
                             />
                           );
                         }}

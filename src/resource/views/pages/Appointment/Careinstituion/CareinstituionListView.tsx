@@ -16,6 +16,7 @@ import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
 import moment from 'moment';
 import DetaillistCareinstitutionPopup from '../DetailListCareinstitution';
+import { dbAcceptableFormat } from '../../../../../config';
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
   const {
@@ -81,12 +82,19 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     ) {
       selctedAvailability = list.careinstitution_requirements.filter(
         (avabilityData: any, index: number) => {
+          console.log('avabilityData', avabilityData, index);
+          console.log(
+            'dateee',
+            moment(selected[0].isoString).format('DD.MM.YYYY'),
+            moment(avabilityData.date).format('DD.MM.YYYY')
+          );
+
           return (
-            moment(selected[0].isoString).format('DD.MM.YYYY') ===
-              moment(avabilityData.date).format('DD.MM.YYYY') &&
-            (avabilityData.f === 'available' ||
-              avabilityData.s === 'available' ||
-              avabilityData.n === 'available')
+            moment(selected[0].isoString).format(dbAcceptableFormat) ===
+              moment(avabilityData.date).format(dbAcceptableFormat) &&
+            (avabilityData.f === 'f' ||
+              avabilityData.s === 's' ||
+              avabilityData.n === 'n')
           );
         }
       );

@@ -45,7 +45,7 @@ import {
 } from '../../../validations/AppointmentsFormValidationSchema';
 import { toast } from 'react-toastify';
 import { AppointmentMutations } from '../../../../graphql/Mutations';
-import { defaultDateFormat } from '../../../../config';
+import { defaultDateFormat, dbAcceptableFormat } from '../../../../config';
 const [, , GET_DEPARTMENT_LIST, ,] = CareInstitutionQueries;
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 let toastId: any = null;
@@ -746,13 +746,13 @@ const Appointment: FunctionComponent = () => {
     let svar: string = '';
     let nvar: string = '';
     let difference: string = timeDiffernce(startTime, endTime);
-    if (parseInt(startTime) >= 0) {
+    if (parseInt(startTime) >= 0 && parseInt(startTime) < 12) {
       if (parseInt(difference) > 8) {
         fvar = `f${parseInt(difference)}`;
       } else {
         fvar = 'f';
       }
-    } else if (parseInt(startTime) >= 12) {
+    } else if (parseInt(startTime) >= 12 && parseInt(startTime) < 18) {
       if (parseInt(difference) > 8) {
         svar = `s${parseInt(difference)}`;
       } else {
@@ -775,7 +775,7 @@ const Appointment: FunctionComponent = () => {
         date:
           activeDateCareinstitution && activeDateCareinstitution.length
             ? moment(activeDateCareinstitution[0].isoString).format(
-                defaultDateFormat
+                dbAcceptableFormat
               )
             : '',
         startTime,

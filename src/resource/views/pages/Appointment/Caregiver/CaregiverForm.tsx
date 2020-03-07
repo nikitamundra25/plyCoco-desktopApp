@@ -126,29 +126,31 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             {languageTranslation('MENU_CAREGIVER')}
           </h5>
           <Row>
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('APPOINTMENT_ID')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
-                      <Input
-                        type='text'
-                        disabled={true}
-                        name={'appointmentId'}
-                        value={appointmentId ? appointmentId : null}
-                        placeholder={languageTranslation('APPOINTMENT_ID')}
-                        className='width-common'
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
+            {appointmentId ? (
+              <Col lg={'12'}>
+                <FormGroup>
+                  <Row>
+                    <Col sm='4'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('APPOINTMENT_ID')}
+                      </Label>
+                    </Col>
+                    <Col sm='8'>
+                      <div className='required-input'>
+                        <Input
+                          type='text'
+                          disabled={true}
+                          name={'appointmentId'}
+                          value={appointmentId ? appointmentId : null}
+                          placeholder={languageTranslation('APPOINTMENT_ID')}
+                          className='width-common'
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </FormGroup>
+              </Col>
+            ) : null}
             <Col lg={'12'}>
               <FormGroup>
                 <Row>

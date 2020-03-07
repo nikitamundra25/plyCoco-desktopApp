@@ -669,7 +669,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   ) : (
                     ''
                   )}
-                  {languageTranslation('SAVE_BUTTON')}
+                  {appointmentId
+                    ? languageTranslation('UPDATE_BUTTON')
+                    : languageTranslation('SAVE_BUTTON')}
                 </Button>
               </div>
             </Col>

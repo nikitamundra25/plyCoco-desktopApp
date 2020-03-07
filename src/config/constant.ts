@@ -19,7 +19,7 @@ export const appointmentMonthFormat: string = 'MMMM';
 export const appointmentYearFormat: string = 'YYYY';
 export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm:ss';
 export const defaultDateFormat: any = 'DD.MM.YYYY';
-export const dbAcceptableFormat: any = 'YYYY/MM/DD';
+export const dbAcceptableFormat: any = 'YYYY-MM-DD';
 export const dateFormat: any = 'MMM, Do YYYY';
 export const regSinceDate: any = 'DD.MM.YYYY';
 

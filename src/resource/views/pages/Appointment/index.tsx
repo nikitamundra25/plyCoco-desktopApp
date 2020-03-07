@@ -435,9 +435,6 @@ const Appointment: FunctionComponent = () => {
     setvaluesForCareinstitution(temp);
   }, [careInstituionShift]);
 
-  // Select current Date
-  let selectedDate: any;
-
   // select careGiver or careinstitution
   const handleSelectedUser = (
     list: any,
@@ -454,14 +451,25 @@ const Appointment: FunctionComponent = () => {
     } else {
       let temp: ICareinstitutionFormValue;
       if (date) {
-        console.log('date', date);
-        selectedDate = date;
         setactiveDateCareinstitution(date);
       }
       if (!starCanstitution.isStar) {
         // Fetch values in case of edit by default it will be null or undefined
+        setselectedCareinstitution(list);
+        temp = {
+          ...valuesForCareinstitution,
+          name: name ? name : `${list.firstName} ${list.lastName}`
+        };
       } else {
+        temp = {
+          ...valuesForCareinstitution,
+          name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
+        };
+        console.log("temp",temp);
+        
+        setvaluesForCareinstitution(temp);
       }
+      setselctedRequirement(selctedAvailability);
     }
   };
 

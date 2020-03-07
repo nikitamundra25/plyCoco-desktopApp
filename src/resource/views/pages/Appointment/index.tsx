@@ -171,7 +171,11 @@ const Appointment: FunctionComponent = () => {
   // To fetch careinstitution by qualification id
   const [
     fetchCareinstitutionList,
-    { data: careInstitutionList, loading: careinstitutionLoading }
+    {
+      data: careInstitutionList,
+      loading: careinstitutionLoading,
+      refetch: canstitutionRefetch
+    }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache'
   });
@@ -460,6 +464,8 @@ const Appointment: FunctionComponent = () => {
         // Fetch values in case of edit by default it will be null or undefined
         setselectedCareinstitution(list);
         if (selctedAvailability && selctedAvailability.name) {
+          console.log('hereeeee');
+
           setselctedRequirement(selctedAvailability);
           const selectedData: any = {
             appointmentId: selctedAvailability ? selctedAvailability.id : '',
@@ -498,6 +504,7 @@ const Appointment: FunctionComponent = () => {
           };
           setvaluesForCareinstitution(selectedData);
         } else {
+          console.log('secondddd');
           setselctedRequirement({});
           const selectedData: any = {
             appointmentId: null,
@@ -678,7 +685,6 @@ const Appointment: FunctionComponent = () => {
               languageTranslation('CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG')
             );
           }
-          refetch();
         } else {
           await addCaregiver({
             variables: {
@@ -691,6 +697,7 @@ const Appointment: FunctionComponent = () => {
             );
           }
         }
+        refetch();
       } else {
         setTimeSlotError(languageTranslation('CAREGIVER_TIME_SLOT_ERROR_MSG'));
         return;
@@ -825,6 +832,7 @@ const Appointment: FunctionComponent = () => {
           );
         }
       }
+      canstitutionRefetch();
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')

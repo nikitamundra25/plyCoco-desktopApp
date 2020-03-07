@@ -109,6 +109,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       isContract = true;
     }
   }
+  console.log('department', department);
+
   return (
     <>
       <div className='form-section '>

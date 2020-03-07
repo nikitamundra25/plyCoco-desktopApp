@@ -18,7 +18,8 @@ import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import Cell from './Cell';
 import moment from 'moment';
 import DetaillistCaregiverPopup from '../DetailListCaregiver';
-const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
+import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
+const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   props: IAppointmentCareGiverList & any
 ) => {
   const {
@@ -44,10 +45,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   };
 
   //State for care giver bulk email
-  const [state, setstate] = useState(false)
+  const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
+    false
+  );
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
+    console.log('oOOOOOOOOO', openCareGiverBulkEmail);
 
+    setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
 
   const { daysArr = [] } = daysData ? daysData : {};
@@ -302,6 +307,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </Table>
         </div>
       </SelectableGroup>
+      <BulkEmailCareGiverModal
+        openModal={openCareGiverBulkEmail}
+        qualification={props.qualification}
+        handleClose={() => handleCareGiverBulkEmail()}
+      />
       <DetaillistCaregiverPopup
         show={showList ? true : false}
         handleClose={() => setShowList(false)}

@@ -942,6 +942,7 @@ const Appointment: FunctionComponent = () => {
                     handleSelectedUser={handleSelectedUser}
                     handleSecondStar={handleSecondStar}
                     handleReset={handleReset}
+                    qualification={qualification}
                   />
                   <CarinstituionListView
                     daysData={daysData}

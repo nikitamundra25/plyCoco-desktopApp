@@ -40,7 +40,7 @@ const [VIEW_PROFILE] = ProfileQueries;
 
 let toastId: any = null;
 
-const BulkEmailCaregiver: FunctionComponent = () => {
+const BulkEmailCaregiver: FunctionComponent<any> = () => {
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const history = useHistory();
 

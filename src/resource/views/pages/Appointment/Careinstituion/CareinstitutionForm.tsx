@@ -33,6 +33,7 @@ import { FormikProps, Field } from 'formik';
 import moment from 'moment';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import classnames from 'classnames';
+import { any } from 'prop-types';
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
@@ -82,9 +83,17 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     selctedRequirement,
     secondStarCanstitution,
     handleQualification,
-    onhandleDelete
+    onhandleDelete,
+    careInstitutionListArr,
+    handleSelectUserList
   } = props;
 
+  let d = moment().format('L');
+  let dtStart: any = new Date(d + ' ' + startTime);
+  let dtEnd: any = new Date(d + ' ' + endTime);
+  let difference = dtEnd - dtStart;
+
+  const [starMark, setstarMark] = useState<boolean>(false);
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
@@ -99,6 +108,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false;
+  console.log('selctedRequirement', selctedRequirement);
 
   if (selctedRequirement) {
     if (selctedRequirement.status === 'requirement') {
@@ -109,7 +119,15 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       isContract = true;
     }
   }
-  console.log('department', department);
+
+  const handleUserList = (id: string, name: string) => {
+    let data: any = careInstitutionListArr;
+    setstarMark(!starMark);
+    if (id && !starMark) {
+      data = careInstitutionListArr.filter((x: any) => x.id === id);
+    }
+    handleSelectUserList(data, name);
+  };
 
   return (
     <>
@@ -161,14 +179,29 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <InputGroup>
                         <Input
                           type='text'
-                          name={'id'}
+                          name={'name'}
                           placeholder={languageTranslation('NAME')}
                           disabled
                           value={name ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
-                            <i className='fa fa-star' aria-hidden='true'></i>
+                            <i
+                              className={
+                                starMark
+                                  ? 'fa fa-star theme-text'
+                                  : 'fa fa-star'
+                              }
+                              aria-hidden='true'
+                              onClick={() =>
+                                handleUserList(
+                                  selectedCareinstitution
+                                    ? selectedCareinstitution.id
+                                    : '',
+                                  'careinstitution'
+                                )
+                              }
+                            ></i>
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -217,7 +250,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             ? careInstitutionTimesOptions
                             : ShiftTime
                         }
-                        value={shift}
+                        value={shift ? shift : undefined}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                         onChange={(value: any) => handleSelect(value, 'shift')}
@@ -299,11 +332,18 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             />
                           )}
                         />
-                        {errors.endTime && touched.endTime && (
+                        {errors.endTime ? (
+                          errors.endTime &&
+                          touched.endTime && (
+                            <div className='required-tooltip'>
+                              {errors.endTime}
+                            </div>
+                          )
+                        ) : touched.endTime && difference <= 0 ? (
                           <div className='required-tooltip'>
-                            {errors.endTime}
+                            {languageTranslation('VALID_TIME_RANGE')}
                           </div>
-                        )}
+                        ) : null}
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>Uhr</InputGroupText>
                         </InputGroupAddon>

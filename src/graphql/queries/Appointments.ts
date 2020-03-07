@@ -1,8 +1,13 @@
 import gql from 'graphql-tag';
 const GET_USERS_BY_QUALIFICATION_ID = gql`
-  query getUserByQualifications($qualificationId: [ID], $userRole: String) {
+  query getUserByQualifications(
+    $qualificationId: [ID]
+    $attributeId: [ID]
+    $userRole: String
+  ) {
     getUserByQualifications(
       qualificationId: $qualificationId
+      attributeId: $attributeId
       userRole: $userRole
     ) {
       firstName

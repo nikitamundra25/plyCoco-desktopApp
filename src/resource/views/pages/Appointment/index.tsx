@@ -34,7 +34,8 @@ const [
   ADD_INSTITUTION_REQUIREMENT,
   UPDATE_CAREGIVER_AVABILITY,
   UPDATE_INSTITUTION_REQUIREMENT,
-  DELETE_CAREINSTITUTION_REQUIREMENT
+  DELETE_CAREINSTITUTION_REQUIREMENT,
+  DELETE_CAREGIVER_AVABILITY
 ] = AppointmentMutations;
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
@@ -45,10 +46,13 @@ import {
 } from '../../../validations/AppointmentsFormValidationSchema';
 import { toast } from 'react-toastify';
 import { AppointmentMutations } from '../../../../graphql/Mutations';
-import { defaultDateFormat, dbAcceptableFormat } from '../../../../config';
+import { dbAcceptableFormat } from '../../../../config';
+import { ConfirmBox } from '../../components/ConfirmBox';
 const [, , GET_DEPARTMENT_LIST, ,] = CareInstitutionQueries;
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
+
 let toastId: any = null;
+
 const Appointment: FunctionComponent = () => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
     null
@@ -154,6 +158,46 @@ const Appointment: FunctionComponent = () => {
     { id: number; careInstitutionRequirementInput: any }
   >(UPDATE_INSTITUTION_REQUIREMENT);
 
+  // Mutation to delete careinstitution
+  const [deleteCareinstitutionRequirement, {}] = useMutation<
+    { deleteCareinstitution: any },
+    { id: number }
+  >(DELETE_CAREINSTITUTION_REQUIREMENT, {
+    onCompleted() {
+      setvaluesForCareinstitution({
+        appointmentId: '',
+        name: '',
+        date: '',
+        shift: undefined,
+        endTime: '',
+        startTime: '',
+        qualificationId: undefined,
+        department: undefined,
+        address: '',
+        contactPerson: '',
+        departmentOfferRemarks: '',
+        departmentBookingRemarks: '',
+        departmentRemarks: '',
+        isWorkingProof: false,
+        offerRemarks: '',
+        bookingRemarks: '',
+        comments: ''
+      });
+      setselctedRequirement({});
+      setactiveDateCareinstitution([]);
+    }
+  });
+
+  // Mutation to delete caregiver
+  const [deleteCaregiverRequirement, {}] = useMutation<
+    { deleteCaregiver: any },
+    { id: number }
+  >(DELETE_CAREGIVER_AVABILITY, {
+    onCompleted() {
+      setactiveDateCaregiver([]);
+      // valuesForCaregiver = null
+    }
+  });
   // To get caregiver list from db
   const [
     getDepartmentList,
@@ -208,6 +252,15 @@ const Appointment: FunctionComponent = () => {
     }
   }, [careGiversList, careInstitutionList]);
 
+  // Select particular user from nav bar
+  const handleSelectUserList = (data: any, name: string) => {
+    if (name === 'caregiver') {
+      setcaregiversList(data);
+    } else {
+      setcareinstitutionList(data);
+    }
+  };
+
   // Reset the users list
   const handleReset = (name: string) => {
     if (name === 'caregiver') {
@@ -241,14 +294,16 @@ const Appointment: FunctionComponent = () => {
     // get careGivers list
     fetchCaregiverList({
       variables: {
-        qualificationId: temp ? temp : null,
+        qualificationId: temp ? temp : [],
+        attributeId: [],
         userRole: 'caregiver'
       }
     });
     // get careInstitution list
     fetchCareinstitutionList({
       variables: {
-        qualificationId: temp ? temp : null,
+        qualificationId: temp ? temp : [],
+        attributeId: [],
         userRole: 'canstitution'
       }
     });
@@ -370,7 +425,45 @@ const Appointment: FunctionComponent = () => {
   };
 
   // Delete caregiver or careinstitution data
-  const onhandleDelete = (name: string, id: string) => {};
+  const onhandleDelete = async (name: string, id: string) => {
+    if (id) {
+      const { value } = await ConfirmBox({
+        title: languageTranslation('CONFIRM_LABEL'),
+        text:
+          name === 'careinstitution'
+            ? languageTranslation('CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT')
+            : languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY')
+      });
+      if (!value) {
+        return;
+      } else {
+        if (name === 'careinstitution') {
+          await deleteCareinstitutionRequirement({
+            variables: {
+              id: parseInt(id)
+            }
+          });
+          canstitutionRefetch();
+        } else {
+          await deleteCaregiverRequirement({
+            variables: {
+              id: parseInt(id)
+            }
+          });
+          refetch();
+        }
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            name === 'careinstitution'
+              ? languageTranslation(
+                  'DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS'
+                )
+              : languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS')
+          );
+        }
+      }
+    }
+  };
 
   // change department
   useEffect(() => {
@@ -400,7 +493,6 @@ const Appointment: FunctionComponent = () => {
               data: list
             });
           });
-          // setcareInstituionShift(careInstitutionTimesOptions[0]);
         }
         setshiftOption(careInstitutionTimesOptions);
         let temp: ICareinstitutionFormValue = {
@@ -465,18 +557,25 @@ const Appointment: FunctionComponent = () => {
         setselectedCareinstitution(list);
         if (selctedAvailability && selctedAvailability.name) {
           let qualification: any = [],
-            departmentData: any = [];
+            departmentData: any = [],
+            qualificationData: IReactSelectInterface[] = [];
           if (
             data &&
             data.getQualifications &&
             selctedAvailability.qualificationId
           ) {
-            let quali = data.getQualifications.find(val =>
-              selctedAvailability.qualificationId.includes(val.id)
+            qualification = data.getQualifications.filter(({ id }) =>
+              selctedAvailability.qualificationId.includes(id)
             );
-            qualification.push(quali);
+            if (qualification && qualification.length) {
+              qualification.map((key: any) => {
+                return qualificationData.push({
+                  label: key.name,
+                  value: key.id
+                });
+              });
+            }
           }
-          console.log('qualification', qualification);
 
           // if (careInstitutionDepartment && careInstitutionDepartment.length) {
           //   const { getDivision } = departmentList;
@@ -493,9 +592,7 @@ const Appointment: FunctionComponent = () => {
             shift: undefined,
             endTime: selctedAvailability ? selctedAvailability.endTime : '',
             startTime: selctedAvailability ? selctedAvailability.startTime : '',
-            qualificationId: selctedAvailability
-              ? selctedAvailability.qualificationId
-              : undefined,
+            qualificationId: qualificationData ? qualificationData : undefined,
             department: undefined,
             address: selctedAvailability ? selctedAvailability.address : '',
             contactPerson: selctedAvailability
@@ -954,6 +1051,17 @@ const Appointment: FunctionComponent = () => {
             handleDayClick={handleDayClick}
             handleToday={handleToday}
             qualification={qualification}
+            handleSelectUserList={handleSelectUserList}
+            careGiversListArr={
+              careGiversList && careGiversList.getUserByQualifications
+                ? careGiversList && careGiversList.getUserByQualifications
+                : []
+            }
+            careInstitutionListArr={
+              careInstitutionList && careInstitutionList.getUserByQualifications
+                ? careInstitutionList.getUserByQualifications
+                : []
+            }
           />
 
           <div className='common-content flex-grow-1'>
@@ -1016,6 +1124,15 @@ const Appointment: FunctionComponent = () => {
                               }
                               timeSlotError={timeSlotError}
                               selctedAvailability={selctedAvailability}
+                              onhandleDelete={onhandleDelete}
+                              handleSelectUserList={handleSelectUserList}
+                              careGiversListArr={
+                                careGiversList &&
+                                careGiversList.getUserByQualifications
+                                  ? careGiversList &&
+                                    careGiversList.getUserByQualifications
+                                  : []
+                              }
                             />
                           );
                         }}
@@ -1068,6 +1185,14 @@ const Appointment: FunctionComponent = () => {
                               secondStarCanstitution={secondStarCanstitution}
                               selctedRequirement={selctedRequirement}
                               handleQualification={handleQualification}
+                              onhandleDelete={onhandleDelete}
+                              handleSelectUserList={handleSelectUserList}
+                              careInstitutionListArr={
+                                careInstitutionList &&
+                                careInstitutionList.getUserByQualifications
+                                  ? careInstitutionList.getUserByQualifications
+                                  : []
+                              }
                             />
                           );
                         }}

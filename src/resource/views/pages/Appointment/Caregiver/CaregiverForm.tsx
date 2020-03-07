@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 
 import '../index.scss';
 import {
@@ -77,8 +77,13 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     activeDateCaregiver,
     addCaregiverRes,
     timeSlotError,
-    selctedAvailability
+    selctedAvailability,
+    onhandleDelete,
+    careGiversListArr,
+    handleSelectUserList
   } = props;
+
+  const [starMark, setstarMark] = useState<boolean>(false);
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -109,6 +114,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const handleTravelAllowance = () => {
     let total = distanceInKM * feePerKM;
     setFieldValue('travelAllowance', total);
+  };
+
+  const handleUserList = (id: string, name: string) => {
+    let data: any = careGiversListArr;
+    setstarMark(!starMark);
+    if (id && !starMark) {
+      data = careGiversListArr.filter((x: any) => x.id === id);
+    }
+    handleSelectUserList(data, name);
   };
 
   return (
@@ -166,13 +180,26 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           type='text'
                           disabled={true}
                           placeholder={languageTranslation('NAME')}
-                          value={`${firstName ? firstName : ''} ${
-                            lastName ? lastName : ''
+                          value={`${lastName ? lastName : ''} ${
+                            firstName ? firstName : ''
                           }`}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
-                            <i className='fa fa-star' aria-hidden='true'></i>
+                            <i
+                              className={
+                                starMark
+                                  ? 'fa fa-star theme-text'
+                                  : 'fa fa-star'
+                              }
+                              aria-hidden='true'
+                              onClick={() =>
+                                handleUserList(
+                                  selectedCareGiver ? selectedCareGiver.id : '',
+                                  'caregiver'
+                                )
+                              }
+                            ></i>
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -848,7 +875,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             </Col>
             <Col lg={'12'}>
               <div className='d-flex align-items-center justify-content-between'>
-                <Button className='btn-save' color='danger'>
+                <Button
+                  className='btn-save'
+                  color='danger'
+                  onClick={() => onhandleDelete('caregiver', appointmentId)}
+                >
                   {languageTranslation('DELETE')}
                 </Button>
                 <Button

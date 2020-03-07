@@ -331,8 +331,7 @@ const Appointment: FunctionComponent = () => {
     setqualification(selectedOption);
   };
 
-  // To fetch users according to qualification selected
-  useEffect(() => {
+  const fetchData = () => {
     let temp: any = [];
     qualification.map((key: any, index: number) => {
       temp.push(parseInt(key.value));
@@ -340,9 +339,20 @@ const Appointment: FunctionComponent = () => {
     // get careGivers list
     fetchCaregiverList({
       variables: {
-        qualificationId: temp ? temp : [],
-        attributeId: [],
-        userRole: 'caregiver'
+        qualificationId: temp ? temp : null,
+        userRole: 'caregiver',
+        gte:
+          daysData && daysData.daysArr && daysData.daysArr.length
+            ? daysData.daysArr[0].dateString
+            : moment()
+                .startOf('month')
+                .format(dbAcceptableFormat),
+        lt:
+          daysData && daysData.daysArr && daysData.daysArr.length
+            ? daysData.daysArr[daysData.daysArr.length - 1].dateString
+            : moment()
+                .endOf('month')
+                .format(dbAcceptableFormat)
       }
     });
     // get careInstitution list
@@ -353,7 +363,19 @@ const Appointment: FunctionComponent = () => {
         userRole: 'canstitution'
       }
     });
+  };
+  // To fetch users according to qualification selected
+  useEffect(() => {
+    if (qualification.length) {
+      console.log('in qualification use effect');
+      fetchData();
+    }
   }, [qualification]);
+  // To fetch list data after month has changed
+  useEffect(() => {
+    console.log('in daysData use effect');
+    fetchData();
+  }, [daysData]);
 
   // set careGivers list options
   const careGiversOptions: IReactSelectInterface[] | undefined = [];
@@ -413,7 +435,7 @@ const Appointment: FunctionComponent = () => {
   };
 
   // On previous month click
-  const handlePrevious = () => {
+  const handlePrevious = async () => {
     let month: number = activeMonth - 1;
     let year: number = activeYear;
 

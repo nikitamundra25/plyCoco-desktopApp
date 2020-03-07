@@ -15,4 +15,5 @@ export interface IState {
 
 export interface IStates {
   states: IState[];
+  statesByIds?: IState[];
 }

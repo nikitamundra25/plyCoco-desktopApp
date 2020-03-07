@@ -2,6 +2,7 @@ import React, { useState, FunctionComponent, Suspense, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { FormikHelpers, Formik, FormikProps } from 'formik';
 import {
   CareGiverValues,
   ICareGiverInput,
@@ -9,22 +10,21 @@ import {
   IReactSelectInterface,
   ICareGiverValues,
   IAttributeValues,
-  IAttributeOptions
+  IAttributeOptions,
 } from '../../../../../interfaces';
-import { FormikHelpers, Formik, FormikProps } from 'formik';
 import CareGiverFormComponent from './CareGiverFormComponent';
 import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
-import { languageTranslation } from '../../../../../helpers';
+import { languageTranslation, errorFormatter } from '../../../../../helpers';
 import { AppRoutes, PAGE_LIMIT } from '../../../../../config';
 import CareGiverSidebar from '../Sidebar/SidebarLayout/CareGiverLayout';
 import { careGiverRoutes } from '../Sidebar/SidebarRoutes/CareGiverRoutes';
 import Loader from '../../../containers/Loader/Loader';
+import { CareGiverMutations } from '../../../../../graphql/Mutations';
+import { CareGiverQueries } from '../../../../../graphql/queries';
 import reminder from '../../../../assets/img/reminder.svg';
 import password from '../../../../assets/img/password.svg';
 import appointment from '../../../../assets/img/appointment.svg';
 import clear from '../../../../assets/img/clear.svg';
-import { CareGiverMutations } from '../../../../../graphql/Mutations';
-import { CareGiverQueries } from '../../../../../graphql/queries';
 
 const CareGiverRoutesTabs = careGiverRoutes;
 const [GET_CAREGIVERS, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
@@ -50,8 +50,8 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
           caregiverAttrOpt.push({
             label: name,
             value: id ? id.toString() : '',
-            color
-          })
+            color,
+          }),
       );
       setCaregiverAttributeOptions(caregiverAttrOpt);
     }
@@ -68,7 +68,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn'
+      'caregiver-add-btn',
     );
     if (buttonDiv) {
       if (scrollPositionY >= 12) {
@@ -102,8 +102,8 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       history.push(
         AppRoutes.CARE_GIVER_VIEW.replace(
           ':id',
-          Data.addCareGiver ? Data.addCareGiver.id : 'null'
-        )
+          Data.addCareGiver ? Data.addCareGiver.id : 'null',
+        ),
       );
     }
   }, [data]);
@@ -111,7 +111,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   // function to add/edit employee information
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
   ) => {
     //to set submit state to false after successful signup
     const {
@@ -162,7 +162,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       weekendAllowance,
       night,
       holiday,
-      postalCode
+      postalCode,
     } = values;
     try {
       let careGiverInput: any = {
@@ -192,13 +192,13 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         qualificationId:
           qualifications && qualifications.length
             ? qualifications.map((qualification: IReactSelectInterface) =>
-                parseInt(qualification.value)
+                parseInt(qualification.value),
               )
             : null,
         attributes:
           attributeId && attributeId.length
             ? attributeId.map(({ value }: IReactSelectInterface) =>
-                parseInt(value)
+                parseInt(value),
               )
             : [],
         driverLicenseNumber,
@@ -235,11 +235,11 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],
         status,
-        transmission: { email: true, website: true, app: false }
+        transmission: { email: true, website: true, app: false },
       };
       await addCaregiver({
         variables: {
-          careGiverInput
+          careGiverInput,
         },
         update: (cache, { data: { addCaregiver } }: any) => {
           const data: any = cache.readQuery({
@@ -249,17 +249,17 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
               sortBy: 0,
               limit: PAGE_LIMIT,
               page: 0,
-              isActive: undefined
-            }
+              isActive: undefined,
+            },
           });
           cache.writeQuery({
             query: GET_CAREGIVERS,
             data: {
               getCaregiversCount: data.getCaregiversCount + 1,
-              getCaregivers: data.getCaregivers.concat([addCaregiver])
-            }
+              getCaregivers: data.getCaregivers.concat([addCaregiver]),
+            },
           });
-        }
+        },
       });
       toast.success(languageTranslation('CAREGIVER_ADD_SUCCESS_MSG'));
 
@@ -267,11 +267,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         props.refetch();
       }
     } catch (error) {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      // setFieldError('email', message);
+      const message = errorFormatter(error.message);
       toast.error(message);
       if (
         message ===
@@ -313,7 +309,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     socialSecurityContribution = false,
     taxNumber = '',
     workZones = undefined,
-    status = ''
+    status = '',
   } = caregiverData ? caregiverData : {};
 
   const initialValues: ICareGiverValues = {
@@ -344,7 +340,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     taxNumber,
     workZones,
     status,
-    qualifications
+    qualifications,
   };
 
   return (

@@ -406,8 +406,6 @@ const Appointment: FunctionComponent = () => {
           startTime,
           endTime
         };
-        console.log('deptttt');
-
         setvaluesForCareinstitution(temp);
       }
     }
@@ -456,93 +454,76 @@ const Appointment: FunctionComponent = () => {
       if (!starCanstitution.isStar) {
         // Fetch values in case of edit by default it will be null or undefined
         setselectedCareinstitution(list);
-        temp = {
-          ...valuesForCareinstitution,
-          name: name ? name : `${list.firstName} ${list.lastName}`
-        };
+        if (selctedAvailability && selctedAvailability.name) {
+          setselctedRequirement(selctedAvailability)
+          const selectedData: any = {
+            appointmentId: selctedAvailability ? selctedAvailability.id : '',
+            name: selctedAvailability ? selctedAvailability.name : '',
+            date: selctedAvailability ? selctedAvailability.date : '',
+            shift: undefined,
+            endTime: selctedAvailability ? selctedAvailability.endTime : '',
+            startTime: selctedAvailability ? selctedAvailability.startTime : '',
+            qualificationId: selctedAvailability
+              ? selctedAvailability.qualificationId
+              : undefined,
+            department: undefined,
+            address: selctedAvailability ? selctedAvailability.address : '',
+            contactPerson: selctedAvailability
+              ? selctedAvailability.contactPerson
+              : '',
+            departmentOfferRemarks: selctedAvailability
+              ? selctedAvailability.departmentOfferRemarks
+              : '',
+            departmentBookingRemarks: selctedAvailability
+              ? selctedAvailability.departmentBookingRemarks
+              : '',
+            departmentRemarks: selctedAvailability
+              ? selctedAvailability.departmentRemarks
+              : '',
+            isWorkingProof: selctedAvailability
+              ? selctedAvailability.isWorkingProof
+              : false,
+            offerRemarks: selctedAvailability
+              ? selctedAvailability.offerRemarks
+              : '',
+            bookingRemarks: selctedAvailability
+              ? selctedAvailability.bookingRemarks
+              : '',
+            comments: selctedAvailability ? selctedAvailability.comments : ''
+          };
+          setvaluesForCareinstitution(selectedData);
+        } else {
+          setselctedRequirement({})
+          const selectedData: any = {
+            appointmentId: null,
+            name: list ? `${list.firstName} ${' '} ${list.lastName}` : '',
+            date: '',
+            shift: undefined,
+            endTime: '',
+            startTime: '',
+            qualificationId: undefined,
+            department: undefined,
+            address: '',
+            contactPerson: '',
+            departmentOfferRemarks: '',
+            departmentBookingRemarks: '',
+            departmentRemarks: '',
+            isWorkingProof: false,
+            offerRemarks: '',
+            bookingRemarks: '',
+            comments: ''
+          };
+          setvaluesForCareinstitution(selectedData);
+        }
       } else {
         temp = {
           ...valuesForCareinstitution,
           name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
         };
-        console.log("temp",temp);
-        
         setvaluesForCareinstitution(temp);
       }
-      setselctedRequirement(selctedAvailability);
     }
   };
-
-  // To edit careinstitution data when select particular cell
-  useEffect(() => {
-    console.log('yarnnnnn', selctedRequirement);
-    const {
-      Id = null,
-      address = null,
-      bookingRemarks = null,
-      comments = null,
-      contactPerson = null,
-      date = null,
-      departmentBookingRemarks = null,
-      departmentOfferRemarks = null,
-      departmentRemarks = null,
-      divisionId = null,
-      startTime = null,
-      endTime = null,
-      isWorkingProof = null,
-      // f = null ,
-      // n = null ,
-      // s = null ,
-      name = null,
-      offerRemarks = null,
-      qualificationId = null
-    } = selctedRequirement ? selctedRequirement : {};
-
-    let qualification: any = [];
-    if (data && data.getQualifications && qualificationId) {
-      qualification = data.getQualifications.find(val =>
-        qualificationId.includes(val.id)
-      );
-      console.log('qualification', qualification);
-    }
-
-    if (careInstitutionDepartment && careInstitutionDepartment.length) {
-      const { getDivision } = departmentList;
-      let departmentData = careInstitutionDepartment.filter(
-        (dept: any) => dept.id === divisionId
-      );
-    }
-    console.log('selctedRequirement', selctedRequirement);
-
-    setvaluesForCareinstitution({
-      appointmentId:
-        selctedRequirement && selctedRequirement.id
-          ? selctedRequirement.id
-          : '',
-      address,
-      bookingRemarks,
-      comments,
-      contactPerson,
-      date,
-      departmentBookingRemarks,
-      departmentOfferRemarks,
-      departmentRemarks,
-      // department,
-      startTime,
-      endTime,
-      isWorkingProof,
-      // f ,
-      // n ,
-      // s ,
-      name: name
-        ? name
-        : selectedCareinstitution && selectedCareinstitution.firstName
-        ? `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
-        : ' ',
-      offerRemarks,
-      qualificationId
-    });
-  }, [selctedRequirement]);
 
   //  call department list query with every selection of care institution
   useEffect(() => {

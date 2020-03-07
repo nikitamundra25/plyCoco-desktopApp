@@ -116,7 +116,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                                       {...field}
                                     />
                                     {meta.touched && meta.error && (
-                                      <div className="required-tooltip text-danger">
+                                      <div className="required-tooltip">
                                         {meta.error}
                                       </div>
                                     )}
@@ -156,7 +156,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                                     {...field}
                                   />
                                   {meta.touched && meta.error && (
-                                    <div className="required-tooltip text-danger">
+                                    <div className="required-tooltip">
                                       {meta.error}
                                     </div>
                                   )}

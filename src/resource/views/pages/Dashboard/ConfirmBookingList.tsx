@@ -3,6 +3,7 @@ import { Card, CardHeader, CardBody, CardTitle, Table } from "reactstrap";
 import { languageTranslation } from "../../../../helpers";
 import Loader from "../../containers/Loader/Loader";
 import { RouteComponentProps } from "react-router-dom";
+import confirm_booking from "../../../assets/img/confirm_booking.svg";
 
 const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (
   props: any
@@ -12,7 +13,14 @@ const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (
   return (
     <Card>
       <CardHeader>
-        <CardTitle> {languageTranslation("CONFIRM_APPOINTMENTS")}</CardTitle>
+        <CardTitle>
+          <span className="align-middle mr-2">
+            <img src={confirm_booking} alt="" width="20px" />
+          </span>
+          <span className="align-middle">
+            {languageTranslation("CONFIRM_APPOINTMENTS")}
+          </span>
+        </CardTitle>
       </CardHeader>
       {confirmBookingListLoading ? (
         <div>

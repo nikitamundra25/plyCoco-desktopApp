@@ -850,6 +850,7 @@
   "DLN": "DLN",
   "DLN_REQUIRED": "DLN Required",
   "DLN_AVAILABLE": "DLN Available",
+  "FACTORING_CONTRACTS": "Factoring Contracts",
   "CONFIRM_PRESET_DELETE_MSG": "This preset will be deleted.",
   "PRESET_DELETED_SUCCESS": "Preset deleted successfully",
   "ADD_PRESET": "Save current attribue as new preset",

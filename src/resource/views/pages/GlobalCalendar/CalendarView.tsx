@@ -104,37 +104,38 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                 <React.Fragment key={holiday.id}>
                   <tr>
                     <th>
-                      {moment(holiday.date).format(defaultDateFormat)}
-                      {holiday.note ? ` - ${holiday.note}` : null}
-                      &nbsp;&nbsp;&nbsp;
-                      <a
-                        href=""
-                        onClick={(e: any) => {
-                          e.preventDefault();
-                          onEdit
-                            ? onEdit({
-                                id: holiday.id,
-                                date: holiday.date,
-                                note: holiday.note,
-                                states: holiday.applicableStates
-                              })
-                            : undefined;
-                        }}
-                        className={"text-right"}
-                      >
-                        <i className={"fa fa-edit"} />
-                      </a>
-                      &nbsp;&nbsp;&nbsp;
-                      <a
-                        href=""
-                        onClick={(e: any) => {
-                          e.preventDefault();
-                          deleteHoliday(holiday.id);
-                        }}
-                        className={"text-right"}
-                      >
-                        <i className={"fa fa-trash"} />
-                      </a>
+                      <div className="position-relative word-wrap">
+                        {moment(holiday.date).format(defaultDateFormat)}
+                        {holiday.note ? ` - ${holiday.note}` : null}
+                        <div className="action-btn">
+                          <a
+                            href=""
+                            onClick={(e: any) => {
+                              e.preventDefault();
+                              onEdit
+                                ? onEdit({
+                                    id: holiday.id,
+                                    date: holiday.date,
+                                    note: holiday.note,
+                                    states: holiday.applicableStates
+                                  })
+                                : undefined;
+                            }}
+                          >
+                            <i className={"fa fa-edit"} />
+                          </a>
+
+                          <a
+                            href=""
+                            onClick={(e: any) => {
+                              e.preventDefault();
+                              deleteHoliday(holiday.id);
+                            }}
+                          >
+                            <i className={"fa fa-trash"} />
+                          </a>
+                        </div>
+                      </div>
                     </th>
                     {states.map((state: IState, index: number) => (
                       <td
